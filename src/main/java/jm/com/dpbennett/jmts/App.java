@@ -53,8 +53,7 @@ public class App {
     @PersistenceUnit(unitName = "BSJDBPU")
     private EntityManagerFactory EMF1;
     private List years;
-    //private ArrayList jaParishes = new ArrayList();
-    private Map<String, String> themes = new TreeMap<>();
+    private final Map<String, String> themes = new TreeMap<>();
 
     /**
      * Creates a new instance of Application
