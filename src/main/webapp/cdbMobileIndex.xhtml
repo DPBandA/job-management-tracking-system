@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      manifest="test16.appcache"> 
+
+    <head>
+        <title>Compliance Connect Mobile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/> 
+        <link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css" type="text/css" />
+        <script type="text/javascript" src="js/jquery-1.9.1.js"></script>  
+        <script type="text/javascript" src="js/jquery.mobile-1.3.2.min.js"></script>             
+    </head>
+
+    <body>
+        <div id="page1" data-role="page">
+            <div data-role="header">
+                <button data-inline="true">Home</button> 
+                <h1>Compliance Connect</h1>
+                <button data-inline="true">Logout</button> 
+            </div>        
+            <div data-role="content"> 
+                <h:form>
+                    <h:panelGrid columns="2" cellspacing="5">
+
+                       
+                            <input id="yes" type="text" jsfc="h:inputText" value="#{complianceMobile.currentComplianceSurvey.broker.name}" />
+                            <button id="no" type="submit" data-icon="search" jsfc="h:commandButton" data-inline="true" value="Search"                                    
+                                    actionListener="#{complianceMobile.test}" />
+                          
+                        <ui:remove>
+                        <h:commandButton type="submit" value="Search" action="#{complianceMobile.test}" />
+                        </ui:remove>
+                    </h:panelGrid>                                 
+                </h:form>
+            </div>            
+        </div>
+        <div id="page2" data-role="page">
+            <div data-role="header">	
+                <h1>You clicked the link!</h1>
+            </div>        
+            <div data-role="content">   
+                This is the content area of the dialog <br/>               
+                <input id="myinpu1t" />               
+            </div>        
+        </div>
+    </body>
+</html>

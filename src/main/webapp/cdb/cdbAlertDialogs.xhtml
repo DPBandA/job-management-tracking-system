@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">   
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         message="Please enter all required(*) values."
+                         header="Value(s) Required (*)"
+                         widgetVar="requiredValuesAlertDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="requiredValuesAlertDialog.hide();"
+                             icon="ui-icon-check" />
+
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="info"
+                         closable="false"
+                         message="You are trying to enter a name that already exists. Please enter a new name."
+                         header="Already Exists"
+                         widgetVar="entityExistsDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="entityExistsDialog.hide();"
+                             icon="ui-icon-check"/>
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="This window will be reloaded due inactivity for over 5 minutes."
+                         header="Inactive User"
+                         widgetVar="idleMonitorDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="window.location.reload();"
+                             icon="ui-icon-check"/>
+
+        </p:confirmDialog>
+    </h:form>
+
+</html>

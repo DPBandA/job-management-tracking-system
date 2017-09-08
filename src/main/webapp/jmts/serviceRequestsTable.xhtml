@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <p:dataTable id="serviceRequestsDatabaseTable"
+                 var="serviceRequest"
+                 paginator="true"
+                 rows="15"
+                 resizableColumns="false"
+                 rowStyleClass="lightgreybg"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{serviceManager.serviceRequestSearchResultsList}">
+        <f:facet name="header">
+            <h:outputText value="#{serviceManager.searchResultsTableHeader}" />
+        </f:facet>
+
+        <p:column sortBy="#{serviceRequest.serviceRequestNumber}">
+            <f:facet name="header">
+                <h:outputText value="Request #"/>
+            </f:facet>
+            <h:outputText value="#{serviceRequest.serviceRequestNumber}" />
+        </p:column>
+        <p:column sortBy="#{serviceRequest.client.name}">
+            <f:facet name="header">
+                <h:outputText value="Client"/>
+            </f:facet>
+            <h:outputText value="#{serviceRequest.client.name}" />
+        </p:column>
+        <p:column sortBy="#{serviceRequest.dateSubmitted}" style="min-width: 100px">
+            <f:facet name="header">
+                <h:outputText value="Received"/>
+            </f:facet>
+            <h:outputText value="#{serviceRequest.dateSubmitted}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>    
+        <p:column style="width:32px">
+            <p:commandButton title="View/Edit service request"                             
+                             actionListener="#{serviceManager.editServiceRequest}"
+                             update=":unitDialogForms:serviceRequest"
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="serviceRequestDialog.show();longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{serviceRequest}"                                             
+                                             target="#{serviceManager.currentServiceRequest}" />
+            </p:commandButton>           
+        </p:column>
+
+        <ui:remove>
+            <p:column style="width:32px">
+                <p:commandButton title="Create job"                             
+                                 actionListener="#{serviceManager.createJobFromServiceRequest}"
+                                 update=":jobDialogForm:jobFormTabView"
+                                 onstart="longProcessDialogVar.show();"
+                                 oncomplete="jobDialog.show();longProcessDialogVar.hide();"
+                                 onerror="connectionErrorDialog.show();"
+                                 global="true"
+                                 process="@this"
+                                 icon="ui-icon-wrench">
+                    <f:setPropertyActionListener value="#{serviceRequest}"                                             
+                                                 target="#{serviceManager.currentServiceRequest}" />
+                </p:commandButton>           
+            </p:column>
+        </ui:remove>
+
+    </p:dataTable>
+
+
+</html>

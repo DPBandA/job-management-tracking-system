@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:form id="factoryInspectionComponentDialogForm">
+        <p:dialog
+            id="factoryInspectionComponent"
+            width="600"
+            height="300"
+            modal="true"
+            draggable="true"
+            widgetVar="factoryInspectionComponentDialog"
+            onShow="longProcessDialogVar.hide();"
+            header="Factory Inspection Component" >
+
+            <p:commandButton value="Ok"
+                             update=":factoryInspectionDialogForm:inspectionAccordionPanel"
+                             oncomplete="factoryInspectionComponentDialog.hide();"
+                             process="@this"
+                             icon="ui-icon-check"/>
+            <hr/>
+            <h:panelGrid columns="2" >
+                <h:outputText value="Inspection:" style="font-weight: bold;" />
+                <p:inputText value="#{jobManager.currentFactoryInspectionComponent.name}"
+                             style="background-color: lightgrey;"
+                             readonly="true" >
+                    <p:ajax event="keyup"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Results:" style="font-weight: bold;" />
+                <p:selectOneMenu value="#{jobManager.currentFactoryInspectionComponent.results}" >
+                    <p:ajax
+                        global="true"
+                        listener="#{jobManager.updateJob}"
+                        process="@this" />
+                    <f:selectItems value="#{JMTSApp.factoryInspectionResults}" />
+                </p:selectOneMenu>
+
+                <h:outputText value="Comments:" style="font-weight: bold" />
+                <p:inputTextarea value="#{jobManager.currentFactoryInspectionComponent.comments}"
+                                 style="width: 450px"
+                                 autoResize="false">
+                    <p:ajax event="keyup"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:inputTextarea>
+            </h:panelGrid>
+            <hr/>
+            <p:commandButton value="Ok"
+                             update=":factoryInspectionDialogForm:inspectionAccordionPanel"
+                             oncomplete="factoryInspectionComponentDialog.hide();"
+                             process="@this"
+                             icon="ui-icon-check"/>
+        </p:dialog>
+    </h:form>
+
+
+    <h:form id="factoryInspectionDialogForm">
+        <p:dialog
+            id="factoryInspection"
+            width="800"
+            height="600"
+            modal="true"
+            draggable="true"
+            widgetVar="factoryInspectionDialog"
+            onShow="longProcessDialogVar.hide();"
+            header="Factory Inspection" >
+
+            <p:ajax event="close"
+                    listener="#{jobManager.closeFactoryInspection}"/>
+
+            <p:commandButton value="Save"
+                             onstart="longProcessDialogVar.show();"
+                             actionListener="#{jobManager.saveFactoryInspection}"
+                             oncomplete="handleSaveEntityRequest(xhr,status,args);longProcessDialogVar.hide();"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:factoryInspections,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             icon="ui-icon-check"
+                             process="@this"/>
+            <p:commandButton value="Close"
+                             actionListener="#{jobManager.closeFactoryInspection}"
+                             oncomplete="factoryInspectionDialog.hide();"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:factoryInspections,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             icon="ui-icon-cancel"
+                             process="@this"/>
+            <hr/>
+            <p:accordionPanel multiple="true"
+                              id="inspectionAccordionPanel"
+                              dynamic="true">
+
+                <p:tab title="REGULATOR">
+                    <h:panelGrid columns="2" >
+                        <h:outputText value="Business office *: " style="font-weight: bold"/>   
+                        <p:autoComplete id="businessOffice"
+                                        style="width: 75%"
+                                        dropdown="true"
+                                        var="businessOffice"
+                                        value="#{jobManager.currentFactoryInspection.businessOffice}"
+                                        itemLabel="#{businessOffice.name}"
+                                        itemValue="#{businessOffice}"
+                                        converter="businessOfficeConverter"
+                                        forceSelection="true"
+                                        completeMethod="#{jobManager.completeBusinessOffice}" >
+                            <p:ajax event="itemSelect"      
+                                    listener="#{jobManager.updateRegulatorBusinessOffice}"
+                                    process="@this"/>
+                        </p:autoComplete>                    
+
+                        <h:outputText value="Inspector *:" style="font-weight: bold;" />
+                        <p:inputText value="#{jobManager.currentFactoryInspection.assignedInspector.name}"    
+                                     style="background-color: lightgrey;"
+                                     readonly="true" />    
+
+                        <h:outputText value="Inspection date *:" style="font-weight: bold;"  />
+                        <p:calendar pattern="yyyy-MM-dd"
+                                    showOn="button"
+                                    value="#{jobManager.currentFactoryInspection.inspectionDate}">
+                            <p:ajax event="dateSelect" listener="#{jobManager.updateJob}" />
+                            <p:ajax event="keyup" listener="#{jobManager.updateJob}" />
+                        </p:calendar>
+
+                        <h:outputText value="Inspection start time *:" style="font-weight: bold;"  />
+                        <p:calendar pattern="hh:mm a"
+                                    timeOnly="true" 
+                                    showOn="button"
+                                    value="#{jobManager.currentFactoryInspection.inspectionStartTime}">
+                            <p:ajax event="dateSelect" listener="#{jobManager.updateJob}" />
+                            <p:ajax event="keyup" listener="#{jobManager.updateJob}" />
+                        </p:calendar>
+
+                        <h:outputText value="Inspection end time *:" style="font-weight: bold;"  />
+                        <p:calendar pattern="hh:mm a"
+                                    timeOnly="true" 
+                                    showOn="button"
+                                    value="#{jobManager.currentFactoryInspection.inspectionEndTime}">
+                            <p:ajax event="dateSelect" listener="#{jobManager.updateJob}" />
+                            <p:ajax event="keyup" listener="#{jobManager.updateJob}" />
+                        </p:calendar>
+
+                        <h:outputText value="Type/purpose of inspection:" style="font-weight: bold;" />
+                        <p:selectOneMenu value="#{jobManager.currentFactoryInspection.inspectionType}" >
+                            <p:ajax
+                                global="true"
+                                listener="#{jobManager.updateJob}"
+                                process="@this" />
+                            <f:selectItems value="#{JMTSApp.factoryInspectionTypes}" />
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Work in progress:" style="font-weight: bold" />
+                        <p:inputTextarea id="workInProgress"
+                                         value="#{jobManager.currentFactoryInspection.workInProgress}"
+                                         style="width: 450px"
+                                         autoResize="false">
+                            <p:ajax event="keyup"                  
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                        </p:inputTextarea>
+                        
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="ESTABLISHMENT">
+                    <h:panelGrid columns="2" >
+                        <h:outputText value="Establishment:" style="font-weight: bold;" />
+                        <p:inputText value="#{jobManager.currentFoodFactory.name}"
+                                     style="background-color: lightgrey;"
+                                     readonly="true" >
+                            <p:ajax event="keyup"
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                        </p:inputText>                        
+
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="ESTABLISHMENT ENVIRONS">
+                    <p:dataTable  var="inspectionComponent"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.getFactoryInspectionComponentsByCategory('ESTABLISHMENT ENVIRONS')}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection"/>
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column>                           
+                            <f:facet name="header">
+                                <h:outputText value="Results"/>
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.results}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Comments"/>
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.comments}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">                                                 
+                            <p:commandButton title="Edit component details"
+                                             update=":factoryInspectionComponentDialogForm"
+                                             oncomplete="factoryInspectionComponentDialog.show();"
+                                             icon="ui-icon ui-icon-pencil"
+                                             process="@this">
+                                <f:setPropertyActionListener value="#{inspectionComponent}"
+                                                             target="#{jobManager.currentFactoryInspectionComponent}" />
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+
+                <p:tab title="BUILDING INTERIOR">
+                    <p:dataTable  var="inspectionComponent"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.getFactoryInspectionComponentsByCategory('BUILDING INTERIOR')}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection"/>
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Results"/>
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.results}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Comments"/>
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.comments}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <p:commandButton title="Edit component details"
+                                             update=":factoryInspectionComponentDialogForm"
+                                             oncomplete="factoryInspectionComponentDialog.show();"
+                                             icon="ui-icon ui-icon-pencil"
+                                             process="@this">
+                                <f:setPropertyActionListener value="#{inspectionComponent}"
+                                                             target="#{jobManager.currentFactoryInspectionComponent}" />
+                            </p:commandButton>
+
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="RECEIVING">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="PREPARATION">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="PROCESSING">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="COMPLIANCE">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  style="width: 100%"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="COLD STORAGE">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  style="width: 100%"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="HOT HOLDING OR STORAGE">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  style="width: 100%"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="WAREHOUSE">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  style="width: 100%"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="QUALITY ASSURANCE">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  style="width: 100%"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="PEST CONTROL">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  style="width: 100%"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="EQUIPMENT">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  style="width: 100%"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="PERSONNEL/EMPLOYEE">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  style="width: 100%"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="EMPLOYEE'S ROOMS/SANITATION">
+                    <!-- Inspection components -->
+                    <p:dataTable  var="inspectionComponent"
+                                  style="width: 100%"
+                                  rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                                  value="#{jobManager.currentFactoryInspection.inspectionComponents}">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Inspection Component" />
+                            </f:facet>
+                            <h:outputText value="#{inspectionComponent.name}" />
+                        </p:column>
+                        <p:column style="width:32px" rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Edit" />
+                            </f:facet>
+                            <ui:remove>
+                                <p:commandButton title="Edit cost component details"
+                                                 actionListener="#{jobManager.editCostComponent}"
+                                                 update=":costingComponentDialogForm"
+                                                 oncomplete="costingComponentDialog.show();"
+                                                 icon="ui-icon ui-icon-pencil"
+                                                 process="@this">
+                                    <f:setPropertyActionListener value="#{costComponent}"
+                                                                 target="#{jobManager.selectedCostComponent}" />
+                                </p:commandButton>
+                            </ui:remove>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+
+                <p:tab title="SUMMARY">
+                    <h:panelGrid columns="2" >
+                        <h:outputText value="General Comments:" style="font-weight: bold" />
+                        <p:inputTextarea value="#{jobManager.currentFactoryInspection.generalComments}"
+                                         style="width: 450px"
+                                         autoResize="false">
+                            <p:ajax event="keyup"
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                        </p:inputTextarea>
+                        <h:outputText value="Action:" style="font-weight: bold;" />
+                        <p:inputText value="#{jobManager.currentFactoryInspection.actionsTaken}" >
+                            <p:ajax event="keyup"
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                        </p:inputText>
+                    </h:panelGrid>
+                </p:tab>
+
+            </p:accordionPanel>
+            <hr/>
+            <p:commandButton value="Save"
+                             onstart="longProcessDialogVar.show();"
+                             actionListener="#{jobManager.saveFactoryInspection}"
+                             oncomplete="handleSaveEntityRequest(xhr,status,args);longProcessDialogVar.hide();"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:factoryInspections,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             icon="ui-icon-check"
+                             process="@this"/>
+            <p:commandButton value="Close"
+                             actionListener="#{jobManager.closeFactoryInspection}"
+                             oncomplete="factoryInspectionDialog.hide();"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:factoryInspections,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             icon="ui-icon-cancel"
+                             process="@this"/>
+            <p/>
+        </p:dialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Are you sure you wish to delete this inspection?"
+                         header="Delete Inspection?"
+                         widgetVar="deleteFactoryInspectionDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{jobManager.removeFactoryInspection}"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:factoryInspections"
+                             oncomplete="deleteFactoryInspectionDialog.hide();"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             oncomplete="deleteFactoryInspectionDialog.hide();"
+                             icon="ui-icon-check"/>
+        </p:confirmDialog>
+    </h:form>
+
+</html>

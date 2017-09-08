@@ -1,0 +1,1240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+
+        <title>BSJ Job Management &amp; Tracking System</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 80%;
+            }
+            .jobNumberClass {
+                width: 100%;
+                color: orange;
+            }  
+            .editableclass {
+                background-color: lightgoldenrodyellow !important;
+            }
+            .hold {
+                color: red;
+                font-size: 1.2em;
+                background-image: none;
+                font-weight: bolder;
+            }
+            .active {
+                color: green;
+                font-size: 1.2em;
+                background-image: none;
+                font-weight: bolder;
+            }   
+            .due {
+                background-color: yellow;
+                background-image: none;
+                color: #000000;
+            }
+            .overdue {
+                background-color: yellow;
+                background-image: none;
+                color: #000000;
+            }
+            .lightgreybg {
+                background-color:lightgrey;
+                background-image: none;
+                color: #000000;
+            }
+            .lightsteelbg {
+                background-color:lightsteelblue;
+                background-image: none;
+                color: #000000;
+            }
+            .header {
+                background-color: gray;
+                background-image: none;
+                color: white;
+            }
+            .rdonly {
+                background-color: lightgrey;
+                background-image: none;
+                color: blue;
+            }
+            .default {
+                background-color: white;
+                background-image: none;
+                color: black;
+            }
+        </style>
+        <script type="text/javascript" src="js/jmtsJavascript.js" />      
+        <script type="text/javascript" src="js/commonJavascript.js" />        
+
+    </h:head>
+    <h:body onload="checkWhichBrowser();
+            longProcessDialogVar.hide();
+            mainTabViewVar.select(0);"            
+            onmouseover="longProcessDialogVar.hide();">
+
+        <ui:insert>          
+            <ui:include src="common/commonDialogs.xhtml" />           
+            <ui:include src="common/clientForm.xhtml" />
+            <ui:include src="common/loginDialog.xhtml"/>
+            <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>
+            <ui:include src="jmts/reportingDialog.xhtml"/>
+            <ui:include src="jmts/jobSampleDialogs.xhtml"/>
+            <ui:include src="jmts/jobDialog.xhtml"/>
+            <ui:include src="jmts/jmtsAlertDialogs.xhtml"/>
+            <ui:include src="common/generalAlertDialogs.xhtml"/>
+            <ui:include src="common/connectionErrorAlertDialog.xhtml"/>
+            <ui:include src="common/longProcessDialog.xhtml"/>   
+            <ui:include src="jmts/jobCostingDialogs.xhtml"/>    
+            <ui:include src="jmts/saveConfirmationDialogs.xhtml"/>
+            <ui:include src="common/preferencesDialog.xhtml"/>                              
+        </ui:insert>
+
+        <!-- Unit dialogs that are rendered on demand based on user preferences-->  
+        <h:form id="unitDialogForms">            
+            <ui:insert >
+                <ui:include src="jmts/serviceRequestDialogs.xhtml"/>   
+            </ui:insert>
+        </h:form>             
+
+        <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
+            <p:ajax event="toggle" listener="#{main.handleLayoutUnitToggle}" />
+
+            <p:layoutUnit position="north" 
+                          rendered="true" 
+                          size="95"                          
+                          header="Job Management &amp; Tracking System" >
+                <h:form id="headerForm">   
+
+                    <p:growl id="growl" for="growlKey" showDetail="true" sticky="true" />
+
+                    <table border="0" width="100%">
+                        <tr>
+                            <td>
+                                <img src="images/BSJ-Logo.jpg" width="272" height="41" alt="BSJ Logo"/>
+                            </td>
+
+                            <td align="left">
+                                <h:outputText value="Job Management &amp; Tracking System"
+                                              style="color: gray; font-size: 14pt; font-weight: bold" />
+                            </td>
+
+                            <td align="right">
+                                <p:menuButton value="#{main.user.employee.firstName} #{main.user.employee.lastName}" 
+                                              rendered="#{main.renderUserMenu()}">
+                                    <p:menuitem actionListener="#{jobManager.editPreferences}"
+                                                onstart="longProcessDialogVar.show();"
+                                                update=":preferencesDialogForm"
+                                                oncomplete="longProcessDialogVar.hide();preferencesDialog.show();"
+                                                onerror="connectionErrorDialog.show();"    
+                                                value="Preferences"
+                                                process="@this"/>
+                                    <p:separator />  
+                                    <p:menuitem actionListener="#{main.logout}"
+                                                onstart="longProcessDialogVar.show();"                                               
+                                                onerror="connectionErrorDialog.show();"                                              
+                                                icon="ui-icon-circle-arrow-w"
+                                                value="Logout"
+                                                process="@this"/>
+                                </p:menuButton>                               
+                            </td>                            
+
+                        </tr>
+                    </table>
+
+                    <p:remoteCommand name="updateHeaderForm"
+                                     update="headerForm"
+                                     process="@this"/>
+
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit id="centreLayoutUnit"                           
+                          position="center">
+
+                <h:form id="mainTabViewForm">
+
+                    <p:tabView id="mainTabView"
+                               dynamic="false"                              
+                               widgetVar="mainTabViewVar">
+
+                        <p:ajax event="tabChange" 
+                                onstart="longProcessDialogVar.show();"
+                                oncomplete="longProcessDialogVar.hide();"
+                                listener="#{main.onMainTabChange}" />
+
+                        <p:tab id="ServiceRequestTab" 
+                               title="Service Requests"
+                               closable="false"
+                               rendered="#{main.user.serviceRequestUnit}">
+                            <p:toolbar>
+                                <p:toolbarGroup align="left" >
+                                    <p:commandButton
+                                        id="createNewServiceRequest"
+                                        actionListener="#{serviceManager.createNewServiceRequest}"
+                                        global="true"
+                                        onstart="longProcessDialogVar.show();"
+                                        onerror="connectionErrorDialog.show();"
+                                        value="New"
+                                        title="Create new service request"
+                                        icon="ui-icon-plusthick"
+                                        process="@this"/>
+                                </p:toolbarGroup>
+                            </p:toolbar>
+                            <ui:insert>
+                                <ui:include src="jmts/serviceRequestsTable.xhtml"/>  
+                            </ui:insert>                            
+
+                        </p:tab>
+
+                        <p:tab id="jobsTab"
+                               closable="false"
+                               title="#{jobManager.user.jobTableViewPreference}"
+                               rendered="#{main.user.jobManagementAndTrackingUnit}" >
+                            <p:toolbar id="jobsToolbar">
+                                <p:toolbarGroup align="left" >
+                                    <p:commandButton
+                                        id="createNewJobButton"
+                                        actionListener="#{jobManager.createNewJob}"
+                                        global="true"
+                                        rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
+                                        onstart="longProcessDialogVar.show();"
+                                        oncomplete="longProcessDialogVar.hide();"
+                                        onerror="connectionErrorDialog.show();"
+                                        value="New"                                       
+                                        title="Create new job"
+                                        icon="ui-icon-plusthick"
+                                        process="@this"/>                                  
+
+                                    <p:commandButton value="Approved"                                                    
+                                                     ajax="true"
+                                                     title="Mark the selected job costing as being approved"
+                                                     style="width: 150px"  
+                                                     rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
+                                                     actionListener="#{jobManager.approveSelectedJobCostings}"
+                                                     update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
+                                                     onstart="longProcessDialogVar2.show();" 
+                                                     oncomplete="longProcessDialogVar2.hide();">                                                                                    
+                                    </p:commandButton>
+                                    <p:spacer height="0" width="10"  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"/>
+                                    <p:commandButton value="Invoiced"                                                    
+                                                     ajax="true"
+                                                     title="Mark the selected job costing as being invoiced"
+                                                     style="width: 150px"  
+                                                     rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
+                                                     actionListener="#{jobManager.invoiceSelectedJobCostings}"
+                                                     update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
+                                                     onstart="longProcessDialogVar2.show();" 
+                                                     oncomplete="longProcessDialogVar2.hide();">                                                                                    
+                                    </p:commandButton>
+
+                                    <ui:remove>
+                                        <p:commandButton value="Export"
+                                                         id="export1"
+                                                         ajax="false"
+                                                         title="Export the selected job costings"
+                                                         style="width: 150px"  
+                                                         rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
+                                                         actionListener="#{jobManager.updateSelectedJobCostings}"
+                                                         update="longProgressDialogForm"
+                                                         onclick="longProcessDialogVar2.show();" >                                        
+                                            <p:fileDownload value="#{jobManager.jobReportFile}" />                                        
+                                        </p:commandButton>
+                                    </ui:remove>
+
+                                    <p:spacer height="0" width="200"  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"/>
+                                    <p:commandButton
+                                        value="Reports/Queries"
+                                        actionListener="#{jobManager.initJobReport}"
+                                        onstart="longProcessDialogVar.show();"
+                                        update=":reportingDialogForm"
+                                        rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
+                                        oncomplete="reportingDialog.show();"
+                                        onerror="connectionErrorDialog.show();"
+                                        title="Generate, view and export reports"
+                                        icon="ui-icon-newwin"
+                                        process="@this"/>
+
+                                    <ui:remove>
+                                        <p:inputText value="#{jobManager.searchText}"
+                                                     rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"/>
+                                        <p:spacer height="0" width="10"  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"/>
+                                        <p:commandButton
+                                            value="Search"                                       
+                                            title="Search"
+                                            icon="ui-icon-search"
+                                            rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
+                                            process="@this"/>
+                                    </ui:remove>
+
+                                </p:toolbarGroup>
+
+                                <p:toolbarGroup align="right" >                                   
+                                    <p:menuButton id="toolsButton" value="Tools" >
+                                        <p:menuitem actionListener="#{jobManager.updateAccPacClient}"
+                                                    onstart="longProcessDialogVar.show();"                                                    
+                                                    value="Client credit status"
+                                                    update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
+                                                    oncomplete="accPacClientInformationDialog.show();longProcessDialogVar.hide();"
+                                                    onerror="connectionErrorDialog.show();"
+                                                    process="@this"/>
+                                        <p:separator/>
+
+                                        <p:menuitem value="Client database"
+                                                    onstart="longProcessDialogVar.show();"                                                    
+                                                    actionListener="#{jobManager.openClientDatabaseDialog}"
+
+                                                    oncomplete="longProcessDialogVar.hide();"
+                                                    process="@this"
+                                                    title="Client database form"/>
+                                    </p:menuButton>                                    
+
+                                </p:toolbarGroup>
+                            </p:toolbar>   
+
+                            <ui:insert>
+                                <ui:include src="jmts/jobsDatabaseTable.xhtml"/>
+                            </ui:insert>                      
+                        </p:tab>
+
+                        <ui:remove>
+                            <p:tab id="FoodFactoriesTab" title="Food Factories"
+                                   closable="false" 
+                                   rendered="#{main.user.foodsUnit}">  
+                                <p:commandButton title="Add new factory"                                  
+                                                 value="New"                                                     
+                                                 actionListener="#{foodsManager.createNewFoodFactory}"
+                                                 onstart="longProcessDialogVar.show();"                                            
+                                                 onerror="connectionErrorDialog.show();"
+                                                 global="true"
+                                                 process="@this"
+                                                 icon="ui-icon ui-icon-plus"/>
+                                <hr/>
+                                <ui:insert>
+                                    <ui:include src="foodsdb/foodFactoriesDatabaseTable.xhtml"/>
+                                </ui:insert>   
+                            </p:tab>
+                        </ui:remove>
+
+                        <p:tab id="FinancialAdminTab" title="Financial Administration"
+                               closable="false" 
+                               rendered="#{main.user.financialAdminUnit}">  
+                            <p:outputPanel>                                
+                                <p:inputText value="#{systemManager.systemOptionSearchText}"                                             
+                                             style="width:250px" placeholder="Enter any part of option description">
+                                    <p:ajax event="keyup"
+                                            global="false"
+                                            onstart="longProcessDialogVar.show();" 
+                                            oncomplete="longProcessDialogVar.hide();"
+                                            update=":mainTabViewForm:mainTabView:financialSystemOptionsTable"
+                                            listener="#{systemManager.doFinancialSystemOptionSearch}"
+                                            process="@this"/>
+                                </p:inputText>
+
+                            </p:outputPanel>
+                            <hr/>
+                            <p:dataTable id="financialSystemOptionsTable"                                       
+                                         var="systemOption"     
+                                         editable="true" 
+                                         editMode="cell"
+                                         paginator="true"
+                                         rows="15"
+                                         widgetVar="systemOptionsTableVar"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                         value="#{systemManager.foundFinancialSystemOptions}">
+
+                                <p:ajax event="cellEdit" listener="#{systemManager.onFinancialSystemOptionCellEdit}" />
+
+                                <f:facet name="header">
+                                    Financial Settings
+                                </f:facet>
+
+                                <p:column headerText="Description">
+                                    <p:cellEditor>
+                                        <f:facet name="output"> <h:outputText value="#{systemOption.comments}" /></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{systemOption.comments}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>                                           
+                                </p:column>   
+
+                                <p:column headerText="Value">
+                                    <p:cellEditor>
+                                        <f:facet name="output"> <h:outputText value="#{systemOption.optionValue}" /></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{systemOption.optionValue}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>                                         
+                                </p:column>   
+
+                                <p:column style="width:32px">
+                                    <p:commandButton title="View/Edit"   
+                                                     actionListener="#{systemManager.editSystemOption}"
+                                                     onstart="longProcessDialogVar.show();"                                                                    
+                                                     onerror="connectionErrorDialog.show();"
+                                                     global="true"
+                                                     process="@this"
+                                                     icon="ui-icon ui-icon-pencil">
+                                        <f:setPropertyActionListener value="#{systemOption}"                                                                    
+                                                                     target="#{systemManager.selectedSystemOption}" />
+                                    </p:commandButton>           
+                                </p:column>
+                            </p:dataTable> 
+                        </p:tab>
+
+
+                        <p:tab id="AdminTab" title="System Administration"
+                               closable="false" 
+                               rendered="#{main.user.renderAdminUnit}">  
+                            <p:tabView id="centerTabView"
+                                       widgetVar="centerTabVar"                              
+                                       dynamic="true">
+                                <p:tab id="UsersTab" title="Users">
+                                    <p:commandButton title="Add new user"                                  
+                                                     value="New"                                                     
+                                                     actionListener="#{systemManager.createNewUser}"
+                                                     onstart="longProcessDialogVar.show();"
+                                                     oncomplete="longProcessDialogVar.hide();"
+                                                     onerror="connectionErrorDialog.show();"
+                                                     global="true"
+                                                     process="@this"
+                                                     icon="ui-icon ui-icon-plus"/>
+                                    <hr/>
+                                    <p:outputPanel>                                
+                                        <p:inputText id="userSearchText" 
+                                                     autocomplete="false"
+                                                     value="#{systemManager.userSearchText}"
+                                                     style="width:150px" placeholder="Enter any part of name">
+                                            <p:ajax event="keyup"
+                                                    global="false"
+                                                    onstart="longProcessDialogVar.show();" 
+                                                    oncomplete="longProcessDialogVar.hide();"
+                                                    update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
+                                                    listener="#{systemManager.doUserSearch}"
+                                                    process="@this"/>                                   
+                                        </p:inputText>                               
+                                    </p:outputPanel>
+                                    <hr/>
+                                    <p:dataTable id="usersTable"                                       
+                                                 var="user"                                        
+                                                 paginator="true"
+                                                 rows="15"
+                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                 value="#{systemManager.foundUsers}">
+                                        <f:facet name="header">
+                                            Users
+                                        </f:facet>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Username"/>
+                                            </f:facet>
+                                            <h:outputText value="#{user.username}" />
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Firstname"/>
+                                            </f:facet>
+                                            <h:outputText value="#{user.employeeFirstname}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Lastname"/>
+                                            </f:facet>
+                                            <h:outputText value="#{user.employeeLastname}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Status"/>
+                                            </f:facet>
+                                            <h:outputText value="#{user.status}">
+                                                <f:convertDateTime timeStyle="long" timeZone="America/Jamaica" pattern="MMM dd, yyyy, h:mm:ss"/>
+                                            </h:outputText>
+                                        </p:column>     
+                                        <p:column style="width:32px">
+                                            <p:commandButton title="View/Edit"  
+                                                             actionListener="#{systemManager.editUser}"
+                                                             onstart="longProcessDialogVar.show();"
+
+                                                             onerror="connectionErrorDialog.show();"
+                                                             global="true"
+                                                             process="@this"
+                                                             icon="ui-icon ui-icon-pencil">
+                                                <f:setPropertyActionListener value="#{user}"                                                                    
+                                                                             target="#{systemManager.selectedUser}" />
+                                                <p:ajax event="dialogReturn" 
+                                                        update=":mainTabViewForm:mainTabView:centerTabView:usersTable"/>
+                                            </p:commandButton>           
+                                        </p:column>
+
+                                    </p:dataTable>                           
+                                </p:tab>
+                                <p:tab id="employeesTab" title="Employees">
+                                    <p:commandButton title="Add new employee"                                  
+                                                     value="New"
+                                                     actionListener="#{systemManager.createNewEmployee}"
+                                                     onstart="longProcessDialogVar.show();"
+                                                     oncomplete="longProcessDialogVar.hide();"
+                                                     onerror="connectionErrorDialog.show();"
+                                                     global="true"
+                                                     process="@this"
+                                                     icon="ui-icon ui-icon-plus"/>
+                                    <hr/>
+                                    <p:outputPanel>                                
+                                        <p:inputText id="employeeSearchText" 
+                                                     value="#{systemManager.employeeSearchText}"
+                                                     style="width:150px" placeholder="Enter any part of name">
+                                            <p:ajax event="keyup"
+                                                    global="false"
+                                                    onstart="longProcessDialogVar.show();" 
+                                                    oncomplete="longProcessDialogVar.hide();"
+                                                    update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"
+                                                    listener="#{systemManager.doEmployeeSearch}"
+                                                    process="@this"/>
+                                        </p:inputText>
+
+                                    </p:outputPanel>
+                                    <hr/>
+                                    <p:dataTable id="employeesTable"                                       
+                                                 var="employee"                                        
+                                                 paginator="true"
+                                                 rows="15"
+                                                 widgetVar="employeesTableVar"
+                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                 filteredValue="#{systemManager.foundEmployees}">
+
+
+                                        <f:facet name="header">
+                                            Employees
+                                        </f:facet>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Rec. ID"/>
+                                            </f:facet>
+                                            <h:outputText value="#{employee.id}" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Firstname"/>
+                                            </f:facet>
+                                            <h:outputText value="#{employee.firstName}" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Lastname"/>
+                                            </f:facet>
+                                            <h:outputText value="#{employee.lastName}" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Business Office"/>
+                                            </f:facet>
+                                            <h:outputText value="#{employee.businessOffice.name}" />
+                                        </p:column>
+
+                                        <p:column style="width:32px">
+                                            <p:commandButton title="View/Edit"   
+                                                             actionListener="#{systemManager.editEmployee}"
+                                                             onstart="longProcessDialogVar.show();"
+                                                             onerror="connectionErrorDialog.show();"
+                                                             global="true"
+                                                             process="@this"
+                                                             icon="ui-icon ui-icon-pencil">
+                                                <f:setPropertyActionListener value="#{employee}"                                                                    
+                                                                             target="#{systemManager.selectedEmployee}" />
+                                                <p:ajax event="dialogReturn" 
+                                                        update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"/>
+                                            </p:commandButton>           
+                                        </p:column>
+
+
+                                    </p:dataTable>
+                                </p:tab>
+                                <p:tab id="departmentsTab" title="Departments">
+                                    <p:commandButton title="Add new department"                                  
+                                                     value="New"
+                                                     actionListener="#{systemManager.createNewDepartment}"
+                                                     onstart="longProcessDialogVar.show();"
+                                                     oncomplete="longProcessDialogVar.hide();"
+                                                     onerror="connectionErrorDialog.show();"
+                                                     global="true"
+                                                     process="@this"
+                                                     icon="ui-icon ui-icon-plus"/>
+                                    <hr/>
+                                    <p:outputPanel>                                
+                                        <p:inputText id="departmentSearchText" 
+                                                     value="#{systemManager.departmentSearchText}"
+                                                     style="width:150px" placeholder="Enter any part of name">
+                                            <p:ajax event="keyup"
+                                                    global="false"
+                                                    onstart="longProcessDialogVar.show();" 
+                                                    oncomplete="longProcessDialogVar.hide();"
+                                                    update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
+                                                    listener="#{systemManager.doDepartmentSearch}"
+                                                    process="@this"/>
+                                        </p:inputText>
+
+                                    </p:outputPanel>
+                                    <hr/>
+                                    <p:dataTable id="departmentsTable"                                       
+                                                 var="department"                                        
+                                                 paginator="true"
+                                                 rows="15"
+                                                 widgetVar="departmentsTableVar"
+                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                 filteredValue="#{systemManager.foundDepartments}">
+
+                                        <f:facet name="header">
+                                            Departments
+                                        </f:facet>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Code"/>
+                                            </f:facet>
+                                            <h:outputText value="#{department.subGroupCode}" />
+                                        </p:column>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Name"/>
+                                            </f:facet>
+                                            <h:outputText value="#{department.name}" />
+                                        </p:column>                          
+
+                                        <p:column style="width:32px">
+                                            <p:commandButton title="View/Edit"   
+                                                             actionListener="#{systemManager.editDepartment}"
+                                                             onstart="longProcessDialogVar.show();"
+                                                             onerror="connectionErrorDialog.show();"
+                                                             global="true"
+                                                             process="@this"
+                                                             icon="ui-icon ui-icon-pencil">
+                                                <f:setPropertyActionListener value="#{department}"                                                                    
+                                                                             target="#{systemManager.selectedDepartment}" />
+                                                <p:ajax event="dialogReturn" 
+                                                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
+                                            </p:commandButton>           
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </p:tab>  
+
+                                <p:tab id="dataListsTab" title="Data Lists">                                    
+                                    <p:tabView id="dataListsTabView"                                                                
+                                               dynamic="true">                                         
+                                        <p:tab title="Classifications">
+                                            <p:commandButton title="Add new classification"                                  
+                                                             value="New"
+                                                             actionListener="#{systemManager.createNewClassification}"
+                                                             onstart="longProcessDialogVar.show();"
+                                                             oncomplete="longProcessDialogVar.hide();"
+                                                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable"
+                                                             onerror="connectionErrorDialog.show();"
+                                                             global="true"
+                                                             process="@this"
+                                                             icon="ui-icon ui-icon-plus"/>
+                                            <hr/>
+                                            <p:dataTable id="ClassificationsTable"                                       
+                                                         var="classification"     
+                                                         editable="true" 
+                                                         editMode="cell"
+                                                         paginator="true"
+                                                         rows="15"
+                                                         widgetVar="ClassificationsTableVar"
+                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                         value="#{systemManager.foundClassifications}">
+
+                                                <p:ajax event="cellEdit" listener="#{systemManager.onClassificationCellEdit}" />
+
+                                                <f:facet name="header">
+                                                    Classifications
+                                                </f:facet>
+
+                                                <p:column headerText="Name">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{classification.name}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{classification.name}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                           
+                                                </p:column>   
+
+                                                <p:column headerText="Description">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{classification.description}" /></f:facet>
+                                                        <f:facet name="input"><p:inputTextarea value="#{classification.description}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column headerText="Active">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{classification.usable}" /></f:facet>
+                                                        <f:facet name="input">
+                                                            <h:selectOneMenu value="#{classification.usable}" style="width:96%">
+                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                                                <f:selectItem itemLabel="No" itemValue="No"/>
+                                                            </h:selectOneMenu>
+                                                        </f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column headerText="Earning">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{classification.earning}" /></f:facet>
+                                                        <f:facet name="input">
+                                                            <h:selectOneMenu value="#{classification.earning}" style="width:96%">
+                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                                                <f:selectItem itemLabel="No" itemValue="No"/>
+                                                            </h:selectOneMenu>
+                                                        </f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+                                            </p:dataTable>         
+                                        </p:tab>
+                                        <p:tab title="Job categories">
+                                            <p:commandButton title="Add new category"                                  
+                                                             value="New"
+                                                             actionListener="#{systemManager.createNewJobCategory}"
+                                                             onstart="longProcessDialogVar.show();"
+
+                                                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"
+                                                             onerror="connectionErrorDialog.show();"
+                                                             global="true"
+                                                             process="@this"
+                                                             icon="ui-icon ui-icon-plus"/>
+                                            <hr/>
+                                            <p:dataTable id="JobCategoriesTable"                                       
+                                                         var="jobCategory"     
+                                                         editable="true" 
+                                                         editMode="cell"
+                                                         paginator="true"
+                                                         rows="15"
+                                                         widgetVar="JobCategoriesTableVar"
+                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                         value="#{systemManager.foundJobCategories}">
+
+                                                <p:ajax event="cellEdit" listener="#{systemManager.onJobCategoryCellEdit}" />
+
+                                                <f:facet name="header">
+                                                    Job categories
+                                                </f:facet>
+
+                                                <p:column headerText="Name">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{jobCategory.category}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{jobCategory.category}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                           
+                                                </p:column>   
+
+                                                <p:column headerText="Description">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{jobCategory.description}" /></f:facet>
+                                                        <f:facet name="input"><p:inputTextarea value="#{jobCategory.description}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column headerText="Is Earning">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{jobCategory.isBillable}" /></f:facet>
+                                                        <f:facet name="input">
+                                                            <h:selectOneMenu value="#{jobCategory.isBillable}" style="width:96%">
+                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                                                <f:selectItem itemLabel="No" itemValue="No"/>
+                                                            </h:selectOneMenu>
+                                                        </f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column headerText="Active">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{jobCategory.usable}" /></f:facet>
+                                                        <f:facet name="input">
+                                                            <h:selectOneMenu value="#{jobCategory.usable}" style="width:96%">
+                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                                                <f:selectItem itemLabel="No" itemValue="No"/>
+                                                            </h:selectOneMenu>
+                                                        </f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+                                            </p:dataTable>     
+                                        </p:tab>
+                                        <p:tab title="Job subcategories">
+                                            <p:commandButton title="Add new job subcategory"                                  
+                                                             value="New"
+                                                             actionListener="#{systemManager.createNewJobSubCategory}"
+                                                             onstart="longProcessDialogVar.show();"                                                            
+                                                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
+                                                             onerror="connectionErrorDialog.show();"
+                                                             global="true"
+                                                             process="@this"
+                                                             icon="ui-icon ui-icon-plus"/>
+                                            <hr/>
+                                            <p:dataTable id="JobSubcategoriesTable"                                       
+                                                         var="jobSubcategory"     
+                                                         editable="true" 
+                                                         editMode="cell"
+                                                         paginator="true"
+                                                         rows="15"
+                                                         widgetVar="JobSubcategoriesTableVar"
+                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                         value="#{systemManager.foundJobSubCategories}">
+
+                                                <p:ajax event="cellEdit" listener="#{systemManager.onJobSubCategoryCellEdit}" />
+
+                                                <f:facet name="header">
+                                                    Job subcategories
+                                                </f:facet>
+
+                                                <p:column headerText="Name">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{jobSubcategory.subCategory}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{jobSubcategory.subCategory}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                           
+                                                </p:column>   
+
+                                                <p:column headerText="Description">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{jobSubcategory.description}" /></f:facet>
+                                                        <f:facet name="input"><p:inputTextarea value="#{jobSubcategory.description}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column headerText="Is Earning">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{jobSubcategory.isBillable}" /></f:facet>
+                                                        <f:facet name="input">
+                                                            <h:selectOneMenu value="#{jobSubcategory.isBillable}" style="width:96%">
+                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                                                <f:selectItem itemLabel="No" itemValue="No"/>
+                                                            </h:selectOneMenu>
+                                                        </f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column headerText="Active">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{jobSubcategory.usable}" /></f:facet>
+                                                        <f:facet name="input">
+                                                            <h:selectOneMenu value="#{jobSubcategory.usable}" style="width:96%">
+                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                                                <f:selectItem itemLabel="No" itemValue="No"/>
+                                                            </h:selectOneMenu>
+                                                        </f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+                                            </p:dataTable>     
+                                        </p:tab>
+                                        <p:tab title="Sectors">
+                                            <p:commandButton title="Add new sector"                                  
+                                                             value="New"
+                                                             actionListener="#{systemManager.createNewSector}"
+                                                             onstart="longProcessDialogVar.show();"
+                                                             oncomplete="longProcessDialogVar.hide();"
+                                                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
+                                                             onerror="connectionErrorDialog.show();"
+                                                             global="true"
+                                                             process="@this"
+                                                             icon="ui-icon ui-icon-plus"/>
+                                            <hr/>
+                                            <p:dataTable id="SectorsTable"                                       
+                                                         var="sector"     
+                                                         editable="true" 
+                                                         editMode="cell"
+                                                         paginator="true"
+                                                         rows="15"
+                                                         widgetVar="SectorsTableVar"
+                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                         value="#{systemManager.foundSectors}">
+
+                                                <p:ajax event="cellEdit" listener="#{systemManager.onSectorCellEdit}" />
+
+                                                <f:facet name="header">
+                                                    Sectors
+                                                </f:facet>
+
+                                                <p:column headerText="Name">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{sector.name}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{sector.name}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                           
+                                                </p:column>   
+
+                                                <p:column headerText="Description">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{sector.description}" /></f:facet>
+                                                        <f:facet name="input"><p:inputTextarea value="#{sector.description}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column headerText="Active" sortBy="#{sector.usable}">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{sector.usable}" /></f:facet>
+                                                        <f:facet name="input">
+                                                            <h:selectOneMenu value="#{sector.usable}" style="width:96%">
+                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                                                <f:selectItem itemLabel="No" itemValue="No"/>
+                                                            </h:selectOneMenu>
+                                                        </f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+                                            </p:dataTable>              
+                                        </p:tab>
+                                        <p:tab title="Document Standards">
+                                            <p:commandButton title="Add new document standard"                                  
+                                                             value="New"
+                                                             actionListener="#{systemManager.createNewDocumentStandard}"
+                                                             onstart="longProcessDialogVar.show();"
+                                                             oncomplete="longProcessDialogVar.hide();"
+                                                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:DocumentStandardsTable"
+                                                             onerror="connectionErrorDialog.show();"
+                                                             global="true"
+                                                             process="@this"
+                                                             icon="ui-icon ui-icon-plus"/>
+                                            <hr/>
+                                            <p:dataTable id="DocumentStandardsTable"                                       
+                                                         var="documentStandard"     
+                                                         editable="true" 
+                                                         editMode="cell"
+                                                         paginator="true"
+                                                         rows="15"
+                                                         widgetVar="DocumentStandardsTableVar"
+                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                         value="#{systemManager.foundDocumentStandards}">
+
+                                                <p:ajax event="cellEdit" listener="#{systemManager.onDocumentStandardCellEdit}" />
+
+                                                <f:facet name="header">
+                                                    Document Standards
+                                                </f:facet>
+
+                                                <p:column headerText="Name">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{documentStandard.name}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{documentStandard.name}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                           
+                                                </p:column>   
+
+                                                <p:column headerText="Comments">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{documentStandard.comments}" /></f:facet>
+                                                        <f:facet name="input"><p:inputTextarea value="#{documentStandard.comments}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column headerText="Active" sortBy="#{documentStandard.usable}">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"><h:outputText value="#{documentStandard.usable}" /></f:facet>
+                                                        <f:facet name="input">
+                                                            <h:selectOneMenu value="#{documentStandard.usable}" style="width:96%">
+                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                                                                <f:selectItem itemLabel="No" itemValue="No"/>
+                                                            </h:selectOneMenu>
+                                                        </f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                            </p:dataTable>          
+                                        </p:tab>
+                                    </p:tabView>                                    
+                                </p:tab>
+
+                                <p:tab id="systemOptionsTab" 
+                                       title="Configuration" 
+                                       rendered="#{systemManager.main.user.privilege.canBeJMTSAdministrator}">
+                                    <p:tabView id="systemConfigurationTabView"                                                                
+                                               dynamic="true">                                         
+                                        <p:tab title="LDAP">
+                                            <p:dataTable id="LDAPTable"                                       
+                                                         var="ldap"     
+                                                         editable="true" 
+                                                         editMode="cell"
+                                                         paginator="true"
+                                                         rows="15"
+                                                         widgetVar="ldapTableVar"
+                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                         value="#{systemManager.foundLdapContexts}">
+
+                                                <p:ajax event="cellEdit" listener="#{systemManager.onLDAPCellEdit}" />
+
+                                                <f:facet name="header">
+                                                    LDAP
+                                                </f:facet>
+
+                                                <p:column headerText="Domain">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{ldap.domainName}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{ldap.domainName}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                           
+                                                </p:column>   
+
+                                                <p:column headerText="Name">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{ldap.name}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{ldap.name}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column headerText="URL">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{ldap.providerUrl}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{ldap.providerUrl}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                            </p:dataTable>     
+                                        </p:tab>
+                                        <p:tab title="Miscellaneous">
+                                            <p:commandButton title="Add new option"                                  
+                                                             value="New"
+                                                             actionListener="#{systemManager.createNewSystemOption}"                                                     
+                                                             onstart="longProcessDialogVar.show();"
+                                                             oncomplete="longProcessDialogVar.hide();"
+                                                             onerror="connectionErrorDialog.show();"
+                                                             global="true"
+                                                             process="@this"
+                                                             icon="ui-icon ui-icon-plus"/>
+                                            <hr/>
+                                            <p:outputPanel>                                
+                                                <p:inputText value="#{systemManager.systemOptionSearchText}"
+                                                             id="systemOptionSearchTextId"
+                                                             style="width:250px" placeholder="Enter any part of option description">
+                                                    <p:ajax event="keyup"
+                                                            global="false"
+                                                            onstart="longProcessDialogVar.show();" 
+                                                            oncomplete="longProcessDialogVar.hide();"
+                                                            update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"
+                                                            listener="#{systemManager.doSystemOptionSearch}"
+                                                            process="@this"/>
+                                                </p:inputText>
+
+                                            </p:outputPanel>
+                                            <hr/>
+                                            <p:dataTable id="systemOptionsTable"                                       
+                                                         var="systemOption"     
+                                                         editable="true" 
+                                                         editMode="cell"
+                                                         paginator="true"
+                                                         rows="15"
+                                                         widgetVar="systemOptionsTableVar"
+                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                                         value="#{systemManager.foundSystemOptions}">
+
+                                                <p:ajax event="cellEdit" listener="#{systemManager.onSystemOptionCellEdit}" />
+
+                                                <f:facet name="header">
+                                                    System Options
+                                                </f:facet>
+
+                                                <p:column headerText="Description">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{systemOption.comments}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{systemOption.comments}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                           
+                                                </p:column>   
+
+                                                <p:column headerText="Value">
+                                                    <p:cellEditor>
+                                                        <f:facet name="output"> <h:outputText value="#{systemOption.optionValue}" /></f:facet>
+                                                        <f:facet name="input"><p:inputText value="#{systemOption.optionValue}" style="width:96%"/></f:facet>
+                                                    </p:cellEditor>                                         
+                                                </p:column>   
+
+                                                <p:column style="width:32px">
+                                                    <p:commandButton title="View/Edit"   
+                                                                     actionListener="#{systemManager.editSystemOption}"
+                                                                     onstart="longProcessDialogVar.show();"                                                                    
+                                                                     onerror="connectionErrorDialog.show();"
+                                                                     global="true"
+                                                                     process="@this"
+                                                                     icon="ui-icon ui-icon-pencil">
+                                                        <f:setPropertyActionListener value="#{systemOption}"                                                                    
+                                                                                     target="#{systemManager.selectedSystemOption}" />
+                                                    </p:commandButton>           
+                                                </p:column>
+                                            </p:dataTable> 
+                                        </p:tab>                                      
+                                    </p:tabView>   
+
+                                </p:tab>
+
+                            </p:tabView>
+                        </p:tab>
+
+                        <p:tab id="ComplianceTab" title="Standards Compliance"
+                               closable="false" 
+                               rendered="#{main.user.complianceUnit}">
+                            <ui:insert>
+                                <ui:include src="cdb/cdbComplianceSurveysTable.xhtml"/>
+                            </ui:insert>
+                        </p:tab>
+
+                        <p:tab title="Reports" closable="false" 
+                               rendered="#{main.user.complianceUnit}">
+                            <h:panelGrid columns="3" >
+                                <h:outputText value="Report:"/>
+                                <h:selectOneMenu value="#{complianceManager.currentComplianceDailyReport.reportName}" >
+                                    <p:ajax
+                                        global="true"
+                                        process="@this" />
+                                    <f:selectItems value="#{complianceManager.reportNames}" />
+                                </h:selectOneMenu>                            
+                                <p:commandButton value="Get Report"                                                 
+                                                 ajax="false"
+                                                 style="width: 150px"
+                                                 update="longProgressDialogForm"
+                                                 onclick="longProcessDialogVar.show();" >
+                                    <p:fileDownload value="#{complianceManager.complianceDailyReportPDFFile}" />
+                                </p:commandButton>
+                            </h:panelGrid>
+                            <hr/>
+                            <h:panelGrid columns="2">
+                                <h:panelGrid columns="2">
+
+                                    <h:outputText value="Start Date *:" />
+                                    <p:calendar pattern="yyyy-MM-dd" 
+                                                showOn="button"
+                                                timeOnly="false"
+                                                value="#{complianceManager.currentComplianceDailyReport.startOfPeriod}" >
+                                        <p:ajax event="dateSelect"
+                                                listener="#{complianceManager.updateDailyReportStartDate}" />
+                                        <p:ajax event="keyup"
+                                                listener="#{complianceManager.updateDailyReportStartDate}" />
+                                    </p:calendar>
+
+                                    <h:outputText value="End Date *:" />
+                                    <p:calendar pattern="yyyy-MM-dd" 
+                                                showOn="button"
+                                                timeOnly="false"
+                                                value="#{complianceManager.currentComplianceDailyReport.endOfPeriod}" >
+                                        <p:ajax event="dateSelect"
+                                                listener="#{complianceManager.updateDailyReportEndDate}" />
+                                        <p:ajax event="keyup"
+                                                listener="#{complianceManager.updateDailyReportEndDate}" />
+                                    </p:calendar>
+
+                                </h:panelGrid>
+
+                            </h:panelGrid>       
+                        </p:tab>
+
+                        <ui:remove>
+                            <p:tab id="LegalMetrologyTab" title="Legal Metrology"
+                                   closable="false" 
+                                   rendered="#{main.user.legalMetrologyUnit}">
+
+                                <p:tabView id="legalMetTabView"
+                                           dynamic="true"                                       
+                                           activeIndex="#{legalMetrologyManager.legalMetTabViewActiveIndex}"
+                                           widgetVar="legalMetTabViewVar">
+
+                                    <p:ajax event="tabChange" 
+                                            onstart="longProcessDialogVar.show();"
+                                            update=":searchForm"
+                                            oncomplete="longProcessDialogVar.hide();" />
+
+                                    <p:tab id="petrolStationsTab" 
+                                           title="Petrol Stations"
+                                           closable="false">
+
+                                        <p:toolbar>
+                                            <p:toolbarGroup align="left" >
+                                                <p:commandButton
+                                                    id="createNewPetrolStation"
+                                                    actionListener="#{legalMetrologyManager.createNewPetrolStation()}"
+                                                    value="New"
+                                                    onstart="longProcessDialogVar.show();"
+                                                    oncomplete="longProcessDialogVar.hide();"
+                                                    title="Create new petrol station"
+                                                    icon="ui-icon-plusthick"
+                                                    process="@this"/>                                            
+                                            </p:toolbarGroup>
+
+                                            <p:toolbarGroup align="right" >                                   
+                                                <p:menuButton id="toolsButton" value="Tools" >
+                                                    <p:menuitem actionListener="#{jobManager.updateAccPacClient}"
+                                                                onstart="longProcessDialogVar.show();"
+                                                                value="Credit status"
+                                                                update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
+                                                                oncomplete="accPacClientInformationDialog.show();longProcessDialogVar.hide();"
+                                                                onerror="connectionErrorDialog.show();"
+                                                                process="@this"/>
+                                                </p:menuButton>
+                                            </p:toolbarGroup>
+                                        </p:toolbar>
+
+                                        <ui:insert>                                      
+                                            <ui:include src="legalmet/petrolStationsDatabaseTable.xhtml"/>
+                                        </ui:insert>   
+                                    </p:tab>
+
+                                    <p:tab id="scalesTab" title="Scales"
+                                           closable="false">
+                                        <p:toolbar>
+                                            <p:toolbarGroup align="left" >
+                                                <p:commandButton                                                
+                                                    actionListener="#{legalMetrologyManager.createNewScale()}"
+                                                    value="New"
+                                                    onstart="longProcessDialogVar.show();"
+                                                    oncomplete="longProcessDialogVar.hide();"
+                                                    title="Create new scale"
+                                                    icon="ui-icon-plusthick"
+                                                    process="@this"/>                                          
+                                            </p:toolbarGroup>
+
+                                            <p:toolbarGroup align="right" >                                   
+                                                <p:menuButton value="Tools" >
+                                                    <p:menuitem actionListener="#{jobManager.updateAccPacClient}"
+                                                                onstart="longProcessDialogVar.show();"
+                                                                value="Credit status"
+                                                                update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
+                                                                oncomplete="accPacClientInformationDialog.show();longProcessDialogVar.hide();"
+                                                                onerror="connectionErrorDialog.show();"
+                                                                process="@this"/>
+                                                </p:menuButton>
+                                            </p:toolbarGroup>
+                                        </p:toolbar>
+
+                                        <ui:insert>                                      
+                                            <ui:include src="legalmet/scalesDatabaseTable.xhtml"/>
+                                        </ui:insert>   
+                                    </p:tab>
+
+                                </p:tabView>
+                            </p:tab>
+                        </ui:remove>    
+
+                    </p:tabView>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit
+                id="searchLayoutUnit"    
+                position="west" 
+                size="350"
+                header="Advanced Search"
+                resizable="true"                  
+                collapsed="#{main.searchLayoutUnitCollapsed}"
+                collapsible="true">              
+
+                <h:panelGrid columns="1">
+                    <ui:insert>
+                        <ui:include src="searchForm.xhtml"/>
+                    </ui:insert>
+                </h:panelGrid>
+
+
+            </p:layoutUnit>
+
+        </p:layout>
+
+    </h:body>
+</html>
+

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:form id="factoryRegistrationDialogForm">
+        <p:dialog width="400"
+                  height="250"
+                  modal="true"
+                  draggable="true"                 
+                  widgetVar="factoryRegistrationDialog"
+                  onShow="longProcessDialogVar.hide();"
+                  header="Registration Detail" >
+
+            <p:commandButton value="Ok"
+                             actionListener="#{jobManager.okRegistration}"
+                             oncomplete="factoryRegistrationDialog.hide();"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:foodFactoryRegistrations,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             icon="ui-icon ui-icon-check"
+                             process="@form"/>
+            <hr/>
+            <h:panelGrid columns="2" style="width: 100%" >
+
+
+                <h:outputText value="Number:" style="font-weight: bold;" />
+                <p:inputText style="width: 100%;"
+                             value="#{jobManager.currentRegistration.number}" >
+                    <p:ajax event="keyup"
+                            listener="#{jobManager.updateJob}" />
+                </p:inputText>
+
+                <h:outputText value="Application Type:" style="font-weight: bold;" />
+                <p:selectOneMenu value="#{jobManager.currentRegistration.regulatoryDocuments}" style="width: 100%;" >
+                    <p:ajax
+                        global="true"
+                        listener="#{jobManager.updateJob}"
+                        process="@this" />
+                    <f:selectItems value="#{JMTSApp.regulatoryDocuments}" />
+                </p:selectOneMenu>
+
+                <h:outputText value="Date of application:" style="font-weight: bold;" />
+                <p:calendar  value="#{jobManager.currentRegistration.dateOfApplication}"                            
+                             navigator="true"
+                             pattern="MMM dd, yyyy"
+                             style="width: 85%" >
+                    <p:ajax event="dateSelect"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                    <p:ajax event="keyup"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:calendar>
+
+                <h:outputText value="Date registered:" style="font-weight: bold;" />
+                <p:calendar  value="#{jobManager.currentRegistration.dateRegistered}"                             
+                             navigator="true"
+                             pattern="MMM dd, yyyy"
+                             style="width: 85%" >
+                    <p:ajax event="dateSelect"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                     <p:ajax event="keyup"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:calendar>
+
+                <h:outputText value="Status:" style="font-weight: bold;" />
+                <p:inputText value="#{jobManager.currentRegistration.status}" >
+                    <p:ajax event="keyup"
+                            update=":foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:inputText>
+
+            </h:panelGrid>
+            <hr/>
+            <p:commandButton value="Ok"
+                             actionListener="#{jobManager.okRegistration}"
+                             oncomplete="factoryRegistrationDialog.hide();"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:foodFactoryRegistrations,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             icon="ui-icon ui-icon-check"
+                             process="@form"/>
+
+        </p:dialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Are you sure you wish to delete this registration?"
+                         header="Delete Registration?"
+                         widgetVar="deleteFoodFactoryRegistrationDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{jobManager.removeFoodFactoryRegistration}"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:foodFactoryRegistrations,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             oncomplete="deleteFoodFactoryRegistrationDialog.hide();"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             oncomplete="deleteFoodFactoryRegistrationDialog.hide();"
+                             icon="ui-icon-check"/>
+        </p:confirmDialog>
+    </h:form>
+
+</html>

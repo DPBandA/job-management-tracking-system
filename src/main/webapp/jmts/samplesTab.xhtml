@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <h:panelGrid columns="2">
+        <h:outputText value="Job number *: " style="font-weight: bold;" />
+        <h:panelGroup>
+            <p:inputText id="jobNumber2"    
+                         style="width: 200px"
+                         maxlength="250"
+                         readonly="#{jobManager.currentJob.autoGenerateJobNumber}"
+                         title="#{jobManager.currentJob.jobNumber}"
+                         value="#{jobManager.currentJob.jobNumber}">
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        listener="#{jobManager.updateJobNumber}"
+                        process="@this"/>
+            </p:inputText>
+            <p:spacer height="0" width="5"/>
+            <p:selectBooleanCheckbox id="autoGenerate2"
+                                     style="vertical-align: middle"
+                                     rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
+                                     value="#{jobManager.currentJob.autoGenerateJobNumber}" >
+                <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}"
+                        global="false"
+                        update="autoGenerate,jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        process="@this"/>
+            </p:selectBooleanCheckbox>            
+            <p:tooltip for="autoGenerate2" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
+            <h:outputLabel for="autoGenerate2" value="auto" rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}" />
+        </h:panelGroup>
+    </h:panelGrid>
+    <hr/>
+    <p:panel id="jobSamples" header="Job Samples">
+        <p:commandButton value="Add sample(s)"
+                         title="Add new sample"
+                         actionListener="#{jobManager.createNewJobSample}"
+                         update=":jobSampleDialogForm"
+                         oncomplete="jobSampleDialog.show()"
+                         onstart="longProcessDialogVar.show();"
+                         icon="ui-icon-plus"
+                         process="@this" />
+        <p:spacer height="9" width="10"/>
+        <p:dataTable id="jobSamplesTable"
+                     paginator="true"
+                     rows="15"
+                     var="jobSample"
+                     value="#{jobManager.currentJob.filteredJobSamples}">
+            <p:column style="width:100px"  >
+                <f:facet name="header">
+                    <h:outputText value="Reference" />
+                </f:facet>
+                <h:outputText value="#{jobSample.reference}" />
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Product common name"/>
+                </f:facet>
+                <h:outputText value="#{jobSample.name}"/>              
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Additional details"/>
+                </f:facet>
+                <h:outputText value="#{jobSample.description}"/>              
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Other"/>
+                </f:facet>
+                <h:outputText value="#{jobSample.sampleBasicDetail}"/>              
+            </p:column>
+            <p:column style="width:32px">
+                <p:menuButton id="toolsButton" value="Actions" >
+                    <p:menuitem value="Edit sample details"
+                                actionListener="#{jobManager.editJobSample}"
+                                update=":jobSampleDialogForm"
+                                onstart="longProcessDialogVar.show();"
+                                oncomplete="jobSampleDialog.show();"
+                                icon="ui-icon-pencil"
+                                process="@this">
+                        <f:setPropertyActionListener value="#{jobSample}"
+                                                     target="#{jobManager.selectedJobSample}" />
+                    </p:menuitem>
+                     <p:menuitem value="Copy this sample"                               
+                                onstart="longProcessDialogVar.show();"
+                                oncomplete="doJobSampleCopy();"
+                                icon="ui-icon-copy"
+                                process="@this">       
+                          <f:setPropertyActionListener value="#{jobSample}"
+                                                     target="#{jobManager.selectedJobSample}" />
+                    </p:menuitem>
+                    <p:menuitem value="Delete this sample"
+                                onclick="jobSampleDeleteConfirm.show();"
+                                icon="ui-icon-trash"
+                                process="@this">
+                        <f:setPropertyActionListener value="#{jobSample}"
+                                                     target="#{jobManager.selectedJobSample}" />
+                    </p:menuitem>
+                </p:menuButton>          
+            </p:column>
+            <ui:remove>
+                <p:column style="width:32px">
+                    <p:commandButton title="Edit sample details"
+                                     actionListener="#{jobManager.editJobSample}"
+                                     update=":jobSampleDialogForm"
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="jobSampleDialog.show();"
+                                     icon="ui-icon-pencil"
+                                     process="@this">
+                        <f:setPropertyActionListener value="#{jobSample}"
+                                                     target="#{jobManager.selectedJobSample}" />
+                    </p:commandButton>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <p:commandButton title="Delete this sample"
+                                     onclick="jobSampleDeleteConfirm.show();"
+                                     icon="ui-icon-trash"
+                                     process="@this">
+                        <f:setPropertyActionListener value="#{jobSample}"
+                                                     target="#{jobManager.selectedJobSample}" />
+                    </p:commandButton>
+                </p:column>
+            </ui:remove>    
+            <p:columnGroup type="footer">
+                <p:row>
+                    <p:column colspan="2" style="text-align:right" footerText="Total number of samples: #{jobManager.currentJob.numberOfSamples}"/>
+                    <p:column colspan="3" style="text-align:right" footerText="Total number of products: #{jobManager.currentJob.numberOfSampleProducts}"/>
+                </p:row>               
+            </p:columnGroup>
+        </p:dataTable>
+        <p:commandButton value="Add sample(s)"
+                         title="Add new sample"
+                         actionListener="#{jobManager.createNewJobSample}"
+                         onstart="longProcessDialogVar.show();"
+                         update=":jobSampleDialogForm"
+                         oncomplete="jobSampleDialog.show()"
+                         icon="ui-icon-plus"
+                         process="@this" />
+    </p:panel>
+</html>

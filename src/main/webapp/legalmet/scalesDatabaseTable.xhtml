@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <p:dataTable id="scalesDatabaseTable"
+                 var="scale"
+                 paginator="true"
+                 rows="15"      
+                 rowStyleClass="#{scale.certification.expiryDate le legalMetrologyManager.currentDate ? 'due' : null}" 
+                 resizableColumns="false"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{legalMetrologyManager.scaleSearchResultsList}">
+        <p:ajax event="page"  onstart="longProcessDialogVar.show();" oncomplete="longProcessDialogVar.hide();" />
+
+        <f:facet name="header">
+            <h:outputText value="#{legalMetrologyManager.scaleSearchResultsTableHeader}" />
+        </f:facet>
+
+        <p:column sortBy="#{scale.name}">
+            <f:facet name="header">
+                <h:outputText value="Name"/>
+            </f:facet>
+            <h:outputText value="#{scale.name}" />
+        </p:column>
+
+        <p:column sortBy="#{scale.client.name}">
+            <f:facet name="header">
+                <h:outputText value="Client"/>
+            </f:facet>
+            <h:outputText value="#{scale.client.name}" />
+        </p:column>
+
+        <p:column sortBy="#{scale.certification.dateIssued}">
+            <f:facet name="header">
+                <h:outputText value="Cert. Issue Date"/>
+            </f:facet>
+            <h:outputText value="#{scale.certification.dateIssued}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>                
+        </p:column>  
+
+        <p:column sortBy="#{scale.certification.expiryDate}">
+            <f:facet name="header">
+                <h:outputText value="Expiry Date"/>
+            </f:facet>
+            <h:outputText value="#{scale.certification.expiryDate}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>                
+        </p:column>    
+
+        <p:column style="width:32px">
+            <p:commandButton title="View/Edit scale"                             
+                             actionListener="#{legalMetrologyManager.editScale()}"
+                             update=":unitDialogForms:scaleDetailDialog"
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="scaleDialog.show();longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{scale}"
+                                             target="#{legalMetrologyManager.currentScale}" />
+            </p:commandButton>           
+        </p:column>    
+
+
+    </p:dataTable>
+
+
+</html>

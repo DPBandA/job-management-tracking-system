@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:panelGrid columns="8">
+        <p:commandButton value="Save"
+                         disabled="#{jobManager.completed}"
+                         onstart="longProcessDialogVar.show();"
+                         actionListener="#{jobManager.validateJobCostingAndSaveJob}"
+                         update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                         oncomplete="handleSaveJobCostingAndPaymentRequest(xhr, status, args);longProcessDialogVar.hide();"
+                         icon="ui-icon-check"
+                         process="@this"/>
+
+        <p:commandButton value="Close"
+                         onstart="longProcessDialogVar.show();"
+                         actionListener="#{jobManager.closeJobCostingDialog}"
+                         update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                         oncomplete="longProcessDialogVar.hide();jobCostingDialog.hide();"
+                         icon="ui-icon-close"
+                         process="@this"/>
+
+        <h:panelGroup>
+            <h:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.costingCompleted}"  
+                                     disabled="#{jobManager.completed}"
+                                     title="If this job is assigned to you, check to indicate that this job costing was completed.">
+                <p:ajax global="false"
+                        listener="#{jobManager.completeJobCosting}"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,@this,exportJobCostingButton"
+                        process=":jobDialogForm:jobFormTabView:assignee,@this"/>
+            </h:selectBooleanCheckbox>
+            <h:outputLabel value="Prepared" title="If this job is assigned to you, check to indicate that this job costing was completed." />
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.costingApproved}"   
+                                     disabled="false"
+                                     title="If you are authorized to approved this job costing, check to indicate that this job costing was approved.">
+                <p:ajax global="false"
+                        listener="#{jobManager.approveJobCosting}"
+                        update="costComponentsPanel,:jobCostingDialogForm:costingDate,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,@this,exportJobCostingButton"
+                        process="@this"/>
+            </h:selectBooleanCheckbox>
+            <h:outputLabel value="Approved" title="If you are the head of the department/unit, check to indicate that this job costing was approved." />
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <h:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.invoiced}"
+                                     title="Check to indicate that an invoice was done for this job costing.">
+                <p:ajax global="false"                        
+                        listener="#{jobManager.invoiceJobCosting}"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,@this"
+                        process="@this"/>
+            </h:selectBooleanCheckbox>
+            <h:outputLabel value="Invoiced" title="Check to indicate that an invoice was done for this job costing." />
+        </h:panelGroup>   
+
+        <h:panelGroup>
+            <p:spacer height="0" width="5"/>
+            <p:commandButton value="Export"  
+                             id="exportJobCostingButton"
+                             disabled="#{jobManager.canExportJobCosting}"
+                             title="Export job costing"                        
+                             ajax="false"
+                             onclick="longProcessDialogVar2.show();">
+                <p:fileDownload value="#{jobManager.jobCostingFile}" />
+            </p:commandButton>
+        </h:panelGroup>
+
+        <h:panelGroup>
+            <p:spacer height="0" width="5"/>
+            <p:commandButton value="Save Costings as Template"
+                             update=":jobCostingTemplateNameDialogForm"
+                             oncomplete="jobCostingTemplateNameDialog.show();"
+                             title="Save costings as a template for reuse in another job costing"                        
+                             ajax="true">           
+
+            </p:commandButton>
+        </h:panelGroup>
+    </h:panelGrid>
+
+</html>

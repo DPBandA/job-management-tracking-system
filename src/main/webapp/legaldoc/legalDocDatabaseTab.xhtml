@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <table border="0" >
+        <tr>
+            <td>
+                <p:commandButton value="Add document"
+                                 update=":documentDialogForm"
+                                 actionListener="#{legalDocumentManager.createNewLegalDocument}"
+                                 title="Add a new document"
+                                 oncomplete="documentDialog.show();"
+                                 icon="ui-icon ui-icon-plus"
+                                 process="@this" />
+            </td>
+            <td align="left">
+                <p:ajaxStatus >
+                    <f:facet name="start">
+                        <h:graphicImage value="../images/ajaxloading.gif" width="24" height="24"/>
+                    </f:facet>
+                    <f:facet name="success">
+                        <h:outputText value=" " />
+                    </f:facet>
+                </p:ajaxStatus>
+            </td>
+        </tr>
+    </table>
+    
+    <p:dataTable id="documentTable"
+                 var="document"
+                 paginator="true"
+                 rows="15"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{legalDocumentManager.documentSearchResultList}">
+        <f:facet name="header">
+            <h:outputText value="Document search results (#{legalDocumentManager.numberOfDocumentsFound})"/>
+        </f:facet>
+        <p:column style="width:150px">
+            <f:facet name="header">
+                <h:outputText value="Document #"/>
+            </f:facet>
+            <h:outputText value="#{document.number}" />
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Particulars"/>
+            </f:facet>
+            <h:outputText value="#{document.description}"/>
+        </p:column>
+        <p:column style="min-width: 85px">
+            <f:facet name="header">
+                <h:outputText value="Received"/>
+            </f:facet>
+            <h:outputText value="#{document.dateReceived}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>        
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Agreed delivery"/>
+            </f:facet>
+            <h:outputText value="#{document.expectedDateOfCompletion}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column style="min-width: 85px">
+            <f:facet name="header">
+                <h:outputText value="Delivered"/>
+            </f:facet>
+            <h:outputText value="#{document.dateOfCompletion}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column style="width:32px">
+            <p:commandButton title="View/Edit"
+                             update=":documentDialogForm"
+                             actionListener="#{legalDocumentManager.editDocument}"
+                             oncomplete="documentDialog.show();"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{document}"
+                                             target="#{legalDocumentManager.currentDocument}" />
+            </p:commandButton>
+        </p:column>
+        <p:column style="width:32px">
+            <p:commandButton title="Delete"
+                             onclick="documentDeleteConfirm.show();"
+                             update=":LegalDocumentDatabaseForm"
+                             icon="ui-icon ui-icon-trash">
+                <f:setPropertyActionListener value="#{document}"
+                                             target="#{legalDocumentManager.selectedDocument}" />
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
+
+    <table border="0" >
+        <tr>
+            <td>
+                <p:commandButton value="Add document"
+                                 update=":documentDialogForm"
+                                 actionListener="#{legalDocumentManager.createNewLegalDocument}"
+                                 title="Add a new document"
+                                 oncomplete="documentDialog.show();"
+                                 icon="ui-icon ui-icon-plus"
+                                 process="@this" />
+            </td>
+            <td align="left">
+                <p:ajaxStatus >
+                    <f:facet name="start">
+                        <h:graphicImage value="../images/ajaxloading.gif" width="24" height="24"/>
+                    </f:facet>
+                    <f:facet name="success">
+                        <h:outputText value=" " />
+                    </f:facet>
+                </p:ajaxStatus>
+            </td>
+        </tr>
+    </table>
+
+</html>

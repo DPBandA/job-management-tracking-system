@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"> 
+
+    <p:dialog width="450"
+              height="475"
+              id="scaleDetailDialog"
+              draggable="true"
+              modal="true"
+              rendered="#{main.user.legalMetrologyUnit}"
+              widgetVar="scaleDialog"
+              header="Scale Detail" >     
+
+        <p:ajax event="close"                                      
+                async="true"
+                update=":mainTabViewForm:mainTabView:legalMetTabView:scalesDatabaseTable"
+                listener="#{legalMetrologyManager.closeScaleDialog2(event)}"/>
+
+        <p:commandButton value="Save"
+                         actionListener="#{legalMetrologyManager.saveCurrentScale}"                                            
+                         onstart="longProcessDialogVar.show();"
+                         oncomplete="longProcessDialogVar.hide();"
+                         icon="ui-icon ui-icon-check"
+                         process=":unitDialogForms:scaleDetailDialog"/>
+        <p:spacer height="0" width="10"/>
+        <p:commandButton value="Close"                                             
+                         actionListener="#{legalMetrologyManager.closeScaleDialog1(event)}"
+                          onstart="longProcessDialogVar.show();"
+                         oncomplete="longProcessDialogVar.hide();scaleDialog.hide();"                                            
+                         icon="ui-icon ui-icon-close"
+                         process=":unitDialogForms:scaleDetailDialog"/>
+        <hr/>
+        <h:panelGrid columns="2">
+             <h:outputText value="Name:" />
+             <p:inputText value="#{legalMetrologyManager.currentScale.name}"
+                          maxlength="250"
+                         validatorMessage="Please enter a valid name" >
+                <p:ajax event="keyup"
+                        listener="#{legalMetrologyManager.updateScale()}"/>
+            </p:inputText>
+            
+            <h:outputText value="Client *: " style="font-weight: bold" />
+            <h:panelGroup>
+                <p:autoComplete id="scaleClient"
+                                size="35"
+                                maxResults="12"
+                                 maxlength="250"
+                                var="client"
+                                value="#{legalMetrologyManager.currentScale.client}"
+                                itemLabel="#{client.name}"
+                                itemValue="#{client}"
+                                converter="clientConverter"
+                                forceSelection="false"
+                                completeMethod="#{App.completeClient}" >
+                    <p:ajax event="itemSelect"                                        
+                            listener="#{legalMetrologyManager.updateCurrentScaleClient}"/>
+                    <p:ajax event="keyup"                                        
+                            listener="#{legalMetrologyManager.updateCurrentScaleClient}"/>
+                </p:autoComplete>
+
+                <p:spacer height="0" width="4"/>
+                <p:commandButton icon="ui-icon-pencil"
+                                 onstart="longProcessDialogVar.show();"
+                                 actionListener="#{legalMetrologyManager.editScaleClient}"
+                                 update=":clientForm"
+                                 oncomplete="clientFormDialog.show();longProcessDialogVar.hide();"
+                                 process="@this"
+                                 title="View or edit this client's detail"/>
+                <p:spacer height="0" width="4"/>
+            </h:panelGroup>
+
+            <h:outputText value="ID/Number:" />
+            <p:inputText value="#{legalMetrologyManager.currentScale.number}"
+                          maxlength="250"
+                         validatorMessage="Please enter a valid ID/Number" >
+                <p:ajax event="keyup"
+                        listener="#{legalMetrologyManager.updateScale()}"/>
+            </p:inputText>
+
+            <h:outputText value="Manufacturer:" />
+            <p:autoComplete value="#{legalMetrologyManager.currentScale.manufacturer}"
+                            var="manufacturer"
+                            maxResults="12"
+                            size="35"
+                             maxlength="250"
+                            itemLabel="#{manufacturer.name}"
+                            itemValue="#{manufacturer}"
+                            title="#{manufacturer.name}"
+                            converter="manufacturerConverter"
+                            completeMethod="#{App.completeManufacturer}" >
+                <p:ajax event="itemSelect"
+                        listener="#{legalMetrologyManager.updateCurrentScaleManufacturer}" />
+                <p:ajax event="keyup"
+                        listener="#{legalMetrologyManager.updateCurrentScaleManufacturer}"/>
+            </p:autoComplete>
+
+            <h:outputText value="Model:" />
+            <p:inputText value="#{legalMetrologyManager.currentScale.model}"  maxlength="250" >
+                <p:ajax event="keyup"
+                        listener="#{legalMetrologyManager.updateScale()}"/>
+            </p:inputText>
+
+            <h:outputText value="Serial No.:" />
+            <p:inputText value="#{legalMetrologyManager.currentScale.serialNumber}"  maxlength="250">
+                <p:ajax event="keyup"
+                        listener="#{legalMetrologyManager.updateScale()}"/>
+            </p:inputText>
+
+            <h:outputText value="Capacity:" />
+            <p:inputText value="#{legalMetrologyManager.currentScale.capacity}"  maxlength="250">
+                <p:ajax event="keyup"
+                        listener="#{legalMetrologyManager.updateScale()}"/>
+            </p:inputText>
+
+            <h:outputText value="Capacity Unit:" />
+            <p:inputText value="#{legalMetrologyManager.currentScale.capacityUnit}"  maxlength="250">
+                <p:ajax event="keyup"
+                        listener="#{legalMetrologyManager.updateScale()}"/>
+            </p:inputText>
+
+            <h:outputText value="Last certified:" style="font-weight: bold" />
+            <p:calendar value="#{legalMetrologyManager.currentScale.certification.dateIssued}"
+                        navigator="true"
+                        pattern="MMM dd, yyyy" >
+                <p:ajax event="dateSelect"                        
+                        listener="#{legalMetrologyManager.updateScale}" />
+                <p:ajax event="keyup"                        
+                        listener="#{legalMetrologyManager.updateScale}" />
+            </p:calendar>
+
+            <h:outputText value="Certification due:" style="font-weight: bold" />
+            <p:calendar value="#{legalMetrologyManager.currentScale.certification.expiryDate}"
+                        navigator="true"
+                        pattern="MMM dd, yyyy" >
+                <p:ajax event="dateSelect"                        
+                        listener="#{legalMetrologyManager.updateScale}" />
+                <p:ajax event="keyup"                        
+                        listener="#{legalMetrologyManager.updateScale}" />
+            </p:calendar>
+
+            <h:outputText value="Status:" />
+            <p:inputTextarea value="#{legalMetrologyManager.currentScale.status}"
+                             maxlength="1000"
+                             autoResize="false"
+                             style="width: 250px" >
+                <p:ajax event="keyup"
+                        listener="#{legalMetrologyManager.updateScale()}"/>
+            </p:inputTextarea>
+        </h:panelGrid>
+        <hr/>
+        <p:commandButton value="Save"
+                         actionListener="#{legalMetrologyManager.saveCurrentScale}"                                            
+                         onstart="longProcessDialogVar.show();"
+                         oncomplete="longProcessDialogVar.hide();"
+                         icon="ui-icon ui-icon-check"
+                         process=":unitDialogForms:scaleDetailDialog"/>
+        <p:spacer height="0" width="10"/>
+        <p:commandButton value="Close"                                             
+                         actionListener="#{legalMetrologyManager.closeScaleDialog1(event)}"
+                          onstart="longProcessDialogVar.show();"
+                         oncomplete="longProcessDialogVar.hide();scaleDialog.hide();"                                            
+                         icon="ui-icon ui-icon-close"
+                         process=":unitDialogForms:scaleDetailDialog"/>
+
+    </p:dialog>
+
+    <p:confirmDialog severity="alert"
+                     message="Are you sure you wish to delete this scale?"
+                     header="Delete Scale"
+                     rendered="#{jobManager.user.legalMetrologyUnit}"
+                     widgetVar="scaleDeleteConfirm">
+
+        <p:commandButton value="Yes"                             
+                         action="#{legalMetrologyManager.deleteScale}"
+                         oncomplete="scaleDeleteConfirm.hide();"
+                         icon="ui-icon ui-icon-check"
+                         process="@this"/>
+        <p:commandButton value="No"
+                         process="@this"
+                         onclick="scaleDeleteConfirm.hide()"
+                         icon="ui-icon-close"/>
+
+    </p:confirmDialog>
+
+    <p:confirmDialog severity="alert"
+                     rendered="#{main.user.legalMetrologyUnit}"
+                     id="scaleSaveConfirm" 
+                     message="The current scale detail was modified. Do you wish to save it?"
+                     header="Scale Detail Modified"
+                     widgetVar="scaleSaveConfirmDialog"
+                     width="425">
+
+        <p:commandButton value="Yes"                             
+                         actionListener="#{legalMetrologyManager.saveCurrentScale()}"
+                         onstart="longProcessDialogVar.show();"
+                         update=":mainTabViewForm:mainTabView:legalMetTabView:scalesDatabaseTable"                        
+                         oncomplete="scaleSaveConfirmDialog.hide();longProcessDialogVar.hide();"
+                         icon="ui-icon-check"
+                         process="@this"/>
+        <p:commandButton value="No"
+                         actionListener="#{legalMetrologyManager.cancelScaleEdit()}"
+                         oncomplete="scaleSaveConfirmDialog.hide();scaleDialog.hide();"
+                         process="@this"
+                         icon="ui-icon-close"/>       
+    </p:confirmDialog>
+</html>

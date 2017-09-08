@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:panelGrid columns="2">
+        <h:panelGroup >
+            <h:outputText value="Find client:" style="font-weight: bold" />
+            <p:spacer height="0px" width="5px"/>
+            <p:autoComplete forceSelection="true"
+                            id="accPacClientName"
+                            size="40"
+                            title="#{jobManager.accPacCustomer.customerName}"
+                            value="#{jobManager.accPacCustomer.customerName}"                           
+                            completeMethod="#{jobManager.completeAccPacClient}" >
+                <p:ajax event="itemSelect"
+                        listener="#{jobManager.updateCreditStatus}"
+                        update="creditStatusSummary,invoiceTable" />
+            </p:autoComplete>
+        </h:panelGroup>
+
+        <p:ajaxStatus>
+            <f:facet name="start">
+                <h:graphicImage value="../images/ajaxloading.gif" width="20" height="20"/>
+            </f:facet>
+            <f:facet name="success">
+                <h:outputText value="&nbsp;" />
+            </f:facet>
+        </p:ajaxStatus>
+    </h:panelGrid>
+    <p:panel id="creditStatusSummary" header="Summary">
+        <h:panelGrid columns="2">            
+            <h:outputText value="ID:" style="font-weight: bold" />
+            <h:outputText value="#{jobManager.accPacCustomerID}" style="font-weight: bold" />
+
+            <h:outputText value="Name:" style="font-weight: bold" />
+            <h:outputText value="#{jobManager.accPacCustomerName}" style="font-weight: bold" />
+
+            <h:outputText value="Customer credit type:" style="font-weight: bold" />
+            <h:outputText value="#{jobManager.customerType}" style="font-weight: bold" />
+
+            <h:outputText value="Account status:" 
+                          title="Account may be on hold if there are outstanding invoices that are #{jobManager.maxDaysPassInvoiceDate} or more days pass their due date."
+                          rendered="#{jobManager.filteredDocumentAvailable}"
+                          styleClass="#{jobManager.accountStatus}" />
+            <h:outputText value="#{jobManager.accPacCustomerAccountStatus}"
+                          title="Account may be on hold if there are outstanding invoices that are #{jobManager.maxDaysPassInvoiceDate} or more days pass their due date."
+                          rendered="#{jobManager.filteredDocumentAvailable}"
+                          styleClass="#{jobManager.accountStatus}" />
+
+            <h:outputText value="Amount over #{jobManager.maxDaysPassInvoiceDate} days due:"
+                          styleClass="#{jobManager.totalInvoicesAmountOverMaxInvDays gt 0 ? 'hold' : 'active'}" />
+            <h:outputText value="#{jobManager.totalInvoicesAmountOverMaxInvDays}"
+                          styleClass="#{jobManager.totalInvoicesAmountOverMaxInvDays gt 0 ? 'hold' : 'active'}">
+                <f:convertNumber type="currency"/>
+            </h:outputText>
+
+            <h:outputText value="Amount outstanding:" styleClass="#{jobManager.totalInvoicesAmount gt 0 ? 'hold' : 'active'}" />
+            <h:outputText value="#{jobManager.totalInvoicesAmount}" styleClass="#{jobManager.totalInvoicesAmount gt 0 ? 'hold' : 'active'}" >
+                <f:convertNumber type="currency"/>
+            </h:outputText>
+
+            <ui:remove>
+                <h:outputText value="Credit limit:" style="font-weight: bold" />
+                <p:inputText value="#{jobManager.accPacCustomer.creditLimit}" readonly="true">
+                    <f:convertNumber type="currency"/>
+                </p:inputText>
+                <h:outputText value="Credit limit exceeded by:" style="font-weight: bold" />
+                <p:inputText value="#{jobManager.accPacCustomer.balanceDueCreditLimitDifference}" readonly="true">
+                    <f:convertNumber type="currency"/>
+                </p:inputText>
+            </ui:remove>
+        </h:panelGrid>
+    </p:panel>
+    <p:panel header="Invoices and Prepayments">
+        <h:panelGrid columns="2">
+            <h:outputLabel for="showPrepayments"  style="font-weight: bold;" value="Show prepayments: " />
+            <p:selectBooleanCheckbox id="showPrepayments"
+                                     style="vertical-align: middle"                                     
+                                     value="#{jobManager.showPrepayments}" >
+                <p:ajax listener="#{jobManager.updateCreditStatus}"
+                        update="invoiceTable,creditStatusSummary"
+                        global="true"                       
+                        process="@this"/>
+            </p:selectBooleanCheckbox>           
+        </h:panelGrid>   
+        <p:dataTable var="invoice"
+                     id="invoiceTable"
+                     paginator="true"
+                     rows="15"
+                     rowStyleClass="#{invoice.daysOverdue gt 45 ? 'overdue' : null}"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} page {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                     value="#{jobManager.filteredAccPacCustomerDocuments}">
+            <f:facet name="header">
+                <h:outputText value="Invoices and/or Prepayments (#{jobManager.numberOfFilteredAccPacCustomerDocuments})"/>
+            </f:facet>
+
+            <p:columnGroup type="header">
+                <p:row>
+                    <p:column rowspan="2" headerText="Doc. #" />   
+                    <p:column rowspan="2" headerText="Doc. Date" /> 
+                    <p:column rowspan="2" headerText="Due Date" /> 
+                    <p:column colspan="5" headerText="Days Overdue" /> 
+                </p:row>   
+
+                <p:row>               
+                    <p:column headerText="Current" /> 
+                    <p:column headerText="1 to 15" /> 
+                    <p:column headerText="16 to 30" /> 
+                    <p:column headerText="31 to 45" /> 
+                    <p:column headerText="Over 45" /> 
+                </p:row>              
+            </p:columnGroup>
+
+            <p:column sortBy="#{invoice.id}">            
+                <h:outputText value="#{invoice.id}"/>
+            </p:column>
+            <p:column sortBy="#{invoice.documentDate}">            
+                <h:outputText value="#{invoice.formattedDocumentDate}">
+                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                </h:outputText>
+            </p:column>
+            <p:column sortBy="#{invoice.dueDate}">            
+                <h:outputText value="#{invoice.formattedDueDate}">
+                    <f:convertDateTime type="date" pattern="yyyy-MM-dd"/>
+                </h:outputText>
+            </p:column> 
+            <p:column>            
+                <h:outputText value="#{invoice.rangeOfDaysOverDue eq 'current' ?  invoice.funcCurrencyAmountDue : ''}" >
+                    <f:convertNumber type="currency" currencySymbol="$" />
+                </h:outputText>               
+            </p:column>
+            <p:column>            
+                <h:outputText value="#{invoice.rangeOfDaysOverDue eq '1-15' ?  invoice.funcCurrencyAmountDue : ''}" >
+                    <f:convertNumber type="currency" currencySymbol="$" />
+                </h:outputText>               
+            </p:column>
+            <p:column>            
+                <h:outputText value="#{invoice.rangeOfDaysOverDue eq '16-30' ?  invoice.funcCurrencyAmountDue : ''}" >
+                    <f:convertNumber type="currency" currencySymbol="$" />
+                </h:outputText>               
+            </p:column>
+            <p:column>            
+                <h:outputText value="#{invoice.rangeOfDaysOverDue eq '31-45' ?  invoice.funcCurrencyAmountDue : ''}" >
+                    <f:convertNumber type="currency" currencySymbol="$" />
+                </h:outputText>               
+            </p:column>
+            <p:column>            
+                <h:outputText value="#{invoice.rangeOfDaysOverDue eq 'over 45' ?  invoice.funcCurrencyAmountDue : ''}" >
+                    <f:convertNumber type="currency" currencySymbol="$" />
+                </h:outputText>               
+            </p:column>
+
+        </p:dataTable>    
+
+        <h:outputText value="NB: Invoices highlighted in yellow are 45 days pass their invoice date."
+                      rendered="#{jobManager.filteredDocumentAvailable}"
+                      style="color: red;font-weight: bold;"/>
+    </p:panel>
+</html>

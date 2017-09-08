@@ -1,0 +1,549 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:form id="addressForm">
+        <p:dialog width="450"
+                  height="400"
+                  draggable="true"
+                  closable="false"
+                  modal="true"
+                  widgetVar="addressFormDialog"
+                  header="Address Detail" >
+            <p:commandButton value="Ok"
+                             actionListener="#{clientManager.okCurrentAddress}"
+                             icon="ui-icon-check"
+                             update=":clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             oncomplete="addressFormDialog.hide();"                             
+                             process="@form"/>
+            <hr/>
+            <h:panelGrid columns="2" style="width: 85%">       
+                <h:outputText value="Type:" />
+                <p:selectOneMenu value="#{clientManager.currentAddress.type}">
+                    <p:ajax
+                        global="true"
+                        listener="#{clientManager.updateCurrentAddress}"
+                        process="@this" />
+                    <f:selectItem itemLabel="Billing" itemValue="Billing" />
+                    <f:selectItem itemLabel="General" itemValue="General" />
+                </p:selectOneMenu>
+
+                <h:outputText value="Address (line 1):" />
+                <p:inputText value="#{clientManager.currentAddress.addressLine1}"
+                             style="width: 100%">
+                    <p:ajax event="keyup"
+                            global="true"
+                            listener="#{clientManager.updateCurrentAddress}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Address (line 2):" />
+                <p:inputText value="#{clientManager.currentAddress.addressLine2}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"
+                            listener="#{clientManager.updateCurrentAddress}"
+                            process="@this"/>
+                </p:inputText>                
+
+                <h:outputText value="Nearest City/Town:" />
+                <p:inputText value="#{clientManager.currentAddress.city}"
+                             style="width: 100%"
+                             id="clientCity" >
+                    <p:ajax event="keyup"
+                            global="true"
+                            listener="#{clientManager.updateCurrentAddress}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Parish/State/Province:" />
+                <p:selectOneMenu value="#{clientManager.client.billingAddress.stateOrProvince}" 
+                                 editable="true">
+                    <p:ajax
+                        global="true"
+                        listener="#{clientManager.updateClient}"
+                        process="@this" />
+                    <f:selectItems value="#{App.jamaicaParishes}" />
+                </p:selectOneMenu>
+                <ui:remove>
+                    <p:inputText value="#{clientManager.currentAddress.stateOrProvince}"
+                                 style="width: 100%">
+                        <p:ajax event="keyup"
+                                global="true"
+                                listener="#{clientManager.updateCurrentAddress}"
+                                process="@this"/>
+                    </p:inputText>
+                </ui:remove>
+
+            </h:panelGrid>    
+            <hr/>
+            <p:commandButton value="Ok"
+                             actionListener="#{clientManager.okCurrentAddress}"
+                             icon="ui-icon-check"
+                             update=":clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             oncomplete="addressFormDialog.hide();"                             
+                             process="@form"/>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="contactForm">
+        <p:dialog width="450"
+                  height="400"
+                  draggable="true"
+                  closable="false"
+                  modal="true"
+                  widgetVar="contactFormDialog"
+                  header="Contact Detail" >
+            <p:commandButton value="Ok"
+                             actionListener="#{clientManager.okCurrentContact}"
+                             icon="ui-icon-check"
+                             oncomplete="contactFormDialog.hide();"
+                             update=":clientForm:clientFormTabView:contactsTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             process="@form"/>
+            <hr/>
+
+            <h:panelGrid columns="2" style="width: 85%">
+
+                <h:outputText value="Type:" />
+                <p:selectOneMenu value="#{clientManager.currentContact.type}">
+                    <p:ajax
+                        global="true"
+                        listener="#{clientManager.updateCurrentContact}"
+                        process="@this" />
+                    <f:selectItems value="#{clientManager.contactTypes}" />
+                </p:selectOneMenu>
+
+                <h:outputText value="Title:" />
+                <p:inputText value="#{clientManager.currentContact.title}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>               
+
+                <h:outputText value="Firstname:" />
+                <p:inputText value="#{clientManager.currentContact.firstName}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Lastname:" />
+                <p:inputText value="#{clientManager.currentContact.lastName}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Position:" />
+                <p:inputText value="#{clientManager.currentContact.position}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Phone:" />
+                <p:inputText value="#{clientManager.currentContact.mainPhoneNumber.localNumber}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Email:" />
+                <p:inputText value="#{clientManager.currentContact.internet.email1}"
+                             style="width: 100%" >                
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Website:" />
+                <p:inputText value="#{clientManager.currentContact.internet.website1}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Fax:" />
+                <p:inputText value="#{clientManager.currentContact.mainFaxNumber.localNumber}"
+                             style="width: 100%">
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+            </h:panelGrid>
+            <hr/>
+            <p:commandButton value="Ok"
+                             actionListener="#{clientManager.okCurrentContact}"
+                             icon="ui-icon-check"
+                             oncomplete="contactFormDialog.hide();"
+                             update=":clientForm:clientFormTabView:contactsTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             process="@form"/>
+
+        </p:dialog>
+    </h:form>
+
+    <h:form id="clientForm">
+        <p:dialog width="700"
+                  height="600"
+                  draggable="true"
+                  modal="true"                  
+                  closable="false"
+                  widgetVar="clientFormDialog"
+                  header="Client" >      
+
+            <p:ajax event="close"                                      
+                    async="true"  
+                    onstart="longProcessDialogVar.show();"
+                    oncomplete="longProcessDialogVar.hide();clientFormTabVar.select(0);"
+                    update="clientForm"/>
+
+            <p:commandButton value="Ok"
+                             onstart="longProcessDialogVar.show();"
+                             actionListener="#{clientManager.okClient}"
+                             oncomplete="longProcessDialogVar.hide();"
+                             update="#{clientManager.componentsToUpdate}"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="Cancel"
+                             onstart="longProcessDialogVar.show();"
+                             actionListener="#{clientManager.cancelClientEdit}"
+                             oncomplete="clientFormDialog.hide();longProcessDialogVar.hide();"
+                             icon="ui-icon ui-icon-close" />
+            <hr/>
+            <p:tabView id="clientFormTabView"
+                       dynamic="true"
+                       widgetVar="clientFormTabVar" >
+                <p:tab title="General details">
+                    <h:panelGrid id="generalDetailsPanelGrid" columns="2" style="width: 85%">
+                        <h:outputText value="Name *:" style="font-weight: bold;" />
+                        <p:inputText value="#{clientManager.client.name}"                                    
+                                     readonly="#{!clientManager.clientNameEditable}"
+                                     style="#{clientManager.clientNameEditable ? 'background-color: white; width: 100%;' : 'background-color: lightgrey; width: 100%;'}"
+                                     validatorMessage="Please enter a valid name">
+                            <p:ajax event="keyup"
+                                    global="true"                                    
+                                    listener="#{clientManager.updateClient}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText value="TRN:"/>
+                        <p:inputText value="#{clientManager.client.taxRegistrationNumber}">
+                            <p:ajax event="keyup"
+
+                                    global="true"
+                                    listener="#{clientManager.updateClient}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText id="currentBillingAddress" value="Select billing address: " style="font-weight: bold"/>   
+                        <h:panelGroup>
+                            <p:selectOneMenu  value="#{clientManager.clientBillingAddressString}" 
+                                              style='width: 200px;'
+                                              editable="true">
+                                <f:selectItem itemLabel="-- Select an address --" itemValue="" />
+                                <f:selectItems  value="#{clientManager.clientAddresses}"/>                           
+                                <p:ajax listener="#{clientManager.updateBillingAddress}"
+                                        global="false"
+                                        update=":clientForm:clientFormTabView:generalDetailsPanelGrid,:clientForm:clientFormTabView:addressesTable"
+                                        process="@this"/>
+                            </p:selectOneMenu>                       
+                        </h:panelGroup>
+                        <ui:remove>
+                            <h:outputText id="billingAddress" 
+                                          value="#{clientManager.client.billingAddress}" 
+                                          style="font-weight: bold"/> 
+                        </ui:remove>
+
+
+                        <h:outputText value="Address (line 1):" />
+                        <p:inputText value="#{clientManager.client.billingAddress.addressLine1}"
+                                     style="width: 100%">
+                            <p:ajax event="keyup"
+                                    global="true"
+                                    update=":clientForm:clientFormTabView:addressesTable"
+                                    listener="#{clientManager.updateClient}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText value="Address (line 2):" />
+                        <p:inputText value="#{clientManager.client.billingAddress.addressLine2}"
+                                     style="width: 100%" >
+                            <p:ajax event="keyup"
+                                    global="true"
+                                    listener="#{clientManager.updateClient}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText value="Nearest City/Town:" />
+                        <p:inputText value="#{clientManager.client.billingAddress.city}"
+                                     style="width: 100%"
+                                     id="clientCity" >
+                            <p:ajax event="keyup"
+                                    global="true"
+                                    listener="#{clientManager.updateClient}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText value="Parish:" />
+                        <p:selectOneMenu value="#{clientManager.client.billingAddress.stateOrProvince}" 
+                                         editable="true">
+                            <p:ajax
+                                global="true"
+                                listener="#{clientManager.updateClient}"
+                                process="@this" />
+                            <f:selectItems value="#{App.jamaicaParishes}" />
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>                    
+
+                </p:tab>
+                <p:tab title="Addresses">
+                    <p:commandButton value="Add address"
+                                     update=":addressForm"
+                                     oncomplete="addressFormDialog.show();"
+                                     actionListener="#{clientManager.createNewAddress}"/>
+                    <p:dataTable id="addressesTable"
+                                 var="address"
+                                 paginator="true"
+                                 selection="#{clientManager.currentAddress}"
+                                 rowKey="#{address.addressLine1}"
+                                 rows="5"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 value="#{clientManager.addressesModel}">
+
+                        <p:ajax event="rowSelectRadio" 
+                                listener="#{clientManager.addressSelected}"
+                                update="addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid" />
+
+                        <f:facet name="header">
+                            Addresses
+                        </f:facet>
+
+                        <p:column headerText="Full address">                            
+                            <h:outputText value="#{address}" />
+                        </p:column>
+
+                        <p:column headerText="Type">                            
+                            <h:outputText value="#{address.type}" />
+                        </p:column>
+
+                        <p:column headerText="Select billing address"                                  
+                                  selectionMode="single" 
+                                  style="width:16px;text-align:center">                           
+                        </p:column>
+
+                        <p:column style="width:32px">
+                            <p:commandButton title="View/Edit address"
+                                             update=":addressForm"
+                                             oncomplete="addressFormDialog.show();"
+                                             global="true"
+                                             icon="ui-icon-pencil">
+                                <f:setPropertyActionListener value="#{address}"
+                                                             target="#{clientManager.currentAddress}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column style="width:32px">
+                            <p:commandButton title="Delete Address"
+                                             oncomplete="deleteAddressDialog.show();"
+                                             global="true"
+                                             icon="ui-icon-trash">
+                                <f:setPropertyActionListener value="#{address}"
+                                                             target="#{clientManager.currentAddress}" />
+                            </p:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+                    <p:commandButton value="Add address"
+                                     update=":addressForm"
+                                     oncomplete="addressFormDialog.show();"
+                                     actionListener="#{clientManager.createNewAddress}"/>
+                </p:tab>
+                <p:tab title="Contacts">
+                    <p:commandButton value="Add contact"
+                                     update=":contactForm"
+                                     oncomplete="contactFormDialog.show();"
+                                     actionListener="#{clientManager.createNewContact}"/>
+                    <p:dataTable id="contactsTable"
+                                 var="contact"
+                                 selection="#{clientManager.currentContact}"
+                                 rowKey="#{contact.firstName}"
+                                 paginator="true"
+                                 rows="5"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 value="#{clientManager.contactsModel}">
+
+                        <p:ajax event="rowSelectRadio" 
+                                listener="#{clientManager.contactSelected}"
+                                update="contactsTable,:clientForm:clientFormTabView:generalDetailsPanelGrid" />
+
+                        <f:facet name="header">
+                            Contacts
+                        </f:facet>                      
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Contact full name"/>
+                            </f:facet>
+                            <h:outputText value="#{contact.firstName} #{contact.lastName}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Phone"/>
+                            </f:facet>
+                            <h:outputText value="#{contact.mainPhoneNumber.localNumber}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>
+                            <h:outputText value="#{contact.internet.email1}" />
+                        </p:column>
+                        
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Type"/>
+                            </f:facet>
+                            <h:outputText value="#{contact.type}" />
+                        </p:column>
+
+                        <p:column headerText="Select main contact"                                  
+                                  selectionMode="single" 
+                                  style="width:16px;text-align:center">                           
+                        </p:column>
+
+                        <p:column style="width:32px">
+                            <p:commandButton title="View/Edit contact"
+                                             update=":contactForm"
+                                             oncomplete="contactFormDialog.show();"
+                                             global="true"
+                                             icon="ui-icon-pencil">
+                                <f:setPropertyActionListener value="#{contact}"
+                                                             target="#{clientManager.currentContact}" />
+                            </p:commandButton>
+                        </p:column>
+
+                        <p:column style="width:32px">
+                            <p:commandButton title="Delete contact"
+                                             oncomplete="deleteContactDialog.show();"
+                                             global="true"
+                                             icon="ui-icon-trash">
+                                <f:setPropertyActionListener value="#{contact}"
+                                                             target="#{clientManager.currentContact}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Add contact"
+                                     update=":contactForm"
+                                     oncomplete="contactFormDialog.show();"
+                                     actionListener="#{clientManager.createNewContact}"/>
+                </p:tab>
+                <p:tab title="Tracking">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Entered by:" />
+                        <p:inputText value="#{clientManager.client.enteredBy.name}"
+                                     readonly="true" 
+                                     style="background-color: grey !important;" />                  
+                        <h:outputText value="Date entered:" />
+                        <p:calendar value="#{clientManager.client.dateEntered}"                                    
+                                    style="background-color: grey !important;"
+                                    readonly="true"
+                                    readonlyInput="true"
+                                    showOn="none"   
+                                    pattern="MMM dd, yyyy" />                            
+
+                    </h:panelGrid>
+                </p:tab>
+            </p:tabView>
+            <hr/>
+            <p:commandButton value="Ok"
+                             onstart="longProcessDialogVar.show();"
+                             actionListener="#{clientManager.okClient}"
+                             oncomplete="clientFormDialog.hide();longProcessDialogVar.hide();"
+                             update="#{clientManager.componentsToUpdate}"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="Cancel"
+                             onstart="longProcessDialogVar.show();"
+                             actionListener="#{clientManager.cancelClientEdit}"
+                             oncomplete="clientFormDialog.hide();longProcessDialogVar.hide();"
+                             icon="ui-icon ui-icon-close" />
+
+        </p:dialog>
+    </h:form>     
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Are you sure you wish to delete this contact?"
+                         header="Delete Contact?"
+                         widgetVar="deleteContactDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{clientManager.removeContact}"
+                             onstart="longProcessDialogVar.show();"
+                             update=":clientForm:clientFormTabView:contactsTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             oncomplete="deleteContactDialog.hide();longProcessDialogVar.hide();"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             oncomplete="deleteContactDialog.hide();"
+                             icon="ui-icon-cancel"/>
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form id="clientManagerMessageDialogForm">
+        <p:confirmDialog severity="#{clientManager.dialogMessageSeverity}"
+                         closable="false"
+                         message="#{clientManager.dialogMessage}"
+                         header="#{clientManager.dialogMessageHeader}"
+                         widgetVar="clientManagerMessageDialog"
+                         width="425">
+
+            <p:commandButton value="Ok"
+                             onstart="longProcessDialogVar.show();"                                                    
+                             oncomplete="clientManagerMessageDialog.hide();longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"
+                             process="@this"
+                             icon="ui-icon-check"/>
+
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Are you sure you wish to delete this address?"
+                         header="Delete Address?"
+                         widgetVar="deleteAddressDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{clientManager.removeAddress}"
+                             onstart="longProcessDialogVar.show();"
+                             update=":clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             oncomplete="deleteAddressDialog.hide();longProcessDialogVar.hide();"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             oncomplete="deleteAddressDialog.hide();"
+                             icon="ui-icon-cancel"/>
+        </p:confirmDialog>
+    </h:form>
+
+</html>

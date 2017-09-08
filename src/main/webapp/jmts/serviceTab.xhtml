@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <p:tabView id="serviceDialogTabView"                       
+               widgetVar="serviceDialogTabViewVar">
+        <p:tab title="General Services">
+            <h:panelGrid id="serviceContract" columns="1" cellspacing="">
+                <p:panel header="Services Involved" >
+                    <h:panelGrid columns="3" cellspacing="10" >
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="testingService"
+                                                     value="#{jobManager.currentJob.serviceContract.serviceRequestedTesting}">
+                                <p:ajax listener="#{jobManager.updateJob}"                                       
+                                        global="false"
+                                        update="serviceContract,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="testingService" value="Testing"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="calibrationService" value="#{jobManager.serviceRequestedCalibration}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        global="false"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="calibrationService" value="Calibration"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="labelEvaluationService" value="#{jobManager.serviceRequestedLabelEvaluation}" >
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        global="false"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="labelEvaluationService" value="Label Evaluation"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="inspectionService" value="#{jobManager.serviceRequestedInspection}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        global="false"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="inspectionService" value="Inspection"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="consultancyService" value="#{jobManager.serviceRequestedConsultancy}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="consultancyService" value="Consultancy"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="trainingService" value="#{jobManager.serviceRequestedTraining}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="trainingService" value="Training"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="otherService" value="#{jobManager.serviceRequestedOther}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        update="otherServiceText,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="otherService" value="Other: "/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <p:inputText id="otherServiceText"
+                                         disabled="#{!jobManager.serviceRequestedOther}"
+                                         maxlength="250"
+                                         value="#{jobManager.currentJob.serviceContract.serviceRequestedOtherText}" >
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        event="keyup"
+                                        global="false"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </p:inputText>
+                        </h:panelGroup>
+
+                    </h:panelGrid>
+
+                </p:panel>
+
+                <p:panel header="Intended Market" >
+                    <h:panelGrid columns="3" cellspacing="10" >
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="localMarket" value="#{jobManager.intendedMarketLocal}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="localMarket" value="Local"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="caricomMarket" value="#{jobManager.intendedMarketCaricom}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="caricomMarket" value="Caricom"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="ukMarket" value="#{jobManager.intendedMarketUK}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="ukMarket" value="UK"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="usaMarket" value="#{jobManager.intendedMarketUSA}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="usaMarket" value="USA"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="canadaMarket" value="#{jobManager.intendedMarketCanada}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="canadaMarket" value="Canada"/>
+                        </h:panelGroup>
+
+                        <h:panelGroup>
+                            <h:selectBooleanCheckbox id="otherIntendedMarket" value="#{jobManager.intendedMarketOther}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        update="otherIntendedMartketText,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="otherIntendedMarket" value="Other: "/>
+                            <p:inputText id="otherIntendedMartketText"
+                                         disabled="#{!jobManager.intendedMarketOther}"
+                                         maxlength="250"
+                                         value="#{jobManager.currentJob.serviceContract.intendedMarketOtherText}">
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        global="false"
+                                        event="keyup"
+                                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                        process="@this"/>
+                            </p:inputText>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                </p:panel>
+
+                <p:panel header="Special Instructions" >
+                    <p:inputTextarea
+                        id="specialInstructions"
+                        value="#{jobManager.currentJob.serviceContract.specialInstructions}"
+                        maxlength="250"
+                        counter="specialInstructionsCharsRemaining"
+                        counterTemplate="{0} characters remaining."
+                        autoResize="true"
+                        rows="3"
+                        style="width:100%">
+                        <p:ajax listener="#{jobManager.updateJob}"
+                                global="false"
+                                event="keyup"
+                                update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                process="@this"/>
+                    </p:inputTextarea>
+                    <br/>
+                    <h:outputText id="specialInstructionsCharsRemaining" /> 
+                </p:panel>
+            </h:panelGrid>
+        </p:tab>
+        <p:tab title="Additional Services">
+            <p:panel header="Additional Services Requested" >
+                <h:panelGrid columns="1" cellspacing="10" >
+                    <h:panelGroup>
+                        <h:selectBooleanCheckbox id="additionalServiceUrgent" value="#{jobManager.currentJob.serviceContract.additionalServiceUrgent}">
+                            <p:ajax listener="#{jobManager.updateJob}"
+                                    global="false"
+                                    update="serviceContract,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                    process="@this"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="additionalServiceUrgent" value="Urgent (Additional charge incurred - call for more information)"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <h:selectBooleanCheckbox id="additionalServiceFaxResults" value="#{jobManager.currentJob.serviceContract.additionalServiceFaxResults}">
+                            <p:ajax listener="#{jobManager.updateJob}"
+                                    global="false"
+                                    update="serviceContract,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                    process="@this"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="additionalServiceFaxResults" value="Fax/Email Results (Subject to approval)"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <h:selectBooleanCheckbox id="additionalServiceTelephonePresumptiveResults" value="#{jobManager.currentJob.serviceContract.additionalServiceTelephonePresumptiveResults}">
+                            <p:ajax listener="#{jobManager.updateJob}"
+                                    global="false"
+                                    update="serviceContract,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                    process="@this"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="additionalServiceTelephonePresumptiveResults" value="Telephone presumptive results"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <h:selectBooleanCheckbox id="additionalServiceSendMoreContractForms" value="#{jobManager.currentJob.serviceContract.additionalServiceSendMoreContractForms}">
+                            <p:ajax listener="#{jobManager.updateJob}"
+                                    global="false"
+                                    update="serviceContract,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                    process="@this"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="additionalServiceSendMoreContractForms" value="Send more service contract forms"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <h:selectBooleanCheckbox id="additionalServiceOther" value="#{jobManager.currentJob.serviceContract.additionalServiceOther}">
+                            <p:ajax listener="#{jobManager.updateJob}"
+                                    global="false"
+                                    update="additionalServiceOtherText,serviceContract,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                    process="@this"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="additionalServiceOther" value="Other: "/>
+                        <p:inputText id="additionalServiceOtherText"
+                                     maxlength="250"
+                                     disabled="#{!jobManager.currentJob.serviceContract.additionalServiceOther}"
+                                     value="#{jobManager.currentJob.serviceContract.additionalServiceOtherText}">
+                            <p:ajax listener="#{jobManager.updateJob}"
+                                    global="false"
+                                    event="keyup"
+                                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                    process="@this"/>
+                        </p:inputText>
+                    </h:panelGroup>
+
+                </h:panelGrid>
+
+            </p:panel>
+        </p:tab>
+    </p:tabView>           
+</html>

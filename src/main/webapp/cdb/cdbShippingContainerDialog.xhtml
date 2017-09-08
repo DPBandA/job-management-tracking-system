@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:dialog width="400"
+              height="200"
+              draggable="true"
+              modal="true"      
+              closable="false"
+              widgetVar="ShippingContainerDialog"
+              header="Container" >
+
+        <p:commandButton value="Close"      
+                         onstart="longProcessDialogVar.show();"                            
+                         update="#{complianceManager.shippingContainerTableToUpdate}"
+                         oncomplete="ShippingContainerDialog.hide();longProcessDialogVar.hide();"
+                         icon="ui-icon-close"
+                         process="@form"/>
+        <hr/>
+        <h:panelGrid columns="2" cellspacing="5" >
+            <h:outputText value="Number *: " />
+            <p:inputText value="#{complianceManager.currentShippingContainer.number}" >
+                <p:ajax
+                    global="true"
+                    listener="#{complianceManager.updateJob}"
+                    process="@this" />
+            </p:inputText>    
+
+            <h:outputText value="Size Description: " />
+            <p:inputText value="#{complianceManager.currentShippingContainer.sizeDescription}" >
+                <p:ajax
+                    global="true"
+                    listener="#{complianceManager.updateJob}"
+                    process="@this" />
+            </p:inputText>  
+
+            <h:outputText value="Percentage detained: " />
+            <h:selectOneMenu id="surveyType"
+                             value="#{complianceManager.currentShippingContainer.percentageDetained}" >
+                <p:ajax
+                    global="true"                       
+                    listener="#{complianceManager.updateJob}"  
+                    process="@this" />
+                <f:selectItems value="#{complianceManager.shippingContainerDetainPercentages}" />
+            </h:selectOneMenu>
+
+        </h:panelGrid>
+        <hr/>
+        <p:commandButton value="Close"      
+                         onstart="longProcessDialogVar.show();"                            
+                         update="#{complianceManager.shippingContainerTableToUpdate}"
+                         oncomplete="ShippingContainerDialog.hide();longProcessDialogVar.hide();"
+                         icon="ui-icon-close"
+                         process="@form"/>
+    </p:dialog>
+
+</html>

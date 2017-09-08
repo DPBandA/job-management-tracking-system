@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Job Management &amp; Tracking System</title>        
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="../css/jquery-ui-1.10.3.custom.min.css" /> 
+        <link rel="stylesheet" href="../themes/home/theme.css" />  
+        <link rel="stylesheet" href="../css/primeui-1.0.RC1-min.css" /> 
+        <link rel="stylesheet" href="../css/layout-default-latest.css" /> 
+        <script type="text/javascript" src="../js/jquery-1.9.1.js"></script> 
+        <script type="text/javascript" src="../js/jquery-ui-1.10.3.custom.min.js"></script> 
+        <script type="text/javascript" src="../js/primeui-1.0.RC1-min.js"></script> 
+        <script type="text/javascript" src="../js/jquery.layout-latest.min.js"></script> 
+        <script type="text/javascript" src="../js/utils.js"></script>        
+        <script type="text/javascript" src="../js/index.js"></script>  
+        <script type="text/javascript" src="../js/jmts.js"></script>  
+        <script type="text/javascript" src="../js/search.js"></script>
+        <script type="text/javascript">
+            function init() {
+                JMTS.logout();
+            };
+        </script>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 80%;
+            }  
+        </style>
+    </head>
+    <body onload="init();">
+        <div id="messages"></div> 
+        <div id="loginDialogId" title="Job Management &amp; Tracking System Login">
+            <label id="loginDialogMessage" style="font-weight: bold">Please provide your login details below:</label>
+            <table border="0"  cellspacing='10' cellpadding='0'>
+                <tr>
+                    <td><label>Username *:</label></td>
+                    <td><input id="usernameId" type="text"/></td>
+                </tr>
+                <tr>
+                    <td><label>Password *:</label></td>
+                    <td><input id="passwordId" type="password"/></td>
+                </tr>
+            </table>
+            <button id="loginButtonId" type="button">Login</button>  
+        </div>
+        <div id="messageDialogId" title="Error">
+            <label id="messageDialogMessage">?</label>  
+        </div>
+
+        <div id="jobDetailDialogId" title="Job Detail">              
+            <button id="saveJobButton1Id" type="button">Save</button>  
+            <button id="closeJobDialogButton1Id" type="button" style="margin-right: 100px">Close</button>  
+            <button id="copyJobButton1Id" type="button" style="margin-right: 200px">Copy</button>  
+            <button id="jobFormMenuTrigger" type="button">Forms</button>  
+            <ul id="jobFormMenu">                  
+                <li> <a onclick="alert('yes');">Service Contract</a></li>                  
+            </ul>  
+            <hr/>
+            <div id="jobDetailTabViewId">  
+                <ul>  
+                    <li><a href="#generalTabId">General</a></li>  
+                    <li><a href="#jobCostingTabId">Job Costing</a></li>  
+                    <li><a href="#serviceTabId">Service</a></li>  
+                    <li><a href="#jobStatusAndTrackingTabId">Job Status &amp; Tracking</a></li>
+                    <li><a href="#classificationTabId">Classification</a></li>
+                    <li><a href="#reportingTabId">Reporting</a></li>
+                </ul>  
+                <div>  
+                    <div id="generalTabId">       
+                        <table border="0"  cellspacing='5' cellpadding='0'>
+                            <tr>
+                                <td><label>Business office *:</label></td>
+                                <td><input id="businessOfficeId" type="text"/></td>
+                            </tr>
+                            <tr>
+                                <td><label>Job number *:</label></td>
+                                <td><input id="jobNumberId" type="text" style="margin-right: 5px; width: 230px"/>
+                                    <input type="checkbox" name="autoJobNumber" id="autoJobNumberId" value="1" style="margin-right: 5px; width: 230px"/>
+                                    <label>auto</label></td>                               
+                            </tr>
+                            <tr>
+                                <td><label>Client *:</label></td>
+                                <td><input id="clientId" type="text" style="width: 250px"/></td>
+                            </tr>
+                            <tr>
+                                <td><label>Date submitted *:</label></td>
+                                <td><input type="text" id="dateSubmittedDatepickerId" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Department *:</label></td>
+                                <td><input id="departmentId" type="text" style="width: 250px"/></td>
+                            </tr>
+                            <tr>
+                                <td><label>Subcontracted dept.:</label></td>
+                                <td><input id="subContractedDepartmentId" type="text" style="width: 250px"/></td>
+                            </tr>
+                            <tr>
+                                <td><label>Dept. Rep./Assignee *:</label></td>
+                                <td><input id="assigneeId" type="text" style="width: 250px"/></td>
+                            </tr>
+                        </table>
+                        <div id="jobSamplesPanelId" title="Job Samples">
+                            <button id="addJobSampleButtonId" type="button">Add sample(s)</button> 
+                            <div id="jobSamplesTableId"></div>  
+                            <button id="addJobSampleButton2Id" type="button">Add sample(s)</button> 
+                        </div>
+                    </div>  
+                    <div id="jobCostingTabId"> 
+                        <div id="costingPanelId" title="Costing">
+                            <table border="0"  cellspacing='3' cellpadding='0'>                           
+                                <tr>
+                                    <td><label>Purchase order #:</label></td>
+                                    <td><input id="purchaseOrderNumberId" type="text" style="width: 230px;"/></td>                               
+                                </tr>
+                                <tr>
+                                    <td><label>Cost estimate($):</label></td>
+                                    <td><input id="costEstimateId" type="text" style="width: 230px;"/></td>                               
+                                </tr> 
+                                <tr>
+                                    <td><label>Minimum deposit required($):</label></td>
+                                    <td><input id="minimumDepositRequiredId" type="text" style="width: 230px;"/></td>                               
+                                </tr>         
+                                <tr>
+                                    <td><label>Payment terms:</label></td>
+                                    <td><textarea id="paymentTermsId" rows="3" cols="50"></textarea></td>                               
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="invoicingAndPaymentPanelId" title="Invoicing and Payment">
+                            <table border="0"  cellspacing='3' cellpadding='0'>                           
+                                <tr>
+                                    <td><label>Invoice number:</label></td>
+                                    <td><input id="invoiceNumberId" type="text" style="width: 230px;"/></td>                               
+                                </tr>  
+                                <tr>
+                                    <td><label>Receipt #(s):</label></td>
+                                    <td><input id="receiptNumberId" type="text" style="width: 230px;"/></td>                               
+                                </tr> 
+                                <tr>
+                                    <td><label>Total deposit($):</label></td>
+                                    <td><input id="totalDepositId" type="text" style="width: 230px;"/></td>                               
+                                </tr> 
+                                <tr>
+                                    <td><label>Deposit date:</label></td>
+                                    <td><input type="text" id="depositDateDatepickerId" /></td>                               
+                                </tr> 
+                                <tr>
+                                    <td><label>Final cost ($):</label></td>
+                                    <td><input id="finalCostId" type="text" style="width: 230px;"/></td>                               
+                                </tr> 
+
+
+                            </table>
+                        </div>
+                    </div>  
+                    <div id="serviceTabId"> 
+                    </div>  
+                    <div id="jobStatusAndTrackingTabId"> 
+                    </div> 
+                    <div id="classificationTabId"> 
+                    </div> 
+                    <div id="reportingTabId"> 
+                    </div> 
+                </div>  
+            </div>
+
+            <hr/>
+            <button id="saveJobButton2Id" type="button">Save</button>  
+            <button id="closeJobDialogButton2Id" type="button" style="margin-right: 100px">Close</button>  
+            <button id="copyJobButton2Id" type="button" style="margin-right: 200px">Copy</button>  
+
+        </div>
+
+        <div id="centreLayoutId" class="ui-layout-center">
+            <div id="mainTabView">  
+                <ul>  
+                    <li><a href="#jobTab">Jobs</a></li>                     
+                </ul>  
+                <div>  
+                    <div id="jobTab">                         
+                        <div id="jobsTable"></div>  
+                        <div id="wait" style="display:none;width:24px;height:24px;border:0px solid black;position:absolute;top:50%;left:50%;padding:2px;">
+                            <img src='../images/ajaxloading.gif' width="20" height="20" />
+                        </div>
+                    </div>                    
+                </div>  
+            </div>  
+        </div>
+        <div id="northLayoutId" class="ui-layout-north">
+            <div id="headerPanel" title="Job Management &amp; Tracking System">  
+                <table border="0" width="100%">
+                    <tr>
+                        <td>
+                            <img src="../images/BSJ_Logo.jpg" width="272" height="41" alt="BSJ Logo"/>
+                        </td>
+                        <td align="center">
+                            <label style="color: gray; font-size: 14pt; font-weight: bold">Job Management &amp; Tracking System</label>  
+
+                        </td>
+                        <td align="right">
+                            <button id="userMenuTrigger" type="button">Desmond Bennett</button>  
+                            <ul id="userMenu">                                  
+                                <li> <a onclick="alert('yes');">Preference</a></li>                                 
+                                <li><hr/></li>                                  
+                                <li> <a data-icon="ui-icon-circle-arrow-w" onclick="JMTS.logout();">Logout</a></li>  
+                            </ul>  
+                        </td>
+
+                    </tr>
+
+                </table>
+            </div>
+        </div>          
+        <div id="westLayoutId" class="ui-layout-west" >
+            <div id="searchPanel" title="Search">                 
+                <table border="0" width="100%" cellspacing='5' cellpadding='0'>
+                    <tr>
+                        <td>                               
+                            <label>Search type:</label>
+                        </td>
+                        <td>
+                            <select id="searchTypeId" name="searchType">  
+                                <option value="General">General</option>  
+                                <option value="My jobs">My jobs</option>  
+                                <option value="My department's jobs">My department's jobs</option>                                     
+                            </select> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Date field:</label> 
+                        </td>
+                        <td>
+                            <select id="dateFieldId" name="dateField">  
+                                <option value="dateSubmitted">Date submitted</option>  
+                                <option value="dateOfCompletion">Date completed</option>                                                                        
+                            </select> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Date period:</label> 
+                        </td>
+                        <td>
+                            <select id="datePeriodId" name="datePeriod">                                       
+                                <option value="This month">This month</option>  
+                                <option value="Last month">Last month</option>      
+                                <option value="Custom">Custom</option>     
+                            </select> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Start date:</label> 
+                        </td>
+                        <td>
+                            <input type="text" id="startDatepickerId" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>End date:</label> 
+                        </td>
+                        <td>
+                            <input type="text" id="endDatepickerId" />
+                        </td>
+                    </tr>                        
+                </table>                   
+                <hr/>
+                <table>
+                    <tr>
+                        <td>
+                            <input id="searchTextId" type="text" />                                
+                        </td>
+                        <td>
+                            <button id="searchButtonId" type="button">Search</button>                               
+                        </td>
+
+                    </tr>
+                </table>              
+            </div> 
+        </div>   
+    </body>
+</html>

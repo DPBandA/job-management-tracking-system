@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <h:panelGrid id="jobGrouping" columns="2" >
+        
+
+        <h:outputText value="Sector:" style="font-weight: bold" />
+        <h:selectOneMenu  value="#{jobManager.sectorId}">
+            <p:ajax listener="#{jobManager.updateSector}"
+                    global="false"
+                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                    process="@this" />
+            <f:selectItems  value="#{jobManager.activeSectors}"
+                            var="sector"
+                            itemValue="#{sector.id}"
+                            itemLabel="#{sector.name}"/>
+        </h:selectOneMenu>
+
+        <h:outputText value="Category:" style="font-weight: bold" />
+        <h:selectOneMenu  id="category"
+                          value="#{jobManager.categoryId}">
+            <p:ajax listener="#{jobManager.updateJobCategory}"
+                    global="false"
+                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                    process="@this" />
+            <f:selectItems  value="#{jobManager.activeJobCategories}"
+                            var="jobCategory"
+                            itemValue="#{jobCategory.id}"
+                            itemLabel="#{jobCategory.category}"/>
+        </h:selectOneMenu>
+
+        <h:outputText value="Subcategory:" style="font-weight: bold" />
+        <h:selectOneMenu  id="subCategory"
+                          value="#{jobManager.subCategoryId}">
+            <p:ajax listener="#{jobManager.updateJobSubCategory}"
+                    global="false"
+                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                    process="@this" />
+            <f:selectItems  value="#{jobManager.activeJobSubCategories}"
+                            var="jobSubCategory"
+                            itemValue="#{jobSubCategory.id}"
+                            itemLabel="#{jobSubCategory.subCategory}"/>
+        </h:selectOneMenu>
+    </h:panelGrid>          
+</html>

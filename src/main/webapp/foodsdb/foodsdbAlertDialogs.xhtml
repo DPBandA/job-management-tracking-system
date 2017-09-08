@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="The form data was changed. Do you wish to save the changes?"
+                         header="Form Data Changed"
+                         widgetVar="formDataChangeDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{jobManager.saveFormData}"
+                             oncomplete="formDataChangeDialog.hide();handleSaveEntityRequest(xhr,status,args);foodFactoryDialog.hide();"
+                             update="#{jobManager.foodFactoryDialogToUpdate}"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             actionListener="#{jobManager.cancelFormData}"
+                             oncomplete="foodFactoryDialog.hide();formDataChangeDialog.hide();"
+                             icon="ui-icon-cancel"/>
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Are you sure you wish to delete this address?"
+                         header="Delete Address?"
+                         widgetVar="deleteAddressDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{jobManager.removeAddress}"
+                             update="#{jobManager.addressDialogToUpdate}"
+                             oncomplete="deleteAddressDialog.hide();"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             oncomplete="deleteAddressDialog.hide();"
+                             icon="ui-icon-cancel"/>
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Are you sure you wish to delete this contact?"
+                         header="Delete Contact?"
+                         widgetVar="deleteContactDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{jobManager.removeContact}"
+                             update="#{jobManager.contactDialogToUpdate}"
+                             oncomplete="deleteContactDialog.hide();"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             oncomplete="deleteContactDialog.hide();"
+                             icon="ui-icon-cancel"/>
+        </p:confirmDialog>
+    </h:form>
+    
+    <h:form>
+        <p:confirmDialog severity="info"
+                         closable="false"
+                         message="You are trying to enter a name that already exists. Please enter a new name."
+                         header="Already Exists"
+                         widgetVar="entityExistsDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="entityExistsDialog.hide();"
+                             icon="ui-icon-check"/>        
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Please select or enter a valid factory name."
+                         header="Invalid Factory Name"
+                         widgetVar="invalidNameDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="invalidNameDialog.hide();"
+                             icon="ui-icon-check"/>        
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="You are trying to enter a client that already exists. Please enter a new client name."
+                         header="Client Exists"
+                         widgetVar="clientExistsDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="clientExistsDialog.hide();"
+                             icon="ui-icon-check"/>        
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="An undefined error occured. Ensure that all required fields are filled out and try again."
+                         header="Undefined Error"
+                         widgetVar="undefinedErrorDialog"
+                         width="400">
+            <p:commandButton value="Ok"
+                             onclick="undefinedErrorDialog.hide();"
+                             icon="ui-icon-check"/>        
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Please select or enter a valid client name."
+                         header="Invalid Client Name"
+                         widgetVar="invalidClientNameDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="invalidClientNameDialog.hide();"
+                             icon="ui-icon-check"/>
+
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Please enter a valid client name. If the client does not exist in the list, press the 'add' button to enter a new client."
+                         header="Invalid Client"
+                         widgetVar="invalidClientDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="invalidClientDialog.hide();"
+                             icon="ui-icon-check"/>       
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         message="Please enter all required values."
+                         header="Value(s) Required"
+                         widgetVar="alertDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="alertDialog.hide();"
+                             icon="ui-icon-check"
+                             />
+
+        </p:confirmDialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         message="Please enter all required values."
+                         header="Value(s) Required"
+                         widgetVar="requiredValuesAlertDialog"
+                         width="400">
+
+            <p:commandButton value="Ok"
+                             onclick="requiredValuesAlertDialog.hide();"
+                             icon="ui-icon-check"
+                             />
+
+        </p:confirmDialog>
+    </h:form>
+</html>

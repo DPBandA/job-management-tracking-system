@@ -17,7 +17,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.naming.NamingEnumeration;
 import javax.naming.directory.SearchControls;
-//import javax.naming.ldap.LdapContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -64,30 +63,10 @@ public class App {
      * Creates a new instance of Application
      */
     public App() {
-
         // init themes
         themes.put("Aristo", "aristo");
         themes.put("Black-Tie", "black-tie");
         themes.put("Redmond", "redmond");
-
-        // tk init jamaica parishes to put into database
-        // Cornwall County
-//        jaParishes.add(new SelectItem("Hanover", "Hanover"));
-//        jaParishes.add(new SelectItem("Saint Elizabeth", "Saint Elizabeth"));
-//        jaParishes.add(new SelectItem("Saint James", "Saint James"));
-//        jaParishes.add(new SelectItem("Trelawny", "Trelawny"));
-//        jaParishes.add(new SelectItem("Westmoreland", "Westmoreland"));
-//        // Middlesex County
-//        jaParishes.add(new SelectItem("Clarendon", "Clarendon"));
-//        jaParishes.add(new SelectItem("Manchester", "Manchester"));
-//        jaParishes.add(new SelectItem("Saint Ann", "Saint Ann"));
-//        jaParishes.add(new SelectItem("Saint Catherine", "Saint Catherine"));
-//        jaParishes.add(new SelectItem("Saint Mary", "Saint Mary"));
-//        // Surrey County
-//        jaParishes.add(new SelectItem("Kingston", "Kingston"));
-//        jaParishes.add(new SelectItem("Portland", "Portland"));
-//        jaParishes.add(new SelectItem("Saint Andrew", "Saint Andrew"));
-//        jaParishes.add(new SelectItem("Saint Thomas", "Saint Thomas"));
     }
 
     // tk put into Main

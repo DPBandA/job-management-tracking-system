@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:dialog width="600"
+              height="550"
+              draggable="true"
+              modal="true"
+              widgetVar="clientDialog"
+              header="Client" >
+        <h:form id="clientDialogForm">
+            <p:tabView id="clientTabView"
+                       widgetVar="clientTabVar" >
+                <p:tab title="Contact details">
+
+                    <h:panelGrid columns="2" style="width: 85%">
+                        <h:outputText value="Name *:" style="font-weight: bold;" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.name}"
+                                     id="clientName"
+                                     style="width: 100%"                                     
+                                     validatorMessage="Please enter a valid name">
+                            <p:ajax event="change"
+                                    global="false"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText value="Billing address" style="font-weight: bold"/>
+                        <h:outputText value="" />
+
+                        <h:outputText value="Address (line 1):" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.billingAddress.addressLine1}"
+                                     style="width: 100%"
+                                     id="clientAddressLine1" />
+
+                        <h:outputText value="Address (line 2):" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.billingAddress.addressLine2}"
+                                     style="width: 100%"
+                                     id="clientAddressLine2" />
+
+                        <h:outputText value="Parish:" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.billingAddress.stateOrProvince}"
+                                     style="width: 100%"
+                                     id="clientStateOrProvince" />
+
+                        <h:outputText value="City:" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.billingAddress.city}"
+                                     style="width: 100%"
+                                     id="clientCity" />
+
+                        <h:outputText value="Contact details" style="font-weight: bold"/>
+                        <h:outputText value="" />
+
+                        <h:outputText value="Contact first name:" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.mainContact.firstName}"
+                                     style="width: 100%"
+                                     id="contactFirstname" />
+
+                        <h:outputText value="Contact last name:" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.mainContact.lastName}"
+                                     style="width: 100%"
+                                     id="contactLastname" />
+
+                        <h:outputText value="Phone:" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.mainContact.mainPhoneNumber.localNumber}"
+                                     style="width: 100%"
+                                     id="contactPhoneNumber" />
+
+                        <h:outputText value="Fax:" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.mainContact.mainFaxNumber.localNumber}"
+                                     style="width: 100%"
+                                     id="contactFaxNumber" />
+
+                        <h:outputText value="Internet" style="font-weight: bold"/>
+                        <h:outputText value="" />
+
+                        <h:outputText value="Email:" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.internet.email1}"
+                                     style="width: 100%"
+                                     id="clientEmail1" />
+                             
+                        <h:outputText value="Website:" />
+                        <p:inputText value="#{humanResourceManager.currentDocument.externalClient.internet.website1}"
+                                     style="width: 100%"
+                                     id="clientWebsite" />
+                    </h:panelGrid>
+                    <hr/>
+                    <p:commandButton value="Ok"
+                                     actionListener="#{humanResourceManager.saveClient}"
+                                     oncomplete="clientDialog.hide();"
+                                     update=":documentDialogForm:docTabView:client"
+                                     icon="ui-icon-check"
+                                     process="@form"/>
+                    <p:commandButton value="Cancel"
+                                     actionListener="#{humanResourceManager.cancelClientEdit}"
+                                     onclick="clientDialog.hide();"
+                                     icon="ui-icon ui-icon-close" />
+                </p:tab>               
+            </p:tabView>
+
+        </h:form>
+    </p:dialog>
+</html>

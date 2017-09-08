@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form id="preferencesDialogForm">
+
+        <p:dialog width="600"
+                  height="400"
+                  draggable="true"
+                  modal="true"
+                  widgetVar="preferencesDialog"
+                  maximizable="false"
+                  closable="true"
+                  header="Preferences" >
+
+            <p:ajax event="close"    
+                    onstart="longProcessDialogVar.show();"
+                    oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
+                    listener="#{jobManager.closePreferencesDialog2(event)}"/>
+
+            <p:commandButton value="Close" 
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
+                             actionListener="#{jobManager.closePreferencesDialog1(event)}" />
+            <hr/>
+            <p:tabView id="preferencesTabView" >
+                <p:tab title="General" id="generalTab">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Theme:"/>
+                        <p:themeSwitcher value="#{main.user.userInterfaceThemeName}" 
+                                         style="width:165px" 
+                                         id="defaultSwitcher">  
+                            <f:selectItem itemLabel="Choose Theme" itemValue="" />  
+                            <f:selectItems value="#{App.themes}" />  
+                            <p:ajax listener="#{jobManager.updatePreferences}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:themeSwitcher>  
+
+                        <h:outputText value="Job table view:"/>
+                        <p:autoComplete forceSelection="true"                               
+                                        maxlength="250"
+                                        value="#{jobManager.user.jobTableViewPreference}"
+                                        title="#{jobManager.user.jobTableViewPreference}"                                      
+                                        dropdown="true"                                       
+                                        completeMethod="#{jobManager.completePreferenceValue}" >
+                            <p:ajax event="itemSelect"
+                                    listener="#{jobManager.updatePreferedJobTableView}"
+                                    global="false"                                    
+                                    process="@this" />
+                            <p:ajax event="keyup"
+                                    listener="#{jobManager.updatePreferedJobTableView}"
+                                    global="false"                                    
+                                    process="@this" />
+                        </p:autoComplete>                        
+
+                    </h:panelGrid>
+                </p:tab>
+                <p:tab title="Modules" id="modulesTab">
+                    <h:panelGrid columns="2" id="modulesTabPanelGrid">
+
+                        <h:selectBooleanCheckbox id="jobManagementAndTrackingUnitCheckbox" 
+                                                 disabled="false"
+                                                 value="#{jobManager.user.jobManagementAndTrackingUnit}" >
+                            <p:ajax listener="#{jobManager.updatePreferences}"
+
+                                    global="false"
+                                    process="@this"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="jobManagementAndTrackingUnitCheckbox" value="Job Management &amp; Tracking" />
+                        <ui:remove>
+                            <h:selectBooleanCheckbox id="foodsUnitCheckbox" value="#{jobManager.user.foodsUnit}" >
+                                <p:ajax listener="#{jobManager.updatePreferences}"
+                                        update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
+                                        global="false"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>    
+                            <h:outputLabel for="foodsUnitCheckbox" value="Food Factories"/>
+
+                            <h:selectBooleanCheckbox id="serviceRequestUnitCheckbox"                                                  
+                                                     value="#{jobManager.user.serviceRequestUnit}" >
+                                <p:ajax listener="#{jobManager.updatePreferences}"
+                                        update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
+                                        global="false"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="serviceRequestUnitCheckbox" value="Service Request"/>
+                        </ui:remove>
+
+                        <h:selectBooleanCheckbox id="financialAdminUnitCheckbox" 
+                                                 rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}"
+                                                 value="#{jobManager.user.financialAdminUnit}" >
+                            <p:ajax listener="#{jobManager.updatePreferences}"
+                                    update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
+                                    global="false"
+                                    process="@this"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}" 
+                                       for="financialAdminUnitCheckbox" value="Financial Administration"/>      
+
+                        <h:selectBooleanCheckbox id="adminUnitCheckbox" 
+                                                 disabled="#{!jobManager.user.privilege.canBeJMTSAdministrator}"
+                                                 value="#{jobManager.user.adminUnit}" >
+                            <p:ajax listener="#{jobManager.updatePreferences}"
+                                    update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
+                                    global="false"
+                                    process="@this"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="adminUnitCheckbox" value="System Administration"/>                          
+
+
+                        <h:selectBooleanCheckbox id="complianceUnitCheckbox" value="#{jobManager.user.complianceUnit}" >
+                            <p:ajax listener="#{jobManager.updatePreferences}"
+                                    update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
+                                    global="false"
+                                    process="@this"/>
+                        </h:selectBooleanCheckbox>
+                        <h:outputLabel for="complianceUnitCheckbox" value="Standards Compliance"/>
+
+                        <ui:remove>
+                            <h:selectBooleanCheckbox id="legalMetrologyUnitCheckbox" value="#{jobManager.user.legalMetrologyUnit}" >
+                                <p:ajax listener="#{jobManager.updatePreferences}"
+                                        update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
+                                        global="false"
+                                        process="@this"/>
+                            </h:selectBooleanCheckbox>
+                            <h:outputLabel for="legalMetrologyUnitCheckbox" value="Legal Metrology"/>       
+                        </ui:remove>
+
+
+                    </h:panelGrid> 
+                </p:tab>
+            </p:tabView>
+            <hr/>           
+            <p:commandButton value="Close" 
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
+                             actionListener="#{jobManager.closePreferencesDialog1(event)}" />
+        </p:dialog>
+    </h:form>
+</html>

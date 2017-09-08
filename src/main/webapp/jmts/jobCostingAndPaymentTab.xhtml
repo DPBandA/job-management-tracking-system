@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:panel id="jobCosting" header="Costing">
+        <h:panelGrid columns="3">
+            <h:outputText value="Purchase order #: "/>
+            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
+                         disabled="#{!jobManager.isAuthorizedToModifyCostings}"
+                         maxlength="250">
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+            </p:inputText>
+            <h:outputText value="&nbsp;"/>
+
+            <h:outputText value="Cost estimate($): "/>
+            <h:panelGroup>
+                <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.estimatedCost}"
+                             disabled="#{!jobManager.isAuthorizedToModifyCostings}"
+                             maxlength="250">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    <p:ajax event="keyup"
+                            global="false"
+                            update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,estimatedCostIncludingTaxes"
+                            listener="#{jobManager.updateJobCostingEstimate}"
+                            process="@this"/>
+                </p:inputText>
+                <h:outputText value="&nbsp;"/>
+                <h:outputText value="&nbsp;"/>
+            </h:panelGroup>
+            <h:outputText value="&nbsp;"/>            
+
+            <h:outputText value="Minimum deposit required($): "/>
+            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.minDeposit}"
+                         disabled="#{!jobManager.isAuthorizedToModifyCostings}"
+                         maxlength="250">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,minDepositIncludingTaxes"
+                        listener="#{jobManager.updateJobCostingEstimate}"
+                        process="@this"/>
+            </p:inputText>
+            <h:outputText value="&nbsp;"/>      
+
+            <h:outputText value="GCT(%):"/>
+            <p:selectOneMenu 
+                id="gct"
+                disabled="#{!jobManager.canApplyGCT}"
+                style="width: 100px;"
+                value="#{jobManager.currentJob.jobCostingAndPayment.percentageGCT}">
+                <p:ajax
+                    global="true"
+                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
+                    listener="#{jobManager.updateAllJobCostings}"
+                    process="@this" />
+                <f:selectItems value="#{jobManager.GCTPercentages}" />
+            </p:selectOneMenu>  
+            <h:outputText value="&nbsp;"/>
+
+            <h:outputText id="costEstimateLabel"
+                value="#{jobManager.currentJob.jobCostingAndPayment.costEstimateWithTaxLabel}"/>
+            <h:panelGroup>
+                <p:inputText id="estimatedCostIncludingTaxes"
+                             value="#{jobManager.currentJob.jobCostingAndPayment.estimatedCostIncludingTaxes}"
+                             style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                             readonly="true"
+                             maxlength="250">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    <p:ajax event="keyup"
+                            global="false"
+                            update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            listener="#{jobManager.updateJobCostingEstimate}"
+                            process="@this"/>
+                </p:inputText>
+                <h:outputText value="&nbsp;"/>
+                <h:outputText value="&nbsp;"/>
+            </h:panelGroup>
+            <h:outputText value="&nbsp;"/>     
+
+            <h:outputText id="minDepositLabel"
+                value="#{jobManager.currentJob.jobCostingAndPayment.minDepositWithTaxLabel}"/>
+            <p:inputText id="minDepositIncludingTaxes"
+                         value="#{jobManager.currentJob.jobCostingAndPayment.minDepositIncludingTaxes}"
+                         style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                         readonly="true"
+                         maxlength="250">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        listener="#{jobManager.updateJobCostingEstimate}"
+                        process="@this"/>
+            </p:inputText>
+            <h:outputText value="&nbsp;"/>   
+
+            <h:outputText 
+                id="totalCostLabel"
+                value="#{jobManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}"/>
+            <p:inputText id="totalCost"
+                         maxlength="250"
+                         value="#{jobManager.currentJob.jobCostingAndPayment.totalCost}"                                 
+                         style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                         readonly="true">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,amountDue2"
+                        listener="#{jobManager.updateAmountDue}"
+                        process="@this"/>
+            </p:inputText>
+
+            <h:panelGroup>
+                <p:commandButton icon="ui-icon ui-icon-pencil"
+                                 actionListener="#{jobManager.updateJobCosting}"
+                                 update=":jobCostingDialogForm"
+                                 onstart="longProcessDialogVar.show();"
+                                 oncomplete="jobCostingDialog.show();longProcessDialogVar.hide();"
+                                 process="@this"
+                                 title="View or edit job costing"/>
+                <p:spacer height="0" width="10"/>               
+            </h:panelGroup>
+
+            <h:outputText value="Amount due ($):" style="font-weight: bold;" />            
+            <p:inputText id="amountDue2"
+                         value="#{jobManager.currentJob.jobCostingAndPayment.amountDue}"
+                         style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                         readonly="true">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </p:inputText>
+            <h:outputText value="&nbsp;"/>              
+
+        </h:panelGrid>
+    </p:panel>
+    <p:panel id="invoicingAndPayment" header="Invoicing and Payment">
+        <h:panelGrid columns="3" >
+            <h:outputText value="Invoice number(s): "/>
+            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.invoiceNumber}"
+                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                         maxlength="250" >
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+            </p:inputText>
+            <h:outputText value="&nbsp;"/>
+
+            <h:outputText value="Receipt #s: "/>
+            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.receiptNumber}"
+                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                         maxlength="250">
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+            </p:inputText>
+            <h:outputText value="&nbsp;"/>
+
+            <p:selectOneMenu 
+                id="discountType"      
+                disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                value="#{jobManager.currentJob.jobCostingAndPayment.discountType}">
+                <p:ajax
+                    global="true"
+                    update=":jobCostingDialogForm:amountDue,jobCosting"
+                    listener="#{jobManager.updateAmountDue}"
+                    process="@this" />
+                <f:selectItems value="#{App.discountTypes}" />
+            </p:selectOneMenu>             
+            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.discount}" 
+                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                         maxlength="250">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobCostingDialogForm:amountDue,jobCosting"
+                        listener="#{jobManager.updateAmountDue}"
+                        process="@this"/>
+            </p:inputText>          
+            <h:outputText value="&nbsp;"/>  
+
+            <h:outputText value="Total paid ($): "/>
+            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.deposit}"
+                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                         maxlength="250">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,amountDue2"
+                        listener="#{jobManager.updateTotalDeposit}"
+                        process="@this"/>
+            </p:inputText>
+            <h:outputText value="&nbsp;"/>
+
+            <h:outputText value="Last payment date:" />
+            <p:calendar value="#{jobManager.currentJob.jobStatusAndTracking.depositDate}"
+                        disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                        navigator="true"
+                        pattern="MMM dd, yyyy" >
+                <p:ajax event="dateSelect"
+                        listener="#{jobManager.updateJob}" />
+                <p:ajax event="keyup"
+                        listener="#{jobManager.updateJob}" />
+            </p:calendar>
+            <h:outputText value="&nbsp;"/>   
+
+            <h:outputText value="Payment terms: "/>
+            <p:inputTextarea
+                value="#{jobManager.currentJob.jobCostingAndPayment.paymentTerms}" 
+                disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                maxlength="250"
+                rows="2"
+                style="width: 300px;">
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+            </p:inputTextarea>
+            <h:outputText value="&nbsp;"/>
+        </h:panelGrid>
+    </p:panel>         
+</html>

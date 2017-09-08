@@ -1,0 +1,49 @@
+
+// Do login dialog and impl login right away.
+
+// Imp costing tab, except for editing and exporting job costing.
+
+// complete im
+
+// Impl adding change events to components such text NB: this
+was done for the 'input' element. may need to do for other elements.
+
+// Build "Job Detail" dialog
+
+// Change rootURL to jmtsRootURL
+
+// "My jobs" and other except "General" search type gives an error because the
+user object is null. Implement login to fix this 
+
+// Do custom message for Internal Server Error. Find out the exact exception
+thrown for this
+
+// put a message when status message is blank such as when no contact was made
+with the server
+
+// impl better way of testing for array object in getJobData. see js good parts.
+
+// Impl selecting data period
+
+
+// put menu at top of jmts ui for accessing other interfaces
+
+// impl search form and display results in table
+
+// Sending a file with REST
+private static final String FILE_PATH = "d:\\Test2.zip";
+@GET
+@Path("/get")
+@Produces(MediaType.APPLICATION_OCTET_STREAM)
+public Response getFile() {
+    File file = new File(FILE_PATH);
+    ResponseBuilder response = Response.ok((Object) file);
+    response.header("Content-Disposition",
+        "attachment; filename=newfile.zip");
+    return response.build();
+
+}
+
+// Look at wine app for details
+
+// find how to minify js

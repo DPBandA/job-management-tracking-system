@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:dialog header="BSJ Job Management &amp; Tracking System Login"
+              modal="true"
+              visible="#{main.showLogin}"
+              widgetVar="loginDialog"
+              width="375"
+              closable="false"
+              resizable="false">
+        <h:form id="loginForm">
+
+            <p:remoteCommand name="keepAliveRequest"
+                             actionListener="#{main.handleKeepAlive}"
+                             onerror="connectionErrorDialog.show();"
+                             update="@this"
+                             process="@this"/>
+
+            <p:remoteCommand name="doLogoutRequest"
+                             actionListener="#{main.logout}"                            
+                             process="@this"/>
+
+            <p:remoteCommand name="doLoginRequest"
+                             action="#{main.login}"
+                             update="@this"
+                             process="@this"/>
+
+            <p:remoteCommand name="init"
+                             actionListener="#{main.init}"                           
+                             process="@this"/>
+
+            <h:panelGrid columns="2">
+                <h:outputText id="loginMessage" value="#{main.logonMessage}" style="font-weight: bold" />
+                <p:ajaxStatus id="loginStatus">
+                    <f:facet name="start">
+                        <p:graphicImage url="images/ajaxloading.gif" width="16" height="16"/>
+                    </f:facet>
+                    <f:facet name="complete">
+                        <h:outputText value="" />
+                    </f:facet>
+                    <f:facet name="error">
+                        <h:outputText value="" />
+                    </f:facet>
+                </p:ajaxStatus>
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="username" value="Username: *" />
+                <p:inputText value="#{main.username}"
+                             id="username" 
+                             required="true"
+                             label="username"
+                             validatorMessage="Please enter a valid username" >
+                    <p:ajax event="change"
+                            global="false"                            
+                            listener="#{main.updateDatabaseModule}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputLabel for="password" value="Password: * " />
+                <p:password id="password"
+                            required="true"
+                            value="#{main.password}"
+                            maxlength="255"
+                            label="password"
+                            validatorMessage="Please enter a valid password"
+                            feedback="false" />               
+
+                <f:facet name="footer">
+                    <p:commandButton value="Login"
+                                     icon="ui-icon ui-icon-person"    
+                                     update="loginForm"
+                                     process="@form"
+                                     actionListener="#{main.login}" />
+                </f:facet>
+            </h:panelGrid>
+        </h:form>
+    </p:dialog>
+</html>

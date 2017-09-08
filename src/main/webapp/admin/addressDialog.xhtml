@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form id="addressDialogForm">
+        <p:dialog width="400"
+                  height="200"
+                  draggable="true"
+                  modal="true"
+                  widgetVar="addressDialog"
+                  header="Address" >
+            <h:panelGrid columns="2" style="width: 85%">
+                <h:outputText value="Address (line 1):" />
+                <p:inputText value="#{jobManager.currentAddress.addressLine1}"
+                             style="width: 100%" >
+                    <p:ajax listener="#{jobManager.updateJob}"
+                            event="keyup"
+                            global="false"                            
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Address (line 2): " />
+                <p:inputText value="#{jobManager.currentAddress.addressLine2}"
+                             style="width: 100%" >
+                    <p:ajax listener="#{jobManager.updateJob}"
+                            event="keyup"
+                            global="false"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Parish:" />
+                <p:inputText value="#{jobManager.currentAddress.stateOrProvince}"
+                             style="width: 100%" >
+                    <p:ajax listener="#{jobManager.updateJob}"
+                            event="keyup"
+                            global="false"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="City:" />
+                <p:inputText value="#{jobManager.currentAddress.city}"
+                             style="width: 100%" >
+                    <p:ajax listener="#{jobManager.updateJob}"
+                            event="keyup"
+                            global="false"
+                            process="@this"/>
+                </p:inputText>
+            </h:panelGrid>
+            <hr/>
+            <p:commandButton value="Ok"
+                             actionListener="#{jobManager.okCurrentAddress}"
+                             icon="ui-icon-check"
+                             oncomplete="addressDialog.hide();"
+                             update="#{jobManager.addressDialogToUpdate}"
+                             process="@form"/>
+
+        </p:dialog>
+    </h:form>
+</html>

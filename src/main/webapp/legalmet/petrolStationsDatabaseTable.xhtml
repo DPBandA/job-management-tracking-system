@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <p:dataTable id="petrolStationsDatabaseTable"
+                 var="petrolStation"
+                 paginator="true" 
+                 rows="15"       
+                 rowStyleClass="#{petrolStation.certification.expiryDate le legalMetrologyManager.currentDate ? 'due' : null}"                 
+                 resizableColumns="false"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{legalMetrologyManager.petrolStationSearchResultsList}">
+
+        <p:ajax event="page"  onstart="longProcessDialogVar.show();" oncomplete="longProcessDialogVar.hide();" />
+
+        <f:facet name="header">
+            <h:outputText value="#{legalMetrologyManager.petrolStationSearchResultsTableHeader}" />
+        </f:facet>
+
+        <p:column sortBy="#{petrolStation.name}">
+            <f:facet name="header">
+                <h:outputText value="Name"/>
+            </f:facet>
+            <h:outputText value="#{petrolStation.name}" />
+        </p:column>
+
+        <p:column sortBy="#{petrolStation.client.name}">
+            <f:facet name="header">
+                <h:outputText value="Client"/>
+            </f:facet>
+            <h:outputText value="#{petrolStation.client.name}" />
+        </p:column>
+
+        <ui:remove>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Nozzles"/>
+                </f:facet>
+                <h:outputText value="#{petrolStation.numberOfPetrolPumpNozzles}" />
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Not working/Rejected"/>
+                </f:facet>
+                <h:outputText value="#{petrolStation.numberOfPetrolPumpNozzlesNotWorking}" />
+            </p:column>
+        </ui:remove>
+
+        <p:column sortBy="#{petrolStation.certification.dateIssued}" style="min-width: 100px">
+            <f:facet name="header">
+                <h:outputText value="Certified"/>
+            </f:facet>
+            <h:outputText value="#{petrolStation.certification.dateIssued}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+
+        <p:column sortBy="#{petrolStation.certification.expiryDate}" style="min-width: 100px">
+            <f:facet name="header">
+                <h:outputText value="Due"/>
+            </f:facet>
+            <h:outputText value="#{petrolStation.certification.expiryDate}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+
+        <p:column style="width:32px">
+            <p:commandButton title="View/Edit petrol station"                             
+                             actionListener="#{legalMetrologyManager.editPetrolStation}"
+
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="petrolStationDialog.show();longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{petrolStation}"
+                                             target="#{legalMetrologyManager.currentPetrolStation}" />
+            </p:commandButton>           
+        </p:column> 
+
+    </p:dataTable>
+
+
+</html>

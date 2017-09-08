@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:form id="jobSaveConfirmDialogForm"> 
+        <p:confirmDialog severity="alert"
+                         message="The current job (#{jobManager.currentJob.jobNumber}) was modified. Do you wish to save it?"
+                         header="Job Modified (#{jobManager.currentJob.jobNumber})"
+                         widgetVar="jobSaveConfirm"
+                         width="425">
+
+            <p:commandButton value="Yes"                             
+                             actionListener="#{jobManager.saveCurrentJob}"
+                             onstart="longProcessDialogVar.show();"
+                             update=":jobDialogForm:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobsDatabaseTable,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                             oncomplete="longProcessDialogVar.hide();jobSaveConfirm.hide();"
+                             icon="ui-icon-check"
+                             process="@this"/>
+            <p:commandButton value="No"
+                             actionListener="#{jobManager.cancelJobEdit(event)}"
+                             oncomplete="jobSaveConfirm.hide();jobDialog.hide();"
+                             icon="ui-icon-close"/>       
+        </p:confirmDialog>
+    </h:form>   
+
+    <p:confirmDialog severity="alert"
+                     message="The current job was modified. Do you wish to save it?"
+                     header="Job Modified"
+                     widgetVar="jobSaveConfirmBeforeLoad"
+                     width="425">
+        <h:form id="jobSaveConfirmBeforeLoadDialogForm">
+            <p:commandButton value="Yes"
+                             actionListener="#{jobManager.saveCurrentAndLoadOtherJob(event)}"                            
+                             oncomplete="handleLoadJobRequest(xhr, status, args);"
+                             update=":jobDialogForm:jobFormTabView"
+                             icon="ui-icon-check"
+                             process="@this"/>
+            <p:commandButton value="No"
+                             actionListener="#{jobManager.loadOtherJobWithoutSavingCurrent(event)}"
+                             update=":jobDialogForm:jobFormTabView"
+                             oncomplete="handleLoadJobRequest(xhr, status, args);"
+                             process="@this"
+                             icon="ui-icon-close"/>
+        </h:form>
+    </p:confirmDialog>
+
+    <p:confirmDialog severity="alert"                     
+                     message="The current job must be saved before a copy can be created."
+                     header="Job Modified"
+                     widgetVar="jobModifiedDialog"
+                     width="425">
+        <h:form id="jobModifiedDialogForm">
+            <p:commandButton value="Ok"
+                             oncomplete="jobModifiedDialog.hide();"
+                             icon="ui-icon-check"
+                             process="@this"/>
+        </h:form>
+    </p:confirmDialog>
+
+    <p:confirmDialog severity="alert"
+                     message="The current job must be saved before continuing."
+                     header="Job Not Saved"
+                     widgetVar="jobNotSavedDialog"
+                     width="425">
+        <h:form id="jobNotSavedDialogForm">
+            <p:commandButton value="Ok"
+                             oncomplete="jobNotSavedDialog.hide();"
+                             icon="ui-icon-check"
+                             process="@this"/>
+        </h:form>
+    </p:confirmDialog>
+    
+    
+    
+</html>

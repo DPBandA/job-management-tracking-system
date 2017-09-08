@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <p:dataTable id="jobsDatabaseTable"
+                 var="job"
+                 paginator="true"
+                 rows="15"  
+                 selection="#{jobManager.selectedJobs}"
+                 resizableColumns="false"                 
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{jobManager.jobsModel}">
+
+        <p:ajax event="page"  onstart="longProcessDialogVar.show();" oncomplete="longProcessDialogVar.hide();" />
+
+        <f:facet name="header">
+            <h:outputText value="#{jobManager.searchResultsTableHeader}" />
+        </f:facet>
+
+
+        <p:column selectionMode="multiple" 
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
+                  style="width:2%" />  
+
+
+        <p:column sortBy="#{job.jobNumber}" 
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs' || jobManager.user.jobTableViewPreference == 'Job Costings' || jobManager.user.jobTableViewPreference == 'Cashier View'}">
+            <f:facet name="header">
+                <h:outputText value="Job number"/>
+            </f:facet>
+            <h:outputText value="#{job.jobNumber}" />
+        </p:column>
+
+        <p:column sortBy="#{job.client.name}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs' || jobManager.user.jobTableViewPreference == 'Job Costings' || jobManager.user.jobTableViewPreference == 'Cashier View'}">
+            <f:facet name="header">
+                <h:outputText value="Client"/>
+            </f:facet>
+            <h:outputText value="#{job.client.name}" />
+        </p:column>    
+
+        <p:column sortBy="#{job.classification.name}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
+            <f:facet name="header">
+                <h:outputText value="Class'tion"/>
+            </f:facet>
+            <h:outputText value="#{job.classification.name}" />
+        </p:column>    
+
+        <p:column sortBy="#{job.jobCategory.name}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
+            <f:facet name="header">
+                <h:outputText value="Category"/>
+            </f:facet>
+            <h:outputText value="#{job.jobCategory.name}" />
+        </p:column>
+
+        <p:column sortBy="#{job.instructions}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs' || jobManager.user.jobTableViewPreference == 'Cashier View'}">
+            <f:facet name="header">
+                <h:outputText value="Instructions"/>
+            </f:facet>
+            <h:outputText value="#{job.instructions}" />               
+        </p:column> 
+
+        <p:column sortBy="#{job.jobCostingAndPayment.estimatedCost}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}">
+            <f:facet name="header">
+                <h:outputText value="Est. ($)"/>
+            </f:facet>
+            <h:outputText value="#{job.jobCostingAndPayment.estimatedCost}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText>
+        </p:column>
+
+        <p:column sortBy="#{job.jobCostingAndPayment.minDeposit}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}">
+            <f:facet name="header">
+                <h:outputText value="Min. Deposit ($)"/>
+            </f:facet>
+            <h:outputText value="#{job.jobCostingAndPayment.minDeposit}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText>
+        </p:column>
+
+
+        <p:column sortBy="#{job.jobCostingAndPayment.amountDue}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}">
+            <f:facet name="header">
+                <h:outputText value="Amt Due($)"/>
+            </f:facet>
+            <h:outputText value="#{job.jobCostingAndPayment.amountDue}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText>
+        </p:column>
+
+        <p:column sortBy="#{job.jobCostingAndPayment.costingCompleted}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
+            <f:facet name="header">
+                <h:outputText value="Prep'd?"/>
+            </f:facet>
+            <h:outputText value="#{job.jobCostingAndPayment.costingCompleted? 'Yes': 'No'}" 
+                          style="font-weight: bold;color: #{job.jobCostingAndPayment.costingCompleted? 'green': 'red'}"/>            
+        </p:column>  
+
+        <p:column sortBy="#{job.jobCostingAndPayment.costingApproved}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
+            <f:facet name="header">
+                <h:outputText value="App'd?"/>
+            </f:facet>
+            <h:outputText value="#{job.jobCostingAndPayment.costingApproved? 'Yes': 'No'}" 
+                          style="font-weight: bold;color: #{job.jobCostingAndPayment.costingApproved? 'green': 'red'}"/>            
+        </p:column>  
+
+        <p:column sortBy="#{job.jobCostingAndPayment.invoiced}"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
+            <f:facet name="header">
+                <h:outputText value="Inv'd?"/>
+            </f:facet>
+            <h:outputText value="#{job.jobCostingAndPayment.invoiced? 'Yes': 'No'}" 
+                          style="font-weight: bold;color: #{job.jobCostingAndPayment.invoiced? 'green': 'red'}"/>               
+        </p:column>      
+
+        <p:column sortBy="#{job.jobStatusAndTracking.dateSubmitted}" style="min-width: 100px"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">
+            <f:facet name="header">
+                <h:outputText value="Submitted"/>
+            </f:facet>
+            <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>        
+        <p:column sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" style="min-width: 100px"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">
+            <f:facet name="header">
+                <h:outputText value="EDOC"/>
+            </f:facet>
+            <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column sortBy="#{job.jobStatusAndTracking.workProgress}" style="min-width: 85px"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">
+            <f:facet name="header">
+                <h:outputText value="Progress"/>
+            </f:facet>
+            <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />
+        </p:column>
+        <p:column style="width:32px"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">
+            <p:commandButton title="View/Edit job" 
+                             actionListener="#{jobManager.editJob}"
+                             update=":jobDialogForm:jobFormTabView,:jobDialogForm:jobFormTabView:jobSamples,:jobDialogForm:formsMenuButton"
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="jobDialog.show();longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{job}"
+                                             id="editJobButtonPropListener"
+                                             target="#{jobManager.currentJob}" />
+            </p:commandButton>           
+        </p:column>
+
+        <p:column style="width:32px"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
+            <p:commandButton title="View/Edit job costing"                                 
+                             actionListener="#{jobManager.editJobCosting}"
+                             update=":jobCostingDialogForm"
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="jobCostingDialog.show();longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"   
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{job}" 
+                                             id="editJobButtonPropListener"
+                                             target="#{jobManager.currentJob}" />
+            </p:commandButton>           
+        </p:column>
+
+        <p:column style="width:32px"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}">
+            <p:commandButton title="View/Edit job costing/payment" 
+                             actionListener="#{jobManager.editJobCosting}"
+                             update=":jobDialogForm:jobFormTabView,:jobDialogForm:jobFormTabView:jobSamples,:jobDialogForm:formsMenuButton"
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="jobDialog.show();longProcessDialogVar.hide();jobFormTabVar.select(3);"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{job}"
+                                             id="editJobButtonPropListener"
+                                             target="#{jobManager.currentJob}" />
+            </p:commandButton>           
+        </p:column>
+
+
+    </p:dataTable>
+
+
+</html>

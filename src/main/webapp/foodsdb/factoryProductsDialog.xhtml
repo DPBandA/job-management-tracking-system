@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:form id="factoryFoodProductDialogForm">
+        <p:dialog width="400"
+                  height="275"
+                  modal="true"
+                  draggable="true"                 
+                  widgetVar="factoryFoodProductDialog"
+                  onShow="longProcessDialogVar.hide();"
+                  header="Product Detail" >
+            <p:tabView id="factoryFoodProductDialogTabView"
+                       widgetVar="factoryFoodProductDialogTabViewVar">
+                <p:tab title="General">
+                    <h:panelGrid columns="2" style="width: 100%" >
+
+                        <h:outputText value="Name: " />
+                        <p:inputText value="#{jobManager.currentFoodProduct.name}"
+                                     style="width: 85%;font-weight: bold;" >
+                            <p:ajax event="keyup"
+                                    global="false"
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText value="Type: " />
+                        <p:inputText value="#{jobManager.currentFoodProduct.type}"
+                                     style="width: 85%;font-weight: bold;" >
+                            <p:ajax event="keyup"
+                                    global="false"
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText value="Brand: " />
+                        <p:inputText value="#{jobManager.currentFoodProduct.brand}"
+                                     style="width: 85%;font-weight: bold;" >
+                            <p:ajax event="keyup"
+                                    global="false"
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText value="Code: " />
+                        <p:inputText value="#{jobManager.currentFoodProduct.code}"
+                                     style="width: 85%;font-weight: bold;" >
+                            <p:ajax event="keyup"
+                                    global="false"
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                        </p:inputText>
+
+                        <h:outputText value="Last sampled: " />
+                        <p:calendar  value="#{jobManager.currentFoodProduct.dateLastSampled}"                                    
+                                     navigator="true"
+                                     pattern="MMM dd, yyyy"
+                                     style="width: 85%" >
+                            <p:ajax event="dateSelect"
+                                    global="false"
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                            <p:ajax event="keyup"
+                                    global="false"
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this"/>
+                        </p:calendar>
+
+                    </h:panelGrid>       
+                </p:tab>
+
+            </p:tabView>
+            <p/>
+            <p:commandButton value="Ok"
+                             actionListener="#{jobManager.okFoodProduct}"
+                             oncomplete="factoryFoodProductDialog.hide();"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:foodFactoryProducts,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             icon="ui-icon ui-icon-check"
+                             process="@form"/>
+
+        </p:dialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Are you sure you wish to delete this product?"
+                         header="Delete Product?"
+                         widgetVar="deleteFoodProductDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{jobManager.removeFoodProduct}"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:foodFactoryProducts,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             oncomplete="deleteFoodProductDialog.hide();"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             oncomplete="deleteFoodProductDialog.hide();"
+                             icon="ui-icon-check"/>
+        </p:confirmDialog>
+    </h:form>
+
+</html>

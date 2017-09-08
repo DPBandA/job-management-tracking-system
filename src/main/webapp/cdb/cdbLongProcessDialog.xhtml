@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form id="longProgressDialogForm">
+        <p:dialog id="longProgressDialog"               
+                  closable="false"
+                  resizable="false"
+                  modal="false"
+                  showHeader="false"
+                  widgetVar="longProcessDialogVar">   
+            <table border="0" width="100%">
+                <tr>
+                    <td align="center">
+                        <h:graphicImage value="images/ajaxloading.gif" width="24" height="24" />
+                    </td>
+                </tr>
+            </table>
+        </p:dialog>
+    </h:form>
+
+     <h:form id="longProgressDialogForm2">
+        <p:dialog id="longProgressDialog2"
+                  onShow="longProcessBarVar2.start();"
+                  closable="false"
+                  resizable="false"
+                  showHeader="false"
+                  modal="false"
+                  onHide="longProcessBarVar2.cancel();"
+                  widgetVar="longProcessDialogVar2">
+
+            <h:panelGroup>
+                <table border="0" width="100%">                   
+                    <tr>
+                        <td align="center">
+                            <h:graphicImage value="images/ajaxloading.gif" width="24" height="24" />
+                        </td>
+                    </tr>
+                </table>
+
+                <p:progressBar widgetVar="longProcessBarVar2"
+                               ajax="true"
+                               style="visibility: hidden;height: 0px"
+                               interval="500"
+                               value="#{complianceManager.longProcessProgress}" >
+                    <p:ajax event="complete"
+                            global="false"
+                            oncomplete="longProcessDialogVar2.hide();"
+                            listener="#{complianceManager.onLongProcessComplete}" />
+                </p:progressBar>
+            </h:panelGroup>
+        </p:dialog>
+    </h:form>
+
+</html>

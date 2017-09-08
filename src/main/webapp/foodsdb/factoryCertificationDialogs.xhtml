@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:form id="factoryCertificationDialogForm">
+        <p:dialog width="400"
+                  height="325"
+                  modal="true"
+                  draggable="true"                 
+                  widgetVar="factoryCertificationDialog"
+                  onShow="longProcessDialogVar.hide();"
+                  header="Certificate Detail" >
+            
+             <p:commandButton value="Ok"
+                             actionListener="#{jobManager.okCertification}"
+                             oncomplete="factoryCertificationDialog.hide();"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:foodFactoryCertifications,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             icon="ui-icon ui-icon-check"
+                             process="@form"/>
+             
+            <h:panelGrid columns="2" style="width: 100%" >
+
+                <h:outputText value="Type:" style="font-weight: bold;" />
+                <p:selectOneMenu value="#{jobManager.currentCertification.type}" style="width: 100%;" >
+                    <p:ajax
+                        global="true"
+                        listener="#{jobManager.updateJob}"
+                        process="@this" />
+                    <f:selectItems value="#{JMTSApp.certificateTypes}" />
+                </p:selectOneMenu>
+
+                <h:outputText value="Number:" style="font-weight: bold;" />
+                <p:inputText value="#{jobManager.currentCertification.number}"
+                             style="width: 85%;font-weight: bold;" >
+                    <p:ajax event="keyup"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Date issued:" style="font-weight: bold;" />
+                <p:calendar  value="#{jobManager.currentCertification.dateIssued}"                          
+                             navigator="true"
+                             pattern="MMM dd, yyyy"
+                             style="width: 85%" >
+                    <p:ajax event="dateSelect"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                    <p:ajax event="keyup"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:calendar>
+
+                <h:outputText value="Expiry date:" style="font-weight: bold;" />
+                <p:calendar  value="#{jobManager.currentCertification.expiryDate}"
+                             navigator="true"
+                             pattern="MMM dd, yyyy"
+                             style="width: 85%" >
+                    <p:ajax event="dateSelect"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                     <p:ajax event="keyup"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:calendar>
+
+                <h:outputText value="Signed by:" style="font-weight: bold" />
+                <p:autoComplete style="width: 75%"
+                                var="signedBy"
+                                value="#{jobManager.currentCertification.certificateSignedBy}"
+                                title="#{jobManager.currentCertification.certificateSignedBy}"
+                                itemLabel="#{signedBy.name}"
+                                itemValue="#{signedBy}"
+                                converter="employeeConverter"
+                                forceSelection="true"
+                                completeMethod="#{jobManager.completeEmployee}" >
+                    <p:ajax event="itemSelect"
+                            listener="#{jobManager.updateCertificateSignedBy}"
+                            update=":foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                            process="@this"/>
+                </p:autoComplete>
+            </h:panelGrid>
+
+            <h:panelGrid columns="1" style="width: 100%" >
+                <h:outputText value="Comments:" style="font-weight: bold;" />
+                <p:inputTextarea value="#{jobManager.currentCertification.notes}" style="width: 95%"
+                                 autoResize="false">
+                    <p:ajax event="keyup"
+                            update=":foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:inputTextarea>
+            </h:panelGrid>
+            <hr/>
+            <p:commandButton value="Ok"
+                             actionListener="#{jobManager.okCertification}"
+                             oncomplete="factoryCertificationDialog.hide();"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:foodFactoryCertifications,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             icon="ui-icon ui-icon-check"
+                             process="@form"/>
+
+        </p:dialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Are you sure you wish to delete this certificate?"
+                         header="Delete Certificate?"
+                         widgetVar="deleteFoodFactoryCertificateDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{jobManager.removeFoodFactoryCertification}"
+                             update=":foodFactoryDialogForm:foodFactoryTabView:foodFactoryCertifications,:foodFactoryDialogForm:save1,:foodFactoryDialogForm:save2"
+                             oncomplete="deleteFoodFactoryCertificateDialog.hide();"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             oncomplete="deleteFoodFactoryCertificateDialog.hide();"
+                             icon="ui-icon-check"/>
+        </p:confirmDialog>
+    </h:form>
+
+</html>
