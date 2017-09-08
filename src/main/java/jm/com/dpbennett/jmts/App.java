@@ -67,6 +67,7 @@ public class App {
         themes.put("Aristo", "aristo");
         themes.put("Black-Tie", "black-tie");
         themes.put("Redmond", "redmond");
+        themes.put("Dark Hive", "dark-hive");
     }
 
     // tk put into Main
