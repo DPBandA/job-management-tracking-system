@@ -70,25 +70,7 @@
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="jobManagementAndTrackingUnitCheckbox" value="Job Management &amp; Tracking" />
-                        <ui:remove>
-                            <h:selectBooleanCheckbox id="foodsUnitCheckbox" value="#{jobManager.user.foodsUnit}" >
-                                <p:ajax listener="#{jobManager.updatePreferences}"
-                                        update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
-                                        global="false"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>    
-                            <h:outputLabel for="foodsUnitCheckbox" value="Food Factories"/>
-
-                            <h:selectBooleanCheckbox id="serviceRequestUnitCheckbox"                                                  
-                                                     value="#{jobManager.user.serviceRequestUnit}" >
-                                <p:ajax listener="#{jobManager.updatePreferences}"
-                                        update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
-                                        global="false"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="serviceRequestUnitCheckbox" value="Service Request"/>
-                        </ui:remove>
-
+                        
                         <h:selectBooleanCheckbox id="financialAdminUnitCheckbox" 
                                                  rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}"
                                                  value="#{jobManager.user.financialAdminUnit}" >
@@ -108,26 +90,7 @@
                                     global="false"
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
-                        <h:outputLabel for="adminUnitCheckbox" value="System Administration"/>                          
-
-
-                        <h:selectBooleanCheckbox id="complianceUnitCheckbox" value="#{jobManager.user.complianceUnit}" >
-                            <p:ajax listener="#{jobManager.updatePreferences}"
-                                    update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
-                                    global="false"
-                                    process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="complianceUnitCheckbox" value="Standards Compliance"/>
-
-                        <ui:remove>
-                            <h:selectBooleanCheckbox id="legalMetrologyUnitCheckbox" value="#{jobManager.user.legalMetrologyUnit}" >
-                                <p:ajax listener="#{jobManager.updatePreferences}"
-                                        update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
-                                        global="false"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="legalMetrologyUnitCheckbox" value="Legal Metrology"/>       
-                        </ui:remove>
+                        <h:outputLabel for="adminUnitCheckbox" value="System Administration"/>                         
 
 
                     </h:panelGrid> 

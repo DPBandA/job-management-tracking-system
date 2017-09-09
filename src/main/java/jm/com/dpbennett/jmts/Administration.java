@@ -24,16 +24,11 @@ public class Administration implements Serializable {
 
     @PersistenceUnit(unitName = "BSJDBPU")
     private EntityManagerFactory EMF1;
-    private UserManagement userManagement;
-    //private JobManagement jm;
+    private UserManagement userManagement;    
     private Boolean dirty;
 
-    /**
-     * Creates a new instance of ComplianceManager
-     */
     public Administration() {
         userManagement = App.findBean("main");
-//        jm = new JobManagement();
     }
 
     private EntityManagerFactory getEMF1() {

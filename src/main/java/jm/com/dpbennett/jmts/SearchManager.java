@@ -324,33 +324,7 @@ public class SearchManager implements SearchManagement, Serializable {
                     sm.doServiceRequestSearch(getCurrentSearchParameters());
                     context.update("mainTabViewForm:mainTabView:serviceRequestsDatabaseTable");
                 }
-                break;
-            case "Food Factories Search":
-                FoodsManager fm = App.findBean("foodsManager");
-                if (fm != null) {
-                    fm.doEntitySearch(getCurrentSearchParameters());
-                    context.update("mainTabViewForm:mainTabView:foodFactoriesDatabaseTable");
-                }
-                break;
-            case "Legal Metrology Search":
-                //System.out.println("Legal Met Search: " + mainTabViewActiveIndex + ", " + legalMetTabViewActiveIndex);
-                LegalMetrologyManager lmm = App.findBean("legalMetrologyManager");
-                if (lmm.getLegalMetTabViewActiveIndex() == 0) { // petrol stations tab?   
-                    lmm.doPetrolStationSearch(getCurrentSearchParameters());
-                    context.update("mainTabViewForm:mainTabView:legalMetTabView:petrolStationsDatabaseTable");
-                } else if (lmm.getLegalMetTabViewActiveIndex() == 1) { // scales tab?   
-                    lmm.doScaleSearch(getCurrentSearchParameters());
-                    context.update("mainTabViewForm:mainTabView:legalMetTabView:scalesDatabaseTable");
-                }
-                break;
-            case "Standards Compliance Search":
-                ComplianceManager cm = App.findBean("complianceManager");
-                if (cm.getStandardsComplianceMetTabViewActiveIndex() == 0) {
-                    cm.doEntitySearch(getCurrentSearchParameters());
-                    context.update("mainTabViewForm:mainTabView:complianceSurveysTable");
-                    context.update(cm.getComplianceSurveyTableToUpdate());
-                }
-                break;
+                break;                          
         }
     }
 }

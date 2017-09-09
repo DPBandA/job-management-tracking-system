@@ -203,7 +203,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private Main main;
     private ClientManager clientManager;
     private SearchManager searchManager;
-    private ComplianceManager complianceManager;
+   
     private SearchParameters reportSearchParameters;
     private Employee reportEmployee;
     private Department unitCostDepartment;
@@ -273,8 +273,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         jobSampleDialogTabViewActiveIndex = 0;
         clientManager = App.findBean("clientManager");
         searchManager = App.findBean("searchManager");
-        complianceManager = App.findBean("complianceManager");
-        complianceManager.setComplianceSurveyTableToUpdate("mainTabViewForm:mainTabView:complianceSurveysTable");
+        //complianceManager = App.findBean("complianceManager");
+        //complianceManager.setComplianceSurveyTableToUpdate("mainTabViewForm:mainTabView:complianceSurveysTable");
         sendJobCostingCompletedEmail = false;
         sendJobCostingApprovedEmail = false;
         addCostComponent = false;
