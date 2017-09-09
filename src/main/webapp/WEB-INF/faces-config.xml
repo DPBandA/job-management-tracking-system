@@ -70,10 +70,6 @@
     <converter>
         <converter-id>documentStandardConverter</converter-id>
         <converter-class>jm.com.dpbennett.business.entity.DocumentStandard</converter-class>
-    </converter>   
-    <converter>
-        <converter-id>shippingContainerConverter</converter-id>
-        <converter-class>jm.com.dpbennett.jmts.converter.ShippingContainerConverter</converter-class>
     </converter>
     <navigation-rule>
         <from-view-id>/jmt_current.xhtml</from-view-id>
