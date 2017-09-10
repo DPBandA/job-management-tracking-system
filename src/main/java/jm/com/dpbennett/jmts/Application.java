@@ -1,4 +1,3 @@
-
 package jm.com.dpbennett.jmts;
 
 import java.text.SimpleDateFormat;
@@ -13,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
 import javax.naming.directory.SearchControls;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,14 +41,13 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.utils.SearchParameters;
 
-
 /**
  *
  * @author Desmond Bennett
  */
 @Named(value = "App")
 @ApplicationScoped
-public class App {
+public class Application {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
@@ -58,8 +57,8 @@ public class App {
     /**
      * Creates a new instance of Application
      */
-    public App() {
-        // init themes
+    public Application() {
+        // init primefaces themes
         themes.put("Aristo", "aristo");
         themes.put("Black-Tie", "black-tie");
         themes.put("Redmond", "redmond");
@@ -102,7 +101,6 @@ public class App {
     public List getDateFields() {
         ArrayList dateFields = new ArrayList();
 
-        // add items
         dateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
         dateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
         dateFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
@@ -114,13 +112,13 @@ public class App {
 
     public List getContactTypes() {
 
-        return App.getStringListAsSelectItems(getEntityManager1(), "personalContactTypes");
+        return Application.getStringListAsSelectItems(getEntityManager1(), "personalContactTypes");
 
     }
 
     public List<SelectItem> getJamaicaParishes() {
 
-        return App.getStringListAsSelectItems(getEntityManager1(), "jamaicaParishes");
+        return Application.getStringListAsSelectItems(getEntityManager1(), "jamaicaParishes");
 
     }
 
@@ -149,7 +147,6 @@ public class App {
     public List getMethodsOfDisposal() {
         ArrayList dateFields = new ArrayList();
 
-        // add items
         dateFields.add(new SelectItem("1", "Collected by the client within 30 days"));
         dateFields.add(new SelectItem("2", "Disposed of by the Bureau of Standards"));
         dateFields.add(new SelectItem("3", "To be determined"));
@@ -163,7 +160,6 @@ public class App {
     public List getJobSampleTypes() {
         ArrayList dateFields = new ArrayList();
 
-        // add items
         dateFields.add(new SelectItem("1", "Food"));
         dateFields.add(new SelectItem("2", "Electrical"));
         dateFields.add(new SelectItem("3", "Mechanical"));
@@ -174,7 +170,6 @@ public class App {
     public List<SelectItem> getDatePeriods() {
         ArrayList<SelectItem> datePeriods = new ArrayList<>();
 
-        // add items
         for (String name : DatePeriod.getDatePeriodNames()) {
             datePeriods.add(new SelectItem(name, name));
         }
@@ -196,12 +191,12 @@ public class App {
     // tk to be obtained from database
     public List<SelectItem> getTestMeasures() {
 
-        return App.getStringListAsSelectItems(getEntityManager1(), "petrolTestMeasures");
+        return Application.getStringListAsSelectItems(getEntityManager1(), "petrolTestMeasures");
 
     }
 
     public List<SelectItem> getEquipmentWorkingStatus() {
-        return App.getStringListAsSelectItems(getEntityManager1(), "equipmentWorkingStatusList");
+        return Application.getStringListAsSelectItems(getEntityManager1(), "equipmentWorkingStatusList");
     }
 
     public Boolean findJobSample(List<JobSample> samples, String reference) {
@@ -326,7 +321,6 @@ public class App {
     public static String getSearchResultsTableHeader(SearchParameters searchParameters, List searchResultsList) {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
 
-
         if (searchParameters != null) {
             if (searchParameters.getDatePeriod().getStartDate() != null
                     && searchParameters.getDatePeriod().getEndDate() != null) {
@@ -359,88 +353,11 @@ public class App {
         return countriesList;
     }
 
-    /**
-     * Validate a user and associate the user with an employee if possible.
-     *
-     * @param em
-     * @param username
-     * @param password
-     * @return
-     */
-//    public static Boolean validateAndAssociateUser(EntityManager em, String username, String password) {
-//        Boolean userValidated = false;
-//        InitialLdapContext ctx = null;
-//        Employee employee;
-//
-//        // tk for testing purposes
-//        if (username.equals("admin") && password.equals("password")) { // password to be encrypted
-//            return true;
-//        }
-//
-//        try {
-//            List<jm.com.dpbennett.entity.LdapContext> ctxs = jm.com.dpbennett.entity.LdapContext.findAllLdapContexts(em);
-//
-//            for (jm.com.dpbennett.entity.LdapContext ldapContext : ctxs) {
-//                ctx = ldapContext.getInitialLDAPContext(username, password);
-//
-//                if (checkForLDAPUser(em, username, ctx)) {
-//                    // user exists in LDAP                    
-//                    userValidated = true;
-//                    break;
-//                }
-//            }
-//
-//            // get employee that corresponds to this username
-//            if (userValidated) {
-//                employee = Employee.findEmployeeByUsername(em, username, ctx);
-//            } else {
-//                return false;
-//            }
-//
-//            // get the user if one exists
-//            JobManagerUser jmtsUser = JobManagerUser.findJobManagerUserByUsername(em, username);
-//
-//            if ((jmtsUser == null) && (employee != null)) {
-//                // create and associate the user with the employee
-//                jmtsUser = createNewUser(em);
-//                jmtsUser.setUsername(username);
-//                jmtsUser.setEmployee(employee);
-//                jmtsUser.setUserFirstname(employee.getFirstName());
-//                jmtsUser.setUserLastname(employee.getLastName());
-//                em.getTransaction().begin();
-//                BusinessEntityUtils.saveBusinessEntity(em, jmtsUser);
-//                em.getTransaction().commit();
-//
-//                System.out.println("User validated and associated with employee.");
-//
-//                return true;
-//            } else if ((jmtsUser != null) && (employee != null)) {
-//                System.out.println("User validated.");
-//                return true;
-//            } else if ((jmtsUser != null) && (employee == null)) {
-//                if (jmtsUser.getEmployee() != null) {
-//                    System.out.println("User validated.");
-//                    return true;
-//                } else {
-//                    System.out.println("User NOT validated!");
-//                    return false;
-//                }
-//
-//            } else {
-//                System.out.println("User NOT validated!");
-//                return false;
-//            }
-//
-//        } catch (Exception e) {
-//            System.err.println("Problem connecting to directory: " + e);
-//        }
-//
-//
-//        return false;
-//    }
+    
     /**
      * Get LDAP attributes
      *
+     * @param em
      * @param username
      * @param ctx
      * @return
@@ -460,7 +377,7 @@ public class App {
                 System.out.println("LDAP user not found!");
                 return Boolean.FALSE;
             }
-        } catch (Exception ex) {
+        } catch (NamingException ex) {
             System.out.println(ex);
             return Boolean.FALSE;
         }
@@ -735,7 +652,7 @@ public class App {
             } catch (Exception e) {
                 System.out.println(e);
             }
-//
+
         }
     }
 
@@ -754,6 +671,7 @@ public class App {
     /**
      * Use the active client if one is available
      *
+     * @param em
      * @param clientToFind
      * @return
      */

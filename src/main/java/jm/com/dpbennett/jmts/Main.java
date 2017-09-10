@@ -21,7 +21,7 @@ import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.management.MessageManagement;
 import jm.com.dpbennett.business.management.UserManagement;
 import jm.com.dpbennett.business.utils.BusinessEntityUtils;
-import static jm.com.dpbennett.jmts.App.checkForLDAPUser;
+import static jm.com.dpbennett.jmts.Application.checkForLDAPUser;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
@@ -69,6 +69,7 @@ public class Main implements UserManagement, MessageManagement, Serializable {
 
     /**
      * Creates a new instance of Main
+     * @param persistenceUnitName
      */
     public Main(String persistenceUnitName) {
         showLogin = true;
@@ -172,7 +173,7 @@ public class Main implements UserManagement, MessageManagement, Serializable {
         if (activeTab != null) {
             setTabTitle(activeTab.getTitle());
 
-            SearchManager sm = App.findBean("searchManager");
+            SearchManager sm = Application.findBean("searchManager");
             switch (getTabTitle()) {
                 case "Service Requests":
                     sm.setCurrentSearchParameterKey("Service Request Search");
@@ -201,7 +202,7 @@ public class Main implements UserManagement, MessageManagement, Serializable {
     public void init() {
         System.out.println("Initializing...");
         // init job manager 
-        JobManager jm2 = App.findBean("jobManager");
+        JobManager jm2 = Application.findBean("jobManager");
         if (jm2 != null) {
             jm2.setDirty(false);
             //   jm2.setIsJobToBeCopied(false);
@@ -358,7 +359,7 @@ public class Main implements UserManagement, MessageManagement, Serializable {
                         //} else {
                         //    checkLoginAttemps(context);
                         //    logonMessage = "Invalid username or password! Please try again.";
-//                    } else if (App.validateAndAssociateUser(em, getUsername(), getPassword())) {
+//                    } else if (Application.validateAndAssociateUser(em, getUsername(), getPassword())) {
                     } else if (validateAndAssociateUser(em, getUsername(), getPassword())) {
                         System.out.println("User will be authen.");
                         setUser(jobManagerUser);

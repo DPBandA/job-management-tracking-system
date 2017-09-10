@@ -116,7 +116,7 @@ public class SystemManager implements Serializable {
         generalSearchText = "";
         systemOptionSearchText = "";
 
-        main = App.findBean("main");
+        main = Application.findBean("main");
     }
 
     public Boolean getPrivilegeValue() {
@@ -268,23 +268,23 @@ public class SystemManager implements Serializable {
     }
 
     public void onClassificationCellEdit(CellEditEvent event) {
-        App.saveBusinessEntity(getEntityManager(), getFoundClassifications().get(event.getRowIndex()));
+        Application.saveBusinessEntity(getEntityManager(), getFoundClassifications().get(event.getRowIndex()));
     }
 
     public void onJobCategoryCellEdit(CellEditEvent event) {
-        App.saveBusinessEntity(getEntityManager(), getFoundJobCategories().get(event.getRowIndex()));
+        Application.saveBusinessEntity(getEntityManager(), getFoundJobCategories().get(event.getRowIndex()));
     }
 
     public void onJobSubCategoryCellEdit(CellEditEvent event) {
-        App.saveBusinessEntity(getEntityManager(), getFoundJobSubCategories().get(event.getRowIndex()));
+        Application.saveBusinessEntity(getEntityManager(), getFoundJobSubCategories().get(event.getRowIndex()));
     }
 
     public void onSectorCellEdit(CellEditEvent event) {
-        App.saveBusinessEntity(getEntityManager(), getFoundSectors().get(event.getRowIndex()));
+        Application.saveBusinessEntity(getEntityManager(), getFoundSectors().get(event.getRowIndex()));
     }
 
     public void onDocumentStandardCellEdit(CellEditEvent event) {
-        App.saveBusinessEntity(getEntityManager(), getFoundDocumentStandards().get(event.getRowIndex()));
+        Application.saveBusinessEntity(getEntityManager(), getFoundDocumentStandards().get(event.getRowIndex()));
     }
 
     public List<LdapContext> getFoundLdapContexts() {

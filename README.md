@@ -1,14 +1,7 @@
 # Job Management & Tracking System (JMTS)
 The JMTS is an enterprise software that facilitates the management and tracking of jobs.
 
-# Things to do
-- Use primefaces Dialog framework to implement all dialogs so they can be reused
-   by other apps?
-- Create diagram showing new design as a "Generic ERP". See sketched diagram.
-- Merge App and JMTSApp.
-- Move issues to README.md - Things to do
-- Remove compliance connect code and features. Create backup of code for future 
-use in web service. See "ComplianceConnectRWS
+## Things to do
 - Add cash payments feature so cashier can add cash payments.
 - Create contact field in the job record to assign contact to current job.
 - Implement and include report templates for all reports generated to date.
@@ -25,4 +18,6 @@ subcontracting jobs.
 -- For external jobs, create contact field in job record and store contact from 
 a selected client contact.
 -- For subcontracts, get or create contact for person doing the subcontract.
+- Use primefaces Dialog framework to implement all dialogs so they can be reused
+by other apps?
 

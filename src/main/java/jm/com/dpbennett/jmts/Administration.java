@@ -28,7 +28,7 @@ public class Administration implements Serializable {
     private Boolean dirty;
 
     public Administration() {
-        userManagement = App.findBean("main");
+        userManagement = Application.findBean("main");
     }
 
     private EntityManagerFactory getEMF1() {

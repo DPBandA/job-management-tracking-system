@@ -56,8 +56,8 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
      */
     public ServiceManager() {
         dirty = false;
-        main = App.findBean("main");
-        clientManager = App.findBean("clientManager");
+        main = Application.findBean("main");
+        clientManager = Application.findBean("clientManager");
     }
 
     public void updateAutoGenerateServiceRequestNumber() {
@@ -81,7 +81,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
 
     public ServiceRequest getCurrentServiceRequest() {
         if (currentServiceRequest == null) {
-            currentServiceRequest = App.createNewServiceRequest(getEntityManager(), getUser(), Boolean.TRUE);
+            currentServiceRequest = Application.createNewServiceRequest(getEntityManager(), getUser(), Boolean.TRUE);
         }
         return currentServiceRequest;
     }
@@ -102,7 +102,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
     }
 
     public void setInvalidFormFieldMessage(String messag) {
-        //JobManager manager = App.findBean("jobManager");
+        //JobManager manager = Application.findBean("jobManager");
         main.setInvalidFormFieldMessage(messag);
     }
 
@@ -302,7 +302,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
     public void sendErrorEmail(String subject, String message) {
         try {
             // send error message to developer's email
-            JobManager manager = App.findBean("jobManager");
+            JobManager manager = Application.findBean("jobManager");
             manager.sendErrorEmail(subject, message);
         } catch (Exception ex) {
             System.out.println(ex);
@@ -343,7 +343,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
     }
 
     public String getSearchResultsTableHeader() {
-        return App.getSearchResultsTableHeader(currentSearchParameters, getServiceRequestSearchResultsList());
+        return Application.getSearchResultsTableHeader(currentSearchParameters, getServiceRequestSearchResultsList());
     }
 
     public List<ServiceRequest> getServiceRequestSearchResultsList() {
@@ -367,7 +367,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
         RequestContext context = RequestContext.getCurrentInstance();
         EntityManager em = getEntityManager();
 
-        currentServiceRequest = App.createNewServiceRequest(em, getUser(), Boolean.TRUE);
+        currentServiceRequest = Application.createNewServiceRequest(em, getUser(), Boolean.TRUE);
         context.execute("longProcessDialogVar.hide();serviceRequestDialog.show();");
         context.update("unitDialogForms:serviceRequest");
 
@@ -479,7 +479,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
     }
 
     public void createJobFromServiceRequest() {
-        JobManager jm1 = App.findBean("jobManager");
+        JobManager jm1 = Application.findBean("jobManager");
         jm1.createNewJob(currentServiceRequest);
     }
 

@@ -206,7 +206,7 @@ public class SearchManager implements SearchManagement, Serializable {
 
     public Main getMain() {
         if (main == null) {
-            main = App.findBean("main");
+            main = Application.findBean("main");
         }
         return main;
     }
@@ -312,14 +312,14 @@ public class SearchManager implements SearchManagement, Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
         switch (getCurrentSearchParameterKey()) {
             case "Job Search":
-                JobManager jm = App.findBean("jobManager");
+                JobManager jm = Application.findBean("jobManager");
                 if (jm != null) {                   
                     jm.doJobSearch(getCurrentSearchParameters());
                     context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
                 }
                 break;
             case "Service Request Search":
-                ServiceManager sm = App.findBean("serviceManager");
+                ServiceManager sm = Application.findBean("serviceManager");
                 if (sm != null) {
                     sm.doServiceRequestSearch(getCurrentSearchParameters());
                     context.update("mainTabViewForm:mainTabView:serviceRequestsDatabaseTable");

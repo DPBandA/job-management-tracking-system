@@ -157,7 +157,7 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public Main getMain() {
         if (main == null) {
-            main = App.findBean("main");
+            main = Application.findBean("main");
         }
         return main;
     }
@@ -675,7 +675,7 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public List getContactTypes() {
 
-        return App.getStringListAsSortableSelectItems(getEntityManager(), "personalContactTypes");
+        return Application.getStringListAsSortableSelectItems(getEntityManager(), "personalContactTypes");
 
     }
 

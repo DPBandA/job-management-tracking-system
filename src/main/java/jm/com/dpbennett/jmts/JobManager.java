@@ -271,9 +271,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         outcome = defaultOutcome;
         selectedJobSample = new JobSample();
         jobSampleDialogTabViewActiveIndex = 0;
-        clientManager = App.findBean("clientManager");
-        searchManager = App.findBean("searchManager");
-        //complianceManager = App.findBean("complianceManager");
+        clientManager = Application.findBean("clientManager");
+        searchManager = Application.findBean("searchManager");
+        //complianceManager = Application.findBean("complianceManager");
         //complianceManager.setComplianceSurveyTableToUpdate("mainTabViewForm:mainTabView:complianceSurveysTable");
         sendJobCostingCompletedEmail = false;
         sendJobCostingApprovedEmail = false;
@@ -369,7 +369,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public Main getMain() {
         if (main == null) {
-            main = App.findBean("main");
+            main = Application.findBean("main");
         }
         return main;
     }
@@ -917,7 +917,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         try {
             parameters.put("jobId", getCurrentJob().getId().longValue());
 
-            Client client = App.getActiveClientByNameIfAvailable(em, getCurrentJob().getClient());
+            Client client = Application.getActiveClientByNameIfAvailable(em, getCurrentJob().getClient());
 
             parameters.put("contactPersonName", BusinessEntityUtils.getContactFullName(client.getMainContact()));
             parameters.put("customerAddress", client.getBillingAddress().toString());
@@ -2667,7 +2667,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public String getSearchResultsTableHeader() {
-        return App.getSearchResultsTableHeader(currentSearchParameters, getJobSearchResultList());
+        return Application.getSearchResultsTableHeader(currentSearchParameters, getJobSearchResultList());
     }
 
     public void closeJobDialog1() {
@@ -6214,7 +6214,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         return office;
     }
 
-    // TK: Remove if one in App is used
+    // TK: Remove if one in Application is used
     public Employee getDefaultEmployee(EntityManager em, String firstName, String lastName) {
         Employee employee = Employee.findEmployeeByName(em, firstName, lastName);
 
@@ -7206,7 +7206,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             Job job = Job.findJobById(em, jobId);
 
-            Client ativeClient = App.getActiveClientByNameIfAvailable(em, job.getClient());
+            Client ativeClient = Application.getActiveClientByNameIfAvailable(em, job.getClient());
 
             File file = new File(filePath);
 
@@ -7619,7 +7619,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             Job job = Job.findJobById(em, jobId);
             job.getJobCostingAndPayment().calculateAmountDue();
 
-            Client ativeClient = App.getActiveClientByNameIfAvailable(em, job.getClient());
+            Client ativeClient = Application.getActiveClientByNameIfAvailable(em, job.getClient());
 
             File file = new File(filePath);
 
@@ -8880,7 +8880,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public List<SelectItem> getGCTPercentages() {
         ArrayList percentages = new ArrayList();
 
-        percentages.addAll(App.getStringListAsSelectItems(getEntityManager1(), "GCTPercentageList"));
+        percentages.addAll(Application.getStringListAsSelectItems(getEntityManager1(), "GCTPercentageList"));
 
         return percentages;
     }

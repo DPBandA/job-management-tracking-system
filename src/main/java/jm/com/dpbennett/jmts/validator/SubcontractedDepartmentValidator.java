@@ -11,7 +11,7 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import jm.com.dpbennett.business.entity.Department;
-import jm.com.dpbennett.jmts.App;
+import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.Main;
 
 /**
@@ -23,7 +23,7 @@ public class SubcontractedDepartmentValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        Main main = App.findBean("main");
+        Main main = Application.findBean("main");
 
         if ( value != null) {
             Department subContractedDepartment = Department.findDepartmentByName(main.getEntityManager1(), ((Department) value).getName());
