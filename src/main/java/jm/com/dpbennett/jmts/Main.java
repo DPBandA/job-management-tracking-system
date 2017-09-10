@@ -36,7 +36,7 @@ import org.primefaces.event.ToggleEvent;
 @SessionScoped
 public class Main implements UserManagement, MessageManagement, Serializable {
 
-    @PersistenceUnit(unitName = "BSJDBPU")
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     //private JobManagement jm;
     private JobManagerUser user;

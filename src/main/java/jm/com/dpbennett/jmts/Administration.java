@@ -22,7 +22,7 @@ import org.primefaces.context.RequestContext;
 @SessionScoped
 public class Administration implements Serializable {
 
-    @PersistenceUnit(unitName = "BSJDBPU")
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     private UserManagement userManagement;    
     private Boolean dirty;

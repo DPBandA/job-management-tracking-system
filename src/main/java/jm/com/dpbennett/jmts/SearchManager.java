@@ -30,7 +30,7 @@ import org.primefaces.event.SelectEvent;
 @SessionScoped
 public class SearchManager implements SearchManagement, Serializable {
 
-    @PersistenceUnit(unitName = "BSJDBPU")
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     private HashMap searhParameters;
     private String currentSearchParameterKey;

@@ -25,7 +25,7 @@ import javax.persistence.PersistenceUnit;
 @ApplicationScoped
 public class JMTSApp implements Serializable {    
 
-    @PersistenceUnit(unitName = "BSJDBPU")
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF;
     // privilege constants
     public static int CAN_ENTER_JOB = 0;

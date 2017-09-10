@@ -42,7 +42,7 @@ import org.primefaces.event.SelectEvent;
 @SessionScoped
 public class ServiceManager implements Serializable, BusinessEntityManager {
 
-    @PersistenceUnit(unitName = "BSJDBPU")
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF;
     private List<ServiceRequest> serviceRequestSearchResultsList;
     private SearchParameters currentSearchParameters;

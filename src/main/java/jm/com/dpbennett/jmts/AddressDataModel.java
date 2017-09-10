@@ -11,7 +11,7 @@ import org.primefaces.model.SelectableDataModel;
 
 /**
  *
- * @author D P Bennett & Associates
+ * @author D P Bennett &amp; Associates
  */
 public class AddressDataModel extends ListDataModel<Address> implements SelectableDataModel<Address> {
     

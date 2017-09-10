@@ -50,7 +50,7 @@ import jm.com.dpbennett.business.utils.SearchParameters;
 @ApplicationScoped
 public class App {
 
-    @PersistenceUnit(unitName = "BSJDBPU")
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     private List years;
     private final Map<String, String> themes = new TreeMap<>();

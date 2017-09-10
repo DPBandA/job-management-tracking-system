@@ -136,7 +136,7 @@ import org.primefaces.model.StreamedContent;
 @SessionScoped
 public class JobManager implements Serializable, BusinessEntityManager, DialogActionHandler {
 
-    @PersistenceUnit(unitName = "BSJDBPU")
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;

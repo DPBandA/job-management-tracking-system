@@ -37,7 +37,7 @@ import org.primefaces.context.RequestContext;
 public class ClientManager implements Serializable, ClientManagement {
 
     // private EntityManager entityManager;
-    @PersistenceUnit(unitName = "BSJDBPU")
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory localEntityManagerFactory;
     // This factory is used by external clients. May be removed in the future
     private EntityManagerFactory externalEntityManagerFactory;

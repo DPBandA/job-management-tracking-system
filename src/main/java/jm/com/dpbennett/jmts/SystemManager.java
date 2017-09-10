@@ -47,7 +47,7 @@ import org.primefaces.event.TabChangeEvent;
 @SessionScoped
 public class SystemManager implements Serializable {
 
-    @PersistenceUnit(unitName = "BSJDBPU")
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF;
     private JobManagerUser user;
     private Employee selectedEmployee;
