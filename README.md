@@ -3,10 +3,12 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 
 ## Things to do
 - Add cash payments feature so cashier can add cash payments.
-   * Add fields to cashPayment and database: discount, discountType, 
+* Add discount type and discount to cash payment form.
+* Add fields to cashPayment and database: discount, discountType, 
      paymentTerms, rename JMTSUserId to userId
-   * Make a payment(first) as desosit and save to jobCostingAndPayment.deposit
-   * Add PO number to payment panel. 
+* Make a payment(first) as desosit and save to jobCostingAndPayment.deposit
+* Add PO number to payment panel. 
+* Update corresponding fields in jobCostingAndPayment as required.
 - Create contact field in the job record to assign contact to current job.
 - Implement and include report templates for all reports generated to date.
 - Implement prevention of the insertion of incorrect subcontract jobs costing 
