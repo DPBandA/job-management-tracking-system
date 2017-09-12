@@ -65,7 +65,7 @@
             <h:outputText value="&nbsp;"/>
 
             <h:outputText id="costEstimateLabel"
-                value="#{jobManager.currentJob.jobCostingAndPayment.costEstimateWithTaxLabel}"/>
+                          value="#{jobManager.currentJob.jobCostingAndPayment.costEstimateWithTaxLabel}"/>
             <h:panelGroup>
                 <p:inputText id="estimatedCostIncludingTaxes"
                              value="#{jobManager.currentJob.jobCostingAndPayment.estimatedCostIncludingTaxes}"
@@ -85,7 +85,7 @@
             <h:outputText value="&nbsp;"/>     
 
             <h:outputText id="minDepositLabel"
-                value="#{jobManager.currentJob.jobCostingAndPayment.minDepositWithTaxLabel}"/>
+                          value="#{jobManager.currentJob.jobCostingAndPayment.minDepositWithTaxLabel}"/>
             <p:inputText id="minDepositIncludingTaxes"
                          value="#{jobManager.currentJob.jobCostingAndPayment.minDepositIncludingTaxes}"
                          style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
@@ -138,94 +138,83 @@
 
         </h:panelGrid>
     </p:panel>
-    <p:panel id="invoicingAndPayment" header="Invoicing and Payment">
-        <h:panelGrid columns="3" >
-            <h:outputText value="Invoice number(s): "/>
-            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.invoiceNumber}"
-                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                         maxlength="250" >
-                <p:ajax event="keyup"
-                        global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
-                        listener="#{jobManager.updateJob}"
-                        process="@this"/>
-            </p:inputText>
-            <h:outputText value="&nbsp;"/>
+    <p:panel id="cashPayments" header="Payments">
+        <p:commandButton value="Add payment"
+                         title="Add new payment"
+                         actionListener="#{jobManager.createNewCashPayment}"
+                         update=":cashPaymentDialogForm"
+                         oncomplete="cashPaymentDialog.show();"
+                         onstart="longProcessDialogVar.show();"
+                         icon="ui-icon-plus"
+                         process="@this" />
+        <p:spacer height="9" width="10"/>
+        <p:dataTable id="cashPaymentTable"
+                     paginator="true"
+                     rows="15"
+                     var="cashPayment"
+                     value="#{jobManager.currentJob.jobCostingAndPayment.cashPayments}">
+            <p:column style="width:100px"  >
+                <f:facet name="header">
+                    <h:outputText value="Receipt #" />
+                </f:facet>
+                <h:outputText value="#{cashPayment.receiptNumber}" />
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Payment type"/>
+                </f:facet>
+                <h:outputText value="#{cashPayment.type}"/>              
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Amount"/>
+                </f:facet>
+                <h:outputText value="#{cashPayment.payment}"/>              
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Terms"/>
+                </f:facet>
+                <h:outputText value="#{cashPayment.paymentTerms}"/>              
+            </p:column>
+            <p:column style="width:32px">
+                <p:menuButton id="toolsButton" value="Actions" >
+                    <p:menuitem value="Edit payment details"
+                                actionListener="#{jobManager.editCashPayment}"
+                                update=""
+                                onstart="longProcessDialogVar.show();"
+                                oncomplete=""
+                                icon="ui-icon-pencil"
+                                process="@this">
+                        <f:setPropertyActionListener value="#{cashPayment}"
+                                                     target="#{jobManager.selectedCashPayment}" />
+                    </p:menuitem>                    
+                    <p:menuitem value="Delete this sample"
+                                onclick="jobSampleDeleteConfirm.show();"
+                                icon="ui-icon-trash"
+                                process="@this">
+                        <f:setPropertyActionListener value="#{cashPayment}"
+                                                     target="#{jobManager.selectedCashPayment}" />
+                    </p:menuitem>
+                </p:menuButton>          
+            </p:column>            
+            <p:columnGroup type="footer">
+                <p:row>
+                    <p:column colspan="2" style="text-align:right" footerText="Total payments: #{jobManager.currentJob.jobCostingAndPayment.deposit}"/>
+                    <ui:remove>
+                    <p:column colspan="3" style="text-align:right" footerText="Total ??: #{jobManager.currentJob.jobCostingAndPayment.deposit}"/>
+                    </ui:remove>
+                </p:row>               
+            </p:columnGroup>
+        </p:dataTable>
+        <p:commandButton value="Add payment"
+                         title="Add new payment"
+                         actionListener="#{jobManager.createNewCashPayment}"
+                         update=":cashPaymentDialogForm"
+                         oncomplete="cashPaymentDialog.show();"
+                         onstart="longProcessDialogVar.show();"
+                         icon="ui-icon-plus"
+                         process="@this" />
+    </p:panel>
 
-            <h:outputText value="Receipt #s: "/>
-            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.receiptNumber}"
-                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                         maxlength="250">
-                <p:ajax event="keyup"
-                        global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
-                        listener="#{jobManager.updateJob}"
-                        process="@this"/>
-            </p:inputText>
-            <h:outputText value="&nbsp;"/>
-
-            <p:selectOneMenu 
-                id="discountType"      
-                disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                value="#{jobManager.currentJob.jobCostingAndPayment.discountType}">
-                <p:ajax
-                    global="true"
-                    update=":jobCostingDialogForm:amountDue,jobCosting"
-                    listener="#{jobManager.updateAmountDue}"
-                    process="@this" />
-                <f:selectItems value="#{App.discountTypes}" />
-            </p:selectOneMenu>             
-            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.discount}" 
-                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                         maxlength="250">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                <p:ajax event="keyup"
-                        global="false"
-                        update=":jobCostingDialogForm:amountDue,jobCosting"
-                        listener="#{jobManager.updateAmountDue}"
-                        process="@this"/>
-            </p:inputText>          
-            <h:outputText value="&nbsp;"/>  
-
-            <h:outputText value="Total paid ($): "/>
-            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.deposit}"
-                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                         maxlength="250">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                <p:ajax event="keyup"
-                        global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,amountDue2"
-                        listener="#{jobManager.updateTotalDeposit}"
-                        process="@this"/>
-            </p:inputText>
-            <h:outputText value="&nbsp;"/>
-
-            <h:outputText value="Last payment date:" />
-            <p:calendar value="#{jobManager.currentJob.jobStatusAndTracking.depositDate}"
-                        disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                        navigator="true"
-                        pattern="MMM dd, yyyy" >
-                <p:ajax event="dateSelect"
-                        listener="#{jobManager.updateJob}" />
-                <p:ajax event="keyup"
-                        listener="#{jobManager.updateJob}" />
-            </p:calendar>
-            <h:outputText value="&nbsp;"/>   
-
-            <h:outputText value="Payment terms: "/>
-            <p:inputTextarea
-                value="#{jobManager.currentJob.jobCostingAndPayment.paymentTerms}" 
-                disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                maxlength="250"
-                rows="2"
-                style="width: 300px;">
-                <p:ajax event="keyup"
-                        global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
-                        listener="#{jobManager.updateJob}"
-                        process="@this"/>
-            </p:inputTextarea>
-            <h:outputText value="&nbsp;"/>
-        </h:panelGrid>
-    </p:panel>         
 </html>

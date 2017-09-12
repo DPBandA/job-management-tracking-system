@@ -63,7 +63,7 @@
                         completeMethod="#{jobManager.completeClassification}" >
             <p:ajax event="itemSelect"                                                                  
                     listener="#{jobManager.updateJobClassification}"
-                    update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                    update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                     process="@this"/>
         </p:autoComplete>
 
@@ -123,11 +123,11 @@
                     navigator="true" 
                     pattern="MMM dd, yyyy" >
             <p:ajax event="dateSelect"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                     listener="#{jobManager.handleDateSubmittedSelect}" />
            
             <p:ajax event="keyup"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                     listener="#{jobManager.handleDateSubmittedSelect}" />
            
         </p:calendar>
@@ -148,12 +148,12 @@
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                     process="@this" />
             <p:ajax event="keyup"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                     process="@this" />
         </p:autoComplete>     
 
@@ -175,11 +175,11 @@
                         completeMethod="#{jobManager.completeDepartment}" >
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateSubContractedDepartment}"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                     process="@this" />
             <p:ajax event="keyup"
                     listener="#{jobManager.updateSubContractedDepartment}"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                     process="@this" />          
         </p:autoComplete>
 

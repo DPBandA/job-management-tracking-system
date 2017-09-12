@@ -145,22 +145,22 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private Long selectedJobId;
     private Long currentJobId;
     private Job selectedJob;
-    private JobSample selectedJobSample;
+    private JobSample selectedJobSample;  
     private JobSample backupSelectedJobSample;
     private CashPayment selectedCashPayment;
     private Boolean addJobSample;
     private Boolean addCostComponent;
+    private Boolean addCashPayment;
     private Boolean dynamicTabView;
-    private String columnsToExclude = "";
+    private String columnsToExclude;
     private Report jobReport;
     private StreamedContent jobReportFile;
     private StreamedContent jobCostingFile;
     private Boolean renderSearchComponent;
     @ManagedProperty(value = "Jobs")
     private String tabTitle;
-    private Integer longProcessProgress = 0;
+    private Integer longProcessProgress;
     private AccPacCustomer accPacCustomer;
-    //private List<AccPacDocument> accPacCustomerDocuments;
     private List<AccPacDocument> filteredAccPacCustomerDocuments;
     private Boolean useAccPacCustomerList;
     private CostComponent selectedCostComponent;
@@ -174,7 +174,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private String outcome;
     private String defaultOutcome;
     private Integer jobSampleDialogTabViewActiveIndex;
-    private Boolean showJobEntry = false;
+    private Boolean showJobEntry;
     // job report vars
     private Department reportingDepartment;
     private String reportSearchText;
@@ -187,23 +187,21 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private DatePeriodJobReport jobSubCategoryReport;
     private DatePeriodJobReport sectorReport;
     private DatePeriodJobReport jobQuantitiesAndServicesReport;
-    //private String invalidFormFieldMessage;
     private String userPrivilegeDialogHeader;
     private String userPrivilegeDialogMessage;
-    private Boolean isNewContact = false;
+    private Boolean isNewContact;
     private Contact currentContact;
-    private Integer loginAttempts = 0;
+    private Integer loginAttempts;
     private String selectedJobCostingTemplate;
-    private Long databaseModuleId = 1L;
-    private Boolean enableDatabaseModuleSelection = false;
-    private String databaseModule = "";
+    private Long databaseModuleId;
+    private Boolean enableDatabaseModuleSelection;
+    private String databaseModule;
     private SearchParameters currentSearchParameters;
-    private Boolean isJobToBeCopied = false;
+    private Boolean isJobToBeCopied;
     private Boolean isJobToBeSubcontracted = false;
     private Main main;
-    private ClientManager clientManager;
-    private SearchManager searchManager;
-   
+    private final ClientManager clientManager;
+    private final SearchManager searchManager;   
     private SearchParameters reportSearchParameters;
     private Employee reportEmployee;
     private Department unitCostDepartment;
@@ -221,8 +219,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     // Monthly report date periods
     private DatePeriod monthlyReportDatePeriod;
     private DatePeriod monthlyReportDataDatePeriod;
-    private DatePeriod monthlyReportYearDatePeriod;
-    //private Boolean subcontractedDepartmentRendered;
+    private DatePeriod monthlyReportYearDatePeriod; 
     // Show accpac prepayments
     private Boolean showPrepayments;
 
@@ -230,6 +227,15 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
      * Creates a new instance of JobManagerBean
      */
     public JobManager() {
+        this.isJobToBeCopied = false;
+        this.databaseModule = "";
+        this.databaseModuleId = 1L;
+        this.loginAttempts = 0;
+        this.isNewContact = false;
+        this.showJobEntry = false;
+        this.longProcessProgress = 0;
+        this.columnsToExclude = "";
+        this.enableDatabaseModuleSelection = false;
 
         // init fields
         // accpac fields init
@@ -241,6 +247,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         jobReport = new Report();
         dirty = false;
         addJobSample = false;
+        addCashPayment = false;
+        addCostComponent = false;
         // reporting vars init
         ArrayList searchTypes = new ArrayList();
         ArrayList searchDateFields = new ArrayList();
@@ -3746,6 +3754,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         addJobSample = false;
     }
+    
+    public void editCashPayment(ActionEvent event) {
+        System.out.println("Edit cash payment to be impl.");
+    }
 
     public void copyJobSample() {
         // tk
@@ -3776,10 +3788,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void editCostComponent(ActionEvent event) {
     }
+    
+    public void createNewCashPayment(ActionEvent event) {
+        addCashPayment = true;
+        selectedCashPayment = new CashPayment();        
+    }
 
-    public void createNewJobSample(ActionEvent event) {
-        // init sample
-        //addJobSample = true;
+    public void createNewJobSample(ActionEvent event) {        
 
         if (getCurrentJob().hasOnlyDefaultJobSample()) {
             addJobSample = false;
@@ -3787,8 +3802,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             selectedJobSample.setDescription("");
         } else {
             addJobSample = true;
-            selectedJobSample = new JobSample();
-            //selectedJobSample.setReferenceIndex(getCurrentNumberOfJobSamples());
+            selectedJobSample = new JobSample();            
             // Init sample
             selectedJobSample.setJobId(currentJob.getId());
             selectedJobSample.setSampleQuantity(1L);
@@ -3813,6 +3827,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         // init sample
         addCostComponent = true;
         selectedCostComponent = new CostComponent();
+    }
+    
+    public void cancelCashPaymentEdit() {
+        
     }
 
     public void cancelJobSampleEdit() {
@@ -3991,6 +4009,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         // taxes was changed
         currentJob.getJobCostingAndPayment().calculateAmountDue();
     }
+    
+    public void okCashPayment() {
+        
+    }
 
     public void okJobSample() {
         RequestContext context = RequestContext.getCurrentInstance();
@@ -4056,7 +4078,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public JobSample getSelectedJobSample() {
         return selectedJobSample;
-    }
+    }   
+    
 
     public void setSelectedJobSample(JobSample selectedJobSample) {
         this.selectedJobSample = selectedJobSample;

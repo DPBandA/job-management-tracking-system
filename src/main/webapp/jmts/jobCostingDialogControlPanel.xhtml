@@ -8,7 +8,7 @@
                          disabled="#{jobManager.completed}"
                          onstart="longProcessDialogVar.show();"
                          actionListener="#{jobManager.validateJobCostingAndSaveJob}"
-                         update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                         update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                          oncomplete="handleSaveJobCostingAndPaymentRequest(xhr, status, args);longProcessDialogVar.hide();"
                          icon="ui-icon-check"
                          process="@this"/>
@@ -16,7 +16,7 @@
         <p:commandButton value="Close"
                          onstart="longProcessDialogVar.show();"
                          actionListener="#{jobManager.closeJobCostingDialog}"
-                         update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:invoicingAndPayment"
+                         update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                          oncomplete="longProcessDialogVar.hide();jobCostingDialog.hide();"
                          icon="ui-icon-close"
                          process="@this"/>
