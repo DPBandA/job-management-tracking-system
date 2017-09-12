@@ -9,6 +9,8 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 * Make a payment(first) as desosit and save to jobCostingAndPayment.deposit
 * Add PO number to payment panel. 
 * Update corresponding fields in jobCostingAndPayment as required.
+* Use canEditInvoicingAndPayment where necessary
+* Ensure amount due is updated correctly using cash payments.
 - Create contact field in the job record to assign contact to current job.
 - Implement and include report templates for all reports generated to date.
 - Implement prevention of the insertion of incorrect subcontract jobs costing 

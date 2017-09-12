@@ -138,16 +138,17 @@
 
         </h:panelGrid>
     </p:panel>
-    <p:panel id="cashPayments" header="Payments">
+    <p:panel id="cashPayments" header="Payments">        
         <p:commandButton value="Add payment"
                          title="Add new payment"
                          actionListener="#{jobManager.createNewCashPayment}"
                          update=":cashPaymentDialogForm"
                          oncomplete="cashPaymentDialog.show();"
+                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
                          process="@this" />
-        <p:spacer height="9" width="10"/>
+        <p:spacer height="10" width="0"/>
         <p:dataTable id="cashPaymentTable"
                      paginator="true"
                      rows="15"
@@ -202,17 +203,19 @@
                 <p:row>
                     <p:column colspan="2" style="text-align:right" footerText="Total payments: #{jobManager.currentJob.jobCostingAndPayment.deposit}"/>
                     <ui:remove>
-                    <p:column colspan="3" style="text-align:right" footerText="Total ??: #{jobManager.currentJob.jobCostingAndPayment.deposit}"/>
+                        <p:column colspan="3" style="text-align:right" footerText="Total ??: #{jobManager.currentJob.jobCostingAndPayment.deposit}"/>
                     </ui:remove>
                 </p:row>               
             </p:columnGroup>
         </p:dataTable>
+        <p:spacer height="10" width="0"/>
         <p:commandButton value="Add payment"
                          title="Add new payment"
                          actionListener="#{jobManager.createNewCashPayment}"
                          update=":cashPaymentDialogForm"
                          oncomplete="cashPaymentDialog.show();"
                          onstart="longProcessDialogVar.show();"
+                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                          icon="ui-icon-plus"
                          process="@this" />
     </p:panel>

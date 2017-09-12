@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:form id="cashPaymentDialogForm">
-        <p:dialog width="400"
-                  height="250"
+        <p:dialog width="425"
+                  height="215"
                   draggable="true"
                   modal="true"
                   widgetVar="cashPaymentDialog"
@@ -38,14 +39,49 @@
                             process="@this"/>
                 </p:inputText>
 
-                <h:outputText value="Terms:" />
-                <p:inputText value="#{jobManager.selectedCashPayment.paymentTerms}"
-                             style="width: 100%" >
-                    <p:ajax listener="#{jobManager.updateJob}"
-                            event="keyup"
+                <p:selectOneMenu 
+                    id="discountType"      
+                    disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                    value="#{jobManager.selectedCashPayment.discountType}">
+                    <p:ajax
+                        global="true"
+                        update=":jobCostingDialogForm:amountDue,:jobDialogForm:jobFormTabView:jobCosting"
+                        listener="#{jobManager.updateAmountDue}"
+                        process="@this" />
+                    <f:selectItems value="#{App.discountTypes}" />
+                </p:selectOneMenu>             
+                <p:inputText value="#{jobManager.selectedCashPayment.discount}"                              
+                             maxlength="250">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    <p:ajax event="keyup"
                             global="false"
+                            update=":jobCostingDialogForm:amountDue,:jobDialogForm:jobFormTabView:jobCosting"
+                            listener="#{jobManager.updateAmountDue}"
                             process="@this"/>
-                </p:inputText>
+                </p:inputText>          
+
+                <h:outputText value="Terms:" />
+                <p:inputTextarea
+                    value="#{jobManager.selectedCashPayment.paymentTerms}"                     
+                    maxlength="250"
+                    rows="2"
+                    style="width: 230px;">
+                    <p:ajax event="keyup"
+                            global="false"
+                            update=""
+                            listener="#{jobManager.updateJob}"
+                            process="@this"/>
+                </p:inputTextarea>
+                <ui:remove>
+                    <h:outputText value="Terms:" />
+                    <p:inputText value="#{jobManager.selectedCashPayment.paymentTerms}"
+                                 style="width: 100%" >
+                        <p:ajax listener="#{jobManager.updateJob}"
+                                event="keyup"
+                                global="false"
+                                process="@this"/>
+                    </p:inputText>
+                </ui:remove>
             </h:panelGrid>
             <hr/>
             <p:commandButton value="Ok"
