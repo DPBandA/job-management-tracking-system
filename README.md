@@ -3,10 +3,14 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 
 ## Things to do
 ### Immediate Issues
+- Implement updateCashPayment() to record updates made to a field and store the updates 
+in a list called updates using a method called update() in entities whose updates
+are to be tracked. Only mark the job as dirty when the dialog is closed or "oked". 
+Jobs should be marked "clean" if edits in a dialog have been canceled.
 - Add cash payments feature so cashier can add cash payments.
 * Add discount type and discount to cash payment form.
 * Add fields to cashPayment and database: discount, discountType, 
-     paymentTerms, rename JMTSUserId to userId
+paymentTerms, rename JMTSUserId to userId
 * Make a payment(first) as desosit and save to jobCostingAndPayment.deposit
 * Add PO number to payment panel. 
 * Update corresponding fields in jobCostingAndPayment as required.
@@ -46,9 +50,9 @@ by other apps?
     “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
 - NB (Put in Wiki): The service contract template is : c:\jasperreports\ServiceContractTemplate.xls
 
-
 ### System Design
 #### Design
+- Change discount combobox to a menu.
 - Create Home screen showing user's jobs, departmental job etc.
 - Display message when user logs on without authentication
 - Make country of origin autocomplete.
@@ -56,6 +60,7 @@ by other apps?
 - For job/survey and other search just return the values needed for the table display and not the entire job/survey record. This requires less bandwidth.
 - Implement data backup from one database to another ie database replication.
 #### Issues
+- Change "keyup" to "change" where possible.
 - Update system options table after editing an option.
 - Remove record id from dialogs.
 - Implement setting of logo and title of main page in system admin

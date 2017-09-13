@@ -132,13 +132,29 @@ public class Application {
         return searchTypes;
     }
 
+    /**
+     * Returns the discount type that can be applied to a payment/amount
+     *
+     * @return
+     */
     public List getDiscountTypes() {
-        ArrayList searchTypes = new ArrayList();
+        ArrayList discountTypes = new ArrayList();
 
-        searchTypes.add(new SelectItem("Fixed Cost", "Discount ($): "));
-        searchTypes.add(new SelectItem("Percentage", "Discount (%): "));
+        discountTypes.add(new SelectItem("Fixed Cost", "Discount ($): "));
+        discountTypes.add(new SelectItem("Percentage", "Discount (%): "));
 
-        return searchTypes;
+        return discountTypes;
+    }
+
+    public List getPaymentTypes() {
+        ArrayList paymentTypes = new ArrayList();
+
+        paymentTypes.add(new SelectItem("Cash", "Cash"));
+        paymentTypes.add(new SelectItem("Cheque", "Cheque"));
+        paymentTypes.add(new SelectItem("Credit Card", "Credit Card"));
+        paymentTypes.add(new SelectItem("Debit Card", "Debit Card"));
+
+        return paymentTypes;
     }
 
     /*
@@ -353,7 +369,6 @@ public class Application {
         return countriesList;
     }
 
-    
     /**
      * Get LDAP attributes
      *

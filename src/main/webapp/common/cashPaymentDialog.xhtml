@@ -12,32 +12,33 @@
                   widgetVar="cashPaymentDialog"
                   header="Payment Detail" >
             <h:panelGrid columns="2" style="width: 85%">
-                <h:outputText value="Type:" />                
-                <p:inputText value="#{jobManager.selectedCashPayment.type}"
-                             style="width: 100%" >
-                    <p:ajax listener="#{jobManager.updateJob}"
-                            event="keyup"
-                            global="false"
-                            process="@this"/>
-                </p:inputText>
-
+                <h:outputText value="Type:" />    
+                <p:selectOneMenu 
+                    id="type"      
+                    value="#{jobManager.selectedCashPayment.type}">
+                    <p:ajax
+                        global="true"                        
+                        listener="#{jobManager.updateCashPayment}"
+                        process="@this" />
+                    <f:selectItems value="#{App.paymentTypes}" />
+                </p:selectOneMenu>   
                 <h:outputText value="Receipt #:" />
-                <p:inputText value="#{jobManager.selectedCashPayment.receiptNumber}"
-                             style="width: 100%" >
-                    <p:ajax listener="#{jobManager.updateJob}"
-                            event="keyup"
+                <p:inputText value="#{jobManager.selectedCashPayment.receiptNumber}" >
+                    <p:ajax listener="#{jobManager.updateCashPayment}"
+                            event="change"
                             global="false"                            
                             process="@this"/>
                 </p:inputText>               
 
                 <h:outputText value="Amount:" />
-                <p:inputText value="#{jobManager.selectedCashPayment.payment}"
-                             style="width: 100%" >
-                    <p:ajax listener="#{jobManager.updateJob}"
-                            event="keyup"
-                            global="false"
+                <p:inputText value="#{jobManager.selectedCashPayment.payment}"                             
+                             maxlength="250">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    <p:ajax event="change"
+                            global="false"                            
+                            listener="#{jobManager.updateCashPayment}"
                             process="@this"/>
-                </p:inputText>
+                </p:inputText>                
 
                 <p:selectOneMenu 
                     id="discountType"      
@@ -46,17 +47,17 @@
                     <p:ajax
                         global="true"
                         update=":jobCostingDialogForm:amountDue,:jobDialogForm:jobFormTabView:jobCosting"
-                        listener="#{jobManager.updateAmountDue}"
+                        listener="#{jobManager.updateCashPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.discountTypes}" />
                 </p:selectOneMenu>             
                 <p:inputText value="#{jobManager.selectedCashPayment.discount}"                              
                              maxlength="250">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                    <p:ajax event="keyup"
+                    <p:ajax event="change"
                             global="false"
                             update=":jobCostingDialogForm:amountDue,:jobDialogForm:jobFormTabView:jobCosting"
-                            listener="#{jobManager.updateAmountDue}"
+                            listener="#{jobManager.updateCashPayment}"
                             process="@this"/>
                 </p:inputText>          
 
@@ -64,26 +65,15 @@
                 <p:inputTextarea
                     value="#{jobManager.selectedCashPayment.paymentTerms}"                     
                     maxlength="250"
-                    rows="2"
-                    style="width: 230px;">
-                    <p:ajax event="keyup"
+                    rows="2">
+                    <p:ajax event="change"
                             global="false"
                             update=""
-                            listener="#{jobManager.updateJob}"
+                            listener="#{jobManager.updateCashPayment}"
                             process="@this"/>
-                </p:inputTextarea>
-                <ui:remove>
-                    <h:outputText value="Terms:" />
-                    <p:inputText value="#{jobManager.selectedCashPayment.paymentTerms}"
-                                 style="width: 100%" >
-                        <p:ajax listener="#{jobManager.updateJob}"
-                                event="keyup"
-                                global="false"
-                                process="@this"/>
-                    </p:inputText>
-                </ui:remove>
+                </p:inputTextarea>                
             </h:panelGrid>
-            <hr/>
+            <hr/> 
             <p:commandButton value="Ok"
                              actionListener="#{jobManager.okCashPayment}"
                              icon="ui-icon-check"
