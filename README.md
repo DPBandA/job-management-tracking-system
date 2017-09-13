@@ -2,6 +2,7 @@
 The JMTS is an enterprise software that facilitates the management and tracking of jobs.
 
 ## Things to do
+### Immediate Issues
 - Add cash payments feature so cashier can add cash payments.
 * Add discount type and discount to cash payment form.
 * Add fields to cashPayment and database: discount, discountType, 
