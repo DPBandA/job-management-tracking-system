@@ -4,9 +4,10 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ## Things to do
 ### Immediate Issues
 - Implement updateCashPayment() to record updates made to a field and store the updates 
-in a list called updates using a method called update() in entities whose updates
-are to be tracked. Only mark the job as dirty when the dialog is closed or "oked". 
-Jobs should be marked "clean" if edits in a dialog have been canceled.
+in a list called updates using a method called update() in JobManager. 
+Only mark the job as dirty when the dialog is closed or "oked". 
+JobManager isDirty should be not be set to true if edits in a dialog have been 
+canceled. Implement same feature for the JobDialog and other dialogs.
 - Add cash payments feature so cashier can add cash payments.
 * Add discount type and discount to cash payment form.
 * Add fields to cashPayment and database: discount, discountType, 
@@ -33,6 +34,7 @@ a selected client contact.
 -- For subcontracts, get or create contact for person doing the subcontract.
 - Use primefaces Dialog framework to implement all dialogs so they can be reused
 by other apps?
+- Remove payeeFirst/Lastname and put contact/person.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
