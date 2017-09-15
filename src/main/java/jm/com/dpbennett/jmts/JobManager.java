@@ -200,7 +200,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private String databaseModule;
     private SearchParameters currentSearchParameters;
     private Boolean isJobToBeCopied;
-    private Boolean isJobToBeSubcontracted = false;
+    //private Boolean isJobToBeSubcontracted = false;
     private Main main;
     private final ClientManager clientManager;
     private final SearchManager searchManager;
@@ -302,13 +302,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 null, false, false, true);
     }
 
-    public Boolean getIsJobToBeSubcontracted() {
-        return isJobToBeSubcontracted;
-    }
-
-    public void setIsJobToBeSubcontracted(Boolean isJobToBeSubcontracted) {
-        this.isJobToBeSubcontracted = isJobToBeSubcontracted;
-    }
+//    public Boolean getIsJobToBeSubcontracted() {
+//        return isJobToBeSubcontracted;
+//    }
+//
+//    public void setIsJobToBeSubcontracted(Boolean isJobToBeSubcontracted) {
+//        this.isJobToBeSubcontracted = isJobToBeSubcontracted;
+//    }
 
     public List<AccPacDocument> getFilteredAccPacCustomerDocuments() {
         return filteredAccPacCustomerDocuments;
@@ -1512,8 +1512,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         if (selectedJobs.length > 0) {
             EntityManager em = getEntityManager1();
 
-            for (int i = 0; i < selectedJobs.length; i++) {
-                Job job = selectedJobs[i];
+            for (Job job : selectedJobs) {
                 if (job.getJobCostingAndPayment().getCostingApproved()) {
                     em.getTransaction().begin();
                     job.getJobCostingAndPayment().setInvoiced(true);
@@ -2564,6 +2563,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         closeEntityManager(em);
     }
 
+    // tk put in Job class
     public void createJob(EntityManager em, Boolean isSubcontract) {
 
         RequestContext context = RequestContext.getCurrentInstance();
@@ -2571,7 +2571,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         try {
             if (isSubcontract) {
-                setIsJobToBeSubcontracted(isSubcontract);
+                //setIsJobToBeSubcontracted(isSubcontract);
                 if (currentJob.getId() == null) {
                     context.addCallbackParam("jobNotSaved", true);
                     return;
@@ -2582,7 +2582,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 Integer yearReceived = currentJob.getYearReceived();
 
                 currentJob = copyJob(em, currentJob, getUser(), true, true);
-
+                currentJob.setIsJobToBeSubcontracted(isSubcontract);
                 currentJob.setYearReceived(yearReceived);
                 currentJob.setJobSequenceNumber(currentJobSequenceNumber);
             } else {
@@ -2686,7 +2686,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public void closeJobDialog1() {
         // Redo search to reloasd stored jobs including
 
-        setIsJobToBeSubcontracted(false);
+        //setIsJobToBeSubcontracted(false);
+        getCurrentJob().setIsJobToBeSubcontracted(false);
         setIsJobToBeCopied(false);
 
         // prompt to save modified job before attempting to create new job
@@ -2882,7 +2883,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         } else if (isJobToBeCopied) {
             System.out.println("Saving cause copy is being created");
             saveCurrentJob(em);
-        } else if (isJobToBeSubcontracted) {
+        } else if (currentJob.getIsJobToBeSubcontracted()/*isJobToBeSubcontracted*/) {
             System.out.println("Saving cause subcontract is being created");
             saveCurrentJob(em);
         } else if (!isDirty()) {
@@ -3124,7 +3125,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
 
         // Check for valid subcontracted department
-        if (!currentJob.isSubContracted() && getIsJobToBeSubcontracted()) {
+        if (!currentJob.isSubContracted() && currentJob.getIsJobToBeSubcontracted()) {
             if (displayErrorMessage) {
                 getMain().setInvalidFormFieldMessage("Please enter a valid subcontracted department.");
                 context.update("invalidFieldDialogForm");
@@ -3493,7 +3494,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             em.getTransaction().commit();
             setIsJobToBeCopied(false);
-            setIsJobToBeSubcontracted(false);
+            currentJob.setIsJobToBeSubcontracted(false);
             setDirty(false);
         } catch (Exception e) {
             currentJob.setJobNumber(getJobNumber(currentJob, em));
@@ -8649,19 +8650,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         if (getUser().getPrivilege().getCanBeJMTSAdministrator()) {
             return false;
         }
-        if (getCurrentJob().getId() != null) {
-            return true;
-        }
-
-        return false;
+        return getCurrentJob().getId() != null;
     }
 
     public Boolean getRenderSubContractingDepartment() {
-        if (getIsJobToBeSubcontracted() || getCurrentJob().isSubContracted()) {
-            return true;
-        } else {
-            return false;
-        }
+        return getCurrentJob().getIsJobToBeSubcontracted() || getCurrentJob().isSubContracted();
     }
 
     /**

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jm.com.dpbennett.jmts.webserviceclient;
+package jm.com.dpbennett.jmts.serviceclient;
 
 import com.sun.jersey.api.client.WebResource;
 
@@ -23,7 +23,7 @@ public class JobManagement {
 
     private final com.sun.jersey.api.client.WebResource webResource;
     private final com.sun.jersey.api.client.Client client;
-    private static final String BASE_URI = "http://localhost:8080/erp/webresources";
+    private static final String BASE_URI = "http://localhost:8080/jms/webresources";
 
     public JobManagement() {
         com.sun.jersey.api.client.config.ClientConfig config = new com.sun.jersey.api.client.config.DefaultClientConfig();

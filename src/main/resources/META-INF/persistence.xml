@@ -88,7 +88,7 @@
     <class>jm.com.dpbennett.business.entity.Alert</class>
     <class>jm.com.dpbennett.business.entity.DocumentInspection</class>
     <class>jm.com.dpbennett.business.entity.LdapContext</class>
-    <class>jm.com.dpbennett.business.entity.EntryDocumentInspection</class>    
+    <class>jm.com.dpbennett.business.entity.EntryDocumentInspection</class>
     <class>jm.com.dpbennett.business.entity.UnitCost</class>
     <class>jm.com.dpbennett.business.entity.DepartmentUnit</class>
     <class>jm.com.dpbennett.business.entity.Preference</class>
