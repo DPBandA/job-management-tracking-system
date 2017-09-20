@@ -177,16 +177,7 @@ public class Main implements UserManagement, MessageManagement, Serializable {
             switch (getTabTitle()) {
                 case "Service Requests":
                     sm.setCurrentSearchParameterKey("Service Request Search");
-                    break;
-                case "Legal Metrology":
-                    sm.setCurrentSearchParameterKey("Legal Metrology Search");
-                    break;
-                case "Standards Compliance":
-                    sm.setCurrentSearchParameterKey("Standards Compliance Search");
-                    break;
-                case "Food Factories":
-                    sm.setCurrentSearchParameterKey("Food Factories Search");
-                    break;
+                    break;                
                 case "System Administration":
                     sm.setCurrentSearchParameterKey("Admin Search");
                     break;

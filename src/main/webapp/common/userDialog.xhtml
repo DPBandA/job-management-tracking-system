@@ -166,19 +166,6 @@
                                        value="Super User"/>
                     </h:panelGrid>
                 </p:tab>                    
-                <p:tab title="Compliance Privileges">
-                    <h:panelGrid columns="2"> 
-                        <p:selectBooleanCheckbox id="canAuthDetentionRequest" value="#{systemManager.selectedUser.privilege.canAuthDetentionRequest}" />
-                        <h:outputLabel for="canAuthDetentionRequest" value="Authorize detention request"/>
-
-                        <p:selectBooleanCheckbox id="canAuthDetentionNotice" value="#{systemManager.selectedUser.privilege.canAuthDetentionNotice}" />
-                        <h:outputLabel for="canAuthDetentionNotice" value="Authorize detention notice/release"/>
-
-                        <p:selectBooleanCheckbox id="canApprvReleaseRequest" value="#{systemManager.selectedUser.privilege.canApprvReleaseRequest}" />
-                        <h:outputLabel for="canApprvReleaseRequest" value="Approve release request"/>
-                    </h:panelGrid>
-
-                </p:tab>
 
             </p:tabView>
             <hr/>

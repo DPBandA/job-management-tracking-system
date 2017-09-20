@@ -92,6 +92,7 @@ import jm.com.dpbennett.business.entity.UnitCost;
 import jm.com.dpbennett.business.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.utils.DatePeriodJobReport;
 import jm.com.dpbennett.business.utils.DatePeriodJobReportColumnData;
+import jm.com.dpbennett.business.utils.MethodResult;
 import jm.com.dpbennett.business.utils.SearchParameters;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
 import net.sf.jasperreports.engine.JRException;
@@ -301,14 +302,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 null,
                 null, false, false, true);
     }
-
-//    public Boolean getIsJobToBeSubcontracted() {
-//        return isJobToBeSubcontracted;
-//    }
-//
-//    public void setIsJobToBeSubcontracted(Boolean isJobToBeSubcontracted) {
-//        this.isJobToBeSubcontracted = isJobToBeSubcontracted;
-//    }
 
     public List<AccPacDocument> getFilteredAccPacCustomerDocuments() {
         return filteredAccPacCustomerDocuments;
@@ -790,8 +783,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public Integer getNumberOfDocumentsPassDocDate(Integer days) {
         Integer count = 0;
-
-        //for (AccPacDocument doc : accPacCustomerDocuments) {
+        
         for (AccPacDocument doc : filteredAccPacCustomerDocuments) {
             if (doc.getDaysOverDocumentDate() >= days) {
                 ++count;
@@ -813,7 +805,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public BigDecimal getTotalInvoicesAmountOverMaxInvDays() {
         BigDecimal total = new BigDecimal(0.0);
 
-//        for (AccPacDocument doc : accPacCustomerDocuments) {
         for (AccPacDocument doc : filteredAccPacCustomerDocuments) {
             if (doc.getDaysOverdue() > getMaxDaysPassInvoiceDate()) {
                 total = total.add(doc.getCustCurrencyAmountDue());
@@ -826,7 +817,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public BigDecimal getTotalInvoicesAmount() {
         BigDecimal total = new BigDecimal(0.0);
 
-//        for (AccPacDocument doc : accPacCustomerDocuments) {
         for (AccPacDocument doc : filteredAccPacCustomerDocuments) {
             total = total.add(doc.getCustCurrencyAmountDue());
         }
@@ -879,13 +869,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         return getNumberOfDocumentsPassDocDate(getMaxDaysPassInvoiceDate());
     }
 
-//    public List<AccPacDocument> getAccPacCustomerDocuments() {
-//        return accPacCustomerDocuments;
-//    }
-//
-//    public void setAccPacCustomerDocuments(List<AccPacDocument> accPacCustomerDocuments) {
-//        this.accPacCustomerDocuments = accPacCustomerDocuments;
-//    }
     public Integer getLongProcessProgress() {
         if (longProcessProgress == null) {
             longProcessProgress = 0;
@@ -1197,7 +1180,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // Get byte stream for report file
             ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream(
                     new File(jobReport.getReportFileTemplate()),
-                    //getMonthlyReportDatePeriod(),
+                 
                     reportingDepartment.getId());
 
             return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
@@ -1217,7 +1200,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // Get byte stream for report file
             ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream2(
                     new File(jobReport.getReportFileTemplate()),
-                    //getMonthlyReportDatePeriod(),
+                   
                     reportingDepartment.getId());
 
             return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
@@ -1283,13 +1266,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // ensure that crucial sheets are updated automatically
             HSSFSheet reportSheet = wb.getSheet("Report");
             reportSheet.setActive(true);
-            //reportSheet.setForceFormulaRecalculation(true);
-
+           
             // create temp file for output
             FileOutputStream out = new FileOutputStream(jobReport.getReportFile() + getUser().getId());
 
-            // if (!jobReport.getName().equals("Monthly report")) {
-            // Get/Create sheet and insert job data
             HSSFSheet jobSheet = wb.getSheet("Statistics");
             if (jobSheet == null) {
                 jobSheet = wb.createSheet("Statistics");
@@ -1304,11 +1284,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // Create header font
             HSSFFont headerFont = wb.createFont();
             headerFont.setFontHeightInPoints((short) 14);
-            //headerFont.setFontName("Courier New");
+         
             headerFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 
             if (!jobReport.getReportColumns().isEmpty()) {
-                HSSFRow headerRow = jobSheet.createRow(startingRow++); //org. 0
+                HSSFRow headerRow = jobSheet.createRow(startingRow++);
                 // Setup header style
                 HSSFCellStyle headerCellStyle = wb.createCellStyle();
                 headerCellStyle.setFont(headerFont);
@@ -1596,8 +1576,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 reportingDepartment = getUser().getEmployee().getDepartment();
                 currentPeriodJobReportSearchResultList = doJobReportSearch(reportSearchParameters.getDatePeriod().getStartDate(), reportSearchParameters.getDatePeriod().getEndDate());
             } else if (jobReport.getName().equals("Jobs entered by department")) {
-//                reportSearchText = getUser().getEmployee().getDepartment().getName();
-//                reportingDepartment = getUser().getEmployee().getDepartment();
                 if (reportingDepartment == null) {
                     reportingDepartment = getUser().getEmployee().getDepartment();
                     reportSearchText = reportingDepartment.getName();
@@ -2176,7 +2154,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void updateCashPayment(AjaxBehaviorEvent event) {
-        // tk
+        
         System.out.println("Fields for: " + CashPayment.class.getSimpleName());
         Field[] fields = CashPayment.class.getDeclaredFields();
         for (Field field : fields) {
@@ -2198,7 +2176,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void updateJobClassification() {
         EntityManager em = getEntityManager1();
-
+        
+        // tk remove this and others after converters are created
         updateDepartments(currentJob, em);
 
         // Get the clasification saved for use in setting taxes
@@ -2421,27 +2400,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void updateIsCostComponentHeading() {
-//        if (getSelectedCostComponent().getIsHeading()) {
-//            getSelectedCostComponent().setCategory("");
-//        }
-//        getSelectedCostComponent().setCode("");
-//        getSelectedCostComponent().setComments("");
-//        getSelectedCostComponent().setCost(0.0);
-//        getSelectedCostComponent().setHours(0.0);
-//        getSelectedCostComponent().setHoursOrQuantity(0.0);
-//        getSelectedCostComponent().setRate(0.0);
+
     }
 
     public void updateIsCostComponentFixedCost() {
 
         if (getSelectedCostComponent().getIsFixedCost()) {
-            //getSelectedCostComponent().setCategory("");
-            //getSelectedCostComponent().setCode("");
-            //getSelectedCostComponent().setComments("");
-            //getSelectedCostComponent().setCost(0.0);
-            //getSelectedCostComponent().setHours(0.0);
-            //getSelectedCostComponent().setHoursOrQuantity(0.0);
-            //getSelectedCostComponent().setRate(0.0);
+         
         }
     }
 
@@ -2487,10 +2452,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     && (getUser().getPrivilege().getCanBeJMTSAdministrator()
                     || isUserDepartmentSupervisor(getCurrentJob()))) {
 
-                //getMain().displayCommonMessageDialog(null,
-                //        "Although it is not recommended, the completion status of this job was changed\n"
-                //        + "because you are the department's supervisor or a system administrator.",
-                //        "Job Work Progress Changed!", "info");
                 return true;
             } else if (!job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
                     && getCurrentJob().getJobStatusAndTracking().getWorkProgress().equals("Completed")
@@ -2571,7 +2532,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         try {
             if (isSubcontract) {
-                //setIsJobToBeSubcontracted(isSubcontract);
+               
                 if (currentJob.getId() == null) {
                     context.addCallbackParam("jobNotSaved", true);
                     return;
@@ -2686,7 +2647,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public void closeJobDialog1() {
         // Redo search to reloasd stored jobs including
 
-        //setIsJobToBeSubcontracted(false);
         getCurrentJob().setIsJobToBeSubcontracted(false);
         setIsJobToBeCopied(false);
 
@@ -2790,7 +2750,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         try {
 
-            currentJob.getJobCostingAndPayment().calculateAmountDue(); //setFinalCost(currentJob.getJobCostingAndPayment().getTotalJobCostingsAmount());
+            currentJob.getJobCostingAndPayment().calculateAmountDue(); 
 
             if (getUser().getEmployee() != null) {
                 currentJob.getJobCostingAndPayment().setFinalCostDoneBy(getUser().getEmployee().getName());
@@ -2883,7 +2843,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         } else if (isJobToBeCopied) {
             System.out.println("Saving cause copy is being created");
             saveCurrentJob(em);
-        } else if (currentJob.getIsJobToBeSubcontracted()/*isJobToBeSubcontracted*/) {
+        } else if (currentJob.getIsJobToBeSubcontracted()) {
             System.out.println("Saving cause subcontract is being created");
             saveCurrentJob(em);
         } else if (!isDirty()) {
@@ -3015,16 +2975,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public Boolean validateCurrentJob(EntityManager em, Boolean displayErrorMessage) {
         RequestContext context = RequestContext.getCurrentInstance();
-        Job currentlySavedJob = null;
-
-        // Get currently saved job for later use in validation
-        if (getCurrentJob().getId() != null) {
-            currentlySavedJob = Job.findJobById(em, getCurrentJob().getId());
-        }
-
-        if (!BusinessEntityUtils.validateName(currentJob.getBusinessOffice().getName())) {
+        
+        MethodResult result = getCurrentJob().validate(em);
+        if (!result.isSuccess()) {
             if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("This job cannot be saved because a valid business office was not entered.");
+                getMain().setInvalidFormFieldMessage(result.getMessage());
                 context.update("invalidFieldDialogForm");
                 context.execute("invalidFieldDialog.show();");
             }
@@ -3032,314 +2987,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             setDirty(false);
 
             return false;
-        }
-
-        BusinessOffice businessOffice = BusinessOffice.findBusinessOfficeByName(em, currentJob.getBusinessOffice().getName());
-        if (businessOffice != null) {
-            em.refresh(businessOffice);
-            currentJob.setBusinessOffice(businessOffice);
-        } else {
-
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("This job cannot be saved because a valid business office was not entered.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        }
-
-        // job number - check if job nunmber is already associated and a job
-        // and validate the job number if required ie if not auto generated 
-        //if (!currentJob.getAutoGenerateJobNumber()) {
-        Job existingJob = Job.findJobByJobNumber(em, currentJob.getJobNumber());
-        if (existingJob != null) {
-            //System.out.println("exist id: " + existingJob.getId());
-            long current_jobid = currentJob.getId() != null ? currentJob.getId().longValue() : -1L;
-            if (existingJob.getId().longValue() != current_jobid) {
-                if (displayErrorMessage) {
-                    getMain().setInvalidFormFieldMessage("This job cannot be saved because the job number is not unique.");
-                    context.update("invalidFieldDialogForm");
-                    context.execute("invalidFieldDialog.show();");
-                }
-
-                setDirty(false);
-
-                return false;
-            }
-        }
-
-        // get  job number if auto is on
-        if (currentJob.getAutoGenerateJobNumber()) {
-            if (!validateJobNumber(currentJob.getJobNumber(), currentJob.getAutoGenerateJobNumber())) {
-                if (displayErrorMessage) {
-                    getMain().setInvalidFormFieldMessage("This job cannot be saved because a valid job number was not entered.");
-                    context.update("invalidFieldDialogForm");
-                    context.execute("invalidFieldDialog.show();");
-                }
-
-                setDirty(false);
-
-                return false;
-            }
-        }
-
-        // Validate client
-        if (!BusinessEntityUtils.validateName(currentJob.getClient().getName())) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("This job cannot be saved. Please select a valid client from the list."
-                        + "You may create a new client if you have the privilege and the client's name does not appear in the list.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        } else if (currentJob.getClient().getId() != null) {
-            currentJob.setClient(Client.getClientById(em, currentJob.getClient().getId()));
-        }
-
-        // Department
-        Department department = Department.findDepartmentByName(em, currentJob.getDepartment().getName());
-        if (department == null) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("This job cannot be saved because a valid department was not entered.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        } else {
-            em.refresh(department);
-            currentJob.setDepartment(department);
-        }
-        // Subcontracted department   
-        Department subContractedDepartment = Department.findDepartmentByName(em, currentJob.getSubContractedDepartment().getName());
-        if (subContractedDepartment == null) {
-            currentJob.setSubContractedDepartment(getDefaultDepartment(em, "--"));
-        }
-
-        // Check for valid subcontracted department
-        if (!currentJob.isSubContracted() && currentJob.getIsJobToBeSubcontracted()) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("Please enter a valid subcontracted department.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        } else if ((currentlySavedJob != null)
-                && !currentJob.isSubContracted()
-                && currentlySavedJob.isSubContracted()) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("Please enter a valid subcontracted department.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            // Reset current subcontracted department
-            currentJob.setSubContractedDepartment(currentlySavedJob.getSubContractedDepartment());
-
-            setDirty(false);
-
-            return false;
-        }
-
-        // Check for self contracts        
-        if (currentJob.getDepartment().getName().equals(currentJob.getSubContractedDepartment().getName())) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("The main and subcontracted departments cannot be the same.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        }
-
-        // TAT
-        if ((currentJob.getEstimatedTurnAroundTimeInDays() == 0) && currentJob.getEstimatedTurnAroundTimeRequired()) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("A valid estimated turnaround time (TAT) is required and must be provided.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        }
-
-        // assignee
-        Employee assignee = Employee.findEmployeeByName(em, currentJob.getAssignedTo().getName());
-        if (assignee != null) {
-            if (assignee.getName().equals("--, --")
-                    || assignee.getFirstName().trim().equals("")
-                    || assignee.getLastName().trim().equals("")) {
-                if (displayErrorMessage) {
-                    getMain().setInvalidFormFieldMessage("This job cannot be saved because a valid assignee/department representative was not entered.");
-                    context.update("invalidFieldDialogForm");
-                    context.execute("invalidFieldDialog.show();");
-                }
-
-                setDirty(false);
-
-                return false;
-            }
-            em.refresh(assignee);
-            currentJob.setAssignedTo(assignee);
-        } else {
-            currentJob.setAssignedTo(Employee.findDefaultEmployee(em, "--", "--", true));
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("This job cannot be saved because a valid assignee/department representative was not entered.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        }
-
-        // Validate Instructions
-        if (currentJob.getInstructions().trim().equals("")) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("Please enter instructions for this job.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        }
-
-        // Classification objects
-        Classification classification = Classification.findClassificationByName(em, currentJob.getClassification().getName());
-        if (classification == null) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("Please select/enter a job classification.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        } else if (classification.getName().equals("--") || classification.getName().trim().equals("")) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("Please select/enter a job classification.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        } else {
-            currentJob.setClassification(classification);
-        }
-
-        Sector sector = Sector.findSectorById(em, currentJob.getSector().getId());
-        if (sector == null) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("Please select a sector.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        } else {
-            currentJob.setSector(sector);
-        }
-
-        JobCategory category = JobCategory.findJobCategoryById(em, currentJob.getJobCategory().getId());
-        if (category == null) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("Please select a job category.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        } else {
-            currentJob.setJobCategory(category);
-        }
-
-        JobSubCategory subCategory = JobSubCategory.findJobSubCategoryById(em, currentJob.getJobSubCategory().getId());
-        if (subCategory == null) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("Please select a job subcategory.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        } else {
-            currentJob.setJobSubCategory(subCategory);
-        }
-
-        // Check for valid creation of sub contracts
-        if (currentJob.isSubContracted() && currentJob.getJobSequenceNumber() == null) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("A main/parent job must be created before creating a subcontracted job.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        }
-
-        // Check if job as previously saved as parent job and prevent saving 
-        // suubconttacted job if so
-        if (currentJob.getId() != null) {
-            Job jobFound = Job.findJobById(em, currentJob.getId());
-            if (jobFound != null) {
-                if (!jobFound.isSubContracted() && currentJob.isSubContracted()) {
-                    if (displayErrorMessage) {
-                        getMain().setInvalidFormFieldMessage("A main/parent job cannot be converted to a subcontracted job.\n"
-                                + "Create a copy of this job instead then convert the copied job to a subcontract.");
-                        context.update("invalidFieldDialogForm");
-                        context.execute("invalidFieldDialog.show();");
-                    }
-
-                    setDirty(false);
-
-                    return false;
-                }
-            }
-        }
-
-        if (getCurrentJob().getJobStatusAndTracking().getCompleted()
-                && getCurrentJob().getJobCostingAndPayment().getFinalCost() == 0.0) {
-            if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage("A job cannot have a completed 'Work progress' without a final cost.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        }
-
-        return true;
+        }        
+        
+        return true;        
     }
 
     public void saveCurrentJob(EntityManager em) {
@@ -3655,8 +3305,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void sendErrorEmail(String subject, String message) {
         try {
-            // send error message to developer's email
-            //postJobManagerMailToUser(null, null, subject, message);
+            // send error message to developer's email            
             BusinessEntityUtils.postMail(null, null, subject, message);
         } catch (Exception ex) {
             System.out.println(ex);
@@ -3765,18 +3414,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void copyJobSample() {
-        // tk
-        System.out.println("Copying job sample: " + getSelectedJobSample().getReference());
-
+        
         addJobSample = true;
         selectedJobSample = new JobSample(selectedJobSample);
         selectedJobSample.setReferenceIndex(getCurrentNumberOfJobSamples());
-        // Init sample
-        //selectedJobSample.setJobId(currentJob.getId());
-        //selectedJobSample.setSampleQuantity(1L);
-        //selectedJobSample.setQuantity(1L);
-
-        //selectedJobSample.setReferenceIndex(getCurrentNumberOfJobSamples());
+        // Init sample    
         if (selectedJobSample.getSampleQuantity() == 1L) {
             selectedJobSample.setReference(BusinessEntityUtils.getAlphaCode(getCurrentNumberOfJobSamples()));
         } else {
@@ -3785,7 +3427,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                             + selectedJobSample.getSampleQuantity() - 1));
         }
 
-        //selectedJobSample.setDateSampled(new Date());
         jobSampleDialogTabViewActiveIndex = 0;
     }
 
@@ -3892,7 +3533,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     private void setNumberOfSamples() {
-        currentJob.setNumberOfSamples(0L); // reset
+        currentJob.setNumberOfSamples(0L);
         for (int i = 0; i < currentJob.getJobSamples().size(); i++) { // find total
             if (currentJob.getJobSamples().get(i).getSampleQuantity() == null) {
                 currentJob.getJobSamples().get(i).setSampleQuantity(1L);
@@ -4054,8 +3695,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         if (!currentJob.getDepartment().getName().equals("")) {
             Department department = Department.findDepartmentByName(em, currentJob.getDepartment().getName());
             if (department != null) {
-                currentJob.setDepartment(department);
-                //currentJob.setJobNumber(getCurrentJobNumber());
+                currentJob.setDepartment(department);               
             }
         }
         // Update subcontracted department
@@ -8313,6 +7953,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     /**
      * Get report using a JasperReport compiled report
      *
+     * @param databaseDriverClass
+     * @param databaseURL
      * @return
      */
     public FileInputStream getJasperReportFileInputStream(
@@ -8428,7 +8070,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 return null;
             }
 
-        } catch (Exception e) {
+        } catch (JRException e) {
             System.out.println(e);
             setLongProcessProgress(100);
 
@@ -8480,7 +8122,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 return null;
             }
 
-        } catch (Exception e) {
+        } catch (JRException e) {
             System.out.println(e);
             setLongProcessProgress(100);
 
@@ -8539,7 +8181,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 return null;
             }
 
-        } catch (Exception e) {
+        } catch (JRException e) {
             System.out.println(e);
             setLongProcessProgress(100);
 
@@ -8740,7 +8382,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public Boolean isCurrentJobNew() {
-        return (getCurrentJob().getId() == null ? true : false);
+        return (getCurrentJob().getId() == null);
     }
 
     public void generateEmailAlerts() {

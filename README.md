@@ -3,6 +3,8 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 
 ## Things to do
 ### Immediate Issues
+- Create and use JMTS client converter.
+- In Job.validate() check for id == null instead where possible instead of fetching the object.
 - Implement updateCashPayment() to record updates made to a field and store the updates 
 in a list called updates using a method called update() in JobManager. 
 Only mark the job as dirty when the dialog is closed or "oked". 
@@ -35,6 +37,7 @@ a selected client contact.
 - Use primefaces Dialog framework to implement all dialogs so they can be reused
 by other apps?
 - Remove payeeFirst/Lastname and put contact/person.
+- Remove search parameters for legal, compliance and foods.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
