@@ -3,7 +3,11 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 
 ## Things to do
 ### Immediate Issues
-- Create and use JMTS client converter.
+- Create and use JMTS client converter and use it for autocomplete in client form.
+- Make the "Grouping" field autocomplete and create converters for the groupings
+- Add contact field in "General" tab. Make it autocomplete with drop down and 
+   force selection. Add edit button beside field. Allow setting the contacts address
+   as the billing address if no billing address is set on the main client. 
 - In Job.validate() check for id == null instead where possible instead of fetching the object.
 - Implement updateCashPayment() to record updates made to a field and store the updates 
 in a list called updates using a method called update() in JobManager. 

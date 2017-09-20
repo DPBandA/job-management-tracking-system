@@ -29,7 +29,7 @@
     </converter>      
     <converter>
         <converter-id>clientConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.Client</converter-class>
+        <converter-class>jm.com.dpbennett.jmts.converter.ActiveClientConverter</converter-class>
     </converter>   
     <converter>
         <converter-id>serviceConverter</converter-id>
