@@ -4726,6 +4726,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     }
 
+    /**
+     * Do update for the client field on the General tab on the Job Details form
+     */
     public void updateJobEntryTabClient() {
         // Create copy of existing client
         EntityManager em = getEntityManager1();
@@ -4748,8 +4751,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             updateCreditStatus(null);
         }
 
-        setDirty(true);
-        //closeEntityManager(em);
+        setDirty(true);      
     }
 
     public void updateAccPacCustomer(SelectEvent event) {

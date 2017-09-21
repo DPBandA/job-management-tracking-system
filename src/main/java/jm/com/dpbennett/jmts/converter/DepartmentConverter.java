@@ -7,24 +7,18 @@ package jm.com.dpbennett.jmts.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import jm.com.dpbennett.business.entity.Department;
 
 /**
  *
  * @author desbenn
  */
-public class DepartmentConverter implements Converter {
-
-   @Override
-    public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JMTSPU");
-        EntityManager em = entityManagerFactory.createEntityManager();
+public class DepartmentConverter extends ConverterAdapter {
+    
+    @Override
+    public Object getAsObject(FacesContext context, UIComponent component, String value) {        
         
-        Department department = Department.findDepartmentByName(em, value);
+        Department department = Department.findDepartmentByName(getEntityManager(), value);
 
         if (department == null) {
             department = new Department(value);
@@ -33,9 +27,4 @@ public class DepartmentConverter implements Converter {
         return department;
     }
 
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
-        return ((Department) value).getName();
-    }
-    
 }

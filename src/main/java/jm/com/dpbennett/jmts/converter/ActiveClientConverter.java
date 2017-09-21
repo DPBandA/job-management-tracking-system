@@ -7,23 +7,17 @@ package jm.com.dpbennett.jmts.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import jm.com.dpbennett.business.entity.Client;
 
 /**
  *
  * @author desbenn
  */
-public class ActiveClientConverter implements Converter {
+public class ActiveClientConverter extends ConverterAdapter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String submittedValue) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("JMTSPU");
-        EntityManager em = entityManagerFactory.createEntityManager();
-        
-        Client client = Client.findActiveClientByName(em, submittedValue, Boolean.TRUE);
+      
+        Client client = Client.findActiveClientByName(getEntityManager(), submittedValue, Boolean.TRUE);
 
         if (client == null) {
             client = new Client();
@@ -31,19 +25,5 @@ public class ActiveClientConverter implements Converter {
         } 
         
         return client;
-    }
-
-    @Override
-    public String getAsString(FacesContext context, UIComponent component, Object value) {
-
-        if (value == null || value.equals("")) {
-            return "";
-        } else {
-            if (((Client) value).getName() != null) {
-                return ((Client) value).getName().replaceAll("&#38;", "&");
-            } else {
-                return "";
-            }
-        }
-    }
+    }   
 }

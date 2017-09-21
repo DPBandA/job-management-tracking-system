@@ -3,7 +3,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 
 ## Things to do
 ### Immediate Issues
-- Create and use JMTS client converter and use it for autocomplete in client form.
+- Create and use JMTS client converter and use it for autocomplete in client field.
 - Make the "Grouping" field autocomplete and create converters for the groupings
 - Add contact field in "General" tab. Make it autocomplete with drop down and 
    force selection. Add edit button beside field. Allow setting the contacts address
