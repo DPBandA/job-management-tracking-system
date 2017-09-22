@@ -8,25 +8,25 @@ package jm.com.dpbennett.jmts.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.FacesConverter;
-import jm.com.dpbennett.business.entity.BusinessOffice;
+import jm.com.dpbennett.business.entity.Country;
 
 /**
  *
  * @author desbenn
  */
-@FacesConverter("businessOfficeConverter")
-public class BusinessOfficeConverter extends ConverterAdapter {
+@FacesConverter("countryConverter")
+public class CountryConverter extends ConverterAdapter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-       
-        BusinessOffice office = BusinessOffice.findBusinessOfficeByName(getEntityManager(), value);
+        
+        Country country = Country.findCountryByName(getEntityManager(), value);
 
-        if (office == null) {
-            office = new BusinessOffice(value);
+        if (country == null) {
+            country =  new Country(value);
         }
 
-        return office;
+        return country;
     }
 
 }

@@ -70,13 +70,17 @@
         <h:outputText value="Client *: " style="font-weight: bold" />
         <h:panelGroup>                
             <p:autoComplete id="client"
+                            var="client"
+                            itemLabel="#{client.name}"
+                            itemValue="#{client}"
                             size="35"
                             maxlength="250"
                             maxResults="12"       
                             dropdown="false"
-                            value="#{jobManager.currentJob.client.name}"                            
+                            value="#{jobManager.currentJob.client}"   
+                            converter="clientConverter"
                             forceSelection="true"
-                            completeMethod="#{App.completeActiveClientName}" >
+                            completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
                         update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,clientContact,clientBillingAddress,editClientButton"
@@ -113,10 +117,32 @@
 
         </h:panelGroup>
 
+        <h:outputText value="Billing address *:" style="font-weight: bold" />        
+        <p:selectOneMenu value="#{jobManager.currentJob.billingAddressId}"
+                         converter="addressConverter"
+                         var="addr" >
+
+            <p:ajax listener="#{jobManager.updateJob}"                    
+                    global="false"
+                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"                    
+                    process="@this" />
+            <f:selectItems  value="#{jobManager.currentJob.client.addresses}"
+                            var="address"
+                            itemValue="#{address}"
+                            itemLabel="#{address}"/>
+
+            <p:column>
+                #{addr}
+            </p:column>
+        </p:selectOneMenu>
+
+
         <h:outputText value="" />
         <h:outputText id="clientContact" value="Contact: #{jobManager.currentJob.client.mainContact}" />
+
         <h:outputText value="" />
         <h:outputText id="clientBillingAddress" value="Billing addr.: #{jobManager.currentJob.client.billingAddress}" />
+
 
         <h:outputText value="Date submitted *:" style="font-weight: bold" />
         <p:calendar id="dateSubmitted"
@@ -126,11 +152,11 @@
             <p:ajax event="dateSelect"
                     update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                     listener="#{jobManager.handleDateSubmittedSelect}" />
-           
+
             <p:ajax event="keyup"
                     update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
                     listener="#{jobManager.handleDateSubmittedSelect}" />
-           
+
         </p:calendar>
 
         <h:outputText value="Department*: " style="font-weight: bold" />

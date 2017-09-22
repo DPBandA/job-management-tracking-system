@@ -233,9 +233,9 @@
                 <p:tab title="General details">
                     <h:panelGrid id="generalDetailsPanelGrid" columns="2" style="width: 85%">
                         <h:outputText value="Name *:" style="font-weight: bold;" />
-                        <p:inputText value="#{clientManager.client.name}"                                    
-                                     readonly="#{!clientManager.clientNameEditable}"
-                                     style="#{clientManager.clientNameEditable ? 'background-color: white; width: 100%;' : 'background-color: lightgrey; width: 100%;'}"
+                        <p:inputText value="#{clientManager.client.name}"                                                                         
+                                     disabled="#{!clientManager.clientNameAndIdEditable}"
+                                     style="width: 100%;"
                                      validatorMessage="Please enter a valid name">
                             <p:ajax event="keyup"
                                     global="true"                                    
@@ -244,9 +244,9 @@
                         </p:inputText>
 
                         <h:outputText value="TRN:"/>
-                        <p:inputText value="#{clientManager.client.taxRegistrationNumber}">
+                        <p:inputText value="#{clientManager.client.taxRegistrationNumber}"
+                                     disabled="#{!clientManager.clientNameAndIdEditable}" >
                             <p:ajax event="keyup"
-
                                     global="true"
                                     listener="#{clientManager.updateClient}"
                                     process="@this"/>

@@ -47,7 +47,7 @@
                     </p:calendar>
 
                     <h:outputLabel value="Work progress: " for="workProgress"/>
-                    <h:selectOneMenu id="workProgress"                                      
+                    <p:selectOneMenu id="workProgress"                                      
                                      value="#{jobManager.currentJob.jobStatusAndTracking.workProgress}">
 
                         <f:selectItems  value="#{jobManager.workProgressList}"
@@ -59,7 +59,7 @@
                                 global="false"
                                 update="jobStatusAndTracking,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,startDate"
                                 process="@this"/>
-                    </h:selectOneMenu>     
+                    </p:selectOneMenu>     
 
                     <h:outputText value="Start date: "/>
                     <p:calendar id="startDate" 

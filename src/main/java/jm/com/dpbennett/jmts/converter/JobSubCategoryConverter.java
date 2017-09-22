@@ -8,25 +8,24 @@ package jm.com.dpbennett.jmts.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.FacesConverter;
-import jm.com.dpbennett.business.entity.BusinessOffice;
+import jm.com.dpbennett.business.entity.JobSubCategory;
 
 /**
  *
  * @author desbenn
  */
-@FacesConverter("businessOfficeConverter")
-public class BusinessOfficeConverter extends ConverterAdapter {
+@FacesConverter("jobSubCategoryConverter")
+public class JobSubCategoryConverter extends ConverterAdapter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-       
-        BusinessOffice office = BusinessOffice.findBusinessOfficeByName(getEntityManager(), value);
-
-        if (office == null) {
-            office = new BusinessOffice(value);
+        JobSubCategory jobSubCategory = JobSubCategory.findJobSubCategoryByName(getEntityManager(), value);
+        
+        if (jobSubCategory == null) {
+            jobSubCategory = new JobSubCategory(value);
         }
-
-        return office;
+        
+        return jobSubCategory;
     }
-
+    
 }

@@ -6,44 +6,64 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <h:panelGrid id="jobGrouping" columns="2" >
-        
 
-        <h:outputText value="Sector:" style="font-weight: bold" />
-        <h:selectOneMenu  value="#{jobManager.sectorId}">
-            <p:ajax listener="#{jobManager.updateSector}"
+
+        <h:outputText value="Sector:" style="font-weight: bold" />        
+        <p:selectOneMenu value="#{jobManager.currentJob.sector}"
+                         converter="sectorConverter"
+                         var="sect" >
+
+            <p:ajax listener="#{jobManager.updateSector}"                    
                     global="false"
-                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"                    
                     process="@this" />
             <f:selectItems  value="#{jobManager.activeSectors}"
                             var="sector"
-                            itemValue="#{sector.id}"
+                            itemValue="#{sector}"
                             itemLabel="#{sector.name}"/>
-        </h:selectOneMenu>
 
-        <h:outputText value="Category:" style="font-weight: bold" />
-        <h:selectOneMenu  id="category"
-                          value="#{jobManager.categoryId}">
+            <p:column>
+                #{sect.name}
+            </p:column>
+        </p:selectOneMenu>
+
+        <h:outputText value="Category:" style="font-weight: bold" />        
+        <p:selectOneMenu  id="category"
+                          value="#{jobManager.currentJob.jobCategory}"
+                          converter="jobCategoryConverter"
+                          var="jobCat" >
             <p:ajax listener="#{jobManager.updateJobCategory}"
                     global="false"
                     update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
                     process="@this" />
             <f:selectItems  value="#{jobManager.activeJobCategories}"
                             var="jobCategory"
-                            itemValue="#{jobCategory.id}"
-                            itemLabel="#{jobCategory.category}"/>
-        </h:selectOneMenu>
+                            itemValue="#{jobCategory}"
+                            itemLabel="#{jobCategory.name}"/>
+            
+             <p:column>
+                #{jobCat.name}
+            </p:column>
+        </p:selectOneMenu>
 
         <h:outputText value="Subcategory:" style="font-weight: bold" />
-        <h:selectOneMenu  id="subCategory"
-                          value="#{jobManager.subCategoryId}">
+        <p:selectOneMenu  id="subCategory"
+                          converter="jobSubCategoryConverter"
+                          var="jobSubCat"
+                          value="#{jobManager.currentJob.jobSubCategory}">
+            
             <p:ajax listener="#{jobManager.updateJobSubCategory}"
                     global="false"
                     update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
                     process="@this" />
             <f:selectItems  value="#{jobManager.activeJobSubCategories}"
                             var="jobSubCategory"
-                            itemValue="#{jobSubCategory.id}"
-                            itemLabel="#{jobSubCategory.subCategory}"/>
-        </h:selectOneMenu>
+                            itemValue="#{jobSubCategory}"
+                            itemLabel="#{jobSubCategory.name}"/>
+            
+             <p:column>
+                #{jobSubCat.name}
+            </p:column>
+        </p:selectOneMenu>
     </h:panelGrid>          
 </html>

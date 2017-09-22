@@ -7,12 +7,14 @@ package jm.com.dpbennett.jmts.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.FacesConverter;
 import jm.com.dpbennett.business.entity.Service;
 
 /**
  *
  * @author desbenn
  */
+@FacesConverter("serviceConverter")
 public class ServiceConverter extends ConverterAdapter {
 
     @Override

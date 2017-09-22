@@ -48,7 +48,7 @@
                                     listener="#{jobManager.updateJob}"
                                     process="@this"/>
                         </p:inputText>
-                        
+
                         <h:outputText value="Sampled by: " />
                         <p:autoComplete id="sampledBy"
                                         style="width: 75%"
@@ -100,13 +100,14 @@
                         </p:inputText>
 
                         <h:outputText value="Country of Origin: " />
-                        <h:selectOneMenu value="#{jobManager.selectedJobSample.countryOfOrigin}" >
-                            <p:ajax                               
+                        <p:autoComplete value="#{jobManager.selectedJobSample.countryOfOrigin}"                                                                             
+                                        forceSelection="true"                                       
+                                        completeMethod="#{jobManager.completeCountry}" >
+                            <p:ajax event="itemSelect"                              
                                 listener="#{jobManager.updateJob}"
-                                process="@this" />
-                            <f:selectItems value="#{App.countries}" />
-                        </h:selectOneMenu>
-                        
+                                process="@this" />                           
+                        </p:autoComplete>
+
                         <h:outputText value="Product common name *: " style="width: 50%" />
                         <p:inputText value="#{jobManager.selectedJobSample.name}"
                                      readonly="false"
@@ -199,17 +200,17 @@
                             <p:watermark value="-- enter product unit --" for="productUnitOfMeasure"/>
                         </h:panelGroup>
                         <h:outputText value="Method of disposal *: " />
-                        <h:selectOneMenu value="#{jobManager.selectedJobSample.methodOfDisposal}" >
+                        <p:selectOneMenu value="#{jobManager.selectedJobSample.methodOfDisposal}" >
                             <f:selectItems value="#{App.methodsOfDisposal}" />
                             <p:ajax listener="#{jobManager.updateJob}"
                                     global="false"
                                     process="@this" />
-                        </h:selectOneMenu>
+                        </p:selectOneMenu>
                     </h:panelGrid>       
                 </p:tab>
                 <p:tab title="Tracking">
                     <h:panelGrid columns="2">             
-                       
+
                         <ui:remove>
                             <h:outputText value="Received in department by: " />
                             <h:selectOneMenu  value="#{jobManager.receivedById}"
@@ -233,7 +234,7 @@
                                     global="false"                                   
                                     listener="#{jobManager.updateJob}"
                                     process="@this"/>
-                             <p:ajax event="keyup"
+                            <p:ajax event="keyup"
                                     global="false"                                   
                                     listener="#{jobManager.updateJob}"
                                     process="@this"/>

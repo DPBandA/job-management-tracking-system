@@ -61,6 +61,7 @@ import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.CostCode;
 import jm.com.dpbennett.business.entity.CostComponent;
+import jm.com.dpbennett.business.entity.Country;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.DepartmentReport;
@@ -710,13 +711,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         this.classificationId = classificationId;
     }
 
-    public Long getSectorId() {
-        return currentJob.getSector().getId();
-    }
-
-    public void setSectorId(Long sectorId) {
-        this.sectorId = sectorId;
-    }
+//    public Long getSectorId() {
+//        return currentJob.getSector().getId();
+//    }
+//
+//    public void setSectorId(Long sectorId) {
+//        this.sectorId = sectorId;
+//    }
 
     public Long getCategoryId() {
         return currentJob.getJobCategory().getId();
@@ -783,7 +784,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public Integer getNumberOfDocumentsPassDocDate(Integer days) {
         Integer count = 0;
-        
+
         for (AccPacDocument doc : filteredAccPacCustomerDocuments) {
             if (doc.getDaysOverDocumentDate() >= days) {
                 ++count;
@@ -1180,7 +1181,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // Get byte stream for report file
             ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream(
                     new File(jobReport.getReportFileTemplate()),
-                 
                     reportingDepartment.getId());
 
             return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
@@ -1200,7 +1200,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // Get byte stream for report file
             ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream2(
                     new File(jobReport.getReportFileTemplate()),
-                   
                     reportingDepartment.getId());
 
             return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
@@ -1266,7 +1265,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // ensure that crucial sheets are updated automatically
             HSSFSheet reportSheet = wb.getSheet("Report");
             reportSheet.setActive(true);
-           
+
             // create temp file for output
             FileOutputStream out = new FileOutputStream(jobReport.getReportFile() + getUser().getId());
 
@@ -1284,7 +1283,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // Create header font
             HSSFFont headerFont = wb.createFont();
             headerFont.setFontHeightInPoints((short) 14);
-         
+
             headerFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
 
             if (!jobReport.getReportColumns().isEmpty()) {
@@ -2117,44 +2116,15 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void updateJobCategory() {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-            JobCategory jobCategory = JobCategory.findJobCategoryById(em, categoryId);
-            if (jobCategory != null) {
-                currentJob.setJobCategory(jobCategory);
-                setDirty(true);
-            }
-
-            closeEntityManager(em);
-
-        } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
-        }
+        setDirty(true);
     }
 
     public void updateJobSubCategory() {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-            JobSubCategory jobSubCategory = JobSubCategory.findJobSubCategoryById(em, subCategoryId);
-            if (jobSubCategory != null) {
-                currentJob.setJobSubCategory(jobSubCategory);
-                setDirty(true);
-            }
-
-            closeEntityManager(em);
-        } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
-        }
+        setDirty(true);
     }
 
     public void updateCashPayment(AjaxBehaviorEvent event) {
-        
+
         System.out.println("Fields for: " + CashPayment.class.getSimpleName());
         Field[] fields = CashPayment.class.getDeclaredFields();
         for (Field field : fields) {
@@ -2176,7 +2146,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void updateJobClassification() {
         EntityManager em = getEntityManager1();
-        
+
         // tk remove this and others after converters are created
         updateDepartments(currentJob, em);
 
@@ -2406,7 +2376,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public void updateIsCostComponentFixedCost() {
 
         if (getSelectedCostComponent().getIsFixedCost()) {
-         
+
         }
     }
 
@@ -2532,7 +2502,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         try {
             if (isSubcontract) {
-               
+
                 if (currentJob.getId() == null) {
                     context.addCallbackParam("jobNotSaved", true);
                     return;
@@ -2750,7 +2720,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         try {
 
-            currentJob.getJobCostingAndPayment().calculateAmountDue(); 
+            currentJob.getJobCostingAndPayment().calculateAmountDue();
 
             if (getUser().getEmployee() != null) {
                 currentJob.getJobCostingAndPayment().setFinalCostDoneBy(getUser().getEmployee().getName());
@@ -2975,7 +2945,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public Boolean validateCurrentJob(EntityManager em, Boolean displayErrorMessage) {
         RequestContext context = RequestContext.getCurrentInstance();
-        
+
         MethodResult result = getCurrentJob().validate(em);
         if (!result.isSuccess()) {
             if (displayErrorMessage) {
@@ -2987,9 +2957,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             setDirty(false);
 
             return false;
-        }        
-        
-        return true;        
+        }
+
+        return true;
     }
 
     public void saveCurrentJob(EntityManager em) {
@@ -3414,7 +3384,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void copyJobSample() {
-        
+
         addJobSample = true;
         selectedJobSample = new JobSample(selectedJobSample);
         selectedJobSample.setReferenceIndex(getCurrentNumberOfJobSamples());
@@ -3695,7 +3665,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         if (!currentJob.getDepartment().getName().equals("")) {
             Department department = Department.findDepartmentByName(em, currentJob.getDepartment().getName());
             if (department != null) {
-                currentJob.setDepartment(department);               
+                currentJob.setDepartment(department);
             }
         }
         // Update subcontracted department
@@ -3998,7 +3968,24 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             return new ArrayList<>();
         }
     }
+    
+   
+    public ArrayList<String> completeCountry(String query) {
+        EntityManager em = null;
 
+        try {
+            em = getEntityManager1();
+
+            ArrayList<Country> countries = new ArrayList<>(Country.findCountriesByName(em, query));
+            ArrayList<String> countriesList = (ArrayList<String>)(ArrayList<?>)countries;
+            
+            return countriesList;
+        } catch (Exception e) {            
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+    
     public List<Classification> completeClassification(String query) {
         EntityManager em = null;
 
@@ -4017,13 +4004,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
     }
 
-    public List<Department> completeDepartment(String query) { // tj to be removed and put in Application
+    public List<Department> completeDepartment(String query) { 
         EntityManager em = null;
 
         try {
             em = getEntityManager1();
 
-            List<Department> departments = Department.findActiveDepartmentsByName(em, query); // tk org findDepartmentsByName
+            List<Department> departments = Department.findActiveDepartmentsByName(em, query); 
 
             closeEntityManager(em);
 
@@ -4498,20 +4485,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void updateSector() {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-            Sector sector = Sector.findSectorById(em, sectorId);
-            if (sector != null) {
-                currentJob.setSector(sector);
-                setDirty(true);
-            }
-            closeEntityManager(em);
-        } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
-        }
+        setDirty(true);
     }
 
     public void updateDepartment() {
@@ -4751,7 +4725,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             updateCreditStatus(null);
         }
 
-        setDirty(true);      
+        setDirty(true);
     }
 
     public void updateAccPacCustomer(SelectEvent event) {
@@ -5008,35 +4982,17 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public void createNewJobClient() {
         clientManager.createNewClient();
         clientManager.setClientHandler(currentJob);
-        clientManager.setClientNameEditable(true);
+        clientManager.setClientNameAndIdEditable(true);
         clientManager.setExternalEntityManagerFactory(EMF1);
         clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:clientBillingAddress,:jobDialogForm:jobFormTabView:clientContact");
     }
 
     // Edit the client via the ClientManager
-    public void editJobClient() {
-
-        if (getUser().getPrivilege().getCanAddClient()) {
-            Client ativeClient = Client.findActiveClientByName(getEntityManager1(),
-                    currentJob.getClient().getName(), true);
-            if (ativeClient != null) {
-                clientManager.setClientHandler(currentJob);
-                clientManager.setClient(ativeClient);
-                clientManager.setSave(true);
-                clientManager.setClientNameEditable(true);
-            } else {
-                clientManager.setClient(currentJob.getClient());
-                clientManager.setSave(true); // tk may have to make true
-                clientManager.setClientNameEditable(true);
-            }
-        } else {
-            clientManager.setClient(currentJob.getClient());
-            clientManager.setSave(true);
-            clientManager.setClientNameEditable(false);
-        }
-
-        clientManager.setExternalEntityManagerFactory(EMF1);
-        //clientManager.setBusinessEntityManager(this);
+    public void editJobClient() {        
+        clientManager.setClient(currentJob.getClient());
+        clientManager.setSave(true);      
+        clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        clientManager.setExternalEntityManagerFactory(EMF1);       
         clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:clientBillingAddress,:jobDialogForm:jobFormTabView:clientContact");
     }
 

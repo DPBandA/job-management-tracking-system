@@ -1,10 +1,19 @@
 # Job Management & Tracking System (JMTS)
 The JMTS is an enterprise software that facilitates the management and tracking of jobs.
 
+## PENDING LIVE DATABASE ALTERATIONS:
+- Add: discount, discountType, paymentTerms to CASHPAYMENT table
+- Rename: rename JMTSUserId to userId in CASHPAYMENT
+- Add: ADDRESS_ID to Job table (for billing address)
+================================================================================
 ## Things to do
 ### Immediate Issues
-- Create and use JMTS client converter and use it for autocomplete in client field.
-- Make the "Grouping" field autocomplete and create converters for the groupings
+- Implement change back to billing address and implement search on all the fields
+   of a address for use in the converter.
+- Use POJOs where possible on ClientForm.
+- Implement billing address field on job dialog. Fill in billing address after
+   address is selected in "select billing address combobox.
+- Implement validators where necessary.
 - Add contact field in "General" tab. Make it autocomplete with drop down and 
    force selection. Add edit button beside field. Allow setting the contacts address
    as the billing address if no billing address is set on the main client. 
@@ -68,6 +77,7 @@ by other apps?
 - Redesign as group RESTFul web services (eg CRM, HRM) that are accessed by light weigh user interfaces
 - For job/survey and other search just return the values needed for the table display and not the entire job/survey record. This requires less bandwidth.
 - Implement data backup from one database to another ie database replication.
+- Get rid of use of "--" as placeholder objects and fields
 #### Issues
 - Change "keyup" to "change" where possible.
 - Update system options table after editing an option.
@@ -87,6 +97,8 @@ by other apps?
 - Check that developer email address in sys option is not used when sending emails about errors etc.
 - Check that "Search Type" is reset when a user logs off.
 - Add "Report Issue" button somewhere in GUI.
+- Remove closeEntityManager(em) where it's not necessary.
+- Return costing templates with unique names and don't allow saving templates with same name.
 
 ### Standards Module (GenericERP)
 1) Standards development processs

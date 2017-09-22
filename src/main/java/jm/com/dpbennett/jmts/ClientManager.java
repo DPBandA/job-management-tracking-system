@@ -36,7 +36,6 @@ import org.primefaces.context.RequestContext;
 @SessionScoped
 public class ClientManager implements Serializable, ClientManagement {
 
-    // private EntityManager entityManager;
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory localEntityManagerFactory;
     // This factory is used by external clients. May be removed in the future
@@ -53,7 +52,7 @@ public class ClientManager implements Serializable, ClientManagement {
     private String dialogMessageHeader;
     private String dialogMessageSeverity;
     private Boolean save;
-    private Boolean clientNameEditable;
+    private Boolean clientNameAndIdEditable;
     private BusinessEntityManager businessEntityManager;
     private Client clientBackup;
     private Boolean isNewClient;
@@ -62,7 +61,8 @@ public class ClientManager implements Serializable, ClientManagement {
     private Main main;
     private ClientHandler clientHandler;
     private String clientBillingAddressString;
-
+    private Address billingAddress;
+    
     /**
      * Creates a new instance of ClientForm
      */
@@ -71,13 +71,18 @@ public class ClientManager implements Serializable, ClientManagement {
         isNewAddress = false;
         taxRegistrationNumberRequired = false;
         save = true;
-        clientNameEditable = true;
+        clientNameAndIdEditable = false;
         clientSearchText = "";
         foundClients = new ArrayList<>();
+        billingAddress = new Address();
     }
-    
-    public void contactSelected() {
-        changeContactType(getCurrentContact().toString());
+
+    public Address getBillingAddress() {
+        return billingAddress;
+    }
+
+    public void setBillingAddress(Address billingAddress) {
+        this.billingAddress = billingAddress;
     }
     
     public void changeContactType(String contactString) {
@@ -143,12 +148,12 @@ public class ClientManager implements Serializable, ClientManagement {
         this.currentAddress = currentAddress;
     }
 
-    public Boolean getClientNameEditable() {
-        return clientNameEditable;
+    public Boolean getClientNameAndIdEditable() {
+        return clientNameAndIdEditable;
     }
 
-    public void setClientNameEditable(Boolean clientNameEditable) {
-        this.clientNameEditable = clientNameEditable;
+    public void setClientNameAndIdEditable(Boolean clientNameAndIdEditable) {
+        this.clientNameAndIdEditable = clientNameAndIdEditable;
     }
 
     public EntityManager getLocalEntityManager() {
@@ -448,7 +453,7 @@ public class ClientManager implements Serializable, ClientManagement {
         // Client Database table
         setComponentsToUpdate("@form");
 
-        setClientNameEditable(true);
+        setClientNameAndIdEditable(true);
 
         if (clientBackup != null) {
             getClient().doCopy(clientBackup);
@@ -525,7 +530,7 @@ public class ClientManager implements Serializable, ClientManagement {
             // Client Database table
             setComponentsToUpdate("@form");
 
-            setClientNameEditable(true);
+            setClientNameAndIdEditable(true);
 
             // replace double quotes with two single quotes to avoid query issues
             getClient().setName(getClient().getName().replaceAll("\"", "''"));

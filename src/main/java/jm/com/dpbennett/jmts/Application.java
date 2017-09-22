@@ -146,6 +146,10 @@ public class Application {
         return discountTypes;
     }
 
+    /**
+     * NB: Payment types to be put in database not hard coded.
+     * @return 
+     */
     public List getPaymentTypes() {
         ArrayList paymentTypes = new ArrayList();
 
@@ -158,16 +162,16 @@ public class Application {
     }
 
     /*
-     * NB: Methods to be put in database and not hard coded
+     * NB: Methods to be put in database and not hard coded.
      */
     public List getMethodsOfDisposal() {
-        ArrayList dateFields = new ArrayList();
+        ArrayList methods = new ArrayList();
 
-        dateFields.add(new SelectItem("1", "Collected by the client within 30 days"));
-        dateFields.add(new SelectItem("2", "Disposed of by the Bureau of Standards"));
-        dateFields.add(new SelectItem("3", "To be determined"));
+        methods.add(new SelectItem("1", "Collected by the client within 30 days"));
+        methods.add(new SelectItem("2", "Disposed of by the Bureau of Standards"));
+        methods.add(new SelectItem("3", "To be determined"));
 
-        return dateFields;
+        return methods;
     }
 
     /*
@@ -299,10 +303,10 @@ public class Application {
         }
     }
 
-    // Remove as it is implemented in ClientManager
+    // NB: To be remove as it is implemented in ClientManager
     public List<Client> completeClient(String query) {
         try {
-            return Client.findActiveClientsByFirstPartOfName(getEntityManager1(), query);
+            return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
 
         } catch (Exception e) {
             System.out.println(e);
@@ -355,18 +359,26 @@ public class Application {
         return "Search Results (found: " + searchResultsList.size() + ")";
     }
 
-    public List getCountries() {
+//    public List getCountries() {
+//        EntityManager em = getEntityManager1();
+//        ArrayList countriesList = new ArrayList();
+//        countriesList.add(new SelectItem(" ", " "));
+//        countriesList.add(new SelectItem("-- Not displayed --", "-- Not displayed --"));
+//
+//        List<Country> countries = Country.findAllCountries(em);
+//        for (Country country : countries) {
+//            countriesList.add(new SelectItem(country.getName(), country.getName()));
+//        }
+//
+//        return countriesList;
+//    }
+    
+     public List<Country> getCountries() {
         EntityManager em = getEntityManager1();
-        ArrayList countriesList = new ArrayList();
-        countriesList.add(new SelectItem(" ", " "));
-        countriesList.add(new SelectItem("-- Not displayed --", "-- Not displayed --"));
-
+       
         List<Country> countries = Country.findAllCountries(em);
-        for (Country country : countries) {
-            countriesList.add(new SelectItem(country.getName(), country.getName()));
-        }
-
-        return countriesList;
+        
+        return countries;
     }
 
     /**
@@ -615,17 +627,7 @@ public class Application {
         return serviceContract;
     }
 
-    public List<String> completeActiveClientName(String query) {
-        try {
-            return Client.findActiveClientNames(getEntityManager1(), query);
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
+  
     public static List<SelectItem> getStringListAsSelectItems(EntityManager em,
             String systemOption/*, 
              String itemSeparator*/) {
