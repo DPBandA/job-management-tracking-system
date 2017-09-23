@@ -8,6 +8,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ## Things to do
 ### Immediate Issues
+- Find address using all fields of the address and use autocomplete and validate
+  billing address before save. Create a validator that show errors warns about using
+  comma in an address field.
 - Implement change back to billing address and implement search on all the fields
    of a address for use in the converter.
 - Use POJOs where possible on ClientForm.
@@ -18,7 +21,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
    force selection. Add edit button beside field. Allow setting the contacts address
    as the billing address if no billing address is set on the main client. 
 - In Job.validate() check for id == null instead where possible instead of fetching the object.
-- Implement updateCashPayment() to record updates made to a field and store the updates 
+- Implement updateCashPayment() to record updates made to a field and store the updates.
+- Make sure service contract, job costing etc. are updated to use the billing address
+  and contact found in the job record.
 in a list called updates using a method called update() in JobManager. 
 Only mark the job as dirty when the dialog is closed or "oked". 
 JobManager isDirty should be not be set to true if edits in a dialog have been 

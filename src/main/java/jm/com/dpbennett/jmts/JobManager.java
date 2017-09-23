@@ -2059,11 +2059,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public Boolean getJobSaved() {
-        if (getCurrentJob().getId() != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return getCurrentJob().getId() != null;
     }
 
     public Boolean getSamplesCollected() {
@@ -2132,7 +2128,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
     }
 
-    public void updateJob() {
+    public void updateJob() {       
         setDirty(true);
     }
 

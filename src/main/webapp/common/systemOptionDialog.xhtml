@@ -61,28 +61,28 @@
                 <p:inputText value="#{systemManager.selectedSystemOption.name}"    
                              id="systemOptionName"
                              style="width:300px" >
-                    <f:validator validatorId="jm.com.dpbennett.bsjdb.validator.SystemOptionValidator" />
+                    <f:validator validatorId="systemOptionValidator" />
                 </p:inputText> 
 
                 <h:outputText value="Value *:" />
                 <p:inputText value="#{systemManager.selectedSystemOption.optionValue}"
                              id="systemOptionValue"
                              style="width:300px" > 
-                    <f:validator validatorId="jm.com.dpbennett.bsjdb.validator.SystemOptionValidator" />
+                    <f:validator validatorId="systemOptionValidator" />
                 </p:inputText>
 
                 <h:outputText value="Value Type *:" />
                 <p:inputText value="#{systemManager.selectedSystemOption.optionValueType}"
                              id="systemOptionValueType"
                              style="width:300px" >
-                    <f:validator validatorId="jm.com.dpbennett.bsjdb.validator.SystemOptionValidator" />
+                    <f:validator validatorId="systemOptionValidator" />
                 </p:inputText> 
 
                 <h:outputText value="Category *:" />
                 <p:inputText value="#{systemManager.selectedSystemOption.category}"
                              id="systemOptionCategory"
                              style="width:300px" >
-                    <f:validator validatorId="jm.com.dpbennett.bsjdb.validator.SystemOptionValidator" />
+                    <f:validator validatorId="systemOptionValidator" />
                 </p:inputText>
 
                 <h:outputText value="Comments/Description *:" style="width: 50%" />
@@ -91,7 +91,7 @@
                                   maxlength="1000"
                                   rows="4"
                                   style="width: 100%" >
-                    <f:validator validatorId="jm.com.dpbennett.bsjdb.validator.SystemOptionValidator" />
+                    <f:validator validatorId="systemOptionValidator" />
                 </p:inputTextarea>                           
 
             </h:panelGrid>
