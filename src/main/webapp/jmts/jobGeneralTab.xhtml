@@ -129,10 +129,10 @@
             <f:selectItems  value="#{jobManager.currentJob.client.addresses}"
                             var="address" 
                             itemValue="#{address}"
-                            itemLabel="#{address.name}"/>
+                            itemLabel="#{address}"/>
 
             <p:column >
-                #{addr.name}
+                #{addr}
             </p:column>
         </p:selectOneMenu>
 

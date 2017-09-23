@@ -16,9 +16,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.DatePeriod;
-import jm.com.dpbennett.business.management.SearchManagement;
-import jm.com.dpbennett.business.utils.BusinessEntityUtils;
-import jm.com.dpbennett.business.utils.SearchParameters;
+import jm.com.dpbennett.business.entity.management.SearchManagement;
+import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 

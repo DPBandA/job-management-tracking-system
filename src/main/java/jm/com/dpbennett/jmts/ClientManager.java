@@ -24,8 +24,8 @@ import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.PhoneNumber;
-import jm.com.dpbennett.business.management.ClientManagement;
-import jm.com.dpbennett.business.utils.BusinessEntityUtils;
+import jm.com.dpbennett.business.entity.management.ClientManagement;
+import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.context.RequestContext;
 
 /**

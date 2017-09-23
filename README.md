@@ -5,12 +5,15 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: discount, discountType, paymentTerms to CASHPAYMENT table
 - Rename: rename JMTSUserId to userId in CASHPAYMENT
 - Add: ADDRESS_ID to Job table (for billing address)
+- Add: country to Address dialog
 ================================================================================
 ## Things to do
 ### Immediate Issues
+- Remove type and "set billing addres" from client dialog and fix fact that
+   table is not properly update or stateOrProvince not being set.
 - Find address using all fields of the address and use autocomplete and validate
   billing address before save. Create a validator that show errors warns about using
-  comma in an address field.
+  comma in an address field and ensure that all fields are filled out.
 - Implement change back to billing address and implement search on all the fields
    of a address for use in the converter.
 - Use POJOs where possible on ClientForm.

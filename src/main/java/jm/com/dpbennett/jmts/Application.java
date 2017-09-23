@@ -38,8 +38,8 @@ import jm.com.dpbennett.business.entity.Service;
 import jm.com.dpbennett.business.entity.ServiceContract;
 import jm.com.dpbennett.business.entity.ServiceRequest;
 import jm.com.dpbennett.business.entity.SystemOption;
-import jm.com.dpbennett.business.utils.BusinessEntityUtils;
-import jm.com.dpbennett.business.utils.SearchParameters;
+import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.business.entity.utils.SearchParameters;
 
 /**
  *

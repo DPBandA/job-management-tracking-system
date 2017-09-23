@@ -12,7 +12,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import jm.com.dpbennett.business.entity.Employee;
-import jm.com.dpbennett.business.utils.BusinessEntityUtils;
+import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.context.RequestContext;
 
 /**

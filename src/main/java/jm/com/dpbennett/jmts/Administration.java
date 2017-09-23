@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.JobManagerUser;
-import jm.com.dpbennett.business.management.UserManagement;
+import jm.com.dpbennett.business.entity.management.UserManagement;
 import org.primefaces.context.RequestContext;
 
 /**

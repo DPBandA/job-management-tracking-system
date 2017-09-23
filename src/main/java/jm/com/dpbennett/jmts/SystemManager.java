@@ -32,7 +32,7 @@ import jm.com.dpbennett.business.entity.JobSubCategory;
 import jm.com.dpbennett.business.entity.LdapContext;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.SystemOption;
-import jm.com.dpbennett.business.utils.BusinessEntityUtils;
+import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
