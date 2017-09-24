@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui">
     <p:dialog header="BSJ Job Management &amp; Tracking System Login"
               modal="true"
               visible="#{main.showLogin}"
@@ -73,6 +72,7 @@
                     <p:commandButton value="Login"
                                      icon="ui-icon ui-icon-person"    
                                      update="loginForm"
+                                     global="false"
                                      process="@form"
                                      actionListener="#{main.login}" />
                 </f:facet>

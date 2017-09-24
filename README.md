@@ -5,16 +5,15 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: discount, discountType, paymentTerms to CASHPAYMENT table
 - Rename: rename JMTSUserId to userId in CASHPAYMENT
 - Add: ADDRESS_ID to Job table (for billing address)
-- Add: country to Address dialog
+- Add: country to Address dialog?
 ================================================================================
 ## Things to do
 ### Immediate Issues
-- Blank billing address is being validated when job from is closed causing the
-   form to be invalid thus preventing proper loading of the form.
-- Use "; " and not ", " for address field separator. Validate to ensure the 
-   address line does not have ";" and that all fields are filled out.
+- Setup UI for entry and display of billing address for new and existing client.
+   The current UI is not user friendly.
 - Call getBillingAddress(), getMainContact() when client is first selected in 
-   job client field.
+   job client field. 
+- Validate address fields in address dialog.
 - Remove type and "set billing addres" from client dialog and fix fact that
    table is not properly update or stateOrProvince not being set.
 - Find address using all fields of the address and use autocomplete and validate
@@ -65,12 +64,15 @@ a selected client contact.
 by other apps?
 - Remove payeeFirst/Lastname and put contact/person.
 - Remove search parameters for legal, compliance and foods.
+- When subcontracted department is deleted and the job form is closed,
+  the subcontracted department field disappears when the form is reopened. Fix!
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
    LegalDocument class etc.
 - Watch out for dateselect and keyup events.
 - Fix issues where classifications are blank. Create new ones if necessary.
+- Remove trim from all find* methods
 
 ### Service Contract
 - Export sample condition(s) to service contract.

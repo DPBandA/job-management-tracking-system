@@ -718,7 +718,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 //    public void setSectorId(Long sectorId) {
 //        this.sectorId = sectorId;
 //    }
-
     public Long getCategoryId() {
         return currentJob.getJobCategory().getId();
     }
@@ -1476,7 +1475,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void updateServiceContract() {
         EntityManager em = getEntityManager1();
-        updateDepartments(currentJob, em);
+        //updateDepartments(currentJob, em);
     }
 
     public Boolean getCurrentJobIsValid() {
@@ -2128,7 +2127,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
     }
 
-    public void updateJob() {       
+    public void updateJob() {
         setDirty(true);
     }
 
@@ -2144,8 +2143,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         EntityManager em = getEntityManager1();
 
         // tk remove this and others after converters are created
-        updateDepartments(currentJob, em);
-
+        //updateDepartments(currentJob, em);
         // Get the clasification saved for use in setting taxes
         Classification classification = Classification.findClassificationByName(em,
                 currentJob.getClassification().getName());
@@ -2153,14 +2151,15 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
-        updateAllJobCostings();
+        if (currentJob.getId() != null) {
+            updateAllJobCostings();
+        }
     }
 
     public void updateJobCostingEstimate() {
         EntityManager em = getEntityManager1();
 
-        updateDepartments(currentJob, em);
-
+        //updateDepartments(currentJob, em);
         // Update estmated cost and min. deposit  
         if (currentJob.getJobCostingAndPayment().getEstimatedCost() != null) {
             Double estimatedCostWithTaxes = BusinessEntityUtils.roundTo2DecimalPlaces(currentJob.getJobCostingAndPayment().getEstimatedCost()
@@ -3322,7 +3321,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
 
         updateSampleReferences();
-        updateDepartments(currentJob, em);
+        //updateDepartments(currentJob, em);
 
         currentJob.setJobNumber(getCurrentJobNumber());
         selectedJobSample = new JobSample();
@@ -3571,8 +3570,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         EntityManager em = getEntityManager1();
 
-        updateDepartments(currentJob, em);
-
+        //updateDepartments(currentJob, em);
         Department dept = getDepartmentAssignedToJob(currentJob, em);
         if (dept != null) {
             if (getDepartmentAssignedToJob(currentJob, em).getJobCostingType().equals("Sample-based")) {
@@ -3853,7 +3851,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         currentJob.setJobNumber(getJobNumber(currentJob, getEntityManager1()));
 
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
-        updateAllJobCostings();
+        if (currentJob.getId() != null) {
+            updateAllJobCostings();
+        }
     }
 
     public void handleCurrentPeriodStartDateSelect(SelectEvent event) {
@@ -3966,27 +3966,26 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             return new ArrayList<>();
         }
     }
-    
-    public List<Address> completeClientAddress(String query) {        
+
+    public List<Address> completeClientAddress(String query) {
         List<Address> addresses = new ArrayList<>();
 
         try {
-            
+
             for (Address address : getCurrentJob().getClient().getAddresses()) {
                 if (address.toString().toUpperCase().contains(query.toUpperCase())) {
                     addresses.add(address);
                 }
             }
-                        
+
             return addresses;
         } catch (Exception e) {
-            
+
             System.out.println(e);
             return new ArrayList<>();
         }
     }
-    
-   
+
     public ArrayList<String> completeCountry(String query) {
         EntityManager em = null;
 
@@ -3994,15 +3993,15 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             em = getEntityManager1();
 
             ArrayList<Country> countries = new ArrayList<>(Country.findCountriesByName(em, query));
-            ArrayList<String> countriesList = (ArrayList<String>)(ArrayList<?>)countries;
-            
+            ArrayList<String> countriesList = (ArrayList<String>) (ArrayList<?>) countries;
+
             return countriesList;
-        } catch (Exception e) {            
+        } catch (Exception e) {
             System.out.println(e);
             return new ArrayList<>();
         }
     }
-    
+
     public List<Classification> completeClassification(String query) {
         EntityManager em = null;
 
@@ -4021,13 +4020,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
     }
 
-    public List<Department> completeDepartment(String query) { 
+    public List<Department> completeDepartment(String query) {
         EntityManager em = null;
 
         try {
             em = getEntityManager1();
 
-            List<Department> departments = Department.findActiveDepartmentsByName(em, query); 
+            List<Department> departments = Department.findActiveDepartmentsByName(em, query);
 
             closeEntityManager(em);
 
@@ -4516,7 +4515,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     currentJob.setDepartment(department);
                     currentJob.setJobNumber(getCurrentJobNumber());
                     JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
-                    updateAllJobCostings();
+                    if (currentJob.getId() != null) {
+                        updateAllJobCostings();
+                    }
                 }
             }
 
@@ -4658,7 +4659,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     currentJob.setSubContractedDepartment(subContractedDepartment);
                     currentJob.setJobNumber(getCurrentJobNumber());
                     JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
-                    updateAllJobCostings();
+
+                    if (currentJob.getId() != null) {
+                        updateAllJobCostings();
+                    }
                 }
             }
 
@@ -4742,6 +4746,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             updateCreditStatus(null);
         }
 
+        // Set default billing address if it's available
+        getCurrentJob().setBillingAddress(getCurrentJob().getClient().getBillingAddress());
         setDirty(true);
     }
 
@@ -5001,16 +5007,16 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         clientManager.setClientHandler(currentJob);
         clientManager.setClientNameAndIdEditable(true);
         clientManager.setExternalEntityManagerFactory(EMF1);
-        clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:clientBillingAddress,:jobDialogForm:jobFormTabView:clientContact");
+        clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
     }
 
     // Edit the client via the ClientManager
-    public void editJobClient() {        
+    public void editJobClient() {
         clientManager.setClient(currentJob.getClient());
-        clientManager.setSave(true);      
+        clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-        clientManager.setExternalEntityManagerFactory(EMF1);       
-        clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:clientBillingAddress,:jobDialogForm:jobFormTabView:clientContact");
+        clientManager.setExternalEntityManagerFactory(EMF1);
+        clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
     }
 
     public ServiceRequest createNewServiceRequest(EntityManager em,
@@ -5542,8 +5548,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         String sequenceNumber;
         String subContractedDepartmenyOrCompanyCode;
 
-        updateDepartments(job, em);
-
+        //updateDepartments(job, em);
         if (job.getAutoGenerateJobNumber() != false) {
 
             departmentOrCompanyCode = job.getDepartment().getSubGroupCode().equals("") ? "?" : job.getDepartment().getSubGroupCode();
