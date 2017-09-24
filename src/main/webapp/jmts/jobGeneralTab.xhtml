@@ -83,12 +83,12 @@
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,clientContact,clientBillingAddress,editClientButton"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
                 <p:ajax event="keyup"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,clientContact,clientBillingAddress,editClientButton"
+                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>        
 
@@ -118,25 +118,24 @@
         </h:panelGroup>
 
         <h:outputText value="Billing address *:" style="font-weight: bold" />        
-        <p:selectOneMenu value="#{jobManager.currentJob.billingAddress}"
-                         converter="addressConverter"
-                         var="addr" >
+        <p:autoComplete id="billingAddress"
+            value="#{jobManager.currentJob.billingAddress}"
+                        dropdown="true"
+                        converter="addressConverter"                            
+                        var="address"                        
+                        itemValue="#{address}"
+                        itemLabel="#{address.name}" 
+                        completeMethod="#{jobManager.completeClientAddress}">
+            
+            <f:validator validatorId="addressValidator" />
 
-            <p:ajax listener="#{jobManager.updateJob}"                    
-                    global="false"
-                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"                    
-                    process="@this" />
-            <f:selectItems  value="#{jobManager.currentJob.client.addresses}"
-                            var="address" 
-                            itemValue="#{address}"
-                            itemLabel="#{address}"/>
-
-            <p:column >
-                #{addr}
-            </p:column>
-        </p:selectOneMenu>
-
+            <p:ajax event="itemSelect"
+                    listener="#{jobManager.updateJob}"                                        
+                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:growl2"                    
+                    process="@this" />            
+        </p:autoComplete>
         <h:outputText value="" />
+        
         <h:outputText id="clientContact" value="Contact: #{jobManager.currentJob.client.mainContact}" />
 
         <h:outputText value="" />

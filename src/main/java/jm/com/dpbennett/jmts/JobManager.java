@@ -3557,6 +3557,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void editJob() {
         // Nothing to do yet
+        // tk 
+        //resetCurrentJob();
         System.out.println("Editing job...");
     }
 
@@ -3960,6 +3962,25 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         } catch (Exception e) {
             closeEntityManager(em);
 
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Address> completeClientAddress(String query) {        
+        List<Address> addresses = new ArrayList<>();
+
+        try {
+            
+            for (Address address : getCurrentJob().getClient().getAddresses()) {
+                if (address.toString().toUpperCase().contains(query.toUpperCase())) {
+                    addresses.add(address);
+                }
+            }
+                        
+            return addresses;
+        } catch (Exception e) {
+            
             System.out.println(e);
             return new ArrayList<>();
         }

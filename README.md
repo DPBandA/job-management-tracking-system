@@ -9,6 +9,12 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ## Things to do
 ### Immediate Issues
+- Blank billing address is being validated when job from is closed causing the
+   form to be invalid thus preventing proper loading of the form.
+- Use "; " and not ", " for address field separator. Validate to ensure the 
+   address line does not have ";" and that all fields are filled out.
+- Call getBillingAddress(), getMainContact() when client is first selected in 
+   job client field.
 - Remove type and "set billing addres" from client dialog and fix fact that
    table is not properly update or stateOrProvince not being set.
 - Find address using all fields of the address and use autocomplete and validate

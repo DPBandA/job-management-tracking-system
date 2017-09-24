@@ -59,6 +59,10 @@
         <validator-id>systemOptionValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.SystemOptionValidator</validator-class>
     </validator>
+    <validator>
+        <validator-id>addressValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.AddressValidator</validator-class>
+    </validator>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
