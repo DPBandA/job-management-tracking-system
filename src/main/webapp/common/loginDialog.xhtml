@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <p:dialog header="BSJ Job Management &amp; Tracking System Login"
               modal="true"
               visible="#{main.showLogin}"
@@ -31,21 +32,7 @@
                              actionListener="#{main.init}"                           
                              process="@this"/>
 
-            <h:panelGrid columns="2">
-                <h:outputText id="loginMessage" value="#{main.logonMessage}" style="font-weight: bold" />
-                <p:ajaxStatus id="loginStatus">
-                    <f:facet name="start">
-                        <p:graphicImage url="images/ajaxloading.gif" width="16" height="16"/>
-                    </f:facet>
-                    <f:facet name="complete">
-                        <h:outputText value="" />
-                    </f:facet>
-                    <f:facet name="error">
-                        <h:outputText value="" />
-                    </f:facet>
-                </p:ajaxStatus>
-            </h:panelGrid>
-
+            <h:outputText id="loginMessage" value="#{main.logonMessage}" style="font-weight: bold" />
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputLabel for="username" value="Username: *" />
                 <p:inputText value="#{main.username}"

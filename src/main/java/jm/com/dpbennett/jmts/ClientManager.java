@@ -311,8 +311,8 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void updateBillingAddress() {
-        setDirty(true);
-        System.out.println("selected val: " + clientBillingAddressString); // tk take action
+        //setDirty(true);
+        //System.out.println("selected val: " + clientBillingAddressString); // tk take action
 //        // Reset address types 
 //        for (Address address : getClient().getAddresses()) {
 //            if (address.getType().equals("Billing")) {
@@ -327,11 +327,15 @@ public class ClientManager implements Serializable, ClientManagement {
 //                address.setType("Billing");
 //            }
 //        }
-        changeBillingAddress(clientBillingAddressString);
+        //changeBillingAddress(clientBillingAddressString);
         
         // Remove selection in table
-        currentAddress = null;
-        clientBillingAddressString = getClient().getBillingAddress().toString(); //tk
+        //currentAddress = null;
+        //clientBillingAddressString = getClient().getBillingAddress().toString(); //tk
+        
+        // Set the client handler's billing address which in most cases
+        // the job to which a billing address is to be assigned.
+        
     }
 
     public void updateClient() {

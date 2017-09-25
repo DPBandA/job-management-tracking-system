@@ -5012,6 +5012,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     // Edit the client via the ClientManager
     public void editJobClient() {
+        clientManager.setClientHandler(currentJob);
         clientManager.setClient(currentJob.getClient());
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());

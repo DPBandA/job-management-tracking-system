@@ -9,6 +9,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ## Things to do
 ### Immediate Issues
+- Make "Select/Add billing address" in client an autocomplete with POJO and use it
+   to set the job's billing address when an address is slected. Use the autocomplete
+   on the "Job General Tab" as guide.
 - Setup UI for entry and display of billing address for new and existing client.
    The current UI is not user friendly.
 - Call getBillingAddress(), getMainContact() when client is first selected in 

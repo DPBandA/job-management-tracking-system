@@ -252,7 +252,7 @@
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText id="currentBillingAddress" value="Select billing address: " style="font-weight: bold"/>   
+                        <h:outputText id="currentBillingAddress" value="Select/Add billing address: " style="font-weight: bold"/>   
                         <h:panelGroup>
                             <p:selectOneMenu  value="#{clientManager.clientBillingAddressString}" 
                                               style='width: 200px;'
@@ -265,13 +265,7 @@
                                         process="@this"/>
                             </p:selectOneMenu>                       
                         </h:panelGroup>
-                        <ui:remove>
-                            <h:outputText id="billingAddress" 
-                                          value="#{clientManager.client.billingAddress}" 
-                                          style="font-weight: bold"/> 
-                        </ui:remove>
-
-
+                       
                         <h:outputText value="Address (line 1):" />
                         <p:inputText value="#{clientManager.client.billingAddress.addressLine1}"
                                      style="width: 100%">
