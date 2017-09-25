@@ -107,14 +107,16 @@
 
             <h:panelGrid columns="2" style="width: 85%">
 
-                <h:outputText value="Type:" />
-                <p:selectOneMenu value="#{clientManager.currentContact.type}">
-                    <p:ajax
-                        global="true"
-                        listener="#{clientManager.updateCurrentContact}"
-                        process="@this" />
-                    <f:selectItems value="#{clientManager.contactTypes}" />
-                </p:selectOneMenu>
+                <ui:remove>
+                    <h:outputText value="Type:" />
+                    <p:selectOneMenu value="#{clientManager.currentContact.type}">
+                        <p:ajax
+                            global="true"
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this" />
+                        <f:selectItems value="#{clientManager.contactTypes}" />
+                    </p:selectOneMenu>
+                </ui:remove>
 
                 <h:outputText value="Title:" />
                 <p:inputText value="#{clientManager.currentContact.title}"
@@ -218,7 +220,7 @@
             <p:commandButton value="Ok"
                              onstart="longProcessDialogVar.show();"
                              actionListener="#{clientManager.okClient}"
-                             oncomplete="longProcessDialogVar.hide();"
+                             oncomplete="clientFormDialog.hide();longProcessDialogVar.hide();"
                              update="#{clientManager.componentsToUpdate}"
                              icon="ui-icon-check"/>
             <p:commandButton value="Cancel"
@@ -230,7 +232,7 @@
             <p:tabView id="clientFormTabView"
                        dynamic="true"
                        widgetVar="clientFormTabVar" >
-                <p:tab title="General details">
+                <p:tab id="clientDetailsTab" title="General details">
                     <h:panelGrid id="generalDetailsPanelGrid" columns="2" style="width: 85%">
                         <h:outputText value="Name *:" style="font-weight: bold;" />
                         <p:inputText value="#{clientManager.client.name}"                                                                         
@@ -253,57 +255,35 @@
                         </p:inputText>
 
                         <h:outputText id="currentBillingAddress" value="Select/Add billing address: " style="font-weight: bold"/>   
-                        <h:panelGroup>
-                            <p:selectOneMenu  value="#{clientManager.clientBillingAddressString}" 
-                                              style='width: 200px;'
-                                              editable="true">
-                                <f:selectItem itemLabel="-- Select an address --" itemValue="" />
-                                <f:selectItems  value="#{clientManager.clientAddresses}"/>                           
-                                <p:ajax listener="#{clientManager.updateBillingAddress}"
-                                        global="false"
-                                        update=":clientForm:clientFormTabView:generalDetailsPanelGrid,:clientForm:clientFormTabView:addressesTable"
-                                        process="@this"/>
-                            </p:selectOneMenu>                       
-                        </h:panelGroup>
-                       
-                        <h:outputText value="Address (line 1):" />
-                        <p:inputText value="#{clientManager.client.billingAddress.addressLine1}"
-                                     style="width: 100%">
-                            <p:ajax event="keyup"
-                                    global="true"
-                                    update=":clientForm:clientFormTabView:addressesTable"
-                                    listener="#{clientManager.updateClient}"
-                                    process="@this"/>
-                        </p:inputText>
+                        <p:autoComplete id="currentClientBillingAddress"
+                                        value="#{clientManager.billingAddress}"
+                                        dropdown="true"
+                                        forceSelection="true"
+                                        converter="addressConverter"                            
+                                        var="address"                        
+                                        itemValue="#{address}"
+                                        itemLabel="#{address.name}" 
+                                        completeMethod="#{jobManager.completeClientAddress}">
 
-                        <h:outputText value="Address (line 2):" />
-                        <p:inputText value="#{clientManager.client.billingAddress.addressLine2}"
-                                     style="width: 100%" >
-                            <p:ajax event="keyup"
-                                    global="true"
-                                    listener="#{clientManager.updateClient}"
-                                    process="@this"/>
-                        </p:inputText>
+                            <p:ajax event="itemSelect"
+                                    listener="#{clientManager.updateBillingAddress}"                                        
+                                    update=":clientForm:clientFormTabView:addressesTable,generalDetailsPanelGrid"
+                                    process="@this" />   
+                        </p:autoComplete>    
 
-                        <h:outputText value="Nearest City/Town:" />
-                        <p:inputText value="#{clientManager.client.billingAddress.city}"
-                                     style="width: 100%"
-                                     id="clientCity" >
-                            <p:ajax event="keyup"
-                                    global="true"
-                                    listener="#{clientManager.updateClient}"
-                                    process="@this"/>
-                        </p:inputText>
 
-                        <h:outputText value="Parish:" />
-                        <p:selectOneMenu value="#{clientManager.client.billingAddress.stateOrProvince}" 
-                                         editable="true">
-                            <p:ajax
-                                global="true"
-                                listener="#{clientManager.updateClient}"
-                                process="@this" />
-                            <f:selectItems value="#{App.jamaicaParishes}" />
-                        </p:selectOneMenu>
+                        <h:outputText value="" />
+                        <h:outputText value="#{clientManager.billingAddress.addressLine1}" />
+
+                        <h:outputText value="" />
+                        <h:outputText value="#{clientManager.billingAddress.addressLine2}" />
+
+                        <h:outputText value="" />
+                        <h:outputText value="#{clientManager.billingAddress.city}" />
+
+                        <h:outputText value="" />
+                        <h:outputText value="#{clientManager.billingAddress.stateOrProvince}" />   
+
 
                     </h:panelGrid>                    
 
@@ -315,17 +295,10 @@
                                      actionListener="#{clientManager.createNewAddress}"/>
                     <p:dataTable id="addressesTable"
                                  var="address"
-                                 paginator="true"
-                                 selection="#{clientManager.currentAddress}"
-                                 rowKey="#{address.addressLine1}"
-                                 rows="5"
+                                 paginator="true"                                 
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  value="#{clientManager.addressesModel}">
-
-                        <p:ajax event="rowSelectRadio" 
-                                listener="#{clientManager.addressSelected}"
-                                update="addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid" />
-
+                       
                         <f:facet name="header">
                             Addresses
                         </f:facet>
@@ -336,11 +309,6 @@
 
                         <p:column headerText="Type">                            
                             <h:outputText value="#{address.type}" />
-                        </p:column>
-
-                        <p:column headerText="Select billing address"                                  
-                                  selectionMode="single" 
-                                  style="width:16px;text-align:center">                           
                         </p:column>
 
                         <p:column style="width:32px">
@@ -370,24 +338,17 @@
                                      oncomplete="addressFormDialog.show();"
                                      actionListener="#{clientManager.createNewAddress}"/>
                 </p:tab>
+                
                 <p:tab title="Contacts">
                     <p:commandButton value="Add contact"
                                      update=":contactForm"
                                      oncomplete="contactFormDialog.show();"
                                      actionListener="#{clientManager.createNewContact}"/>
                     <p:dataTable id="contactsTable"
-                                 var="contact"
-                                 selection="#{clientManager.currentContact}"
-                                 rowKey="#{contact.firstName}"
-                                 paginator="true"
-                                 rows="5"
+                                 var="contact"                                 
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  value="#{clientManager.contactsModel}">
-
-                        <p:ajax event="rowSelectRadio" 
-                                listener="#{clientManager.contactSelected}"
-                                update="contactsTable,:clientForm:clientFormTabView:generalDetailsPanelGrid" />
-
+                        
                         <f:facet name="header">
                             Contacts
                         </f:facet>                      
@@ -412,17 +373,12 @@
                             </f:facet>
                             <h:outputText value="#{contact.internet.email1}" />
                         </p:column>
-                        
-                         <p:column>
+
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Type"/>
                             </f:facet>
                             <h:outputText value="#{contact.type}" />
-                        </p:column>
-
-                        <p:column headerText="Select main contact"                                  
-                                  selectionMode="single" 
-                                  style="width:16px;text-align:center">                           
                         </p:column>
 
                         <p:column style="width:32px">
@@ -474,7 +430,7 @@
                              actionListener="#{clientManager.okClient}"
                              oncomplete="clientFormDialog.hide();longProcessDialogVar.hide();"
                              update="#{clientManager.componentsToUpdate}"
-                             icon="ui-icon-check"/>
+                             icon="ui-icon-check"/>            
             <p:commandButton value="Cancel"
                              onstart="longProcessDialogVar.show();"
                              actionListener="#{clientManager.cancelClientEdit}"

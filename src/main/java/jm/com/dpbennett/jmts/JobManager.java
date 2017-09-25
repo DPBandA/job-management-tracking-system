@@ -4,6 +4,7 @@
  */
 package jm.com.dpbennett.jmts;
 
+import jm.com.dpbennett.business.entity.management.ClientManager;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -144,7 +145,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;
-    private Boolean dirty;
     private Job currentJob;
     private Long selectedJobId;
     private Long currentJobId;
@@ -201,8 +201,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private Boolean enableDatabaseModuleSelection;
     private String databaseModule;
     private SearchParameters currentSearchParameters;
-    private Boolean isJobToBeCopied;
-    //private Boolean isJobToBeSubcontracted = false;
+    private Boolean isJobToBeCopied; 
     private Main main;
     private final ClientManager clientManager;
     private final SearchManager searchManager;
@@ -249,7 +248,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         filteredAccPacCustomerDocuments = new ArrayList<>();
         useAccPacCustomerList = false;
         jobReport = new Report();
-        dirty = false;
+        //dirty = false;
         addJobSample = false;
         addCashPayment = false;
         addCostComponent = false;
@@ -4416,13 +4415,14 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     @Override
     public void setDirty(Boolean dirty) {
-        this.dirty = dirty;
-
+        //this.dirty = dirty;
+        getCurrentJob().setDirty(dirty);
     }
 
     @Override
     public Boolean isDirty() {
-        return dirty;
+        //return dirty;
+        return getCurrentJob().getDirty();
     }
 
     public void handlePoll() {
@@ -5003,6 +5003,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void createNewJobClient() {
+        clientManager.setUser(getUser());
         clientManager.createNewClient();
         clientManager.setClientHandler(currentJob);
         clientManager.setClientNameAndIdEditable(true);
@@ -5012,8 +5013,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     // Edit the client via the ClientManager
     public void editJobClient() {
+        clientManager.setUser(getUser());
         clientManager.setClientHandler(currentJob);
         clientManager.setClient(currentJob.getClient());
+        clientManager.setBillingAddress(currentJob.getBillingAddress());
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);

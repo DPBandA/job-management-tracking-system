@@ -4,18 +4,26 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ## PENDING LIVE DATABASE ALTERATIONS:
 - Add: discount, discountType, paymentTerms to CASHPAYMENT table
 - Rename: rename JMTSUserId to userId in CASHPAYMENT
-- Add: ADDRESS_ID to Job table (for billing address)
+- Add: BILLINGADDRESS_ID, CONTACT_ID to Job table (for billing address, contact)
 - Add: country to Address dialog?
 ================================================================================
 ## Things to do
 ### Immediate Issues
-- Make "Select/Add billing address" in client an autocomplete with POJO and use it
-   to set the job's billing address when an address is slected. Use the autocomplete
-   on the "Job General Tab" as guide.
+- See if ClientManager can be moved to BEL for reuse by other apps. Use growl
+   where message display is required and remove use of primfaces context.
+   context.execute("clientFormDialog.hide();"); so find a way to replace it
+   in the clientForm UI.
+   displayMessageDialog()...find way to replace it
+   replace p:selectOneMenu for contact types with autocomlete with dropdown.
+   Ensure "Entered by" and "Edited by" works.
+- Implement "Select/Add contact" 
+- Imlement "+ New" to be put beside "Select/Add Contact/Address" in client form.
 - Setup UI for entry and display of billing address for new and existing client.
    The current UI is not user friendly.
 - Call getBillingAddress(), getMainContact() when client is first selected in 
    job client field. 
+- Remove code that changes the billing address type to only one address. ie allow
+   more than one address to bear the "billing" type.
 - Validate address fields in address dialog.
 - Remove type and "set billing addres" from client dialog and fix fact that
    table is not properly update or stateOrProvince not being set.
@@ -69,6 +77,9 @@ by other apps?
 - Remove search parameters for legal, compliance and foods.
 - When subcontracted department is deleted and the job form is closed,
   the subcontracted department field disappears when the form is reopened. Fix!
+- This was commented out of ClientManager: 
+    //getMain().displayCommonMessageDialog(null, "Please provide at least 1 character for the search text.", "Insufficient Characters", "alert");
+    Find way to get something like this back in without using getMain().
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
@@ -97,6 +108,7 @@ by other apps?
 - For job/survey and other search just return the values needed for the table display and not the entire job/survey record. This requires less bandwidth.
 - Implement data backup from one database to another ie database replication.
 - Get rid of use of "--" as placeholder objects and fields
+- Move JobManager and all other beans to BEL?
 #### Issues
 - Change "keyup" to "change" where possible.
 - Update system options table after editing an option.
