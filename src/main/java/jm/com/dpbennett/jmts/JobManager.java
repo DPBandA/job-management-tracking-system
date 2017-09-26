@@ -7167,7 +7167,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                         "þ",
                         "java.lang.String", dataCellStyle);
             }
-            // Disposed of by the bsj
+            // Disposed of by the company
             if (checkForSampleDisposalMethod(job.getJobSamples(), 2)) {
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, 48, 0,
@@ -7306,7 +7306,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     "",
                     "java.lang.String", dataCellStyle);
 
-            // BSJ's job entry agent:
+            // Job entry agent:
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderBottom((short) 1);
             dataCellStyle.setBorderTop((short) 1);
@@ -7531,7 +7531,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
 
             // THE INFORMATION IN SECTION 3
-            // BSJ AGENT/CASHIER
+            // AGENT/CASHIER
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderTop((short) 1);
             dataCellStyle.setBorderBottom((short) 1);

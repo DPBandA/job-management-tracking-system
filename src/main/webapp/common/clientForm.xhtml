@@ -238,8 +238,11 @@
                         <p:inputText value="#{clientManager.client.name}"                                                                         
                                      disabled="#{!clientManager.clientNameAndIdEditable}"
                                      style="width: 100%;"
+                                     validator="newClientValidator"
                                      validatorMessage="Please enter a valid name">
-                            <p:ajax event="keyup"
+                            <f:attribute name="isNewClient" value="#{clientManager.isNewClient}" />
+                            
+                            <p:ajax event="change"
                                     global="true"                                    
                                     listener="#{clientManager.updateClient}"
                                     process="@this"/>

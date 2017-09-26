@@ -63,6 +63,10 @@
         <validator-id>addressValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.AddressValidator</validator-class>
     </validator>
+    <validator>
+        <validator-id>newClientValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.NewClientValidator</validator-class>
+    </validator>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

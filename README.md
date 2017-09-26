@@ -9,12 +9,15 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ## Things to do
 ### Immediate Issues
-- See if ClientManager can be moved to BEL for reuse by other apps. Use growl
-   where message display is required and remove use of primfaces context.
-   context.execute("clientFormDialog.hide();"); so find a way to replace it
-   in the clientForm UI.
+- Finish NewClientValidator and use it to validate new client entries. Impl. 
+  prevention dialog closing and client save until client is validated like 
+  what is done for the system option dialog.
+- Use growl where message display is required and remove use of primfaces context
+   in ClientManager.
    displayMessageDialog()...find way to replace it
    replace p:selectOneMenu for contact types with autocomlete with dropdown.
+   Impl. client validation using a validator. Validation should check to see
+    if client already exist.
    Ensure "Entered by" and "Edited by" works.
 - Implement "Select/Add contact" 
 - Imlement "+ New" to be put beside "Select/Add Contact/Address" in client form.
@@ -109,6 +112,8 @@ by other apps?
 - Implement data backup from one database to another ie database replication.
 - Get rid of use of "--" as placeholder objects and fields
 - Move JobManager and all other beans to BEL?
+- Replace names such as BSJ/Bureau of Standards and images with system options.
+- Fix up ServiceManager to use ClientManager the way it is used by JobManager
 #### Issues
 - Change "keyup" to "change" where possible.
 - Update system options table after editing an option.

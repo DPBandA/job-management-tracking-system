@@ -22,18 +22,8 @@
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
-    </servlet>  
-    
-    <!--
-    <servlet>
-        <servlet-name>jm.com.dpbennett.bsjdb.webservice.ApplicationConfig</servlet-name>
-        <init-param>
-            <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
-            <param-value>jm.com.dpbennett.bsjdb.webservice.CrossOriginResourceSharingFilt!-er</param-value>
-        </init-param>
-    </servlet>
-    -->
-           
+    </servlet>     
+   
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/jmts/*</url-pattern>
