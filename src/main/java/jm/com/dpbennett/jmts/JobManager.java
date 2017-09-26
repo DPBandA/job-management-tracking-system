@@ -5003,12 +5003,14 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void createNewJobClient() {
-        clientManager.setUser(getUser());
         clientManager.createNewClient();
-        clientManager.setClientHandler(currentJob);
-        clientManager.setClientNameAndIdEditable(true);
+        clientManager.setUser(getUser());
+        clientManager.setClientHandler(currentJob);         
+        clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        clientManager.setSave(true);
         clientManager.setExternalEntityManagerFactory(EMF1);
         clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
+        getMain().openDialog(null, "clientForm", true, true, true, 420, 600);
     }
 
     // Edit the client via the ClientManager
@@ -5021,6 +5023,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
         clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
+        getMain().openDialog(null, "clientForm", true, true, true, 420, 600);
     }
 
     public ServiceRequest createNewServiceRequest(EntityManager em,

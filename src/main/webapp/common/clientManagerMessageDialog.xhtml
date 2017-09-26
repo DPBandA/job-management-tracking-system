@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">   
+
+    <h:form id="clientManagerMessageDialogForm">
+        <p:confirmDialog severity="#{clientManager.dialogMessageSeverity}"
+                         closable="false"
+                         message="#{clientManager.dialogMessage}"
+                         header="#{clientManager.dialogMessageHeader}"
+                         widgetVar="clientManagerMessageDialog"
+                         width="425">
+
+            <p:commandButton value="Ok"
+                             onstart="longProcessDialogVar.show();"                                                    
+                             oncomplete="clientManagerMessageDialog.hide();longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"
+                             process="@this"
+                             icon="ui-icon-check"/>
+
+        </p:confirmDialog>
+    </h:form>
+
+</html>

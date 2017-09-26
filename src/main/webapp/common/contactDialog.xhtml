@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">   
+
+    <h:form id="contactForm">
+        <p:dialog width="450"
+                  height="400"
+                  draggable="true"
+                  closable="false"
+                  modal="true"
+                  widgetVar="contactFormDialog"
+                  header="Contact Detail" >
+            <p:commandButton value="Ok"
+                             actionListener="#{clientManager.okCurrentContact}"
+                             icon="ui-icon-check"
+                             oncomplete="contactFormDialog.hide();"
+                             update=":clientForm:clientFormTabView:contactsTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             process="@form"/>
+            <hr/>
+
+            <h:panelGrid columns="2" style="width: 85%">
+
+                <ui:remove>
+                    <h:outputText value="Type:" />
+                    <p:selectOneMenu value="#{clientManager.currentContact.type}">
+                        <p:ajax
+                            global="true"
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this" />
+                        <f:selectItems value="#{clientManager.contactTypes}" />
+                    </p:selectOneMenu>
+                </ui:remove>
+
+                <h:outputText value="Title:" />
+                <p:inputText value="#{clientManager.currentContact.title}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>               
+
+                <h:outputText value="Firstname:" />
+                <p:inputText value="#{clientManager.currentContact.firstName}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Lastname:" />
+                <p:inputText value="#{clientManager.currentContact.lastName}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Position:" />
+                <p:inputText value="#{clientManager.currentContact.position}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Phone:" />
+                <p:inputText value="#{clientManager.currentContact.mainPhoneNumber.localNumber}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Email:" />
+                <p:inputText value="#{clientManager.currentContact.internet.email1}"
+                             style="width: 100%" >                
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Website:" />
+                <p:inputText value="#{clientManager.currentContact.internet.website1}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Fax:" />
+                <p:inputText value="#{clientManager.currentContact.mainFaxNumber.localNumber}"
+                             style="width: 100%">
+                    <p:ajax event="keyup"
+                            global="true"                                    
+                            listener="#{clientManager.updateCurrentContact}"
+                            process="@this"/>
+                </p:inputText>
+
+            </h:panelGrid>
+            <hr/>
+            <p:commandButton value="Ok"
+                             actionListener="#{clientManager.okCurrentContact}"
+                             icon="ui-icon-check"
+                             oncomplete="contactFormDialog.hide();"
+                             update=":clientForm:clientFormTabView:contactsTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             process="@form"/>
+
+        </p:dialog>
+    </h:form>
+
+</html>

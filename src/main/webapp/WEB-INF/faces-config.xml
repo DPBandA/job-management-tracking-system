@@ -64,8 +64,8 @@
         <validator-class>jm.com.dpbennett.business.entity.validator.AddressValidator</validator-class>
     </validator>
     <validator>
-        <validator-id>newClientValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.NewClientValidator</validator-class>
+        <validator-id>clientValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.ClientValidator</validator-class>
     </validator>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
@@ -115,22 +115,15 @@
             <from-outcome>systemOptionDialog</from-outcome>
             <to-view-id>/common/systemOptionDialog.xhtml</to-view-id>
         </navigation-case>
+    </navigation-rule>  
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>clientForm</from-outcome>
+            <to-view-id>/common/clientForm.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>    
-    <navigation-rule>
-        <from-view-id>/index.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>foodFactoryDialog</from-outcome>
-            <to-view-id>/foodsdb/foodFactoryDialog.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>  
-    <navigation-rule>
-        <from-view-id>/index.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>complianceSurveyDialog</from-outcome>
-            <to-view-id>/cdb/cdbComplianceSurveyDialogPage.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>  
-    
+        
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.jmts.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>

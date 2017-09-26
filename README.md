@@ -9,9 +9,18 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ## Things to do
 ### Immediate Issues
+- Impl. creating new client and figure out dealing with selectable billing addresses
+  in the client form - use the client in the client manager and not the currentJob
+  clients. 
+  Impl. handling of saving and closing client dialog. 
+  After adding an address or contact the respective address and contact fields
+  are to be updated. 
+- Put use <p:ajax event="dialogReturn"> to update fields and use primefaces 
+  dialog framework for the client form/dialog.
 - Finish NewClientValidator and use it to validate new client entries. Impl. 
   prevention dialog closing and client save until client is validated like 
   what is done for the system option dialog.
+  Try remove <p:dialog> may be that will make it behave like the systemOptionDialogForm.
 - Use growl where message display is required and remove use of primfaces context
    in ClientManager.
    displayMessageDialog()...find way to replace it
@@ -83,6 +92,7 @@ by other apps?
 - This was commented out of ClientManager: 
     //getMain().displayCommonMessageDialog(null, "Please provide at least 1 character for the search text.", "Insufficient Characters", "alert");
     Find way to get something like this back in without using getMain().
+- For new clients make sure that the "EnteredBy" field is filled out.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
@@ -114,6 +124,17 @@ by other apps?
 - Move JobManager and all other beans to BEL?
 - Replace names such as BSJ/Bureau of Standards and images with system options.
 - Fix up ServiceManager to use ClientManager the way it is used by JobManager
+- Separate address and contact dialogs into separate files and include them
+  into the clientForm.xml file as required. This is allow the contact and address
+  dialogs to be used independently.
+- Use validators and growl to ensure display validation message consistency.
+- Put cancel button on contact and address dialogs.
+- Put every form in its on file.
+- Impl. the following using primefaces dialog framework: loginDialog, 
+  accPacClientInformationDialog, reportingDialog, jobSampleDialogs, jobDialog,
+  jobCostingDialogs, preferencesDialog, cashPaymentDialog
+
+eae
 #### Issues
 - Change "keyup" to "change" where possible.
 - Update system options table after editing an option.
@@ -305,6 +326,7 @@ by other apps?
 ### New Features
 - Implement associating customer complaints to a job. Lodging of complaints could also be done via the website.
 - Impl dialog for creating business office.
+- Link client to training...A feature for ITU of the BSJ. Details to be determined.
 
 ### Authentication and Authorization
 - Add privilege to apply discount?
@@ -439,4 +461,17 @@ by other apps?
 - Remove fields from database that are not used: jobcostingandpayment: depositDate, jobcostingandpayment: dateOfLastPayment
 
 
+Keep Code:
+<p:dialog width="700"
+                  height="600"
+                  draggable="true"
+                  modal="true"                  
+                  closable="false"                  
+                  header="Client" >      
 
+            <p:ajax event="close"                                      
+                    async="true"  
+                    onstart="longProcessDialogVar.show();"
+                    oncomplete="longProcessDialogVar.hide();clientFormTabVar.select(0);"
+                    update="clientForm"/>
+ </p:dialog>

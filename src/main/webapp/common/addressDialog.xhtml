@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">   
+    
+    <h:form id="addressForm">
+        <p:dialog width="450"
+                  height="400"
+                  draggable="true"
+                  closable="false"
+                  modal="true"
+                  widgetVar="addressFormDialog"
+                  header="Address Detail" >
+            <p:commandButton value="Ok"
+                             actionListener="#{clientManager.okCurrentAddress}"
+                             icon="ui-icon-check"
+                             update=":clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             oncomplete="addressFormDialog.hide();"                             
+                             process="@form"/>
+            <hr/>
+            <h:panelGrid columns="2" style="width: 85%">       
+                <h:outputText value="Type:" />
+                <p:selectOneMenu value="#{clientManager.currentAddress.type}">
+                    <p:ajax
+                        global="true"
+                        listener="#{clientManager.updateCurrentAddress}"
+                        process="@this" />
+                    <f:selectItem itemLabel="Billing" itemValue="Billing" />
+                    <f:selectItem itemLabel="General" itemValue="General" />
+                </p:selectOneMenu>
+
+                <h:outputText value="Address (line 1):" />
+                <p:inputText value="#{clientManager.currentAddress.addressLine1}"
+                             style="width: 100%">
+                    <p:ajax event="keyup"
+                            global="true"
+                            listener="#{clientManager.updateCurrentAddress}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Address (line 2):" />
+                <p:inputText value="#{clientManager.currentAddress.addressLine2}"
+                             style="width: 100%" >
+                    <p:ajax event="keyup"
+                            global="true"
+                            listener="#{clientManager.updateCurrentAddress}"
+                            process="@this"/>
+                </p:inputText>                
+
+                <h:outputText value="Nearest City/Town:" />
+                <p:inputText value="#{clientManager.currentAddress.city}"
+                             style="width: 100%"
+                             id="clientCity" >
+                    <p:ajax event="keyup"
+                            global="true"
+                            listener="#{clientManager.updateCurrentAddress}"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Parish/State/Province:" />
+                <p:selectOneMenu value="#{clientManager.currentAddress.stateOrProvince}" 
+                                 editable="true">
+                    <p:ajax
+                        global="true"
+                        listener="#{clientManager.updateClient}"
+                        process="@this" />
+                    <f:selectItems value="#{App.jamaicaParishes}" />
+                </p:selectOneMenu>
+                <ui:remove>
+                    <p:inputText value="#{clientManager.currentAddress.stateOrProvince}"
+                                 style="width: 100%">
+                        <p:ajax event="keyup"
+                                global="true"
+                                listener="#{clientManager.updateCurrentAddress}"
+                                process="@this"/>
+                    </p:inputText>
+                </ui:remove>
+
+            </h:panelGrid>    
+            <hr/>
+            <p:commandButton value="Ok"
+                             actionListener="#{clientManager.okCurrentAddress}"
+                             icon="ui-icon-check"
+                             update=":clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             oncomplete="addressFormDialog.hide();"                             
+                             process="@form"/>
+        </p:dialog>
+    </h:form>
+
+</html>

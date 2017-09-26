@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">   
+
+    <h:form>
+        <p:confirmDialog severity="alert"
+                         closable="false"
+                         message="Are you sure you wish to delete this address?"
+                         header="Delete Address?"
+                         widgetVar="deleteAddressDialog"
+                         width="400">
+            <p:commandButton value="Yes"
+                             actionListener="#{clientManager.removeAddress}"
+                             onstart="longProcessDialogVar.show();"
+                             update=":clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                             oncomplete="deleteAddressDialog.hide();longProcessDialogVar.hide();"
+                             icon="ui-icon-check"/>
+            <p:commandButton value="No"
+                             oncomplete="deleteAddressDialog.hide();"
+                             icon="ui-icon-cancel"/>
+        </p:confirmDialog>
+    </h:form>
+
+
+</html>

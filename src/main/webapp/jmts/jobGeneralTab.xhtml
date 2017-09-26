@@ -99,45 +99,49 @@
                              id="editClientButton"
                              disabled="${!jobManager.isClientNameValid}"
                              onstart="longProcessDialogVar.show();"
-                             actionListener="#{jobManager.editJobClient}"
-                             update=":clientForm"
-                             oncomplete="clientFormDialog.show();longProcessDialogVar.hide();"
+                             actionListener="#{jobManager.editJobClient}"                             
+                             oncomplete="longProcessDialogVar.hide();"
                              process="@this,client"                             
-                             title="View or edit this client's detail"/>   
+                             title="View or edit this client's detail">   
+                <p:ajax event="dialogReturn" 
+                        update="#{clientManager.componentsToUpdate}"/>
+            </p:commandButton>
             <p:spacer height="0" width="15"/>
             <p:commandButton value="New"
                              icon="ui-icon-plus"
                              onstart="longProcessDialogVar.show();"
                              rendered="#{jobManager.user.privilege.canAddClient}"
-                             actionListener="#{jobManager.createNewJobClient}"
-                             update=":clientForm"
-                             oncomplete="clientFormDialog.show();longProcessDialogVar.hide();"
+                             actionListener="#{jobManager.createNewJobClient}"                             
+                             oncomplete="longProcessDialogVar.hide();"
                              process="@this"
-                             title="Add a new client to the client database"/>
+                             title="Add a new client to the client database">
+                <p:ajax event="dialogReturn" 
+                        update="#{clientManager.componentsToUpdate}"/>
+            </p:commandButton>
 
         </h:panelGroup>
 
         <h:outputText value="Billing address *:" style="font-weight: bold" />        
         <p:autoComplete id="billingAddress"
-            value="#{jobManager.currentJob.billingAddress}"
+                        value="#{jobManager.currentJob.billingAddress}"
                         dropdown="true"
                         converter="addressConverter"                            
                         var="address"                        
                         itemValue="#{address}"
                         itemLabel="#{address.name}" 
                         completeMethod="#{jobManager.completeClientAddress}">
-            
+
             <f:validator validatorId="addressValidator" />
 
-            
+
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
                     update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:growl2"                    
                     process="@this" />   
-            
+
         </p:autoComplete>
         <h:outputText value="" />
-        
+
         <h:outputText id="clientContact" value="Contact: #{jobManager.currentJob.client.mainContact}" />
 
         <h:outputText value="Date submitted *:" style="font-weight: bold" />
