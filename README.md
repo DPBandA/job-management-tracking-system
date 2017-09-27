@@ -9,12 +9,15 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ## Things to do
 ### Immediate Issues
-- Impl. creating new client and figure out dealing with selectable billing addresses
-  in the client form - use the client in the client manager and not the currentJob
-  clients. 
+- Impl. job dialog as tab to see if it fixes the issue where the client is 
+  not being updated when the client dialog is "oked". Try with simple client form first.
+- The client owner should be set to the client manager's client when the client 
+  is "oked". 
   Impl. handling of saving and closing client dialog. 
   After adding an address or contact the respective address and contact fields
   are to be updated. 
+- <p:autoComplete id="currentClientBillingAddress"> should be validated. Validation
+  must coonsider the case when the address is new and does not exist in the database.
 - Put use <p:ajax event="dialogReturn"> to update fields and use primefaces 
   dialog framework for the client form/dialog.
 - Finish NewClientValidator and use it to validate new client entries. Impl. 
@@ -133,6 +136,7 @@ by other apps?
 - Impl. the following using primefaces dialog framework: loginDialog, 
   accPacClientInformationDialog, reportingDialog, jobSampleDialogs, jobDialog,
   jobCostingDialogs, preferencesDialog, cashPaymentDialog
+- Change the Search combos to p:selectonemenu.
 
 eae
 #### Issues
@@ -475,3 +479,12 @@ Keep Code:
                     oncomplete="longProcessDialogVar.hide();clientFormTabVar.select(0);"
                     update="clientForm"/>
  </p:dialog>
+
+<p:commandButton icon="ui-icon-pencil"
+                             id="editClientButton"
+                             disabled="${!jobManager.isClientNameValid}"
+                             onstart="longProcessDialogVar.show();"
+                             actionListener="#{jobManager.editJobClient}"                             
+                             oncomplete="longProcessDialogVar.hide();"
+                             process="@this,client"                             
+                             title="View or edit this client's detail">   

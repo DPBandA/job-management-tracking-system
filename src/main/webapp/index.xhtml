@@ -171,36 +171,19 @@
                                 oncomplete="longProcessDialogVar.hide();"
                                 listener="#{main.onMainTabChange}" />
 
-                        <p:tab id="ServiceRequestTab" 
-                               title="Service Requests"
-                               closable="false"
-                               rendered="#{main.user.serviceRequestUnit}">
-                            <p:toolbar>
-                                <p:toolbarGroup align="left" >
-                                    <p:commandButton
-                                        id="createNewServiceRequest"
-                                        actionListener="#{serviceManager.createNewServiceRequest}"
-                                        global="true"
-                                        onstart="longProcessDialogVar.show();"
-                                        onerror="connectionErrorDialog.show();"
-                                        value="New"
-                                        title="Create new service request"
-                                        icon="ui-icon-plusthick"
-                                        process="@this"/>
-                                </p:toolbarGroup>
-                            </p:toolbar>
-                            <ui:insert>
-                                <ui:include src="jmts/serviceRequestsTable.xhtml"/>  
-                            </ui:insert>                            
-
-                        </p:tab>
-
                         <p:tab id="jobsTab"
                                closable="false"
                                title="#{jobManager.user.jobTableViewPreference}"
                                rendered="#{main.user.jobManagementAndTrackingUnit}" >
                             <p:toolbar id="jobsToolbar">
                                 <p:toolbarGroup align="left" >
+                                    <p:commandButton                          
+                                        onstart="longProcessDialogVar.show();"
+                                        oncomplete="longProcessDialogVar.hide();"
+                                        onclick="mainTabViewVar.enable(0);mainTabViewVar.select(0);"
+                                        value="Test New"                                       
+                                        title="Create new job"                                        
+                                        process="@this"/>    
                                     <p:commandButton
                                         id="createNewJobButton"
                                         actionListener="#{jobManager.createNewJob}"
@@ -303,7 +286,22 @@
                             <ui:insert>
                                 <ui:include src="jmts/jobsDatabaseTable.xhtml"/>
                             </ui:insert>                      
-                        </p:tab>                       
+                        </p:tab>         
+                        
+                        <p:tab id="jobDetailTab" 
+                               title="Job Detail - #{jobManager.currentJob.jobNumber}"
+                               rendered="true"
+                               closable="true">
+                            
+                            Job Detail Goes Here
+                            <p:commandButton                          
+                                        onstart="longProcessDialogVar.show();"
+                                        oncomplete="longProcessDialogVar.hide();"
+                                        onclick="mainTabViewVar.remove(1);"
+                                        value="Close"                                       
+                                        title="Close form"                                        
+                                        process="@this"/>    
+                        </p:tab>
 
                         <p:tab id="FinancialAdminTab" title="Financial Administration"
                                closable="false" 
