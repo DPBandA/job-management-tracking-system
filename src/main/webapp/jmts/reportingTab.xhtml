@@ -46,7 +46,7 @@
                     <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                             global="false"
                             event="keyup"
-                            update="numOfTestsOrCalibrations,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            
                             process="@this"/>
                     <f:convertNumber />
                 </p:inputText>
@@ -61,7 +61,7 @@
                     <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                             global="false"
                             event="keyup"
-                            update="numOfTestsOrCalibrations,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            
                             process="@this"/>
                     <f:convertNumber />
                 </p:inputText>
@@ -78,7 +78,7 @@
                     <p:ajax listener="#{jobManager.updateJob}"
                             global="false"
                             event="keyup"
-                            update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            
                             process="@this"/>
                 </p:inputText>
             </h:panelGroup>
@@ -96,7 +96,7 @@
             style="width: 500px;" >
             <p:ajax event="keyup"
                     global="false"
-                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                   
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
         </p:inputTextarea>

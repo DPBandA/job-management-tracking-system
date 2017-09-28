@@ -15,7 +15,7 @@
 
             <p:ajax listener="#{jobManager.updateSector}"                    
                     global="false"
-                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"                    
+                                       
                     process="@this" />
             <f:selectItems  value="#{jobManager.activeSectors}"
                             var="sector"
@@ -34,7 +34,7 @@
                           var="jobCat" >
             <p:ajax listener="#{jobManager.updateJobCategory}"
                     global="false"
-                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                    
                     process="@this" />
             <f:selectItems  value="#{jobManager.activeJobCategories}"
                             var="jobCategory"
@@ -54,7 +54,7 @@
             
             <p:ajax listener="#{jobManager.updateJobSubCategory}"
                     global="false"
-                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                    
                     process="@this" />
             <f:selectItems  value="#{jobManager.activeJobSubCategories}"
                             var="jobSubCategory"

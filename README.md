@@ -1,14 +1,38 @@
 # Job Management & Tracking System (JMTS)
 The JMTS is an enterprise software that facilitates the management and tracking of jobs.
-
-## PENDING LIVE DATABASE ALTERATIONS:
+================================================================================
+## Things to do
+### PENDING LIVE DATABASE ALTERATIONS:
 - Add: discount, discountType, paymentTerms to CASHPAYMENT table
 - Rename: rename JMTSUserId to userId in CASHPAYMENT
 - Add: BILLINGADDRESS_ID, CONTACT_ID to Job table (for billing address, contact)
 - Add: country to Address dialog?
+- Add: System Option organizationName, Bureau of Standards Jamaica, String, 
+       GENERAL, The name of this organization.
 ================================================================================
-## Things to do
+### Rebuild UI Functionality
+- Billing address not being set when job is subcontracted. Change component to
+  p:SelectOneMenu and see if it helps.
+- Validate billing address and contact as part of job validation
+- Implement creating subcontracts. Create the "organizationName" system option
+  and use it to retrieve/create the client. Make sure billing address and contact
+  are set.
+- Implement generating service contact form
+- Implement open job in Job Detail tab. Use the relevant code to update components.
+- Update public void updateJobEntryTabClient() and remove copy client code.
+- Make sure all fields of the client dialog are updated when opened...check
+  the list of address and contacts etc.
+- Make sure that billing address and contact are set when a new job is 
+  created/subcontracted.
+- The select/add billing dialog sometimes reject the selected address. Check why.
+- Check that client credit status dialog still works
+- Fix client database dialog.
+- Make sure buttons at both top and bottom of dialogs are identical.
 ### Immediate Issues
+- See email re change of client from rohan.
+- Impl validating the creation of new clients...do not allow creating of client
+  that already exist.
+- Impl. rendering job detail panel in response to job open and close.
 - Impl. job dialog as tab to see if it fixes the issue where the client is 
   not being updated when the client dialog is "oked". Try with simple client form first.
 - The client owner should be set to the client manager's client when the client 
@@ -137,8 +161,15 @@ by other apps?
   accPacClientInformationDialog, reportingDialog, jobSampleDialogs, jobDialog,
   jobCostingDialogs, preferencesDialog, cashPaymentDialog
 - Change the Search combos to p:selectonemenu.
+- Upgrade to latest primefaces if possible.
+- Redesign layout with dashboard component?
+- Merge Main and Application...Use just Application. May be get rid of both.
+- Make System Admin tab closable.
+- Make jobs tab closable but remember the JS call mainTabViewVar.select(0); that
+  may cause problems.
+- Implement the Organization class and use its name field instead of "thisOrganizationName"
+  system option when creating subcontracts.
 
-eae
 #### Issues
 - Change "keyup" to "change" where possible.
 - Update system options table after editing an option.
@@ -487,4 +518,5 @@ Keep Code:
                              actionListener="#{jobManager.editJobClient}"                             
                              oncomplete="longProcessDialogVar.hide();"
                              process="@this,client"                             
-                             title="View or edit this client's detail">   
+                             title="View or edit this client's detail"> 
+

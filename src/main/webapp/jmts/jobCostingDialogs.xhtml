@@ -13,13 +13,13 @@
                   header="Costing Component" >       
             <p:commandButton value="Ok"
                              actionListener="#{jobManager.updateCostingComponent}"
-                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                             
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:commandButton value="Cancel"       
-                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                             
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon-close"/>
@@ -39,6 +39,7 @@
                 </p:selectBooleanCheckbox>
 
 
+               
                 <h:outputText value="Component:" style="font-weight: bold" />
                 <p:spacer height="0" width="10"/>
                 <p:inputText value="#{jobManager.selectedCostComponent.name}"
@@ -46,9 +47,10 @@
                     <p:ajax event="change"
                             global="false"
                             listener="#{jobManager.updateJob}"
-                            update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            
                             process="@this"/>
                 </p:inputText>
+               
 
                 <h:outputText rendered="#{!jobManager.selectedCostComponent.isHeading}" value="Cost Code:" style="font-weight: bold;" />
                 <p:spacer rendered="#{!jobManager.selectedCostComponent.isHeading}" height="0" width="10"/>
@@ -58,7 +60,7 @@
                                  style="width: 85%" >
                     <p:ajax event="change"
                             global="false"
-                            update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            
                             listener="#{jobManager.updateCostCode}"
                             process="@this"/>
                     <f:selectItems  value="#{jobManager.allCostCodes}"
@@ -92,7 +94,7 @@
                     <p:ajax event="change"
                             global="false"
                             listener="#{jobManager.updateJob}"
-                            update="costingComponentDialogForm:costComponentCost,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            
                             process="@this"/>
                 </p:inputText>
 
@@ -106,7 +108,7 @@
                     <p:ajax event="change"
                             global="false"
                             listener="#{jobManager.updateJob}"
-                            update="costingComponentDialogForm:costComponentCost,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            
                             process="@this"/>
                 </p:inputText>
 
@@ -120,7 +122,7 @@
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"
                             global="false"
-                            update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            
                             listener="#{jobManager.updateJob}"
                             process="@this"/>
                 </p:inputText>
@@ -130,13 +132,13 @@
             <hr/>
             <p:commandButton value="Ok"
                              actionListener="#{jobManager.updateCostingComponent}"
-                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                             
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:commandButton value="Cancel"  
-                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                             
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon-close"/>            
@@ -175,7 +177,7 @@
                                  style="width: 300px" >
                         <p:ajax event="keyup"
                                 global="false"
-                                update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                
                                 listener="#{jobManager.updateJobCostingValidity}"
                                 process="@this"/>
                     </p:inputText>
@@ -191,10 +193,10 @@
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect" 
-                                update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                
                                 listener="#{jobManager.handleJobCostingDateSelect}"/>
                         <p:ajax event="keyup" 
-                                update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                
                                 listener="#{jobManager.handleJobCostingDateSelect}"/>
                     </p:calendar>
 
@@ -206,7 +208,7 @@
                         <p:ajax event="keyup"
                                 global="false"
                                 listener="#{jobManager.updateJob}"
-                                update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                
                                 process="@this"/>
                     </p:inputText>
 
@@ -218,7 +220,7 @@
                         <p:ajax event="keyup"
                                 global="false"
                                 process="@this"
-                                update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                               
                                 listener="#{jobManager.updateJobCostingValidity}"/>
                     </h:inputTextarea>
 
@@ -241,7 +243,7 @@
                                     forceSelection="true"
                                     completeMethod="#{jobManager.completeJobCostingAndPaymentName}">
                         <p:ajax event="itemSelect"
-                                update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
+                                
                                 listener="#{jobManager.updateCostingComponents}"
                                 process="@this"/>                      
                     </p:autoComplete>
@@ -266,7 +268,7 @@
                                  value="New Item"
                                  actionListener="#{jobManager.createNewCostComponent}"
                                  disabled="#{jobManager.completed}"
-                                 update=":costingComponentDialogForm"
+                                 
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
                                  icon="ui-icon-plus"
@@ -361,7 +363,7 @@
                         <p:commandButton title="Edit cost component details"
                                          actionListener="#{jobManager.editCostComponent}"
                                          disabled="#{!costComponent.isEditable or jobManager.completed}"
-                                         update=":costingComponentDialogForm"
+                                         
                                          oncomplete="costingComponentDialog.show();"
                                          icon="ui-icon ui-icon-pencil"
                                          process="@this">
@@ -388,7 +390,7 @@
                                  value="New Item"
                                  disabled="#{jobManager.completed}"
                                  actionListener="#{jobManager.createNewCostComponent}"
-                                 update=":costingComponentDialogForm"
+                                 
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
                                  icon="ui-icon-plus"
@@ -404,7 +406,7 @@
                                  maxlength="250" >
                         <p:ajax event="keyup"
                                 global="false"
-                                update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                
                                 listener="#{jobManager.updateJob}"
                                 process="@this"/>
                     </p:inputText>
@@ -417,7 +419,7 @@
                         <p:ajax event="keyup"
                                 global="false"
                                 listener="#{jobManager.updateJob}"
-                                update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                
                                 process="@this"/>
                     </p:inputText>
 
@@ -430,7 +432,7 @@
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax event="keyup"
                                 global="false"
-                                update=":jobCostingDialogForm:amountDue"
+                                
                                 listener="#{jobManager.updateAmountDue}"
                                 process="@this"/>
                     </p:inputText>
@@ -442,7 +444,7 @@
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                             <p:ajax event="keyup"
                                     global="false"
-                                    update=":jobCostingDialogForm:amountDue"
+                                    
                                     listener="#{jobManager.updateAmountDue}"
                                     process="@this"/>
                         </p:inputText>
@@ -488,7 +490,7 @@
                         <p:ajax event="keyup"
                                 global="false"
                                 listener="#{jobManager.updateJob}"
-                                update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                                
                                 process="@this"/>
                     </h:inputTextarea>
                 </h:panelGrid>
@@ -507,7 +509,7 @@
                          width="400">
             <p:commandButton value="Yes"      
                              actionListener="#{jobManager.deleteCostComponent}"
-                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                             
                              onstart="longProcessDialogVar.show();"
                              oncomplete="costComponentDeleteConfirm.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-check"
@@ -533,7 +535,7 @@
                              process="@this"/>
             <p:commandButton value="No"   
                              actionListener="#{jobManager.cancelJobEdit}"
-                             update=":jobCostingDialogForm,:jobDialogForm:jobFormTabView:jobCosting"
+                             
                              oncomplete="jobCostingSaveConfirm.hide();jobCostingDialog.hide();"
                              icon="ui-icon-close"/>       
         </p:confirmDialog>
@@ -561,7 +563,7 @@
             <hr/>
             <p:commandButton value="Ok"               
                              actionListener="#{jobManager.validateJobCostingAndSaveJob}"
-                             update=":jobCostingDialogForm:jobCostingsTemplateName"                                    
+                                                                 
                              oncomplete="jobCostingTemplateNameDialog.hide();"
                              icon="ui-icon ui-icon-check"
                              process="@form"/>

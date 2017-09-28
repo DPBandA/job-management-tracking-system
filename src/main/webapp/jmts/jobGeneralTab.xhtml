@@ -16,7 +16,7 @@
                          value="#{jobManager.currentJob.jobNumber}">
                 <p:ajax event="keyup"
                         global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+
                         listener="#{jobManager.updateJobNumber}"
                         process="@this"/>
             </p:inputText>
@@ -27,7 +27,7 @@
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
                 <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}"
                         global="false"
-                        update="autoGenerate2,jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+
                         process="@this"/>
             </p:selectBooleanCheckbox>            
             <p:tooltip for="autoGenerate" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
@@ -46,7 +46,7 @@
                         forceSelection="true"
                         completeMethod="#{jobManager.completeBusinessOffice}" >
             <p:ajax event="itemSelect"                       
-                    update="jobNumber,jobNumber2,department,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"                        
+
                     listener="#{jobManager.updateBusinessOffice}"
                     process="@this"/>
         </p:autoComplete>        
@@ -63,7 +63,7 @@
                         completeMethod="#{jobManager.completeClassification}" >
             <p:ajax event="itemSelect"                                                                  
                     listener="#{jobManager.updateJobClassification}"
-                    update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
+
                     process="@this"/>
         </p:autoComplete>
 
@@ -83,17 +83,17 @@
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,clientContact,billingAddress,editClientButton"
+                        update="clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
-
-                <p:ajax event="keyup"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,clientContact,billingAddress,editClientButton"
+               
+                <p:ajax event="change"
+                        update="clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
-                        process="@this"/>        
+                        process="@this"/>   
 
 
-            </p:autoComplete>                
+            </p:autoComplete>                    
             <p:spacer height="0" width="0"/>
             <p:commandButton icon="ui-icon-pencil"
                              id="editClientButton"
@@ -104,7 +104,7 @@
                              process="@this,client"                             
                              title="View or edit this client's detail">   
                 <p:ajax event="dialogReturn" 
-                        update="#{clientManager.componentsToUpdate}"/>
+                        update=":mainTabViewForm:mainTabView:jobFormTabView"/>
             </p:commandButton>
             <p:spacer height="0" width="15"/>
             <p:commandButton value="New"
@@ -116,10 +116,11 @@
                              process="@this"
                              title="Add a new client to the client database">
                 <p:ajax event="dialogReturn" 
-                        update="#{clientManager.componentsToUpdate}"/>
+                        update=":mainTabViewForm:mainTabView:jobFormTabView"/>
             </p:commandButton>
 
         </h:panelGroup>
+
 
         <h:outputText value="Billing address *:" style="font-weight: bold" />        
         <p:autoComplete id="billingAddress"
@@ -133,15 +134,14 @@
 
             <f:validator validatorId="addressValidator" />
 
-
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
-                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:growl2"                    
+                    update=":mainTabViewForm:mainTabView:growl2"
                     process="@this" />   
 
         </p:autoComplete>
-        <h:outputText value="" />
 
+        <h:outputText value="" />
         <h:outputText id="clientContact" value="Contact: #{jobManager.currentJob.client.mainContact}" />
 
         <h:outputText value="Date submitted *:" style="font-weight: bold" />
@@ -150,11 +150,11 @@
                     navigator="true" 
                     pattern="MMM dd, yyyy" >
             <p:ajax event="dateSelect"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
+
                     listener="#{jobManager.handleDateSubmittedSelect}" />
 
             <p:ajax event="keyup"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
+
                     listener="#{jobManager.handleDateSubmittedSelect}" />
 
         </p:calendar>
@@ -176,12 +176,12 @@
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
+
                     process="@this" />
             <p:ajax event="keyup"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
+
                     process="@this" />
         </p:autoComplete>     
 
@@ -203,11 +203,11 @@
                         completeMethod="#{jobManager.completeDepartment}" >
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateSubContractedDepartment}"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
+
                     process="@this" />
             <p:ajax event="keyup"
                     listener="#{jobManager.updateSubContractedDepartment}"
-                    update="jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,:jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
+
                     process="@this" />          
         </p:autoComplete>
 
@@ -225,11 +225,11 @@
                             forceSelection="true"
                             completeMethod="#{jobManager.completeEmployee}" >
                 <p:ajax event="itemSelect"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+
                         listener="#{jobManager.updateAssignee}"
                         process="@this"/>
                 <p:ajax event="keyup"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+
                         listener="#{jobManager.updateAssignee}"
                         process="@this"/>
             </p:autoComplete>
@@ -246,7 +246,7 @@
                 <p:ajax listener="#{jobManager.updateJob}"
                         global="false"
                         event="keyup"                        
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+
                         process="@this"
                         />
                 <f:convertNumber />
@@ -275,7 +275,7 @@
             style="width: 500px;">
             <p:ajax event="keyup"
                     global="false"
-                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
         </p:inputTextarea>             

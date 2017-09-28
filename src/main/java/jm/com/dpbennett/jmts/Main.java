@@ -26,6 +26,7 @@ import jm.com.dpbennett.jmts.utils.DialogActionHandler;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
+import org.primefaces.event.TabCloseEvent;
 import org.primefaces.event.ToggleEvent;
 
 /**
@@ -164,32 +165,7 @@ public class Main implements UserManagement, MessageManagement, Serializable {
     public void setDialogMessageSeverity(String dialogMessageSeverity) {
         this.dialogMessageSeverity = dialogMessageSeverity;
     }
-
-    public void onMainTabChange(TabChangeEvent event) {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        Tab activeTab = event.getTab();
-
-        if (activeTab != null) {
-            setTabTitle(activeTab.getTitle());
-
-            SearchManager sm = Application.findBean("searchManager");
-            switch (getTabTitle()) {
-                case "Service Requests":
-                    sm.setCurrentSearchParameterKey("Service Request Search");
-                    break;                
-                case "System Administration":
-                    sm.setCurrentSearchParameterKey("Admin Search");
-                    break;
-                default:
-                    sm.setCurrentSearchParameterKey("Job Search");
-                    break;
-            }
-        }
-
-        context.update("searchForm");
-    }
-
+    
     public void init() {
         System.out.println("Initializing...");
         // init job manager 

@@ -13,7 +13,7 @@
                          maxlength="250">
                 <p:ajax event="keyup"
                         global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        
                         listener="#{jobManager.updateJob}"
                         process="@this"/>
             </p:inputText>
@@ -27,7 +27,7 @@
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="keyup"
                             global="false"
-                            update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,estimatedCostIncludingTaxes"
+                            
                             listener="#{jobManager.updateJobCostingEstimate}"
                             process="@this"/>
                 </p:inputText>
@@ -43,7 +43,7 @@
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="keyup"
                         global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,minDepositIncludingTaxes"
+                        
                         listener="#{jobManager.updateJobCostingEstimate}"
                         process="@this"/>
             </p:inputText>
@@ -57,7 +57,7 @@
                 value="#{jobManager.currentJob.jobCostingAndPayment.percentageGCT}">
                 <p:ajax
                     global="true"
-                    update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
+                    
                     listener="#{jobManager.updateAllJobCostings}"
                     process="@this" />
                 <f:selectItems value="#{jobManager.GCTPercentages}" />
@@ -75,7 +75,7 @@
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="keyup"
                             global="false"
-                            update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                            
                             listener="#{jobManager.updateJobCostingEstimate}"
                             process="@this"/>
                 </p:inputText>
@@ -94,7 +94,7 @@
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="keyup"
                         global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        
                         listener="#{jobManager.updateJobCostingEstimate}"
                         process="@this"/>
             </p:inputText>
@@ -111,7 +111,7 @@
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="keyup"
                         global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,amountDue2"
+                       
                         listener="#{jobManager.updateAmountDue}"
                         process="@this"/>
             </p:inputText>
@@ -119,7 +119,7 @@
             <h:panelGroup>
                 <p:commandButton icon="ui-icon ui-icon-pencil"
                                  actionListener="#{jobManager.updateJobCosting}"
-                                 update=":jobCostingDialogForm"
+                                 
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="jobCostingDialog.show();longProcessDialogVar.hide();"
                                  process="@this"
@@ -142,7 +142,7 @@
         <p:commandButton value="Add payment"
                          title="Add new payment"
                          actionListener="#{jobManager.createNewCashPayment}"
-                         update=":cashPaymentDialogForm"
+                         
                          oncomplete="cashPaymentDialog.show();"
                          disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                          onstart="longProcessDialogVar.show();"
@@ -212,7 +212,7 @@
         <p:commandButton value="Add payment"
                          title="Add new payment"
                          actionListener="#{jobManager.createNewCashPayment}"
-                         update=":cashPaymentDialogForm"
+                         
                          oncomplete="cashPaymentDialog.show();"
                          onstart="longProcessDialogVar.show();"
                          disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"

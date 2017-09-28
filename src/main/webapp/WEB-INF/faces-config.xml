@@ -132,6 +132,6 @@
         <managed-bean-name>clientManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.business.entity.management.ClientManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
+    </managed-bean>    
    
 </faces-config>

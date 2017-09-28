@@ -152,10 +152,9 @@
         <p:column style="width:32px"
                   rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">
             <p:commandButton title="View/Edit job" 
-                             actionListener="#{jobManager.editJob}"
-                             update=":jobDialogForm:jobFormTabView,:jobDialogForm:jobFormTabView:jobSamples,:jobDialogForm:formsMenuButton"
+                             actionListener="#{jobManager.editJob}"                             
                              onstart="longProcessDialogVar.show();"
-                             oncomplete="jobDialog.show();longProcessDialogVar.hide();"
+                             oncomplete="longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
@@ -187,7 +186,7 @@
                   rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}">
             <p:commandButton title="View/Edit job costing/payment" 
                              actionListener="#{jobManager.editJobCosting}"
-                             update=":jobDialogForm:jobFormTabView,:jobDialogForm:jobFormTabView:jobSamples,:jobDialogForm:formsMenuButton"
+                             
                              onstart="longProcessDialogVar.show();"
                              oncomplete="jobDialog.show();longProcessDialogVar.hide();jobFormTabVar.select(3);"
                              onerror="connectionErrorDialog.show();"

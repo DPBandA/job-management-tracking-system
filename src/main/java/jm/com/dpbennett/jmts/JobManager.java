@@ -126,10 +126,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.TabChangeEvent;
+import org.primefaces.event.TabCloseEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -160,7 +163,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private Report jobReport;
     private StreamedContent jobReportFile;
     private StreamedContent jobCostingFile;
+    // Rendering
     private Boolean renderSearchComponent;
+    private Boolean renderJobDetailTab;
     @ManagedProperty(value = "Jobs")
     private String tabTitle;
     private Integer longProcessProgress;
@@ -201,7 +206,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private Boolean enableDatabaseModuleSelection;
     private String databaseModule;
     private SearchParameters currentSearchParameters;
-    private Boolean isJobToBeCopied; 
+    private Boolean isJobToBeCopied;
     private Main main;
     private final ClientManager clientManager;
     private final SearchManager searchManager;
@@ -301,6 +306,67 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 "year",
                 null,
                 null, false, false, true);
+    }
+
+    public void onMainViewTabClose(TabCloseEvent event) {
+        //RequestContext context = RequestContext.getCurrentInstance();
+        
+        closeJobDetailTab();
+        
+//        context.execute("mainTabViewVar.select(0);");
+    }
+    
+     public void closeJobDetailTab() {
+        // Redo search to reload stored jobs including?
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        getCurrentJob().setIsJobToBeSubcontracted(false);
+        setIsJobToBeCopied(false);
+
+        if (isDirty()) {
+            context.update("jobSaveConfirmDialogForm");
+            context.execute("jobSaveConfirm.show();");
+
+            return;
+        }
+
+        resetCurrentJob();
+
+        // Remove Job Detail tab
+        setRenderJobDetailTab(false);
+    }
+
+    public void onMainViewTabChange(TabChangeEvent event) {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        Tab activeTab = event.getTab();
+
+        if (activeTab != null) {
+            setTabTitle(activeTab.getTitle());
+
+            SearchManager sm = Application.findBean("searchManager");
+            switch (getTabTitle()) {
+                case "Service Requests":
+                    sm.setCurrentSearchParameterKey("Service Request Search");
+                    break;
+                case "System Administration":
+                    sm.setCurrentSearchParameterKey("Admin Search");
+                    break;
+                default:
+                    sm.setCurrentSearchParameterKey("Job Search");
+                    break;
+            }
+        }
+
+        context.update("searchForm");
+    }
+
+    public Boolean getRenderJobDetailTab() {
+        return renderJobDetailTab;
+    }
+
+    public void setRenderJobDetailTab(Boolean renderJobDetailTab) {
+        this.renderJobDetailTab = renderJobDetailTab;
     }
 
     public List<AccPacDocument> getFilteredAccPacCustomerDocuments() {
@@ -2501,7 +2567,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     context.addCallbackParam("jobNotSaved", true);
                     return;
                 }
-
+                
                 // Create copy of job and use current sequence number and year.
                 Long currentJobSequenceNumber = currentJob.getJobSequenceNumber();
                 Integer yearReceived = currentJob.getYearReceived();
@@ -2510,6 +2576,24 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 currentJob.setIsJobToBeSubcontracted(isSubcontract);
                 currentJob.setYearReceived(yearReceived);
                 currentJob.setJobSequenceNumber(currentJobSequenceNumber);
+                
+                // Get and use this organization's name as the client
+                SystemOption sysOption = 
+                        SystemOption.findSystemOptionByName(em, "organizationName");
+                if (sysOption != null) {                    
+                    currentJob.setClient(Client.findDefaultClient(em, sysOption.getOptionValue(), true));
+                }
+                else {
+                    currentJob.setClient(Client.findDefaultClient(em, "--", true));
+                }
+                
+                // Set default billing address
+                currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
+                
+                // Set default contact
+                currentJob.setContact(currentJob.getClient().getMainContact());
+                
+                
             } else {
                 currentJob = createNewJob(em, getUser(), true);
             }
@@ -2540,8 +2624,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         if (checkJobEntryPrivilege(em, context)) {
             createJob(em, false);
-            context.update("jobDialogForm");
-            context.execute("jobDialog.show();");
+            setRenderJobDetailTab(true);
+            context.update("mainTabViewForm");
+            context.execute("mainTabViewVar.select(1);");
         }
 
         closeEntityManager(em);
@@ -2608,27 +2693,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         return Application.getSearchResultsTableHeader(currentSearchParameters, getJobSearchResultList());
     }
 
-    public void closeJobDialog1() {
-        // Redo search to reloasd stored jobs including
-
-        getCurrentJob().setIsJobToBeSubcontracted(false);
-        setIsJobToBeCopied(false);
-
-        // prompt to save modified job before attempting to create new job
-        if (isDirty()) {
-            RequestContext context = RequestContext.getCurrentInstance();
-
-            // ask to save
-            context.update("jobSaveConfirmDialogForm");
-            context.execute("jobDialog.hide();jobSaveConfirm.show();");
-
-            return;
-        }
-
-        resetCurrentJob();
-    }
-
-    public void closeJobCostingDialog() {
+   public void closeJobCostingDialog() {
         // Redo search to reloasd stored jobs including
         // prompt to save modified job before attempting to create new job
         if (isDirty()) {
@@ -2657,14 +2722,14 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public void cancelJobEdit(ActionEvent actionEvent) {
         setDirty(false);
         doJobSearch(searchManager.getCurrentSearchParameters());
+        setRenderJobDetailTab(false);
     }
 
-    public void closeJobDialog2() {
-        // Redo search to reloasd stored jobs including
-        // the currently edited job.
-        closeJobDialog1();
-    }
-
+//    public void closeJobDialog2() {
+//        // Redo search to reloasd stored jobs including
+//        // the currently edited job.
+//        closeJobDetailTab();
+//    }
     public void closePreferencesDialog2(CloseEvent closeEvent) {
         // Redo search to reloasd stored jobs including
         // the currently edited job.
@@ -2765,11 +2830,18 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     }
 
+    public void saveAndCloseCurrentJob() {
+         
+        setRenderJobDetailTab(false);
+        saveCurrentJob();
+        
+    }
+
     public void saveCurrentJob() {
         EntityManager em = getEntityManager1();
 
         if (!validateCurrentJob(em, true)) {
-            return;
+            System.out.println("Job not valid and NOT be save!");
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             System.out.println("You can enter/edit any new job...saving");
             saveCurrentJob(em);
@@ -2817,7 +2889,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     + "Also, please note that you may only enter jobs that are assigned to you or your department. "
                     + "Please contact the IT/MIS Department for further assistance.", "Insufficient Privilege", "alert");
         }
-        closeEntityManager(em);
+        //closeEntityManager(em);
     }
 
     public void saveUnitCost() {
@@ -2956,7 +3028,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         return true;
     }
 
-    public void saveCurrentJob(EntityManager em) {
+    public Boolean saveCurrentJob(EntityManager em) {
 
         Date now = new Date();
         RequestContext context = RequestContext.getCurrentInstance();
@@ -2980,7 +3052,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                             "This job is marked as completed so changes cannot be saved. You may contact your department's supervisor or a system administrator.",
                             "Job Cannot Be Saved", "info");
 
-                    return;
+                    return false;
                 }
             }
 
@@ -3029,7 +3101,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 }
             }
 
-            // Save client and all its details
+            // Save client and all its details. May not be necessary.
             clientManager.setClient(currentJob.getClient());
             clientManager.saveClient(em, false);
 
@@ -3066,7 +3138,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 sendErrorEmail("An error occured while saving job (Null ID)" + currentJob.getJobNumber(),
                         "Job save error occured");
 
-                return;
+                return false;
 
             } else if (id == 0L) {
                 // set seq. number to null to ensure that the next sequence #
@@ -3076,7 +3148,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 sendErrorEmail("An error occured while saving job (0L ID)" + currentJob.getJobNumber(),
                         "Job save error occured");
 
-                return;
+                return false;
             } else {
                 currentJobId = id;
                 // save job sequence number only if job save was successful
@@ -3123,6 +3195,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     + "\nException detail: " + e);
             //}
         }
+        
+        return true;
 
     }
 
@@ -3554,10 +3628,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void editJob() {
-        // Nothing to do yet
-        // tk 
-        //resetCurrentJob();
-        System.out.println("Editing job...");
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        setRenderJobDetailTab(true);
+        context.update("mainTabViewForm");        
+        context.execute("mainTabViewVar.select(1);");
     }
 
     public void editJobCosting() {
@@ -4726,28 +4801,29 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
      */
     public void updateJobEntryTabClient() {
         // Create copy of existing client
-        EntityManager em = getEntityManager1();
-
-        Client client = Client.findActiveClientByName(em, currentJob.getClient().getName(), true);
-        if (client != null) {
-            // Use active 
-            if (getUser().getPrivilege().getCanAddClient()) {
-                currentJob.setClient(client);
-            } else {
-                currentJob.getClient().doCopy(client);
-                currentJob.getClient().setActive(false);
-            }
-        } else { // Ensure only existing clients are entered
-            currentJob.getClient().doCopy(new Client("", false));
-        }
-
+//        EntityManager em = getEntityManager1();
+//
+//        Client client = Client.findActiveClientByName(em, currentJob.getClient().getName(), true);
+//        if (client != null) {
+//            // Use active 
+//            if (getUser().getPrivilege().getCanAddClient()) {
+//                currentJob.setClient(client);
+//            } else {
+//                currentJob.getClient().doCopy(client);
+//                currentJob.getClient().setActive(false);
+//            }
+//        } 
+//        else { // Ensure only existing clients are entered
+//            currentJob.getClient().doCopy(new Client("", false));
+//        }
+//
         accPacCustomer.setCustomerName(currentJob.getClient().getName());
         if (useAccPacCustomerList) {
             updateCreditStatus(null);
         }
-
-        // Set default billing address if it's available
-        getCurrentJob().setBillingAddress(getCurrentJob().getClient().getBillingAddress());
+//
+//        // Set default billing address if it's available
+//        getCurrentJob().setBillingAddress(getCurrentJob().getClient().getBillingAddress());
         setDirty(true);
     }
 
@@ -5005,16 +5081,16 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public void createNewJobClient() {
         clientManager.createNewClient();
         clientManager.setUser(getUser());
-        clientManager.setClientOwner(currentJob);  
-        clientManager.setBillingAddress(clientManager.getClient().getBillingAddress());
+        clientManager.setClientOwner(currentJob);
+        //clientManager.setBillingAddress(clientManager.getClient().getBillingAddress());
         clientManager.setSave(true);
-        clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());        
+        clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
-        clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
+        //clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
         getMain().openDialog(null, "clientForm", true, true, true, 420, 600);
     }
 
-    // Edit the client via the ClientManager
+    // Edit the client via the ClientManagerKeep
     public void editJobClient() {
         clientManager.setUser(getUser());
         clientManager.setClientOwner(currentJob);
@@ -5023,7 +5099,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
-        clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
+        //clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
+        // mainTabViewForm
+        //clientManager.setComponentsToUpdate(":mainTabViewForm:mainTabView:jobFormTabView:client");
         getMain().openDialog(null, "clientForm", true, true, true, 420, 600);
     }
 
@@ -5326,9 +5404,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
      * @return
      */
     public Long saveClient(EntityManager em, Client client) {
-        if (client.getBillingAddress() != null) {
-            BusinessEntityUtils.saveBusinessEntity(em, client.getBillingAddress());
-        }
+//        if (client.getBillingAddress() != null) {
+//            BusinessEntityUtils.saveBusinessEntity(em, client.getBillingAddress());
+//        }
         return BusinessEntityUtils.saveBusinessEntity(em, client);
     }
 

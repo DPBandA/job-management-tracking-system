@@ -46,7 +46,7 @@
                     value="#{jobManager.selectedCashPayment.discountType}">
                     <p:ajax
                         global="true"
-                        update=":jobCostingDialogForm:amountDue,:jobDialogForm:jobFormTabView:jobCosting"
+                        
                         listener="#{jobManager.updateCashPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.discountTypes}" />
@@ -56,7 +56,7 @@
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"
                             global="false"
-                            update=":jobCostingDialogForm:amountDue,:jobDialogForm:jobFormTabView:jobCosting"
+                           
                             listener="#{jobManager.updateCashPayment}"
                             process="@this"/>
                 </p:inputText>          
@@ -78,7 +78,7 @@
                              actionListener="#{jobManager.okCashPayment}"
                              icon="ui-icon-check"
                              oncomplete="cashPaymentDialog.hide();"
-                             update=":jobDialogForm:jobFormTabView:cashPayments"
+                             
                              process="@form"/>
             <p:spacer height="0" width="5"/>
             <p:commandButton value="Cancel"

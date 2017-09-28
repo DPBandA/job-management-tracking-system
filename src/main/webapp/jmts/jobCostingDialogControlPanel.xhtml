@@ -8,7 +8,7 @@
                          disabled="#{jobManager.completed}"
                          onstart="longProcessDialogVar.show();"
                          actionListener="#{jobManager.validateJobCostingAndSaveJob}"
-                         update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
+                        
                          oncomplete="handleSaveJobCostingAndPaymentRequest(xhr, status, args);longProcessDialogVar.hide();"
                          icon="ui-icon-check"
                          process="@this"/>
@@ -16,7 +16,7 @@
         <p:commandButton value="Close"
                          onstart="longProcessDialogVar.show();"
                          actionListener="#{jobManager.closeJobCostingDialog}"
-                         update=":jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:jobFormTabView:cashPayments"
+                         
                          oncomplete="longProcessDialogVar.hide();jobCostingDialog.hide();"
                          icon="ui-icon-close"
                          process="@this"/>
@@ -27,8 +27,8 @@
                                      title="If this job is assigned to you, check to indicate that this job costing was completed.">
                 <p:ajax global="false"
                         listener="#{jobManager.completeJobCosting}"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,@this,exportJobCostingButton"
-                        process=":jobDialogForm:jobFormTabView:assignee,@this"/>
+                        
+                        process="@this"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Prepared" title="If this job is assigned to you, check to indicate that this job costing was completed." />
         </h:panelGroup>
@@ -39,7 +39,7 @@
                                      title="If you are authorized to approved this job costing, check to indicate that this job costing was approved.">
                 <p:ajax global="false"
                         listener="#{jobManager.approveJobCosting}"
-                        update="costComponentsPanel,:jobCostingDialogForm:costingDate,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,@this,exportJobCostingButton"
+                        
                         process="@this"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Approved" title="If you are the head of the department/unit, check to indicate that this job costing was approved." />
@@ -50,7 +50,7 @@
                                      title="Check to indicate that an invoice was done for this job costing.">
                 <p:ajax global="false"                        
                         listener="#{jobManager.invoiceJobCosting}"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2,@this"
+                        
                         process="@this"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Invoiced" title="Check to indicate that an invoice was done for this job costing." />
@@ -71,7 +71,7 @@
         <h:panelGroup>
             <p:spacer height="0" width="5"/>
             <p:commandButton value="Save Costings as Template"
-                             update=":jobCostingTemplateNameDialogForm"
+                             
                              oncomplete="jobCostingTemplateNameDialog.show();"
                              title="Save costings as a template for reuse in another job costing"                        
                              ajax="true">           

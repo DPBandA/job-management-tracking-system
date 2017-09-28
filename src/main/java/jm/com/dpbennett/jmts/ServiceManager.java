@@ -450,7 +450,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
         setDirty(true);
     }
 
-    // Edit the client via the ClientManager
+    // Edit the client via the ClientManagerKeep
     public void editClient() {
 
         EntityManager em = getEntityManager();
@@ -469,8 +469,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
         //currentServiceRequest.getClient().setActive(false);
         clientManager.setExternalEntityManagerFactory(EMF);
         clientManager.setSave(false);
-        clientManager.setBusinessEntityManager(this);
-        clientManager.setComponentsToUpdate(":unitDialogForms:serviceRequestDialogTabView:serviceRequestClient");
+        clientManager.setBusinessEntityManager(this);        
     }
 
     public void createNewClient() {

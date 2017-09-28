@@ -16,7 +16,7 @@
                          value="#{jobManager.currentJob.jobNumber}">
                 <p:ajax event="keyup"
                         global="false"
-                        update=":jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        
                         listener="#{jobManager.updateJobNumber}"
                         process="@this"/>
             </p:inputText>
@@ -27,7 +27,7 @@
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
                 <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}"
                         global="false"
-                        update="autoGenerate,jobNumber,jobNumber2,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                        
                         process="@this"/>
             </p:selectBooleanCheckbox>            
             <p:tooltip for="autoGenerate2" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
@@ -39,7 +39,7 @@
         <p:commandButton value="Add sample(s)"
                          title="Add new sample"
                          actionListener="#{jobManager.createNewJobSample}"
-                         update=":jobSampleDialogForm"
+                         
                          oncomplete="jobSampleDialog.show()"
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
@@ -78,7 +78,7 @@
                 <p:menuButton id="toolsButton" value="Actions" >
                     <p:menuitem value="Edit sample details"
                                 actionListener="#{jobManager.editJobSample}"
-                                update=":jobSampleDialogForm"
+                                
                                 onstart="longProcessDialogVar.show();"
                                 oncomplete="jobSampleDialog.show();"
                                 icon="ui-icon-pencil"
@@ -107,7 +107,7 @@
                 <p:column style="width:32px">
                     <p:commandButton title="Edit sample details"
                                      actionListener="#{jobManager.editJobSample}"
-                                     update=":jobSampleDialogForm"
+                                     
                                      onstart="longProcessDialogVar.show();"
                                      oncomplete="jobSampleDialog.show();"
                                      icon="ui-icon-pencil"
@@ -138,7 +138,7 @@
                          title="Add new sample"
                          actionListener="#{jobManager.createNewJobSample}"
                          onstart="longProcessDialogVar.show();"
-                         update=":jobSampleDialogForm"
+                         
                          oncomplete="jobSampleDialog.show()"
                          icon="ui-icon-plus"
                          process="@this" />

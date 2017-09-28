@@ -19,7 +19,7 @@
                              actionListener="#{jobManager.okJobSample}"
                              onstart="longProcessDialogVar.show();"                            
                              oncomplete="longProcessDialogVar.hide();handleUpdateJobSampleComplete(xhr,status,args);"
-                             update=":jobDialogForm:jobFormTabView:jobNumber,:jobDialogForm:jobFormTabView:jobNumber2,jobSampleDialogForm,:jobDialogForm:jobFormTabView:jobSamples,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                             
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:spacer height="0" width="5"/>
@@ -247,7 +247,7 @@
                              actionListener="#{jobManager.okJobSample}"                             
                              onstart="longProcessDialogVar.show();"
                              oncomplete="longProcessDialogVar.hide();handleUpdateJobSampleComplete(xhr,status,args);"
-                             update=":jobDialogForm:jobFormTabView:jobNumber,:jobDialogForm:jobFormTabView:jobNumber2,jobSampleDialogForm,:jobDialogForm:jobFormTabView:jobSamples,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                             
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:spacer height="0" width="5"/>
@@ -269,7 +269,7 @@
                          width="400">
             <p:commandButton value="Yes"      
                              actionListener="#{jobManager.deleteJobSample}"
-                             update=":jobDialogForm:jobFormTabView:jobNumber,:jobDialogForm:jobFormTabView:jobNumber2,:jobDialogForm:jobFormTabView:jobSamples,:jobDialogForm:jobSaveButton1,:jobDialogForm:jobSaveButton2"
+                             
                              onstart="longProcessDialogVar.show();"
                              oncomplete="jobSampleDeleteConfirm.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-check"

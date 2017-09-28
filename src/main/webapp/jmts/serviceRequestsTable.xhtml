@@ -56,7 +56,7 @@
             <p:column style="width:32px">
                 <p:commandButton title="Create job"                             
                                  actionListener="#{serviceManager.createJobFromServiceRequest}"
-                                 update=":jobDialogForm:jobFormTabView"
+                                 
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="jobDialog.show();longProcessDialogVar.hide();"
                                  onerror="connectionErrorDialog.show();"
