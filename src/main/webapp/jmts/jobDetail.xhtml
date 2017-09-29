@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
     <p:growl id="growl2" life="5000" />
     <p:remoteCommand name="doJobSampleCopy"
                      action="#{jobManager.copyJobSample}"
@@ -107,7 +107,7 @@
     </p:tabView>
 
     <hr/>
-   <p:commandButton id="jobSaveButton2"
+    <p:commandButton id="jobSaveButton2"
                      actionListener="#{jobManager.saveCurrentJob}"                            
                      onstart="longProcessDialogVar.show();"
                      oncomplete="longProcessDialogVar.hide();"
@@ -116,7 +116,7 @@
                      title="Save current job"
                      icon="ui-icon-disk"
                      process="@this"/>
-   <p:commandButton value="Close"
+    <p:commandButton value="Close"
                      actionListener="#{jobManager.closeJobDetailTab}"
                      onstart="longProcessDialogVar.show();"
                      oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
@@ -125,5 +125,4 @@
                      process="@this"
                      icon="ui-icon ui-icon-close" />
     <p/>       
-
 </html>

@@ -310,13 +310,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void onMainViewTabClose(TabCloseEvent event) {
         //RequestContext context = RequestContext.getCurrentInstance();
-        
+
         closeJobDetailTab();
-        
+
 //        context.execute("mainTabViewVar.select(0);");
     }
-    
-     public void closeJobDetailTab() {
+
+    public void closeJobDetailTab() {
         // Redo search to reload stored jobs including?
         RequestContext context = RequestContext.getCurrentInstance();
 
@@ -2554,7 +2554,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         closeEntityManager(em);
     }
 
-    // tk put in Job class
+    // tk put in Job class?
     public void createJob(EntityManager em, Boolean isSubcontract) {
 
         RequestContext context = RequestContext.getCurrentInstance();
@@ -2567,7 +2567,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     context.addCallbackParam("jobNotSaved", true);
                     return;
                 }
-                
+
                 // Create copy of job and use current sequence number and year.
                 Long currentJobSequenceNumber = currentJob.getJobSequenceNumber();
                 Integer yearReceived = currentJob.getYearReceived();
@@ -2576,24 +2576,22 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 currentJob.setIsJobToBeSubcontracted(isSubcontract);
                 currentJob.setYearReceived(yearReceived);
                 currentJob.setJobSequenceNumber(currentJobSequenceNumber);
-                
+
                 // Get and use this organization's name as the client
-                SystemOption sysOption = 
-                        SystemOption.findSystemOptionByName(em, "organizationName");
-                if (sysOption != null) {                    
-                    currentJob.setClient(Client.findDefaultClient(em, sysOption.getOptionValue(), true));
+                SystemOption sysOption
+                        = SystemOption.findSystemOptionByName(em, "organizationName");
+                if (sysOption != null) {
+                    currentJob.setClient(Client.findActiveDefaultClient(em, sysOption.getOptionValue(), true));
+                } else {
+                    currentJob.setClient(Client.findActiveDefaultClient(em, "--", true));
                 }
-                else {
-                    currentJob.setClient(Client.findDefaultClient(em, "--", true));
-                }
-                
+
                 // Set default billing address
                 currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
-                
+
                 // Set default contact
                 currentJob.setContact(currentJob.getClient().getMainContact());
-                
-                
+
             } else {
                 currentJob = createNewJob(em, getUser(), true);
             }
@@ -2693,7 +2691,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         return Application.getSearchResultsTableHeader(currentSearchParameters, getJobSearchResultList());
     }
 
-   public void closeJobCostingDialog() {
+    public void closeJobCostingDialog() {
         // Redo search to reloasd stored jobs including
         // prompt to save modified job before attempting to create new job
         if (isDirty()) {
@@ -2831,10 +2829,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void saveAndCloseCurrentJob() {
-         
+
         setRenderJobDetailTab(false);
         saveCurrentJob();
-        
+
     }
 
     public void saveCurrentJob() {
@@ -3102,8 +3100,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
 
             // Save client and all its details. May not be necessary.
-            clientManager.setClient(currentJob.getClient());
-            clientManager.saveClient(em, false);
+//            clientManager.setClient(currentJob.getClient());
+//            clientManager.saveClient(em, false);
 
             // save job to database and check for errors
             //em.getTransaction().begin();
@@ -3195,7 +3193,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     + "\nException detail: " + e);
             //}
         }
-        
+
         return true;
 
     }
@@ -3631,7 +3629,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         RequestContext context = RequestContext.getCurrentInstance();
 
         setRenderJobDetailTab(true);
-        context.update("mainTabViewForm");        
+        context.update("mainTabViewForm");
         context.execute("mainTabViewVar.select(1);");
     }
 
@@ -4335,6 +4333,16 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         return sectors;
     }
+    
+    public List<Address> getClientAddresses() {
+        EntityManager em = getEntityManager1();
+
+        List<Address> addresses = getCurrentJob().getClient().getAddresses();
+
+        closeEntityManager(em);
+
+        return addresses;
+    }
 
     public List<JobCategory> getActiveJobCategories() {
         EntityManager em = getEntityManager1();
@@ -4576,6 +4584,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void updateSector() {
+        setDirty(true);
+    }
+
+    public void updateBillingAddress() {
         setDirty(true);
     }
 

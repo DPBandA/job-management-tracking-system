@@ -11,8 +11,12 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
-- Billing address not being set when job is subcontracted. Change component to
-  p:SelectOneMenu and see if it helps.
+- Test out creating a new default client. Clean up client search and ensure 
+  consistency when doing search with ignoring case and part of client being searched.
+- Check if new clients can be created even without privilege.
+- Don't allow creation or saving of a job with a client without a valid address
+  and contact. Stop saving of client when saving job.
+- Create contact converter and use it...
 - Validate billing address and contact as part of job validation
 - Implement creating subcontracts. Create the "organizationName" system option
   and use it to retrieve/create the client. Make sure billing address and contact
@@ -169,6 +173,8 @@ by other apps?
   may cause problems.
 - Implement the Organization class and use its name field instead of "thisOrganizationName"
   system option when creating subcontracts.
+- Show a summarized version of a completed job that does not allow editing. 
+  Create a separate job detail tab for this?
 
 #### Issues
 - Change "keyup" to "change" where possible.

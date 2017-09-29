@@ -86,7 +86,7 @@
                         update="clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
-               
+
                 <p:ajax event="change"
                         update="clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
@@ -122,10 +122,11 @@
         </h:panelGroup>
 
 
-        <h:outputText value="Billing address *:" style="font-weight: bold" />        
+        <h:outputText value="Billing address *:" style="font-weight: bold" />          
         <p:autoComplete id="billingAddress"
                         value="#{jobManager.currentJob.billingAddress}"
                         dropdown="true"
+                        forceSelection="true"
                         converter="addressConverter"                            
                         var="address"                        
                         itemValue="#{address}"
