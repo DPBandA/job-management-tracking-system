@@ -11,6 +11,10 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
+- Do special job number validator that does what Job.validate() does.
+- Do validation of all fields with validators and just do save when done. 
+  ie don't do validation when saving.
+- Display message when job is successfully saved.
 - Test out creating a new default client. Clean up client search and ensure 
   consistency when doing search with ignoring case and part of client being searched.
 - Check if new clients can be created even without privilege.
@@ -32,6 +36,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Check that client credit status dialog still works
 - Fix client database dialog.
 - Make sure buttons at both top and bottom of dialogs are identical.
+- Impl. date validation.
 ### Immediate Issues
 - See email re change of client from rohan.
 - Impl validating the creation of new clients...do not allow creating of client
@@ -175,6 +180,8 @@ by other apps?
   system option when creating subcontracts.
 - Show a summarized version of a completed job that does not allow editing. 
   Create a separate job detail tab for this?
+- Check why <p:remoteCommand name="doJobSampleCopy"> is used and if copy sample
+  can be done without using a remote command.
 
 #### Issues
 - Change "keyup" to "change" where possible.

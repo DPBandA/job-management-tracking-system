@@ -8590,6 +8590,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public Boolean getIsAuthorizedToModifyCostings() {
+        // For now
         return true;
     }
 

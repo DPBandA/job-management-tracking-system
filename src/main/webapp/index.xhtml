@@ -87,7 +87,8 @@
             <ui:include src="common/commonDialogs.xhtml" />                       
             <ui:include src="common/loginDialog.xhtml"/>
             <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>
-            <ui:include src="jmts/reportingDialog.xhtml"/>            
+            <ui:include src="jmts/reportingDialog.xhtml"/>   
+            <ui:include src="jmts/jobSampleDialogs.xhtml"/>
             <ui:include src="jmts/jmtsAlertDialogs.xhtml"/>
             <ui:include src="common/generalAlertDialogs.xhtml"/>
             <ui:include src="common/connectionErrorAlertDialog.xhtml"/>
@@ -95,7 +96,7 @@
             <ui:include src="jmts/saveConfirmationDialogs.xhtml"/>    
 
             <ui:include src="common/preferencesDialog.xhtml"/>   
-
+            <ui:include src="common/cashPaymentDialog.xhtml"/>
         </ui:insert>      
 
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
@@ -154,6 +155,8 @@
                           position="center">
 
                 <h:form id="mainTabViewForm">
+                    
+                    <p:defaultCommand target=":mainTabViewForm:mainTabView:doNothingButton" />
 
                     <p:tabView id="mainTabView"
                                dynamic="false"                              
@@ -174,7 +177,8 @@
                                title="#{jobManager.user.jobTableViewPreference}"
                                rendered="#{main.user.jobManagementAndTrackingUnit}" >
                             <p:toolbar id="jobsToolbar">
-                                <p:toolbarGroup align="left" >                                    
+                                <p:toolbarGroup align="left" >   
+                                                                         
                                     <p:commandButton
                                         id="createNewJobButton"
                                         actionListener="#{jobManager.createNewJob}"
@@ -187,6 +191,14 @@
                                         title="Create new job"
                                         icon="ui-icon-plusthick"
                                         process="@this"/>                                  
+                                    
+                                    <p:commandButton
+                                        id="doNothingButton"
+                                        style="visibility: hidden;"
+                                        global="false"                                        
+                                        value=""                                       
+                                        title=""                                       
+                                        process="@this"/>       
 
                                     <p:commandButton value="Approved"                                                    
                                                      ajax="true"

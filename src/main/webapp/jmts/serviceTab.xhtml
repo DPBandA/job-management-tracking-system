@@ -14,8 +14,7 @@
                             <h:selectBooleanCheckbox id="testingService"
                                                      value="#{jobManager.currentJob.serviceContract.serviceRequestedTesting}">
                                 <p:ajax listener="#{jobManager.updateJob}"                                       
-                                        global="false"
-                                        
+                                        global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="testingService" value="Testing"/>
@@ -24,7 +23,6 @@
                         <h:panelGroup>
                             <h:selectBooleanCheckbox id="calibrationService" value="#{jobManager.serviceRequestedCalibration}">
                                 <p:ajax listener="#{jobManager.updateJob}"
-                                        
                                         global="false"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -34,7 +32,6 @@
                         <h:panelGroup>
                             <h:selectBooleanCheckbox id="labelEvaluationService" value="#{jobManager.serviceRequestedLabelEvaluation}" >
                                 <p:ajax listener="#{jobManager.updateJob}"
-                                        
                                         global="false"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -44,7 +41,6 @@
                         <h:panelGroup>
                             <h:selectBooleanCheckbox id="inspectionService" value="#{jobManager.serviceRequestedInspection}">
                                 <p:ajax listener="#{jobManager.updateJob}"
-                                        
                                         global="false"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -55,7 +51,6 @@
                             <h:selectBooleanCheckbox id="consultancyService" value="#{jobManager.serviceRequestedConsultancy}">
                                 <p:ajax listener="#{jobManager.updateJob}"
                                         global="false"
-                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="consultancyService" value="Consultancy"/>
@@ -65,7 +60,6 @@
                             <h:selectBooleanCheckbox id="trainingService" value="#{jobManager.serviceRequestedTraining}">
                                 <p:ajax listener="#{jobManager.updateJob}"
                                         global="false"
-                                       
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="trainingService" value="Training"/>
@@ -75,7 +69,7 @@
                             <h:selectBooleanCheckbox id="otherService" value="#{jobManager.serviceRequestedOther}">
                                 <p:ajax listener="#{jobManager.updateJob}"
                                         global="false"
-                                        
+                                        update="otherServiceText"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="otherService" value="Other: "/>
@@ -87,15 +81,12 @@
                                          maxlength="250"
                                          value="#{jobManager.currentJob.serviceContract.serviceRequestedOtherText}" >
                                 <p:ajax listener="#{jobManager.updateJob}"
-                                        event="keyup"
+                                        event="change"
                                         global="false"
-                                       
                                         process="@this"/>
                             </p:inputText>
                         </h:panelGroup>
-
                     </h:panelGrid>
-
                 </p:panel>
 
                 <p:panel header="Intended Market" >
@@ -103,8 +94,7 @@
                         <h:panelGroup>
                             <h:selectBooleanCheckbox id="localMarket" value="#{jobManager.intendedMarketLocal}">
                                 <p:ajax listener="#{jobManager.updateJob}"
-                                        global="false"
-                                        
+                                        global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="localMarket" value="Local"/>
@@ -113,8 +103,7 @@
                         <h:panelGroup>
                             <h:selectBooleanCheckbox id="caricomMarket" value="#{jobManager.intendedMarketCaricom}">
                                 <p:ajax listener="#{jobManager.updateJob}"
-                                        global="false"
-                                        
+                                        global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="caricomMarket" value="Caricom"/>
@@ -123,8 +112,7 @@
                         <h:panelGroup>
                             <h:selectBooleanCheckbox id="ukMarket" value="#{jobManager.intendedMarketUK}">
                                 <p:ajax listener="#{jobManager.updateJob}"
-                                        global="false"
-                                        
+                                        global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="ukMarket" value="UK"/>
@@ -133,8 +121,7 @@
                         <h:panelGroup>
                             <h:selectBooleanCheckbox id="usaMarket" value="#{jobManager.intendedMarketUSA}">
                                 <p:ajax listener="#{jobManager.updateJob}"
-                                        global="false"
-                                        
+                                        global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="usaMarket" value="USA"/>
@@ -143,8 +130,7 @@
                         <h:panelGroup>
                             <h:selectBooleanCheckbox id="canadaMarket" value="#{jobManager.intendedMarketCanada}">
                                 <p:ajax listener="#{jobManager.updateJob}"
-                                        global="false"
-                                        
+                                        global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="canadaMarket" value="Canada"/>
@@ -154,7 +140,7 @@
                             <h:selectBooleanCheckbox id="otherIntendedMarket" value="#{jobManager.intendedMarketOther}">
                                 <p:ajax listener="#{jobManager.updateJob}"
                                         global="false"
-                                       
+                                        update="otherIntendedMartketText"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="otherIntendedMarket" value="Other: "/>
@@ -164,8 +150,7 @@
                                          value="#{jobManager.currentJob.serviceContract.intendedMarketOtherText}">
                                 <p:ajax listener="#{jobManager.updateJob}"
                                         global="false"
-                                        event="keyup"
-                                        
+                                        event="change"                                        
                                         process="@this"/>
                             </p:inputText>
                         </h:panelGroup>
@@ -185,7 +170,6 @@
                         <p:ajax listener="#{jobManager.updateJob}"
                                 global="false"
                                 event="keyup"
-                                
                                 process="@this"/>
                     </p:inputTextarea>
                     <br/>
@@ -199,8 +183,7 @@
                     <h:panelGroup>
                         <h:selectBooleanCheckbox id="additionalServiceUrgent" value="#{jobManager.currentJob.serviceContract.additionalServiceUrgent}">
                             <p:ajax listener="#{jobManager.updateJob}"
-                                    global="false"
-                                    
+                                    global="false"                                    
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="additionalServiceUrgent" value="Urgent (Additional charge incurred - call for more information)"/>
@@ -209,8 +192,7 @@
                     <h:panelGroup>
                         <h:selectBooleanCheckbox id="additionalServiceFaxResults" value="#{jobManager.currentJob.serviceContract.additionalServiceFaxResults}">
                             <p:ajax listener="#{jobManager.updateJob}"
-                                    global="false"
-                                    
+                                    global="false"                                    
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="additionalServiceFaxResults" value="Fax/Email Results (Subject to approval)"/>
@@ -219,8 +201,7 @@
                     <h:panelGroup>
                         <h:selectBooleanCheckbox id="additionalServiceTelephonePresumptiveResults" value="#{jobManager.currentJob.serviceContract.additionalServiceTelephonePresumptiveResults}">
                             <p:ajax listener="#{jobManager.updateJob}"
-                                    global="false"
-                                   
+                                    global="false"                                   
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="additionalServiceTelephonePresumptiveResults" value="Telephone presumptive results"/>
@@ -229,8 +210,7 @@
                     <h:panelGroup>
                         <h:selectBooleanCheckbox id="additionalServiceSendMoreContractForms" value="#{jobManager.currentJob.serviceContract.additionalServiceSendMoreContractForms}">
                             <p:ajax listener="#{jobManager.updateJob}"
-                                    global="false"
-                                    
+                                    global="false"                                    
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="additionalServiceSendMoreContractForms" value="Send more service contract forms"/>
@@ -240,7 +220,7 @@
                         <h:selectBooleanCheckbox id="additionalServiceOther" value="#{jobManager.currentJob.serviceContract.additionalServiceOther}">
                             <p:ajax listener="#{jobManager.updateJob}"
                                     global="false"
-                                   
+                                    update="additionalServiceOtherText"
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
                         <h:outputLabel for="additionalServiceOther" value="Other: "/>
@@ -250,8 +230,7 @@
                                      value="#{jobManager.currentJob.serviceContract.additionalServiceOtherText}">
                             <p:ajax listener="#{jobManager.updateJob}"
                                     global="false"
-                                    event="keyup"
-                                   
+                                    event="change"                                   
                                     process="@this"/>
                         </p:inputText>
                     </h:panelGroup>

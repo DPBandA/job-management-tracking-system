@@ -67,6 +67,18 @@
         <validator-id>clientValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.ClientValidator</validator-class>
     </validator>
+     <validator>
+        <validator-id>requiredFieldValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.RequiredFieldValidator</validator-class>
+    </validator>
+    <validator>
+        <validator-id>businessEntityValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.BusinessEntityValidator</validator-class>
+    </validator>
+    <validator>
+        <validator-id>jobNumberValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.JobNumberValidator</validator-class>
+    </validator>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

@@ -7,7 +7,6 @@
 
     <h:panelGrid id="jobGrouping" columns="2" >
 
-
         <h:outputText value="Sector:" style="font-weight: bold" />        
         <p:selectOneMenu value="#{jobManager.currentJob.sector}"
                          converter="sectorConverter"
@@ -32,8 +31,7 @@
                           converter="jobCategoryConverter"
                           var="jobCat" >
             <p:ajax listener="#{jobManager.updateJobCategory}"
-                    global="false"
-                    
+                    global="false"                    
                     process="@this" />
             <f:selectItems  value="#{jobManager.activeJobCategories}"
                             var="jobCategory"
@@ -52,8 +50,7 @@
                           value="#{jobManager.currentJob.jobSubCategory}">
             
             <p:ajax listener="#{jobManager.updateJobSubCategory}"
-                    global="false"
-                    
+                    global="false"                    
                     process="@this" />
             <f:selectItems  value="#{jobManager.activeJobSubCategories}"
                             var="jobSubCategory"

@@ -11,14 +11,19 @@
             <p:inputText id="jobNumber"
                          size="35"
                          maxlength="250"
+                         validator="jobNumberValidator"
                          readonly="#{jobManager.currentJob.autoGenerateJobNumber}"
                          title="#{jobManager.currentJob.jobNumber}"
                          value="#{jobManager.currentJob.jobNumber}">
-                <p:ajax event="keyup"
-                        global="false"
 
+                <f:attribute name="currentJobNumber" value="#{jobManager.currentJob.jobNumber}" />
+                <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
+
+                <p:ajax event="change"
+                        global="false"
                         listener="#{jobManager.updateJobNumber}"
                         process="@this"/>
+
             </p:inputText>
             <p:spacer height="0" width="5"/>
             <p:selectBooleanCheckbox id="autoGenerate"
@@ -27,7 +32,7 @@
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
                 <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}"
                         global="false"
-
+                        update="autoGenerate2,jobNumber,jobNumber2"
                         process="@this"/>
             </p:selectBooleanCheckbox>            
             <p:tooltip for="autoGenerate" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
@@ -43,10 +48,11 @@
                         itemLabel="#{businessOffice.name}"
                         itemValue="#{businessOffice}"
                         converter="businessOfficeConverter"
+                        validator="businessEntityValidator"
                         forceSelection="true"
                         completeMethod="#{jobManager.completeBusinessOffice}" >
             <p:ajax event="itemSelect"                       
-
+                    update="jobNumber,jobNumber2,department"
                     listener="#{jobManager.updateBusinessOffice}"
                     process="@this"/>
         </p:autoComplete>        
@@ -54,16 +60,18 @@
         <h:outputText value="Classification *:" style="font-weight: bold" />
         <p:autoComplete dropdown="true"
                         var="classification"
+                        id="jobClassification"
                         size="35"
                         value="#{jobManager.currentJob.classification}"
                         itemLabel="#{classification.name}"                        
                         itemValue="#{classification}"                        
                         converter="classificationConverter"
+                        validator="businessEntityValidator"
                         forceSelection="true"
                         completeMethod="#{jobManager.completeClassification}" >
             <p:ajax event="itemSelect"                                                                  
                     listener="#{jobManager.updateJobClassification}"
-
+                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
                     process="@this"/>
         </p:autoComplete>
 
@@ -79,6 +87,7 @@
                             dropdown="false"
                             value="#{jobManager.currentJob.client}"   
                             converter="clientConverter"
+                            validator="businessEntityValidator"
                             forceSelection="true"
                             completeMethod="#{App.completeClient}" >
 
@@ -91,7 +100,6 @@
                         update="clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>   
-
 
             </p:autoComplete>                    
             <p:spacer height="0" width="0"/>
@@ -127,13 +135,12 @@
                         value="#{jobManager.currentJob.billingAddress}"
                         dropdown="true"
                         forceSelection="true"
-                        converter="addressConverter"                            
+                        converter="addressConverter" 
+                        validator="addressValidator"
                         var="address"                        
                         itemValue="#{address}"
                         itemLabel="#{address.name}" 
                         completeMethod="#{jobManager.completeClientAddress}">
-
-            <f:validator validatorId="addressValidator" />
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
@@ -147,15 +154,16 @@
 
         <h:outputText value="Date submitted *:" style="font-weight: bold" />
         <p:calendar id="dateSubmitted"
-                    value="#{jobManager.jobSubmissionDate}"
+                    value="#{jobManager.jobSubmissionDate}" 
+                    readonlyInput="true"
                     navigator="true" 
                     pattern="MMM dd, yyyy" >
             <p:ajax event="dateSelect"
-
+                    update="jobNumber,jobNumber2,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
                     listener="#{jobManager.handleDateSubmittedSelect}" />
 
             <p:ajax event="keyup"
-
+                    update="jobNumber,jobNumber2,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
                     listener="#{jobManager.handleDateSubmittedSelect}" />
 
         </p:calendar>
@@ -173,16 +181,17 @@
                         itemValue="#{department}"
                         itemLabel="#{department.name}"
                         converter="departmentConverter"
+                        validator="businessEntityValidator"
                         completeMethod="#{jobManager.completeDepartment}" >
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-
+                    update="jobNumber,jobNumber2,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
                     process="@this" />
-            <p:ajax event="keyup"
+            <p:ajax event="change"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-
+                    update="jobNumber,jobNumber2,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
                     process="@this" />
         </p:autoComplete>     
 
@@ -204,11 +213,11 @@
                         completeMethod="#{jobManager.completeDepartment}" >
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateSubContractedDepartment}"
-
+                    update="jobNumber,jobNumber2,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
                     process="@this" />
-            <p:ajax event="keyup"
+            <p:ajax event="change"
                     listener="#{jobManager.updateSubContractedDepartment}"
-
+                    update="jobNumber,jobNumber2,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
                     process="@this" />          
         </p:autoComplete>
 
@@ -226,17 +235,12 @@
                             forceSelection="true"
                             completeMethod="#{jobManager.completeEmployee}" >
                 <p:ajax event="itemSelect"
-
                         listener="#{jobManager.updateAssignee}"
                         process="@this"/>
-                <p:ajax event="keyup"
-
+                <p:ajax event="change"
                         listener="#{jobManager.updateAssignee}"
                         process="@this"/>
-            </p:autoComplete>
-            <ui:remove>
-                <p:watermark for="assignee" value="-- enter an existing employee\'s name --"/>
-            </ui:remove>
+            </p:autoComplete>           
         </h:panelGroup>
 
         <h:outputText value="TAT given to client *: "  style="font-weight: bold;" />
@@ -246,8 +250,7 @@
                          value="#{jobManager.currentJob.estimatedTurnAroundTimeInDays}">
                 <p:ajax listener="#{jobManager.updateJob}"
                         global="false"
-                        event="keyup"                        
-
+                        event="change"   
                         process="@this"
                         />
                 <f:convertNumber />
@@ -272,11 +275,13 @@
             counter="instructCharsRemaining"
             counterTemplate="{0} characters remaining."
             autoResize="false"
-            maxlength="1000"            
+            maxlength="1000"                 
             style="width: 500px;">
-            <p:ajax event="keyup"
-                    global="false"
 
+            <f:validator validatorId="requiredFieldValidator" />
+
+            <p:ajax event="change"
+                    global="false"
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
         </p:inputTextarea>             
