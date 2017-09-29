@@ -14,6 +14,8 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Do special job number validator that does what Job.validate() does.
 - Do validation of all fields with validators and just do save when done. 
   ie don't do validation when saving.
+- Don't let save confirmation dialog save. Just let it ask to close the job form
+  or continue editing.
 - Display message when job is successfully saved.
 - Test out creating a new default client. Clean up client search and ensure 
   consistency when doing search with ignoring case and part of client being searched.

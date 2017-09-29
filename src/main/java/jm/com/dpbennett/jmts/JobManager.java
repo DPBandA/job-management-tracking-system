@@ -2447,7 +2447,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public void updateDepartmentReport() {
     }
 
-    public void updateJobNumber(ActionEvent actionEvent) {
+    public void updateJobNumber() {
         setDirty(true);
     }
 
