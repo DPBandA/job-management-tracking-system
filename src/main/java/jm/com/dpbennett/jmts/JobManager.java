@@ -4227,6 +4227,19 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         return sectors;
     }
+    
+    /**
+     * NB: query parameter currently not used to filter sectors.
+     * @param query
+     * @return
+     */
+    public List<Sector> completeActiveSectors(String query) {
+        EntityManager em = getEntityManager1();
+
+        List<Sector> sectors = Sector.findAllActiveSectors(em);
+
+        return sectors;
+    }
 
     public List<Address> getClientAddresses() {
         EntityManager em = getEntityManager1();
@@ -4234,6 +4247,19 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         List<Address> addresses = getCurrentJob().getClient().getAddresses();
 
         return addresses;
+    }
+    
+    /**
+     * NB: query not used to filter
+     * @param query
+     * @return
+     */
+    public List<JobCategory> completeActiveJobCategories(String query) {
+        EntityManager em = getEntityManager1();
+
+        List<JobCategory> categories = JobCategory.findAllActiveJobCategories(em);
+
+        return categories;
     }
 
     public List<JobCategory> getActiveJobCategories() {
@@ -4245,6 +4271,14 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public List<JobSubCategory> getActiveJobSubCategories() {
+        EntityManager em = getEntityManager1();
+
+        List<JobSubCategory> subCategories = JobSubCategory.findAllActiveJobSubCategories(em);
+
+        return subCategories;
+    }
+    
+    public List<JobSubCategory> completeActiveJobSubCategories(String query) {
         EntityManager em = getEntityManager1();
 
         List<JobSubCategory> subCategories = JobSubCategory.findAllActiveJobSubCategories(em);

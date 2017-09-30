@@ -59,7 +59,9 @@
                     <p:commandButton value="Login"
                                      icon="ui-icon ui-icon-person"    
                                      update="loginForm"
-                                     global="false"
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     global="true"
                                      process="@form"
                                      actionListener="#{main.login}" />
                 </f:facet>

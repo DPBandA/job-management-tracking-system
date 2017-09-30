@@ -1,70 +1,58 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+      xmlns:p="http://primefaces.org/ui"> 
 
-    <h:panelGrid id="jobGrouping" columns="2" style="width: 50%;">
+    <h:panelGrid id="jobGrouping" columns="2">
 
-        <h:outputText value="Sector:" style="font-weight: bold;" />        
-        <p:selectOneMenu value="#{jobManager.currentJob.sector}"
-                         style="width: 75%;"
-                         converter="sectorConverter"                         
-                         var="sect" >
+        <h:outputText value="Sector:" style="font-weight: bold;" />  
+        <p:autoComplete dropdown="true"
+                        size="30"
+                        var="sector"
+                        value="#{jobManager.currentJob.sector}" 
+                        itemLabel="#{sector.name}"
+                        itemValue="#{sector}"
+                        converter="sectorConverter"                        
+                        forceSelection="true"
+                        scrollHeight="250"
+                        completeMethod="#{jobManager.completeActiveSectors}" >
+            <p:ajax event="itemSelect" 
+                    listener="#{jobManager.updateSector}"
+                    process="@this"/>
+        </p:autoComplete>     
 
-            <p:ajax listener="#{jobManager.updateSector}"      
-                    update=":mainTabViewForm:mainTabView:growl2"
-                    global="false"                                       
-                    process="@this" />
-            
-            <f:selectItems  value="#{jobManager.activeSectors}"
-                            var="sector"
-                            itemValue="#{sector}"
-                            itemLabel="#{sector.name}"/>
 
-            <p:column>
-                #{sect.name}
-            </p:column>
-        </p:selectOneMenu>
-
-        <h:outputText value="Category:" style="font-weight: bold;" />        
-        <p:selectOneMenu  id="category"
-                          style="width: 75%;"
-                          value="#{jobManager.currentJob.jobCategory}"
-                          converter="jobCategoryConverter"
-                          var="jobCat" >
-            <p:ajax listener="#{jobManager.updateJobCategory}"
-                    global="false"                    
-                    process="@this" />
-            <f:selectItems  value="#{jobManager.activeJobCategories}"
-                            var="jobCategory"
-                            itemValue="#{jobCategory}"
-                            itemLabel="#{jobCategory.name}"/>
-            
-             <p:column>
-                #{jobCat.name}
-            </p:column>
-        </p:selectOneMenu>
+        <h:outputText value="Category:" style="font-weight: bold;" />  
+        <p:autoComplete dropdown="true"
+                        size="30"
+                        var="jobCategory"
+                        value="#{jobManager.currentJob.jobCategory}" 
+                        itemLabel="#{jobCategory.name}"
+                        itemValue="#{jobCategory}"
+                        converter="jobCategoryConverter"                        
+                        forceSelection="true"
+                        scrollHeight="250"
+                        completeMethod="#{jobManager.completeActiveJobCategories}" >
+            <p:ajax event="itemSelect" 
+                    listener="#{jobManager.updateJobCategory}"
+                    process="@this"/>
+        </p:autoComplete>     
 
         <h:outputText value="Subcategory:" style="font-weight: bold" />
-        <p:selectOneMenu  id="subCategory"
-                          style="width: 75%;"
-                          converter="jobSubCategoryConverter"
-                          var="jobSubCat"
-                          value="#{jobManager.currentJob.jobSubCategory}">
-            
-            <p:ajax listener="#{jobManager.updateJobSubCategory}"
-                    global="false"                    
-                    process="@this" />
-            <f:selectItems  value="#{jobManager.activeJobSubCategories}"
-                            var="jobSubCategory"
-                            itemValue="#{jobSubCategory}"
-                            itemLabel="#{jobSubCategory.name}"/>
-            
-             <p:column>
-                #{jobSubCat.name}
-            </p:column>
-        </p:selectOneMenu>
+        <p:autoComplete dropdown="true"
+                        size="30"
+                        var="jobSubCategory"
+                        value="#{jobManager.currentJob.jobSubCategory}" 
+                        itemLabel="#{jobSubCategory.name}"
+                        itemValue="#{jobSubCategory}"
+                        converter="jobSubCategoryConverter"                        
+                        forceSelection="true"
+                        scrollHeight="250"
+                        completeMethod="#{jobManager.completeActiveJobSubCategories}" >
+            <p:ajax event="itemSelect" 
+                    listener="#{jobManager.updateJobSubCategory}"
+                    process="@this"/>
+        </p:autoComplete>     
+
     </h:panelGrid>          
 </html>

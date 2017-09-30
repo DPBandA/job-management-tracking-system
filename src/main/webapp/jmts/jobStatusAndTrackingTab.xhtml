@@ -43,7 +43,8 @@
                     </p:calendar>
 
                     <h:outputLabel value="Work progress: " for="workProgress"/>
-                    <p:selectOneMenu id="workProgress"                                      
+                    <p:selectOneMenu id="workProgress"     
+                                     style="width: 200px;"
                                      value="#{jobManager.currentJob.jobStatusAndTracking.workProgress}">
 
                         <f:selectItems  value="#{jobManager.workProgressList}"

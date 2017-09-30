@@ -23,10 +23,7 @@ import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import static jm.com.dpbennett.jmts.Application.checkForLDAPUser;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
-import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.TabChangeEvent;
-import org.primefaces.event.TabCloseEvent;
 import org.primefaces.event.ToggleEvent;
 
 /**
@@ -39,7 +36,6 @@ public class Main implements UserManagement, MessageManagement, Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
-    //private JobManagement jm;
     private JobManagerUser user;
     private Boolean userLoggedIn = false;
     private Boolean showLogin = true;
@@ -58,18 +54,18 @@ public class Main implements UserManagement, MessageManagement, Serializable {
     private Boolean dialogRenderNoButton;
     private Boolean dialogRenderCancelButton;
     private DialogActionHandler dialogActionHandler;
+    private JobManager jobManger;
 
     /**
      * Creates a new instance of Main
      */
     public Main() {
-        showLogin = true;
-        logonMessage = "Please provide your login details below:";
-        searchLayoutUnitCollapsed = true;
+        init();
     }
 
     /**
      * Creates a new instance of Main
+     *
      * @param persistenceUnitName
      */
     public Main(String persistenceUnitName) {
@@ -165,14 +161,16 @@ public class Main implements UserManagement, MessageManagement, Serializable {
     public void setDialogMessageSeverity(String dialogMessageSeverity) {
         this.dialogMessageSeverity = dialogMessageSeverity;
     }
-    
-    public void init() {
+
+    private void init() {
         System.out.println("Initializing...");
-        // init job manager 
-        JobManager jm2 = Application.findBean("jobManager");
-        if (jm2 != null) {
-            jm2.setDirty(false);
-            //   jm2.setIsJobToBeCopied(false);
+        showLogin = true;
+        logonMessage = "Please provide your login details below:";
+        searchLayoutUnitCollapsed = true;
+        // Init job manager 
+        jobManger = Application.findBean("jobManager");
+        if (jobManger != null) {
+            System.out.println("Job Manager initialized!");
         }
     }
 
@@ -370,12 +368,10 @@ public class Main implements UserManagement, MessageManagement, Serializable {
                         context.execute("layoutVar.toggle('west');");
                     }
 
-
                     context.execute("loginDialog.hide();PrimeFaces.changeTheme('"
                             + getUser().getUserInterfaceThemeName() + "');mainTabViewVar.select(0);");
 
                 }
-
 
             } else {
                 logonMessage = "Invalid username or password! Please try again.";
@@ -392,13 +388,11 @@ public class Main implements UserManagement, MessageManagement, Serializable {
     }
 
     private void updateAllForms(RequestContext context) {
-//        context.update("preferencesDialogForm");
         context.update("searchForm");
         context.update("headerForm");
         context.update("unitDialogForms");
         context.update("mainTabViewForm");
         context.update("loginForm");
-        //context.update("menubarForm");
     }
 
     public void logout() {
@@ -413,13 +407,15 @@ public class Main implements UserManagement, MessageManagement, Serializable {
 
         updateAllForms(context);
 
-        // hide search layout unit if initially shown
+        // Hide search layout unit if initially shown
         if (!searchLayoutUnitCollapsed) {
             searchLayoutUnitCollapsed = true;
             context.execute("layoutVar.toggle('west');");
         }
-
-        // oncomplete="longProcessDialogVar.hide();loginDialog.show();"
+        
+        // Unrender all Job Manager tabs
+        jobManger.setRenderJobDetailTab(false);
+        
         context.execute("loginDialog.show();longProcessDialogVar.hide();PrimeFaces.changeTheme('" + getUser().getUserInterfaceThemeName() + "');");
 
     }
@@ -548,15 +544,9 @@ public class Main implements UserManagement, MessageManagement, Serializable {
      * @return
      */
     @Override
-     public Boolean validateAndAssociateUser(EntityManager em, String username, String password) {
+    public Boolean validateAndAssociateUser(EntityManager em, String username, String password) {
         Boolean userValidated = false;
         InitialLdapContext ctx;
-        //Employee employee;
-
-        // tk for testing purposes
-        if (username.equals("admin") && password.equals("password")) { // password to be encrypted
-            return true;
-        }
 
         try {
             List<jm.com.dpbennett.business.entity.LdapContext> ctxs = jm.com.dpbennett.business.entity.LdapContext.findAllLdapContexts(em);
@@ -572,14 +562,12 @@ public class Main implements UserManagement, MessageManagement, Serializable {
             }
 
             // get the user if one exists
-            // JobManagerUser jmtsUser = JobManagerUser.findJobManagerUserByUsername(em, username);
-
             if (userValidated) {
-               
+
                 System.out.println("User validated.");
 
                 return true;
-            
+
             } else {
                 System.out.println("User NOT validated!");
                 return false;
@@ -589,78 +577,7 @@ public class Main implements UserManagement, MessageManagement, Serializable {
             System.err.println("Problem connecting to directory: " + e);
         }
 
-
         return false;
     }
-//    public Boolean validateAndAssociateUser(EntityManager em, String username, String password) {
-//        Boolean userValidated = false;
-//        InitialLdapContext ctx = null;
-//        Employee employee;
-//
-//        // tk for testing purposes
-//        if (username.equals("admin") && password.equals("password")) { // password to be encrypted
-//            return true;
-//        }
-//
-//        try {
-//            List<jm.com.dpbennett.entity.LdapContext> ctxs = jm.com.dpbennett.entity.LdapContext.findAllLdapContexts(em);
-//
-//            for (jm.com.dpbennett.entity.LdapContext ldapContext : ctxs) {
-//                ctx = ldapContext.getInitialLDAPContext(username, password);
-//
-//                if (checkForLDAPUser(em, username, ctx)) {
-//                    // user exists in LDAP                    
-//                    userValidated = true;
-//                    break;
-//                }
-//            }
-//
-//            // get employee that corresponds to this username
-//            if (userValidated) {
-//                employee = Employee.findEmployeeByUsername(em, username, ctx);
-//            } else {
-//                return false;
-//            }
-//
-//            // get the user if one exists
-//            JobManagerUser jmtsUser = JobManagerUser.findJobManagerUserByUsername(em, username);
-//
-//            if ((jmtsUser == null) && (employee != null)) {
-//                // create and associate the user with the employee
-//                jmtsUser = createNewUser(em);
-//                jmtsUser.setUsername(username);
-//                jmtsUser.setEmployee(employee);
-//                jmtsUser.setUserFirstname(employee.getFirstName());
-//                jmtsUser.setUserLastname(employee.getLastName());
-//                em.getTransaction().begin();
-//                BusinessEntityUtils.saveBusinessEntity(em, jmtsUser);
-//                em.getTransaction().commit();
-//
-//                System.out.println("User validated and associated with employee.");
-//
-//                return true;
-//            } else if ((jmtsUser != null) && (employee != null)) {
-//                System.out.println("User validated.");
-//                return true;
-//            } else if ((jmtsUser != null) && (employee == null)) {
-//                if (jmtsUser.getEmployee() != null) {
-//                    System.out.println("User validated.");
-//                    return true;
-//                } else {
-//                    System.out.println("User NOT validated!");
-//                    return false;
-//                }
-//
-//            } else {
-//                System.out.println("User NOT validated!");
-//                return false;
-//            }
-//
-//        } catch (Exception e) {
-//            System.err.println("Problem connecting to directory: " + e);
-//        }
-//
-//
-//        return false;
-//    }
+
 }

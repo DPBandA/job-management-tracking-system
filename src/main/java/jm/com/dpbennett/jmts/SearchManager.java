@@ -55,17 +55,17 @@ public class SearchManager implements SearchManagement, Serializable {
         searhParameters.put(
                 "Food Factories Search",
                 new SearchParameters(
-                "Food Factories Search",
-                null,
-                false,
-                foodsDBSearchTypes,
-                true,
-                "dateRegistered",
-                false,
-                foodsDBSearchDateFields,
-                "General",
-                new DatePeriod("This month", "month", null, null, false, false, false),
-                ""));
+                        "Food Factories Search",
+                        null,
+                        false,
+                        foodsDBSearchTypes,
+                        true,
+                        "dateRegistered",
+                        false,
+                        foodsDBSearchDateFields,
+                        "General",
+                        new DatePeriod("This month", "month", null, null, false, false, false),
+                        ""));
 
         // Admin search types and search fields
         ArrayList adminSearchTypes = new ArrayList();
@@ -78,17 +78,17 @@ public class SearchManager implements SearchManagement, Serializable {
         searhParameters.put(
                 "Admin Search",
                 new SearchParameters(
-                "Admin Search",
-                null,
-                false,
-                adminSearchTypes,
-                true,
-                "dateEdited",
-                true,
-                adminSearchDateFields,
-                "General",
-                new DatePeriod("This month", "month", null, null, false, false, true),
-                ""));
+                        "Admin Search",
+                        null,
+                        false,
+                        adminSearchTypes,
+                        true,
+                        "dateEdited",
+                        true,
+                        adminSearchDateFields,
+                        "General",
+                        new DatePeriod("This month", "month", null, null, false, false, true),
+                        ""));
 
         // Job search types and search fields
         ArrayList jobTypes = new ArrayList();
@@ -105,7 +105,6 @@ public class SearchManager implements SearchManagement, Serializable {
         jobSearchTypes.add(new SelectItem("My department's jobs", "My department's jobs"));
         jobSearchTypes.add(new SelectItem("Parent jobs only", "Parent jobs only"));
 
-
         // Add search fields
         jobSearchDateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
         jobSearchDateFields.add(new SelectItem("dateAndTimeEntered", "Date entered"));
@@ -118,17 +117,17 @@ public class SearchManager implements SearchManagement, Serializable {
         searhParameters.put(
                 "Job Search",
                 new SearchParameters(
-                "Job Search",
-                jobTypes,
-                true,
-                jobSearchTypes,
-                true,
-                "dateAndTimeEntered",
-                true,
-                jobSearchDateFields,
-                "General",
-                new DatePeriod("This month", "month", null, null, false, false, true),
-                ""));
+                        "Job Search",
+                        jobTypes,
+                        true,
+                        jobSearchTypes,
+                        true,
+                        "dateAndTimeEntered",
+                        true,
+                        jobSearchDateFields,
+                        "General",
+                        new DatePeriod("This month", "month", null, null, false, false, true),
+                        ""));
 
         // Service Request search types and search fields
         ArrayList servciceRequestSearchTypes = new ArrayList();
@@ -143,17 +142,17 @@ public class SearchManager implements SearchManagement, Serializable {
         searhParameters.put(
                 "Service Request Search",
                 new SearchParameters(
-                "Service Request Search",
-                null,
-                false,
-                servciceRequestSearchTypes,
-                false,
-                "dateSubmitted",
-                true,
-                servciceRequestSearchDateFields,
-                "General",
-                new DatePeriod("This month", "month", null, null, false, false, true),
-                ""));
+                        "Service Request Search",
+                        null,
+                        false,
+                        servciceRequestSearchTypes,
+                        false,
+                        "dateSubmitted",
+                        true,
+                        servciceRequestSearchDateFields,
+                        "General",
+                        new DatePeriod("This month", "month", null, null, false, false, true),
+                        ""));
 
         // Standards Compliance search types and search fields
         ArrayList standardsComplianceSearchTypes = new ArrayList();
@@ -166,17 +165,17 @@ public class SearchManager implements SearchManagement, Serializable {
         searhParameters.put(
                 "Standards Compliance Search",
                 new SearchParameters(
-                "Standards Compliance Search",
-                null,
-                false,
-                standardsComplianceSearchTypes,
-                true,
-                "dateOfSurvey",
-                false,
-                standardsComplianceSearchDateFields,
-                "General",
-                new DatePeriod("This month", "month", null, null, false, false, true),
-                ""));
+                        "Standards Compliance Search",
+                        null,
+                        false,
+                        standardsComplianceSearchTypes,
+                        true,
+                        "dateOfSurvey",
+                        false,
+                        standardsComplianceSearchDateFields,
+                        "General",
+                        new DatePeriod("This month", "month", null, null, false, false, true),
+                        ""));
 
         // Legal Metrology search types and fields
         ArrayList legalMetSearchTypes = new ArrayList();
@@ -190,18 +189,18 @@ public class SearchManager implements SearchManagement, Serializable {
         searhParameters.put(
                 "Legal Metrology Search",
                 new SearchParameters(
-                "Legal Metrology Search",
-                null,
-                false,
-                legalMetSearchTypes,
-                true,
-                "dateIssued",
-                true,
-                legalMetSearchDateFields,
-                "General",
-                new DatePeriod("Custom", "custom",
-                BusinessEntityUtils.createDate(2000, 0, 1), new Date(), false, false, false),
-                ""));
+                        "Legal Metrology Search",
+                        null,
+                        false,
+                        legalMetSearchTypes,
+                        true,
+                        "dateIssued",
+                        true,
+                        legalMetSearchDateFields,
+                        "General",
+                        new DatePeriod("Custom", "custom",
+                                BusinessEntityUtils.createDate(2000, 0, 1), new Date(), false, false, false),
+                        ""));
     }
 
     public Main getMain() {
@@ -222,8 +221,52 @@ public class SearchManager implements SearchManagement, Serializable {
     /**
      * Get the list of search types that the user is allowed to see
      *
+     * @param query
      * @return
      */
+    public ArrayList<String> completeAuthorizedSearchTypes(String query) {
+        if (getCurrentSearchParameters().getName().equals("Job Search")) {
+            // Filter list based on user's authorization
+            EntityManager em = getEntityManager1();
+
+            if (getMain().getUser(em).getPrivilege().getCanEditJob()
+                    || getMain().getUser(em).getPrivilege().getCanEnterJob()
+                    || getMain().getUser(em).getPrivilege().getCanEditInvoicingAndPayment()
+                    || getMain().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditInvoicingAndPayment()
+                    || getMain().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditJob()
+                    || getMain().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
+                ArrayList<String> newList = new ArrayList<>();
+                for (Object obj : getCurrentSearchParameters().getSearchTypes()) {
+                    SelectItem item = (SelectItem) obj;
+                    newList.add(item.getValue().toString());
+                }
+
+                return newList;
+            } else {
+
+                ArrayList<String> newList = new ArrayList<>();
+                for (Object obj : getCurrentSearchParameters().getSearchTypes()) {
+                    SelectItem item = (SelectItem) obj;
+                    if (!item.getLabel().equals("General")) {
+                        newList.add(item.getValue().toString());
+                    }
+                }
+
+                return newList;
+            }
+
+        } else {
+            ArrayList<String> newList = new ArrayList<>();
+            for (Object obj : getCurrentSearchParameters().getSearchTypes()) {
+                SelectItem item = (SelectItem) obj;
+                newList.add(item.getValue().toString());
+            }
+
+            return newList;
+        }
+
+    }
+    
     public ArrayList getAuthorizedSearchTypes() {
         if (getCurrentSearchParameters().getName().equals("Job Search")) {
             // Filter list based on user's authorization
@@ -313,7 +356,7 @@ public class SearchManager implements SearchManagement, Serializable {
         switch (getCurrentSearchParameterKey()) {
             case "Job Search":
                 JobManager jm = Application.findBean("jobManager");
-                if (jm != null) {                   
+                if (jm != null) {
                     jm.doJobSearch(getCurrentSearchParameters());
                     context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
                 }
@@ -324,7 +367,7 @@ public class SearchManager implements SearchManagement, Serializable {
                     sm.doServiceRequestSearch(getCurrentSearchParameters());
                     context.update("mainTabViewForm:mainTabView:serviceRequestsDatabaseTable");
                 }
-                break;                          
+                break;
         }
     }
 }

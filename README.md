@@ -11,16 +11,16 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
-- The grouping combo fields are displayed with zero width. May have to use autocomplete
-  with drop down.
 - Do validation of all fields with validators and just do save when done. 
-  ie don't do validation when saving. Use validateJobNumber(String jobNumber, Boolean auto).
+  ie don't do validation when saving. 
 - Don't let save confirmation dialog save. Just let it ask to close the job form
   or continue editing.
 - Display message when job is successfully saved.
 - Test out creating a new default client. Clean up client search and ensure 
   consistency when doing search with ignoring case and part of client being searched.
 - Check if new clients can be created even without privilege.
+- Implement saving address and contact within client dialog by implementing
+  save(em) and putting the transaction into the method.
 - Don't allow creation or saving of a job with a client without a valid address
   and contact. Stop saving of client when saving job.
 - Create contact converter and use it...
@@ -135,25 +135,9 @@ by other apps?
 - If the billing address field is not set then set the default billing address
   for the client being edited.
 
-### Legal Documents/Office Module (GenericERP Module)
-- Fix up entity classes by using ALL annotations for "persistenc commit" in
-   LegalDocument class etc.
-- Watch out for dateselect and keyup events.
-- Fix issues where classifications are blank. Create new ones if necessary.
-- Remove trim from all find* methods
-
-### Service Contract
-- Export sample condition(s) to service contract.
-- Ensure that the contact in the job and not the main contact in the client is used where required. The job contact field to be created if necessary.
-- Restrict generation of service contract to an authorized person/department?
-- If department name/id too long for field, shorten and add ellipses to the end.
-- Put client ID# (TRN etc.) into service contract?
-- Where applicable put grey and not black borders.
-    “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
-- NB (Put in Wiki): The service contract template is : c:\jasperreports\ServiceContractTemplate.xls
-
 ### System Design
 #### Design
+- Move all "save and create" methods from JobManager to their respective entities
 - Change discount combobox to a menu.
 - Create Home screen showing user's jobs, departmental job etc.
 - Display message when user logs on without authentication
@@ -188,6 +172,25 @@ by other apps?
 - Check why <p:remoteCommand name="doJobSampleCopy"> is used and if copy sample
   can be done without using a remote command.
 - Implement display of message when converter fails.
+- Implement dynamically hide/show "Jobs" tab based on search. Allow closing the
+  tab.
+
+### Legal Documents/Office Module (GenericERP Module)
+- Fix up entity classes by using ALL annotations for "persistenc commit" in
+   LegalDocument class etc.
+- Watch out for dateselect and keyup events.
+- Fix issues where classifications are blank. Create new ones if necessary.
+- Remove trim from all find* methods
+
+### Service Contract
+- Export sample condition(s) to service contract.
+- Ensure that the contact in the job and not the main contact in the client is used where required. The job contact field to be created if necessary.
+- Restrict generation of service contract to an authorized person/department?
+- If department name/id too long for field, shorten and add ellipses to the end.
+- Put client ID# (TRN etc.) into service contract?
+- Where applicable put grey and not black borders.
+    “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
+- NB (Put in Wiki): The service contract template is : c:\jasperreports\ServiceContractTemplate.xls
 
 #### Issues
 - Change "keyup" to "change" where possible.
