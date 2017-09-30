@@ -11,9 +11,10 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
-- Do special job number validator that does what Job.validate() does.
+- The grouping combo fields are displayed with zero width. May have to use autocomplete
+  with drop down.
 - Do validation of all fields with validators and just do save when done. 
-  ie don't do validation when saving.
+  ie don't do validation when saving. Use validateJobNumber(String jobNumber, Boolean auto).
 - Don't let save confirmation dialog save. Just let it ask to close the job form
   or continue editing.
 - Display message when job is successfully saved.
@@ -131,6 +132,8 @@ by other apps?
     //getMain().displayCommonMessageDialog(null, "Please provide at least 1 character for the search text.", "Insufficient Characters", "alert");
     Find way to get something like this back in without using getMain().
 - For new clients make sure that the "EnteredBy" field is filled out.
+- If the billing address field is not set then set the default billing address
+  for the client being edited.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
@@ -184,6 +187,7 @@ by other apps?
   Create a separate job detail tab for this?
 - Check why <p:remoteCommand name="doJobSampleCopy"> is used and if copy sample
   can be done without using a remote command.
+- Implement display of message when converter fails.
 
 #### Issues
 - Change "keyup" to "change" where possible.

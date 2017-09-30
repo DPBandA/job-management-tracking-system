@@ -10,7 +10,7 @@
         <h:panelGroup>
             <p:inputText id="jobNumber"
                          size="35"
-                         maxlength="250"
+                         maxlength="250" 
                          validator="jobNumberValidator"
                          readonly="#{jobManager.currentJob.autoGenerateJobNumber}"
                          title="#{jobManager.currentJob.jobNumber}"
@@ -26,7 +26,7 @@
 
             </p:inputText>
             <p:spacer height="0" width="5"/>
-            <p:selectBooleanCheckbox id="autoGenerate"
+            <p:selectBooleanCheckbox id="autoGenerate" 
                                      style="vertical-align: middle"
                                      rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >

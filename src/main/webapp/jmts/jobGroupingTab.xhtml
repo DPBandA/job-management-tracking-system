@@ -5,16 +5,19 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <h:panelGrid id="jobGrouping" columns="2" >
+    <h:panelGrid id="jobGrouping" columns="2" style="width: 50%;">
 
-        <h:outputText value="Sector:" style="font-weight: bold" />        
+        <h:outputText value="Sector:" style="font-weight: bold;" />        
         <p:selectOneMenu value="#{jobManager.currentJob.sector}"
-                         converter="sectorConverter"
+                         style="width: 75%;"
+                         converter="sectorConverter"                         
                          var="sect" >
 
-            <p:ajax listener="#{jobManager.updateSector}"                    
+            <p:ajax listener="#{jobManager.updateSector}"      
+                    update=":mainTabViewForm:mainTabView:growl2"
                     global="false"                                       
                     process="@this" />
+            
             <f:selectItems  value="#{jobManager.activeSectors}"
                             var="sector"
                             itemValue="#{sector}"
@@ -25,8 +28,9 @@
             </p:column>
         </p:selectOneMenu>
 
-        <h:outputText value="Category:" style="font-weight: bold" />        
+        <h:outputText value="Category:" style="font-weight: bold;" />        
         <p:selectOneMenu  id="category"
+                          style="width: 75%;"
                           value="#{jobManager.currentJob.jobCategory}"
                           converter="jobCategoryConverter"
                           var="jobCat" >
@@ -45,6 +49,7 @@
 
         <h:outputText value="Subcategory:" style="font-weight: bold" />
         <p:selectOneMenu  id="subCategory"
+                          style="width: 75%;"
                           converter="jobSubCategoryConverter"
                           var="jobSubCat"
                           value="#{jobManager.currentJob.jobSubCategory}">
