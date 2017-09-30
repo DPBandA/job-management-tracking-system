@@ -289,8 +289,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         jobSampleDialogTabViewActiveIndex = 0;
         clientManager = Application.findBean("clientManager");
         searchManager = Application.findBean("searchManager");
-        //complianceManager = Application.findBean("complianceManager");
-        //complianceManager.setComplianceSurveyTableToUpdate("mainTabViewForm:mainTabView:complianceSurveysTable");
         sendJobCostingCompletedEmail = false;
         sendJobCostingApprovedEmail = false;
         addCostComponent = false;
@@ -309,11 +307,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
-        //RequestContext context = RequestContext.getCurrentInstance();
-
         closeJobDetailTab();
-
-//        context.execute("mainTabViewVar.select(0);");
     }
 
     public void closeJobDetailTab() {
@@ -776,13 +770,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         this.classificationId = classificationId;
     }
 
-//    public Long getSectorId() {
-//        return currentJob.getSector().getId();
-//    }
-//
-//    public void setSectorId(Long sectorId) {
-//        this.sectorId = sectorId;
-//    }
     public Long getCategoryId() {
         return currentJob.getJobCategory().getId();
     }
@@ -894,8 +881,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         EntityManager em = getEntityManager1();
 
         int days = Integer.parseInt(SystemOption.findSystemOptionByName(em, "maxDaysPassInvoiceDate").getOptionValue());
-
-        closeEntityManager(em);
 
         return days;
     }
@@ -1040,10 +1025,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             setLongProcessProgress(100);
 
-            closeEntityManager(em);
-
         } catch (Exception e) {
-            closeEntityManager(em);
             System.out.println(e);
             setLongProcessProgress(100);
         }
@@ -1106,12 +1088,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             DefaultStreamedContent dsc = new DefaultStreamedContent(stream, "application/xls", "servicecontract.xls");
 
-            closeEntityManager(em);
-
             return dsc;
 
         } catch (Exception e) {
-            closeEntityManager(em);
             System.out.println(e);
         }
 
@@ -1169,9 +1148,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
 
             setLongProcessProgress(100);
-            closeEntityManager(em);
+
         } catch (Exception e) {
-            closeEntityManager(em);
             System.out.println(e);
             setLongProcessProgress(100);
         }
@@ -1497,8 +1475,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public Boolean getRenderJobsReportTableTabView() {
-        if (/*jobReport.getName().equals("Monthly report")
-                 ||*/jobReport.getName().equals("Jobs for my department")
+        if (jobReport.getName().equals("Jobs for my department")
                 || jobReport.getName().equals("Jobs in period")) {
             return true;
         } else {
@@ -1540,7 +1517,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void updateServiceContract() {
         EntityManager em = getEntityManager1();
-        //updateDepartments(currentJob, em);
     }
 
     public Boolean getCurrentJobIsValid() {
@@ -1653,8 +1629,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 } else {
                     reportSearchText = reportingDepartment.getName();
                 }
-                currentPeriodJobReportSearchResultList = new ArrayList<>();//doJobReportSearch(reportSearchParameters.getDatePeriod().getStartDate(), reportSearchParameters.getDatePeriod().getEndDate());
-                previousPeriodJobReportSearchResultList = new ArrayList<>();//doJobReportSearch(previousDatePeriod.getStartDate(), previousDatePeriod.getEndDate());
+                currentPeriodJobReportSearchResultList = new ArrayList<>();
+                previousPeriodJobReportSearchResultList = new ArrayList<>();
             } else if (jobReport.getName().equals("Jobs entered by employee")) {
                 reportSearchParameters.setDateField("dateAndTimeEntered");
             } else if (jobReport.getName().equals("Jobs entered by department")) {
@@ -1670,15 +1646,12 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
         }
 
-        closeEntityManager(em);
     }
 
     public List<Report> getJobReports() {
         EntityManager em = getEntityManager1();
 
         List<Report> reports = Report.findAllReports(em);
-
-        closeEntityManager(em);
 
         return reports;
     }
@@ -1687,8 +1660,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         EntityManager em = getEntityManager1();
 
         List<Preference> prefs = Preference.findAllPreferencesByName(em, "jobTableView");
-
-        closeEntityManager(em);
 
         return prefs;
     }
@@ -1810,7 +1781,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         } else {
             currentJob = createNewJob(em, getUser(), true);
         }
-        closeEntityManager(em);
     }
 
     public Boolean getDynamicTabView() {
@@ -1827,7 +1797,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         System.out.println("Handling keep alive session: doing polling for SysAdmin..." + new Date());
         em.getTransaction().begin();
         main.setUser(JobManagerUser.findJobManagerUserByUsername(em, main.getUser().getUsername()));
-        //em.refresh(user);
         main.getUser().setPollTime(new Timestamp(new Date().getTime()));
 
         for (JobManagerUser u : JobManagerUser.findAllJobManagerUsers(em)) {
@@ -1843,6 +1812,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
      * completed. This is done by determining if the job was assigned to the
      * user.
      *
+     * @param job
      * @return
      */
     public Boolean canUserCompleteJobCosting(Job job) {
@@ -1860,7 +1830,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             System.out.println("Not saving");
         }
 
-        closeEntityManager(em);
     }
 
     /**
@@ -2159,14 +2128,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         this.selectedCashPayment = selectedCashPayment;
     }
 
-    public void closeEntityManager(EntityManager em) {
-        if (em != null) {
-            if (em.isOpen()) {
-                em.close();
-            }
-        }
-    }
-
     public EntityManager getEntityManager1() {
         return getEMF1().createEntityManager();
     }
@@ -2207,8 +2168,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public void updateJobClassification() {
         EntityManager em = getEntityManager1();
 
-        // tk remove this and others after converters are created
-        //updateDepartments(currentJob, em);
         // Get the clasification saved for use in setting taxes
         Classification classification = Classification.findClassificationByName(em,
                 currentJob.getClassification().getName());
@@ -2224,7 +2183,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public void updateJobCostingEstimate() {
         EntityManager em = getEntityManager1();
 
-        //updateDepartments(currentJob, em);
         // Update estmated cost and min. deposit  
         if (currentJob.getJobCostingAndPayment().getEstimatedCost() != null) {
             Double estimatedCostWithTaxes = BusinessEntityUtils.roundTo2DecimalPlaces(currentJob.getJobCostingAndPayment().getEstimatedCost()
@@ -2310,6 +2268,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
      * done by determining if the user is the head/active acting head of the
      * department to which the job was assigned.
      *
+     * @param job
      * @return
      */
     public Boolean isUserDepartmentSupervisor(Job job) {
@@ -2386,7 +2345,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
 
         setDirty(true);
-        closeEntityManager(em);
+        
     }
 
     public Boolean getAllowCostEdit() {
@@ -2551,7 +2510,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         createJob(em, false);
 
-        closeEntityManager(em);
     }
 
     // tk put in Job class?
@@ -2627,7 +2585,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             context.execute("mainTabViewVar.select(1);");
         }
 
-        closeEntityManager(em);
     }
 
     /**
@@ -2651,21 +2608,18 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
         // set job dirty to ensure it is saved if attempt is made to close it
         //  before saving
-        setDirty(true);
-        closeEntityManager(em);
+        setDirty(true);       
     }
 
     public void subContractJob(ActionEvent actionEvent) {
         EntityManager em = getEntityManager1();
-        createJob(em, true);
-        closeEntityManager(em);
+        createJob(em, true);        
     }
 
     public void createNewJobWithoutSavingCurrent(ActionEvent action) {
         EntityManager em = getEntityManager1();
         setDirty(false);
-        createJob(em, false);
-        closeEntityManager(em);
+        createJob(em, false);        
     }
 
     public void loadOtherJobWithoutSavingCurrent(ActionEvent action) {
@@ -2723,11 +2677,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         setRenderJobDetailTab(false);
     }
 
-//    public void closeJobDialog2() {
-//        // Redo search to reloasd stored jobs including
-//        // the currently edited job.
-//        closeJobDetailTab();
-//    }
     public void closePreferencesDialog2(CloseEvent closeEvent) {
         // Redo search to reloasd stored jobs including
         // the currently edited job.
@@ -2766,8 +2715,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
 
         setDirty(false);
-
-        closeEntityManager(em);
     }
 
     public void validateJobCostingAndSaveJob(ActionEvent actionEvent) {
@@ -2790,9 +2737,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // avoid resaving newly created costing components
             currentJob.setJobCostingAndPayment(em.find(JobCostingAndPayment.class, currentJob.getJobCostingAndPayment().getId()));
 
-            closeEntityManager(em);
         } catch (Exception e) {
-            closeEntityManager(em);
             System.out.println(e);
         }
 
@@ -2818,10 +2763,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 return false;
             }
 
-            closeEntityManager(em);
         } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
+           System.out.println(e);
         }
 
         return true;
@@ -2887,7 +2830,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     + "Also, please note that you may only enter jobs that are assigned to you or your department. "
                     + "Please contact the IT/MIS Department for further assistance.", "Insufficient Privilege", "alert");
         }
-        //closeEntityManager(em);
     }
 
     public void saveUnitCost() {
@@ -2971,8 +2913,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     "\nJMTS User: " + getUser().getUsername()
                     + "\nDate/time: " + new Date()
                     + "\nException detail: " + e);
-        }
-        closeEntityManager(em);
+        }       
     }
 
     public void saveCurrentAndLoadOtherJob(ActionEvent actionEvent) {
@@ -2984,7 +2925,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         loadJob();
 
-        closeEntityManager(em);
     }
 
     public Boolean checkJobEntryPrivilege(EntityManager em, RequestContext context) {
@@ -3099,12 +3039,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 }
             }
 
-            // Save client and all its details. May not be necessary.
-//            clientManager.setClient(currentJob.getClient());
-//            clientManager.saveClient(em, false);
-
-            // save job to database and check for errors
-            //em.getTransaction().begin();
             // Update the sampledby field of the job samples
             if (currentJob.getJobSamples().size() > 0) {
                 for (JobSample jobSample : currentJob.getJobSamples()) {
@@ -3185,13 +3119,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             context.execute("undefinedErrorDialog.show();");
             System.out.println(e);
             // send error message to developer's email
-            //if (jobEmailAlertsActivated) {
             sendErrorEmail("An exception occurred while saving a job!",
                     "Job number: " + currentJob.getJobNumber()
                     + "\nJMTS User: " + getUser().getUsername()
                     + "\nDate/time: " + new Date()
                     + "\nException detail: " + e);
-            //}
         }
 
         return true;
@@ -3392,7 +3324,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
 
         updateSampleReferences();
-        //updateDepartments(currentJob, em);
 
         currentJob.setJobNumber(getCurrentJobNumber());
         selectedJobSample = new JobSample();
@@ -3740,15 +3671,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         if (!currentJob.getSubContractedDepartment().getName().equals("")) {
             Department subContractedDepartment = Department.findDepartmentByName(em, currentJob.getSubContractedDepartment().getName());
             currentJob.setSubContractedDepartment(subContractedDepartment);
-            //currentJob.setJobNumber(getCurrentJobNumber());
         }
 
         currentJob.setJobNumber(getCurrentJobNumber());
         jobSampleDialogTabViewActiveIndex = 0;
 
-        //context.addCallbackParam("sampleUpdated", true);
-        //setDirty(false);
-        closeEntityManager(em);
     }
 
     public JobSample getSelectedJobSample() {
@@ -3808,7 +3735,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         setDirty(false);
 
-        closeEntityManager(em);
     }
 
     public String getCurrentJobNumber() {
@@ -3986,10 +3912,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         // add items
         if (jobReport.getName().equals("Monthly report")) {
             for (String name : DatePeriod.getDatePeriodNames()) {
-                // get only month date periods
-                //  if (name.toUpperCase().contains("MONTH")) {
+                // get only month date periods                
                 datePeriods.add(new SelectItem(name, name));
-                //  }
+
             }
         } else {
             for (String name : DatePeriod.getDatePeriodNames()) {
@@ -4009,12 +3934,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             List<JobCostingAndPayment> results = JobCostingAndPayment.findAllJobCostingAndPaymentsByDepartmentAndName(em,
                     getUser().getEmployee().getDepartment().getName(), query);
 
-            closeEntityManager(em);
-
             return results;
 
         } catch (Exception e) {
-            closeEntityManager(em);
             System.out.println(e);
 
             return new ArrayList<>();
@@ -4028,12 +3950,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             em = getEntityManager1();
 
             List<BusinessOffice> offices = BusinessOffice.findActiveBusinessOfficesByName(em, query);
-            closeEntityManager(em);
-
+           
             return offices;
         } catch (Exception e) {
-            closeEntityManager(em);
-
+            
             System.out.println(e);
             return new ArrayList<>();
         }
@@ -4081,12 +4001,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             em = getEntityManager1();
 
             List<Classification> classifications = Classification.findActiveClassificationsByName(em, query);
-            closeEntityManager(em);
-
+           
             return classifications;
         } catch (Exception e) {
-            closeEntityManager(em);
-
+            
             System.out.println(e);
             return new ArrayList<>();
         }
@@ -4099,14 +4017,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             em = getEntityManager1();
 
             List<Department> departments = Department.findActiveDepartmentsByName(em, query);
-
-            closeEntityManager(em);
-
+           
             return departments;
 
         } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e + ": completeDepartment");
+           System.out.println(e + ": completeDepartment");
 
             return new ArrayList<>();
         }
@@ -4120,13 +4035,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             List<String> preferenceValues = Preference.findAllPreferenceValues(em, query);
 
-            closeEntityManager(em);
-
             return preferenceValues;
 
         } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
+           System.out.println(e);
 
             return new ArrayList<>();
         }
@@ -4140,12 +4052,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             List<DepartmentUnit> departmentUnits = DepartmentUnit.findDepartmentUnitsByName(em, query);
 
-            closeEntityManager(em);
-
             return departmentUnits;
 
         } catch (Exception e) {
-            closeEntityManager(em);
             System.out.println(e);
 
             return new ArrayList<>();
@@ -4160,12 +4069,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             List<Laboratory> laboratories = Laboratory.findLaboratoriesByName(em, query);
 
-            closeEntityManager(em);
-
             return laboratories;
 
         } catch (Exception e) {
-            closeEntityManager(em);
             System.out.println(e);
 
             return new ArrayList<>();
@@ -4179,15 +4085,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             em = getEntityManager1();
             List<Employee> employees = Employee.findActiveEmployeesByName(em, query);
-            closeEntityManager(em);
-
+            
             if (employees != null) {
                 return employees;
             } else {
                 return new ArrayList<>();
             }
         } catch (Exception e) {
-            closeEntityManager(em);
             System.out.println(e);
             return new ArrayList<>();
         }
@@ -4206,12 +4110,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 suggestions.add(client.getCustomerName());
             }
 
-            closeEntityManager(em2);
-
             return suggestions;
         } catch (Exception e) {
-            closeEntityManager(em2);
-
+            
             System.out.println(e);
 
             return new ArrayList<>();
@@ -4226,8 +4127,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             return AccPacCustomer.findAccPacCustomersByName(em2, query);
         } catch (Exception e) {
-            closeEntityManager(em2);
-
+            
             System.out.println(e);
             return new ArrayList<>();
         }
@@ -4237,6 +4137,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
      * This method is used for test purposes. The content of which is to be
      * commented out when not in use. This is code is typically run after doing
      * a job search.
+     *
+     * @param em
      */
     public void runTestCode(EntityManager em) {
     }
@@ -4276,8 +4178,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         // when no longer needed.
         runTestCode(em);
 
-        closeEntityManager(em);
-
         // Reset select selected job id to allow new selection
         selectedJobId = 0L;
     }
@@ -4304,8 +4204,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             jobReportSearchResultList = new ArrayList<>();
         }
 
-        closeEntityManager(em);
-
         return jobReportSearchResultList;
 
     }
@@ -4319,8 +4217,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         List<Classification> classifications = Classification.findAllActiveClassifications(em);
 
-        closeEntityManager(em);
-
         return classifications;
     }
 
@@ -4329,17 +4225,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         List<Sector> sectors = Sector.findAllActiveSectors(em);
 
-        closeEntityManager(em);
-
         return sectors;
     }
-    
+
     public List<Address> getClientAddresses() {
         EntityManager em = getEntityManager1();
 
         List<Address> addresses = getCurrentJob().getClient().getAddresses();
-
-        closeEntityManager(em);
 
         return addresses;
     }
@@ -4349,8 +4241,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         List<JobCategory> categories = JobCategory.findAllActiveJobCategories(em);
 
-        closeEntityManager(em);
-
         return categories;
     }
 
@@ -4359,8 +4249,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         List<JobSubCategory> subCategories = JobSubCategory.findAllActiveJobSubCategories(em);
 
-        closeEntityManager(em);
-
         return subCategories;
     }
 
@@ -4368,8 +4256,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         EntityManager em = getEntityManager1();
 
         List<CostCode> codes = CostCode.findAllCostCodes(em);
-
-        closeEntityManager(em);
 
         return codes;
     }
@@ -4539,15 +4425,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     dirtyStatus = "";
                 }
 
-                closeEntityManager(em);
                 // build and return system info string
                 return "Current job: " + currentJob.getJobNumber() + clientName + dirtyStatus;
             } else {
                 return "";
             }
         } catch (Exception e) {
-            closeEntityManager(em);
-
+           
             System.out.println(e);
         }
 
@@ -4576,9 +4460,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 currentJob.setClassification(classification);
                 setDirty(true);
             }
-            closeEntityManager(em);
+           
         } catch (Exception e) {
-            closeEntityManager(em);
+           
             System.out.println(e);
         }
     }
@@ -4608,10 +4492,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 }
             }
 
-            closeEntityManager(em);
         } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
+           System.out.println(e);
         }
     }
 
@@ -4631,7 +4513,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             System.out.println(e);
         }
 
-        closeEntityManager(em);
     }
 
     public void updateCurrentUnitCostDepartmentUnit() {
@@ -4650,7 +4531,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             System.out.println(e);
         }
 
-        closeEntityManager(em);
     }
 
     public void updateCurrentUnitCostDepartmentLab() {
@@ -4671,7 +4551,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             System.out.println(e);
         }
 
-        closeEntityManager(em);
     }
 
     public void updateUnitCostDepartment() {
@@ -4687,9 +4566,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 }
             }
 
-            closeEntityManager(em);
         } catch (Exception e) {
-            closeEntityManager(em);
             System.out.println(e);
         }
     }
@@ -4707,10 +4584,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 }
             }
 
-            closeEntityManager(em);
         } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
+             System.out.println(e);
         }
     }
 
@@ -4727,10 +4602,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 updateJobReport();
             }
 
-            closeEntityManager(em);
         } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
+             System.out.println(e);
         }
     }
 
@@ -4753,10 +4626,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 }
             }
 
-            closeEntityManager(em);
-        } catch (Exception e) {
-            closeEntityManager(em);
-            //currentJob.setSubContractedDepartment(null);
+        } catch (Exception e) {            
             currentJob.setJobNumber(getCurrentJobNumber());
             System.out.println(e + ": updateSubContractedDepartment");
         }
@@ -4780,17 +4650,15 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 }
             }
 
-            closeEntityManager(em);
         } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
+             System.out.println(e);
         }
     }
 
     public void updateAccPacClient() {
 
         setShowPrepayments(false);
-        //accPacCustomerDocuments = new ArrayList<>();
+        
         filteredAccPacCustomerDocuments = new ArrayList<>();
 
         try {
@@ -4813,29 +4681,12 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
      */
     public void updateJobEntryTabClient() {
         // Create copy of existing client
-//        EntityManager em = getEntityManager1();
-//
-//        Client client = Client.findActiveClientByName(em, currentJob.getClient().getName(), true);
-//        if (client != null) {
-//            // Use active 
-//            if (getUser().getPrivilege().getCanAddClient()) {
-//                currentJob.setClient(client);
-//            } else {
-//                currentJob.getClient().doCopy(client);
-//                currentJob.getClient().setActive(false);
-//            }
-//        } 
-//        else { // Ensure only existing clients are entered
-//            currentJob.getClient().doCopy(new Client("", false));
-//        }
-//
+
         accPacCustomer.setCustomerName(currentJob.getClient().getName());
         if (useAccPacCustomerList) {
             updateCreditStatus(null);
         }
-//
-//        // Set default billing address if it's available
-//        getCurrentJob().setBillingAddress(getCurrentJob().getClient().getBillingAddress());
+
         setDirty(true);
     }
 
@@ -4964,8 +4815,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         currentJob.getJobStatusAndTracking().setAlertDate(null);
         setDirty(true);
-
-        closeEntityManager(em);
     }
 
     public void updateReportEmployee() {
@@ -4974,10 +4823,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         try {
             reportEmployee = Employee.findEmployeeByName(em, getReportEmployee().getName());
 
-            closeEntityManager(em);
         } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
+             System.out.println(e);
         }
 
     }
@@ -5000,7 +4847,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             selectedJobCostingTemplate = null;
 
-            closeEntityManager(em);
         }
     }
 
@@ -5026,8 +4872,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void updateSampledBy() {
         EntityManager em = getEntityManager1();
-        selectedJobSample.setSampledBy(Employee.findEmployeeByName(em, selectedJobSample.getSampledBy().getName()));
-        closeEntityManager(em);
+        selectedJobSample.setSampledBy(Employee.findEmployeeByName(em, selectedJobSample.getSampledBy().getName()));       
     }
 
     public void updateReceivedBy() {
@@ -5046,10 +4891,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 }
             }
 
-            closeEntityManager(em);
         } catch (Exception e) {
-            closeEntityManager(em);
-            System.out.println(e);
+             System.out.println(e);
         }
     }
 
@@ -5094,11 +4937,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         clientManager.createNewClient();
         clientManager.setUser(getUser());
         clientManager.setClientOwner(currentJob);
-        //clientManager.setBillingAddress(clientManager.getClient().getBillingAddress());
+        clientManager.setBillingAddress(clientManager.getClient().getBillingAddress());
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-        clientManager.setExternalEntityManagerFactory(EMF1);
-        //clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
+        clientManager.setExternalEntityManagerFactory(EMF1);        
         getMain().openDialog(null, "clientForm", true, true, true, 420, 600);
     }
 
@@ -5111,9 +4953,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
-        //clientManager.setComponentsToUpdate(":jobDialogForm:jobFormTabView:client,:jobDialogForm:jobFormTabView:billingAddress,:jobDialogForm:jobFormTabView:clientContact");
-        // mainTabViewForm
-        //clientManager.setComponentsToUpdate(":mainTabViewForm:mainTabView:jobFormTabView:client");
         getMain().openDialog(null, "clientForm", true, true, true, 420, 600);
     }
 
@@ -5217,7 +5056,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     public JobCostingAndPayment createJobCostingAndPayment() {
         JobCostingAndPayment jobCostingAndPayment = new JobCostingAndPayment();
 
-        //jobCostingAndPayment.setCostingDate(new Date());
         jobCostingAndPayment.setPurchaseOrderNumber("");
         jobCostingAndPayment.setReceiptNumber("");
 
@@ -5231,7 +5069,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             Boolean copySamples) {
         Job job = new Job();
 
-        // client        
+         
         job.setClient(new Client("", false));
         setIsJobToBeCopied(true);
 
@@ -5240,8 +5078,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         job.setBusinessOffice(currentJob.getBusinessOffice());
         job.setDepartment(currentJob.getDepartment());
-        job.setSubContractedDepartment(getDefaultDepartment(em, "--"));
-        //job.setAssignedTo(Employee.getDefaultEmployee(em, "--", "--"));
+        job.setSubContractedDepartment(getDefaultDepartment(em, "--"));        
         job.setClassification(Classification.findClassificationByName(em, "--"));
         job.setSector(Sector.findSectorByName(em, "--"));
         job.setJobCategory(JobCategory.findJobCategoryByName(em, "--"));
@@ -5416,9 +5253,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
      * @return
      */
     public Long saveClient(EntityManager em, Client client) {
-//        if (client.getBillingAddress() != null) {
-//            BusinessEntityUtils.saveBusinessEntity(em, client.getBillingAddress());
-//        }
         return BusinessEntityUtils.saveBusinessEntity(em, client);
     }
 
@@ -5471,8 +5305,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             departmentCode = "?";
         }
         // include the sequence number if it is valid
-        if (jobSequenceNumber != 0) {
-            //sequenceNumber = job.getJobSequenceNumber().toString();
+        if (jobSequenceNumber != 0) {          
             jobSequenceNumberStr = getFourDigitString(jobSequenceNumber);
         }
 
@@ -5646,7 +5479,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         String sequenceNumber;
         String subContractedDepartmenyOrCompanyCode;
 
-        //updateDepartments(job, em);
         if (job.getAutoGenerateJobNumber() != false) {
 
             departmentOrCompanyCode = job.getDepartment().getSubGroupCode().equals("") ? "?" : job.getDepartment().getSubGroupCode();
@@ -5756,8 +5588,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             Date endDate) {
 
         List<DatePeriodJobReportColumnData> data = null;
-        //List<DatePeriodJobReportColumnData> dataSortedByEarningType = new ArrayList<DatePeriodJobReportColumnData>();
-
+        
         String searchQuery
                 = "SELECT NEW jm.com.dpbennett.utils.DatePeriodJobReportColumnData"
                 + "("
@@ -5846,9 +5677,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             Date endDate) {
 
         List<DatePeriodJobReportColumnData> data;
-        //String searchQuery = null;
+      
         String searchQuery
-                = //searchQuery =
+                = 
                 "SELECT NEW jm.com.dpbennett.utils.DatePeriodJobReportColumnData"
                 + "("
                 + "job"
@@ -6230,15 +6061,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public ByteArrayInputStream createExcelMonthlyReportFileInputStream(
-            File reportFile,
-            //DatePeriod reportDatePeriod,
+            File reportFile,           
             Long departmentId) {
 
         try {
             FileInputStream inp = new FileInputStream(reportFile);
             int row = 2;
-            //int cell = 0;
-
+            
             XSSFWorkbook wb = new XSSFWorkbook(inp);
 
             XSSFCellStyle stringCellStyle = wb.createCellStyle();
@@ -6928,7 +6757,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             EntityManager em,
             JobManagerUser user,
             Long jobId,
-            String filePath /*URL url*/) {
+            String filePath) {
         try {
 
             Job job = Job.findJobById(em, jobId);
@@ -7577,8 +7406,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     "java.util.Date", dataCellStyle);
 
             // BALANCE (amount due) 
-            dataCellStyle = getDefaultCellStyle(wb);
-            //dataCellStyle.setBorderBottom((short) 1);
+            dataCellStyle = getDefaultCellStyle(wb);          
             dataCellStyle.setFont(defaultFont);
             dataCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
