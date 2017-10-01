@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <p:commandButton title="Add new user"                                  
+                     value="New"                                                     
+                     actionListener="#{systemManager.createNewUser}"
+                     onstart="longProcessDialogVar.show();"
+                     oncomplete="longProcessDialogVar.hide();"
+                     onerror="connectionErrorDialog.show();"
+                     global="true"
+                     process="@this"
+                     icon="ui-icon ui-icon-plus"/>
+    <hr/>
+    <p:outputPanel>                                
+        <p:inputText id="userSearchText" 
+                     autocomplete="false"
+                     value="#{systemManager.userSearchText}"
+                     style="width:150px" placeholder="Enter any part of name">
+            <p:ajax event="keyup"
+                    global="false"
+                    onstart="longProcessDialogVar.show();" 
+                    oncomplete="longProcessDialogVar.hide();"
+                    update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
+                    listener="#{systemManager.doUserSearch}"
+                    process="@this"/>                                   
+        </p:inputText>                               
+    </p:outputPanel>
+    <hr/>
+    <p:dataTable id="usersTable"                                       
+                 var="user"                                        
+                 paginator="true"
+                 rows="15"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{systemManager.foundUsers}">
+        <f:facet name="header">
+            Users
+        </f:facet>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Username"/>
+            </f:facet>
+            <h:outputText value="#{user.username}" />
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Firstname"/>
+            </f:facet>
+            <h:outputText value="#{user.employeeFirstname}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Lastname"/>
+            </f:facet>
+            <h:outputText value="#{user.employeeLastname}"/>
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Status"/>
+            </f:facet>
+            <h:outputText value="#{user.status}">
+                <f:convertDateTime timeStyle="long" timeZone="America/Jamaica" pattern="MMM dd, yyyy, h:mm:ss"/>
+            </h:outputText>
+        </p:column>     
+        <p:column style="width:32px">
+            <p:commandButton title="View/Edit"  
+                             actionListener="#{systemManager.editUser}"
+                             onstart="longProcessDialogVar.show();"
+
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{user}"                                                                    
+                                             target="#{systemManager.selectedUser}" />
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:usersTable"/>
+            </p:commandButton>           
+        </p:column>
+
+    </p:dataTable>              
+
+</html>
+
+

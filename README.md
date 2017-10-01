@@ -11,6 +11,10 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
+- Clean up and organize xhml files. Put client related files in client folder.
+- Make system admin tab closable which stays close even when screen is refreshed.
+- Check why billing address was not filled in when new job was created and
+  client selected. Test with Fantana Limited...set address and contact in updateJobEntryTabClient()
 - Do validation of all fields with validators and just do save when done. 
   ie don't do validation when saving. 
 - Don't let save confirmation dialog save. Just let it ask to close the job form
@@ -137,6 +141,8 @@ by other apps?
 
 ### System Design
 #### Design
+- Revisit admin dialogs and fix autocomplete scroll height, converters and validators.
+  Ensure the prevention of creating duplicate objects such as employees with the same name.
 - Move all "save and create" methods from JobManager to their respective entities
 - Change discount combobox to a menu.
 - Create Home screen showing user's jobs, departmental job etc.
@@ -174,6 +180,11 @@ by other apps?
 - Implement display of message when converter fails.
 - Implement dynamically hide/show "Jobs" tab based on search. Allow closing the
   tab.
+- Use the "Advanced Search" panel for other purposes depending on what is selected
+  in the "Central" layout unit. Change the heading from "Advanced Search" to 
+  reflect its purpose.
+- Implement "Quick Search" for data list tables. Collapse "Advanced Search" for
+  for tabs that does not use advance search.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

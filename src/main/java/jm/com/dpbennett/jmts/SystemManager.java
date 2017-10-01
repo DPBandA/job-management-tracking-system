@@ -525,7 +525,6 @@ public class SystemManager implements Serializable {
     }
 
     public void editUser() {
-        System.out.println("user before dialog: " + getSelectedUser().getUsername()); //tk
         getMain().openDialog(getSelectedUser(), "userDialog", true, true, true, 420, 600);
     }
 

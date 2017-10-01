@@ -96,7 +96,7 @@
             <ui:include src="jmts/saveConfirmationDialogs.xhtml"/>    
 
             <ui:include src="common/preferencesDialog.xhtml"/>   
-            <ui:include src="common/cashPaymentDialog.xhtml"/>
+            <ui:include src="finance/cashPaymentDialog.xhtml"/>
         </ui:insert>      
 
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
@@ -106,43 +106,33 @@
                           rendered="true" 
                           size="75"                          
                           header="" >
-                <h:form id="headerForm">                      
+                <h:form id="headerForm">    
+                    <h:panelGrid width="100%" border="0" columns="3">
+                        <p:graphicImage rendered="#{main.renderUserMenu()}" 
+                                        value="images/Logo.jpg"/>
+                        <h:outputText value="Job Management &amp; Tracking System"
+                                      rendered="#{main.renderUserMenu()}" 
+                                      style="color: gray; font-size: 14pt; font-weight: bold" />                       
+                        <p:menuButton value="#{main.user.employee.firstName} #{main.user.employee.lastName}"     
+                                      style="float: right;"
+                                      rendered="#{main.renderUserMenu()}">
+                            <p:menuitem actionListener="#{jobManager.editPreferences}"
+                                        onstart="longProcessDialogVar.show();"
+                                        update=":preferencesDialogForm"
+                                        oncomplete="longProcessDialogVar.hide();preferencesDialog.show();"
+                                        onerror="connectionErrorDialog.show();"    
+                                        value="Preferences"
+                                        process="@this"/>
+                            <p:separator />  
+                            <p:menuitem actionListener="#{main.logout}"
+                                        onstart="longProcessDialogVar.show();"                                               
+                                        onerror="connectionErrorDialog.show();"                                              
+                                        icon="ui-icon-circle-arrow-w"
+                                        value="Logout"
+                                        process="@this"/>
+                        </p:menuButton>   
 
-                    <table border="0" width="100%">
-                        <tr>
-                            <td>                                
-                                <p:graphicImage rendered="#{main.renderUserMenu()}" 
-                                                value="images/Logo.jpg"/>
-                            </td>
-
-                            <td align="left">
-                                <h:outputText value="Job Management &amp; Tracking System"
-                                              rendered="#{main.renderUserMenu()}" 
-                                              style="color: gray; font-size: 14pt; font-weight: bold" />
-                            </td>
-
-                            <td align="right">
-                                <p:menuButton value="#{main.user.employee.firstName} #{main.user.employee.lastName}" 
-                                              rendered="#{main.renderUserMenu()}">
-                                    <p:menuitem actionListener="#{jobManager.editPreferences}"
-                                                onstart="longProcessDialogVar.show();"
-                                                update=":preferencesDialogForm"
-                                                oncomplete="longProcessDialogVar.hide();preferencesDialog.show();"
-                                                onerror="connectionErrorDialog.show();"    
-                                                value="Preferences"
-                                                process="@this"/>
-                                    <p:separator />  
-                                    <p:menuitem actionListener="#{main.logout}"
-                                                onstart="longProcessDialogVar.show();"                                               
-                                                onerror="connectionErrorDialog.show();"                                              
-                                                icon="ui-icon-circle-arrow-w"
-                                                value="Logout"
-                                                process="@this"/>
-                                </p:menuButton>                               
-                            </td>                            
-
-                        </tr>
-                    </table>
+                    </h:panelGrid>
 
                     <p:remoteCommand name="updateHeaderForm"
                                      update="headerForm"
@@ -155,7 +145,7 @@
                           position="center">
 
                 <h:form id="mainTabViewForm">
-                    
+
                     <p:defaultCommand target=":mainTabViewForm:mainTabView:doNothingButton" />
 
                     <p:tabView id="mainTabView"
@@ -176,126 +166,15 @@
                                closable="false"
                                title="#{jobManager.user.jobTableViewPreference}"
                                rendered="#{main.user.jobManagementAndTrackingUnit}" >
-                            <p:toolbar id="jobsToolbar">
-                                <p:toolbarGroup align="left" >   
-                                                                         
-                                    <p:commandButton
-                                        id="createNewJobButton"
-                                        actionListener="#{jobManager.createNewJob}"
-                                        global="true"
-                                        rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
-                                        onstart="longProcessDialogVar.show();"
-                                        oncomplete="longProcessDialogVar.hide();"
-                                        onerror="connectionErrorDialog.show();"
-                                        value="New"                                       
-                                        title="Create new job"
-                                        icon="ui-icon-plusthick"
-                                        process="@this"/>                                  
-                                    
-                                    <p:commandButton
-                                        id="doNothingButton"
-                                        style="visibility: hidden;"
-                                        global="false"                                        
-                                        value=""                                       
-                                        title=""                                       
-                                        process="@this"/>       
-
-                                    <p:commandButton value="Approved"                                                    
-                                                     ajax="true"
-                                                     title="Mark the selected job costing as being approved"
-                                                     style="width: 150px"  
-                                                     rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
-                                                     actionListener="#{jobManager.approveSelectedJobCostings}"
-                                                     update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
-                                                     onstart="longProcessDialogVar2.show();" 
-                                                     oncomplete="longProcessDialogVar2.hide();">                                                                                    
-                                    </p:commandButton>
-                                    <p:spacer height="0" width="10"  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"/>
-                                    <p:commandButton value="Invoiced"                                                    
-                                                     ajax="true"
-                                                     title="Mark the selected job costing as being invoiced"
-                                                     style="width: 150px"  
-                                                     rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
-                                                     actionListener="#{jobManager.invoiceSelectedJobCostings}"
-                                                     update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
-                                                     onstart="longProcessDialogVar2.show();" 
-                                                     oncomplete="longProcessDialogVar2.hide();">                                                                                    
-                                    </p:commandButton>
-
-                                    <ui:remove>
-                                        <p:commandButton value="Export"
-                                                         id="export1"
-                                                         ajax="false"
-                                                         title="Export the selected job costings"
-                                                         style="width: 150px"  
-                                                         rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
-                                                         actionListener="#{jobManager.updateSelectedJobCostings}"
-                                                         update="longProgressDialogForm"
-                                                         onclick="longProcessDialogVar2.show();" >                                        
-                                            <p:fileDownload value="#{jobManager.jobReportFile}" />                                        
-                                        </p:commandButton>
-                                    </ui:remove>
-
-                                    <p:spacer height="0" width="200"  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"/>
-                                    <p:commandButton
-                                        value="Reports/Queries"
-                                        actionListener="#{jobManager.initJobReport}"
-                                        onstart="longProcessDialogVar.show();"
-                                        update=":reportingDialogForm"
-                                        rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
-                                        oncomplete="reportingDialog.show();"
-                                        onerror="connectionErrorDialog.show();"
-                                        title="Generate, view and export reports"
-                                        icon="ui-icon-newwin"
-                                        process="@this"/>
-
-                                    <ui:remove>
-                                        <p:inputText value="#{jobManager.searchText}"
-                                                     rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"/>
-                                        <p:spacer height="0" width="10"  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"/>
-                                        <p:commandButton
-                                            value="Search"                                       
-                                            title="Search"
-                                            icon="ui-icon-search"
-                                            rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
-                                            process="@this"/>
-                                    </ui:remove>
-
-                                </p:toolbarGroup>
-
-                                <p:toolbarGroup align="right" >                                   
-                                    <p:menuButton id="toolsButton" value="Tools" >
-                                        <p:menuitem actionListener="#{jobManager.updateAccPacClient}"
-                                                    onstart="longProcessDialogVar.show();"                                                    
-                                                    value="Client credit status"
-                                                    update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
-                                                    oncomplete="accPacClientInformationDialog.show();longProcessDialogVar.hide();"
-                                                    onerror="connectionErrorDialog.show();"
-                                                    process="@this"/>
-                                        <p:separator/>
-
-                                        <p:menuitem value="Client database"
-                                                    onstart="longProcessDialogVar.show();"                                                    
-                                                    actionListener="#{jobManager.openClientDatabaseDialog}"
-
-                                                    oncomplete="longProcessDialogVar.hide();"
-                                                    process="@this"
-                                                    title="Client database form"/>
-                                    </p:menuButton>                                    
-
-                                </p:toolbarGroup>
-                            </p:toolbar>   
-
-                            <ui:insert>
-                                <ui:include src="jmts/jobsDatabaseTable.xhtml"/>
-                            </ui:insert>                      
+                            <ui:insert >       
+                                <ui:include src="jmts/jobsTab.xhtml"/>                                     
+                            </ui:insert>       
                         </p:tab>         
 
                         <p:tab id="jobDetailTab" 
                                title="Job Detail - #{jobManager.currentJob.jobNumber}"
                                rendered="#{jobManager.renderJobDetailTab}"
                                closable="true">
-
                             <ui:insert >       
                                 <ui:include src="jmts/jobDetail.xhtml"/>                                     
                             </ui:insert>
@@ -304,689 +183,19 @@
                         <p:tab id="FinancialAdminTab" title="Financial Administration"
                                closable="false" 
                                rendered="#{main.user.financialAdminUnit}">  
-                            <p:outputPanel>                                
-                                <p:inputText value="#{systemManager.systemOptionSearchText}"                                             
-                                             style="width:250px" placeholder="Enter any part of option description">
-                                    <p:ajax event="keyup"
-                                            global="false"
-                                            onstart="longProcessDialogVar.show();" 
-                                            oncomplete="longProcessDialogVar.hide();"
-                                            update=":mainTabViewForm:mainTabView:financialSystemOptionsTable"
-                                            listener="#{systemManager.doFinancialSystemOptionSearch}"
-                                            process="@this"/>
-                                </p:inputText>
-
-                            </p:outputPanel>
-                            <hr/>
-                            <p:dataTable id="financialSystemOptionsTable"                                       
-                                         var="systemOption"     
-                                         editable="true" 
-                                         editMode="cell"
-                                         paginator="true"
-                                         rows="15"
-                                         widgetVar="systemOptionsTableVar"
-                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                         value="#{systemManager.foundFinancialSystemOptions}">
-
-                                <p:ajax event="cellEdit" listener="#{systemManager.onFinancialSystemOptionCellEdit}" />
-
-                                <f:facet name="header">
-                                    Financial Settings
-                                </f:facet>
-
-                                <p:column headerText="Description">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <h:outputText value="#{systemOption.comments}" /></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{systemOption.comments}" style="width:96%"/></f:facet>
-                                    </p:cellEditor>                                           
-                                </p:column>   
-
-                                <p:column headerText="Value">
-                                    <p:cellEditor>
-                                        <f:facet name="output"> <h:outputText value="#{systemOption.optionValue}" /></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{systemOption.optionValue}" style="width:96%"/></f:facet>
-                                    </p:cellEditor>                                         
-                                </p:column>   
-
-                                <p:column style="width:32px">
-                                    <p:commandButton title="View/Edit"   
-                                                     actionListener="#{systemManager.editSystemOption}"
-                                                     onstart="longProcessDialogVar.show();"                                                                    
-                                                     onerror="connectionErrorDialog.show();"
-                                                     global="true"
-                                                     process="@this"
-                                                     icon="ui-icon ui-icon-pencil">
-                                        <f:setPropertyActionListener value="#{systemOption}"                                                                    
-                                                                     target="#{systemManager.selectedSystemOption}" />
-                                    </p:commandButton>           
-                                </p:column>
-                            </p:dataTable> 
+                            <ui:insert >       
+                                <ui:include src="admin/financialAdminTab.xhtml"/>                                     
+                            </ui:insert>
                         </p:tab>
 
 
                         <p:tab id="AdminTab" title="System Administration"
                                closable="false" 
                                rendered="#{main.user.renderAdminUnit}">  
-                            <p:tabView id="centerTabView"
-                                       widgetVar="centerTabVar"                              
-                                       dynamic="true">
-                                <p:tab id="UsersTab" title="Users">
-                                    <p:commandButton title="Add new user"                                  
-                                                     value="New"                                                     
-                                                     actionListener="#{systemManager.createNewUser}"
-                                                     onstart="longProcessDialogVar.show();"
-                                                     oncomplete="longProcessDialogVar.hide();"
-                                                     onerror="connectionErrorDialog.show();"
-                                                     global="true"
-                                                     process="@this"
-                                                     icon="ui-icon ui-icon-plus"/>
-                                    <hr/>
-                                    <p:outputPanel>                                
-                                        <p:inputText id="userSearchText" 
-                                                     autocomplete="false"
-                                                     value="#{systemManager.userSearchText}"
-                                                     style="width:150px" placeholder="Enter any part of name">
-                                            <p:ajax event="keyup"
-                                                    global="false"
-                                                    onstart="longProcessDialogVar.show();" 
-                                                    oncomplete="longProcessDialogVar.hide();"
-                                                    update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
-                                                    listener="#{systemManager.doUserSearch}"
-                                                    process="@this"/>                                   
-                                        </p:inputText>                               
-                                    </p:outputPanel>
-                                    <hr/>
-                                    <p:dataTable id="usersTable"                                       
-                                                 var="user"                                        
-                                                 paginator="true"
-                                                 rows="15"
-                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                 value="#{systemManager.foundUsers}">
-                                        <f:facet name="header">
-                                            Users
-                                        </f:facet>
-
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Username"/>
-                                            </f:facet>
-                                            <h:outputText value="#{user.username}" />
-                                        </p:column>
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Firstname"/>
-                                            </f:facet>
-                                            <h:outputText value="#{user.employeeFirstname}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Lastname"/>
-                                            </f:facet>
-                                            <h:outputText value="#{user.employeeLastname}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Status"/>
-                                            </f:facet>
-                                            <h:outputText value="#{user.status}">
-                                                <f:convertDateTime timeStyle="long" timeZone="America/Jamaica" pattern="MMM dd, yyyy, h:mm:ss"/>
-                                            </h:outputText>
-                                        </p:column>     
-                                        <p:column style="width:32px">
-                                            <p:commandButton title="View/Edit"  
-                                                             actionListener="#{systemManager.editUser}"
-                                                             onstart="longProcessDialogVar.show();"
-
-                                                             onerror="connectionErrorDialog.show();"
-                                                             global="true"
-                                                             process="@this"
-                                                             icon="ui-icon ui-icon-pencil">
-                                                <f:setPropertyActionListener value="#{user}"                                                                    
-                                                                             target="#{systemManager.selectedUser}" />
-                                                <p:ajax event="dialogReturn" 
-                                                        update=":mainTabViewForm:mainTabView:centerTabView:usersTable"/>
-                                            </p:commandButton>           
-                                        </p:column>
-
-                                    </p:dataTable>                           
-                                </p:tab>
-                                <p:tab id="employeesTab" title="Employees">
-                                    <p:commandButton title="Add new employee"                                  
-                                                     value="New"
-                                                     actionListener="#{systemManager.createNewEmployee}"
-                                                     onstart="longProcessDialogVar.show();"
-                                                     oncomplete="longProcessDialogVar.hide();"
-                                                     onerror="connectionErrorDialog.show();"
-                                                     global="true"
-                                                     process="@this"
-                                                     icon="ui-icon ui-icon-plus"/>
-                                    <hr/>
-                                    <p:outputPanel>                                
-                                        <p:inputText id="employeeSearchText" 
-                                                     value="#{systemManager.employeeSearchText}"
-                                                     style="width:150px" placeholder="Enter any part of name">
-                                            <p:ajax event="keyup"
-                                                    global="false"
-                                                    onstart="longProcessDialogVar.show();" 
-                                                    oncomplete="longProcessDialogVar.hide();"
-                                                    update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"
-                                                    listener="#{systemManager.doEmployeeSearch}"
-                                                    process="@this"/>
-                                        </p:inputText>
-
-                                    </p:outputPanel>
-                                    <hr/>
-                                    <p:dataTable id="employeesTable"                                       
-                                                 var="employee"                                        
-                                                 paginator="true"
-                                                 rows="15"
-                                                 widgetVar="employeesTableVar"
-                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                 filteredValue="#{systemManager.foundEmployees}">
-
-
-                                        <f:facet name="header">
-                                            Employees
-                                        </f:facet>
-
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Rec. ID"/>
-                                            </f:facet>
-                                            <h:outputText value="#{employee.id}" />
-                                        </p:column>
-
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Firstname"/>
-                                            </f:facet>
-                                            <h:outputText value="#{employee.firstName}" />
-                                        </p:column>
-
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Lastname"/>
-                                            </f:facet>
-                                            <h:outputText value="#{employee.lastName}" />
-                                        </p:column>
-
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Business Office"/>
-                                            </f:facet>
-                                            <h:outputText value="#{employee.businessOffice.name}" />
-                                        </p:column>
-
-                                        <p:column style="width:32px">
-                                            <p:commandButton title="View/Edit"   
-                                                             actionListener="#{systemManager.editEmployee}"
-                                                             onstart="longProcessDialogVar.show();"
-                                                             onerror="connectionErrorDialog.show();"
-                                                             global="true"
-                                                             process="@this"
-                                                             icon="ui-icon ui-icon-pencil">
-                                                <f:setPropertyActionListener value="#{employee}"                                                                    
-                                                                             target="#{systemManager.selectedEmployee}" />
-                                                <p:ajax event="dialogReturn" 
-                                                        update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"/>
-                                            </p:commandButton>           
-                                        </p:column>
-
-
-                                    </p:dataTable>
-                                </p:tab>
-                                <p:tab id="departmentsTab" title="Departments">
-                                    <p:commandButton title="Add new department"                                  
-                                                     value="New"
-                                                     actionListener="#{systemManager.createNewDepartment}"
-                                                     onstart="longProcessDialogVar.show();"
-                                                     oncomplete="longProcessDialogVar.hide();"
-                                                     onerror="connectionErrorDialog.show();"
-                                                     global="true"
-                                                     process="@this"
-                                                     icon="ui-icon ui-icon-plus"/>
-                                    <hr/>
-                                    <p:outputPanel>                                
-                                        <p:inputText id="departmentSearchText" 
-                                                     value="#{systemManager.departmentSearchText}"
-                                                     style="width:150px" placeholder="Enter any part of name">
-                                            <p:ajax event="keyup"
-                                                    global="false"
-                                                    onstart="longProcessDialogVar.show();" 
-                                                    oncomplete="longProcessDialogVar.hide();"
-                                                    update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
-                                                    listener="#{systemManager.doDepartmentSearch}"
-                                                    process="@this"/>
-                                        </p:inputText>
-
-                                    </p:outputPanel>
-                                    <hr/>
-                                    <p:dataTable id="departmentsTable"                                       
-                                                 var="department"                                        
-                                                 paginator="true"
-                                                 rows="15"
-                                                 widgetVar="departmentsTableVar"
-                                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                 filteredValue="#{systemManager.foundDepartments}">
-
-                                        <f:facet name="header">
-                                            Departments
-                                        </f:facet>
-
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Code"/>
-                                            </f:facet>
-                                            <h:outputText value="#{department.subGroupCode}" />
-                                        </p:column>
-
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Name"/>
-                                            </f:facet>
-                                            <h:outputText value="#{department.name}" />
-                                        </p:column>                          
-
-                                        <p:column style="width:32px">
-                                            <p:commandButton title="View/Edit"   
-                                                             actionListener="#{systemManager.editDepartment}"
-                                                             onstart="longProcessDialogVar.show();"
-                                                             onerror="connectionErrorDialog.show();"
-                                                             global="true"
-                                                             process="@this"
-                                                             icon="ui-icon ui-icon-pencil">
-                                                <f:setPropertyActionListener value="#{department}"                                                                    
-                                                                             target="#{systemManager.selectedDepartment}" />
-                                                <p:ajax event="dialogReturn" 
-                                                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
-                                            </p:commandButton>           
-                                        </p:column>
-
-                                    </p:dataTable>
-                                </p:tab>  
-
-                                <p:tab id="dataListsTab" title="Data Lists">                                    
-                                    <p:tabView id="dataListsTabView"                                                                
-                                               dynamic="true">                                         
-                                        <p:tab title="Classifications">
-                                            <p:commandButton title="Add new classification"                                  
-                                                             value="New"
-                                                             actionListener="#{systemManager.createNewClassification}"
-                                                             onstart="longProcessDialogVar.show();"
-                                                             oncomplete="longProcessDialogVar.hide();"
-                                                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable"
-                                                             onerror="connectionErrorDialog.show();"
-                                                             global="true"
-                                                             process="@this"
-                                                             icon="ui-icon ui-icon-plus"/>
-                                            <hr/>
-                                            <p:dataTable id="ClassificationsTable"                                       
-                                                         var="classification"     
-                                                         editable="true" 
-                                                         editMode="cell"
-                                                         paginator="true"
-                                                         rows="15"
-                                                         widgetVar="ClassificationsTableVar"
-                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                         value="#{systemManager.foundClassifications}">
-
-                                                <p:ajax event="cellEdit" listener="#{systemManager.onClassificationCellEdit}" />
-
-                                                <f:facet name="header">
-                                                    Classifications
-                                                </f:facet>
-
-                                                <p:column headerText="Name">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"> <h:outputText value="#{classification.name}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{classification.name}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                           
-                                                </p:column>   
-
-                                                <p:column headerText="Description">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{classification.description}" /></f:facet>
-                                                        <f:facet name="input"><p:inputTextarea value="#{classification.description}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                                <p:column headerText="Active">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{classification.usable}" /></f:facet>
-                                                        <f:facet name="input">
-                                                            <h:selectOneMenu value="#{classification.usable}" style="width:96%">
-                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
-                                                                <f:selectItem itemLabel="No" itemValue="No"/>
-                                                            </h:selectOneMenu>
-                                                        </f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                                <p:column headerText="Earning">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{classification.earning}" /></f:facet>
-                                                        <f:facet name="input">
-                                                            <h:selectOneMenu value="#{classification.earning}" style="width:96%">
-                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
-                                                                <f:selectItem itemLabel="No" itemValue="No"/>
-                                                            </h:selectOneMenu>
-                                                        </f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-                                            </p:dataTable>         
-                                        </p:tab>
-                                        <p:tab title="Job categories">
-                                            <p:commandButton title="Add new category"                                  
-                                                             value="New"
-                                                             actionListener="#{systemManager.createNewJobCategory}"
-                                                             onstart="longProcessDialogVar.show();"
-
-                                                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"
-                                                             onerror="connectionErrorDialog.show();"
-                                                             global="true"
-                                                             process="@this"
-                                                             icon="ui-icon ui-icon-plus"/>
-                                            <hr/>
-                                            <p:dataTable id="JobCategoriesTable"                                       
-                                                         var="jobCategory"     
-                                                         editable="true" 
-                                                         editMode="cell"
-                                                         paginator="true"
-                                                         rows="15"
-                                                         widgetVar="JobCategoriesTableVar"
-                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                         value="#{systemManager.foundJobCategories}">
-
-                                                <p:ajax event="cellEdit" listener="#{systemManager.onJobCategoryCellEdit}" />
-
-                                                <f:facet name="header">
-                                                    Job categories
-                                                </f:facet>
-
-                                                <p:column headerText="Name">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"> <h:outputText value="#{jobCategory.category}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{jobCategory.category}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                           
-                                                </p:column>   
-
-                                                <p:column headerText="Description">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{jobCategory.description}" /></f:facet>
-                                                        <f:facet name="input"><p:inputTextarea value="#{jobCategory.description}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                                <p:column headerText="Is Earning">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{jobCategory.isBillable}" /></f:facet>
-                                                        <f:facet name="input">
-                                                            <h:selectOneMenu value="#{jobCategory.isBillable}" style="width:96%">
-                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
-                                                                <f:selectItem itemLabel="No" itemValue="No"/>
-                                                            </h:selectOneMenu>
-                                                        </f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                                <p:column headerText="Active">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{jobCategory.usable}" /></f:facet>
-                                                        <f:facet name="input">
-                                                            <h:selectOneMenu value="#{jobCategory.usable}" style="width:96%">
-                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
-                                                                <f:selectItem itemLabel="No" itemValue="No"/>
-                                                            </h:selectOneMenu>
-                                                        </f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-                                            </p:dataTable>     
-                                        </p:tab>
-                                        <p:tab title="Job subcategories">
-                                            <p:commandButton title="Add new job subcategory"                                  
-                                                             value="New"
-                                                             actionListener="#{systemManager.createNewJobSubCategory}"
-                                                             onstart="longProcessDialogVar.show();"                                                            
-                                                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
-                                                             onerror="connectionErrorDialog.show();"
-                                                             global="true"
-                                                             process="@this"
-                                                             icon="ui-icon ui-icon-plus"/>
-                                            <hr/>
-                                            <p:dataTable id="JobSubcategoriesTable"                                       
-                                                         var="jobSubcategory"     
-                                                         editable="true" 
-                                                         editMode="cell"
-                                                         paginator="true"
-                                                         rows="15"
-                                                         widgetVar="JobSubcategoriesTableVar"
-                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                         value="#{systemManager.foundJobSubCategories}">
-
-                                                <p:ajax event="cellEdit" listener="#{systemManager.onJobSubCategoryCellEdit}" />
-
-                                                <f:facet name="header">
-                                                    Job subcategories
-                                                </f:facet>
-
-                                                <p:column headerText="Name">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"> <h:outputText value="#{jobSubcategory.subCategory}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{jobSubcategory.subCategory}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                           
-                                                </p:column>   
-
-                                                <p:column headerText="Description">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{jobSubcategory.description}" /></f:facet>
-                                                        <f:facet name="input"><p:inputTextarea value="#{jobSubcategory.description}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                                <p:column headerText="Is Earning">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{jobSubcategory.isBillable}" /></f:facet>
-                                                        <f:facet name="input">
-                                                            <h:selectOneMenu value="#{jobSubcategory.isBillable}" style="width:96%">
-                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
-                                                                <f:selectItem itemLabel="No" itemValue="No"/>
-                                                            </h:selectOneMenu>
-                                                        </f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                                <p:column headerText="Active">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{jobSubcategory.usable}" /></f:facet>
-                                                        <f:facet name="input">
-                                                            <h:selectOneMenu value="#{jobSubcategory.usable}" style="width:96%">
-                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
-                                                                <f:selectItem itemLabel="No" itemValue="No"/>
-                                                            </h:selectOneMenu>
-                                                        </f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-                                            </p:dataTable>     
-                                        </p:tab>
-                                        <p:tab title="Sectors">
-                                            <p:commandButton title="Add new sector"                                  
-                                                             value="New"
-                                                             actionListener="#{systemManager.createNewSector}"
-                                                             onstart="longProcessDialogVar.show();"
-                                                             oncomplete="longProcessDialogVar.hide();"
-                                                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
-                                                             onerror="connectionErrorDialog.show();"
-                                                             global="true"
-                                                             process="@this"
-                                                             icon="ui-icon ui-icon-plus"/>
-                                            <hr/>
-                                            <p:dataTable id="SectorsTable"                                       
-                                                         var="sector"     
-                                                         editable="true" 
-                                                         editMode="cell"
-                                                         paginator="true"
-                                                         rows="15"
-                                                         widgetVar="SectorsTableVar"
-                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                         value="#{systemManager.foundSectors}">
-
-                                                <p:ajax event="cellEdit" listener="#{systemManager.onSectorCellEdit}" />
-
-                                                <f:facet name="header">
-                                                    Sectors
-                                                </f:facet>
-
-                                                <p:column headerText="Name">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"> <h:outputText value="#{sector.name}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{sector.name}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                           
-                                                </p:column>   
-
-                                                <p:column headerText="Description">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{sector.description}" /></f:facet>
-                                                        <f:facet name="input"><p:inputTextarea value="#{sector.description}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                                <p:column headerText="Active" sortBy="#{sector.usable}">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"><h:outputText value="#{sector.usable}" /></f:facet>
-                                                        <f:facet name="input">
-                                                            <h:selectOneMenu value="#{sector.usable}" style="width:96%">
-                                                                <f:selectItem itemLabel="Yes" itemValue="Yes"/>
-                                                                <f:selectItem itemLabel="No" itemValue="No"/>
-                                                            </h:selectOneMenu>
-                                                        </f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-                                            </p:dataTable>              
-                                        </p:tab>                                        
-                                    </p:tabView>                                    
-                                </p:tab>
-
-                                <p:tab id="systemOptionsTab" 
-                                       title="Configuration" 
-                                       rendered="#{systemManager.main.user.privilege.canBeJMTSAdministrator}">
-                                    <p:tabView id="systemConfigurationTabView"                                                                
-                                               dynamic="true">                                         
-                                        <p:tab title="LDAP">
-                                            <p:dataTable id="LDAPTable"                                       
-                                                         var="ldap"     
-                                                         editable="true" 
-                                                         editMode="cell"
-                                                         paginator="true"
-                                                         rows="15"
-                                                         widgetVar="ldapTableVar"
-                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                         value="#{systemManager.foundLdapContexts}">
-
-                                                <p:ajax event="cellEdit" listener="#{systemManager.onLDAPCellEdit}" />
-
-                                                <f:facet name="header">
-                                                    LDAP
-                                                </f:facet>
-
-                                                <p:column headerText="Domain">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"> <h:outputText value="#{ldap.domainName}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{ldap.domainName}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                           
-                                                </p:column>   
-
-                                                <p:column headerText="Name">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"> <h:outputText value="#{ldap.name}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{ldap.name}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                                <p:column headerText="URL">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"> <h:outputText value="#{ldap.providerUrl}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{ldap.providerUrl}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                            </p:dataTable>     
-                                        </p:tab>
-                                        <p:tab title="Miscellaneous">
-                                            <p:commandButton title="Add new option"                                  
-                                                             value="New"
-                                                             actionListener="#{systemManager.createNewSystemOption}"                                                     
-                                                             onstart="longProcessDialogVar.show();"
-                                                             oncomplete="longProcessDialogVar.hide();"
-                                                             onerror="connectionErrorDialog.show();"
-                                                             global="true"
-                                                             process="@this"
-                                                             icon="ui-icon ui-icon-plus"/>
-                                            <hr/>
-                                            <p:outputPanel>                                
-                                                <p:inputText value="#{systemManager.systemOptionSearchText}"
-                                                             id="systemOptionSearchTextId"
-                                                             style="width:250px" placeholder="Enter any part of option description">
-                                                    <p:ajax event="keyup"
-                                                            global="false"
-                                                            onstart="longProcessDialogVar.show();" 
-                                                            oncomplete="longProcessDialogVar.hide();"
-                                                            update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"
-                                                            listener="#{systemManager.doSystemOptionSearch}"
-                                                            process="@this"/>
-                                                </p:inputText>
-
-                                            </p:outputPanel>
-                                            <hr/>
-                                            <p:dataTable id="systemOptionsTable"                                       
-                                                         var="systemOption"     
-                                                         editable="true" 
-                                                         editMode="cell"
-                                                         paginator="true"
-                                                         rows="15"
-                                                         widgetVar="systemOptionsTableVar"
-                                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                                         value="#{systemManager.foundSystemOptions}">
-
-                                                <p:ajax event="cellEdit" listener="#{systemManager.onSystemOptionCellEdit}" />
-
-                                                <f:facet name="header">
-                                                    System Options
-                                                </f:facet>
-
-                                                <p:column headerText="Description">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"> <h:outputText value="#{systemOption.comments}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{systemOption.comments}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                           
-                                                </p:column>   
-
-                                                <p:column headerText="Value">
-                                                    <p:cellEditor>
-                                                        <f:facet name="output"> <h:outputText value="#{systemOption.optionValue}" /></f:facet>
-                                                        <f:facet name="input"><p:inputText value="#{systemOption.optionValue}" style="width:96%"/></f:facet>
-                                                    </p:cellEditor>                                         
-                                                </p:column>   
-
-                                                <p:column style="width:32px">
-                                                    <p:commandButton title="View/Edit"   
-                                                                     actionListener="#{systemManager.editSystemOption}"
-                                                                     onstart="longProcessDialogVar.show();"                                                                    
-                                                                     onerror="connectionErrorDialog.show();"
-                                                                     global="true"
-                                                                     process="@this"
-                                                                     icon="ui-icon ui-icon-pencil">
-                                                        <f:setPropertyActionListener value="#{systemOption}"                                                                    
-                                                                                     target="#{systemManager.selectedSystemOption}" />
-                                                    </p:commandButton>           
-                                                </p:column>
-                                            </p:dataTable> 
-                                        </p:tab>                                      
-                                    </p:tabView>   
-
-                                </p:tab>
-
-                            </p:tabView>
-                        </p:tab>                        
+                            <ui:insert >       
+                                <ui:include src="admin/generalAdminTab.xhtml"/>                                     
+                            </ui:insert>
+                        </p:tab>
 
                     </p:tabView>
                 </h:form>
@@ -1003,7 +212,7 @@
 
                 <h:panelGrid columns="1">
                     <ui:insert>
-                        <ui:include src="searchForm.xhtml"/>
+                        <ui:include src="jmts/jobSearchForm.xhtml"/>
                     </ui:insert>
                 </h:panelGrid>
 

@@ -4720,6 +4720,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         if (useAccPacCustomerList) {
             updateCreditStatus(null);
         }
+        
+        currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
+        currentJob.setContact(currentJob.getClient().getMainContact());
 
         setDirty(true);
     }

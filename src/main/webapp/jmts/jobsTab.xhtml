@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <p:toolbar id="jobsToolbar">
+        <p:toolbarGroup align="left" >   
+
+            <p:commandButton
+                id="createNewJobButton"
+                actionListener="#{jobManager.createNewJob}"
+                global="true"
+                rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
+                onstart="longProcessDialogVar.show();"
+                oncomplete="longProcessDialogVar.hide();"
+                onerror="connectionErrorDialog.show();"
+                value="New"                                       
+                title="Create new job"
+                icon="ui-icon-plusthick"
+                process="@this"/>                                  
+
+            <p:commandButton
+                id="doNothingButton"
+                style="visibility: hidden;"
+                global="false"                                        
+                value=""                                       
+                title=""                                       
+                process="@this"/>       
+
+            <p:commandButton value="Approved"                                                    
+                             ajax="true"
+                             title="Mark the selected job costing as being approved"
+                             style="width: 150px"  
+                             rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
+                             actionListener="#{jobManager.approveSelectedJobCostings}"
+                             update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
+                             onstart="longProcessDialogVar2.show();" 
+                             oncomplete="longProcessDialogVar2.hide();">                                                                                    
+            </p:commandButton>
+            <p:spacer height="0" width="10"  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"/>
+            <p:commandButton value="Invoiced"                                                    
+                             ajax="true"
+                             title="Mark the selected job costing as being invoiced"
+                             style="width: 150px"  
+                             rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
+                             actionListener="#{jobManager.invoiceSelectedJobCostings}"
+                             update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
+                             onstart="longProcessDialogVar2.show();" 
+                             oncomplete="longProcessDialogVar2.hide();">                                                                                    
+            </p:commandButton>
+
+            <p:spacer height="0" width="200"  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"/>
+            <p:commandButton
+                value="Reports/Queries"
+                actionListener="#{jobManager.initJobReport}"
+                onstart="longProcessDialogVar.show();"
+                update=":reportingDialogForm"
+                rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
+                oncomplete="reportingDialog.show();"
+                onerror="connectionErrorDialog.show();"
+                title="Generate, view and export reports"
+                icon="ui-icon-newwin"
+                process="@this"/>
+
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right" >                                   
+            <p:menuButton id="toolsButton" value="Tools" >
+                <p:menuitem actionListener="#{jobManager.updateAccPacClient}"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            value="Client credit status"
+                            update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
+                            oncomplete="accPacClientInformationDialog.show();longProcessDialogVar.hide();"
+                            onerror="connectionErrorDialog.show();"
+                            process="@this"/>                
+                <ui:remove>
+                    <p:menuitem value="Client database"
+                                onstart="longProcessDialogVar.show();"                                                    
+                                actionListener="#{jobManager.openClientDatabaseDialog}"
+
+                                oncomplete="longProcessDialogVar.hide();"
+                                process="@this"
+                                title="Client database form"/>
+                </ui:remove>
+            </p:menuButton>                                    
+
+        </p:toolbarGroup>
+    </p:toolbar>   
+
+    <ui:insert>
+        <ui:include src="jobsDatabaseTable.xhtml"/>
+    </ui:insert>      
+
+</html>
+
+
