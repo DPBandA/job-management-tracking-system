@@ -29,11 +29,8 @@
         <script type="text/javascript" src="../js/adminJavascript.js"/>
     </h:head>
     <h:body >  
-        <ui:insert >           
-            <ui:include src="../common/longProcessDialog.xhtml"/>  
-            <ui:include src="../common/commonDialogs.xhtml"/>           
-        </ui:insert>
-
+        <ui:include src="../common/longProcessDialog.xhtml"/>  
+        <ui:include src="../common/commonDialogs.xhtml"/>           
         <h:form id="employeeDialogForm">       
             <h:panelGrid columns="4" >
                 <p:commandButton value="Ok"
@@ -65,9 +62,9 @@
                 </h:panelGroup>
 
                 <h:outputText value="Title:" />
-                <h:selectOneMenu value="#{systemManager.selectedEmployee.title}" >
+                <p:selectOneMenu value="#{systemManager.selectedEmployee.title}" >
                     <f:selectItems value="#{systemManager.personalTitles}" />
-                </h:selectOneMenu>
+                </p:selectOneMenu>
 
                 <h:outputLabel value="Firstname *:" for="firstName"/>
                 <p:inputText value="#{systemManager.selectedEmployee.firstName}"
@@ -107,13 +104,13 @@
                                 completeMethod="#{jobManager.completeDepartment}" >                
                 </p:autoComplete>     
                 <ui:remove>
-                    <h:selectOneMenu value="#{systemManager.selectedEmployee.department.id}" >
+                    <p:selectOneMenu value="#{systemManager.selectedEmployee.department.id}" >
                         <p:ajax listener="#{systemManager.updateSelectedEmployeeDepartment}"/>
                         <f:selectItems value="#{systemManager.departments}"
                                        var="department"
                                        itemLabel="#{department.name}"
                                        itemValue="#{department.id}"/>
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
                 </ui:remove>    
 
             </h:panelGrid>

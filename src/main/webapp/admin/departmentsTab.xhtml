@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <p:commandButton title="Add new department"                                  
+                     value="New"
+                     actionListener="#{systemManager.createNewDepartment}"
+                     onstart="longProcessDialogVar.show();"
+                     oncomplete="longProcessDialogVar.hide();"
+                     onerror="connectionErrorDialog.show();"
+                     global="true"
+                     process="@this"
+                     icon="ui-icon ui-icon-plus"/>
+    <hr/>
+    <p:outputPanel>                                
+        <p:inputText id="departmentSearchText" 
+                     value="#{systemManager.departmentSearchText}"
+                     style="width:150px" placeholder="Enter any part of name">
+            <p:ajax event="keyup"
+                    global="false"
+                    onstart="longProcessDialogVar.show();" 
+                    oncomplete="longProcessDialogVar.hide();"
+                    update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
+                    listener="#{systemManager.doDepartmentSearch}"
+                    process="@this"/>
+        </p:inputText>
+
+    </p:outputPanel>
+    <hr/>
+    <p:dataTable id="departmentsTable"                                       
+                 var="department"                                        
+                 paginator="true"
+                 rows="15"
+                 widgetVar="departmentsTableVar"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 filteredValue="#{systemManager.foundDepartments}">
+
+        <f:facet name="header">
+            Departments
+        </f:facet>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Code"/>
+            </f:facet>
+            <h:outputText value="#{department.subGroupCode}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Name"/>
+            </f:facet>
+            <h:outputText value="#{department.name}" />
+        </p:column>                          
+
+        <p:column style="width:32px">
+            <p:commandButton title="View/Edit"   
+                             actionListener="#{systemManager.editDepartment}"
+                             onstart="longProcessDialogVar.show();"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{department}"                                                                    
+                                             target="#{systemManager.selectedDepartment}" />
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
+            </p:commandButton>           
+        </p:column>
+
+    </p:dataTable>
+</html>
+
+

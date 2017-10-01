@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <p:dataTable id="LDAPTable"                                       
+                 var="ldap"     
+                 editable="true" 
+                 editMode="cell"
+                 paginator="true"
+                 rows="15"
+                 widgetVar="ldapTableVar"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{systemManager.foundLdapContexts}">
+
+        <p:ajax event="cellEdit" listener="#{systemManager.onLDAPCellEdit}" />
+
+        <f:facet name="header">
+            LDAP
+        </f:facet>
+
+        <p:column headerText="Domain">
+            <p:cellEditor>
+                <f:facet name="output"> <h:outputText value="#{ldap.domainName}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{ldap.domainName}" style="width:96%"/></f:facet>
+            </p:cellEditor>                                           
+        </p:column>   
+
+        <p:column headerText="Name">
+            <p:cellEditor>
+                <f:facet name="output"> <h:outputText value="#{ldap.name}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{ldap.name}" style="width:96%"/></f:facet>
+            </p:cellEditor>                                         
+        </p:column>   
+
+        <p:column headerText="URL">
+            <p:cellEditor>
+                <f:facet name="output"> <h:outputText value="#{ldap.providerUrl}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{ldap.providerUrl}" style="width:96%"/></f:facet>
+            </p:cellEditor>                                         
+        </p:column>   
+
+    </p:dataTable>     
+</html>

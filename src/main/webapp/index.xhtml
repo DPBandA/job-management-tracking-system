@@ -82,28 +82,26 @@
             longProcessDialogVar.hide();
             mainTabViewVar.select(0);"            
             onmouseover="longProcessDialogVar.hide();">
+        <ui:include src="common/commonDialogs.xhtml" />                       
+        <ui:include src="common/loginDialog.xhtml"/>
+        <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>
+        <ui:include src="jmts/reportingDialog.xhtml"/>   
+        <ui:include src="jmts/jobSampleDialogs.xhtml"/>
+        <ui:include src="jmts/jmtsAlertDialogs.xhtml"/>
+        <ui:include src="common/generalAlertDialogs.xhtml"/>
+        <ui:include src="common/connectionErrorAlertDialog.xhtml"/>
+        <ui:include src="common/longProcessDialog.xhtml"/>   
+        <ui:include src="jmts/saveConfirmationDialogs.xhtml"/>    
 
-        <ui:insert>                 
-            <ui:include src="common/commonDialogs.xhtml" />                       
-            <ui:include src="common/loginDialog.xhtml"/>
-            <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>
-            <ui:include src="jmts/reportingDialog.xhtml"/>   
-            <ui:include src="jmts/jobSampleDialogs.xhtml"/>
-            <ui:include src="jmts/jmtsAlertDialogs.xhtml"/>
-            <ui:include src="common/generalAlertDialogs.xhtml"/>
-            <ui:include src="common/connectionErrorAlertDialog.xhtml"/>
-            <ui:include src="common/longProcessDialog.xhtml"/>   
-            <ui:include src="jmts/saveConfirmationDialogs.xhtml"/>    
-
-            <ui:include src="common/preferencesDialog.xhtml"/>   
-            <ui:include src="finance/cashPaymentDialog.xhtml"/>
-        </ui:insert>      
+        <ui:include src="common/preferencesDialog.xhtml"/>   
+        <ui:include src="finance/cashPaymentDialog.xhtml"/>
 
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
             <p:ajax event="toggle" listener="#{main.handleLayoutUnitToggle}" />
 
             <p:layoutUnit position="north" 
                           rendered="true" 
+                          style="border: 0;"
                           size="75"                          
                           header="" >
                 <h:form id="headerForm">    
@@ -148,7 +146,7 @@
 
                     <p:defaultCommand target=":mainTabViewForm:mainTabView:doNothingButton" />
 
-                    <p:tabView id="mainTabView"
+                    <p:tabView id="mainTabView"                               
                                dynamic="false"                              
                                widgetVar="mainTabViewVar">
 
@@ -166,35 +164,26 @@
                                closable="false"
                                title="#{jobManager.user.jobTableViewPreference}"
                                rendered="#{main.user.jobManagementAndTrackingUnit}" >
-                            <ui:insert >       
-                                <ui:include src="jmts/jobsTab.xhtml"/>                                     
-                            </ui:insert>       
+                            <ui:include src="jmts/jobsTab.xhtml"/> 
                         </p:tab>         
 
                         <p:tab id="jobDetailTab" 
                                title="Job Detail - #{jobManager.currentJob.jobNumber}"
                                rendered="#{jobManager.renderJobDetailTab}"
                                closable="true">
-                            <ui:insert >       
-                                <ui:include src="jmts/jobDetail.xhtml"/>                                     
-                            </ui:insert>
+                            <ui:include src="jmts/jobDetail.xhtml"/>  
                         </p:tab>
 
                         <p:tab id="FinancialAdminTab" title="Financial Administration"
                                closable="false" 
                                rendered="#{main.user.financialAdminUnit}">  
-                            <ui:insert >       
-                                <ui:include src="admin/financialAdminTab.xhtml"/>                                     
-                            </ui:insert>
+                            <ui:include src="admin/financialAdminTab.xhtml"/> 
                         </p:tab>
-
 
                         <p:tab id="AdminTab" title="System Administration"
                                closable="false" 
                                rendered="#{main.user.renderAdminUnit}">  
-                            <ui:insert >       
-                                <ui:include src="admin/generalAdminTab.xhtml"/>                                     
-                            </ui:insert>
+                            <ui:include src="admin/generalAdminTab.xhtml"/> 
                         </p:tab>
 
                     </p:tabView>
@@ -211,9 +200,7 @@
                 collapsible="true">              
 
                 <h:panelGrid columns="1">
-                    <ui:insert>
-                        <ui:include src="jmts/jobSearchForm.xhtml"/>
-                    </ui:insert>
+                    <ui:include src="jmts/jobSearchForm.xhtml"/>
                 </h:panelGrid>
 
 

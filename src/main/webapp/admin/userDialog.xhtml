@@ -31,10 +31,8 @@
         <script type="text/javascript" src="../js/adminJavascript.js"/>
     </h:head>
     <h:body >  
-        <ui:insert >           
-            <ui:include src="../common/longProcessDialog.xhtml"/>  
-            <ui:include src="../common/commonDialogs.xhtml"/>           
-        </ui:insert>
+        <ui:include src="../common/longProcessDialog.xhtml"/>  
+        <ui:include src="../common/commonDialogs.xhtml"/> 
         <h:form id="usersDialogForm" >       
             <h:panelGrid columns="4" >
                 <p:commandButton value="Ok"
@@ -155,7 +153,7 @@
 
                         <p:selectBooleanCheckbox id="canBeFinancialAdministrator" value="#{systemManager.selectedUser.privilege.canBeFinancialAdministrator}" />
                         <h:outputLabel for="canBeFinancialAdministrator" value="Financial administrator"/>
-                        
+
                         <p:selectBooleanCheckbox id="canBeJMTSAdministrator" value="#{systemManager.selectedUser.privilege.canBeJMTSAdministrator}" />
                         <h:outputLabel for="canBeJMTSAdministrator" value="System administrator"/>
 

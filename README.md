@@ -11,7 +11,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
-- Clean up and organize xhml files. Put client related files in client folder.
+- Clean up and organize xhml files...Put all tab content in their own file.
+  Continue with client folder.
+- Activate Jobs tab when search is complete.
 - Make system admin tab closable which stays close even when screen is refreshed.
 - Check why billing address was not filled in when new job was created and
   client selected. Test with Fantana Limited...set address and contact in updateJobEntryTabClient()
@@ -141,6 +143,7 @@ by other apps?
 
 ### System Design
 #### Design
+- Create dialogs for classification instead of just adding a row in the table.  
 - Revisit admin dialogs and fix autocomplete scroll height, converters and validators.
   Ensure the prevention of creating duplicate objects such as employees with the same name.
 - Move all "save and create" methods from JobManager to their respective entities

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <p:commandButton title="Add new employee"                                  
+                     value="New"
+                     actionListener="#{systemManager.createNewEmployee}"
+                     onstart="longProcessDialogVar.show();"
+                     oncomplete="longProcessDialogVar.hide();"
+                     onerror="connectionErrorDialog.show();"
+                     global="true"
+                     process="@this"
+                     icon="ui-icon ui-icon-plus"/>
+    <hr/>
+    <p:outputPanel>                                
+        <p:inputText id="employeeSearchText" 
+                     value="#{systemManager.employeeSearchText}"
+                     style="width:150px" placeholder="Enter any part of name">
+            <p:ajax event="keyup"
+                    global="false"
+                    onstart="longProcessDialogVar.show();" 
+                    oncomplete="longProcessDialogVar.hide();"
+                    update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"
+                    listener="#{systemManager.doEmployeeSearch}"
+                    process="@this"/>
+        </p:inputText>
+
+    </p:outputPanel>
+    <hr/>
+    <p:dataTable id="employeesTable"                                       
+                 var="employee"                                        
+                 paginator="true"
+                 rows="15"
+                 widgetVar="employeesTableVar"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 filteredValue="#{systemManager.foundEmployees}">
+
+
+        <f:facet name="header">
+            Employees
+        </f:facet>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Rec. ID"/>
+            </f:facet>
+            <h:outputText value="#{employee.id}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Firstname"/>
+            </f:facet>
+            <h:outputText value="#{employee.firstName}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Lastname"/>
+            </f:facet>
+            <h:outputText value="#{employee.lastName}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Business Office"/>
+            </f:facet>
+            <h:outputText value="#{employee.businessOffice.name}" />
+        </p:column>
+
+        <p:column style="width:32px">
+            <p:commandButton title="View/Edit"   
+                             actionListener="#{systemManager.editEmployee}"
+                             onstart="longProcessDialogVar.show();"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{employee}"                                                                    
+                                             target="#{systemManager.selectedEmployee}" />
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"/>
+            </p:commandButton>           
+        </p:column>
+
+
+    </p:dataTable>
+</html>
+
+

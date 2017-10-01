@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <p:commandButton title="Add new job subcategory"                                  
+                     value="New"
+                     actionListener="#{systemManager.createNewJobSubCategory}"
+                     onstart="longProcessDialogVar.show();"                                                            
+                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
+                     onerror="connectionErrorDialog.show();"
+                     global="true"
+                     process="@this"
+                     icon="ui-icon ui-icon-plus"/>
+    <hr/>
+    <p:dataTable id="JobSubcategoriesTable"                                       
+                 var="jobSubcategory"     
+                 editable="true" 
+                 editMode="cell"
+                 paginator="true"
+                 rows="15"
+                 widgetVar="JobSubcategoriesTableVar"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{systemManager.foundJobSubCategories}">
+
+        <p:ajax event="cellEdit" listener="#{systemManager.onJobSubCategoryCellEdit}" />
+
+        <f:facet name="header">
+            Job subcategories
+        </f:facet>
+
+        <p:column headerText="Name">
+            <p:cellEditor>
+                <f:facet name="output"> <h:outputText value="#{jobSubcategory.subCategory}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{jobSubcategory.subCategory}" style="width:96%"/></f:facet>
+            </p:cellEditor>                                           
+        </p:column>   
+
+        <p:column headerText="Description">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{jobSubcategory.description}" /></f:facet>
+                <f:facet name="input"><p:inputTextarea value="#{jobSubcategory.description}" style="width:96%"/></f:facet>
+            </p:cellEditor>                                         
+        </p:column>   
+
+        <p:column headerText="Is Earning">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{jobSubcategory.isBillable}" /></f:facet>
+                <f:facet name="input">
+                    <p:selectOneMenu value="#{jobSubcategory.isBillable}" style="width:96%">
+                        <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                        <f:selectItem itemLabel="No" itemValue="No"/>
+                    </p:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>                                         
+        </p:column>   
+
+        <p:column headerText="Active">
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{jobSubcategory.usable}" /></f:facet>
+                <f:facet name="input">
+                    <p:selectOneMenu value="#{jobSubcategory.usable}" style="width:96%">
+                        <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                        <f:selectItem itemLabel="No" itemValue="No"/>
+                    </p:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>                                         
+        </p:column>   
+    </p:dataTable>     
+</html>
+
+

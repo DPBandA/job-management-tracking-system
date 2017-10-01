@@ -36,7 +36,7 @@
             <p:panel header="Report/Query criteria">
                 <h:panelGrid columns="2" id="reportPanelGrid" cellspacing="10">
                     <h:outputText value="Report:"/>
-                    <h:selectOneMenu value="#{jobManager.jobReport.id}">
+                    <p:selectOneMenu value="#{jobManager.jobReport.id}">
                         <p:ajax listener="#{jobManager.refreshJobReport}"
                                 global="true"
                                 onstart="longProcessDialogVar2.show();"
@@ -47,7 +47,7 @@
                                        var="report"
                                        itemLabel="#{report.name}"
                                        itemValue="#{report.id}"/>
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
 
                     <h:outputText value="Department: " 
                                   rendered="#{jobManager.renderReportingDepartment}"/>
@@ -101,7 +101,7 @@
                     <p:panel id="currentPeriod" header="Report periods" rendered="#{!jobManager.isMonthlyReport}">
                         <h:panelGrid columns="2" >
                             <h:outputText value="Date field: " />
-                            <h:selectOneMenu value="#{jobManager.reportSearchParameters.dateField}"                                             
+                            <p:selectOneMenu value="#{jobManager.reportSearchParameters.dateField}"                                             
                                              disabled="#{jobManager.renderEmployee}">
                                 <p:ajax
                                     global="true"
@@ -110,10 +110,10 @@
                                     listener="#{jobManager.updateReportDateField}"
                                     process="@this" />
                                 <f:selectItems value="#{jobManager.reportSearchParameters.searchDateFields}" />
-                            </h:selectOneMenu>                           
+                            </p:selectOneMenu>                           
 
                             <h:outputText value="Date period: " />     
-                            <h:selectOneMenu value= "#{jobManager.reportSearchParameters.datePeriod.name}">
+                            <p:selectOneMenu value= "#{jobManager.reportSearchParameters.datePeriod.name}">
                                 <p:ajax listener="#{jobManager.changeCurrentDateSearchPeriod}"
                                         global="true"
                                         onstart="longProcessDialogVar2.show();"
@@ -121,7 +121,7 @@
                                         update="currentPeriod,jobsReportTableTabView,export1,export2"
                                         process="@this" />
                                 <f:selectItems value="#{jobManager.datePeriods}"/>
-                            </h:selectOneMenu>
+                            </p:selectOneMenu>
 
                             <h:outputText value="Start:" />
                             <p:calendar value="#{jobManager.reportSearchParameters.datePeriod.startDate}"
@@ -163,7 +163,7 @@
                         <h:panelGrid columns="6"  
                                      id="monthlyReportDatePeriod" > 
                             <h:outputText value="Monthly report date period: " />     
-                            <h:selectOneMenu value= "#{jobManager.monthlyReportDatePeriod.name}">
+                            <p:selectOneMenu value= "#{jobManager.monthlyReportDatePeriod.name}">
                                 <p:ajax listener="#{jobManager.changeMonthlyReportDatePeriods}"
                                         global="true"
                                         onstart="longProcessDialogVar2.show();"
@@ -171,7 +171,7 @@
                                         update="monthlyReportDatePeriods,jobsReportTableTabView,export1,export2"
                                         process="@this" />
                                 <f:selectItems value="#{jobManager.datePeriods}"/>
-                            </h:selectOneMenu>
+                            </p:selectOneMenu>
 
                             <h:outputText value="Start:" />
                             <p:calendar value="#{jobManager.monthlyReportDatePeriod.startDate}"
@@ -208,7 +208,7 @@
                             </p:calendar>
 
                             <h:outputText value="Year period: " />     
-                            <h:selectOneMenu value= "#{jobManager.monthlyReportYearDatePeriod.name}">
+                            <p:selectOneMenu value= "#{jobManager.monthlyReportYearDatePeriod.name}">
                                 <p:ajax listener="#{jobManager.changeMonthlyReportDatePeriods}"
                                         global="true"
                                         onstart="longProcessDialogVar2.show();"
@@ -216,7 +216,7 @@
                                         update="monthlyReportDatePeriods,jobsReportTableTabView,export1,export2"
                                         process="@this" />
                                 <f:selectItems value="#{jobManager.datePeriods}"/>
-                            </h:selectOneMenu>
+                            </p:selectOneMenu>
 
                             <h:outputText value="Start:" />
                             <p:calendar value="#{jobManager.monthlyReportYearDatePeriod.startDate}"
@@ -253,7 +253,7 @@
                             </p:calendar>
 
                             <h:outputText value="Data period: " />     
-                            <h:selectOneMenu value= "#{jobManager.monthlyReportDataDatePeriod.name}">
+                            <p:selectOneMenu value= "#{jobManager.monthlyReportDataDatePeriod.name}">
                                 <p:ajax listener="#{jobManager.changeMonthlyReportDatePeriods}"
                                         global="true"
                                         onstart="longProcessDialogVar2.show();"
@@ -261,7 +261,7 @@
                                         update="monthlyReportDatePeriods,jobsReportTableTabView,export1,export2"
                                         process="@this" />
                                 <f:selectItems value="#{jobManager.datePeriods}"/>
-                            </h:selectOneMenu>
+                            </p:selectOneMenu>
 
                             <h:outputText value="Start:" />
                             <p:calendar value="#{jobManager.monthlyReportDataDatePeriod.startDate}"

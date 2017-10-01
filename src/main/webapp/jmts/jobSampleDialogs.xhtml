@@ -213,7 +213,7 @@
 
                         <ui:remove>
                             <h:outputText value="Received in department by: " />
-                            <h:selectOneMenu  value="#{jobManager.receivedById}"
+                            <p:selectOneMenu  value="#{jobManager.receivedById}"
                                               style="width: 150%" >
                                 <p:ajax listener="#{jobManager.updateReceivedBy}"
                                         global="false"                                        
@@ -222,7 +222,7 @@
                                                 var="receivedBy"
                                                 itemValue="#{receivedBy.id}"
                                                 itemLabel="#{receivedBy.lastName}, #{receivedBy.firstName}"/>
-                            </h:selectOneMenu>
+                            </p:selectOneMenu>
                         </ui:remove>
 
                         <h:outputText value="Date received by responsible dept.: " />
