@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <p:commandButton value="Add contact"
+                     update=":contactForm"
+                     oncomplete="contactFormDialog.show();"
+                     actionListener="#{clientManager.createNewContact}"/>
+    <p:dataTable id="contactsTable"
+                 var="contact"                                 
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{clientManager.contactsModel}">
+
+        <f:facet name="header">
+            Contacts
+        </f:facet>                      
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Contact full name"/>
+            </f:facet>
+            <h:outputText value="#{contact.firstName} #{contact.lastName}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Phone"/>
+            </f:facet>
+            <h:outputText value="#{contact.mainPhoneNumber.localNumber}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Email"/>
+            </f:facet>
+            <h:outputText value="#{contact.internet.email1}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Type"/>
+            </f:facet>
+            <h:outputText value="#{contact.type}" />
+        </p:column>
+
+        <p:column style="width:32px">
+            <p:commandButton title="View/Edit contact"
+                             update=":contactForm"
+                             oncomplete="contactFormDialog.show();"
+                             global="true"
+                             icon="ui-icon-pencil">
+                <f:setPropertyActionListener value="#{contact}"
+                                             target="#{clientManager.currentContact}" />
+            </p:commandButton>
+        </p:column>
+
+        <p:column style="width:32px">
+            <p:commandButton title="Delete contact"
+                             oncomplete="deleteContactDialog.show();"
+                             global="true"
+                             icon="ui-icon-trash">
+                <f:setPropertyActionListener value="#{contact}"
+                                             target="#{clientManager.currentContact}" />
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
+    <p:commandButton value="Add contact"
+                     update=":contactForm"
+                     oncomplete="contactFormDialog.show();"
+                     actionListener="#{clientManager.createNewContact}"/>
+</html>
+
+

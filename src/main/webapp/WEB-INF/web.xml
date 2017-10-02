@@ -6,7 +6,7 @@
     </context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>#{main.user.userInterfaceThemeName}</param-value>
+        <param-value>#{jobManager.user.userInterfaceThemeName}</param-value>
     </context-param>
     <context-param>
         <param-name>primefaces.SUBMIT</param-name>

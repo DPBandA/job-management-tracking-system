@@ -50,7 +50,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
     private SearchParameters currentSearchParameters;
     private ServiceRequest currentServiceRequest;
     private Boolean dirty;
-    private Main main;
+    private JobManager jobManager;
     private ClientManager clientManager;
 
     /**
@@ -58,7 +58,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
      */
     public ServiceManager() {
         dirty = false;
-        main = Application.findBean("main");
+        jobManager = Application.findBean("jobManager");
         clientManager = Application.findBean("clientManager");
     }
 
@@ -105,7 +105,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
 
     public void setInvalidFormFieldMessage(String messag) {
         //JobManager manager = Application.findBean("jobManager");
-        main.setInvalidFormFieldMessage(messag);
+        jobManager.setInvalidFormFieldMessage(messag);
     }
 
     public void saveCurrentServiceRequest(EntityManager em) {
@@ -139,7 +139,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
             // Validate client
             // Validate and save client
             if (!BusinessEntityUtils.validateName(currentServiceRequest.getClient().getName())) {
-                main.setInvalidFormFieldMessage("This service request cannot be saved. Please enter a valid client name.");
+                jobManager.setInvalidFormFieldMessage("This service request cannot be saved. Please enter a valid client name.");
                 context.update("invalidFieldDialogForm");
                 context.execute("invalidFieldDialog.show();");
                 return;
@@ -356,7 +356,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
     }
 
     public JobManagerUser getUser() {
-        return main.getUser();
+        return jobManager.getUser();
     }
 
     public EntityManager getEntityManager() {

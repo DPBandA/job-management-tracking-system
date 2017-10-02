@@ -11,9 +11,8 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
-- Clean up and organize xhml files...Put all tab content in their own file.
-  Continue with client folder.
-- Activate Jobs tab when search is complete.
+- Put access to modules/units into user menu.
+- Make closable and activate/show Jobs tab when search is complete.
 - Make system admin tab closable which stays close even when screen is refreshed.
 - Check why billing address was not filled in when new job was created and
   client selected. Test with Fantana Limited...set address and contact in updateJobEntryTabClient()
@@ -143,6 +142,8 @@ by other apps?
 
 ### System Design
 #### Design
+- Check what happens if mainTabViewVar.select(0) is called and no tab is visible.
+- Implement checkboxes in user menu to allow activating modules and showing windows.
 - Create dialogs for classification instead of just adding a row in the table.  
 - Revisit admin dialogs and fix autocomplete scroll height, converters and validators.
   Ensure the prevention of creating duplicate objects such as employees with the same name.
@@ -530,29 +531,4 @@ by other apps?
 - Remove excess classification entries for "Non-Earning - Internal Client Request" and "--". NB Check what is causing them to be created.
 - Find all entities that references the current entity before deleting. try with employee and client for example. create interface for this.
 - Remove fields from database that are not used: jobcostingandpayment: depositDate, jobcostingandpayment: dateOfLastPayment
-
-
-Keep Code:
-<p:dialog width="700"
-                  height="600"
-                  draggable="true"
-                  modal="true"                  
-                  closable="false"                  
-                  header="Client" >      
-
-            <p:ajax event="close"                                      
-                    async="true"  
-                    onstart="longProcessDialogVar.show();"
-                    oncomplete="longProcessDialogVar.hide();clientFormTabVar.select(0);"
-                    update="clientForm"/>
- </p:dialog>
-
-<p:commandButton icon="ui-icon-pencil"
-                             id="editClientButton"
-                             disabled="${!jobManager.isClientNameValid}"
-                             onstart="longProcessDialogVar.show();"
-                             actionListener="#{jobManager.editJobClient}"                             
-                             oncomplete="longProcessDialogVar.hide();"
-                             process="@this,client"                             
-                             title="View or edit this client's detail"> 
 

@@ -66,14 +66,14 @@ public class Application {
     }
 
     // tk put into Main
-    public static JobManagerUser getUser() {
-        Main main = findBean("main");
-        if (main != null) {
-            return main.getUser();
-        }
-
-        return null;
-    }
+//    public static JobManagerUser getUser() {
+//        Main main = findBean("main");
+//        if (main != null) {
+//            return main.getUser();
+//        }
+//
+//        return null;
+//    }
 
     public Map<String, String> getThemes() {
         return themes;

@@ -8,16 +8,16 @@
 
 
     <h:form id="commonMessageDialogForm">
-        <p:confirmDialog severity="#{main.dialogMessageSeverity}"
+        <p:confirmDialog severity="#{jobManager.dialogMessageSeverity}"
                          closable="false"
-                         message="#{main.dialogMessage}"
-                         header="#{main.dialogMessageHeader}"
+                         message="#{jobManager.dialogMessage}"
+                         header="#{jobManager.dialogMessageHeader}"
                          widgetVar="commonMessageDialog"
                          width="425">
 
             <p:commandButton value="Ok" 
-                             rendered="#{main.dialogRenderOkButton}"
-                             actionListener="#{main.handleDialogOkButtonPressed()}"
+                             rendered="#{jobManager.dialogRenderOkButton}"
+                             actionListener="#{jobManager.handleDialogOkButtonPressed()}"
                              onstart="longProcessDialogVar.show();"                                                    
                              oncomplete="commonMessageDialog.hide();longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
@@ -25,8 +25,8 @@
                              icon="ui-icon-check"/>
 
             <p:commandButton value="Yes" 
-                             rendered="#{main.dialogRenderYesButton}"
-                             actionListener="#{main.handleDialogYesButtonPressed()}"
+                             rendered="#{jobManager.dialogRenderYesButton}"
+                             actionListener="#{jobManager.handleDialogYesButtonPressed()}"
                              onstart="longProcessDialogVar.show();"                                                    
                              oncomplete="commonMessageDialog.hide();longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
@@ -34,8 +34,8 @@
                              icon="ui-icon-check"/>
 
             <p:commandButton value="No" 
-                             rendered="#{main.dialogRenderNoButton}"
-                             actionListener="#{main.handleDialogNoButtonPressed()}"
+                             rendered="#{jobManager.dialogRenderNoButton}"
+                             actionListener="#{jobManager.handleDialogNoButtonPressed()}"
                              onstart="longProcessDialogVar.show();"                                                    
                              oncomplete="commonMessageDialog.hide();longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
@@ -43,8 +43,8 @@
                              icon="ui-icon-close"/>            
             <p:spacer height="0" width="20"/>
             <p:commandButton value="Cancel" 
-                             rendered="#{main.dialogRenderCancelButton}"
-                             actionListener="#{main.handleDialogCancelButtonPressed()}"
+                             rendered="#{jobManager.dialogRenderCancelButton}"
+                             actionListener="#{jobManager.handleDialogCancelButtonPressed()}"
                              onstart="longProcessDialogVar.show();"                                                    
                              oncomplete="commonMessageDialog.hide();longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
@@ -72,7 +72,7 @@
     <h:form id="invalidFieldDialogForm">
         <p:confirmDialog severity="alert"
                          closable="false"
-                         message="#{main.invalidFormFieldMessage}"
+                         message="#{jobManager.invalidFormFieldMessage}"
                          header="Field Entry Error"
                          widgetVar="invalidFieldDialog"
                          width="425">

@@ -6,7 +6,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <p:dialog header="Job Management &amp; Tracking System Login"
               modal="true"
-              visible="#{main.showLogin}"
+              visible="#{jobManager.showLogin}"
               widgetVar="loginDialog"
               width="375"
               closable="false"
@@ -14,42 +14,42 @@
         <h:form id="loginForm">
 
             <p:remoteCommand name="keepAliveRequest"
-                             actionListener="#{main.handleKeepAlive}"
+                             actionListener="#{jobManager.handleKeepAlive}"
                              onerror="connectionErrorDialog.show();"
                              update="@this"
                              process="@this"/>
 
             <p:remoteCommand name="doLogoutRequest"
-                             actionListener="#{main.logout}"                            
+                             actionListener="#{jobManager.logout}"                            
                              process="@this"/>
 
             <p:remoteCommand name="doLoginRequest"
-                             action="#{main.login}"
+                             action="#{jobManager.login}"
                              update="@this"
                              process="@this"/>
 
             <p:remoteCommand name="init"
-                             actionListener="#{main.init}"                           
+                             actionListener="#{jobManager.init}"                           
                              process="@this"/>
 
-            <h:outputText id="loginMessage" value="#{main.logonMessage}" style="font-weight: bold" />
+            <h:outputText id="loginMessage" value="#{jobManager.logonMessage}" style="font-weight: bold" />
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputLabel for="username" value="Username: *" />
-                <p:inputText value="#{main.username}"
+                <p:inputText value="#{jobManager.username}"
                              id="username" 
                              required="true"
                              label="username"
                              validatorMessage="Please enter a valid username" >
                     <p:ajax event="change"
                             global="false"                            
-                            listener="#{main.updateDatabaseModule}"
+                            listener="#{jobManager.updateDatabaseModule}"
                             process="@this"/>
                 </p:inputText>
 
                 <h:outputLabel for="password" value="Password: * " />
                 <p:password id="password"
                             required="true"
-                            value="#{main.password}"
+                            value="#{jobManager.password}"
                             maxlength="255"
                             label="password"
                             validatorMessage="Please enter a valid password"
@@ -63,7 +63,7 @@
                                      oncomplete="longProcessDialogVar.hide();"
                                      global="true"
                                      process="@form"
-                                     actionListener="#{main.login}" />
+                                     actionListener="#{jobManager.login}" />
                 </f:facet>
             </h:panelGrid>
         </h:form>

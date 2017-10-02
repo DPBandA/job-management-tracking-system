@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -34,7 +36,7 @@ public class SearchManager implements SearchManagement, Serializable {
     private EntityManagerFactory EMF1;
     private HashMap searhParameters;
     private String currentSearchParameterKey;
-    private Main main;
+    private JobManager jobManager;
 
     /**
      * Creates a new instance of SearchManager
@@ -203,11 +205,16 @@ public class SearchManager implements SearchManagement, Serializable {
                         ""));
     }
 
-    public Main getMain() {
-        if (main == null) {
-            main = Application.findBean("main");
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public JobManager getJobManager() {
+        if (jobManager == null) {
+            jobManager = Application.findBean("jobManager");
         }
-        return main;
+        return jobManager;
     }
 
     private EntityManagerFactory getEMF1() {
@@ -229,12 +236,12 @@ public class SearchManager implements SearchManagement, Serializable {
             // Filter list based on user's authorization
             EntityManager em = getEntityManager1();
 
-            if (getMain().getUser(em).getPrivilege().getCanEditJob()
-                    || getMain().getUser(em).getPrivilege().getCanEnterJob()
-                    || getMain().getUser(em).getPrivilege().getCanEditInvoicingAndPayment()
-                    || getMain().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditInvoicingAndPayment()
-                    || getMain().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditJob()
-                    || getMain().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
+            if (getJobManager().getUser(em).getPrivilege().getCanEditJob()
+                    || getJobManager().getUser(em).getPrivilege().getCanEnterJob()
+                    || getJobManager().getUser(em).getPrivilege().getCanEditInvoicingAndPayment()
+                    || getJobManager().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditInvoicingAndPayment()
+                    || getJobManager().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditJob()
+                    || getJobManager().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
                 ArrayList<String> newList = new ArrayList<>();
                 for (Object obj : getCurrentSearchParameters().getSearchTypes()) {
                     SelectItem item = (SelectItem) obj;
@@ -266,18 +273,18 @@ public class SearchManager implements SearchManagement, Serializable {
         }
 
     }
-    
+
     public ArrayList getAuthorizedSearchTypes() {
         if (getCurrentSearchParameters().getName().equals("Job Search")) {
             // Filter list based on user's authorization
             EntityManager em = getEntityManager1();
 
-            if (getMain().getUser(em).getPrivilege().getCanEditJob()
-                    || getMain().getUser(em).getPrivilege().getCanEnterJob()
-                    || getMain().getUser(em).getPrivilege().getCanEditInvoicingAndPayment()
-                    || getMain().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditInvoicingAndPayment()
-                    || getMain().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditJob()
-                    || getMain().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
+            if (getJobManager().getUser(em).getPrivilege().getCanEditJob()
+                    || getJobManager().getUser(em).getPrivilege().getCanEnterJob()
+                    || getJobManager().getUser(em).getPrivilege().getCanEditInvoicingAndPayment()
+                    || getJobManager().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditInvoicingAndPayment()
+                    || getJobManager().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditJob()
+                    || getJobManager().getUser(em).getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
                 return getCurrentSearchParameters().getSearchTypes();
             } else {
 
@@ -358,7 +365,15 @@ public class SearchManager implements SearchManagement, Serializable {
                 JobManager jm = Application.findBean("jobManager");
                 if (jm != null) {
                     jm.doJobSearch(getCurrentSearchParameters());
-                    context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
+                    if (!jm.getUser().getJobManagementAndTrackingUnit()) {
+                        jm.getUser().setJobManagementAndTrackingUnit(true);
+                        jm.getUser().save(getEntityManager1());
+                        context.execute("mainTabViewVar.select(0);");
+                        context.update("mainTabViewForm");
+                    } else {
+                        context.execute("mainTabViewVar.select(0);");
+                        context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
+                    }
                 }
                 break;
             case "Service Request Search":
@@ -367,6 +382,9 @@ public class SearchManager implements SearchManagement, Serializable {
                     sm.doServiceRequestSearch(getCurrentSearchParameters());
                     context.update("mainTabViewForm:mainTabView:serviceRequestsDatabaseTable");
                 }
+                break;
+            case "Admin Search":
+                addMessage("Sorry!", "System Administration Advanced Search not yet implemented.");
                 break;
         }
     }

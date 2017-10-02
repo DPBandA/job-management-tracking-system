@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <h:panelGrid id="generalDetailsPanelGrid" columns="2" style="width: 85%">
+        <h:outputText value="Name *:" style="font-weight: bold;" />
+        <p:inputText value="#{clientManager.client.name}"
+                     id="clientName"
+                     disabled="#{!clientManager.clientNameAndIdEditable}"
+                     style="width: 100%;"
+                     validator="clientValidator">
+            <f:attribute name="isNewClient" value="#{clientManager.isNewClient}" />
+
+            <p:ajax event="change"
+                    global="true"    
+                    update=":clientForm:client_growl"
+                    listener="#{clientManager.updateClient}"
+                    process="@this"/>
+        </p:inputText>
+
+        <h:outputText value="Taxpayer Registration Number (TRN) *:"/>
+        <p:inputText value="#{clientManager.client.taxRegistrationNumber}"
+                     id="trn"
+                     validator="clientValidator"
+                     disabled="#{!clientManager.clientNameAndIdEditable}" >
+            <p:ajax event="change"
+                    global="true"
+                    update=":clientForm:client_growl"
+                    listener="#{clientManager.updateClient}"
+                    process="@this"/>
+        </p:inputText>
+
+        <h:outputText id="currentBillingAddress" value="Select/Add billing address: " style="font-weight: bold"/>   
+        <p:autoComplete id="currentClientBillingAddress"
+                        value="#{clientManager.billingAddress}"
+                        dropdown="true"
+                        forceSelection="true"
+                        converter="addressConverter"                            
+                        var="address"                        
+                        itemValue="#{address}"
+                        itemLabel="#{address.name}" 
+                        completeMethod="#{clientManager.completeClientAddress}">
+
+            <p:ajax event="itemSelect"
+                    listener="#{clientManager.updateBillingAddress}"                                        
+                    update=":clientForm:clientFormTabView:addressesTable,generalDetailsPanelGrid"
+                    process="@this" />   
+        </p:autoComplete>    
+
+
+        <h:outputText value="" />
+        <h:outputText value="#{clientManager.billingAddress.addressLine1}" />
+
+        <h:outputText value="" />
+        <h:outputText value="#{clientManager.billingAddress.addressLine2}" />
+
+        <h:outputText value="" />
+        <h:outputText value="#{clientManager.billingAddress.city}" />
+
+        <h:outputText value="" />
+        <h:outputText value="#{clientManager.billingAddress.stateOrProvince}" />   
+
+
+    </h:panelGrid>                    
+
+</html>
+
+

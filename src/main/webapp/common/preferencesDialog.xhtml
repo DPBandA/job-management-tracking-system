@@ -29,7 +29,7 @@
                 <p:tab title="General" id="generalTab">
                     <h:panelGrid columns="2">
                         <h:outputText value="Theme:"/>
-                        <p:themeSwitcher value="#{main.user.userInterfaceThemeName}" 
+                        <p:themeSwitcher value="#{jobManager.user.userInterfaceThemeName}" 
                                          style="width:165px" 
                                          id="defaultSwitcher">  
                             <f:selectItem itemLabel="Choose Theme" itemValue="" />  
@@ -78,7 +78,7 @@
                                     update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
                                     global="false"
                                     process="@this"/>
-                        </h:selectBooleanCheckbox>
+                        </h:selectBooleanCheckbox>                        
                         <h:outputLabel rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}" 
                                        for="financialAdminUnitCheckbox" value="Financial Administration"/>      
 

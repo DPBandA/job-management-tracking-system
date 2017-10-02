@@ -97,23 +97,24 @@
         <ui:include src="finance/cashPaymentDialog.xhtml"/>
 
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
-            <p:ajax event="toggle" listener="#{main.handleLayoutUnitToggle}" />
+            <p:ajax event="toggle" listener="#{jobManager.handleLayoutUnitToggle}" />
 
             <p:layoutUnit position="north" 
                           rendered="true" 
                           style="border: 0;"
                           size="75"                          
                           header="" >
-                <h:form id="headerForm">    
+                <h:form id="headerForm">   
+                    <p:growl id="growl3" life="5000" showDetail="true" />
                     <h:panelGrid width="100%" border="0" columns="3">
-                        <p:graphicImage rendered="#{main.renderUserMenu()}" 
+                        <p:graphicImage rendered="#{jobManager.renderUserMenu()}" 
                                         value="images/Logo.jpg"/>
                         <h:outputText value="Job Management &amp; Tracking System"
-                                      rendered="#{main.renderUserMenu()}" 
+                                      rendered="#{jobManager.renderUserMenu()}" 
                                       style="color: gray; font-size: 14pt; font-weight: bold" />                       
-                        <p:menuButton value="#{main.user.employee.firstName} #{main.user.employee.lastName}"     
-                                      style="float: right;"
-                                      rendered="#{main.renderUserMenu()}">
+                        <p:menuButton value="#{jobManager.user.employee.firstName} #{jobManager.user.employee.lastName}"     
+                                      style="float: right;"                                      
+                                      rendered="#{jobManager.renderUserMenu()}">
                             <p:menuitem actionListener="#{jobManager.editPreferences}"
                                         onstart="longProcessDialogVar.show();"
                                         update=":preferencesDialogForm"
@@ -122,12 +123,12 @@
                                         value="Preferences"
                                         process="@this"/>
                             <p:separator />  
-                            <p:menuitem actionListener="#{main.logout}"
+                            <p:menuitem actionListener="#{jobManager.logout}"
                                         onstart="longProcessDialogVar.show();"                                               
                                         onerror="connectionErrorDialog.show();"                                              
                                         icon="ui-icon-circle-arrow-w"
                                         value="Logout"
-                                        process="@this"/>
+                                        process="@this"/>                             
                         </p:menuButton>   
 
                     </h:panelGrid>
@@ -157,13 +158,13 @@
 
                         <p:ajax event="tabClose" 
                                 onstart="longProcessDialogVar.show();"
-                                oncomplete="longProcessDialogVar.hide();"
+                                oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
                                 listener="#{jobManager.onMainViewTabClose}" />                       
 
                         <p:tab id="jobsTab"
-                               closable="false"
+                               closable="true"
                                title="#{jobManager.user.jobTableViewPreference}"
-                               rendered="#{main.user.jobManagementAndTrackingUnit}" >
+                               rendered="#{jobManager.user.jobManagementAndTrackingUnit}" >
                             <ui:include src="jmts/jobsTab.xhtml"/> 
                         </p:tab>         
 
@@ -174,15 +175,15 @@
                             <ui:include src="jmts/jobDetail.xhtml"/>  
                         </p:tab>
 
-                        <p:tab id="FinancialAdminTab" title="Financial Administration"
-                               closable="false" 
-                               rendered="#{main.user.financialAdminUnit}">  
+                        <p:tab id="financialAdminTab" title="Financial Administration"
+                               closable="true" 
+                               rendered="#{jobManager.user.financialAdminUnit}">  
                             <ui:include src="admin/financialAdminTab.xhtml"/> 
                         </p:tab>
 
-                        <p:tab id="AdminTab" title="System Administration"
-                               closable="false" 
-                               rendered="#{main.user.renderAdminUnit}">  
+                        <p:tab id="adminTab" title="System Administration"
+                               closable="true" 
+                               rendered="#{jobManager.user.adminUnit}">  
                             <ui:include src="admin/generalAdminTab.xhtml"/> 
                         </p:tab>
 
@@ -196,7 +197,7 @@
                 size="350"                
                 header="Advanced Search"
                 resizable="true"                  
-                collapsed="#{main.searchLayoutUnitCollapsed}"
+                collapsed="#{jobManager.searchLayoutUnitCollapsed}"
                 collapsible="true">              
 
                 <h:panelGrid columns="1">

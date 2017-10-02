@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:growl id="growl2" life="5000" />
+    <p:growl id="growl2" life="5000" showDetail="true" />
     <p:remoteCommand name="doJobSampleCopy"
                      action="#{jobManager.copyJobSample}"
                      oncomplete="jobSampleDialog.show();"

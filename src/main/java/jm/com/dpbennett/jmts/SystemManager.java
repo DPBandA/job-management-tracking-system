@@ -76,7 +76,7 @@ public class SystemManager implements Serializable {
     private List<Employee> foundEmployees;
     private String employeeSearchText;
     private String userSearchText;
-    private Main main;
+    private JobManager jobManager;
     private List<JobManagerUser> foundUsers;
     private String departmentSearchText;
     private List<Department> foundDepartments;
@@ -116,7 +116,7 @@ public class SystemManager implements Serializable {
         generalSearchText = "";
         systemOptionSearchText = "";
 
-        main = Application.findBean("main");
+        jobManager = Application.findBean("jobManager");
     }
 
     public Boolean getPrivilegeValue() {
@@ -472,8 +472,8 @@ public class SystemManager implements Serializable {
         context.addCallbackParam("isConnectionLive", true);
     }
 
-    public Main getMain() {
-        return main;
+    public JobManager getJobManager() {
+        return jobManager;
     }
 
     public String getFoundUser() {
@@ -513,19 +513,19 @@ public class SystemManager implements Serializable {
     }
 
     public void editSystemOption() {
-        getMain().openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
+        getJobManager().openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
     }
 
     public void editDepartment() {
-        getMain().openDialog(null, "departmentDialog", true, true, true, 420, 600);
+        getJobManager().openDialog(null, "departmentDialog", true, true, true, 420, 600);
     }
 
     public void editEmployee() {
-        getMain().openDialog(null, "employeeDialog", true, true, true, 420, 600);
+        getJobManager().openDialog(null, "employeeDialog", true, true, true, 420, 600);
     }
 
     public void editUser() {
-        getMain().openDialog(getSelectedUser(), "userDialog", true, true, true, 420, 600);
+        getJobManager().openDialog(getSelectedUser(), "userDialog", true, true, true, 420, 600);
     }
 
     public Employee getSelectedEmployee() {
@@ -866,7 +866,7 @@ public class SystemManager implements Serializable {
         selectedUser = new JobManagerUser();
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
 
-        getMain().openDialog(selectedUser, "userDialog", true, true, true, 420, 600);
+        getJobManager().openDialog(selectedUser, "userDialog", true, true, true, 420, 600);
     }
 
     public void createNewDepartment() {
@@ -899,14 +899,14 @@ public class SystemManager implements Serializable {
         selectedEmployee = new Employee();
         selectedEmployee.setBusinessOffice(BusinessOffice.getDefaultBusinessOffice(em, "Head Office"));
 
-        getMain().openDialog(null, "employeeDialog", true, true, true, 420, 600);
+        getJobManager().openDialog(null, "employeeDialog", true, true, true, 420, 600);
     }
 
     public void createNewSystemOption() {
 
         selectedSystemOption = new SystemOption();
 
-        getMain().openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
+        getJobManager().openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
     }
 
     public void fetchDepartment(ActionEvent action) {
@@ -1103,7 +1103,7 @@ public class SystemManager implements Serializable {
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
 
         if ((getUsername() != null) && (getPassword() != null)) {
-            if (main.validateAndAssociateUser(em, getUsername(), getPassword())) {
+            if (getJobManager().validateAndAssociateUser(em, getUsername(), getPassword())) {
                 // Get the job manager user if one exists and
                 // facilitate the display of the employee dialog for entry if it
                 // does not exist.
@@ -1126,7 +1126,7 @@ public class SystemManager implements Serializable {
                     } else {
                         username = "";
                         password = "";
-                        getMain().displayCommonMessageDialog(null,
+                        getJobManager().displayCommonMessageDialog(null,
                                 "Sorry but you are not a system administrator",
                                 "Not Administrator",
                                 "alert");
@@ -1257,7 +1257,7 @@ public class SystemManager implements Serializable {
 //        JobManagerUser.setPrivilege(getEntityManager(), getSelectedUser(), "APPRV_RELEASE_REQUEST", apprv);
 //    }
     public void toBeImpl() {
-        getMain().displayCommonMessageDialog(null,
+        getJobManager().displayCommonMessageDialog(null,
                 "This feature is not yet implemented",
                 "Not Yet Implemented",
                 "alert");

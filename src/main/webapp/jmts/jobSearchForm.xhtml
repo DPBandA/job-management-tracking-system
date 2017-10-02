@@ -77,7 +77,7 @@
                                  actionListener="#{searchManager.doSearch}"
                                  oncomplete="longProcessDialogVar.hide();"
                                  onerror="connectionErrorDialog.show();"
-
+                                 update=":headerForm:growl3"
                                  icon="ui-icon-search"
                                  process="@form"/>
             </h:panelGrid>

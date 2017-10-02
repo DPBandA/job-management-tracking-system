@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <p:commandButton value="Add address"
+                     update=":addressForm"
+                     oncomplete="addressFormDialog.show();"
+                     actionListener="#{clientManager.createNewAddress}"/>
+    <p:dataTable id="addressesTable"
+                 var="address"
+                 paginator="true"                                 
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{clientManager.addressesModel}">
+
+        <f:facet name="header">
+            Addresses
+        </f:facet>
+
+        <p:column headerText="Full address">                            
+            <h:outputText value="#{address}" />
+        </p:column>
+
+        <p:column headerText="Type">                            
+            <h:outputText value="#{address.type}" />
+        </p:column>
+
+        <p:column style="width:32px">
+            <p:commandButton title="View/Edit address"
+                             update=":addressForm"
+                             oncomplete="addressFormDialog.show();"
+                             global="true"
+                             icon="ui-icon-pencil">
+                <f:setPropertyActionListener value="#{address}"
+                                             target="#{clientManager.currentAddress}" />
+            </p:commandButton>
+        </p:column>
+
+        <p:column style="width:32px">
+            <p:commandButton title="Delete Address"
+                             oncomplete="deleteAddressDialog.show();"
+                             global="true"
+                             icon="ui-icon-trash">
+                <f:setPropertyActionListener value="#{address}"
+                                             target="#{clientManager.currentAddress}" />
+            </p:commandButton>
+        </p:column>
+
+    </p:dataTable>
+    <p:commandButton value="Add address"
+                     update=":addressForm"
+                     oncomplete="addressFormDialog.show();"
+                     actionListener="#{clientManager.createNewAddress}"/>
+</html>
+
+

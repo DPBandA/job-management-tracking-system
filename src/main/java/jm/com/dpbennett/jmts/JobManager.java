@@ -33,8 +33,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
@@ -45,6 +49,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.naming.ldap.InitialLdapContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -91,11 +96,14 @@ import jm.com.dpbennett.business.entity.ServiceContract;
 import jm.com.dpbennett.business.entity.ServiceRequest;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.UnitCost;
+import jm.com.dpbennett.business.entity.management.MessageManagement;
+import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReport;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
 import jm.com.dpbennett.business.entity.utils.MethodResult;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
+import static jm.com.dpbennett.jmts.Application.checkForLDAPUser;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
@@ -133,6 +141,7 @@ import org.primefaces.event.CloseEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.event.TabCloseEvent;
+import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
@@ -142,7 +151,8 @@ import org.primefaces.model.StreamedContent;
  */
 @Named
 @SessionScoped
-public class JobManager implements Serializable, BusinessEntityManager, DialogActionHandler {
+public class JobManager implements Serializable, BusinessEntityManager,
+        DialogActionHandler, UserManagement, MessageManagement {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
@@ -207,7 +217,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     private String databaseModule;
     private SearchParameters currentSearchParameters;
     private Boolean isJobToBeCopied;
-    private Main main;
     private final ClientManager clientManager;
     private final SearchManager searchManager;
     private SearchParameters reportSearchParameters;
@@ -231,10 +240,28 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     // Show accpac prepayments
     private Boolean showPrepayments;
 
+    private JobManagerUser user;
+    private Boolean userLoggedIn = false;
+    private Boolean showLogin = true;
+    private String username = "";
+    private String password = "";
+    private String logonMessage;
+    private Boolean searchLayoutUnitCollapsed;
+    private String invalidFormFieldMessage;
+    private String dialogMessage;
+    private String dialogMessageHeader;
+    private String dialogMessageSeverity;
+    private Boolean dialogRenderOkButton;
+    private Boolean dialogRenderYesButton;
+    private Boolean dialogRenderNoButton;
+    private Boolean dialogRenderCancelButton;
+    private DialogActionHandler dialogActionHandler;
+
     /**
      * Creates a new instance of JobManagerBean
      */
     public JobManager() {
+        this.searchLayoutUnitCollapsed = true;
         this.isJobToBeCopied = false;
         this.databaseModule = "";
         this.databaseModuleId = 1L;
@@ -248,12 +275,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         // init fields
         // accpac fields init
         accPacCustomer = new AccPacCustomer(null);
-        //accPacCustomer.setId(null);
-        //accPacCustomerDocuments = new ArrayList<>();
         filteredAccPacCustomerDocuments = new ArrayList<>();
         useAccPacCustomerList = false;
         jobReport = new Report();
-        //dirty = false;
         addJobSample = false;
         addCashPayment = false;
         addCostComponent = false;
@@ -306,8 +330,509 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 null, false, false, true);
     }
 
-    public void onMainViewTabClose(TabCloseEvent event) {
-        closeJobDetailTab();
+    public void openDialog(Object entity,
+            String outcome,
+            Boolean modal,
+            Boolean draggable,
+            Boolean resizable,
+            Integer contentHeight,
+            Integer contentWidth) {
+
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", modal);
+        options.put("draggable", draggable);
+        options.put("resizable", resizable);
+        options.put("contentHeight", contentHeight);
+        options.put("contentWidth", contentWidth);
+
+        RequestContext.getCurrentInstance().openDialog(outcome, options, null);
+    }
+
+    public Boolean getDialogRenderCancelButton() {
+        return dialogRenderCancelButton;
+    }
+
+    public void setDialogRenderCancelButton(Boolean dialogRenderCancelButton) {
+        this.dialogRenderCancelButton = dialogRenderCancelButton;
+    }
+
+    public void setDialogActionHandler(DialogActionHandler dialogActionHandler) {
+        this.dialogActionHandler = dialogActionHandler;
+    }
+
+    public Boolean getDialogRenderOkButton() {
+        return dialogRenderOkButton;
+    }
+
+    public void setDialogRenderOkButton(Boolean dialogRenderOkButton) {
+        this.dialogRenderOkButton = dialogRenderOkButton;
+    }
+
+    public Boolean getDialogRenderYesButton() {
+        return dialogRenderYesButton;
+    }
+
+    public void setDialogRenderYesButton(Boolean dialogRenderYesButton) {
+        this.dialogRenderYesButton = dialogRenderYesButton;
+    }
+
+    public Boolean getDialogRenderNoButton() {
+        return dialogRenderNoButton;
+    }
+
+    public void setDialogRenderNoButton(Boolean dialogRenderNoButton) {
+        this.dialogRenderNoButton = dialogRenderNoButton;
+    }
+
+    public Integer getLoginAttempts() {
+        return loginAttempts;
+    }
+
+    public void setLoginAttempts(Integer loginAttempts) {
+        this.loginAttempts = loginAttempts;
+    }
+
+    public String getDialogMessage() {
+        return dialogMessage;
+    }
+
+    public void setDialogMessage(String dialogMessage) {
+        this.dialogMessage = dialogMessage;
+    }
+
+    public String getDialogMessageHeader() {
+        return dialogMessageHeader;
+    }
+
+    public void setDialogMessageHeader(String dialogMessageHeader) {
+        this.dialogMessageHeader = dialogMessageHeader;
+    }
+
+    public String getDialogMessageSeverity() {
+        return dialogMessageSeverity;
+    }
+
+    public void setDialogMessageSeverity(String dialogMessageSeverity) {
+        this.dialogMessageSeverity = dialogMessageSeverity;
+    }
+
+    public void init() {
+        System.out.println("Initializing Job Manager...");
+        showLogin = true;
+        logonMessage = "Please provide your login details below:";
+        searchLayoutUnitCollapsed = true;
+    }
+
+    public String getTabTitle() {
+        return tabTitle;
+    }
+
+    public void setTabTitle(String tabTitle) {
+        this.tabTitle = tabTitle;
+    }
+
+    public Boolean getSearchLayoutUnitCollapsed() {
+        return searchLayoutUnitCollapsed;
+    }
+
+    public void setSearchLayoutUnitCollapsed(Boolean searchLayoutUnitCollapsed) {
+        this.searchLayoutUnitCollapsed = searchLayoutUnitCollapsed;
+    }
+
+    @Override
+    public String getLogonMessage() {
+        return logonMessage;
+    }
+
+    @Override
+    public void setLogonMessage(String logonMessage) {
+        this.logonMessage = logonMessage;
+    }
+
+    @Override
+    public Boolean getUserLoggedIn() {
+        return userLoggedIn;
+    }
+
+    @Override
+    public void setUserLoggedIn(Boolean userLoggedIn) {
+        this.userLoggedIn = userLoggedIn;
+    }
+
+    @Override
+    public Boolean getShowLogin() {
+        return showLogin;
+    }
+
+    @Override
+    public void setShowLogin(Boolean showLogin) {
+        this.showLogin = showLogin;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public EntityManager getEntityManager1() {
+        return EMF1.createEntityManager();
+    }
+
+    @Override
+    public void setUser(JobManagerUser user) {
+        this.user = user;
+    }
+
+    @Override
+    public JobManagerUser getUser() {
+        if (user == null) {
+            return new JobManagerUser();
+        }
+        return user;
+    }
+
+    /**
+     * Get user as currently stored in the database
+     *
+     * @return
+     */
+    public JobManagerUser getUser(EntityManager em) {
+        if (user == null) {
+            return new JobManagerUser();
+        } else {
+            try {
+                if (user.getId() != null) {
+                    JobManagerUser foundUser = em.find(JobManagerUser.class, user.getId());
+                    if (foundUser != null) {
+                        em.refresh(foundUser);
+                        user = foundUser;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+                return new JobManagerUser();
+            }
+        }
+
+        return user;
+    }
+
+    public void checkLoginAttemps(RequestContext context) {
+
+        ++loginAttempts;
+        if (loginAttempts == 2) {
+            context.execute("loginAttemptsDialog.show();");
+            try {
+                // send email to system administrator
+                BusinessEntityUtils.postMail(null, null, "Failed user login", "Username: " + username + "\nDate/Time: " + new Date());
+            } catch (Exception ex) {
+                Logger.getLogger(JobManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else if (loginAttempts > 2) {// tk # attempts to be made option
+            context.execute("loginAttemptsDialog.show();");
+        }
+
+        username = "";
+        password = "";
+    }
+
+    public void login() {
+
+        EntityManager em = getEntityManager1();
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        setUserLoggedIn(false);
+
+        try {
+            if ((getUsername() != null) && (getPassword() != null)) {
+                // Find user and determin if authentication is required for this user
+                JobManagerUser jobManagerUser = JobManagerUser.findJobManagerUserByUsername(em, getUsername());
+                if (jobManagerUser != null) {
+                    em.refresh(jobManagerUser);
+                    if (!jobManagerUser.getAuthenticate()) {  // NB: for testing...remove before deploy.
+                        System.out.println("User will NOT be authen.");
+                        setUser(jobManagerUser);
+                        //if (getUser() != null) {
+//                        em.refresh(getUser());
+                        setUserLoggedIn(true);
+                        //} else {
+                        //    checkLoginAttemps(context);
+                        //    logonMessage = "Invalid username or password! Please try again.";
+//                    } else if (Application.validateAndAssociateUser(em, getUsername(), getPassword())) {
+                    } else if (validateAndAssociateUser(em, getUsername(), getPassword())) {
+                        System.out.println("User will be authen.");
+                        setUser(jobManagerUser);
+                        //if (getUser() != null) {
+//                        em.refresh(getUser());
+                        setUserLoggedIn(true);
+                        //} else {
+                        //    checkLoginAttemps(context);
+                        //    logonMessage = "Invalid username or password! Please try again.";
+                        //}
+                    } else {
+                        checkLoginAttemps(context);
+                        logonMessage = "Invalid username or password! Please try again.";
+                    }
+                }
+
+            } else {
+                logonMessage = "Invalid username or password! Please try again.";
+                username = "";
+                password = "";
+            }
+            // wrap up
+            if (getUserLoggedIn()) {
+                setShowLogin(false);
+                username = "";
+                password = "";
+                loginAttempts = 0;
+                if (context != null) {
+                    context.addCallbackParam("userLogggedIn", getUserLoggedIn());
+
+                    em.getTransaction().begin();
+                    BusinessEntityUtils.saveBusinessEntity(em, user);
+                    em.getTransaction().commit();
+
+                    updateAllForms(context);
+
+                    // show search layout unit if initially collapsed
+//                    if (getUser().getJobTableViewPreference().equals("Jobs")) {
+                    if (searchLayoutUnitCollapsed) {
+                        searchLayoutUnitCollapsed = false;
+                        context.execute("layoutVar.toggle('west');");
+                    }
+
+                    context.execute("loginDialog.hide();PrimeFaces.changeTheme('"
+                            + getUser().getUserInterfaceThemeName() + "');mainTabViewVar.select(0);");
+
+                }
+
+            } else {
+                logonMessage = "Invalid username or password! Please try again.";
+                username = "";
+                password = "";
+            }
+
+            em.close();
+        } catch (Exception e) {
+            System.out.println(e);
+            logonMessage = "Login error occured! Please try again or contact the Database Administrator";
+            checkLoginAttemps(context);
+        }
+    }
+
+    private void updateAllForms(RequestContext context) {
+        context.update("searchForm");
+        context.update("headerForm");
+        context.update("unitDialogForms");
+        context.update("mainTabViewForm");
+        context.update("loginForm");
+    }
+
+    public void logout() {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        userLoggedIn = false;
+        showLogin = true;
+        password = "";
+        username = "";
+        logonMessage = "Please provide your login details below:";
+        user = new JobManagerUser();
+
+        updateAllForms(context);
+
+        // Hide search layout unit if initially shown
+        if (!searchLayoutUnitCollapsed) {
+            searchLayoutUnitCollapsed = true;
+            context.execute("layoutVar.toggle('west');");
+        }
+
+        // Unrender all Job Manager tabs
+        setRenderJobDetailTab(false);
+
+        context.execute("loginDialog.show();longProcessDialogVar.hide();PrimeFaces.changeTheme('" + getUser().getUserInterfaceThemeName() + "');");
+
+    }
+
+    public void handleKeepAlive() {
+        //getUser().setPollTime(new Timestamp(new Date().getTime()));
+        getUser().setPollTime(new Date()); // tk
+        // NB: Time is based on the time zone set in the application server
+        System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
+        saveUser();
+    }
+
+    public void saveUser() {
+        EntityManager em = getEntityManager1();
+
+        if (getUser().getId() != null) {
+            JobManagerUser.save(em, getUser());
+        }
+
+        em.close();
+    }
+
+    public void updateDatabaseModule() {
+        System.out.println("To be impl. or removed...");
+    }
+
+    public void handleLayoutUnitToggle(ToggleEvent event) {
+
+        if (event.getComponent().getId().equals("searchLayoutUnit")) {
+            if (event.getVisibility().name().equals("VISIBLE")) {
+                searchLayoutUnitCollapsed = false;
+            } else {
+                searchLayoutUnitCollapsed = true;
+            }
+        }
+    }
+
+    public Boolean renderUserMenu() {
+        if (getUser().getId() == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public String getInvalidFormFieldMessage() {
+        return invalidFormFieldMessage;
+    }
+
+    @Override
+    public void setInvalidFormFieldMessage(String invalidFormFieldMessage) {
+        this.invalidFormFieldMessage = invalidFormFieldMessage;
+    }
+
+    public void displayCommonMessageDialog(DialogActionHandler dialogActionHandler, String dialogMessage,
+            String dialogMessageHeader,
+            String dialoMessageSeverity) {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        setDialogActionHandler(dialogActionHandler);
+
+        setDialogRenderOkButton(true);
+        setDialogRenderYesButton(false);
+        setDialogRenderNoButton(false);
+
+        setDialogMessage(dialogMessage);
+        setDialogMessageHeader(dialogMessageHeader);
+        setDialogMessageSeverity(dialoMessageSeverity);
+
+        context.update("commonMessageDialogForm");
+        context.execute("commonMessageDialog.show();");
+    }
+
+    public void displayCommonConfirmationDialog(DialogActionHandler dialogActionHandler,
+            String dialogMessage,
+            String dialogMessageHeader,
+            String dialoMessageSeverity) {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        setDialogActionHandler(dialogActionHandler);
+
+        setDialogRenderOkButton(false);
+        setDialogRenderYesButton(true);
+        setDialogRenderNoButton(true);
+        setDialogRenderCancelButton(true);
+
+        setDialogMessage(dialogMessage);
+        setDialogMessageHeader(dialogMessageHeader);
+        setDialogMessageSeverity(dialoMessageSeverity);
+
+        context.update("commonMessageDialogForm");
+        context.execute("commonMessageDialog.show();");
+    }
+
+    public void handleDialogOkButtonPressed() {
+        if (dialogActionHandler != null) {
+            dialogActionHandler.handleDialogOkButtonClick();
+        }
+    }
+
+    public void handleDialogYesButtonPressed() {
+        if (dialogActionHandler != null) {
+            dialogActionHandler.handleDialogYesButtonClick();
+        }
+    }
+
+    public void handleDialogNoButtonPressed() {
+        if (dialogActionHandler != null) {
+            dialogActionHandler.handleDialogNoButtonClick();
+        }
+    }
+
+    public void handleDialogCancelButtonPressed() {
+        if (dialogActionHandler != null) {
+            dialogActionHandler.handleDialogCancelButtonClick();
+        }
+    }
+
+    /**
+     * Validate a user and associate the user with an employee if possible.
+     *
+     * @param em
+     * @param username
+     * @param password
+     * @return
+     */
+    @Override
+    public Boolean validateAndAssociateUser(EntityManager em, String username, String password) {
+        Boolean userValidated = false;
+        InitialLdapContext ctx;
+
+        try {
+            List<jm.com.dpbennett.business.entity.LdapContext> ctxs = jm.com.dpbennett.business.entity.LdapContext.findAllLdapContexts(em);
+
+            for (jm.com.dpbennett.business.entity.LdapContext ldapContext : ctxs) {
+                ctx = ldapContext.getInitialLDAPContext(username, password);
+
+                if (checkForLDAPUser(em, username, ctx)) {
+                    // user exists in LDAP                    
+                    userValidated = true;
+                    break;
+                }
+            }
+
+            // get the user if one exists
+            if (userValidated) {
+
+                System.out.println("User validated.");
+
+                return true;
+
+            } else {
+                System.out.println("User NOT validated!");
+                return false;
+            }
+
+        } catch (Exception e) {
+            System.err.println("Problem connecting to directory: " + e);
+        }
+
+        return false;
+    }
+    // End Main
+
+    public void addMessage(String summary, String detail) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public void closeJobDetailTab() {
@@ -330,29 +855,50 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         setRenderJobDetailTab(false);
     }
 
+    public void onMainViewTabClose(TabCloseEvent event) {
+        EntityManager em = getEntityManager1();
+
+        if (event.getTab().getId().equals("jobsTab")) {
+            getUser().setJobManagementAndTrackingUnit(false);
+            getUser().save(em);
+        } else if (event.getTab().getId().equals("jobDetailTab")) {
+            closeJobDetailTab();
+        } else if (event.getTab().getId().equals("financialAdminTab")) {
+            getUser().setFinancialAdminUnit(false);
+            getUser().save(em);
+        } else if (event.getTab().getId().equals("adminTab")) {
+            getUser().setAdminUnit(false);
+            getUser().save(em);
+        }
+
+    }
+
     public void onMainViewTabChange(TabChangeEvent event) {
         RequestContext context = RequestContext.getCurrentInstance();
 
-        Tab activeTab = event.getTab();
+        Tab tab = event.getTab();
 
-        if (activeTab != null) {
-            setTabTitle(activeTab.getTitle());
+        if (tab != null) {
+            String tabId = tab.getId();
 
             SearchManager sm = Application.findBean("searchManager");
-            switch (getTabTitle()) {
-                case "Service Requests":
-                    sm.setCurrentSearchParameterKey("Service Request Search");
-                    break;
-                case "System Administration":
+            switch (tabId) {
+                case "adminTab":
                     sm.setCurrentSearchParameterKey("Admin Search");
+                    break;
+                case "financialAdminTab":
+                    sm.setCurrentSearchParameterKey("Admin Search");
+                    break;
+                case "jobDetailTab":
+                    sm.setCurrentSearchParameterKey("Job Search");
                     break;
                 default:
                     sm.setCurrentSearchParameterKey("Job Search");
                     break;
             }
-        }
 
-        context.update("searchForm");
+            context.update("searchForm");
+        }
     }
 
     public Boolean getRenderJobDetailTab() {
@@ -428,13 +974,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void setJobsTabTitle(String jobsTabTitle) {
         this.jobsTabTitle = jobsTabTitle;
-    }
-
-    public Main getMain() {
-        if (main == null) {
-            main = Application.findBean("main");
-        }
-        return main;
     }
 
     public Department getJobCostDepartment() {
@@ -545,20 +1084,12 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         return false;
     }
 
-    public Integer getLoginAttempts() {
-        return loginAttempts;
-    }
-
     public String getSelectedJobCostingTemplate() {
         return selectedJobCostingTemplate;
     }
 
     public void setSelectedJobCostingTemplate(String selectedJobCostingTemplate) {
         this.selectedJobCostingTemplate = selectedJobCostingTemplate;
-    }
-
-    public void setLoginAttempts(Integer loginAttempts) {
-        this.loginAttempts = loginAttempts;
     }
 
     public void okCurrentContact(ActionEvent actionEvent) {
@@ -1407,14 +1938,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         return null;
     }
 
-    public String getTabTitle() {
-        return tabTitle;
-    }
-
-    public void setTabTitle(String tabTitle) {
-        this.tabTitle = tabTitle;
-    }
-
     public String getJobSearchResultsPanelVisibility() {
         if (renderSearchComponent) {
             return "visible";
@@ -1542,11 +2065,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     job.getJobCostingAndPayment().setInvoiced(false);
                     BusinessEntityUtils.saveBusinessEntity(em, job);
                     em.getTransaction().commit();
-                    getMain().displayCommonMessageDialog(null, "Job costing could not be marked as being invoiced because it was not approved", "Not Approved", "alert");
+                    displayCommonMessageDialog(null, "Job costing could not be marked as being invoiced because it was not approved", "Not Approved", "alert");
                 }
             }
         } else {
-            getMain().displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
+            displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
         }
     }
 
@@ -1563,12 +2086,12 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             if (!getCurrentJob().getJobCostingAndPayment().getCostingApproved()
                     && !getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
                 getCurrentJob().getJobCostingAndPayment().setInvoiced(false);
-                getMain().displayCommonMessageDialog(null, "This job costing cannot be marked as being invoiced because it is not prepared/approved", "Not prepared/Approved", "alert");
+                displayCommonMessageDialog(null, "This job costing cannot be marked as being invoiced because it is not prepared/approved", "Not prepared/Approved", "alert");
             } else {
                 setDirty(true);
             }
         } else {
-            getMain().displayCommonMessageDialog(null, "You do not have permission to change the invoiced status of this job costing.", "Permission Denied", "alert");
+            displayCommonMessageDialog(null, "You do not have permission to change the invoiced status of this job costing.", "Permission Denied", "alert");
             getCurrentJob().getJobCostingAndPayment().setInvoiced(!getCurrentJob().getJobCostingAndPayment().getInvoiced());
         }
     }
@@ -1589,11 +2112,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     job.getJobCostingAndPayment().setCostingApproved(false);
                     BusinessEntityUtils.saveBusinessEntity(em, job);
                     em.getTransaction().commit();
-                    getMain().displayCommonMessageDialog(null, "Job costing could not be marked as being approved because it was not prepared", "Not Prepared", "alert");
+                    displayCommonMessageDialog(null, "Job costing could not be marked as being approved because it was not prepared", "Not Prepared", "alert");
                 }
             }
         } else {
-            getMain().displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
+            displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
         }
 
     }
@@ -1791,22 +2314,21 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         this.dynamicTabView = dynamicTabView;
     }
 
-    public void handleKeepAlive() {
-        EntityManager em = getEntityManager1();
-
-        System.out.println("Handling keep alive session: doing polling for SysAdmin..." + new Date());
-        em.getTransaction().begin();
-        main.setUser(JobManagerUser.findJobManagerUserByUsername(em, main.getUser().getUsername()));
-        main.getUser().setPollTime(new Timestamp(new Date().getTime()));
-
-        for (JobManagerUser u : JobManagerUser.findAllJobManagerUsers(em)) {
-            em.refresh(u);
-        }
-        BusinessEntityUtils.saveBusinessEntity(em, main.getUser());
-
-        em.getTransaction().commit();
-    }
-
+//    public void handleKeepAlive() {
+//        EntityManager em = getEntityManager1();
+//
+//        System.out.println("Handling keep alive session: doing polling for SysAdmin..." + new Date());
+//        em.getTransaction().begin();
+//        main.setUser(JobManagerUser.findJobManagerUserByUsername(em, main.getUser().getUsername()));
+//        main.getUser().setPollTime(new Timestamp(new Date().getTime()));
+//
+//        for (JobManagerUser u : JobManagerUser.findAllJobManagerUsers(em)) {
+//            em.refresh(u);
+//        }
+//        BusinessEntityUtils.saveBusinessEntity(em, main.getUser());
+//
+//        em.getTransaction().commit();
+//    }
     /**
      * Determine if the current user can mark the current job costing as being
      * completed. This is done by determining if the job was assigned to the
@@ -1819,19 +2341,18 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         return isJobAssignedToUserDepartment();
     }
 
-    public void saveUser() {
-        EntityManager em = getEntityManager1();
-
-        if (getUser().getId() != null) {
-            em.getTransaction().begin();
-            BusinessEntityUtils.saveBusinessEntity(em, getUser());
-            em.getTransaction().commit();
-        } else {
-            System.out.println("Not saving");
-        }
-
-    }
-
+//    public void saveUser() {
+//        EntityManager em = getEntityManager1();
+//
+//        if (getUser().getId() != null) {
+//            em.getTransaction().begin();
+//            BusinessEntityUtils.saveBusinessEntity(em, getUser());
+//            em.getTransaction().commit();
+//        } else {
+//            System.out.println("Not saving");
+//        }
+//
+//    }
     /**
      * Conditionally disable department entry. Currently not used.
      *
@@ -2128,10 +2649,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         this.selectedCashPayment = selectedCashPayment;
     }
 
-    public EntityManager getEntityManager1() {
-        return getEMF1().createEntityManager();
-    }
-
     public EntityManager getEntityManager2() {
         return getEMF2().createEntityManager();
     }
@@ -2227,7 +2744,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         if (!validateCurrentJobCosting() && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
             getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
-            getMain().displayCommonMessageDialog(null, "Removing the content of a required field has invalidated this job costing", "Invalid Job Costing", "info");
+            displayCommonMessageDialog(null, "Removing the content of a required field has invalidated this job costing", "Invalid Job Costing", "info");
         } else {
             setDirty(true);
         }
@@ -2240,13 +2757,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         if (!getCurrentJob().isSubContracted() && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             if (!Job.findIncompleteSubcontracts(em, currentJob).isEmpty()) {
                 getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
-                getMain().displayCommonMessageDialog(null,
+                displayCommonMessageDialog(null,
                         "This job costing cannot be marked prepared before all subcontracted jobs are completed", "Incomplete Subcontracts", "info");
             }
         } else if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()) {
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(!getCurrentJob().getJobCostingAndPayment().getCostingCompleted());
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
-            getMain().displayCommonMessageDialog(null,
+            displayCommonMessageDialog(null,
                     "The job costing preparation status cannot be changed because it was already approved.",
                     "Job Costing Already Approved", "info");
         } else if (!validateCurrentJobCosting()
@@ -2255,7 +2772,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
             getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
             sendJobCostingCompletedEmail = false;
-            getMain().displayCommonMessageDialog(null, "Please enter all required (*) fields before checking this job costing as being prepared.", "Required (*) Fields Missing", "info");
+            displayCommonMessageDialog(null, "Please enter all required (*) fields before checking this job costing as being prepared.", "Required (*) Fields Missing", "info");
         } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
             sendJobCostingCompletedEmail = true;
@@ -2296,7 +2813,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 setJobCostingDate(null);
                 getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
                 sendJobCostingApprovedEmail = false;
-                getMain().displayCommonMessageDialog(null, "This job costing cannot be approved before it is prepared", "Cannot Approve", "info");
+                displayCommonMessageDialog(null, "This job costing cannot be approved before it is prepared", "Cannot Approve", "info");
             } else {
                 Date date = new Date();
                 setJobCostingDate(date);
@@ -2307,7 +2824,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         } else {
             setJobCostingDate(null);
             getCurrentJob().getJobCostingAndPayment().setCostingApproved(!getCurrentJob().getJobCostingAndPayment().getCostingApproved());
-            getMain().displayCommonMessageDialog(null, "You do not have the permission to approve job costings.", "No Permission", "alert");
+            displayCommonMessageDialog(null, "You do not have the permission to approve job costings.", "No Permission", "alert");
         }
     }
 
@@ -2345,7 +2862,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
 
         setDirty(true);
-        
+
     }
 
     public Boolean getAllowCostEdit() {
@@ -2432,7 +2949,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 getCurrentJob().getJobStatusAndTracking().
                         setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
 
-                getMain().displayCommonMessageDialog(null,
+                displayCommonMessageDialog(null,
                         "This job is marked as completed and cannot be changed. You may contact the department's supervisor.",
                         "Job Work Progress Cannot Be Changed", "info");
 
@@ -2450,7 +2967,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 getCurrentJob().getJobStatusAndTracking().
                         setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
 
-                getMain().displayCommonMessageDialog(null,
+                displayCommonMessageDialog(null,
                         "The job costing needs to be prepared before this job can marked as completed.",
                         "Job Work Progress Cannot Be As Marked Completed", "info");
 
@@ -2458,7 +2975,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             }
         } else {
-            getMain().displayCommonMessageDialog(null,
+            displayCommonMessageDialog(null,
                     "This job cannot be marked as completed because it is not yet saved.",
                     "Job Work Progress Cannot be Changed", "info");
             return false;
@@ -2608,18 +3125,18 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
         // set job dirty to ensure it is saved if attempt is made to close it
         //  before saving
-        setDirty(true);       
+        setDirty(true);
     }
 
     public void subContractJob(ActionEvent actionEvent) {
         EntityManager em = getEntityManager1();
-        createJob(em, true);        
+        createJob(em, true);
     }
 
     public void createNewJobWithoutSavingCurrent(ActionEvent action) {
         EntityManager em = getEntityManager1();
         setDirty(false);
-        createJob(em, false);        
+        createJob(em, false);
     }
 
     public void loadOtherJobWithoutSavingCurrent(ActionEvent action) {
@@ -2664,7 +3181,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         // prompt to save modified job before attempting to create new job
         if (isDirty()) {
             // ask to save         
-            getMain().displayCommonConfirmationDialog(initDialogActionHandlerId("unitCostDirty"), "This unit cost was modified. Do you wish to save it?", "Unit Cost Not Saved", "info");
+            displayCommonConfirmationDialog(initDialogActionHandlerId("unitCostDirty"), "This unit cost was modified. Do you wish to save it?", "Unit Cost Not Saved", "info");
         } else {
             context.execute("unitCostDialog.hide();");
         }
@@ -2764,7 +3281,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
 
         } catch (Exception e) {
-           System.out.println(e);
+            System.out.println(e);
         }
 
         return true;
@@ -2826,10 +3343,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         } else if (!isDirty()) {
             System.out.println("Job not dirty so it will not be saved.");
         } else {
-            getMain().displayCommonMessageDialog(null, "You may not have sufficient privilege to enter/save this job. "
+            displayCommonMessageDialog(null, "You may not have sufficient privilege to enter/save this job. "
                     + "Also, please note that you may only enter jobs that are assigned to you or your department. "
                     + "Please contact the IT/MIS Department for further assistance.", "Insufficient Privilege", "alert");
         }
+
+        // At this point the job was hopefully successfully saved
+        addMessage("Success", "Job was saved!");
     }
 
     public void saveUnitCost() {
@@ -2842,7 +3362,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             // Department
             Department department = Department.findDepartmentByName(em, getCurrentUnitCost().getDepartment().getName());
             if (department == null) {
-                getMain().setInvalidFormFieldMessage("This unit cost cannot be saved because a valid department was not entered.");
+                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid department was not entered.");
 
                 context.update("invalidFieldDialogForm");
                 context.execute("invalidFieldDialog.show();");
@@ -2869,7 +3389,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             // Service
             if (getCurrentUnitCost().getService().trim().equals("")) {
-                getMain().setInvalidFormFieldMessage("This unit cost cannot be saved because a valid service was not entered.");
+                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid service was not entered.");
                 context.update("invalidFieldDialogForm");
                 context.execute("invalidFieldDialog.show();");
                 return;
@@ -2877,7 +3397,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             // Cost
             if (getCurrentUnitCost().getCost() <= 0.0) {
-                getMain().setInvalidFormFieldMessage("This unit cost cannot be saved because a valid cost was not entered.");
+                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid cost was not entered.");
                 context.update("invalidFieldDialogForm");
                 context.execute("invalidFieldDialog.show();");
                 return;
@@ -2885,7 +3405,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             // Effective date
             if (getCurrentUnitCost().getEffectiveDate() == null) {
-                getMain().setInvalidFormFieldMessage("This unit cost cannot be saved because a valid effective date was not entered.");
+                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid effective date was not entered.");
                 context.update("invalidFieldDialogForm");
                 context.execute("invalidFieldDialog.show();");
                 return;
@@ -2913,7 +3433,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     "\nJMTS User: " + getUser().getUsername()
                     + "\nDate/time: " + new Date()
                     + "\nException detail: " + e);
-        }       
+        }
     }
 
     public void saveCurrentAndLoadOtherJob(ActionEvent actionEvent) {
@@ -2953,7 +3473,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         MethodResult result = getCurrentJob().validate(em);
         if (!result.isSuccess()) {
             if (displayErrorMessage) {
-                getMain().setInvalidFormFieldMessage(result.getMessage());
+                setInvalidFormFieldMessage(result.getMessage());
                 context.update("invalidFieldDialogForm");
                 context.execute("invalidFieldDialog.show();");
             }
@@ -2986,7 +3506,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                         && !isUserDepartmentSupervisor(getCurrentJob())) {
                     setDirty(false);
                     doJobSearch(searchManager.getCurrentSearchParameters());
-                    getMain().displayCommonMessageDialog(null,
+                    displayCommonMessageDialog(null,
                             "This job is marked as completed so changes cannot be saved. You may contact your department's supervisor or a system administrator.",
                             "Job Cannot Be Saved", "info");
 
@@ -3950,10 +4470,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             em = getEntityManager1();
 
             List<BusinessOffice> offices = BusinessOffice.findActiveBusinessOfficesByName(em, query);
-           
+
             return offices;
         } catch (Exception e) {
-            
+
             System.out.println(e);
             return new ArrayList<>();
         }
@@ -4001,10 +4521,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             em = getEntityManager1();
 
             List<Classification> classifications = Classification.findActiveClassificationsByName(em, query);
-           
+
             return classifications;
         } catch (Exception e) {
-            
+
             System.out.println(e);
             return new ArrayList<>();
         }
@@ -4017,11 +4537,11 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             em = getEntityManager1();
 
             List<Department> departments = Department.findActiveDepartmentsByName(em, query);
-           
+
             return departments;
 
         } catch (Exception e) {
-           System.out.println(e + ": completeDepartment");
+            System.out.println(e + ": completeDepartment");
 
             return new ArrayList<>();
         }
@@ -4038,7 +4558,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             return preferenceValues;
 
         } catch (Exception e) {
-           System.out.println(e);
+            System.out.println(e);
 
             return new ArrayList<>();
         }
@@ -4085,7 +4605,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             em = getEntityManager1();
             List<Employee> employees = Employee.findActiveEmployeesByName(em, query);
-            
+
             if (employees != null) {
                 return employees;
             } else {
@@ -4112,7 +4632,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             return suggestions;
         } catch (Exception e) {
-            
+
             System.out.println(e);
 
             return new ArrayList<>();
@@ -4127,7 +4647,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
             return AccPacCustomer.findAccPacCustomersByName(em2, query);
         } catch (Exception e) {
-            
+
             System.out.println(e);
             return new ArrayList<>();
         }
@@ -4227,9 +4747,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         return sectors;
     }
-    
+
     /**
      * NB: query parameter currently not used to filter sectors.
+     *
      * @param query
      * @return
      */
@@ -4248,9 +4769,10 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         return addresses;
     }
-    
+
     /**
      * NB: query not used to filter
+     *
      * @param query
      * @return
      */
@@ -4277,7 +4799,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         return subCategories;
     }
-    
+
     public List<JobSubCategory> completeActiveJobSubCategories(String query) {
         EntityManager em = getEntityManager1();
 
@@ -4465,7 +4987,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 return "";
             }
         } catch (Exception e) {
-           
+
             System.out.println(e);
         }
 
@@ -4494,9 +5016,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 currentJob.setClassification(classification);
                 setDirty(true);
             }
-           
+
         } catch (Exception e) {
-           
+
             System.out.println(e);
         }
     }
@@ -4527,7 +5049,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
 
         } catch (Exception e) {
-           System.out.println(e);
+            System.out.println(e);
         }
     }
 
@@ -4619,7 +5141,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
 
         } catch (Exception e) {
-             System.out.println(e);
+            System.out.println(e);
         }
     }
 
@@ -4637,7 +5159,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
 
         } catch (Exception e) {
-             System.out.println(e);
+            System.out.println(e);
         }
     }
 
@@ -4660,7 +5182,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                 }
             }
 
-        } catch (Exception e) {            
+        } catch (Exception e) {
             currentJob.setJobNumber(getCurrentJobNumber());
             System.out.println(e + ": updateSubContractedDepartment");
         }
@@ -4685,14 +5207,14 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
 
         } catch (Exception e) {
-             System.out.println(e);
+            System.out.println(e);
         }
     }
 
     public void updateAccPacClient() {
 
         setShowPrepayments(false);
-        
+
         filteredAccPacCustomerDocuments = new ArrayList<>();
 
         try {
@@ -4720,7 +5242,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         if (useAccPacCustomerList) {
             updateCreditStatus(null);
         }
-        
+
         currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
         currentJob.setContact(currentJob.getClient().getMainContact());
 
@@ -4861,7 +5383,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             reportEmployee = Employee.findEmployeeByName(em, getReportEmployee().getName());
 
         } catch (Exception e) {
-             System.out.println(e);
+            System.out.println(e);
         }
 
     }
@@ -4909,7 +5431,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
     public void updateSampledBy() {
         EntityManager em = getEntityManager1();
-        selectedJobSample.setSampledBy(Employee.findEmployeeByName(em, selectedJobSample.getSampledBy().getName()));       
+        selectedJobSample.setSampledBy(Employee.findEmployeeByName(em, selectedJobSample.getSampledBy().getName()));
     }
 
     public void updateReceivedBy() {
@@ -4929,7 +5451,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             }
 
         } catch (Exception e) {
-             System.out.println(e);
+            System.out.println(e);
         }
     }
 
@@ -4966,10 +5488,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         }
     }
 
-    public JobManagerUser getUser() {
-        return getMain().getUser();
-    }
-
     public void createNewJobClient() {
         clientManager.createNewClient();
         clientManager.setUser(getUser());
@@ -4977,8 +5495,8 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         clientManager.setBillingAddress(clientManager.getClient().getBillingAddress());
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-        clientManager.setExternalEntityManagerFactory(EMF1);        
-        getMain().openDialog(null, "clientForm", true, true, true, 420, 600);
+        clientManager.setExternalEntityManagerFactory(EMF1);
+        openDialog(null, "clientForm", true, true, true, 420, 600);
     }
 
     // Edit the client via the ClientManagerKeep
@@ -4990,7 +5508,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
-        getMain().openDialog(null, "clientForm", true, true, true, 420, 600);
+        openDialog(null, "clientForm", true, true, true, 420, 600);
     }
 
     public ServiceRequest createNewServiceRequest(EntityManager em,
@@ -5106,7 +5624,6 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             Boolean copySamples) {
         Job job = new Job();
 
-         
         job.setClient(new Client("", false));
         setIsJobToBeCopied(true);
 
@@ -5115,7 +5632,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
 
         job.setBusinessOffice(currentJob.getBusinessOffice());
         job.setDepartment(currentJob.getDepartment());
-        job.setSubContractedDepartment(getDefaultDepartment(em, "--"));        
+        job.setSubContractedDepartment(getDefaultDepartment(em, "--"));
         job.setClassification(Classification.findClassificationByName(em, "--"));
         job.setSector(Sector.findSectorByName(em, "--"));
         job.setJobCategory(JobCategory.findJobCategoryByName(em, "--"));
@@ -5342,7 +5859,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             departmentCode = "?";
         }
         // include the sequence number if it is valid
-        if (jobSequenceNumber != 0) {          
+        if (jobSequenceNumber != 0) {
             jobSequenceNumberStr = getFourDigitString(jobSequenceNumber);
         }
 
@@ -5625,7 +6142,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             Date endDate) {
 
         List<DatePeriodJobReportColumnData> data = null;
-        
+
         String searchQuery
                 = "SELECT NEW jm.com.dpbennett.utils.DatePeriodJobReportColumnData"
                 + "("
@@ -5714,10 +6231,9 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
             Date endDate) {
 
         List<DatePeriodJobReportColumnData> data;
-      
+
         String searchQuery
-                = 
-                "SELECT NEW jm.com.dpbennett.utils.DatePeriodJobReportColumnData"
+                = "SELECT NEW jm.com.dpbennett.utils.DatePeriodJobReportColumnData"
                 + "("
                 + "job"
                 + ")"
@@ -6098,13 +6614,13 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public ByteArrayInputStream createExcelMonthlyReportFileInputStream(
-            File reportFile,           
+            File reportFile,
             Long departmentId) {
 
         try {
             FileInputStream inp = new FileInputStream(reportFile);
             int row = 2;
-            
+
             XSSFWorkbook wb = new XSSFWorkbook(inp);
 
             XSSFCellStyle stringCellStyle = wb.createCellStyle();
@@ -7443,7 +7959,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     "java.util.Date", dataCellStyle);
 
             // BALANCE (amount due) 
-            dataCellStyle = getDefaultCellStyle(wb);          
+            dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setFont(defaultFont);
             dataCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
@@ -8009,7 +8525,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     return null;
                 }
             } else {
-                getMain().displayCommonMessageDialog(null, "The name of employee is required for this report", "Employee Required", "info");
+                displayCommonMessageDialog(null, "The name of employee is required for this report", "Employee Required", "info");
                 return null;
             }
 
@@ -8061,7 +8577,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
                     return null;
                 }
             } else {
-                getMain().displayCommonMessageDialog(null, "The name of a department is required for this report", "Department Required", "info");
+                displayCommonMessageDialog(null, "The name of a department is required for this report", "Department Required", "info");
                 return null;
             }
 
@@ -8422,7 +8938,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
     }
 
     public void openClientDatabaseDialog() {
-        getMain().openDialog(null, "clientDatabaseDialog", true, true, true, 800, 600);
+        openDialog(null, "clientDatabaseDialog", true, true, true, 800, 600);
     }
 
     public Department getDepartmentBySystemOptionDeptId(String option) {
@@ -8459,7 +8975,7 @@ public class JobManager implements Serializable, BusinessEntityManager, DialogAc
         return true;
     }
 
-    public List<SelectItem> getGCTPercentages() {
+    public List<SelectItem> getGCTPercentages() { // tk put in a costing entity
         ArrayList percentages = new ArrayList();
 
         percentages.addAll(Application.getStringListAsSelectItems(getEntityManager1(), "GCTPercentageList"));
