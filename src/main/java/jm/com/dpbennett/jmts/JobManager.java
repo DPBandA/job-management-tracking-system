@@ -835,22 +835,24 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void closeJobDetailTab() {
         // Redo search to reload stored jobs including?
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        getCurrentJob().setIsJobToBeSubcontracted(false);
-        setIsJobToBeCopied(false);
-
-        if (isDirty()) {
-            context.update("jobSaveConfirmDialogForm");
-            context.execute("jobSaveConfirm.show();");
-
-            return;
-        }
-
-        resetCurrentJob();
-
-        // Remove Job Detail tab
-        setRenderJobDetailTab(false);
+//        RequestContext context = RequestContext.getCurrentInstance();
+//
+//        getCurrentJob().setIsJobToBeSubcontracted(false);
+//        setIsJobToBeCopied(false);
+//
+//        if (isDirty()) {
+//            context.update("jobSaveConfirmDialogForm");
+//            context.execute("jobSaveConfirm.show();");
+//
+//            return;
+//        }
+//
+//        resetCurrentJob();
+//
+//        // Remove Job Detail tab
+        // setRenderJobDetailTab(false);   
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        requestContext.addCallbackParam("isDirty", isDirty());
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
@@ -860,7 +862,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
             getUser().setJobManagementAndTrackingUnit(false);
             getUser().save(em);
         } else if (event.getTab().getId().equals("jobDetailTab")) {
-            closeJobDetailTab();
+            setRenderJobDetailTab(false);
         } else if (event.getTab().getId().equals("financialAdminTab")) {
             getUser().setFinancialAdminUnit(false);
             getUser().save(em);
@@ -1007,7 +1009,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         getUser().setAdminUnit(true);
         getUser().save(getEntityManager1());
-        
+
         sm.setCurrentSearchParameterKey("Admin Search");
     }
 
@@ -1016,7 +1018,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         getUser().setFinancialAdminUnit(true);
         getUser().save(getEntityManager1());
-        
+
         sm.setCurrentSearchParameterKey("Admin Search");
     }
 

@@ -255,13 +255,14 @@ function handleCreateJobRequest(xhr,status,args) {
     jobDialog.show();
 }
 
-function handleCloseJobDialog(xhr,status,args) {
+function handleCloseJobDetailTab(xhr,status,args) {
     
-    if(args.jobDirty) {
-        jobSaveConfirm.show();
+    if(args.isDirty) {
+        jobDetailTabCloseConfirmation.show();
     }
     else {
-        jobDialog.hide();
+        mainTabViewVar.remove(mainTabViewVar.getActiveIndex());
+        mainTabViewVar.select(0);
     }
 }
 

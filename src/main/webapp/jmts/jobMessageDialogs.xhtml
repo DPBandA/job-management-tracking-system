@@ -3,6 +3,25 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:form id="jobDetailTabCloseConfirmationForm"> 
+        <p:confirmDialog severity="alert"
+                         message="This job was modified. Do you wish to continue editing?"
+                         header="Job Modified (#{jobManager.currentJob.jobNumber})"
+                         widgetVar="jobDetailTabCloseConfirmation"
+                         width="425">
+
+            <p:commandButton value="Yes"    
+                             oncomplete="jobDetailTabCloseConfirmation.hide();"
+                             icon="ui-icon-check"
+                             process="@this"/>
+            <p:commandButton value="No"                             
+                             update=":mainTabViewForm"
+                             oncomplete="jobDetailTabCloseConfirmation.hide();mainTabViewVar.remove(mainTabViewVar.getActiveIndex());mainTabViewVar.select(0);"
+                             icon="ui-icon-close"/>       
+        </p:confirmDialog>
+    </h:form>       
+
+
     <h:form id="jobSaveConfirmDialogForm"> 
         <p:confirmDialog severity="alert"
                          message="The current job (#{jobManager.currentJob.jobNumber}) was modified. Do you wish to save it?"
@@ -23,30 +42,7 @@
                              oncomplete="jobSaveConfirm.hide();mainTabViewVar.select(0);"
                              icon="ui-icon-close"/>       
         </p:confirmDialog>
-    </h:form>   
-
-    <ui:remove>
-        <p:confirmDialog severity="alert"
-                         message="The current job was modified. Do you wish to save it?"
-                         header="Job Modified"
-                         widgetVar="jobSaveConfirmBeforeLoad"
-                         width="425">
-            <h:form id="jobSaveConfirmBeforeLoadDialogForm">
-                <p:commandButton value="Yes"
-                                 actionListener="#{jobManager.saveCurrentAndLoadOtherJob(event)}"                            
-                                 oncomplete="handleLoadJobRequest(xhr, status, args);"
-
-                                 icon="ui-icon-check"
-                                 process="@this"/>
-                <p:commandButton value="No"
-                                 actionListener="#{jobManager.loadOtherJobWithoutSavingCurrent(event)}"
-
-                                 oncomplete="handleLoadJobRequest(xhr, status, args);"
-                                 process="@this"
-                                 icon="ui-icon-close"/>
-            </h:form>
-        </p:confirmDialog>
-    </ui:remove>
+    </h:form>       
 
     <p:confirmDialog severity="alert"                     
                      message="The current job must be saved before a copy can be created."

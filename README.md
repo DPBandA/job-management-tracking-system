@@ -11,6 +11,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
+- Job tab reopens when tab is closed...update jobs table and not entire form.
+  Also call setRenderJobDetailTab(false) at the appropriate place and look at what
+  closeJobDetailTab() does to ensure all steps are completed to close the job detail panel.
 - When invalid from is closed, the same invalid form is open with missing fields
   when a valid form is opened. Test the implemented fix then implement checking
   for dirty job and ask if wish to continue.

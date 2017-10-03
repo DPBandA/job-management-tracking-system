@@ -91,7 +91,7 @@
         <ui:include src="common/generalAlertDialogs.xhtml"/>
         <ui:include src="common/connectionErrorAlertDialog.xhtml"/>
         <ui:include src="common/longProcessDialog.xhtml"/>   
-        <ui:include src="jmts/saveConfirmationDialogs.xhtml"/>    
+        <ui:include src="jmts/jobMessageDialogs.xhtml"/>    
 
         <ui:include src="common/preferencesDialog.xhtml"/>   
         <ui:include src="finance/cashPaymentDialog.xhtml"/>
@@ -180,6 +180,7 @@
 
                         <p:ajax event="tabClose" 
                                 onstart="longProcessDialogVar.show();"
+                                update=":mainTabViewForm"
                                 oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
                                 listener="#{jobManager.onMainViewTabClose}" />                       
 
