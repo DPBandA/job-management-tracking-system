@@ -21,7 +21,6 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -639,7 +638,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
     private void updateAllForms(RequestContext context) {
         context.update("searchForm");
         context.update("headerForm");
-        context.update("unitDialogForms");
         context.update("mainTabViewForm");
         context.update("loginForm");
     }
@@ -880,25 +878,51 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         if (tab != null) {
             String tabId = tab.getId();
-
-            SearchManager sm = Application.findBean("searchManager");
-            switch (tabId) {
-                case "adminTab":
-                    sm.setCurrentSearchParameterKey("Admin Search");
-                    break;
-                case "financialAdminTab":
-                    sm.setCurrentSearchParameterKey("Admin Search");
-                    break;
-                case "jobDetailTab":
-                    sm.setCurrentSearchParameterKey("Job Search");
-                    break;
-                default:
-                    sm.setCurrentSearchParameterKey("Job Search");
-                    break;
-            }
-
-            context.update("searchForm");
+            updateSearchPanel(tabId);
+//            SearchManager sm = Application.findBean("searchManager");
+//            switch (tabId) {
+//                case "adminTab":
+//                    sm.setCurrentSearchParameterKey("Admin Search");
+//                    break;
+//                case "financialAdminTab":
+//                    sm.setCurrentSearchParameterKey("Admin Search");
+//                    break;
+//                case "jobDetailTab":
+//                    sm.setCurrentSearchParameterKey("Job Search");
+//                    break;
+//                default:
+//                    sm.setCurrentSearchParameterKey("Job Search");
+//                    break;
+//            }
+//
+//            context.update("searchForm");
         }
+    }
+
+    public void updateSearchPanel(String tabId) {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        SearchManager sm = Application.findBean("searchManager");
+        switch (tabId) {
+            case "adminTab":
+                sm.setCurrentSearchParameterKey("Admin Search");
+                break;
+            case "financialAdminTab":
+                sm.setCurrentSearchParameterKey("Admin Search");
+                break;
+            case "jobsTab":
+                sm.setCurrentSearchParameterKey("Job Search");
+                break;
+            case "jobDetailTab":
+                sm.setCurrentSearchParameterKey("Job Search");
+                break;
+            default:
+                sm.setCurrentSearchParameterKey("Job Search");
+                break;
+        }
+
+        context.update("searchForm"); //tk mainTabViewForm added for test
+
     }
 
     public Boolean getRenderJobDetailTab() {
@@ -966,6 +990,34 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void editPreferences() {
+    }
+
+    public void openJobsTab() {
+        SearchManager sm = Application.findBean("searchManager");
+
+        getUser().setJobManagementAndTrackingUnit(true);
+        getUser().save(getEntityManager1());
+
+        sm.setCurrentSearchParameterKey("Job Search");
+
+    }
+
+    public void openSystemAdministrationTab() {
+        SearchManager sm = Application.findBean("searchManager");
+
+        getUser().setAdminUnit(true);
+        getUser().save(getEntityManager1());
+        
+        sm.setCurrentSearchParameterKey("Admin Search");
+    }
+
+    public void openFinancialAdministrationTab() {
+        SearchManager sm = Application.findBean("searchManager");
+
+        getUser().setFinancialAdminUnit(true);
+        getUser().save(getEntityManager1());
+        
+        sm.setCurrentSearchParameterKey("Admin Search");
     }
 
     public String getJobsTabTitle() {
@@ -3209,7 +3261,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
         }
 
         context.update("mainTabViewForm");
-        context.update("unitDialogForms");
         context.execute("preferencesDialog.hide();");
 
         setDirty(false);

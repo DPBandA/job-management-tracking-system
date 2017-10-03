@@ -18,7 +18,7 @@
 
         <p:ajax event="close"    
                 process="@this"
-                update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable,:unitDialogForms:serviceRequest"
+                update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable"
                 listener="#{serviceManager.closeServiceRequestDialog2(event)}"
                 async="true" />
 
@@ -26,16 +26,15 @@
                          onstart="longProcessDialogVar.show();"
                          oncomplete="longProcessDialogVar.hide();"
                          value="Save"
-                         update=":unitDialogForms:serviceRequestDialogTabView:serviceRequestNumber"
+                         
                          title="Save current job"
-                         icon="ui-icon-disk"
-                         process=":unitDialogForms:serviceRequest"/>
+                         icon="ui-icon-disk" />
         <p:commandButton value="Close"
                          actionListener="#{serviceManager.closeServiceRequestDialog1(event)}"
                          async="true"
                          onclick="serviceRequestDialog.hide();"
-                         update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable,:unitDialogForms:serviceRequest"
-                         process=":unitDialogForms:serviceRequest"
+                         update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable"
+                        
                          icon="ui-icon ui-icon-close" />
         <p:spacer height="0" width="100"/>
 
@@ -85,7 +84,7 @@
                                                  value="#{serviceManager.currentServiceRequest.autoGenerateServiceRequestNumber}" >
                             <p:ajax listener="#{serviceManager.updateAutoGenerateServiceRequestNumber}"
                                     global="false"
-                                    update=":unitDialogForms:serviceRequestDialogTabView:serviceRequestNumber"
+                                   
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
 
@@ -127,10 +126,10 @@
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update=":unitDialogForms:serviceRequestDialogTabView:serviceRequestNumber"
+                                
                                 listener="#{serviceManager.handleDateSubmittedSelect}" />
                          <p:ajax event="keyup"
-                                update=":unitDialogForms:serviceRequestDialogTabView:serviceRequestNumber"
+                                
                                 listener="#{serviceManager.handleDateSubmittedSelect}" />
                     </p:calendar>
 
@@ -149,12 +148,12 @@
                         <p:ajax event="itemSelect"
                                 listener="#{serviceManager.updateDepartment}"
                                 global="false"
-                                update=":unitDialogForms:serviceRequestDialogTabView:serviceRequestNumber"
+                                
                                 process="@this" />
                         <p:ajax event="keyup"
                                 listener="#{serviceManager.updateDepartment}"
                                 global="false"
-                                update=":unitDialogForms:serviceRequestDialogTabView:serviceRequestNumber"
+                               
                                 process="@this" />
                     </p:autoComplete>
 
@@ -272,16 +271,15 @@
                          onstart="longProcessDialogVar.show();"
                          oncomplete="longProcessDialogVar.hide();"
                          value="Save"
-                         update=":unitDialogForms:serviceRequestDialogTabView:serviceRequestNumber"
+                         
                          title="Save current job"
-                         icon="ui-icon-disk"
-                         process=":unitDialogForms:serviceRequest"/>
+                         icon="ui-icon-disk" />
         <p:commandButton value="Close"
                          actionListener="#{serviceManager.closeServiceRequestDialog1(event)}"
                          async="true"
                          onclick="serviceRequestDialog.hide();"
-                         update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable,:unitDialogForms:serviceRequest"
-                         process=":unitDialogForms:serviceRequest"
+                         update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable"
+                        
                          icon="ui-icon ui-icon-close" />
     </p:dialog>
 
@@ -297,7 +295,7 @@
         <p:commandButton value="Yes"                             
                          actionListener="#{serviceManager.saveCurrentServiceRequest}"
                          onstart="longProcessDialogVar.show();"
-                         update=":unitDialogForms:serviceRequestDialogTabView:serviceRequestNumber,:mainTabViewForm:mainTabView:serviceRequestsDatabaseTable"
+                         update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable"
                          oncomplete="longProcessDialogVar.hide();serviceRequestSaveConfirmDialog.hide();"
                          icon="ui-icon-check"
                          process="@this"/>

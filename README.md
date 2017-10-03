@@ -11,7 +11,10 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
-- Put access to modules/units into user menu.
+- When invalid from is closed, the same invalid form is open with missing fields
+  when a valid form is opened. Test the implemented fix then implement checking
+  for dirty job and ask if wish to continue.
+- Update search panel when respective panel is open.
 - Make closable and activate/show Jobs tab when search is complete.
 - Make system admin tab closable which stays close even when screen is refreshed.
 - Check why billing address was not filled in when new job was created and
@@ -149,6 +152,7 @@ by other apps?
   Ensure the prevention of creating duplicate objects such as employees with the same name.
 - Move all "save and create" methods from JobManager to their respective entities
 - Change discount combobox to a menu.
+- Rename "Advanced Search" panel to something more general.
 - Create Home screen showing user's jobs, departmental job etc.
 - Display message when user logs on without authentication
 - Make country of origin autocomplete.

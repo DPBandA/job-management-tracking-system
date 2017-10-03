@@ -370,8 +370,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
         EntityManager em = getEntityManager();
 
         currentServiceRequest = Application.createNewServiceRequest(em, getUser(), Boolean.TRUE);
-        context.execute("longProcessDialogVar.hide();serviceRequestDialog.show();");
-        context.update("unitDialogForms:serviceRequest");
+        context.execute("longProcessDialogVar.hide();serviceRequestDialog.show();");        
 
     }
 
@@ -489,8 +488,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
         RequestContext context = RequestContext.getCurrentInstance();
 
         // prompt to save modified job before attempting to create new job
-        if (isDirty()) {
-            context.update("unitDialogForms:serviceRequestSaveConfirm");
+        if (isDirty()) {            
             context.execute("serviceRequestSaveConfirmDialog.show();");
             return;
         }

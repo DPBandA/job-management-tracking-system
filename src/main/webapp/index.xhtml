@@ -115,6 +115,28 @@
                         <p:menuButton value="#{jobManager.user.employee.firstName} #{jobManager.user.employee.lastName}"     
                                       style="float: right;"                                      
                                       rendered="#{jobManager.renderUserMenu()}">
+
+                            <p:menuitem actionListener="#{jobManager.openJobsTab}"
+                                        onstart="longProcessDialogVar.show();"
+                                        update=":searchForm,:mainTabViewForm"
+                                        oncomplete="longProcessDialogVar.hide();"                                            
+                                        value="Job Search"
+                                        process="@this"/>
+                            <p:menuitem actionListener="#{jobManager.openSystemAdministrationTab}"
+                                        rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
+                                        onstart="longProcessDialogVar.show();"
+                                        update=":searchForm,:mainTabViewForm"
+                                        oncomplete="longProcessDialogVar.hide();"                                            
+                                        value="System Administration"
+                                        process="@this"/>
+                             <p:menuitem actionListener="#{jobManager.openFinancialAdministrationTab}"
+                                        rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}"
+                                        onstart="longProcessDialogVar.show();"
+                                        update=":searchForm,:mainTabViewForm"
+                                        oncomplete="longProcessDialogVar.hide();"                                            
+                                        value="Financial Administration"
+                                        process="@this"/>
+                            <p:separator />                              
                             <p:menuitem actionListener="#{jobManager.editPreferences}"
                                         onstart="longProcessDialogVar.show();"
                                         update=":preferencesDialogForm"

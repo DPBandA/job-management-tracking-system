@@ -18,11 +18,9 @@
                      icon="ui-icon-disk"
                      process="@form"/>
     <p:spacer height="0" width="10"/>
-    <p:commandButton value="Close"
-                     actionListener="#{jobManager.closeJobDetailTab}"
+    <p:commandButton value="Close"                     
                      onstart="longProcessDialogVar.show();"
-                     oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
-                     async="true"                            
+                     oncomplete="mainTabViewVar.remove(mainTabViewVar.getActiveIndex());mainTabViewVar.select(0);longProcessDialogVar.hide();"  
                      update=":mainTabViewForm"
                      process="@this"
                      icon="ui-icon ui-icon-close" />
@@ -99,11 +97,9 @@
                      title="Save current job"
                      icon="ui-icon-disk"
                      process="@form"/>
-    <p:commandButton value="Close"
-                     actionListener="#{jobManager.closeJobDetailTab}"
+    <p:commandButton value="Close"                     
                      onstart="longProcessDialogVar.show();"
-                     oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
-                     async="true"                            
+                     oncomplete="mainTabViewVar.remove(mainTabViewVar.getActiveIndex());mainTabViewVar.select(0);longProcessDialogVar.hide();"  
                      update=":mainTabViewForm"
                      process="@this"
                      icon="ui-icon ui-icon-close" />

@@ -40,7 +40,7 @@
         <p:column style="width:32px">
             <p:commandButton title="View/Edit service request"                             
                              actionListener="#{serviceManager.editServiceRequest}"
-                             update=":unitDialogForms:serviceRequest"
+                            
                              onstart="longProcessDialogVar.show();"
                              oncomplete="serviceRequestDialog.show();longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
