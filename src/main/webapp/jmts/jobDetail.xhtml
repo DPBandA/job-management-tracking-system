@@ -19,7 +19,7 @@
                      process="@form"/>
     <p:spacer height="0" width="10"/>
     <p:commandButton value="Close"     
-                     actionListener="#{jobManager.closeJobDetailTab}"
+                     actionListener="#{jobManager.prepareToCloseJobDetailTab}"
                      onstart="longProcessDialogVar.show();"
                      oncomplete="handleCloseJobDetailTab(xhr,status,args);longProcessDialogVar.hide();" 
                      process="@this"
@@ -98,7 +98,7 @@
                      icon="ui-icon-disk"
                      process="@form"/>
     <p:commandButton value="Close"             
-                     actionListener="#{jobManager.closeJobDetailTab}"
+                     actionListener="#{jobManager.prepareToCloseJobDetailTab}"
                      onstart="longProcessDialogVar.show();"
                      oncomplete="handleCloseJobDetailTab(xhr,status,args);longProcessDialogVar.hide();" 
                      process="@this"

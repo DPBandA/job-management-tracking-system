@@ -245,7 +245,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     private String username = "";
     private String password = "";
     private String logonMessage;
-    private Boolean searchLayoutUnitCollapsed;
+    private Boolean westLayoutUnitCollapsed;
     private String invalidFormFieldMessage;
     private String dialogMessage;
     private String dialogMessageHeader;
@@ -260,7 +260,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
      * Creates a new instance of JobManagerBean
      */
     public JobManager() {
-        this.searchLayoutUnitCollapsed = true;
+        this.westLayoutUnitCollapsed = true;
         this.isJobToBeCopied = false;
         this.databaseModule = "";
         this.databaseModuleId = 1L;
@@ -419,7 +419,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         System.out.println("Initializing Job Manager...");
         showLogin = true;
         logonMessage = "Please provide your login details below:";
-        searchLayoutUnitCollapsed = true;
+        westLayoutUnitCollapsed = true;
     }
 
     public String getTabTitle() {
@@ -430,12 +430,12 @@ public class JobManager implements Serializable, BusinessEntityManager,
         this.tabTitle = tabTitle;
     }
 
-    public Boolean getSearchLayoutUnitCollapsed() {
-        return searchLayoutUnitCollapsed;
+    public Boolean getWestLayoutUnitCollapsed() {
+        return westLayoutUnitCollapsed;
     }
 
-    public void setSearchLayoutUnitCollapsed(Boolean searchLayoutUnitCollapsed) {
-        this.searchLayoutUnitCollapsed = searchLayoutUnitCollapsed;
+    public void setWestLayoutUnitCollapsed(Boolean westLayoutUnitCollapsed) {
+        this.westLayoutUnitCollapsed = westLayoutUnitCollapsed;
     }
 
     @Override
@@ -611,8 +611,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
                     // show search layout unit if initially collapsed
 //                    if (getUser().getJobTableViewPreference().equals("Jobs")) {
-                    if (searchLayoutUnitCollapsed) {
-                        searchLayoutUnitCollapsed = false;
+                    if (westLayoutUnitCollapsed) {
+                        westLayoutUnitCollapsed = false;
                         context.execute("layoutVar.toggle('west');");
                     }
 
@@ -655,8 +655,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
         updateAllForms(context);
 
         // Hide search layout unit if initially shown
-        if (!searchLayoutUnitCollapsed) {
-            searchLayoutUnitCollapsed = true;
+        if (!westLayoutUnitCollapsed) {
+            westLayoutUnitCollapsed = true;
             context.execute("layoutVar.toggle('west');");
         }
 
@@ -693,9 +693,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         if (event.getComponent().getId().equals("searchLayoutUnit")) {
             if (event.getVisibility().name().equals("VISIBLE")) {
-                searchLayoutUnitCollapsed = false;
+                westLayoutUnitCollapsed = false;
             } else {
-                searchLayoutUnitCollapsed = true;
+                westLayoutUnitCollapsed = true;
             }
         }
     }
@@ -833,71 +833,48 @@ public class JobManager implements Serializable, BusinessEntityManager,
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public void closeJobDetailTab() {
-        // Redo search to reload stored jobs including?
-//        RequestContext context = RequestContext.getCurrentInstance();
-//
-//        getCurrentJob().setIsJobToBeSubcontracted(false);
-//        setIsJobToBeCopied(false);
-//
-//        if (isDirty()) {
-//            context.update("jobSaveConfirmDialogForm");
-//            context.execute("jobSaveConfirm.show();");
-//
-//            return;
-//        }
-//
-//        resetCurrentJob();
-//
-//        // Remove Job Detail tab
-        // setRenderJobDetailTab(false);   
+    public void prepareToCloseJobDetailTab() {
+
         RequestContext requestContext = RequestContext.getCurrentInstance();
+
         requestContext.addCallbackParam("isDirty", isDirty());
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
         EntityManager em = getEntityManager1();
+        RequestContext context = RequestContext.getCurrentInstance();
 
-        if (event.getTab().getId().equals("jobsTab")) {
-            getUser().setJobManagementAndTrackingUnit(false);
-            getUser().save(em);
-        } else if (event.getTab().getId().equals("jobDetailTab")) {
-            setRenderJobDetailTab(false);
-        } else if (event.getTab().getId().equals("financialAdminTab")) {
-            getUser().setFinancialAdminUnit(false);
-            getUser().save(em);
-        } else if (event.getTab().getId().equals("adminTab")) {
-            getUser().setAdminUnit(false);
-            getUser().save(em);
+        switch (event.getTab().getId()) {
+            case "jobsTab":
+                getUser().setJobManagementAndTrackingUnit(false);
+                getUser().save(em);                
+                break;
+            case "jobDetailTab":
+                getCurrentJob().setIsJobToBeSubcontracted(false);
+                setIsJobToBeCopied(false);
+                setRenderJobDetailTab(false);
+                break;
+            case "financialAdminTab":
+                getUser().setFinancialAdminUnit(false);
+                getUser().save(em);                
+                break;
+            case "adminTab":
+                getUser().setAdminUnit(false);
+                getUser().save(em);               
+                break;
+            default:
+                break;
         }
 
     }
 
     public void onMainViewTabChange(TabChangeEvent event) {
-        RequestContext context = RequestContext.getCurrentInstance();
 
         Tab tab = event.getTab();
 
         if (tab != null) {
             String tabId = tab.getId();
             updateSearchPanel(tabId);
-//            SearchManager sm = Application.findBean("searchManager");
-//            switch (tabId) {
-//                case "adminTab":
-//                    sm.setCurrentSearchParameterKey("Admin Search");
-//                    break;
-//                case "financialAdminTab":
-//                    sm.setCurrentSearchParameterKey("Admin Search");
-//                    break;
-//                case "jobDetailTab":
-//                    sm.setCurrentSearchParameterKey("Job Search");
-//                    break;
-//                default:
-//                    sm.setCurrentSearchParameterKey("Job Search");
-//                    break;
-//            }
-//
-//            context.update("searchForm");
         }
     }
 
@@ -995,31 +972,24 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void openJobsTab() {
-        SearchManager sm = Application.findBean("searchManager");
+        RequestContext context = RequestContext.getCurrentInstance();
 
         getUser().setJobManagementAndTrackingUnit(true);
-        getUser().save(getEntityManager1());
-
-        sm.setCurrentSearchParameterKey("Job Search");
-
+        getUser().save(getEntityManager1());       
     }
 
     public void openSystemAdministrationTab() {
-        SearchManager sm = Application.findBean("searchManager");
+        RequestContext context = RequestContext.getCurrentInstance();
 
         getUser().setAdminUnit(true);
         getUser().save(getEntityManager1());
-
-        sm.setCurrentSearchParameterKey("Admin Search");
     }
 
     public void openFinancialAdministrationTab() {
-        SearchManager sm = Application.findBean("searchManager");
+        RequestContext context = RequestContext.getCurrentInstance();
 
         getUser().setFinancialAdminUnit(true);
         getUser().save(getEntityManager1());
-
-        sm.setCurrentSearchParameterKey("Admin Search");
     }
 
     public String getJobsTabTitle() {
@@ -5289,8 +5259,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
      * Do update for the client field on the General tab on the Job Details form
      */
     public void updateJobEntryTabClient() {
-        // Create copy of existing client
-
+        
         accPacCustomer.setCustomerName(currentJob.getClient().getName());
         if (useAccPacCustomerList) {
             updateCreditStatus(null);
