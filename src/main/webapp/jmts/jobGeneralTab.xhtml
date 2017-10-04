@@ -117,7 +117,7 @@
             </p:commandButton>
             <p:spacer height="0" width="15"/>
             <p:commandButton value="New"
-                             icon="ui-icon-plus"
+                             icon="ui-icon-plus" 
                              onstart="longProcessDialogVar.show();"
                              rendered="#{jobManager.user.privilege.canAddClient}"
                              actionListener="#{jobManager.createNewJobClient}"                             
@@ -174,7 +174,8 @@
                         disabled="#{jobManager.disableDepartment}"
                         var="department"
                         forceSelection="true"      
-                        dropdown="false"
+                        dropdown="true"
+                        scrollHeight="200"
                         size="40"                        
                         maxlength="250"
                         value="#{jobManager.currentJob.department}"
@@ -208,7 +209,8 @@
                         itemValue="#{department}"
                         itemLabel="#{department.name}"
                         converter="departmentConverter"
-                        dropdown="false"                            
+                        dropdown="true"
+                        scrollHeight="200"                           
                         value="#{jobManager.currentJob.subContractedDepartment}"
                         title="#{jobManager.currentJob.subContractedDepartment}"
                         completeMethod="#{jobManager.completeDepartment}" >

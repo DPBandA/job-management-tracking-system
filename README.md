@@ -11,12 +11,13 @@ The JMTS is an enterprise software that facilitates the management and tracking 
        GENERAL, The name of this organization.
 ================================================================================
 ### Rebuild UI Functionality
+- Job tab not staying closed when closed with "x".
 - Do validation of all fields with validators and just do save when done. 
-  ie don't do validation when saving...Next: Business office validation message 
-  not indicating that it is invalid.
+  ie don't do validation when saving.
+- Implement department validator that takes into account if a job is being 
+  subcontracted.
 - Don't let save confirmation dialog save. Just let it ask to close the job form
   or continue editing.
-- Display message when job is successfully saved.
 - Test out creating a new default client. Clean up client search and ensure 
   consistency when doing search with ignoring case and part of client being searched.
 - Check if new clients can be created even without privilege.
@@ -60,13 +61,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
   prevention dialog closing and client save until client is validated like 
   what is done for the system option dialog.
   Try remove <p:dialog> may be that will make it behave like the systemOptionDialogForm.
-- Use growl where message display is required and remove use of primfaces context
-   in ClientManager.
-   displayMessageDialog()...find way to replace it
-   replace p:selectOneMenu for contact types with autocomlete with dropdown.
-   Impl. client validation using a validator. Validation should check to see
-    if client already exist.
-   Ensure "Entered by" and "Edited by" works.
+- Ensure "Entered by" and "Edited by" works.
 - Implement "Select/Add contact" 
 - Imlement "+ New" to be put beside "Select/Add Contact/Address" in client form.
 - Setup UI for entry and display of billing address for new and existing client.
@@ -134,6 +129,12 @@ by other apps?
 - For new clients make sure that the "EnteredBy" field is filled out.
 - If the billing address field is not set then set the default billing address
   for the client being edited.
+- Do copy of billing address, contact and client before saving new job. Do
+  not allow changing these fields except by sysadmin. Implement doShallowCopy()
+  for client that does not copy the list of addresses and contacts.
+- Prevent changing of all fields that affect the service contract.
+- Put sys option that controls the changing auto job number generation. Make it
+  unchangeable by default.
 
 ### System Design
 #### Design

@@ -841,8 +841,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
-        EntityManager em = getEntityManager1();
-        RequestContext context = RequestContext.getCurrentInstance();
+        EntityManager em = getEntityManager1();        
+        
+        System.out.println("tab closed: " + event.getTab().getId()); //tk
 
         switch (event.getTab().getId()) {
             case "jobsTab":
@@ -893,7 +894,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 sm.setCurrentSearchParameterKey("Job Search");
                 break;
             case "jobDetailTab":
-                sm.setCurrentSearchParameterKey("Job Search");
+                //sm.setCurrentSearchParameterKey("Job Search");
                 break;
             default:
                 sm.setCurrentSearchParameterKey("Job Search");
@@ -1587,21 +1588,32 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         return jobCostingFile;
     }
+    
+    public void createNewJob() {
+        RequestContext context = RequestContext.getCurrentInstance();
+        EntityManager em = getEntityManager1();
+
+        if (checkJobEntryPrivilege(em, context)) {
+            createJob(em, false);
+            setRenderJobDetailTab(true);
+            context.update("mainTabViewForm");
+            context.execute("mainTabViewVar.select(1);");
+        }
+
+    }
+
 
     public Job createNewJob(EntityManager em,
             JobManagerUser user,
             Boolean autoGenerateJobNumber) {
         Job job = new Job();
+        
         job.setClient(new Client("", false));
         job.setReportNumber("");
-        job.setJobDescription("");
-
-        // Departments initialization
+        job.setJobDescription(""); 
         job.setSubContractedDepartment(getDefaultDepartment(em, "--"));
-
-        job.setBusinessOffice(getDefaultBusinessOffice(em, "Head Office"));
-        // reporting fields
-        job.setClassification(Classification.findClassificationByName(em, "--"));
+        job.setBusinessOffice(getDefaultBusinessOffice(em, "Head Office"));                
+        job.setClassification(new Classification());
         job.setSector(Sector.findSectorByName(em, "--"));
         job.setJobCategory(JobCategory.findJobCategoryByName(em, "--"));
         job.setJobSubCategory(JobSubCategory.findJobSubCategoryByName(em, "--"));
@@ -3115,19 +3127,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         }
     }
 
-    public void createNewJob() {
-        RequestContext context = RequestContext.getCurrentInstance();
-        EntityManager em = getEntityManager1();
-
-        if (checkJobEntryPrivilege(em, context)) {
-            createJob(em, false);
-            setRenderJobDetailTab(true);
-            context.update("mainTabViewForm");
-            context.execute("mainTabViewVar.select(1);");
-        }
-
-    }
-
+    
     /**
      *
      * @param serviceRequest
