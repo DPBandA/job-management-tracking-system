@@ -841,14 +841,14 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
-        EntityManager em = getEntityManager1();        
-        
+        EntityManager em = getEntityManager1();
+
         System.out.println("tab closed: " + event.getTab().getId()); //tk
 
         switch (event.getTab().getId()) {
             case "jobsTab":
                 getUser().setJobManagementAndTrackingUnit(false);
-                getUser().save(em);                
+                getUser().save(em);
                 break;
             case "jobDetailTab":
                 getCurrentJob().setIsJobToBeSubcontracted(false);
@@ -857,11 +857,11 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 break;
             case "financialAdminTab":
                 getUser().setFinancialAdminUnit(false);
-                getUser().save(em);                
+                getUser().save(em);
                 break;
             case "adminTab":
                 getUser().setAdminUnit(false);
-                getUser().save(em);               
+                getUser().save(em);
                 break;
             default:
                 break;
@@ -871,12 +871,22 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void onMainViewTabChange(TabChangeEvent event) {
 
+        RequestContext context = RequestContext.getCurrentInstance();
+
         Tab tab = event.getTab();
 
         if (tab != null) {
             String tabId = tab.getId();
             updateSearchPanel(tabId);
+
+            if (!tabId.equals("jobDetailTab")) {
+                context.update("mainTabViewForm");
+                System.out.println("NOT details tab");
+            } else {
+                System.out.println("details tab");
+            }
         }
+
     }
 
     public void updateSearchPanel(String tabId) {
@@ -976,7 +986,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         RequestContext context = RequestContext.getCurrentInstance();
 
         getUser().setJobManagementAndTrackingUnit(true);
-        getUser().save(getEntityManager1());       
+        getUser().save(getEntityManager1());
     }
 
     public void openSystemAdministrationTab() {
@@ -1588,7 +1598,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         return jobCostingFile;
     }
-    
+
     public void createNewJob() {
         RequestContext context = RequestContext.getCurrentInstance();
         EntityManager em = getEntityManager1();
@@ -1602,17 +1612,16 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     }
 
-
     public Job createNewJob(EntityManager em,
             JobManagerUser user,
             Boolean autoGenerateJobNumber) {
         Job job = new Job();
-        
+
         job.setClient(new Client("", false));
         job.setReportNumber("");
-        job.setJobDescription(""); 
+        job.setJobDescription("");
         job.setSubContractedDepartment(getDefaultDepartment(em, "--"));
-        job.setBusinessOffice(getDefaultBusinessOffice(em, "Head Office"));                
+        job.setBusinessOffice(getDefaultBusinessOffice(em, "Head Office"));
         job.setClassification(new Classification());
         job.setSector(Sector.findSectorByName(em, "--"));
         job.setJobCategory(JobCategory.findJobCategoryByName(em, "--"));
@@ -3127,7 +3136,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
         }
     }
 
-    
     /**
      *
      * @param serviceRequest
@@ -3360,7 +3368,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         } else if (isJobToBeCopied) {
             System.out.println("Saving cause copy is being created");
             saveCurrentJob(em);
-        } else if (currentJob.getIsJobToBeSubcontracted()) {
+        } else if (currentJob.isToBeSubcontracted()) {
             System.out.println("Saving cause subcontract is being created");
             saveCurrentJob(em);
         } else if (!isDirty()) {
@@ -5259,7 +5267,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
      * Do update for the client field on the General tab on the Job Details form
      */
     public void updateJobEntryTabClient() {
-        
+
         accPacCustomer.setCustomerName(currentJob.getClient().getName());
         if (useAccPacCustomerList) {
             updateCreditStatus(null);
@@ -8777,7 +8785,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public Boolean getRenderSubContractingDepartment() {
-        return getCurrentJob().getIsJobToBeSubcontracted() || getCurrentJob().isSubContracted();
+        return getCurrentJob().isToBeSubcontracted() || getCurrentJob().isSubContracted();
     }
 
     /**

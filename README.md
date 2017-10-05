@@ -9,11 +9,17 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: country to Address dialog?
 - Add: System Option organizationName, Bureau of Standards Jamaica, String, 
        GENERAL, The name of this organization.
+- Update: Deactivate records that have "--" so they do not appear in autocomplete
+  and select components.
 ================================================================================
 ### Rebuild UI Functionality
-- Job tab not staying closed when closed with "x".
+- The job form is being validated when a new job is created or tab change. 
+  Avoid validating job detail form when tab is changed or closed. 
 - Do validation of all fields with validators and just do save when done. 
-  ie don't do validation when saving.
+  ie don't do validation when saving. Next: Validate subcontracted dept. for a 
+  subcontract being created. New objects for Classification and subcontract dept.
+  are to be created when job is being subcontracted. Display growl message instead
+  of dialog message when subcontract is created.
 - Implement department validator that takes into account if a job is being 
   subcontracted.
 - Don't let save confirmation dialog save. Just let it ask to close the job form
@@ -41,7 +47,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Check that client credit status dialog still works
 - Fix client database dialog.
 - Make sure buttons at both top and bottom of dialogs are identical.
-- Impl. date validation.
+- Test with normal user (kmiller)
 ### Immediate Issues
 - Impl validating the creation of new clients...do not allow creating of client
   that already exist.
@@ -110,6 +116,8 @@ amounts which sometimes occur when the date of submission of a parent job is cha
 the client field) by unauthorized personnel and track all changes made.  
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
 Views can be viewed simultaneously for easy job costing updates.
+-- Create views/tabs for job costing and cashier instead of using job tables view. 
+    OR
 -- Instead of creating double view, "merge" the columns from "Job Costing" 
 view while leaving out unneeded columns.
 - Implement BSJ client entry update and automatic contact detail insertion when 

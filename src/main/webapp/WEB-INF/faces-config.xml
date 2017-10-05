@@ -67,7 +67,7 @@
         <validator-id>clientValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.ClientValidator</validator-class>
     </validator>
-     <validator>
+    <validator>
         <validator-id>requiredFieldValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.RequiredFieldValidator</validator-class>
     </validator>
@@ -79,7 +79,11 @@
         <validator-id>jobNumberValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.JobNumberValidator</validator-class>
     </validator>
-     <validator>
+    <validator>
+        <validator-id>subcontractedDepartmentValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.SubcontractedDepartmentValidator</validator-class>
+    </validator>
+    <validator>
         <validator-id>addressValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.AddressValidator</validator-class>
     </validator>

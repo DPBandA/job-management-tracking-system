@@ -130,7 +130,6 @@
 
         </h:panelGroup>
 
-
         <h:outputText value="Billing address *:" style="font-weight: bold" />          
         <p:autoComplete id="billingAddress"
                         value="#{jobManager.currentJob.billingAddress}"
@@ -209,11 +208,18 @@
                         itemValue="#{department}"
                         itemLabel="#{department.name}"
                         converter="departmentConverter"
+                        validator="subcontractedDepartmentValidator"
                         dropdown="true"
                         scrollHeight="200"                           
                         value="#{jobManager.currentJob.subContractedDepartment}"
                         title="#{jobManager.currentJob.subContractedDepartment}"
                         completeMethod="#{jobManager.completeDepartment}" >
+            
+            <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
+            <f:attribute name="isSubContracted" value="#{jobManager.currentJob.isSubContracted}" />
+            <f:attribute name="isToBeSubcontracted" value="#{jobManager.currentJob.isToBeSubcontracted}" />
+            <f:attribute name="departmentName" value="#{jobManager.currentJob.department}" />
+            
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateSubContractedDepartment}"
                     update="jobNumber,jobNumber2,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
