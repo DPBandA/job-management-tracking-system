@@ -175,13 +175,13 @@
 
                         <p:ajax event="tabChange" 
                                 onstart="longProcessDialogVar.show();"
+                                immediate="true"
                                 oncomplete="longProcessDialogVar.hide();"                                                                  
                                 listener="#{jobManager.onMainViewTabChange}" />
 
                         <p:ajax event="tabClose" 
                                 onstart="longProcessDialogVar.show();" 
-                                immediate="true"
-                                update=":mainTabViewForm"
+                                immediate="true"                                
                                 oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
                                 listener="#{jobManager.onMainViewTabClose}" />                       
 

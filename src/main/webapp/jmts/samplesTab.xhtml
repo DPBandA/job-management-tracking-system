@@ -4,36 +4,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-
-    <h:panelGrid columns="2">
-        <h:outputText value="Job number *: " style="font-weight: bold;" />
-        <h:panelGroup>
-            <p:inputText id="jobNumber2"    
-                         style="width: 200px"
-                         maxlength="250"
-                         readonly="#{jobManager.currentJob.autoGenerateJobNumber}"
-                         title="#{jobManager.currentJob.jobNumber}"
-                         value="#{jobManager.currentJob.jobNumber}">
-                <p:ajax event="change"
-                        global="false"
-                        listener="#{jobManager.updateJobNumber}"
-                        process="@this"/>
-            </p:inputText>
-            <p:spacer height="0" width="5"/>
-            <p:selectBooleanCheckbox id="autoGenerate2"
-                                     style="vertical-align: middle"
-                                     rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
-                                     value="#{jobManager.currentJob.autoGenerateJobNumber}" >
-                <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}"
-                        global="false"
-                        update="autoGenerate,jobNumber,jobNumber2"
-                        process="@this"/>
-            </p:selectBooleanCheckbox>            
-            <p:tooltip for="autoGenerate2" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
-            <h:outputLabel for="autoGenerate2" value="auto" rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}" />
-        </h:panelGroup>
-    </h:panelGrid>
-    <hr/>
+    
     <p:panel id="jobSamples" header="Job Samples">
         <p:commandButton value="Add sample(s)"
                          title="Add new sample"

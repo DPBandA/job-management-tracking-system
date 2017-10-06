@@ -87,6 +87,10 @@
         <validator-id>addressValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.AddressValidator</validator-class>
     </validator>
+    <validator>
+        <validator-id>turnaroundTimeValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.TurnaroundTimeValidator</validator-class>
+    </validator>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

@@ -842,10 +842,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void onMainViewTabClose(TabCloseEvent event) {
         EntityManager em = getEntityManager1();
+        String tabId = event.getTab().getId();
 
-        System.out.println("tab closed: " + event.getTab().getId()); //tk
-
-        switch (event.getTab().getId()) {
+        switch (tabId) {
             case "jobsTab":
                 getUser().setJobManagementAndTrackingUnit(false);
                 getUser().save(em);
@@ -867,11 +866,11 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 break;
         }
 
+        updateSearchPanel(tabId);
+
     }
 
     public void onMainViewTabChange(TabChangeEvent event) {
-
-        RequestContext context = RequestContext.getCurrentInstance();
 
         Tab tab = event.getTab();
 
@@ -879,12 +878,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
             String tabId = tab.getId();
             updateSearchPanel(tabId);
 
-            if (!tabId.equals("jobDetailTab")) {
-                context.update("mainTabViewForm");
-                System.out.println("NOT details tab");
-            } else {
-                System.out.println("details tab");
-            }
         }
 
     }
@@ -904,14 +897,14 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 sm.setCurrentSearchParameterKey("Job Search");
                 break;
             case "jobDetailTab":
-                //sm.setCurrentSearchParameterKey("Job Search");
+                sm.setCurrentSearchParameterKey("Job Search");
                 break;
             default:
                 sm.setCurrentSearchParameterKey("Job Search");
                 break;
         }
 
-        context.update("searchForm"); //tk mainTabViewForm added for test
+        context.update("searchForm");
 
     }
 
@@ -983,22 +976,16 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void openJobsTab() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
         getUser().setJobManagementAndTrackingUnit(true);
         getUser().save(getEntityManager1());
     }
 
     public void openSystemAdministrationTab() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
         getUser().setAdminUnit(true);
         getUser().save(getEntityManager1());
     }
 
     public void openFinancialAdministrationTab() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
         getUser().setFinancialAdminUnit(true);
         getUser().save(getEntityManager1());
     }
@@ -2799,7 +2786,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         EntityManager em = getEntityManager1();
 
         // Check for completed subcontracts if applicable
-        if (!getCurrentJob().isSubContracted() && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+        if (!getCurrentJob().getIsSubContracted() && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             if (!Job.findIncompleteSubcontracts(em, currentJob).isEmpty()) {
                 getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
                 displayCommonMessageDialog(null,
@@ -3075,7 +3062,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     // tk put in Job class?
-    public void createJob(EntityManager em, Boolean isSubcontract) {
+    public Boolean createJob(EntityManager em, Boolean isSubcontract) {
 
         RequestContext context = RequestContext.getCurrentInstance();
         Boolean jobCreated;
@@ -3085,7 +3072,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
                 if (currentJob.getId() == null) {
                     context.addCallbackParam("jobNotSaved", true);
-                    return;
+                    return false;
                 }
 
                 // Create copy of job and use current sequence number and year.
@@ -3093,6 +3080,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 Integer yearReceived = currentJob.getYearReceived();
 
                 currentJob = copyJob(em, currentJob, getUser(), true, true);
+                currentJob.setClassification(new Classification());
+                currentJob.setSubContractedDepartment(new Department());
                 currentJob.setIsJobToBeSubcontracted(isSubcontract);
                 currentJob.setYearReceived(yearReceived);
                 currentJob.setJobSequenceNumber(currentJobSequenceNumber);
@@ -3134,6 +3123,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
         } catch (Exception e) {
             System.out.println(e);
         }
+
+        return true;
     }
 
     /**
@@ -3162,7 +3153,11 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void subContractJob(ActionEvent actionEvent) {
         EntityManager em = getEntityManager1();
-        createJob(em, true);
+        if (createJob(em, true)) {
+            addMessage("Job Copied for Subcontract",
+                    "The current job was copied but the copy was not saved. "
+                    + "Please enter or change the details for the copied job as required for the subcontract.");
+        }
     }
 
     public void createNewJobWithoutSavingCurrent(ActionEvent action) {
@@ -3330,7 +3325,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         EntityManager em = getEntityManager1();
 
         if (!validateCurrentJob(em, true)) {
-            System.out.println("Job not valid and NOT be save!");
+            System.out.println("Job not valid and will NOT be save!");
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             System.out.println("You can enter/edit any new job...saving");
             saveCurrentJob(em);
@@ -3368,7 +3363,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         } else if (isJobToBeCopied) {
             System.out.println("Saving cause copy is being created");
             saveCurrentJob(em);
-        } else if (currentJob.isToBeSubcontracted()) {
+        } else if (currentJob.getIsToBeSubcontracted()) {
             System.out.println("Saving cause subcontract is being created");
             saveCurrentJob(em);
         } else if (!isDirty()) {
@@ -4139,7 +4134,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                     currentJob.getJobSequenceNumber());
             if (jobs != null) {
                 for (Job job : jobs) {
-                    if (job.isSubContracted() && !currentJob.isSubContracted()
+                    if (job.getIsSubContracted() && !currentJob.getIsSubContracted()
                             && (job.getJobStatusAndTracking().getWorkProgress().equals("Completed"))) {
                         String ccName = "Subcontract to " + job.getSubContractedDepartment().getName() + " (" + job.getJobNumber() + ")";
                         // Check that this cost component does not already exist.
@@ -8777,15 +8772,11 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public Boolean getDisableDepartment() {
-
-        if (getUser().getPrivilege().getCanBeJMTSAdministrator()) {
-            return false;
-        }
-        return getCurrentJob().getId() != null;
+        return getCurrentJob().getIsSubContracted() || getCurrentJob().getIsToBeSubcontracted();
     }
 
     public Boolean getRenderSubContractingDepartment() {
-        return getCurrentJob().isToBeSubcontracted() || getCurrentJob().isSubContracted();
+        return getCurrentJob().getIsToBeSubcontracted() || getCurrentJob().getIsSubContracted();
     }
 
     /**
@@ -8795,7 +8786,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
      */
     public Boolean getDisableSubContracting() {
         try {
-            if (getCurrentJob().isSubContracted() || isJobToBeCopied) {
+            if (getCurrentJob().getIsSubContracted() || isJobToBeCopied) {
                 return false;
             } else if (getCurrentJob().getId() != null) {
                 return false;

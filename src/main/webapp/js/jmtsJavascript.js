@@ -292,7 +292,8 @@ function handleCreateJobCopy(xhr,status,args) {
         return;
     }
     else {
-        jobCopyDialog.show();
+        // Show growl instead
+        //jobCopyDialog.show();
         return;
     }
    

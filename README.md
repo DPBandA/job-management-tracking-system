@@ -13,15 +13,11 @@ The JMTS is an enterprise software that facilitates the management and tracking 
   and select components.
 ================================================================================
 ### Rebuild UI Functionality
-- The job form is being validated when a new job is created or tab change. 
-  Avoid validating job detail form when tab is changed or closed. 
 - Do validation of all fields with validators and just do save when done. 
-  ie don't do validation when saving. Next: Validate subcontracted dept. for a 
-  subcontract being created. New objects for Classification and subcontract dept.
-  are to be created when job is being subcontracted. Display growl message instead
-  of dialog message when subcontract is created.
+  ie don't do validation when saving. Next: TAT using TurnaroundTimeValidator.
 - Implement department validator that takes into account if a job is being 
   subcontracted.
+- Put getIsJobToBeCopied() in Job class and change to isToBeCopied.
 - Don't let save confirmation dialog save. Just let it ask to close the job form
   or continue editing.
 - Test out creating a new default client. Clean up client search and ensure 
