@@ -21,6 +21,7 @@
     <p:commandButton value="Close"     
                      actionListener="#{jobManager.prepareToCloseJobDetailTab}"
                      onstart="longProcessDialogVar.show();"
+                     immediate="true"
                      oncomplete="handleCloseJobDetailTab(xhr,status,args);longProcessDialogVar.hide();" 
                      process="@this"
                      icon="ui-icon ui-icon-close" />
@@ -100,6 +101,7 @@
     <p:commandButton value="Close"             
                      actionListener="#{jobManager.prepareToCloseJobDetailTab}"
                      onstart="longProcessDialogVar.show();"
+                     immediate="true"
                      oncomplete="handleCloseJobDetailTab(xhr,status,args);longProcessDialogVar.hide();" 
                      process="@this"
                      icon="ui-icon ui-icon-close" />

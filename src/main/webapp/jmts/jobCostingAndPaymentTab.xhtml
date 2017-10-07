@@ -21,9 +21,10 @@
             <h:outputText value="Cost estimate ($): "/>
             <h:panelGroup>
                 <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.estimatedCost}"
+                             converterMessage="Please enter a valid cost estimate."
                              disabled="#{!jobManager.isAuthorizedToModifyCostings}"
                              maxlength="250">
-                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     <p:ajax event="change"
                             global="false"
                             update="estimatedCostIncludingTaxes"

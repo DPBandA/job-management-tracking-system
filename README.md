@@ -14,7 +14,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ### Rebuild UI Functionality
 - Do validation of all fields with validators and just do save when done. 
-  ie don't do validation when saving. Next: TAT using TurnaroundTimeValidator.
+  ie don't do validation when saving. Next: Status & tracking tab values.  
 - Implement department validator that takes into account if a job is being 
   subcontracted.
 - Put getIsJobToBeCopied() in Job class and change to isToBeCopied.
@@ -142,6 +142,7 @@ by other apps?
 
 ### System Design
 #### Design
+- Show control panel when a tab is open of this is applicable.
 - Check what happens if mainTabViewVar.select(0) is called and no tab is visible.
 - Implement checkboxes in user menu to allow activating modules and showing windows.
 - Create dialogs for classification instead of just adding a row in the table.  
@@ -190,6 +191,8 @@ by other apps?
   reflect its purpose.
 - Implement "Quick Search" for data list tables. Collapse "Advanced Search" for
   for tabs that does not use advance search.
+- Add button for the creation of new objects such as jobs in the control panel
+  based on the active tab.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

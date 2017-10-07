@@ -13,13 +13,15 @@
                 actionListener="#{jobManager.createNewJob}"
                 global="true"
                 rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
-                onstart="longProcessDialogVar.show();"
+                onstart="longProcessDialogVar.show();"                
                 oncomplete="longProcessDialogVar.hide();"
                 onerror="connectionErrorDialog.show();"
                 value="New"                                       
                 title="Create new job"
                 icon="ui-icon-plusthick"
-                process="@this"/>                                  
+                process="@this">  
+                <p:resetInput target=":mainTabViewForm:mainTabView" />
+            </p:commandButton>
 
             <p:commandButton
                 id="doNothingButton"

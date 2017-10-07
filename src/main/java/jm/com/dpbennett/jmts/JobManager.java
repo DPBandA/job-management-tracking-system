@@ -852,7 +852,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
             case "jobDetailTab":
                 getCurrentJob().setIsJobToBeSubcontracted(false);
                 setIsJobToBeCopied(false);
-                setRenderJobDetailTab(false);
+                setRenderJobDetailTab(false);                
                 break;
             case "financialAdminTab":
                 getUser().setFinancialAdminUnit(false);
@@ -1595,6 +1595,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
             setRenderJobDetailTab(true);
             context.update("mainTabViewForm");
             context.execute("mainTabViewVar.select(1);");
+            context.execute("jobFormTabVar.select(0);");
         }
 
     }
@@ -4108,6 +4109,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         setRenderJobDetailTab(true);
         context.update("mainTabViewForm");
         context.execute("mainTabViewVar.select(1);");
+        context.execute("jobFormTabVar.select(0);");
     }
 
     public void editJobCosting() {
