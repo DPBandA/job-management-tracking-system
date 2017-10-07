@@ -36,6 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -176,25 +177,25 @@ public class JobManager implements Serializable, BusinessEntityManager,
     private Boolean renderSearchComponent;
     private Boolean renderJobDetailTab;
     @ManagedProperty(value = "Jobs")
-    private String tabTitle;
+    private String tabTitle; // tk Can del/move?
     private Integer longProcessProgress;
     private AccPacCustomer accPacCustomer;
     private List<AccPacDocument> filteredAccPacCustomerDocuments;
     private Boolean useAccPacCustomerList;
     private CostComponent selectedCostComponent;
-    private Long receivedById;
-    private Long classificationId;
-    private Long sectorId;
-    private Long categoryId;
-    private Long subCategoryId;
+    private Long receivedById; // tk Can del/move?
+    private Long classificationId; // tk Can del/move?
+    private Long sectorId; // tk Can del/move?
+    private Long categoryId; // tk Can del/move?
+    private Long subCategoryId; // tk Can del/move?
     // end ids used for object linking
-    private String inputTextStyle;
+    private String inputTextStyle; // tk Can del/move?
     private String outcome;
     private String defaultOutcome;
     private Integer jobSampleDialogTabViewActiveIndex;
     private Boolean showJobEntry;
     // job report vars
-    private Department reportingDepartment;
+    private Department reportingDepartment; // tk Can del/move?
     private String reportSearchText;
     // current period
     private List<Job> currentPeriodJobReportSearchResultList;
@@ -212,19 +213,19 @@ public class JobManager implements Serializable, BusinessEntityManager,
     private Integer loginAttempts;
     private String selectedJobCostingTemplate;
     private Long databaseModuleId;
-    private Boolean enableDatabaseModuleSelection;
-    private String databaseModule;
+    private Boolean enableDatabaseModuleSelection; // tk Can del/move?
+    private String databaseModule; // tk Can del/move?
     private SearchParameters currentSearchParameters;
-    private Boolean isJobToBeCopied;
+    //private Boolean isJobToBeCopied; // tk Can del/move?
     private final ClientManager clientManager;
     private final SearchManager searchManager;
     private SearchParameters reportSearchParameters;
-    private Employee reportEmployee;
+    private Employee reportEmployee; // tk Can del/move?
     private Department unitCostDepartment;
     private UnitCost currentUnitCost;
     private String searchText;
     private List<UnitCost> unitCosts;
-    private String dialogActionHandlerId;
+    private String dialogActionHandlerId; // tk Can del/move?
     private List<Job> jobsWithCostings;
     private Job currentJobWithCosting;
     private Department jobCostDepartment;
@@ -261,7 +262,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
      */
     public JobManager() {
         this.westLayoutUnitCollapsed = true;
-        this.isJobToBeCopied = false;
         this.databaseModule = "";
         this.databaseModuleId = 1L;
         this.loginAttempts = 0;
@@ -327,6 +327,16 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 "year",
                 null,
                 null, false, false, true);
+    }
+
+    public String getApplicationHeader() {
+        return SystemOption.findSystemOptionByName(getEntityManager1(),
+                "applicationHeader").getOptionValue();
+    }
+
+    public String getApplicationSubheader() {
+        return SystemOption.findSystemOptionByName(getEntityManager1(),
+                "applicationSubheader").getOptionValue();
     }
 
     public void openDialog(Object entity,
@@ -422,10 +432,12 @@ public class JobManager implements Serializable, BusinessEntityManager,
         westLayoutUnitCollapsed = true;
     }
 
+    // tk Can del/move?
     public String getTabTitle() {
         return tabTitle;
     }
 
+    // tk Can del/move?
     public void setTabTitle(String tabTitle) {
         this.tabTitle = tabTitle;
     }
@@ -828,8 +840,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
     // End Main
 
-    public void addMessage(String summary, String detail) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+    public void addMessage(String summary, String detail, Severity severity) {
+        FacesMessage message = new FacesMessage(severity, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
@@ -838,6 +850,12 @@ public class JobManager implements Serializable, BusinessEntityManager,
         RequestContext requestContext = RequestContext.getCurrentInstance();
 
         requestContext.addCallbackParam("isDirty", isDirty());
+    }
+
+    public void cleanUpJob() { // tk to be put in Job class
+        currentJob.setIsToBeCopied(false);
+        currentJob.setIsToBeSubcontracted(false);
+        currentJob.setIsDirty(false);
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
@@ -850,9 +868,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 getUser().save(em);
                 break;
             case "jobDetailTab":
-                getCurrentJob().setIsJobToBeSubcontracted(false);
-                setIsJobToBeCopied(false);
-                setRenderJobDetailTab(false);                
+                setRenderJobDetailTab(false);
+                //resetCurrentJob();
+                cleanUpJob();
                 break;
             case "financialAdminTab":
                 getUser().setFinancialAdminUnit(false);
@@ -1570,9 +1588,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         try {
             em = getEntityManager1();
 
-            if (validateCurrentJob(em, false)) {
-                saveCurrentJob(em);
-            }
+            prepareAndSaveCurrentJob(em);
 
             jobCostingFile = getJobCostingAnalysisFile(em);
 
@@ -1589,9 +1605,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public void createNewJob() {
         RequestContext context = RequestContext.getCurrentInstance();
         EntityManager em = getEntityManager1();
-
+       
         if (checkJobEntryPrivilege(em, context)) {
-            createJob(em, false);
+            createJob(em, false);            
             setRenderJobDetailTab(true);
             context.update("mainTabViewForm");
             context.execute("mainTabViewVar.select(1);");
@@ -1603,8 +1619,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public Job createNewJob(EntityManager em,
             JobManagerUser user,
             Boolean autoGenerateJobNumber) {
+        
         Job job = new Job();
-
         job.setClient(new Client("", false));
         job.setReportNumber("");
         job.setJobDescription("");
@@ -1643,9 +1659,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
             em = getEntityManager1();
 
-            if (validateCurrentJob(em, false)) {
-                saveCurrentJob(em);
-            }
+            prepareAndSaveCurrentJob(em);
 
             String filePath = SystemOption.findSystemOptionByName(em, "serviceContract").getOptionValue();
             FileInputStream stream = createServiceContractExcelFileInputStream(em, getUser(), currentJob.getId(), filePath);
@@ -2932,10 +2946,12 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void updateAutoGenerateJobNumber() {
+               
         if (currentJob.getAutoGenerateJobNumber()) {
             currentJob.setJobNumber(getCurrentJobNumber());
         }
         setDirty(true);
+        
     }
 
     public void updateIsCostComponentHeading() {
@@ -3083,7 +3099,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 currentJob = copyJob(em, currentJob, getUser(), true, true);
                 currentJob.setClassification(new Classification());
                 currentJob.setSubContractedDepartment(new Department());
-                currentJob.setIsJobToBeSubcontracted(isSubcontract);
+                currentJob.setIsToBeSubcontracted(isSubcontract);
                 currentJob.setYearReceived(yearReceived);
                 currentJob.setJobSequenceNumber(currentJobSequenceNumber);
 
@@ -3157,7 +3173,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
         if (createJob(em, true)) {
             addMessage("Job Copied for Subcontract",
                     "The current job was copied but the copy was not saved. "
-                    + "Please enter or change the details for the copied job as required for the subcontract.");
+                    + "Please enter or change the details for the copied job as required for the subcontract.",
+                    FacesMessage.SEVERITY_INFO);
         }
     }
 
@@ -3178,14 +3195,13 @@ public class JobManager implements Serializable, BusinessEntityManager,
         }
     }
 
-    public Boolean getIsJobToBeCopied() {
-        return isJobToBeCopied;
-    }
-
-    public void setIsJobToBeCopied(Boolean isJobToBeCopied) {
-        this.isJobToBeCopied = isJobToBeCopied;
-    }
-
+//    public Boolean getIsJobToBeCopied() {
+//        return isJobToBeCopied;
+//    }
+//
+//    public void setIsJobToBeCopied(Boolean isJobToBeCopied) {
+//        this.isJobToBeCopied = isJobToBeCopied;
+//    }
     public String getSearchResultsTableHeader() {
         return Application.getSearchResultsTableHeader(currentSearchParameters, getJobSearchResultList());
     }
@@ -3273,10 +3289,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
             if (getUser().getEmployee() != null) {
                 currentJob.getJobCostingAndPayment().setFinalCostDoneBy(getUser().getEmployee().getName());
             }
-            // all seems to be well so try to validate and save job here
-            if (validateCurrentJob(em, true)) {
-                saveCurrentJob(em);
-            }
+
+            prepareAndSaveCurrentJob(em);
+
             // Refresh to make sure job costings ids are not null to
             // avoid resaving newly created costing components
             currentJob.setJobCostingAndPayment(em.find(JobCostingAndPayment.class, currentJob.getJobCostingAndPayment().getId()));
@@ -3325,58 +3340,55 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public void saveCurrentJob() {
         EntityManager em = getEntityManager1();
 
-        if (!validateCurrentJob(em, true)) {
-            System.out.println("Job not valid and will NOT be save!");
-        } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
+        if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             System.out.println("You can enter/edit any new job...saving");
-            saveCurrentJob(em);
+            prepareAndSaveCurrentJob(em);
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
             System.out.println("You can enter any new job...saving");
-            saveCurrentJob(em);
+            prepareAndSaveCurrentJob(em);
         } else if (isCurrentJobNew() && getUser().getPrivilege().getCanEnterJob()) {
             System.out.println("You can enter any new job...saving");
-            saveCurrentJob(em);
+            prepareAndSaveCurrentJob(em);
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterDepartmentJob()
                 && getUser().getEmployee().isMemberOf(getDepartmentAssignedToJob(currentJob, em))) {
             System.out.println("You can enter new jobs for your department...saving");
-            saveCurrentJob(em);
+            prepareAndSaveCurrentJob(em);
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             System.out.println("You can enter new jobs for yourself...saving");
-            saveCurrentJob(em);
+            prepareAndSaveCurrentJob(em);
         } else if (isDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
             System.out.println("You can edit any job...saving");
-            saveCurrentJob(em);
+            prepareAndSaveCurrentJob(em);
         } else if (isDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditDepartmentJob()
                 && (getUser().getEmployee().isMemberOf(getDepartmentAssignedToJob(currentJob, em))
                 || getUser().getEmployee().isMemberOf(currentJob.getDepartment()))) {
 
             System.out.println("You can edit jobs for your department...saving");
-            saveCurrentJob(em);
+            prepareAndSaveCurrentJob(em);
         } else if (isDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             System.out.println("You can edit own jobs...saving");
-            saveCurrentJob(em);
-        } else if (isJobToBeCopied) {
+            prepareAndSaveCurrentJob(em);
+        } else if (currentJob.getIsToBeCopied()) {
             System.out.println("Saving cause copy is being created");
-            saveCurrentJob(em);
+            prepareAndSaveCurrentJob(em);
         } else if (currentJob.getIsToBeSubcontracted()) {
             System.out.println("Saving cause subcontract is being created");
-            saveCurrentJob(em);
+            prepareAndSaveCurrentJob(em);
         } else if (!isDirty()) {
             System.out.println("Job not dirty so it will not be saved.");
         } else {
-            displayCommonMessageDialog(null, "You may not have sufficient privilege to enter/save this job. "
-                    + "Also, please note that you may only enter jobs that are assigned to you or your department. "
-                    + "Please contact the IT/MIS Department for further assistance.", "Insufficient Privilege", "alert");
+            addMessage("Insufficient Privilege",
+                    "You may not have the privilege to enter/save this job. \n"
+                    + "Please contact the IT/MIS Department for further assistance.",
+                    FacesMessage.SEVERITY_ERROR);
         }
 
-        // At this point the job was hopefully successfully saved
-        addMessage("Success", "Job was saved!");
     }
 
     public void saveUnitCost() {
@@ -3463,17 +3475,15 @@ public class JobManager implements Serializable, BusinessEntityManager,
         }
     }
 
-    public void saveCurrentAndLoadOtherJob(ActionEvent actionEvent) {
-        EntityManager em = getEntityManager1();
-
-        if (validateCurrentJob(em, true)) {
-            saveCurrentJob(em);
-        }
-
-        loadJob();
-
-    }
-
+// tk del
+//    public void saveCurrentAndLoadOtherJob(ActionEvent actionEvent) {
+//        EntityManager em = getEntityManager1();
+//
+//        prepareAndSaveCurrentJob(em);
+//        
+//        loadJob();
+//
+//    }
     public Boolean checkJobEntryPrivilege(EntityManager em, RequestContext context) {
         // prompt to save modified job before attempting to create new job
         if (getUser().getPrivilege().getCanEnterJob()
@@ -3494,29 +3504,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
         return BusinessEntityUtils.validateName(currentJob.getClient().getName());
     }
 
-    public Boolean validateCurrentJob(EntityManager em, Boolean displayErrorMessage) {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        MethodResult result = getCurrentJob().validate(em);
-        if (!result.isSuccess()) {
-            if (displayErrorMessage) {
-                setInvalidFormFieldMessage(result.getMessage());
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-            }
-
-            setDirty(false);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    public Boolean saveCurrentJob(EntityManager em) {
+    public Boolean prepareAndSaveCurrentJob(EntityManager em) {
 
         Date now = new Date();
-        RequestContext context = RequestContext.getCurrentInstance();
         JobSequenceNumber nextJobSequenceNumber = null;
         boolean jobEmailAlertsActivated = Boolean.parseBoolean(SystemOption.
                 findSystemOptionByName(em,
@@ -3526,16 +3516,17 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
             // Do not save changed job if it's already marked as completed in the database
             if (getCurrentJob().getId() != null) {
-                Job job = Job.findJobById(em, getCurrentJob().getId());
+                System.out.println("Job id: " + getCurrentJob().getId() );
+                Job job = Job.findJobById(em, getCurrentJob().getId());                
                 if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
                         && !getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))
                         && !getUser().getPrivilege().getCanBeJMTSAdministrator()
                         && !isUserDepartmentSupervisor(getCurrentJob())) {
                     setDirty(false);
                     doJobSearch(searchManager.getCurrentSearchParameters());
-                    displayCommonMessageDialog(null,
+                    addMessage("Job Cannot Be Saved",
                             "This job is marked as completed so changes cannot be saved. You may contact your department's supervisor or a system administrator.",
-                            "Job Cannot Be Saved", "info");
+                            FacesMessage.SEVERITY_ERROR);
 
                     return false;
                 }
@@ -3543,20 +3534,16 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
             em.getTransaction().begin();
 
-            // Make sure department is not same as subcontracted department
-            if (currentJob.getDepartment().getName().equals(currentJob.getSubContractedDepartment().getName())) {
-                currentJob.setSubContractedDepartment(getDefaultDepartment(em, "--"));
-            }
-
-            // set date enetered
+            // Set date entered
             if (currentJob.getJobStatusAndTracking().getDateAndTimeEntered() == null) {
                 currentJob.getJobStatusAndTracking().setDateAndTimeEntered(now);
             }
+
             // Get employee for later use
             Employee employee = Employee.findEmployeeById(em, getUser().getEmployee().getId());
-            // This means this this is a new job so set user and person who entered the job
             if (employee != null) {
                 if (currentJob.getJobStatusAndTracking().getEnteredBy().getId() == null) {
+                    // This means this this is a new job so set user and person who entered the job
                     currentJob.getJobStatusAndTracking().setEnteredBy(employee);
                     currentJob.getJobStatusAndTracking().setEditedBy(employee);
                 }
@@ -3568,15 +3555,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 currentJob.getJobStatusAndTracking().setEditedBy(employee);
             }
 
-            // update work progress
-            if (currentJob.getJobStatusAndTracking().getWorkProgress() == null) {
-                currentJob.getJobStatusAndTracking().setWorkProgress("Not started");
-            }
-
-            // save job and check for save error
-            // modify job number with sequence number if required
+            // Modify job number with sequence number if required
             if (currentJob.getAutoGenerateJobNumber()) {
-                //if (currentJob.getJobSequenceNumber() == null) {
                 if ((currentJob.getId() == null) && (currentJob.getJobSequenceNumber() == null)) {
                     nextJobSequenceNumber = JobSequenceNumber.findNextJobSequenceNumber(em, currentJob.getYearReceived());
                     currentJob.setJobSequenceNumber(nextJobSequenceNumber.getSequentialNumber());
@@ -3597,40 +3577,53 @@ public class JobManager implements Serializable, BusinessEntityManager,
                         }
                     }
 
-                    /// Save new samples in list first 
+                    /// Save newly entered samples 
                     if (jobSample.getId() == null) {
                         BusinessEntityUtils.saveBusinessEntity(em, jobSample);
                     }
                 }
             } else {
+                // NB: This ensures that the job has at least one sample.
+                // This may be removed in the future as it may not be required or
+                // be necessary
                 createNewJobSample(null);
                 selectedJobSample.setDescription("--");
                 BusinessEntityUtils.saveBusinessEntity(em, selectedJobSample);
             }
 
+            // Do actual save here and check for errors
             Long id = BusinessEntityUtils.saveBusinessEntity(em, currentJob);
+
             if (id == null) {
-                // set seq. number to null to ensure that the next sequence #
-                // is retrieved with the next job save attempt.                
                 currentJob.setJobNumber(getJobNumber(currentJob, em));
-                context.execute("undefinedErrorDialog.show();");
-                sendErrorEmail("An error occured while saving job (Null ID)" + currentJob.getJobNumber(),
-                        "Job save error occured");
+
+                addMessage("Job save error occured",
+                        "An error occured while saving job (Null ID)" + currentJob.getJobNumber(),
+                        FacesMessage.SEVERITY_ERROR);
+
+                if (jobEmailAlertsActivated) {
+                    sendErrorEmail("An error occured while saving job (Null ID)" + currentJob.getJobNumber(),
+                            "Job save error occured");
+                }
 
                 return false;
 
             } else if (id == 0L) {
-                // set seq. number to null to ensure that the next sequence #
-                // is retrieved with the next job save attempt.                
                 currentJob.setJobNumber(getJobNumber(currentJob, em));
-                context.execute("undefinedErrorDialog.show();");
-                sendErrorEmail("An error occured while saving job (0L ID)" + currentJob.getJobNumber(),
-                        "Job save error occured");
+                addMessage("Job save error occured",
+                        "An error occured while saving job (0L ID)" + currentJob.getJobNumber(),
+                        FacesMessage.SEVERITY_ERROR);
+                if (jobEmailAlertsActivated) {
+                    sendErrorEmail("An error occured while saving job (0L ID)" + currentJob.getJobNumber(),
+                            "Job save error occured");
+                }
 
                 return false;
             } else {
+                // Job was saved so save id for furture use
                 currentJobId = id;
-                // save job sequence number only if job save was successful
+
+                // Save job sequence number
                 if (nextJobSequenceNumber != null) {
                     BusinessEntityUtils.saveBusinessEntity(em, nextJobSequenceNumber);
                 }
@@ -3647,30 +3640,42 @@ public class JobManager implements Serializable, BusinessEntityManager,
                             }
                         }).start();
 
-                        //generateEmailAlerts();
                     } else {
                         System.out.println("Email alerts will not be generated!");
                     }
                 } catch (Exception e) {
                     System.out.println(e);
+                    addMessage("Email Error!", "An error occurred while attempting to send an alert email.", FacesMessage.SEVERITY_ERROR);
                 }
+
+                addMessage("Success!", "This job was saved.", FacesMessage.SEVERITY_INFO);
 
             }
 
             em.getTransaction().commit();
-            setIsJobToBeCopied(false);
-            currentJob.setIsJobToBeSubcontracted(false);
-            setDirty(false);
+
+            cleanUpJob();
+
         } catch (Exception e) {
             currentJob.setJobNumber(getJobNumber(currentJob, em));
-            context.execute("undefinedErrorDialog.show();");
+            addMessage("Undefined Error!", "An undefined error occurred while saving this job. "
+                    + "Please contact the System Administrator", FacesMessage.SEVERITY_ERROR);
+
+            if (jobEmailAlertsActivated) {
+                try {
+                    sendErrorEmail("An exception occurred while saving a job!",
+                            "Job number: " + currentJob.getJobNumber()
+                            + "\nJMTS User: " + getUser().getUsername()
+                            + "\nDate/time: " + new Date()
+                            + "\nException detail: " + e);
+                } catch (Exception e2) {
+                    addMessage("Email Error!", "An error occurred while attempting to send an alert email.", FacesMessage.SEVERITY_ERROR);
+                    System.out.println(e2);
+                }
+
+            }
+
             System.out.println(e);
-            // send error message to developer's email
-            sendErrorEmail("An exception occurred while saving a job!",
-                    "Job number: " + currentJob.getJobNumber()
-                    + "\nJMTS User: " + getUser().getUsername()
-                    + "\nDate/time: " + new Date()
-                    + "\nException detail: " + e);
         }
 
         return true;
@@ -4969,13 +4974,13 @@ public class JobManager implements Serializable, BusinessEntityManager,
     @Override
     public void setDirty(Boolean dirty) {
         //this.dirty = dirty;
-        getCurrentJob().setDirty(dirty);
+        getCurrentJob().setIsDirty(dirty);
     }
 
     @Override
     public Boolean isDirty() {
         //return dirty;
-        return getCurrentJob().getDirty();
+        return getCurrentJob().getIsDirty();
     }
 
     public void handlePoll() {
@@ -5060,6 +5065,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void updateDepartment() {
+
         EntityManager em = null;
 
         try {
@@ -5067,7 +5073,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
             if (!currentJob.getDepartment().getName().equals("")) {
                 Department department = Department.findDepartmentByName(em, currentJob.getDepartment().getName());
                 if (department != null) {
-                    currentJob.setDepartment(department);
+                    currentJob.setDepartment(department);                    
                     currentJob.setJobNumber(getCurrentJobNumber());
                     JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
                     if (currentJob.getId() != null) {
@@ -5079,6 +5085,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         } catch (Exception e) {
             System.out.println(e);
         }
+      
     }
 
     public void updateCurrentUnitCostDepartment() {
@@ -5652,7 +5659,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         Job job = new Job();
 
         job.setClient(new Client("", false));
-        setIsJobToBeCopied(true);
+        job.setIsToBeCopied(true);
 
         job.setReportNumber("");
         job.setJobDescription("");
@@ -8788,7 +8795,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
      */
     public Boolean getDisableSubContracting() {
         try {
-            if (getCurrentJob().getIsSubContracted() || isJobToBeCopied) {
+            if (getCurrentJob().getIsSubContracted() || getCurrentJob().getIsToBeCopied()) {
                 return false;
             } else if (getCurrentJob().getId() != null) {
                 return false;

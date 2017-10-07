@@ -41,6 +41,7 @@
                 <h:outputText value="No. of Tests " />
                 <p:inputText id="numOfTests"                            
                              maxlength="250"
+                             converterMessage="Please enter a valid number of tests."
                              value="#{jobManager.currentJob.noOfTests}"                            
                              style="width: 50px;" >                             
                     <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
@@ -48,7 +49,7 @@
                             event="keyup"
                             update="numOfTestsOrCalibrations"
                             process="@this"/>
-                    <f:convertNumber />
+                    <f:convertNumber integerOnly="true"/>
                 </p:inputText>
             </h:panelGroup>
 
@@ -56,6 +57,7 @@
                 <h:outputText value="No. of calibrations " />
                 <p:inputText id="numOfCalibrations"                             
                              maxlength="250"
+                             converterMessage="Please enter a valid number of calibrations."
                              value="#{jobManager.currentJob.noOfCalibrations}"
                              style="width: 50px;" >
                     <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
@@ -63,7 +65,7 @@
                             event="keyup"
                             update="numOfTestsOrCalibrations"
                             process="@this"/>
-                    <f:convertNumber />
+                    <f:convertNumber integerOnly="true"/>
                 </p:inputText>
             </h:panelGroup>
 

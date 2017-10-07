@@ -4,30 +4,28 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ## Things to do
 ### PENDING LIVE DATABASE ALTERATIONS:
 - Add: discount, discountType, paymentTerms to CASHPAYMENT table
-- Rename: rename JMTSUserId to userId in CASHPAYMENT
+- Rename: rename JMTSUserId to userId in CASHPAYMENT??
 - Add: BILLINGADDRESS_ID, CONTACT_ID to Job table (for billing address, contact)
 - Add: country to Address dialog?
 - Add: System Option organizationName, Bureau of Standards Jamaica, String, 
        GENERAL, The name of this organization.
 - Update: Deactivate records that have "--" so they do not appear in autocomplete
   and select components.
+- Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Do validation of all fields with validators and just do save when done. 
-  ie don't do validation when saving. Next: Status & tracking tab values.  
-- Implement department validator that takes into account if a job is being 
-  subcontracted.
-- Put getIsJobToBeCopied() in Job class and change to isToBeCopied.
-- Don't let save confirmation dialog save. Just let it ask to close the job form
-  or continue editing.
-- Test out creating a new default client. Clean up client search and ensure 
-  consistency when doing search with ignoring case and part of client being searched.
-- Check if new clients can be created even without privilege.
-- Implement saving address and contact within client dialog by implementing
-  save(em) and putting the transaction into the method.
+- Use f:attribute to set the client id and only find an address or contact 
+  associated with a client. Check if attributes are passed to converter.
+  test findClient* with BEL command line app.  
+- Impl setting contact so that PERSIST errors do do occur when saving job.
+  New job are being created with id. The id of the previously open job is being
+  used.
+- update job number form field after saving job.
 - Don't allow creation or saving of a job with a client without a valid address
   and contact. Stop saving of client when saving job.
 - Create contact converter and use it...
+-  getBillingAddress() and getContact() to get billing address and main contact
+   from client if they are null.
 - Validate billing address and contact as part of job validation
 - Implement creating subcontracts. Create the "organizationName" system option
   and use it to retrieve/create the client. Make sure billing address and contact
@@ -43,6 +41,8 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Check that client credit status dialog still works
 - Fix client database dialog.
 - Make sure buttons at both top and bottom of dialogs are identical.
+- Move addMessage("Success", "Job was saved!"); to each "if" statement in 
+  saveCurrentJob().
 - Test with normal user (kmiller)
 ### Immediate Issues
 - Impl validating the creation of new clients...do not allow creating of client
@@ -142,6 +142,13 @@ by other apps?
 
 ### System Design
 #### Design
+- Check if new clients can be created even without privilege.
+- For job search let My Department job be the defaut.
+- Test out creating a new default client. Clean up client search and ensure 
+  consistency when doing search with ignoring case and part of client being searched.
+- Implement selectTab(index) in javascript that selects a tab based on the 
+  the number of tabs in the tabview and the default index position of the tab
+  as defined in index.html.
 - Show control panel when a tab is open of this is applicable.
 - Check what happens if mainTabViewVar.select(0) is called and no tab is visible.
 - Implement checkboxes in user menu to allow activating modules and showing windows.
@@ -150,7 +157,9 @@ by other apps?
   Ensure the prevention of creating duplicate objects such as employees with the same name.
 - Move all "save and create" methods from JobManager to their respective entities
 - Change discount combobox to a menu.
+- Look to move fields and methods from JobManager in the entities such as Job.
 - Rename "Advanced Search" panel to something more general.
+- Clean up development database by removing "blank" records etc.
 - Create Home screen showing user's jobs, departmental job etc.
 - Display message when user logs on without authentication
 - Make country of origin autocomplete.
@@ -193,6 +202,11 @@ by other apps?
   for tabs that does not use advance search.
 - Add button for the creation of new objects such as jobs in the control panel
   based on the active tab.
+- Put "Reports/Queries" in separate tab called "Reports" and put in user menu
+- Look at Garfield's design images on google docs for ideas.
+- Design a favicon and make it system option.
+- Try to put all styles as styleClass and put into index.css
+
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

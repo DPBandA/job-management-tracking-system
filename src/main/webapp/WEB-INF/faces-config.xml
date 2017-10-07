@@ -10,11 +10,7 @@
         <action-listener>org.primefaces.application.DialogActionListener</action-listener>
         <navigation-handler>org.primefaces.application.DialogNavigationHandler</navigation-handler>
         <view-handler>org.primefaces.application.DialogViewHandler</view-handler>
-    </application>      
-    <converter>
-        <converter-id>selectItemConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.SelectItemConverter</converter-class>
-    </converter>  
+    </application>          
     <converter>
         <converter-id>departmentConverter</converter-id>
         <converter-class>jm.com.dpbennett.business.entity.converter.DepartmentConverter</converter-class>
@@ -24,8 +20,8 @@
         <converter-class>jm.com.dpbennett.business.entity.converter.ActiveClientConverter</converter-class>
     </converter>   
     <converter>
-        <converter-id>addressConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.AddressConverter</converter-class>
+        <converter-id>clientAddressConverter</converter-id>
+        <converter-class>jm.com.dpbennett.business.entity.converter.ClientAddressConverter</converter-class>
     </converter>   
     <converter>
         <converter-id>businessOfficeConverter</converter-id>
@@ -58,6 +54,10 @@
     <converter>
         <converter-id>serviceConverter</converter-id>
         <converter-class>jm.com.dpbennett.business.entity.converter.ServiceConverter</converter-class>
+    </converter> 
+    <converter>
+        <converter-id>clientContactConverter</converter-id>
+        <converter-class>jm.com.dpbennett.business.entity.converter.ClientContactConverter</converter-class>
     </converter> 
     <validator>
         <validator-id>systemOptionValidator</validator-id>

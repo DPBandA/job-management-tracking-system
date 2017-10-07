@@ -6,36 +6,43 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <h:panelGrid id="generalTabPanel" columns="2">
-        <h:outputLabel value="Job number *: " style="font-weight: bold;" />
+        <h:outputLabel value="Job number *: " style="font-weight: bold;font-size: 14px;" />
         <h:panelGroup>
-            <p:inputText id="jobNumber"
-                         size="35"
-                         maxlength="250" 
-                         validator="jobNumberValidator"                                                                     
-                         title="#{jobManager.currentJob.jobNumber}"
-                         value="#{jobManager.currentJob.jobNumber}">
+            <h:outputText id="jobNumber" 
+                          value="#{jobManager.currentJob.jobNumber}" 
+                          styleClass="job-number"/>
+            <ui:remove>
+                <p:inputText id="jobNumber"
+                             size="35"
+                             maxlength="250" 
+                             validator="jobNumberValidator"                                                                     
+                             title="#{jobManager.currentJob.jobNumber}"
+                             value="#{jobManager.currentJob.jobNumber}">
 
+                    <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
+                    <f:attribute name="autoGenerateJobNumber" value="#{jobManager.currentJob.autoGenerateJobNumber}" />
 
-                <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
-                <f:attribute name="autoGenerateJobNumber" value="#{jobManager.currentJob.autoGenerateJobNumber}" />
+                    <p:ajax event="change"
+                            global="false"
+                            listener="#{jobManager.updateJobNumber}"
+                            process="@this"/>
 
-                <p:ajax event="change"
-                        global="false"
-                        listener="#{jobManager.updateJobNumber}"
-                        process="@this"/>
-
-            </p:inputText>
-            <p:spacer height="0" width="5"/>
-            <p:selectBooleanCheckbox id="autoGenerate" 
-                                     style="vertical-align: middle"
-                                     rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
-                                     value="#{jobManager.currentJob.autoGenerateJobNumber}" >
-                <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}"
-                        global="false"                        
-                        process="@this"/>
-            </p:selectBooleanCheckbox>            
-            <p:tooltip for="autoGenerate" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
-            <h:outputLabel for="autoGenerate" value="auto" rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}" />
+                </p:inputText>
+            </ui:remove>
+            <ui:remove>
+                <p:spacer height="0" width="5"/>
+                <p:selectBooleanCheckbox id="autoGenerate" 
+                                         style="vertical-align: middle"
+                                         rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
+                                         value="#{jobManager.currentJob.autoGenerateJobNumber}" >
+                    <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}" 
+                            event="change"
+                            global="false"                        
+                            process="@this"/>
+                </p:selectBooleanCheckbox>            
+                <p:tooltip for="autoGenerate" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
+                <h:outputLabel for="autoGenerate" value="auto" rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}" />
+            </ui:remove>
         </h:panelGroup>
 
         <h:outputText value="Business office *: " style="font-weight: bold"/>       
@@ -133,7 +140,7 @@
                         value="#{jobManager.currentJob.billingAddress}"
                         dropdown="true"
                         forceSelection="true"
-                        converter="addressConverter" 
+                        converter="clientAddressConverter" 
                         validator="addressValidator"
                         var="address"                        
                         itemValue="#{address}"
@@ -147,8 +154,10 @@
 
         </p:autoComplete>
 
-        <h:outputText value="" />
+        <h:outputText value="Contact *:" style="font-weight: bold" />  
+        
         <h:outputText id="clientContact" value="Contact: #{jobManager.currentJob.client.mainContact}" />
+        
 
         <h:outputText value="Date submitted *:" style="font-weight: bold" />
         <p:calendar id="dateSubmitted"
@@ -260,9 +269,9 @@
                          converterMessage="Invalid Turnaround Time (TAT)" 
                          validator="turnaroundTimeValidator"
                          value="#{jobManager.currentJob.estimatedTurnAroundTimeInDays}">
-                
+
                 <f:attribute name="tatRequired" value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" />
-                
+
                 <p:ajax listener="#{jobManager.updateJob}"
                         global="false"
                         event="change"   

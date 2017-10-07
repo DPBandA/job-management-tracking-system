@@ -24,7 +24,8 @@
 
                     <h:outputText value="Expected start date: "/>
                     <p:calendar pattern="MMM dd, yyyy"
-                                navigator="true"                                       
+                                navigator="true"        
+                                readonlyInput="true"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.expectedStartDate}" >
                         <p:ajax event="dateSelect"                                
                                 listener="#{jobManager.updateJob}"/>
@@ -34,7 +35,8 @@
 
                     <h:outputText value="Expected date of completion: "/>
                     <p:calendar pattern="MMM dd, yyyy"
-                                navigator="true"                                       
+                                navigator="true"          
+                                readonlyInput="true"
                                 value="#{jobManager.expectedDateOfCompletion}" >
                         <p:ajax event="dateSelect"                                
                                 listener="#{jobManager.updateDateExpectedCompletionDate}"/>
@@ -61,7 +63,8 @@
                     <h:outputText value="Start date: "/>
                     <p:calendar id="startDate" 
                                 pattern="MMM dd, yyyy"
-                                navigator="true"                                       
+                                navigator="true"       
+                                readonlyInput="true"                                
                                 value="#{jobManager.currentJob.jobStatusAndTracking.startDate}" >
                         <p:ajax event="dateSelect"                                
                                 listener="#{jobManager.updateJob}"/>
