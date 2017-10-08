@@ -41,31 +41,31 @@
 
             <p:layoutUnit position="north" 
                           rendered="true" 
-                          style="border: 0;"
-                          size="75"                          
-                          header="" >
+                          header=""
+                          style="border: 0;" 
+                          size="75" >
                 <h:form id="headerForm">   
                     <p:growl id="growl3" life="5000" showDetail="true" />
                     <h:panelGrid rendered="#{jobManager.renderUserMenu()}" width="100%" 
                                  border="0" columns="3" >
-                        <p:graphicImage rendered="#{jobManager.renderUserMenu()}" 
-                                        value="images/Logo.jpg"/>
+                        <p:graphicImage value="images/Logo.jpg"/>
                         <h:panelGrid>   
 
                             <div align="center">
                                 <span style="color: darkgrey; font-size: 14pt; font-weight: bold;">
                                     #{jobManager.applicationHeader}
                                 </span>  
-                                <p />
-                                <span style="color: darkgrey; font-size: 10pt; font-weight: bold;">
-                                     #{jobManager.applicationSubheader}
-                                </span>                                                               
+                                <br />
+                                <div style=" padding-top: 5px;">
+                                    <span style="color: darkgrey; font-size: 10pt; font-weight: bold;">
+                                        #{jobManager.applicationSubheader}
+                                    </span>   
+                                </div>
                             </div>
 
                         </h:panelGrid>
                         <p:menuButton value="#{jobManager.user.employee.firstName} #{jobManager.user.employee.lastName}"     
-                                      style="float: right;"                                      
-                                      rendered="#{jobManager.renderUserMenu()}">
+                                      style="float: right;" >
 
                             <p:menuitem actionListener="#{jobManager.openJobsTab}"
                                         onstart="longProcessDialogVar.show();"

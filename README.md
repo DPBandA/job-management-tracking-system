@@ -15,14 +15,14 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ### Rebuild UI Functionality
 - Use f:attribute to set the client id and only find an address or contact 
-  associated with a client. Check if attributes are passed to converter.
-  test findClient* with BEL command line app.  
+  associated with a specific client. Check if attributes are passed to converter.
+  Test findClient* with BEL command line app.  
 - Impl setting contact so that PERSIST errors do do occur when saving job.
   New job are being created with id. The id of the previously open job is being
   used.
-- update job number form field after saving job.
 - Don't allow creation or saving of a job with a client without a valid address
   and contact. Stop saving of client when saving job.
+- Make address and contact dialogs external dialogs with Dialog framework.
 - Create contact converter and use it...
 -  getBillingAddress() and getContact() to get billing address and main contact
    from client if they are null.
@@ -32,7 +32,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
   are set.
 - Implement generating service contact form
 - Implement open job in Job Detail tab. Use the relevant code to update components.
-- Update public void updateJobEntryTabClient() and remove copy client code.
+- Do shallow copy of client, billing address and contact before saving job to 
+  ensure that future edits of the client's name, billing address and contact
+  do not affect the job record.
 - Make sure all fields of the client dialog are updated when opened...check
   the list of address and contacts etc.
 - Make sure that billing address and contact are set when a new job is 
@@ -43,6 +45,8 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Make sure buttons at both top and bottom of dialogs are identical.
 - Move addMessage("Success", "Job was saved!"); to each "if" statement in 
   saveCurrentJob().
+- Use parentJob to link contracts with parent jobs and use it to pull 
+  in subcontracts costs?
 - Test with normal user (kmiller)
 ### Immediate Issues
 - Impl validating the creation of new clients...do not allow creating of client
@@ -142,6 +146,9 @@ by other apps?
 
 ### System Design
 #### Design
+- Make all sensitive fields, especially those on the General tab unchangeable
+  except by system admin after a job has been saved. Use field groups with 
+  input and output fields as is done with the job number. 
 - Check if new clients can be created even without privilege.
 - For job search let My Department job be the defaut.
 - Test out creating a new default client. Clean up client search and ensure 

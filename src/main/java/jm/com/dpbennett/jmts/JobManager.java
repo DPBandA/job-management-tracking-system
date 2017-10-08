@@ -1605,9 +1605,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public void createNewJob() {
         RequestContext context = RequestContext.getCurrentInstance();
         EntityManager em = getEntityManager1();
-       
+
         if (checkJobEntryPrivilege(em, context)) {
-            createJob(em, false);            
+            createJob(em, false);
             setRenderJobDetailTab(true);
             context.update("mainTabViewForm");
             context.execute("mainTabViewVar.select(1);");
@@ -1619,7 +1619,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public Job createNewJob(EntityManager em,
             JobManagerUser user,
             Boolean autoGenerateJobNumber) {
-        
+
         Job job = new Job();
         job.setClient(new Client("", false));
         job.setReportNumber("");
@@ -2946,12 +2946,12 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void updateAutoGenerateJobNumber() {
-               
+
         if (currentJob.getAutoGenerateJobNumber()) {
             currentJob.setJobNumber(getCurrentJobNumber());
         }
         setDirty(true);
-        
+
     }
 
     public void updateIsCostComponentHeading() {
@@ -3516,8 +3516,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
             // Do not save changed job if it's already marked as completed in the database
             if (getCurrentJob().getId() != null) {
-                System.out.println("Job id: " + getCurrentJob().getId() );
-                Job job = Job.findJobById(em, getCurrentJob().getId());                
+                System.out.println("Job id: " + getCurrentJob().getId());
+                Job job = Job.findJobById(em, getCurrentJob().getId());
                 if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
                         && !getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))
                         && !getUser().getPrivilege().getCanBeJMTSAdministrator()
@@ -3595,7 +3595,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
             Long id = BusinessEntityUtils.saveBusinessEntity(em, currentJob);
 
             if (id == null) {
-                currentJob.setJobNumber(getJobNumber(currentJob, em));
+                if (currentJob.getAutoGenerateJobNumber()) {
+                    currentJob.setJobNumber(getJobNumber(currentJob, em));
+                }
 
                 addMessage("Job save error occured",
                         "An error occured while saving job (Null ID)" + currentJob.getJobNumber(),
@@ -3609,7 +3611,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 return false;
 
             } else if (id == 0L) {
-                currentJob.setJobNumber(getJobNumber(currentJob, em));
+                if (currentJob.getAutoGenerateJobNumber()) {
+                    currentJob.setJobNumber(getJobNumber(currentJob, em));
+                }
                 addMessage("Job save error occured",
                         "An error occured while saving job (0L ID)" + currentJob.getJobNumber(),
                         FacesMessage.SEVERITY_ERROR);
@@ -3657,7 +3661,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
             cleanUpJob();
 
         } catch (Exception e) {
-            currentJob.setJobNumber(getJobNumber(currentJob, em));
+            if (currentJob.getAutoGenerateJobNumber()) {
+                currentJob.setJobNumber(getJobNumber(currentJob, em));
+            }
             addMessage("Undefined Error!", "An undefined error occurred while saving this job. "
                     + "Please contact the System Administrator", FacesMessage.SEVERITY_ERROR);
 
@@ -3877,7 +3883,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         updateSampleReferences();
 
-        currentJob.setJobNumber(getCurrentJobNumber());
+        if (currentJob.getAutoGenerateJobNumber()) {
+            currentJob.setJobNumber(getCurrentJobNumber());
+        }
         selectedJobSample = new JobSample();
 
         setDirty(Boolean.TRUE);
@@ -4226,7 +4234,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
             currentJob.setSubContractedDepartment(subContractedDepartment);
         }
 
-        currentJob.setJobNumber(getCurrentJobNumber());
+        if (currentJob.getAutoGenerateJobNumber()) {
+            currentJob.setJobNumber(getCurrentJobNumber());
+        }
         jobSampleDialogTabViewActiveIndex = 0;
 
     }
@@ -4399,7 +4409,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         EntityManager em = getEntityManager1();
 
-        currentJob.setJobNumber(getJobNumber(currentJob, getEntityManager1()));
+        if (currentJob.getAutoGenerateJobNumber()) {
+            currentJob.setJobNumber(getJobNumber(currentJob, getEntityManager1()));
+        }
 
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         if (currentJob.getId() != null) {
@@ -5030,7 +5042,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public void updateBusinessOffice(SelectEvent event) {
 
         try {
-            currentJob.setJobNumber(getCurrentJobNumber());
+            if (currentJob.getAutoGenerateJobNumber()) {
+                currentJob.setJobNumber(getCurrentJobNumber());
+            }
             setDirty(true);
 
         } catch (Exception e) {
@@ -5066,26 +5080,25 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void updateDepartment() {
 
-        EntityManager em = null;
+        EntityManager em;
 
         try {
+
             em = getEntityManager1();
-            if (!currentJob.getDepartment().getName().equals("")) {
-                Department department = Department.findDepartmentByName(em, currentJob.getDepartment().getName());
-                if (department != null) {
-                    currentJob.setDepartment(department);                    
-                    currentJob.setJobNumber(getCurrentJobNumber());
-                    JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
-                    if (currentJob.getId() != null) {
-                        updateAllJobCostings();
-                    }
-                }
+
+            if (currentJob.getAutoGenerateJobNumber()) {
+                currentJob.setJobNumber(getCurrentJobNumber());
+            }
+
+            JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
+            if (currentJob.getId() != null) {
+                updateAllJobCostings();
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
-      
+
     }
 
     public void updateCurrentUnitCostDepartment() {
@@ -5199,26 +5212,21 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void updateSubContractedDepartment() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
 
-            if (!currentJob.getSubContractedDepartment().getName().equals("")) {
-                Department subContractedDepartment = Department.findDepartmentByName(em, currentJob.getSubContractedDepartment().getName());
-                if (subContractedDepartment != null) {
-                    currentJob.setSubContractedDepartment(subContractedDepartment);
-                    currentJob.setJobNumber(getCurrentJobNumber());
-                    JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
-
-                    if (currentJob.getId() != null) {
-                        updateAllJobCostings();
-                    }
-                }
+            if (currentJob.getAutoGenerateJobNumber()) {
+                currentJob.setJobNumber(getCurrentJobNumber());
+            }
+            
+            JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
+            if (currentJob.getId() != null) {
+                updateAllJobCostings();
             }
 
         } catch (Exception e) {
-            currentJob.setJobNumber(getCurrentJobNumber());
             System.out.println(e + ": updateSubContractedDepartment");
         }
     }
@@ -5697,10 +5705,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
             }
         }
 
-        // sequence number
+        // Set sequence number
         job.setJobSequenceNumber(currentJob.getJobSequenceNumber());
 
-        // job number
+        // Set job number
         if (job.getAutoGenerateJobNumber()) {
             job.setJobNumber(getJobNumber(job, em));
         }
@@ -6067,48 +6075,45 @@ public class JobManager implements Serializable, BusinessEntityManager,
         String sequenceNumber;
         String subContractedDepartmenyOrCompanyCode;
 
-        if (job.getAutoGenerateJobNumber() != false) {
+        departmentOrCompanyCode = job.getDepartment().getSubGroupCode().equals("") ? "?" : job.getDepartment().getSubGroupCode();
+        subContractedDepartmenyOrCompanyCode = job.getSubContractedDepartment().getSubGroupCode().equals("") ? "?" : job.getSubContractedDepartment().getSubGroupCode();
 
-            departmentOrCompanyCode = job.getDepartment().getSubGroupCode().equals("") ? "?" : job.getDepartment().getSubGroupCode();
-            subContractedDepartmenyOrCompanyCode = job.getSubContractedDepartment().getSubGroupCode().equals("") ? "?" : job.getSubContractedDepartment().getSubGroupCode();
+        // Use the date entered to get the year if it is valid
+        // and only if this is not a subcontracted job
+        if ((job.getJobStatusAndTracking().getDateAndTimeEntered() != null)
+                && (subContractedDepartmenyOrCompanyCode.equals("?"))) {
+            c.setTime(job.getJobStatusAndTracking().getDateAndTimeEntered());
+            year = "" + c.get(Calendar.YEAR);
+        } else if (job.getYearReceived() != null) {
+            year = job.getYearReceived().toString();
+        }
+        // include the sequence number if it is valid
+        if (job.getJobSequenceNumber() != null) {
+            //sequenceNumber = job.getJobSequenceNumber().toString();
+            sequenceNumber = getFourDigitString(job.getJobSequenceNumber());
+        } else {
+            sequenceNumber = "?";
+        }
+        // set base job number
+        job.setJobNumber(departmentOrCompanyCode + "/" + year + "/" + sequenceNumber);
+        // append subcontracted code if valid
+        if (!subContractedDepartmenyOrCompanyCode.equals("?")) {
+            job.setJobNumber(job.getJobNumber() + "/" + subContractedDepartmenyOrCompanyCode);
+        }
 
-            // Use the date entered to get the year if it is valid
-            // and only if this is not a subcontracted job
-            if ((job.getJobStatusAndTracking().getDateAndTimeEntered() != null)
-                    && (subContractedDepartmenyOrCompanyCode.equals("?"))) {
-                c.setTime(job.getJobStatusAndTracking().getDateAndTimeEntered());
-                year = "" + c.get(Calendar.YEAR);
-            } else if (job.getYearReceived() != null) {
-                year = job.getYearReceived().toString();
-            }
-            // include the sequence number if it is valid
-            if (job.getJobSequenceNumber() != null) {
-                //sequenceNumber = job.getJobSequenceNumber().toString();
-                sequenceNumber = getFourDigitString(job.getJobSequenceNumber());
-            } else {
-                sequenceNumber = "?";
-            }
-            // set base job number
-            job.setJobNumber(departmentOrCompanyCode + "/" + year + "/" + sequenceNumber);
-            // append subcontracted code if valid
-            if (!subContractedDepartmenyOrCompanyCode.equals("?")) {
-                job.setJobNumber(job.getJobNumber() + "/" + subContractedDepartmenyOrCompanyCode);
-            }
+        SystemOption sysOption = SystemOption.findSystemOptionByName(em,
+                "includeSampleReference");
 
-            SystemOption sysOption = SystemOption.findSystemOptionByName(em,
-                    "includeSampleReference");
-
-            Boolean includeRef = true;
-            if (sysOption != null) {
-                includeRef = Boolean.parseBoolean(sysOption.getOptionValue());
-            }
-            // Append sample codes if any
-            if (includeRef) {
-                if ((job.getNumberOfSamples() != null) && (job.getNumberOfSamples() > 1)) {
-                    job.setJobNumber(job.getJobNumber() + "/"
-                            + BusinessEntityUtils.getAlphaCode(0) + "-"
-                            + BusinessEntityUtils.getAlphaCode(job.getNumberOfSamples() - 1));
-                }
+        Boolean includeRef = true;
+        if (sysOption != null) {
+            includeRef = Boolean.parseBoolean(sysOption.getOptionValue());
+        }
+        // Append sample codes if any
+        if (includeRef) {
+            if ((job.getNumberOfSamples() != null) && (job.getNumberOfSamples() > 1)) {
+                job.setJobNumber(job.getJobNumber() + "/"
+                        + BusinessEntityUtils.getAlphaCode(0) + "-"
+                        + BusinessEntityUtils.getAlphaCode(job.getNumberOfSamples() - 1));
             }
         }
 
