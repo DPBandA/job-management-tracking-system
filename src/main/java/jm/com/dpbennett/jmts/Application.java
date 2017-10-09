@@ -303,7 +303,7 @@ public class Application {
         }
     }
 
-    // NB: To be remove as it is implemented in ClientManager
+    // tk To be remove as it is implemented in ClientManager
     public List<Client> completeClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);

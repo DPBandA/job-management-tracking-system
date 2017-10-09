@@ -17,7 +17,7 @@
                 <p:inputText id="jobNumberEdit"
                              rendered="#{!jobManager.currentJob.autoGenerateJobNumber}"
                              size="35"
-                             maxlength="250" 
+                             maxlength="50" 
                              validator="jobNumberValidator"                                                                     
                              title="#{jobManager.currentJob.jobNumber}"
                              value="#{jobManager.currentJob.jobNumber}">
@@ -88,12 +88,13 @@
         <h:panelGroup>                
             <p:autoComplete id="client"
                             var="client"
-                            itemLabel="#{client.name}"
+                            itemLabel="#{client.truncatedName}"
                             itemValue="#{client}"
                             size="35"
                             maxlength="250"
-                            maxResults="12"       
+                            maxResults="24"                               
                             dropdown="false"
+                            scrollHeight="200" 
                             value="#{jobManager.currentJob.client}"   
                             converter="clientConverter"
                             validator="businessEntityValidator"
@@ -149,12 +150,14 @@
                         itemValue="#{address}"
                         itemLabel="#{address.name}" 
                         completeMethod="#{jobManager.completeClientAddress}">
-
+           
+            <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
+           
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
                     update=":mainTabViewForm:mainTabView:growl2"
                     process="@this" />   
-
+         
         </p:autoComplete>
 
         <h:outputText value="Contact *:" style="font-weight: bold" />  

@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <p:growl id="growl2" life="5000" showDetail="true" />
     <p:remoteCommand name="doJobSampleCopy"
                      action="#{jobManager.copyJobSample}"
@@ -16,7 +17,8 @@
                      update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumberGroup,:mainTabViewForm:mainTabView:growl2"
                      title="Save current job"
                      icon="ui-icon-disk"
-                     process="@form"/>
+                     process="@form" />
+        
     <p:spacer height="0" width="10"/>
     <p:commandButton value="Close"     
                      actionListener="#{jobManager.prepareToCloseJobDetailTab}"
