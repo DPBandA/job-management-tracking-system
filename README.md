@@ -14,12 +14,12 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Update job billing address and contact when client dialog is closed using dialog return. 
-  Use get/setAddress in client dialog and use it to update billing address and contact.
 - Implement Select/Add contact:
+- Set job as dirty when new billing address/contact is added or selected
 - Save address and contact in their respective dialogs.
 -  getBillingAddress() and getContact() to get billing address and main contact
    from client if they are null.
+- Let contact field shw blank without a comma as is done with billing address.
 - Validate billing address and contact as part of job validation
 - Implement creating subcontracts. Create the "organizationName" system option
   and use it to retrieve/create the client. Make sure billing address and contact
@@ -41,7 +41,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
   saveCurrentJob().
 - Use parentJob to link contracts with parent jobs and use it to pull 
   in subcontracts costs?
+- Enter long text such as addresline1 and see howthe UI reacts.
 - Test with normal user (kmiller)
+- Update job search table when client dialog is closed?
 ### Immediate Issues
 - Impl validating the creation of new clients...do not allow creating of client
   that already exist.

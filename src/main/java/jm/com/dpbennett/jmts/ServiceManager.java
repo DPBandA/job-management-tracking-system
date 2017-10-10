@@ -468,7 +468,7 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
         //currentServiceRequest.getClient().setActive(false);
         clientManager.setExternalEntityManagerFactory(EMF);
         clientManager.setSave(false);
-        clientManager.setBusinessEntityManager(this);        
+//        clientManager.setBusinessEntityManager(this);        
     }
 
     public void createNewClient() {

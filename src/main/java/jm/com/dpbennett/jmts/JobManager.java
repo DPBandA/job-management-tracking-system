@@ -5551,8 +5551,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public void createNewJobClient() {
         clientManager.createNewClient();
         clientManager.setUser(getUser());
-        clientManager.setClientOwner(currentJob);
+        clientManager.setClientOwner(getCurrentJob());
         clientManager.setCurrentAddress(getCurrentJob().getBillingAddress());
+        clientManager.setCurrentContact(getCurrentJob().getContact());
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
@@ -5562,9 +5563,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
     // Edit the client via the ClientManagerKeep
     public void editJobClient() {
         clientManager.setUser(getUser());
-        clientManager.setClientOwner(currentJob);
-        clientManager.setClient(currentJob.getClient());
+        clientManager.setClientOwner(getCurrentJob());
+        clientManager.setClient(getCurrentJob().getClient());
         clientManager.setCurrentAddress(getCurrentJob().getBillingAddress());
+        clientManager.setCurrentContact(getCurrentJob().getContact());
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
