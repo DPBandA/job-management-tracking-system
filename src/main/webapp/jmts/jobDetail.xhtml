@@ -18,7 +18,7 @@
                      title="Save current job"
                      icon="ui-icon-disk"
                      process="@form" />
-        
+
     <p:spacer height="0" width="10"/>
     <p:commandButton value="Close"     
                      actionListener="#{jobManager.prepareToCloseJobDetailTab}"
@@ -57,9 +57,11 @@
     <p:tabView id="jobFormTabView"
                widgetVar="jobFormTabVar" >
 
-        <p:ajax event="tabChange" 
-                onstart="longProcessDialogVar.show();"
-                oncomplete="longProcessDialogVar.hide();" />
+        <ui:remove>
+            <p:ajax event="tabChange" 
+                    onstart="longProcessDialogVar.show();"
+                    oncomplete="longProcessDialogVar.hide();" />
+        </ui:remove>
 
         <p:tab title="General" >
             <ui:include src="jobGeneralTab.xhtml"/>

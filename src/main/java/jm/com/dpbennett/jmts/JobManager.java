@@ -4543,6 +4543,25 @@ public class JobManager implements Serializable, BusinessEntityManager,
         }
     }
 
+    public List<Contact> completeClientContact(String query) {
+        List<Contact> contacts = new ArrayList<>();
+
+        try {
+
+            for (Contact contact : getCurrentJob().getClient().getContacts()) {
+                if (contact.toString().toUpperCase().contains(query.toUpperCase())) {
+                    contacts.add(contact);
+                }
+            }
+
+            return contacts;
+        } catch (Exception e) {
+
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+
     public ArrayList<String> completeCountry(String query) {
         EntityManager em = null;
 
@@ -5220,7 +5239,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
             if (currentJob.getAutoGenerateJobNumber()) {
                 currentJob.setJobNumber(getCurrentJobNumber());
             }
-            
+
             JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
             if (currentJob.getId() != null) {
                 updateAllJobCostings();
@@ -5348,7 +5367,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
         accPacCustomer = AccPacCustomer.findAccPacCustomerByName(em, accPacCustomer.getCustomerName().trim());
 
         if (accPacCustomer != null) {
-            //accPacCustomerDocuments = AccPacDocument.findAccPacInvoicesDueByCustomerId(em, accPacCustomer.getId(), true);
             if (getShowPrepayments()) {
                 filteredAccPacCustomerDocuments = AccPacDocument.findAccPacInvoicesDueByCustomerId(em, accPacCustomer.getId(), true);
             } else {
@@ -5534,11 +5552,11 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.createNewClient();
         clientManager.setUser(getUser());
         clientManager.setClientOwner(currentJob);
-        clientManager.setBillingAddress(clientManager.getClient().getBillingAddress());
+        clientManager.setCurrentAddress(getCurrentJob().getBillingAddress());
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
-        openDialog(null, "clientForm", true, true, true, 420, 600);
+        openDialog(null, "clientDialog", true, true, true, 420, 600);
     }
 
     // Edit the client via the ClientManagerKeep
@@ -5546,11 +5564,11 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.setUser(getUser());
         clientManager.setClientOwner(currentJob);
         clientManager.setClient(currentJob.getClient());
-        clientManager.setBillingAddress(currentJob.getBillingAddress());
+        clientManager.setCurrentAddress(getCurrentJob().getBillingAddress());
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
-        openDialog(null, "clientForm", true, true, true, 420, 600);
+        openDialog(null, "clientDialog", true, true, true, 420, 600);
     }
 
     public ServiceRequest createNewServiceRequest(EntityManager em,

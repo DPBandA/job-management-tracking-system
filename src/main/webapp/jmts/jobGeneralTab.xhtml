@@ -122,10 +122,11 @@
                              process="@this,client"                             
                              title="View or edit this client's detail">   
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:jobFormTabView"/>
+                        update="billingAddress,clientContact,client"/>
             </p:commandButton>
             <p:spacer height="0" width="15"/>
-            <p:commandButton value="New"
+            <p:commandButton 
+                             id="iconOnly"
                              icon="ui-icon-plus" 
                              onstart="longProcessDialogVar.show();"
                              rendered="#{jobManager.user.privilege.canAddClient}"
@@ -134,7 +135,7 @@
                              process="@this"
                              title="Add a new client to the client database">
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:jobFormTabView"/>
+                        update="billingAddress,clientContact,client"/>
             </p:commandButton>
 
         </h:panelGroup>
@@ -150,19 +151,36 @@
                         itemValue="#{address}"
                         itemLabel="#{address.name}" 
                         completeMethod="#{jobManager.completeClientAddress}">
-           
+
             <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
-           
+
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
                     update=":mainTabViewForm:mainTabView:growl2"
                     process="@this" />   
-         
+
         </p:autoComplete>
 
         <h:outputText value="Contact *:" style="font-weight: bold" />  
+        <p:autoComplete id="clientContact"
+                        value="#{jobManager.currentJob.contact}"
+                        dropdown="true"
+                        forceSelection="true"
+                        converter="clientContactConverter" 
+                        validator="businessEntityValidator"
+                        var="contact"                        
+                        itemValue="#{contact}"
+                        itemLabel="#{contact.name}" 
+                        completeMethod="#{jobManager.completeClientContact}">
 
-        <h:outputText id="clientContact" value="Contact: #{jobManager.currentJob.client.mainContact}" />
+            <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
+
+            <p:ajax event="itemSelect"
+                    listener="#{jobManager.updateJob}"                                        
+                    update=":mainTabViewForm:mainTabView:growl2"
+                    process="@this" />   
+
+        </p:autoComplete>
 
 
         <h:outputText value="Date submitted *:" style="font-weight: bold" />

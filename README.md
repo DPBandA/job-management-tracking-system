@@ -14,22 +14,10 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- See if saving job with process @this and not @form solves the billing address 
-  validation problem. NB modify both save buttons. Or try to use "immediate"
-  on billing address component.
-- Use f:attribute to set the client id and only find an address or contact 
-  associated with a specific client. Check if attributes are passed to converter.
-  Test findClient* with BEL command line app.  
-- Impl setting contact so that PERSIST errors do do occur when saving job.
-  New job are being created with id. The id of the previously open job is being
-  used.
-- Don't allow creation or saving of a job with a client without a valid address
-  and contact. Stop saving of client when saving job.
-- Make ClientManager/ClientForm more generic so it can be used with other entities apart from
-  jobs e.g change the billingAddress to address. Change clientForm.xhtml to clientDialog.xhtml.
-- Make address and contact dialogs external dialogs with Dialog framework.
-- Create contact converter and use it...
-- Make all dialogs external with by using the primefaces Dialog Framework.
+- Update job billing address and contact when client dialog is closed using dialog return. 
+  Use get/setAddress in client dialog and use it to update billing address and contact.
+- Implement Select/Add contact:
+- Save address and contact in their respective dialogs.
 -  getBillingAddress() and getContact() to get billing address and main contact
    from client if they are null.
 - Validate billing address and contact as part of job validation
@@ -222,6 +210,7 @@ by other apps?
 - Look at Garfield's design images on google docs for ideas.
 - Design a favicon and make it system option.
 - Try to put all styles as styleClass and put into index.css
+- Print service contract for only external client jobs??
 
 
 ### Legal Documents/Office Module (GenericERP Module)

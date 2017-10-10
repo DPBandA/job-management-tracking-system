@@ -136,11 +136,24 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>clientForm</from-outcome>
-            <to-view-id>/client/clientForm.xhtml</to-view-id>
+            <from-outcome>clientDialog</from-outcome>
+            <to-view-id>/client/clientDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>    
-        
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>contactDialog</from-outcome>
+            <to-view-id>/client/contactDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>addressDialog</from-outcome>
+            <to-view-id>/client/addressDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.jmts.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>

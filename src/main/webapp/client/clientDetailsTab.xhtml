@@ -34,7 +34,7 @@
 
         <h:outputText id="currentBillingAddress" value="Select/Add billing address: " style="font-weight: bold"/>   
         <p:autoComplete id="currentClientBillingAddress"
-                        value="#{clientManager.billingAddress}"
+                        value="#{clientManager.currentAddress}"
                         dropdown="true"
                         forceSelection="true"
                         converter="clientAddressConverter"                            
@@ -43,27 +43,27 @@
                         itemLabel="#{address.name}" 
                         completeMethod="#{clientManager.completeClientAddress}">
 
+            <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
+
             <p:ajax event="itemSelect"
-                    listener="#{clientManager.updateBillingAddress}"                                        
-                    update=":clientForm:clientFormTabView:addressesTable,generalDetailsPanelGrid"
-                    process="@this" />   
+                    listener="#{clientManager.updateCurrentAddress}"                                        
+                    update="generalDetailsPanelGrid"
+                    process="@this" />              
         </p:autoComplete>    
 
+        <h:outputText value="" />
+        <h:outputText value="#{clientManager.currentAddress.addressLine1}" />
 
         <h:outputText value="" />
-        <h:outputText value="#{clientManager.billingAddress.addressLine1}" />
+        <h:outputText value="#{clientManager.currentAddress.addressLine2}" />
 
         <h:outputText value="" />
-        <h:outputText value="#{clientManager.billingAddress.addressLine2}" />
+        <h:outputText value="#{clientManager.currentAddress.city}" />
 
         <h:outputText value="" />
-        <h:outputText value="#{clientManager.billingAddress.city}" />
-
-        <h:outputText value="" />
-        <h:outputText value="#{clientManager.billingAddress.stateOrProvince}" />   
-
-
-    </h:panelGrid>                    
+        <h:outputText value="#{clientManager.currentAddress.stateOrProvince}" />   
+    
+</h:panelGrid>                    
 
 </html>
 
