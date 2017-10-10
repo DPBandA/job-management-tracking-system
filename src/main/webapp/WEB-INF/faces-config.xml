@@ -91,6 +91,14 @@
         <validator-id>turnaroundTimeValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.TurnaroundTimeValidator</validator-class>
     </validator>
+    <validator>
+        <validator-id>addressLineValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.AddressLineValidator</validator-class>
+    </validator>
+    <validator>
+        <validator-id>contactValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.ContactValidator</validator-class>
+    </validator>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

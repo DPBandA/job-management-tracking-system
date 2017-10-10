@@ -3515,8 +3515,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         try {
 
             // Do not save changed job if it's already marked as completed in the database
-            if (getCurrentJob().getId() != null) {
-                System.out.println("Job id: " + getCurrentJob().getId());
+            if (getCurrentJob().getId() != null) {                
                 Job job = Job.findJobById(em, getCurrentJob().getId());
                 if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
                         && !getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))

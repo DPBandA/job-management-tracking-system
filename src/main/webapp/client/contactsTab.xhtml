@@ -7,7 +7,13 @@
     <p:commandButton value="Add contact"
                      update=":contactForm"
                      oncomplete="contactFormDialog.show();"
-                     actionListener="#{clientManager.createNewContact}"/>
+                     actionListener="#{clientManager.createNewContact}" >
+
+        <p:resetInput target=":contactForm" />
+
+    </p:commandButton>
+
+
     <p:dataTable id="contactsTable"
                  var="contact"                                 
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -51,6 +57,9 @@
                              oncomplete="contactFormDialog.show();"
                              global="true"
                              icon="ui-icon-pencil">
+
+                <p:resetInput target=":contactForm" />
+
                 <f:setPropertyActionListener value="#{contact}"
                                              target="#{clientManager.currentContact}" />
             </p:commandButton>
@@ -69,7 +78,11 @@
     <p:commandButton value="Add contact"
                      update=":contactForm"
                      oncomplete="contactFormDialog.show();"
-                     actionListener="#{clientManager.createNewContact}"/>
+                     actionListener="#{clientManager.createNewContact}" >
+
+        <p:resetInput target=":contactForm" />
+
+    </p:commandButton>
 </html>
 
 

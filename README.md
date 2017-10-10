@@ -14,13 +14,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Implement Select/Add contact:
-- Set job as dirty when new billing address/contact is added or selected
-- Save address and contact in their respective dialogs.
--  getBillingAddress() and getContact() to get billing address and main contact
-   from client if they are null.
-- Let contact field shw blank without a comma as is done with billing address.
-- Validate billing address and contact as part of job validation
+- Put "+" buttons for adding contact and billing address ie impl. external dialogs.
+  NB: update contact and address panel groups when client is changed.
+- Impl. adding new client. Do not allow creating client that already exist.
 - Implement creating subcontracts. Create the "organizationName" system option
   and use it to retrieve/create the client. Make sure billing address and contact
   are set.
@@ -29,6 +25,8 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
   do not affect the job record.
+- Implement and test creating new client. Reset the address and contact for 
+  ClientManager.
 - Make sure all fields of the client dialog are updated when opened...check
   the list of address and contacts etc.
 - Make sure that billing address and contact are set when a new job is 
@@ -44,6 +42,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Enter long text such as addresline1 and see howthe UI reacts.
 - Test with normal user (kmiller)
 - Update job search table when client dialog is closed?
+- Make TRN mandatory? Put system option to validate?
 ### Immediate Issues
 - Impl validating the creation of new clients...do not allow creating of client
   that already exist.

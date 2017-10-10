@@ -7,7 +7,11 @@
     <p:commandButton value="Add address"
                      update=":addressForm"
                      oncomplete="addressFormDialog.show();"
-                     actionListener="#{clientManager.createNewAddress}"/>
+                     actionListener="#{clientManager.createNewAddress}" >
+
+        <p:resetInput target=":addressForm" />
+
+    </p:commandButton>
     <p:dataTable id="addressesTable"
                  var="address"
                  paginator="true"                                 
@@ -32,6 +36,9 @@
                              oncomplete="addressFormDialog.show();"
                              global="true"
                              icon="ui-icon-pencil">
+                
+                 <p:resetInput target=":addressForm" />
+                
                 <f:setPropertyActionListener value="#{address}"
                                              target="#{clientManager.currentAddress}" />
             </p:commandButton>
@@ -51,7 +58,11 @@
     <p:commandButton value="Add address"
                      update=":addressForm"
                      oncomplete="addressFormDialog.show();"
-                     actionListener="#{clientManager.createNewAddress}"/>
+                     actionListener="#{clientManager.createNewAddress}">
+        
+        <p:resetInput target=":addressForm" />
+        
+    </p:commandButton>
 </html>
 
 
