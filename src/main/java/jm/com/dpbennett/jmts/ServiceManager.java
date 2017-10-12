@@ -458,16 +458,16 @@ public class ServiceManager implements Serializable, BusinessEntityManager {
         Client client = Client.findClientByName(em, currentServiceRequest.getClient().getName(), true);
         if (client != null) {
             currentServiceRequest.setClient(client);
-            clientManager.setClient(client);
+            clientManager.setCurrentClient(client);
         } else {
-            clientManager.setClient(currentServiceRequest.getClient());
+            clientManager.setCurrentClient(currentServiceRequest.getClient());
         }
         closeEntityManager(em);
 
         // make sure that this is not an active client managed for the BSJ
         //currentServiceRequest.getClient().setActive(false);
-        clientManager.setExternalEntityManagerFactory(EMF);
-        clientManager.setSave(false);
+        //clientManager.setExternalEntityManagerFactory(EMF);
+        clientManager.setIsToBeSaved(false);
 //        clientManager.setBusinessEntityManager(this);        
     }
 

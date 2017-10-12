@@ -6,11 +6,11 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
     <h:panelGrid columns="2">
         <h:outputText value="Entered by:" />
-        <p:inputText value="#{clientManager.client.enteredBy.name}"
+        <p:inputText value="#{clientManager.currentClient.enteredBy.name}"
                      readonly="true" 
                      style="background-color: grey !important;" />                  
         <h:outputText value="Date entered:" />
-        <p:calendar value="#{clientManager.client.dateEntered}"                                    
+        <p:calendar value="#{clientManager.currentClient.dateEntered}"                                    
                     style="background-color: grey !important;"
                     readonly="true"
                     readonlyInput="true"

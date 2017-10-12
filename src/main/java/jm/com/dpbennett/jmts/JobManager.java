@@ -101,7 +101,6 @@ import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReport;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
-import jm.com.dpbennett.business.entity.utils.MethodResult;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import static jm.com.dpbennett.jmts.Application.checkForLDAPUser;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
@@ -172,23 +171,16 @@ public class JobManager implements Serializable, BusinessEntityManager,
     private String columnsToExclude;
     private Report jobReport;
     private StreamedContent jobReportFile;
-    private StreamedContent jobCostingFile;
-    // Rendering
+    private StreamedContent jobCostingFile; 
     private Boolean renderSearchComponent;
     private Boolean renderJobDetailTab;
-    @ManagedProperty(value = "Jobs")
-    private String tabTitle; // tk Can del/move?
+    @ManagedProperty(value = "Jobs")   
     private Integer longProcessProgress;
     private AccPacCustomer accPacCustomer;
     private List<AccPacDocument> filteredAccPacCustomerDocuments;
     private Boolean useAccPacCustomerList;
     private CostComponent selectedCostComponent;
-    private Long receivedById; // tk Can del/move?
-    private Long classificationId; // tk Can del/move?
-    private Long sectorId; // tk Can del/move?
-    private Long categoryId; // tk Can del/move?
-    private Long subCategoryId; // tk Can del/move?
-    // end ids used for object linking
+    private Long receivedById; // tk Can del/move? NB: seem to be used by samples dialog. Remove and use autocomplete with employee converter.
     private String inputTextStyle; // tk Can del/move?
     private String outcome;
     private String defaultOutcome;
@@ -433,14 +425,14 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     // tk Can del/move?
-    public String getTabTitle() {
-        return tabTitle;
-    }
-
-    // tk Can del/move?
-    public void setTabTitle(String tabTitle) {
-        this.tabTitle = tabTitle;
-    }
+//    public String getTabTitle() {
+//        return tabTitle;
+//    }
+//
+//    // tk Can del/move?
+//    public void setTabTitle(String tabTitle) {
+//        this.tabTitle = tabTitle;
+//    }
 
     public Boolean getWestLayoutUnitCollapsed() {
         return westLayoutUnitCollapsed;
@@ -1337,25 +1329,25 @@ public class JobManager implements Serializable, BusinessEntityManager,
         return currentJob.getClassification().getId();
     }
 
-    public void setClassificationId(Long classificationId) {
-        this.classificationId = classificationId;
-    }
+//    public void setClassificationId(Long classificationId) {
+//        this.classificationId = classificationId;
+//    }
 
     public Long getCategoryId() {
         return currentJob.getJobCategory().getId();
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
+//    public void setCategoryId(Long categoryId) {
+//        this.categoryId = categoryId;
+//    }
 
     public Long getSubCategoryId() {
         return currentJob.getJobSubCategory().getId();
     }
 
-    public void setSubCategoryId(Long subCategoryId) {
-        this.subCategoryId = subCategoryId;
-    }
+//    public void setSubCategoryId(Long subCategoryId) {
+//        this.subCategoryId = subCategoryId;
+//    }
 
     public String getJmt() {
         // outcome to use when login
@@ -2733,9 +2725,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
         EntityManager em = getEntityManager1();
 
         // Get the clasification saved for use in setting taxes
-        Classification classification = Classification.findClassificationByName(em,
-                currentJob.getClassification().getName());
-        currentJob.setClassification(classification);
+        //Classification classification = Classification.findClassificationByName(em,
+        //        currentJob.getClassification().getName());
+        //currentJob.setClassification(classification);
 
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
@@ -5071,22 +5063,22 @@ public class JobManager implements Serializable, BusinessEntityManager,
         }
     }
 
-    public void updateClassification() {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-            Classification classification = Classification.findClassificationById(em, classificationId);
-            if (classification != null) {
-                currentJob.setClassification(classification);
-                setDirty(true);
-            }
-
-        } catch (Exception e) {
-
-            System.out.println(e);
-        }
-    }
+//    public void updateClassification() {
+//        EntityManager em = null;
+//
+//        try {
+//            em = getEntityManager1();
+//            Classification classification = Classification.findClassificationById(em, classificationId);
+//            if (classification != null) {
+//                currentJob.setClassification(classification);
+//                setDirty(true);
+//            }
+//
+//        } catch (Exception e) {
+//
+//            System.out.println(e);
+//        }
+//    }
 
     public void updateSector() {
         setDirty(true);
@@ -5548,14 +5540,14 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void createNewJobClient() {
-        clientManager.createNewClient();
+        clientManager.createNewClient(true);
         clientManager.setUser(getUser());
         clientManager.setClientOwner(getCurrentJob());
         clientManager.setCurrentAddress(new Address());
         clientManager.setCurrentContact(new Contact());
-        clientManager.setSave(true);
-        clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-        clientManager.setExternalEntityManagerFactory(EMF1);
+        clientManager.setIsToBeSaved(true);
+        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        //clientManager.setExternalEntityManagerFactory(EMF1);
         
         openDialog(null, "clientDialog", true, true, true, 420, 650);
     }
@@ -5564,12 +5556,12 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public void editJobClient() {
         clientManager.setUser(getUser());
         clientManager.setClientOwner(getCurrentJob());
-        clientManager.setClient(getCurrentJob().getClient());
+        clientManager.setCurrentClient(getCurrentJob().getClient());
         clientManager.setCurrentAddress(getCurrentJob().getBillingAddress());
         clientManager.setCurrentContact(getCurrentJob().getContact());
-        clientManager.setSave(true);
-        clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-        clientManager.setExternalEntityManagerFactory(EMF1);
+        clientManager.setIsToBeSaved(true);
+        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        //clientManager.setExternalEntityManagerFactory(EMF1);
         
         openDialog(null, "clientDialog", true, true, true, 420, 650);
     }

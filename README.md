@@ -23,12 +23,6 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
   do not affect the job record.
-- Implement and test creating new client. Reset the address and contact for 
-  ClientManager.
-- Make sure all fields of the client dialog are updated when opened...check
-  the list of address and contacts etc.
-- Make sure that billing address and contact are set when a new job is 
-  created/subcontracted.
 - The select/add billing dialog sometimes reject the selected address. Check why.
 - Check that client credit status dialog still works
 - Fix client database dialog.
@@ -41,6 +35,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Test with normal user (kmiller)
 - Update job search table when client dialog is closed?
 - Make TRN mandatory? Put system option to validate?
+- Impl. clients dialog.
 ### Immediate Issues
 - Impl validating the creation of new clients...do not allow creating of client
   that already exist.
@@ -139,6 +134,7 @@ by other apps?
 
 ### System Design
 #### Design
+- Clean up unused code in JM.
 - Limit the maximum characters to be entered into a text field to 50. Put this
   value in the BEL resource bundle which can be changed. Allow various maximums
   for different types of fields.
@@ -152,6 +148,8 @@ by other apps?
 - Implement selectTab(index) in javascript that selects a tab based on the 
   the number of tabs in the tabview and the default index position of the tab
   as defined in index.html.
+- Create separate login page instead of using login dialog?
+- Remove client dialog and put as closable tab.
 - Show control panel when a tab is open of this is applicable.
 - Check what happens if mainTabViewVar.select(0) is called and no tab is visible.
 - Implement checkboxes in user menu to allow activating modules and showing windows.

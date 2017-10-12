@@ -119,7 +119,7 @@
                                              process="@this"
                                              title="View or edit this client's detail">
                                 <f:setPropertyActionListener value="#{client}" 
-                                                             target="#{clientManager.client}" />
+                                                             target="#{clientManager.currentClient}" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>
