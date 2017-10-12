@@ -102,12 +102,12 @@
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update="clientContact,billingAddress,billingAddressGroupLabel,billingAddressGroup,editClientButton"
+                        update="clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
                 <p:ajax event="change"
-                        update="clientContact,billingAddress,billingAddressGroupLabel,billingAddressGroup,editClientButton"
+                        update="clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>   
 
@@ -156,30 +156,15 @@
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
-                    update=":mainTabViewForm:mainTabView:growl2,billingAddressGroup,billingAddressGroupLabel"
+                    update=":mainTabViewForm:mainTabView:growl2"
                     process="@this" />   
 
             <p:ajax event="change"
                     listener="#{jobManager.updateJob}"                                        
-                    update=":mainTabViewForm:mainTabView:growl2,billingAddressGroup,billingAddressGroupLabel"
+                    update=":mainTabViewForm:mainTabView:growl2"
                     process="@this" />               
         </p:autoComplete>
        
-        <h:panelGroup id="billingAddressGroupLabel" rendered="${jobManager.isBillingAddressNameValid}" >
-            <h:outputText value="" /> 
-        </h:panelGroup>
-        <h:panelGroup id="billingAddressGroup" rendered="${jobManager.isBillingAddressNameValid}" >
-            <p:outputPanel>           
-                <h:outputText value="#{jobManager.currentJob.billingAddress.addressLine1}" />  
-                <br/>
-                <h:outputText value="#{jobManager.currentJob.billingAddress.addressLine2}" />
-                <br/>
-                <h:outputText value="#{jobManager.currentJob.billingAddress.city}" />
-                <br/>
-                <h:outputText value="#{jobManager.currentJob.billingAddress.stateOrProvince}" />
-            </p:outputPanel>
-        </h:panelGroup>
-
         <h:outputText value="Contact *:" style="font-weight: bold" />  
         <p:autoComplete id="clientContact"
                         value="#{jobManager.currentJob.contact}"

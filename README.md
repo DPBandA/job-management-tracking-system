@@ -14,10 +14,10 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Address output not being displayed for new jobs when a client is selected.
 - Implement creating subcontracts. Create the "organizationName" system option
   and use it to retrieve/create the client. Make sure billing address and contact
-  are set.
+  are set. Automaticaly retrieve or create contact person which is the person
+  creating the subcontract.
 - Implement generating service contact form
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
