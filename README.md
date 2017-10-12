@@ -15,6 +15,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ### Rebuild UI Functionality
 - Impl. adding new client. Do not allow creating client that already exist.
+- NB: Update jobs table when job detail is closed.
 - Implement creating subcontracts. Create the "organizationName" system option
   and use it to retrieve/create the client. Make sure billing address and contact
   are set.
