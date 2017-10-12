@@ -14,78 +14,35 @@
             <f:attribute name="isNewClient" value="#{clientManager.isNewClient}" />
 
             <p:ajax event="change"
-                    global="true"    
-                    update=":clientForm:client_growl"
+                    global="true"                        
                     listener="#{clientManager.updateClient}"
                     process="@this"/>
         </p:inputText>
 
-        <h:outputText value="Taxpayer Registration Number (TRN) *:"/>
+        <h:outputText value="Taxpayer Registration Number (TRN):" />        
         <p:inputText value="#{clientManager.client.taxRegistrationNumber}"
                      id="trn"
-                     validator="clientValidator"
                      disabled="#{!clientManager.clientNameAndIdEditable}" >
-            <p:ajax event="change"
-                    global="true"
-                    update=":clientForm:client_growl"
+            <p:ajax event="change"                    
+                    global="true"                   
                     listener="#{clientManager.updateClient}"
                     process="@this"/>
         </p:inputText>
 
-        <h:outputText id="currentBillingAddress" value="Select billing address: " style="font-weight: bold"/>   
-        <p:autoComplete id="currentClientBillingAddress"
-                        value="#{clientManager.currentAddress}"
-                        dropdown="true"
-                        forceSelection="true"
-                        converter="clientAddressConverter"                            
-                        var="address"                        
-                        itemValue="#{address}"
-                        itemLabel="#{address.name}" 
-                        completeMethod="#{clientManager.completeClientAddress}">
+     
+        <h:outputText id="currentBillingAddress" value="Current billing address: " style="font-weight: bold;vertical-align: top;"/>   
+        <h:outputText value="#{clientManager.currentAddress.addressLine1}" /> 
+        <h:outputText value="" />   
+        <h:outputText value="#{clientManager.currentAddress.addressLine2}" />   
+        <h:outputText value="" />   
+        <h:outputText value="#{clientManager.currentAddress.city}" /> 
+        <h:outputText value="" />   
+        <h:outputText value="#{clientManager.currentAddress.stateOrProvince}" /> 
 
-            <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
-
-            <p:ajax event="itemSelect"
-                    listener="#{clientManager.updateCurrentAddress}"                                        
-                    update="generalDetailsPanelGrid"
-                    process="@this" />              
-        </p:autoComplete>    
-
-        <h:outputText value="" />
-        <h:outputText value="#{clientManager.currentAddress.addressLine1}" />
-
-        <h:outputText value="" />
-        <h:outputText value="#{clientManager.currentAddress.addressLine2}" />
-
-        <h:outputText value="" />
-        <h:outputText value="#{clientManager.currentAddress.city}" />
-
-        <h:outputText value="" />
-        <h:outputText value="#{clientManager.currentAddress.stateOrProvince}" />   
-        
-        <h:outputText id="currentContact" value="Select contact: " style="font-weight: bold"/>   
-        <p:autoComplete id="currentClientContact"
-                        value="#{clientManager.currentContact}"
-                        dropdown="true"
-                        forceSelection="true"
-                        converter="clientContactConverter"                            
-                        var="contact"                        
-                        itemValue="#{contact}"
-                        itemLabel="#{contact.name}" 
-                        completeMethod="#{clientManager.completeClientContact}">
-
-            <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
-
-            <p:ajax event="itemSelect"
-                    listener="#{clientManager.updateCurrentContact}"                                        
-                    update="generalDetailsPanelGrid"
-                    process="@this" />              
-        </p:autoComplete>   
-        
-        <h:outputText value="" />
+        <h:outputText id="currentContact" value="Current contact: " style="font-weight: bold"/>           
         <h:outputText value="#{clientManager.currentContact.name}" />
-    
-</h:panelGrid>                    
+
+    </h:panelGrid>                    
 
 </html>
 

@@ -5551,12 +5551,13 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.createNewClient();
         clientManager.setUser(getUser());
         clientManager.setClientOwner(getCurrentJob());
-        clientManager.setCurrentAddress(getCurrentJob().getBillingAddress());
-        clientManager.setCurrentContact(getCurrentJob().getContact());
+        clientManager.setCurrentAddress(new Address());
+        clientManager.setCurrentContact(new Contact());
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
-        openDialog(null, "clientDialog", true, true, true, 420, 600);
+        
+        openDialog(null, "clientDialog", true, true, true, 420, 650);
     }
 
     // Edit the client via the ClientManagerKeep
@@ -5569,7 +5570,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.setSave(true);
         clientManager.setClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         clientManager.setExternalEntityManagerFactory(EMF1);
-        openDialog(null, "clientDialog", true, true, true, 420, 600);
+        
+        openDialog(null, "clientDialog", true, true, true, 420, 650);
     }
 
     public ServiceRequest createNewServiceRequest(EntityManager em,

@@ -102,12 +102,12 @@
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update="clientContact,billingAddress,editClientButton"
+                        update="clientContact,billingAddress,billingAddressGroup,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
                 <p:ajax event="change"
-                        update="clientContact,billingAddress,editClientButton"
+                        update="clientContact,billingAddress,billingAddressGroup,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>   
 
@@ -122,7 +122,7 @@
                              process="@this,client"                             
                              title="View or edit this client's detail">   
                 <p:ajax event="dialogReturn" 
-                        update="billingAddress,clientContact,client"/>
+                        update="billingAddress,billingAddressGroup,clientContact,client"/>
             </p:commandButton>
             <p:spacer height="0" width="15"/>
             <p:commandButton 
@@ -135,79 +135,61 @@
                 process="@this"
                 title="Add a new client to the client database">
                 <p:ajax event="dialogReturn" 
-                        update="billingAddress,clientContact,client"/>
+                        update="billingAddress,billingAddressGroup,clientContact,client"/>
             </p:commandButton>
 
         </h:panelGroup>
 
-        <h:outputText value="Billing address *:" style="font-weight: bold" />     
-        <h:panelGroup>
-            <p:autoComplete id="billingAddress"
-                            value="#{jobManager.currentJob.billingAddress}"
-                            dropdown="true"
-                            forceSelection="true"
-                            converter="clientAddressConverter" 
-                            validator="addressValidator"
-                            var="address"                        
-                            itemValue="#{address}"
-                            itemLabel="#{address.name}" 
-                            completeMethod="#{jobManager.completeClientAddress}">
+        <h:outputText value="Billing address *:" style="font-weight: bold" />    
+        <p:autoComplete id="billingAddress"
+                        value="#{jobManager.currentJob.billingAddress}"
+                        dropdown="true"
+                        forceSelection="true"
+                        converter="clientAddressConverter" 
+                        validator="addressValidator"
+                        var="address"                        
+                        itemValue="#{address}"
+                        itemLabel="#{address.name}" 
+                        completeMethod="#{jobManager.completeClientAddress}">
 
-                <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
+            <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
 
-                <p:ajax event="itemSelect"
-                        listener="#{jobManager.updateJob}"                                        
-                        update=":mainTabViewForm:mainTabView:growl2"
-                        process="@this" />   
-
-            </p:autoComplete>
-            <p:spacer height="0" width="15"/>
-            <p:commandButton                 
-                icon="ui-icon-plus" 
-                onstart="longProcessDialogVar.show();"                
-                disabled="${!jobManager.isClientNameValid}"                            
-                oncomplete="longProcessDialogVar.hide();"
-                process="@this"
-                title="Add a new client address">
-                <p:ajax event="dialogReturn" 
-                        update="billingAddress,clientContact,client"/>
-            </p:commandButton>
-        </h:panelGroup>
+            <p:ajax event="itemSelect"
+                    listener="#{jobManager.updateJob}"                                        
+                    update=":mainTabViewForm:mainTabView:growl2,billingAddressGroup"
+                    process="@this" />   
+        </p:autoComplete>
+        <h:outputText value="" /> 
+        <p:outputPanel id="billingAddressGroup">           
+            <h:outputText value="#{jobManager.currentJob.billingAddress.addressLine1}" />  
+            <br/>
+            <h:outputText value="#{jobManager.currentJob.billingAddress.addressLine2}" />
+            <br/>
+            <h:outputText value="#{jobManager.currentJob.billingAddress.city}" />
+            <br/>
+            <h:outputText value="#{jobManager.currentJob.billingAddress.stateOrProvince}" />
+        </p:outputPanel>
 
         <h:outputText value="Contact *:" style="font-weight: bold" />  
-        <h:panelGroup>
-            <p:autoComplete id="clientContact"
-                            value="#{jobManager.currentJob.contact}"
-                            dropdown="true"
-                            forceSelection="true"
-                            converter="clientContactConverter" 
-                            validator="businessEntityValidator"
-                            var="contact"                        
-                            itemValue="#{contact}"
-                            itemLabel="#{contact.name}" 
-                            completeMethod="#{jobManager.completeClientContact}">
+        <p:autoComplete id="clientContact"
+                        value="#{jobManager.currentJob.contact}"
+                        dropdown="true"
+                        forceSelection="true"
+                        converter="clientContactConverter" 
+                        validator="businessEntityValidator"
+                        var="contact"                        
+                        itemValue="#{contact}"
+                        itemLabel="#{contact.name}" 
+                        completeMethod="#{jobManager.completeClientContact}">
 
-                <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
+            <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
 
-                <p:ajax event="itemSelect"
-                        listener="#{jobManager.updateJob}"                                        
-                        update=":mainTabViewForm:mainTabView:growl2"
-                        process="@this" />   
+            <p:ajax event="itemSelect"
+                    listener="#{jobManager.updateJob}"                                        
+                    update=":mainTabViewForm:mainTabView:growl2"
+                    process="@this" />   
 
-            </p:autoComplete>
-            <p:spacer height="0" width="15"/>
-            <p:commandButton                 
-                icon="ui-icon-plus" 
-                onstart="longProcessDialogVar.show();"                
-                disabled="${!jobManager.isClientNameValid}"                            
-                oncomplete="longProcessDialogVar.hide();"
-                process="@this"
-                title="Add a new client contact">
-                <p:ajax event="dialogReturn" 
-                        update="billingAddress,clientContact,client"/>
-            </p:commandButton>
-        </h:panelGroup>
-
+        </p:autoComplete>        
 
         <h:outputText value="Date submitted *:" style="font-weight: bold" />
         <p:calendar id="dateSubmitted"

@@ -14,14 +14,11 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Put "+" buttons for adding contact and billing address ie impl. external dialogs.
-  NB: update contact and address panel groups when client is changed.
 - Impl. adding new client. Do not allow creating client that already exist.
 - Implement creating subcontracts. Create the "organizationName" system option
   and use it to retrieve/create the client. Make sure billing address and contact
   are set.
 - Implement generating service contact form
-- Implement open job in Job Detail tab. Use the relevant code to update components.
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
   do not affect the job record.
@@ -178,6 +175,8 @@ by other apps?
 - Separate address and contact dialogs into separate files and include them
   into the clientForm.xml file as required. This is allow the contact and address
   dialogs to be used independently.
+- Use validators outside of UI and implement validate() for relevant entities
+  such as client.
 - Use validators and growl to ensure display validation message consistency.
 - Put cancel button on contact and address dialogs.
 - Put every form in its on file.
@@ -212,6 +211,7 @@ by other apps?
 - Design a favicon and make it system option.
 - Try to put all styles as styleClass and put into index.css
 - Print service contract for only external client jobs??
+- Upgrade to Primefaces 6.x
 
 
 ### Legal Documents/Office Module (GenericERP Module)

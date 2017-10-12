@@ -7,7 +7,8 @@
     <p:commandButton value="Add contact"
                      update=":contactForm"
                      oncomplete="contactFormDialog.show();"
-                     actionListener="#{clientManager.createNewContact}" >
+                     actionListener="#{clientManager.createNewContact}" 
+                     process="@this" >
 
         <p:resetInput target=":contactForm" />
 
@@ -56,6 +57,7 @@
                              update=":contactForm"
                              oncomplete="contactFormDialog.show();"
                              global="true"
+                             process="@this"
                              icon="ui-icon-pencil">
 
                 <p:resetInput target=":contactForm" />
@@ -78,7 +80,8 @@
     <p:commandButton value="Add contact"
                      update=":contactForm"
                      oncomplete="contactFormDialog.show();"
-                     actionListener="#{clientManager.createNewContact}" >
+                     actionListener="#{clientManager.createNewContact}" 
+                     process="@this" >
 
         <p:resetInput target=":contactForm" />
 

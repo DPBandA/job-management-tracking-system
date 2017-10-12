@@ -7,7 +7,8 @@
     <p:commandButton value="Add address"
                      update=":addressForm"
                      oncomplete="addressFormDialog.show();"
-                     actionListener="#{clientManager.createNewAddress}" >
+                     actionListener="#{clientManager.createNewAddress}" 
+                     process="@this" >
 
         <p:resetInput target=":addressForm" />
 
@@ -35,10 +36,11 @@
                              update=":addressForm"
                              oncomplete="addressFormDialog.show();"
                              global="true"
+                             process="@this"
                              icon="ui-icon-pencil">
-                
-                 <p:resetInput target=":addressForm" />
-                
+
+                <p:resetInput target=":addressForm" />
+
                 <f:setPropertyActionListener value="#{address}"
                                              target="#{clientManager.currentAddress}" />
             </p:commandButton>
@@ -58,10 +60,11 @@
     <p:commandButton value="Add address"
                      update=":addressForm"
                      oncomplete="addressFormDialog.show();"
-                     actionListener="#{clientManager.createNewAddress}">
-        
+                     actionListener="#{clientManager.createNewAddress}"
+                     process="@this" >
+
         <p:resetInput target=":addressForm" />
-        
+
     </p:commandButton>
 </html>
 
