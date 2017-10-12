@@ -171,10 +171,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
     private String columnsToExclude;
     private Report jobReport;
     private StreamedContent jobReportFile;
-    private StreamedContent jobCostingFile; 
+    private StreamedContent jobCostingFile;
     private Boolean renderSearchComponent;
     private Boolean renderJobDetailTab;
-    @ManagedProperty(value = "Jobs")   
+    @ManagedProperty(value = "Jobs")
     private Integer longProcessProgress;
     private AccPacCustomer accPacCustomer;
     private List<AccPacDocument> filteredAccPacCustomerDocuments;
@@ -433,7 +433,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
 //    public void setTabTitle(String tabTitle) {
 //        this.tabTitle = tabTitle;
 //    }
-
     public Boolean getWestLayoutUnitCollapsed() {
         return westLayoutUnitCollapsed;
     }
@@ -851,6 +850,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
+        RequestContext context = RequestContext.getCurrentInstance();
         EntityManager em = getEntityManager1();
         String tabId = event.getTab().getId();
 
@@ -858,10 +858,11 @@ public class JobManager implements Serializable, BusinessEntityManager,
             case "jobsTab":
                 getUser().setJobManagementAndTrackingUnit(false);
                 getUser().save(em);
+                context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
                 break;
             case "jobDetailTab":
                 setRenderJobDetailTab(false);
-                //resetCurrentJob();
+                context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
                 cleanUpJob();
                 break;
             case "financialAdminTab":
@@ -905,6 +906,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 break;
             case "jobsTab":
                 sm.setCurrentSearchParameterKey("Job Search");
+                context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
                 break;
             case "jobDetailTab":
                 sm.setCurrentSearchParameterKey("Job Search");
@@ -1332,7 +1334,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
 //    public void setClassificationId(Long classificationId) {
 //        this.classificationId = classificationId;
 //    }
-
     public Long getCategoryId() {
         return currentJob.getJobCategory().getId();
     }
@@ -1340,7 +1341,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
 //    public void setCategoryId(Long categoryId) {
 //        this.categoryId = categoryId;
 //    }
-
     public Long getSubCategoryId() {
         return currentJob.getJobSubCategory().getId();
     }
@@ -1348,7 +1348,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
 //    public void setSubCategoryId(Long subCategoryId) {
 //        this.subCategoryId = subCategoryId;
 //    }
-
     public String getJmt() {
         // outcome to use when login
         defaultOutcome = "jmtlogin";
@@ -2728,7 +2727,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
         //Classification classification = Classification.findClassificationByName(em,
         //        currentJob.getClassification().getName());
         //currentJob.setClassification(classification);
-
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
         if (currentJob.getId() != null) {
@@ -3496,6 +3494,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
         return BusinessEntityUtils.validateName(currentJob.getClient().getName());
     }
 
+    public Boolean getIsBillingAddressNameValid() {       
+        return BusinessEntityUtils.validateText(currentJob.getBillingAddress().getName());
+    }
+
     public Boolean prepareAndSaveCurrentJob(EntityManager em) {
 
         Date now = new Date();
@@ -3507,7 +3509,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         try {
 
             // Do not save changed job if it's already marked as completed in the database
-            if (getCurrentJob().getId() != null) {                
+            if (getCurrentJob().getId() != null) {
                 Job job = Job.findJobById(em, getCurrentJob().getId());
                 if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
                         && !getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))
@@ -5079,7 +5081,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
 //            System.out.println(e);
 //        }
 //    }
-
     public void updateSector() {
         setDirty(true);
     }
@@ -5548,7 +5549,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         //clientManager.setExternalEntityManagerFactory(EMF1);
-        
+
         openDialog(null, "clientDialog", true, true, true, 420, 650);
     }
 
@@ -5562,7 +5563,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         //clientManager.setExternalEntityManagerFactory(EMF1);
-        
+
         openDialog(null, "clientDialog", true, true, true, 420, 650);
     }
 

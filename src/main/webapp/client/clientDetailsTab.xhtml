@@ -29,17 +29,50 @@
                     process="@this"/>
         </p:inputText>
 
-     
-        <h:outputText id="currentBillingAddress" value="Current billing address: " style="font-weight: bold;vertical-align: top;"/>   
-        <h:outputText value="#{clientManager.currentAddress.addressLine1}" /> 
-        <h:outputText value="" />   
-        <h:outputText value="#{clientManager.currentAddress.addressLine2}" />   
-        <h:outputText value="" />   
-        <h:outputText value="#{clientManager.currentAddress.city}" /> 
-        <h:outputText value="" />   
-        <h:outputText value="#{clientManager.currentAddress.stateOrProvince}" /> 
 
-        <h:outputText id="currentContact" value="Current contact: " style="font-weight: bold"/>           
+
+        <h:panelGroup>
+            <p:commandButton value="New"
+                             icon="ui-icon-plus" 
+                             title="Add new address"
+                             update=":addressForm"
+                             oncomplete="addressFormDialog.show();"
+                             actionListener="#{clientManager.createNewAddress}" 
+                             process="@this" >
+
+                <p:resetInput target=":addressForm" />
+
+            </p:commandButton>
+            <p:spacer width="15" />
+            <h:outputText id="currentBillingAddress" value="Current billing address: " 
+                          style="font-weight: bold;"/>         
+        </h:panelGroup>
+        <h:outputText value="#{clientManager.currentAddress.addressLine1}"/>  
+
+        <h:outputText value="" />
+        <h:outputText value="#{clientManager.currentAddress.addressLine2}" />
+
+        <h:outputText value="" />
+        <h:outputText value="#{clientManager.currentAddress.city}" />
+
+        <h:outputText value="" />
+        <h:outputText value="#{clientManager.currentAddress.stateOrProvince}" />
+
+        <h:panelGroup>
+            <p:commandButton value="New"
+                             icon="ui-icon-plus" 
+                             title="Add new contact"
+                             update=":contactForm"
+                             oncomplete="contactFormDialog.show();"
+                             actionListener="#{clientManager.createNewContact}" 
+                             process="@this" >
+
+                <p:resetInput target=":contactForm" />
+
+            </p:commandButton>
+            <p:spacer height="0" width="15" />
+            <h:outputText id="currentContact" value="Current contact: " style="font-weight: bold"/>  
+        </h:panelGroup>
         <h:outputText value="#{clientManager.currentContact.name}" />
 
     </h:panelGrid>                    

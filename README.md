@@ -14,8 +14,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Impl. adding new client. Do not allow creating client that already exist.
-- NB: Update jobs table when job detail is closed.
+- Address output not being displayed for new jobs when a client is selected.
 - Implement creating subcontracts. Create the "organizationName" system option
   and use it to retrieve/create the client. Make sure billing address and contact
   are set.
@@ -35,6 +34,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Test with normal user (kmiller)
 - Update job search table when client dialog is closed?
 - Make TRN mandatory? Put system option to validate?
+- Hide billing address display if client is not valid.
 - Impl. clients dialog.
 ### Immediate Issues
 - Impl validating the creation of new clients...do not allow creating of client
@@ -142,6 +142,8 @@ by other apps?
   except by system admin after a job has been saved. Use field groups with 
   input and output fields as is done with the job number. 
 - Check if new clients can be created even without privilege.
+- Implement "isdirty" for client, contact, address and do shallow copy when they
+  change?
 - For job search let My Department job be the defaut.
 - Test out creating a new default client. Clean up client search and ensure 
   consistency when doing search with ignoring case and part of client being searched.
@@ -195,6 +197,7 @@ by other apps?
   Create a separate job detail tab for this?
 - Check why <p:remoteCommand name="doJobSampleCopy"> is used and if copy sample
   can be done without using a remote command.
+- Do not allow creating client that already exist. Use client validator.
 - Implement display of message when converter fails.
 - Implement dynamically hide/show "Jobs" tab based on search. Allow closing the
   tab.

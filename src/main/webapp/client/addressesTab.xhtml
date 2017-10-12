@@ -4,8 +4,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <p:commandButton value="Add address"
+    <p:commandButton value="New"
+                     icon="ui-icon-plus" 
                      update=":addressForm"
+                     title="Add new address"
                      oncomplete="addressFormDialog.show();"
                      actionListener="#{clientManager.createNewAddress}" 
                      process="@this" >
@@ -57,10 +59,12 @@
         </p:column>
 
     </p:dataTable>
-    <p:commandButton value="Add address"
+    <p:commandButton value="New"
+                     icon="ui-icon-plus" 
+                     title="Add new address"
                      update=":addressForm"
                      oncomplete="addressFormDialog.show();"
-                     actionListener="#{clientManager.createNewAddress}"
+                     actionListener="#{clientManager.createNewAddress}" 
                      process="@this" >
 
         <p:resetInput target=":addressForm" />

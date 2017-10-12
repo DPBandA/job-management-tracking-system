@@ -102,18 +102,18 @@
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update="clientContact,billingAddress,billingAddressGroup,editClientButton"
+                        update="clientContact,billingAddress,billingAddressGroupLabel,billingAddressGroup,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
                 <p:ajax event="change"
-                        update="clientContact,billingAddress,billingAddressGroup,editClientButton"
+                        update="clientContact,billingAddress,billingAddressGroupLabel,billingAddressGroup,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>   
 
             </p:autoComplete>                    
             <p:spacer height="0" width="0"/>
-            <p:commandButton icon="ui-icon-pencil"
+            <p:commandButton icon="ui-icon-pencil"                             
                              id="editClientButton"
                              disabled="${!jobManager.isClientNameValid}"
                              onstart="longProcessDialogVar.show();"
@@ -122,11 +122,11 @@
                              process="@this,client"                             
                              title="View or edit this client's detail">   
                 <p:ajax event="dialogReturn" 
-                        update="billingAddress,billingAddressGroup,clientContact,client"/>
+                        update="billingAddress,clientContact,client"/>
             </p:commandButton>
             <p:spacer height="0" width="15"/>
             <p:commandButton 
-                id="iconOnly"
+                value="New"
                 icon="ui-icon-plus" 
                 onstart="longProcessDialogVar.show();"
                 rendered="#{jobManager.user.privilege.canAddClient}"
@@ -135,7 +135,7 @@
                 process="@this"
                 title="Add a new client to the client database">
                 <p:ajax event="dialogReturn" 
-                        update="billingAddress,billingAddressGroup,clientContact,client"/>
+                        update="billingAddress,clientContact,client"/>
             </p:commandButton>
 
         </h:panelGroup>
@@ -156,19 +156,29 @@
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
-                    update=":mainTabViewForm:mainTabView:growl2,billingAddressGroup"
+                    update=":mainTabViewForm:mainTabView:growl2,billingAddressGroup,billingAddressGroupLabel"
                     process="@this" />   
+
+            <p:ajax event="change"
+                    listener="#{jobManager.updateJob}"                                        
+                    update=":mainTabViewForm:mainTabView:growl2,billingAddressGroup,billingAddressGroupLabel"
+                    process="@this" />               
         </p:autoComplete>
-        <h:outputText value="" /> 
-        <p:outputPanel id="billingAddressGroup">           
-            <h:outputText value="#{jobManager.currentJob.billingAddress.addressLine1}" />  
-            <br/>
-            <h:outputText value="#{jobManager.currentJob.billingAddress.addressLine2}" />
-            <br/>
-            <h:outputText value="#{jobManager.currentJob.billingAddress.city}" />
-            <br/>
-            <h:outputText value="#{jobManager.currentJob.billingAddress.stateOrProvince}" />
-        </p:outputPanel>
+       
+        <h:panelGroup id="billingAddressGroupLabel" rendered="${jobManager.isBillingAddressNameValid}" >
+            <h:outputText value="" /> 
+        </h:panelGroup>
+        <h:panelGroup id="billingAddressGroup" rendered="${jobManager.isBillingAddressNameValid}" >
+            <p:outputPanel>           
+                <h:outputText value="#{jobManager.currentJob.billingAddress.addressLine1}" />  
+                <br/>
+                <h:outputText value="#{jobManager.currentJob.billingAddress.addressLine2}" />
+                <br/>
+                <h:outputText value="#{jobManager.currentJob.billingAddress.city}" />
+                <br/>
+                <h:outputText value="#{jobManager.currentJob.billingAddress.stateOrProvince}" />
+            </p:outputPanel>
+        </h:panelGroup>
 
         <h:outputText value="Contact *:" style="font-weight: bold" />  
         <p:autoComplete id="clientContact"
