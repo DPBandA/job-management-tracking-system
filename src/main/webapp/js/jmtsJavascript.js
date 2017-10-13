@@ -1,39 +1,4 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-//<![CDATA[
-// This function and the following line of code handles the
-// enter key as appropriate
-function handleEnterKey(evt) {
-
-    var evt2 = (evt) ? evt : ((event) ? event : null);
-    var node = (evt2.target) ? evt2.target : ((evt2.srcElement) ? evt2.srcElement : null);
-
-    if ((evt2.keyCode == 13) && (node.type=="text")) {handleDeletePetrolPump
-        if (node.id == 'jobSearchForm:searchText_input') {
-            document.forms['jobSearchForm']['jobSearchForm:jobSearch'].click();
-            return true 
-        }
-        else {
-            return false;
-        }
-    }
-    else {
-        return true;
-    }
-}
-document.onkeypress = handleEnterKey;
-
-//function stopRKey(evt) {
-//    var evt = (evt) ? evt : ((event) ? event : null);
-//    var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-//    if ((evt.keyCode == 13) && (node.type=="text")) {
-//        return false;
-//    }
-//}
-//document.onkeypress = stopRKey;
+/* global mainTabViewVar, jobFormTabVar */
 
 function loggedOnUser() {
     var WinNetwork = new ActiveXObject("WScript.Network");
@@ -44,107 +9,100 @@ function reloadCurrentPage() {
     window.location.reload();
 }
 function enableDateSearchFields(source) {
-    //source.form[source.form.id + ":searchText"].value = "dsdsd";
     source.form[source.form.id + ":startSearchDate"].disabled = true;
 }
-function handleUpdateJobSampleComplete(xhr,status,args) {
+function handleUpdateJobSampleComplete(xhr, status, args) {
     if (args.validationFailed) {
-        jobSampleRequiredFieldMessageDialog.show();   
+        jobSampleRequiredFieldMessageDialog.show();
     }
 }
-function handleLoginRequest(xhr,status,args) {
-    if(args.validationFailed || !args.userLoggedIn) {
+function handleLoginRequest(xhr, status, args) {
+    if (args.validationFailed || !args.userLoggedIn) {
         loginDialog.show();
     } else {
         loginDialog.hide();
-//        PrimeFaces.changeTheme('redmond');
-//        window.location.reload();
-        
     }
 }
 
-function handleSaveClientRequest(xhr,status,args) {
-    if(args.validationFailed) {
+function handleSaveClientRequest(xhr, status, args) {
+    if (args.validationFailed) {
         requiredValuesAlertDialog.show();
         return;
     }
-    if(args.clientExist) {
+    if (args.clientExist) {
         clientExistsDialog.show();
         return;
     }
-    if(args.invalidClient) {
+    if (args.invalidClient) {
         invalidClientDialog.show();
         return;
     }
     if (args.clientSaved == undefined) {
         undefinedErrorDialog.show();
         return;
-    }
-    else if (!args.clientSaved) {
+    } else if (!args.clientSaved) {
         undefinedErrorDialog.show();
     }
 
     clientDialog.hide();
-//    updateSystemInfo();
-//    updateJobEntryTabClientName();
 }
 
-function handleSaveAndCloseJobDialog(xhr,status,args) {
-    if(args.validationFailed) {
+function handleSaveAndCloseJobDialog(xhr, status, args) {
+    if (args.validationFailed) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("Please provide valid values for all job fields.");
         return;
     }
-    if(args.invalidBusinessOffice) {
+    if (args.invalidBusinessOffice) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("Please select a business office.");
         return;
     }
-    if(args.existingJobNumber) {
+    if (args.existingJobNumber) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("Please enter a unique job number.");
         return;
     }
-    if(args.invalidJobNumber) {
+    if (args.invalidJobNumber) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("Please enter a valid job number.");
         return;
     }
-    if(args.invalidClient) {
+    if (args.invalidClient) {
         jobSaveConfirm.hide();
         jobDialog.show();
         invalidClientDialog.show();
         return;
     }
-    if(args.invalidDepartment) {
+    if (args.invalidDepartment) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("Please select a department.");
         return;
     }
-    if(args.duplicateDepartments) {
+    if (args.duplicateDepartments) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("Duplicate departments detected.");
         return;
     }
-    if(args.invalidAssignee) {
+    if (args.invalidAssignee) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("Please select an assignee.");
         return;
     }
-    if(args.invalidJobCategory) {
+    if (args.invalidJobCategory) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("Please select a category.");
         return;
     }
-    if(args.invalidJobSubCategory) {
+    if (args.invalidJobSubCategory) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("Please select a subcategory.");
@@ -155,8 +113,7 @@ function handleSaveAndCloseJobDialog(xhr,status,args) {
         jobDialog.show();
         alert("An undefined error occured while saving the job.\nEnsure that all required fields are filled out and try again.");
         return;
-    }
-    else if (!args.jobSaved) {
+    } else if (!args.jobSaved) {
         jobSaveConfirm.hide();
         jobDialog.show();
         alert("The current job could not be saved.\nEnsure that all required fields are filled out and try again.");
@@ -167,53 +124,52 @@ function handleSaveAndCloseJobDialog(xhr,status,args) {
     jobSaveConfirm.hide();
 }
 
-function handleSaveJobRequest(xhr,status,args) {
-    if(args.validationFailed) {
+function handleSaveJobRequest(xhr, status, args) {
+    if (args.validationFailed) {
         alert("Please provide valid values for all job fields.");
         return;
     }
-    if(args.invalidBusinessOffice) {
+    if (args.invalidBusinessOffice) {
         alert("Please select a business office.");
         return;
     }
-    if(args.existingJobNumber) {
+    if (args.existingJobNumber) {
         alert("Please enter a unique job number.");
         return;
     }
-    if(args.invalidJobNumber) {
+    if (args.invalidJobNumber) {
         alert("Please enter a valid job number.");
         return;
     }
-    if(args.invalidClient) {
+    if (args.invalidClient) {
         //alert("Please select or enter a valid client name.");
         invalidClientDialog.show();
         return;
     }
-    if(args.invalidDepartment) {
+    if (args.invalidDepartment) {
         alert("Please select a department.");
         return;
     }
-    if(args.duplicateDepartments) {
+    if (args.duplicateDepartments) {
         alert("Duplicate departments detected.");
         return;
     }
-    if(args.invalidAssignee) {
+    if (args.invalidAssignee) {
         alert("Please select an assignee.");
         return;
     }
-    if(args.invalidJobCategory) {
+    if (args.invalidJobCategory) {
         alert("Please select a category.");
         return;
     }
-    if(args.invalidJobSubCategory) {
+    if (args.invalidJobSubCategory) {
         alert("Please select a subcategory.");
         return;
     }
     if (args.jobSaved == undefined) {
         alert("An undefined error occured while saving the job.\nEnsure that all required fields are filled out and try again.");
         return;
-    }
-    else if (!args.jobSaved) {
+    } else if (!args.jobSaved) {
         alert("The current job could not be saved.\nEnsure that all required fields are filled out and try again.");
         return;
     }
@@ -221,8 +177,8 @@ function handleSaveJobRequest(xhr,status,args) {
     jobSaveConfirm.hide();
 }
 
-function handleSaveJobCostingAndPaymentRequest(xhr,status,args) {
-    if(args.validationFailed) {
+function handleSaveJobCostingAndPaymentRequest(xhr, status, args) {
+    if (args.validationFailed) {
         alert("Please provide valid values for all fields.");
         return;
     }
@@ -242,102 +198,70 @@ function handleSaveJobCostingAndPaymentRequest(xhr,status,args) {
     if (args.jobCostingAndPaymentSaved === undefined) {
         alert("An undefined error occured while saving the job costing.\nEnsure that all required fields are filled out and try again.");
         return;
-    }
-    else if (!args.jobCostingAndPaymentSaved) {
+    } else if (!args.jobCostingAndPaymentSaved) {
         alert("The job costing could not be saved.\nEnsure that all required fields are filled out and try again.");
         return;
     }
 
-    //jobCostingDialog.hide();  
 }
 
-function handleCreateJobRequest(xhr,status,args) {
+function handleCreateJobRequest(xhr, status, args) {
     jobDialog.show();
 }
 
-function handleCloseJobDetailTab(xhr,status,args) {
-    
-    if(args.isDirty) {
+function handleCloseJobDetailTab(xhr, status, args) {
+
+    if (args.isDirty) {
         jobDetailTabCloseConfirmation.show();
-    }
-    else {
+    } else {
         mainTabViewVar.remove(mainTabViewVar.getActiveIndex());
         mainTabViewVar.select(0);
     }
 }
 
-function handleCreateJobCopy(xhr,status,args) {
+function handleCreateJobCopy(xhr, status, args) {
 
-    if(args.jobDirty) {
+    if (args.jobDirty) {
         jobModifiedDialog.show();
         return;
-    }
-    else {
+    } else {
         jobModifiedDialog.hide();
     }
-    if(args.jobNotSaved) {
+    if (args.jobNotSaved) {
         jobNotSavedDialog.show();
         return;
-    }
-    else {
+    } else {
         jobNotSavedDialog.hide();
     }
 
-    if(args.validationFailed) {
+    if (args.validationFailed) {
         alert("Validation failed!\nTry again or contact the System Administrator.");
         return;
     }
-    if(!args.jobCreated) {
+    if (!args.jobCreated) {
         alert("An error occurred while copying job!\nTry again or contact the System Administrator.");
         return;
-    }
-    else {
+    } else {
         // Show growl instead
-        //jobCopyDialog.show();
         return;
     }
-   
 }
 
-function handleLoadJobRequest(xhr,status,args) {   
-    jobDialog.show(); 
+function handleLoadJobRequest(xhr, status, args) {
+    jobDialog.show();
 }
 
-function handleWorkProgressUpdate(xhr,status,args) {
-    if(args.jobNotStarted) {
+function handleWorkProgressUpdate(xhr, status, args) {
+    if (args.jobNotStarted) {
         alert("This action cannot be completed because the job has not yet started.");
     }
-    
+
 }
 
 function gotoURL(url) {
     popup = window.open(url, "popup",
-        "toolbar=no,menubar=yes,scrollbars=yes,resizable=yes");
+            "toolbar=no,menubar=yes,scrollbars=yes,resizable=yes");
     popup.focus();
-}
-
-function disableEntryComponents() {
-    newJob.disable();
-    saveJob.disable();
-    subcontractJob.disable();
-    document.forms['jobSearchForm']['jobSearchForm:jobSearchResults'].disabled=true;
-    document.forms['jobSearchForm']['jobSearchForm:numberOfJobsFound'].disabled=true;
-}
-
-function enableEntryComponents() {
-    newJob.enable();
-    saveJob.enable();
-    subcontractJob.enable();
-    document.forms['jobSearchForm']['jobSearchForm:jobSearchResults'].disabled=false;
-    document.forms['jobSearchForm']['jobSearchForm:numberOfJobsFound'].disabled=false;
-}
-
-function doJobSearch(evt) {
-    var evt2 = (evt) ? evt : ((event) ? event : null);
-    var node = (evt2.target) ? evt2.target : ((evt2.srcElement) ? evt2.srcElement : null);
-    if ((evt2.keyCode == 13) && (node.type=="text")) {
-        document.forms['jobSearchForm']['jobSearchForm:jobSearch'].click();    
-    }
 }
 
 // The following code keeps the session alive
@@ -351,116 +275,112 @@ function keepAlive() {
 setTimeout("keepAlive()", timeout);
 
 // used to reset forms and do loging when page is reloaded
-function doLogin() {    
+function doLogin() {
     doLoginRequest();
 }
 
 function refreshScreen() {
-//createFreshJob();   
+
 }
 
-function handleSavePetrolCompany(xhr,status,args) {
+function handleSavePetrolCompany(xhr, status, args) {
     if (args.validationFailed) {
         requiredValuesAlertDialog.show();
-    }
-    else if (!args.petrolCompanySaved) {
+    } else if (!args.petrolCompanySaved) {
         unknownErrorDialog.show();
-    }
-    else {
+    } else {
         petrolCompanyDialog.hide();
     }
 }
 
-function handleSavePetrolStation(xhr,status,args) {
+function handleSavePetrolStation(xhr, status, args) {
     if (args.validationFailed) {
         alertDialog.show();
-    }
-    else {
+    } else {
         petrolStationDialog.hide();
     }
 }
 
-function handleSaveScaleCompany(xhr,status,args) {
+function handleSaveScaleCompany(xhr, status, args) {
     if (args.validationFailed) {
         scaleCompanyDialog.show();
-    }
-    else {
+    } else {
         scaleCompanyDialog.hide();
     }
 }
 
-function handleSavePetrolPumpNozzle(xhr,status,args) {
+function handleSavePetrolPumpNozzle(xhr, status, args) {
     if (args.validationFailed) {
         alertDialog.show();
-    }    
-    else if (args.invalidIssuedDate){
+    } else if (args.invalidIssuedDate) {
         issueDateAlertDialog.show(); //tk show seal detail dialog.
-    }
-    else {
+    } else {
         petrolPumpNozzleDialog.hide();
     }
 }
 
-function handleSavePetrolPump(xhr,status,args) {
+function handleSavePetrolPump(xhr, status, args) {
     if (args.validationFailed) {
         petrolPumpDialog.show();
-    }
-    else {
+    } else {
         petrolPumpDialog.hide();
     }
 }
 
-function handleUpdatePetrolCompany(xhr,status,args) {
+function handleUpdatePetrolCompany(xhr, status, args) {
     if (args.petrolCompanyExists) {
         petrolCompanyDialog.show();
-    }
-    else {
+    } else {
         petrolCompanyNonexistentConfirm.show();
     }
 }
 
-function handleUpdatePetrolStation(xhr,status,args) {
+function handleUpdatePetrolStation(xhr, status, args) {
     if (args.petrolStationExists) {
         petrolStationDialog.show();
-    }
-    else {
+    } else {
         petrolCompanyNonexistentConfirm.show();
     }
 }
 
-function handleCreatePetrolPump(xhr,status,args) {
+function handleCreatePetrolPump(xhr, status, args) {
     if (args.petrolStationExists) {
         petrolPumpDialog.show();
-    }
-    else {
+    } else {
         createNewPetrolPumpAlert.show();
     }
 }
 
-function handleSaveTestData(xhr,status,args) {
+function handleSaveTestData(xhr, status, args) {
     if (args.testDataSaved) {
         petrolPumpNozzleTestDialog.hide();
-    }
-    else {
+    } else {
         unknownErrorDialog.show();
     }
 }
 
-function handleSaveTestFormData(xhr,status,args) {
+function handleSaveTestFormData(xhr, status, args) {
     if (args.testDataSaved) {
         petrolPumpNozzleTestDialog.hide();
-    }
-    else {
+    } else {
         unknownErrorDialog.show();
     }
 }
 
-function handleSaveScale(xhr,status,args) {
+function handleSaveScale(xhr, status, args) {
     if (args.scaleSaved) {
         scaleDialog.hide();
-    }
-    else {
+    } else {
         unknownErrorDialog.show();
     }
+}
+
+function handleCreateJob(xhr, status, args) {
+    if (mainTabViewVar.getLength() >= 1) {
+        mainTabViewVar.select(1);
+    } else {
+        mainTabViewVar.select(0);
+    }
+    jobFormTabVar.select(0);
 }
 

@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package jm.com.dpbennett.jmts;
+package jm.com.dpbennett.jmts.utils;
 
+import jm.com.dpbennett.jmts.utils.SortableSelectItem;
 import javax.faces.model.SelectItem;
 import javax.xml.bind.annotation.XmlRootElement;
 

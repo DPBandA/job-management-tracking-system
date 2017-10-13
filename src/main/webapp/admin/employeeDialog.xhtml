@@ -96,22 +96,14 @@
                                 forceSelection="true"                               
                                 size="40"
                                 maxlength="250"
+                                scrollHeight="200"
                                 value="#{systemManager.selectedEmployee.department}"
                                 title="#{systemManager.selectedEmployee.department}"
                                 itemValue="#{department}"
-                                itemLabel="#{department.name}"
+                                itemLabel="#{department.truncatedName}"
                                 converter="departmentConverter"
                                 completeMethod="#{jobManager.completeDepartment}" >                
-                </p:autoComplete>     
-                <ui:remove>
-                    <p:selectOneMenu value="#{systemManager.selectedEmployee.department.id}" >
-                        <p:ajax listener="#{systemManager.updateSelectedEmployeeDepartment}"/>
-                        <f:selectItems value="#{systemManager.departments}"
-                                       var="department"
-                                       itemLabel="#{department.name}"
-                                       itemValue="#{department.id}"/>
-                    </p:selectOneMenu>
-                </ui:remove>    
+                </p:autoComplete>                    
 
             </h:panelGrid>
             <hr/>

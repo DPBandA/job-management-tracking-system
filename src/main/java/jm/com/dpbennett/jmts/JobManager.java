@@ -4,6 +4,7 @@
  */
 package jm.com.dpbennett.jmts;
 
+import jm.com.dpbennett.jmts.utils.JobDataModel;
 import jm.com.dpbennett.business.entity.management.ClientManager;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -307,7 +308,25 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 "year",
                 null,
                 null, false, false, true);
+
+        // tk Test dynamic tabs
+        tabList = new ArrayList<>();
+        tabList.add(new MainViewTab(true, false, "Tab 1", true));
+        tabList.add(new MainViewTab(false, true, "Tab 2", true));
+        // end tk dynamic tabs
     }
+
+    // tk dynamic tabs
+    private ArrayList<MainViewTab> tabList;
+
+    public List<MainViewTab> getTabList() {
+        return tabList;
+    }
+
+    public void setTabList(ArrayList<MainViewTab> tabList) {
+        this.tabList = tabList;
+    }
+    // end tk dynamic tabs
 
     public String getApplicationHeader() {
         return SystemOption.findSystemOptionByName(getEntityManager1(),
@@ -586,7 +605,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                     }
 
                     context.execute("loginDialog.hide();PrimeFaces.changeTheme('"
-                            + getUser().getUserInterfaceThemeName() + "');mainTabViewVar.select(0);");
+                            + getUser().getUserInterfaceThemeName() + "');");
 
                 }
 
@@ -605,7 +624,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     private void updateAllForms(RequestContext context) {
-        context.update("searchForm");
+        context.update("dashboardForm");
         context.update("headerForm");
         context.update("mainTabViewForm");
         context.update("loginForm");
@@ -659,7 +678,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void handleLayoutUnitToggle(ToggleEvent event) {
 
-        if (event.getComponent().getId().equals("searchLayoutUnit")) {
+        if (event.getComponent().getId().equals("dashboard")) {
             if (event.getVisibility().name().equals("VISIBLE")) {
                 westLayoutUnitCollapsed = false;
             } else {
@@ -794,7 +813,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         return false;
     }
-    
+
     public void addMessage(String summary, String detail, Severity severity) {
         FacesMessage message = new FacesMessage(severity, summary, detail);
         FacesContext.getCurrentInstance().addMessage(null, message);
@@ -835,32 +854,34 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 break;
         }
 
-        updateSearchPanel(tabId);
-
+        //updateDashboard(tabId);
     }
 
     public void onMainViewTabChange(TabChangeEvent event) {
 
-        Tab tab = event.getTab();
-
-        if (tab != null) {
-            String tabId = tab.getId();
-            updateSearchPanel(tabId);
-
-        }
-
+//        Tab tab = event.getTab();
+//
+//        if (tab != null) {
+//            String tabId = tab.getId();
+//            updateDashboard(tabId);
+//
+//        }
     }
 
-    public void updateSearchPanel(String tabId) {
+    public void updateDashboard(String tabId) {
         RequestContext context = RequestContext.getCurrentInstance();
 
         SearchManager sm = Application.findBean("searchManager");
         switch (tabId) {
             case "adminTab":
-                sm.setCurrentSearchParameterKey("Admin Search");
+                // NB: 'Admin Search' not implemented as yet so 
+                // use Job Search
+                sm.setCurrentSearchParameterKey("Job Search");
                 break;
             case "financialAdminTab":
-                sm.setCurrentSearchParameterKey("Admin Search");
+                // NB: 'Admin Search' not implemented as yet so 
+                // use Job Search
+                sm.setCurrentSearchParameterKey("Job Search");
                 break;
             case "jobsTab":
                 sm.setCurrentSearchParameterKey("Job Search");
@@ -874,7 +895,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 break;
         }
 
-        context.update("searchForm");
+        context.update("dashboardForm");
 
     }
 
@@ -1500,6 +1521,19 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     }
 
+    // tk 
+    public void testDynaTab() {
+        RequestContext context = RequestContext.getCurrentInstance();
+        EntityManager em = getEntityManager1();
+
+        //tabList.remove(0);
+        tabList.add(new MainViewTab(false, true, "New Tab", true));
+
+        context.update("mainTabViewForm:mainTabView:testTabView");
+        context.execute("testTabVar.select(" + (tabList.size() - 1) + ");");
+
+    }
+
     public StreamedContent getServiceContractStreamContent() {
         EntityManager em = null;
 
@@ -1586,7 +1620,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public StreamedContent getMonthlyReport(EntityManager em) {
 
         try {
-            DatePeriod datePeriods[] = BusinessEntityUtils.getMonthlyReportDatePeriods(reportSearchParameters.getDatePeriod()); 
+            DatePeriod datePeriods[] = BusinessEntityUtils.getMonthlyReportDatePeriods(reportSearchParameters.getDatePeriod());
 
             List<JobSubCategory> subCategories = JobSubCategory.findAllJobSubCategoriesGroupedByEarningsByDepartment(em, reportingDepartment);
             List<Sector> sectors = Sector.findAllSectorsByDeparment(em, reportingDepartment);
@@ -1781,7 +1815,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 // Setup column headers
                 // Create column header font
                 HSSFFont columnHeaderFont = wb.createFont();
-                columnHeaderFont.setFontHeightInPoints((short) 12);                
+                columnHeaderFont.setFontHeightInPoints((short) 12);
                 columnHeaderFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
                 HSSFRow columnHeaderRow = jobSheet.createRow(startingRow++);
                 // Setup header style
@@ -2841,7 +2875,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                     "Job Work Progress Cannot be Changed", "info");
             return false;
         }
-       
+
         return true;
     }
 
@@ -2925,8 +2959,20 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 // Set default billing address
                 currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
 
-                // Set default contact
-                currentJob.setContact(currentJob.getClient().getMainContact());
+                // Get/Set contact of the person creating the subcontract.
+                Contact contact = Contact.findClientContactByEmployee(em,
+                        getUser().getEmployee(),
+                        currentJob.getClient().getId());
+                if (contact != null) {
+                    currentJob.setContact(contact);
+                } else { // Create this contact and add it to the client
+                    contact = new Contact(getUser().getEmployee().getFirstName(),
+                            getUser().getEmployee().getLastName());
+                    contact.save(em);
+                    currentJob.getClient().getContacts().add(contact);
+                    currentJob.getClient().save(em);
+                    currentJob.setContact(contact);
+                }
 
             } else {
                 currentJob = Job.create(em, getUser(), true);
@@ -5708,7 +5754,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
         return BusinessEntityUtils.deleteEntity(em, cashPayment);
     }
 
-  
     public void postJobManagerMailToUser(
             Session mailSession,
             JobManagerUser user,
@@ -5777,7 +5822,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 props.setProperty("mail.smtp.ssl.trust", trust);
 
                 // create some properties and get the default Session
-                Session session = Session.getDefaultInstance(props, null); 
+                Session session = Session.getDefaultInstance(props, null);
                 session.setDebug(debug);
                 msg = new MimeMessage(session);
             } else {
@@ -5798,7 +5843,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
             // Setting the Subject and Content Type
             msg.setSubject(subject);
-            msg.setContent(message, "text/html; charset=utf-8"); 
+            msg.setContent(message, "text/html; charset=utf-8");
 
             Transport.send(msg);
         } catch (UnsupportedEncodingException | MessagingException e) {

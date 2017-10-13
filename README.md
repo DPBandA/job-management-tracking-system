@@ -14,12 +14,10 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- In employee dialog fix up the width of the dropdown or autocomplete as is done
-  with client autocomplete.
-- Implement creating subcontracts. Create the "organizationName" system option
-  and use it to retrieve/create the client. Make sure billing address and contact
-  are set. Automaticaly retrieve or create contact person which is the person
-  creating the subcontract.
+- Impl MainTabViewTab, MainTabViewManager and dynamic tabs for mainTabView.
+  Pass JM user to the manager.
+- Impl buttons for creating new jobs and generating reports.
+- Move ClientManager back to JMTS.
 - Implement generating service contact form
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
@@ -136,6 +134,7 @@ by other apps?
 
 ### System Design
 #### Design
+- Impl. ReportManager and put reporting in own tab.
 - Refactor and rename static methods from findEntityName*() to just find*() where
   possible.
 - Create Reporting backing bean and move relevant code from JM to it.

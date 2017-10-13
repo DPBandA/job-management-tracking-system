@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package jm.com.dpbennett.jmts;
+package jm.com.dpbennett.jmts.utils;
 
 import java.util.List;
 import javax.faces.model.ListDataModel;
