@@ -670,7 +670,7 @@ public class SystemManager implements Serializable {
         if (businessOffice != null) {
             selectedEmployee.setBusinessOffice(businessOffice);
         } else {
-            selectedEmployee.setBusinessOffice(BusinessOffice.getDefaultBusinessOffice(em, "--"));
+            selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(em, "--"));
         }
 
         // department
@@ -711,7 +711,7 @@ public class SystemManager implements Serializable {
         if (selectedEmployee.getBusinessOffice().getId() != null) {
             selectedEmployee.setBusinessOffice(BusinessOffice.findBusinessOfficeById(getEntityManager(), selectedEmployee.getBusinessOffice().getId()));
         } else {  // try to get defaut
-            selectedEmployee.setBusinessOffice(BusinessOffice.getDefaultBusinessOffice(getEntityManager(), "--"));
+            selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(getEntityManager(), "--"));
         }
     }
 
@@ -897,7 +897,7 @@ public class SystemManager implements Serializable {
         EntityManager em = getEntityManager();
 
         selectedEmployee = new Employee();
-        selectedEmployee.setBusinessOffice(BusinessOffice.getDefaultBusinessOffice(em, "Head Office"));
+        selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(em, "Head Office"));
 
         getJobManager().openDialog(null, "employeeDialog", true, true, true, 420, 600);
     }

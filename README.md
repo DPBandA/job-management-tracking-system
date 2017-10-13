@@ -14,6 +14,8 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
+- In employee dialog fix up the width of the dropdown or autocomplete as is done
+  with client autocomplete.
 - Implement creating subcontracts. Create the "organizationName" system option
   and use it to retrieve/create the client. Make sure billing address and contact
   are set. Automaticaly retrieve or create contact person which is the person
@@ -134,13 +136,16 @@ by other apps?
 
 ### System Design
 #### Design
-- Clean up unused code in JM.
+- Refactor and rename static methods from findEntityName*() to just find*() where
+  possible.
+- Create Reporting backing bean and move relevant code from JM to it.
 - Limit the maximum characters to be entered into a text field to 50. Put this
   value in the BEL resource bundle which can be changed. Allow various maximums
   for different types of fields.
 - Make all sensitive fields, especially those on the General tab unchangeable
   except by system admin after a job has been saved. Use field groups with 
   input and output fields as is done with the job number. 
+- Put reports/queries in own tab and not dialog.
 - Check if new clients can be created even without privilege.
 - Implement "isdirty" for client, contact, address and do shallow copy when they
   change?
@@ -150,6 +155,8 @@ by other apps?
 - Implement selectTab(index) in javascript that selects a tab based on the 
   the number of tabs in the tabview and the default index position of the tab
   as defined in index.html.
+- Modify updateEntity methods to not find the entity by name cause that's already
+  done by the respective converters.
 - Create separate login page instead of using login dialog?
 - Remove client dialog and put as closable tab.
 - Show control panel when a tab is open of this is applicable.
