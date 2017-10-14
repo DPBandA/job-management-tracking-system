@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jm.com.dpbennett.jmts;
+package jm.com.dpbennett.jmts.utils;
 
-public class MainViewTab {
+public class MainTabViewTab {
 
     private Boolean showButton1;
     private Boolean showButton2;
     private String tabName;
     private Boolean rendered;
 
-    public MainViewTab(Boolean showButton1, Boolean showButton2, String tabName, Boolean rendered) {
+    public MainTabViewTab(Boolean showButton1, Boolean showButton2, String tabName, Boolean rendered) {
         this.showButton1 = showButton1;
         this.showButton2 = showButton2;
         this.tabName = tabName;

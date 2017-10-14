@@ -5,7 +5,6 @@
 package jm.com.dpbennett.jmts;
 
 
-import jm.com.dpbennett.business.entity.management.ClientManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;

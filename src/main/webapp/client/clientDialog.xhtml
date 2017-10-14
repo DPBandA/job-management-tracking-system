@@ -35,7 +35,7 @@
         <ui:include src="removeAddressConfirmationDialog.xhtml"/>        
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>  
-        <h:form id="clientForm">
+        <h:form id="clientForm" >
             <p:growl id="client_growl" life="5000" showDetail="true"/>
 
             <p:commandButton value="Ok"
@@ -52,6 +52,7 @@
                              icon="ui-icon ui-icon-close" />
             <hr/>
             <p:tabView id="clientFormTabView"
+                       onTabShow="longProcessDialogVar.hide();"
                        dynamic="true"
                        widgetVar="clientFormTabVar" >
                 <p:tab id="clientDetailsTab" title="General details">

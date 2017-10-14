@@ -148,6 +148,19 @@
                             <ui:include src="jmts/jobDetail.xhtml"/>  
                         </p:tab>
 
+                        <p:tab id="testTab" 
+                               title="Test Tab"                                    
+                               closable="true">
+                            <p:tabView widgetVar="testTabVar" id="testTabView" 
+                                       dynamic="true" scrollable="false"
+                                       value="#{jobManager.tabList}" var="listItem">
+                                <p:tab title="#{listItem.tabName}" closable="true" rendered="#{listItem.rendered}">
+                                    <p:commandButton value="Button1" rendered="#{listItem.showButton1}"/>
+                                    <p:commandButton value="Button2" rendered="#{listItem.showButton2}"/>
+                                </p:tab>
+                            </p:tabView>
+                        </p:tab>
+
                         <p:tab id="financialAdminTab" title="Financial Administration"
                                closable="true" 
                                rendered="#{jobManager.user.financialAdminUnit}">  
@@ -190,10 +203,10 @@
 
                             </h:panelGrid>
                         </p:tab>  
-                        <p:tab title="Clients" >
+                        <p:tab title="Clients"  >
                             Client Search
                             <br/>
-                            Client Status                            
+                            Client Status
                         </p:tab>
                     </p:accordionPanel>                    
                 </h:form>

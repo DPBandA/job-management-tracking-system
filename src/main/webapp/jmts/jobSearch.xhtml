@@ -9,7 +9,7 @@
 
         <h:outputText value="Search type: " />
         <p:selectOneMenu value="#{searchManager.currentSearchParameters.searchType}" 
-                         style="width: 200px">
+                         style="width: 146px" >
             <p:ajax                        
                 listener="#{searchManager.updateSearchType}"
                 process="@this" />
@@ -20,7 +20,7 @@
                       rendered="#{searchManager.currentSearchParameters.showDateField}"/>
         <p:selectOneMenu value="#{searchManager.currentSearchParameters.dateField}" 
                          rendered="#{searchManager.currentSearchParameters.showDateField}" 
-                         style="width: 200px" >
+                         style="width: 146px" >
             <p:ajax                        
                 listener="#{searchManager.updateDateField}"
                 process="@this" />
@@ -30,7 +30,7 @@
         <h:outputText value="Date period: " rendered="#{searchManager.currentSearchParameters.showDateField}"/>               
         <p:selectOneMenu value= "#{searchManager.currentSearchParameters.datePeriod.name}" 
                          rendered="#{searchManager.currentSearchParameters.showDateField}"
-                         style="width: 200px" >
+                         style="width: 146px" >
             <p:ajax listener="#{searchManager.changeSearchDatePeriod}"
                     update="startSearchDate,endSearchDate"
                     process="@this" />
@@ -39,7 +39,8 @@
         <h:outputText value="Start:" 
                       rendered="#{searchManager.currentSearchParameters.showDateField}" />
         <p:calendar id="startSearchDate"
-                    value="#{searchManager.currentSearchParameters.datePeriod.startDate}"
+                    value="#{searchManager.currentSearchParameters.datePeriod.startDate}"                    
+                    size="16"
                     navigator="true"
                     rendered="#{searchManager.currentSearchParameters.showDateField}"
                     disabled="#{searchManager.currentSearchParameters.datePeriod.startDateDisabled}"
@@ -55,6 +56,7 @@
         <p:calendar id="endSearchDate"
                     rendered="#{searchManager.currentSearchParameters.showDateField}"
                     value="#{searchManager.currentSearchParameters.datePeriod.endDate}"
+                    size="16"
                     navigator="true"
                     disabled="#{searchManager.currentSearchParameters.datePeriod.endDateDisabled}"
                     pattern="MMM dd, yyyy" >
@@ -63,13 +65,10 @@
             <p:ajax event="keyup"                           
                     listener="#{searchManager.handleEndDateSelect(event)}"/>
         </p:calendar>
-    </h:panelGrid>
-    <hr/>
-    <h:panelGrid columns="4" >
-        <p:inputText value="#{searchManager.currentSearchParameters.searchText}"
-                     id="searchText"/>
-        <p:watermark value="-- enter search text --" for="searchText" />
-
+        <p:spacer height="10" /> <p:spacer height="10" />
+        <p:inputText value="#{searchManager.currentSearchParameters.searchText}"  
+                     style="width: 125px"
+                     id="searchText"/>        
         <p:commandButton value="Search"
                          id="doSearch"
                          onstart="longProcessDialogVar.show();"
@@ -80,5 +79,7 @@
                          icon="ui-icon-search"
                          process="@form"/>
     </h:panelGrid>
+    <p:watermark value="-- enter search text --" for="searchText" />
+    <hr/>
     <p/>
 </html>

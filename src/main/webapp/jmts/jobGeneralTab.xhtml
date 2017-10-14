@@ -117,8 +117,7 @@
                              id="editClientButton"
                              disabled="${!jobManager.isClientNameValid}"
                              onstart="longProcessDialogVar.show();"
-                             actionListener="#{jobManager.editJobClient}"                             
-                             oncomplete="longProcessDialogVar.hide();"
+                             actionListener="#{jobManager.editJobClient}"  
                              process="@this,client"                             
                              title="View or edit this client's detail">   
                 <p:ajax event="dialogReturn" 
@@ -130,8 +129,7 @@
                 icon="ui-icon-plus" 
                 onstart="longProcessDialogVar.show();"
                 rendered="#{jobManager.user.privilege.canAddClient}"
-                actionListener="#{jobManager.createNewJobClient}"                             
-                oncomplete="longProcessDialogVar.hide();"
+                actionListener="#{jobManager.createNewJobClient}"                                            
                 process="@this"
                 title="Add a new client to the client database">
                 <p:ajax event="dialogReturn" 

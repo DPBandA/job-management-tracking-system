@@ -4,8 +4,8 @@
  */
 package jm.com.dpbennett.jmts;
 
+import jm.com.dpbennett.jmts.utils.MainTabViewTab;
 import jm.com.dpbennett.jmts.utils.JobDataModel;
-import jm.com.dpbennett.business.entity.management.ClientManager;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -311,19 +311,19 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
         // tk Test dynamic tabs
         tabList = new ArrayList<>();
-        tabList.add(new MainViewTab(true, false, "Tab 1", true));
-        tabList.add(new MainViewTab(false, true, "Tab 2", true));
+        tabList.add(new MainTabViewTab(true, false, "Tab 1", true));
+        tabList.add(new MainTabViewTab(false, true, "Tab 2", true));
         // end tk dynamic tabs
     }
 
     // tk dynamic tabs
-    private ArrayList<MainViewTab> tabList;
+    private ArrayList<MainTabViewTab> tabList;
 
-    public List<MainViewTab> getTabList() {
+    public List<MainTabViewTab> getTabList() {
         return tabList;
     }
 
-    public void setTabList(ArrayList<MainViewTab> tabList) {
+    public void setTabList(ArrayList<MainTabViewTab> tabList) {
         this.tabList = tabList;
     }
     // end tk dynamic tabs
@@ -1527,7 +1527,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         EntityManager em = getEntityManager1();
 
         //tabList.remove(0);
-        tabList.add(new MainViewTab(false, true, "New Tab", true));
+        tabList.add(new MainTabViewTab(false, true, "New Tab", true));
 
         context.update("mainTabViewForm:mainTabView:testTabView");
         context.execute("testTabVar.select(" + (tabList.size() - 1) + ");");
