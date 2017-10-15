@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import org.primefaces.context.RequestContext;
 
@@ -15,6 +13,7 @@ import org.primefaces.context.RequestContext;
  */
 public class MainTabView implements Serializable {
 
+    private Integer tabIndex;
     private List<MainTabViewTab> tabs;
     private JobManagerUser user;
     private MainTabViewTab jobsTab;
@@ -27,11 +26,31 @@ public class MainTabView implements Serializable {
         tabs = new ArrayList<>();
     }
 
+    public void update() {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        context.update("mainTabViewForm:mainTabView");
+        context.update("dashboardForm:dashboardAccordion");
+    }
+
+    public void select(Boolean isTabAdded) {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        if (isTabAdded) {
+            context.execute("mainTabViewVar.select(" + tabIndex + ");");
+        } else {
+            context.execute("mainTabViewVar.select(" + (tabIndex - 1) + ");");
+        }
+    }
+
     public MainTabViewTab findTab(String tabId) {
+        tabIndex = 0;
+
         for (MainTabViewTab tab : tabs) {
             if (tab.getId().equals(tabId)) {
                 return tab;
             }
+            ++tabIndex;
         }
 
         return null;
@@ -48,7 +67,7 @@ public class MainTabView implements Serializable {
                     tab.setRenderJobsTab(em, render);
                     break;
                 case "jobDetailTab":
-
+                    tab.setRenderJobDetailTab(render);
                     break;
                 case "financialAdminTab":
                     tab.setRenderFinancialAdminTab(em, render);
@@ -72,7 +91,8 @@ public class MainTabView implements Serializable {
                     tabs.add(jobsTab);
                     break;
                 case "jobDetailTab":
-
+                    jobDetailTab.setRenderJobDetailTab(render);
+                    tabs.add(jobDetailTab);
                     break;
                 case "financialAdminTab":
                     financialAdminTab.setRenderFinancialAdminTab(em, render);
@@ -87,7 +107,10 @@ public class MainTabView implements Serializable {
             }
         }
 
-        context.update("mainTabViewForm:mainTabView");
+        // Update tabview and select the appropriate tab
+        update();
+        select(render);
+
     }
 
     public void removeAllTabs() {
@@ -95,30 +118,33 @@ public class MainTabView implements Serializable {
     }
 
     private void init() {
-        // Create tabs
+        // Jobs tab
         jobsTab = new MainTabViewTab(
                 "jobsTab",
-                "Jobs",
+                "Job Search",
                 getUser().getJobManagementAndTrackingUnit(),
                 false,
                 false,
                 false, getUser());
+        // Financial admin tab
         financialAdminTab = new MainTabViewTab(
                 "financialAdminTab",
                 "Financial Administration",
                 false,
                 false,
-                user.getFinancialAdminUnit(),
+                getUser().getFinancialAdminUnit(),
                 false,
                 getUser());
+        // Admin tab
         adminTab = new MainTabViewTab(
                 "adminTab",
                 "System Administration",
                 false,
                 false,
                 false,
-                user.getAdminUnit(),
-                user);
+                getUser().getAdminUnit(),
+                getUser());
+        // Job detail tab
         jobDetailTab = new MainTabViewTab(
                 "jobDetailTab",
                 "Job Detail",
@@ -162,5 +188,13 @@ public class MainTabView implements Serializable {
 
     public void setUser(JobManagerUser user) {
         this.user = user;
+    }
+
+    public Integer getTabIndex() {
+        return tabIndex;
+    }
+
+    public void setTabIndex(Integer tabIndex) {
+        this.tabIndex = tabIndex;
     }
 }

@@ -70,7 +70,7 @@
                             <p:menuitem actionListener="#{jobManager.openJobsTab}"
                                         onstart="longProcessDialogVar.show();"                                        
                                         oncomplete="longProcessDialogVar.hide();"                                            
-                                        value="Jobs"
+                                        value="Job Search"
                                         process="@this"/>
                             <p:separator /> 
                             <p:menuitem actionListener="#{jobManager.openSystemAdministrationTab}"
@@ -126,17 +126,18 @@
 
                     <p:defaultCommand target=":mainTabViewForm:doNothingButton" />
 
-                    <p:tabView id="mainTabView"                               
-                               dynamic="false"
+                    <p:tabView id="mainTabView"                                                             
                                value="#{jobManager.mainTabView.tabs}" 
                                var="tab" 
                                onTabShow="longProcessDialogVar.hide();"
                                widgetVar="mainTabViewVar">
 
-                        <p:ajax event="tabChange"                                                                                                                             
+                        <p:ajax event="tabChange"       
+                                immediate="true"
                                 listener="#{jobManager.onMainViewTabChange}" />
 
-                        <p:ajax event="tabClose"                                                                                                                            
+                        <p:ajax event="tabClose"    
+                                immediate="true"
                                 listener="#{jobManager.onMainViewTabClose}" />  
 
                         <p:tab title="#{tab.name}" closable="true" >
@@ -149,35 +150,11 @@
                             <h:panelGroup rendered="#{tab.renderAdminTab}" >
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
                             </h:panelGroup>
+                            <h:panelGroup rendered="#{tab.renderJobDetailTab}" >
+                                <ui:include src="jmts/jobDetail.xhtml"/> 
+                            </h:panelGroup>
                         </p:tab>
 
-                        <ui:remove>
-                            <p:tab id="jobsTab"
-                                   closable="true"
-                                   title="#{jobManager.user.jobTableViewPreference}"
-                                   rendered="#{jobManager.user.jobManagementAndTrackingUnit}" >
-                                <ui:include src="jmts/jobsTab.xhtml"/> 
-                            </p:tab>         
-
-                            <p:tab id="jobDetailTab" 
-                                   title="Job Detail"
-                                   rendered="#{jobManager.renderJobDetailTab}"
-                                   closable="true">
-                                <ui:include src="jmts/jobDetail.xhtml"/>  
-                            </p:tab>
-
-                            <p:tab id="financialAdminTab" title="Financial Administration"
-                                   closable="true" 
-                                   rendered="#{jobManager.user.financialAdminUnit}">  
-                                <ui:include src="admin/financialAdminTab.xhtml"/> 
-                            </p:tab>
-
-                            <p:tab id="adminTab" title="System Administration"
-                                   closable="true" 
-                                   rendered="#{jobManager.user.adminUnit}">  
-                                <ui:include src="admin/generalAdminTab.xhtml"/> 
-                            </p:tab>
-                        </ui:remove>
                     </p:tabView>
                 </h:form>
             </p:layoutUnit>
@@ -191,8 +168,8 @@
                 collapsed="#{jobManager.westLayoutUnitCollapsed}"
                 collapsible="true">   
                 <h:form id="dashboardForm" > 
-                    <p:accordionPanel activeIndex="0" multiple="true">
-                        <p:tab title="Jobs"  >
+                    <p:accordionPanel id="dashboardAccordion" activeIndex="0" multiple="true">
+                        <p:tab title="Jobs" >
                             <ui:include src="jmts/jobSearch.xhtml"/>
                             <h:panelGrid columns="2">
                                 <p:commandButton
@@ -208,10 +185,13 @@
 
                             </h:panelGrid>
                         </p:tab>  
-                        <p:tab title="Clients" >
-                            Client Search
-                            <br/>
-                            Client Status                            
+                        <p:tab title="System Administration"                                
+                               rendered="#{jobManager.user.adminUnit}">
+                            Content                     
+                        </p:tab>
+                        <p:tab title="Financial Administration" 
+                               rendered="#{jobManager.user.financialAdminUnit}">
+                            Content                     
                         </p:tab>
                     </p:accordionPanel>                    
                 </h:form>

@@ -365,28 +365,17 @@ public class SearchManager implements SearchManagement, Serializable {
                 JobManager jm = Application.findBean("jobManager");
                 if (jm != null) {
                     jm.doJobSearch(getCurrentSearchParameters());
-                    if (!jm.getUser().getJobManagementAndTrackingUnit()) {
-                        jm.getUser().setJobManagementAndTrackingUnit(true);
-                        jm.getUser().save(getEntityManager1());                        
-                        context.update("mainTabViewForm:mainTabView");
-                        context.execute("mainTabViewVar.select(0);");
-                    } else {                        
-                        // tk this update does not seem to work with programmatically generated tabs
-                        //context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
-                        context.update("mainTabViewForm:mainTabView");
-                        context.execute("mainTabViewVar.select(0);");
-                    }
+                    jm.getMainTabView().renderTab(getEntityManager1(), "jobsTab", true);
                 }
                 break;
             case "Service Request Search":
                 ServiceManager sm = Application.findBean("serviceManager");
                 if (sm != null) {
-                    sm.doServiceRequestSearch(getCurrentSearchParameters());
-                    context.update("mainTabViewForm:mainTabView:serviceRequestsDatabaseTable");
+                   addMessage("Sorry!", "Service Request Search not yet implemented.");
                 }
                 break;
             case "Admin Search":
-                addMessage("Sorry!", "System Administration Advanced Search not yet implemented.");
+                addMessage("Sorry!", "System Administration Search not yet implemented.");
                 break;
         }
     }

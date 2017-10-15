@@ -15,8 +15,8 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ### Rebuild UI Functionality
 - Impl MainTabViewTab, MainTabView and dynamic tabs for mainTabView.
-  * Impl opening Jobs tab when search is done.
-  * Impl selecting the most recently added tab.
+  * Test creating new job from dashboard?
+  * Add user unit for Clients.
 - Test logout make sure all main view tabs are removed and UI reset.
 - Change code that makes use of main tab view tab ids;
 - Replace dialog messages that have on "ok" button with growl messages.
@@ -139,6 +139,7 @@ by other apps?
 
 ### System Design
 #### Design
+- Put text box in jobsTab to allow quick filter of search results.
 - Impl. ReportManager and put reporting in own tab.
 - Refactor and rename static methods from findEntityName*() to just find*() where
   possible.

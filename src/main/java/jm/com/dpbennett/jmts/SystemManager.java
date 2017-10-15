@@ -623,9 +623,7 @@ public class SystemManager implements Serializable {
         context.addCallbackParam("userSaved", saved);
 
 
-        context.closeDialog(null);
-        //doUserSearch(); //tk
-        //context.update("mainTabViewForm:mainTabView:centerTabView:usersTable"); //tk
+        context.closeDialog(null);       
 
     }
 

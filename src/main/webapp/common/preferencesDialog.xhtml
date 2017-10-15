@@ -17,7 +17,7 @@
 
             <p:ajax event="close"    
                     onstart="longProcessDialogVar.show();"
-                    oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
+                    oncomplete="longProcessDialogVar.hide();"
                     listener="#{jobManager.closePreferencesDialog2(event)}"/>
 
             <p:commandButton value="Close" 
@@ -64,17 +64,18 @@
                         <h:selectBooleanCheckbox id="jobManagementAndTrackingUnitCheckbox" 
                                                  disabled="false"
                                                  value="#{jobManager.user.jobManagementAndTrackingUnit}" >
-                            <p:ajax listener="#{jobManager.updatePreferences}"
+                            <p:ajax listener="#{jobManager.updateJobsTab}"
 
                                     global="false"
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
-                        <h:outputLabel for="jobManagementAndTrackingUnitCheckbox" value="Job Management &amp; Tracking" />
-                        
+                        <h:outputLabel for="jobManagementAndTrackingUnitCheckbox" 
+                                       value="Job Management &amp; Tracking" />
+
                         <h:selectBooleanCheckbox id="financialAdminUnitCheckbox" 
                                                  rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}"
                                                  value="#{jobManager.user.financialAdminUnit}" >
-                            <p:ajax listener="#{jobManager.updatePreferences}"
+                            <p:ajax listener="#{jobManager.updateFinancialAdminTab}"
                                     update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
                                     global="false"
                                     process="@this"/>
@@ -83,14 +84,15 @@
                                        for="financialAdminUnitCheckbox" value="Financial Administration"/>      
 
                         <h:selectBooleanCheckbox id="adminUnitCheckbox" 
-                                                 disabled="#{!jobManager.user.privilege.canBeJMTSAdministrator}"
+                                                 rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
                                                  value="#{jobManager.user.adminUnit}" >
-                            <p:ajax listener="#{jobManager.updatePreferences}"
+                            <p:ajax listener="#{jobManager.updateAdminTab}"
                                     update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
                                     global="false"
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
-                        <h:outputLabel for="adminUnitCheckbox" value="System Administration"/>                         
+                        <h:outputLabel rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
+                                       for="adminUnitCheckbox" value="System Administration"/>                         
 
 
                     </h:panelGrid> 
