@@ -5,6 +5,7 @@
  */
 package jm.com.dpbennett.jmts.utils;
 
+import javax.persistence.EntityManager;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 
 public class MainTabViewTab {
@@ -55,24 +56,30 @@ public class MainTabViewTab {
         return renderJobsTab;
     }
 
-    public void setRenderJobsTab(Boolean renderJobsTab) {
-        this.renderJobsTab = renderJobsTab;
+    public void setRenderJobsTab(EntityManager em, Boolean render) {
+        this.renderJobsTab = render;
+        user.setJobManagementAndTrackingUnit(renderJobsTab);
+        user.save(em);       
     }
 
     public Boolean getRenderFinancialAdminTab() {
         return renderFinancialAdminTab;
     }
 
-    public void setRenderFinancialAdminTab(Boolean renderFinancialAdminTab) {
-        this.renderFinancialAdminTab = renderFinancialAdminTab;
+    public void setRenderFinancialAdminTab(EntityManager em, Boolean render) {
+        this.renderFinancialAdminTab = render;
+        user.setFinancialAdminUnit(renderFinancialAdminTab);
+        user.save(em);
     }
 
     public Boolean getRenderAdminTab() {
         return renderAdminTab;
     }
 
-    public void setRenderAdminTab(Boolean renderAdminTab) {
-        this.renderAdminTab = renderAdminTab;
+    public void setRenderAdminTab(EntityManager em, Boolean render) {
+        this.renderAdminTab = render;
+        user.setAdminUnit(renderAdminTab);
+        user.save(em);
     }
 
     public Boolean getRenderJobDetailTab() {
@@ -82,9 +89,7 @@ public class MainTabViewTab {
     public void setRenderJobDetailTab(Boolean renderJobDetailTab) {
         this.renderJobDetailTab = renderJobDetailTab;
     }
-
     
-
     public JobManagerUser getUser() {
         return user;
     }

@@ -4,7 +4,6 @@
  */
 package jm.com.dpbennett.jmts;
 
-import jm.com.dpbennett.jmts.utils.MainTabViewTab;
 import jm.com.dpbennett.jmts.utils.JobDataModel;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -76,7 +75,6 @@ import jm.com.dpbennett.business.entity.DepartmentUnit;
 import jm.com.dpbennett.business.entity.DocumentStandard;
 import jm.com.dpbennett.business.entity.DocumentType;
 import jm.com.dpbennett.business.entity.Employee;
-import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCategory;
 import jm.com.dpbennett.business.entity.JobCosting;
@@ -85,7 +83,6 @@ import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.JobReportItem;
 import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.JobSequenceNumber;
-import jm.com.dpbennett.business.entity.JobStatusAndTracking;
 import jm.com.dpbennett.business.entity.JobSubCategory;
 import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Manufacturer;
@@ -106,6 +103,7 @@ import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import static jm.com.dpbennett.jmts.Application.checkForLDAPUser;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
 import jm.com.dpbennett.jmts.utils.MainTabView;
+import jm.com.dpbennett.jmts.utils.MainTabViewTab;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -135,7 +133,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.CloseEvent;
@@ -308,8 +305,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 "This financial year to date",
                 "year",
                 null,
-                null, false, false, true);        
-        
+                null, false, false, true);
+
+        mainTabView = new MainTabView(getUser());
+
     }
 
     public String getApplicationHeader() {
@@ -321,11 +320,11 @@ public class JobManager implements Serializable, BusinessEntityManager,
         String subHeader = SystemOption.findSystemOptionByName(
                 getEntityManager1(),
                 "applicationSubheader").getOptionValue();
-        
+
         if (subHeader.trim().equals("None")) {
             return getUser().getEmployee().getDepartment().getName();
         }
-        
+
         return subHeader;
     }
 
@@ -587,8 +586,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
                     BusinessEntityUtils.saveBusinessEntity(em, user);
                     em.getTransaction().commit();
 
-//                    updateAllForms(context);
-
                     // Show search layout unit if initially collapsed
                     if (westLayoutUnitCollapsed) {
                         westLayoutUnitCollapsed = false;
@@ -597,10 +594,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
                     context.execute("loginDialog.hide();PrimeFaces.changeTheme('"
                             + getUser().getUserInterfaceThemeName() + "');");
-                    
-                    mainTabView = new MainTabView(user);
-                    
-                    updateAllForms(context); // tk look at original position
+
+                    mainTabView.reset(user);
+
+                    updateAllForms(context);
 
                 }
 
@@ -624,7 +621,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void setMainTabView(MainTabView mainTabView) {
         this.mainTabView = mainTabView;
-    }   
+    }
 
     private void updateAllForms(RequestContext context) {
         context.update("dashboardForm");
@@ -651,8 +648,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
             context.execute("layoutVar.toggle('west');");
         }
 
-        // Unrender all Job Manager tabs
-        setRenderJobDetailTab(false);
+        // Unrender all tabs
+        mainTabView.removeAllTabs();
 
         context.execute("loginDialog.show();longProcessDialogVar.hide();PrimeFaces.changeTheme('" + getUser().getUserInterfaceThemeName() + "');");
 
@@ -832,26 +829,32 @@ public class JobManager implements Serializable, BusinessEntityManager,
     public void onMainViewTabClose(TabCloseEvent event) {
         RequestContext context = RequestContext.getCurrentInstance();
         EntityManager em = getEntityManager1();
-        String tabId = event.getTab().getId();
+        String tabId = ((MainTabViewTab) event.getData()).getId();
+        
+        // System.out.println("Close job tab: " + ((MainTabViewTab) event.getData()).getId());
 
         switch (tabId) {
             case "jobsTab":
-                getUser().setJobManagementAndTrackingUnit(false);
-                getUser().save(em);
-                context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
+//                getUser().setJobManagementAndTrackingUnit(false);
+//                getUser().save(em);
+//                context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
+               
+                mainTabView.renderTab(em, "jobsTab", false);
                 break;
             case "jobDetailTab":
-                setRenderJobDetailTab(false);
-                context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
-                getCurrentJob().clean();
+//                setRenderJobDetailTab(false);
+//                context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
+//                getCurrentJob().clean();
                 break;
             case "financialAdminTab":
-                getUser().setFinancialAdminUnit(false);
-                getUser().save(em);
+//                getUser().setFinancialAdminUnit(false);
+//                getUser().save(em);
+                mainTabView.renderTab(em, "financialAdminTab", false);
                 break;
             case "adminTab":
-                getUser().setAdminUnit(false);
-                getUser().save(em);
+//                getUser().setAdminUnit(false);
+//                getUser().save(em);
+                 mainTabView.renderTab(em, "adminTab", false);
                 break;
             default:
                 break;
@@ -861,14 +864,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void onMainViewTabChange(TabChangeEvent event) {
-
-//        Tab tab = event.getTab();
-//
-//        if (tab != null) {
-//            String tabId = tab.getId();
-//            updateDashboard(tabId);
-//
-//        }
+        
     }
 
     public void updateDashboard(String tabId) {
@@ -970,18 +966,15 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void openJobsTab() {
-        getUser().setJobManagementAndTrackingUnit(true);
-        getUser().save(getEntityManager1());
+        mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
     }
 
     public void openSystemAdministrationTab() {
-        getUser().setAdminUnit(true);
-        getUser().save(getEntityManager1());
+        mainTabView.renderTab(getEntityManager1(), "adminTab", true);
     }
 
     public void openFinancialAdministrationTab() {
-        getUser().setFinancialAdminUnit(true);
-        getUser().save(getEntityManager1());
+         mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
     }
 
     public String getJobsTabTitle() {
@@ -1522,7 +1515,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
             context.execute("jobFormTabVar.select(0);");
         }
 
-    }   
+    }
 
     public StreamedContent getServiceContractStreamContent() {
         EntityManager em = null;

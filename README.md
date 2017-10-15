@@ -15,7 +15,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ### Rebuild UI Functionality
 - Impl MainTabViewTab, MainTabView and dynamic tabs for mainTabView.
-  Pass JM user to the MainTabView.
+  * Impl opening Jobs tab when search is done.
+  * Impl selecting the most recently added tab.
+- Test logout make sure all main view tabs are removed and UI reset.
 - Change code that makes use of main tab view tab ids;
 - Replace dialog messages that have on "ok" button with growl messages.
 - Impl buttons for creating new jobs and generating reports.
@@ -38,6 +40,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Make TRN mandatory? Put system option to validate?
 - Hide billing address display if client is not valid.
 - Impl. clients dialog.
+- Delete blank users, dept and employee etc. from database.
 ### Immediate Issues
 - Impl validating the creation of new clients...do not allow creating of client
   that already exist.

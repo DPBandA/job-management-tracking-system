@@ -68,23 +68,20 @@
                                       style="float: right;" >
 
                             <p:menuitem actionListener="#{jobManager.openJobsTab}"
-                                        onstart="longProcessDialogVar.show();"
-                                        update=":mainTabViewForm"
+                                        onstart="longProcessDialogVar.show();"                                        
                                         oncomplete="longProcessDialogVar.hide();"                                            
-                                        value="Job Search"
+                                        value="Jobs"
                                         process="@this"/>
                             <p:separator /> 
                             <p:menuitem actionListener="#{jobManager.openSystemAdministrationTab}"
                                         rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
-                                        onstart="longProcessDialogVar.show();"
-                                        update=":mainTabViewForm"
+                                        onstart="longProcessDialogVar.show();"                                        
                                         oncomplete="longProcessDialogVar.hide();"                                            
                                         value="System Administration"
                                         process="@this"/>
                             <p:menuitem actionListener="#{jobManager.openFinancialAdministrationTab}"
                                         rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}"
-                                        onstart="longProcessDialogVar.show();"
-                                        update=":mainTabViewForm"
+                                        onstart="longProcessDialogVar.show();"                                        
                                         oncomplete="longProcessDialogVar.hide();"                                            
                                         value="Financial Administration"
                                         process="@this"/>
@@ -130,22 +127,19 @@
                     <p:defaultCommand target=":mainTabViewForm:doNothingButton" />
 
                     <p:tabView id="mainTabView"                               
-                               dynamic="true"
+                               dynamic="false"
                                value="#{jobManager.mainTabView.tabs}" 
                                var="tab" 
                                onTabShow="longProcessDialogVar.hide();"
                                widgetVar="mainTabViewVar">
 
-                        <p:ajax event="tabChange"                                
-                                immediate="true"                                                                
+                        <p:ajax event="tabChange"                                                                                                                             
                                 listener="#{jobManager.onMainViewTabChange}" />
 
-                        <p:ajax event="tabClose"                                 
-                                immediate="true"                                
-                                oncomplete="mainTabViewVar.select(0);"
+                        <p:ajax event="tabClose"                                                                                                                            
                                 listener="#{jobManager.onMainViewTabClose}" />  
 
-                        <p:tab title="#{tab.name}" closable="true">
+                        <p:tab title="#{tab.name}" closable="true" >
                             <h:panelGroup rendered="#{tab.renderJobsTab}">                                
                                 <ui:include src="jmts/jobsTab.xhtml" />   
                             </h:panelGroup>
