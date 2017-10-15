@@ -105,6 +105,7 @@ import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import static jm.com.dpbennett.jmts.Application.checkForLDAPUser;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
+import jm.com.dpbennett.jmts.utils.MainTabView;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -226,7 +227,6 @@ public class JobManager implements Serializable, BusinessEntityManager,
     private DatePeriod monthlyReportYearDatePeriod;
     // Show accpac prepayments
     private Boolean showPrepayments;
-
     private JobManagerUser user;
     private Boolean userLoggedIn = false;
     private Boolean showLogin = true;
@@ -243,6 +243,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
     private Boolean dialogRenderNoButton;
     private Boolean dialogRenderCancelButton;
     private DialogActionHandler dialogActionHandler;
+    private MainTabView mainTabView;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -307,26 +308,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 "This financial year to date",
                 "year",
                 null,
-                null, false, false, true);
-
-        // tk Test dynamic tabs
-        tabList = new ArrayList<>();
-        tabList.add(new MainTabViewTab(true, false, "Tab 1", true));
-        tabList.add(new MainTabViewTab(false, true, "Tab 2", true));
-        // end tk dynamic tabs
+                null, false, false, true);        
+        
     }
-
-    // tk dynamic tabs
-    private ArrayList<MainTabViewTab> tabList;
-
-    public List<MainTabViewTab> getTabList() {
-        return tabList;
-    }
-
-    public void setTabList(ArrayList<MainTabViewTab> tabList) {
-        this.tabList = tabList;
-    }
-    // end tk dynamic tabs
 
     public String getApplicationHeader() {
         return SystemOption.findSystemOptionByName(getEntityManager1(),
@@ -334,8 +318,15 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public String getApplicationSubheader() {
-        return SystemOption.findSystemOptionByName(getEntityManager1(),
+        String subHeader = SystemOption.findSystemOptionByName(
+                getEntityManager1(),
                 "applicationSubheader").getOptionValue();
+        
+        if (subHeader.trim().equals("None")) {
+            return getUser().getEmployee().getDepartment().getName();
+        }
+        
+        return subHeader;
     }
 
     public void openDialog(Object entity,
@@ -596,7 +587,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                     BusinessEntityUtils.saveBusinessEntity(em, user);
                     em.getTransaction().commit();
 
-                    updateAllForms(context);
+//                    updateAllForms(context);
 
                     // Show search layout unit if initially collapsed
                     if (westLayoutUnitCollapsed) {
@@ -606,6 +597,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
                     context.execute("loginDialog.hide();PrimeFaces.changeTheme('"
                             + getUser().getUserInterfaceThemeName() + "');");
+                    
+                    mainTabView = new MainTabView(user);
+                    
+                    updateAllForms(context); // tk look at original position
 
                 }
 
@@ -622,6 +617,14 @@ public class JobManager implements Serializable, BusinessEntityManager,
             checkLoginAttemps(context);
         }
     }
+
+    public MainTabView getMainTabView() {
+        return mainTabView;
+    }
+
+    public void setMainTabView(MainTabView mainTabView) {
+        this.mainTabView = mainTabView;
+    }   
 
     private void updateAllForms(RequestContext context) {
         context.update("dashboardForm");
@@ -1519,20 +1522,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
             context.execute("jobFormTabVar.select(0);");
         }
 
-    }
-
-    // tk 
-    public void testDynaTab() {
-        RequestContext context = RequestContext.getCurrentInstance();
-        EntityManager em = getEntityManager1();
-
-        //tabList.remove(0);
-        tabList.add(new MainTabViewTab(false, true, "New Tab", true));
-
-        context.update("mainTabViewForm:mainTabView:testTabView");
-        context.execute("testTabVar.select(" + (tabList.size() - 1) + ");");
-
-    }
+    }   
 
     public StreamedContent getServiceContractStreamContent() {
         EntityManager em = null;

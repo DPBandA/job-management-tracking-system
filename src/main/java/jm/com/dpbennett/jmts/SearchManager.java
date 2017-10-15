@@ -367,12 +367,14 @@ public class SearchManager implements SearchManagement, Serializable {
                     jm.doJobSearch(getCurrentSearchParameters());
                     if (!jm.getUser().getJobManagementAndTrackingUnit()) {
                         jm.getUser().setJobManagementAndTrackingUnit(true);
-                        jm.getUser().save(getEntityManager1());
+                        jm.getUser().save(getEntityManager1());                        
+                        context.update("mainTabViewForm:mainTabView");
                         context.execute("mainTabViewVar.select(0);");
-                        context.update("mainTabViewForm");
-                    } else {
+                    } else {                        
+                        // tk this update does not seem to work with programmatically generated tabs
+                        //context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
+                        context.update("mainTabViewForm:mainTabView");
                         context.execute("mainTabViewVar.select(0);");
-                        context.update("mainTabViewForm:mainTabView:jobsDatabaseTable");
                     }
                 }
                 break;

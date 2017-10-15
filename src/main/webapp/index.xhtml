@@ -119,10 +119,21 @@
 
                 <h:form id="mainTabViewForm">
 
-                    <p:defaultCommand target=":mainTabViewForm:mainTabView:doNothingButton" />
+                    <p:commandButton
+                        id="doNothingButton"
+                        style="visibility: hidden;"
+                        global="false"                                        
+                        value=""                                       
+                        title="This is the default button that accepts the enter key press"                                       
+                        process="@this"/> 
+
+                    <p:defaultCommand target=":mainTabViewForm:doNothingButton" />
 
                     <p:tabView id="mainTabView"                               
-                               dynamic="false"
+                               dynamic="true"
+                               value="#{jobManager.mainTabView.tabs}" 
+                               var="tab" 
+                               onTabShow="longProcessDialogVar.hide();"
                                widgetVar="mainTabViewVar">
 
                         <p:ajax event="tabChange"                                
@@ -134,32 +145,45 @@
                                 oncomplete="mainTabViewVar.select(0);"
                                 listener="#{jobManager.onMainViewTabClose}" />  
 
-                        <p:tab id="jobsTab"
-                               closable="true"
-                               title="#{jobManager.user.jobTableViewPreference}"
-                               rendered="#{jobManager.user.jobManagementAndTrackingUnit}" >
-                            <ui:include src="jmts/jobsTab.xhtml"/> 
-                        </p:tab>         
-
-                        <p:tab id="jobDetailTab" 
-                               title="Job Detail"
-                               rendered="#{jobManager.renderJobDetailTab}"
-                               closable="true">
-                            <ui:include src="jmts/jobDetail.xhtml"/>  
+                        <p:tab title="#{tab.name}" closable="true">
+                            <h:panelGroup rendered="#{tab.renderJobsTab}">                                
+                                <ui:include src="jmts/jobsTab.xhtml" />   
+                            </h:panelGroup>
+                            <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
+                                <ui:include src="admin/financialAdminTab.xhtml" /> 
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{tab.renderAdminTab}" >
+                                <ui:include src="admin/generalAdminTab.xhtml" /> 
+                            </h:panelGroup>
                         </p:tab>
 
-                        <p:tab id="financialAdminTab" title="Financial Administration"
-                               closable="true" 
-                               rendered="#{jobManager.user.financialAdminUnit}">  
-                            <ui:include src="admin/financialAdminTab.xhtml"/> 
-                        </p:tab>
+                        <ui:remove>
+                            <p:tab id="jobsTab"
+                                   closable="true"
+                                   title="#{jobManager.user.jobTableViewPreference}"
+                                   rendered="#{jobManager.user.jobManagementAndTrackingUnit}" >
+                                <ui:include src="jmts/jobsTab.xhtml"/> 
+                            </p:tab>         
 
-                        <p:tab id="adminTab" title="System Administration"
-                               closable="true" 
-                               rendered="#{jobManager.user.adminUnit}">  
-                            <ui:include src="admin/generalAdminTab.xhtml"/> 
-                        </p:tab>
+                            <p:tab id="jobDetailTab" 
+                                   title="Job Detail"
+                                   rendered="#{jobManager.renderJobDetailTab}"
+                                   closable="true">
+                                <ui:include src="jmts/jobDetail.xhtml"/>  
+                            </p:tab>
 
+                            <p:tab id="financialAdminTab" title="Financial Administration"
+                                   closable="true" 
+                                   rendered="#{jobManager.user.financialAdminUnit}">  
+                                <ui:include src="admin/financialAdminTab.xhtml"/> 
+                            </p:tab>
+
+                            <p:tab id="adminTab" title="System Administration"
+                                   closable="true" 
+                                   rendered="#{jobManager.user.adminUnit}">  
+                                <ui:include src="admin/generalAdminTab.xhtml"/> 
+                            </p:tab>
+                        </ui:remove>
                     </p:tabView>
                 </h:form>
             </p:layoutUnit>

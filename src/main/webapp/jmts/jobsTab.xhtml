@@ -13,8 +13,7 @@
                 actionListener="#{jobManager.createNewJob}"
                 global="true"
                 rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
-                onstart="longProcessDialogVar.show();"                
-                oncomplete="longProcessDialogVar.hide();"
+                onstart="longProcessDialogVar.show();" 
                 onerror="connectionErrorDialog.show();"
                 value="New"                                       
                 title="Create new job"
@@ -24,14 +23,6 @@
                 <p:resetInput target=":mainTabViewForm:mainTabView" />
 
             </p:commandButton>
-
-            <p:commandButton
-                id="doNothingButton"
-                style="visibility: hidden;"
-                global="false"                                        
-                value=""                                       
-                title="This is the default button that accepts the enter key press"                                       
-                process="@this"/>       
 
             <p:commandButton value="Approved"                                                    
                              ajax="true"

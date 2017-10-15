@@ -5,50 +5,92 @@
  */
 package jm.com.dpbennett.jmts.utils;
 
+import jm.com.dpbennett.business.entity.JobManagerUser;
+
 public class MainTabViewTab {
 
-    private Boolean showButton1;
-    private Boolean showButton2;
-    private String tabName;
-    private Boolean rendered;
+    private String id;
+    private String name;
+    private Boolean renderJobsTab;
+    private Boolean renderFinancialAdminTab;
+    private Boolean renderAdminTab;
+    private Boolean renderJobDetailTab;
+    private JobManagerUser user;
 
-    public MainTabViewTab(Boolean showButton1, Boolean showButton2, String tabName, Boolean rendered) {
-        this.showButton1 = showButton1;
-        this.showButton2 = showButton2;
-        this.tabName = tabName;
-        this.rendered = rendered;
+    public MainTabViewTab(
+            String id,
+            String name,
+            Boolean renderJobsTab,
+            Boolean renderJobDetailTab,
+            Boolean renderFinancialAdminTab,
+            Boolean renderAdminTab,
+            JobManagerUser user) {
+
+        this.id = id;
+        this.name = name;
+        this.user = user;
+        this.renderJobDetailTab = renderJobDetailTab;
+        this.renderJobsTab = renderJobsTab;
+        this.renderFinancialAdminTab = renderFinancialAdminTab;
+        this.renderAdminTab = renderAdminTab;
     }
 
-    public Boolean getRendered() {
-        return rendered;
+    public String getId() {
+        return id;
     }
 
-    public void setRendered(Boolean rendered) {
-        this.rendered = rendered;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public Boolean getShowButton1() {
-        return showButton1;
+    public String getName() {
+        return name;
     }
 
-    public void setShowButton1(Boolean showButton1) {
-        this.showButton1 = showButton1;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Boolean getShowButton2() {
-        return showButton2;
+    public Boolean getRenderJobsTab() {
+        return renderJobsTab;
     }
 
-    public void setShowButton2(Boolean showButton2) {
-        this.showButton2 = showButton2;
+    public void setRenderJobsTab(Boolean renderJobsTab) {
+        this.renderJobsTab = renderJobsTab;
     }
 
-    public String getTabName() {
-        return tabName;
+    public Boolean getRenderFinancialAdminTab() {
+        return renderFinancialAdminTab;
     }
 
-    public void setTabName(String tabName) {
-        this.tabName = tabName;
+    public void setRenderFinancialAdminTab(Boolean renderFinancialAdminTab) {
+        this.renderFinancialAdminTab = renderFinancialAdminTab;
+    }
+
+    public Boolean getRenderAdminTab() {
+        return renderAdminTab;
+    }
+
+    public void setRenderAdminTab(Boolean renderAdminTab) {
+        this.renderAdminTab = renderAdminTab;
+    }
+
+    public Boolean getRenderJobDetailTab() {
+        return renderJobDetailTab;
+    }
+
+    public void setRenderJobDetailTab(Boolean renderJobDetailTab) {
+        this.renderJobDetailTab = renderJobDetailTab;
+    }
+
+    
+
+    public JobManagerUser getUser() {
+        return user;
+    }
+
+    public void setUser(JobManagerUser user) {
+        this.user = user;
     }
 
 }

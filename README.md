@@ -14,11 +14,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Run longProcessDialogVar.show(); after tab or dialog is open.
-- Clean up database to facilitate better testing.
-- If the app subtitle is blank display the user's department for now.
 - Impl MainTabViewTab, MainTabView and dynamic tabs for mainTabView.
   Pass JM user to the MainTabView.
+- Change code that makes use of main tab view tab ids;
 - Replace dialog messages that have on "ok" button with growl messages.
 - Impl buttons for creating new jobs and generating reports.
 - Move ClientManager back to JMTS.
