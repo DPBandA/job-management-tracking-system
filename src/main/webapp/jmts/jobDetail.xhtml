@@ -32,7 +32,7 @@
     <p:commandButton
         value="Subcontract..."
         actionListener="#{jobManager.subContractJob}"
-        update=":mainTabViewForm,:mainTabViewForm:mainTabView:growl2"
+        update=":mainTabViewForm:mainTabView:growl2"
         global="true"               
         onstart="longProcessDialogVar.show();"
         oncomplete="handleCreateJobCopy(xhr, status, args);longProcessDialogVar.hide();"

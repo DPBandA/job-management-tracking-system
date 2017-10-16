@@ -113,21 +113,11 @@
             <p:layoutUnit id="centreLayoutUnit"                           
                           position="center">
 
-                <h:form id="mainTabViewForm">
-
-                    <p:commandButton
-                        id="doNothingButton"
-                        style="visibility: hidden;"
-                        global="false"                                        
-                        value=""                                       
-                        title="This is the default button that accepts the enter key press"                                       
-                        process="@this"/> 
-
-                    <p:defaultCommand target=":mainTabViewForm:doNothingButton" />
+                <h:form id="mainTabViewForm">                    
 
                     <p:tabView id="mainTabView"                                                             
                                value="#{jobManager.mainTabView.tabs}" 
-                               var="tab" 
+                               var="tab"                                
                                onTabShow="longProcessDialogVar.hide();"
                                widgetVar="mainTabViewVar">
 
@@ -141,9 +131,9 @@
                                 process="@this"
                                 listener="#{jobManager.onMainViewTabClose}" />  
 
-                        <p:tab title="#{tab.name}" closable="true" >
+                        <p:tab title="#{tab.name}" closable="true"  >
                             <h:panelGroup rendered="#{tab.renderJobsTab}">                                
-                                <ui:include src="jmts/jobsTab.xhtml" />   
+                                <ui:include src="jmts/jobSearchTab.xhtml" />   
                             </h:panelGroup>
                             <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
                                 <ui:include src="admin/financialAdminTab.xhtml" /> 
@@ -157,6 +147,16 @@
                         </p:tab>
 
                     </p:tabView>
+                    
+                    <p:commandButton
+                        id="doNothingButton"
+                        style="visibility: hidden;"
+                        global="false"                                        
+                        value=""                                       
+                        title="This is the default button that accepts the enter key press"                                       
+                        process="@this"/> 
+
+                    <p:defaultCommand target=":mainTabViewForm:doNothingButton" />
                 </h:form>
             </p:layoutUnit>
 

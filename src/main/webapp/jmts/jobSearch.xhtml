@@ -9,7 +9,7 @@
 
         <h:outputText value="Search type: " />
         <p:selectOneMenu value="#{searchManager.currentSearchParameters.searchType}" 
-                         style="width: 146px" >
+                         style="width: 155px" >
             <p:ajax                        
                 listener="#{searchManager.updateSearchType}"
                 process="@this" />
@@ -20,7 +20,7 @@
                       rendered="#{searchManager.currentSearchParameters.showDateField}"/>
         <p:selectOneMenu value="#{searchManager.currentSearchParameters.dateField}" 
                          rendered="#{searchManager.currentSearchParameters.showDateField}" 
-                         style="width: 146px" >
+                         style="width: 155px" >
             <p:ajax                        
                 listener="#{searchManager.updateDateField}"
                 process="@this" />
@@ -30,7 +30,7 @@
         <h:outputText value="Date period: " rendered="#{searchManager.currentSearchParameters.showDateField}"/>               
         <p:selectOneMenu value= "#{searchManager.currentSearchParameters.datePeriod.name}" 
                          rendered="#{searchManager.currentSearchParameters.showDateField}"
-                         style="width: 146px" >
+                         style="width: 155px" >
             <p:ajax listener="#{searchManager.changeSearchDatePeriod}"
                     update="startSearchDate,endSearchDate"
                     process="@this" />
@@ -40,7 +40,7 @@
                       rendered="#{searchManager.currentSearchParameters.showDateField}" />
         <p:calendar id="startSearchDate"
                     value="#{searchManager.currentSearchParameters.datePeriod.startDate}"                    
-                    size="16"
+                    size="17"
                     navigator="true"
                     rendered="#{searchManager.currentSearchParameters.showDateField}"
                     disabled="#{searchManager.currentSearchParameters.datePeriod.startDateDisabled}"
@@ -56,7 +56,7 @@
         <p:calendar id="endSearchDate"
                     rendered="#{searchManager.currentSearchParameters.showDateField}"
                     value="#{searchManager.currentSearchParameters.datePeriod.endDate}"
-                    size="16"
+                    size="17"
                     navigator="true"
                     disabled="#{searchManager.currentSearchParameters.datePeriod.endDateDisabled}"
                     pattern="MMM dd, yyyy" >

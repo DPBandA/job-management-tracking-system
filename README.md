@@ -15,6 +15,7 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 ================================================================================
 ### Rebuild UI Functionality
 - Impl MainTabViewTab, MainTabView and dynamic tabs for mainTabView. 
+  * Fix creating subcontract...Call MainTabView.renderTab();
   * Test creating new job from dashboard?
   * Add user unit for Clients and use the current client dialog for the content.
 - Test logout make sure all main view tabs are removed and UI reset.
