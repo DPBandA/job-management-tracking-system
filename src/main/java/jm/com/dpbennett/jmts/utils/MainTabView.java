@@ -20,17 +20,37 @@ public class MainTabView implements Serializable {
     private MainTabViewTab financialAdminTab;
     private MainTabViewTab adminTab;
     private MainTabViewTab jobDetailTab;
+    private MainTabViewTab clientsTab;
 
     public MainTabView(JobManagerUser user) {
         this.user = user;
         tabs = new ArrayList<>();
+        tabIndex = 0;
     }
 
-    public void update() {
+    public void update(String componentId) {
         RequestContext context = RequestContext.getCurrentInstance();
 
-        context.update("mainTabViewForm:mainTabView");
-        context.update("dashboardForm:dashboardAccordion");
+        context.update(componentId);
+    }
+
+    public void update(String tabId, String componentId, String componentVar) {
+        RequestContext context = RequestContext.getCurrentInstance();
+        MainTabViewTab tab = findTab(tabId);
+
+        if (tab != null) {
+            context.update(componentId);
+            select(componentVar, true);
+        }
+    }
+
+    public void select(int tabIndex) {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        this.tabIndex = tabIndex;
+
+        context.execute("mainTabViewVar.select(" + tabIndex + ");");
+
     }
 
     public void select(Boolean wasTabAdded) {
@@ -40,6 +60,16 @@ public class MainTabView implements Serializable {
             context.execute("mainTabViewVar.select(" + tabIndex + ");");
         } else {
             context.execute("mainTabViewVar.select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
+        }
+    }
+
+    public void select(String componentVar, Boolean wasTabAdded) {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        if (wasTabAdded) {
+            context.execute(componentVar + ".select(" + tabIndex + ");");
+        } else {
+            context.execute(componentVar + ".select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
         }
     }
 
@@ -56,8 +86,21 @@ public class MainTabView implements Serializable {
         return null;
     }
 
-    public void renderTab(EntityManager em, String tabId, Boolean render) {
-        RequestContext context = RequestContext.getCurrentInstance();
+    public int getTabId(String tabId) {
+        if (findTab(tabId) != null) {
+            return tabIndex;
+        }
+
+        return -1;
+    }
+
+    public void renderTab(
+            EntityManager em,
+            String tabId,
+            Boolean render,
+            Boolean updateMainTabView,
+            Boolean updateDashboard) {
+
         MainTabViewTab tab = findTab(tabId);
 
         if (tab != null && !render) {
@@ -74,6 +117,9 @@ public class MainTabView implements Serializable {
                     break;
                 case "adminTab":
                     tab.setRenderAdminTab(em, render);
+                    break;
+                case "clientsTab":
+                    tab.setRenderClientsTab(render);
                     break;
                 default:
                     break;
@@ -102,15 +148,23 @@ public class MainTabView implements Serializable {
                     adminTab.setRenderAdminTab(em, render);
                     tabs.add(adminTab);
                     break;
+                case "clientsTab":
+                    clientsTab.setRenderClientsTab(render);
+                    tabs.add(clientsTab);
+                    break;
                 default:
                     break;
             }
         }
 
         // Update tabview and select the appropriate tab
-        update();
+        if (updateMainTabView) {
+            update("mainTabViewForm:mainTabView");
+        }
+        if (updateDashboard) {
+            update("dashboardForm:dashboardAccordion");
+        }
         select(render);
-
     }
 
     public void removeAllTabs() {
@@ -121,11 +175,13 @@ public class MainTabView implements Serializable {
         // Jobs tab
         jobsTab = new MainTabViewTab(
                 "jobsTab",
-                "Job Search",
+                "Jobs",
                 getUser().getJobManagementAndTrackingUnit(),
                 false,
                 false,
-                false, getUser());
+                false,
+                false,
+                getUser());
         // Financial admin tab
         financialAdminTab = new MainTabViewTab(
                 "financialAdminTab",
@@ -133,6 +189,7 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 getUser().getFinancialAdminUnit(),
+                false,
                 false,
                 getUser());
         // Admin tab
@@ -143,11 +200,23 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 getUser().getAdminUnit(),
+                false,
                 getUser());
         // Job detail tab
         jobDetailTab = new MainTabViewTab(
                 "jobDetailTab",
                 "Job Detail",
+                false,
+                false,
+                false,
+                false,
+                false,
+                getUser());
+        // Clients tab
+        clientsTab = new MainTabViewTab(
+                "clientsTab",
+                "Clients",
+                false,
                 false,
                 false,
                 false,

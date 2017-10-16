@@ -41,10 +41,13 @@ public class ClientManager implements Serializable, ClientManagement {
     private Boolean isToBeSaved;
     private Boolean isClientNameAndIdEditable;
     private Client currentClient;
+    private Client selectedClient;
     private Contact currentContact;
     private Address currentAddress;
     private ClientOwner clientOwner;
     private JobManagerUser user;
+    private String searchText;
+    private List<Client> foundClients;
 
     /**
      * Creates a new instance of ClientForm
@@ -55,6 +58,31 @@ public class ClientManager implements Serializable, ClientManagement {
         isNewClient = false;
         isToBeSaved = true;
         isClientNameAndIdEditable = false;
+        foundClients = new ArrayList<>();
+    }
+
+    public List<Client> getFoundClients() {
+        return foundClients;
+    }
+
+    public void setFoundClients(List<Client> foundClients) {
+        this.foundClients = foundClients;
+    }
+
+    public Client getSelectedClient() {
+        return selectedClient;
+    }
+
+    public void setSelectedClient(Client selectedClient) {
+        this.selectedClient = selectedClient;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
     }
 
     public Boolean getIsNewClient() {
@@ -147,6 +175,11 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void editClient() {
+        setIsToBeSaved(true);
+    }
+    
+    public void editSelectedClient() {
+        
         setIsToBeSaved(true);
     }
 

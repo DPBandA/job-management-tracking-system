@@ -365,13 +365,13 @@ public class SearchManager implements SearchManagement, Serializable {
                 JobManager jm = Application.findBean("jobManager");
                 if (jm != null) {
                     jm.doJobSearch(getCurrentSearchParameters());
-                    jm.getMainTabView().renderTab(getEntityManager1(), "jobsTab", true);
+                    jm.getMainTabView().renderTab(getEntityManager1(), "jobsTab", true, true, false);
                 }
                 break;
             case "Service Request Search":
                 ServiceManager sm = Application.findBean("serviceManager");
                 if (sm != null) {
-                   addMessage("Sorry!", "Service Request Search not yet implemented.");
+                    addMessage("Sorry!", "Service Request Search not yet implemented.");
                 }
                 break;
             case "Admin Search":

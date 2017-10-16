@@ -70,15 +70,13 @@
                             oncomplete="accPacClientInformationDialog.show();longProcessDialogVar.hide();"
                             onerror="connectionErrorDialog.show();"
                             process="@this"/>                
-                <ui:remove>
-                    <p:menuitem value="Client database"
-                                onstart="longProcessDialogVar.show();"                                                    
-                                actionListener="#{jobManager.openClientDatabaseDialog}"
 
-                                oncomplete="longProcessDialogVar.hide();"
-                                process="@this"
-                                title="Client database form"/>
-                </ui:remove>
+                <p:menuitem value="Client search"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            actionListener="#{jobManager.openClientsTab}"
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this"/>
+
             </p:menuButton>                                    
 
         </p:toolbarGroup>

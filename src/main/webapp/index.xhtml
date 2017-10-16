@@ -64,12 +64,18 @@
 
                         </h:panelGrid>
                         <p:menuButton value="#{jobManager.user.employee.firstName} #{jobManager.user.employee.lastName}"     
+                                      iconPos="left"
                                       style="float: right;" >
 
                             <p:menuitem actionListener="#{jobManager.openJobsTab}"
                                         onstart="longProcessDialogVar.show();"                                        
                                         oncomplete="longProcessDialogVar.hide();"                                            
-                                        value="Job Search"
+                                        value="Jobs"
+                                        process="@this"/>
+                            <p:menuitem value="Clients"
+                                        onstart="longProcessDialogVar.show();"                                                    
+                                        actionListener="#{jobManager.openClientsTab}"
+                                        oncomplete="longProcessDialogVar.hide();"
                                         process="@this"/>
                             <p:separator /> 
                             <p:menuitem actionListener="#{jobManager.openSystemAdministrationTab}"
@@ -133,7 +139,7 @@
 
                         <p:tab title="#{tab.name}" closable="true"  >
                             <h:panelGroup rendered="#{tab.renderJobsTab}">                                
-                                <ui:include src="jmts/jobSearchTab.xhtml" />   
+                                <ui:include src="jmts/jobsTab.xhtml" />   
                             </h:panelGroup>
                             <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
                                 <ui:include src="admin/financialAdminTab.xhtml" /> 
@@ -144,10 +150,13 @@
                             <h:panelGroup rendered="#{tab.renderJobDetailTab}" >
                                 <ui:include src="jmts/jobDetail.xhtml"/> 
                             </h:panelGroup>
+                            <h:panelGroup rendered="#{tab.renderClientsTab}" >
+                                <ui:include src="client/clientsTab.xhtml" />                                                                
+                            </h:panelGroup>
                         </p:tab>
 
                     </p:tabView>
-                    
+
                     <p:commandButton
                         id="doNothingButton"
                         style="visibility: hidden;"
@@ -170,32 +179,59 @@
                 collapsible="true">   
                 <h:form id="dashboardForm" > 
                     <p:accordionPanel id="dashboardAccordion" 
-                                      activeIndex="0" 
-                                      multiple="true">
-                        <p:tab title="Jobs" >
-                            <ui:include src="jmts/jobSearch.xhtml"/>
-                            <h:panelGrid columns="2">
-                                <p:commandButton
-                                    actionListener="#{jobManager.testDynaTab}"
-                                    global="true"                  
-                                    value="New"                                       
-                                    title="Create new job"
-                                    icon="ui-icon-plusthick"
-                                    process="@this">  
+                                      value="#{jobManager.mainTabView.tabs}" 
+                                      var="tab" 
+                                      widgetVar="dashboardAccordionVar"
+                                      activeIndex="#{jobManager.mainTabView.tabIndex}" 
+                                      multiple="false">
 
-                                </p:commandButton>
-                                <p:commandButton value="Reports" icon="ui-icon-newwin" rendered="false"/>
+                        <p:ajax event="tabChange"       
+                                immediate="true"
+                                process="@this"
+                                listener="#{jobManager.onDashboardTabChange}" />
 
-                            </h:panelGrid>
-                        </p:tab>  
-                        <p:tab title="System Administration"                                
-                               rendered="#{jobManager.user.adminUnit}">
-                            Content                     
-                        </p:tab>
-                        <p:tab title="Financial Administration" 
-                               rendered="#{jobManager.user.financialAdminUnit}">
-                            Content                     
-                        </p:tab>
+                        <p:tab title="#{tab.name}" >
+                            <h:panelGroup rendered="#{tab.renderJobsTab}">                                
+                                <ui:include src="jmts/jobSearch.xhtml"/>
+                                <h:panelGrid columns="3">
+                                    <p:commandButton
+                                        id="createNewJobButton"
+                                        actionListener="#{jobManager.createNewJob}"
+                                        global="true"                                        
+                                        onstart="longProcessDialogVar.show();" 
+                                        onerror="connectionErrorDialog.show();"
+                                        value="New"                                       
+                                        title="Create new job"
+                                        icon="ui-icon-plusthick"
+                                        process="@this">  
+
+                                        <p:resetInput target=":mainTabViewForm:mainTabView" />
+
+                                    </p:commandButton>
+
+                                    <p:commandButton
+                                        value="Reports"
+                                        actionListener="#{jobManager.initJobReport}"
+                                        onstart="longProcessDialogVar.show();"
+                                        update=":reportingDialogForm"                                        
+                                        oncomplete="reportingDialog.show();"
+                                        onerror="connectionErrorDialog.show();"
+                                        title="Generate, view and export reports"
+                                        icon="ui-icon-newwin"
+                                        process="@this"/>
+
+                                </h:panelGrid>   
+                            </h:panelGroup>
+                            <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
+                                Content 
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{tab.renderAdminTab}" >
+                                Content
+                            </h:panelGroup>      
+                            <h:panelGroup rendered="#{tab.renderClientsTab}" >
+
+                            </h:panelGroup>
+                        </p:tab>                       
                     </p:accordionPanel>                    
                 </h:form>
 

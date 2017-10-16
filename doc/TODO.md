@@ -11,34 +11,15 @@
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Impl MainTabViewTab, MainTabView and dynamic tabs for mainTabView. 
-  * Fix creating subcontract...Call MainTabView.renderTab();
-  * Test creating new job from dashboard?
-  * Add user unit for Clients and use the current client dialog for the content.
-- Test logout make sure all main view tabs are removed and UI reset.
-- Change code that makes use of main tab view tab ids;
-- Replace dialog messages that have on "ok" button with growl messages.
-- Impl buttons for creating new jobs and generating reports.
-- Move ClientManager back to JMTS.
+- Impl Clients as tab and use the current client dialog for the content.
 - Implement generating service contact form
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
   do not affect the job record.
-- The select/add billing dialog sometimes reject the selected address. Check why.
-- Check that client credit status dialog still works
-- Fix client database dialog.
-- Make sure buttons at both top and bottom of dialogs are identical.
-- Move addMessage("Success", "Job was saved!"); to each "if" statement in 
-  saveCurrentJob().
-- Use parentJob to link contracts with parent jobs and use it to pull 
-  in subcontracts costs?
-- Enter long text such as addresline1 and see howthe UI reacts.
-- Test with normal user (kmiller)
-- Update job search table when client dialog is closed?
-- Make TRN mandatory? Put system option to validate?
-- Hide billing address display if client is not valid.
-- Impl. clients dialog.
+- Put some buttons in the job detail tab in case it is rendered by the dashboard.
 - Delete blank users, dept and employee etc. from database.
+- Test and fix up repot dialog if needed.
+- Foramt the search button and text for tabs as is done with the employees tab.
 ### Immediate Issues
 - Impl validating the creation of new clients...do not allow creating of client
   that already exist.
@@ -135,8 +116,16 @@ by other apps?
 - Put sys option that controls the changing auto job number generation. Make it
   unchangeable by default.
 
+### Testing on Test and Live versions
+- Check that client credit status dialog still works
+- Test with normal user (kmiller)
+
 ### System Design
 #### Design
+- Use parentJob to link contracts with parent jobs and use it to pull 
+  in subcontracts costs?
+- Rename JobManager user to UserProfile.
+- Add Organization to UserProfile.
 - Put text box in jobsTab to allow quick filter of search results.
 - Impl. ReportManager and put reporting in own tab.
 - Refactor and rename static methods from findEntityName*() to just find*() where
@@ -145,6 +134,7 @@ by other apps?
 - Limit the maximum characters to be entered into a text field to 50. Put this
   value in the BEL resource bundle which can be changed. Allow various maximums
   for different types of fields.
+- Replace dialog messages that have on "ok" button with growl messages.
 - Make all sensitive fields, especially those on the General tab unchangeable
   except by system admin after a job has been saved. Use field groups with 
   input and output fields as is done with the job number. 
@@ -152,6 +142,7 @@ by other apps?
 - Check if new clients can be created even without privilege.
 - Implement "isdirty" for client, contact, address and do shallow copy when they
   change?
+- Samples table not updated after adding sample.
 - For job search let My Department job be the defaut.
 - Test out creating a new default client. Clean up client search and ensure 
   consistency when doing search with ignoring case and part of client being searched.
@@ -226,6 +217,12 @@ by other apps?
 - Upgrade to Primefaces 6.x
 - Use <link rel="shortcut icon" type="image/x-png" href="images/favicon.png" /> 
   to add favicon when one is designed.
+- NB: JobManagerUser represents a user profile that has an organization, 
+  department, employee and privileges assigned. Departments also have privileges
+  and the user privileges along with the user privileges are used to determine
+  the effective privileges of the user.
+- Add department to user dialog.
+- Make TRN mandatory? Put system option to validate?
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

@@ -4,20 +4,22 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <p:commandButton title="Add new employee"                                  
-                     value="New"
-                     actionListener="#{systemManager.createNewEmployee}"
-                     onstart="longProcessDialogVar.show();"
-                     oncomplete="longProcessDialogVar.hide();"
-                     onerror="connectionErrorDialog.show();"
-                     global="true"
-                     process="@this"
-                     icon="ui-icon ui-icon-plus"/>
-    <hr/>
-    <p:outputPanel>                                
+    <h:panelGrid columns="3">
+        <p:commandButton title="Add new employee"                                  
+                         value="New"
+                         actionListener="#{systemManager.createNewEmployee}"
+                         onstart="longProcessDialogVar.show();"
+                         oncomplete="longProcessDialogVar.hide();"
+                         onerror="connectionErrorDialog.show();"
+                         global="true"
+                         process="@this"
+                         icon="ui-icon ui-icon-plus"/>
+
+        <p:spacer width="20" />
         <p:inputText id="employeeSearchText" 
                      value="#{systemManager.employeeSearchText}"
-                     style="width:150px" placeholder="Enter any part of name">
+                     style="width:200px" 
+                     placeholder="Enter search text">
             <p:ajax event="keyup"
                     global="false"
                     onstart="longProcessDialogVar.show();" 
@@ -26,8 +28,8 @@
                     listener="#{systemManager.doEmployeeSearch}"
                     process="@this"/>
         </p:inputText>
-
-    </p:outputPanel>
+        
+    </h:panelGrid>
     <hr/>
     <p:dataTable id="employeesTable"                                       
                  var="employee"                                        
