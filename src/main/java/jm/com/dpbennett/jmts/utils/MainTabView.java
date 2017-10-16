@@ -33,13 +33,13 @@ public class MainTabView implements Serializable {
         context.update("dashboardForm:dashboardAccordion");
     }
 
-    public void select(Boolean isTabAdded) {
+    public void select(Boolean wasTabAdded) {
         RequestContext context = RequestContext.getCurrentInstance();
 
-        if (isTabAdded) {
+        if (wasTabAdded) {
             context.execute("mainTabViewVar.select(" + tabIndex + ");");
         } else {
-            context.execute("mainTabViewVar.select(" + (tabIndex - 1) + ");");
+            context.execute("mainTabViewVar.select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
         }
     }
 

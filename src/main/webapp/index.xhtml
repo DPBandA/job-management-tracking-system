@@ -14,8 +14,7 @@
         <meta http-equiv="pragma" content="no-cache" />
         <title>#{jobManager.applicationHeader}</title>        
         <script type="text/javascript" src="js/jmtsJavascript.js" />      
-        <script type="text/javascript" src="js/commonJavascript.js" />     
-        <link rel="shortcut icon" type="image/x-png" href="images/favicon.png" />
+        <script type="text/javascript" src="js/commonJavascript.js" />   
         <link rel="stylesheet" href="css/index.css" />
     </h:head>
     <h:body onload="checkWhichBrowser();
@@ -134,10 +133,12 @@
 
                         <p:ajax event="tabChange"       
                                 immediate="true"
+                                process="@this"
                                 listener="#{jobManager.onMainViewTabChange}" />
 
                         <p:ajax event="tabClose"    
                                 immediate="true"
+                                process="@this"
                                 listener="#{jobManager.onMainViewTabClose}" />  
 
                         <p:tab title="#{tab.name}" closable="true" >
@@ -168,7 +169,9 @@
                 collapsed="#{jobManager.westLayoutUnitCollapsed}"
                 collapsible="true">   
                 <h:form id="dashboardForm" > 
-                    <p:accordionPanel id="dashboardAccordion" activeIndex="0" multiple="true">
+                    <p:accordionPanel id="dashboardAccordion" 
+                                      activeIndex="0" 
+                                      multiple="true">
                         <p:tab title="Jobs" >
                             <ui:include src="jmts/jobSearch.xhtml"/>
                             <h:panelGrid columns="2">

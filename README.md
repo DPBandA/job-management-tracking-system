@@ -14,9 +14,9 @@ The JMTS is an enterprise software that facilitates the management and tracking 
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Impl MainTabViewTab, MainTabView and dynamic tabs for mainTabView.
+- Impl MainTabViewTab, MainTabView and dynamic tabs for mainTabView. 
   * Test creating new job from dashboard?
-  * Add user unit for Clients.
+  * Add user unit for Clients and use the current client dialog for the content.
 - Test logout make sure all main view tabs are removed and UI reset.
 - Change code that makes use of main tab view tab ids;
 - Replace dialog messages that have on "ok" button with growl messages.
@@ -226,7 +226,8 @@ by other apps?
 - Try to put all styles as styleClass and put into index.css
 - Print service contract for only external client jobs??
 - Upgrade to Primefaces 6.x
-
+- Use <link rel="shortcut icon" type="image/x-png" href="images/favicon.png" /> 
+  to add favicon when one is designed.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
