@@ -127,11 +127,6 @@
                                onTabShow="longProcessDialogVar.hide();"
                                widgetVar="mainTabViewVar">
 
-                        <p:ajax event="tabChange"       
-                                immediate="true"
-                                process="@this"
-                                listener="#{jobManager.onMainViewTabChange}" />
-
                         <p:ajax event="tabClose" 
                                 immediate="true"
                                 process="@this"

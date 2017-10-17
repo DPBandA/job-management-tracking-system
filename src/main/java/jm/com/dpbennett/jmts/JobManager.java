@@ -842,23 +842,23 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void onMainViewTabClose(TabCloseEvent event) {
 
-        String tabId = ((MainTab) event.getData()).getId();
-        int tabIndex = mainTabView.getTabIndex(tabId);
+        String tabId = ((MainTab) event.getData()).getId();        
         mainTabView.renderTab(getEntityManager1(), tabId, false);
-        
+
         // Select the jobs tab if the job detail tab was closed
         if (tabId.equals("jobDetailTab")) {
             MainTab tab = mainTabView.findTab("jobsTab");
             if (tab != null) {
-               mainTabView.select("mainTabViewVar", mainTabView.getTabIndex());   
+                mainTabView.select("mainTabViewVar", mainTabView.getTabIndex());
             }
-        } 
-    }
-
-    public void onMainViewTabChange(TabChangeEvent event) {
+        }
     }
 
     public void onDashboardTabChange(TabChangeEvent event) {
+        
+        String tabId = ((DashboardTab) event.getData()).getId();    
+        mainTabView.renderTab(getEntityManager1(), tabId, true);
+
     }
 
     public void updateDashboard(String tabId) {
@@ -953,14 +953,17 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void openJobsTab() {
         dashboard.renderTab(getEntityManager1(), "jobsTab", true);
+        mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
     }
 
     public void openSystemAdministrationTab() {
         dashboard.renderTab(getEntityManager1(), "adminTab", true);
+        mainTabView.renderTab(getEntityManager1(), "adminTab", true);
     }
 
     public void openFinancialAdministrationTab() {
         dashboard.renderTab(getEntityManager1(), "financialAdminTab", true);
+        mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
     }
 
     public String getJobsTabTitle() {
@@ -8309,7 +8312,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void openClientsTab() {
-        mainTabView.renderTab(getEntityManager1(), "clientsTab", true);
+        clientManager.setUser(user);
+        mainTabView.renderTab(getEntityManager1(), "clientsTab", true);        
     }
 
     public Department getDepartmentBySystemOptionDeptId(String option) {

@@ -11,27 +11,17 @@
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
-- Rename to Dashboard and DashboardAccordionTab. Copy and modify MainTabView 
-  MainTabViewTab to not interact with user privileges but just control the 
-  visibility of the tabs. Both the accordion and the tab view would be initialized identically.
-  When a dashboard tab is selected, the corresponding tab in main tab view should
-  be found and selected.
-- Do do not refresh when client tab is added as is done with job detail tab.
 - Impl Clients as tab and use the current client dialog for the content.
+- Put active checkbox in client dialog. Deactivate for persons who don't have the
+  privilege.
 - Implement generating service contact form
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
   do not affect the job record.
-- Put some buttons in the job detail tab in case it is rendered by the dashboard.
 - Delete blank users, dept and employee etc. from database.
 - Test and fix up repot dialog if needed.
 - Foramt the search button and text for tabs as is done with the employees tab.
 ### Immediate Issues
-- Impl validating the creation of new clients...do not allow creating of client
-  that already exist.
-- Impl. rendering job detail panel in response to job open and close.
-- Impl. job dialog as tab to see if it fixes the issue where the client is 
-  not being updated when the client dialog is "oked". Try with simple client form first.
 - The client owner should be set to the client manager's client when the client 
   is "oked". 
   Impl. handling of saving and closing client dialog. 

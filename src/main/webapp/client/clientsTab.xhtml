@@ -10,7 +10,7 @@
         <p:commandButton value="New"
                          icon="ui-icon-plus"
                          onstart="longProcessDialogVar.show();"
-                         rendered="#{user.privilege.canAddClient}"
+                         rendered="#{clientManager.user.privilege.canAddClient}"
                          actionListener="#{clientManager.createNewClient}"
 
                          oncomplete="longProcessDialogVar.hide();"
@@ -20,7 +20,15 @@
         <p:inputText id="clientSearchText" 
                      placeholder="Enter search text"
                      style="width:200px" 
-                     value="#{clientManager.searchText}" />
+                     value="#{clientManager.searchText}" >
+
+            <p:ajax event="keyup"                            
+                    global="false"
+                     update=":mainTabViewForm:mainTabView:clientsTable"
+                    listener="#{clientManager.doClientSearch}"
+                    process="@this"/>
+
+        </p:inputText>
     </h:panelGrid>
 
 

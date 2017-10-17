@@ -60,6 +60,14 @@ public class ClientManager implements Serializable, ClientManagement {
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
     }
+    
+    public void doClientSearch() {
+        if (searchText.trim().length() > 1) {
+            foundClients = Client.findActiveClientsByAnyPartOfName(getEntityManager(), searchText);
+        } else {
+            foundClients = new ArrayList<>();            
+        }
+}
 
     public List<Client> getFoundClients() {
         return foundClients;
