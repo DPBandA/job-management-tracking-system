@@ -365,7 +365,9 @@ public class SearchManager implements SearchManagement, Serializable {
                 JobManager jm = Application.findBean("jobManager");
                 if (jm != null) {
                     jm.doJobSearch(getCurrentSearchParameters());
-                    jm.getMainTabView().renderTab(getEntityManager1(), "jobsTab", true, true, false);
+                    jm.getMainTabView().renderTab(getEntityManager1(), "jobsTab", true);
+                    jm.getMainTabView().update("mainTabViewForm:mainTabView");
+                    jm.getMainTabView().select( jm.getMainTabView().getTabIndex("jobsTab"));
                 }
                 break;
             case "Service Request Search":

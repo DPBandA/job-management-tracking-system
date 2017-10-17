@@ -11,6 +11,12 @@
 - Add: System options applicationHeading and applicationSubheading
 ================================================================================
 ### Rebuild UI Functionality
+- Rename to Dashboard and DashboardAccordionTab. Copy and modify MainTabView 
+  MainTabViewTab to not interact with user privileges but just control the 
+  visibility of the tabs. Both the accordion and the tab view would be initialized identically.
+  When a dashboard tab is selected, the corresponding tab in main tab view should
+  be found and selected.
+- Do do not refresh when client tab is added as is done with job detail tab.
 - Impl Clients as tab and use the current client dialog for the content.
 - Implement generating service contact form
 - Do shallow copy of client, billing address and contact before saving job to 

@@ -132,7 +132,7 @@
                                 process="@this"
                                 listener="#{jobManager.onMainViewTabChange}" />
 
-                        <p:ajax event="tabClose"    
+                        <p:ajax event="tabClose" 
                                 immediate="true"
                                 process="@this"
                                 listener="#{jobManager.onMainViewTabClose}" />  
@@ -154,7 +154,6 @@
                                 <ui:include src="client/clientsTab.xhtml" />                                                                
                             </h:panelGroup>
                         </p:tab>
-
                     </p:tabView>
 
                     <p:commandButton
@@ -179,11 +178,11 @@
                 collapsible="true">   
                 <h:form id="dashboardForm" > 
                     <p:accordionPanel id="dashboardAccordion" 
-                                      value="#{jobManager.mainTabView.tabs}" 
+                                      value="#{jobManager.dashboard.tabs}" 
                                       var="tab" 
                                       widgetVar="dashboardAccordionVar"
-                                      activeIndex="#{jobManager.mainTabView.tabIndex}" 
-                                      multiple="false">
+                                      
+                                      multiple="true">
 
                         <p:ajax event="tabChange"       
                                 immediate="true"
@@ -223,14 +222,11 @@
                                 </h:panelGrid>   
                             </h:panelGroup>
                             <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
-                                Content 
+                                NB: For testing...remove before next deploy 
                             </h:panelGroup>
                             <h:panelGroup rendered="#{tab.renderAdminTab}" >
-                                Content
-                            </h:panelGroup>      
-                            <h:panelGroup rendered="#{tab.renderClientsTab}" >
-
-                            </h:panelGroup>
+                                NB: For testing...remove before next deploy
+                            </h:panelGroup>                                  
                         </p:tab>                       
                     </p:accordionPanel>                    
                 </h:form>

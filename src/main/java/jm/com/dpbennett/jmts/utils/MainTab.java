@@ -8,7 +8,7 @@ package jm.com.dpbennett.jmts.utils;
 import javax.persistence.EntityManager;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 
-public class MainTabViewTab {
+public class MainTab {
 
     private String id;
     private String name;
@@ -19,7 +19,7 @@ public class MainTabViewTab {
     private Boolean renderClientsTab;
     private JobManagerUser user;
 
-    public MainTabViewTab(
+    public MainTab(
             String id,
             String name,
             Boolean renderJobsTab,
@@ -69,8 +69,8 @@ public class MainTabViewTab {
 
     public void setRenderJobsTab(EntityManager em, Boolean render) {
         this.renderJobsTab = render;
-        user.setJobManagementAndTrackingUnit(renderJobsTab);
-        user.save(em);       
+        //user.setJobManagementAndTrackingUnit(renderJobsTab);
+        //user.save(em);       
     }
 
     public Boolean getRenderFinancialAdminTab() {
@@ -79,8 +79,8 @@ public class MainTabViewTab {
 
     public void setRenderFinancialAdminTab(EntityManager em, Boolean render) {
         this.renderFinancialAdminTab = render;
-        user.setFinancialAdminUnit(renderFinancialAdminTab);
-        user.save(em);
+        //user.setFinancialAdminUnit(renderFinancialAdminTab);
+        //user.save(em);
     }
 
     public Boolean getRenderAdminTab() {
@@ -89,8 +89,8 @@ public class MainTabViewTab {
 
     public void setRenderAdminTab(EntityManager em, Boolean render) {
         this.renderAdminTab = render;
-        user.setAdminUnit(renderAdminTab);
-        user.save(em);
+        //user.setAdminUnit(renderAdminTab);
+        //user.save(em);
     }
 
     public Boolean getRenderJobDetailTab() {
