@@ -1,7 +1,26 @@
+/*
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+ */
 package jm.com.dpbennett.jmts;
 
-import jm.com.dpbennett.jmts.utils.DataItem;
-import jm.com.dpbennett.jmts.utils.SortableSelectItem;
+import jm.com.dpbennett.business.entity.utils.DataItem;
+import jm.com.dpbennett.business.entity.utils.SortableSelectItem;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,7 +95,6 @@ public class Application {
 //
 //        return null;
 //    }
-
     public Map<String, String> getThemes() {
         return themes;
     }
@@ -150,7 +168,8 @@ public class Application {
 
     /**
      * NB: Payment types to be put in database not hard coded.
-     * @return 
+     *
+     * @return
      */
     public List getPaymentTypes() {
         ArrayList paymentTypes = new ArrayList();
@@ -374,12 +393,11 @@ public class Application {
 //
 //        return countriesList;
 //    }
-    
-     public List<Country> getCountries() {
+    public List<Country> getCountries() {
         EntityManager em = getEntityManager1();
-       
+
         List<Country> countries = Country.findAllCountries(em);
-        
+
         return countries;
     }
 
@@ -629,7 +647,6 @@ public class Application {
         return serviceContract;
     }
 
-  
     public static List<SelectItem> getStringListAsSelectItems(EntityManager em,
             String systemOption/*, 
              String itemSeparator*/) {

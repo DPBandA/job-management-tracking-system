@@ -12,6 +12,7 @@
 ================================================================================
 ### Rebuild UI Functionality
 - Impl Clients as tab and use the current client dialog for the content.
+  * Impl editing client...see code in bsjdb.
 - Put active checkbox in client dialog. Deactivate for persons who don't have the
   privilege.
 - Implement generating service contact form
