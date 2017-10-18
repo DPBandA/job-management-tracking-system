@@ -12,16 +12,20 @@
 ================================================================================
 ### Rebuild UI Functionality
 - Impl Clients as tab and use the current client dialog for the content.
-  * Impl editing client...see code in bsjdb.
-- Put active checkbox in client dialog. Deactivate for persons who don't have the
+  * Impl creating client...see jobs general code.
+  * When adding a new address or contact, search for an existing address or contact
+    that is blank and use it as the new address or contact.
+  * Put active checkbox in client dialog. Deactivate for persons who don't have the
   privilege.
-- Implement generating service contact form
+  * In Client.save() validate all new contacts and addresses before saving.
+- Implement generating service contact form.
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
   do not affect the job record.
 - Delete blank users, dept and employee etc. from database.
 - Test and fix up repot dialog if needed.
-- Foramt the search button and text for tabs as is done with the employees tab.
+- Format the search button and text for tabs as is done with the employees tab.
+
 ### Immediate Issues
 - The client owner should be set to the client manager's client when the client 
   is "oked". 
@@ -119,6 +123,8 @@ by other apps?
 
 ### System Design
 #### Design
+- Use a toolbar at the top of search results on all tabs with search text box,
+  buttons and search result table as is done with the jobs tab.
 - Use parentJob to link contracts with parent jobs and use it to pull 
   in subcontracts costs?
 - Rename JobManager user to UserProfile.
@@ -148,6 +154,7 @@ by other apps?
   as defined in index.html.
 - Modify updateEntity methods to not find the entity by name cause that's already
   done by the respective converters.
+- Fix the use status displayed to show who is logged into the system.
 - Create separate login page instead of using login dialog?
 - Remove client dialog and put as closable tab.
 - Show control panel when a tab is open of this is applicable.

@@ -8328,7 +8328,9 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void openClientsTab() {
-        clientManager.setUser(user);
+        clientManager.setUser(user);        
+        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        
         mainTabView.renderTab(getEntityManager1(), "clientsTab", true);        
     }
 

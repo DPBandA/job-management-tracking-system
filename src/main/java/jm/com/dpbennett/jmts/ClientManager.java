@@ -17,13 +17,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
  */
-
 package jm.com.dpbennett.jmts;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
@@ -57,7 +58,6 @@ public class ClientManager implements Serializable, ClientManagement {
     private Boolean isToBeSaved;
     private Boolean isClientNameAndIdEditable;
     private Client currentClient;
-    private Client selectedClient;
     private Contact currentContact;
     private Address currentAddress;
     private ClientOwner clientOwner;
@@ -76,14 +76,14 @@ public class ClientManager implements Serializable, ClientManagement {
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
     }
-    
+
     public void doClientSearch() {
         if (searchText.trim().length() > 1) {
             foundClients = Client.findActiveClientsByAnyPartOfName(getEntityManager(), searchText);
         } else {
-            foundClients = new ArrayList<>();            
+            foundClients = new ArrayList<>();
         }
-}
+    }
 
     public List<Client> getFoundClients() {
         return foundClients;
@@ -91,14 +91,6 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public void setFoundClients(List<Client> foundClients) {
         this.foundClients = foundClients;
-    }
-
-    public Client getSelectedClient() {
-        return selectedClient;
-    }
-
-    public void setSelectedClient(Client selectedClient) {
-        this.selectedClient = selectedClient;
     }
 
     public String getSearchText() {
@@ -173,7 +165,7 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public Address getCurrentAddress() {
         if (currentAddress == null) {
-            return new Address();
+            currentAddress = getCurrentClient().getBillingAddress();
         }
         return currentAddress;
     }
@@ -201,10 +193,32 @@ public class ClientManager implements Serializable, ClientManagement {
     public void editClient() {
         setIsToBeSaved(true);
     }
-    
+
+    public void openDialog(Object entity,
+            String outcome,
+            Boolean modal,
+            Boolean draggable,
+            Boolean resizable,
+            Integer contentHeight,
+            Integer contentWidth) {
+
+        Map<String, Object> options = new HashMap<>();
+        options.put("modal", modal);
+        options.put("draggable", draggable);
+        options.put("resizable", resizable);
+        options.put("contentHeight", contentHeight);
+        options.put("contentWidth", contentWidth);
+
+        RequestContext.getCurrentInstance().openDialog(outcome, options, null);
+    }
+
     public void editSelectedClient() {
-        
+        setCurrentAddress(null);
+        setCurrentContact(null);
         setIsToBeSaved(true);
+        
+        openDialog(null, "clientDialog", true, true, true, 420, 650);
+       
     }
 
     public Boolean getIsToBeSaved() {
@@ -243,6 +257,16 @@ public class ClientManager implements Serializable, ClientManagement {
             currentClient.setEnteredBy(getUser().getEmployee());
         }
         isNewClient = true;
+    }
+
+    public void createNewClient() {
+        createNewClient(true);
+        setCurrentAddress(getCurrentClient().getBillingAddress());
+        setCurrentContact(getCurrentClient().getMainContact());
+        setIsToBeSaved(true);
+        setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+
+        openDialog(null, "clientDialog", true, true, true, 420, 650);
     }
 
     public Boolean getIsDirty() {
@@ -340,7 +364,7 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public Contact getCurrentContact() {
         if (currentContact == null) {
-            return new Contact();
+            currentContact = getCurrentClient().getMainContact();
         }
         return currentContact;
     }

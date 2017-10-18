@@ -6,16 +6,18 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <h:panelGrid columns="3">
-        <p:commandButton value="New"
-                         icon="ui-icon-plus"
-                         onstart="longProcessDialogVar.show();"
-                         rendered="#{clientManager.user.privilege.canAddClient}"
-                         actionListener="#{clientManager.createNewClient}"
-
-                         oncomplete="longProcessDialogVar.hide();"
-                         process="@this"
-                         title="Add a new client"/>
+    <h:panelGrid columns="3">       
+        <p:commandButton 
+            value="New"
+            icon="ui-icon-plus" 
+            onstart="longProcessDialogVar.show();"
+            disabled="#{!clientManager.user.privilege.canAddClient}"
+            actionListener="#{clientManager.createNewClient}"                                            
+            process="@this"
+            title="Add a new client to the client database">
+            <p:ajax event="dialogReturn" 
+                    update=":mainTabViewForm:mainTabView:clientsTable"/>
+        </p:commandButton>
         <p:spacer width="20" />
         <p:inputText id="clientSearchText" 
                      placeholder="Enter search text"
@@ -24,7 +26,7 @@
 
             <p:ajax event="keyup"                            
                     global="false"
-                     update=":mainTabViewForm:mainTabView:clientsTable"
+                    update=":mainTabViewForm:mainTabView:clientsTable"
                     listener="#{clientManager.doClientSearch}"
                     process="@this"/>
 
@@ -75,13 +77,16 @@
             <p:commandButton icon="ui-icon-pencil"
                              onstart="longProcessDialogVar.show();"
                              actionListener="#{clientManager.editSelectedClient}"
-
-                             oncomplete="longProcessDialogVar.hide();"
                              process="@this"
                              title="View or edit this client's detail">
                 <f:setPropertyActionListener value="#{client}" 
-                                             target="#{clientManager.selectedClient}" />
+                                             target="#{clientManager.currentClient}" />
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:clientsTable"/>
+
             </p:commandButton>
+
+
         </p:column>
     </p:dataTable>
 
