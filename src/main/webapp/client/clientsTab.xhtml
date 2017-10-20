@@ -52,6 +52,24 @@ Email: info@dpbennett.com.jm
 
             </p:inputText>
         </p:toolbarGroup>
+
+        <p:toolbarGroup align="right">
+            <h:outputText value="Active clients only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="activeClientsOnly"
+                                         disabled="#{!clientManager.user.privilege.canBeJMTSAdministrator}"
+                                         value="#{clientManager.isActiveClientsOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:clientsTable"
+                             listener="#{clientManager.doClientSearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>            
+                <p:tooltip for="activeClientsOnly" value="Check to search for activate clients only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+            </h:panelGroup>
+        </p:toolbarGroup>
     </p:toolbar>
 
     <p:dataTable id="clientsTable"
@@ -64,7 +82,7 @@ Email: info@dpbennett.com.jm
         <f:facet name="header">
             <h:outputText value="Search Results (found: #{clientManager.numClientFound})" />
         </f:facet>
-        
+
         <p:column sortBy="#{client.name}">
             <f:facet name="header">
                 <h:outputText value="Name"/>

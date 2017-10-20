@@ -587,27 +587,24 @@ public class JobManager implements Serializable, BusinessEntityManager,
         setUserLoggedIn(false);
 
         try {
-            if ((getUsername() != null) && (getPassword() != null)) {
-                // Find user and determin if authentication is required for this user
-                JobManagerUser jobManagerUser = JobManagerUser.findJobManagerUserByUsername(em, getUsername());
-                if (jobManagerUser != null) {
-                    em.refresh(jobManagerUser);
-                    if (!jobManagerUser.getAuthenticate()) {  // NB: for testing...remove before deploy.
-                        System.out.println("User will NOT be authenticated");
-                        setUser(jobManagerUser);
-                        setUserLoggedIn(true);
-                    } else if (validateAndAssociateUser(em, getUsername(), getPassword())) {
-                        System.out.println("User will be authen.");
-                        setUser(jobManagerUser);
-                        setUserLoggedIn(true);
-                    } else {
-                        checkLoginAttemps(context);
-                        logonMessage = "Invalid username or password! Please try again.";
-                    }
+            // Find user and determin if authentication is required for this user
+            JobManagerUser jobManagerUser = JobManagerUser.findJobManagerUserByUsername(em, getUsername());
+            if (jobManagerUser != null) {
+                em.refresh(jobManagerUser);
+                if (!jobManagerUser.getAuthenticate()) {
+                    System.out.println("User will NOT be authenticated.");
+                    setUser(jobManagerUser);
+                    setUserLoggedIn(true);
+                } else if (validateAndAssociateUser(em, getUsername(), getPassword())) {
+                    System.out.println("User will be authenticated.");
+                    setUser(jobManagerUser);
+                    setUserLoggedIn(true);
+                } else {
+                    checkLoginAttemps(context);
+                    logonMessage = "Please enter a valid username.";
                 }
-
             } else {
-                logonMessage = "Invalid username or password! Please try again.";
+                logonMessage = "Please enter a registered username.";
                 username = "";
                 password = "";
             }
@@ -641,7 +638,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
                 }
 
             } else {
-                logonMessage = "Invalid username or password! Please try again.";
+                logonMessage = "Login error occured! Please try again or contact the System Administrator";
                 username = "";
                 password = "";
             }
@@ -649,7 +646,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
             em.close();
         } catch (Exception e) {
             System.out.println(e);
-            logonMessage = "Login error occured! Please try again or contact the Database Administrator";
+            logonMessage = "Login error occured! Please try again or contact the System Administrator";
             checkLoginAttemps(context);
         }
     }

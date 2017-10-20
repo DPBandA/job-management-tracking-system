@@ -57,6 +57,7 @@ public class ClientManager implements Serializable, ClientManagement {
     private Boolean isNewAddress;
     private Boolean isToBeSaved;
     private Boolean isClientNameAndIdEditable;
+    private Boolean isActiveClientsOnly;
     private Client currentClient;
     private Contact currentContact;
     private Address currentAddress;
@@ -76,14 +77,53 @@ public class ClientManager implements Serializable, ClientManagement {
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
     }
-    
+
+    public EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
+    }
+
+    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
+
+    public Boolean getIsNewContact() {
+        return isNewContact;
+    }
+
+    public void setIsNewContact(Boolean isNewContact) {
+        this.isNewContact = isNewContact;
+    }
+
+    public Boolean getIsNewAddress() {
+        return isNewAddress;
+    }
+
+    public void setIsNewAddress(Boolean isNewAddress) {
+        this.isNewAddress = isNewAddress;
+    }
+
+    public Boolean getIsActiveClientsOnly() {
+        if (isActiveClientsOnly == null) {
+            isActiveClientsOnly = true;
+        }
+        return isActiveClientsOnly;
+    }
+
+    public void setIsActiveClientsOnly(Boolean isActiveClientsOnly) {
+        this.isActiveClientsOnly = isActiveClientsOnly;
+    }
+
     public int getNumClientFound() {
         return getFoundClients().size();
     }
 
     public void doClientSearch() {
         if (searchText.trim().length() > 1) {
-            foundClients = Client.findActiveClientsByAnyPartOfName(getEntityManager(), searchText);
+            if (isActiveClientsOnly) {
+                foundClients = Client.findActiveClientsByFirstPartOfName(getEntityManager(), searchText);
+            } else {
+                foundClients = Client.findClientsByFirstPartOfName(getEntityManager(), searchText);
+            }
         } else {
             foundClients = new ArrayList<>();
         }
@@ -221,9 +261,9 @@ public class ClientManager implements Serializable, ClientManagement {
         setCurrentAddress(null);
         setCurrentContact(null);
         setIsToBeSaved(true);
-        
+
         openDialog(null, "clientDialog", true, true, true, 420, 700);
-       
+
     }
 
     public Boolean getIsToBeSaved() {
@@ -384,7 +424,6 @@ public class ClientManager implements Serializable, ClientManagement {
         currentContact = currentContact.prepare();
 
         if (isNewContact) {
-            EntityManager em = getEntityManager();
             getCurrentClient().getContacts().add(currentContact);
             isNewContact = false;
         }
@@ -398,7 +437,6 @@ public class ClientManager implements Serializable, ClientManagement {
         currentAddress = currentAddress.prepare();
 
         if (isNewAddress) {
-            EntityManager em = getEntityManager();
             getCurrentClient().getAddresses().add(currentAddress);
             isNewAddress = false;
         }
@@ -408,17 +446,47 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void createNewContact() {
-        isNewContact = true;
-        currentContact = new Contact();
-        currentContact.setType("Main");
-        currentContact.setInternet(new Internet());
+        currentContact = null;
+
+        for (Contact contact : getCurrentClient().getContacts()) {
+            if (contact.getFirstName().trim().isEmpty()) {
+                isNewContact = false;
+                currentContact = contact;
+                currentContact.setType("Main");
+                break;
+            }
+        }
+
+        if (currentContact == null) {
+            isNewContact = true;
+            currentContact = new Contact();
+            currentContact.setType("Main");
+            currentContact.setInternet(new Internet());
+        }
+        
         setIsDirty(false);
     }
 
     public void createNewAddress() {
-        isNewAddress = true;
-        currentAddress = new Address();
-        currentAddress.setType("Billing");
+        currentAddress = null;
+
+        // Find an existing invalid or blank address and use it as the neww address
+        for (Address address : getCurrentClient().getAddresses()) {
+            if (address.getAddressLine1().trim().isEmpty()) {
+                isNewAddress = false;
+                currentAddress = address;
+                currentAddress.setType("Billing");
+                break;
+            }
+        }
+
+        // No existing blank or invalid address found so creating new one.
+        if (currentAddress == null) {
+            isNewAddress = true;
+            currentAddress = new Address();
+            currentAddress.setType("Billing");
+        }
+
         setIsDirty(false);
     }
 

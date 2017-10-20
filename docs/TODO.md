@@ -10,20 +10,11 @@
   and select components.
 - Add: System options: applicationHeading and applicationSubheading
 - Add System options: defaultUsername, defaultPassword
+- Check that all users are authenticated on the live JMTS.
 ================================================================================
 ### Rebuild UI Functionality
-- If user is not to be authenticated allow blank password.
-- Create folder dashboard and add pages/tabs related to it.
 - Impl Clients as tab and use the current client dialog for the content.
-  * Show the "active" column for those who have the privilege.
-  * When adding a new address or contact, search for an existing address or contact
-    that is blank and use it as the new address or contact.
-  * Put active checkbox in client dialog. Deactivate for persons who don't have the
-  privilege.
-  * Add buttons to edit the current billing address and contact in the client 
-  dialog.
-  * In Client.save() validate all new contacts and addresses before saving.
-  * Add option for system admin to search inactive clients.
+  * Make "active" column editable using the technique used for classification.
 - Implement generating service contact form.
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
@@ -130,6 +121,7 @@ by other apps?
 
 ### System Design
 #### Design
+- Show message to the user if they login without being authenticated.
 - Check that if "authenticate" is unchecked ti does not allow the login of other
   users with "authenticate"checked!!
 - Add feature to activate modules/units for users.
@@ -239,6 +231,8 @@ by other apps?
 - Make TRN mandatory? Put system option to validate?
 - Reset all UI when log out including searches results so that if a new user 
   logs in they will not see the searches of the previous user.
+- Implement searching for users that are not authenticated.
+- Show warning message when "authenticate" is unchecked.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

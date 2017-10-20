@@ -50,7 +50,6 @@ Email: info@dpbennett.com.jm
         <ui:include src="common/connectionErrorAlertDialog.xhtml"/>
         <ui:include src="common/longProcessDialog.xhtml"/>   
         <ui:include src="jmts/jobMessageDialogs.xhtml"/>    
-
         <ui:include src="common/preferencesDialog.xhtml"/>   
         <ui:include src="finance/cashPaymentDialog.xhtml"/>
 
@@ -205,35 +204,7 @@ Email: info@dpbennett.com.jm
 
                         <p:tab title="#{tab.name}" >
                             <h:panelGroup rendered="#{tab.renderJobsTab}">                                
-                                <ui:include src="jmts/jobSearch.xhtml"/>
-                                <h:panelGrid columns="3">
-                                    <p:commandButton
-                                        id="createNewJobButton"
-                                        actionListener="#{jobManager.createNewJob}"
-                                        global="true"                                        
-                                        onstart="longProcessDialogVar.show();" 
-                                        onerror="connectionErrorDialog.show();"
-                                        value="New"                                       
-                                        title="Create new job"
-                                        icon="ui-icon-plusthick"
-                                        process="@this">  
-
-                                        <p:resetInput target=":mainTabViewForm:mainTabView" />
-
-                                    </p:commandButton>
-
-                                    <p:commandButton
-                                        value="Reports"
-                                        actionListener="#{jobManager.initJobReport}"
-                                        onstart="longProcessDialogVar.show();"
-                                        update=":reportingDialogForm"                                        
-                                        oncomplete="reportingDialog.show();"
-                                        onerror="connectionErrorDialog.show();"
-                                        title="Generate, view and export reports"
-                                        icon="ui-icon-newwin"
-                                        process="@this"/>
-
-                                </h:panelGrid>   
+                                <ui:include src="dashboard/jobsTab.xhtml" />   
                             </h:panelGroup>
                             <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
                                 NB: For testing...remove before next deploy 
