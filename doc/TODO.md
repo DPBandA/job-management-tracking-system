@@ -12,10 +12,8 @@
 - Add System options: defaultUsername, defaultPassword
 ================================================================================
 ### Rebuild UI Functionality
-- Provide system options that inputs a default username and password for test.
 - Create folder dashboard and add pages/tabs related to it.
 - Impl Clients as tab and use the current client dialog for the content.
-  * Set client owner etc to null when working with the database..
   * Show the "active" column for those who have the privilege.
   * When adding a new address or contact, search for an existing address or contact
     that is blank and use it as the new address or contact.
@@ -24,6 +22,7 @@
   * Add buttons to edit the current billing address and contact in the client 
   dialog.
   * In Client.save() validate all new contacts and addresses before saving.
+  * Add option for system admin to search inactive clients.
 - Implement generating service contact form.
 - Do shallow copy of client, billing address and contact before saving job to 
   ensure that future edits of the client's name, billing address and contact
