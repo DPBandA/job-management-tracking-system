@@ -76,6 +76,10 @@ public class ClientManager implements Serializable, ClientManagement {
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
     }
+    
+    public int getNumClientFound() {
+        return getFoundClients().size();
+    }
 
     public void doClientSearch() {
         if (searchText.trim().length() > 1) {
@@ -213,11 +217,12 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void editSelectedClient() {
+        setClientOwner(null);
         setCurrentAddress(null);
         setCurrentContact(null);
         setIsToBeSaved(true);
         
-        openDialog(null, "clientDialog", true, true, true, 420, 650);
+        openDialog(null, "clientDialog", true, true, true, 420, 700);
        
     }
 
@@ -261,12 +266,13 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public void createNewClient() {
         createNewClient(true);
+        setClientOwner(null);
         setCurrentAddress(getCurrentClient().getBillingAddress());
         setCurrentContact(getCurrentClient().getMainContact());
         setIsToBeSaved(true);
         setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        openDialog(null, "clientDialog", true, true, true, 420, 650);
+        openDialog(null, "clientDialog", true, true, true, 420, 700);
     }
 
     public Boolean getIsDirty() {

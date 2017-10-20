@@ -6,7 +6,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <p:dialog header="Job Management &amp; Tracking System Login"
               modal="true"
-              visible="#{jobManager.showLogin}"
+              visible="#{jobManager.showLogin}"              
               widgetVar="loginDialog"
               width="375"
               closable="false"
@@ -50,7 +50,8 @@
                 <p:password id="password"
                             required="true"
                             value="#{jobManager.password}"
-                            maxlength="255"
+                            maxlength="255" 
+                            redisplay="true"
                             label="password"
                             validatorMessage="Please enter a valid password"
                             feedback="false" />               

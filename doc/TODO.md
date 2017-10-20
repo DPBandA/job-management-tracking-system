@@ -8,15 +8,21 @@
        GENERAL, The name of this organization.
 - Update: Deactivate records that have "--" so they do not appear in autocomplete
   and select components.
-- Add: System options applicationHeading and applicationSubheading
+- Add: System options: applicationHeading and applicationSubheading
+- Add System options: defaultUsername, defaultPassword
 ================================================================================
 ### Rebuild UI Functionality
+- Provide system options that inputs a default username and password for test.
+- Create folder dashboard and add pages/tabs related to it.
 - Impl Clients as tab and use the current client dialog for the content.
-  * Impl creating client...see jobs general code.
+  * Set client owner etc to null when working with the database..
+  * Show the "active" column for those who have the privilege.
   * When adding a new address or contact, search for an existing address or contact
     that is blank and use it as the new address or contact.
   * Put active checkbox in client dialog. Deactivate for persons who don't have the
   privilege.
+  * Add buttons to edit the current billing address and contact in the client 
+  dialog.
   * In Client.save() validate all new contacts and addresses before saving.
 - Implement generating service contact form.
 - Do shallow copy of client, billing address and contact before saving job to 
@@ -25,6 +31,7 @@
 - Delete blank users, dept and employee etc. from database.
 - Test and fix up repot dialog if needed.
 - Format the search button and text for tabs as is done with the employees tab.
+- Remove units from the user menu when when they are deselected in the preferences.
 
 ### Immediate Issues
 - The client owner should be set to the client manager's client when the client 
@@ -123,6 +130,7 @@ by other apps?
 
 ### System Design
 #### Design
+- Add feature to activate modules/units for users.
 - Use a toolbar at the top of search results on all tabs with search text box,
   buttons and search result table as is done with the jobs tab.
 - Use parentJob to link contracts with parent jobs and use it to pull 

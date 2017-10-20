@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
  */
-
 package jm.com.dpbennett.jmts;
 
 import jm.com.dpbennett.business.entity.utils.JobDataModel;
@@ -243,10 +242,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
     // Show accpac prepayments
     private Boolean showPrepayments;
     private JobManagerUser user;
-    private Boolean userLoggedIn = false;
-    private Boolean showLogin = true;
-    private String username = "";
-    private String password = "";
+    private Boolean userLoggedIn;
+    private Boolean showLogin;
+    private String username;
+    private String password;
     private String logonMessage;
     private Boolean westLayoutUnitCollapsed;
     private String invalidFormFieldMessage;
@@ -265,6 +264,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
      * Creates a new instance of JobManagerBean
      */
     public JobManager() {
+        this.password = null;
+        this.username = null;
+        this.showLogin = true;
+        this.userLoggedIn = false;
         this.westLayoutUnitCollapsed = true;
         this.loginAttempts = 0;
         this.showJobEntry = false;
@@ -488,6 +491,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     @Override
     public String getUsername() {
+        if (username == null) {
+            username = SystemOption.findSystemOptionByName(getEntityManager1(),
+                    "defaultUsername").getOptionValue();
+        }
         return username;
     }
 
@@ -498,6 +505,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     @Override
     public String getPassword() {
+        if (password == null) {
+            password = SystemOption.findSystemOptionByName(getEntityManager1(),
+                    "defaultPassword").getOptionValue();
+        }
         return password;
     }
 
@@ -506,7 +517,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         this.password = password;
     }
 
-    public EntityManager getEntityManager1() {
+    public final EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
 
@@ -858,7 +869,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
 
     public void onMainViewTabClose(TabCloseEvent event) {
 
-        String tabId = ((MainTab) event.getData()).getId();        
+        String tabId = ((MainTab) event.getData()).getId();
         mainTabView.renderTab(getEntityManager1(), tabId, false);
 
         // Select the jobs tab if the job detail tab was closed
@@ -871,8 +882,8 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void onDashboardTabChange(TabChangeEvent event) {
-        
-        String tabId = ((DashboardTab) event.getData()).getId();    
+
+        String tabId = ((DashboardTab) event.getData()).getId();
         mainTabView.renderTab(getEntityManager1(), tabId, true);
 
     }
@@ -5306,7 +5317,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        openDialog(null, "clientDialog", true, true, true, 420, 650);
+        openDialog(null, "clientDialog", true, true, true, 420, 700);
     }
 
     public void editJobClient() {
@@ -5318,7 +5329,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        openDialog(null, "clientDialog", true, true, true, 420, 650);
+        openDialog(null, "clientDialog", true, true, true, 420, 700);
     }
 
     public ServiceRequest createNewServiceRequest(EntityManager em,
@@ -8328,10 +8339,10 @@ public class JobManager implements Serializable, BusinessEntityManager,
     }
 
     public void openClientsTab() {
-        clientManager.setUser(user);        
+        clientManager.setUser(user);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-        
-        mainTabView.renderTab(getEntityManager1(), "clientsTab", true);        
+
+        mainTabView.renderTab(getEntityManager1(), "clientsTab", true);
     }
 
     public Department getDepartmentBySystemOptionDeptId(String option) {
