@@ -50,7 +50,7 @@ public class SearchManager implements SearchManagement, Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
-    private HashMap searhParameters;
+    private final HashMap searhParameters;
     private String currentSearchParameterKey;
     private JobManager jobManager;
 

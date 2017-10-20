@@ -12,6 +12,7 @@
 - Add System options: defaultUsername, defaultPassword
 ================================================================================
 ### Rebuild UI Functionality
+- If user is not to be authenticated allow blank password.
 - Create folder dashboard and add pages/tabs related to it.
 - Impl Clients as tab and use the current client dialog for the content.
   * Show the "active" column for those who have the privilege.
@@ -129,6 +130,8 @@ by other apps?
 
 ### System Design
 #### Design
+- Check that if "authenticate" is unchecked ti does not allow the login of other
+  users with "authenticate"checked!!
 - Add feature to activate modules/units for users.
 - Use a toolbar at the top of search results on all tabs with search text box,
   buttons and search result table as is done with the jobs tab.
@@ -234,6 +237,8 @@ by other apps?
   the effective privileges of the user.
 - Add department to user dialog.
 - Make TRN mandatory? Put system option to validate?
+- Reset all UI when log out including searches results so that if a new user 
+  logs in they will not see the searches of the previous user.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
