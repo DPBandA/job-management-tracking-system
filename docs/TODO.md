@@ -122,8 +122,7 @@ by other apps?
 
 ### System Design
 #### Design
-- Add checkbox to show logged in users...add toolbar to tab like jobs tabs...do 
-  for all tabs in System admin.
+- Add search fields and dialogs where they don't exist. Add checkbox to show/hide active objects.
 - Call JM init() to reset search results etc when user logs out.
 - Remove access to JobManager from SearchManager and implement access to it to similar
   to how it's done with ClientManager.
@@ -239,6 +238,8 @@ by other apps?
   logs in they will not see the searches of the previous user.
 - Implement searching for users that are not authenticated.
 - Show warning message when "authenticate" is unchecked.
+- Create netbeans module for installing the JMTS and adding modules.
+- Consider jmts.cloud, .co, .online as domains.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

@@ -23,15 +23,20 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <p:commandButton title="Add new job subcategory"                                  
-                     value="New"
-                     actionListener="#{systemManager.createNewJobSubCategory}"
-                     onstart="longProcessDialogVar.show();"                                                            
-                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
-                     onerror="connectionErrorDialog.show();"
-                     global="true"
-                     process="@this"
-                     icon="ui-icon ui-icon-plus"/>    
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new job subcategory"                                  
+                             value="New"
+                             actionListener="#{systemManager.createNewJobSubCategory}"
+                             onstart="longProcessDialogVar.show();"                                                            
+                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus"/>     
+        </p:toolbarGroup>
+    </p:toolbar>    
     <p:dataTable id="JobSubcategoriesTable"                                       
                  var="jobSubcategory"     
                  editable="true" 

@@ -23,6 +23,19 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core">
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new domain"                                  
+                             value="New"
+                            
+                             onstart="longProcessDialogVar.show();"                                                            
+                             update=""
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus"/>     
+        </p:toolbarGroup>
+    </p:toolbar>    
     <p:dataTable id="LDAPTable"                                       
                  var="ldap"     
                  editable="true" 

@@ -23,16 +23,21 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <p:commandButton title="Add new classification"                                  
-                     value="New"
-                     actionListener="#{systemManager.createNewClassification}"
-                     onstart="longProcessDialogVar.show();"
-                     oncomplete="longProcessDialogVar.hide();"
-                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable"
-                     onerror="connectionErrorDialog.show();"
-                     global="true"
-                     process="@this"
-                     icon="ui-icon ui-icon-plus"/>  
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new classification"                                  
+                             value="New"
+                             actionListener="#{systemManager.createNewClassification}"
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="longProcessDialogVar.hide();"
+                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus"/>             
+        </p:toolbarGroup>
+    </p:toolbar>    
     <p:dataTable id="ClassificationsTable"                                       
                  var="classification"     
                  editable="true" 

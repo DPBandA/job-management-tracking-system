@@ -23,17 +23,21 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <p:commandButton title="Add new sector"                                  
-                     value="New"
-                     actionListener="#{systemManager.createNewSector}"
-                     onstart="longProcessDialogVar.show();"
-                     oncomplete="longProcessDialogVar.hide();"
-                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
-                     onerror="connectionErrorDialog.show();"
-                     global="true"
-                     process="@this"
-                     icon="ui-icon ui-icon-plus"/>
-    
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new sector"                                  
+                             value="New"
+                             actionListener="#{systemManager.createNewSector}"
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="longProcessDialogVar.hide();"
+                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus"/>     
+        </p:toolbarGroup>
+    </p:toolbar>    
     <p:dataTable id="SectorsTable"                                       
                  var="sector"     
                  editable="true" 
