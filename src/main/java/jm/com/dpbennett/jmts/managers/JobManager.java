@@ -595,6 +595,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
             // wrap up
             if (getUserLoggedIn()) {
+                getUser().setPollTime(new Date());
+                getUser().save(em);
                 setShowLogin(false);
                 username = "";
                 password = "";

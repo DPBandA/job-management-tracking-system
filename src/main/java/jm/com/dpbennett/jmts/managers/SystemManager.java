@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
  */
-
 package jm.com.dpbennett.jmts.managers;
 
 import java.io.Serializable;
@@ -78,11 +77,13 @@ public class SystemManager implements Serializable {
     private String searchType;
     private Boolean startSearchDateDisabled;
     private Boolean endSearchDateDisabled;
+    private Boolean privilegeValue;
+    private Boolean searchTextVisible;
+    private Boolean isLoggedInUsersOnly;
     private Date startDate;
     private Date endDate;
     private String searchText;
     private String previousSearchText;
-    private Boolean searchTextVisible;
     private Long selectedDocumentId;
     private JobManagerUser selectedUser;
     private JobManagerUser foundUser;
@@ -103,14 +104,13 @@ public class SystemManager implements Serializable {
     private List<JobCategory> foundJobCategories;
     private List<JobSubCategory> foundJobSubCategories;
     private List<Sector> foundSectors;
-    private Boolean privilegeValue;
     private List<DocumentStandard> foundDocumentStandards;
 
     // petrolStationDatabaseForm:petrolPumpTable
     /**
      * Creates a new instance of SystemManager
      */
-    public SystemManager() {        
+    public SystemManager() {
         activeTabIndex = 0;
         activeNavigationTabIndex = 0;
         activeTabForm = "";
@@ -126,6 +126,17 @@ public class SystemManager implements Serializable {
         userSearchText = "";
         generalSearchText = "";
         systemOptionSearchText = "";
+    }
+
+    public Boolean getIsLoggedInUsersOnly() {
+        if (isLoggedInUsersOnly == null) {
+            isLoggedInUsersOnly = false;
+        }
+        return isLoggedInUsersOnly;
+    }
+
+    public void setIsLoggedInUsersOnly(Boolean isLoggedInUsersOnly) {
+        this.isLoggedInUsersOnly = isLoggedInUsersOnly;
     }
 
     public Boolean getPrivilegeValue() {
@@ -231,8 +242,8 @@ public class SystemManager implements Serializable {
         }
 
     }
-    
-     public void onFinancialSystemOptionCellEdit(CellEditEvent event) {
+
+    public void onFinancialSystemOptionCellEdit(CellEditEvent event) {
         int index = event.getRowIndex();
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
@@ -313,7 +324,6 @@ public class SystemManager implements Serializable {
         }
         return foundSystemOptions;
     }
-    
 
     public void setFoundSystemOptions(List<SystemOption> foundSystemOptions) {
         this.foundSystemOptions = foundSystemOptions;
@@ -329,7 +339,7 @@ public class SystemManager implements Serializable {
     public void setFoundFinancialSystemOptions(List<SystemOption> foundFinancialSystemOptions) {
         this.foundFinancialSystemOptions = foundFinancialSystemOptions;
     }
-    
+
     public String getSystemOptionSearchText() {
         return systemOptionSearchText;
     }
@@ -377,9 +387,9 @@ public class SystemManager implements Serializable {
     }
 
     public List<JobManagerUser> getFoundUsers() {
-        if (foundUsers.isEmpty()) {
-            foundUsers = JobManagerUser.findAllJobManagerUsers(getEntityManager());
-        }
+//        if (foundUsers.isEmpty()) {
+//            foundUsers = JobManagerUser.findAllJobManagerUsers(getEntityManager());
+//        }
         return foundUsers;
     }
 
@@ -467,18 +477,24 @@ public class SystemManager implements Serializable {
 
         RequestContext context = RequestContext.getCurrentInstance();
 
-        if (getUserSearchText().trim().length() > 0) {
-            foundUsers = JobManagerUser.findJobManagerUserByName(getEntityManager(), getUserSearchText());
+        foundUsers = JobManagerUser.findJobManagerUserByName(getEntityManager(), getUserSearchText());
 
-            if (foundUsers == null) {
-                foundUsers = new ArrayList<>();
-            }
-
-        } else {
+        if (foundUsers == null) {
             foundUsers = new ArrayList<>();
+        } else {
+            if (isLoggedInUsersOnly) {
+                List<JobManagerUser> loggedInUsers = new ArrayList<>();
+                for (JobManagerUser jmuser : foundUsers) {
+                    if (jmuser.isLoggedIn()) {
+                        loggedInUsers.add(jmuser);
+                    }
+                }
+                foundUsers.clear();
+                foundUsers.addAll(loggedInUsers);
+            }
         }
 
-        context.addCallbackParam("isConnectionLive", true);
+        context.addCallbackParam("isConnectionLive", true); // tk remove
     }
 
     public String getFoundUser() {
@@ -532,7 +548,7 @@ public class SystemManager implements Serializable {
     public void editUser() {
         PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 420, 600);
     }
-    
+
     public Employee getSelectedEmployee() {
         if (selectedEmployee == null) {
             selectedEmployee = Employee.findDefaultEmployee(getEntityManager(), "--", "--", true);
@@ -596,7 +612,6 @@ public class SystemManager implements Serializable {
 //                break;
 //        }
 //    }
-
     public void cancelUserEdit(ActionEvent actionEvent) {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
@@ -621,8 +636,7 @@ public class SystemManager implements Serializable {
 
         context.addCallbackParam("userSaved", saved);
 
-
-        context.closeDialog(null);       
+        context.closeDialog(null);
 
     }
 
@@ -1102,7 +1116,7 @@ public class SystemManager implements Serializable {
     }
 
     public void toBeImpl() { // tk remove
-        System.out.println("To be implemented"); 
+        System.out.println("To be implemented");
     }
 
     public void updateUserPrivilege(ValueChangeEvent event) {

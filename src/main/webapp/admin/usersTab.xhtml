@@ -23,7 +23,10 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <p:commandButton title="Add new user"                                  
+    
+     <p:toolbar>
+        <p:toolbarGroup align="left" >   
+           <p:commandButton title="Add new user"                                  
                      value="New"                                                     
                      actionListener="#{systemManager.createNewUser}"
                      onstart="longProcessDialogVar.show();"
@@ -32,9 +35,8 @@ Email: info@dpbennett.com.jm
                      global="true"
                      process="@this"
                      icon="ui-icon ui-icon-plus"/>
-    <hr/>
-    <p:outputPanel>                                
-        <p:inputText id="userSearchText" 
+            <p:spacer width="20" />
+            <p:inputText id="userSearchText" 
                      autocomplete="false"
                      value="#{systemManager.userSearchText}"
                      style="width:150px" placeholder="Enter any part of name">
@@ -45,9 +47,26 @@ Email: info@dpbennett.com.jm
                     update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
                     listener="#{systemManager.doUserSearch}"
                     process="@this"/>                                   
-        </p:inputText>                               
-    </p:outputPanel>
-    <hr/>
+        </p:inputText>       
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right">
+            <h:outputText value="Logged in users only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="loggedInUsersOnly"
+                                         value="#{systemManager.isLoggedInUsersOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
+                             listener="#{systemManager.doUserSearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>            
+                <p:tooltip for="loggedInUsersOnly" value="Check to show logged in users only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+            </h:panelGroup>
+        </p:toolbarGroup>
+    </p:toolbar>    
     <p:dataTable id="usersTable"                                       
                  var="user"                                        
                  paginator="true"
