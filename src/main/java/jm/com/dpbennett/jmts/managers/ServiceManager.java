@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Email: info@dpbennett.com.jm
  */
 
-package jm.com.dpbennett.jmts;
+package jm.com.dpbennett.jmts.managers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +31,6 @@ import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import jm.com.dpbennett.business.entity.BusinessEntityManager;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Client;
@@ -49,6 +48,8 @@ import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.SelectEvent;
+import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
+import jm.com.dpbennett.jmts.Application;
 
 /**
  *
@@ -56,7 +57,7 @@ import org.primefaces.event.SelectEvent;
  */
 @Named(value = "serviceManager")
 @SessionScoped
-public class ServiceManager implements Serializable, BusinessEntityManager {
+public class ServiceManager implements Serializable, BusinessEntityManagement {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF;

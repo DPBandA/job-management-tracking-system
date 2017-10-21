@@ -10,6 +10,7 @@
   and select components.
 - Add: System options: applicationHeading and applicationSubheading
 - Add System options: defaultUsername, defaultPassword
+- Delete JobManagerUser POLLTIME and add as TIMESTAMP
 - Check that all users are authenticated on the live JMTS.
 ================================================================================
 ### Rebuild UI Functionality
@@ -20,7 +21,7 @@
   ensure that future edits of the client's name, billing address and contact
   do not affect the job record.
 - Delete blank users, dept and employee etc. from database.
-- Test and fix up repot dialog if needed.
+- Test and fix up report dialog...create ReportManager and change it to a tab.
 - Format the search button and text for tabs as is done with the employees tab.
 - Remove units from the user menu when when they are deselected in the preferences.
 
@@ -121,6 +122,11 @@ by other apps?
 
 ### System Design
 #### Design
+- Add checkbox to show logged in users...add toolbar to tab like jobs tabs...do 
+  for all tabs in System admin.
+- Call JM init() to reset search results etc when user logs out.
+- Remove access to JobManager from SearchManager and implement access to it to similar
+  to how it's done with ClientManager.
 - Show message to the user if they login without being authenticated.
 - Check that if "authenticate" is unchecked ti does not allow the login of other
   users with "authenticate"checked!!
@@ -129,7 +135,7 @@ by other apps?
   buttons and search result table as is done with the jobs tab.
 - Use parentJob to link contracts with parent jobs and use it to pull 
   in subcontracts costs?
-- Rename JobManager user to UserProfile.
+- Rename JobManagerUser to User.
 - Add Organization to UserProfile.
 - Put text box in jobsTab to allow quick filter of search results.
 - Impl. ReportManager and put reporting in own tab.

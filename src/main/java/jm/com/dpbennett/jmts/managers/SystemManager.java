@@ -18,17 +18,16 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Email: info@dpbennett.com.jm
  */
 
-package jm.com.dpbennett.jmts;
+package jm.com.dpbennett.jmts.managers;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import javax.faces.application.FacesMessage;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.persistence.EntityManager;
@@ -49,6 +48,8 @@ import jm.com.dpbennett.business.entity.LdapContext;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
+import jm.com.dpbennett.jmts.Application;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
@@ -68,10 +69,6 @@ public class SystemManager implements Serializable {
     private JobManagerUser user;
     private Employee selectedEmployee;
     private Employee foundEmployee;
-    private Boolean userLogggedIn = false;
-    private String username = "";
-    private String password = "";
-    private Boolean showLogin = true;
     private int activeTabIndex;
     private int activeNavigationTabIndex;
     private String activeTabForm;
@@ -92,7 +89,6 @@ public class SystemManager implements Serializable {
     private List<Employee> foundEmployees;
     private String employeeSearchText;
     private String userSearchText;
-    private JobManager jobManager;
     private List<JobManagerUser> foundUsers;
     private String departmentSearchText;
     private List<Department> foundDepartments;
@@ -114,8 +110,7 @@ public class SystemManager implements Serializable {
     /**
      * Creates a new instance of SystemManager
      */
-    public SystemManager() {
-        // jm = new JobManagement();
+    public SystemManager() {        
         activeTabIndex = 0;
         activeNavigationTabIndex = 0;
         activeTabForm = "";
@@ -131,8 +126,6 @@ public class SystemManager implements Serializable {
         userSearchText = "";
         generalSearchText = "";
         systemOptionSearchText = "";
-
-        jobManager = Application.findBean("jobManager");
     }
 
     public Boolean getPrivilegeValue() {
@@ -488,10 +481,6 @@ public class SystemManager implements Serializable {
         context.addCallbackParam("isConnectionLive", true);
     }
 
-    public JobManager getJobManager() {
-        return jobManager;
-    }
-
     public String getFoundUser() {
 
         if (foundUser != null) {
@@ -529,21 +518,21 @@ public class SystemManager implements Serializable {
     }
 
     public void editSystemOption() {
-        getJobManager().openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
     }
 
     public void editDepartment() {
-        getJobManager().openDialog(null, "departmentDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 420, 600);
     }
 
     public void editEmployee() {
-        getJobManager().openDialog(null, "employeeDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 420, 600);
     }
 
     public void editUser() {
-        getJobManager().openDialog(getSelectedUser(), "userDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 420, 600);
     }
-
+    
     public Employee getSelectedEmployee() {
         if (selectedEmployee == null) {
             selectedEmployee = Employee.findDefaultEmployee(getEntityManager(), "--", "--", true);
@@ -561,12 +550,6 @@ public class SystemManager implements Serializable {
         if (selectedUser == null) {
             selectedUser = new JobManagerUser();
         }
-
-//        // Refresh to get the saved user tk
-//        if (selectedUser.getId() != null) {
-//            System.out.println("getting sved user: " + selectedUser.getUsername()); //tk
-//            selectedUser = JobManagerUser.findJobManagerUserById(getEntityManager(), selectedUser.getId());
-//        }
 
         return selectedUser;
     }
@@ -594,25 +577,25 @@ public class SystemManager implements Serializable {
     public void loadDocument() {
     }
 
-    public void onMainTabChange(TabChangeEvent event) {
-        String tabTitle = event.getTab().getTitle();
-        switch (tabTitle) {
-            case "Documents database":
-                //            activeNavigationTabIndex = 0;
-                activeTabIndex = 0;
-                searchText = previousSearchText;
-                //            doLegalDocumentSearch();
-                break;
-            case "Reporting":
-                //            activeNavigationTabIndex = 1;
-                activeTabIndex = 1;
-                previousSearchText = searchText;
-                //            doLegalDocumentSearch();
-                searchText = null;
-                //            doLegalDocumentSearch();
-                break;
-        }
-    }
+//    public void onMainTabChange(TabChangeEvent event) {
+//        String tabTitle = event.getTab().getTitle();
+//        switch (tabTitle) {
+//            case "Documents database":
+//                //            activeNavigationTabIndex = 0;
+//                activeTabIndex = 0;
+//                searchText = previousSearchText;
+//                //            doLegalDocumentSearch();
+//                break;
+//            case "Reporting":
+//                //            activeNavigationTabIndex = 1;
+//                activeTabIndex = 1;
+//                previousSearchText = searchText;
+//                //            doLegalDocumentSearch();
+//                searchText = null;
+//                //            doLegalDocumentSearch();
+//                break;
+//        }
+//    }
 
     public void cancelUserEdit(ActionEvent actionEvent) {
         RequestContext.getCurrentInstance().closeDialog(null);
@@ -880,7 +863,7 @@ public class SystemManager implements Serializable {
         selectedUser = new JobManagerUser();
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
 
-        getJobManager().openDialog(selectedUser, "userDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 420, 600);
     }
 
     public void createNewDepartment() {
@@ -913,14 +896,14 @@ public class SystemManager implements Serializable {
         selectedEmployee = new Employee();
         selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(em, "Head Office"));
 
-        getJobManager().openDialog(null, "employeeDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 420, 600);
     }
 
     public void createNewSystemOption() {
 
         selectedSystemOption = new SystemOption();
 
-        getJobManager().openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
     }
 
     public void fetchDepartment(ActionEvent action) {
@@ -1110,120 +1093,6 @@ public class SystemManager implements Serializable {
         return user;
     }
 
-    public void login(ActionEvent actionEvent) {
-        EntityManager em = getEntityManager();
-
-        RequestContext context = RequestContext.getCurrentInstance();
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid credentials");
-
-        if ((getUsername() != null) && (getPassword() != null)) {
-            if (getJobManager().validateAndAssociateUser(em, getUsername(), getPassword())) {
-                // Get the job manager user if one exists and
-                // facilitate the display of the employee dialog for entry if it
-                // does not exist.
-                // Associate this user with an employee record if this
-                // was not already done.
-                setUser(JobManagerUser.findJobManagerUserByUsername(em, getUsername()));
-                if (getUser() != null) {
-                    em.refresh(user);
-                    // Check if user is an administrator
-                    if (user.getPrivilege().getCanBeJMTSAdministrator()) {
-
-                        setUserLogggedIn(true);
-                        setShowLogin(false);
-                        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome",
-                                getUser().getUserFirstname() + " " + getUser().getUserLastname());
-                        context.addCallbackParam("userExists", true);
-                        handleKeepAlive();
-                        username = "";
-                        password = "";
-                    } else {
-                        username = "";
-                        password = "";
-                        getJobManager().displayCommonMessageDialog(null,
-                                "Sorry but you are not a system administrator",
-                                "Not Administrator",
-                                "alert");
-                    }
-
-                } else {
-                    setUserLogggedIn(false);
-                    setShowLogin(true);
-                    password = "";
-                    context.addCallbackParam("userExists", false);
-                }
-            } else {
-                password = "";
-                setUserLogggedIn(false);
-                setShowLogin(true);
-            }
-        } else {
-            password = "";
-            setUserLogggedIn(false);
-            setShowLogin(true);
-        }
-
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        context.addCallbackParam("userLogggedIn", getUserLogggedIn());
-    }
-
-    public void logout() {
-        user = null;
-        userLogggedIn = false;
-        showLogin = true;
-        password = "";
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Boolean getShowLogin() {
-        return showLogin;
-    }
-
-    public void setShowLogin(Boolean showLogin) {
-        this.showLogin = showLogin;
-    }
-
-    public Boolean getUserLogggedIn() {
-        return userLogggedIn;
-    }
-
-    public void setUserLogggedIn(Boolean userLogggedIn) {
-        this.userLogggedIn = userLogggedIn;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    // tk copied from job management
-    public final boolean setupDatabaseConnection(String PU) {
-        if (EMF == null) {
-            try {
-                EMF = Persistence.createEntityManagerFactory(PU);
-                if (EMF.isOpen()) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (Exception ex) {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
     public EntityManager getEntityManager() {
         return EMF.createEntityManager();
     }
@@ -1232,49 +1101,8 @@ public class SystemManager implements Serializable {
         return new Date();
     }
 
-    public void handleKeepAlive() {
-        EntityManager em = getEntityManager();
-
-        System.out.println("Handling keep alive session: doing polling for SysAdmin..." + new Date());
-        if (user != null) {
-            em.getTransaction().begin();
-            user = JobManagerUser.findJobManagerUserByUsername(em, user.getUsername());
-            user.setPollTime(new Timestamp(new Date().getTime()));
-
-            BusinessEntityUtils.saveBusinessEntity(em, user);
-
-            em.getTransaction().commit();
-        }
-    }
-
-//    public Boolean getCanAuthDetentionRequest() {
-//        return JobManagerUser.isPrivileged(getSelectedUser(), "AUTH_DETENTION_REQUEST");
-//    }
-//
-//    public void setCanAuthDetentionRequest(Boolean auth) {
-//        JobManagerUser.setPrivilege(getEntityManager(), getSelectedUser(), "AUTH_DETENTION_REQUEST", auth);
-//    }
-//
-//    public Boolean getCanAuthDetentionNotice() {
-//        return JobManagerUser.isPrivileged(getSelectedUser(), "AUTH_DETENTION_NOTICE");
-//    }
-//
-//    public void setCanAuthDetentionNotice(Boolean auth) {
-//        JobManagerUser.setPrivilege(getEntityManager(), getSelectedUser(), "AUTH_DETENTION_NOTICE", auth);
-//    }
-//
-//    public Boolean getCanApproveReleaseRequest() {
-//        return JobManagerUser.isPrivileged(getSelectedUser(), "APPRV_RELEASE_REQUEST");
-//    }
-//
-//    public void setCanApproveReleaseRequest(Boolean apprv) {
-//        JobManagerUser.setPrivilege(getEntityManager(), getSelectedUser(), "APPRV_RELEASE_REQUEST", apprv);
-//    }
-    public void toBeImpl() {
-        getJobManager().displayCommonMessageDialog(null,
-                "This feature is not yet implemented",
-                "Not Yet Implemented",
-                "alert");
+    public void toBeImpl() { // tk remove
+        System.out.println("To be implemented"); 
     }
 
     public void updateUserPrivilege(ValueChangeEvent event) {

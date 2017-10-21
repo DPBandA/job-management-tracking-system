@@ -33,8 +33,9 @@ Email: info@dpbennett.com.jm
             <f:attribute name="isNewClient" value="#{clientManager.isNewClient}" />
 
             <p:ajax event="change"
-                    global="true"                        
-                    listener="#{clientManager.updateClient}"
+                    global="true"      
+                    update="clientName"
+                    listener="#{clientManager.updateClientName}"
                     process="@this"/>
         </p:inputText>            
 

@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
  */
-package jm.com.dpbennett.jmts;
+package jm.com.dpbennett.jmts.managers;
 
 import jm.com.dpbennett.business.entity.utils.JobDataModel;
 import java.io.ByteArrayInputStream;
@@ -36,6 +36,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,7 +75,6 @@ import jm.com.dpbennett.business.entity.AccPacDocument;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.BusinessEntity;
-import jm.com.dpbennett.business.entity.BusinessEntityManager;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Classification;
@@ -159,6 +159,9 @@ import org.primefaces.event.TabCloseEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
+import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
+import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
+import jm.com.dpbennett.jmts.Application;
 
 /**
  *
@@ -166,7 +169,7 @@ import org.primefaces.model.StreamedContent;
  */
 @Named
 @SessionScoped
-public class JobManager implements Serializable, BusinessEntityManager,
+public class JobManager implements Serializable, BusinessEntityManagement,
         DialogActionHandler, UserManagement, MessageManagement {
 
     @PersistenceUnit(unitName = "JMTSPU")
@@ -332,7 +335,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
     }
-
+    
     public MainTabView getMainTabView() {
         return mainTabView;
     }
@@ -356,25 +359,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         }
 
         return subHeader;
-    }
-
-    public void openDialog(Object entity,
-            String outcome,
-            Boolean modal,
-            Boolean draggable,
-            Boolean resizable,
-            Integer contentHeight,
-            Integer contentWidth) {
-
-        Map<String, Object> options = new HashMap<>();
-        options.put("modal", modal);
-        options.put("draggable", draggable);
-        options.put("resizable", resizable);
-        options.put("contentHeight", contentHeight);
-        options.put("contentWidth", contentWidth);
-
-        RequestContext.getCurrentInstance().openDialog(outcome, options, null);
-    }
+    }    
 
     public Boolean getDialogRenderCancelButton() {
         return dialogRenderCancelButton;
@@ -698,18 +683,11 @@ public class JobManager implements Serializable, BusinessEntityManager,
         getUser().setPollTime(new Date());
         // NB: Time is based on the time zone set in the application server
         System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
-        getUser().save(getEntityManager1());
+        if (getUser().getId() != null) {
+            getUser().save(getEntityManager1());
+        }
     }
 
-//    public void saveUser() {
-//        EntityManager em = getEntityManager1();
-//
-//        if (getUser().getId() != null) {
-//            JobManagerUser.save(em, getUser());
-//        }
-//
-//        em.close();
-//    }
     public void updateDatabaseModule() {
         System.out.println("To be impl. or removed...");
     }
@@ -5314,7 +5292,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        openDialog(null, "clientDialog", true, true, true, 420, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
     }
 
     public void editJobClient() {
@@ -5326,7 +5304,7 @@ public class JobManager implements Serializable, BusinessEntityManager,
         clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        openDialog(null, "clientDialog", true, true, true, 420, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
     }
 
     public ServiceRequest createNewServiceRequest(EntityManager em,

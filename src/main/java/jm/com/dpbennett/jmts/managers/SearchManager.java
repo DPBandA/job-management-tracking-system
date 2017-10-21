@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Email: info@dpbennett.com.jm
  */
 
-package jm.com.dpbennett.jmts;
+package jm.com.dpbennett.jmts.managers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.management.SearchManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
+import jm.com.dpbennett.jmts.Application;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 

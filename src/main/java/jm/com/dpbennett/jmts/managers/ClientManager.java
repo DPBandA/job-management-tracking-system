@@ -17,7 +17,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
  */
-package jm.com.dpbennett.jmts;
+package jm.com.dpbennett.jmts.managers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -40,6 +41,7 @@ import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.context.RequestContext;
 import jm.com.dpbennett.business.entity.ClientOwner;
 import jm.com.dpbennett.business.entity.management.ClientManagement;
+import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
 
 /**
  *
@@ -238,31 +240,13 @@ public class ClientManager implements Serializable, ClientManagement {
         setIsToBeSaved(true);
     }
 
-    public void openDialog(Object entity,
-            String outcome,
-            Boolean modal,
-            Boolean draggable,
-            Boolean resizable,
-            Integer contentHeight,
-            Integer contentWidth) {
-
-        Map<String, Object> options = new HashMap<>();
-        options.put("modal", modal);
-        options.put("draggable", draggable);
-        options.put("resizable", resizable);
-        options.put("contentHeight", contentHeight);
-        options.put("contentWidth", contentWidth);
-
-        RequestContext.getCurrentInstance().openDialog(outcome, options, null);
-    }
-
     public void editSelectedClient() {
         setClientOwner(null);
         setCurrentAddress(null);
         setCurrentContact(null);
         setIsToBeSaved(true);
 
-        openDialog(null, "clientDialog", true, true, true, 420, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
 
     }
 
@@ -276,6 +260,12 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void updateClient() {
+        setIsDirty(true);
+    }
+    
+    public void updateClientName(AjaxBehaviorEvent event) {        
+        currentClient.setName(currentClient.getName().trim());
+        
         setIsDirty(true);
     }
 
@@ -312,7 +302,7 @@ public class ClientManager implements Serializable, ClientManagement {
         setIsToBeSaved(true);
         setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        openDialog(null, "clientDialog", true, true, true, 420, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
     }
 
     public Boolean getIsDirty() {
