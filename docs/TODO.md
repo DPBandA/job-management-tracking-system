@@ -122,6 +122,8 @@ by other apps?
 
 ### System Design
 #### Design
+- Do search when respective tab with search results table is selected for the 
+  System/Finance add min tabs.
 - Add search fields and dialogs where they don't exist. Impl find* methods that 
   take "active" as argument and add checkbox to show/hide active objects.  
 - Call JM init() to reset search results etc when user logs out.
