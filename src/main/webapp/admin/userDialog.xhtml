@@ -69,9 +69,10 @@ Email: info@dpbennett.com.jm
             <h:panelGrid columns="2" >
                 <h:outputText value="Username:" />
                 <h:panelGroup>                   
-                    <h:inputText value="#{systemManager.selectedUser.username}"/>
+                    <h:inputText value="#{systemManager.selectedUser.username}"/>   
                     <p:spacer height="0" width="5"/>
                     <p:selectBooleanCheckbox id="authenticateUser" value="#{systemManager.selectedUser.authenticate}" />                        
+                    <p:spacer height="0" width="5"/>
                     <h:outputLabel for="authenticateUser" value="authenticate"/>
                 </h:panelGroup>
 

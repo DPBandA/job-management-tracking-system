@@ -23,7 +23,7 @@
 - Delete blank users, dept and employee etc. from database.
 - Test and fix up report dialog...create ReportManager and change it to a tab.
 - Format the search button and text for tabs as is done with the employees tab.
-- Remove units from the user menu when when they are deselected in the preferences.
+- Remove units from the user menu when they are deselected in the preferences.
 
 ### Immediate Issues
 - The client owner should be set to the client manager's client when the client 
@@ -122,7 +122,8 @@ by other apps?
 
 ### System Design
 #### Design
-- Add search fields and dialogs where they don't exist. Add checkbox to show/hide active objects.
+- Add search fields and dialogs where they don't exist. Impl find* methods that 
+  take "active" as argument and add checkbox to show/hide active objects.  
 - Call JM init() to reset search results etc when user logs out.
 - Remove access to JobManager from SearchManager and implement access to it to similar
   to how it's done with ClientManager.
@@ -135,7 +136,7 @@ by other apps?
 - Use parentJob to link contracts with parent jobs and use it to pull 
   in subcontracts costs?
 - Rename JobManagerUser to User.
-- Add Organization to UserProfile.
+- Add Business to JobManagerUser. Add blob to Business for storing company logo.
 - Put text box in jobsTab to allow quick filter of search results.
 - Impl. ReportManager and put reporting in own tab.
 - Refactor and rename static methods from findEntityName*() to just find*() where
@@ -203,8 +204,6 @@ by other apps?
 - Make System Admin tab closable.
 - Make jobs tab closable but remember the JS call mainTabViewVar.select(0); that
   may cause problems.
-- Implement the Organization class and use its name field instead of "thisOrganizationName"
-  system option when creating subcontracts.
 - Show a summarized version of a completed job that does not allow editing. 
   Create a separate job detail tab for this?
 - Check why <p:remoteCommand name="doJobSampleCopy"> is used and if copy sample
@@ -228,7 +227,7 @@ by other apps?
 - Upgrade to Primefaces 6.x
 - Use <link rel="shortcut icon" type="image/x-png" href="images/favicon.png" /> 
   to add favicon when one is designed.
-- NB: JobManagerUser represents a user profile that has an organization, 
+- NB: JobManagerUser represents a user profile that has a Business, 
   department, employee and privileges assigned. Departments also have privileges
   and the user privileges along with the user privileges are used to determine
   the effective privileges of the user.
@@ -240,6 +239,8 @@ by other apps?
 - Show warning message when "authenticate" is unchecked.
 - Create netbeans module for installing the JMTS and adding modules.
 - Consider jmts.cloud, .co, .online as domains.
+- If user is not being authenticated use default password?
+- Remove first/lastname from JM user and use only employee first/lastname.
 
 ### Legal Documents/Office Module (GenericERP Module)
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

@@ -22,16 +22,13 @@ package jm.com.dpbennett.jmts.managers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
@@ -79,34 +76,36 @@ public class SystemManager implements Serializable {
     private Boolean endSearchDateDisabled;
     private Boolean privilegeValue;
     private Boolean searchTextVisible;
-    private Boolean isLoggedInUsersOnly;
+    private Boolean isLoggedInUsersOnly; // tk change is* to show*
+    private Boolean isActiveEmployeesOnly;
+    private Boolean isActiveDepartmentsOnly;
+    private Boolean showActiveClassificationsOnly;
     private Date startDate;
     private Date endDate;
     private String searchText;
-    private String previousSearchText;
     private Long selectedDocumentId;
     private JobManagerUser selectedUser;
     private JobManagerUser foundUser;
-    private List<Employee> foundEmployees;
-    private String employeeSearchText;
     private String userSearchText;
-    private List<JobManagerUser> foundUsers;
+    private String employeeSearchText;
     private String departmentSearchText;
-    private List<Department> foundDepartments;
-    private Department selectedDepartment;
-    private List<SystemOption> foundSystemOptions;
-    private List<SystemOption> foundFinancialSystemOptions;
     private String generalSearchText;
     private String systemOptionSearchText;
-    private SystemOption selectedSystemOption;
+    private String classificationSearchText;
+    private List<JobManagerUser> foundUsers;
+    private List<Employee> foundEmployees;
+    private List<Department> foundDepartments;
+    private List<SystemOption> foundSystemOptions;
+    private List<SystemOption> foundFinancialSystemOptions;
     private List<LdapContext> foundLdapContexts;
     private List<Classification> foundClassifications;
     private List<JobCategory> foundJobCategories;
     private List<JobSubCategory> foundJobSubCategories;
     private List<Sector> foundSectors;
     private List<DocumentStandard> foundDocumentStandards;
+    private Department selectedDepartment;
+    private SystemOption selectedSystemOption;
 
-    // petrolStationDatabaseForm:petrolPumpTable
     /**
      * Creates a new instance of SystemManager
      */
@@ -128,6 +127,36 @@ public class SystemManager implements Serializable {
         systemOptionSearchText = "";
     }
 
+    public Boolean getShowActiveClassificationsOnly() {
+        if (showActiveClassificationsOnly == null) {
+            showActiveClassificationsOnly = true;
+        }
+        return showActiveClassificationsOnly;
+    }
+
+    public void setShowActiveClassificationsOnly(Boolean showActiveClassificationsOnly) {
+        this.showActiveClassificationsOnly = showActiveClassificationsOnly;
+    }
+
+    public String getClassificationSearchText() {
+        return classificationSearchText;
+    }
+
+    public void setClassificationSearchText(String classificationSearchText) {
+        this.classificationSearchText = classificationSearchText;
+    }
+
+    public Boolean getIsActiveDepartmentsOnly() {
+        if (isActiveDepartmentsOnly == null) {
+            isActiveDepartmentsOnly = true;
+        }
+        return isActiveDepartmentsOnly;
+    }
+
+    public void setIsActiveDepartmentsOnly(Boolean isActiveDepartmentsOnly) {
+        this.isActiveDepartmentsOnly = isActiveDepartmentsOnly;
+    }
+
     public Boolean getIsLoggedInUsersOnly() {
         if (isLoggedInUsersOnly == null) {
             isLoggedInUsersOnly = false;
@@ -137,6 +166,17 @@ public class SystemManager implements Serializable {
 
     public void setIsLoggedInUsersOnly(Boolean isLoggedInUsersOnly) {
         this.isLoggedInUsersOnly = isLoggedInUsersOnly;
+    }
+
+    public Boolean getIsActiveEmployeesOnly() {
+        if (isActiveEmployeesOnly == null) {
+            isActiveEmployeesOnly = true;
+        }
+        return isActiveEmployeesOnly;
+    }
+
+    public void setIsActiveEmployeesOnly(Boolean isActiveEmployeesOnly) {
+        this.isActiveEmployeesOnly = isActiveEmployeesOnly;
     }
 
     public Boolean getPrivilegeValue() {
@@ -200,9 +240,6 @@ public class SystemManager implements Serializable {
     }
 
     public List<Classification> getFoundClassifications() {
-        if (foundClassifications == null) {
-            foundClassifications = Classification.findAllClassifications(getEntityManager());
-        }
         return foundClassifications;
     }
 
@@ -368,9 +405,6 @@ public class SystemManager implements Serializable {
     }
 
     public List<Department> getFoundDepartments() {
-        if (foundDepartments.isEmpty()) {
-            foundDepartments = Department.findAllDepartments(getEntityManager());
-        }
         return foundDepartments;
     }
 
@@ -387,9 +421,6 @@ public class SystemManager implements Serializable {
     }
 
     public List<JobManagerUser> getFoundUsers() {
-//        if (foundUsers.isEmpty()) {
-//            foundUsers = JobManagerUser.findAllJobManagerUsers(getEntityManager());
-//        }
         return foundUsers;
     }
 
@@ -417,15 +448,31 @@ public class SystemManager implements Serializable {
 
         RequestContext context = RequestContext.getCurrentInstance();
 
-        if (getDepartmentSearchText().trim().length() > 0) {
-            foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
-
-            if (foundDepartments == null) {
-                foundDepartments = new ArrayList<>();
-            }
-
+        if (getIsActiveDepartmentsOnly()) {
+            foundDepartments = Department.findActiveDepartmentsByName(getEntityManager(), getDepartmentSearchText());
         } else {
+            foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
+        }
+
+        if (foundDepartments == null) {
             foundDepartments = new ArrayList<>();
+        }
+
+        context.addCallbackParam("isConnectionLive", true);
+    }
+
+    public void doClassificationSearch() {
+
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        if (getShowActiveClassificationsOnly()) {
+            foundClassifications = Classification.findActiveClassificationsByName(getEntityManager(), getClassificationSearchText());
+        } else {
+            foundClassifications = Classification.findClassificationsByName(getEntityManager(), getClassificationSearchText());
+        }
+
+        if (foundClassifications == null) {
+            foundClassifications = new ArrayList<>();
         }
 
         context.addCallbackParam("isConnectionLive", true);
@@ -459,14 +506,13 @@ public class SystemManager implements Serializable {
 
         RequestContext context = RequestContext.getCurrentInstance();
 
-        if (getEmployeeSearchText().trim().length() > 0) {
-            foundEmployees = Employee.findEmployeesByName(getEntityManager(), getEmployeeSearchText());
-
-            if (foundEmployees == null) {
-                foundEmployees = new ArrayList<>();
-            }
-
+        if (getIsActiveEmployeesOnly()) {
+            foundEmployees = Employee.findActiveEmployeesByName(getEntityManager(), getEmployeeSearchText());
         } else {
+            foundEmployees = Employee.findEmployeesByName(getEntityManager(), getEmployeeSearchText());
+        }
+
+        if (foundEmployees == null) {
             foundEmployees = new ArrayList<>();
         }
 
@@ -1044,9 +1090,6 @@ public class SystemManager implements Serializable {
     }
 
     public List<Employee> getFoundEmployees() {
-        if (foundEmployees.isEmpty()) {
-            foundEmployees = Employee.findAllEmployees(getEntityManager());
-        }
         return foundEmployees;
     }
 

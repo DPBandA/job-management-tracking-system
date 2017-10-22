@@ -35,8 +35,22 @@ Email: info@dpbennett.com.jm
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
-                             icon="ui-icon ui-icon-plus"/>             
+                             icon="ui-icon ui-icon-plus"/>      
+            <p:spacer width="20" />        
+            <p:inputText id="classificationSearchText" 
+                         value="#{systemManager.classificationSearchText}"
+                         style="width:150px" 
+                         placeholder="Enter any part of name">
+                <p:ajax event="keyup"
+                        global="false"
+                        onstart="longProcessDialogVar.show();" 
+                        oncomplete="longProcessDialogVar.hide();"
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable"
+                        listener="#{systemManager.doClassificationSearch}"
+                        process="@this"/>
+            </p:inputText>
         </p:toolbarGroup>
+
     </p:toolbar>    
     <p:dataTable id="ClassificationsTable"                                       
                  var="classification"     
