@@ -10,7 +10,7 @@
   and select components.
 - Add: System options: applicationHeading and applicationSubheading
 - Add System options: defaultUsername, defaultPassword
-- Delete JobManagerUser POLLTIME and add as TIMESTAMP
+- Delete JobManagerUser POLLTIME and re-add as TIMESTAMP
 - Check that all users are authenticated on the live JMTS.
 ================================================================================
 ### Rebuild UI Functionality
@@ -115,6 +115,7 @@ by other apps?
 - Prevent changing of all fields that affect the service contract.
 - Put sys option that controls the changing auto job number generation. Make it
   unchangeable by default.
+- For user status change Checked in/out to Last checked in "date/time.
 
 ### Testing on Test and Live versions
 - Check that client credit status dialog still works
@@ -226,7 +227,8 @@ by other apps?
 - Design a favicon and make it system option.
 - Try to put all styles as styleClass and put into index.css
 - Print service contract for only external client jobs??
-- Upgrade to Primefaces 6.x
+- Upgrade to Primefaces 6.x to take advantage of responsive design, new features
+  and components.
 - Use <link rel="shortcut icon" type="image/x-png" href="images/favicon.png" /> 
   to add favicon when one is designed.
 - NB: JobManagerUser represents a user profile that has a Business, 
@@ -243,8 +245,12 @@ by other apps?
 - Consider jmts.cloud, .co, .online as domains.
 - If user is not being authenticated use default password?
 - Remove first/lastname from JM user and use only employee first/lastname.
+- Create Task entity and associate tasks with a job.
+- Impl Module class that is used to register modules. Field would include the
+  tab ids associated with the module. Eventually the *Unit fields in JobManagerUser
+  would be name *Module eg standardComplianceModule.
 
-### Legal Documents/Office Module (GenericERP Module)
+### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
    LegalDocument class etc.
 - Watch out for dateselect and keyup events.
@@ -283,7 +289,7 @@ by other apps?
 - Remove closeEntityManager(em) where it's not necessary.
 - Return costing templates with unique names and don't allow saving templates with same name.
 
-### Standards Module (GenericERP)
+### Standards Module
 1) Standards development processs
 2) WTO notification database
 3) JS and ISBN numbers – automate number creation
@@ -299,7 +305,7 @@ by other apps?
 13) Technical committees database
 14) Technical regulations/standards list/database/catalogue
 
-### Legal Metrology (GenericERP)
+### Legal Metrology
 1) Check if all close buttons work in history dialogs. 
 2) Impl importing petrol stations from spreadsheet: add pump/nozzle certification to petrol station and included expiry date to certification. 
 3) Optionally leave out date period search for petrol stations for example to see how if it affects search speed.
@@ -363,7 +369,7 @@ by other apps?
 • Types of weighing and measuring devices were these investigations conducted and the results of the investigations. 
 • # of gas pump stickers that were issued during this financial year. # issued during the corresponding period last financial year. 
 
-### Foods Inspectorate (GenericERP)
+### Foods Inspectorate
 1) See notes on inspection form: do regs 1-4, sampling inspection type, tie in sample collection form.
 2) Implement track registration from time of request/application to completion: see Registration Tracking Sheet (Revised).xlsx: Fields to add to Registration class: assignedInspector, dateAssignedToInspector,  assigned etc.
 3) Implement alert 8 weeks before registration due via popup or email to inspector and other relevant personnel eg supervisor.
@@ -388,7 +394,7 @@ by other apps?
 - Accpac invoice due date = DUEDATE(DOCDATE) + 15 days (for example). 1 to x days the invoice should be marked as current. PI is code for pre-payment and IN is for invoice.
 - For credit status show invoice due date and not invoice date?
 
-### Standard Compliance Module (GenericERP)
+### Standard Compliance Module
 #### General
 - Fix up reporting.
 - For Daily Report put the client in the Consignments Inspected table.
@@ -530,7 +536,7 @@ by other apps?
 6. The necessary verification checks (capacity and serial numbers for example) would be done and additional data (test results) entered.
 7. Notification to be sent for certificates and job costing to be done which I thought would be as easy as a few clicks of the mouse since all the data would already be in the system/database.
 
-### Customer Relation Management (GenericERP)
+### Customer Relation Management
 - Allow add/edit of contact or client separately based on privilege and don't make a copy of the client as is current done.
 - Implement cancel adding contact and address in dialog.
 - Make sure job costing and service contract uses job billing address and the contact assigned to the job and NOT the client main contact.
@@ -541,7 +547,7 @@ by other apps?
 - Address type for newly added address does not change when selected in table. Fix!
 - Enforce entry of certain data if not credit customer. Determine this data.
 
-### Human Resource Management (GenericERP)
+### Human Resource Management
 - Check out why employees with blank names are being created. The blank employees are linked to jobs so look for clues in the job creation and update process. Look at all senarios where an
 - employee could be created. check if creating a new user causes this.
 - Dont let newly created employees be active except when created via system admin.
