@@ -12,25 +12,12 @@
 - Add System options: defaultUsername, defaultPassword
 - Delete JobManagerUser POLLTIME and re-add as TIMESTAMP
 - Check that all users are authenticated on the live JMTS.
-================================================================================
-### Rebuild UI Functionality
-- Impl Clients as tab and use the current client dialog for the content.
-  * Make "active" column editable using the technique used for classification.
-- Implement generating service contact form.
-- Do shallow copy of client, billing address and contact before saving job to 
-  ensure that future edits of the client's name, billing address and contact
-  do not affect the job record.
-- Delete blank users, dept and employee etc. from database.
-- Test and fix up report dialog...create ReportManager and change it to a tab.
-- Format the search button and text for tabs as is done with the employees tab.
-- Remove units from the user menu when they are deselected in the preferences.
+- In my.cnf add the following for mysql 5.7 >= to remove ONLY_FULL_GROUP_BY :
+[mysqld]
+sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
+================================================================================
 ### Immediate Issues
-- The client owner should be set to the client manager's client when the client 
-  is "oked". 
-  Impl. handling of saving and closing client dialog. 
-  After adding an address or contact the respective address and contact fields
-  are to be updated. 
 - <p:autoComplete id="currentClientBillingAddress"> should be validated. Validation
   must coonsider the case when the address is new and does not exist in the database.
 - Put use <p:ajax event="dialogReturn"> to update fields and use primefaces 
@@ -116,6 +103,7 @@ by other apps?
 - Put sys option that controls the changing auto job number generation. Make it
   unchangeable by default.
 - For user status change Checked in/out to Last checked in "date/time.
+- Hide items in user menu if they are not selected in preferences.
 
 ### Testing on Test and Live versions
 - Check that client credit status dialog still works
@@ -249,6 +237,20 @@ by other apps?
 - Impl Module class that is used to register modules. Field would include the
   tab ids associated with the module. Eventually the *Unit fields in JobManagerUser
   would be name *Module eg standardComplianceModule.
+- Add date edited and by whom in Client.
+- get(index) is used to get the main phone and fax numbers for a contact. This
+  method may result in the returning of the right number for fax or phone so
+  use the type field to solve this.
+- Update system admin tables when values change.
+- Do shallow copy of client, billing address and contact before saving job to 
+  ensure that future edits of the client's name, billing address and contact
+  do not affect the job record?
+- Test and fix up report dialog...create ReportManager and change it to a tab.
+- Some report templates are given in system options while others are given
+  in Report table. Given all of them in Report table and delete the system options
+  over time.
+- Create font jar so that jasper font errors can be eliminated see:
+  https://community.jaspersoft.com/questions/856236/how-fix-netsfjasperreportsengineutiljrfontnotfoundexception-font-arial-not
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

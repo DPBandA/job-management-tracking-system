@@ -33,9 +33,9 @@ Email: info@dpbennett.com.jm
                              oncomplete="jobDetailTabCloseConfirmation.hide();"
                              icon="ui-icon-check"
                              process="@this"/>
-            <p:commandButton value="No"                             
-                             update=":mainTabViewForm"
-                             oncomplete="jobDetailTabCloseConfirmation.hide();mainTabViewVar.remove(mainTabViewVar.getActiveIndex());mainTabViewVar.select(0);"
+            <p:commandButton value="No"                                                         
+                             actionListener="#{jobManager.closeJobDetailTab}"
+                             oncomplete="jobDetailTabCloseConfirmation.hide();"
                              icon="ui-icon-close"/>       
         </p:confirmDialog>
     </h:form>       

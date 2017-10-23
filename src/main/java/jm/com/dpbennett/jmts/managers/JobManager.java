@@ -335,7 +335,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
     }
-    
+
     public MainTabView getMainTabView() {
         return mainTabView;
     }
@@ -359,7 +359,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
 
         return subHeader;
-    }    
+    }
 
     public Boolean getDialogRenderCancelButton() {
         return dialogRenderCancelButton;
@@ -856,6 +856,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 mainTabView.select("mainTabViewVar", mainTabView.getTabIndex());
             }
         }
+    }
+    
+    public void closeJobDetailTab() {
+        mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
     }
 
     public void onDashboardTabChange(TabChangeEvent event) {
@@ -1709,7 +1713,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public StreamedContent getAnalyticalServicesReport(EntityManager em) {
 
-        updateReportingDepartment();
+        updateReportingDepartment(); // tk remove when dept is obtained via converter etc.
 
         try {
             // Get byte stream for report file
@@ -1942,7 +1946,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateServiceContract() {
-        EntityManager em = getEntityManager1();
+
     }
 
     public Boolean getCurrentJobIsValid() {
@@ -7413,26 +7417,40 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     wb, serviceContractSheet, "A20",
                     ativeClient.getName(),
                     "java.lang.String", dataCellStyle);
-            // Address          
+
+            // Billing address    
+            Address billingAddress;
+            if (currentJob.getBillingAddress() == null) {
+                billingAddress = ativeClient.getBillingAddress();
+            } else {
+                billingAddress = currentJob.getBillingAddress();
+            }
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "A22",
-                    ativeClient.getBillingAddress().getAddressLine1(),
+                    billingAddress.getAddressLine1(),
                     "java.lang.String", dataCellStyle);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "A23",
-                    ativeClient.getBillingAddress().getAddressLine2(),
+                    billingAddress.getAddressLine2(),
                     "java.lang.String", dataCellStyle);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "A24",
-                    ativeClient.getBillingAddress().getStateOrProvince(),
+                    billingAddress.getStateOrProvince(),
                     "java.lang.String", dataCellStyle);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "A25",
-                    ativeClient.getBillingAddress().getCity(),
+                    billingAddress.getCity(),
                     "java.lang.String", dataCellStyle);
 
             // Contact person
             // Name
+            Contact contactPerson;
+            if (currentJob.getContact() == null) {
+                contactPerson = ativeClient.getMainContact();
+            }
+            else {
+                contactPerson = currentJob.getContact();
+            }
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderLeft((short) 1);
             dataCellStyle.setFont(defaultFont);
@@ -7440,7 +7458,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "M20",
-                    ativeClient.getMainContact(),
+                    contactPerson,
                     "java.lang.String", dataCellStyle);
 
             // Email
@@ -7452,7 +7470,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "M22",
-                    ativeClient.getMainContact().getInternet().getEmail1(),
+                    contactPerson.getInternet().getEmail1(),
                     "java.lang.String", dataCellStyle);
 
             // Phone
@@ -7463,7 +7481,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "Z20",
-                    ativeClient.getMainContact().getMainPhoneNumber(),
+                    contactPerson.getMainPhoneNumber(),
                     "java.lang.String", dataCellStyle);
 
             // Fax
@@ -7474,7 +7492,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_BOTTOM);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "Z22",
-                    ativeClient.getMainContact().getMainFaxNumber(),
+                    contactPerson.getMainFaxNumber(),
                     "java.lang.String", dataCellStyle);
 
             // TYPE OF SERVICE(S) NEEDED

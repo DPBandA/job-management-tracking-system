@@ -22,9 +22,7 @@ package jm.com.dpbennett.jmts.managers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -42,6 +40,8 @@ import org.primefaces.context.RequestContext;
 import jm.com.dpbennett.business.entity.ClientOwner;
 import jm.com.dpbennett.business.entity.management.ClientManagement;
 import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
+import jm.com.dpbennett.jmts.Application;
+import org.primefaces.event.CellEditEvent;
 
 /**
  *
@@ -78,6 +78,10 @@ public class ClientManager implements Serializable, ClientManagement {
         isToBeSaved = true;
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
+    }    
+
+    public void onClientCellEdit(CellEditEvent event) {      
+        Application.saveBusinessEntity(getEntityManager(), getFoundClients().get(event.getRowIndex()));
     }
 
     public EntityManagerFactory getEntityManagerFactory() {
@@ -262,10 +266,10 @@ public class ClientManager implements Serializable, ClientManagement {
     public void updateClient() {
         setIsDirty(true);
     }
-    
-    public void updateClientName(AjaxBehaviorEvent event) {        
+
+    public void updateClientName(AjaxBehaviorEvent event) {
         currentClient.setName(currentClient.getName().trim());
-        
+
         setIsDirty(true);
     }
 
@@ -453,7 +457,7 @@ public class ClientManager implements Serializable, ClientManagement {
             currentContact.setType("Main");
             currentContact.setInternet(new Internet());
         }
-        
+
         setIsDirty(false);
     }
 

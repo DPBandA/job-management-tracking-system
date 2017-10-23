@@ -34,9 +34,11 @@ Email: info@dpbennett.com.jm
                 disabled="#{!clientManager.user.privilege.canAddClient}"
                 actionListener="#{clientManager.createNewClient}"                                            
                 process="@this"
-                title="Add a new client to the client database">
+                title="Add a new client to the client database" >
+                
                 <p:ajax event="dialogReturn" 
                         update=":mainTabViewForm:mainTabView:clientsTable"/>
+                
             </p:commandButton>
             <p:spacer width="20" />
             <p:inputText id="clientSearchText" 
@@ -74,11 +76,15 @@ Email: info@dpbennett.com.jm
 
     <p:dataTable id="clientsTable"
                  var="client"
+                 editable="true" 
+                 editMode="cell"
                  paginator="true"                                 
                  rows="10"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{clientManager.foundClients}">                        
 
+        <p:ajax event="cellEdit" listener="#{clientManager.onClientCellEdit}" />
+        
         <f:facet name="header">
             <h:outputText value="Search Results (found: #{clientManager.numClientFound})" />
         </f:facet>
@@ -106,11 +112,19 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column rendered="#{clientManager.user.privilege.canAddClient}">                                       
-            <f:facet name="header">
-                <h:outputText value="Active?"/>
-            </f:facet>
-            <h:outputText value="#{client.active eq true ? 'Yes' : 'No'}" />
+        <p:column headerText="Active?" 
+                  rendered="#{clientManager.user.privilege.canAddClient}">                                                                         
+            <p:cellEditor>                
+                <f:facet name="output">
+                    <h:outputText value="#{client.isActive}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:selectOneMenu value="#{client.isActive}" style="width:96%">
+                        <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                        <f:selectItem itemLabel="No" itemValue="No"/>
+                    </p:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>         
         </p:column>
 
         <p:column style="width:32px">
@@ -125,8 +139,6 @@ Email: info@dpbennett.com.jm
                         update=":mainTabViewForm:mainTabView:clientsTable"/>
 
             </p:commandButton>
-
-
         </p:column>
     </p:dataTable>
 

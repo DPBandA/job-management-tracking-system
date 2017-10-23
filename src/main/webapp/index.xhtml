@@ -194,7 +194,7 @@ Email: info@dpbennett.com.jm
                                       value="#{jobManager.dashboard.tabs}" 
                                       var="tab" 
                                       widgetVar="dashboardAccordionVar"
-                                      
+
                                       multiple="true">
 
                         <p:ajax event="tabChange"       
@@ -207,11 +207,13 @@ Email: info@dpbennett.com.jm
                                 <ui:include src="dashboard/jobsTab.xhtml" />   
                             </h:panelGroup>
                             <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
-                                NB: For testing...remove before next deploy 
+                                Implement selecting a tab via selectOneMenu and
+                                create new entity?
                             </h:panelGroup>
                             <h:panelGroup rendered="#{tab.renderAdminTab}" >
-                                NB: For testing...remove before next deploy
-                            </h:panelGroup>                                  
+                                Implement selecting a tab via selectOneMenu and
+                                create new entity?
+                            </h:panelGroup>  
                         </p:tab>                       
                     </p:accordionPanel>                    
                 </h:form>
