@@ -19,7 +19,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Immediate Issues
-- Fix jobCostingDialogControlPanel.xhtml update="?"
+- Fix jobCostingDialogControlPanel.xhtml update="?" and relook and costing templates
+  to see if it works as expected.
 - Fix job costing form and use the billing address and contact found in the 
   job record if necessary.
 - Do resetInput when opening job costing dialogs.
