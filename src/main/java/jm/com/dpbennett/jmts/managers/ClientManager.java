@@ -78,9 +78,9 @@ public class ClientManager implements Serializable, ClientManagement {
         isToBeSaved = true;
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
-    }    
+    }
 
-    public void onClientCellEdit(CellEditEvent event) {      
+    public void onClientCellEdit(CellEditEvent event) {
         Application.saveBusinessEntity(getEntityManager(), getFoundClients().get(event.getRowIndex()));
     }
 
@@ -291,10 +291,6 @@ public class ClientManager implements Serializable, ClientManagement {
     public void createNewClient(Boolean active) {
         currentClient = new Client("", active);
 
-        currentClient.setDateEntered(new Date());
-        if (getUser() != null) {
-            currentClient.setEnteredBy(getUser().getEmployee());
-        }
         isNewClient = true;
     }
 
@@ -362,10 +358,21 @@ public class ClientManager implements Serializable, ClientManagement {
 
             if (isNewClient) {
                 getCurrentClient().setDateFirstReceived(new Date());
+                getCurrentClient().setDateEntered(new Date());
+                getCurrentClient().setDateEdited(new Date());
+                if (getUser() != null) {
+                    currentClient.setEnteredBy(getUser().getEmployee());
+                    currentClient.setEditedBy(getUser().getEmployee());
+                }
             }
 
-            if (isToBeSaved) {
+            if (isToBeSaved && isDirty) {
+                getCurrentClient().setDateEdited(new Date());
+                if (getUser() != null) {                   
+                    currentClient.setEditedBy(getUser().getEmployee());
+                }
                 currentClient.save(getEntityManager());
+
                 isDirty = false;
             }
 

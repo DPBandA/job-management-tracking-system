@@ -65,9 +65,9 @@ Email: info@dpbennett.com.jm
                     disabled="#{searchManager.currentSearchParameters.datePeriod.startDateDisabled}"
                     pattern="MMM dd, yyyy" >
             <p:ajax event="dateSelect"                            
-                    listener="#{searchManager.handleStartDateSelect(event)}"/>
+                    listener="#{searchManager.handleStartDateSelect}"/>
             <p:ajax event="keyup"                            
-                    listener="#{searchManager.handleStartDateSelect(event)}"/>
+                    listener="#{searchManager.handleStartDateSelect}"/>
         </p:calendar>
 
         <h:outputText value="End:" 
@@ -80,9 +80,9 @@ Email: info@dpbennett.com.jm
                     disabled="#{searchManager.currentSearchParameters.datePeriod.endDateDisabled}"
                     pattern="MMM dd, yyyy" >
             <p:ajax event="dateSelect"                           
-                    listener="#{searchManager.handleEndDateSelect(event)}"/>
+                    listener="#{searchManager.handleEndDateSelect}"/>
             <p:ajax event="keyup"                           
-                    listener="#{searchManager.handleEndDateSelect(event)}"/>
+                    listener="#{searchManager.handleEndDateSelect}"/>
         </p:calendar>
         <p:spacer height="10" /> <p:spacer height="10" />
         <p:inputText value="#{searchManager.currentSearchParameters.searchText}"  

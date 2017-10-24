@@ -136,7 +136,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:commandButton icon="ui-icon ui-icon-pencil"
                                  actionListener="#{jobManager.updateJobCosting}"
-
+                                 update=":jobCostingDialogForm"
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="jobCostingDialog.show();longProcessDialogVar.hide();"
                                  process="@this"

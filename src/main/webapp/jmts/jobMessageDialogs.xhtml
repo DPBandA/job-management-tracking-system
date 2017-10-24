@@ -56,7 +56,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon-check"
                              process="@this"/>
             <p:commandButton value="No"
-                             actionListener="#{jobManager.cancelJobEdit(event)}"
+                             actionListener="#{jobManager.cancelJobEdit}"
                              update=":mainTabViewForm"
                              oncomplete="jobSaveConfirm.hide();mainTabViewVar.select(0);"
                              icon="ui-icon-close"/>       

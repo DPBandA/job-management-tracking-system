@@ -32,13 +32,13 @@ Email: info@dpbennett.com.jm
                   header="Costing Component" >       
             <p:commandButton value="Ok"
                              actionListener="#{jobManager.updateCostingComponent}"
-                             
+                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:commandButton value="Cancel"       
-                             
+                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon-close"/>
@@ -58,18 +58,17 @@ Email: info@dpbennett.com.jm
                 </p:selectBooleanCheckbox>
 
 
-               
+
                 <h:outputText value="Component:" style="font-weight: bold" />
                 <p:spacer height="0" width="10"/>
                 <p:inputText value="#{jobManager.selectedCostComponent.name}"
                              style="width: 85%;" >
                     <p:ajax event="change"
                             global="false"
-                            listener="#{jobManager.updateJob}"
-                            
+                            listener="#{jobManager.updateJob}"                            
                             process="@this"/>
                 </p:inputText>
-               
+
 
                 <h:outputText rendered="#{!jobManager.selectedCostComponent.isHeading}" value="Cost Code:" style="font-weight: bold;" />
                 <p:spacer rendered="#{!jobManager.selectedCostComponent.isHeading}" height="0" width="10"/>
@@ -78,8 +77,7 @@ Email: info@dpbennett.com.jm
                                  value="#{jobManager.selectedCostComponent.code}"
                                  style="width: 85%" >
                     <p:ajax event="change"
-                            global="false"
-                            
+                            global="false"                            
                             listener="#{jobManager.updateCostCode}"
                             process="@this"/>
                     <f:selectItems  value="#{jobManager.allCostCodes}"
@@ -110,10 +108,15 @@ Email: info@dpbennett.com.jm
                              value="#{jobManager.selectedCostComponent.hoursOrQuantity}"
                              style="width: 85%">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                    <p:ajax event="change"
+                    <p:ajax event="keyup"
                             global="false"
                             listener="#{jobManager.updateJob}"
-                            
+                            update="costingComponentDialogForm:costComponentCost"
+                            process="@this"/>
+                     <p:ajax event="change"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            update="costingComponentDialogForm:costComponentCost"
                             process="@this"/>
                 </p:inputText>
 
@@ -124,10 +127,15 @@ Email: info@dpbennett.com.jm
                              value="#{jobManager.selectedCostComponent.rate}"
                              style="width: 85%">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                    <p:ajax event="change"
+                    <p:ajax event="keyup"
                             global="false"
                             listener="#{jobManager.updateJob}"
-                            
+                            update="costingComponentDialogForm:costComponentCost"
+                            process="@this"/>
+                     <p:ajax event="change"
+                            global="false"
+                            listener="#{jobManager.updateJob}"
+                            update="costingComponentDialogForm:costComponentCost"
                             process="@this"/>
                 </p:inputText>
 
@@ -140,8 +148,7 @@ Email: info@dpbennett.com.jm
                              styleClass="#{!jobManager.selectedCostComponent.isFixedCost ? 'editableclass' : null}">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"
-                            global="false"
-                            
+                            global="false"                            
                             listener="#{jobManager.updateJob}"
                             process="@this"/>
                 </p:inputText>
@@ -151,21 +158,21 @@ Email: info@dpbennett.com.jm
             <hr/>
             <p:commandButton value="Ok"
                              actionListener="#{jobManager.updateCostingComponent}"
-                             
+                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
-            <p:commandButton value="Cancel"  
-                             
+            <p:commandButton value="Cancel"       
+                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
-                             icon="ui-icon-close"/>            
+                             icon="ui-icon-close"/>        
         </p:dialog>
     </h:form>
     <h:form id="jobCostingDialogForm">     
         <p:dialog width="800"
-                  height="500"
+                  height="600"
                   draggable="true"
                   modal="true"
                   closable="false" 
@@ -192,8 +199,7 @@ Email: info@dpbennett.com.jm
                                  required="false"
                                  style="width: 300px" >
                         <p:ajax event="keyup"
-                                global="false"
-                                
+                                global="false"                                
                                 listener="#{jobManager.updateJobCostingValidity}"
                                 process="@this"/>
                     </p:inputText>
@@ -208,11 +214,9 @@ Email: info@dpbennett.com.jm
                                 value="#{jobManager.jobCostingDate}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
-                        <p:ajax event="dateSelect" 
-                                
+                        <p:ajax event="dateSelect"                                 
                                 listener="#{jobManager.handleJobCostingDateSelect}"/>
-                        <p:ajax event="keyup" 
-                                
+                        <p:ajax event="keyup"                                 
                                 listener="#{jobManager.handleJobCostingDateSelect}"/>
                     </p:calendar>
 
@@ -223,8 +227,7 @@ Email: info@dpbennett.com.jm
                                  style="width: 300px">
                         <p:ajax event="keyup"
                                 global="false"
-                                listener="#{jobManager.updateJob}"
-                                
+                                listener="#{jobManager.updateJob}"                                
                                 process="@this"/>
                     </p:inputText>
 
@@ -235,8 +238,7 @@ Email: info@dpbennett.com.jm
                                      rows="2" style="width: 300px">
                         <p:ajax event="keyup"
                                 global="false"
-                                process="@this"
-                               
+                                process="@this"                               
                                 listener="#{jobManager.updateJobCostingValidity}"/>
                     </h:inputTextarea>
 
@@ -259,7 +261,7 @@ Email: info@dpbennett.com.jm
                                     forceSelection="true"
                                     completeMethod="#{jobManager.completeJobCostingAndPaymentName}">
                         <p:ajax event="itemSelect"
-                                
+                                update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                 listener="#{jobManager.updateCostingComponents}"
                                 process="@this"/>                      
                     </p:autoComplete>
@@ -284,7 +286,7 @@ Email: info@dpbennett.com.jm
                                  value="New Item"
                                  actionListener="#{jobManager.createNewCostComponent}"
                                  disabled="#{jobManager.completed}"
-                                 
+                                 update=":costingComponentDialogForm"
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
                                  icon="ui-icon-plus"
@@ -379,7 +381,7 @@ Email: info@dpbennett.com.jm
                         <p:commandButton title="Edit cost component details"
                                          actionListener="#{jobManager.editCostComponent}"
                                          disabled="#{!costComponent.isEditable or jobManager.completed}"
-                                         
+                                         update=":costingComponentDialogForm"
                                          oncomplete="costingComponentDialog.show();"
                                          icon="ui-icon ui-icon-pencil"
                                          process="@this">
@@ -406,7 +408,7 @@ Email: info@dpbennett.com.jm
                                  value="New Item"
                                  disabled="#{jobManager.completed}"
                                  actionListener="#{jobManager.createNewCostComponent}"
-                                 
+                                 update=":costingComponentDialogForm"
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
                                  icon="ui-icon-plus"
@@ -421,8 +423,7 @@ Email: info@dpbennett.com.jm
                                  disabled="#{!jobManager.isAuthorizedToModifyCostings}"
                                  maxlength="250" >
                         <p:ajax event="keyup"
-                                global="false"
-                                
+                                global="false"                                
                                 listener="#{jobManager.updateJob}"
                                 process="@this"/>
                     </p:inputText>
@@ -434,8 +435,7 @@ Email: info@dpbennett.com.jm
                                  style="width: 200px" >
                         <p:ajax event="keyup"
                                 global="false"
-                                listener="#{jobManager.updateJob}"
-                                
+                                listener="#{jobManager.updateJob}"                                
                                 process="@this"/>
                     </p:inputText>
 
@@ -448,7 +448,7 @@ Email: info@dpbennett.com.jm
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax event="keyup"
                                 global="false"
-                                
+                                update=":jobCostingDialogForm:amountDue"
                                 listener="#{jobManager.updateAmountDue}"
                                 process="@this"/>
                     </p:inputText>
@@ -460,7 +460,7 @@ Email: info@dpbennett.com.jm
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                             <p:ajax event="keyup"
                                     global="false"
-                                    
+                                    update=":jobCostingDialogForm:amountDue"
                                     listener="#{jobManager.updateAmountDue}"
                                     process="@this"/>
                         </p:inputText>
@@ -506,7 +506,6 @@ Email: info@dpbennett.com.jm
                         <p:ajax event="keyup"
                                 global="false"
                                 listener="#{jobManager.updateJob}"
-                                
                                 process="@this"/>
                     </h:inputTextarea>
                 </h:panelGrid>
@@ -525,7 +524,7 @@ Email: info@dpbennett.com.jm
                          width="400">
             <p:commandButton value="Yes"      
                              actionListener="#{jobManager.deleteCostComponent}"
-                             
+                             update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                              onstart="longProcessDialogVar.show();"
                              oncomplete="costComponentDeleteConfirm.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-check"
@@ -551,7 +550,7 @@ Email: info@dpbennett.com.jm
                              process="@this"/>
             <p:commandButton value="No"   
                              actionListener="#{jobManager.cancelJobEdit}"
-                             
+                             update=":jobCostingDialogForm"
                              oncomplete="jobCostingSaveConfirm.hide();jobCostingDialog.hide();"
                              icon="ui-icon-close"/>       
         </p:confirmDialog>
@@ -579,7 +578,7 @@ Email: info@dpbennett.com.jm
             <hr/>
             <p:commandButton value="Ok"               
                              actionListener="#{jobManager.validateJobCostingAndSaveJob}"
-                                                                 
+                             update=":jobCostingDialogForm:jobCostingsTemplateName" 
                              oncomplete="jobCostingTemplateNameDialog.hide();"
                              icon="ui-icon ui-icon-check"
                              process="@form"/>

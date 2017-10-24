@@ -27,7 +27,7 @@ Email: info@dpbennett.com.jm
                          disabled="#{jobManager.completed}"
                          onstart="longProcessDialogVar.show();"
                          actionListener="#{jobManager.validateJobCostingAndSaveJob}"
-                        
+                         update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
                          oncomplete="handleSaveJobCostingAndPaymentRequest(xhr, status, args);longProcessDialogVar.hide();"
                          icon="ui-icon-check"
                          process="@this"/>

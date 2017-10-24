@@ -37,12 +37,12 @@ Email: info@dpbennett.com.jm
             <p:ajax event="close"    
                     onstart="longProcessDialogVar.show();"
                     oncomplete="longProcessDialogVar.hide();"
-                    listener="#{jobManager.closePreferencesDialog2(event)}"/>
+                    listener="#{jobManager.closePreferencesDialog2}"/>
 
             <p:commandButton value="Close" 
                              onstart="longProcessDialogVar.show();"
                              oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
-                             actionListener="#{jobManager.closePreferencesDialog1(event)}" />
+                             actionListener="#{jobManager.closePreferencesDialog1}" />
             <hr/>
             <p:tabView id="preferencesTabView" >
                 <p:tab title="General" id="generalTab">
@@ -121,7 +121,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Close" 
                              onstart="longProcessDialogVar.show();"
                              oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
-                             actionListener="#{jobManager.closePreferencesDialog1(event)}" />
+                             actionListener="#{jobManager.closePreferencesDialog1}" />
         </p:dialog>
     </h:form>
 </html>

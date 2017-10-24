@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
         <p:ajax event="close"    
                 process="@this"
                 update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable"
-                listener="#{serviceManager.closeServiceRequestDialog2(event)}"
+                listener="#{serviceManager.closeServiceRequestDialog2}"
                 async="true" />
 
         <p:commandButton actionListener="#{serviceManager.saveCurrentServiceRequest}"
@@ -49,7 +49,7 @@ Email: info@dpbennett.com.jm
                          title="Save current job"
                          icon="ui-icon-disk" />
         <p:commandButton value="Close"
-                         actionListener="#{serviceManager.closeServiceRequestDialog1(event)}"
+                         actionListener="#{serviceManager.closeServiceRequestDialog1}"
                          async="true"
                          onclick="serviceRequestDialog.hide();"
                          update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable"
@@ -294,7 +294,7 @@ Email: info@dpbennett.com.jm
                          title="Save current job"
                          icon="ui-icon-disk" />
         <p:commandButton value="Close"
-                         actionListener="#{serviceManager.closeServiceRequestDialog1(event)}"
+                         actionListener="#{serviceManager.closeServiceRequestDialog1}"
                          async="true"
                          onclick="serviceRequestDialog.hide();"
                          update=":mainTabViewForm:mainTabView:serviceRequestsDatabaseTable"

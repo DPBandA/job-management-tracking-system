@@ -10,6 +10,7 @@
   and select components.
 - Add: System options: applicationHeading and applicationSubheading
 - Add System options: defaultUsername, defaultPassword
+- Add to client table: DATEEDITED, EDITEDBY_ID
 - Delete JobManagerUser POLLTIME and re-add as TIMESTAMP
 - Check that all users are authenticated on the live JMTS.
 - In my.cnf add the following for mysql 5.7 >= to remove ONLY_FULL_GROUP_BY :
@@ -18,74 +19,20 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Immediate Issues
-- <p:autoComplete id="currentClientBillingAddress"> should be validated. Validation
-  must coonsider the case when the address is new and does not exist in the database.
-- Put use <p:ajax event="dialogReturn"> to update fields and use primefaces 
-  dialog framework for the client form/dialog.
-- Finish NewClientValidator and use it to validate new client entries. Impl. 
-  prevention dialog closing and client save until client is validated like 
-  what is done for the system option dialog.
-  Try remove <p:dialog> may be that will make it behave like the systemOptionDialogForm.
-- Ensure "Entered by" and "Edited by" works.
-- Implement "Select/Add contact" 
-- Imlement "+ New" to be put beside "Select/Add Contact/Address" in client form.
-- Setup UI for entry and display of billing address for new and existing client.
-   The current UI is not user friendly.
-- Call getBillingAddress(), getMainContact() when client is first selected in 
-   job client field. 
-- Remove code that changes the billing address type to only one address. ie allow
-   more than one address to bear the "billing" type.
-- Validate address fields in address dialog.
-- Remove type and "set billing addres" from client dialog and fix fact that
-   table is not properly update or stateOrProvince not being set.
-- Find address using all fields of the address and use autocomplete and validate
-  billing address before save. Create a validator that show errors warns about using
-  comma in an address field and ensure that all fields are filled out.
-- Implement change back to billing address and implement search on all the fields
-   of a address for use in the converter.
-- Use POJOs where possible on ClientForm.
-- Implement billing address field on job dialog. Fill in billing address after
-   address is selected in "select billing address combobox.
-- Implement validators where necessary.
-- Add contact field in "General" tab. Make it autocomplete with drop down and 
-   force selection. Add edit button beside field. Allow setting the contacts address
-   as the billing address if no billing address is set on the main client. 
-- In Job.validate() check for id == null instead where possible instead of fetching the object.
-- Implement updateCashPayment() to record updates made to a field and store the updates.
-- Make sure service contract, job costing etc. are updated to use the billing address
-  and contact found in the job record.
-in a list called updates using a method called update() in JobManager. 
-Only mark the job as dirty when the dialog is closed or "oked". 
-JobManager isDirty should be not be set to true if edits in a dialog have been 
-canceled. Implement same feature for the JobDialog and other dialogs.
-- Add cash payments feature so cashier can add cash payments.
-* Add discount type and discount to cash payment form.
-* Add fields to cashPayment and database: discount, discountType, 
-paymentTerms, rename JMTSUserId to userId
-* Make a payment(first) as desosit and save to jobCostingAndPayment.deposit
-* Add PO number to payment panel. 
-* Update corresponding fields in jobCostingAndPayment as required.
-* Use canEditInvoicingAndPayment where necessary
-* Ensure amount due is updated correctly using cash payments.
+- Fix jobCostingDialogControlPanel.xhtml update="?"
+- Fix job costing form and use the billing address and contact found in the 
+  job record if necessary.
+- Do resetInput when opening job costing dialogs.
+- The "Job Costing Modified" dialog does not have a no button.
+- Check if any of the job costing message dialog close the job detail tab.
 - Create contact field in the job record to assign contact to current job.
 - Implement and include report templates for all reports generated to date.
 - Implement prevention of the insertion of incorrect subcontract jobs costing 
 amounts which sometimes occur when the date of submission of a parent job is changed
-- Modify the permissions scheme to prevent the changing of some fields (such as 
-the client field) by unauthorized personnel and track all changes made.  
+Use parentJobId in the subcontract to solve this?
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
 Views can be viewed simultaneously for easy job costing updates.
 -- Create views/tabs for job costing and cashier instead of using job tables view. 
-    OR
--- Instead of creating double view, "merge" the columns from "Job Costing" 
-view while leaving out unneeded columns.
-- Implement BSJ client entry update and automatic contact detail insertion when 
-subcontracting jobs.
--- For external jobs, create contact field in job record and store contact from 
-a selected client contact.
--- For subcontracts, get or create contact for person doing the subcontract.
-- Use primefaces Dialog framework to implement all dialogs so they can be reused
-by other apps?
 - Remove payeeFirst/Lastname and put contact/person.
 - Remove search parameters for legal, compliance and foods.
 - When subcontracted department is deleted and the job form is closed,
@@ -93,7 +40,6 @@ by other apps?
 - This was commented out of ClientManager: 
     //getMain().displayCommonMessageDialog(null, "Please provide at least 1 character for the search text.", "Insufficient Characters", "alert");
     Find way to get something like this back in without using getMain().
-- For new clients make sure that the "EnteredBy" field is filled out.
 - If the billing address field is not set then set the default billing address
   for the client being edited.
 - Do copy of billing address, contact and client before saving new job. Do
@@ -104,6 +50,16 @@ by other apps?
   unchangeable by default.
 - For user status change Checked in/out to Last checked in "date/time.
 - Hide items in user menu if they are not selected in preferences.
+- Implement updateCashPayment() to record updates made to a field and store the updates.
+- Add cash payments feature so cashier can add cash payments.
+* Add discount type and discount to cash payment form.
+* Add fields to cashPayment and database: discount, discountType, 
+paymentTerms, rename JMTSUserId to userId
+* Make a payment(first) as desosit and save to jobCostingAndPayment.deposit
+* Add PO number to payment panel. 
+* Update corresponding fields in jobCostingAndPayment as required.
+* Use canEditInvoicingAndPayment where necessary
+* Ensure amount due is updated correctly using cash payments.
 
 ### Testing on Test and Live versions
 - Check that client credit status dialog still works
@@ -249,8 +205,7 @@ by other apps?
 - Some report templates are given in system options while others are given
   in Report table. Given all of them in Report table and delete the system options
   over time.
-- Create font jar so that jasper font errors can be eliminated see:
-  https://community.jaspersoft.com/questions/856236/how-fix-netsfjasperreportsengineutiljrfontnotfoundexception-font-arial-not
+- Put job costing dialog in panel.
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
