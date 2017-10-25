@@ -19,9 +19,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Immediate Issues
-- Fix jobCostingDialogControlPanel.xhtml update="?" and relook and costing templates
-  to see if it works as expected.
-- Fix job costing form and use the billing address and contact found in the 
+- Fix job costing form export etc. and use the billing address and contact found in the 
   job record if necessary.
 - Do resetInput when opening job costing dialogs.
 - The "Job Costing Modified" dialog does not have a no button.
@@ -35,14 +33,11 @@ Use parentJobId in the subcontract to solve this?
 Views can be viewed simultaneously for easy job costing updates.
 -- Create views/tabs for job costing and cashier instead of using job tables view. 
 - Remove payeeFirst/Lastname and put contact/person.
-- Remove search parameters for legal, compliance and foods.
 - When subcontracted department is deleted and the job form is closed,
   the subcontracted department field disappears when the form is reopened. Fix!
 - This was commented out of ClientManager: 
     //getMain().displayCommonMessageDialog(null, "Please provide at least 1 character for the search text.", "Insufficient Characters", "alert");
     Find way to get something like this back in without using getMain().
-- If the billing address field is not set then set the default billing address
-  for the client being edited.
 - Do copy of billing address, contact and client before saving new job. Do
   not allow changing these fields except by sysadmin. Implement doShallowCopy()
   for client that does not copy the list of addresses and contacts.
@@ -68,6 +63,8 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
+- Put job number in tab title...in brackets. Update the tab when something that 
+  affects the job number changes.
 - Do search when respective tab with search results table is selected for the 
   System/Finance add min tabs.
 - Add search fields and dialogs where they don't exist. Impl find* methods that 
@@ -207,6 +204,9 @@ paymentTerms, rename JMTSUserId to userId
   in Report table. Given all of them in Report table and delete the system options
   over time.
 - Put job costing dialog in panel.
+- Disable "Approved" and Invoiced buttons in job costing control panel if
+  person is not authorized.
+- Convert job costing dialog to tab.
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

@@ -35,7 +35,7 @@ Email: info@dpbennett.com.jm
         <p:commandButton value="Close"
                          onstart="longProcessDialogVar.show();"
                          actionListener="#{jobManager.closeJobCostingDialog}"
-                         
+                         update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
                          oncomplete="longProcessDialogVar.hide();jobCostingDialog.hide();"
                          icon="ui-icon-close"
                          process="@this"/>
@@ -46,7 +46,7 @@ Email: info@dpbennett.com.jm
                                      title="If this job is assigned to you, check to indicate that this job costing was completed.">
                 <p:ajax global="false"
                         listener="#{jobManager.completeJobCosting}"
-                        
+                        update="@this,exportJobCostingButton"
                         process="@this"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Prepared" title="If this job is assigned to you, check to indicate that this job costing was completed." />
@@ -55,10 +55,10 @@ Email: info@dpbennett.com.jm
         <h:panelGroup>
             <h:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.costingApproved}"   
                                      disabled="false"
-                                     title="If you are authorized to approved this job costing, check to indicate that this job costing was approved.">
+                                     title="If you are authorized to approve this job costing, check to indicate that this job costing was approved.">
                 <p:ajax global="false"
                         listener="#{jobManager.approveJobCosting}"
-                        
+                        update="costComponentsPanel,:jobCostingDialogForm:costingDate,@this,exportJobCostingButton"
                         process="@this"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Approved" title="If you are the head of the department/unit, check to indicate that this job costing was approved." />
@@ -69,7 +69,7 @@ Email: info@dpbennett.com.jm
                                      title="Check to indicate that an invoice was done for this job costing.">
                 <p:ajax global="false"                        
                         listener="#{jobManager.invoiceJobCosting}"
-                        
+                        update="@this"
                         process="@this"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Invoiced" title="Check to indicate that an invoice was done for this job costing." />
@@ -90,7 +90,7 @@ Email: info@dpbennett.com.jm
         <h:panelGroup>
             <p:spacer height="0" width="5"/>
             <p:commandButton value="Save Costings as Template"
-                             
+                             update=":jobCostingTemplateNameDialogForm"
                              oncomplete="jobCostingTemplateNameDialog.show();"
                              title="Save costings as a template for reuse in another job costing"                        
                              ajax="true">           

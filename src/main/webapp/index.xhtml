@@ -84,9 +84,11 @@ Email: info@dpbennett.com.jm
                         </h:panelGrid>
                         <p:menuButton value="#{jobManager.user.employee.firstName} #{jobManager.user.employee.lastName}"     
                                       iconPos="left"
+                                      id="userMenu"
                                       style="float: right;" >
 
                             <p:menuitem actionListener="#{jobManager.openJobsTab}"
+                                        rendered="#{jobManager.user.jobManagementAndTrackingUnit}"                                        
                                         onstart="longProcessDialogVar.show();"                                        
                                         oncomplete="longProcessDialogVar.hide();"                                            
                                         value="Jobs"
@@ -98,13 +100,13 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             <p:separator /> 
                             <p:menuitem actionListener="#{jobManager.openSystemAdministrationTab}"
-                                        rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
+                                        rendered="#{jobManager.user.adminUnit}"
                                         onstart="longProcessDialogVar.show();"                                        
                                         oncomplete="longProcessDialogVar.hide();"                                            
                                         value="System Administration"
                                         process="@this"/>
                             <p:menuitem actionListener="#{jobManager.openFinancialAdministrationTab}"
-                                        rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}"
+                                        rendered="#{jobManager.user.financialAdminUnit}"
                                         onstart="longProcessDialogVar.show();"                                        
                                         oncomplete="longProcessDialogVar.hide();"                                            
                                         value="Financial Administration"

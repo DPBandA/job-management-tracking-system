@@ -3100,6 +3100,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         dashboard.update("mainTabViewForm:mainTabView");
         dashboard.update("dashboardForm:dashboardAccordion");
+        
+        context.update("headerForm");
         context.execute("preferencesDialog.hide();");
 
         setDirty(false);
