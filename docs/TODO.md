@@ -18,6 +18,20 @@
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
 ================================================================================
+### Service Offerings and Projections (for HE)
+- Discuss draft report with HE
+* Notes:
+  * JMTS sectors and services cannot be mapped cleanly to the sectors and services in HE report
+  * The calibrations/tests cover all clients served over a period of 3 years
+
+### Departmental Earnings Trend Report (for RA)
+- Do mockup report/template for RA and submit with proforma invoice.
+
+### Reporting
+- Add description, 2 departments, 3 date periods etc. in class Report.
+- Implement and include report templates for all reports generated to date.
+- Convert all report templates using Excel.
+
 ### Immediate Issues
 - Change "Service" tab to "Service Contract" and change the name of the respective
   xhmtl file
@@ -29,10 +43,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - The "Job Costing Modified" dialog does not have a no button.
 - Check if any of the job costing message dialog close the job detail tab.
 - Create contact field in the job record to assign contact to current job.
-- Implement and include report templates for all reports generated to date.
 - Implement prevention of the insertion of incorrect subcontract jobs costing 
-amounts which sometimes occur when the date of submission of a parent job is changed
-Use parentJobId in the subcontract to solve this?
+  Amounts which sometimes occur when the date of submission of a parent job is changed
+  Use parentJobId in the subcontract to solve this?
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
 Views can be viewed simultaneously for easy job costing updates.
 -- Create views/tabs for job costing and cashier instead of using job tables view. 
@@ -225,6 +238,7 @@ paymentTerms, rename JMTSUserId to userId
 - Remove trim from all find* methods
 
 ### Service Contract
+- Put button in service contract tab to generate service contract.
 - Export sample condition(s) to service contract.
 - Ensure that the contact in the job and not the main contact in the client is used where required. The job contact field to be created if necessary.
 - Restrict generation of service contract to an authorized person/department?
