@@ -19,6 +19,10 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Immediate Issues
+- Change "Service" tab to "Service Contract" and change the name of the respective
+  xhmtl file
+- Check that exporting job costing, service contract and other forms do not
+  save any entity as this is not necessary.
 - Fix job costing form export etc. and use the billing address and contact found in the 
   job record if necessary.
 - Do resetInput when opening job costing dialogs.
@@ -63,6 +67,11 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
+- Fill in billing address and main contact of a client of the billing adddress
+  and contact fields of the job record are not valid eg blank??
+- Add parentSector to Sector class and add Sub-sector to Groupings tab. Sub-sectors
+  would be those that have a parent sector.
+- Add descriptions of grouping items to in "Groupings" tab.
 - Put job number in tab title...in brackets. Update the tab when something that 
   affects the job number changes.
 - Do search when respective tab with search results table is selected for the 
