@@ -40,6 +40,7 @@ public class MainTabView implements Serializable {
     private MainTab adminTab;
     private MainTab jobDetailTab;
     private MainTab clientsTab;
+    private MainTab reportsTab;
 
     public MainTabView(JobManagerUser user) {
         this.user = user;
@@ -131,7 +132,7 @@ public class MainTabView implements Serializable {
         MainTab tab = findTab(tabId);
 
         if (tab != null && !render) {
-            // DashboardTab is being removed
+            // MainTab is being removed
             switch (tabId) {
                 case "jobsTab":
                     tab.setRenderJobsTab(em, render);
@@ -148,16 +149,19 @@ public class MainTabView implements Serializable {
                 case "clientsTab":
                     tab.setRenderClientsTab(render);
                     break;
+                 case "reportsTab":
+                    tab.setRenderReportsTab(render);
+                    break;    
                 default:
                     break;
             }
             tabs.remove(tab);
         } else if (tab != null && render) {
-            // DashboardTab already rendered
+            // MainTab already rendered
         } else if (tab == null && !render) {
-            // DashboardTab is not be rendered            
+            // MainTab is not be rendered            
         } else if (tab == null && render) {
-            // DashboardTab is to be rendered    
+            // MainTab is to be rendered    
             switch (tabId) {
                 case "jobsTab":
                     jobsTab.setRenderJobsTab(em, render);
@@ -179,6 +183,10 @@ public class MainTabView implements Serializable {
                     clientsTab.setRenderClientsTab(render);
                     tabs.add(clientsTab);
                     break;
+                case "reportsTab":
+                    reportsTab.setRenderReportsTab(render);
+                    tabs.add(reportsTab);
+                    break;    
                 default:
                     break;
             }
@@ -204,6 +212,7 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 false,
+                false,
                 getUser());
         // Financial admin tab
         financialAdminTab = new MainTab(
@@ -212,6 +221,7 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 getUser().getFinancialAdminUnit(),
+                false,
                 false,
                 false,
                 getUser());
@@ -224,11 +234,13 @@ public class MainTabView implements Serializable {
                 false,
                 getUser().getAdminUnit(),
                 false,
+                false,
                 getUser());
         // Job detail tab
         jobDetailTab = new MainTab(
                 "jobDetailTab",
                 "Job Detail",
+                false,
                 false,
                 false,
                 false,
@@ -244,10 +256,22 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 false,
+                false,
+                getUser());
+        // Reports tab
+        reportsTab = new MainTab(
+                "reportsTab",
+                "Reports",
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
                 getUser());
     }
 
-    public void reset(JobManagerUser user) {        
+    public void reset(JobManagerUser user) {
         this.user = user;
         // Construct tabs
         init();

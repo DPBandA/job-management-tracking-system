@@ -70,9 +70,9 @@ Email: info@dpbennett.com.jm
                 value="Reports"
                 actionListener="#{jobManager.initJobReport}"
                 onstart="longProcessDialogVar.show();"
-                update=":reportingDialogForm"
+               
                 rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
-                oncomplete="reportingDialog.show();"
+                
                 onerror="connectionErrorDialog.show();"
                 title="Generate, view and export reports"
                 icon="ui-icon-newwin"

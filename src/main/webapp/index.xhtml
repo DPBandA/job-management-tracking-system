@@ -42,12 +42,11 @@ Email: info@dpbennett.com.jm
             onmouseover="longProcessDialogVar.hide();">
         <ui:include src="common/commonDialogs.xhtml" />                       
         <ui:include src="common/loginDialog.xhtml"/>
-        <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>
-        <ui:include src="jmts/reportingDialog.xhtml"/>   
-        <ui:include src="jmts/jobSampleDialogs.xhtml"/>
-        <ui:include src="jmts/jmtsAlertDialogs.xhtml"/>
-        <ui:include src="jmts/jobMessageDialogs.xhtml"/>  
-        <ui:include src="jmts/jobCostingDialogs.xhtml"/> 
+        <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>        
+        <ui:include src="job/jobSampleDialogs.xhtml"/>
+        <ui:include src="job/jmtsAlertDialogs.xhtml"/>
+        <ui:include src="job/jobMessageDialogs.xhtml"/>  
+        <ui:include src="job/jobCostingDialogs.xhtml"/> 
         <ui:include src="common/generalAlertDialogs.xhtml"/>
         <ui:include src="common/connectionErrorAlertDialog.xhtml"/>
         <ui:include src="common/longProcessDialog.xhtml"/>   
@@ -96,6 +95,11 @@ Email: info@dpbennett.com.jm
                             <p:menuitem value="Clients"
                                         onstart="longProcessDialogVar.show();"                                                    
                                         actionListener="#{jobManager.openClientsTab}"
+                                        oncomplete="longProcessDialogVar.hide();"
+                                        process="@this"/>
+                            <p:menuitem value="Reports"
+                                        onstart="longProcessDialogVar.show();"                                                    
+                                        actionListener="#{jobManager.openReportsTab}"
                                         oncomplete="longProcessDialogVar.hide();"
                                         process="@this"/>
                             <p:separator /> 
@@ -155,7 +159,7 @@ Email: info@dpbennett.com.jm
 
                         <p:tab title="#{tab.name}" closable="true"  >
                             <h:panelGroup rendered="#{tab.renderJobsTab}">                                
-                                <ui:include src="jmts/jobsTab.xhtml" />   
+                                <ui:include src="job/jobsTab.xhtml" />   
                             </h:panelGroup>
                             <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
                                 <ui:include src="admin/financialAdminTab.xhtml" /> 
@@ -164,10 +168,13 @@ Email: info@dpbennett.com.jm
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
                             </h:panelGroup>
                             <h:panelGroup rendered="#{tab.renderJobDetailTab}" >
-                                <ui:include src="jmts/jobDetail.xhtml"/> 
+                                <ui:include src="job/jobDetail.xhtml"/> 
                             </h:panelGroup>
                             <h:panelGroup rendered="#{tab.renderClientsTab}" >
                                 <ui:include src="client/clientsTab.xhtml" />                                                                
+                            </h:panelGroup>
+                             <h:panelGroup rendered="#{tab.renderReportsTab}" >
+                                 <ui:include src="report/reportsTab.xhtml" />                                                                
                             </h:panelGroup>
                         </p:tab>
                     </p:tabView>

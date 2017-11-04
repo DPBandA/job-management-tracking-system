@@ -31,6 +31,7 @@ public class MainTab {
     private Boolean renderAdminTab;
     private Boolean renderJobDetailTab;
     private Boolean renderClientsTab;
+    private Boolean renderReportsTab;
     private JobManagerUser user;
 
     public MainTab(
@@ -41,6 +42,7 @@ public class MainTab {
             Boolean renderFinancialAdminTab,
             Boolean renderAdminTab,
             Boolean renderClientsTab,
+            Boolean renderReportsTab,
             JobManagerUser user) {
 
         this.id = id;
@@ -51,6 +53,7 @@ public class MainTab {
         this.renderFinancialAdminTab = renderFinancialAdminTab;
         this.renderAdminTab = renderAdminTab;
         this.renderClientsTab = renderClientsTab;
+        this.renderReportsTab = renderReportsTab;
     }
 
     public String getId() {
@@ -59,6 +62,14 @@ public class MainTab {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Boolean getRenderReportsTab() {
+        return renderReportsTab;
+    }
+
+    public void setRenderReportsTab(Boolean renderReportsTab) {
+        this.renderReportsTab = renderReportsTab;
     }
 
     public Boolean getRenderClientsTab() {
@@ -82,9 +93,7 @@ public class MainTab {
     }
 
     public void setRenderJobsTab(EntityManager em, Boolean render) {
-        this.renderJobsTab = render;
-        //user.setJobManagementAndTrackingUnit(renderJobsTab);
-        //user.save(em);       
+        this.renderJobsTab = render;      
     }
 
     public Boolean getRenderFinancialAdminTab() {
@@ -93,8 +102,6 @@ public class MainTab {
 
     public void setRenderFinancialAdminTab(EntityManager em, Boolean render) {
         this.renderFinancialAdminTab = render;
-        //user.setFinancialAdminUnit(renderFinancialAdminTab);
-        //user.save(em);
     }
 
     public Boolean getRenderAdminTab() {
@@ -103,8 +110,6 @@ public class MainTab {
 
     public void setRenderAdminTab(EntityManager em, Boolean render) {
         this.renderAdminTab = render;
-        //user.setAdminUnit(renderAdminTab);
-        //user.save(em);
     }
 
     public Boolean getRenderJobDetailTab() {
@@ -114,7 +119,7 @@ public class MainTab {
     public void setRenderJobDetailTab(Boolean renderJobDetailTab) {
         this.renderJobDetailTab = renderJobDetailTab;
     }
-    
+
     public JobManagerUser getUser() {
         return user;
     }

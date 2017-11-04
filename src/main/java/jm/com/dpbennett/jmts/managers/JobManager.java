@@ -861,6 +861,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void closeJobDetailTab() {
         mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
     }
+    
+    public void closeReportsTab() {
+        mainTabView.renderTab(getEntityManager1(), "reportsTab", false);
+    }
 
     public void onDashboardTabChange(TabChangeEvent event) {
 
@@ -1880,6 +1884,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             jobReport = new Report("");
             updateJobReport();
         }
+        
+        openReportsTab();
     }
 
     public Boolean getDisableReportingDepartment() {
@@ -8340,6 +8346,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         mainTabView.renderTab(getEntityManager1(), "clientsTab", true);
+    }
+    
+    public void openReportsTab() {
+        mainTabView.renderTab(getEntityManager1(), "reportsTab", true);
     }
 
     public Department getDepartmentBySystemOptionDeptId(String option) {

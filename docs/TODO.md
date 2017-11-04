@@ -18,6 +18,11 @@
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
 ================================================================================
+### Reports
+- Create ReportManager and use it instead of JobManager where possible.
+- Add description, 2 departments, 3 date periods etc. in class Report.
+- Implement and include report templates for all reports generated to date.
+
 ### Service Offerings and Projections (for HE)
 - Discuss draft report with HE
 * Notes:
@@ -26,11 +31,6 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ### Departmental Earnings Trend Report (for RA)
 - Do mockup report/template for RA and submit with proforma invoice.
-
-### Reporting
-- Add description, 2 departments, 3 date periods etc. in class Report.
-- Implement and include report templates for all reports generated to date.
-- Convert all report templates using Excel.
 
 ### Immediate Issues
 - Change "Service" tab to "Service Contract" and change the name of the respective
@@ -80,6 +80,12 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
+- Remove SearchManager and let each manager deal with their search.
+- Create GeneralManager and let it handle things that JobManager is now handling
+  such as user login.
+- In System Admin List all by default.  
+- Create autocomplete list of "standard/common" product names using a "Distinct"
+  type of the query on the existing samples.
 - Fill in billing address and main contact of a client of the billing adddress
   and contact fields of the job record are not valid eg blank??
 - Add parentSector to Sector class and add Sub-sector to Groupings tab. Sub-sectors
@@ -228,7 +234,9 @@ paymentTerms, rename JMTSUserId to userId
 - Put job costing dialog in panel.
 - Disable "Approved" and Invoiced buttons in job costing control panel if
   person is not authorized.
-- Convert job costing dialog to tab.
+- Convert job costing dialog to tab?
+- Store tab and tabview information in database (eg MainTab, MainTabView) 
+  in database.
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

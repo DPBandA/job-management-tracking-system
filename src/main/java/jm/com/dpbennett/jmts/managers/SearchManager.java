@@ -388,10 +388,10 @@ public class SearchManager implements SearchManagement, Serializable {
                 }
                 break;
             case "Service Request Search":
-                ServiceManager sm = Application.findBean("serviceManager");
-                if (sm != null) {
-                    addMessage("Sorry!", "Service Request Search not yet implemented.");
-                }
+                //ServiceManager sm = Application.findBean("serviceManager");
+                //if (sm != null) {
+                //    addMessage("Sorry!", "Service Request Search not yet implemented.");
+                //}
                 break;
             case "Admin Search":
                 addMessage("Sorry!", "System Administration Search not yet implemented.");

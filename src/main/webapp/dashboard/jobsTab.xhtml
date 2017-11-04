@@ -44,8 +44,7 @@ Email: info@dpbennett.com.jm
         <p:commandButton
             value="Reports"
             actionListener="#{jobManager.initJobReport}"
-            onstart="longProcessDialogVar.show();"
-            update=":reportingDialogForm"                                        
+            onstart="longProcessDialogVar.show();"                                                
             oncomplete="reportingDialog.show();"
             onerror="connectionErrorDialog.show();"
             title="Generate, view and export reports"
