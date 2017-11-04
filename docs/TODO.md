@@ -19,9 +19,13 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Reports
+- Fix "Wait" icon display for reports tab. The icon is not going away after 
+  report is generated. NB: The longProgressDialogForm works with JM only this
+  is the reason.
+- Check jobs assigned to department report which does not seem to be working. 
 - Create ReportManager and use it instead of JobManager where possible.
   Use a copy of JobManager as the base. Set user and mainTabView before opening
-  tab.
+  tab. Test the generation of all reports
 - MainTabView and MainTab to be put in BEL so they can be used by other modules
   that are developed independently of the JMTS.
 - Add description, 2 departments, 3 date periods etc. in class Report.

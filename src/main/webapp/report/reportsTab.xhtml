@@ -33,11 +33,11 @@ Email: info@dpbennett.com.jm
                          id="export1"
                          ajax="false"
                          style="width: 150px"
-                         disabled="#{!jobManager.canExportCurrentPeriodJobReport}"
-                         actionListener="#{jobManager.updateJobReport}"
-                         update="longProgressDialogForm"
-                         onclick="longProcessDialogVar2.show();" >
-            <p:fileDownload value="#{jobManager.jobReportFile}" />
+                         disabled="#{!reportManager.canExportCurrentPeriodJobReport}"
+                         actionListener="#{reportManager.updateJobReport}"
+                         update="longProgressDialogForm3"
+                         onclick="longProcessDialogVar3.show();" >
+            <p:fileDownload value="#{reportManager.jobReportFile}" />
         </p:commandButton>
 
     </h:panelGrid>          
@@ -45,35 +45,35 @@ Email: info@dpbennett.com.jm
     <p:panel header="Report/Query criteria">
         <h:panelGrid columns="2" id="reportPanelGrid" cellspacing="10">
             <h:outputText value="Report:"/>
-            <p:selectOneMenu value="#{jobManager.jobReport.id}">
-                <p:ajax listener="#{jobManager.refreshJobReport}"
+            <p:selectOneMenu value="#{reportManager.jobReport.id}">
+                <p:ajax listener="#{reportManager.refreshJobReport}"
                         global="true"
                         onstart="longProcessDialogVar2.show();"
                         oncomplete="longProcessDialogVar2.hide();"
                         update="reportPanelGrid,datePeriodsPanelGrid,jobsReportTableTabView,export1,export2"
                         process="@this" />
-                <f:selectItems value="#{jobManager.jobReports}"
+                <f:selectItems value="#{reportManager.jobReports}"
                                var="report"
                                itemLabel="#{report.name}"
                                itemValue="#{report.id}"/>
             </p:selectOneMenu>
 
             <h:outputText value="Department: " 
-                          rendered="#{jobManager.renderReportingDepartment}"/>
+                          rendered="#{reportManager.renderReportingDepartment}"/>
             <p:autoComplete var="department"
                             id="reportingDepartment"
-                            rendered="#{jobManager.renderReportingDepartment}"                                   
+                            rendered="#{reportManager.renderReportingDepartment}"                                   
                             forceSelection="true"
                             dropdown="false"
                             size="40"
-                            value="#{jobManager.reportingDepartment}"
-                            title="#{jobManager.reportingDepartment}"
+                            value="#{reportManager.reportingDepartment}"
+                            title="#{reportManager.reportingDepartment}"
                             itemValue="#{department}"
                             itemLabel="#{department.name}"
                             converter="departmentConverter"
-                            completeMethod="#{jobManager.completeDepartment}" >
+                            completeMethod="#{reportManager.completeDepartment}" >
                 <p:ajax event="itemSelect"
-                        listener="#{jobManager.updateReportingDepartment}"
+                        listener="#{reportManager.updateReportingDepartment}"
                         global="false"
                         onstart="longProcessDialogVar2.show();"
                         oncomplete="longProcessDialogVar2.hide();"
@@ -81,229 +81,229 @@ Email: info@dpbennett.com.jm
                         process="@this" />
             </p:autoComplete>
 
-            <h:outputText value="Employee: " rendered="#{jobManager.renderEmployee}" />
-            <h:panelGroup rendered="#{jobManager.renderEmployee}">
+            <h:outputText value="Employee: " rendered="#{reportManager.renderEmployee}" />
+            <h:panelGroup rendered="#{reportManager.renderEmployee}">
                 <p:autoComplete id="reportEmployee"
                                 var="employee"
                                 size="40"
                                 maxlength="250"
-                                value="#{jobManager.reportEmployee}"
-                                title="#{jobManager.reportEmployee}"
+                                value="#{reportManager.reportEmployee}"
+                                title="#{reportManager.reportEmployee}"
                                 itemLabel="#{employee.name}"
                                 itemValue="#{employee}"
                                 converter="employeeConverter"
                                 forceSelection="true"
-                                completeMethod="#{jobManager.completeEmployee}" >
+                                completeMethod="#{reportManager.completeEmployee}" >
                     <p:ajax event="itemSelect"
                             update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,datePeriodsPanelGrid"
-                            listener="#{jobManager.updateReportEmployee}"
+                            listener="#{reportManager.updateReportEmployee}"
                             process="@this"/>
                     <p:ajax event="keyup"
                             update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,datePeriodsPanelGrid"
-                            listener="#{jobManager.updateReportEmployee}"
+                            listener="#{reportManager.updateReportEmployee}"
                             process="@this"/>
                 </p:autoComplete>                       
             </h:panelGroup>
         </h:panelGrid>
 
         <h:panelGrid columns="1" id="datePeriodsPanelGrid" style="width: 100%">
-            <p:panel id="currentPeriod" header="Report periods" rendered="#{!jobManager.isMonthlyReport}">
+            <p:panel id="currentPeriod" header="Report periods" rendered="#{!reportManager.isMonthlyReport}">
                 <h:panelGrid columns="2" >
                     <h:outputText value="Date field: " />
-                    <p:selectOneMenu value="#{jobManager.reportSearchParameters.dateField}"                                             
-                                     disabled="#{jobManager.renderEmployee}">
+                    <p:selectOneMenu value="#{reportManager.reportSearchParameters.dateField}"                                             
+                                     disabled="#{reportManager.renderEmployee}">
                         <p:ajax
                             global="true"
                             onstart="longProcessDialogVar2.show();"
                             oncomplete="longProcessDialogVar2.hide();"
-                            listener="#{jobManager.updateReportDateField}"
+                            listener="#{reportManager.updateReportDateField}"
                             process="@this" />
-                        <f:selectItems value="#{jobManager.reportSearchParameters.searchDateFields}" />
+                        <f:selectItems value="#{reportManager.reportSearchParameters.searchDateFields}" />
                     </p:selectOneMenu>                           
 
                     <h:outputText value="Date period: " />     
-                    <p:selectOneMenu value= "#{jobManager.reportSearchParameters.datePeriod.name}">
-                        <p:ajax listener="#{jobManager.changeCurrentDateSearchPeriod}"
+                    <p:selectOneMenu value= "#{reportManager.reportSearchParameters.datePeriod.name}">
+                        <p:ajax listener="#{reportManager.changeCurrentDateSearchPeriod}"
                                 global="true"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
                                 update="currentPeriod,jobsReportTableTabView,export1,export2"
                                 process="@this" />
-                        <f:selectItems value="#{jobManager.datePeriods}"/>
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Start:" />
-                    <p:calendar value="#{jobManager.reportSearchParameters.datePeriod.startDate}"
-                                disabled="#{jobManager.reportSearchParameters.datePeriod.startDateDisabled}"
+                    <p:calendar value="#{reportManager.reportSearchParameters.datePeriod.startDate}"
+                                disabled="#{reportManager.reportSearchParameters.datePeriod.startDateDisabled}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.handleCurrentPeriodStartDateSelect}"/>
+                                listener="#{reportManager.handleCurrentPeriodStartDateSelect}"/>
                         <p:ajax event="keyup"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.handleCurrentPeriodStartDateSelect}"/>
+                                listener="#{reportManager.handleCurrentPeriodStartDateSelect}"/>
                     </p:calendar>
 
                     <h:outputText value="End:"/>
-                    <p:calendar value="#{jobManager.reportSearchParameters.datePeriod.endDate}"
-                                disabled="#{jobManager.reportSearchParameters.datePeriod.endDateDisabled}"
+                    <p:calendar value="#{reportManager.reportSearchParameters.datePeriod.endDate}"
+                                disabled="#{reportManager.reportSearchParameters.datePeriod.endDateDisabled}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.handleCurrentPeriodEndDateSelect}"/>
+                                listener="#{reportManager.handleCurrentPeriodEndDateSelect}"/>
                         <p:ajax event="keyup"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.handleCurrentPeriodEndDateSelect}"/>
+                                listener="#{reportManager.handleCurrentPeriodEndDateSelect}"/>
                     </p:calendar>
                 </h:panelGrid>
             </p:panel>
 
-            <p:panel  id="monthlyReportDatePeriods" header="Monthy Report Periods" rendered="#{jobManager.isMonthlyReport}">
+            <p:panel  id="monthlyReportDatePeriods" header="Monthy Report Periods" rendered="#{reportManager.isMonthlyReport}">
                 <h:panelGrid columns="6"  
                              id="monthlyReportDatePeriod" > 
                     <h:outputText value="Monthly report date period: " />     
-                    <p:selectOneMenu value= "#{jobManager.monthlyReportDatePeriod.name}">
-                        <p:ajax listener="#{jobManager.changeMonthlyReportDatePeriods}"
+                    <p:selectOneMenu value= "#{reportManager.monthlyReportDatePeriod.name}">
+                        <p:ajax listener="#{reportManager.changeMonthlyReportDatePeriods}"
                                 global="true"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
                                 update="monthlyReportDatePeriods,jobsReportTableTabView,export1,export2"
                                 process="@this" />
-                        <f:selectItems value="#{jobManager.datePeriods}"/>
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Start:" />
-                    <p:calendar value="#{jobManager.monthlyReportDatePeriod.startDate}"
-                                disabled="#{jobManager.monthlyReportDatePeriod.startDateDisabled}"
+                    <p:calendar value="#{reportManager.monthlyReportDatePeriod.startDate}"
+                                disabled="#{reportManager.monthlyReportDatePeriod.startDateDisabled}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                     </p:calendar>
 
                     <h:outputText value="End:"/>
-                    <p:calendar value="#{jobManager.monthlyReportDatePeriod.endDate}"
-                                disabled="#{jobManager.monthlyReportDatePeriod.endDateDisabled}"
+                    <p:calendar value="#{reportManager.monthlyReportDatePeriod.endDate}"
+                                disabled="#{reportManager.monthlyReportDatePeriod.endDateDisabled}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                     </p:calendar>
 
                     <h:outputText value="Year period: " />     
-                    <p:selectOneMenu value= "#{jobManager.monthlyReportYearDatePeriod.name}">
-                        <p:ajax listener="#{jobManager.changeMonthlyReportDatePeriods}"
+                    <p:selectOneMenu value= "#{reportManager.monthlyReportYearDatePeriod.name}">
+                        <p:ajax listener="#{reportManager.changeMonthlyReportDatePeriods}"
                                 global="true"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
                                 update="monthlyReportDatePeriods,jobsReportTableTabView,export1,export2"
                                 process="@this" />
-                        <f:selectItems value="#{jobManager.datePeriods}"/>
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Start:" />
-                    <p:calendar value="#{jobManager.monthlyReportYearDatePeriod.startDate}"
-                                disabled="#{jobManager.monthlyReportYearDatePeriod.startDateDisabled}"
+                    <p:calendar value="#{reportManager.monthlyReportYearDatePeriod.startDate}"
+                                disabled="#{reportManager.monthlyReportYearDatePeriod.startDateDisabled}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
                                 update="::mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                     </p:calendar>
 
                     <h:outputText value="End:"/>
-                    <p:calendar value="#{jobManager.monthlyReportYearDatePeriod.endDate}"
-                                disabled="#{jobManager.monthlyReportYearDatePeriod.endDateDisabled}"
+                    <p:calendar value="#{reportManager.monthlyReportYearDatePeriod.endDate}"
+                                disabled="#{reportManager.monthlyReportYearDatePeriod.endDateDisabled}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                     </p:calendar>
 
                     <h:outputText value="Data period: " />     
-                    <p:selectOneMenu value= "#{jobManager.monthlyReportDataDatePeriod.name}">
-                        <p:ajax listener="#{jobManager.changeMonthlyReportDatePeriods}"
+                    <p:selectOneMenu value= "#{reportManager.monthlyReportDataDatePeriod.name}">
+                        <p:ajax listener="#{reportManager.changeMonthlyReportDatePeriods}"
                                 global="true"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
                                 update="monthlyReportDatePeriods,jobsReportTableTabView,export1,export2"
                                 process="@this" />
-                        <f:selectItems value="#{jobManager.datePeriods}"/>
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Start:" />
-                    <p:calendar value="#{jobManager.monthlyReportDataDatePeriod.startDate}"
-                                disabled="#{jobManager.monthlyReportDataDatePeriod.startDateDisabled}"
+                    <p:calendar value="#{reportManager.monthlyReportDataDatePeriod.startDate}"
+                                disabled="#{reportManager.monthlyReportDataDatePeriod.startDateDisabled}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                     </p:calendar>
 
                     <h:outputText value="End:"/>
-                    <p:calendar value="#{jobManager.monthlyReportDataDatePeriod.endDate}"
-                                disabled="#{jobManager.monthlyReportDataDatePeriod.endDateDisabled}"
+                    <p:calendar value="#{reportManager.monthlyReportDataDatePeriod.endDate}"
+                                disabled="#{reportManager.monthlyReportDataDatePeriod.endDateDisabled}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
                                 update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
                                 onstart="longProcessDialogVar2.show();"
                                 oncomplete="longProcessDialogVar2.hide();"
-                                listener="#{jobManager.changeMonthlyReportDatePeriods}"/>
+                                listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                     </p:calendar>
                 </h:panelGrid>     
 
@@ -313,14 +313,14 @@ Email: info@dpbennett.com.jm
     </p:panel>
 
     <p:tabView id="jobsReportTableTabView" >
-        <p:tab id="jobsReportTableTabView" title="Report/Query data" rendered="#{jobManager.renderJobsReportTableTabView}">
+        <p:tab id="jobsReportTableTabView" title="Report/Query data" rendered="#{reportManager.renderJobsReportTableTabView}">
             <p:dataTable var="job"
                          paginator="true"
                          rows="15"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         value="#{jobManager.currentPeriodJobReportSearchResultList}">
+                         value="#{reportManager.currentPeriodJobReportSearchResultList}">
                 <f:facet name="header">
-                    <h:outputText value="#{jobManager.jobReport.name} (#{jobManager.numberOfCurrentPeriodJobsFound})"/>
+                    <h:outputText value="#{reportManager.jobReport.name} (#{reportManager.numberOfCurrentPeriodJobsFound})"/>
                 </f:facet>
                 <p:column>
                     <f:facet name="header">
@@ -375,18 +375,18 @@ Email: info@dpbennett.com.jm
 
     <h:panelGrid columns="2">
         <p:commandButton value="Close"
-                         actionListener="#{jobManager.closeReportsTab}"
+                         actionListener="#{reportManager.closeReportsTab}"
                          icon="ui-icon ui-icon-close" />
 
         <p:commandButton value="Export"
                          id="export2"
                          ajax="false"
                          style="width: 150px"
-                         disabled="#{!jobManager.canExportCurrentPeriodJobReport}"
-                         actionListener="#{jobManager.updateJobReport}"
-                         update="longProgressDialogForm"
-                         onclick="longProcessDialogVar2.show();" >
-            <p:fileDownload value="#{jobManager.jobReportFile}" />
+                         disabled="#{!reportManager.canExportCurrentPeriodJobReport}"
+                         actionListener="#{reportManager.updateJobReport}"
+                         update="longProgressDialogForm3"
+                         onclick="longProcessDialogVar3.show();" >
+            <p:fileDownload value="#{reportManager.jobReportFile}" />
         </p:commandButton>
 
     </h:panelGrid>    

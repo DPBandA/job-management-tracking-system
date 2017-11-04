@@ -98,6 +98,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.MainTabView;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -239,12 +240,68 @@ public class ReportManager implements Serializable {
         return reportEmployee;
     }
 
+    public List<Employee> completeEmployee(String query) {
+        EntityManager em = null;
+
+        try {
+
+            em = getEntityManager1();
+            List<Employee> employees = Employee.findActiveEmployeesByName(em, query);
+
+            if (employees != null) {
+                return employees;
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+
     public void setReportEmployee(Employee reportEmployee) {
         this.reportEmployee = reportEmployee;
     }
 
     public SearchParameters getReportSearchParameters() {
         return reportSearchParameters;
+    }
+
+    public List<SelectItem> getDatePeriods() {
+        ArrayList<SelectItem> datePeriods = new ArrayList<>();
+
+        // add items
+        if (jobReport.getName().equals("Monthly report")) {
+            for (String name : DatePeriod.getDatePeriodNames()) {
+                // get only month date periods                
+                datePeriods.add(new SelectItem(name, name));
+
+            }
+        } else {
+            for (String name : DatePeriod.getDatePeriodNames()) {
+                datePeriods.add(new SelectItem(name, name));
+            }
+        }
+
+        return datePeriods;
+    }
+
+    public int getNumberOfCurrentPeriodJobsFound() {
+        if (currentPeriodJobReportSearchResultList != null) {
+            return currentPeriodJobReportSearchResultList.size();
+        }
+
+        return 0;
+    }
+
+    public void handleCurrentPeriodStartDateSelect(SelectEvent event) {
+        reportSearchParameters.getDatePeriod().setStartDate((Date) event.getObject());
+        updateJobReport();
+    }
+    
+    public void handleCurrentPeriodEndDateSelect(SelectEvent event) {
+        reportSearchParameters.getDatePeriod().setEndDate((Date) event.getObject());
+        updateJobReport();
     }
 
     public void setReportSearchParameters(SearchParameters reportSearchParameters) {
@@ -272,6 +329,22 @@ public class ReportManager implements Serializable {
             reportingDepartment = new Department("");
         }
         return reportingDepartment;
+    }
+
+    public List<Department> completeDepartment(String query) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager1();
+
+            List<Department> departments = Department.findActiveDepartmentsByName(em, query);
+
+            return departments;
+
+        } catch (Exception e) {
+            System.out.println(e + ": completeDepartment");
+            return new ArrayList<>();
+        }
     }
 
     public void setReportingDepartment(Department reportingDepartment) {
@@ -329,6 +402,24 @@ public class ReportManager implements Serializable {
         }
 
         return jobReportFile;
+    }
+    
+    public Integer getLongProcessProgress() {
+        if (longProcessProgress == null) {
+            longProcessProgress = 0;
+        } else {
+            if (longProcessProgress < 10) {
+                // this is to ensure that this method does not make the progress
+                // complete as this is done elsewhere.
+                longProcessProgress = longProcessProgress + 1;
+            }
+        }
+        
+        return longProcessProgress;
+    }
+    
+    public void onLongProcessComplete() {
+        longProcessProgress = 0;
     }
 
     public void setLongProcessProgress(Integer longProcessProgress) {

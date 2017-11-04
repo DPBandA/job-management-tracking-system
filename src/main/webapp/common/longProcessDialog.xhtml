@@ -71,5 +71,38 @@ Email: info@dpbennett.com.jm
             </h:panelGroup>
         </p:dialog>
     </h:form>
+    
+    <h:form id="longProgressDialogForm3">
+        <p:dialog id="longProgressDialog3"
+                  onShow="longProcessBarVar3.start();"
+                  closable="false"
+                  resizable="false"
+                  showHeader="false"
+                  modal="false"
+                  onHide="longProcessBarVar3.cancel();"
+                  widgetVar="longProcessDialogVar3">
+
+            <h:panelGroup>
+                <table border="0" width="100%">                   
+                    <tr>
+                        <td align="center">
+                            <h:graphicImage value="/images/ajaxloading.gif" width="24" height="24" />
+                        </td>
+                    </tr>
+                </table>
+
+                <p:progressBar widgetVar="longProcessBarVar3"
+                               ajax="true"
+                               style="visibility: hidden;height: 0px"
+                               interval="500"
+                               value="#{reportManager.longProcessProgress}" >
+                    <p:ajax event="complete"
+                            global="false"
+                            oncomplete="longProcessDialogVar3.hide();"
+                            listener="#{reportManager.onLongProcessComplete}" />
+                </p:progressBar>
+            </h:panelGroup>
+        </p:dialog>
+    </h:form>
 
 </html>
