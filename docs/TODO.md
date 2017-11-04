@@ -20,6 +20,10 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Reports
 - Create ReportManager and use it instead of JobManager where possible.
+  Use a copy of JobManager as the base. Set user and mainTabView before opening
+  tab.
+- MainTabView and MainTab to be put in BEL so they can be used by other modules
+  that are developed independently of the JMTS.
 - Add description, 2 departments, 3 date periods etc. in class Report.
 - Implement and include report templates for all reports generated to date.
 
@@ -86,11 +90,13 @@ paymentTerms, rename JMTSUserId to userId
 - In System Admin List all by default.  
 - Create autocomplete list of "standard/common" product names using a "Distinct"
   type of the query on the existing samples.
+- Move all code dealing with authorization and privileges from JM to JMUser.
 - Fill in billing address and main contact of a client of the billing adddress
   and contact fields of the job record are not valid eg blank??
 - Add parentSector to Sector class and add Sub-sector to Groupings tab. Sub-sectors
   would be those that have a parent sector.
 - Add descriptions of grouping items to in "Groupings" tab.
+- Move code dealing with Accpac, costing etc to AccountingManager.
 - Put job number in tab title...in brackets. Update the tab when something that 
   affects the job number changes.
 - Do search when respective tab with search results table is selected for the 
@@ -103,6 +109,7 @@ paymentTerms, rename JMTSUserId to userId
 - Show message to the user if they login without being authenticated.
 - Check that if "authenticate" is unchecked ti does not allow the login of other
   users with "authenticate"checked!!
+- Remove all code that does not belong to JM to BEL or other manager.
 - Add feature to activate modules/units for users.
 - Use a toolbar at the top of search results on all tabs with search text box,
   buttons and search result table as is done with the jobs tab.
@@ -237,6 +244,8 @@ paymentTerms, rename JMTSUserId to userId
 - Convert job costing dialog to tab?
 - Store tab and tabview information in database (eg MainTab, MainTabView) 
   in database.
+- See if set/get* methods that refer to currentJob methods can be removed.
+  Eg. currentJob.getServiceContract().setIntendedMarketOther().
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
