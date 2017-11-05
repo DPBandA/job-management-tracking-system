@@ -148,7 +148,7 @@ import jm.com.dpbennett.jmts.Application;
 
 /**
  *
- * @author Desmond
+ * @author Desmond Bennett
  */
 @Named
 @SessionScoped
@@ -170,9 +170,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean addCostComponent;
     private Boolean addCashPayment;
     private Boolean dynamicTabView;
-//    private String columnsToExclude;
-//    private Report jobReport;
-//    private StreamedContent jobReportFile;
     private StreamedContent jobCostingFile;
     private Boolean renderSearchComponent;
     private Boolean renderJobDetailTab;
@@ -188,18 +185,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private String defaultOutcome;
     private Integer jobSampleDialogTabViewActiveIndex;
     private Boolean showJobEntry;
-    // job report vars
-//    private Department reportingDepartment; // tk move to reporting bean
-//    private String reportSearchText;
-    // current period
-//    private List<Job> currentPeriodJobReportSearchResultList;
-    // previous period
-//    private List<Job> previousPeriodJobReportSearchResultList;
-//    private DatePeriod previousDatePeriod;
     private List<Job> jobSearchResultList;
-//    private DatePeriodJobReport jobSubCategoryReport;
-//    private DatePeriodJobReport sectorReport;
-//    private DatePeriodJobReport jobQuantitiesAndServicesReport;
     private String userPrivilegeDialogHeader;
     private String userPrivilegeDialogMessage;
     private Integer loginAttempts;
@@ -209,7 +195,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private final SearchManager searchManager;
     private final ReportManager reportManager;
     private SearchParameters reportSearchParameters;
-    private Employee reportEmployee; // tk move to reporting bean
     private Department unitCostDepartment;
     private UnitCost currentUnitCost;
     private String searchText;
@@ -222,11 +207,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Job[] selectedJobs;
     private Boolean sendJobCostingCompletedEmail;
     private Boolean sendJobCostingApprovedEmail;
-    // Monthly report date periods
-//    private DatePeriod monthlyReportDatePeriod;
-//    private DatePeriod monthlyReportDataDatePeriod;
-//    private DatePeriod monthlyReportYearDatePeriod;
-    // Show accpac prepayments
     private Boolean showPrepayments;
     private JobManagerUser user;
     private Boolean userLoggedIn;
@@ -259,25 +239,19 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.loginAttempts = 0;
         this.showJobEntry = false;
         this.longProcessProgress = 0;
-//        this.columnsToExclude = "";
-        // Accpac fields init
         accPacCustomer = new AccPacCustomer(null);
         filteredAccPacCustomerDocuments = new ArrayList<>();
         useAccPacCustomerList = false;
-//        jobReport = new Report();
         addJobSample = false;
         addCashPayment = false;
         addCostComponent = false;
-        // reporting vars init
         ArrayList searchTypes = new ArrayList();
         ArrayList searchDateFields = new ArrayList();
-        // Add search types
         searchTypes.add(new SelectItem("General", "General"));
         // Add search fields
         searchDateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
         searchDateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
         searchDateFields.add(new SelectItem("dateAndTimeEntered", "Date entered"));
-//        previousDatePeriod = new DatePeriod("Last month", "month", null, null, false, false, true);
         reportSearchParameters
                 = new SearchParameters(
                         "Report Data Search",
@@ -303,20 +277,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchManager = Application.findBean("searchManager");
         sendJobCostingCompletedEmail = false;
         sendJobCostingApprovedEmail = false;
-        addCostComponent = false;
-        // Monthly report date periods
-//        monthlyReportDatePeriod = new DatePeriod("Last month", "month", null, null, false, false, true);
-//        monthlyReportDataDatePeriod = new DatePeriod(
-//                "Custom",
-//                "any",
-//                BusinessEntityUtils.createDate(2012, 3, 1), // tk make option
-//                new Date(), false, false, true);
-//        monthlyReportYearDatePeriod = new DatePeriod(
-//                "This financial year to date",
-//                "year",
-//                null,
-//                null, false, false, true);
-        
+        addCostComponent = false;        
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
     }
@@ -507,6 +468,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     /**
      * Get user as currently stored in the database
      *
+     * @param em
      * @return
      */
     public JobManagerUser getUser(EntityManager em) {
@@ -674,11 +636,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             getUser().save(getEntityManager1());
         }
     }
-    
-    public void updateDatabaseModule() {
-        System.out.println("To be impl. or removed...");
-    }
-    
+      
     public void handleLayoutUnitToggle(ToggleEvent event) {
         
         if (event.getComponent().getId().equals("dashboard")) {
@@ -908,30 +866,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.showPrepayments = showPrepayments;
     }
     
-//    public DatePeriod getMonthlyReportDatePeriod() {
-//        return monthlyReportDatePeriod;
-//    }
-//    
-//    public void setMonthlyReportDatePeriod(DatePeriod monthlyReportDatePeriod) {
-//        this.monthlyReportDatePeriod = monthlyReportDatePeriod;
-//    }
-//    
-//    public DatePeriod getMonthlyReportDataDatePeriod() {
-//        return monthlyReportDataDatePeriod;
-//    }
-//    
-//    public void setMonthlyReportDataDatePeriod(DatePeriod monthlyReportDataDatePeriod) {
-//        this.monthlyReportDataDatePeriod = monthlyReportDataDatePeriod;
-//    }
-//    
-//    public DatePeriod getMonthlyReportYearDatePeriod() {
-//        return monthlyReportYearDatePeriod;
-//    }
-//    
-//    public void setMonthlyReportYearDatePeriod(DatePeriod monthlyReportYearDatePeriod) {
-//        this.monthlyReportYearDatePeriod = monthlyReportYearDatePeriod;
-//    }
-
     /**
      * Get selected job which is usually displayed in a table.
      *
@@ -1036,19 +970,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     
     public void setUnitCostDepartment(Department unitCostDepartment) {
         this.unitCostDepartment = unitCostDepartment;
-    }
-    
-    public Employee getReportEmployee() {
-        if (reportEmployee == null) {
-            reportEmployee = new Employee();
-        }
-        return reportEmployee;
-    }
-    
-    public void setReportEmployee(Employee reportEmployee) {
-        this.reportEmployee = reportEmployee;
-    }
-    
+    }    
+
     public SearchParameters getReportSearchParameters() {
         return reportSearchParameters;
     }
@@ -1101,33 +1024,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.userPrivilegeDialogMessage = userPrivilegeDialogMessage;
     }
     
-//    public DatePeriod getPreviousDatePeriod() {
-//        return previousDatePeriod;
-//    }
-//    
-//    public void setPreviousDatePeriod(DatePeriod previousDatePeriod) {
-//        this.previousDatePeriod = previousDatePeriod;
-//    }
-    
-//    public List<Job> getPreviousPeriodJobReportSearchResultList() {
-//        return previousPeriodJobReportSearchResultList;
-//    }
-//    
-//    public void setPreviousPeriodJobReportSearchResultList(List<Job> previousPeriodJobReportSearchResultList) {
-//        this.previousPeriodJobReportSearchResultList = previousPeriodJobReportSearchResultList;
-//    }
-    
-//    public Department getReportingDepartment() {
-//        if (reportingDepartment == null) {
-//            reportingDepartment = new Department("");
-//        }
-//        return reportingDepartment;
-//    }
-//    
-//    public void setReportingDepartment(Department reportingDepartment) {
-//        this.reportingDepartment = reportingDepartment;
-//    }
-    
     public Boolean getShowJobEntry() {
         return showJobEntry;
     }
@@ -1135,14 +1031,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void setShowJobEntry(Boolean showJobEntry) {
         this.showJobEntry = showJobEntry;
     }
-    
-//    public String getReportSearchText() {
-//        return reportSearchText;
-//    }
-//    
-//    public void setReportSearchText(String reportSearchText) {
-//        this.reportSearchText = reportSearchText;
-//    }
     
     private Boolean isCurrentJobJobAssignedToUser() {
         if (getUser() != null) {
@@ -1540,300 +1428,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return serviceContractStreamContent;
     }
     
-//    public StreamedContent getJobReportFile() {
-//        
-//        EntityManager em = null;
-//        
-//        try {
-//            em = getEntityManager1();
-//            
-//            jobReport = em.find(Report.class, jobReport.getId());
-//            
-//            if (jobReport.getReportFileMimeType().equals("application/jasper")) {
-//                if (jobReport.getName().equals("Jobs entered by employee")) {
-//                    jobReportFile = getJobEnteredByReportPDFFile();
-//                }
-//                if (jobReport.getName().equals("Jobs entered by department")) {
-//                    jobReportFile = getJobEnteredByDepartmentReportPDFFile();
-//                }
-//                if (jobReport.getName().equals("Jobs assigned to department")) {
-//                    jobReportFile = getJobAssignedToDepartmentReportXLSFile();
-//                }
-//            } else if (jobReport.getReportFileMimeType().equals("application/xlsx")) {
-//                if (jobReport.getName().equals("Jobs completed by department")) {
-//                    jobReportFile = getCompletedByDepartmentReport(em);
-//                }
-//                
-//                if (jobReport.getName().equals("Analytical Services Report")) {
-//                    jobReportFile = getAnalyticalServicesReport(em);
-//                }
-//            } else if (jobReport.getReportFileMimeType().equals("application/xls")) {
-//                if (jobReport.getName().equals("Monthly report")) {
-//                    jobReportFile = getMonthlyReport3(em);
-//                } else {
-//                    jobReportFile = getExcelReportStreamContent();
-//                }
-//            }
-//            
-//            setLongProcessProgress(100);
-//            
-//        } catch (Exception e) {
-//            System.out.println(e);
-//            setLongProcessProgress(100);
-//        }
-//        
-//        return jobReportFile;
-//    }
-    
-//    public StreamedContent getMonthlyReport(EntityManager em) {
-//        
-//        try {
-//            DatePeriod datePeriods[] = BusinessEntityUtils.getMonthlyReportDatePeriods(reportSearchParameters.getDatePeriod());
-//            
-//            List<JobSubCategory> subCategories = JobSubCategory.findAllJobSubCategoriesGroupedByEarningsByDepartment(em, reportingDepartment);
-//            List<Sector> sectors = Sector.findAllSectorsByDeparment(em, reportingDepartment);
-//            List<JobReportItem> jobReportItems = JobReportItem.findAllJobReportItemsByDeparment(em, reportingDepartment);
-//
-//            // reports
-//            jobSubCategoryReport = new DatePeriodJobReport(reportingDepartment, subCategories, null, null, datePeriods);
-//            sectorReport = new DatePeriodJobReport(reportingDepartment, null, sectors, null, datePeriods);
-//            jobQuantitiesAndServicesReport = new DatePeriodJobReport(reportingDepartment, null, null, jobReportItems, datePeriods);
-//
-//            // populate SubCategoryReport/Sector/job report
-//            for (int i = 0; i < datePeriods.length; i++) {
-//                // job subcat report
-//                List<DatePeriodJobReportColumnData> data = jobSubCategogyGroupReportByDatePeriod(em,
-//                        "dateOfCompletion",
-//                        jobSubCategoryReport.getReportingDepartment().getName(),
-//                        datePeriods[i].getStartDate(),
-//                        datePeriods[i].getEndDate());
-//                jobSubCategoryReport.updateSubCategoriesReportColumnData(datePeriods[i].getName(), data);
-//            }
-//            
-//            for (int i = 0; i < datePeriods.length; i++) {
-//                // sector report
-//                List<DatePeriodJobReportColumnData> data = sectorReportByDatePeriod(em,
-//                        "dateOfCompletion",
-//                        sectorReport.getReportingDepartment().getName(),
-//                        datePeriods[i].getStartDate(),
-//                        datePeriods[i].getEndDate());
-//                sectorReport.updateSectorsReportColumnData(datePeriods[i].getName(), data);
-//            }
-//            
-//            for (int i = 0; i < datePeriods.length; i++) {
-//                // job report
-//                List<DatePeriodJobReportColumnData> data = jobReportByDatePeriod(em,
-//                        jobQuantitiesAndServicesReport.getReportingDepartment().getName(),
-//                        datePeriods[i].getStartDate(),
-//                        datePeriods[i].getEndDate());
-//                jobQuantitiesAndServicesReport.setReportColumnData(datePeriods[i].getName(), data);
-//            }
-//
-//            // generate report
-//            FileInputStream stream = createExcelJobReportFileInputStream(
-//                    this.getClass().getResource("MonthlyReport.xls"),
-//                    getUser(), reportingDepartment, jobSubCategoryReport, sectorReport, jobQuantitiesAndServicesReport);
-//            
-//            return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
-//            
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//        }
-//        
-//        return null;
-//    }
-    
-//    public StreamedContent getMonthlyReport2(EntityManager em) {
-//        
-//        updateReportingDepartment();
-//        
-//        try {
-//            // Get byte stream for report file
-//            ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream(
-//                    new File(jobReport.getReportFileTemplate()),
-//                    reportingDepartment.getId());
-//            
-//            return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
-//            
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//        }
-//        
-//        return null;
-//    }
-    
-//    public StreamedContent getMonthlyReport3(EntityManager em) {
-//        
-//        updateReportingDepartment();
-//        
-//        try {
-//            // Get byte stream for report file
-//            ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream2(
-//                    new File(jobReport.getReportFileTemplate()),
-//                    reportingDepartment.getId());
-//            
-//            return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
-//            
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//        }
-//        
-//        return null;
-//    }
-    
-//    public StreamedContent getCompletedByDepartmentReport(EntityManager em) {
-//        
-//        updateReportingDepartment();
-//        
-//        try {
-//            // Get byte stream for report file
-//            ByteArrayInputStream stream = jobsCompletedByDepartmentFileInputStream(
-//                    new File(jobReport.getReportFileTemplate()),
-//                    reportingDepartment.getId());
-//            
-//            return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
-//            
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//        }
-//        
-//        return null;
-//    }
-    
-//    public StreamedContent getAnalyticalServicesReport(EntityManager em) {
-//        
-//        updateReportingDepartment(); // tk remove when dept is obtained via converter etc.
-//
-//        try {
-//            // Get byte stream for report file
-//            ByteArrayInputStream stream = analyticalServicesReportFileInputStream(
-//                    new File(jobReport.getReportFileTemplate()),
-//                    reportingDepartment.getId());
-//            
-//            return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
-//            
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//        }
-//        
-//        return null;
-//    }
-    
-//    public StreamedContent getExcelReportStreamContent() throws URISyntaxException {
-//        
-//        try {
-//            
-//            URL url = this.getClass().getResource(jobReport.getReportFileTemplate());
-//            File file = new File(url.toURI());
-//            FileInputStream inp = new FileInputStream(file);
-//            short startingRow;
-//
-//            // create workbook from input file
-//            POIFSFileSystem fileSystem = new POIFSFileSystem((FileInputStream) inp);
-//            HSSFWorkbook wb = new HSSFWorkbook(fileSystem);
-//
-//            // ensure that crucial sheets are updated automatically
-//            HSSFSheet reportSheet = wb.getSheet("Report");
-//            reportSheet.setActive(true);
-//
-//            // create temp file for output
-//            FileOutputStream out = new FileOutputStream(jobReport.getReportFile() + getUser().getId());
-//            
-//            HSSFSheet jobSheet = wb.getSheet("Statistics");
-//            if (jobSheet == null) {
-//                jobSheet = wb.createSheet("Statistics");
-//            }
-//            
-//            wb.setSheetOrder("Statistics", 0);
-//            wb.setActiveSheet(0);
-//
-//            // set starting for inserting headers and data
-//            startingRow = (short) (jobSheet.getLastRowNum());
-//
-//            // Create header font
-//            HSSFFont headerFont = wb.createFont();
-//            headerFont.setFontHeightInPoints((short) 14);
-//            
-//            headerFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-//            
-//            if (!jobReport.getReportColumns().isEmpty()) {
-//                HSSFRow headerRow = jobSheet.createRow(startingRow++);
-//                // Setup header style
-//                HSSFCellStyle headerCellStyle = wb.createCellStyle();
-//                headerCellStyle.setFont(headerFont);
-//                headerCellStyle.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
-//                headerCellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-//                headerCellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-//                for (int i = 0; i < jobReport.getReportColumns().size(); i++) {
-//                    headerRow.createCell(i);
-//                    // Set header style
-//                    headerRow.getCell(i).setCellStyle(headerCellStyle);
-//                    // Set as first sheet
-//                }
-//                // merge header cells
-//                jobSheet.addMergedRegion(new CellRangeAddress(
-//                        jobSheet.getLastRowNum(), //first row
-//                        jobSheet.getLastRowNum(), //last row
-//                        0, //first column
-//                        jobReport.getReportColumns().size() - 1 //last column
-//                ));
-//                // Set header title
-//                headerRow.getCell(0).setCellValue(new HSSFRichTextString(jobReport.getName()));
-//
-//                // Setup column headers
-//                // Create column header font
-//                HSSFFont columnHeaderFont = wb.createFont();
-//                columnHeaderFont.setFontHeightInPoints((short) 12);
-//                columnHeaderFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-//                HSSFRow columnHeaderRow = jobSheet.createRow(startingRow++);
-//                // Setup header style
-//                HSSFCellStyle headerColumnCellStyle = wb.createCellStyle();
-//                headerColumnCellStyle.setFont(columnHeaderFont);
-//                headerColumnCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-//                for (int i = 0; i < jobReport.getReportColumns().size(); i++) {
-//                    columnHeaderRow.createCell(i).setCellValue(new HSSFRichTextString(jobReport.getReportColumns().get(i).getName().trim()));
-//                    columnHeaderRow.getCell(i).setCellStyle(headerColumnCellStyle);
-//                }
-//
-//                // Insert jobs data
-//                // Data font
-//                HSSFFont dataFont = wb.createFont();
-//                dataFont.setFontHeightInPoints((short) 12);
-//                short row = startingRow;
-//                HSSFCellStyle dataCellStyle = wb.createCellStyle();
-//                dataCellStyle.setFont(dataFont);
-//                headerColumnCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-//                for (Job job : currentPeriodJobReportSearchResultList) {
-//                    HSSFRow dataRow = jobSheet.createRow(row);
-//                    for (int i = 0; i < jobReport.getReportColumns().size(); i++) {
-//                        
-//                        try {
-//                            ReportTableColumn col = jobReport.getReportColumns().get(i);
-//                            BusinessEntityUtils.setExcelCellValue(wb, dataRow.createCell(i), job, col.getEntityClassMethodName());
-//                        } catch (Exception ex) {
-//                            System.out.println(ex);
-//                        }
-//                        
-//                        jobSheet.autoSizeColumn((short) i);
-//                    }
-//                    ++row;
-//                }
-//            }
-//
-//            // write and save file for later use
-//            wb.write(out);
-//            out.close();
-//            
-//            FileInputStream stream = new FileInputStream(jobReport.getReportFile() + getUser().getId());
-//            return new DefaultStreamedContent(stream, jobReport.getReportFileMimeType(), jobReport.getReportFile());
-//            
-//        } catch (IOException ex) {
-//            System.out.println(ex);
-//        }
-//        
-//        return null;
-//    }
-    
     public String getJobSearchResultsPanelVisibility() {
         if (renderSearchComponent) {
             return "visible";
@@ -1848,29 +1442,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     
     public void setRenderSearchComponent(Boolean renderSearchComponent) {
         this.renderSearchComponent = renderSearchComponent;
-    }
-    
-//    public Report getJobReport() {
-//        return jobReport;
-//    }
-//    
-//    public void setJobReport(Report jobReport) {
-//        this.jobReport = jobReport;
-//    }
-//    
-    public void initJobReport() { // tk rename this
-//        List<Report> jobReports = getJobReports();
-//        if (jobReports != null) {
-//            if (!jobReports.isEmpty()) {
-//                jobReport = jobReports.get(0);
-//                updateJobReport();
-//            }
-//        } else {
-//            jobReport = new Report("");
-//            updateJobReport();
-//        }
-        
-        openReportsTab();
     }
     
 //    public Boolean getDisableReportingDepartment() {
@@ -5168,18 +4739,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     
     public void updateAssignee() {
         setDirty(true);
-    }
-    
-    public void updateReportEmployee() {
-        EntityManager em = getEntityManager1();
-        
-        try {
-            reportEmployee = Employee.findEmployeeByName(em, getReportEmployee().getName());
-            
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
     }
     
     public void updateCostingComponents() {

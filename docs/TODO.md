@@ -19,9 +19,11 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Reports
-- Fix "Wait" icon display for reports tab. The icon is not going away after 
-  report is generated. NB: The longProgressDialogForm works with JM only this
-  is the reason.
+- Fix the "report" button in the dashboard.
+- Always show the department in the reports tab since its does not always show.
+  OR let the initJobReport() always reset the fields.
+- Clean up JM of RM code.
+- Clean up App. Put put can be put in JM and BEL.
 - Make relevant fields autocomplete.
 - Check jobs assigned to department report which does not seem to be working. 
 - Create ReportManager and use it instead of JobManager where possible.
@@ -31,6 +33,12 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
   that are developed independently of the JMTS.
 - Add description, 2 departments, 3 date periods etc. in class Report.
 - Implement and include report templates for all reports generated to date.
+- Install iReport for Windows
+
+### Clean Up
+- Create GeneralManager and let it handle things that JobManager is now handling
+  such as user login.
+- Remove SearchManager and let each manager deal with their search.
 
 ### Service Offerings and Projections (for HE)
 - Discuss draft report with HE
@@ -89,9 +97,6 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
-- Remove SearchManager and let each manager deal with their search.
-- Create GeneralManager and let it handle things that JobManager is now handling
-  such as user login.
 - In System Admin List all by default.  
 - Create autocomplete list of "standard/common" product names using a "Distinct"
   type of the query on the existing samples.
