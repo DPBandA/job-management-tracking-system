@@ -182,6 +182,7 @@ paymentTerms, rename JMTSUserId to userId
   accPacClientInformationDialog, reportingDialog, jobSampleDialogs, jobDialog,
   jobCostingDialogs, preferencesDialog, cashPaymentDialog
 - Change the Search combos to p:selectonemenu.
+- Add privileges to add address/contact?
 - Upgrade to latest primefaces if possible.
 - Redesign layout with dashboard component?
 - Merge Main and Application...Use just Application. May be get rid of both.
@@ -250,6 +251,7 @@ paymentTerms, rename JMTSUserId to userId
   in database.
 - See if set/get* methods that refer to currentJob methods can be removed.
   Eg. currentJob.getServiceContract().setIntendedMarketOther().
+- Add chat feature. Allow person to add their image to their user profile?
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
