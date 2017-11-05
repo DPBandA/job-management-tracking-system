@@ -180,6 +180,19 @@ public class ReportManager implements Serializable {
                 null, false, false, true);
 
     }
+    
+     public void initJobReport() {
+        List<Report> jobReports = getJobReports();
+        if (jobReports != null) {
+            if (!jobReports.isEmpty()) {
+                jobReport = jobReports.get(0);
+                updateJobReport();
+            }
+        } else {
+            jobReport = new Report("");
+            updateJobReport();
+        }       
+    }
 
     public MainTabView getMainTabView() {
         return mainTabView;
@@ -330,6 +343,11 @@ public class ReportManager implements Serializable {
         }
         return reportingDepartment;
     }
+    
+      public void setReportingDepartment(Department reportingDepartment) {
+        this.reportingDepartment = reportingDepartment;
+    }
+    
 
     public List<Department> completeDepartment(String query) {
         EntityManager em = null;
@@ -345,10 +363,6 @@ public class ReportManager implements Serializable {
             System.out.println(e + ": completeDepartment");
             return new ArrayList<>();
         }
-    }
-
-    public void setReportingDepartment(Department reportingDepartment) {
-        this.reportingDepartment = reportingDepartment;
     }
 
     public String getReportSearchText() {

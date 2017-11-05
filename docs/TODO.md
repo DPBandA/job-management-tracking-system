@@ -22,6 +22,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - Fix "Wait" icon display for reports tab. The icon is not going away after 
   report is generated. NB: The longProgressDialogForm works with JM only this
   is the reason.
+- Make relevant fields autocomplete.
 - Check jobs assigned to department report which does not seem to be working. 
 - Create ReportManager and use it instead of JobManager where possible.
   Use a copy of JobManager as the base. Set user and mainTabView before opening
@@ -97,6 +98,7 @@ paymentTerms, rename JMTSUserId to userId
 - Move all code dealing with authorization and privileges from JM to JMUser.
 - Fill in billing address and main contact of a client of the billing adddress
   and contact fields of the job record are not valid eg blank??
+- Add default dept. in Report class.
 - Add parentSector to Sector class and add Sub-sector to Groupings tab. Sub-sectors
   would be those that have a parent sector.
 - Add descriptions of grouping items to in "Groupings" tab.
@@ -119,13 +121,12 @@ paymentTerms, rename JMTSUserId to userId
   buttons and search result table as is done with the jobs tab.
 - Use parentJob to link contracts with parent jobs and use it to pull 
   in subcontracts costs?
-- Rename JobManagerUser to User.
+- Rename JobManagerUser to User?
 - Add Business to JobManagerUser. Add blob to Business for storing company logo.
 - Put text box in jobsTab to allow quick filter of search results.
 - Impl. ReportManager and put reporting in own tab.
 - Refactor and rename static methods from findEntityName*() to just find*() where
   possible.
-- Create Reporting backing bean and move relevant code from JM to it.
 - Limit the maximum characters to be entered into a text field to 50. Put this
   value in the BEL resource bundle which can be changed. Allow various maximums
   for different types of fields.
@@ -133,7 +134,6 @@ paymentTerms, rename JMTSUserId to userId
 - Make all sensitive fields, especially those on the General tab unchangeable
   except by system admin after a job has been saved. Use field groups with 
   input and output fields as is done with the job number. 
-- Put reports/queries in own tab and not dialog.
 - Check if new clients can be created even without privilege.
 - Implement "isdirty" for client, contact, address and do shallow copy when they
   change?
