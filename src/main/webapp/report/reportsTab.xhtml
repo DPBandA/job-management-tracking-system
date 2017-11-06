@@ -37,7 +37,7 @@ Email: info@dpbennett.com.jm
                          actionListener="#{reportManager.updateJobReport}"
                          update="longProgressDialogForm3"
                          onclick="longProcessDialogVar3.show();" >
-            <p:fileDownload value="#{reportManager.jobReportFile}" />
+            <p:fileDownload value="#{reportManager.reportFile}" />
         </p:commandButton>
 
     </h:panelGrid>          
@@ -45,7 +45,7 @@ Email: info@dpbennett.com.jm
     <p:panel header="Report/Query criteria">
         <h:panelGrid columns="2" id="reportPanelGrid" cellspacing="10">
             <h:outputText value="Report:"/>
-            <p:selectOneMenu value="#{reportManager.jobReport.id}">
+            <p:selectOneMenu value="#{reportManager.report.id}">
                 <p:ajax listener="#{reportManager.refreshJobReport}"
                         global="true"
                         onstart="longProcessDialogVar2.show();"
@@ -320,7 +320,7 @@ Email: info@dpbennett.com.jm
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          value="#{reportManager.currentPeriodJobReportSearchResultList}">
                 <f:facet name="header">
-                    <h:outputText value="#{reportManager.jobReport.name} (#{reportManager.numberOfCurrentPeriodJobsFound})"/>
+                    <h:outputText value="#{reportManager.report.name} (#{reportManager.numberOfCurrentPeriodJobsFound})"/>
                 </f:facet>
                 <p:column>
                     <f:facet name="header">
@@ -386,7 +386,7 @@ Email: info@dpbennett.com.jm
                          actionListener="#{reportManager.updateJobReport}"
                          update="longProgressDialogForm3"
                          onclick="longProcessDialogVar3.show();" >
-            <p:fileDownload value="#{reportManager.jobReportFile}" />
+            <p:fileDownload value="#{reportManager.reportFile}" />
         </p:commandButton>
 
     </h:panelGrid>    

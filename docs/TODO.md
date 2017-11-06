@@ -18,27 +18,10 @@
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
 ================================================================================
-### Reports
-- Fix the "report" button in the dashboard.
-- Always show the department in the reports tab since its does not always show.
-  OR let the initJobReport() always reset the fields.
-- Clean up JM of RM code.
-- Clean up App. Put put can be put in JM and BEL.
-- Make relevant fields autocomplete.
-- Check jobs assigned to department report which does not seem to be working. 
-- Create ReportManager and use it instead of JobManager where possible.
-  Use a copy of JobManager as the base. Set user and mainTabView before opening
-  tab. Test the generation of all reports
-- MainTabView and MainTab to be put in BEL so they can be used by other modules
-  that are developed independently of the JMTS.
-- Add description, 2 departments, 3 date periods etc. in class Report.
-- Implement and include report templates for all reports generated to date.
-- Install iReport for Windows
 
-### Clean Up
-- Create GeneralManager and let it handle things that JobManager is now handling
-  such as user login.
-- Remove SearchManager and let each manager deal with their search.
+### Departmental Earnings Trend Report (for RA)
+- Study JasperReports 3.5 for Java Developers
+- Do mockup report/template for RA and submit with proforma invoice.
 
 ### Service Offerings and Projections (for HE)
 - Discuss draft report with HE
@@ -46,12 +29,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
   * JMTS sectors and services cannot be mapped cleanly to the sectors and services in HE report
   * The calibrations/tests cover all clients served over a period of 3 years
 
-### Departmental Earnings Trend Report (for RA)
-- Do mockup report/template for RA and submit with proforma invoice.
-
 ### Immediate Issues
-- Change "Service" tab to "Service Contract" and change the name of the respective
-  xhmtl file
+- Job cost and may be other fields not being update when costing is updated. Fix.
 - Check that exporting job costing, service contract and other forms do not
   save any entity as this is not necessary.
 - Fix job costing form export etc. and use the billing address and contact found in the 
@@ -82,6 +61,13 @@ Views can be viewed simultaneously for easy job costing updates.
 - Hide items in user menu if they are not selected in preferences.
 - Implement updateCashPayment() to record updates made to a field and store the updates.
 - Add cash payments feature so cashier can add cash payments.
+* Old Payments Tab Info:
+Invoice number(s): 		 
+Receipt #s: 		 
+Discount ($):
+Total paid ($): 		 
+Last payment date: 		 
+Payment terms:  
 * Add discount type and discount to cash payment form.
 * Add fields to cashPayment and database: discount, discountType, 
 paymentTerms, rename JMTSUserId to userId
@@ -95,8 +81,19 @@ paymentTerms, rename JMTSUserId to userId
 - Check that client credit status dialog still works
 - Test with normal user (kmiller)
 
+### Reports
+- Make relevant fields autocomplete.
+- Add description, 2 departments, 3 date periods etc. in class Report.
+- Implement and include report templates for all reports generated to date.
+
+### Clean Up
+- Clean up App. Put put can be put in JM and BEL.
+- Remove SearchManager and let each manager deal with their search.
+
 ### System Design
 #### Design
+- MainTabView and MainTab to be put in BEL so they can be used by other modules
+  that are developed independently of the JMTS.
 - In System Admin List all by default.  
 - Create autocomplete list of "standard/common" product names using a "Distinct"
   type of the query on the existing samples.
@@ -110,6 +107,7 @@ paymentTerms, rename JMTSUserId to userId
 - Move code dealing with Accpac, costing etc to AccountingManager.
 - Put job number in tab title...in brackets. Update the tab when something that 
   affects the job number changes.
+- Add user/department privilege to add payments.
 - Do search when respective tab with search results table is selected for the 
   System/Finance add min tabs.
 - Add search fields and dialogs where they don't exist. Impl find* methods that 
@@ -257,6 +255,8 @@ paymentTerms, rename JMTSUserId to userId
 - See if set/get* methods that refer to currentJob methods can be removed.
   Eg. currentJob.getServiceContract().setIntendedMarketOther().
 - Add chat feature. Allow person to add their image to their user profile?
+- User an "iterative" JSF component to implement the display of tabs and use
+  collections to initialize the tabs.
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
