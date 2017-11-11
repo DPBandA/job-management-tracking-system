@@ -20,17 +20,21 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 
 ### Departmental Earnings Trend Report (for RA)
-- Study JasperReports 3.5 for Java Developers
-- Do mockup report/template for RA and submit with proforma invoice.
+- Check how finalCost is saved and modified.
+- Table headers in the column header and not page header
+- Try using 2 columns and see how that affects the report presentation.
+- Complete and send report and invoice to RA
 
 ### Service Offerings and Projections (for HE)
-- Discuss draft report with HE
+- Do detailed report with sectors, job categories, tests, calibrations and send 
+  to HE as a final report. Try to mimick HE report and as much as possible.
 * Notes:
   * JMTS sectors and services cannot be mapped cleanly to the sectors and services in HE report
   * The calibrations/tests cover all clients served over a period of 3 years
 
 ### Immediate Issues
-- Job cost and may be other fields not being update when costing is updated. Fix.
+- Don't use discount in cash payment.
+- Job cost and may be other fields not being update when costing is updated. Fix!
 - Check that exporting job costing, service contract and other forms do not
   save any entity as this is not necessary.
 - Fix job costing form export etc. and use the billing address and contact found in the 
@@ -39,6 +43,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - The "Job Costing Modified" dialog does not have a no button.
 - Check if any of the job costing message dialog close the job detail tab.
 - Create contact field in the job record to assign contact to current job.
+- Try to export service contract and job costing for old jobs that do not have
+  billing address and contact fields set.
 - Implement prevention of the insertion of incorrect subcontract jobs costing 
   Amounts which sometimes occur when the date of submission of a parent job is changed
   Use parentJobId in the subcontract to solve this?
@@ -92,6 +98,12 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
+- Find and put all jasper reports into reports package.
+- Remove unused dialogs.
+- Remove the <ui:include /> from top of index.xhtml and put them in their
+  respective *Tab or other files. This may make the index.xhtml file smaller
+  and reduce load time.
+- Try to fill in billing address and contact when new client is selected??
 - MainTabView and MainTab to be put in BEL so they can be used by other modules
   that are developed independently of the JMTS.
 - In System Admin List all by default.  
@@ -104,6 +116,7 @@ paymentTerms, rename JMTSUserId to userId
 - Add parentSector to Sector class and add Sub-sector to Groupings tab. Sub-sectors
   would be those that have a parent sector.
 - Add descriptions of grouping items to in "Groupings" tab.
+- For jasper reports fill in parameters such as images from configuration values stored in the database.
 - Move code dealing with Accpac, costing etc to AccountingManager.
 - Put job number in tab title...in brackets. Update the tab when something that 
   affects the job number changes.
@@ -601,3 +614,5 @@ paymentTerms, rename JMTSUserId to userId
 - Find all entities that references the current entity before deleting. try with employee and client for example. create interface for this.
 - Remove fields from database that are not used: jobcostingandpayment: depositDate, jobcostingandpayment: dateOfLastPayment
 
+Notes:
+- Consider getting code for iReport and maintain it via git.
