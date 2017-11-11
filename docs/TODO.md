@@ -18,22 +18,17 @@
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
 ================================================================================
-
-### Departmental Earnings Trend Report (for RA)
-- Check how finalCost is saved and modified.
-- Table headers in the column header and not page header
-- Try using 2 columns and see how that affects the report presentation.
-- Complete and send report and invoice to RA
-
 ### Service Offerings and Projections (for HE)
 - Do detailed report with sectors, job categories, tests, calibrations and send 
   to HE as a final report. Try to mimick HE report and as much as possible.
 * Notes:
-  * JMTS sectors and services cannot be mapped cleanly to the sectors and services in HE report
-  * The calibrations/tests cover all clients served over a period of 3 years
+* JMTS sectors and services cannot be mapped cleanly to the sectors and services in HE report
+* The calibrations/tests cover all clients served over a period of 3 years
 
 ### Immediate Issues
-- Put all reports into report package.
+- Put all reports into report package. Make company specific value parameters
+  such as company name.
+- Do not save when exporting service contract and may be job costing.
 - Don't use discount in cash payment.
 - Job cost and may be other fields not being update when costing is updated. Fix!
 - Check that exporting job costing, service contract and other forms do not

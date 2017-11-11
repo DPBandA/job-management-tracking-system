@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Compliance Department Daily Report" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="001f5b62-a86b-4a7e-80c9-1c6e6d4b6eb4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="3"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Document Inspections" uuid="6a4f1065-60c7-455d-b1a0-6537d77b24ad">
+		<parameter name="inspectionPoint" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA["One Stop Shop"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="startOfPeriod" class="java.util.Date" isForPrompting="false">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endOfPeriod" class="java.util.Date" isForPrompting="false">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="location" class="java.lang.String" isForPrompting="false"/>
+		<queryString>
+			<![CDATA[SELECT
+     compliancesurvey.`ID` AS compliancesurvey_ID,
+     compliancesurvey.`CONSIGNEE_ID` AS compliancesurvey_CONSIGNEE_ID,
+     client.`ID` AS client_ID,
+     client.`NAME` AS client_NAME,
+     entrydocumentinspection.`ID` AS entrydocumentinspection_ID,
+     entrydocumentinspection.`DOCUMENTSTAMPED` AS entrydocumentinspection_DOCUMENTSTAMPED,
+     entrydocumentinspection.`ENTRYDOCUMENTNUMBER` AS entrydocumentinspection_ENTRYDOCUMENTNUMBER,
+     entrydocumentinspection.`COUNTRYOFCONSIGNMENT` AS entrydocumentinspection_COUNTRYOFCONSIGNMENT,
+     SUM(IF(entrydocumentinspection.`DOCUMENTSTAMPED`="To be Inspected",1,0)) AS stampedtobeinspected,
+     SUM(IF(entrydocumentinspection.`DOCUMENTSTAMPED`="Seen",1,0)) AS stampedseen
+FROM
+     `compliancesurvey` compliancesurvey INNER JOIN `client` client ON compliancesurvey.`CONSIGNEE_ID` = client.`ID`
+     INNER JOIN `entrydocumentinspection` entrydocumentinspection ON compliancesurvey.`ENTRYDOCUMENTINSPECTION_ID` = entrydocumentinspection.`ID`
+WHERE
+     compliancesurvey.`DATEOFSURVEY` >= $P{startOfPeriod}
+ AND compliancesurvey.`DATEOFSURVEY` <= $P{endOfPeriod}
+GROUP BY
+     client.`ID`]]>
+		</queryString>
+		<field name="compliancesurvey_ID" class="java.lang.Long"/>
+		<field name="compliancesurvey_CONSIGNEE_ID" class="java.lang.Long"/>
+		<field name="client_ID" class="java.lang.Long"/>
+		<field name="client_NAME" class="java.lang.String"/>
+		<field name="entrydocumentinspection_ID" class="java.lang.Long"/>
+		<field name="entrydocumentinspection_DOCUMENTSTAMPED" class="java.lang.String"/>
+		<field name="entrydocumentinspection_ENTRYDOCUMENTNUMBER" class="java.lang.String"/>
+		<field name="entrydocumentinspection_COUNTRYOFCONSIGNMENT" class="java.lang.String"/>
+		<field name="stampedtobeinspected" class="java.lang.Long"/>
+		<field name="stampedseen" class="java.lang.Long"/>
+		<variable name="totalStampedToBeInspected" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{stampedtobeinspected}]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+		<variable name="totalStampedDocumentSeen" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{stampedseen}]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="Location Visits" uuid="bc60b3b9-0ea2-4058-bd06-4b401e1c9459">
+		<parameter name="startOfPeriod" class="java.util.Date" isForPrompting="false"/>
+		<parameter name="endOfPeriod" class="java.util.Date" isForPrompting="false"/>
+		<queryString>
+			<![CDATA[SELECT
+     compliancesurvey.`ID` AS compliancesurvey_ID,
+     compliancesurvey.`COMMENTS` AS compliancesurvey_COMMENTS,
+     compliancesurvey.`DATEOFSURVEY` AS compliancesurvey_DATEOFSURVEY,
+     compliancesurvey.`INSPECTIONPOINT` AS compliancesurvey_INSPECTIONPOINT,
+     compliancesurvey.`PORTOFENTRY` AS compliancesurvey_PORTOFENTRY,
+     compliancesurvey.`CONSIGNEE_ID` AS compliancesurvey_CONSIGNEE_ID,
+     client.`ID` AS client_ID,
+     client.`NAME` AS client_NAME,
+     COUNT(compliancesurvey.`INSPECTIONPOINT`) AS visits
+FROM
+     `client` client INNER JOIN `compliancesurvey` compliancesurvey ON client.`ID` = compliancesurvey.`CONSIGNEE_ID`
+WHERE
+     compliancesurvey.`DATEOFSURVEY` >= $P{startOfPeriod}
+ AND compliancesurvey.`DATEOFSURVEY` <= $P{endOfPeriod}
+GROUP BY
+     compliancesurvey.`INSPECTIONPOINT`]]>
+		</queryString>
+		<field name="compliancesurvey_ID" class="java.lang.Long"/>
+		<field name="compliancesurvey_COMMENTS" class="java.lang.String"/>
+		<field name="compliancesurvey_DATEOFSURVEY" class="java.sql.Date"/>
+		<field name="compliancesurvey_INSPECTIONPOINT" class="java.lang.String"/>
+		<field name="compliancesurvey_PORTOFENTRY" class="java.lang.String"/>
+		<field name="compliancesurvey_CONSIGNEE_ID" class="java.lang.Long"/>
+		<field name="client_ID" class="java.lang.Long"/>
+		<field name="client_NAME" class="java.lang.String"/>
+		<field name="visits" class="java.lang.Long"/>
+		<variable name="totalNumOfVisits" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{visits}]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+		<group name="compliancesurvey_INSPECTIONPOINT">
+			<groupExpression><![CDATA[$F{compliancesurvey_INSPECTIONPOINT}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="Containers Inspected" uuid="88a0f67c-5674-49a7-bb22-6572740cc2ef">
+		<parameter name="startOfPeriod" class="java.util.Date" isForPrompting="false"/>
+		<parameter name="endOfPeriod" class="java.util.Date"/>
+		<queryString>
+			<![CDATA[SELECT
+(LENGTH(entrydocumentinspection.`CONTAINERNUMBERS`)-LENGTH(REPLACE(entrydocumentinspection.`CONTAINERNUMBERS`,',',''))+1) AS numContainers,
+     compliancesurvey.`ID` AS compliancesurvey_ID,
+     compliancesurvey.`DATEOFSURVEY` AS compliancesurvey_DATEOFSURVEY,
+     entrydocumentinspection.`CONTAINERNUMBERS` AS entrydocumentinspection_CONTAINERNUMBERS
+FROM
+     `compliancesurvey` compliancesurvey INNER JOIN `compliancesurvey_productinspection` compliancesurvey_productinspection ON compliancesurvey.`ID` = compliancesurvey_productinspection.`ComplianceSurvey_ID`
+     INNER JOIN `productinspection` productinspection ON compliancesurvey_productinspection.`productInspections_ID` = productinspection.`ID`
+     INNER JOIN `entrydocumentinspection` entrydocumentinspection ON compliancesurvey.`ENTRYDOCUMENTINSPECTION_ID` = entrydocumentinspection.`ID`
+WHERE
+          compliancesurvey.`DATEOFSURVEY` >= $P{startOfPeriod}
+ AND compliancesurvey.`DATEOFSURVEY` <= $P{endOfPeriod}
+GROUP BY compliancesurvey.`ID`]]>
+		</queryString>
+		<field name="numContainers" class="java.lang.Long"/>
+		<field name="compliancesurvey_ID" class="java.lang.Long"/>
+		<field name="compliancesurvey_DATEOFSURVEY" class="java.sql.Date"/>
+		<field name="entrydocumentinspection_CONTAINERNUMBERS" class="java.lang.String"/>
+		<variable name="totalContainers" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{numContainers}]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="Detention Requests" uuid="453c35b8-d30b-4dc9-beb2-066a4115438e">
+		<parameter name="startOfPeriod" class="java.util.Date" isForPrompting="false"/>
+		<parameter name="endOfPeriod" class="java.util.Date" isForPrompting="false"/>
+		<queryString>
+			<![CDATA[SELECT
+     compliancesurvey.`DATEOFSURVEY` AS compliancesurvey_DATEOFSURVEY,
+     compliancesurvey.`ID` AS compliancesurvey_ID,
+     compliancesurvey.`REQUESTFORDETENTIONISSUEDFORPORTOFENTRY` AS compliancesurvey_REQUESTFORDETENTIONISSUEDFORPORTOFENTRY,
+     client.`NAME` AS client_NAME,
+     compliancesurvey.`DATEOFDETENTION` AS compliancesurvey_DATEOFDETENTION,
+     COUNT(*) AS detentions
+FROM
+     `client` client INNER JOIN `compliancesurvey` compliancesurvey ON client.`ID` = compliancesurvey.`CONSIGNEE_ID`
+WHERE
+     compliancesurvey.`DATEOFDETENTION` >= $P{startOfPeriod}
+ AND compliancesurvey.`DATEOFDETENTION` <= $P{endOfPeriod}
+AND compliancesurvey.`REQUESTFORDETENTIONISSUEDFORPORTOFENTRY`]]>
+		</queryString>
+		<field name="compliancesurvey_DATEOFSURVEY" class="java.sql.Date"/>
+		<field name="compliancesurvey_ID" class="java.lang.Long"/>
+		<field name="compliancesurvey_REQUESTFORDETENTIONISSUEDFORPORTOFENTRY" class="java.lang.Boolean"/>
+		<field name="client_NAME" class="java.lang.String"/>
+		<field name="compliancesurvey_DATEOFDETENTION" class="java.sql.Date"/>
+		<field name="detentions" class="java.lang.Long"/>
+		<variable name="totalDetentions" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{detentions}]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="Samples and Units Collected" uuid="11d27ce0-e5a3-475d-ab98-dacb15041a06">
+		<parameter name="startOfPeriod" class="java.util.Date" isForPrompting="false"/>
+		<parameter name="endOfPeriod" class="java.util.Date" isForPrompting="false"/>
+		<queryString>
+			<![CDATA[SELECT
+     SUM(productinspection.`NUMPRODUCTSSAMPLED`) AS productinspection_NUMPRODUCTSSAMPLED,
+     COUNT(productinspection.`NAME`) as samples,
+     compliancesurvey.`DATEOFSURVEY` AS compliancesurvey_DATEOFSURVEY,
+     compliancesurvey_productinspection.`ComplianceSurvey_ID` AS compliancesurvey_productinspection_ComplianceSurvey_ID,
+     compliancesurvey_productinspection.`productInspections_ID` AS compliancesurvey_productinspection_productInspections_ID,
+     productinspection.`NAME` AS productinspection_NAME,
+     client.`NAME` AS client_NAME,
+     client.`ID` AS client_ID
+FROM
+     `compliancesurvey` compliancesurvey INNER JOIN `compliancesurvey_productinspection` compliancesurvey_productinspection ON compliancesurvey.`ID` = compliancesurvey_productinspection.`ComplianceSurvey_ID`
+     INNER JOIN `productinspection` productinspection ON compliancesurvey_productinspection.`productInspections_ID` = productinspection.`ID`
+     INNER JOIN `client` client ON compliancesurvey.`CONSIGNEE_ID` = client.`ID`
+WHERE
+     compliancesurvey.`DATEOFSURVEY` >= $P{startOfPeriod}
+ AND compliancesurvey.`DATEOFSURVEY` <= $P{endOfPeriod}
+ AND productinspection.`NUMPRODUCTSSAMPLED` > 0
+GROUP BY
+     client.`ID`]]>
+		</queryString>
+		<field name="productinspection_NUMPRODUCTSSAMPLED" class="java.math.BigDecimal"/>
+		<field name="samples" class="java.lang.Long"/>
+		<field name="compliancesurvey_DATEOFSURVEY" class="java.sql.Date"/>
+		<field name="compliancesurvey_productinspection_ComplianceSurvey_ID" class="java.lang.Long"/>
+		<field name="compliancesurvey_productinspection_productInspections_ID" class="java.lang.Long"/>
+		<field name="productinspection_NAME" class="java.lang.String"/>
+		<field name="client_NAME" class="java.lang.String"/>
+		<field name="client_ID" class="java.lang.Long"/>
+		<variable name="totalSamplesCollected" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{samples}]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+		<variable name="totalProductUnitsCollected" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{productinspection_NUMPRODUCTSSAMPLED}]]></variableExpression>
+			<initialValueExpression><![CDATA[0]]></initialValueExpression>
+		</variable>
+	</subDataset>
+	<parameter name="team" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Team X"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="startOfPeriod" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new java.util.Date(20130710);]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endOfPeriod" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new java.util.Date(20130710);]]></defaultValueExpression>
+	</parameter>
+	<parameter name="timeOfArrival" class="java.util.Date" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="timeOfDeparture" class="java.util.Date" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="location" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Berth 11"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="teamMembers" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="driver" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="inspectionPoint" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["One Stop Shop"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="inspectionPoint_2" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Stripping Station"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfVisits" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfInspectorsOnVisit" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfConsignmentsInspected" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfConsignmentsDetainedForTesting" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfConsignmentsDetainedForLabelling" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfConsignmentsDetainedForTestingAndLabelling" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfSamplesTakenForTesting" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfSamplesTakenForLabelAssessment" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfSamplesTakenForTestingAndLabelAssessment" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfUnitsTaken" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfDocsStampedToBeInspected" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="numOfDocsStampedDocumentSeen" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     SUM(IF(entrydocumentinspection.`DOCUMENTSTAMPED`="To be Inspected",1,0)) AS stampedtobeinspected,
+     SUM(IF(entrydocumentinspection.`DOCUMENTSTAMPED`="Seen",1,0)) AS stampedseen
+FROM
+     `entrydocumentinspection` entrydocumentinspection INNER JOIN `compliancesurvey` compliancesurvey ON entrydocumentinspection.`ID` = compliancesurvey.`ENTRYDOCUMENTINSPECTION_ID`
+WHERE
+     compliancesurvey.`DATEOFSURVEY` >= $P{startOfPeriod}
+ AND compliancesurvey.`DATEOFSURVEY` <= $P{endOfPeriod}]]>
+	</queryString>
+	<field name="stampedtobeinspected" class="java.math.BigDecimal"/>
+	<field name="stampedseen" class="java.math.BigDecimal"/>
+	<title>
+		<band height="48" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="21" width="572" height="20" uuid="8f87aca6-f93f-4757-8882-c18e0c1cb9ac"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Daily Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="1" width="572" height="20" uuid="1ce59588-8db3-47c9-a32c-63f725e13c79"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Compliance Department]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="437">
+			<staticText>
+				<reportElement x="3" y="29" width="110" height="20" uuid="f4a7a958-c33f-4e90-b9ac-de78ecd520dc"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[End of Period:]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
+				<reportElement x="113" y="29" width="131" height="20" uuid="30233fe7-5f98-4584-aaac-7efcef120106"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endOfPeriod}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="10" width="110" height="20" uuid="807b65a9-697d-427a-a0da-f733282bc318"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Start of Period:]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
+				<reportElement x="113" y="10" width="131" height="20" uuid="45fb5d61-8a9d-4137-8c55-9fa77afd2d08"/>
+				<textElement>
+					<font size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startOfPeriod}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table" style="table" positionType="Float" x="0" y="61" width="567" height="54" uuid="339109b3-c88b-4023-acfe-97daa6e8e6d8"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="Document Inspections" uuid="070e2b39-78fa-4afd-bc2b-79c945d3fbb8">
+						<datasetParameter name="inspectionPoint">
+							<datasetParameterExpression><![CDATA[$P{inspectionPoint}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="startOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{startOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{endOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="location">
+							<datasetParameterExpression><![CDATA[$P{location}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="581" uuid="46855f4d-46a3-434a-ab60-d8b57b91acbc">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="581" height="30" uuid="771d9c9a-76b8-4157-bb35-aab8a38711b0"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<text><![CDATA[Document Inspections]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:columnGroup width="280" uuid="fc7e61b5-1591-4f3f-85a6-7dbdda0fe8dd">
+							<jr:tableFooter height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="280" height="15" uuid="ddd4745a-54b5-4185-9c26-1377e6c79297"/>
+									<box>
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font size="11" isBold="true"/>
+										<paragraph rightIndent="5"/>
+									</textElement>
+									<text><![CDATA[Total # of Documents stamped “To Be Inspected” :]]></text>
+								</staticText>
+								<staticText>
+									<reportElement x="0" y="15" width="280" height="15" uuid="025a0bde-3e89-4bf5-b2ae-e6f8c06820cb"/>
+									<box>
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font size="11" isBold="true"/>
+										<paragraph rightIndent="5"/>
+									</textElement>
+									<text><![CDATA[Total # of Documents stamped “Document Seen” :]]></text>
+								</staticText>
+							</jr:tableFooter>
+							<jr:column width="150" uuid="69eead1d-f768-498d-88b0-aecbbe63fbd3">
+								<jr:columnHeader style="table_CH" height="48" rowSpan="1">
+									<box leftPadding="0"/>
+									<staticText>
+										<reportElement x="0" y="0" width="150" height="48" uuid="ce866459-f061-44dc-b8c9-174d6f6a758a"/>
+										<textElement>
+											<font size="12" isBold="true"/>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<text><![CDATA[Name of Importer]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="table_TD" height="22" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="150" height="21" uuid="2e08e443-6df9-4784-aac5-7dbf2f6ca082"/>
+										<textElement>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="130" uuid="9a3a7fda-38f2-48b9-98b7-01f648f6cbfc">
+								<jr:columnHeader style="table_CH" height="48" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="130" height="48" uuid="d03fca40-af57-49b5-9e03-54efd9601818"/>
+										<textElement>
+											<font size="12" isBold="true"/>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<text><![CDATA[Entry Document #]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="table_TD" height="22" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="130" height="21" uuid="96ac7f4d-e165-40f8-9a5b-88dead766e1a"/>
+										<textElement>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{entrydocumentinspection_ENTRYDOCUMENTNUMBER}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+						<jr:columnGroup width="301" uuid="e0e09c56-ec32-4758-ab3e-1146e36b03bc">
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="301" height="15" uuid="3caad2e4-b947-43e3-b040-6b566f94782f"/>
+									<box>
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement>
+										<font size="11" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalStampedToBeInspected}]]></textFieldExpression>
+								</textField>
+								<textField>
+									<reportElement x="0" y="15" width="301" height="15" uuid="042fe0e0-8894-4c5b-9f08-2315a6f22d02"/>
+									<box>
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement>
+										<font size="11" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalStampedDocumentSeen}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:column width="136" uuid="d7202328-3422-4124-873d-9858d90072be">
+								<jr:columnHeader style="table_CH" height="48" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="136" height="48" uuid="11d6831a-b441-4dc2-b25c-cf70afde43ff"/>
+										<textElement>
+											<font size="12" isBold="true"/>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<text><![CDATA[Country of Consignment]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="table_TD" height="22" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="136" height="22" uuid="3e44516c-d91b-4ded-832d-b81396348e74"/>
+										<textElement>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{entrydocumentinspection_COUNTRYOFCONSIGNMENT}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="165" uuid="269e1bf2-cede-4225-a072-4710beb767a3">
+								<jr:columnHeader style="table_CH" height="48" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="165" height="48" uuid="9c5f8e84-0fab-4c72-a6e3-1dd0cb1e8580"/>
+										<textElement>
+											<font size="12" isBold="true" isItalic="false"/>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<text><![CDATA[Document Stamped]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="table_TD" height="22" rowSpan="1">
+									<textField isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="165" height="21" uuid="d8a73c11-4b11-4eb8-a0c8-96340017402b"/>
+										<textElement>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{entrydocumentinspection_DOCUMENTSTAMPED}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" positionType="Float" x="0" y="133" width="567" height="54" uuid="a20f2b6f-53e3-4f6a-ab6b-aa547dc32b1a"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="Location Visits" uuid="b443195b-7a21-4ff8-892d-31cf0a53ddff">
+						<datasetParameter name="startOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{startOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{endOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="440" uuid="8c25b5a2-f4b7-4c2f-8bd1-9d54b8a3563a">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="440" height="30" uuid="1ef05821-a61c-4c2d-8b9b-fba85dff11fb"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<text><![CDATA[Locations Visited]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:columnGroup width="340" uuid="022c2a7c-4a7d-47f0-8e92-52c0b6f0218b">
+							<jr:columnGroup width="340" uuid="511d8379-a073-4b62-a62c-adc6f9218388">
+								<jr:tableFooter height="30" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="340" height="30" uuid="51518bcc-fd7f-4f41-a026-753d11a343b6"/>
+										<box>
+											<pen lineWidth="0.25"/>
+											<topPen lineWidth="0.25"/>
+											<leftPen lineWidth="0.25"/>
+											<bottomPen lineWidth="0.25"/>
+											<rightPen lineWidth="0.25"/>
+										</box>
+										<textElement textAlignment="Right">
+											<font size="11" isBold="true"/>
+											<paragraph rightIndent="5"/>
+										</textElement>
+										<text><![CDATA[Total No. of Visits:]]></text>
+									</staticText>
+								</jr:tableFooter>
+								<jr:column width="90" uuid="bf6ac378-1eda-4a93-8e06-1599a5ad0bfe">
+									<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+										<staticText>
+											<reportElement x="0" y="0" width="90" height="30" uuid="749cae57-0e8d-435a-8595-01c115aef1d9"/>
+											<textElement>
+												<font size="12" isBold="true"/>
+												<paragraph leftIndent="5"/>
+											</textElement>
+											<text><![CDATA[Date]]></text>
+										</staticText>
+									</jr:columnHeader>
+									<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+										<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+											<reportElement x="0" y="0" width="90" height="30" uuid="9be5d893-71cf-4442-ad40-66c56da799ec"/>
+											<textElement>
+												<paragraph leftIndent="5"/>
+											</textElement>
+											<textFieldExpression><![CDATA[$F{compliancesurvey_DATEOFSURVEY}]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+								<jr:column width="250" uuid="40bd101f-4c40-4ec0-8f5e-89d31a70ed71">
+									<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+										<staticText>
+											<reportElement x="0" y="0" width="250" height="30" uuid="a119be24-2779-4d06-8b9d-4eaf7ad67892"/>
+											<textElement>
+												<font size="12" isBold="true"/>
+												<paragraph leftIndent="5"/>
+											</textElement>
+											<text><![CDATA[Location Visited]]></text>
+										</staticText>
+									</jr:columnHeader>
+									<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+										<textField isBlankWhenNull="true">
+											<reportElement x="0" y="0" width="250" height="30" uuid="11a3febf-24cf-41a7-b796-28e92a19976c"/>
+											<textElement>
+												<paragraph leftIndent="5"/>
+											</textElement>
+											<textFieldExpression><![CDATA[$F{compliancesurvey_INSPECTIONPOINT}]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+							</jr:columnGroup>
+						</jr:columnGroup>
+						<jr:column width="100" uuid="c5935866-be95-4305-8901-591a04b29075">
+							<jr:tableFooter height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="100" height="30" uuid="1ced3627-910b-4d58-ba48-07b01714450f"/>
+									<box>
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement>
+										<font size="11" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalNumOfVisits}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="100" height="30" uuid="c3955f96-57d3-4b96-be20-42b7cf2f8447"/>
+									<textElement>
+										<font size="12" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<text><![CDATA[No. of Visits]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+								<textField isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="100" height="30" uuid="830ce360-9bf4-4f76-8d82-ce1568e1490d"/>
+									<textElement>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{visits}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" positionType="Float" x="0" y="209" width="567" height="54" uuid="fae29e03-9f68-4b38-985e-7ffb5c650af9"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="Containers Inspected" uuid="11d267a3-aba8-45ea-88da-36c0dcd6fc14">
+						<datasetParameter name="startOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{startOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{endOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="489" uuid="e53799ed-7487-46c8-ac2d-0cfb68c4bd92">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement positionType="Float" x="0" y="0" width="489" height="30" uuid="f4a414f2-bd2f-4d5a-a757-37b74149bff0"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<text><![CDATA[Consignments Inspected]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:column width="181" uuid="4c09d7ff-6356-454c-8b3c-13b73b157a98">
+							<jr:tableFooter height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="181" height="30" uuid="f51c4b5b-faca-4598-beab-363c171ce243"/>
+									<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font size="11" isBold="true"/>
+										<paragraph rightIndent="5"/>
+									</textElement>
+									<text><![CDATA[Total Containers: ]]></text>
+								</staticText>
+							</jr:tableFooter>
+							<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="181" height="30" uuid="5061c0a1-0904-488d-bb42-e2876b4c54bc"/>
+									<textElement>
+										<font size="12" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<text><![CDATA[Date]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+								<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="181" height="30" uuid="9f7cefd1-5db0-4d3e-bd67-4bf263bc69f0"/>
+									<textElement>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{compliancesurvey_DATEOFSURVEY}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="308" uuid="ef1229fc-1f33-4b66-aefd-c4ff9b3b38ea">
+							<jr:tableFooter height="30">
+								<textField evaluationTime="Column">
+									<reportElement positionType="Float" x="0" y="0" width="308" height="30" uuid="bbaa9e3d-e47e-4367-9ba9-4d049a645ea7"/>
+									<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement>
+										<font size="11" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalContainers}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="308" height="30" uuid="c86078eb-3030-4860-ae95-dd161b0a9f3b"/>
+									<textElement>
+										<font size="12" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<text><![CDATA[No. of Containers Inspected]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 1_TD" height="30" rowSpan="1">
+								<textField isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="308" height="30" uuid="d550e06b-11a1-439b-8000-1a22cdc9948d"/>
+									<textElement>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{numContainers}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 3" style="table 3" positionType="Float" x="0" y="283" width="567" height="54" uuid="b33ce7bb-7c17-449a-8046-cf8800fc0ff7"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Detention Requests" uuid="f452d15a-a33d-446c-88f6-75a477b3e3ef">
+						<datasetParameter name="startOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{startOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{endOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="533" uuid="18cb6f79-8b8a-48d2-adda-4b605c7cfb39">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="533" height="30" uuid="60c3671c-ade1-4913-b670-ef2985e5bf08"/>
+								<textElement>
+									<font size="14" isBold="true"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<text><![CDATA[Detentions]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:columnGroup width="180" uuid="6d06297d-5711-4593-b10e-166cb848a633">
+							<jr:tableFooter height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="180" height="30" uuid="80e1da18-a634-4c2f-989b-519dae3c60f3"/>
+									<textElement textAlignment="Right">
+										<font size="11" isBold="true"/>
+										<paragraph rightIndent="5"/>
+									</textElement>
+									<text><![CDATA[Total Detentions:]]></text>
+								</staticText>
+							</jr:tableFooter>
+							<jr:column width="90" uuid="71aa8eb9-a938-4ae7-85bd-093221d9d89e">
+								<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="90" height="30" uuid="f8c24635-4160-4fa9-8e1e-2356b8dd2042"/>
+										<textElement>
+											<font size="12" isBold="true"/>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<text><![CDATA[Detention Date]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+									<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="90" height="30" uuid="b4f03ad7-062e-435c-8c5e-1c4933a18f42"/>
+										<textElement>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{compliancesurvey_DATEOFDETENTION}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="90" uuid="45ecd82e-1c12-4ab3-953e-31f941a35ebe">
+								<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="90" height="30" uuid="618c295c-6cee-4d28-b24d-15d3af6dce2d"/>
+										<textElement>
+											<font size="12" isBold="true"/>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<text><![CDATA[Survey Date]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+									<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+										<reportElement x="0" y="0" width="90" height="30" uuid="54904159-09cf-4a81-b559-442e5c4da22b"/>
+										<textElement>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{compliancesurvey_DATEOFSURVEY}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+						<jr:column width="353" uuid="ff315e3f-e7f7-48f0-ac5c-8628d131a6cf">
+							<jr:tableFooter style="table 3_TH" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="353" height="30" uuid="04b5b1f0-695a-4988-a17a-3f2250a5b18e"/>
+									<textElement>
+										<font size="11" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalDetentions}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="353" height="30" uuid="f70765a3-2e26-414b-8a90-72bed30c40d6"/>
+									<textElement>
+										<font size="12" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<text><![CDATA[Consignee]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table 3_CH" height="0" rowSpan="1"/>
+							<jr:detailCell style="table 3_TD" height="30" rowSpan="1">
+								<textField isBlankWhenNull="true">
+									<reportElement x="0" y="0" width="353" height="30" uuid="6b2af6d6-b6ba-410c-8ee4-a69cb1562a73"/>
+									<textElement>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 4" style="table 4" positionType="Float" x="0" y="356" width="567" height="54" uuid="71d5a499-906a-42c5-a0fa-fd2728ecf03a"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Samples and Units Collected" uuid="391df7f1-d375-4931-80ae-572a765bf049">
+						<datasetParameter name="startOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{startOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endOfPeriod">
+							<datasetParameterExpression><![CDATA[$P{endOfPeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:columnGroup width="442" uuid="7534cdea-bd00-4286-8fa4-4cf4451ca98b">
+						<jr:tableHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="442" height="30" uuid="135de56b-4334-44a9-baa5-a6bc4b090a00"/>
+								<textElement>
+									<font size="14" isBold="true"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<text><![CDATA[Samples and Units Collected]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:columnGroup width="345" uuid="7891d1ef-ffa7-49a1-b8fe-ac96f97c1664">
+							<jr:tableFooter height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="345" height="15" uuid="43860837-1ec0-4edf-8329-343b1ae0917b"/>
+									<box>
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font size="11" isBold="true"/>
+										<paragraph rightIndent="5"/>
+									</textElement>
+									<text><![CDATA[Total Sampled Collected :]]></text>
+								</staticText>
+								<staticText>
+									<reportElement x="0" y="15" width="345" height="15" uuid="0e8e8e04-1c34-43e9-8b68-666f746fabdf"/>
+									<box>
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement textAlignment="Right">
+										<font size="11" isBold="true"/>
+										<paragraph rightIndent="5"/>
+									</textElement>
+									<text><![CDATA[Total Product Units Collected :]]></text>
+								</staticText>
+							</jr:tableFooter>
+							<jr:column width="90" uuid="fb435eaa-beb4-47d6-950e-182ef9c686eb">
+								<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="90" height="30" uuid="c70c0ffe-3ca8-4823-a05c-cbcebf984549"/>
+										<textElement>
+											<font size="11" isBold="true"/>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<text><![CDATA[Survey Date]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+									<textField pattern="dd-MMM-yyyy">
+										<reportElement x="0" y="0" width="90" height="20" uuid="47d1002c-1f76-4d0d-bfd7-3065bd31912d"/>
+										<textElement>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{compliancesurvey_DATEOFSURVEY}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="255" uuid="a7560c4a-ec08-4011-9985-1467029d7d16">
+								<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement x="0" y="0" width="255" height="30" uuid="0036361c-122c-4464-99ad-26095e239b5f"/>
+										<textElement>
+											<font size="11" isBold="true"/>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<text><![CDATA[Consignee]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+									<textField>
+										<reportElement x="0" y="0" width="255" height="20" uuid="22655d46-d8ac-406e-af52-60649960cadd"/>
+										<textElement>
+											<paragraph leftIndent="5"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+						<jr:column width="97" uuid="fe2ba329-8b4f-4515-8eb1-4f96c687005c">
+							<jr:tableFooter style="table 4_TH" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="97" height="15" uuid="a28dc2b8-23eb-4851-a1c9-272fbad6671f"/>
+									<box>
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement>
+										<font size="11" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalSamplesCollected}]]></textFieldExpression>
+								</textField>
+								<textField>
+									<reportElement x="0" y="15" width="97" height="15" uuid="1a9960bd-84c2-40d5-96cd-3c7f4d52ba26"/>
+									<box>
+										<pen lineWidth="0.25"/>
+										<topPen lineWidth="0.25"/>
+										<leftPen lineWidth="0.25"/>
+										<bottomPen lineWidth="0.25"/>
+										<rightPen lineWidth="0.25"/>
+									</box>
+									<textElement>
+										<font size="11" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{totalProductUnitsCollected}]]></textFieldExpression>
+								</textField>
+							</jr:tableFooter>
+							<jr:columnHeader style="table 4_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="97" height="30" uuid="a116dcae-a0fa-45ad-abe1-877b058c3069"/>
+									<textElement>
+										<font size="11" isBold="true"/>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<text><![CDATA[Product Units Collected]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="97" height="20" uuid="7cbbff35-0c97-4576-b0d5-e09a84835c1e"/>
+									<textElement>
+										<paragraph leftIndent="5"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{productinspection_NUMPRODUCTSSAMPLED}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

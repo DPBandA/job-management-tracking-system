@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Services Offered to Customers" pageWidth="2400" pageHeight="595" orientation="Landscape" columnWidth="2360" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="startOFPeriod" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endOFPeriod" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     GROUP_CONCAT(phonenumber.`LOCALNUMBER` SEPARATOR ', ') AS phoneNumbers,
+     GROUP_CONCAT(jobsubcategory.`SubCategory` SEPARATOR ' ') AS jobsubcategories,
+     COUNT(job.`ID`) AS numOfJobs,
+     client.`NAME` AS client_NAME,
+     job.`JOBSTATUSANDTRACKING_ID` AS job_JOBSTATUSANDTRACKING_ID,
+     job.`JOBSUBCATEGORY_ID` AS job_JOBSUBCATEGORY_ID,
+     jobstatusandtracking.`DATESUBMITTED` AS jobstatusandtracking_DATESUBMITTED,
+     jobsubcategory.`SubCategory` AS jobsubcategory_SubCategory,
+     jobsubcategory.`IsEarning` AS jobsubcategory_IsEarning,
+     classification.`NAME` AS classification_NAME,
+     contact.`LASTNAME` AS contact_LASTNAME,
+     contact.`TYPE` AS contact_TYPE,
+     contact.`FIRSTNAME` AS contact_FIRSTNAME,
+     phonenumber.`LOCALNUMBER` AS phonenumber_LOCALNUMBER,
+     address.`ADDRESSLINE1` AS address_ADDRESSLINE1,
+     address.`ADDRESSLINE2` AS address_ADDRESSLINE2,
+     address.`CITY` AS address_CITY,
+     address.`STATEORPROVINCE` AS address_STATEORPROVINCE,
+     address.`TYPE` AS address_TYPE,
+     internet.`ID` AS internet_ID,
+     internet.`EMAIL1` AS internet_EMAIL1,
+     internet.`EMAIL2` AS internet_EMAIL2,
+     internet.`EMAIL3` AS internet_EMAIL3
+FROM
+     `client` client INNER JOIN `job` job ON client.`ID` = job.`CLIENT_ID`
+     INNER JOIN `jobstatusandtracking` jobstatusandtracking ON job.`JOBSTATUSANDTRACKING_ID` = jobstatusandtracking.`ID`
+     INNER JOIN `jobsubcategory` jobsubcategory ON job.`JOBSUBCATEGORY_ID` = jobsubcategory.`ID`
+     INNER JOIN `classification` classification ON job.`CLASSIFICATION_ID` = classification.`ID`
+     INNER JOIN `client_contact` client_contact ON client.`ID` = client_contact.`Client_ID`
+     INNER JOIN `client_address` client_address ON client.`ID` = client_address.`Client_ID`
+     INNER JOIN `address` address ON client_address.`addresses_ID` = address.`ID`
+     INNER JOIN `contact` contact ON client_contact.`contacts_ID` = contact.`ID`
+     INNER JOIN `contact_phonenumber` contact_phonenumber ON contact.`ID` = contact_phonenumber.`Contact_ID`
+     INNER JOIN `internet` internet ON contact.`INTERNET_ID` = internet.`ID`
+     INNER JOIN `phonenumber` phonenumber ON contact_phonenumber.`phoneNumbers_ID` = phonenumber.`ID`
+WHERE
+     jobstatusandtracking.`DATESUBMITTED` >= $P{startOFPeriod}
+ AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOFPeriod}
+ AND jobsubcategory.`IsEarning` = 1
+ AND client.`NAME` NOT LIKE '%Bureau of Standards%'
+ AND contact.`TYPE` = 'Main'
+ AND address.`TYPE` = 'Billing'
+ AND jobsubcategory.`SubCategory` NOT LIKE '%--%'
+GROUP BY
+     client.`NAME`
+ORDER BY
+     client.`NAME` ASC]]>
+	</queryString>
+	<field name="phoneNumbers" class="java.lang.String"/>
+	<field name="jobsubcategories" class="java.lang.String"/>
+	<field name="numOfJobs" class="java.lang.Long"/>
+	<field name="client_NAME" class="java.lang.String"/>
+	<field name="job_JOBSTATUSANDTRACKING_ID" class="java.lang.Long"/>
+	<field name="job_JOBSUBCATEGORY_ID" class="java.lang.Long"/>
+	<field name="jobstatusandtracking_DATESUBMITTED" class="java.sql.Date"/>
+	<field name="jobsubcategory_SubCategory" class="java.lang.String"/>
+	<field name="jobsubcategory_IsEarning" class="java.lang.Boolean"/>
+	<field name="classification_NAME" class="java.lang.String"/>
+	<field name="contact_LASTNAME" class="java.lang.String"/>
+	<field name="contact_TYPE" class="java.lang.String"/>
+	<field name="contact_FIRSTNAME" class="java.lang.String"/>
+	<field name="phonenumber_LOCALNUMBER" class="java.lang.String"/>
+	<field name="address_ADDRESSLINE1" class="java.lang.String"/>
+	<field name="address_ADDRESSLINE2" class="java.lang.String"/>
+	<field name="address_CITY" class="java.lang.String"/>
+	<field name="address_STATEORPROVINCE" class="java.lang.String"/>
+	<field name="address_TYPE" class="java.lang.String"/>
+	<field name="internet_ID" class="java.lang.Long"/>
+	<field name="internet_EMAIL1" class="java.lang.String"/>
+	<field name="internet_EMAIL2" class="java.lang.String"/>
+	<field name="internet_EMAIL3" class="java.lang.String"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="290" height="32" uuid="2fcfdb36-71b7-45d9-a565-70403c7a89c4"/>
+				<textElement textAlignment="Left">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Customers & Services  ]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement mode="Opaque" x="293" y="0" width="151" height="32" forecolor="#000000" uuid="a74fc375-e96e-4161-93dd-366f40a7a703"/>
+				<textElement textAlignment="Center">
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startOFPeriod}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="443" y="0" width="25" height="32" forecolor="#000000" uuid="f088f1ae-d1ec-4ec8-9872-c821851dfa3e"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement mode="Opaque" x="467" y="0" width="192" height="32" forecolor="#000000" uuid="b2004fdf-6ef8-4076-91f1-249ddc99edc3"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endOFPeriod}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="176" height="18" forecolor="#000000" uuid="8144f9ca-43c1-4c98-8e9b-d1e5e55d376d"/>
+				<box leftPadding="0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="176" y="0" width="253" height="18" forecolor="#000000" uuid="f42bc4b8-4b86-4531-91f3-3669c7d53a26"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contact]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="429" y="0" width="253" height="18" forecolor="#000000" uuid="3cd41a6f-3919-41ac-bfa9-61226a3d7a85"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contact Number(s)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="682" y="0" width="372" height="18" forecolor="#000000" uuid="b803ed60-8c51-4076-925e-2786fe83b08d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Address]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1054" y="0" width="213" height="18" forecolor="#000000" uuid="0c51ce5e-6b23-41a9-8bb6-fbe6badbf339"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parish]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1267" y="0" width="213" height="18" forecolor="#000000" uuid="0cdea7c1-812d-44f1-8835-41de60bcb39a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1480" y="0" width="324" height="18" forecolor="#000000" uuid="c929ec9e-dbc0-4486-b46f-25181da0f3cd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Service(s)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1804" y="0" width="324" height="18" forecolor="#000000" uuid="40c37c31-4764-4362-a05a-c37d13303d6c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Number of Jobs Submitted]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="0" y="0" width="176" height="18" uuid="25ee610b-5460-4370-8d00-9f0e72076b09"/>
+				<box leftPadding="0"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="176" y="0" width="253" height="18" uuid="25170a30-dbe3-4364-b69b-1af4c565eba0"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contact_FIRSTNAME} + " " + $F{contact_LASTNAME}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="429" y="0" width="253" height="18" uuid="418116b9-1935-446d-950d-fe1c2231030b"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{phonenumber_LOCALNUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="682" y="0" width="372" height="18" uuid="b76101d0-9a1d-4096-bfe8-fefaf0ad62f1"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address_ADDRESSLINE1} + " " + $F{address_ADDRESSLINE2} + " " + $F{address_CITY}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="1054" y="0" width="213" height="18" uuid="1ab2bf73-e6d6-42c4-a246-a80ea58640c2"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{address_STATEORPROVINCE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="1267" y="0" width="213" height="18" uuid="3da0e118-fe87-4528-834e-4526ae3a5a77"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{internet_EMAIL1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="1480" y="0" width="324" height="18" uuid="e719ec89-9b5f-41ea-a6d3-9954c545a442"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jobsubcategory_SubCategory}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="1804" y="0" width="324" height="18" uuid="820e0492-2f27-444a-a805-0e3fed791940"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numOfJobs}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="39" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

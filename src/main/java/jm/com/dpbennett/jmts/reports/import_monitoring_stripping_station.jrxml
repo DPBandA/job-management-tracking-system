@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="import_monitoring_stripping_station" language="groovy" pageWidth="572" pageHeight="752" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aef86399-f6d7-4dfd-9eb9-c41f8128bd00">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="startOfPeriod" class="java.util.Date" isForPrompting="false"/>
+	<parameter name="endOfPeriod" class="java.util.Date" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT
+     marketproductsurvey.`ID` AS marketproductsurvey_ID,
+     marketproductsurvey.`COMMENTS` AS marketproductsurvey_COMMENTS,
+     marketproductsurvey.`CONTAINER` AS marketproductsurvey_CONTAINER,
+     marketproductsurvey.`DATEOFSURVEY` AS marketproductsurvey_DATEOFSURVEY,
+     marketproductsurvey.`DATESIGNED` AS marketproductsurvey_DATESIGNED,
+     marketproductsurvey.`NAME` AS marketproductsurvey_NAME,
+     marketproductsurvey.`PORTOFENTRY` AS marketproductsurvey_PORTOFENTRY,
+     marketproductsurvey.`SURVEYENDTIME` AS marketproductsurvey_SURVEYENDTIME,
+     marketproductsurvey.`SURVEYSTARTTIME` AS marketproductsurvey_SURVEYSTARTTIME,
+     marketproductsurvey.`SURVEYTYPE` AS marketproductsurvey_SURVEYTYPE,
+     marketproductsurvey.`INSPECTOR_ID` AS marketproductsurvey_INSPECTOR_ID,
+     marketproductsurvey.`RETAILOUTLET_ID` AS marketproductsurvey_RETAILOUTLET_ID,
+     marketproductsurvey.`RETAILREPRESENTATIVE_ID` AS marketproductsurvey_RETAILREPRESENTATIVE_ID,
+     marketproductsurvey_marketproduct.`MarketProductSurvey_ID` AS marketproductsurvey_marketproduct_MarketProductSurvey_ID,
+     marketproductsurvey_marketproduct.`products_ID` AS marketproductsurvey_marketproduct_products_ID,
+     marketproduct.`ID` AS marketproduct_ID,
+     marketproduct.`BATCHCODE` AS marketproduct_BATCHCODE,
+     marketproduct.`BRAND` AS marketproduct_BRAND,
+     marketproduct.`COMMENTS` AS marketproduct_COMMENTS,
+     marketproduct.`COUNTRYOFORIGIN` AS marketproduct_COUNTRYOFORIGIN,
+     marketproduct.`DATECHECKED` AS marketproduct_DATECHECKED,
+     marketproduct.`DATEMARK` AS marketproduct_DATEMARK,
+     marketproduct.`HASBUSINESSSOURCE` AS marketproduct_HASBUSINESSSOURCE,
+     marketproduct.`HASCOUNTRYOFORIGIN` AS marketproduct_HASCOUNTRYOFORIGIN,
+     marketproduct.`HASINGREDIENTS` AS marketproduct_HASINGREDIENTS,
+     marketproduct.`HASINSTRUCTIONS` AS marketproduct_HASINSTRUCTIONS,
+     marketproduct.`HASPICTORIALREPRESENTATION` AS marketproduct_HASPICTORIALREPRESENTATION,
+     marketproduct.`HASQUANTITYDESCRIPTION` AS marketproduct_HASQUANTITYDESCRIPTION,
+     marketproduct.`IMAGEURL` AS marketproduct_IMAGEURL,
+     marketproduct.`INGREDIENTS` AS marketproduct_INGREDIENTS,
+     marketproduct.`INSTRUCTIONS` AS marketproduct_INSTRUCTIONS,
+     marketproduct.`NAME` AS marketproduct_NAME,
+     marketproduct.`PRECAUTIONSTATEMENT` AS marketproduct_PRECAUTIONSTATEMENT,
+     marketproduct.`QUANTITY` AS marketproduct_QUANTITY,
+     marketproduct.`QUANTITYDESCRIPTION` AS marketproduct_QUANTITYDESCRIPTION,
+     marketproduct.`SPECIFICATIONSUMMARY` AS marketproduct_SPECIFICATIONSUMMARY,
+     marketproduct.`STATUS` AS marketproduct_STATUS,
+     marketproduct.`TIMECHECKED` AS marketproduct_TIMECHECKED,
+     marketproduct.`TYPE` AS marketproduct_TYPE,
+     marketproduct.`BUSINESSSOURCE_ID` AS marketproduct_BUSINESSSOURCE_ID,
+     marketproduct.`CLIENT_ID` AS marketproduct_CLIENT_ID,
+     marketproduct.`MANUFACTURER_ID` AS marketproduct_MANUFACTURER_ID,
+     marketproduct.`SAMPLESIZE` AS marketproduct_SAMPLESIZE,
+     marketproduct.`MODEL` AS marketproduct_MODEL,
+     marketproduct.`SERIALNUMBER` AS marketproduct_SERIALNUMBER
+FROM
+     `marketproductsurvey` marketproductsurvey INNER JOIN `marketproductsurvey_marketproduct` marketproductsurvey_marketproduct ON marketproductsurvey.`ID` = marketproductsurvey_marketproduct.`MarketProductSurvey_ID`
+     INNER JOIN `marketproduct` marketproduct ON marketproductsurvey_marketproduct.`products_ID` = marketproduct.`ID`
+WHERE
+     marketproductsurvey.`DATEOFSURVEY` >= $P{startOfPeriod}
+ AND marketproductsurvey.`DATEOFSURVEY` <= $P{endOfPeriod}]]>
+	</queryString>
+	<field name="marketproductsurvey_ID" class="java.lang.Long"/>
+	<field name="marketproductsurvey_COMMENTS" class="java.lang.String"/>
+	<field name="marketproductsurvey_CONTAINER" class="java.lang.String"/>
+	<field name="marketproductsurvey_DATEOFSURVEY" class="java.sql.Date"/>
+	<field name="marketproductsurvey_DATESIGNED" class="java.sql.Date"/>
+	<field name="marketproductsurvey_NAME" class="java.lang.String"/>
+	<field name="marketproductsurvey_PORTOFENTRY" class="java.lang.String"/>
+	<field name="marketproductsurvey_SURVEYENDTIME" class="java.sql.Time"/>
+	<field name="marketproductsurvey_SURVEYSTARTTIME" class="java.sql.Time"/>
+	<field name="marketproductsurvey_SURVEYTYPE" class="java.lang.String"/>
+	<field name="marketproductsurvey_INSPECTOR_ID" class="java.lang.Long"/>
+	<field name="marketproductsurvey_RETAILOUTLET_ID" class="java.lang.Long"/>
+	<field name="marketproductsurvey_RETAILREPRESENTATIVE_ID" class="java.lang.Long"/>
+	<field name="marketproductsurvey_marketproduct_MarketProductSurvey_ID" class="java.lang.Long"/>
+	<field name="marketproductsurvey_marketproduct_products_ID" class="java.lang.Long"/>
+	<field name="marketproduct_ID" class="java.lang.Long"/>
+	<field name="marketproduct_BATCHCODE" class="java.lang.String"/>
+	<field name="marketproduct_BRAND" class="java.lang.String"/>
+	<field name="marketproduct_COMMENTS" class="java.lang.String"/>
+	<field name="marketproduct_COUNTRYOFORIGIN" class="java.lang.String"/>
+	<field name="marketproduct_DATECHECKED" class="java.sql.Date"/>
+	<field name="marketproduct_DATEMARK" class="java.lang.String"/>
+	<field name="marketproduct_HASBUSINESSSOURCE" class="java.lang.Boolean"/>
+	<field name="marketproduct_HASCOUNTRYOFORIGIN" class="java.lang.Boolean"/>
+	<field name="marketproduct_HASINGREDIENTS" class="java.lang.Boolean"/>
+	<field name="marketproduct_HASINSTRUCTIONS" class="java.lang.Boolean"/>
+	<field name="marketproduct_HASPICTORIALREPRESENTATION" class="java.lang.Boolean"/>
+	<field name="marketproduct_HASQUANTITYDESCRIPTION" class="java.lang.Boolean"/>
+	<field name="marketproduct_IMAGEURL" class="java.lang.String"/>
+	<field name="marketproduct_INGREDIENTS" class="java.lang.String"/>
+	<field name="marketproduct_INSTRUCTIONS" class="java.lang.String"/>
+	<field name="marketproduct_NAME" class="java.lang.String"/>
+	<field name="marketproduct_PRECAUTIONSTATEMENT" class="java.lang.String"/>
+	<field name="marketproduct_QUANTITY" class="java.lang.Integer"/>
+	<field name="marketproduct_QUANTITYDESCRIPTION" class="java.lang.String"/>
+	<field name="marketproduct_SPECIFICATIONSUMMARY" class="java.lang.String"/>
+	<field name="marketproduct_STATUS" class="java.lang.String"/>
+	<field name="marketproduct_TIMECHECKED" class="java.sql.Time"/>
+	<field name="marketproduct_TYPE" class="java.lang.String"/>
+	<field name="marketproduct_BUSINESSSOURCE_ID" class="java.lang.Long"/>
+	<field name="marketproduct_CLIENT_ID" class="java.lang.Long"/>
+	<field name="marketproduct_MANUFACTURER_ID" class="java.lang.Long"/>
+	<field name="marketproduct_SAMPLESIZE" class="java.lang.Long"/>
+	<field name="marketproduct_MODEL" class="java.lang.String"/>
+	<field name="marketproduct_SERIALNUMBER" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="ff541afd-bd50-4822-9d51-b2f1f1cce0e9" x="0" y="2" width="572" height="22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sample Collection (Label Assessment)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f7805851-81be-4652-8163-747bf146307e" x="0" y="2" width="245" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0cf1f867-c73e-4ec7-a0ad-fa1579c6f7af" x="245" y="2" width="80" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Quantity]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dcb66ce9-4bcb-4463-b380-c97c24410265" x="325" y="2" width="81" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Size]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6644222d-aa8c-4163-afd1-5bb3b7405425" x="406" y="2" width="166" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Model]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="1b39dfa6-7593-4190-b854-c9487d8ca8d7" x="0" y="0" width="245" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{marketproduct_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="9f04f437-5ac1-4c22-ac99-952317958ab8" x="245" y="0" width="80" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{marketproduct_QUANTITY}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="651ae27e-fa77-4c2f-aa97-7b32828cad27" x="326" y="0" width="80" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{marketproduct_SAMPLESIZE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="16908a08-7188-44ed-8bc9-82aff790906c" x="406" y="0" width="166" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{marketproduct_MODEL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

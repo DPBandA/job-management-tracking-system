@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Earnings by Category" language="groovy" pageWidth="800" pageHeight="1200" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="2968f87d-e793-471b-a0e2-11b9ce11246e">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="736"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -204,7 +204,7 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="159" splitType="Stretch">
+		<band height="200" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="960" height="30" forecolor="#000033" uuid="260c2041-5dc2-4658-b962-0b22a91afa83"/>
 				<textElement>
@@ -213,95 +213,102 @@ ORDER BY
 				<text><![CDATA[Bureau of Standards Jamaica]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="30" width="958" height="28" forecolor="#330033" uuid="28b8f081-bcc4-4654-802e-4ea6d6cced2a"/>
+				<reportElement x="0" y="70" width="958" height="28" forecolor="#330033" uuid="28b8f081-bcc4-4654-802e-4ea6d6cced2a"/>
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date Periods]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="58" width="101" height="20" forecolor="#003366" uuid="cdfdb7a2-cc43-461e-8286-b48f1be3d8fa"/>
+				<reportElement x="1" y="99" width="101" height="20" forecolor="#003366" uuid="cdfdb7a2-cc43-461e-8286-b48f1be3d8fa"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date period 1:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="88" width="101" height="20" forecolor="#003366" uuid="3dbba1b3-34df-4536-b42b-4b2e2a34c5bf"/>
+				<reportElement x="1" y="129" width="101" height="20" forecolor="#003366" uuid="3dbba1b3-34df-4536-b42b-4b2e2a34c5bf"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date period 2:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="118" width="101" height="20" forecolor="#003366" uuid="b9dab203-2c2b-4b50-89b1-bf32e47b52b9"/>
+				<reportElement x="1" y="159" width="101" height="20" forecolor="#003366" uuid="b9dab203-2c2b-4b50-89b1-bf32e47b52b9"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date period 3:]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="102" y="58" width="106" height="20" forecolor="#003366" uuid="d5541b55-03dd-442a-a95f-63bf77c1e71b"/>
+				<reportElement x="102" y="99" width="106" height="20" forecolor="#003366" uuid="d5541b55-03dd-442a-a95f-63bf77c1e71b"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{datePeriodStart1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="102" y="88" width="106" height="20" forecolor="#003366" uuid="cec39623-6095-42cf-8f97-d812d2723b4d"/>
+				<reportElement x="102" y="129" width="106" height="20" forecolor="#003366" uuid="cec39623-6095-42cf-8f97-d812d2723b4d"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{datePeriodStart2}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="102" y="118" width="106" height="20" forecolor="#003366" uuid="bbe729b9-4a34-4abe-8eb7-7fe40081200b"/>
+				<reportElement x="102" y="159" width="106" height="20" forecolor="#003366" uuid="bbe729b9-4a34-4abe-8eb7-7fe40081200b"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{datePeriodStart3}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="208" y="58" width="40" height="20" forecolor="#003366" uuid="166b02bb-1985-458f-9cd9-01fc97729241"/>
+				<reportElement x="208" y="99" width="40" height="20" forecolor="#003366" uuid="166b02bb-1985-458f-9cd9-01fc97729241"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="248" y="58" width="112" height="20" forecolor="#003366" uuid="1d9e7dd5-221f-4cdb-ac3d-9cbb74d6c008"/>
+				<reportElement x="248" y="99" width="112" height="20" forecolor="#003366" uuid="1d9e7dd5-221f-4cdb-ac3d-9cbb74d6c008"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{datePeriodEnd1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="248" y="88" width="112" height="20" forecolor="#003366" uuid="b7b9be0f-7da1-4e34-9cd8-59153ef86048"/>
+				<reportElement x="248" y="129" width="112" height="20" forecolor="#003366" uuid="b7b9be0f-7da1-4e34-9cd8-59153ef86048"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{datePeriodEnd2}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="208" y="88" width="40" height="20" forecolor="#003366" uuid="264121fa-3af6-489c-886f-fae6a211344e"/>
+				<reportElement x="208" y="129" width="40" height="20" forecolor="#003366" uuid="264121fa-3af6-489c-886f-fae6a211344e"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="248" y="118" width="112" height="20" forecolor="#003366" uuid="b69ec283-ef11-466a-ae8e-505fa077c513"/>
+				<reportElement x="248" y="159" width="112" height="20" forecolor="#003366" uuid="b69ec283-ef11-466a-ae8e-505fa077c513"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{datePeriodEnd3}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="208" y="118" width="40" height="20" forecolor="#003366" uuid="bdb72d5e-16d5-40d8-a42d-19b63ebbcf8a"/>
+				<reportElement x="208" y="159" width="40" height="20" forecolor="#003366" uuid="bdb72d5e-16d5-40d8-a42d-19b63ebbcf8a"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="960" height="30" forecolor="#000033" uuid="5e7e518c-f39f-4498-9e55-6d7159e1908f"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Departmental Earnings by Category]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -438,7 +445,7 @@ ORDER BY
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="¤ #,##0.00">
+						<textField pattern="#,##0.00">
 							<reportElement style="Crosstab Data Text" x="0" y="0" width="119" height="25" uuid="5bfa59b8-ae84-4e08-8831-664c7225f660"/>
 							<textFieldExpression><![CDATA[$V{EarningsMeasure}]]></textFieldExpression>
 						</textField>
@@ -449,7 +456,7 @@ ORDER BY
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="¤ #,##0.00">
+						<textField pattern="#,##0.00">
 							<reportElement style="Crosstab Data Text" x="0" y="0" width="119" height="25" uuid="2b43f4c2-1b27-4be5-8b07-1041929be758"/>
 							<textFieldExpression><![CDATA[$V{EarningsMeasure}]]></textFieldExpression>
 						</textField>
@@ -460,7 +467,7 @@ ORDER BY
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="¤ #,##0.00">
+						<textField pattern="#,##0.00">
 							<reportElement style="Crosstab Data Text" x="0" y="0" width="122" height="25" uuid="5135114d-e24e-45dc-a6ea-af3460aa108d"/>
 							<textFieldExpression><![CDATA[$V{EarningsMeasure}]]></textFieldExpression>
 						</textField>
@@ -471,7 +478,7 @@ ORDER BY
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="¤ #,##0.00">
+						<textField pattern="#,##0.00">
 							<reportElement style="Crosstab Data Text" x="0" y="0" width="122" height="25" uuid="2bc2f6e0-630b-4f7b-a7c3-ae5e9d96b553"/>
 							<textFieldExpression><![CDATA[$V{EarningsMeasure}]]></textFieldExpression>
 						</textField>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jobs in period - test grouping" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f183dd21-fa15-4f1d-89f6-e13ae293231d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT DISTINCTROW
+     job.`ID` AS job_ID,
+     job.`AUTOGENERATEJOBNUMBER` AS job_AUTOGENERATEJOBNUMBER,
+     job.`COMMENT` AS job_COMMENT,
+     job.`ESTIMATEDTURNAROUNDTIMEINDAYS` AS job_ESTIMATEDTURNAROUNDTIMEINDAYS,
+     job.`ISEARNINGJOB` AS job_ISEARNINGJOB,
+     job.`JOBDESCRIPTION` AS job_JOBDESCRIPTION,
+     job.`JOBNUMBER` AS job_JOBNUMBER,
+     job.`JOBSEQUENCENUMBER` AS job_JOBSEQUENCENUMBER,
+     job.`LOCKED` AS job_LOCKED,
+     job.`NEWCLIENT` AS job_NEWCLIENT,
+     job.`NOOFTESTSORCALIBRATIONS` AS job_NOOFTESTSORCALIBRATIONS,
+     job.`NUMBEROFSAMPLES` AS job_NUMBEROFSAMPLES,
+     job.`REPORTNUMBER` AS job_REPORTNUMBER,
+     job.`YEARRECEIVED` AS job_YEARRECEIVED,
+     job.`ASSIGNEDTO_ID` AS job_ASSIGNEDTO_ID,
+     job.`BUSINESSOFFICE_ID` AS job_BUSINESSOFFICE_ID,
+     job.`CLASSIFICATION_ID` AS job_CLASSIFICATION_ID,
+     job.`CLIENT_ID` AS job_CLIENT_ID,
+     job.`DEPARTMENT_ID` AS job_DEPARTMENT_ID,
+     job.`JOBCATEGORY_ID` AS job_JOBCATEGORY_ID,
+     job.`JOBCOSTINGANDPAYMENT_ID` AS job_JOBCOSTINGANDPAYMENT_ID,
+     job.`JOBSTATUSANDTRACKING_ID` AS job_JOBSTATUSANDTRACKING_ID,
+     job.`JOBSUBCATEGORY_ID` AS job_JOBSUBCATEGORY_ID,
+     job.`SECTOR_ID` AS job_SECTOR_ID,
+     job.`SERVICECONTRACT_ID` AS job_SERVICECONTRACT_ID,
+     job.`SUBCONTRACTEDDEPARTMENT_ID` AS job_SUBCONTRACTEDDEPARTMENT_ID,
+     job_jobsample.`Job_ID` AS job_jobsample_Job_ID,
+     job_jobsample.`jobSamples_ID` AS job_jobsample_jobSamples_ID,
+     jobsample.`ID` AS jobsample_ID,
+     jobsample.`CODE` AS jobsample_CODE,
+     jobsample.`COMMENTS` AS jobsample_COMMENTS,
+     jobsample.`DATERECEIVED` AS jobsample_DATERECEIVED,
+     jobsample.`DATERETURNED` AS jobsample_DATERETURNED,
+     jobsample.`DATESAMPLED` AS jobsample_DATESAMPLED,
+     jobsample.`DESCRIPTION` AS jobsample_DESCRIPTION,
+     jobsample.`JOBID` AS jobsample_JOBID,
+     jobsample.`METHODOFDISPOSAL` AS jobsample_METHODOFDISPOSAL,
+     jobsample.`NAME` AS jobsample_NAME,
+     jobsample.`PRODUCTBRAND` AS jobsample_PRODUCTBRAND,
+     jobsample.`PRODUCTCODE` AS jobsample_PRODUCTCODE,
+     jobsample.`PRODUCTMODEL` AS jobsample_PRODUCTMODEL,
+     jobsample.`PRODUCTSERIALNUMBER` AS jobsample_PRODUCTSERIALNUMBER,
+     jobsample.`PRODUCTTYPE` AS jobsample_PRODUCTTYPE,
+     jobsample.`QUANTITY` AS jobsample_QUANTITY,
+     jobsample.`REFERENCE` AS jobsample_REFERENCE,
+     jobsample.`REFERENCEINDEX` AS jobsample_REFERENCEINDEX,
+     jobsample.`SAMPLEQUANTITY` AS jobsample_SAMPLEQUANTITY,
+     jobsample.`SAMPLESIZE` AS jobsample_SAMPLESIZE,
+     jobsample.`TYPE` AS jobsample_TYPE,
+     jobsample.`UNITOFMEASURE` AS jobsample_UNITOFMEASURE,
+     jobsample.`CLIENT_ID` AS jobsample_CLIENT_ID,
+     jobsample.`MANUFACTURER_ID` AS jobsample_MANUFACTURER_ID,
+     jobsample.`RECEIVEDBY_ID` AS jobsample_RECEIVEDBY_ID,
+     jobsample.`REGULATORYOFFICE_ID` AS jobsample_REGULATORYOFFICE_ID,
+     jobsample.`SAMPLEDBY_ID` AS jobsample_SAMPLEDBY_ID
+FROM
+     `job` job INNER JOIN `job_jobsample` job_jobsample ON job.`ID` = job_jobsample.`Job_ID`
+     INNER JOIN `jobsample` jobsample ON job_jobsample.`jobSamples_ID` = jobsample.`ID`
+GROUP BY
+job.`ID`]]>
+	</queryString>
+	<field name="job_ID" class="java.lang.Long"/>
+	<field name="job_AUTOGENERATEJOBNUMBER" class="java.lang.Boolean"/>
+	<field name="job_COMMENT" class="java.lang.String"/>
+	<field name="job_ESTIMATEDTURNAROUNDTIMEINDAYS" class="java.lang.Integer"/>
+	<field name="job_ISEARNINGJOB" class="java.lang.Boolean"/>
+	<field name="job_JOBDESCRIPTION" class="java.lang.String"/>
+	<field name="job_JOBNUMBER" class="java.lang.String"/>
+	<field name="job_JOBSEQUENCENUMBER" class="java.lang.Long"/>
+	<field name="job_LOCKED" class="java.lang.Boolean"/>
+	<field name="job_NEWCLIENT" class="java.lang.Boolean"/>
+	<field name="job_NOOFTESTSORCALIBRATIONS" class="java.lang.Integer"/>
+	<field name="job_NUMBEROFSAMPLES" class="java.lang.Long"/>
+	<field name="job_REPORTNUMBER" class="java.lang.String"/>
+	<field name="job_YEARRECEIVED" class="java.lang.Integer"/>
+	<field name="job_ASSIGNEDTO_ID" class="java.lang.Long"/>
+	<field name="job_BUSINESSOFFICE_ID" class="java.lang.Long"/>
+	<field name="job_CLASSIFICATION_ID" class="java.lang.Long"/>
+	<field name="job_CLIENT_ID" class="java.lang.Long"/>
+	<field name="job_DEPARTMENT_ID" class="java.lang.Long"/>
+	<field name="job_JOBCATEGORY_ID" class="java.lang.Long"/>
+	<field name="job_JOBCOSTINGANDPAYMENT_ID" class="java.lang.Long"/>
+	<field name="job_JOBSTATUSANDTRACKING_ID" class="java.lang.Long"/>
+	<field name="job_JOBSUBCATEGORY_ID" class="java.lang.Long"/>
+	<field name="job_SECTOR_ID" class="java.lang.Long"/>
+	<field name="job_SERVICECONTRACT_ID" class="java.lang.Long"/>
+	<field name="job_SUBCONTRACTEDDEPARTMENT_ID" class="java.lang.Long"/>
+	<field name="job_jobsample_Job_ID" class="java.lang.Long"/>
+	<field name="job_jobsample_jobSamples_ID" class="java.lang.Long"/>
+	<field name="jobsample_ID" class="java.lang.Long"/>
+	<field name="jobsample_CODE" class="java.lang.String"/>
+	<field name="jobsample_COMMENTS" class="java.lang.String"/>
+	<field name="jobsample_DATERECEIVED" class="java.sql.Date"/>
+	<field name="jobsample_DATERETURNED" class="java.sql.Date"/>
+	<field name="jobsample_DATESAMPLED" class="java.sql.Date"/>
+	<field name="jobsample_DESCRIPTION" class="java.lang.String"/>
+	<field name="jobsample_JOBID" class="java.lang.Long"/>
+	<field name="jobsample_METHODOFDISPOSAL" class="java.lang.Integer"/>
+	<field name="jobsample_NAME" class="java.lang.String"/>
+	<field name="jobsample_PRODUCTBRAND" class="java.lang.String"/>
+	<field name="jobsample_PRODUCTCODE" class="java.lang.String"/>
+	<field name="jobsample_PRODUCTMODEL" class="java.lang.String"/>
+	<field name="jobsample_PRODUCTSERIALNUMBER" class="java.lang.String"/>
+	<field name="jobsample_PRODUCTTYPE" class="java.lang.String"/>
+	<field name="jobsample_QUANTITY" class="java.lang.Long"/>
+	<field name="jobsample_REFERENCE" class="java.lang.String"/>
+	<field name="jobsample_REFERENCEINDEX" class="java.lang.Long"/>
+	<field name="jobsample_SAMPLEQUANTITY" class="java.lang.Long"/>
+	<field name="jobsample_SAMPLESIZE" class="java.lang.String"/>
+	<field name="jobsample_TYPE" class="java.lang.String"/>
+	<field name="jobsample_UNITOFMEASURE" class="java.lang.String"/>
+	<field name="jobsample_CLIENT_ID" class="java.lang.Long"/>
+	<field name="jobsample_MANUFACTURER_ID" class="java.lang.Long"/>
+	<field name="jobsample_RECEIVEDBY_ID" class="java.lang.Long"/>
+	<field name="jobsample_REGULATORYOFFICE_ID" class="java.lang.Long"/>
+	<field name="jobsample_SAMPLEDBY_ID" class="java.lang.Long"/>
+	<group name="job_jobsample_Job_ID">
+		<groupExpression><![CDATA[$F{job_jobsample_Job_ID}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<frame>
+					<reportElement uuid="28d5d240-3be3-435b-826a-060f4e53c451" mode="Opaque" x="0" y="3" width="721" height="24" forecolor="#B89F7D" backcolor="#000000"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement uuid="eae57940-18c8-41e1-a7aa-58628fb5f2fe" style="SubTitle" x="2" y="0" width="695" height="24" forecolor="#FFFFFF"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{job_jobsample_Job_ID}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<rectangle>
+					<reportElement uuid="b2abe664-1688-445c-ad1e-87b532b9049a" x="725" y="3" width="77" height="24" backcolor="#666666"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<frame>
+				<reportElement uuid="c4627296-f879-4526-bf5d-8a8014153e36" mode="Opaque" x="0" y="0" width="721" height="66" backcolor="#000000"/>
+				<staticText>
+					<reportElement uuid="718087cb-2751-43e7-90eb-bb88983b513a" style="Title" x="0" y="0" width="370" height="66"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
+					<textElement verticalAlignment="Bottom">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cherry Title]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="46e8b8ca-7006-482a-a1d8-206129cb95e6" style="SubTitle" x="370" y="37" width="316" height="29"/>
+					<textElement textAlignment="Right">
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cherry SubTitle]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement uuid="d0ce4e90-a138-4c4f-a77c-3ebf781346af" mode="Opaque" x="0" y="70" width="721" height="32" forecolor="#000000" backcolor="#CC0000"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="8e7753a8-1204-4d60-99ef-628208381e1a" x="553" y="12" width="144" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="69f6d6b8-6087-4ed5-adb2-6fb3ff684e6e" style="Column header" x="0" y="0" width="398" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[job_JOBNUMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b006b5db-51cc-47fe-bdaa-65b127debecf" style="Column header" x="398" y="0" width="398" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[jobsample_DESCRIPTION]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<frame>
+				<reportElement uuid="9288da4a-ffd8-4798-8a5a-29679d85d0bc" style="Row" mode="Opaque" x="0" y="0" width="797" height="18"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="6a1a17f7-3166-46ba-8338-65c367d21493" style="Detail" positionType="Float" x="0" y="0" width="398" height="18"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{job_JOBNUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="2a9c5d24-79ec-4359-999a-09525d6bce68" style="Detail" positionType="Float" x="398" y="0" width="398" height="18"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{jobsample_DESCRIPTION}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement uuid="516e8c76-183c-403c-a0a5-538726219d04" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="9cb740ea-2a74-47c6-8cd5-2ca4faa175e4" mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#000000"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="bae9fa49-de7b-4d84-81c7-096cbf0dd695" style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="9c98ff46-acb5-43a8-9091-a2b7dd54b077" style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="4c3d35f4-1324-4cd6-9516-52806e5dde9c" style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

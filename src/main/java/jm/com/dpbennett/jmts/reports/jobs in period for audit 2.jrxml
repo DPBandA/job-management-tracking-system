@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jobs in period for audit" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT
+     client.`ID` AS client_ID,
+     client.`TAG` AS client_TAG,
+     client.`TAXREGISTRATIONNUMBER` AS client_TAXREGISTRATIONNUMBER,
+     client.`NUMBER` AS client_NUMBER,
+     client.`TYPE` AS client_TYPE,
+     client.`DATELASTACCESSED` AS client_DATELASTACCESSED,
+     client.`DATEFIRSTRECEIVED` AS client_DATEFIRSTRECEIVED,
+     client.`NAME` AS client_NAME,
+     client.`ACTIVE` AS client_ACTIVE,
+     client.`NOTES` AS client_NOTES,
+     client.`INTERNAL` AS client_INTERNAL,
+     client.`INTERNET_ID` AS client_INTERNET_ID,
+     job.`ID` AS job_ID,
+     job.`YEARRECEIVED` AS job_YEARRECEIVED,
+     job.`JOBDESCRIPTION` AS job_JOBDESCRIPTION,
+     job.`ESTIMATEDTURNAROUNDTIMEINDAYS` AS job_ESTIMATEDTURNAROUNDTIMEINDAYS,
+     job.`JOBSEQUENCENUMBER` AS job_JOBSEQUENCENUMBER,
+     job.`REPORTNUMBER` AS job_REPORTNUMBER,
+     job.`NOOFTESTSORCALIBRATIONS` AS job_NOOFTESTSORCALIBRATIONS,
+     job.`NUMBEROFSAMPLES` AS job_NUMBEROFSAMPLES,
+     job.`ISEARNINGJOB` AS job_ISEARNINGJOB,
+     job.`AUTOGENERATEJOBNUMBER` AS job_AUTOGENERATEJOBNUMBER,
+     job.`JOBNUMBER` AS job_JOBNUMBER,
+     job.`NEWCLIENT` AS job_NEWCLIENT,
+     job.`LOCKED` AS job_LOCKED,
+     job.`COMMENT` AS job_COMMENT,
+     job.`ASSIGNEDTO_ID` AS job_ASSIGNEDTO_ID,
+     job.`DEPARTMENT_ID` AS job_DEPARTMENT_ID,
+     job.`JOBSTATUSANDTRACKING_ID` AS job_JOBSTATUSANDTRACKING_ID,
+     job.`JOBCATEGORY_ID` AS job_JOBCATEGORY_ID,
+     job.`CLASSIFICATION_ID` AS job_CLASSIFICATION_ID,
+     job.`SERVICECONTRACT_ID` AS job_SERVICECONTRACT_ID,
+     job.`BUSINESSOFFICE_ID` AS job_BUSINESSOFFICE_ID,
+     job.`JOBSUBCATEGORY_ID` AS job_JOBSUBCATEGORY_ID,
+     job.`SECTOR_ID` AS job_SECTOR_ID,
+     job.`SUBCONTRACTEDDEPARTMENT_ID` AS job_SUBCONTRACTEDDEPARTMENT_ID,
+     job.`JOBCOSTINGANDPAYMENT_ID` AS job_JOBCOSTINGANDPAYMENT_ID,
+     job.`CLIENT_ID` AS job_CLIENT_ID,
+     jobcategory.`ID` AS jobcategory_ID,
+     jobcategory.`CATEGORY` AS jobcategory_CATEGORY,
+     jobcategory.`ISEARNING` AS jobcategory_ISEARNING,
+     jobcategory.`CLASSIFICATION` AS jobcategory_CLASSIFICATION,
+     jobstatusandtracking.`ID` AS jobstatusandtracking_ID,
+     jobstatusandtracking.`DATESUBMITTED` AS jobstatusandtracking_DATESUBMITTED,
+     jobstatusandtracking.`DATEOFCOMPLETION` AS jobstatusandtracking_DATEOFCOMPLETION,
+     jobcostingandpayment.`ID` AS jobcostingandpayment_ID,
+     jobcostingandpayment.`COSTINGDATE` AS jobcostingandpayment_COSTINGDATE,
+     jobcostingandpayment.`PAYMENTRECEIVEDTODATE` AS jobcostingandpayment_PAYMENTRECEIVEDTODATE,
+     jobcostingandpayment.`MINDEPOSIT` AS jobcostingandpayment_MINDEPOSIT,
+     jobcostingandpayment.`COSTINGAPPROVED` AS jobcostingandpayment_COSTINGAPPROVED,
+     jobcostingandpayment.`JOBID` AS jobcostingandpayment_JOBID,
+     jobcostingandpayment.`ESTIMATEDCOSTDONEBY` AS jobcostingandpayment_ESTIMATEDCOSTDONEBY,
+     jobcostingandpayment.`DEPOSIT` AS jobcostingandpayment_DEPOSIT,
+     jobcostingandpayment.`FINALCOST` AS jobcostingandpayment_FINALCOST,
+     jobcostingandpayment.`FINALCOSTDONEBY` AS jobcostingandpayment_FINALCOSTDONEBY,
+     jobcostingandpayment.`INVOICENUMBER` AS jobcostingandpayment_INVOICENUMBER,
+     jobcostingandpayment.`DATEOFLASTPAYMENT` AS jobcostingandpayment_DATEOFLASTPAYMENT,
+     jobcostingandpayment.`ESTIMATEDCOST` AS jobcostingandpayment_ESTIMATEDCOST,
+     jobcostingandpayment.`DISCOUNT` AS jobcostingandpayment_DISCOUNT,
+     jobcostingandpayment.`PURCHASEORDERNUMBER` AS jobcostingandpayment_PURCHASEORDERNUMBER,
+     jobcostingandpayment.`NAME` AS jobcostingandpayment_NAME,
+     jobcostingandpayment.`PAYMENTTERMS` AS jobcostingandpayment_PAYMENTTERMS,
+     jobcostingandpayment.`RECEIPTNUMBER` AS jobcostingandpayment_RECEIPTNUMBER,
+     jobcostingandpayment.`COSTINGCOMPLETED` AS jobcostingandpayment_COSTINGCOMPLETED,
+     jobcostingandpayment.`DEPOSITDATE` AS jobcostingandpayment_DEPOSITDATE,
+     jobcostingandpayment.`COMPLETED` AS jobcostingandpayment_COMPLETED,
+     jobcostingandpayment.`COSTINGAPPROVEDBY_ID` AS jobcostingandpayment_COSTINGAPPROVEDBY_ID,
+     employee.`ID` AS employee_ID,
+     employee.`MIDDLENAME` AS employee_MIDDLENAME,
+     employee.`NAMESUFFIX` AS employee_NAMESUFFIX,
+     employee.`LASTNAME` AS employee_LASTNAME,
+     employee.`SEX` AS employee_SEX,
+     employee.`NUMBER` AS employee_NUMBER,
+     employee.`BILLINGRATE` AS employee_BILLINGRATE,
+     employee.`USERNAME` AS employee_USERNAME,
+     employee.`TITLE` AS employee_TITLE,
+     employee.`NAME` AS employee_NAME,
+     employee.`ACTIVE` AS employee_ACTIVE,
+     employee.`BIRTHDATE` AS employee_BIRTHDATE,
+     employee.`FIRSTNAME` AS employee_FIRSTNAME,
+     employee.`NOTES` AS employee_NOTES,
+     employee.`DATEHIRED` AS employee_DATEHIRED,
+     employee.`INTERNET_ID` AS employee_INTERNET_ID,
+     employee.`BUSINESSOFFICE_ID` AS employee_BUSINESSOFFICE_ID,
+     employee.`DEPARTMENT_ID` AS employee_DEPARTMENT_ID,
+     jobstatusandtracking.`PRODUCTORSAMPLERECEIVEDBY` AS jobstatusandtracking_PRODUCTORSAMPLERECEIVEDBY,
+     jobstatusandtracking.`EXPECTEDDATEOFCOMPLETION` AS jobstatusandtracking_EXPECTEDDATEOFCOMPLETION
+FROM
+     `client` client INNER JOIN `job` job ON client.`ID` = job.`CLIENT_ID`
+     INNER JOIN `jobcategory` jobcategory ON job.`JOBCATEGORY_ID` = jobcategory.`ID`
+     INNER JOIN `jobstatusandtracking` jobstatusandtracking ON job.`JOBSTATUSANDTRACKING_ID` = jobstatusandtracking.`ID`
+     INNER JOIN `jobcostingandpayment` jobcostingandpayment ON job.`JOBCOSTINGANDPAYMENT_ID` = jobcostingandpayment.`ID`
+     INNER JOIN `employee` employee ON job.`ASSIGNEDTO_ID` = employee.`ID`
+WHERE
+     jobstatusandtracking.`DATESUBMITTED` >= '2012-11-01'
+ AND jobstatusandtracking.`DATESUBMITTED` <= '2013-02-28']]>
+	</queryString>
+	<field name="client_ID" class="java.lang.Long"/>
+	<field name="client_TAG" class="java.lang.Boolean"/>
+	<field name="client_TAXREGISTRATIONNUMBER" class="java.lang.String"/>
+	<field name="client_NUMBER" class="java.lang.String"/>
+	<field name="client_TYPE" class="java.lang.String"/>
+	<field name="client_DATELASTACCESSED" class="java.sql.Date"/>
+	<field name="client_DATEFIRSTRECEIVED" class="java.sql.Date"/>
+	<field name="client_NAME" class="java.lang.String"/>
+	<field name="client_ACTIVE" class="java.lang.Boolean"/>
+	<field name="client_NOTES" class="java.lang.String"/>
+	<field name="client_INTERNAL" class="java.lang.Boolean"/>
+	<field name="client_INTERNET_ID" class="java.lang.Long"/>
+	<field name="job_ID" class="java.lang.Long"/>
+	<field name="job_YEARRECEIVED" class="java.lang.Integer"/>
+	<field name="job_JOBDESCRIPTION" class="java.lang.String"/>
+	<field name="job_ESTIMATEDTURNAROUNDTIMEINDAYS" class="java.lang.Integer"/>
+	<field name="job_JOBSEQUENCENUMBER" class="java.lang.Long"/>
+	<field name="job_REPORTNUMBER" class="java.lang.String"/>
+	<field name="job_NOOFTESTSORCALIBRATIONS" class="java.lang.Integer"/>
+	<field name="job_NUMBEROFSAMPLES" class="java.lang.Long"/>
+	<field name="job_ISEARNINGJOB" class="java.lang.Boolean"/>
+	<field name="job_AUTOGENERATEJOBNUMBER" class="java.lang.Boolean"/>
+	<field name="job_JOBNUMBER" class="java.lang.String"/>
+	<field name="job_NEWCLIENT" class="java.lang.Boolean"/>
+	<field name="job_LOCKED" class="java.lang.Boolean"/>
+	<field name="job_COMMENT" class="java.lang.String"/>
+	<field name="job_ASSIGNEDTO_ID" class="java.lang.Long"/>
+	<field name="job_DEPARTMENT_ID" class="java.lang.Long"/>
+	<field name="job_JOBSTATUSANDTRACKING_ID" class="java.lang.Long"/>
+	<field name="job_JOBCATEGORY_ID" class="java.lang.Long"/>
+	<field name="job_CLASSIFICATION_ID" class="java.lang.Long"/>
+	<field name="job_SERVICECONTRACT_ID" class="java.lang.Long"/>
+	<field name="job_BUSINESSOFFICE_ID" class="java.lang.Long"/>
+	<field name="job_JOBSUBCATEGORY_ID" class="java.lang.Long"/>
+	<field name="job_SECTOR_ID" class="java.lang.Long"/>
+	<field name="job_SUBCONTRACTEDDEPARTMENT_ID" class="java.lang.Long"/>
+	<field name="job_JOBCOSTINGANDPAYMENT_ID" class="java.lang.Long"/>
+	<field name="job_CLIENT_ID" class="java.lang.Long"/>
+	<field name="jobcategory_ID" class="java.lang.Long"/>
+	<field name="jobcategory_CATEGORY" class="java.lang.String"/>
+	<field name="jobcategory_ISEARNING" class="java.lang.Boolean"/>
+	<field name="jobcategory_CLASSIFICATION" class="java.lang.String"/>
+	<field name="jobstatusandtracking_ID" class="java.lang.Long"/>
+	<field name="jobstatusandtracking_DATESUBMITTED" class="java.sql.Date"/>
+	<field name="jobstatusandtracking_DATEOFCOMPLETION" class="java.sql.Date"/>
+	<field name="jobcostingandpayment_ID" class="java.lang.Long"/>
+	<field name="jobcostingandpayment_COSTINGDATE" class="java.sql.Date"/>
+	<field name="jobcostingandpayment_PAYMENTRECEIVEDTODATE" class="java.lang.Double"/>
+	<field name="jobcostingandpayment_MINDEPOSIT" class="java.lang.Double"/>
+	<field name="jobcostingandpayment_COSTINGAPPROVED" class="java.lang.Boolean"/>
+	<field name="jobcostingandpayment_JOBID" class="java.lang.Long"/>
+	<field name="jobcostingandpayment_ESTIMATEDCOSTDONEBY" class="java.lang.String"/>
+	<field name="jobcostingandpayment_DEPOSIT" class="java.lang.Double"/>
+	<field name="jobcostingandpayment_FINALCOST" class="java.lang.Double"/>
+	<field name="jobcostingandpayment_FINALCOSTDONEBY" class="java.lang.String"/>
+	<field name="jobcostingandpayment_INVOICENUMBER" class="java.lang.String"/>
+	<field name="jobcostingandpayment_DATEOFLASTPAYMENT" class="java.sql.Date"/>
+	<field name="jobcostingandpayment_ESTIMATEDCOST" class="java.lang.Double"/>
+	<field name="jobcostingandpayment_DISCOUNT" class="java.lang.Double"/>
+	<field name="jobcostingandpayment_PURCHASEORDERNUMBER" class="java.lang.String"/>
+	<field name="jobcostingandpayment_NAME" class="java.lang.String"/>
+	<field name="jobcostingandpayment_PAYMENTTERMS" class="java.lang.String"/>
+	<field name="jobcostingandpayment_RECEIPTNUMBER" class="java.lang.String"/>
+	<field name="jobcostingandpayment_COSTINGCOMPLETED" class="java.lang.Boolean"/>
+	<field name="jobcostingandpayment_DEPOSITDATE" class="java.sql.Date"/>
+	<field name="jobcostingandpayment_COMPLETED" class="java.lang.Boolean"/>
+	<field name="jobcostingandpayment_COSTINGAPPROVEDBY_ID" class="java.lang.Long"/>
+	<field name="employee_ID" class="java.lang.Long"/>
+	<field name="employee_MIDDLENAME" class="java.lang.String"/>
+	<field name="employee_NAMESUFFIX" class="java.lang.String"/>
+	<field name="employee_LASTNAME" class="java.lang.String"/>
+	<field name="employee_SEX" class="java.lang.String"/>
+	<field name="employee_NUMBER" class="java.lang.String"/>
+	<field name="employee_BILLINGRATE" class="java.lang.Double"/>
+	<field name="employee_USERNAME" class="java.lang.String"/>
+	<field name="employee_TITLE" class="java.lang.String"/>
+	<field name="employee_NAME" class="java.lang.String"/>
+	<field name="employee_ACTIVE" class="java.lang.Boolean"/>
+	<field name="employee_BIRTHDATE" class="java.sql.Date"/>
+	<field name="employee_FIRSTNAME" class="java.lang.String"/>
+	<field name="employee_NOTES" class="java.lang.String"/>
+	<field name="employee_DATEHIRED" class="java.sql.Date"/>
+	<field name="employee_INTERNET_ID" class="java.lang.Long"/>
+	<field name="employee_BUSINESSOFFICE_ID" class="java.lang.Long"/>
+	<field name="employee_DEPARTMENT_ID" class="java.lang.Long"/>
+	<field name="jobstatusandtracking_PRODUCTORSAMPLERECEIVEDBY" class="java.lang.String"/>
+	<field name="jobstatusandtracking_EXPECTEDDATEOFCOMPLETION" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="2fcfdb36-71b7-45d9-a565-70403c7a89c4" x="2" y="0" width="702" height="47"/>
+				<textElement>
+					<font size="36"/>
+				</textElement>
+				<text><![CDATA[Jobs in Period - Nov 1, 2012 to Feb 28, 2013]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="8144f9ca-43c1-4c98-8e9b-d1e5e55d376d" style="Column header" x="0" y="0" width="88" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8f43d481-ce38-47ff-8a2c-74c3737c6227" style="Column header" x="88" y="0" width="88" height="18" forecolor="#000000"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Client]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement uuid="5ba434ea-ed6c-4738-b173-f021878f21aa" style="Row" mode="Opaque" x="0" y="0" width="797" height="18"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="10c394c0-a8a3-47ea-921a-9cec4cb4ed2a" style="Detail" positionType="Float" x="0" y="0" width="88" height="18"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{job_JOBNUMBER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement uuid="c3c79e99-eac9-43d4-9886-a03c302dc945" style="Detail" positionType="Float" x="88" y="0" width="88" height="18"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement uuid="2ef5bb8d-3a02-49a2-bdfe-50a73a73f53f" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<frame>
+				<reportElement uuid="1b401537-26df-4b54-9c00-547af5bc4251" mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#000000"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="5ebe8fdb-3450-4e6f-a9db-981a17105dbd" style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="14a0048f-8751-4ab0-ab25-c29b45ede76a" style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="2f225f82-3f8e-43e6-85b6-84dec6d6ad03" style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

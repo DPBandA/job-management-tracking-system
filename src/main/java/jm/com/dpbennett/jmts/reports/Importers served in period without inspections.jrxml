@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Importers served in period with product inspections" pageWidth="1440" pageHeight="595" orientation="Landscape" columnWidth="1400" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="72dbd18e-dd63-432d-b186-095fd72e83e3">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="startOFPeriod" class="java.util.Date"/>
+	<parameter name="endOFPeriod" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT
+     client.`ID` AS client_ID,
+     client.`ACTIVE` AS client_ACTIVE,
+     client.`DATEFIRSTRECEIVED` AS client_DATEFIRSTRECEIVED,
+     client.`DATELASTACCESSED` AS client_DATELASTACCESSED,
+     client.`INTERNAL` AS client_INTERNAL,
+     client.`NAME` AS client_NAME,
+     client.`NOTES` AS client_NOTES,
+     client.`NUMBER` AS client_NUMBER,
+     client.`TAG` AS client_TAG,
+     client.`TAXREGISTRATIONNUMBER` AS client_TAXREGISTRATIONNUMBER,
+     client.`TYPE` AS client_TYPE,
+     client.`INTERNET_ID` AS client_INTERNET_ID,
+     compliancesurvey.`ID` AS compliancesurvey_ID,
+     compliancesurvey.`COMMENTS` AS compliancesurvey_COMMENTS,
+     compliancesurvey.`DATEAUTHORIZED` AS compliancesurvey_DATEAUTHORIZED,
+     compliancesurvey.`DATEOFSURVEY` AS compliancesurvey_DATEOFSURVEY,
+     compliancesurvey.`DATESIGNED` AS compliancesurvey_DATESIGNED,
+     compliancesurvey.`INSPECTIONPOINT` AS compliancesurvey_INSPECTIONPOINT,
+     compliancesurvey.`NAME` AS compliancesurvey_NAME,
+     compliancesurvey.`PORTOFENTRY` AS compliancesurvey_PORTOFENTRY,
+     compliancesurvey.`REASONFORDETENTION` AS compliancesurvey_REASONFORDETENTION,
+     compliancesurvey.`REFERENCENUMBER` AS compliancesurvey_REFERENCENUMBER,
+     compliancesurvey.`SURVEYENDTIME` AS compliancesurvey_SURVEYENDTIME,
+     compliancesurvey.`SURVEYSTARTTIME` AS compliancesurvey_SURVEYSTARTTIME,
+     compliancesurvey.`SURVEYTYPE` AS compliancesurvey_SURVEYTYPE,
+     compliancesurvey.`AUTHORIZEDBY_ID` AS compliancesurvey_AUTHORIZEDBY_ID,
+     compliancesurvey.`BROKER_ID` AS compliancesurvey_BROKER_ID,
+     compliancesurvey.`BROKERREPRESENTATIVE_ID` AS compliancesurvey_BROKERREPRESENTATIVE_ID,
+     compliancesurvey.`CONSIGNEE_ID` AS compliancesurvey_CONSIGNEE_ID,
+     compliancesurvey.`CONSIGNEEREPRESENTATIVE_ID` AS compliancesurvey_CONSIGNEEREPRESENTATIVE_ID,
+     compliancesurvey.`INSPECTOR_ID` AS compliancesurvey_INSPECTOR_ID,
+     compliancesurvey.`RETAILOUTLET_ID` AS compliancesurvey_RETAILOUTLET_ID,
+     compliancesurvey.`RETAILREPRESENTATIVE_ID` AS compliancesurvey_RETAILREPRESENTATIVE_ID,
+     compliancesurvey.`SPECIFIEDRELEASELOCATION_ID` AS compliancesurvey_SPECIFIEDRELEASELOCATION_ID,
+     compliancesurvey.`RELEASEREQUESTREPORTDATE` AS compliancesurvey_RELEASEREQUESTREPORTDATE,
+     compliancesurvey.`SPECIFIEDRELEASELOCATIONDOMESTICMARKET_ID` AS compliancesurvey_SPECIFIEDRELEASELOCATIONDOMESTICMARKET_ID,
+     compliancesurvey.`RELEASEDATEDOMESTICMARKET` AS compliancesurvey_RELEASEDATEDOMESTICMARKET,
+     compliancesurvey.`LOCATIONOFDETAINEDPRODUCTDOMESTICMARKET_ID` AS compliancesurvey_LOCATIONOFDETAINEDPRODUCTDOMESTICMARKET_ID,
+     compliancesurvey.`RETAILER` AS compliancesurvey_RETAILER,
+     compliancesurvey.`DISTRIBUTOR` AS compliancesurvey_DISTRIBUTOR,
+     compliancesurvey.`OTHERCOMPANYTYPES` AS compliancesurvey_OTHERCOMPANYTYPES,
+     compliancesurvey.`COMPANYTYPES` AS compliancesurvey_COMPANYTYPES,
+     compliancesurvey.`RELEASEFROMDETENTIONREPORTDATE` AS compliancesurvey_RELEASEFROMDETENTIONREPORTDATE,
+     compliancesurvey.`DATEOFDETENTION` AS compliancesurvey_DATEOFDETENTION,
+     compliancesurvey.`FULLRELEASE` AS compliancesurvey_FULLRELEASE,
+     compliancesurvey.`SAMPLESTOBEDISPOSED` AS compliancesurvey_SAMPLESTOBEDISPOSED,
+     compliancesurvey.`SAMPLESTOBECOLLECTED` AS compliancesurvey_SAMPLESTOBECOLLECTED,
+     compliancesurvey.`INSPECTIONADDRESS_ID` AS compliancesurvey_INSPECTIONADDRESS_ID,
+     compliancesurvey.`NOTICEOFDETENTIONISSUEDFORDOMESTICMARKET` AS compliancesurvey_NOTICEOFDETENTIONISSUEDFORDOMESTICMARKET,
+     compliancesurvey.`REQUESTFORDETENTIONISSUEDFORPORTOFENTRY` AS compliancesurvey_REQUESTFORDETENTIONISSUEDFORPORTOFENTRY,
+     compliancesurvey.`REQUESTFORSAMPLEISSUEDFORPORTOFENTRY` AS compliancesurvey_REQUESTFORSAMPLEISSUEDFORPORTOFENTRY,
+     compliancesurvey.`REQUESTFORRELEASEISSUEDFORPORTOFENTRY` AS compliancesurvey_REQUESTFORRELEASEISSUEDFORPORTOFENTRY,
+     compliancesurvey.`NOTICEOFRELEASEFROMDETENTIONISSUEDFORDOMESTICMARKET` AS compliancesurvey_NOTICEOFRELEASEFROMDETENTIONISSUEDFORDOMESTICMA,
+     compliancesurvey.`PORTOFENTRYDETENTIONNUMBER` AS compliancesurvey_PORTOFENTRYDETENTIONNUMBER,
+     compliancesurvey.`DOMESTICMARKETDETENTIONNUMBER` AS compliancesurvey_DOMESTICMARKETDETENTIONNUMBER,
+     compliancesurvey.`AUTHSIGFORDETENTIONREQUESTPOE_ID` AS compliancesurvey_AUTHSIGFORDETENTIONREQUESTPOE_ID,
+     compliancesurvey.`AUTHSIGDATEFORDETENTIONREQUESTPOE` AS compliancesurvey_AUTHSIGDATEFORDETENTIONREQUESTPOE,
+     compliancesurvey.`AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID` AS compliancesurvey_AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID,
+     compliancesurvey.`INSPECTORSIGFORSAMPLEREQUESTPOE_ID` AS compliancesurvey_INSPECTORSIGFORSAMPLEREQUESTPOE_ID,
+     compliancesurvey.`INSPECTORSIGDATEFORSAMPLEREQUESTPOE` AS compliancesurvey_INSPECTORSIGDATEFORSAMPLEREQUESTPOE,
+     compliancesurvey.`AUTHSIGFORNOTICEOFRELEASEFROMDENTIONDM_ID` AS compliancesurvey_AUTHSIGFORNOTICEOFRELEASEFROMDENTIONDM_ID,
+     compliancesurvey.`AUTHSIGDATEFORNOTICEOFRELEASEFROMDENTIONDM` AS compliancesurvey_AUTHSIGDATEFORNOTICEOFRELEASEFROMDENTIONDM,
+     compliancesurvey.`AUTHEMPLOYEEFORNOTICEOFRELEASEFROMDENTIONDM_ID` AS compliancesurvey_AUTHEMPLOYEEFORNOTICEOFRELEASEFROMDENTIONDM_ID,
+     compliancesurvey.`AUTHEMPFORNOTICEOFRELEASEFROMDENTIONDM_ID` AS compliancesurvey_AUTHEMPFORNOTICEOFRELEASEFROMDENTIONDM_ID,
+     compliancesurvey.`AUTHSIGFORNOTICEOFDENTIONDM_ID` AS compliancesurvey_AUTHSIGFORNOTICEOFDENTIONDM_ID,
+     compliancesurvey.`AUTHSIGDATEFORNOTICEOFDENTIONDM` AS compliancesurvey_AUTHSIGDATEFORNOTICEOFDENTIONDM,
+     compliancesurvey.`AUTHEMPLOYEEFORNOTICEOFDENTIONDM_ID` AS compliancesurvey_AUTHEMPLOYEEFORNOTICEOFDENTIONDM_ID,
+     compliancesurvey.`PREPAREDBYSIGFORRELEASEREQUESTPOE_ID` AS compliancesurvey_PREPAREDBYSIGFORRELEASEREQUESTPOE_ID,
+     compliancesurvey.`PREPAREDBYEMPLOYEEFORRELEASEREQUESTPOE_ID` AS compliancesurvey_PREPAREDBYEMPLOYEEFORRELEASEREQUESTPOE_ID,
+     compliancesurvey.`PREPAREDBYSIGDATEFORRELEASEREQUESTPOE` AS compliancesurvey_PREPAREDBYSIGDATEFORRELEASEREQUESTPOE,
+     compliancesurvey.`APPROVEDBYSIGFORRELEASEREQUESTPOE_ID` AS compliancesurvey_APPROVEDBYSIGFORRELEASEREQUESTPOE_ID,
+     compliancesurvey.`APPROVEDBYEMPLOYEEFORRELEASEREQUESTPOE_ID` AS compliancesurvey_APPROVEDBYEMPLOYEEFORRELEASEREQUESTPOE_ID,
+     compliancesurvey.`APPROVEDBYSIGDATEFORRELEASEREQUESTPOE` AS compliancesurvey_APPROVEDBYSIGDATEFORRELEASEREQUESTPOE,
+     compliancesurvey.`DATEEDITED` AS compliancesurvey_DATEEDITED,
+     compliancesurvey.`EDITEDBY_ID` AS compliancesurvey_EDITEDBY_ID,
+     compliancesurvey.`TYPEOFESTABLISHMENT` AS compliancesurvey_TYPEOFESTABLISHMENT,
+     compliancesurvey.`TYPEOFPORTOFENTRY` AS compliancesurvey_TYPEOFPORTOFENTRY,
+     compliancesurvey.`SURVEYLOCATIONTYPE` AS compliancesurvey_SURVEYLOCATIONTYPE,
+     compliancesurvey.`ENTRYDOCUMENTINSPECTION_ID` AS compliancesurvey_ENTRYDOCUMENTINSPECTION_ID,
+     compliancesurvey.`JOBNUMBER` AS compliancesurvey_JOBNUMBER,
+     compliancesurvey.`ID` AS compliancesurvey_ID,
+     compliancesurvey.`COMMENTS` AS compliancesurvey_COMMENTS,
+     compliancesurvey.`DATEAUTHORIZED` AS compliancesurvey_DATEAUTHORIZED,
+     compliancesurvey.`DATEOFSURVEY` AS compliancesurvey_DATEOFSURVEY,
+     compliancesurvey.`DATESIGNED` AS compliancesurvey_DATESIGNED,
+     compliancesurvey.`INSPECTIONPOINT` AS compliancesurvey_INSPECTIONPOINT,
+     compliancesurvey.`NAME` AS compliancesurvey_NAME,
+     compliancesurvey.`PORTOFENTRY` AS compliancesurvey_PORTOFENTRY,
+     compliancesurvey.`REASONFORDETENTION` AS compliancesurvey_REASONFORDETENTION,
+     compliancesurvey.`REFERENCENUMBER` AS compliancesurvey_REFERENCENUMBER,
+     compliancesurvey.`SURVEYENDTIME` AS compliancesurvey_SURVEYENDTIME,
+     compliancesurvey.`SURVEYSTARTTIME` AS compliancesurvey_SURVEYSTARTTIME,
+     compliancesurvey.`SURVEYTYPE` AS compliancesurvey_SURVEYTYPE,
+     compliancesurvey.`AUTHORIZEDBY_ID` AS compliancesurvey_AUTHORIZEDBY_ID,
+     compliancesurvey.`BROKER_ID` AS compliancesurvey_BROKER_ID,
+     compliancesurvey.`BROKERREPRESENTATIVE_ID` AS compliancesurvey_BROKERREPRESENTATIVE_ID,
+     compliancesurvey.`CONSIGNEE_ID` AS compliancesurvey_CONSIGNEE_ID,
+     compliancesurvey.`CONSIGNEEREPRESENTATIVE_ID` AS compliancesurvey_CONSIGNEEREPRESENTATIVE_ID,
+     compliancesurvey.`INSPECTOR_ID` AS compliancesurvey_INSPECTOR_ID,
+     compliancesurvey.`RETAILOUTLET_ID` AS compliancesurvey_RETAILOUTLET_ID,
+     compliancesurvey.`RETAILREPRESENTATIVE_ID` AS compliancesurvey_RETAILREPRESENTATIVE_ID,
+     compliancesurvey.`SPECIFIEDRELEASELOCATION_ID` AS compliancesurvey_SPECIFIEDRELEASELOCATION_ID,
+     compliancesurvey.`RELEASEREQUESTREPORTDATE` AS compliancesurvey_RELEASEREQUESTREPORTDATE,
+     compliancesurvey.`SPECIFIEDRELEASELOCATIONDOMESTICMARKET_ID` AS compliancesurvey_SPECIFIEDRELEASELOCATIONDOMESTICMARKET_ID,
+     compliancesurvey.`RELEASEDATEDOMESTICMARKET` AS compliancesurvey_RELEASEDATEDOMESTICMARKET,
+     compliancesurvey.`LOCATIONOFDETAINEDPRODUCTDOMESTICMARKET_ID` AS compliancesurvey_LOCATIONOFDETAINEDPRODUCTDOMESTICMARKET_ID,
+     compliancesurvey.`RETAILER` AS compliancesurvey_RETAILER,
+     compliancesurvey.`DISTRIBUTOR` AS compliancesurvey_DISTRIBUTOR,
+     compliancesurvey.`OTHERCOMPANYTYPES` AS compliancesurvey_OTHERCOMPANYTYPES,
+     compliancesurvey.`COMPANYTYPES` AS compliancesurvey_COMPANYTYPES,
+     compliancesurvey.`RELEASEFROMDETENTIONREPORTDATE` AS compliancesurvey_RELEASEFROMDETENTIONREPORTDATE,
+     compliancesurvey.`DATEOFDETENTION` AS compliancesurvey_DATEOFDETENTION,
+     compliancesurvey.`FULLRELEASE` AS compliancesurvey_FULLRELEASE,
+     compliancesurvey.`SAMPLESTOBEDISPOSED` AS compliancesurvey_SAMPLESTOBEDISPOSED,
+     compliancesurvey.`SAMPLESTOBECOLLECTED` AS compliancesurvey_SAMPLESTOBECOLLECTED,
+     compliancesurvey.`INSPECTIONADDRESS_ID` AS compliancesurvey_INSPECTIONADDRESS_ID,
+     compliancesurvey.`NOTICEOFDETENTIONISSUEDFORDOMESTICMARKET` AS compliancesurvey_NOTICEOFDETENTIONISSUEDFORDOMESTICMARKET,
+     compliancesurvey.`REQUESTFORDETENTIONISSUEDFORPORTOFENTRY` AS compliancesurvey_REQUESTFORDETENTIONISSUEDFORPORTOFENTRY,
+     compliancesurvey.`REQUESTFORSAMPLEISSUEDFORPORTOFENTRY` AS compliancesurvey_REQUESTFORSAMPLEISSUEDFORPORTOFENTRY,
+     compliancesurvey.`REQUESTFORRELEASEISSUEDFORPORTOFENTRY` AS compliancesurvey_REQUESTFORRELEASEISSUEDFORPORTOFENTRY,
+     compliancesurvey.`NOTICEOFRELEASEFROMDETENTIONISSUEDFORDOMESTICMARKET` AS compliancesurvey_NOTICEOFRELEASEFROMDETENTIONISSUEDFORDOMESTICMA,
+     compliancesurvey.`PORTOFENTRYDETENTIONNUMBER` AS compliancesurvey_PORTOFENTRYDETENTIONNUMBER,
+     compliancesurvey.`DOMESTICMARKETDETENTIONNUMBER` AS compliancesurvey_DOMESTICMARKETDETENTIONNUMBER,
+     compliancesurvey.`AUTHSIGFORDETENTIONREQUESTPOE_ID` AS compliancesurvey_AUTHSIGFORDETENTIONREQUESTPOE_ID,
+     compliancesurvey.`AUTHSIGDATEFORDETENTIONREQUESTPOE` AS compliancesurvey_AUTHSIGDATEFORDETENTIONREQUESTPOE,
+     compliancesurvey.`AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID` AS compliancesurvey_AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID,
+     compliancesurvey.`INSPECTORSIGFORSAMPLEREQUESTPOE_ID` AS compliancesurvey_INSPECTORSIGFORSAMPLEREQUESTPOE_ID,
+     compliancesurvey.`INSPECTORSIGDATEFORSAMPLEREQUESTPOE` AS compliancesurvey_INSPECTORSIGDATEFORSAMPLEREQUESTPOE,
+     compliancesurvey.`AUTHSIGFORNOTICEOFRELEASEFROMDENTIONDM_ID` AS compliancesurvey_AUTHSIGFORNOTICEOFRELEASEFROMDENTIONDM_ID,
+     compliancesurvey.`AUTHSIGDATEFORNOTICEOFRELEASEFROMDENTIONDM` AS compliancesurvey_AUTHSIGDATEFORNOTICEOFRELEASEFROMDENTIONDM,
+     compliancesurvey.`AUTHEMPLOYEEFORNOTICEOFRELEASEFROMDENTIONDM_ID` AS compliancesurvey_AUTHEMPLOYEEFORNOTICEOFRELEASEFROMDENTIONDM_ID,
+     compliancesurvey.`AUTHEMPFORNOTICEOFRELEASEFROMDENTIONDM_ID` AS compliancesurvey_AUTHEMPFORNOTICEOFRELEASEFROMDENTIONDM_ID,
+     compliancesurvey.`AUTHSIGFORNOTICEOFDENTIONDM_ID` AS compliancesurvey_AUTHSIGFORNOTICEOFDENTIONDM_ID,
+     compliancesurvey.`AUTHSIGDATEFORNOTICEOFDENTIONDM` AS compliancesurvey_AUTHSIGDATEFORNOTICEOFDENTIONDM,
+     compliancesurvey.`AUTHEMPLOYEEFORNOTICEOFDENTIONDM_ID` AS compliancesurvey_AUTHEMPLOYEEFORNOTICEOFDENTIONDM_ID,
+     compliancesurvey.`PREPAREDBYSIGFORRELEASEREQUESTPOE_ID` AS compliancesurvey_PREPAREDBYSIGFORRELEASEREQUESTPOE_ID,
+     compliancesurvey.`PREPAREDBYEMPLOYEEFORRELEASEREQUESTPOE_ID` AS compliancesurvey_PREPAREDBYEMPLOYEEFORRELEASEREQUESTPOE_ID,
+     compliancesurvey.`PREPAREDBYSIGDATEFORRELEASEREQUESTPOE` AS compliancesurvey_PREPAREDBYSIGDATEFORRELEASEREQUESTPOE,
+     compliancesurvey.`APPROVEDBYSIGFORRELEASEREQUESTPOE_ID` AS compliancesurvey_APPROVEDBYSIGFORRELEASEREQUESTPOE_ID,
+     compliancesurvey.`APPROVEDBYEMPLOYEEFORRELEASEREQUESTPOE_ID` AS compliancesurvey_APPROVEDBYEMPLOYEEFORRELEASEREQUESTPOE_ID,
+     compliancesurvey.`APPROVEDBYSIGDATEFORRELEASEREQUESTPOE` AS compliancesurvey_APPROVEDBYSIGDATEFORRELEASEREQUESTPOE,
+     compliancesurvey.`DATEEDITED` AS compliancesurvey_DATEEDITED,
+     compliancesurvey.`EDITEDBY_ID` AS compliancesurvey_EDITEDBY_ID,
+     compliancesurvey.`TYPEOFESTABLISHMENT` AS compliancesurvey_TYPEOFESTABLISHMENT,
+     compliancesurvey.`TYPEOFPORTOFENTRY` AS compliancesurvey_TYPEOFPORTOFENTRY,
+     compliancesurvey.`SURVEYLOCATIONTYPE` AS compliancesurvey_SURVEYLOCATIONTYPE,
+     compliancesurvey.`ENTRYDOCUMENTINSPECTION_ID` AS compliancesurvey_ENTRYDOCUMENTINSPECTION_ID,
+     compliancesurvey.`JOBNUMBER` AS compliancesurvey_JOBNUMBER,
+     employee.`ID` AS employee_ID,
+     employee.`FIRSTNAME` AS employee_FIRSTNAME,
+     employee.`LASTNAME` AS employee_LASTNAME,
+     client.`ID` AS client_ID,
+     client.`ACTIVE` AS client_ACTIVE,
+     client.`DATEFIRSTRECEIVED` AS client_DATEFIRSTRECEIVED,
+     client.`DATELASTACCESSED` AS client_DATELASTACCESSED,
+     client.`INTERNAL` AS client_INTERNAL,
+     client.`NAME` AS client_NAME,
+     client.`NOTES` AS client_NOTES,
+     client.`NUMBER` AS client_NUMBER,
+     client.`TAG` AS client_TAG,
+     client.`TAXREGISTRATIONNUMBER` AS client_TAXREGISTRATIONNUMBER,
+     client.`TYPE` AS client_TYPE,
+     client.`INTERNET_ID` AS client_INTERNET_ID,
+     employee_A.`ID` AS employee_A_ID,
+     employee_A.`FIRSTNAME` AS employee_A_FIRSTNAME,
+     employee_A.`LASTNAME` AS employee_A_LASTNAME,
+     client_address.`Client_ID` AS client_address_Client_ID,
+     client_address.`addresses_ID` AS client_address_addresses_ID,
+     address.`ID` AS address_ID,
+     address.`ADDRESSLINE1` AS address_ADDRESSLINE1,
+     address.`ADDRESSLINE2` AS address_ADDRESSLINE2,
+     address.`CITY` AS address_CITY,
+     address.`COUNTRY` AS address_COUNTRY,
+     address.`NAME` AS address_NAME,
+     address.`POSTALCODE` AS address_POSTALCODE,
+     address.`STATEORPROVINCE` AS address_STATEORPROVINCE,
+     address.`TYPE` AS address_TYPE,
+     entrydocumentinspection.`ID` AS entrydocumentinspection_ID,
+     entrydocumentinspection.`CONTAINERNUMBERS` AS entrydocumentinspection_CONTAINERNUMBERS,
+     entrydocumentinspection.`COUNTRYOFCONSIGNMENT` AS entrydocumentinspection_COUNTRYOFCONSIGNMENT,
+     entrydocumentinspection.`DOCUMENTSTAMPED` AS entrydocumentinspection_DOCUMENTSTAMPED,
+     entrydocumentinspection.`ENTRYDOCUMENTNUMBER` AS entrydocumentinspection_ENTRYDOCUMENTNUMBER,
+     entrydocumentinspection.`ENTRYDOCUMENTREPORTDATE` AS entrydocumentinspection_ENTRYDOCUMENTREPORTDATE,
+     entrydocumentinspection.`NAME` AS entrydocumentinspection_NAME,
+     entrydocumentinspection.`VESSEL` AS entrydocumentinspection_VESSEL,
+     entrydocumentinspection.`CIF` AS entrydocumentinspection_CIF,
+     entrydocumentinspection.`SCF` AS entrydocumentinspection_SCF,
+     entrydocumentinspection.`WAYBILL` AS entrydocumentinspection_WAYBILL
+FROM
+     `compliancesurvey` compliancesurvey INNER JOIN `employee` employee ON compliancesurvey.`EDITEDBY_ID` = employee.`ID`
+     INNER JOIN `client` client ON compliancesurvey.`CONSIGNEE_ID` = client.`ID`
+     INNER JOIN `employee` employee_A ON compliancesurvey.`INSPECTOR_ID` = employee_A.`ID`
+     INNER JOIN `entrydocumentinspection` entrydocumentinspection ON compliancesurvey.`ENTRYDOCUMENTINSPECTION_ID` = entrydocumentinspection.`ID`
+     INNER JOIN `client_address` client_address ON client.`ID` = client_address.`Client_ID`
+     INNER JOIN `address` address ON client_address.`addresses_ID` = address.`ID`
+WHERE
+     compliancesurvey.`DATEOFSURVEY` >= $P{startOFPeriod}
+ AND compliancesurvey.`DATEOFSURVEY` <= $P{endOFPeriod}
+GROUP BY
+     compliancesurvey.`ID`
+ORDER BY
+     compliancesurvey.`ID` ASC]]>
+	</queryString>
+	<field name="client_ID" class="java.lang.Long"/>
+	<field name="client_ACTIVE" class="java.lang.Boolean"/>
+	<field name="client_DATEFIRSTRECEIVED" class="java.sql.Date"/>
+	<field name="client_DATELASTACCESSED" class="java.sql.Date"/>
+	<field name="client_INTERNAL" class="java.lang.Boolean"/>
+	<field name="client_NAME" class="java.lang.String"/>
+	<field name="client_NOTES" class="java.lang.String"/>
+	<field name="client_NUMBER" class="java.lang.String"/>
+	<field name="client_TAG" class="java.lang.Boolean"/>
+	<field name="client_TAXREGISTRATIONNUMBER" class="java.lang.String"/>
+	<field name="client_TYPE" class="java.lang.String"/>
+	<field name="client_INTERNET_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_COMMENTS" class="java.lang.String"/>
+	<field name="compliancesurvey_DATEAUTHORIZED" class="java.sql.Date"/>
+	<field name="compliancesurvey_DATEOFSURVEY" class="java.sql.Date"/>
+	<field name="compliancesurvey_DATESIGNED" class="java.sql.Date"/>
+	<field name="compliancesurvey_INSPECTIONPOINT" class="java.lang.String"/>
+	<field name="compliancesurvey_NAME" class="java.lang.String"/>
+	<field name="compliancesurvey_PORTOFENTRY" class="java.lang.String"/>
+	<field name="compliancesurvey_REASONFORDETENTION" class="java.lang.String"/>
+	<field name="compliancesurvey_REFERENCENUMBER" class="java.lang.String"/>
+	<field name="compliancesurvey_SURVEYENDTIME" class="java.sql.Time"/>
+	<field name="compliancesurvey_SURVEYSTARTTIME" class="java.sql.Time"/>
+	<field name="compliancesurvey_SURVEYTYPE" class="java.lang.String"/>
+	<field name="compliancesurvey_AUTHORIZEDBY_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_BROKER_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_BROKERREPRESENTATIVE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_CONSIGNEE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_CONSIGNEEREPRESENTATIVE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_INSPECTOR_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_RETAILOUTLET_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_RETAILREPRESENTATIVE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_SPECIFIEDRELEASELOCATION_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_RELEASEREQUESTREPORTDATE" class="java.sql.Date"/>
+	<field name="compliancesurvey_SPECIFIEDRELEASELOCATIONDOMESTICMARKET_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_RELEASEDATEDOMESTICMARKET" class="java.sql.Date"/>
+	<field name="compliancesurvey_LOCATIONOFDETAINEDPRODUCTDOMESTICMARKET_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_RETAILER" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_DISTRIBUTOR" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_OTHERCOMPANYTYPES" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_COMPANYTYPES" class="java.lang.String"/>
+	<field name="compliancesurvey_RELEASEFROMDETENTIONREPORTDATE" class="java.sql.Date"/>
+	<field name="compliancesurvey_DATEOFDETENTION" class="java.sql.Date"/>
+	<field name="compliancesurvey_FULLRELEASE" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_SAMPLESTOBEDISPOSED" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_SAMPLESTOBECOLLECTED" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_INSPECTIONADDRESS_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_NOTICEOFDETENTIONISSUEDFORDOMESTICMARKET" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_REQUESTFORDETENTIONISSUEDFORPORTOFENTRY" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_REQUESTFORSAMPLEISSUEDFORPORTOFENTRY" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_REQUESTFORRELEASEISSUEDFORPORTOFENTRY" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_NOTICEOFRELEASEFROMDETENTIONISSUEDFORDOMESTICMA" class="java.lang.Boolean"/>
+	<field name="compliancesurvey_PORTOFENTRYDETENTIONNUMBER" class="java.lang.String"/>
+	<field name="compliancesurvey_DOMESTICMARKETDETENTIONNUMBER" class="java.lang.String"/>
+	<field name="compliancesurvey_AUTHSIGFORDETENTIONREQUESTPOE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_AUTHSIGDATEFORDETENTIONREQUESTPOE" class="java.sql.Date"/>
+	<field name="compliancesurvey_AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_INSPECTORSIGFORSAMPLEREQUESTPOE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_INSPECTORSIGDATEFORSAMPLEREQUESTPOE" class="java.sql.Date"/>
+	<field name="compliancesurvey_AUTHSIGFORNOTICEOFRELEASEFROMDENTIONDM_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_AUTHSIGDATEFORNOTICEOFRELEASEFROMDENTIONDM" class="java.sql.Date"/>
+	<field name="compliancesurvey_AUTHEMPLOYEEFORNOTICEOFRELEASEFROMDENTIONDM_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_AUTHEMPFORNOTICEOFRELEASEFROMDENTIONDM_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_AUTHSIGFORNOTICEOFDENTIONDM_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_AUTHSIGDATEFORNOTICEOFDENTIONDM" class="java.sql.Date"/>
+	<field name="compliancesurvey_AUTHEMPLOYEEFORNOTICEOFDENTIONDM_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_PREPAREDBYSIGFORRELEASEREQUESTPOE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_PREPAREDBYEMPLOYEEFORRELEASEREQUESTPOE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_PREPAREDBYSIGDATEFORRELEASEREQUESTPOE" class="java.sql.Date"/>
+	<field name="compliancesurvey_APPROVEDBYSIGFORRELEASEREQUESTPOE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_APPROVEDBYEMPLOYEEFORRELEASEREQUESTPOE_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_APPROVEDBYSIGDATEFORRELEASEREQUESTPOE" class="java.sql.Date"/>
+	<field name="compliancesurvey_DATEEDITED" class="java.sql.Date"/>
+	<field name="compliancesurvey_EDITEDBY_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_TYPEOFESTABLISHMENT" class="java.lang.String"/>
+	<field name="compliancesurvey_TYPEOFPORTOFENTRY" class="java.lang.String"/>
+	<field name="compliancesurvey_SURVEYLOCATIONTYPE" class="java.lang.String"/>
+	<field name="compliancesurvey_ENTRYDOCUMENTINSPECTION_ID" class="java.lang.Long"/>
+	<field name="compliancesurvey_JOBNUMBER" class="java.lang.String"/>
+	<field name="employee_ID" class="java.lang.Long"/>
+	<field name="employee_FIRSTNAME" class="java.lang.String"/>
+	<field name="employee_LASTNAME" class="java.lang.String"/>
+	<field name="employee_A_ID" class="java.lang.Long"/>
+	<field name="employee_A_FIRSTNAME" class="java.lang.String"/>
+	<field name="employee_A_LASTNAME" class="java.lang.String"/>
+	<field name="client_address_Client_ID" class="java.lang.Long"/>
+	<field name="client_address_addresses_ID" class="java.lang.Long"/>
+	<field name="address_ID" class="java.lang.Long"/>
+	<field name="address_ADDRESSLINE1" class="java.lang.String"/>
+	<field name="address_ADDRESSLINE2" class="java.lang.String"/>
+	<field name="address_CITY" class="java.lang.String"/>
+	<field name="address_COUNTRY" class="java.lang.String"/>
+	<field name="address_NAME" class="java.lang.String"/>
+	<field name="address_POSTALCODE" class="java.lang.String"/>
+	<field name="address_STATEORPROVINCE" class="java.lang.String"/>
+	<field name="address_TYPE" class="java.lang.String"/>
+	<field name="entrydocumentinspection_ID" class="java.lang.Long"/>
+	<field name="entrydocumentinspection_CONTAINERNUMBERS" class="java.lang.String"/>
+	<field name="entrydocumentinspection_COUNTRYOFCONSIGNMENT" class="java.lang.String"/>
+	<field name="entrydocumentinspection_DOCUMENTSTAMPED" class="java.lang.String"/>
+	<field name="entrydocumentinspection_ENTRYDOCUMENTNUMBER" class="java.lang.String"/>
+	<field name="entrydocumentinspection_ENTRYDOCUMENTREPORTDATE" class="java.sql.Date"/>
+	<field name="entrydocumentinspection_NAME" class="java.lang.String"/>
+	<field name="entrydocumentinspection_VESSEL" class="java.lang.String"/>
+	<field name="entrydocumentinspection_CIF" class="java.lang.Double"/>
+	<field name="entrydocumentinspection_SCF" class="java.lang.Double"/>
+	<field name="entrydocumentinspection_WAYBILL" class="java.lang.String"/>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="199" height="18" forecolor="#000000" uuid="b04f8429-5044-4430-a423-bca4a7d0bcf1"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="199" y="0" width="171" height="18" forecolor="#000000" uuid="44f7eca2-f97e-4d9b-844c-099ff85e77fb"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entered/Edited by]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="373" y="0" width="131" height="18" forecolor="#000000" uuid="cb40bcf5-3d42-4bf6-97fe-ebde2aadd4ea"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date of Survey]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="494" y="0" width="222" height="18" forecolor="#000000" uuid="4a790c60-113c-43ce-9447-0bccb0192a9b"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inspector]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="716" y="0" width="108" height="18" forecolor="#000000" uuid="4bc85e8c-3ae3-48ff-a098-4de714370c3d"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CIF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="824" y="0" width="108" height="18" forecolor="#000000" uuid="c1da5fe1-e92c-4e8f-901c-aab76edde35b"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SCF]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="1388" height="18" uuid="a246632c-4bf9-4051-af39-32938adc7fb5"/>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="199" height="18" uuid="0a4370dc-9b1d-4578-85f6-ad002c52d939"/>
+					<textElement>
+						<font fontName="SansSerif" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="199" y="0" width="171" height="18" uuid="313725d3-fa84-48ec-9159-17eb841e1542"/>
+					<textElement>
+						<font fontName="SansSerif" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{employee_FIRSTNAME} + " " + $F{employee_LASTNAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="MMM dd, yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" stretchType="RelativeToTallestObject" x="373" y="0" width="121" height="18" uuid="513fd3ff-e25e-4691-b072-a06b7f27d12e"/>
+					<textElement>
+						<font fontName="SansSerif" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{compliancesurvey_DATEOFSURVEY}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" stretchType="RelativeToTallestObject" x="494" y="0" width="222" height="18" uuid="cd203683-eae4-43b6-bc00-698c8fd435b8"/>
+					<textElement>
+						<font fontName="SansSerif" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{employee_A_FIRSTNAME} + " " + $F{employee_A_LASTNAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" stretchType="RelativeToTallestObject" x="716" y="0" width="108" height="18" uuid="c83a165e-df7a-41e6-bdb5-313f39f71a4d"/>
+					<textElement>
+						<font fontName="SansSerif" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{entrydocumentinspection_CIF}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" stretchType="RelativeToTallestObject" x="824" y="0" width="108" height="18" uuid="18f57434-c2eb-40f8-9394-19ac01c765ae"/>
+					<textElement>
+						<font fontName="SansSerif" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{entrydocumentinspection_SCF}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>
