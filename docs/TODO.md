@@ -33,6 +33,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
   * The calibrations/tests cover all clients served over a period of 3 years
 
 ### Immediate Issues
+- Put all reports into report package.
 - Don't use discount in cash payment.
 - Job cost and may be other fields not being update when costing is updated. Fix!
 - Check that exporting job costing, service contract and other forms do not
