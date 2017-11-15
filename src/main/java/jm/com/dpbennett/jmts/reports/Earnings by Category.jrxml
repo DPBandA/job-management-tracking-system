@@ -308,7 +308,7 @@ ORDER BY
 				<textElement>
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Departmental Earnings by Category]]></text>
+				<text><![CDATA[Earnings by Category]]></text>
 			</staticText>
 		</band>
 	</title>

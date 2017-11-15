@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -40,11 +41,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
@@ -98,6 +103,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.MainTabView;
+import net.sf.jasperreports.engine.JasperRunManager;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -180,7 +186,32 @@ public class ReportManager implements Serializable {
                 null, false, false, true);
 
     }
-    
+
+    // tk - test generating report for display in web browser
+    public void generateReport(ActionEvent actionEvent)
+            throws ClassNotFoundException, SQLException, IOException,
+            JRException {
+        Connection connection;
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+        InputStream reportStream = facesContext.getExternalContext()
+                .getResourceAsStream("/reports/DbReport.jasper");
+        ServletOutputStream servletOutputStream = response
+                .getOutputStream();
+        Class.forName("com.mysql.jdbc.Driver");
+        connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/jmts?"
+                + "user=user&password=secret");
+        
+        facesContext.responseComplete();        
+        response.setContentType("application/pdf");
+        
+        JasperRunManager.runReportToPdfStream(reportStream,
+                servletOutputStream, new HashMap(), connection);
+        connection.close();
+        servletOutputStream.flush();
+        servletOutputStream.close();
+    }
 
     public MainTabView getMainTabView() {
         return mainTabView;
@@ -299,7 +330,7 @@ public class ReportManager implements Serializable {
         reportSearchParameters.getDatePeriod().setStartDate((Date) event.getObject());
         updateJobReport();
     }
-    
+
     public void handleCurrentPeriodEndDateSelect(SelectEvent event) {
         reportSearchParameters.getDatePeriod().setEndDate((Date) event.getObject());
         updateJobReport();
@@ -331,11 +362,10 @@ public class ReportManager implements Serializable {
         }
         return reportingDepartment;
     }
-    
-      public void setReportingDepartment(Department reportingDepartment) {
+
+    public void setReportingDepartment(Department reportingDepartment) {
         this.reportingDepartment = reportingDepartment;
     }
-    
 
     public List<Department> completeDepartment(String query) {
         EntityManager em = null;
@@ -405,7 +435,7 @@ public class ReportManager implements Serializable {
 
         return reportFile;
     }
-    
+
     public Integer getLongProcessProgress() {
         if (longProcessProgress == null) {
             longProcessProgress = 0;
@@ -416,10 +446,10 @@ public class ReportManager implements Serializable {
                 longProcessProgress = longProcessProgress + 1;
             }
         }
-        
+
         return longProcessProgress;
     }
-    
+
     public void onLongProcessComplete() {
         longProcessProgress = 0;
     }

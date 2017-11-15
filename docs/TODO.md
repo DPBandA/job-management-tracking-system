@@ -19,15 +19,17 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Service Offerings and Projections (for HE)
-- Do detailed report with sectors, job categories, tests, calibrations and send 
+- Do detailed jasper report with sectors, job categories, tests, calibrations and send 
   to HE as a final report. Try to mimick HE report and as much as possible.
 * Notes:
 * JMTS sectors and services cannot be mapped cleanly to the sectors and services in HE report
 * The calibrations/tests cover all clients served over a period of 3 years
 
 ### Immediate Issues
-- Put all reports into report package. Make company specific value parameters
-  such as company name.
+- Export Departmental Earnings report in Excel with dollar sign. See if changing the
+  font of the text fixes the dollar sign display problem. If not, just manual search
+   for and change the symbol.
+- Make company specific value parameters such as company name.
 - Do not save when exporting service contract and may be job costing.
 - Don't use discount in cash payment.
 - Job cost and may be other fields not being update when costing is updated. Fix!
@@ -84,6 +86,8 @@ paymentTerms, rename JMTSUserId to userId
 - Test with normal user (kmiller)
 
 ### Reports
+- Add default fields for department etc. and add field to allow disabling the 
+  changing of a field.
 - Make relevant fields autocomplete.
 - Add description, 2 departments, 3 date periods etc. in class Report.
 - Implement and include report templates for all reports generated to date.
@@ -94,6 +98,7 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
+- Put "Advanced Search" heading in Jobs tab.
 - Find and put all jasper reports into reports package.
 - Remove unused dialogs.
 - Remove the <ui:include /> from top of index.xhtml and put them in their
@@ -105,12 +110,14 @@ paymentTerms, rename JMTSUserId to userId
 - In System Admin List all by default.  
 - Create autocomplete list of "standard/common" product names using a "Distinct"
   type of the query on the existing samples.
+- Implement sub-sectors by adding a collections field in the sector class.
 - Move all code dealing with authorization and privileges from JM to JMUser.
 - Fill in billing address and main contact of a client of the billing adddress
   and contact fields of the job record are not valid eg blank??
 - Add default dept. in Report class.
 - Add parentSector to Sector class and add Sub-sector to Groupings tab. Sub-sectors
   would be those that have a parent sector.
+- Move costing and payment features from JM to AccountingManager?
 - Add descriptions of grouping items to in "Groupings" tab.
 - For jasper reports fill in parameters such as images from configuration values stored in the database.
 - Move code dealing with Accpac, costing etc to AccountingManager.
@@ -171,7 +178,7 @@ paymentTerms, rename JMTSUserId to userId
 - Change discount combobox to a menu.
 - Look to move fields and methods from JobManager in the entities such as Job.
 - Rename "Advanced Search" panel to something more general.
-- Clean up development database by removing "blank" records etc.
+- Put Job Costing dialog in own tab.
 - Create Home screen showing user's jobs, departmental job etc.
 - Display message when user logs on without authentication
 - Make country of origin autocomplete.
@@ -503,6 +510,7 @@ paymentTerms, rename JMTSUserId to userId
 - Find way to save/close job costing and maintain selections in cashier/costing views.
 - Need to be able to use the search area in system admin section to search for partial string in any field, not only the name. I may need to list all users from chemistry for examples, thus, i would need to search for chemistry and all users in chemistry would show up in the list.
 - Create report that shows workload per staff.
+- Use RM.generateReport() to test generating and displaying report in web browser.
 - Create links to report in report tab in job detail dialog.
 - Implement "Advanced Search" configuration using a database table and not in hard code as is done now. Call table SearchConfigurations or SearchParameters?
 
