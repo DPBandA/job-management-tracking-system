@@ -33,7 +33,7 @@ Email: info@dpbennett.com.jm
                      onstart="longProcessDialogVar.show();"
                      oncomplete="longProcessDialogVar.hide();"
                      value="Save"
-                     update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumberGroup,:mainTabViewForm:mainTabView:growl2"
+                     update="formsMenuButton,:mainTabViewForm:mainTabView:jobFormTabView:jobNumberGroup,:mainTabViewForm:mainTabView:growl2"
                      title="Save current job"
                      icon="ui-icon-disk"
                      process="@form" />
@@ -51,7 +51,7 @@ Email: info@dpbennett.com.jm
     <p:commandButton
         value="Subcontract..."
         actionListener="#{jobManager.subContractJob}"
-        update=":mainTabViewForm:mainTabView:growl2"
+        update="formsMenuButton,:mainTabViewForm:mainTabView:growl2"
         global="true"               
         onstart="longProcessDialogVar.show();"
         oncomplete="handleCreateJobCopy(xhr, status, args);longProcessDialogVar.hide();"
@@ -63,7 +63,8 @@ Email: info@dpbennett.com.jm
 
     <p:menuButton id="formsMenuButton" value="Forms" rendered="true" >
         <p:menuitem value="Service Contract"
-                    ajax="false"
+                    id="serviceContactForm"
+                    ajax="false" 
                     disabled="#{!jobManager.currentJobIsValid}"
                     actionListener="#{jobManager.updateServiceContract}"
                     update="longProgressDialogForm2"
@@ -118,7 +119,7 @@ Email: info@dpbennett.com.jm
                      onstart="longProcessDialogVar.show();"
                      oncomplete="longProcessDialogVar.hide();"
                      value="Save"
-                     update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumberGroup,:mainTabViewForm:mainTabView:growl2"
+                     update="formsMenuButton,:mainTabViewForm:mainTabView:jobFormTabView:jobNumberGroup,:mainTabViewForm:mainTabView:growl2"
                      title="Save current job"
                      icon="ui-icon-disk"
                      process="@form"/>
