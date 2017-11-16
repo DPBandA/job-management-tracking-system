@@ -21,8 +21,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Service Offerings and Projections (for HE)
 - Do detailed jasper report with sectors, job categories, tests, calibrations and send 
   to HE as a final report. Try to mimick HE report and as much as possible.
-* Notes:
-* JMTS sectors and services cannot be mapped cleanly to the sectors and services in HE report
+- Notes:
+* JMTS sectors and services cannot be mapped cleanly to the sectors and services 
+  in HE report.
 * The calibrations/tests cover all clients served over a period of 3 years
 
 ### Immediate Issues
@@ -82,6 +83,7 @@ paymentTerms, rename JMTSUserId to userId
 * Ensure amount due is updated correctly using cash payments.
 
 ### Testing on Test and Live versions
+- Assign git tag to next release
 - Check that client credit status dialog still works
 - Test with normal user (kmiller)
 
