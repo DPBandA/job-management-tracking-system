@@ -1416,7 +1416,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         RequestContext context = RequestContext.getCurrentInstance();
 
         try {
-            
+
             serviceContractStreamContent = getServiceContractStreamContent();
 
             setLongProcessProgress(100);
@@ -1876,8 +1876,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void updateJob() {                  
-        setDirty(true);        
+    public void updateJob() {
+        setDirty(true);
     }
 
     public void updateAllJobCostings() {
@@ -4220,8 +4220,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             updateCreditStatus(null);
         }
 
-        currentJob.setBillingAddress(new Address());
-        currentJob.setContact(new Contact());
+//        currentJob.setBillingAddress(new Address());
+//        currentJob.setContact(new Contact());
+        currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
+        currentJob.setContact(currentJob.getClient().getMainContact());
 
         setDirty(true);
     }

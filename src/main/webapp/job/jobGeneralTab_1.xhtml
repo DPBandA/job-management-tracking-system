@@ -117,13 +117,9 @@ Email: info@dpbennett.com.jm
                             scrollHeight="200" 
                             value="#{jobManager.currentJob.client}"   
                             converter="clientConverter"
-                            validator="jobClientValidator"
+                            validator="businessEntityValidator"
                             forceSelection="true"
                             completeMethod="#{App.completeClient}" >
-
-                <f:attribute name="clientBillingAddressId" value="#{jobManager.currentJob.billingAddress.id}" />
-                
-                <f:attribute name="clientContactId" value="#{jobManager.currentJob.contact.id}" />
 
                 <p:ajax event="itemSelect"
                         update="clientContact,billingAddress,editClientButton"
@@ -168,6 +164,7 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         forceSelection="true"
                         converter="clientAddressConverter" 
+                        validator="addressValidator"
                         var="address"                        
                         itemValue="#{address}"
                         itemLabel="#{address.name}" 
@@ -185,13 +182,14 @@ Email: info@dpbennett.com.jm
                     update=":mainTabViewForm:mainTabView:growl2"
                     process="@this" />               
         </p:autoComplete>
-
+       
         <h:outputText value="Contact *:" style="font-weight: bold" />  
         <p:autoComplete id="clientContact"
                         value="#{jobManager.currentJob.contact}"
                         dropdown="true"
                         forceSelection="true"
                         converter="clientContactConverter" 
+                        validator="businessEntityValidator"
                         var="contact"                        
                         itemValue="#{contact}"
                         itemLabel="#{contact.name}" 
