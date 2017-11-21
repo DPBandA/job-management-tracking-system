@@ -19,8 +19,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Immediate Issues
-- Validate the client's contact and billing address as part of jobClientValidator.
-  Use the respective validators to validate contact and billing address.
+- In prepareAndSaveCurrentJob() set the billing address and contact if they are
+  not valid.
+- Update job billing address and contact form fields after saving job.
 - Do not allow exporting service contract and job costing until job is valid.   
 - Work on automatically inserting billing address and contact when new client is 
   selected.

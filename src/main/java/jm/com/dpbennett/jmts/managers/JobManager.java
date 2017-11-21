@@ -2683,6 +2683,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         "jobEmailAlertsActivated").getOptionValue());
 
         try {
+            // Use the client's default billing address and main contact if the
+            // Job's billing address and contact are not valid.
+            // Validate address
+            if (!BusinessEntityUtils.validateName(getCurrentJob().getBillingAddress().getAddressLine1())) {
+                getCurrentJob().setBillingAddress(getCurrentJob().getClient().getBillingAddress());
+            }
+
+            // Validate contact
+            if (!BusinessEntityUtils.validateName(getCurrentJob().getContact().getName())) {
+                getCurrentJob().setContact(getCurrentJob().getClient().getMainContact());
+            }
 
             // Do not save changed job if it's already marked as completed in the database
             if (getCurrentJob().getId() != null) {
@@ -4220,8 +4231,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             updateCreditStatus(null);
         }
 
-//        currentJob.setBillingAddress(new Address());
-//        currentJob.setContact(new Contact());
         currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
         currentJob.setContact(currentJob.getClient().getMainContact());
 
