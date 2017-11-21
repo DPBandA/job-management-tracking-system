@@ -18,13 +18,13 @@
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
 ================================================================================
-### Immediate Issues
-- In prepareAndSaveCurrentJob() set the billing address and contact if they are
-  not valid.
-- Update job billing address and contact form fields after saving job.
-- Do not allow exporting service contract and job costing until job is valid.   
+### Issues to Address for Next Release
+- Do not allow exporting service contract and job costing until job is valid. 
+  * Use immediate="true" where ever <p:fileDownload /> is used and remove actionlistener.
 - Work on automatically inserting billing address and contact when new client is 
   selected.
+- Check out why "if (isToBeSaved && isDirty) {" in ClientManager throws 
+  nullpointer exception after contact was edited.
 - When contact is added from the client dialog and automatically insert in the
   contact for the job it is flag as invalid when job save is attempted.
 - Don't use discount in cash payment.
@@ -96,6 +96,12 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
+- Make the creation of at least one address and one contact mandatory for 
+  creating new clients.
+- Check the return value from prepareAndSaveCurrentJob() and display message 
+  based on success or failure. 
+- Do validation of billing address and contact in prepareAndSaveCurrentJob()
+  before saving.
 - Put "Advanced Search" heading in Jobs tab.
 - Find and put all jasper reports into reports package.
 - Remove unused dialogs.

@@ -65,8 +65,8 @@ Email: info@dpbennett.com.jm
         <p:menuitem value="Service Contract"
                     id="serviceContactForm"
                     ajax="false" 
-                    disabled="#{!jobManager.currentJobIsValid}"
-                    actionListener="#{jobManager.updateServiceContract}"
+                    immediate="true"
+                    disabled="#{!jobManager.currentJobIsValid}"                   
                     update="longProgressDialogForm2"
                     onclick="longProcessDialogVar2.show();" >
             <p:fileDownload value="#{jobManager.serviceContractFile}" />

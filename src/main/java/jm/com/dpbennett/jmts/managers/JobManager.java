@@ -1413,8 +1413,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public StreamedContent getServiceContractFile() {
         StreamedContent serviceContractStreamContent = null;
-        RequestContext context = RequestContext.getCurrentInstance();
-
+      
         try {
 
             serviceContractStreamContent = getServiceContractStreamContent();
@@ -1446,10 +1445,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void updatePreferedJobTableView() {
         setDirty(true);
-    }
-
-    public void updateServiceContract() {
-
     }
 
     public Boolean getCurrentJobIsValid() {
@@ -2683,16 +2678,25 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         "jobEmailAlertsActivated").getOptionValue());
 
         try {
+            // Get employee for later use
+            Employee employee = Employee.findEmployeeById(em, getUser().getEmployee().getId());
+
             // Use the client's default billing address and main contact if the
             // Job's billing address and contact are not valid.
-            // Validate address
+            // Validate and save address if required
             if (!BusinessEntityUtils.validateName(getCurrentJob().getBillingAddress().getAddressLine1())) {
                 getCurrentJob().setBillingAddress(getCurrentJob().getClient().getBillingAddress());
             }
+            if (getCurrentJob().getBillingAddress().getId() == null) {
+                getCurrentJob().getBillingAddress().save(em);
+            }
 
-            // Validate contact
+            // Validate and save contact if required
             if (!BusinessEntityUtils.validateName(getCurrentJob().getContact().getName())) {
                 getCurrentJob().setContact(getCurrentJob().getClient().getMainContact());
+            }
+            if (getCurrentJob().getContact().getId() == null) {
+                getCurrentJob().getContact().save(em);
             }
 
             // Do not save changed job if it's already marked as completed in the database
@@ -2719,8 +2723,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob.getJobStatusAndTracking().setDateAndTimeEntered(now);
             }
 
-            // Get employee for later use
-            Employee employee = Employee.findEmployeeById(em, getUser().getEmployee().getId());
             if (employee != null) {
                 if (currentJob.getJobStatusAndTracking().getEnteredBy().getId() == null) {
                     // This means this this is a new job so set user and person who entered the job
@@ -2862,6 +2864,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
 
             System.out.println(e);
+
+            return false;
         }
 
         return true;
