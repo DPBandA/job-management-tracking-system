@@ -23,20 +23,19 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:panelGrid columns="8">
+
         <p:commandButton value="Save"
                          disabled="#{jobManager.completed}"
                          onstart="longProcessDialogVar.show();"
-                         actionListener="#{jobManager.validateJobCostingAndSaveJob}"
-                         update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
-                         oncomplete="handleSaveJobCostingAndPaymentRequest(xhr, status, args);longProcessDialogVar.hide();"
+                         actionListener="#{jobManager.validateJobCostingAndSaveJob}"                         
+                         oncomplete="longProcessDialogVar.hide();"
                          icon="ui-icon-check"
                          process="@this"/>
 
         <p:commandButton value="Close"
                          onstart="longProcessDialogVar.show();"
-                         actionListener="#{jobManager.closeJobCostingDialog}"
-                         update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
-                         oncomplete="longProcessDialogVar.hide();jobCostingDialog.hide();"
+                         actionListener="#{jobManager.closeJobCostingDialog}"                         
+                         oncomplete="longProcessDialogVar.hide();"
                          icon="ui-icon-close"
                          process="@this"/>
 
@@ -46,7 +45,7 @@ Email: info@dpbennett.com.jm
                                      title="If this job is assigned to you, check to indicate that this job costing was completed.">
                 <p:ajax global="false"
                         listener="#{jobManager.completeJobCosting}"
-                        update="@this,exportJobCostingButton"
+                        update="@this,exportJobCostingButton1"
                         process="@this"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Prepared" title="If this job is assigned to you, check to indicate that this job costing was completed." />
@@ -58,7 +57,7 @@ Email: info@dpbennett.com.jm
                                      title="If you are authorized to approve this job costing, check to indicate that this job costing was approved.">
                 <p:ajax global="false"
                         listener="#{jobManager.approveJobCosting}"
-                        update="costComponentsPanel,:jobCostingDialogForm:costingDate,@this,exportJobCostingButton"
+                        update="costComponentsPanel,:jobCostingDialogForm:costingDate,@this,exportJobCostingButton1"
                         process="@this"/>
             </h:selectBooleanCheckbox>
             <h:outputLabel value="Approved" title="If you are the head of the department/unit, check to indicate that this job costing was approved." />
@@ -78,8 +77,9 @@ Email: info@dpbennett.com.jm
         <h:panelGroup>
             <p:spacer height="0" width="5"/>
             <p:commandButton value="Export"  
-                             id="exportJobCostingButton"
+                             id="exportJobCostingButton1"
                              disabled="#{jobManager.canExportJobCosting}"
+                             immediate="true"
                              title="Export job costing"                        
                              ajax="false"
                              onclick="longProcessDialogVar2.show();">

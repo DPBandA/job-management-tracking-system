@@ -34,7 +34,7 @@ Email: info@dpbennett.com.jm
         <title>#{jobManager.applicationHeader}</title>        
         <script type="text/javascript" src="js/jmtsJavascript.js" />      
         <script type="text/javascript" src="js/commonJavascript.js" />   
-        <link rel="stylesheet" href="css/index.css" />
+        <link rel="stylesheet" href="css/main.css" />
     </h:head>
     <h:body onload="checkWhichBrowser();
             longProcessDialogVar.hide();
@@ -45,8 +45,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>        
         <ui:include src="job/jobSampleDialogs.xhtml"/>
         <ui:include src="job/jobAlertDialogs.xhtml"/>
-        <ui:include src="job/jobMessageDialogs.xhtml"/>  
-        <ui:include src="job/jobCostingDialogs.xhtml"/> 
+        <ui:include src="job/jobMessageDialogs.xhtml"/>          
         <ui:include src="common/generalAlertDialogs.xhtml"/>
         <ui:include src="common/connectionErrorAlertDialog.xhtml"/>
         <ui:include src="common/longProcessDialog.xhtml"/>   
@@ -173,8 +172,8 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{tab.renderClientsTab}" >
                                 <ui:include src="client/clientsTab.xhtml" />                                                                
                             </h:panelGroup>
-                             <h:panelGroup rendered="#{tab.renderReportsTab}" >
-                                 <ui:include src="report/reportsTab.xhtml" />                                                                
+                            <h:panelGroup rendered="#{tab.renderReportsTab}" >
+                                <ui:include src="report/reportsTab.xhtml" />                                                                
                             </h:panelGroup>
                         </p:tab>
                     </p:tabView>

@@ -19,14 +19,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-- Do not allow exporting service contract and job costing until job is valid. 
-  * Use immediate="true" where ever <p:fileDownload /> is used and remove actionlistener.
-- Work on automatically inserting billing address and contact when new client is 
-  selected.
-- Check out why "if (isToBeSaved && isDirty) {" in ClientManager throws 
-  nullpointer exception after contact was edited.
-- When contact is added from the client dialog and automatically insert in the
-  contact for the job it is flag as invalid when job save is attempted.
+- Make Report number in reporting tab read only and see if this solves the problem
+  of the report number not being saved....
 - Don't use discount in cash payment.
 - Job cost and may be other fields not being update when costing is updated. Fix!
 - Check that exporting job costing, service contract and other forms do not
@@ -76,6 +70,7 @@ paymentTerms, rename JMTSUserId to userId
 * Update corresponding fields in jobCostingAndPayment as required.
 * Use canEditInvoicingAndPayment where necessary
 * Ensure amount due is updated correctly using cash payments.
+- Put bold label for required field to be consistent.
 
 ### Testing on Test and Live versions
 - Assign git tag to next release
@@ -153,6 +148,7 @@ paymentTerms, rename JMTSUserId to userId
 - Limit the maximum characters to be entered into a text field to 50. Put this
   value in the BEL resource bundle which can be changed. Allow various maximums
   for different types of fields.
+- Replace handleSaveJobCostingAndPaymentRequest() with growl messages.
 - Replace dialog messages that have on "ok" button with growl messages.
 - Make all sensitive fields, especially those on the General tab unchangeable
   except by system admin after a job has been saved. Use field groups with 

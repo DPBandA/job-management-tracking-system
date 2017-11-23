@@ -151,7 +151,14 @@
             <from-outcome>clientDialog</from-outcome>
             <to-view-id>/client/clientDialog.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>             
+    </navigation-rule>          
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>jobCostingDialog</from-outcome>
+            <to-view-id>/finance/jobCostingDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>      
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.jmts.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>

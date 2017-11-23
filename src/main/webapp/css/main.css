@@ -63,3 +63,7 @@
     width: 100%;
     box-shadow: 5px;
 }   
+
+.read-only-inputfield .ui-inputfield {
+    background-color: lightyellow !important;
+}

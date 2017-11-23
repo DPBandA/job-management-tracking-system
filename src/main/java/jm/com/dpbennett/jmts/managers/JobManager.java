@@ -23,18 +23,12 @@ import jm.com.dpbennett.business.entity.utils.JobDataModel;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,7 +65,6 @@ import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.AccPacDocument;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Alert;
-import jm.com.dpbennett.business.entity.BusinessEntity;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Classification;
@@ -107,8 +100,6 @@ import jm.com.dpbennett.business.entity.UnitCost;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
 import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.business.entity.utils.DatePeriodJobReport;
-import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import static jm.com.dpbennett.jmts.Application.checkForLDAPUser;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
@@ -117,20 +108,15 @@ import jm.com.dpbennett.jmts.utils.DashboardTab;
 import jm.com.dpbennett.jmts.utils.MainTab;
 import jm.com.dpbennett.jmts.utils.MainTabView;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.primefaces.context.RequestContext;
@@ -281,7 +267,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
     }
-
+  
     public MainTabView getMainTabView() {
         return mainTabView;
     }
@@ -1877,7 +1863,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void updateAllJobCostings() {
         // Update all costs that depend on tax
-        updateJobCosting();
+        editJobCosting();
         updateJobCostingEstimate();
 
         setDirty(true);
@@ -2379,11 +2365,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // prompt to save modified job before attempting to create new job
         if (isDirty()) {
             RequestContext context = RequestContext.getCurrentInstance();
-
             context.update("jobCostingSaveConfirmDialogForm");
             context.execute("jobCostingSaveConfirm.show();");
         }
-
+        else {
+             RequestContext.getCurrentInstance().closeDialog(null);
+        }
     }
 
     public void closeUnitCostDialog() {
@@ -2402,7 +2389,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void cancelJobEdit(ActionEvent actionEvent) {
         setDirty(false);
         doJobSearch(searchManager.getCurrentSearchParameters());
-        setRenderJobDetailTab(false);
+        setRenderJobDetailTab(false);                
+    }
+    
+    public void cancelJobCostingEdit(ActionEvent actionEvent) {
+        setDirty(false);
+//        doJobSearch(searchManager.getCurrentSearchParameters());
+//        setRenderJobDetailTab(false);        
+        RequestContext.getCurrentInstance().closeDialog(null);
     }
 
     public void closePreferencesDialog2(CloseEvent closeEvent) {
@@ -2447,6 +2441,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setDirty(false);
     }
 
+    // tk validation not done so change name?
     public void validateJobCostingAndSaveJob(ActionEvent actionEvent) {
 
         RequestContext context = RequestContext.getCurrentInstance();
@@ -2464,6 +2459,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             // Refresh to make sure job costings ids are not null to
             // avoid resaving newly created costing components
+            // tk check if this is still necessary
             currentJob.setJobCostingAndPayment(em.find(JobCostingAndPayment.class, currentJob.getJobCostingAndPayment().getId()));
 
         } catch (Exception e) {
@@ -3308,11 +3304,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void editJobCosting() {
-        // Nothing to do yet
-        System.out.println("Editing job costing...");
-    }
-
-    public void updateJobCosting() {
 
         EntityManager em = getEntityManager1();
 
@@ -3324,7 +3315,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 createDefaultJobCostings(currentJob.getJobCostingAndPayment());
             }
 
-            // Add sub-contract oostings if any
+            // Add sub-contract costings if any
             List<Job> jobs = Job.findJobsByYearReceivedAndJobSequenceNumber(em,
                     currentJob.getYearReceived(),
                     currentJob.getJobSequenceNumber());
@@ -3354,8 +3345,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // NB: Ensure that amount due is recalc. in case something affects
         // taxes was changed
         currentJob.getJobCostingAndPayment().calculateAmountDue();
+        
+        PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 800);
     }
-
+    
     public void okCashPayment() {
         // tk
         // update jobCostingAndPayment.receiptNumber...append receipt number.
