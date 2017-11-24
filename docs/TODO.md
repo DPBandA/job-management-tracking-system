@@ -19,9 +19,14 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-- Implement save confirmation and dialog closing for job costing form.
+#### Job Costing & Payment (by Friday 2017-11-24
+- Create AccountingManager from JM and use it to manage job costing and payment.
+  * Complete by 
 - Implement "isDirty" for JobCostingAndPayment independently of the Job class.
-  However, do not allow saving of job costing if job has not been saved.
+  *Implement save() in JobCostingAndPayment.
+  *Do not allow saving of job costing if job has not been saved.
+  *Set to CascadeType.REFRESH and save independently in Job class.
+- Implement save confirmation and dialog closing for job costing form.
 - Don't use discount in cash payment.
 - Job cost and may be other fields not being update when costing is updated. Fix!
 - Check that exporting job costing, service contract and other forms do not
@@ -37,9 +42,6 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - Implement prevention of the insertion of incorrect subcontract jobs costing 
   Amounts which sometimes occur when the date of submission of a parent job is changed
   Use parentJobId in the subcontract to solve this?
-- Implement "Double View" for the cashier so that the Cashier and Job Costing 
-Views can be viewed simultaneously for easy job costing updates.
--- Create views/tabs for job costing and cashier instead of using job tables view. 
 - Remove payeeFirst/Lastname and put contact/person.
 - When subcontracted department is deleted and the job form is closed,
   the subcontracted department field disappears when the form is reopened. Fix!
@@ -72,6 +74,10 @@ paymentTerms, rename JMTSUserId to userId
 * Use canEditInvoicingAndPayment where necessary
 * Ensure amount due is updated correctly using cash payments.
 - Put bold label for required field to be consistent.
+#### Double View Creation (by Saturday 2017-11-25)
+- Implement "Double View" for the cashier so that the Cashier and Job Costing 
+Views can be viewed simultaneously for easy job costing updates.
+-- Create views/tabs for job costing and cashier instead of using job tables view. 
 
 ### Testing on Test and Live versions
 - Assign git tag to next release
@@ -92,6 +98,11 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
+- Create GeneralManager from JM that handles UserManagement and other general
+  management features.
+- Let AccountingManager and other "modules" implement interfaces that can be 
+  used by the JMTS or a default interface if a session bean with a name such as 
+  "accountingManagement" is not found.
 - Make the creation of at least one address and one contact mandatory for 
   creating new clients.
 - Check the return value from prepareAndSaveCurrentJob() and display message 
