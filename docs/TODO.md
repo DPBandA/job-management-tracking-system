@@ -19,15 +19,16 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-- Make Report number in reporting tab read only and see if this solves the problem
-  of the report number not being saved....
+- Implement save confirmation and dialog closing for job costing form.
+- Implement "isDirty" for JobCostingAndPayment independently of the Job class.
+  However, do not allow saving of job costing if job has not been saved.
 - Don't use discount in cash payment.
 - Job cost and may be other fields not being update when costing is updated. Fix!
 - Check that exporting job costing, service contract and other forms do not
   save any entity as this is not necessary.
 - Fix job costing form export etc. and use the billing address and contact found in the 
   job record if necessary.
-- Do resetInput when opening job costing dialogs.
+- Do resetInput when opening job costing dialogs?
 - The "Job Costing Modified" dialog does not have a no button.
 - Check if any of the job costing message dialog close the job detail tab.
 - Create contact field in the job record to assign contact to current job.

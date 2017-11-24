@@ -4624,69 +4624,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return departmentReport.getId();
     }
 
-    public String getMonthShortFormat(Date date) {
-        String month = "";
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-
-        switch (c.get(Calendar.MONTH)) {
-            case 0:
-                month = "Jan";
-                break;
-            case 1:
-                month = "Feb";
-                break;
-            case 2:
-                month = "Mar";
-                break;
-            case 3:
-                month = "Apr";
-                break;
-            case 4:
-                month = "May";
-                break;
-            case 5:
-                month = "Jun";
-                break;
-            case 6:
-                month = "Jul";
-                break;
-            case 7:
-                month = "Aug";
-                break;
-            case 8:
-                month = "Sep";
-                break;
-            case 9:
-                month = "Oct";
-                break;
-            case 10:
-                month = "Nov";
-                break;
-            case 11:
-                month = "Dec";
-                break;
-            default:
-                month = "";
-                break;
-        }
-        return month;
-    }
-
-    public String getYearShortFormat(Date date, int digits) {
-        String yearString = "";
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-
-        int year = c.get(Calendar.YEAR);
-        yearString = yearString + year;
-
-        // get last x digits of year
-        yearString = yearString.substring(yearString.length() - digits, yearString.length());
-
-        return yearString;
-    }
-
     public Long saveJobSample(EntityManager em, JobSample jobSample) {
         return BusinessEntityUtils.saveBusinessEntity(em, jobSample);
     }
