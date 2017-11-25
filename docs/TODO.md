@@ -18,9 +18,12 @@
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
 ================================================================================
+### Read proposal/contract sent by RA and respond before Monday
+
 ### Issues to Address for Next Release
 #### Job Costing & Payment (by Friday 2017-11-24
-- Create AccountingManager from JM and use it to manage job costing and payment.
+- Update job costing and payment forms to use AM.
+- Create AccountingManager (AM) from JM and use it to manage job costing and payment.
   * Complete by 
 - Implement "isDirty" for JobCostingAndPayment independently of the Job class.
   *Implement save() in JobCostingAndPayment.

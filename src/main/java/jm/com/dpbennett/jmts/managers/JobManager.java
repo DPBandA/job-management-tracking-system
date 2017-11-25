@@ -177,9 +177,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Integer loginAttempts;
     private String selectedJobCostingTemplate;
     private SearchParameters currentSearchParameters;
+    // Managers
     private final ClientManager clientManager;
     private final SearchManager searchManager;
     private final ReportManager reportManager;
+    private final AccountingManager accountingManager;
     private SearchParameters reportSearchParameters;
     private Department unitCostDepartment;
     private UnitCost currentUnitCost;
@@ -258,9 +260,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         outcome = defaultOutcome;
         selectedJobSample = new JobSample();
         jobSampleDialogTabViewActiveIndex = 0;
+        // Init Managers
         clientManager = Application.findBean("clientManager");
         reportManager = Application.findBean("reportManager");
         searchManager = Application.findBean("searchManager");
+        accountingManager = Application.findBean("accountingManager");
         sendJobCostingCompletedEmail = false;
         sendJobCostingApprovedEmail = false;
         addCostComponent = false;
