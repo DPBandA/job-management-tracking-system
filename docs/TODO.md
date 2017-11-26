@@ -25,6 +25,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - Remove FM code from JM.
   * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
     from JM.
+  * Implement getFinanceManager() and use it in jobCostingAndPaymentTab.xhtml 
+    to access JobCostingAndPayment instead of directly in JM.
 - Update job costing and payment forms to use FinanceManager (FM).
   * Implement "dirty" for JobCostingAndPayment and use it to flag as dirty and not the entire job. 
   * Implement saving JobCostingAndPayment and no the entire job.
