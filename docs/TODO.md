@@ -22,8 +22,13 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ### Issues to Address for Next Release
 #### Job Costing & Payment (by Friday 2017-11-24
-- Update job costing and payment forms to use AM.
-- Create AccountingManager (AM) from JM and use it to manage job costing and payment.
+- Remove FM code from JM.
+  * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
+    from JM.
+- Update job costing and payment forms to use FinanceManager (FM).
+  * Implement "dirty" for JobCostingAndPayment and use it to flag as dirty and not the entire job. 
+  * Implement saving JobCostingAndPayment and no the entire job.
+- Create FinanceManager (FM) from JM and use it to manage job costing and payment.
   * Complete by 
 - Implement "isDirty" for JobCostingAndPayment independently of the Job class.
   *Implement save() in JobCostingAndPayment.

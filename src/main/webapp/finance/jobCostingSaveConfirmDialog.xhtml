@@ -27,18 +27,18 @@ Email: info@dpbennett.com.jm
     <h:form id="jobCostingSaveConfirmDialogForm">
         <p:confirmDialog severity="alert"
                          message="The current job costing was modified. Do you wish to save it?"
-                         header="Job Costing Modified (#{jobManager.currentJob.jobNumber})"
+                         header="Job Costing Modified (#{financeManager.currentJob.jobNumber})"
                          widgetVar="jobCostingSaveConfirm"
                          width="425">
 
             <p:commandButton value="Yes"                             
-                             actionListener="#{jobManager.validateJobCostingAndSaveJob}"
+                             actionListener="#{financeManager.validateJobCostingAndSaveJob}"
                              onstart="longProcessDialogVar.show();"                             
                              oncomplete="longProcessDialogVar.hide();jobCostingSaveConfirm.hide();"
                              icon="ui-icon-check"
                              process="@this"/>
             <p:commandButton value="No"   
-                             actionListener="#{jobManager.cancelJobCostingEdit}"
+                             actionListener="#{financeManager.cancelJobCostingEdit}"
                              update=":jobCostingDialogForm"
                              oncomplete="jobCostingSaveConfirm.hide();"
                              icon="ui-icon-close"/>       

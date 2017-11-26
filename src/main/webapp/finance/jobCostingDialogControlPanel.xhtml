@@ -25,26 +25,26 @@ Email: info@dpbennett.com.jm
     <h:panelGrid columns="8">
 
         <p:commandButton value="Save"
-                         disabled="#{jobManager.completed}"
+                         disabled="#{financeManager.completed}"
                          onstart="longProcessDialogVar.show();"
-                         actionListener="#{jobManager.validateJobCostingAndSaveJob}"                         
+                         actionListener="#{financeManager.validateJobCostingAndSaveJob}"                         
                          oncomplete="longProcessDialogVar.hide();"
                          icon="ui-icon-check"
                          process="@this"/>
 
         <p:commandButton value="Close"
                          onstart="longProcessDialogVar.show();"
-                         actionListener="#{jobManager.closeJobCostingDialog}"                         
+                         actionListener="#{financeManager.closeJobCostingDialog}"                         
                          oncomplete="longProcessDialogVar.hide();"
                          icon="ui-icon-close"
                          process="@this"/>
 
         <h:panelGroup>
-            <h:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.costingCompleted}"  
-                                     disabled="#{jobManager.completed}"
+            <h:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.costingCompleted}"  
+                                     disabled="#{financeManager.completed}"
                                      title="If this job is assigned to you, check to indicate that this job costing was completed.">
                 <p:ajax global="false"
-                        listener="#{jobManager.completeJobCosting}"
+                        listener="#{financeManager.completeJobCosting}"
                         update="@this,exportJobCostingButton1"
                         process="@this"/>
             </h:selectBooleanCheckbox>
@@ -52,11 +52,11 @@ Email: info@dpbennett.com.jm
         </h:panelGroup>
 
         <h:panelGroup>
-            <h:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.costingApproved}"   
+            <h:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.costingApproved}"   
                                      disabled="false"
                                      title="If you are authorized to approve this job costing, check to indicate that this job costing was approved.">
                 <p:ajax global="false"
-                        listener="#{jobManager.approveJobCosting}"
+                        listener="#{financeManager.approveJobCosting}"
                         update="costComponentsPanel,:jobCostingDialogForm:costingDate,@this,exportJobCostingButton1"
                         process="@this"/>
             </h:selectBooleanCheckbox>
@@ -64,10 +64,10 @@ Email: info@dpbennett.com.jm
         </h:panelGroup>
 
         <h:panelGroup>
-            <h:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.invoiced}"
+            <h:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.invoiced}"
                                      title="Check to indicate that an invoice was done for this job costing.">
                 <p:ajax global="false"                        
-                        listener="#{jobManager.invoiceJobCosting}"
+                        listener="#{financeManager.invoiceJobCosting}"
                         update="@this"
                         process="@this"/>
             </h:selectBooleanCheckbox>
@@ -78,12 +78,12 @@ Email: info@dpbennett.com.jm
             <p:spacer height="0" width="5"/>
             <p:commandButton value="Export"  
                              id="exportJobCostingButton1"
-                             disabled="#{jobManager.canExportJobCosting}"
+                             disabled="#{financeManager.canExportJobCosting}"
                              immediate="true"
                              title="Export job costing"                        
                              ajax="false"
                              onclick="longProcessDialogVar2.show();">
-                <p:fileDownload value="#{jobManager.jobCostingFile}" />
+                <p:fileDownload value="#{financeManager.jobCostingFile}" />
             </p:commandButton>
         </h:panelGroup>
 

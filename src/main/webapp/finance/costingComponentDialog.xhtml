@@ -31,7 +31,7 @@ Email: info@dpbennett.com.jm
                   widgetVar="costingComponentDialog"
                   header="Costing Component" >       
             <p:commandButton value="Ok"
-                             actionListener="#{jobManager.updateCostingComponent}"
+                             actionListener="#{financeManager.updateCostingComponent}"
                              update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
@@ -50,8 +50,8 @@ Email: info@dpbennett.com.jm
                 </h:panelGroup>
                 <p:spacer height="0" width="10"/>
                 <p:selectBooleanCheckbox id="isCostComponentHeading"
-                                         value="#{jobManager.selectedCostComponent.isHeading}" >
-                    <p:ajax listener="#{jobManager.updateIsCostComponentHeading}"
+                                         value="#{financeManager.selectedCostComponent.isHeading}" >
+                    <p:ajax listener="#{financeManager.updateIsCostComponentHeading}"
                             update="costingComponentPanelGrid"
                             global="false"                            
                             process="@this"/>
@@ -61,103 +61,106 @@ Email: info@dpbennett.com.jm
 
                 <h:outputText value="Component:" style="font-weight: bold" />
                 <p:spacer height="0" width="10"/>
-                <p:inputText value="#{jobManager.selectedCostComponent.name}"
+                <p:inputText value="#{financeManager.selectedCostComponent.name}"
                              style="width: 85%;" >
                     <p:ajax event="change"
                             global="false"
-                            listener="#{jobManager.updateJob}"                            
+                            listener="#{financeManager.updateJob}"                            
                             process="@this"/>
                 </p:inputText>
 
 
-                <h:outputText rendered="#{!jobManager.selectedCostComponent.isHeading}" value="Cost Code:" style="font-weight: bold;" />
-                <p:spacer rendered="#{!jobManager.selectedCostComponent.isHeading}" height="0" width="10"/>
-                <p:selectOneMenu rendered="#{!jobManager.selectedCostComponent.isHeading}"
+                <h:outputText rendered="#{!financeManager.selectedCostComponent.isHeading}" value="Cost Code:" style="font-weight: bold;" />
+                <p:spacer rendered="#{!financeManager.selectedCostComponent.isHeading}" height="0" width="10"/>
+                <p:selectOneMenu rendered="#{!financeManager.selectedCostComponent.isHeading}"
                                  id="costCode"
-                                 value="#{jobManager.selectedCostComponent.code}"
+                                 value="#{financeManager.selectedCostComponent.code}"
                                  style="width: 85%" >
                     <p:ajax event="change"
                             global="false"                            
-                            listener="#{jobManager.updateCostCode}"
+                            listener="#{financeManager.updateCostCode}"
                             process="@this"/>
-                    <f:selectItems  value="#{jobManager.allCostCodes}"
+                    <f:selectItems  value="#{financeManager.allCostCodes}"
                                     var="costCode"
                                     itemValue="#{costCode.code}"
                                     itemLabel="#{costCode.code}"/>
                 </p:selectOneMenu>
 
-                <h:panelGroup rendered="#{!jobManager.selectedCostComponent.isHeading}">
+                <h:panelGroup rendered="#{!financeManager.selectedCostComponent.isHeading}">
                     <p:tooltip for="isCostComponentFixedCost" value="Check if this is a fixed cost" showEffect="fade" hideEffect="fade" />
                     <h:outputLabel for="isCostComponentFixedCost" value="Is this a fixed cost?" style="font-weight: bold"/>
                 </h:panelGroup>
                 <p:spacer height="0" width="10"/>
                 <p:selectBooleanCheckbox id="isCostComponentFixedCost"
-                                         rendered="#{!jobManager.selectedCostComponent.isHeading}"
-                                         value="#{jobManager.selectedCostComponent.isFixedCost}" >
-                    <p:ajax listener="#{jobManager.updateIsCostComponentFixedCost}"
+                                         rendered="#{!financeManager.selectedCostComponent.isHeading}"
+                                         value="#{financeManager.selectedCostComponent.isFixedCost}" >
+                    <p:ajax listener="#{financeManager.updateIsCostComponentFixedCost}"
                             update="costingComponentPanelGrid"
                             global="false"                            
                             process="@this"/>
                 </p:selectBooleanCheckbox>
 
-                <h:outputText rendered="#{!jobManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
+                <h:outputText rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
                               value="Hours/Qty:" 
                               style="font-weight: bold;" />
-                <p:spacer rendered="#{!jobManager.selectedCostComponent.renderFixedCostingComponentFormFields}" height="0" width="10"/>
-                <p:inputText rendered="#{!jobManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
-                             value="#{jobManager.selectedCostComponent.hoursOrQuantity}"
+                <p:spacer rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
+                          height="0" width="10"/>
+                <p:inputText rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
+                             value="#{financeManager.selectedCostComponent.hoursOrQuantity}"
                              style="width: 85%">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="keyup"
                             global="false"
-                            listener="#{jobManager.updateJob}"
+                            listener="#{financeManager.updateJob}"
                             update="costingComponentDialogForm:costComponentCost"
                             process="@this"/>
                     <p:ajax event="change"
                             global="false"
-                            listener="#{jobManager.updateJob}"
+                            listener="#{financeManager.updateJob}"
                             update="costingComponentDialogForm:costComponentCost"
                             process="@this"/>
                 </p:inputText>
 
-                <h:outputText rendered="#{!jobManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
+                <h:outputText rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
                               value="Rate ($/hr/qty):" style="font-weight: bold;" />
-                <p:spacer rendered="#{!jobManager.selectedCostComponent.renderFixedCostingComponentFormFields}" height="0" width="10"/>
-                <p:inputText rendered="#{!jobManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
-                             value="#{jobManager.selectedCostComponent.rate}"
+                <p:spacer rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
+                          height="0" width="10"/>
+                <p:inputText rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
+                             value="#{financeManager.selectedCostComponent.rate}"
                              style="width: 85%">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="keyup"
                             global="false"
-                            listener="#{jobManager.updateJob}"
+                            listener="#{financeManager.updateJob}"
                             update="costingComponentDialogForm:costComponentCost"
                             process="@this"/>
                     <p:ajax event="change"
                             global="false"
-                            listener="#{jobManager.updateJob}"
+                            listener="#{financeManager.updateJob}"
                             update="costingComponentDialogForm:costComponentCost"
                             process="@this"/>
                 </p:inputText>
 
-                <h:outputText rendered="#{!jobManager.selectedCostComponent.isHeading}" value="Cost ($):" style="font-weight: bold;" />
-                <p:spacer rendered="#{!jobManager.selectedCostComponent.isHeading}" height="0" width="10"/>
+                <h:outputText rendered="#{!financeManager.selectedCostComponent.isHeading}" 
+                              value="Cost ($):" style="font-weight: bold;" />
+                <p:spacer rendered="#{!financeManager.selectedCostComponent.isHeading}" height="0" width="10"/>
                 <p:inputText id="costComponentCost"
-                             rendered="#{!jobManager.selectedCostComponent.isHeading}"                            
-                             value="#{jobManager.selectedCostComponent.cost}"
-                             readonly="#{!jobManager.selectedCostComponent.isFixedCost}"
-                             styleClass="#{!jobManager.selectedCostComponent.isFixedCost ? 'editableclass' : null}">
+                             rendered="#{!financeManager.selectedCostComponent.isHeading}"                            
+                             value="#{financeManager.selectedCostComponent.cost}"
+                             readonly="#{!financeManager.selectedCostComponent.isFixedCost}"
+                             styleClass="#{!financeManager.selectedCostComponent.isFixedCost ? 'editableclass' : null}">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"
                             global="false"                            
-                            listener="#{jobManager.updateJob}"
+                            listener="#{financeManager.updateJob}"
                             process="@this"/>
                 </p:inputText>
                 <h:outputText value=" "
-                              rendered="#{jobManager.selectedCostComponent.isHeading}" />
+                              rendered="#{financeManager.selectedCostComponent.isHeading}" />
             </h:panelGrid>
             <hr/>
             <p:commandButton value="Ok"
-                             actionListener="#{jobManager.updateCostingComponent}"
+                             actionListener="#{financeManager.updateCostingComponent}"
                              update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                              onstart="longProcessDialogVar.show();"                              
                              oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"

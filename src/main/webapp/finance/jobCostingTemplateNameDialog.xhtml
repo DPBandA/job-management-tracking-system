@@ -34,17 +34,17 @@ Email: info@dpbennett.com.jm
 
             <h:panelGrid columns="2" >
                 <h:outputLabel value="Template name: " style="font-weight: bold"/>
-                <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.name}"
+                <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.name}"
                              style="width: 200px">
                     <p:ajax event="keyup"
                             global="false"
-                            listener="#{jobManager.updateJob}"
+                            listener="#{financeManager.updateJob}"
                             process="@this"/>
                 </p:inputText>
             </h:panelGrid>
             <hr/>
             <p:commandButton value="Ok"               
-                             actionListener="#{jobManager.validateJobCostingAndSaveJob}"
+                             actionListener="#{financeManager.validateJobCostingAndSaveJob}"
                              update=":jobCostingDialogForm:jobCostingsTemplateName" 
                              oncomplete="jobCostingTemplateNameDialog.hide();"
                              icon="ui-icon ui-icon-check"

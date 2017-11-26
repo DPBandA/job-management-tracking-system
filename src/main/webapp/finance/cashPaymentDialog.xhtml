@@ -34,74 +34,74 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Type:" />    
                 <p:selectOneMenu 
                     id="type"      
-                    value="#{jobManager.selectedCashPayment.type}">
+                    value="#{financeManager.selectedCashPayment.type}">
                     <p:ajax
                         global="true"                        
-                        listener="#{jobManager.updateCashPayment}"
+                        listener="#{financeManager.updateCashPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.paymentTypes}" />
                 </p:selectOneMenu>   
                 <h:outputText value="Receipt #:" />
-                <p:inputText value="#{jobManager.selectedCashPayment.receiptNumber}" >
-                    <p:ajax listener="#{jobManager.updateCashPayment}"
+                <p:inputText value="#{financeManager.selectedCashPayment.receiptNumber}" >
+                    <p:ajax listener="#{financeManager.updateCashPayment}"
                             event="change"
                             global="false"                            
                             process="@this"/>
                 </p:inputText>               
 
                 <h:outputText value="Amount:" />
-                <p:inputText value="#{jobManager.selectedCashPayment.payment}"                             
+                <p:inputText value="#{financeManager.selectedCashPayment.payment}"                             
                              maxlength="250">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"
                             global="false"                            
-                            listener="#{jobManager.updateCashPayment}"
+                            listener="#{financeManager.updateCashPayment}"
                             process="@this"/>
                 </p:inputText>                
 
                 <p:selectOneMenu 
                     id="discountType"      
-                    disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                    value="#{jobManager.selectedCashPayment.discountType}">
+                    disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                    value="#{financeManager.selectedCashPayment.discountType}">
                     <p:ajax
                         global="true"
                         
-                        listener="#{jobManager.updateCashPayment}"
+                        listener="#{financeManager.updateCashPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.discountTypes}" />
                 </p:selectOneMenu>             
-                <p:inputText value="#{jobManager.selectedCashPayment.discount}"                              
+                <p:inputText value="#{financeManager.selectedCashPayment.discount}"                              
                              maxlength="250">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"
                             global="false"
                            
-                            listener="#{jobManager.updateCashPayment}"
+                            listener="#{financeManager.updateCashPayment}"
                             process="@this"/>
                 </p:inputText>          
 
                 <h:outputText value="Terms:" />
                 <p:inputTextarea
-                    value="#{jobManager.selectedCashPayment.paymentTerms}"                     
+                    value="#{financeManager.selectedCashPayment.paymentTerms}"                     
                     maxlength="250"
                     rows="2">
                     <p:ajax event="change"
                             global="false"
                             update=""
-                            listener="#{jobManager.updateCashPayment}"
+                            listener="#{financeManager.updateCashPayment}"
                             process="@this"/>
                 </p:inputTextarea>                
             </h:panelGrid>
             <hr/> 
             <p:commandButton value="Ok"
-                             actionListener="#{jobManager.okCashPayment}"
+                             actionListener="#{financeManager.okCashPayment}"
                              icon="ui-icon-check"
                              oncomplete="cashPaymentDialog.hide();"
                              
                              process="@form"/>
             <p:spacer height="0" width="5"/>
             <p:commandButton value="Cancel"
-                             actionListener="#{jobManager.cancelCashPaymentEdit}"
+                             actionListener="#{financeManager.cancelCashPaymentEdit}"
                              update="cashPaymentDialogForm"
                              onstart="longProcessDialogVar.show();"
                              oncomplete="jobSampleDialog.hide();longProcessDialogVar.hide();"

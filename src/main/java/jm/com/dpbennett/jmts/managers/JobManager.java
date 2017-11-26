@@ -151,12 +151,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Job selectedJob;
     private JobSample selectedJobSample;
     private JobSample backupSelectedJobSample;
-    private CashPayment selectedCashPayment;
+    //private CashPayment selectedCashPayment;
     private Boolean addJobSample;
-    private Boolean addCostComponent;
-    private Boolean addCashPayment;
+    //private Boolean addCostComponent;
+    //private Boolean addCashPayment;
     private Boolean dynamicTabView;
-    private StreamedContent jobCostingFile;
+    //private StreamedContent jobCostingFile;
     private Boolean renderSearchComponent;
     private Boolean renderJobDetailTab;
     @ManagedProperty(value = "Jobs")
@@ -181,12 +181,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private final ClientManager clientManager;
     private final SearchManager searchManager;
     private final ReportManager reportManager;
-    private final AccountingManager accountingManager;
+    private final FinanceManager financeManager;
     private SearchParameters reportSearchParameters;
     private Department unitCostDepartment;
     private UnitCost currentUnitCost;
     private String searchText;
-    private List<UnitCost> unitCosts;
+    //private List<UnitCost> unitCosts;
     private String dialogActionHandlerId;
     private List<Job> jobsWithCostings;
     private Job currentJobWithCosting;
@@ -231,8 +231,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         filteredAccPacCustomerDocuments = new ArrayList<>();
         useAccPacCustomerList = false;
         addJobSample = false;
-        addCashPayment = false;
-        addCostComponent = false;
+        //addCashPayment = false;
+        //addCostComponent = false;
         ArrayList searchTypes = new ArrayList();
         ArrayList searchDateFields = new ArrayList();
         searchTypes.add(new SelectItem("General", "General"));
@@ -264,10 +264,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         clientManager = Application.findBean("clientManager");
         reportManager = Application.findBean("reportManager");
         searchManager = Application.findBean("searchManager");
-        accountingManager = Application.findBean("accountingManager");
+        financeManager = Application.findBean("financeManager");
         sendJobCostingCompletedEmail = false;
         sendJobCostingApprovedEmail = false;
-        addCostComponent = false;
+        //addCostComponent = false;
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
     }
@@ -924,13 +924,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return jobsWithCostings;
     }
 
-    public List<UnitCost> getUnitCosts() {
-        if (unitCosts == null) {
-            unitCosts = new ArrayList<>();
-        }
-
-        return unitCosts;
-    }
+//    public List<UnitCost> getUnitCosts() {
+//        if (unitCosts == null) {
+//            unitCosts = new ArrayList<>();
+//        }
+//
+//        return unitCosts;
+//    }
 
     public String getSearchText() {
         return searchText;
@@ -1347,25 +1347,25 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     }
 
-    public StreamedContent getJobCostingFile() {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-
-            prepareAndSaveCurrentJob(em);
-
-            jobCostingFile = getJobCostingAnalysisFile(em);
-
-            setLongProcessProgress(100);
-
-        } catch (Exception e) {
-            System.out.println(e);
-            setLongProcessProgress(100);
-        }
-
-        return jobCostingFile;
-    }
+//    public StreamedContent getJobCostingFile() {
+//        EntityManager em = null;
+//
+//        try {
+//            em = getEntityManager1();
+//
+//            prepareAndSaveCurrentJob(em);
+//
+//            jobCostingFile = getJobCostingAnalysisFile(em);
+//
+//            setLongProcessProgress(100);
+//
+//        } catch (Exception e) {
+//            System.out.println(e);
+//            setLongProcessProgress(100);
+//        }
+//
+//        return jobCostingFile;
+//    }
 
     public void createNewJob() {
         RequestContext context = RequestContext.getCurrentInstance();
@@ -1832,13 +1832,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         currentJob.getJobStatusAndTracking().setDocumentCollected(b);
     }
 
-    public CashPayment getSelectedCashPayment() {
-        return selectedCashPayment;
-    }
-
-    public void setSelectedCashPayment(CashPayment selectedCashPayment) {
-        this.selectedCashPayment = selectedCashPayment;
-    }
+//    public CashPayment getSelectedCashPayment() {
+//        return selectedCashPayment;
+//    }
+//
+//    public void setSelectedCashPayment(CashPayment selectedCashPayment) {
+//        this.selectedCashPayment = selectedCashPayment;
+//    }
 
     public EntityManager getEntityManager2() {
         return getEMF2().createEntityManager();
@@ -1906,16 +1906,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     }
 
-    public void updateTotalDeposit() {
-        EntityManager em = getEntityManager1();
-
-        Employee employee = Employee.findEmployeeById(em, getUser().getEmployee().getId());
-        if (employee != null) {
-            getCurrentJob().getJobCostingAndPayment().setLastPaymentEnteredBy(employee);
-        }
-        updateAmountDue();
-        setDirty(true);
-    }
+//    public void updateTotalDeposit() {
+//        EntityManager em = getEntityManager1();
+//
+//        Employee employee = Employee.findEmployeeById(em, getUser().getEmployee().getId());
+//        if (employee != null) {
+//            getCurrentJob().getJobCostingAndPayment().setLastPaymentEnteredBy(employee);
+//        }
+//        updateAmountDue();
+//        setDirty(true);
+//    }
 
     public void updateTestsAndCalibration() {
         currentJob.setNoOfTestsOrCalibrations(currentJob.getNoOfTests() + currentJob.getNoOfCalibrations());
@@ -3144,10 +3144,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void editCostComponent(ActionEvent event) {
     }
 
-    public void createNewCashPayment(ActionEvent event) {
-        addCashPayment = true;
-        selectedCashPayment = new CashPayment();
-    }
+//    public void createNewCashPayment(ActionEvent event) {
+//        addCashPayment = true;
+//        selectedCashPayment = new CashPayment();
+//    }
 
     public void createNewJobSample(ActionEvent event) {
 
@@ -3178,15 +3178,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         jobSampleDialogTabViewActiveIndex = 0;
     }
 
-    public void createNewCostComponent(ActionEvent event) {
-        // init sample
-        addCostComponent = true;
-        selectedCostComponent = new CostComponent();
-    }
+//    public void createNewCostComponent(ActionEvent event) {
+//        // init sample
+//        addCostComponent = true;
+//        selectedCostComponent = new CostComponent();
+//    }
 
-    public void cancelCashPaymentEdit() {
-
-    }
+//    public void cancelCashPaymentEdit() {
+//
+//    }
 
     public void cancelJobSampleEdit() {
         addJobSample = false;
@@ -3277,15 +3277,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void updateCostingComponent() {
-        if (addCostComponent) {
-            addCostComponent = false;
-            currentJob.getJobCostingAndPayment().getCostComponents().add(selectedCostComponent);
-        }
-        updateFinalCost();
-        updateAmountDue();
-    }
-
+//    public void updateCostingComponent() {
+//        if (addCostComponent) {
+//            addCostComponent = false;
+//            currentJob.getJobCostingAndPayment().getCostComponents().add(selectedCostComponent);
+//        }
+//        updateFinalCost();
+//        updateAmountDue();
+//    }
+//
     public void updateFinalCost() {
         currentJob.getJobCostingAndPayment().setFinalCost(currentJob.getJobCostingAndPayment().getTotalJobCostingsAmount());
         setDirty(true);
@@ -3349,6 +3349,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // NB: Ensure that amount due is recalc. in case something affects
         // taxes was changed
         currentJob.getJobCostingAndPayment().calculateAmountDue();
+        
+        financeManager.setCurrentJob(currentJob);
         
         PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 800);
     }
@@ -3739,22 +3741,22 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public List<Laboratory> completeLaboratory(String query) {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-
-            List<Laboratory> laboratories = Laboratory.findLaboratoriesByName(em, query);
-
-            return laboratories;
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
+//    public List<Laboratory> completeLaboratory(String query) {
+//        EntityManager em = null;
+//
+//        try {
+//            em = getEntityManager1();
+//
+//            List<Laboratory> laboratories = Laboratory.findLaboratoriesByName(em, query);
+//
+//            return laboratories;
+//
+//        } catch (Exception e) {
+//            System.out.println(e);
+//
+//            return new ArrayList<>();
+//        }
+//    }
 
     public List<Employee> completeEmployee(String query) {
         EntityManager em = null;
@@ -4145,41 +4147,41 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     }
 
-    public void updateUnitCostDepartment() {
-        EntityManager em = null;
+//    public void updateUnitCostDepartment() {
+//        EntityManager em = null;
+//
+//        try {
+//            em = getEntityManager1();
+//            if (unitCostDepartment.getName() != null) {
+//                Department department = Department.findDepartmentByName(em, unitCostDepartment.getName());
+//                if (department != null) {
+//                    unitCostDepartment = department;
+//                    doUnitCostSearch();
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//    }
 
-        try {
-            em = getEntityManager1();
-            if (unitCostDepartment.getName() != null) {
-                Department department = Department.findDepartmentByName(em, unitCostDepartment.getName());
-                if (department != null) {
-                    unitCostDepartment = department;
-                    doUnitCostSearch();
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
-    public void updateJobCostDepartment() {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-            if (jobCostDepartment.getName() != null) {
-                Department department = Department.findDepartmentByName(em, jobCostDepartment.getName());
-                if (department != null) {
-                    jobCostDepartment = department;
-                    doUnitCostSearch();
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+//    public void updateJobCostDepartment() {
+//        EntityManager em = null;
+//
+//        try {
+//            em = getEntityManager1();
+//            if (jobCostDepartment.getName() != null) {
+//                Department department = Department.findDepartmentByName(em, jobCostDepartment.getName());
+//                if (department != null) {
+//                    jobCostDepartment = department;
+//                    doUnitCostSearch();
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//    }
 
     public void updateSubContractedDepartment() {
         EntityManager em;
@@ -5523,19 +5525,19 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         RequestContext.getCurrentInstance().openDialog("jobCostings", options, null);
     }
 
-    public void doUnitCostSearch() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        unitCosts = UnitCost.findUnitCosts(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
-        context.update("unitCostsTableForm");
-    }
-
-    public void doJobCostSearch() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        jobsWithCostings = Job.findJobsWithJobCosting(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
-        context.update("jobCostsTableForm");
-    }
+//    public void doUnitCostSearch() {
+//        RequestContext context = RequestContext.getCurrentInstance();
+//
+//        unitCosts = UnitCost.findUnitCosts(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
+//        context.update("unitCostsTableForm");
+//    }
+//
+//    public void doJobCostSearch() {
+//        RequestContext context = RequestContext.getCurrentInstance();
+//
+//        jobsWithCostings = Job.findJobsWithJobCosting(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
+//        context.update("jobCostsTableForm");
+//    }
 
     public void createNewUnitCost() {
         RequestContext context = RequestContext.getCurrentInstance();
