@@ -175,7 +175,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private String userPrivilegeDialogHeader;
     private String userPrivilegeDialogMessage;
     private Integer loginAttempts;
-    private String selectedJobCostingTemplate;
+    //private String selectedJobCostingTemplate;
     private SearchParameters currentSearchParameters;
     // Managers
     private final ClientManager clientManager;
@@ -183,18 +183,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private final ReportManager reportManager;
     private final FinanceManager financeManager;
     private SearchParameters reportSearchParameters;
-    private Department unitCostDepartment;
-    private UnitCost currentUnitCost;
+    //private Department unitCostDepartment;
+    //private UnitCost currentUnitCost;
     private String searchText;
     //private List<UnitCost> unitCosts;
     private String dialogActionHandlerId;
     private List<Job> jobsWithCostings;
     private Job currentJobWithCosting;
-    private Department jobCostDepartment;
+    //private Department jobCostDepartment;
     private String jobsTabTitle;
     private Job[] selectedJobs;
-    private Boolean sendJobCostingCompletedEmail;
-    private Boolean sendJobCostingApprovedEmail;
+    //private Boolean sendJobCostingCompletedEmail;
+    //private Boolean sendJobCostingApprovedEmail;
     private Boolean showPrepayments;
     private JobManagerUser user;
     private Boolean userLoggedIn;
@@ -265,11 +265,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         reportManager = Application.findBean("reportManager");
         searchManager = Application.findBean("searchManager");
         financeManager = Application.findBean("financeManager");
-        sendJobCostingCompletedEmail = false;
-        sendJobCostingApprovedEmail = false;
+        //sendJobCostingCompletedEmail = false;
+        //sendJobCostingApprovedEmail = false;
         //addCostComponent = false;
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
+    }
+
+    public FinanceManager getFinanceManager() {
+        
+        financeManager.setCurrentJob(currentJob);
+        
+        return financeManager;
     }
   
     public MainTabView getMainTabView() {
@@ -895,16 +902,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.jobsTabTitle = jobsTabTitle;
     }
 
-    public Department getJobCostDepartment() {
-        if (jobCostDepartment == null) {
-            jobCostDepartment = new Department("");
-        }
-        return jobCostDepartment;
-    }
-
-    public void setJobCostDepartment(Department jobCostDepartment) {
-        this.jobCostDepartment = jobCostDepartment;
-    }
+//    public Department getJobCostDepartment() {
+//        if (jobCostDepartment == null) {
+//            jobCostDepartment = new Department("");
+//        }
+//        return jobCostDepartment;
+//    }
+//
+//    public void setJobCostDepartment(Department jobCostDepartment) {
+//        this.jobCostDepartment = jobCostDepartment;
+//    }
 
     public Job getCurrentJobWithCosting() {
         if (currentJobWithCosting == null) {
@@ -940,27 +947,27 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.searchText = searchText;
     }
 
-    public UnitCost getCurrentUnitCost() {
-        if (currentUnitCost == null) {
-            currentUnitCost = new UnitCost();
-        }
-        return currentUnitCost;
-    }
-
-    public void setCurrentUnitCost(UnitCost currentUnitCost) {
-        this.currentUnitCost = currentUnitCost;
-    }
-
-    public Department getUnitCostDepartment() {
-        if (unitCostDepartment == null) {
-            unitCostDepartment = new Department("");
-        }
-        return unitCostDepartment;
-    }
-
-    public void setUnitCostDepartment(Department unitCostDepartment) {
-        this.unitCostDepartment = unitCostDepartment;
-    }
+//    public UnitCost getCurrentUnitCost() {
+//        if (currentUnitCost == null) {
+//            currentUnitCost = new UnitCost();
+//        }
+//        return currentUnitCost;
+//    }
+//
+//    public void setCurrentUnitCost(UnitCost currentUnitCost) {
+//        this.currentUnitCost = currentUnitCost;
+//    }
+//
+//    public Department getUnitCostDepartment() {
+//        if (unitCostDepartment == null) {
+//            unitCostDepartment = new Department("");
+//        }
+//        return unitCostDepartment;
+//    }
+//
+//    public void setUnitCostDepartment(Department unitCostDepartment) {
+//        this.unitCostDepartment = unitCostDepartment;
+//    }
 
     public SearchParameters getReportSearchParameters() {
         return reportSearchParameters;
@@ -980,13 +987,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return false;
     }
 
-    public String getSelectedJobCostingTemplate() {
-        return selectedJobCostingTemplate;
-    }
-
-    public void setSelectedJobCostingTemplate(String selectedJobCostingTemplate) {
-        this.selectedJobCostingTemplate = selectedJobCostingTemplate;
-    }
+//    public String getSelectedJobCostingTemplate() {
+//        return selectedJobCostingTemplate;
+//    }
+//
+//    public void setSelectedJobCostingTemplate(String selectedJobCostingTemplate) {
+//        this.selectedJobCostingTemplate = selectedJobCostingTemplate;
+//    }
 
     public void displayUserPrivilegeDialog(RequestContext context,
             String header,
@@ -1937,35 +1944,35 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void completeJobCosting() {
-        EntityManager em = getEntityManager1();
-
-        // Check for completed subcontracts if applicable
-        if (!getCurrentJob().getIsSubContracted() && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-            if (!Job.findIncompleteSubcontracts(em, currentJob).isEmpty()) {
-                getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
-                displayCommonMessageDialog(null,
-                        "This job costing cannot be marked prepared before all subcontracted jobs are completed", "Incomplete Subcontracts", "info");
-            }
-        } else if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()) {
-            getCurrentJob().getJobCostingAndPayment().setCostingCompleted(!getCurrentJob().getJobCostingAndPayment().getCostingCompleted());
-            getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
-            displayCommonMessageDialog(null,
-                    "The job costing preparation status cannot be changed because it was already approved.",
-                    "Job Costing Already Approved", "info");
-        } else if (!validateCurrentJobCosting()
-                && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-            getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(null);
-            getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
-            getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
-            sendJobCostingCompletedEmail = false;
-            displayCommonMessageDialog(null, "Please enter all required (*) fields before checking this job costing as being prepared.", "Required (*) Fields Missing", "info");
-        } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-            getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
-            sendJobCostingCompletedEmail = true;
-            setDirty(true);
-        }
-    }
+//    public void completeJobCosting() {
+//        EntityManager em = getEntityManager1();
+//
+//        // Check for completed subcontracts if applicable
+//        if (!getCurrentJob().getIsSubContracted() && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+//            if (!Job.findIncompleteSubcontracts(em, currentJob).isEmpty()) {
+//                getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
+//                displayCommonMessageDialog(null,
+//                        "This job costing cannot be marked prepared before all subcontracted jobs are completed", "Incomplete Subcontracts", "info");
+//            }
+//        } else if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()) {
+//            getCurrentJob().getJobCostingAndPayment().setCostingCompleted(!getCurrentJob().getJobCostingAndPayment().getCostingCompleted());
+//            getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
+//            displayCommonMessageDialog(null,
+//                    "The job costing preparation status cannot be changed because it was already approved.",
+//                    "Job Costing Already Approved", "info");
+//        } else if (!validateCurrentJobCosting()
+//                && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+//            getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(null);
+//            getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
+//            getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
+//            sendJobCostingCompletedEmail = false;
+//            displayCommonMessageDialog(null, "Please enter all required (*) fields before checking this job costing as being prepared.", "Required (*) Fields Missing", "info");
+//        } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+//            getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
+//            sendJobCostingCompletedEmail = true;
+//            setDirty(true);
+//        }
+//    }
 
     /**
      * Determine if the current user is the department's supervisor. This is
@@ -1990,30 +1997,30 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void approveJobCosting() {
-
-        if (isUserDepartmentSupervisor(getCurrentJob())
-                || (isJobAssignedToUserDepartment()
-                && getUser().getPrivilege().getCanApproveJobCosting())) {
-            if (!getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(null);
-                setJobCostingDate(null);
-                getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
-                sendJobCostingApprovedEmail = false;
-                displayCommonMessageDialog(null, "This job costing cannot be approved before it is prepared", "Cannot Approve", "info");
-            } else {
-                Date date = new Date();
-                setJobCostingDate(date);
-                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(date);
-                sendJobCostingApprovedEmail = true;
-                setDirty(true);
-            }
-        } else {
-            setJobCostingDate(null);
-            getCurrentJob().getJobCostingAndPayment().setCostingApproved(!getCurrentJob().getJobCostingAndPayment().getCostingApproved());
-            displayCommonMessageDialog(null, "You do not have the permission to approve job costings.", "No Permission", "alert");
-        }
-    }
+//    public void approveJobCosting() {
+//
+//        if (isUserDepartmentSupervisor(getCurrentJob())
+//                || (isJobAssignedToUserDepartment()
+//                && getUser().getPrivilege().getCanApproveJobCosting())) {
+//            if (!getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+//                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(null);
+//                setJobCostingDate(null);
+//                getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
+//                sendJobCostingApprovedEmail = false;
+//                displayCommonMessageDialog(null, "This job costing cannot be approved before it is prepared", "Cannot Approve", "info");
+//            } else {
+//                Date date = new Date();
+//                setJobCostingDate(date);
+//                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(date);
+//                sendJobCostingApprovedEmail = true;
+//                setDirty(true);
+//            }
+//        } else {
+//            setJobCostingDate(null);
+//            getCurrentJob().getJobCostingAndPayment().setCostingApproved(!getCurrentJob().getJobCostingAndPayment().getCostingApproved());
+//            displayCommonMessageDialog(null, "You do not have the permission to approve job costings.", "No Permission", "alert");
+//        }
+//    }
 
     public void updatePreferences() {
         setDirty(true);
@@ -2561,89 +2568,89 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     }
 
-    public void saveUnitCost() {
-        EntityManager em = getEntityManager1();
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        try {
-
-            // Validate and save objects
-            // Department
-            Department department = Department.findDepartmentByName(em, getCurrentUnitCost().getDepartment().getName());
-            if (department == null) {
-                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid department was not entered.");
-
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-                return;
-            } else {
-                getCurrentUnitCost().setDepartment(department);
-            }
-
-            // Department unit
-            DepartmentUnit departmentUnit = DepartmentUnit.findDepartmentUnitByName(em, getCurrentUnitCost().getDepartmentUnit().getName());
-            if (departmentUnit == null) {
-                getCurrentUnitCost().setDepartmentUnit(DepartmentUnit.getDefaultDepartmentUnit(em, "--"));
-            } else {
-                getCurrentUnitCost().setDepartmentUnit(departmentUnit);
-            }
-
-            // Laboratory unit
-            Laboratory laboratory = Laboratory.findLaboratoryByName(em, getCurrentUnitCost().getLaboratory().getName());
-            if (laboratory == null) {
-                getCurrentUnitCost().setLaboratory(Laboratory.getDefaultLaboratory(em, "--"));
-            } else {
-                getCurrentUnitCost().setLaboratory(laboratory);
-            }
-
-            // Service
-            if (getCurrentUnitCost().getService().trim().equals("")) {
-                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid service was not entered.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-                return;
-            }
-
-            // Cost
-            if (getCurrentUnitCost().getCost() <= 0.0) {
-                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid cost was not entered.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-                return;
-            }
-
-            // Effective date
-            if (getCurrentUnitCost().getEffectiveDate() == null) {
-                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid effective date was not entered.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
-                return;
-            }
-
-            // save job to database and check for errors
-            em.getTransaction().begin();
-
-            Long id = BusinessEntityUtils.saveBusinessEntity(em, currentUnitCost);
-            if (id == null) {
-                context.execute("undefinedErrorDialog.show();");
-                sendErrorEmail("An error occured while saving this unit cost",
-                        "Unit cost save error occured");
-                return;
-            }
-
-            em.getTransaction().commit();
-            setDirty(false);
-
-        } catch (Exception e) {
-            context.execute("undefinedErrorDialog.show();");
-            System.out.println(e);
-            // send error message to developer's email
-            sendErrorEmail("An exception occurred while saving a unit cost!",
-                    "\nJMTS User: " + getUser().getUsername()
-                    + "\nDate/time: " + new Date()
-                    + "\nException detail: " + e);
-        }
-    }
+//    public void saveUnitCost() {
+//        EntityManager em = getEntityManager1();
+//        RequestContext context = RequestContext.getCurrentInstance();
+//
+//        try {
+//
+//            // Validate and save objects
+//            // Department
+//            Department department = Department.findDepartmentByName(em, getCurrentUnitCost().getDepartment().getName());
+//            if (department == null) {
+//                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid department was not entered.");
+//
+//                context.update("invalidFieldDialogForm");
+//                context.execute("invalidFieldDialog.show();");
+//                return;
+//            } else {
+//                getCurrentUnitCost().setDepartment(department);
+//            }
+//
+//            // Department unit
+//            DepartmentUnit departmentUnit = DepartmentUnit.findDepartmentUnitByName(em, getCurrentUnitCost().getDepartmentUnit().getName());
+//            if (departmentUnit == null) {
+//                getCurrentUnitCost().setDepartmentUnit(DepartmentUnit.getDefaultDepartmentUnit(em, "--"));
+//            } else {
+//                getCurrentUnitCost().setDepartmentUnit(departmentUnit);
+//            }
+//
+//            // Laboratory unit
+//            Laboratory laboratory = Laboratory.findLaboratoryByName(em, getCurrentUnitCost().getLaboratory().getName());
+//            if (laboratory == null) {
+//                getCurrentUnitCost().setLaboratory(Laboratory.getDefaultLaboratory(em, "--"));
+//            } else {
+//                getCurrentUnitCost().setLaboratory(laboratory);
+//            }
+//
+//            // Service
+//            if (getCurrentUnitCost().getService().trim().equals("")) {
+//                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid service was not entered.");
+//                context.update("invalidFieldDialogForm");
+//                context.execute("invalidFieldDialog.show();");
+//                return;
+//            }
+//
+//            // Cost
+//            if (getCurrentUnitCost().getCost() <= 0.0) {
+//                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid cost was not entered.");
+//                context.update("invalidFieldDialogForm");
+//                context.execute("invalidFieldDialog.show();");
+//                return;
+//            }
+//
+//            // Effective date
+//            if (getCurrentUnitCost().getEffectiveDate() == null) {
+//                setInvalidFormFieldMessage("This unit cost cannot be saved because a valid effective date was not entered.");
+//                context.update("invalidFieldDialogForm");
+//                context.execute("invalidFieldDialog.show();");
+//                return;
+//            }
+//
+//            // save job to database and check for errors
+//            em.getTransaction().begin();
+//
+//            Long id = BusinessEntityUtils.saveBusinessEntity(em, currentUnitCost);
+//            if (id == null) {
+//                context.execute("undefinedErrorDialog.show();");
+//                sendErrorEmail("An error occured while saving this unit cost",
+//                        "Unit cost save error occured");
+//                return;
+//            }
+//
+//            em.getTransaction().commit();
+//            setDirty(false);
+//
+//        } catch (Exception e) {
+//            context.execute("undefinedErrorDialog.show();");
+//            System.out.println(e);
+//            // send error message to developer's email
+//            sendErrorEmail("An exception occurred while saving a unit cost!",
+//                    "\nJMTS User: " + getUser().getUsername()
+//                    + "\nDate/time: " + new Date()
+//                    + "\nException detail: " + e);
+//        }
+//    }
 
     public Boolean checkJobEntryPrivilege(EntityManager em, RequestContext context) {
         // prompt to save modified job before attempting to create new job
@@ -4091,61 +4098,61 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     }
 
-    public void updateCurrentUnitCostDepartment() {
-        EntityManager em = null;
+//    public void updateCurrentUnitCostDepartment() {
+//        EntityManager em = null;
+//
+//        try {
+//            em = getEntityManager1();
+//            if (currentUnitCost.getDepartment().getName() != null) {
+//                Department department = Department.findDepartmentByName(em, currentUnitCost.getDepartment().getName());
+//                if (department != null) {
+//                    currentUnitCost.setDepartment(department);
+//                    setDirty(true);
+//                }
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//
+//    }
 
-        try {
-            em = getEntityManager1();
-            if (currentUnitCost.getDepartment().getName() != null) {
-                Department department = Department.findDepartmentByName(em, currentUnitCost.getDepartment().getName());
-                if (department != null) {
-                    currentUnitCost.setDepartment(department);
-                    setDirty(true);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+//    public void updateCurrentUnitCostDepartmentUnit() {
+//        EntityManager em = null;
+//
+//        try {
+//            em = getEntityManager1();
+//            if (currentUnitCost.getDepartmentUnit().getName() != null) {
+//                DepartmentUnit departmentUnit = DepartmentUnit.findDepartmentUnitByName(em, currentUnitCost.getDepartmentUnit().getName());
+//                if (departmentUnit != null) {
+//                    currentUnitCost.setDepartmentUnit(departmentUnit);
+//                    setDirty(true);
+//                }
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//
+//    }
 
-    }
-
-    public void updateCurrentUnitCostDepartmentUnit() {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-            if (currentUnitCost.getDepartmentUnit().getName() != null) {
-                DepartmentUnit departmentUnit = DepartmentUnit.findDepartmentUnitByName(em, currentUnitCost.getDepartmentUnit().getName());
-                if (departmentUnit != null) {
-                    currentUnitCost.setDepartmentUnit(departmentUnit);
-                    setDirty(true);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
-
-    public void updateCurrentUnitCostDepartmentLab() {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-            if (currentUnitCost.getLaboratory().getName() != null) {
-                Laboratory laboratory = Laboratory.findLaboratoryByName(em, currentUnitCost.getLaboratory().getName());
-
-                if (laboratory != null) {
-                    currentUnitCost.setLaboratory(laboratory);
-                    setDirty(true);
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
+//    public void updateCurrentUnitCostDepartmentLab() {
+//        EntityManager em = null;
+//
+//        try {
+//            em = getEntityManager1();
+//            if (currentUnitCost.getLaboratory().getName() != null) {
+//                Laboratory laboratory = Laboratory.findLaboratoryByName(em, currentUnitCost.getLaboratory().getName());
+//
+//                if (laboratory != null) {
+//                    currentUnitCost.setLaboratory(laboratory);
+//                    setDirty(true);
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//
+//    }
 
 //    public void updateUnitCostDepartment() {
 //        EntityManager em = null;
@@ -4357,26 +4364,26 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setDirty(true);
     }
 
-    public void updateCostingComponents() {
-        if (selectedJobCostingTemplate != null) {
-            EntityManager em = getEntityManager1();
-            JobCostingAndPayment jcp
-                    = JobCostingAndPayment.findJobCostingAndPaymentByDepartmentAndName(em,
-                            getUser().getEmployee().getDepartment().getName(),
-                            selectedJobCostingTemplate);
-            if (jcp != null) {
-                currentJob.getJobCostingAndPayment().getCostComponents().clear();
-                currentJob.getJobCostingAndPayment().setCostComponents(copyCostComponents(jcp.getCostComponents()));
-                currentJob.getJobCostingAndPayment().calculateAmountDue();
-                setDirty(true);
-            } else {
-                // Nothing yet
-            }
-
-            selectedJobCostingTemplate = null;
-
-        }
-    }
+//    public void updateCostingComponents() {
+//        if (selectedJobCostingTemplate != null) {
+//            EntityManager em = getEntityManager1();
+//            JobCostingAndPayment jcp
+//                    = JobCostingAndPayment.findJobCostingAndPaymentByDepartmentAndName(em,
+//                            getUser().getEmployee().getDepartment().getName(),
+//                            selectedJobCostingTemplate);
+//            if (jcp != null) {
+//                currentJob.getJobCostingAndPayment().getCostComponents().clear();
+//                currentJob.getJobCostingAndPayment().setCostComponents(copyCostComponents(jcp.getCostComponents()));
+//                currentJob.getJobCostingAndPayment().calculateAmountDue();
+//                setDirty(true);
+//            } else {
+//                // Nothing yet
+//            }
+//
+//            selectedJobCostingTemplate = null;
+//
+//        }
+//    }
 
     public void removeCurrentJobCostingComponents(EntityManager em) {
 
@@ -5539,14 +5546,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 //        context.update("jobCostsTableForm");
 //    }
 
-    public void createNewUnitCost() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        currentUnitCost = new UnitCost();
-
-        context.update("unitCostForm");
-        context.execute("unitCostDialog.show();");
-    }
+//    public void createNewUnitCost() {
+//        RequestContext context = RequestContext.getCurrentInstance();
+//
+//        currentUnitCost = new UnitCost();
+//
+//        context.update("unitCostForm");
+//        context.execute("unitCostDialog.show();");
+//    }
 
     public void editUnitCost() {
     }
@@ -5560,7 +5567,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         if (dialogActionHandlerId.equals("unitCostDirty")) {
             RequestContext context = RequestContext.getCurrentInstance();
-            saveUnitCost();
+            //saveUnitCost(); // tk check if safe to do this
             context.execute("unitCostDialog.hide();");
         }
 
@@ -5731,53 +5738,53 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
 
             // Emails related to job costing            
-            if (sendJobCostingCompletedEmail) {
-                sendJobCostingCompletedEmail = false;
-                try {
-                    List<String> emails = getDepartmentSupervisorsEmailAddresses(getDepartmentAssignedToJob(currentJob, em));
-                    for (String email : emails) {
-                        if (!email.equals("")) {
-                            postJobManagerMail(null, email,
-                                    ""/*BusinessEntityUtils.getPersonFullName(getDepartmentAssignedToJob(currentJob).getHead(), false)*/,
-                                    "Job Costing Completed", getCompletedJobCostingEmailMessage(currentJob));
-                        } else {
-                            sendErrorEmail("The department's head email address is not valid!",
-                                    "Job number: " + currentJob.getJobNumber()
-                                    + "\nJMTS User: " + getUser().getUsername()
-                                    + "\nDate/time: " + new Date());
-                        }
-                    }
+//            if (sendJobCostingCompletedEmail) {
+//                sendJobCostingCompletedEmail = false;
+//                try {
+//                    List<String> emails = getDepartmentSupervisorsEmailAddresses(getDepartmentAssignedToJob(currentJob, em));
+//                    for (String email : emails) {
+//                        if (!email.equals("")) {
+//                            postJobManagerMail(null, email,
+//                                    ""/*BusinessEntityUtils.getPersonFullName(getDepartmentAssignedToJob(currentJob).getHead(), false)*/,
+//                                    "Job Costing Completed", getCompletedJobCostingEmailMessage(currentJob));
+//                        } else {
+//                            sendErrorEmail("The department's head email address is not valid!",
+//                                    "Job number: " + currentJob.getJobNumber()
+//                                    + "\nJMTS User: " + getUser().getUsername()
+//                                    + "\nDate/time: " + new Date());
+//                        }
+//                    }
+//
+//                } catch (Exception e) {
+//                    System.out.println("Error sending Costing Completed Email");
+//                    System.out.println(e);
+//                }
+//            }
 
-                } catch (Exception e) {
-                    System.out.println("Error sending Costing Completed Email");
-                    System.out.println(e);
-                }
-            }
-
-            if (sendJobCostingApprovedEmail) {
-                sendJobCostingApprovedEmail = false;
-                try {
-                    // Send email(s) to approved job costing email recipient(s) 
-                    String listAsString = SystemOption.findSystemOptionByName(em, "approvedJobCostingEmailRecipients").getOptionValue();
-                    String emails[] = listAsString.split(";");
-                    for (String email : emails) {
-                        if (!email.equals("")) {
-                            postJobManagerMail(null, email,
-                                    ""/*BusinessEntityUtils.getPersonFullName(getDepartmentAssignedToJob(currentJob, em).getHead(), false)*/,
-                                    "Job Costing Approved", getApprovedJobCostingEmailMessage(currentJob));
-                        } else {
-                            sendErrorEmail("The approved job costing email recipient is not valid!",
-                                    "Job number: " + currentJob.getJobNumber()
-                                    + "\nJMTS User: " + getUser().getUsername()
-                                    + "\nDate/time: " + new Date());
-                        }
-                    }
-
-                } catch (Exception e) {
-                    System.out.println("Error sending Costing Approved Email");
-                    System.out.println(e);
-                }
-            }
+//            if (sendJobCostingApprovedEmail) {
+//                sendJobCostingApprovedEmail = false;
+//                try {
+//                    // Send email(s) to approved job costing email recipient(s) 
+//                    String listAsString = SystemOption.findSystemOptionByName(em, "approvedJobCostingEmailRecipients").getOptionValue();
+//                    String emails[] = listAsString.split(";");
+//                    for (String email : emails) {
+//                        if (!email.equals("")) {
+//                            postJobManagerMail(null, email,
+//                                    ""/*BusinessEntityUtils.getPersonFullName(getDepartmentAssignedToJob(currentJob, em).getHead(), false)*/,
+//                                    "Job Costing Approved", getApprovedJobCostingEmailMessage(currentJob));
+//                        } else {
+//                            sendErrorEmail("The approved job costing email recipient is not valid!",
+//                                    "Job number: " + currentJob.getJobNumber()
+//                                    + "\nJMTS User: " + getUser().getUsername()
+//                                    + "\nDate/time: " + new Date());
+//                        }
+//                    }
+//
+//                } catch (Exception e) {
+//                    System.out.println("Error sending Costing Approved Email");
+//                    System.out.println(e);
+//                }
+//            }
 
         } catch (Exception e) {
             System.out.println("Error generating email alert");
