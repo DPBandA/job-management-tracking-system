@@ -27,27 +27,27 @@ Email: info@dpbennett.com.jm
     <p:panel id="jobCosting" header="Costing">
         <h:panelGrid columns="3">
             <h:outputText value="Purchase order #: "/>
-            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
-                         disabled="#{!jobManager.isAuthorizedToModifyCostings}"
+            <p:inputText value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
+                         disabled="#{!jobManager.financeManager.isAuthorizedToModifyCostings}"
                          maxlength="250">
                 <p:ajax event="change"
                         global="false"
-                        listener="#{jobManager.updateJob}"
+                        listener="#{jobManager.financeManager.updateJob}"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>
 
             <h:outputText value="Cost estimate ($): "/>
             <h:panelGroup>
-                <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.estimatedCost}"
+                <p:inputText value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.estimatedCost}"
                              converterMessage="Please enter a valid cost estimate."
-                             disabled="#{!jobManager.isAuthorizedToModifyCostings}"
+                             disabled="#{!jobManager.financeManager.isAuthorizedToModifyCostings}"
                              maxlength="250">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     <p:ajax event="change"
                             global="false"
                             update="estimatedCostIncludingTaxes"
-                            listener="#{jobManager.updateJobCostingEstimate}"
+                            listener="#{jobManager.financeManager.updateJobCostingEstimate}"
                             process="@this"/>
                 </p:inputText>
                 <h:outputText value="&nbsp;"/>
@@ -56,14 +56,14 @@ Email: info@dpbennett.com.jm
             <h:outputText value="&nbsp;"/>            
 
             <h:outputText value="Minimum deposit required ($): "/>
-            <p:inputText value="#{jobManager.currentJob.jobCostingAndPayment.minDeposit}"
-                         disabled="#{!jobManager.isAuthorizedToModifyCostings}"
+            <p:inputText value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.minDeposit}"
+                         disabled="#{!jobManager.financeManager.isAuthorizedToModifyCostings}"
                          maxlength="250">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="change"
                         global="false"
                         update="minDepositIncludingTaxes"
-                        listener="#{jobManager.updateJobCostingEstimate}"
+                        listener="#{jobManager.financeManager.updateJobCostingEstimate}"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>      
@@ -71,30 +71,30 @@ Email: info@dpbennett.com.jm
             <h:outputText value="GCT(%):"/>
             <p:selectOneMenu 
                 id="gct"                
-                disabled="#{!jobManager.canApplyGCT}"
+                disabled="#{!jobManager.financeManager.canApplyGCT}"
                 style="width: 100px;"
-                value="#{jobManager.currentJob.jobCostingAndPayment.percentageGCT}">
+                value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.percentageGCT}">
                 <p:ajax
                     global="true"
                     update="estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
-                    listener="#{jobManager.updateAllJobCostings}"
+                    listener="#{jobManager.financeManager.updateAllJobCostings}"
                     process="@this" />
-                <f:selectItems value="#{jobManager.GCTPercentages}" />
+                <f:selectItems value="#{jobManager.financeManager.GCTPercentages}" />
             </p:selectOneMenu>  
             <h:outputText value="&nbsp;"/>
 
             <h:outputText id="costEstimateLabel"
-                          value="#{jobManager.currentJob.jobCostingAndPayment.costEstimateWithTaxLabel}"/>
+                          value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.costEstimateWithTaxLabel}"/>
             <h:panelGroup>
                 <p:inputText id="estimatedCostIncludingTaxes"
-                             value="#{jobManager.currentJob.jobCostingAndPayment.estimatedCostIncludingTaxes}"
+                             value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.estimatedCostIncludingTaxes}"
                              style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
                              readonly="true"
                              maxlength="250">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"
                             global="false"                            
-                            listener="#{jobManager.updateJobCostingEstimate}"
+                            listener="#{jobManager.financeManager.updateJobCostingEstimate}"
                             process="@this"/>
                 </p:inputText>
                 <h:outputText value="&nbsp;"/>
@@ -103,39 +103,39 @@ Email: info@dpbennett.com.jm
             <h:outputText value="&nbsp;"/>     
 
             <h:outputText id="minDepositLabel"
-                          value="#{jobManager.currentJob.jobCostingAndPayment.minDepositWithTaxLabel}"/>
+                          value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.minDepositWithTaxLabel}"/>
             <p:inputText id="minDepositIncludingTaxes"
-                         value="#{jobManager.currentJob.jobCostingAndPayment.minDepositIncludingTaxes}"
+                         value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.minDepositIncludingTaxes}"
                          style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
                          readonly="true"
                          maxlength="250">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="keyup"
                         global="false"                        
-                        listener="#{jobManager.updateJobCostingEstimate}"
+                        listener="#{jobManager.financeManager.updateJobCostingEstimate}"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>   
 
             <h:outputText 
                 id="totalCostLabel"
-                value="#{jobManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}"/>
+                value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}"/>
             <p:inputText id="totalCost"
                          maxlength="250"
-                         value="#{jobManager.currentJob.jobCostingAndPayment.totalCost}"                                 
+                         value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.totalCost}"                                 
                          style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
                          readonly="true">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="keyup"
                         global="false"
                         update="amountDue2"
-                        listener="#{jobManager.updateAmountDue}"
+                        listener="#{jobManager.financeManager.updateAmountDue}"
                         process="@this"/>
             </p:inputText>
 
             <h:panelGroup>
                 <p:commandButton icon="ui-icon ui-icon-pencil"
-                                 actionListener="#{jobManager.editJobCosting}"
+                                 actionListener="#{jobManager.financeManager.editJobCosting}"
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="longProcessDialogVar.hide();"
                                  process="@this"
@@ -149,7 +149,7 @@ Email: info@dpbennett.com.jm
 
             <h:outputText value="Amount due ($):" style="font-weight: bold;" />            
             <p:inputText id="amountDue2"
-                         value="#{jobManager.currentJob.jobCostingAndPayment.amountDue}"
+                         value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.amountDue}"
                          style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
                          readonly="true">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
@@ -161,10 +161,10 @@ Email: info@dpbennett.com.jm
     <p:panel id="cashPayments" header="Payment">        
         <p:commandButton value="Add payment"
                          title="Add new payment"
-                         actionListener="#{jobManager.createNewCashPayment}"
+                         actionListener="#{jobManager.financeManager.createNewCashPayment}"
                          update=":cashPaymentDialogForm"
                          oncomplete="cashPaymentDialog.show();"
-                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                         disabled="#{!jobManager.financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
                          process="@this" />
@@ -173,7 +173,7 @@ Email: info@dpbennett.com.jm
                      paginator="true"
                      rows="15"
                      var="cashPayment"
-                     value="#{jobManager.currentJob.jobCostingAndPayment.cashPayments}">
+                     value="#{jobManager.financeManager.currentJob.jobCostingAndPayment.cashPayments}">
             <p:column style="width:100px"  >
                 <f:facet name="header">
                     <h:outputText value="Receipt #" />
@@ -201,29 +201,29 @@ Email: info@dpbennett.com.jm
             <p:column style="width:32px">
                 <p:menuButton id="toolsButton" value="Actions" >
                     <p:menuitem value="Edit payment details"
-                                actionListener="#{jobManager.editCashPayment}"
+                                actionListener="#{jobManager.financeManager.editCashPayment}"
                                 update=""
                                 onstart="longProcessDialogVar.show();"
                                 oncomplete=""
                                 icon="ui-icon-pencil"
                                 process="@this">
                         <f:setPropertyActionListener value="#{cashPayment}"
-                                                     target="#{jobManager.selectedCashPayment}" />
+                                                     target="#{jobManager.financeManager.selectedCashPayment}" />
                     </p:menuitem>                    
                     <p:menuitem value="Delete this sample"
                                 onclick="jobSampleDeleteConfirm.show();"
                                 icon="ui-icon-trash"
                                 process="@this">
                         <f:setPropertyActionListener value="#{cashPayment}"
-                                                     target="#{jobManager.selectedCashPayment}" />
+                                                     target="#{jobManager.financeManager.selectedCashPayment}" />
                     </p:menuitem>
                 </p:menuButton>          
             </p:column>            
             <p:columnGroup type="footer">
                 <p:row>
-                    <p:column colspan="2" style="text-align:right" footerText="Total payments: #{jobManager.currentJob.jobCostingAndPayment.deposit}"/>
+                    <p:column colspan="2" style="text-align:right" footerText="Total payments: #{jobManager.financeManager.currentJob.jobCostingAndPayment.deposit}"/>
                     <ui:remove>
-                        <p:column colspan="3" style="text-align:right" footerText="Total ??: #{jobManager.currentJob.jobCostingAndPayment.deposit}"/>
+                        <p:column colspan="3" style="text-align:right" footerText="Total ??: #{jobManager.financeManager.currentJob.jobCostingAndPayment.deposit}"/>
                     </ui:remove>
                 </p:row>               
             </p:columnGroup>
@@ -231,10 +231,10 @@ Email: info@dpbennett.com.jm
         <p:spacer height="10" width="0"/>
         <p:commandButton value="Add payment"
                          title="Add new payment"
-                         actionListener="#{jobManager.createNewCashPayment}"
+                         actionListener="#{jobManager.financeManager.createNewCashPayment}"
                          update=":cashPaymentDialogForm"
                          oncomplete="cashPaymentDialog.show();"
-                         disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                         disabled="#{!jobManager.financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
                          process="@this" />

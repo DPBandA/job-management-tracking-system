@@ -48,7 +48,7 @@ Email: info@dpbennett.com.jm
                              title="Mark the selected job costing as being approved"
                              style="width: 150px"  
                              rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
-                             actionListener="#{jobManager.approveSelectedJobCostings}"
+                             actionListener="#{jobManager.financeManager.approveSelectedJobCostings}"
                              update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
                              onstart="longProcessDialogVar2.show();" 
                              oncomplete="longProcessDialogVar2.hide();">                                                                                    
@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
                              title="Mark the selected job costing as being invoiced"
                              style="width: 150px"  
                              rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
-                             actionListener="#{jobManager.invoiceSelectedJobCostings}"
+                             actionListener="#{jobManager.financeManager.invoiceSelectedJobCostings}"
                              update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
                              onstart="longProcessDialogVar2.show();" 
                              oncomplete="longProcessDialogVar2.hide();">                                                                                    
@@ -82,7 +82,7 @@ Email: info@dpbennett.com.jm
 
         <p:toolbarGroup align="right" >                                   
             <p:menuButton id="toolsButton" value="Tools" >
-                <p:menuitem actionListener="#{jobManager.updateAccPacClient}"
+                <p:menuitem actionListener="#{jobManager.financeManager.updateAccPacClient}"
                             onstart="longProcessDialogVar.show();"                                                    
                             value="Client credit status"
                             update=":accPacClientInformationTabView:accPacClientCreditStatusForm"

@@ -21,12 +21,17 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 
 ### Issues to Address for Next Release
-#### Job Costing & Payment (by Friday 2017-11-24
-- Remove FM code from JM.
+
+#### Job Costing & Payment
+- Samples table not being updated after a sample is added. 
+  * Create samples dialog using Dialog Framework.
+- Create GeneralManager (GM) from JM.
+- Remove FM code from JM.  
   * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
     from JM.
   * Implement getFinanceManager() and use it in jobCostingAndPaymentTab.xhtml 
     to access JobCostingAndPayment instead of directly in JM.
+- Use FM to check credit status?
 - Update job costing and payment forms to use FinanceManager (FM).
   * Implement "dirty" for JobCostingAndPayment and use it to flag as dirty and not the entire job. 
   * Implement saving JobCostingAndPayment and no the entire job.
@@ -108,6 +113,7 @@ Views can be viewed simultaneously for easy job costing updates.
 
 ### System Design
 #### Design
+- Change the message that is displayed when a job is subcontacted.
 - Create GeneralManager from JM that handles UserManagement and other general
   management features.
 - Let AccountingManager and other "modules" implement interfaces that can be 
