@@ -230,13 +230,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public FinanceManager getFinanceManager() {
-        
+
         financeManager.setCurrentJob(currentJob);
         financeManager.setUser(user);
-        
+
         return financeManager;
     }
-  
+
     public MainTabView getMainTabView() {
         return mainTabView;
     }
@@ -1103,7 +1103,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public StreamedContent getServiceContractFile() {
         StreamedContent serviceContractStreamContent = null;
-      
+
         try {
 
             serviceContractStreamContent = getServiceContractStreamContent();
@@ -1472,7 +1472,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
         if (currentJob.getId() != null) {
-           getFinanceManager().updateAllJobCostings();
+            getFinanceManager().updateAllJobCostings();
         }
     }
 
@@ -1739,7 +1739,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 }
             }
 
-            getFinanceManager().setAccPacCustomer( new AccPacCustomer(""));
+            getFinanceManager().setAccPacCustomer(new AccPacCustomer(""));
             if (context != null) {
                 context.addCallbackParam("jobCreated", jobCreated);
             }
@@ -1809,9 +1809,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void cancelJobEdit(ActionEvent actionEvent) {
         setDirty(false);
         doJobSearch(searchManager.getCurrentSearchParameters());
-        setRenderJobDetailTab(false);                
+        setRenderJobDetailTab(false);
     }
-    
+
     public void closePreferencesDialog2(CloseEvent closeEvent) {
         // Redo search to reloasd stored jobs including
         // the currently edited job.
@@ -2299,8 +2299,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void editJobSample(ActionEvent event) {
         jobSampleDialogTabViewActiveIndex = 0;
-
         addJobSample = false;
+
+        PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
     }
 
     public void copyJobSample() {
@@ -2352,27 +2353,29 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void cancelJobSampleEdit() {
         addJobSample = false;
         //find and revert the edit of job sample
-        for (JobSample jobSample : currentJob.getJobSamples()) {
-            if (jobSample.getReference().equals(selectedJobSample.getReference())) {
-                jobSample.setId(backupSelectedJobSample.getId());
-                jobSample.setJobId(backupSelectedJobSample.getJobId());
-                jobSample.setReference(backupSelectedJobSample.getReference());
-                jobSample.setReferenceIndex(backupSelectedJobSample.getReferenceIndex());
-                jobSample.setSampleQuantity(backupSelectedJobSample.getSampleQuantity());
-                jobSample.setQuantity(backupSelectedJobSample.getQuantity());
-                jobSample.setUnitOfMeasure(backupSelectedJobSample.getUnitOfMeasure());
-                jobSample.setDescription(backupSelectedJobSample.getDescription());
-                jobSample.setDateReceived(backupSelectedJobSample.getDateReceived());
-                jobSample.setMethodOfDisposal(backupSelectedJobSample.getMethodOfDisposal());
-                backupSelectedJobSample = null;
-                setDirty(false);
-                return;
-            }
-        }
+//        for (JobSample jobSample : currentJob.getJobSamples()) {
+//            if (jobSample.getReference().equals(selectedJobSample.getReference())) {
+//                jobSample.setId(backupSelectedJobSample.getId());
+//                jobSample.setJobId(backupSelectedJobSample.getJobId());
+//                jobSample.setReference(backupSelectedJobSample.getReference());
+//                jobSample.setReferenceIndex(backupSelectedJobSample.getReferenceIndex());
+//                jobSample.setSampleQuantity(backupSelectedJobSample.getSampleQuantity());
+//                jobSample.setQuantity(backupSelectedJobSample.getQuantity());
+//                jobSample.setUnitOfMeasure(backupSelectedJobSample.getUnitOfMeasure());
+//                jobSample.setDescription(backupSelectedJobSample.getDescription());
+//                jobSample.setDateReceived(backupSelectedJobSample.getDateReceived());
+//                jobSample.setMethodOfDisposal(backupSelectedJobSample.getMethodOfDisposal());
+//                backupSelectedJobSample = null;
+//                setDirty(false);
+//                return;
+//            }
+//        }
         // at this point the edited sample was not found in the current list of samples
         selectedJobSample = new JobSample();
         backupSelectedJobSample = null;
         setDirty(false);
+        
+        RequestContext.getCurrentInstance().closeDialog(null);
     }
 
     private Long getCurrentNumberOfJobSamples() {
@@ -2437,7 +2440,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         }
     }
-    
+
     public void editJob() {
         RequestContext context = RequestContext.getCurrentInstance();
 
@@ -2454,23 +2457,23 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // validate form entries
         if (selectedJobSample.getDateSampled() == null) {
-            context.execute("jobSampleDialog.show();");
+            //context.execute("jobSampleDialog.show();");
             context.execute("jobSampleRequiredFieldMessageDialog.show();");
             return;
         } else if (selectedJobSample.getSampleQuantity() == null) {
-            context.execute("jobSampleDialog.show();");
+            //context.execute("jobSampleDialog.show();");
             context.execute("jobSampleRequiredFieldMessageDialog.show();");
             return;
         } else if (selectedJobSample.getName().trim().isEmpty()) {
-            context.execute("jobSampleDialog.show();");
+            //context.execute("jobSampleDialog.show();");
             context.execute("jobSampleRequiredFieldMessageDialog.show();");
             return;
         } else if (selectedJobSample.getQuantity() == null) {
-            context.execute("jobSampleDialog.show();");
+            //context.execute("jobSampleDialog.show();");
             context.execute("jobSampleRequiredFieldMessageDialog.show();");
             return;
         } else {
-            context.execute("jobSampleDialog.hide();");
+            //context.execute("jobSampleDialog.hide();");
         }
 
         updateJobSampleReference();
@@ -2500,6 +2503,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             currentJob.setJobNumber(getCurrentJobNumber());
         }
         jobSampleDialogTabViewActiveIndex = 0;
+        
+        RequestContext.getCurrentInstance().closeDialog(null);
 
     }
 
@@ -2548,7 +2553,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             // create job costings if it does not exist
             currentJobId = currentJob.getId();
             // set accpac custmomer name for later use
-            getFinanceManager().setAccPacCustomer(new AccPacCustomer());            
+            getFinanceManager().setAccPacCustomer(new AccPacCustomer());
             getFinanceManager().getAccPacCustomer().setCustomerName(currentJob.getClient().getName());
             // update status if we are using accpac customer list and database
             if (useAccPacCustomerList) {
@@ -2787,7 +2792,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             return new ArrayList<>();
         }
     }
-    
+
     public List<Employee> completeEmployee(String query) {
         EntityManager em = null;
 
@@ -3159,7 +3164,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return "?";
     }
 
-    
     // tk to be removed
     public void saveManufacturer(EntityManager em, Manufacturer manufacturer) {
         if (manufacturer.getName() != null) {
@@ -4181,7 +4185,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         RequestContext.getCurrentInstance().openDialog("jobCostings", options, null);
     }
-
 
     public void editUnitCost() {
     }

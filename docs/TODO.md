@@ -25,6 +25,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 #### Job Costing & Payment
 - Samples table not being updated after a sample is added. 
   * Create samples dialog using Dialog Framework.
+  * Ensure that all form fields are updated and as a result of sample form actions.
+    such as add, edit and delete samples, and invalid field.
+  * See https://forum.primefaces.org/viewtopic.php?f=3&t=32131 "dialogReturn" solution. 
 - Create GeneralManager (GM) from JM.
 - Remove FM code from JM.  
   * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
@@ -113,6 +116,7 @@ Views can be viewed simultaneously for easy job costing updates.
 
 ### System Design
 #### Design
+- Merge Application code into other managers and clean it up.
 - Change the message that is displayed when a job is subcontacted.
 - Create GeneralManager from JM that handles UserManagement and other general
   management features.

@@ -25,8 +25,7 @@ Email: info@dpbennett.com.jm
     <p:growl id="growl2" life="5000" showDetail="true" />
     <p:remoteCommand name="doJobSampleCopy"
                      action="#{jobManager.copyJobSample}"
-                     oncomplete="jobSampleDialog.show();"
-                     update=":jobSampleDialogForm"
+                    
                      process="@this"/>       
 
     <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            

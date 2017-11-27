@@ -371,19 +371,6 @@ public class Application {
         return "Search Results (found: " + searchResultsList.size() + ")";
     }
 
-//    public List getCountries() {
-//        EntityManager em = getEntityManager1();
-//        ArrayList countriesList = new ArrayList();
-//        countriesList.add(new SelectItem(" ", " "));
-//        countriesList.add(new SelectItem("-- Not displayed --", "-- Not displayed --"));
-//
-//        List<Country> countries = Country.findAllCountries(em);
-//        for (Country country : countries) {
-//            countriesList.add(new SelectItem(country.getName(), country.getName()));
-//        }
-//
-//        return countriesList;
-//    }
     public List<Country> getCountries() {
         EntityManager em = getEntityManager1();
 

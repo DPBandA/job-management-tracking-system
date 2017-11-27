@@ -23,12 +23,12 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    
+
     <p:panel id="jobSamples" header="Job Samples">
         <p:commandButton value="Add sample(s)"
                          title="Add new sample"
                          actionListener="#{jobManager.createNewJobSample}"
-                         update=":jobSampleDialogForm"
+
                          oncomplete="jobSampleDialog.show()"
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
@@ -64,58 +64,55 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="#{jobSample.sampleBasicDetail}"/>              
             </p:column>
             <p:column style="width:32px">
-                <p:menuButton id="toolsButton" value="Actions" >
-                    <p:menuitem value="Edit sample details"
-                                actionListener="#{jobManager.editJobSample}"
-                                update=":jobSampleDialogForm"
-                                onstart="longProcessDialogVar.show();"
-                                oncomplete="jobSampleDialog.show();"
+                <p:menuButton id="toolsButton" value="Actions">
+                    <p:menuitem>                       
+                            <p:commandButton   
+                                id="editSampleDetail"
+                                value="Edit this sample"
+                                style="width: 100%;text-align: left;background: none;border: 0;"
+                                onstart="longProcessDialogVar.show();"  
                                 icon="ui-icon-pencil"
+                                actionListener="#{jobManager.editJobSample}"                                           
                                 process="@this">
-                        <f:setPropertyActionListener value="#{jobSample}"
-                                                     target="#{jobManager.selectedJobSample}" />
-                    </p:menuitem>
-                    <p:menuitem value="Copy this sample"                               
-                                onstart="longProcessDialogVar.show();"
-                                oncomplete="doJobSampleCopy();"
-                                icon="ui-icon-copy"
-                                process="@this">       
-                        <f:setPropertyActionListener value="#{jobSample}"
-                                                     target="#{jobManager.selectedJobSample}" />
-                    </p:menuitem>
-                    <p:menuitem value="Delete this sample"
-                                onclick="jobSampleDeleteConfirm.show();"
-                                icon="ui-icon-trash"
-                                process="@this">
-                        <f:setPropertyActionListener value="#{jobSample}"
-                                                     target="#{jobManager.selectedJobSample}" />
-                    </p:menuitem>
-                </p:menuButton>          
-            </p:column>
-            <ui:remove>
-                <p:column style="width:32px">
-                    <p:commandButton title="Edit sample details"
-                                     actionListener="#{jobManager.editJobSample}"
-                                     update=":jobSampleDialogForm"
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="jobSampleDialog.show();"
-                                     icon="ui-icon-pencil"
-                                     process="@this">
-                        <f:setPropertyActionListener value="#{jobSample}"
-                                                     target="#{jobManager.selectedJobSample}" />
-                    </p:commandButton>
-                </p:column>
 
-                <p:column style="width:32px">
-                    <p:commandButton title="Delete this sample"
-                                     onclick="jobSampleDeleteConfirm.show();"
-                                     icon="ui-icon-trash"
-                                     process="@this">
-                        <f:setPropertyActionListener value="#{jobSample}"
-                                                     target="#{jobManager.selectedJobSample}" />
-                    </p:commandButton>
-                </p:column>
-            </ui:remove>    
+                                <f:setPropertyActionListener value="#{jobSample}"
+                                                             target="#{jobManager.selectedJobSample}" />
+
+                                <p:ajax event="dialogReturn" 
+                                        update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
+
+                            </p:commandButton>                       
+                    </p:menuitem>
+                    <p:menuitem >       
+                        <p:commandButton   
+                            value="Copy this sample"                               
+                            onstart="longProcessDialogVar.show();"
+                            style="width: 100%;text-align: left;background: none;border: 0;"
+                            oncomplete="doJobSampleCopy();"
+                            icon="ui-icon-copy"
+                            process="@this">
+
+                            <f:setPropertyActionListener value="#{jobSample}"
+                                                         target="#{jobManager.selectedJobSample}" />
+
+                        </p:commandButton>
+                    </p:menuitem>
+                    <p:menuitem >                       
+                        <p:commandButton   
+                            value="Delete this sample"
+                            onclick="jobSampleDeleteConfirm.show();"
+                            style="width: 100%;text-align: left;background: none;border: 0;"
+                            icon="ui-icon-trash"
+                            process="@this">
+
+                            <f:setPropertyActionListener value="#{jobSample}"
+                                                         target="#{jobManager.selectedJobSample}" />
+
+                        </p:commandButton>
+                    </p:menuitem>                   
+
+                </p:menuButton>                   
+            </p:column>           
             <p:columnGroup type="footer">
                 <p:row>
                     <p:column colspan="2" style="text-align:right" footerText="Total number of samples: #{jobManager.currentJob.numberOfSamples}"/>
@@ -126,8 +123,7 @@ Email: info@dpbennett.com.jm
         <p:commandButton value="Add sample(s)"
                          title="Add new sample"
                          actionListener="#{jobManager.createNewJobSample}"
-                         update=":jobSampleDialogForm"
-                         oncomplete="jobSampleDialog.show()"
+
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
                          process="@this" />
