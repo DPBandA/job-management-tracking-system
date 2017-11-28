@@ -23,7 +23,7 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-
+       
     <p:panel id="jobSamples" header="Job Samples">
         <p:commandButton value="Add sample(s)"
                          title="Add new sample(s)"
@@ -103,13 +103,17 @@ Email: info@dpbennett.com.jm
                     <p:menuitem >                       
                         <p:commandButton   
                             value="Delete this sample"
-                            onclick="jobSampleDeleteConfirm.show();"
+                            actionListener="#{jobManager.openJobSampleDeleteConfirmDialog}"
                             style="width: 100%;text-align: left;background: none;border: 0;"
+                            onstart="longProcessDialogVar.show();"
                             icon="ui-icon-trash"
                             process="@this">
 
                             <f:setPropertyActionListener value="#{jobSample}"
                                                          target="#{jobManager.selectedJobSample}" />
+                            
+                            <p:ajax event="dialogReturn" 
+                                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
                         </p:commandButton>
                     </p:menuitem>                   
@@ -134,5 +138,6 @@ Email: info@dpbennett.com.jm
                     update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
         </p:commandButton>
-    </p:panel>
+    </p:panel>    
+    
 </html>

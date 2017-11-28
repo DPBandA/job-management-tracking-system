@@ -21,16 +21,12 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 
 ### Issues to Address for Next Release
-
 #### Job Costing & Payment
-- Closing jobSampleRequiredFieldMessageDialog hangs the jobSampleDialog. Fix!
-  * May have to resort to using growl to display message.
-- Samples table not being updated after a sample is added. 
-  * Create samples dialog using Dialog Framework.
-  * Ensure that all form fields are updated and as a result of sample form actions.
-    such as add, edit and delete samples, and invalid field.
-  * See https://forum.primefaces.org/viewtopic.php?f=3&t=32131 "dialogReturn" solution. 
-- Create GeneralManager (GM) from JM.
+- Impl delete sample dialog with Dialog Framework.
+- Impl copy sample.
+- Save job if the job exits and a sample was added/edited and sample
+  dialog oked?? Use "dialogReturn" to check if job is dirty and save it if so
+  and show in growl growl thta job was saved.
 - Remove FM code from JM.  
   * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
     from JM.
@@ -118,6 +114,7 @@ Views can be viewed simultaneously for easy job costing updates.
 
 ### System Design
 #### Design
+- Create GeneralManager (GM) from JM.
 - Merge Application code into other managers and clean it up.
 - Change the message that is displayed when a job is subcontacted.
 - Create GeneralManager from JM that handles UserManagement and other general
@@ -129,6 +126,7 @@ Views can be viewed simultaneously for easy job costing updates.
   creating new clients.
 - Check the return value from prepareAndSaveCurrentJob() and display message 
   based on success or failure. 
+- Impl copy and delete sample within the sample dialog.
 - Do validation of billing address and contact in prepareAndSaveCurrentJob()
   before saving.
 - Put "Advanced Search" heading in Jobs tab.
@@ -167,6 +165,9 @@ Views can be viewed simultaneously for easy job costing updates.
 - Show message to the user if they login without being authenticated.
 - Check that if "authenticate" is unchecked ti does not allow the login of other
   users with "authenticate"checked!!
+- Impl adding new country if from within the respective dialog if the country is
+  not in the list. Only user with privilege should be able to do this. Do not 
+  allow adding country if it already exist.
 - Remove all code that does not belong to JM to BEL or other manager.
 - Add feature to activate modules/units for users.
 - Use a toolbar at the top of search results on all tabs with search text box,
@@ -182,6 +183,8 @@ Views can be viewed simultaneously for easy job costing updates.
 - Limit the maximum characters to be entered into a text field to 50. Put this
   value in the BEL resource bundle which can be changed. Allow various maximums
   for different types of fields.
+- Impl. number validator that accepts a minimum value such as 1. This can be used
+  in the sample dialog.
 - Replace handleSaveJobCostingAndPaymentRequest() with growl messages.
 - Replace dialog messages that have on "ok" button with growl messages.
 - Make all sensitive fields, especially those on the General tab unchangeable

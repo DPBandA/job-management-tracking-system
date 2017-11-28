@@ -52,17 +52,20 @@ Email: info@dpbennett.com.jm
         <script type="text/javascript" src="../../js/commonJavascript.js" />     
         <script type="text/javascript" src="../../js/adminJavascript.js"/>
     </h:head>
-    <h:body>           
-        <ui:include src="jobSampleDeleteConfirmDialog.xhtml"/>
-        <ui:include src="jobSampleRequiredFieldMessageDialog.xhtml"/>        
+    <h:body>    
         <ui:include src="../../common/longProcessDialog.xhtml"/>  
         <ui:include src="../../common/commonDialogs.xhtml"/>  
-        <h:form id="jobSampleDialogForm">        
+        <h:form id="jobSampleDialogForm">      
+            <p:growl id="job_sample_dialog_growl" 
+                     life="5000" 
+                     showSummary="true"
+                     showDetail="false"/>
 
             <p:commandButton value="Ok"
                              actionListener="#{jobManager.okJobSample}"
-                             onstart="longProcessDialogVar.show();"                            
-                             oncomplete="longProcessDialogVar.hide();handleUpdateJobSampleComplete(xhr,status,args);"
+                             onstart="longProcessDialogVar.show();"      
+                             update="job_sample_dialog_growl"
+                             oncomplete="longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:spacer height="0" width="5"/>
@@ -79,19 +82,20 @@ Email: info@dpbennett.com.jm
                 <p:tab title="General">
                     <h:panelGrid columns="2" style="width: 100%" >
 
-                        <h:outputText value="Reference *: " style="width: 50%" />
+                        <h:outputText value="Reference *: " style="width: 50%;font-weight: bold;" />
                         <p:inputText id="sampleReference"
                                      value="#{jobManager.selectedJobSample.reference}"
                                      maxlength="250"
+                                     required=""
                                      readonly="true"
-                                     style="width: 50%;font-weight: bold;background-color: lightgrey" >
+                                     style="width: 50%;font-weight: bold;background-color: lightyellow;" >
                             <p:ajax event="change"
                                     global="false"
                                     listener="#{jobManager.updateJob}"
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText value="Sampled by: " />
+                        <h:outputText value="Sampled by:" />
                         <p:autoComplete id="sampledBy"
                                         style="width: 75%"
                                         var="sampledBy"
@@ -102,6 +106,8 @@ Email: info@dpbennett.com.jm
                                         itemValue="#{sampledBy}"
                                         converter="employeeConverter"
                                         forceSelection="true"
+                                        dropdown="true"
+                                        scrollHeight="200" 
                                         completeMethod="#{jobManager.completeEmployee}" >
                             <p:ajax event="itemSelect"                                    
                                     listener="#{jobManager.updateSampledBy}"
@@ -112,10 +118,11 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:autoComplete>
 
-                        <h:outputText value="Date sampled *:" style="width: 50%" />
-                        <p:calendar  id="generalDateSampled"
+                        <h:outputText value="Date sampled *:" style="width: 50%;font-weight: bold;" />
+                        <p:calendar  id="dateSampled"
                                      value="#{jobManager.selectedJobSample.dateSampled}"
                                      navigator="true"
+                                     readonlyInput="true"
                                      pattern="MMM dd, yyyy"
                                      style="width: 50%" >
                             <p:ajax event="dateSelect"
@@ -128,44 +135,52 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:calendar>
 
-                        <h:outputText value="Sample quantity *: " style="width: 50%" />
+                        <h:outputText value="Sample quantity *: " style="width: 50%;font-weight: bold;" />
                         <p:inputText  id="sampleQuantity"
                                       maxlength="250"
                                       converter="javax.faces.Long"
+                                      required="true"
+                                      converterMessage="Please enter a valid sample quantity that is greater than 0 and less than 1,000"
+                                      requiredMessage="Please enter a valid sample quantity that is greater than 0 and less than 1,000"
                                       value="#{jobManager.selectedJobSample.sampleQuantity}" >
                             <p:ajax event="change"
                                     global="false"
                                     update="sampleReference"
                                     listener="#{jobManager.updateJobSampleReference}"
                                     process="@this"/>
-                            <f:convertNumber />
+
                         </p:inputText>
 
-                        <h:outputText value="Country of Origin: " />
-                        <p:autoComplete value="#{jobManager.selectedJobSample.countryOfOrigin}"                                                                             
-                                        forceSelection="true"                                       
-                                        completeMethod="#{jobManager.completeCountry}" >
-                            <p:ajax event="itemSelect"                              
-                                    listener="#{jobManager.updateJob}"
-                                    process="@this" />                           
-                        </p:autoComplete>
-
-                        <h:outputText value="Product common name *: " style="width: 50%" />
+                        <h:outputText value="Product common name *: " style="font-weight: bold;" />
                         <p:inputText value="#{jobManager.selectedJobSample.name}"
-                                     readonly="false"
+                                     id="productCommonName"
+                                     required="true"
+                                     requiredMessage="Please enter the common name of the product"
                                      maxlength="250"
-                                     style="width: 50%;font-weight: bold" >
+                                     style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"
                                     listener="#{jobManager.updateJob}"
                                     process="@this"/>
                         </p:inputText>
 
+                        <h:outputText value="Country of Origin: " />
+                        <p:autoComplete value="#{jobManager.selectedJobSample.countryOfOrigin}"     
+                                        id="sampleCountryOfOrigin"
+                                        forceSelection="true"  
+                                        dropdown="true"
+                                        scrollHeight="200" 
+                                        completeMethod="#{jobManager.completeCountry}" >
+                            <p:ajax event="itemSelect"                              
+                                    listener="#{jobManager.updateJob}"
+                                    process="@this" />                           
+                        </p:autoComplete>
+
                         <h:outputText value="Brand: " style="width: 50%" />
                         <p:inputText value="#{jobManager.selectedJobSample.productBrand}"
                                      readonly="false"
                                      maxlength="250"
-                                     style="width: 50%;font-weight: bold" >
+                                     style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"
                                     listener="#{jobManager.updateJob}"
@@ -176,7 +191,7 @@ Email: info@dpbennett.com.jm
                         <p:inputText value="#{jobManager.selectedJobSample.productModel}"
                                      readonly="false"
                                      maxlength="250"
-                                     style="width: 50%;font-weight: bold" >
+                                     style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"                                    
                                     listener="#{jobManager.updateJob}"
@@ -187,7 +202,7 @@ Email: info@dpbennett.com.jm
                         <p:inputText value="#{jobManager.selectedJobSample.productSerialNumber}"
                                      readonly="false"
                                      maxlength="250"
-                                     style="width: 50%;font-weight: bold" >
+                                     style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"                                   
                                     listener="#{jobManager.updateJob}"
@@ -198,7 +213,7 @@ Email: info@dpbennett.com.jm
                         <p:inputText value="#{jobManager.selectedJobSample.productCode}"
                                      readonly="false"
                                      maxlength="250"
-                                     style="width: 50%;font-weight: bold" >
+                                     style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"                                   
                                     listener="#{jobManager.updateJob}"
@@ -217,10 +232,13 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputTextarea>
 
-                        <h:outputText value="Product quantity *: " />
+                        <h:outputText value="Product quantity *: " style="font-weight: bold;" />
                         <h:panelGroup >
                             <p:inputText id="productQuantity"
-                                         style="width: 15%"                                         
+                                         style="width: 15%"
+                                         required="true"
+                                         converterMessage="Please enter a valid product quantity"
+                                         requiredMessage="Please enter a valid product quantity"                                         
                                          maxlength="250"
                                          value="#{jobManager.selectedJobSample.quantity}" >
                                 <p:ajax event="change"
@@ -241,7 +259,7 @@ Email: info@dpbennett.com.jm
                             </p:inputText>
                             <p:watermark value="-- enter product unit --" for="productUnitOfMeasure"/>
                         </h:panelGroup>
-                        <h:outputText value="Method of disposal *: " />
+                        <h:outputText value="Method of disposal *: " style="font-weight: bold;" />
                         <p:selectOneMenu value="#{jobManager.selectedJobSample.methodOfDisposal}" >
                             <f:selectItems value="#{App.methodsOfDisposal}" />
                             <p:ajax listener="#{jobManager.updateJob}"
@@ -273,7 +291,8 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Ok"
                              actionListener="#{jobManager.okJobSample}"                             
                              onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();handleUpdateJobSampleComplete(xhr,status,args);"
+                             oncomplete="longProcessDialogVar.hide();"
+                             update="job_sample_dialog_growl"
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:spacer height="0" width="5"/>

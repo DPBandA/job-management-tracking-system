@@ -178,9 +178,16 @@ public class Application {
      */
     public List getMethodsOfDisposal() {
         ArrayList methods = new ArrayList();
-
+        SystemOption sysOption
+                = SystemOption.findSystemOptionByName(getEntityManager1(),
+                        "organizationName");
         methods.add(new SelectItem("1", "Collected by the client within 30 days"));
-        methods.add(new SelectItem("2", "Disposed of by the Bureau of Standards"));
+        if (sysOption != null) {
+           methods.add(new SelectItem("2", "Disposed of by " + sysOption.getOptionValue()));
+        }
+        else {
+           methods.add(new SelectItem("2", "Disposed of by us"));    
+        }
         methods.add(new SelectItem("3", "To be determined"));
 
         return methods;

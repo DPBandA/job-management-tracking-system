@@ -2249,10 +2249,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void updateProductQuantity() {
         setDirty(true);
     }
+    
+    public void closeJobSampleDeleteConfirmDialog() {
+        RequestContext.getCurrentInstance().closeDialog(null);
+    }
 
     public void deleteJobSample() {
-        EntityManager em = getEntityManager1();
-
+ 
         // update number of samples
         if ((currentJob.getNumberOfSamples() - selectedJobSample.getSampleQuantity()) > 0) {
             currentJob.setNumberOfSamples(currentJob.getNumberOfSamples() - selectedJobSample.getSampleQuantity());
@@ -2279,6 +2282,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         selectedJobSample = new JobSample();
 
         setDirty(Boolean.TRUE);
+        
+        RequestContext.getCurrentInstance().closeDialog(null);
     }
 
     public void updateDepartments(Job job, EntityManager em) {
@@ -2302,6 +2307,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         addJobSample = false;
 
         PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
+    }
+    
+    public void openJobSampleDeleteConfirmDialog(ActionEvent event) {
+       
+        PrimeFacesUtils.openDialog(null, "jobSampleDeleteConfirmDialog", true, true, true, 90, 375);
     }
 
     public void copyJobSample() {
@@ -2353,25 +2363,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void cancelJobSampleEdit() {
-        addJobSample = false;
-        //find and revert the edit of job sample
-//        for (JobSample jobSample : currentJob.getJobSamples()) {
-//            if (jobSample.getReference().equals(selectedJobSample.getReference())) {
-//                jobSample.setId(backupSelectedJobSample.getId());
-//                jobSample.setJobId(backupSelectedJobSample.getJobId());
-//                jobSample.setReference(backupSelectedJobSample.getReference());
-//                jobSample.setReferenceIndex(backupSelectedJobSample.getReferenceIndex());
-//                jobSample.setSampleQuantity(backupSelectedJobSample.getSampleQuantity());
-//                jobSample.setQuantity(backupSelectedJobSample.getQuantity());
-//                jobSample.setUnitOfMeasure(backupSelectedJobSample.getUnitOfMeasure());
-//                jobSample.setDescription(backupSelectedJobSample.getDescription());
-//                jobSample.setDateReceived(backupSelectedJobSample.getDateReceived());
-//                jobSample.setMethodOfDisposal(backupSelectedJobSample.getMethodOfDisposal());
-//                backupSelectedJobSample = null;
-//                setDirty(false);
-//                return;
-//            }
-//        }
+        addJobSample = false;      
         // at this point the edited sample was not found in the current list of samples
         selectedJobSample = new JobSample();
         backupSelectedJobSample = null;
