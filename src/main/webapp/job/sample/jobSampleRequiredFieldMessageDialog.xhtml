@@ -27,13 +27,14 @@ Email: info@dpbennett.com.jm
         <p:confirmDialog width="425"
                          header="Required Fields Missing"
                          severity="alert"
-                         closable="true"
+                         closable="false"
                          message="Please enter all required(*) values for sample(s) such as 'Product common name'."
                          widgetVar="jobSampleRequiredFieldMessageDialog">
 
-            <p:commandButton value="Ok" 
+            <p:commandButton value="Ok"                              
                              onclick="jobSampleRequiredFieldMessageDialog.hide();"
                              icon="ui-icon-check" />
+            
         </p:confirmDialog>
     </h:form>
 </html>

@@ -23,6 +23,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 
 #### Job Costing & Payment
+- Closing jobSampleRequiredFieldMessageDialog hangs the jobSampleDialog. Fix!
+  * May have to resort to using growl to display message.
 - Samples table not being updated after a sample is added. 
   * Create samples dialog using Dialog Framework.
   * Ensure that all form fields are updated and as a result of sample form actions.

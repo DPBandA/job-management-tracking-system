@@ -63,13 +63,11 @@ Email: info@dpbennett.com.jm
                              actionListener="#{jobManager.okJobSample}"
                              onstart="longProcessDialogVar.show();"                            
                              oncomplete="longProcessDialogVar.hide();handleUpdateJobSampleComplete(xhr,status,args);"
-
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:spacer height="0" width="5"/>
             <p:commandButton value="Cancel"
-                             actionListener="#{jobManager.cancelJobSampleEdit}"
-                            
+                             actionListener="#{jobManager.cancelJobSampleEdit}"                            
                              onstart="longProcessDialogVar.show();"
                              oncomplete="jobSampleRequiredFieldMessageDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-close"
@@ -253,22 +251,7 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid>       
                 </p:tab>
                 <p:tab title="Tracking">
-                    <h:panelGrid columns="2">             
-
-                        <ui:remove>
-                            <h:outputText value="Received in department by: " />
-                            <p:selectOneMenu  value="#{jobManager.receivedById}"
-                                              style="width: 150%" >
-                                <p:ajax listener="#{jobManager.updateReceivedBy}"
-                                        global="false"                                        
-                                        process="@this" />
-                                <f:selectItems  value="#{App.employees}"
-                                                var="receivedBy"
-                                                itemValue="#{receivedBy.id}"
-                                                itemLabel="#{receivedBy.lastName}, #{receivedBy.firstName}"/>
-                            </p:selectOneMenu>
-                        </ui:remove>
-
+                    <h:panelGrid columns="2">    
                         <h:outputText value="Date received by responsible dept.: " />
                         <p:calendar id="dateReceived"
                                     value="#{jobManager.jobSampleReceivalDate}"
@@ -291,13 +274,11 @@ Email: info@dpbennett.com.jm
                              actionListener="#{jobManager.okJobSample}"                             
                              onstart="longProcessDialogVar.show();"
                              oncomplete="longProcessDialogVar.hide();handleUpdateJobSampleComplete(xhr,status,args);"
-
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:spacer height="0" width="5"/>
             <p:commandButton value="Cancel"
-                             actionListener="#{jobManager.cancelJobSampleEdit}"
-                           
+                             actionListener="#{jobManager.cancelJobSampleEdit}"                           
                              onstart="longProcessDialogVar.show();"
                              oncomplete="jobSampleRequiredFieldMessageDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-close"

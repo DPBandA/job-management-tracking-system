@@ -26,13 +26,16 @@ Email: info@dpbennett.com.jm
 
     <p:panel id="jobSamples" header="Job Samples">
         <p:commandButton value="Add sample(s)"
-                         title="Add new sample"
-                         actionListener="#{jobManager.createNewJobSample}"
-
-                         oncomplete="jobSampleDialog.show()"
+                         title="Add new sample(s)"
+                         actionListener="#{jobManager.createNewJobSample}"                         
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
-                         process="@this" />
+                         process="@this" >
+
+            <p:ajax event="dialogReturn" 
+                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
+
+        </p:commandButton>
         <p:spacer height="9" width="10"/>
         <p:dataTable id="jobSamplesTable"
                      paginator="true"
@@ -66,22 +69,22 @@ Email: info@dpbennett.com.jm
             <p:column style="width:32px">
                 <p:menuButton id="toolsButton" value="Actions">
                     <p:menuitem>                       
-                            <p:commandButton   
-                                id="editSampleDetail"
-                                value="Edit this sample"
-                                style="width: 100%;text-align: left;background: none;border: 0;"
-                                onstart="longProcessDialogVar.show();"  
-                                icon="ui-icon-pencil"
-                                actionListener="#{jobManager.editJobSample}"                                           
-                                process="@this">
+                        <p:commandButton   
+                            id="editSampleDetail"
+                            value="Edit this sample"
+                            style="width: 100%;text-align: left;background: none;border: 0;"
+                            onstart="longProcessDialogVar.show();"  
+                            icon="ui-icon-pencil"
+                            actionListener="#{jobManager.editJobSample}"                                           
+                            process="@this">
 
-                                <f:setPropertyActionListener value="#{jobSample}"
-                                                             target="#{jobManager.selectedJobSample}" />
+                            <f:setPropertyActionListener value="#{jobSample}"
+                                                         target="#{jobManager.selectedJobSample}" />
 
-                                <p:ajax event="dialogReturn" 
-                                        update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
+                            <p:ajax event="dialogReturn" 
+                                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
-                            </p:commandButton>                       
+                        </p:commandButton>                       
                     </p:menuitem>
                     <p:menuitem >       
                         <p:commandButton   
@@ -121,11 +124,15 @@ Email: info@dpbennett.com.jm
             </p:columnGroup>
         </p:dataTable>
         <p:commandButton value="Add sample(s)"
-                         title="Add new sample"
+                         title="Add new sample(s)"
                          actionListener="#{jobManager.createNewJobSample}"
-
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
-                         process="@this" />
+                         process="@this" >
+
+            <p:ajax event="dialogReturn" 
+                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
+
+        </p:commandButton>
     </p:panel>
 </html>

@@ -2348,6 +2348,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         selectedJobSample.setDateSampled(new Date());
         jobSampleDialogTabViewActiveIndex = 0;
+        
+        PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
     }
 
     public void cancelJobSampleEdit() {
