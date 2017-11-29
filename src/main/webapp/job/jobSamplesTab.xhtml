@@ -71,7 +71,7 @@ Email: info@dpbennett.com.jm
                     <p:menuitem>                       
                         <p:commandButton   
                             id="editSampleDetail"
-                            value="Edit this sample"
+                            value="Edit sample(s)"
                             style="width: 100%;text-align: left;background: none;border: 0;"
                             onstart="longProcessDialogVar.show();"  
                             icon="ui-icon-pencil"
@@ -88,21 +88,25 @@ Email: info@dpbennett.com.jm
                     </p:menuitem>
                     <p:menuitem >       
                         <p:commandButton   
-                            value="Copy this sample"                               
+                            value="Copy sample(s)"                               
                             onstart="longProcessDialogVar.show();"
                             style="width: 100%;text-align: left;background: none;border: 0;"
-                            oncomplete="doJobSampleCopy();"
+                            actionListener="#{jobManager.copyJobSample}"
+                            update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"
                             icon="ui-icon-copy"
                             process="@this">
 
-                            <f:setPropertyActionListener value="#{jobSample}"
+                            <f:setPropertyActionListener value="#{jobSample}" 
                                                          target="#{jobManager.selectedJobSample}" />
+                            
+                            <p:ajax event="dialogReturn" 
+                                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
                         </p:commandButton>
                     </p:menuitem>
                     <p:menuitem >                       
                         <p:commandButton   
-                            value="Delete this sample"
+                            value="Delete sample(s)"
                             actionListener="#{jobManager.openJobSampleDeleteConfirmDialog}"
                             style="width: 100%;text-align: left;background: none;border: 0;"
                             onstart="longProcessDialogVar.show();"

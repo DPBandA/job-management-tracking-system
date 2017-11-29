@@ -23,10 +23,12 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <p:growl id="growl2" life="5000" showDetail="true" />
+
     <p:remoteCommand name="doJobSampleCopy"
                      action="#{jobManager.copyJobSample}"
-                    
-                     process="@this"/>       
+                     
+                     process="@this" />
+   
 
     <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
                      onstart="longProcessDialogVar.show();"

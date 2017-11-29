@@ -133,12 +133,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private JobSample selectedJobSample;
     private JobSample backupSelectedJobSample;
     private Boolean addJobSample;
+    private Boolean copyJobSample;
     private Boolean dynamicTabView;
     private Boolean renderSearchComponent;
     private Boolean renderJobDetailTab;
     @ManagedProperty(value = "Jobs")
     private Integer longProcessProgress;
-    private Boolean useAccPacCustomerList;
+    private final Boolean useAccPacCustomerList;
     private Long receivedById; // tk Can del/move? NB: seem to be used by samples dialog. Remove and use autocomplete with employee converter.
     private final String inputTextStyle; // tk Can del/move?
     private String outcome;
@@ -193,6 +194,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         longProcessProgress = 0;
         useAccPacCustomerList = false;
         addJobSample = false;
+        copyJobSample = false;
         ArrayList searchTypes = new ArrayList();
         ArrayList searchDateFields = new ArrayList();
         searchTypes.add(new SelectItem("General", "General"));
@@ -1851,47 +1853,68 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         EntityManager em = getEntityManager1();
 
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
-            System.out.println("You can enter/edit any new job...saving");
-            prepareAndSaveCurrentJob(em);
+            // User can enter/edit any new job...saving
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
-            System.out.println("You can enter any new job...saving");
-            prepareAndSaveCurrentJob(em);
+            // User can enter any new job...saving
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (isCurrentJobNew() && getUser().getPrivilege().getCanEnterJob()) {
-            System.out.println("You can enter any new job...saving");
-            prepareAndSaveCurrentJob(em);
+            // User can enter any new job...saving
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterDepartmentJob()
                 && getUser().getEmployee().isMemberOf(getDepartmentAssignedToJob(currentJob, em))) {
-            System.out.println("You can enter new jobs for your department...saving");
-            prepareAndSaveCurrentJob(em);
+            // User can enter new jobs for your department...saving
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
-            System.out.println("You can enter new jobs for yourself...saving");
-            prepareAndSaveCurrentJob(em);
+            // User can enter new jobs for yourself...saving
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (isDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
-            System.out.println("You can edit any job...saving");
-            prepareAndSaveCurrentJob(em);
+            // User can edit any job...saving
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (isDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditDepartmentJob()
                 && (getUser().getEmployee().isMemberOf(getDepartmentAssignedToJob(currentJob, em))
                 || getUser().getEmployee().isMemberOf(currentJob.getDepartment()))) {
 
-            System.out.println("You can edit jobs for your department...saving");
-            prepareAndSaveCurrentJob(em);
+            // User can edit jobs for your department...saving
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (isDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
-            System.out.println("You can edit own jobs...saving");
-            prepareAndSaveCurrentJob(em);
+            // User can edit own jobs...saving
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (currentJob.getIsToBeCopied()) {
-            System.out.println("Saving cause copy is being created");
-            prepareAndSaveCurrentJob(em);
+            // Saving cause copy is being created
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (currentJob.getIsToBeSubcontracted()) {
-            System.out.println("Saving cause subcontract is being created");
-            prepareAndSaveCurrentJob(em);
+            // Saving cause subcontract is being created
+            if (prepareAndSaveCurrentJob(em)) {
+                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+            }
         } else if (!isDirty()) {
-            System.out.println("Job not dirty so it will not be saved.");
+            // Job not dirty so it will not be saved.
+            addMessage("Not Saved!", "Job was not saved because it was not modified or it was recently saved", FacesMessage.SEVERITY_WARN);
         } else {
             addMessage("Insufficient Privilege",
                     "You may not have the privilege to enter/save this job. \n"
@@ -2090,8 +2113,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     addMessage("Email Error!", "An error occurred while attempting to send an alert email.", FacesMessage.SEVERITY_ERROR);
                 }
 
-                addMessage("Success!", "This job was saved.", FacesMessage.SEVERITY_INFO);
-
+//                addMessage("Success!", "This job was saved.", FacesMessage.SEVERITY_INFO); // tk del
             }
 
             em.getTransaction().commit();
@@ -2249,13 +2271,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void updateProductQuantity() {
         setDirty(true);
     }
-    
+
     public void closeJobSampleDeleteConfirmDialog() {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
     public void deleteJobSample() {
- 
+
         // update number of samples
         if ((currentJob.getNumberOfSamples() - selectedJobSample.getSampleQuantity()) > 0) {
             currentJob.setNumberOfSamples(currentJob.getNumberOfSamples() - selectedJobSample.getSampleQuantity());
@@ -2282,7 +2304,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         selectedJobSample = new JobSample();
 
         setDirty(Boolean.TRUE);
-        
+
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
@@ -2305,18 +2327,39 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void editJobSample(ActionEvent event) {
         jobSampleDialogTabViewActiveIndex = 0;
         addJobSample = false;
+        copyJobSample = false;
 
         PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
     }
-    
+
     public void openJobSampleDeleteConfirmDialog(ActionEvent event) {
-       
+
         PrimeFacesUtils.openDialog(null, "jobSampleDeleteConfirmDialog", true, true, true, 90, 375);
     }
 
+    // tk del
+//    public void copyJobSample() {
+//
+//        addJobSample = true;
+//        selectedJobSample = new JobSample(selectedJobSample);
+//        selectedJobSample.setReferenceIndex(getCurrentNumberOfJobSamples());
+//        // Init sample    
+//        if (selectedJobSample.getSampleQuantity() == 1L) {
+//            selectedJobSample.setReference(BusinessEntityUtils.getAlphaCode(getCurrentNumberOfJobSamples()));
+//        } else {
+//            selectedJobSample.setReference(BusinessEntityUtils.getAlphaCode(getCurrentNumberOfJobSamples()) + "-"
+//                    + BusinessEntityUtils.getAlphaCode(getCurrentNumberOfJobSamples()
+//                            + selectedJobSample.getSampleQuantity() - 1));
+//        }
+//
+//        jobSampleDialogTabViewActiveIndex = 0;
+//        
+//        PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
+//    }
     public void copyJobSample() {
 
-        addJobSample = true;
+        addJobSample = true; // tk remove or set to false???
+        copyJobSample = true;  // change on first edit of sample.
         selectedJobSample = new JobSample(selectedJobSample);
         selectedJobSample.setReferenceIndex(getCurrentNumberOfJobSamples());
         // Init sample    
@@ -2328,7 +2371,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                             + selectedJobSample.getSampleQuantity() - 1));
         }
 
+        //selectedJobSample.setReference("jkk"); //tk
         jobSampleDialogTabViewActiveIndex = 0;
+
+        PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
     }
 
     public void createNewJobSample(ActionEvent event) {
@@ -2358,17 +2404,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         selectedJobSample.setDateSampled(new Date());
         jobSampleDialogTabViewActiveIndex = 0;
-        
+
         PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
     }
 
     public void cancelJobSampleEdit() {
-        addJobSample = false;      
+        addJobSample = false;
+        copyJobSample = false;
         // at this point the edited sample was not found in the current list of samples
         selectedJobSample = new JobSample();
         backupSelectedJobSample = null;
         setDirty(false);
-        
+
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
@@ -2476,6 +2523,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             currentJob.getJobSamples().add(selectedJobSample);
             addJobSample = false;
         }
+      
         setNumberOfSamples();
 
         updateSampleReferences();
@@ -2497,7 +2545,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             currentJob.setJobNumber(getCurrentJobNumber());
         }
         jobSampleDialogTabViewActiveIndex = 0;
-        
+
         RequestContext.getCurrentInstance().closeDialog(null);
 
     }

@@ -21,12 +21,16 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 
 ### Issues to Address for Next Release
-#### Job Costing & Payment
-- Impl delete sample dialog with Dialog Framework.
-- Impl copy sample.
+#### Job Samples
+- Impl copy sample. In jobSampleDialog impl updateJobSample() that calls updateJob()
+  and make use of copyJobSample if sample is being copied.
+- Impl ok and close buttons for samples dialog. ok should save the job if it can 
+  be saved but display a message if it cannot.
 - Save job if the job exits and a sample was added/edited and sample
   dialog oked?? Use "dialogReturn" to check if job is dirty and save it if so
-  and show in growl growl thta job was saved.
+  and show in growl growl that job was saved.
+- Check that all entities in the job sample dialog uses the relevant converters/validators.
+#### Job Costing & Payment
 - Remove FM code from JM.  
   * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
     from JM.
