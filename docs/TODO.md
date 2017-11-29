@@ -22,8 +22,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ### Issues to Address for Next Release
 #### Job Samples
-- Impl copy sample. In jobSampleDialog impl updateJobSample() that calls updateJob()
-  and make use of copyJobSample if sample is being copied.
+- Impl doCopyJobSample(): doCopy() for JobSample should also copy objects such as receivedBy if this is
+  not already done or impl doCopy() and use it to create backupSelectedJobSample.
+  Dynamically create the sample copy while sample is being edited using doCopy().    
 - Impl ok and close buttons for samples dialog. ok should save the job if it can 
   be saved but display a message if it cannot.
 - Save job if the job exits and a sample was added/edited and sample

@@ -1467,6 +1467,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setDirty(true);
     }
 
+    public void updateJobSample() {
+        if (copyJobSample) {
+            copyJobSample = false;
+            doCopyJobSample();
+        }
+        setDirty(true);
+    }
+
     public void updateJobClassification() {
         EntityManager em = getEntityManager1();
 
@@ -2265,10 +2273,23 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                                 + selectedJobSample.getSampleQuantity() - 1));
             }
         }
+
+        if (copyJobSample) {
+            copyJobSample = false;
+            doCopyJobSample();
+        }
+        
+        // tk
+        System.out.println("prev sample quant.: " + backupSelectedJobSample.getSampleQuantity());
+
         setDirty(true);
     }
 
     public void updateProductQuantity() {
+        if (copyJobSample) {
+            copyJobSample = false;
+            doCopyJobSample();
+        }
         setDirty(true);
     }
 
@@ -2337,29 +2358,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         PrimeFacesUtils.openDialog(null, "jobSampleDeleteConfirmDialog", true, true, true, 90, 375);
     }
 
-    // tk del
-//    public void copyJobSample() {
-//
-//        addJobSample = true;
-//        selectedJobSample = new JobSample(selectedJobSample);
-//        selectedJobSample.setReferenceIndex(getCurrentNumberOfJobSamples());
-//        // Init sample    
-//        if (selectedJobSample.getSampleQuantity() == 1L) {
-//            selectedJobSample.setReference(BusinessEntityUtils.getAlphaCode(getCurrentNumberOfJobSamples()));
-//        } else {
-//            selectedJobSample.setReference(BusinessEntityUtils.getAlphaCode(getCurrentNumberOfJobSamples()) + "-"
-//                    + BusinessEntityUtils.getAlphaCode(getCurrentNumberOfJobSamples()
-//                            + selectedJobSample.getSampleQuantity() - 1));
-//        }
-//
-//        jobSampleDialogTabViewActiveIndex = 0;
-//        
-//        PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
-//    }
-    public void copyJobSample() {
+    public void doCopyJobSample() {
 
-        addJobSample = true; // tk remove or set to false???
-        copyJobSample = true;  // change on first edit of sample.
         selectedJobSample = new JobSample(selectedJobSample);
         selectedJobSample.setReferenceIndex(getCurrentNumberOfJobSamples());
         // Init sample    
@@ -2371,8 +2371,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                             + selectedJobSample.getSampleQuantity() - 1));
         }
 
-        //selectedJobSample.setReference("jkk"); //tk
         jobSampleDialogTabViewActiveIndex = 0;
+
+    }
+
+    public void copyJobSample() {
+        addJobSample = true;
+        copyJobSample = true;
 
         PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
     }
@@ -2408,7 +2413,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
     }
 
-    public void cancelJobSampleEdit() {
+    public void closeJobSampleDialog() {
         addJobSample = false;
         copyJobSample = false;
         // at this point the edited sample was not found in the current list of samples
@@ -2523,7 +2528,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             currentJob.getJobSamples().add(selectedJobSample);
             addJobSample = false;
         }
-      
+
         setNumberOfSamples();
 
         updateSampleReferences();
@@ -2557,6 +2562,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void setSelectedJobSample(JobSample selectedJobSample) {
         this.selectedJobSample = selectedJobSample;
         if (selectedJobSample != null) {
+            // tk replace this with "doShallowCopy" in JobSample
             backupSelectedJobSample = new JobSample();
             backupSelectedJobSample.setId(selectedJobSample.getId());
             backupSelectedJobSample.setJobId(selectedJobSample.getJobId());
@@ -3167,6 +3173,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void updateSampledBy() {
         EntityManager em = getEntityManager1();
         selectedJobSample.setSampledBy(Employee.findEmployeeByName(em, selectedJobSample.getSampledBy().getName()));
+        if (copyJobSample) {
+            copyJobSample = false;
+            doCopyJobSample();
+        }
+
+        setDirty(true);
+
     }
 
     public void updateReceivedBy() {
