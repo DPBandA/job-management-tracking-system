@@ -28,11 +28,7 @@ function reloadCurrentPage() {
 function enableDateSearchFields(source) {
     source.form[source.form.id + ":startSearchDate"].disabled = true;
 }
-function handleUpdateJobSampleComplete(xhr, status, args) {
-    if (args.validationFailed) {
-        jobSampleRequiredFieldMessageDialog.show();
-    }
-}
+
 function handleLoginRequest(xhr, status, args) {
     if (args.validationFailed || !args.userLoggedIn) {
         loginDialog.show();

@@ -32,7 +32,7 @@ Email: info@dpbennett.com.jm
                          maxlength="250">
                 <p:ajax event="change"
                         global="false"
-                        listener="#{jobManager.financeManager.updateJob}"
+                        listener="#{jobManager.financeManager.updateJobCostingAndPayment}"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>
@@ -140,11 +140,10 @@ Email: info@dpbennett.com.jm
                                  oncomplete="longProcessDialogVar.hide();"
                                  process="@this"
                                  title="View or edit job costing">
-                     <p:ajax event="dialogReturn" 
-                        update="jobCosting"/>
+                    <p:ajax event="dialogReturn" 
+                            update="jobCosting"/>
                 </p:commandButton>
                 <p:spacer height="0" width="10"/>    
-
             </h:panelGroup>
 
             <h:outputText value="Amount due ($):" style="font-weight: bold;" />            

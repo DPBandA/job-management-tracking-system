@@ -21,17 +21,13 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 
 ### Issues to Address for Next Release
-#### Job Samples
-- Impl doCopyJobSample(): doCopy() for JobSample should also copy objects such as receivedBy if this is
-  not already done or impl doCopy() and use it to create backupSelectedJobSample.
-  Dynamically create the sample copy while sample is being edited using doCopy().    
-- Impl ok and close buttons for samples dialog. ok should save the job if it can 
-  be saved but display a message if it cannot.
-- Save job if the job exits and a sample was added/edited and sample
-  dialog oked?? Use "dialogReturn" to check if job is dirty and save it if so
-  and show in growl growl that job was saved.
-- Check that all entities in the job sample dialog uses the relevant converters/validators.
 #### Job Costing & Payment
+- Automatically save sample(s) if the job already exists in the database and
+  the sample was edited and oked. If sample was edited and dialog "closed", 
+  warn that the job needs to be saved. Add isToBeSaved to the class and
+  use it to do this.
+- updateJobCostingAndPayment() and other update methods in FM to update isDirty 
+  in JobCostingAndPayment and not the job. REVIEW THIS!!!
 - Remove FM code from JM.  
   * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
     from JM.
@@ -120,6 +116,8 @@ Views can be viewed simultaneously for easy job costing updates.
 ### System Design
 #### Design
 - Create GeneralManager (GM) from JM.
+- Create ContractManager from JM and use to manage service contract.
+- Create Tracking/OperationsManager and use to manage job status and tracking
 - Merge Application code into other managers and clean it up.
 - Change the message that is displayed when a job is subcontacted.
 - Create GeneralManager from JM that handles UserManagement and other general

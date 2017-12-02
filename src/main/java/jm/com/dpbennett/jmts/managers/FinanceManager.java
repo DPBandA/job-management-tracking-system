@@ -756,7 +756,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void updateJob() {
+    public void updateJobCostingAndPayment() {
         setDirty(true);
     }
 

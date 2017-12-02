@@ -24,12 +24,6 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <p:growl id="growl2" life="5000" showDetail="true" />
 
-    <p:remoteCommand name="doJobSampleCopy"
-                     action="#{jobManager.copyJobSample}"
-                     
-                     process="@this" />
-   
-
     <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
                      onstart="longProcessDialogVar.show();"
                      oncomplete="longProcessDialogVar.hide();"
