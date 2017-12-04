@@ -152,6 +152,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private final SearchManager searchManager;
     private final ReportManager reportManager;
     private final FinanceManager financeManager;
+    private final JobSampleManager jobSampleManager;
     private SearchParameters reportSearchParameters;
     private String searchText;
     private String dialogActionHandlerId;
@@ -165,6 +166,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private String logonMessage;
     private Boolean westLayoutUnitCollapsed;
     private String invalidFormFieldMessage;
+    // tk rid of dialog* and handler and use growl?
     private String dialogMessage;
     private String dialogMessageHeader;
     private String dialogMessageSeverity;
@@ -221,6 +223,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         reportManager = Application.findBean("reportManager");
         searchManager = Application.findBean("searchManager");
         financeManager = Application.findBean("financeManager");
+        jobSampleManager = Application.findBean("jobSampleManager");
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
     }
@@ -231,6 +234,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         financeManager.setUser(user);
 
         return financeManager;
+    }
+
+    public JobSampleManager getJobSampleManager() {
+        jobSampleManager.setCurrentJob(currentJob);
+        jobSampleManager.setUser(user);
+
+        return jobSampleManager;
     }
 
     public MainTabView getMainTabView() {
@@ -2065,7 +2075,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 // This may be removed in the future as it may not be required or
                 // necessary
                 createNewJobSample(null);
-                selectedJobSample.setDescription("--");
+                selectedJobSample.setDescription("--"); // access from JSM
                 BusinessEntityUtils.saveBusinessEntity(em, selectedJobSample);
             }
 
@@ -2345,7 +2355,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void editJobSample(ActionEvent event) {
-        jobSampleDialogTabViewActiveIndex = 0;       
+        jobSampleDialogTabViewActiveIndex = 0;
         PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
     }
 

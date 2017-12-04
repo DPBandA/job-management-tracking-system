@@ -21,13 +21,16 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 
 ### Issues to Address for Next Release
-#### Job Costing & Payment
+#### Job Sample Management
+- Create JobSampleManager (JSM) from JM.
 - Compare edited sample field with the backed up sample to determine if the sample
-  was edited. Make sure each form field has an Id.
+  was edited. Make sure each form field has an Id. Create update() method for 
+  each form field using the component Id in the method name.
 - Impl backup of job sample and restoration of sample if edits were cancelled.  
   Change "Close" to "Cancel" in job sample dialog.
 - Automatically save job sample if they are dirty and the job is not dirty.
   If not warn that sample was not saved.
+#### Job Costing & Payment
 - updateJobCostingAndPayment() and other update methods in FM to update isDirty 
   in JobCostingAndPayment and not the job. REVIEW THIS!!!
 - Remove FM code from JM.  
