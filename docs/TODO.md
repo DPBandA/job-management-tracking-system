@@ -22,10 +22,12 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ### Issues to Address for Next Release
 #### Job Costing & Payment
-- Automatically save sample(s) if the job already exists in the database and
-  the sample was edited and oked. If sample was edited and dialog "closed", 
-  warn that the job needs to be saved. Add isToBeSaved to the class and
-  use it to do this.
+- Compare edited sample field with the backed up sample to determine if the sample
+  was edited. Make sure each form field has an Id.
+- Impl backup of job sample and restoration of sample if edits were cancelled.  
+  Change "Close" to "Cancel" in job sample dialog.
+- Automatically save job sample if they are dirty and the job is not dirty.
+  If not warn that sample was not saved.
 - updateJobCostingAndPayment() and other update methods in FM to update isDirty 
   in JobCostingAndPayment and not the job. REVIEW THIS!!!
 - Remove FM code from JM.  
@@ -91,6 +93,7 @@ paymentTerms, rename JMTSUserId to userId
 * Use canEditInvoicingAndPayment where necessary
 * Ensure amount due is updated correctly using cash payments.
 - Put bold label for required field to be consistent.
+- Ensure billing address and contact are valid and not blank before saving job.
 #### Double View Creation (by Saturday 2017-11-25)
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
 Views can be viewed simultaneously for easy job costing updates.
@@ -313,6 +316,7 @@ Views can be viewed simultaneously for easy job costing updates.
 - Add chat feature. Allow person to add their image to their user profile?
 - User an "iterative" JSF component to implement the display of tabs and use
   collections to initialize the tabs.
+- Impl option to use LADP or some other authentication system.
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

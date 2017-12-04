@@ -70,7 +70,7 @@ Email: info@dpbennett.com.jm
                              process="@form"/>
             <p:spacer height="0" width="5"/>
             <p:commandButton value="Cancel"
-                             actionListener="#{jobManager.closeJobSampleDialog}"                            
+                             actionListener="#{jobManager.cancelJobSampleDialogEdits}"                            
                              onstart="longProcessDialogVar.show();"
                              oncomplete="longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-close"
@@ -188,6 +188,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Brand: " style="width: 50%" />
                         <p:inputText value="#{jobManager.selectedJobSample.productBrand}"
+                                     id="productBrand"
                                      readonly="false"
                                      maxlength="250"
                                      style="width: 50%;" >
@@ -200,6 +201,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Model: " style="width: 50%" />
                         <p:inputText value="#{jobManager.selectedJobSample.productModel}"
+                                     id="productModel"
                                      readonly="false"
                                      maxlength="250"
                                      style="width: 50%;" >
@@ -212,6 +214,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Serial No.: " style="width: 50%" />
                         <p:inputText value="#{jobManager.selectedJobSample.productSerialNumber}"
+                                     id="productSerialNumber"
                                      readonly="false"
                                      maxlength="250"
                                      style="width: 50%;" >
@@ -224,6 +227,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Product code: " style="width: 50%" />
                         <p:inputText value="#{jobManager.selectedJobSample.productCode}"
+                                     id="productCode"
                                      readonly="false"
                                      maxlength="250"
                                      style="width: 50%;" >
@@ -236,6 +240,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Additional details: " style="width: 50%" />
                         <p:inputTextarea  value="#{jobManager.selectedJobSample.description}"
+                                          id="sampleDescription"
                                           maxlength="1000"
                                           autoResize="false"
                                           rows="2"
@@ -277,7 +282,8 @@ Email: info@dpbennett.com.jm
                             <p:watermark value="-- enter product unit --" for="productUnitOfMeasure"/>
                         </h:panelGroup>
                         <h:outputText value="Method of disposal *: " style="font-weight: bold;" />
-                        <p:selectOneMenu value="#{jobManager.selectedJobSample.methodOfDisposal}" >
+                        <p:selectOneMenu value="#{jobManager.selectedJobSample.methodOfDisposal}" 
+                                         id="methodOfDisposal">
                             <f:selectItems value="#{App.methodsOfDisposal}" />
                             <p:ajax listener="#{jobManager.updateJobSample}"
                                     update="sampleReference"
@@ -289,7 +295,7 @@ Email: info@dpbennett.com.jm
                 <p:tab title="Tracking">
                     <h:panelGrid columns="2">    
                         <h:outputText value="Date received by responsible dept.: " />
-                        <p:calendar id="dateReceived"
+                        <p:calendar id="dateSampleReceived"
                                     value="#{jobManager.jobSampleReceivalDate}"
                                     navigator="true"
                                     pattern="MMM dd, yyyy">
@@ -316,8 +322,8 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:spacer height="0" width="5"/>
-            <p:commandButton value="Close"
-                             actionListener="#{jobManager.closeJobSampleDialog}"                           
+            <p:commandButton value="Cancel"
+                             actionListener="#{jobManager.cancelJobSampleDialogEdits}"                           
                              onstart="longProcessDialogVar.show();"
                              oncomplete="jobSampleRequiredFieldMessageDialog.hide();longProcessDialogVar.hide();"
                              icon="ui-icon ui-icon-close"
