@@ -58,7 +58,6 @@ import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.BusinessOffice;
-import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
@@ -73,7 +72,6 @@ import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.JobReportItem;
 import jm.com.dpbennett.business.entity.JobSample;
-import jm.com.dpbennett.business.entity.JobSequenceNumber;
 import jm.com.dpbennett.business.entity.JobSubCategory;
 import jm.com.dpbennett.business.entity.Manufacturer;
 import jm.com.dpbennett.business.entity.Preference;
@@ -125,8 +123,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;
     private Job currentJob;
-    private Long selectedJobId;
-    private Long currentJobId; // tk does not seem to be used. del.
     private Job selectedJob;
     private JobSample selectedJobSample;
     private JobSample selectedJobSampleBackup;
@@ -136,8 +132,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     @ManagedProperty(value = "Jobs")
     private Integer longProcessProgress;
     private final Boolean useAccPacCustomerList;
-    private Long receivedById; // tk Can del/move? NB: seem to be used by samples dialog. Remove and use autocomplete with employee converter.
-    private final String inputTextStyle; // tk Can del/move?
+    private Long receivedById; // tk Can del/move? NB: seem to be used by samples dialog. Remove and use autocomplete with employee converter.    
     private String outcome;
     private String defaultOutcome;
     private Integer jobSampleDialogTabViewActiveIndex;
@@ -213,7 +208,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         "");
         dynamicTabView = true;
         renderSearchComponent = true;
-        inputTextStyle = "font-weight: bold;width: 85%";
         defaultOutcome = "jmtlogin";
         outcome = defaultOutcome;
         selectedJobSample = new JobSample();
@@ -1802,10 +1796,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         createJob(em, false);
     }
 
-    public void loadOtherJobWithoutSavingCurrent(ActionEvent action) {
-        setDirty(false);
-        loadJob();
-    }
+//    public void loadOtherJobWithoutSavingCurrent(ActionEvent action) {
+//        setDirty(false);
+//        loadJob();
+//    }
 
     public void cancelClientEdit(ActionEvent actionEvent) {
         if (currentJob.getClient().getId() == null) {
@@ -1860,7 +1854,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void jobSampleDialogReturn() {
         if (!isDirty() && getSelectedJobSample().getIsDirty()) {
-            if (prepareAndSaveCurrentJob(getEntityManager1())) {
+            //if (prepareAndSaveCurrentJob(getEntityManager1())) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 getSelectedJobSample().setIsDirty(false);
                 addMessage("Sample(s) and Job Saved", "This job and the edited/added sample(s) were saved", FacesMessage.SEVERITY_INFO);
             } else {
@@ -1880,36 +1875,36 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
-            if (prepareAndSaveCurrentJob(em)) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
-            if (prepareAndSaveCurrentJob(em)) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isCurrentJobNew() && getUser().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
-            if (prepareAndSaveCurrentJob(em)) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterDepartmentJob()
                 && getUser().getEmployee().isMemberOf(getDepartmentAssignedToJob(currentJob, em))) {
             // User can enter new jobs for your department...saving
-            if (prepareAndSaveCurrentJob(em)) {
+           if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             // User can enter new jobs for yourself...saving
-            if (prepareAndSaveCurrentJob(em)) {
+           if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
             // User can edit any job...saving
-            if (prepareAndSaveCurrentJob(em)) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isDirty() && !isCurrentJobNew()
@@ -1918,24 +1913,24 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 || getUser().getEmployee().isMemberOf(currentJob.getDepartment()))) {
 
             // User can edit jobs for your department...saving
-            if (prepareAndSaveCurrentJob(em)) {
+           if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             // User can edit own jobs...saving
-            if (prepareAndSaveCurrentJob(em)) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (currentJob.getIsToBeCopied()) {
             // Saving cause copy is being created
-            if (prepareAndSaveCurrentJob(em)) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (currentJob.getIsToBeSubcontracted()) {
             // Saving cause subcontract is being created
-            if (prepareAndSaveCurrentJob(em)) {
+           if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (!isDirty()) {
@@ -1973,204 +1968,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public Boolean getIsBillingAddressNameValid() {
         return BusinessEntityUtils.validateText(currentJob.getBillingAddress().getName());
     }
-
-    public Boolean prepareAndSaveCurrentJob(EntityManager em) {
-
-        Date now = new Date();
-        JobSequenceNumber nextJobSequenceNumber = null;
-        boolean jobEmailAlertsActivated = Boolean.parseBoolean(SystemOption.
-                findSystemOptionByName(em,
-                        "jobEmailAlertsActivated").getOptionValue());
-
-        try {
-            // Get employee for later use
-            Employee employee = getUser().getEmployee(); // tk del Employee.findEmployeeById(em, getUser().getEmployee().getId());
-
-            // Use the client's default billing address and main contact if the
-            // Job's billing address and contact are not valid.
-            // Validate and save address if required
-            if (!BusinessEntityUtils.validateName(getCurrentJob().getBillingAddress().getAddressLine1())) {
-                getCurrentJob().setBillingAddress(getCurrentJob().getClient().getBillingAddress());
-            }
-            if (getCurrentJob().getBillingAddress().getId() == null) {
-                getCurrentJob().getBillingAddress().save(em);
-            }
-
-            // Validate and save contact if required
-            if (!BusinessEntityUtils.validateName(getCurrentJob().getContact().getName())) {
-                getCurrentJob().setContact(getCurrentJob().getClient().getMainContact());
-            }
-            if (getCurrentJob().getContact().getId() == null) {
-                getCurrentJob().getContact().save(em);
-            }
-
-            // Do not save changed job if it's already marked as completed in the database
-            if (getCurrentJob().getId() != null) {
-                Job job = Job.findJobById(em, getCurrentJob().getId());
-                if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
-                        && !getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))
-                        && !getUser().getPrivilege().getCanBeJMTSAdministrator()
-                        && !isUserDepartmentSupervisor(getCurrentJob())) {
-                    setDirty(false);
-                    doJobSearch(searchManager.getCurrentSearchParameters()); // tk Why is this??
-                    addMessage("Job Cannot Be Saved",
-                            "This job is marked as completed so changes cannot be saved. You may contact your department's supervisor or a system administrator.",
-                            FacesMessage.SEVERITY_ERROR);
-
-                    return false;
-                }
-            }
-
-            em.getTransaction().begin();
-
-            // Set date entered
-            if (currentJob.getJobStatusAndTracking().getDateAndTimeEntered() == null) {
-                currentJob.getJobStatusAndTracking().setDateAndTimeEntered(now);
-            }
-
-            if (employee != null) {
-                if (currentJob.getJobStatusAndTracking().getEnteredBy().getId() == null) {
-                    // This means this this is a new job so set user and person who entered the job
-                    currentJob.getJobStatusAndTracking().setEnteredBy(employee);
-                    currentJob.getJobStatusAndTracking().setEditedBy(employee);
-                }
-            }
-
-            // Update re the person who last edited/entered the job etc.
-            if (isDirty()) {
-                currentJob.getJobStatusAndTracking().setDateStatusEdited(now);
-                currentJob.getJobStatusAndTracking().setEditedBy(employee);
-            }
-
-            // Modify job number with sequence number if required
-            if (currentJob.getAutoGenerateJobNumber()) {
-                if ((currentJob.getId() == null) && (currentJob.getJobSequenceNumber() == null)) {
-                    nextJobSequenceNumber = JobSequenceNumber.findNextJobSequenceNumber(em, currentJob.getYearReceived());
-                    currentJob.setJobSequenceNumber(nextJobSequenceNumber.getSequentialNumber());
-                    currentJob.setJobNumber(Job.getJobNumber(currentJob, em));
-                } else {
-                    currentJob.setJobNumber(Job.getJobNumber(currentJob, em));
-                }
-            }
-
-            // Save job samples
-            if (currentJob.getJobSamples().size() > 0) {
-                for (JobSample jobSample : currentJob.getJobSamples()) {
-                    /// Save newly entered samples 
-                    if (jobSample.getId() == null) {
-                        BusinessEntityUtils.saveBusinessEntity(em, jobSample);
-                    }
-                    // "Clean" sample
-                    jobSample.setIsDirty(false);
-                }
-            } 
-            else {
-                // NB: This ensures that the job has at least one sample.
-                // This may be removed in the future as it may not be required or
-                // necessary
-                //createNewJobSample(null);
-                //selectedJobSample.setDescription("--"); // access from JSM
-                //BusinessEntityUtils.saveBusinessEntity(em, selectedJobSample);
-            }
-
-            // Do actual save here and check for errors
-            Long id = BusinessEntityUtils.saveBusinessEntity(em, currentJob);
-
-            if (id == null) {
-                if (currentJob.getAutoGenerateJobNumber()) {
-                    currentJob.setJobNumber(Job.getJobNumber(currentJob, em));
-                }
-
-                addMessage("Job save error occured",
-                        "An error occured while saving job (Null ID)" + currentJob.getJobNumber(),
-                        FacesMessage.SEVERITY_ERROR);
-
-                if (jobEmailAlertsActivated) {
-                    sendErrorEmail("An error occured while saving job (Null ID)" + currentJob.getJobNumber(),
-                            "Job save error occured");
-                }
-
-                return false;
-
-            } else if (id == 0L) {
-                if (currentJob.getAutoGenerateJobNumber()) {
-                    currentJob.setJobNumber(Job.getJobNumber(currentJob, em));
-                }
-                addMessage("Job save error occured",
-                        "An error occured while saving job (0L ID)" + currentJob.getJobNumber(),
-                        FacesMessage.SEVERITY_ERROR);
-                if (jobEmailAlertsActivated) {
-                    sendErrorEmail("An error occured while saving job (0L ID)" + currentJob.getJobNumber(),
-                            "Job save error occured");
-                }
-
-                return false;
-            } else {
-                // Job was saved so save id for furture use
-                currentJobId = id;
-
-                // Save job sequence number
-                if (nextJobSequenceNumber != null) {
-                    BusinessEntityUtils.saveBusinessEntity(em, nextJobSequenceNumber);
-                }
-
-                // Send job email alerts if the option is activated
-                try {
-                    // Send email alerts if any was flagged to be sent                
-                    if (jobEmailAlertsActivated) {
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                System.out.println("Generating and sending emails...");
-                                generateEmailAlerts();
-                            }
-                        }).start();
-
-                    } else {
-                        System.out.println("Email alerts will not be generated!");
-                    }
-                } catch (Exception e) {
-                    System.out.println(e);
-                    addMessage("Email Error!", "An error occurred while attempting to send an alert email.", FacesMessage.SEVERITY_ERROR);
-                }
-
-//                addMessage("Success!", "This job was saved.", FacesMessage.SEVERITY_INFO); // tk del
-            }
-
-            em.getTransaction().commit();
-
-            currentJob.clean();
-
-        } catch (Exception e) {
-            if (currentJob.getAutoGenerateJobNumber()) {
-                currentJob.setJobNumber(Job.getJobNumber(currentJob, em));
-            }
-            addMessage("Undefined Error!", "An undefined error occurred while saving this job. "
-                    + "Please contact the System Administrator", FacesMessage.SEVERITY_ERROR);
-
-            if (jobEmailAlertsActivated) {
-                try {
-                    sendErrorEmail("An exception occurred while saving a job!",
-                            "Job number: " + currentJob.getJobNumber()
-                            + "\nJMTS User: " + getUser().getUsername()
-                            + "\nDate/time: " + new Date()
-                            + "\nException detail: " + e);
-                } catch (Exception e2) {
-                    addMessage("Email Error!", "An error occurred while attempting to send an alert email.", FacesMessage.SEVERITY_ERROR);
-                    System.out.println(e2);
-                }
-
-            }
-
-            System.out.println(e);
-
-            return false;
-        }
-
-        return true;
-
-    }
-
+    
     public String getNewJobEmailMessage(Job job) {
         String message = "";
         DateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
@@ -2557,36 +2355,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void loadJob() {
-
-        EntityManager em = getEntityManager1();
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        // prompt to save modified job before attempting to create new job
-        if (isDirty()) {
-            context.addCallbackParam("jobDirty", true);
-            return;
-        }
-
-        if ((selectedJobId != 0L) && (selectedJobId != null)) {
-            currentJob = Job.findJobById(em, selectedJobId);
-            // create job costings if it does not exist
-            currentJobId = currentJob.getId();
-            // set accpac custmomer name for later use
-            getFinanceManager().setAccPacCustomer(new AccPacCustomer());
-            getFinanceManager().getAccPacCustomer().setCustomerName(currentJob.getClient().getName());
-            // update status if we are using accpac customer list and database
-            if (useAccPacCustomerList) {
-                getFinanceManager().updateCreditStatusSearch();
-            }
-        } else {
-            createJob(em, false);
-        }
-
-        setDirty(false);
-
-    }
-
     public String getCurrentJobNumber() {
         return Job.getJobNumber(currentJob, getEntityManager1());
     }
@@ -2637,15 +2405,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void setJobSampleReceivalDate(Date date) {
         selectedJobSample.setDateReceived(date);
-    }
-
-    public Long getSelectedJobId() {
-
-        return selectedJobId;
-    }
-
-    public void setSelectedJobId(Long selectedJobId) {
-        this.selectedJobId = selectedJobId;
     }
 
     public void handleDateSubmittedSelect() {
@@ -2832,16 +2591,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    /**
-     * This method is used for test purposes. The content of which is to be
-     * commented out when not in use. This is code is typically run after doing
-     * a job search.
-     *
-     * @param em
-     */
-    public void runTestCode(EntityManager em) {
-    }
-
     public void doJobSearch(SearchParameters currentSearchParameters) {
         this.currentSearchParameters = currentSearchParameters;
         EntityManager em = null;
@@ -2871,14 +2620,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             jobSearchResultList = new ArrayList<>();
         }
 
-        // Run test code after completing search.
-        // This is used to do bactch updates or just test out new code.
-        // NB: The code in this method should be commented out or deleted 
-        // when no longer needed.
-        runTestCode(em);
-
-        // Reset select selected job id to allow new selection
-        selectedJobId = 0L;
     }
 
     /**
@@ -3029,7 +2770,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
                 if (currentJob == null) {
                     currentJob = Job.create(em, getUser(), true);
-                    currentJobId = currentJob.getId();
                 }
                 // get client name
                 if (currentJob.getClient() == null) {
@@ -3326,30 +3066,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public Long saveServiceContract(EntityManager em, ServiceContract serviceContract) {
         return BusinessEntityUtils.saveBusinessEntity(em, serviceContract);
-    }
-
-    public Long saveCashPayment(EntityManager em, CashPayment cashPayment) {
-        return BusinessEntityUtils.saveBusinessEntity(em, cashPayment);
-    }
-
-    public List<CashPayment> getCashPaymentsByJobId(EntityManager em, Long jobId) {
-        try {
-            List<CashPayment> cashPayments
-                    = em.createQuery("SELECT c FROM CashPayment c "
-                            + "WHERE c.jobId "
-                            + "= '" + jobId + "'", CashPayment.class).getResultList();
-            return cashPayments;
-        } catch (Exception e) {
-            System.out.println(e);
-            return null;
-        }
-    }
-
-    public Boolean deleteCashPayment(EntityManager em, Long Id) {
-        CashPayment cashPayment;
-
-        cashPayment = em.find(CashPayment.class, Id);
-        return BusinessEntityUtils.deleteEntity(em, cashPayment);
     }
 
     public void postJobManagerMailToUser(
@@ -4322,7 +4038,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return address;
     }
 
-    
     // tk del. Move to Department and make static
     public Department getDepartmentAssignedToJob(Job job, EntityManager em) {
 

@@ -23,7 +23,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Job Sample Management
 - Put prepareAndSaveCurrentJob() in Job so it can be used by JSM and other managers
-  that may need to save a job. Call it prepareAndSave()
+  that may need to save a job. Call it prepareAndSave().  
 - Create JobSampleManager (JSM) from JM and link with job sample tab and form.
 - Compare edited sample field with the backed up sample to determine if the sample
   was edited. Make sure each form field has an Id. Create update() method for 
@@ -125,7 +125,8 @@ Views can be viewed simultaneously for easy job costing updates.
 
 ### System Design
 #### Design
-- Create GeneralManager (GM) from JM.
+- Create ContractManager from JM and use to manage service contract.
+- Create GeneralManager (GM) from JM?
 - Create ContractManager from JM and use to manage service contract.
 - Create Tracking/OperationsManager and use to manage job status and tracking
 - Merge Application code into other managers and clean it up.
