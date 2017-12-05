@@ -126,7 +126,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private EntityManagerFactory EMF2;
     private Job currentJob;
     private Long selectedJobId;
-    private Long currentJobId;
+    private Long currentJobId; // tk does not seem to be used. del.
     private Job selectedJob;
     private JobSample selectedJobSample;
     private JobSample selectedJobSampleBackup;
@@ -1504,6 +1504,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * @param job
      * @return
      */
+    // tk del. Move to JobManagerUser and make static method
     public Boolean isUserDepartmentSupervisor(Job job) {
         EntityManager em = getEntityManager1();
 
@@ -2011,7 +2012,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         && !getUser().getPrivilege().getCanBeJMTSAdministrator()
                         && !isUserDepartmentSupervisor(getCurrentJob())) {
                     setDirty(false);
-                    doJobSearch(searchManager.getCurrentSearchParameters());
+                    doJobSearch(searchManager.getCurrentSearchParameters()); // tk Why is this??
                     addMessage("Job Cannot Be Saved",
                             "This job is marked as completed so changes cannot be saved. You may contact your department's supervisor or a system administrator.",
                             FacesMessage.SEVERITY_ERROR);
@@ -2055,28 +2056,21 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             // Save job samples
             if (currentJob.getJobSamples().size() > 0) {
                 for (JobSample jobSample : currentJob.getJobSamples()) {
-
-//                   tk del if (jobSample.getSampledBy().getId() != null) {
-//                        Employee e = Employee.findEmployeeByName(em, jobSample.getSampledBy().getName());
-//                        if (e != null) {
-//                            jobSample.setSampledBy(e);
-//                        }
-//                    }
                     /// Save newly entered samples 
                     if (jobSample.getId() == null) {
                         BusinessEntityUtils.saveBusinessEntity(em, jobSample);
                     }
-
                     // "Clean" sample
                     jobSample.setIsDirty(false);
                 }
-            } else {
+            } 
+            else {
                 // NB: This ensures that the job has at least one sample.
                 // This may be removed in the future as it may not be required or
                 // necessary
-                createNewJobSample(null);
-                selectedJobSample.setDescription("--"); // access from JSM
-                BusinessEntityUtils.saveBusinessEntity(em, selectedJobSample);
+                //createNewJobSample(null);
+                //selectedJobSample.setDescription("--"); // access from JSM
+                //BusinessEntityUtils.saveBusinessEntity(em, selectedJobSample);
             }
 
             // Do actual save here and check for errors
@@ -4328,6 +4322,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return address;
     }
 
+    
+    // tk del. Move to Department and make static
     public Department getDepartmentAssignedToJob(Job job, EntityManager em) {
 
         Department dept;
@@ -4411,6 +4407,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         mainTabView.renderTab(getEntityManager1(), "reportsTab", true);
     }
 
+    // tk delete. Use static method in the Department class if needed
     public Department getDepartmentBySystemOptionDeptId(String option) {
         EntityManager em = getEntityManager1();
 

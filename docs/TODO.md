@@ -22,7 +22,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ### Issues to Address for Next Release
 #### Job Sample Management
-- Create JobSampleManager (JSM) from JM.
+- Put prepareAndSaveCurrentJob() in Job so it can be used by JSM and other managers
+  that may need to save a job. Call it prepareAndSave()
+- Create JobSampleManager (JSM) from JM and link with job sample tab and form.
 - Compare edited sample field with the backed up sample to determine if the sample
   was edited. Make sure each form field has an Id. Create update() method for 
   each form field using the component Id in the method name.
@@ -114,6 +116,8 @@ Views can be viewed simultaneously for easy job costing updates.
 - Add description, 2 departments, 3 date periods etc. in class Report.
 - Implement and include report templates for all reports generated to date.
 - For reports make company specific value parameters such as company name and logo.
+- Check for reports/queries on jobs that do not have any samples. Check for example
+  that these jobs are counted despite not have samples.
 
 ### Clean Up
 - Clean up App. Put put can be put in JM and BEL.
