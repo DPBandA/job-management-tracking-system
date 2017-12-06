@@ -991,12 +991,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return currentJob.getClassification().getId();
     }
 
-    public String getJmt() {
-        // outcome to use when login
-        defaultOutcome = "jmtlogin";
-
-        return "jmt";
-    }
+//    public String getJmt() {
+//        // outcome to use when login
+//        defaultOutcome = "jmtlogin";
+//
+//        return "jmt";
+//    }
 
     public String getDefaultOutcome() {
         return defaultOutcome;
@@ -1450,7 +1450,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public EntityManager getEntityManager2() {
-        return getEMF2().createEntityManager();
+        return EMF2.createEntityManager();
     }
 
     public void updateJobCategory() {
@@ -1504,10 +1504,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         Job foundJob = Job.findJobById(em, job.getId());
 
-        if (getDepartmentAssignedToJob(foundJob, em).getHead().getId().longValue() == getUser().getEmployee().getId().longValue()) {
+        if (Department.findDepartmentAssignedToJob(foundJob, em).getHead().getId().longValue() == getUser().getEmployee().getId().longValue()) {
             return true;
-        } else if ((getDepartmentAssignedToJob(foundJob, em).getActingHead().getId().longValue() == getUser().getEmployee().getId().longValue())
-                && getDepartmentAssignedToJob(foundJob, em).getActingHeadActive()) {
+        } else if ((Department.findDepartmentAssignedToJob(foundJob, em).getActingHead().getId().longValue() == getUser().getEmployee().getId().longValue())
+                && Department.findDepartmentAssignedToJob(foundJob, em).getActingHeadActive()) {
             return true;
         } else {
             return false;
@@ -1569,10 +1569,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void updateNewClient() {
         setDirty(true);
-    }
-
-    public void updateDepartmentReport() {
-    }
+    }   
 
     public void updateJobNumber() {
         setDirty(true);
@@ -1672,7 +1669,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         EntityManager em = getEntityManager1();
 
         createJob(em, false);
-
     }
 
     public Boolean createJob(EntityManager em, Boolean isSubcontract) {
@@ -1790,17 +1786,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void createNewJobWithoutSavingCurrent(ActionEvent action) {
-        EntityManager em = getEntityManager1();
-        setDirty(false);
-        createJob(em, false);
-    }
-
-//    public void loadOtherJobWithoutSavingCurrent(ActionEvent action) {
-//        setDirty(false);
-//        loadJob();
-//    }
-
     public void cancelClientEdit(ActionEvent actionEvent) {
         if (currentJob.getClient().getId() == null) {
             currentJob.getClient().setName("");
@@ -1890,16 +1875,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterDepartmentJob()
-                && getUser().getEmployee().isMemberOf(getDepartmentAssignedToJob(currentJob, em))) {
+                && getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))) {
             // User can enter new jobs for your department...saving
-           if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             // User can enter new jobs for yourself...saving
-           if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
@@ -1909,11 +1894,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
         } else if (isDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditDepartmentJob()
-                && (getUser().getEmployee().isMemberOf(getDepartmentAssignedToJob(currentJob, em))
+                && (getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))
                 || getUser().getEmployee().isMemberOf(currentJob.getDepartment()))) {
 
             // User can edit jobs for your department...saving
-           if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isDirty() && !isCurrentJobNew()
@@ -1930,12 +1915,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
         } else if (currentJob.getIsToBeSubcontracted()) {
             // Saving cause subcontract is being created
-           if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (!isDirty()) {
             // Job not dirty so it will not be saved.
-            addMessage("Not Saved!", "Job was not saved because it was not modified or it was recently saved", FacesMessage.SEVERITY_WARN);
+            addMessage("Already Saved", "Job was not saved because it was not modified or it was recently saved", FacesMessage.SEVERITY_INFO);
         } else {
             addMessage("Insufficient Privilege",
                     "You may not have the privilege to enter/save this job. \n"
@@ -1968,7 +1953,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public Boolean getIsBillingAddressNameValid() {
         return BusinessEntityUtils.validateText(currentJob.getBillingAddress().getName());
     }
-    
+
     public String getNewJobEmailMessage(Job job) {
         String message = "";
         DateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
@@ -2130,22 +2115,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
-    public void updateDepartments(Job job, EntityManager em) {
-
-        if (!job.getDepartment().getName().equals("")) {
-            Department department = Department.findDepartmentByName(em, job.getDepartment().getName());
-            if (department != null) {
-                job.setDepartment(department);
-            }
-        }
-        // Update subcontracted department
-        if (!job.getSubContractedDepartment().getName().equals("")) {
-            Department subContractedDepartment = Department.findDepartmentByName(em, job.getSubContractedDepartment().getName());
-            job.setSubContractedDepartment(subContractedDepartment);
-        }
-
-    }
-
     public void editJobSample(ActionEvent event) {
         jobSampleDialogTabViewActiveIndex = 0;
         PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
@@ -2223,26 +2192,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             return currentJob.getNumberOfSamples();
         } else {
             return currentJob.getNumberOfSamples();
-        }
-    }
-
-    /**
-     * Checks maximum allowed samples and groups. Currently not used
-     */
-    public void checkNumberOfJobSamplesAndGroups() {
-        EntityManager em = getEntityManager1();
-
-        // setup context for client response
-        RequestContext context = RequestContext.getCurrentInstance();
-        // check for max sample
-        int maxSamples = Integer.parseInt(SystemOption.findSystemOptionByName(em, "maximumJobSamples").getOptionValue());
-        if (getCurrentNumberOfJobSamples() == maxSamples) {
-            context.addCallbackParam("maxJobSamplesReached", true);
-        }
-        // check for max sample groups
-        int maxGropus = Integer.parseInt(SystemOption.findSystemOptionByName(em, "maximumJobSampleGroups").getOptionValue());
-        if (currentJob.getJobSamples().size() == maxGropus) {
-            context.addCallbackParam("maxJobSampleGroupsReached", true);
         }
     }
 
@@ -2702,14 +2651,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return subCategories;
     }
 
-    private EntityManagerFactory getEMF1() {
-        return EMF1;
-    }
-
-    private EntityManagerFactory getEMF2() {
-        return EMF2;
-    }
-
     public List<Job> getJobSearchResultList() {
         if (jobSearchResultList == null) {
             jobSearchResultList = new ArrayList<>();
@@ -2752,49 +2693,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     @Override
     public Boolean isDirty() {
         return getCurrentJob().getIsDirty();
-    }
-
-    public void handlePoll() {
-        System.out.println("Handling poll: " + new Date());
-    }
-
-    public String getSystemInfo() {
-        String clientName;
-        String dirtyStatus;
-
-        EntityManager em = null;
-
-        try {
-            if (getUser() != null) {
-                em = getEntityManager1();
-
-                if (currentJob == null) {
-                    currentJob = Job.create(em, getUser(), true);
-                }
-                // get client name
-                if (currentJob.getClient() == null) {
-                    clientName = "";
-                } else {
-                    clientName = " (" + currentJob.getClient().getName() + ")";
-                }
-                // get dirty status of job
-                if (isDirty()) {
-                    dirtyStatus = " - MODIFIED";
-                } else {
-                    dirtyStatus = "";
-                }
-
-                // build and return system info string
-                return "Current job: " + currentJob.getJobNumber() + clientName + dirtyStatus;
-            } else {
-                return "";
-            }
-        } catch (Exception e) {
-
-            System.out.println(e);
-        }
-
-        return "";
     }
 
     public void updateBusinessOffice(SelectEvent event) {
@@ -2882,30 +2780,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setDirty(true);
     }
 
-    public void updateSampledBy() {
-        //setDirty(true);
+    public void updateSampledBy() { // tk move to JSM?        
         getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateReceivedBy() {
-
-        EntityManager em = null;
-        try {
-            em = getEntityManager1();
-
-            if (receivedById != null) {
-                Employee receivedBy = Employee.findEmployeeById(em, receivedById);
-                if (receivedBy != null) {
-                    selectedJobSample.setReceivedBy(receivedBy);
-                    setDirty(true);
-                } else {
-                    selectedJobSample.setReceivedBy(Employee.findDefaultEmployee(em, "--", "--", true));
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
     }
 
     public Job getSelectedJob() {
@@ -2918,28 +2794,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void setSelectedJob(Job selectedJob) {
         this.selectedJob = selectedJob;
-    }
-
-    public String getLastJobNumber() {
-        return "?";
-    }
-
-    // tk to be removed
-    public void saveManufacturer(EntityManager em, Manufacturer manufacturer) {
-        if (manufacturer.getName() != null) {
-
-            Manufacturer currentManufacturer = Manufacturer.findManufacturerByName(em, manufacturer.getName());
-
-            if (currentManufacturer == null) {
-                currentManufacturer = new Manufacturer();
-                currentManufacturer.setName(manufacturer.getName());
-
-            } else {
-                manufacturer.setId(currentManufacturer.getId());
-            }
-
-            BusinessEntityUtils.saveBusinessEntity(em, manufacturer);
-        }
     }
 
     public void createNewJobClient() {
@@ -3030,29 +2884,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public Date getCurrentDate() {
         return new Date();
-    }
-
-    public String getReportsLocation() {
-        return "."; // to be extracted from database
-    }
-
-    public Long saveDepartmentReport(EntityManager em, DepartmentReport departmentReport) {
-
-        try {
-            if (departmentReport.getId() != null) {
-                em.merge(departmentReport);
-            } else {
-                em.persist(departmentReport);
-            }
-        } catch (Exception e) {
-            return null;
-        }
-
-        return departmentReport.getId();
-    }
-
-    public Long saveJobSample(EntityManager em, JobSample jobSample) {
-        return BusinessEntityUtils.saveBusinessEntity(em, jobSample);
     }
 
     public Long getJobCountByQuery(EntityManager em, String query) {
@@ -3833,72 +3664,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return null;
     }
 
-    public Boolean checkForSampleDisposalMethod(List<JobSample> samples, Integer method) {
-        for (JobSample jobSample : samples) {
-            if (jobSample.getMethodOfDisposal().compareTo(method) == 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void associateDepartmentWithJobSubCategory(
-            EntityManager em,
-            Department department,
-            JobSubCategory jobSubCategory) {
-
-        em.getTransaction().begin();
-        jobSubCategory.getDepartments().add(department);
-        BusinessEntityUtils.saveBusinessEntity(em, jobSubCategory);
-        em.getTransaction().commit();
-    }
-
-    public void associateDepartmentWithSector(
-            EntityManager em,
-            Department department,
-            Sector sector) {
-
-        em.getTransaction().begin();
-        sector.getDepartments().add(department);
-        BusinessEntityUtils.saveBusinessEntity(em, sector);
-        em.getTransaction().commit();
-    }
-
-    public void associateDepartmentWithJobReportItem(
-            EntityManager em,
-            Department department,
-            JobReportItem jobReportItem) {
-
-        em.getTransaction().begin();
-        jobReportItem.getDepartments().add(department);
-        BusinessEntityUtils.saveBusinessEntity(em, jobReportItem);
-        em.getTransaction().commit();
-    }
-
-    public void updateAllJobs(EntityManager em) {
-        long jobsUpdated = 0;
-
-        try {
-            List<Job> jobs = Job.findAllJobs(em);
-            em.getTransaction().begin();
-            for (Job job : jobs) {
-                if (job.getJobStatusAndTracking() != null) {
-                    if (job.getJobStatusAndTracking().getAlertDate() == null) {
-                        System.out.println("Updating alert date for: " + job);
-                        job.getJobStatusAndTracking().setAlertDate(new Date());
-                        BusinessEntityUtils.saveBusinessEntity(em, job);
-                        ++jobsUpdated;
-                    }
-                }
-            }
-            em.getTransaction().commit();
-            System.out.println("Jobs updated: " + jobsUpdated);
-
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
-
     public void openJobPricingsDialog() {
         Map<String, Object> options = new HashMap<>();
         options.put("modal", true);
@@ -3922,9 +3687,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         RequestContext.getCurrentInstance().openDialog("jobCostings", options, null);
     }
 
-    public void editUnitCost() {
-    }
-
     @Override
     public void handleDialogOkButtonClick() {
     }
@@ -3933,8 +3695,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void handleDialogYesButtonClick() {
 
         if (dialogActionHandlerId.equals("unitCostDirty")) {
-            RequestContext context = RequestContext.getCurrentInstance();
-            //saveUnitCost(); // tk check if safe to do this
+            RequestContext context = RequestContext.getCurrentInstance();            
             context.execute("unitCostDialog.hide();");
         }
 
@@ -3998,68 +3759,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return false;
     }
 
-    public List<String> getDepartmentSupervisorsEmailAddresses(Department department) {
-        List<String> emails = new ArrayList<>();
-
-        emails.add(getEmployeeDefaultEmailAdress(department.getHead()));
-        // Get the email of the acting head of he/she is currently acting
-        if (department.getActingHeadActive()) {
-            emails.add(getEmployeeDefaultEmailAdress(department.getActingHead()));
-        }
-
-        return emails;
-    }
-
-    public String getEmployeeDefaultEmailAdress(Employee employee) {
-        String address = "";
-
-        // Get email1 which is treated as the employee's company email address
-        if (!employee.getInternet().getEmail1().trim().equals("")) {
-            address = employee.getInternet().getEmail1();
-        } else {
-            // Get and set default email using company domain
-            EntityManager em = getEntityManager1();
-
-            String listAsString = SystemOption.findSystemOptionByName(em, "domainNames").getOptionValue();
-            String domainNames[] = listAsString.split(";");
-
-            JobManagerUser user = JobManagerUser.findJobManagerUserByEmployeeId(em, employee.getId());
-
-            // Build email address
-            if (user != null) {
-                address = user.getUsername();
-                if (domainNames.length > 0) {
-                    address = address + "@" + domainNames[0];
-                }
-            }
-
-        }
-
-        return address;
-    }
-
-    // tk del. Move to Department and make static
-    public Department getDepartmentAssignedToJob(Job job, EntityManager em) {
-
-        Department dept;
-
-        if (job.getSubContractedDepartment().getName().equals("--")
-                || job.getSubContractedDepartment().getName().equals("")) {
-            // This is not a subcontracted job see return to parent department            
-            dept = Department.findDepartmentByName(em, job.getDepartment().getName());
-            if (dept != null) {
-                em.refresh(dept);
-            }
-
-            return dept;
-        } else {
-            dept = Department.findDepartmentByName(em, job.getSubContractedDepartment().getName());
-            em.refresh(dept);
-
-            return dept;
-        }
-    }
-
     public Boolean isCurrentJobNew() {
         return (getCurrentJob().getId() == null);
     }
@@ -4071,9 +3770,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // by a person assignment 
         try {
             // Do not sent job email if user is a member of the department to which the job was assigned
-            if (isCurrentJobNew() && !getUser().getEmployee().isMemberOf(getDepartmentAssignedToJob(currentJob, em))) {
-                List<String> emails = getDepartmentSupervisorsEmailAddresses(getDepartmentAssignedToJob(currentJob, em));
-                emails.add(getEmployeeDefaultEmailAdress(currentJob.getAssignedTo()));
+            if (isCurrentJobNew() && !getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))) {
+                List<String> emails = Employee.getDepartmentSupervisorsEmailAddresses(Department.findDepartmentAssignedToJob(currentJob, em), em);
+                emails.add(Employee.findEmployeeDefaultEmailAdress(currentJob.getAssignedTo(), getEntityManager1()));
                 for (String email : emails) {
                     if (!email.equals("")) {
                         postJobManagerMail(null, email, "", "New Job Assignment", getNewJobEmailMessage(currentJob));
@@ -4085,9 +3784,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     }
                 }
 
-            } else if (isDirty() && !getUser().getEmployee().isMemberOf(getDepartmentAssignedToJob(currentJob, em))) {
-                List<String> emails = getDepartmentSupervisorsEmailAddresses(getDepartmentAssignedToJob(currentJob, em));
-                emails.add(getEmployeeDefaultEmailAdress(currentJob.getAssignedTo()));
+            } else if (isDirty() && !getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))) {
+                List<String> emails = Employee.getDepartmentSupervisorsEmailAddresses(Department.findDepartmentAssignedToJob(currentJob, em), em);
+                emails.add(Employee.findEmployeeDefaultEmailAdress(currentJob.getAssignedTo(), getEntityManager1()));
                 for (String email : emails) {
                     if (!email.equals("")) {
                         postJobManagerMail(null, email, "", "Job Update Alert", getUpdatedJobEmailMessage(currentJob));
@@ -4121,48 +3820,5 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         reportManager.setCurrentJob(currentJob);
         mainTabView.renderTab(getEntityManager1(), "reportsTab", true);
     }
-
-    // tk delete. Use static method in the Department class if needed
-    public Department getDepartmentBySystemOptionDeptId(String option) {
-        EntityManager em = getEntityManager1();
-
-        Long id = Long.parseLong(SystemOption.findSystemOptionByName(em, option).getOptionValue());
-
-        Department department = Department.findDepartmentById(em, id);
-        em.refresh(department);
-
-        if (department != null) {
-            return department;
-        } else {
-            return new Department("");
-        }
-    }
-
-    public Boolean getIsMemberOfAccountsDept() {
-        if (getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("accountsDepartmentId"))) {
-            return true;
-        }
-        return false;
-    }
-
-    public Boolean getIsMemberOfCustomerServiceDept() {
-        if (getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("customerServiceDeptId"))) {
-            return true;
-        }
-        return false;
-    }
-
-    public Boolean getIsAuthorizedToModifyCostings() {
-        // For now
-        return true;
-    }
-
-    public List<SelectItem> getGCTPercentages() { // tk put in a costing entity
-        ArrayList percentages = new ArrayList();
-
-        percentages.addAll(Application.getStringListAsSelectItems(getEntityManager1(), "GCTPercentageList"));
-
-        return percentages;
-    }
-
+    
 }
