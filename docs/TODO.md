@@ -22,8 +22,6 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ### Issues to Address for Next Release
 #### Job Sample Management
-- Put prepareAndSaveCurrentJob() in Job so it can be used by JSM and other managers
-  that may need to save a job. Call it prepareAndSave().  
 - Create JobSampleManager (JSM) from JM and link with job sample tab and form.
 - Compare edited sample field with the backed up sample to determine if the sample
   was edited. Make sure each form field has an Id. Create update() method for 
@@ -99,7 +97,7 @@ paymentTerms, rename JMTSUserId to userId
 * Ensure amount due is updated correctly using cash payments.
 - Put bold label for required field to be consistent.
 - Ensure billing address and contact are valid and not blank before saving job.
-#### Double View Creation (by Saturday 2017-11-25)
+#### Double View Creation
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
 Views can be viewed simultaneously for easy job costing updates.
 -- Create views/tabs for job costing and cashier instead of using job tables view. 
