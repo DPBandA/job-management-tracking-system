@@ -23,6 +23,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Job Sample Management (Complete: 2017-12-06)
 - Create JobSampleManager (JSM) from JM and link with job sample tab and form.
+  * Remove sample fields and methods from JM.
 - Compare edited sample field with the backed up sample to determine if the sample
   was edited. Make sure each form field has an Id. Create update() method for 
   each form field using the component Id in the method name.
@@ -196,6 +197,7 @@ paymentTerms, rename JMTSUserId to userId
 - Impl. ReportManager and put reporting in own tab.
 - Refactor and rename static methods from findEntityName*() to just find*() where
   possible.
+- Move complete*() methods where possible from managers to Application.
 - Limit the maximum characters to be entered into a text field to 50. Put this
   value in the BEL resource bundle which can be changed. Allow various maximums
   for different types of fields.

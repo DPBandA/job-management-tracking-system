@@ -24,11 +24,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import jm.com.dpbennett.business.entity.Country;
+import jm.com.dpbennett.business.entity.Department;
+import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.JobSample;
@@ -47,24 +52,24 @@ import org.primefaces.context.RequestContext;
 public class JobSampleManager implements Serializable, BusinessEntityManagement {
 
     @PersistenceUnit(unitName = "JMTSPU")
-    private EntityManagerFactory EMF1;   
-    private Job currentJob;   
+    private EntityManagerFactory EMF1;
+    private Job currentJob;
     private JobSample selectedJobSample;
-    private JobSample selectedJobSampleBackup;    
-    private Integer longProcessProgress;   
-    private Integer jobSampleDialogTabViewActiveIndex;   
-    private JobManagerUser user;    
+    private JobSample selectedJobSampleBackup;
+    private Integer longProcessProgress;
+    private Integer jobSampleDialogTabViewActiveIndex;
+    private JobManagerUser user;
 
     /**
      * Creates a new instance of JobManagerBean
      */
-    public JobSampleManager() {       
-        longProcessProgress = 0;               
+    public JobSampleManager() {
+        longProcessProgress = 0;
         selectedJobSample = new JobSample();
-        jobSampleDialogTabViewActiveIndex = 0;       
+        jobSampleDialogTabViewActiveIndex = 0;
     }
-    
-     public void createNewJobSample(ActionEvent event) {
+
+    public void createNewJobSample(ActionEvent event) {
 
         if (getCurrentJob().hasOnlyDefaultJobSample()) {
             selectedJobSample = getCurrentJob().getJobSamples().get(0);
@@ -117,37 +122,29 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     public Boolean isDirty() {
         return selectedJobSample.getIsDirty();
     }
-    
+
     public Boolean isCurrentJobDirty() {
         return getCurrentJob().getIsDirty();
     }
-    
-    
-//    public void jobSampleDialogReturn() {
-//        if (!isDirty() && getSelectedJobSample().getIsDirty()) {
-//            if (prepareAndSaveCurrentJob(getEntityManager1())) {
-//                getSelectedJobSample().setIsDirty(false);
-//                addMessage("Sample(s) and Job Saved", "This job and the edited/added sample(s) were saved", FacesMessage.SEVERITY_INFO);
-//            } else {
-//                addMessage("Sample(s) and Job NOT Saved", "Sample(s) NOT saved. Please ensure that all required fields were filled out", FacesMessage.SEVERITY_WARN);
-//            }
-//        } else if (isDirty() && getSelectedJobSample().getIsDirty()) {
-//            addMessage("Sample(s) Added/Edited", "Save this job if you wish to keep the changes", FacesMessage.SEVERITY_WARN);
-//        } else if (isDirty() && !getSelectedJobSample().getIsDirty()) {
-//            addMessage("Job to be Saved", "Sample(s) not edited but this job was previously edited but not saved", FacesMessage.SEVERITY_WARN);
-//        } else if (!isDirty() && !getSelectedJobSample().getIsDirty()) {
-//            // Nothing to do yet
-//        }
-//    }
 
-    // tk remove when autcomplete is done
-    public Long getSampledById() {
-        return selectedJobSample.getSampledBy().getId();
+    public void addMessage(String summary, String detail, FacesMessage.Severity severity) {
+        FacesMessage message = new FacesMessage(severity, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    // tk remove when autcomplete is done
-    public Long getReceivedById() {
-        return selectedJobSample.getReceivedBy().getId();
+    public void jobSampleDialogReturn() {
+        if (!isCurrentJobDirty() && getSelectedJobSample().getIsDirty()) {
+            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+                getSelectedJobSample().setIsDirty(false);
+                addMessage("Sample(s) and Job Saved", "This job and the edited/added sample(s) were saved", FacesMessage.SEVERITY_INFO);
+            }
+        } else if (isCurrentJobDirty() && getSelectedJobSample().getIsDirty()) {
+            addMessage("Sample(s) Added/Edited", "Save this job if you wish to keep the changes", FacesMessage.SEVERITY_WARN);
+        } else if (isCurrentJobDirty() && !getSelectedJobSample().getIsDirty()) {
+            addMessage("Job to be Saved", "Sample(s) not edited but this job was previously edited but not saved", FacesMessage.SEVERITY_WARN);
+        } else if (!isCurrentJobDirty() && !getSelectedJobSample().getIsDirty()) {
+            // Nothing to do yet
+        }
     }
 
     /**
@@ -176,6 +173,107 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public void closeJobSampleDeleteConfirmDialog() {
+        RequestContext.getCurrentInstance().closeDialog(null);
+    }
+
+    public Integer getJobSampleDialogTabViewActiveIndex() {
+        return jobSampleDialogTabViewActiveIndex;
+    }
+
+    public void setJobSampleDialogTabViewActiveIndex(Integer jobSampleDialogTabViewActiveIndex) {
+        this.jobSampleDialogTabViewActiveIndex = jobSampleDialogTabViewActiveIndex;
+    }
+
+    public void updateJobSample() {
+        getSelectedJobSample().setIsDirty(true);
+    }
+
+    public List<Employee> completeEmployee(String query) {
+        EntityManager em = null;
+
+        try {
+
+            em = getEntityManager1();
+            List<Employee> employees = Employee.findActiveEmployeesByName(em, query);
+
+            if (employees != null) {
+                return employees;
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+
+    public void updateSampledBy() {
+        getSelectedJobSample().setIsDirty(true);
+    }
+
+    public ArrayList<String> completeCountry(String query) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager1();
+
+            ArrayList<Country> countries = new ArrayList<>(Country.findCountriesByName(em, query));
+            ArrayList<String> countriesList = (ArrayList<String>) (ArrayList<?>) countries;
+
+            return countriesList;
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+
+    public Date getJobSampleReceivalDate() {
+        if (selectedJobSample != null) {
+            if (selectedJobSample.getDateReceived() != null) {
+                return selectedJobSample.getDateReceived();
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public void setJobSampleReceivalDate(Date date) {
+        selectedJobSample.setDateReceived(date);
+    }
+
+    public void okJobSample() {
+        EntityManager em = getEntityManager1();
+        updateJobSampleReference();
+        updateProductQuantity();
+        if (selectedJobSample.getIsToBeAdded()) {
+            currentJob.getJobSamples().add(selectedJobSample);
+            selectedJobSample.setIsToBeAdded(false);
+        }
+
+        setNumberOfSamples();
+
+        updateSampleReferences();
+
+        // Update department
+        if (!currentJob.getDepartment().getName().equals("")) {
+            Department department = Department.findDepartmentByName(em, currentJob.getDepartment().getName());
+            if (department != null) {
+                currentJob.setDepartment(department);
+            }
+        }
+        // Update subcontracted department
+        if (!currentJob.getSubContractedDepartment().getName().equals("")) {
+            Department subContractedDepartment = Department.findDepartmentByName(em, currentJob.getSubContractedDepartment().getName());
+            currentJob.setSubContractedDepartment(subContractedDepartment);
+        }
+
+        if (currentJob.getAutoGenerateJobNumber()) {
+            currentJob.setJobNumber(getCurrentJobNumber());
+        }
+        jobSampleDialogTabViewActiveIndex = 0;
+
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
@@ -216,6 +314,13 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
     }
 
+    public void setEditSelectedJobSample(JobSample selectedJobSample) {
+        this.selectedJobSample = selectedJobSample;
+        selectedJobSampleBackup = new JobSample(this.selectedJobSample);
+        this.selectedJobSample.setIsToBeAdded(false);
+        this.selectedJobSample.setIsDirty(false);
+    }
+
     public void openJobSampleDeleteConfirmDialog(ActionEvent event) {
 
         PrimeFacesUtils.openDialog(null, "jobSampleDeleteConfirmDialog", true, true, true, 90, 375);
@@ -240,6 +345,16 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
     public void copyJobSample() {
         PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
+    }
+
+    public void setCopySelectedJobSample(JobSample selectedJobSample) {
+        this.selectedJobSample = selectedJobSample;
+        if (selectedJobSample != null) {
+            selectedJobSampleBackup = new JobSample(this.selectedJobSample);
+            doCopyJobSample();
+            this.selectedJobSample.setIsToBeAdded(true);
+            this.selectedJobSample.setIsDirty(false);
+        }
     }
 
     public void cancelJobSampleDialogEdits() {

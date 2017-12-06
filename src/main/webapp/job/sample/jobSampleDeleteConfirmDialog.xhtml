@@ -20,9 +20,7 @@ Email: info@dpbennett.com.jm
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+      xmlns:p="http://primefaces.org/ui"> 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta http-equiv="cache-control" content="max-age=0" />
@@ -60,12 +58,12 @@ Email: info@dpbennett.com.jm
                 </h:panelGroup>
                 <h:panelGroup >                        
                     <p:commandButton value="Yes"      
-                                     actionListener="#{jobManager.deleteJobSample}"                                                                                                  
+                                     actionListener="#{jobManager.jobSampleManager.deleteJobSample}"                                                                                                  
                                      icon="ui-icon ui-icon-check"
                                      process="@this"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="No"
-                                     actionListener="#{jobManager.closeJobSampleDeleteConfirmDialog}" 
+                                     actionListener="#{jobManager.jobSampleManager.closeJobSampleDeleteConfirmDialog}" 
                                      icon="ui-icon-close"/>   
                 </h:panelGroup>
             </h:panelGrid>
