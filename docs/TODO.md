@@ -19,11 +19,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Read proposal/contract sent by RA and respond before Monday
-
 ### Issues to Address for Next Release
 #### Job Sample Management (Complete: 2017-12-06)
-- Create JobSampleManager (JSM) from JM and link with job sample tab and form.
-  * Remove sample fields and methods from JM.
 - Compare edited sample field with the backed up sample to determine if the sample
   was edited. Make sure each form field has an Id. Create update() method for 
   each form field using the component Id in the method name.
@@ -31,6 +28,19 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
   Change "Close" to "Cancel" in job sample dialog.
 - Automatically save job sample if they are dirty and the job is not dirty.
   If not warn that sample was not saved.
+#### Service Contract
+- Create ContractManager from JM.
+  * Set user and job when job is being created, edited or subcontracted.
+  * Check that long process dialog works.
+- Put button in service contract tab to generate service contract.
+- Export sample condition(s) to service contract.
+- Ensure that the contact in the job and not the main contact in the client is used where required. The job contact field to be created if necessary.
+- Restrict generation of service contract to an authorized person/department?
+- If department name/id too long for field, shorten and add ellipses to the end.
+- Put client ID# (TRN etc.) into service contract?
+- Where applicable put grey and not black borders.
+    “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
+- NB (Put in Wiki): The service contract template is : c:\jasperreports\ServiceContractTemplate.xls
 #### Double View Creation
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
 Views can be viewed simultaneously for easy job costing updates.
@@ -128,9 +138,6 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
-- Create ContractManager from JM and use to manage service contract.
-- Create GeneralManager (GM) from JM?
-- Create ContractManager from JM and use to manage service contract.
 - Create Tracking/OperationsManager and use to manage job status and tracking
 - Merge Application code into other managers and clean it up.
 - Change the message that is displayed when a job is subcontacted.
@@ -336,17 +343,6 @@ paymentTerms, rename JMTSUserId to userId
 - Watch out for dateselect and keyup events.
 - Fix issues where classifications are blank. Create new ones if necessary.
 - Remove trim from all find* methods
-
-### Service Contract
-- Put button in service contract tab to generate service contract.
-- Export sample condition(s) to service contract.
-- Ensure that the contact in the job and not the main contact in the client is used where required. The job contact field to be created if necessary.
-- Restrict generation of service contract to an authorized person/department?
-- If department name/id too long for field, shorten and add ellipses to the end.
-- Put client ID# (TRN etc.) into service contract?
-- Where applicable put grey and not black borders.
-    “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
-- NB (Put in Wiki): The service contract template is : c:\jasperreports\ServiceContractTemplate.xls
 
 #### Issues
 - Change "keyup" to "change" where possible.
