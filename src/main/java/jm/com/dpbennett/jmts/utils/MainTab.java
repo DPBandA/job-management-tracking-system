@@ -32,6 +32,7 @@ public class MainTab {
     private Boolean renderJobDetailTab;
     private Boolean renderClientsTab;
     private Boolean renderReportsTab;
+    private Boolean renderCashierTab;
     private JobManagerUser user;
 
     public MainTab(
@@ -43,6 +44,7 @@ public class MainTab {
             Boolean renderAdminTab,
             Boolean renderClientsTab,
             Boolean renderReportsTab,
+            Boolean renderCashierTab,
             JobManagerUser user) {
 
         this.id = id;
@@ -54,6 +56,7 @@ public class MainTab {
         this.renderAdminTab = renderAdminTab;
         this.renderClientsTab = renderClientsTab;
         this.renderReportsTab = renderReportsTab;
+        this.renderCashierTab = renderCashierTab;
     }
 
     public String getId() {
@@ -62,6 +65,14 @@ public class MainTab {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Boolean getRenderCashierTab() {
+        return renderCashierTab;
+    }
+
+    public void setRenderCashierTab(Boolean renderCashierTab) {
+        this.renderCashierTab = renderCashierTab;
     }
 
     public Boolean getRenderReportsTab() {
@@ -78,7 +89,7 @@ public class MainTab {
 
     public void setRenderClientsTab(Boolean renderClientsTab) {
         this.renderClientsTab = renderClientsTab;
-    }
+    } 
 
     public String getName() {
         return name;

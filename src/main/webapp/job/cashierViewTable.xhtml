@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <p:dataTable id="jobsDatabaseTable"
+    <p:dataTable id="cashierViewTable"
                  var="job"
                  paginator="true"
                  rows="15"  
@@ -88,11 +88,10 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
        
-        <p:column style="width:32px"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}">
+        <p:column style="width:32px" >
             <p:commandButton title="View/Edit job costing/payment" 
                              actionListener="#{jobManager.editJobCosting}"
-                             update=":mainTabViewForm:mainTabView:formsMenuButton,:jobCostingDialogForm"
+                             update=":mainTabViewForm:mainTabView:formsMenuButton"
                              onstart="longProcessDialogVar.show();"
                              oncomplete="jobDialog.show();longProcessDialogVar.hide();jobFormTabVar.select(3);"
                              onerror="connectionErrorDialog.show();"

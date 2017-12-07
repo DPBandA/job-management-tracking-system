@@ -30,7 +30,8 @@ Email: info@dpbennett.com.jm
             <p:commandButton
                 id="createNewJobButton"
                 actionListener="#{jobManager.createNewJob}"
-                global="true"                
+                global="true"
+                rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
                 onstart="longProcessDialogVar.show();" 
                 onerror="connectionErrorDialog.show();"
                 value="New"                                       
@@ -41,11 +42,37 @@ Email: info@dpbennett.com.jm
                 <p:resetInput target=":mainTabViewForm:mainTabView" />
 
             </p:commandButton>
-            <p:spacer height="0" width="200" />
+
+            <p:commandButton value="Approved"                                                    
+                             ajax="true"
+                             title="Mark the selected job costing as being approved"
+                             style="width: 150px"  
+                             rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
+                             actionListener="#{jobManager.financeManager.approveSelectedJobCostings}"
+                             update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
+                             onstart="longProcessDialogVar2.show();" 
+                             oncomplete="longProcessDialogVar2.hide();">                                                                                    
+            </p:commandButton>
+            <p:spacer height="0" width="10"  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"/>
+            <p:commandButton value="Invoiced"                                                    
+                             ajax="true"
+                             title="Mark the selected job costing as being invoiced"
+                             style="width: 150px"  
+                             rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
+                             actionListener="#{jobManager.financeManager.invoiceSelectedJobCostings}"
+                             update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
+                             onstart="longProcessDialogVar2.show();" 
+                             oncomplete="longProcessDialogVar2.hide();">                                                                                    
+            </p:commandButton>
+
+            <p:spacer height="0" width="200"  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"/>
             <p:commandButton
                 value="Reports"
                 actionListener="#{jobManager.openReportsTab}"
-                onstart="longProcessDialogVar.show();"                
+                onstart="longProcessDialogVar.show();"
+               
+                rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
+                
                 onerror="connectionErrorDialog.show();"
                 title="Generate, view and export reports"
                 icon="ui-icon-newwin"
@@ -55,7 +82,7 @@ Email: info@dpbennett.com.jm
 
         <p:toolbarGroup align="right" >                                   
             <p:menuButton id="toolsButton" value="Tools" >
-                <p:menuitem actionListener="#{financeManager.updateAccPacClient}"
+                <p:menuitem actionListener="#{jobManager.financeManager.updateAccPacClient}"
                             onstart="longProcessDialogVar.show();"                                                    
                             value="Client credit status"
                             update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
@@ -74,10 +101,7 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
     </p:toolbar>   
 
-    <ui:remove id="tk">
-        <ui:include src="jobsDatabaseTable.xhtml"/>
-    </ui:remove>
-    <ui:include src="cashierViewTable.xhtml" id="tk2"/>
+    <ui:include src="jobsDatabaseTable.xhtml"/>
 
 </html>
 

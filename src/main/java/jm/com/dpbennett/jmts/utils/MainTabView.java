@@ -41,6 +41,7 @@ public class MainTabView implements Serializable {
     private MainTab jobDetailTab;
     private MainTab clientsTab;
     private MainTab reportsTab;
+    private MainTab cashierTab;
 
     public MainTabView(JobManagerUser user) {
         this.user = user;
@@ -149,9 +150,12 @@ public class MainTabView implements Serializable {
                 case "clientsTab":
                     tab.setRenderClientsTab(render);
                     break;
-                 case "reportsTab":
+                case "reportsTab":
                     tab.setRenderReportsTab(render);
-                    break;    
+                    break;
+                case "cashierTab":
+                    tab.setRenderCashierTab(render);
+                    break;
                 default:
                     break;
             }
@@ -186,6 +190,10 @@ public class MainTabView implements Serializable {
                 case "reportsTab":
                     reportsTab.setRenderReportsTab(render);
                     tabs.add(reportsTab);
+                    break;
+                case "cashierTab":
+                    cashierTab.setRenderCashierTab(render);
+                    tabs.add(cashierTab);
                     break;    
                 default:
                     break;
@@ -213,6 +221,7 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 false,
+                false,
                 getUser());
         // Financial admin tab
         financialAdminTab = new MainTab(
@@ -221,6 +230,7 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 getUser().getFinancialAdminUnit(),
+                false,
                 false,
                 false,
                 false,
@@ -235,11 +245,13 @@ public class MainTabView implements Serializable {
                 getUser().getAdminUnit(),
                 false,
                 false,
+                false,
                 getUser());
         // Job detail tab
         jobDetailTab = new MainTab(
                 "jobDetailTab",
                 "Job Detail",
+                false,
                 false,
                 false,
                 false,
@@ -257,11 +269,25 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 false,
+                false,
                 getUser());
         // Reports tab
         reportsTab = new MainTab(
                 "reportsTab",
                 "Reports",
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                getUser());
+        // Cashier tab
+        cashierTab = new MainTab(
+                "cashierTab",
+                "Cashier",
+                false,
                 false,
                 false,
                 false,

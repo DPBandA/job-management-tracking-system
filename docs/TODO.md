@@ -20,8 +20,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
-#### Double View Creation
-- Backup and remove cashier and job costing views from jobsDatabaseTable.xhtml.
+#### Double/Multiple View Creation
 - Create mainTabView tabs for cashier and job costing tables.
 - Make sure that the initManagers() is called job costing or job from cashier view are opened.
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
