@@ -27,12 +27,12 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.Department;
-import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.JobSample;
@@ -146,10 +146,19 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
     /**
      * To be applied when sample if saved
+     *
+     * @param event
      */
-    public void updateSampleQuantity() {
+    public void updateSampleQuantity(AjaxBehaviorEvent event) {
+        if (hasFieldValueChange(event.getComponent().getId())) {
+            getSelectedJobSample().setIsDirty(true);
+            updateSampleReference();
+        }
+    }
+
+    private void updateSampleReference() {
         // update reference while ensuring number of samples is not less than 1
-        // or greater than 700 (for now but to be made system option)
+        // or greater than 700 (for now but to be made system option)        
         if (selectedJobSample.getSampleQuantity() != null) {
             if (selectedJobSample.getSampleQuantity() == 1) {
                 selectedJobSample.setReference(BusinessEntityUtils.getAlphaCode(selectedJobSample.getReferenceIndex()));
@@ -159,12 +168,6 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
                                 + selectedJobSample.getSampleQuantity() - 1));
             }
         }
-
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateProductQuantity() {
-        getSelectedJobSample().setIsDirty(true);
     }
 
     public void closeJobSampleDeleteConfirmDialog() {
@@ -179,81 +182,15 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         this.jobSampleDialogTabViewActiveIndex = jobSampleDialogTabViewActiveIndex;
     }
 
-//    public void updateJobSample() {
-//        getSelectedJobSample().setIsDirty(true);
-//    }
-    public void updateDateSampleReceivedByDept() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateMethodOfDisposal() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateProductUnitOfMeasure() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateDescription() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateProductCode() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateProductSerial() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateModel() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateBrand() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateCountryOfOrigin() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateProductCommonName() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateDateSampled() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateReference() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public void updateSampledBy() {
-        getSelectedJobSample().setIsDirty(true);
-    }
-
-    public Date getJobSampleReceivalDate() {
-        if (selectedJobSample != null) {
-            if (selectedJobSample.getDateReceived() != null) {
-                return selectedJobSample.getDateReceived();
-            } else {
-                return null;
-            }
-        } else {
-            return null;
+    public void updateSample(AjaxBehaviorEvent event) {
+        if (hasFieldValueChange(event.getComponent().getId())) {
+            getSelectedJobSample().setIsDirty(true);
         }
-    }
-
-    public void setJobSampleReceivalDate(Date date) {
-        selectedJobSample.setDateReceived(date);
     }
 
     public void okJobSample() {
         EntityManager em = getEntityManager1();
-        updateSampleQuantity();
-        updateProductQuantity();
+        updateSampleReference();
         if (selectedJobSample.getIsToBeAdded()) {
             currentJob.getJobSamples().add(selectedJobSample);
         }
@@ -457,5 +394,89 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
     private EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
+    }
+
+    private Boolean hasFieldValueChange(String componentId) {
+        switch (componentId) {
+            case "sampleReference":
+                if (!selectedJobSample.getReference().equals(selectedJobSampleBackup.getReference())) {
+                    return true;
+                }
+                break;
+            case "sampledBy":
+                if (!selectedJobSample.getSampledBy().equals(selectedJobSampleBackup.getSampledBy())) {
+                    return true;
+                }
+                break;
+            case "dateSampled":
+                if (!selectedJobSample.getDateSampled().equals(selectedJobSampleBackup.getDateSampled())) {
+                    return true;
+                }
+                break;
+            case "sampleQuantity":
+                if (!selectedJobSample.getSampleQuantity().equals(selectedJobSampleBackup.getSampleQuantity())) {
+                    return true;
+                }
+                break;
+            case "productCommonName":
+                if (!selectedJobSample.getName().equals(selectedJobSampleBackup.getName())) {
+                    return true;
+                }
+                break;
+            case "sampleCountryOfOrigin":
+                if (!selectedJobSample.getCountryOfOrigin().equals(selectedJobSampleBackup.getCountryOfOrigin())) {
+                    return true;
+                }
+                break;
+            case "productBrand":
+                if (!selectedJobSample.getProductBrand().equals(selectedJobSampleBackup.getProductBrand())) {
+                    return true;
+                }
+                break;
+            case "productModel":
+                if (!selectedJobSample.getProductModel().equals(selectedJobSampleBackup.getProductModel())) {
+                    return true;
+                }
+                break;
+            case "productSerialNumber":
+                if (!selectedJobSample.getProductSerialNumber().equals(selectedJobSampleBackup.getProductSerialNumber())) {
+                    return true;
+                }
+                break;
+            case "productCode":
+                if (!selectedJobSample.getProductCode().equals(selectedJobSampleBackup.getProductCode())) {
+                    return true;
+                }
+                break;
+            case "sampleDescription":
+                if (!selectedJobSample.getDescription().equals(selectedJobSampleBackup.getDescription())) {
+                    return true;
+                }
+                break;
+            case "productQuantity":
+                if (!selectedJobSample.getQuantity().equals(selectedJobSampleBackup.getQuantity())) {
+                    return true;
+                }
+                break;
+            case "productUnitOfMeasure":
+                if (!selectedJobSample.getUnitOfMeasure().equals(selectedJobSampleBackup.getUnitOfMeasure())) {
+                    return true;
+                }
+                break;
+            case "methodOfDisposal":
+                if (!selectedJobSample.getMethodOfDisposal().equals(selectedJobSampleBackup.getMethodOfDisposal())) {
+                    return true;
+                }
+                break;    
+            case "dateSampleReceived":
+                if (!selectedJobSample.getDateReceived().equals(selectedJobSampleBackup.getDateReceived())) {
+                    return true;
+                }
+                break;      
+            default:
+                break;
+        }
+
+        return false;
     }
 }

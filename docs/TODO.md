@@ -20,15 +20,10 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
-#### Job Sample Management (Complete: 2017-12-06)
-- Compare edited sample field with the backed up sample to determine if the sample
-  was edited. Make sure each form field has an Id. Create update() method for 
-  each form field using the component Id in the method name.
-- Impl backup of job sample and restoration of sample if edits were cancelled.  
-  Change "Close" to "Cancel" in job sample dialog.
-- Automatically save job sample if they are dirty and the job is not dirty.
-  If not warn that sample was not saved.
 #### Double View Creation
+- Backup and remove cashier and job costing views from jobsDatabaseTable.xhtml.
+- Create mainTabView tabs for cashier and job costing tables.
+- Make sure that the initManagers() is called job costing or job from cashier view are opened.
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
 Views can be viewed simultaneously for easy job costing updates.
 -- Create views/tabs for job costing and cashier instead of using job tables view. 
@@ -113,6 +108,7 @@ paymentTerms, rename JMTSUserId to userId
 * Exporting forms/reports: service contract, reports, job costing etc.
 * Check that client credit status dialog still works.
 * Check client credit status dialog
+* Test SystemAdmin functions. Remove features that are not fully implemented.
 * etc.
 
 ### Reports

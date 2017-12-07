@@ -91,7 +91,7 @@ Email: info@dpbennett.com.jm
                                      style="width: 50%;font-weight: bold;background-color: lightyellow;" >
                             <p:ajax event="change"
                                     global="false"
-                                    listener="#{jobSampleManager.updateReference}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     process="@this"/>
                         </p:inputText>
 
@@ -110,12 +110,12 @@ Email: info@dpbennett.com.jm
                                         scrollHeight="200" 
                                         completeMethod="#{App.completeEmployee}" >
                             <p:ajax event="itemSelect"                                    
-                                    listener="#{jobSampleManager.updateSampledBy}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
 
                             <p:ajax event="change"                                    
-                                    listener="#{jobSampleManager.updateSampledBy}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
                         </p:autoComplete>
@@ -129,12 +129,12 @@ Email: info@dpbennett.com.jm
                                      style="width: 50%" >
                             <p:ajax event="dateSelect"
                                     global="false"                                                                 
-                                    listener="#{jobSampleManager.updateDateSampled}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
                             <p:ajax event="change"
                                     global="false"                                                                 
-                                    listener="#{jobSampleManager.updateDateSampled}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
                         </p:calendar>
@@ -163,7 +163,7 @@ Email: info@dpbennett.com.jm
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"
-                                    listener="#{jobSampleManager.updateProductCommonName}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
                         </p:inputText>
@@ -176,12 +176,12 @@ Email: info@dpbennett.com.jm
                                         scrollHeight="200" 
                                         completeMethod="#{App.completeCountry}" >
                             <p:ajax event="itemSelect"                              
-                                    listener="#{jobSampleManager.updateCountryOfOrigin}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this" />      
 
                             <p:ajax event="change"                              
-                                    listener="#{jobSampleManager.updateCountryOfOrigin}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this" />                               
                         </p:autoComplete>
@@ -194,7 +194,7 @@ Email: info@dpbennett.com.jm
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"
-                                    listener="#{jobSampleManager.updateBrand}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
                         </p:inputText>
@@ -207,7 +207,7 @@ Email: info@dpbennett.com.jm
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"                                    
-                                    listener="#{jobSampleManager.updateModel}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
                         </p:inputText>
@@ -220,7 +220,7 @@ Email: info@dpbennett.com.jm
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"                                   
-                                    listener="#{jobSampleManager.updateProductSerial}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
                         </p:inputText>
@@ -233,7 +233,7 @@ Email: info@dpbennett.com.jm
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"                                   
-                                    listener="#{jobSampleManager.updateProductCode}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
                         </p:inputText>
@@ -248,7 +248,7 @@ Email: info@dpbennett.com.jm
                             <p:ajax event="change"
                                     update="sampleReference"
                                     global="false"                                    
-                                    listener="#{jobSampleManager.updateDescription}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     process="@this"/>
                         </p:inputTextarea>
 
@@ -263,7 +263,7 @@ Email: info@dpbennett.com.jm
                                          value="#{jobSampleManager.selectedJobSample.quantity}" >
                                 <p:ajax event="change"
                                         global="false"
-                                        listener="#{jobSampleManager.updateProductQuantity}"   
+                                        listener="#{jobSampleManager.updateSample}"   
                                         update="sampleReference"
                                         process="@this"/>
                                 <f:convertNumber />
@@ -275,7 +275,7 @@ Email: info@dpbennett.com.jm
                                          title="Product unit of measure">
                                 <p:ajax event="change"
                                         global="false"
-                                        listener="#{jobSampleManager.updateProductUnitOfMeasure}"
+                                        listener="#{jobSampleManager.updateSample}"
                                         update="sampleReference"
                                         process="@this"/>
                             </p:inputText>
@@ -285,7 +285,7 @@ Email: info@dpbennett.com.jm
                         <p:selectOneMenu value="#{jobSampleManager.selectedJobSample.methodOfDisposal}" 
                                          id="methodOfDisposal">
                             <f:selectItems value="#{App.methodsOfDisposal}" />
-                            <p:ajax listener="#{jobSampleManager.updateMethodOfDisposal}"
+                            <p:ajax listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     global="false"
                                     process="@this" />
@@ -296,17 +296,17 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="2">    
                         <h:outputText value="Date received by responsible dept.: " />
                         <p:calendar id="dateSampleReceived"
-                                    value="#{jobSampleManager.jobSampleReceivalDate}"
+                                    value="#{jobSampleManager.selectedJobSample.dateReceived}"
                                     navigator="true"
                                     pattern="MMM dd, yyyy">
                             <p:ajax event="dateSelect"
                                     global="false"                                   
-                                    listener="#{jobSampleManager.updateDateSampleReceivedByDept}"   
+                                    listener="#{jobSampleManager.updateSample}"   
                                     update="sampleReference"
                                     process="@this"/>
                             <p:ajax event="change"
                                     global="false"                                   
-                                    listener="#{jobSampleManager.updateDateSampleReceivedByDept}"
+                                    listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
                         </p:calendar>

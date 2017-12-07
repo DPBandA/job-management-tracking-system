@@ -39,6 +39,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
+
         <p:column sortBy="#{job.jobNumber}" >
             <f:facet name="header">
                 <h:outputText value="Job number"/>
@@ -46,65 +47,68 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column sortBy="#{job.client.name}">
+        <p:column sortBy="#{job.client.name}" >
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.instructions}">
+        <p:column sortBy="#{job.instructions}" >
             <f:facet name="header">
                 <h:outputText value="Instructions"/>
             </f:facet>
             <h:outputText value="#{job.instructions}" />               
         </p:column> 
 
-        <p:column sortBy="#{job.jobStatusAndTracking.dateSubmitted}" style="min-width: 100px">
+        <p:column sortBy="#{job.jobCostingAndPayment.estimatedCost}" >
             <f:facet name="header">
-                <h:outputText value="Submitted"/>
+                <h:outputText value="Est. ($)"/>
             </f:facet>
-            <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
-                <f:convertDateTime pattern="MMM dd, yyyy"/>
-            </h:outputText>
-        </p:column>     
-        
-        <p:column sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" style="min-width: 100px" >
-            <f:facet name="header">
-                <h:outputText value="EDOC"/>
-            </f:facet>
-            <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">
-                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            <h:outputText value="#{job.jobCostingAndPayment.estimatedCost}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
             </h:outputText>
         </p:column>
-        
-        <p:column sortBy="#{job.jobStatusAndTracking.workProgress}" style="min-width: 85px" >
+
+        <p:column sortBy="#{job.jobCostingAndPayment.minDeposit}" >
             <f:facet name="header">
-                <h:outputText value="Progress"/>
+                <h:outputText value="Min. Deposit ($)"/>
             </f:facet>
-            <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />
+            <h:outputText value="#{job.jobCostingAndPayment.minDeposit}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText>
         </p:column>
-        
-        <p:column style="width:32px" >
-            <p:commandButton title="View/Edit job" 
-                             update=":mainTabViewForm:mainTabView:formsMenuButton"
-                             actionListener="#{jobManager.editJob}"                             
+
+        <p:column sortBy="#{job.jobCostingAndPayment.amountDue}" >
+            <f:facet name="header">
+                <h:outputText value="Amt Due($)"/>
+            </f:facet>
+            <h:outputText value="#{job.jobCostingAndPayment.amountDue}">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText>
+        </p:column>
+       
+        <p:column style="width:32px"
+                  rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}">
+            <p:commandButton title="View/Edit job costing/payment" 
+                             actionListener="#{jobManager.editJobCosting}"
+                             update=":mainTabViewForm:mainTabView:formsMenuButton,:jobCostingDialogForm"
                              onstart="longProcessDialogVar.show();"
+                             oncomplete="jobDialog.show();longProcessDialogVar.hide();jobFormTabVar.select(3);"
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
-                <p:resetInput target=":mainTabViewForm:mainTabView" />
 
                 <p:resetInput target=":mainTabViewForm:mainTabView" />
 
                 <f:setPropertyActionListener value="#{job}"
                                              id="editJobButtonPropListener"
-                                             target="#{jobManager.editCurrentJob}" />
+                                             target="#{jobManager.currentJob}" />
 
             </p:commandButton>           
         </p:column>
-        
+
     </p:dataTable>
 
 
