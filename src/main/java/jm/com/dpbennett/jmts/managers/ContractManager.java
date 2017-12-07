@@ -59,20 +59,24 @@ import jm.com.dpbennett.jmts.Application;
 public class ContractManager implements Serializable, BusinessEntityManagement {
 
     @PersistenceUnit(unitName = "JMTSPU")
-    private EntityManagerFactory EMF1;   
-    private Job currentJob;    
+    private EntityManagerFactory EMF1;
+    private Job currentJob;
     private JobManagerUser user;
-    private Integer longProcessProgress; 
+    private Integer longProcessProgress;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public ContractManager() {
-       
+
     }
 
-     public void init() {
-        System.out.println("Initializing Contract Manager...");      
+    public void setCurrentJob(Job currentJob) {
+        this.currentJob = currentJob;
+    }
+
+    public void init() {
+        System.out.println("Initializing Contract Manager...");
     }
 
     public void setUser(JobManagerUser user) {
@@ -85,8 +89,8 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
         }
         return user;
     }
-    
-     public final EntityManager getEntityManager1() {
+
+    public final EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
 
@@ -110,8 +114,8 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
 
         return null;
     }
-    
-     public Integer getLongProcessProgress() {
+
+    public Integer getLongProcessProgress() {
         if (longProcessProgress == null) {
             longProcessProgress = 0;
         } else {
@@ -360,7 +364,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     public void updateJob() {
         setDirty(true);
     }
-       
+
     @Override
     public void setDirty(Boolean dirty) {
         getCurrentJob().setIsDirty(dirty);
@@ -370,8 +374,8 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     public Boolean isDirty() {
         return getCurrentJob().getIsDirty();
     }
-    
-    public Job getCurrentJob() {       
+
+    public Job getCurrentJob() {
         return currentJob;
     }
 
@@ -399,7 +403,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
         }
     }
 
-        public void updateAssignee() {
+    public void updateAssignee() {
         setDirty(true);
     }
 
@@ -1070,5 +1074,5 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
 
         return null;
     }
-    
+
 }

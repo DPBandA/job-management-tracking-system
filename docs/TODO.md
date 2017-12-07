@@ -20,14 +20,6 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
-#### Job Sample Management (Complete: 2017-12-06)
-- Compare edited sample field with the backed up sample to determine if the sample
-  was edited. Make sure each form field has an Id. Create update() method for 
-  each form field using the component Id in the method name.
-- Impl backup of job sample and restoration of sample if edits were cancelled.  
-  Change "Close" to "Cancel" in job sample dialog.
-- Automatically save job sample if they are dirty and the job is not dirty.
-  If not warn that sample was not saved.
 #### Service Contract
 - Create ContractManager from JM.
   * Set user and job when job is being created, edited or subcontracted.
@@ -41,11 +33,23 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - Where applicable put grey and not black borders.
     “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
 - NB (Put in Wiki): The service contract template is : c:\jasperreports\ServiceContractTemplate.xls
+#### Job Sample Management (Complete: 2017-12-06)
+- Set user and job when job is being created, edited or subcontracted. Update 
+  tab and form to reflect change.
+- Compare edited sample field with the backed up sample to determine if the sample
+  was edited. Make sure each form field has an Id. Create update() method for 
+  each form field using the component Id in the method name.
+- Impl backup of job sample and restoration of sample if edits were cancelled.  
+  Change "Close" to "Cancel" in job sample dialog.
+- Automatically save job sample if they are dirty and the job is not dirty.
+  If not warn that sample was not saved.
 #### Double View Creation
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
 Views can be viewed simultaneously for easy job costing updates.
 -- Create views/tabs for job costing and cashier instead of using job tables view. 
 #### Job Costing & Payment
+- Set user and job when job is being created, edited or subcontracted. Update
+  the costing tab and forms to use to reflect changes
 - updateJobCostingAndPayment() and other update methods in FM to update isDirty 
   in JobCostingAndPayment and not the job. REVIEW THIS!!!
 - Remove FM code from JM.  

@@ -2332,9 +2332,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
         return currentJob;
     }
-
+    
     public void setCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
+    }
+    
+    public void setEditCurrentJob(Job currentJob) {
+        this.currentJob = currentJob;
+        contractManager.setCurrentJob(this.currentJob);
+        contractManager.setUser(this.user);
+        // tk init other managers used by JM
     }
 
     @Override

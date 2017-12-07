@@ -31,8 +31,8 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="3" cellspacing="10" >
                         <h:panelGroup>
                             <h:selectBooleanCheckbox id="testingService"
-                                                     value="#{jobManager.currentJob.serviceContract.serviceRequestedTesting}">
-                                <p:ajax listener="#{jobManager.updateJob}"                                       
+                                                     value="#{contractManager.currentJob.serviceContract.serviceRequestedTesting}">
+                                <p:ajax listener="#{contractManager.updateJob}"                                       
                                         global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -40,8 +40,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="calibrationService" value="#{jobManager.serviceRequestedCalibration}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="calibrationService" value="#{contractManager.serviceRequestedCalibration}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -49,8 +49,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="labelEvaluationService" value="#{jobManager.serviceRequestedLabelEvaluation}" >
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="labelEvaluationService" value="#{contractManager.serviceRequestedLabelEvaluation}" >
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -58,8 +58,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="inspectionService" value="#{jobManager.serviceRequestedInspection}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="inspectionService" value="#{contractManager.serviceRequestedInspection}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -67,8 +67,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="consultancyService" value="#{jobManager.serviceRequestedConsultancy}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="consultancyService" value="#{contractManager.serviceRequestedConsultancy}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -76,8 +76,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="trainingService" value="#{jobManager.serviceRequestedTraining}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="trainingService" value="#{contractManager.serviceRequestedTraining}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -85,8 +85,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="otherService" value="#{jobManager.serviceRequestedOther}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="otherService" value="#{contractManager.serviceRequestedOther}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"
                                         update="otherServiceText"
                                         process="@this"/>
@@ -96,10 +96,10 @@ Email: info@dpbennett.com.jm
 
                         <h:panelGroup>
                             <p:inputText id="otherServiceText"
-                                         disabled="#{!jobManager.serviceRequestedOther}"
+                                         disabled="#{!contractManager.serviceRequestedOther}"
                                          maxlength="250"
-                                         value="#{jobManager.currentJob.serviceContract.serviceRequestedOtherText}" >
-                                <p:ajax listener="#{jobManager.updateJob}"
+                                         value="#{contractManager.currentJob.serviceContract.serviceRequestedOtherText}" >
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         event="change"
                                         global="false"
                                         process="@this"/>
@@ -111,8 +111,8 @@ Email: info@dpbennett.com.jm
                 <p:panel header="Intended Market" >
                     <h:panelGrid columns="3" cellspacing="10" >
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="localMarket" value="#{jobManager.intendedMarketLocal}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="localMarket" value="#{contractManager.intendedMarketLocal}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -120,8 +120,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="caricomMarket" value="#{jobManager.intendedMarketCaricom}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="caricomMarket" value="#{contractManager.intendedMarketCaricom}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -129,8 +129,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="ukMarket" value="#{jobManager.intendedMarketUK}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="ukMarket" value="#{contractManager.intendedMarketUK}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -138,8 +138,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="usaMarket" value="#{jobManager.intendedMarketUSA}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="usaMarket" value="#{contractManager.intendedMarketUSA}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -147,8 +147,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="canadaMarket" value="#{jobManager.intendedMarketCanada}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="canadaMarket" value="#{contractManager.intendedMarketCanada}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"                                        
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
@@ -156,18 +156,18 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:panelGroup>
-                            <h:selectBooleanCheckbox id="otherIntendedMarket" value="#{jobManager.intendedMarketOther}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                            <h:selectBooleanCheckbox id="otherIntendedMarket" value="#{contractManager.intendedMarketOther}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"
                                         update="otherIntendedMartketText"
                                         process="@this"/>
                             </h:selectBooleanCheckbox>
                             <h:outputLabel for="otherIntendedMarket" value="Other: "/>
                             <p:inputText id="otherIntendedMartketText"
-                                         disabled="#{!jobManager.intendedMarketOther}"
+                                         disabled="#{!contractManager.intendedMarketOther}"
                                          maxlength="250"
-                                         value="#{jobManager.currentJob.serviceContract.intendedMarketOtherText}">
-                                <p:ajax listener="#{jobManager.updateJob}"
+                                         value="#{contractManager.currentJob.serviceContract.intendedMarketOtherText}">
+                                <p:ajax listener="#{contractManager.updateJob}"
                                         global="false"
                                         event="change"                                        
                                         process="@this"/>
@@ -179,14 +179,14 @@ Email: info@dpbennett.com.jm
                 <p:panel header="Special Instructions" >
                     <p:inputTextarea
                         id="specialInstructions"
-                        value="#{jobManager.currentJob.serviceContract.specialInstructions}"
+                        value="#{contractManager.currentJob.serviceContract.specialInstructions}"
                         maxlength="250"
                         counter="specialInstructionsCharsRemaining"
                         counterTemplate="{0} characters remaining."
                         autoResize="true"
                         rows="3"
                         style="width:100%">
-                        <p:ajax listener="#{jobManager.updateJob}"
+                        <p:ajax listener="#{contractManager.updateJob}"
                                 global="false"
                                 event="keyup"
                                 process="@this"/>
@@ -200,8 +200,9 @@ Email: info@dpbennett.com.jm
             <p:panel header="Additional Services Requested" >
                 <h:panelGrid columns="1" cellspacing="10" >
                     <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceUrgent" value="#{jobManager.currentJob.serviceContract.additionalServiceUrgent}">
-                            <p:ajax listener="#{jobManager.updateJob}"
+                        <h:selectBooleanCheckbox id="additionalServiceUrgent" 
+                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceUrgent}">
+                            <p:ajax listener="#{contractManager.updateJob}"
                                     global="false"                                    
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
@@ -209,8 +210,9 @@ Email: info@dpbennett.com.jm
                     </h:panelGroup>
 
                     <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceFaxResults" value="#{jobManager.currentJob.serviceContract.additionalServiceFaxResults}">
-                            <p:ajax listener="#{jobManager.updateJob}"
+                        <h:selectBooleanCheckbox id="additionalServiceFaxResults" 
+                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceFaxResults}">
+                            <p:ajax listener="#{contractManager.updateJob}"
                                     global="false"                                    
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
@@ -218,8 +220,9 @@ Email: info@dpbennett.com.jm
                     </h:panelGroup>
 
                     <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceTelephonePresumptiveResults" value="#{jobManager.currentJob.serviceContract.additionalServiceTelephonePresumptiveResults}">
-                            <p:ajax listener="#{jobManager.updateJob}"
+                        <h:selectBooleanCheckbox id="additionalServiceTelephonePresumptiveResults" 
+                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceTelephonePresumptiveResults}">
+                            <p:ajax listener="#{contractManager.updateJob}"
                                     global="false"                                   
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
@@ -227,8 +230,9 @@ Email: info@dpbennett.com.jm
                     </h:panelGroup>
 
                     <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceSendMoreContractForms" value="#{jobManager.currentJob.serviceContract.additionalServiceSendMoreContractForms}">
-                            <p:ajax listener="#{jobManager.updateJob}"
+                        <h:selectBooleanCheckbox id="additionalServiceSendMoreContractForms" 
+                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceSendMoreContractForms}">
+                            <p:ajax listener="#{contractManager.updateJob}"
                                     global="false"                                    
                                     process="@this"/>
                         </h:selectBooleanCheckbox>
@@ -236,8 +240,9 @@ Email: info@dpbennett.com.jm
                     </h:panelGroup>
 
                     <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceOther" value="#{jobManager.currentJob.serviceContract.additionalServiceOther}">
-                            <p:ajax listener="#{jobManager.updateJob}"
+                        <h:selectBooleanCheckbox id="additionalServiceOther" 
+                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceOther}">
+                            <p:ajax listener="#{contractManager.updateJob}"
                                     global="false"
                                     update="additionalServiceOtherText"
                                     process="@this"/>
@@ -245,9 +250,9 @@ Email: info@dpbennett.com.jm
                         <h:outputLabel for="additionalServiceOther" value="Other: "/>
                         <p:inputText id="additionalServiceOtherText"
                                      maxlength="250"
-                                     disabled="#{!jobManager.currentJob.serviceContract.additionalServiceOther}"
-                                     value="#{jobManager.currentJob.serviceContract.additionalServiceOtherText}">
-                            <p:ajax listener="#{jobManager.updateJob}"
+                                     disabled="#{!contractManager.currentJob.serviceContract.additionalServiceOther}"
+                                     value="#{contractManager.currentJob.serviceContract.additionalServiceOtherText}">
+                            <p:ajax listener="#{contractManager.updateJob}"
                                     global="false"
                                     event="change"                                   
                                     process="@this"/>
