@@ -27,13 +27,13 @@ Email: info@dpbennett.com.jm
 
         <p:commandButton value="Add sample(s)"
                          title="Add new sample(s)"
-                         actionListener="#{jobManager.jobSampleManager.createNewJobSample}"                         
+                         actionListener="#{jobSampleManager.createNewJobSample}"                         
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
                          process="@this" >
 
             <p:ajax event="dialogReturn" 
-                    listener="#{jobManager.jobSampleManager.jobSampleDialogReturn}"                    
+                    listener="#{jobSampleManager.jobSampleDialogReturn}"                    
                     update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"
                     process="@form"/>
 
@@ -44,7 +44,7 @@ Email: info@dpbennett.com.jm
                      paginator="true"
                      rows="15"
                      var="jobSample"
-                     value="#{jobManager.jobSampleManager.currentJob.filteredJobSamples}">
+                     value="#{jobSampleManager.currentJob.filteredJobSamples}">
             <p:column style="width:100px"  >
                 <f:facet name="header">
                     <h:outputText value="Reference" />
@@ -79,14 +79,14 @@ Email: info@dpbennett.com.jm
                             style="width: 100%;text-align: left;background: none;border: 0;"
                             onstart="longProcessDialogVar.show();"  
                             icon="ui-icon-pencil"
-                            actionListener="#{jobManager.jobSampleManager.editJobSample}"                                           
+                            actionListener="#{jobSampleManager.editJobSample}"                                           
                             process="@this">
 
                             <f:setPropertyActionListener value="#{jobSample}"
-                                                         target="#{jobManager.jobSampleManager.editSelectedJobSample}" />
+                                                         target="#{jobSampleManager.editSelectedJobSample}" />
 
                             <p:ajax event="dialogReturn" 
-                                    listener="#{jobManager.jobSampleManager.jobSampleDialogReturn}"
+                                    listener="#{jobSampleManager.jobSampleDialogReturn}"
                                     update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
                         </p:commandButton>                       
@@ -97,15 +97,15 @@ Email: info@dpbennett.com.jm
                             value="Copy sample(s)"                               
                             onstart="longProcessDialogVar.show();"
                             style="width: 100%;text-align: left;background: none;border: 0;"
-                            actionListener="#{jobManager.jobSampleManager.copyJobSample}"                            
+                            actionListener="#{jobSampleManager.copyJobSample}"                            
                             icon="ui-icon-copy"
                             process="@this">
 
                             <f:setPropertyActionListener value="#{jobSample}" 
-                                                         target="#{jobManager.jobSampleManager.copySelectedJobSample}" />
+                                                         target="#{jobSampleManager.copySelectedJobSample}" />
 
                             <p:ajax event="dialogReturn" 
-                                    listener="#{jobManager.jobSampleManager.jobSampleDialogReturn}"
+                                    listener="#{jobSampleManager.jobSampleDialogReturn}"
                                     update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
                         </p:commandButton>
@@ -114,17 +114,17 @@ Email: info@dpbennett.com.jm
                     <p:menuitem >                       
                         <p:commandButton   
                             value="Delete sample(s)"
-                            actionListener="#{jobManager.jobSampleManager.openJobSampleDeleteConfirmDialog}"
+                            actionListener="#{jobSampleManager.openJobSampleDeleteConfirmDialog}"
                             style="width: 100%;text-align: left;background: none;border: 0;"
                             onstart="longProcessDialogVar.show();"
                             icon="ui-icon-trash"
                             process="@this">
 
                             <f:setPropertyActionListener value="#{jobSample}"
-                                                         target="#{jobManager.jobSampleManager.selectedJobSample}" />
+                                                         target="#{jobSampleManager.selectedJobSample}" />
 
                             <p:ajax event="dialogReturn" 
-                                    listener="#{jobManager.jobSampleManager.jobSampleDialogReturn}"
+                                    listener="#{jobSampleManager.jobSampleDialogReturn}"
                                     update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
                         </p:commandButton>
@@ -134,15 +134,15 @@ Email: info@dpbennett.com.jm
             </p:column>           
             <p:columnGroup type="footer">
                 <p:row>
-                    <p:column colspan="2" style="text-align:right" footerText="Total number of samples: #{jobManager.jobSampleManager.currentJob.numberOfSamples}"/>
-                    <p:column colspan="3" style="text-align:right" footerText="Total number of products: #{jobManager.jobSampleManager.currentJob.numberOfSampleProducts}"/>
+                    <p:column colspan="2" style="text-align:right" footerText="Total number of samples: #{jobSampleManager.currentJob.numberOfSamples}"/>
+                    <p:column colspan="3" style="text-align:right" footerText="Total number of products: #{jobSampleManager.currentJob.numberOfSampleProducts}"/>
                 </p:row>               
             </p:columnGroup>
         </p:dataTable>
 
         <p:commandButton value="Add sample(s)"
                          title="Add new sample(s)"
-                         actionListener="#{jobManager.jobSampleManager.createNewJobSample}"
+                         actionListener="#{jobSampleManager.createNewJobSample}"
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
                          process="@this" >

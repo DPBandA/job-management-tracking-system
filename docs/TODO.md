@@ -22,7 +22,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Service Contract
 - Create ContractManager from JM.
-  * Set user and job when job is being created, edited or subcontracted.
+  * Export service contract from ContractManager and clean up JM of service contract code.
   * Check that long process dialog works.
 - Put button in service contract tab to generate service contract.
 - Export sample condition(s) to service contract.
@@ -118,12 +118,13 @@ paymentTerms, rename JMTSUserId to userId
 - Ensure billing address and contact are valid and not blank before saving job.
 
 ### Testing on Test and Live versions
-- Assign git tag to next release
-- Test all major use cases with normal user (kmiller)
-* Parent job entry with/without samples
-* Creating subcontracts with/without samples
+- Assign git tag to next release.
+- Test all major use cases with normal user (kmiller).
+* Parent job entry with/without samples.
+* Add/Edit/Delete samples.
+* Creating subcontracts with/without samples.
 * Exporting forms/reports: service contract, reports, job costing etc.
-* Check that client credit status dialog still works
+* Check that client credit status dialog still works.
 * etc.
 
 ### Reports
