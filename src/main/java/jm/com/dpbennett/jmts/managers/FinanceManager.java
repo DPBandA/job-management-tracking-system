@@ -1047,57 +1047,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             RequestContext.getCurrentInstance().closeDialog(null);
         }
     }
-
-    public List<Department> completeDepartment(String query) {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-
-            List<Department> departments = Department.findActiveDepartmentsByName(em, query);
-
-            return departments;
-
-        } catch (Exception e) {
-            System.out.println(e + ": completeDepartment");
-            return new ArrayList<>();
-        }
-    }
-
-    public List<DepartmentUnit> completeDepartmentUnit(String query) {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-
-            List<DepartmentUnit> departmentUnits = DepartmentUnit.findDepartmentUnitsByName(em, query);
-
-            return departmentUnits;
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
     
-    public List<Laboratory> completeLaboratory(String query) {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-
-            List<Laboratory> laboratories = Laboratory.findLaboratoriesByName(em, query);
-
-            return laboratories;
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
     public void closeUnitCostDialog() {
         RequestContext context = RequestContext.getCurrentInstance();
 
@@ -1607,20 +1557,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             System.out.println(e);
 
-            return new ArrayList<>();
-        }
-    }
-
-    public List<AccPacCustomer> completeAccPacClient(String query) {
-        EntityManager em2 = null;
-
-        try {
-            em2 = getEntityManager2();
-
-            return AccPacCustomer.findAccPacCustomersByName(em2, query);
-        } catch (Exception e) {
-
-            System.out.println(e);
             return new ArrayList<>();
         }
     }

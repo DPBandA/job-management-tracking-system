@@ -106,7 +106,7 @@ Email: info@dpbennett.com.jm
                                 itemValue="#{businessOffice}"
                                 converter="businessOfficeConverter"
                                 forceSelection="true"
-                                completeMethod="#{jobManager.completeBusinessOffice}" >                  
+                                completeMethod="#{App.completeBusinessOffice}" >                  
                 </p:autoComplete>
 
                 <h:outputText value="Department:" />
@@ -121,7 +121,7 @@ Email: info@dpbennett.com.jm
                                 itemValue="#{department}"
                                 itemLabel="#{department.truncatedName}"
                                 converter="departmentConverter"
-                                completeMethod="#{jobManager.completeDepartment}" >                
+                                completeMethod="#{App.completeDepartment}" >                
                 </p:autoComplete>                    
 
             </h:panelGrid>

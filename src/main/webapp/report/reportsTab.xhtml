@@ -72,7 +72,7 @@ Email: info@dpbennett.com.jm
                             itemValue="#{department}"
                             itemLabel="#{department.name}"
                             converter="departmentConverter"
-                            completeMethod="#{reportManager.completeDepartment}" >
+                            completeMethod="#{App.completeDepartment}" >
                 <p:ajax event="itemSelect"
                         listener="#{reportManager.updateReportingDepartment}"
                         global="false"
@@ -94,7 +94,7 @@ Email: info@dpbennett.com.jm
                                 itemValue="#{employee}"
                                 converter="employeeConverter"
                                 forceSelection="true"
-                                completeMethod="#{reportManager.completeEmployee}" >
+                                completeMethod="#{App.completeEmployee}" >
                     <p:ajax event="itemSelect"
                             update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,datePeriodsPanelGrid"
                             listener="#{reportManager.updateReportEmployee}"

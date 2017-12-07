@@ -33,7 +33,7 @@ Email: info@dpbennett.com.jm
                             size="40"
                             title="#{financeManager.accPacCustomer.customerName}"
                             value="#{financeManager.accPacCustomer.customerName}"                           
-                            completeMethod="#{financeManager.completeAccPacClient}" >
+                            completeMethod="#{App.completeAccPacClient}" >
                 <p:ajax event="itemSelect"
                         listener="#{financeManager.updateCreditStatus}"
                         update="creditStatusSummary,invoiceTable" />

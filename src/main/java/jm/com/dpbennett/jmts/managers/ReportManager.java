@@ -272,25 +272,6 @@ public class ReportManager implements Serializable {
         return reportEmployee;
     }
 
-    public List<Employee> completeEmployee(String query) {
-        EntityManager em = null;
-
-        try {
-
-            em = getEntityManager1();
-            List<Employee> employees = Employee.findActiveEmployeesByName(em, query);
-
-            if (employees != null) {
-                return employees;
-            } else {
-                return new ArrayList<>();
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            return new ArrayList<>();
-        }
-    }
-
     public void setReportEmployee(Employee reportEmployee) {
         this.reportEmployee = reportEmployee;
     }
@@ -365,22 +346,6 @@ public class ReportManager implements Serializable {
 
     public void setReportingDepartment(Department reportingDepartment) {
         this.reportingDepartment = reportingDepartment;
-    }
-
-    public List<Department> completeDepartment(String query) {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-
-            List<Department> departments = Department.findActiveDepartmentsByName(em, query);
-
-            return departments;
-
-        } catch (Exception e) {
-            System.out.println(e + ": completeDepartment");
-            return new ArrayList<>();
-        }
     }
 
     public String getReportSearchText() {

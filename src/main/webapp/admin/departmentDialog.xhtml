@@ -103,7 +103,7 @@ Email: info@dpbennett.com.jm
                                 itemValue="#{departmentHead}"
                                 converter="employeeConverter"
                                 forceSelection="true"
-                                completeMethod="#{jobManager.completeEmployee}" >                       
+                                completeMethod="#{App.completeEmployee}" >                       
                 </p:autoComplete>       
 
                 <h:outputText value="Acting Head:" />
@@ -118,7 +118,7 @@ Email: info@dpbennett.com.jm
                                     itemValue="#{departmentActingHead}"
                                     converter="employeeConverter"
                                     forceSelection="true"
-                                    completeMethod="#{jobManager.completeEmployee}" >                       
+                                    completeMethod="#{App.completeEmployee}" >                       
                     </p:autoComplete>     
                     <p:spacer height="0" width="5"/>
                     <p:selectBooleanCheckbox id="actingHeadActive"

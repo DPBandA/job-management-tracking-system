@@ -20,22 +20,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
-#### Service Contract
-- Create ContractManager from JM.
-  * Export service contract from ContractManager and clean up JM of service contract code.
-  * Check that long process dialog works.
-- Put button in service contract tab to generate service contract.
-- Export sample condition(s) to service contract.
-- Ensure that the contact in the job and not the main contact in the client is used where required. The job contact field to be created if necessary.
-- Restrict generation of service contract to an authorized person/department?
-- If department name/id too long for field, shorten and add ellipses to the end.
-- Put client ID# (TRN etc.) into service contract?
-- Where applicable put grey and not black borders.
-    “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
-- NB (Put in Wiki): The service contract template is : c:\jasperreports\ServiceContractTemplate.xls
 #### Job Sample Management (Complete: 2017-12-06)
-- Set user and job when job is being created, edited or subcontracted. Update 
-  tab and form to reflect change.
 - Compare edited sample field with the backed up sample to determine if the sample
   was edited. Make sure each form field has an Id. Create update() method for 
   each form field using the component Id in the method name.
@@ -57,6 +42,7 @@ Views can be viewed simultaneously for easy job costing updates.
     from JM.
   * Implement getFinanceManager() and use it in jobCostingAndPaymentTab.xhtml 
     to access JobCostingAndPayment instead of directly in JM.
+- Check that job costing form works.
 - Use FM to check credit status?
 - Update job costing and payment forms to use FinanceManager (FM).
   * Implement "dirty" for JobCostingAndPayment and use it to flag as dirty and not the entire job. 
@@ -118,6 +104,7 @@ paymentTerms, rename JMTSUserId to userId
 - Ensure billing address and contact are valid and not blank before saving job.
 
 ### Testing on Test and Live versions
+- Build for gf3.1.2.2 and deploy.
 - Assign git tag to next release.
 - Test all major use cases with normal user (kmiller).
 * Parent job entry with/without samples.
@@ -125,6 +112,7 @@ paymentTerms, rename JMTSUserId to userId
 * Creating subcontracts with/without samples.
 * Exporting forms/reports: service contract, reports, job costing etc.
 * Check that client credit status dialog still works.
+* Check client credit status dialog
 * etc.
 
 ### Reports
@@ -160,14 +148,19 @@ paymentTerms, rename JMTSUserId to userId
   before saving.
 - Put "Advanced Search" heading in Jobs tab.
 - Find and put all jasper reports into reports package.
+- Export sample condition(s) to service contract.
 - Remove unused dialogs.
+- Restrict generation of service contract to an authorized person/department?
 - Remove the <ui:include /> from top of index.xhtml and put them in their
   respective *Tab or other files. This may make the index.xhtml file smaller
   and reduce load time.
+- Put client ID# (TRN etc.) into service contract?
+- Put button in service contract tab to generate service contract.
 - Try to fill in billing address and contact when new client is selected??
 - MainTabView and MainTab to be put in BEL so they can be used by other modules
   that are developed independently of the JMTS.
 - In System Admin List all by default.  
+- Service Contract: “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
 - Create autocomplete list of "standard/common" product names using a "Distinct"
   type of the query on the existing samples.
 - Implement sub-sectors by adding a collections field in the sector class.
@@ -183,11 +176,13 @@ paymentTerms, rename JMTSUserId to userId
 - Move code dealing with Accpac, costing etc to AccountingManager.
 - Put job number in tab title...in brackets. Update the tab when something that 
   affects the job number changes.
+- Change label Department* to Parent department* when job is subcontracted.
 - Add user/department privilege to add payments.
 - Do search when respective tab with search results table is selected for the 
   System/Finance add min tabs.
 - Add search fields and dialogs where they don't exist. Impl find* methods that 
   take "active" as argument and add checkbox to show/hide active objects.  
+- Put Application class in BEL for reuse by managers and other code.
 - Call JM init() to reset search results etc when user logs out.
 - Remove access to JobManager from SearchManager and implement access to it to similar
   to how it's done with ClientManager.

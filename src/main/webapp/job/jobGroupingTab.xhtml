@@ -34,7 +34,7 @@ Email: info@dpbennett.com.jm
                         converter="sectorConverter"                        
                         forceSelection="true"
                         scrollHeight="250"
-                        completeMethod="#{jobManager.completeActiveSectors}" >
+                        completeMethod="#{App.completeActiveSectors}" >
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateSector}"
                     process="@this"/>
@@ -51,7 +51,7 @@ Email: info@dpbennett.com.jm
                         converter="jobCategoryConverter"                        
                         forceSelection="true"
                         scrollHeight="250"
-                        completeMethod="#{jobManager.completeActiveJobCategories}" >
+                        completeMethod="#{App.completeActiveJobCategories}" >
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobCategory}"
                     process="@this"/>
@@ -67,7 +67,7 @@ Email: info@dpbennett.com.jm
                         converter="jobSubCategoryConverter"                        
                         forceSelection="true"
                         scrollHeight="250"
-                        completeMethod="#{jobManager.completeActiveJobSubCategories}" >
+                        completeMethod="#{App.completeActiveJobSubCategories}" >
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobSubCategory}"
                     process="@this"/>

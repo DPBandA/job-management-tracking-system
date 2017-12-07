@@ -38,6 +38,7 @@ import javax.naming.directory.SearchControls;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.BusinessEntity;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
@@ -46,14 +47,17 @@ import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.Country;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
+import jm.com.dpbennett.business.entity.DepartmentUnit;
 import jm.com.dpbennett.business.entity.Distributor;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.JobCategory;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.JobSubCategory;
+import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Manufacturer;
 import jm.com.dpbennett.business.entity.PetrolCompany;
+import jm.com.dpbennett.business.entity.Preference;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.Service;
 import jm.com.dpbennett.business.entity.ServiceContract;
@@ -72,6 +76,8 @@ public class Application {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
+    @PersistenceUnit(unitName = "AccPacPU")
+    private EntityManagerFactory EMF2;
     private List years;
     private final Map<String, String> themes = new TreeMap<>();
 
@@ -94,6 +100,11 @@ public class Application {
         return EMF1.createEntityManager();
     }
 
+    public EntityManager getEntityManager2() {
+        return EMF2.createEntityManager();
+    }
+
+    // tk move to business utils
     public List getYears() {
         if (years == null) {
             years = new ArrayList();
@@ -183,10 +194,9 @@ public class Application {
                         "organizationName");
         methods.add(new SelectItem("1", "Collected by the client within 30 days"));
         if (sysOption != null) {
-           methods.add(new SelectItem("2", "Disposed of by " + sysOption.getOptionValue()));
-        }
-        else {
-           methods.add(new SelectItem("2", "Disposed of by us"));    
+            methods.add(new SelectItem("2", "Disposed of by " + sysOption.getOptionValue()));
+        } else {
+            methods.add(new SelectItem("2", "Disposed of by us"));
         }
         methods.add(new SelectItem("3", "To be determined"));
 
@@ -255,21 +265,32 @@ public class Application {
     }
 
     public List<BusinessOffice> completeBusinessOffice(String query) {
+        EntityManager em = null;
+
         try {
-            return BusinessOffice.findBusinessOfficesByName(getEntityManager1(), query);
+            em = getEntityManager1();
+
+            List<BusinessOffice> offices = BusinessOffice.findActiveBusinessOfficesByName(em, query);
+
+            return offices;
         } catch (Exception e) {
+
             System.out.println(e);
             return new ArrayList<>();
         }
     }
 
     public List<Department> completeDepartment(String query) {
+        EntityManager em = null;
+
         try {
-            return Department.findDepartmentsByName(getEntityManager1(), query);
+            em = getEntityManager1();
+
+            List<Department> departments = Department.findActiveDepartmentsByName(em, query);
+
+            return departments;
 
         } catch (Exception e) {
-            System.out.println(e);
-
             return new ArrayList<>();
         }
     }
@@ -308,9 +329,13 @@ public class Application {
     }
 
     public List<Employee> completeEmployee(String query) {
+        EntityManager em = null;
 
         try {
-            List<Employee> employees = Employee.findActiveEmployeesByName(getEntityManager1(), query);
+
+            em = getEntityManager1();
+            List<Employee> employees = Employee.findActiveEmployeesByName(em, query);
+
             if (employees != null) {
                 return employees;
             } else {
@@ -322,7 +347,6 @@ public class Application {
         }
     }
 
-    // tk To be remove as it is implemented in ClientManager
     public List<Client> completeClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
@@ -720,5 +744,138 @@ public class Application {
         }
 
         return list;
+    }
+
+    public List<Classification> completeClassification(String query) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager1();
+
+            List<Classification> classifications = Classification.findActiveClassificationsByName(em, query);
+
+            return classifications;
+        } catch (Exception e) {
+
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+
+    public ArrayList<String> completeCountry(String query) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager1();
+
+            ArrayList<Country> countries = new ArrayList<>(Country.findCountriesByName(em, query));
+            ArrayList<String> countriesList = (ArrayList<String>) (ArrayList<?>) countries;
+
+            return countriesList;
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+
+    public List<AccPacCustomer> completeAccPacClient(String query) {
+        EntityManager em2 = null;
+
+        try {
+            em2 = getEntityManager2();
+
+            return AccPacCustomer.findAccPacCustomersByName(em2, query);
+        } catch (Exception e) {
+
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+
+    public List<String> completePreferenceValue(String query) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager1();
+
+            List<String> preferenceValues = Preference.findAllPreferenceValues(em, query);
+
+            return preferenceValues;
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+
+    public List<DepartmentUnit> completeDepartmentUnit(String query) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager1();
+
+            List<DepartmentUnit> departmentUnits = DepartmentUnit.findDepartmentUnitsByName(em, query);
+
+            return departmentUnits;
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Laboratory> completeLaboratory(String query) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager1();
+
+            List<Laboratory> laboratories = Laboratory.findLaboratoriesByName(em, query);
+
+            return laboratories;
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * NB: query parameter currently not used to filter sectors.
+     *
+     * @param query
+     * @return
+     */
+    public List<Sector> completeActiveSectors(String query) {
+        EntityManager em = getEntityManager1();
+
+        List<Sector> sectors = Sector.findAllActiveSectors(em);
+
+        return sectors;
+    }
+
+    /**
+     * NB: query not used to filter
+     *
+     * @param query
+     * @return
+     */
+    public List<JobCategory> completeActiveJobCategories(String query) {
+        EntityManager em = getEntityManager1();
+
+        List<JobCategory> categories = JobCategory.findAllActiveJobCategories(em);
+
+        return categories;
+    }
+
+    public List<JobSubCategory> completeActiveJobSubCategories(String query) {
+        EntityManager em = getEntityManager1();
+
+        List<JobSubCategory> subCategories = JobSubCategory.findAllActiveJobSubCategories(em);
+
+        return subCategories;
     }
 }

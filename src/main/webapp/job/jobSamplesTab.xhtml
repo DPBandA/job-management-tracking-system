@@ -142,13 +142,15 @@ Email: info@dpbennett.com.jm
 
         <p:commandButton value="Add sample(s)"
                          title="Add new sample(s)"
-                         actionListener="#{jobSampleManager.createNewJobSample}"
+                         actionListener="#{jobSampleManager.createNewJobSample}"                         
                          onstart="longProcessDialogVar.show();"
                          icon="ui-icon-plus"
                          process="@this" >
 
             <p:ajax event="dialogReturn" 
-                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
+                    listener="#{jobSampleManager.jobSampleDialogReturn}"                    
+                    update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"
+                    process="@form"/>
 
         </p:commandButton>
 

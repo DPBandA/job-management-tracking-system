@@ -31,7 +31,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import jm.com.dpbennett.business.entity.Country;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Job;
@@ -56,7 +55,6 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     private Job currentJob;
     private JobSample selectedJobSample;
     private JobSample selectedJobSampleBackup;
-    private Integer longProcessProgress;
     private Integer jobSampleDialogTabViewActiveIndex;
     private JobManagerUser user;
 
@@ -64,7 +62,6 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
      * Creates a new instance of JobManagerBean
      */
     public JobSampleManager() {
-        longProcessProgress = 0;
         selectedJobSample = new JobSample();
         jobSampleDialogTabViewActiveIndex = 0;
     }
@@ -150,7 +147,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     /**
      * To be applied when sample if saved
      */
-    public void updateJobSampleReference() {
+    public void updateSampleQuantity() {
         // update reference while ensuring number of samples is not less than 1
         // or greater than 700 (for now but to be made system option)
         if (selectedJobSample.getSampleQuantity() != null) {
@@ -163,12 +160,10 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
             }
         }
 
-        //setDirty(true);
         getSelectedJobSample().setIsDirty(true);
     }
 
     public void updateProductQuantity() {
-        //setDirty(true);
         getSelectedJobSample().setIsDirty(true);
     }
 
@@ -184,47 +179,59 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         this.jobSampleDialogTabViewActiveIndex = jobSampleDialogTabViewActiveIndex;
     }
 
-    public void updateJobSample() {
+//    public void updateJobSample() {
+//        getSelectedJobSample().setIsDirty(true);
+//    }
+    public void updateDateSampleReceivedByDept() {
         getSelectedJobSample().setIsDirty(true);
     }
 
-    public List<Employee> completeEmployee(String query) {
-        EntityManager em = null;
+    public void updateMethodOfDisposal() {
+        getSelectedJobSample().setIsDirty(true);
+    }
 
-        try {
+    public void updateProductUnitOfMeasure() {
+        getSelectedJobSample().setIsDirty(true);
+    }
 
-            em = getEntityManager1();
-            List<Employee> employees = Employee.findActiveEmployeesByName(em, query);
+    public void updateDescription() {
+        getSelectedJobSample().setIsDirty(true);
+    }
 
-            if (employees != null) {
-                return employees;
-            } else {
-                return new ArrayList<>();
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            return new ArrayList<>();
-        }
+    public void updateProductCode() {
+        getSelectedJobSample().setIsDirty(true);
+    }
+
+    public void updateProductSerial() {
+        getSelectedJobSample().setIsDirty(true);
+    }
+
+    public void updateModel() {
+        getSelectedJobSample().setIsDirty(true);
+    }
+
+    public void updateBrand() {
+        getSelectedJobSample().setIsDirty(true);
+    }
+
+    public void updateCountryOfOrigin() {
+        getSelectedJobSample().setIsDirty(true);
+    }
+
+    public void updateProductCommonName() {
+        getSelectedJobSample().setIsDirty(true);
+    }
+
+    public void updateDateSampled() {
+        getSelectedJobSample().setIsDirty(true);
+    }
+
+    public void updateReference() {
+        getSelectedJobSample().setIsDirty(true);
     }
 
     public void updateSampledBy() {
         getSelectedJobSample().setIsDirty(true);
-    }
-
-    public ArrayList<String> completeCountry(String query) {
-        EntityManager em = null;
-
-        try {
-            em = getEntityManager1();
-
-            ArrayList<Country> countries = new ArrayList<>(Country.findCountriesByName(em, query));
-            ArrayList<String> countriesList = (ArrayList<String>) (ArrayList<?>) countries;
-
-            return countriesList;
-        } catch (Exception e) {
-            System.out.println(e);
-            return new ArrayList<>();
-        }
     }
 
     public Date getJobSampleReceivalDate() {
@@ -245,12 +252,13 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
     public void okJobSample() {
         EntityManager em = getEntityManager1();
-        updateJobSampleReference();
+        updateSampleQuantity();
         updateProductQuantity();
         if (selectedJobSample.getIsToBeAdded()) {
             currentJob.getJobSamples().add(selectedJobSample);
-            selectedJobSample.setIsToBeAdded(false);
         }
+
+        selectedJobSample.setIsToBeAdded(false);
 
         setNumberOfSamples();
 
@@ -395,7 +403,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
     private void setNumberOfSamples() {
         currentJob.setNumberOfSamples(0L);
-        for (int i = 0; i < currentJob.getJobSamples().size(); i++) { // find total
+        for (int i = 0; i < currentJob.getJobSamples().size(); i++) {
             if (currentJob.getJobSamples().get(i).getSampleQuantity() == null) {
                 currentJob.getJobSamples().get(i).setSampleQuantity(1L);
             }
@@ -447,7 +455,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         return Job.getJobNumber(currentJob, getEntityManager1());
     }
 
-    public final EntityManager getEntityManager1() {
+    private EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
 }

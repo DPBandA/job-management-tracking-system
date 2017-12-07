@@ -87,7 +87,7 @@ Email: info@dpbennett.com.jm
                             itemValue="#{department}"
                             itemLabel="#{department.name}"
                             converter="departmentConverter"
-                            completeMethod="#{financeManager.completeDepartment}" >
+                            completeMethod="#{App.completeDepartment}" >
                             <p:ajax event="itemSelect"
                                     listener="#{financeManager.updateCurrentUnitCostDepartment}"
                                     global="false"                                    
@@ -113,7 +113,7 @@ Email: info@dpbennett.com.jm
                             itemValue="#{departmentUnit}"
                             itemLabel="#{departmentUnit.name}"
                             converter="departmentUnitConverter"
-                            completeMethod="#{financeManager.completeDepartmentUnit}" >
+                            completeMethod="#{App.completeDepartmentUnit}" >
                             <p:ajax event="itemSelect"
                                     listener="#{financeManager.updateCurrentUnitCostDepartmentUnit}"
                                     global="false"                                    
@@ -139,7 +139,7 @@ Email: info@dpbennett.com.jm
                             itemValue="#{laboratory}"
                             itemLabel="#{laboratory.name}"
                             converter="laboratoryConverter"
-                            completeMethod="#{financeManager.completeLaboratory}" >
+                            completeMethod="#{App.completeLaboratory}" >
                             <p:ajax event="itemSelect"
                                     listener="#{financeManager.updateCurrentUnitCostDepartmentLab}"
                                     global="false"                                    
@@ -242,7 +242,7 @@ Email: info@dpbennett.com.jm
                                                 itemValue="#{department}"
                                                 itemLabel="#{department.name}" 
                                                 converter="departmentConverter"
-                                                completeMethod="#{financeManager.completeDepartment}" >
+                                                completeMethod="#{App.completeDepartment}" >
                                     <p:ajax event="itemSelect"
                                             listener="#{financeManager.updateUnitCostDepartment}"   
                                             update=":unitCostsTableForm"
