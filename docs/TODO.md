@@ -21,7 +21,12 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Double/Multiple View Creation
-- Create mainTabView tabs for cashier and job costing tables.
+- Change h:selectBooleanCheckbox to p:selectBooleanCheckbox
+- Create checkbox group that allows selecting, jobs, cashier and job costing tabs.
+  In JM user use jobTableViewPreference to store all 3 selections using get/set?
+- The default job tab that comes up should be based on the "Job table view" selected 
+  in preferences.
+- Create mainTabView tabs for job costing.
 - Make sure that the initManagers() is called job costing or job from cashier view are opened.
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
 Views can be viewed simultaneously for easy job costing updates.

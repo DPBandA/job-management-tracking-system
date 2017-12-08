@@ -39,17 +39,15 @@ Email: info@dpbennett.com.jm
                          icon="ui-icon-close"
                          process="@this"/>
 
-        <h:panelGroup>
-            <h:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.costingCompleted}"  
-                                     disabled="#{financeManager.completed}"
-                                     title="If this job is assigned to you, check to indicate that this job costing was completed.">
-                <p:ajax global="false"
-                        listener="#{financeManager.completeJobCosting}"
-                        update="@this,exportJobCostingButton1"
-                        process="@this"/>
-            </h:selectBooleanCheckbox>
-            <h:outputLabel value="Prepared" title="If this job is assigned to you, check to indicate that this job costing was completed." />
-        </h:panelGroup>
+        <p:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.costingCompleted}"  
+                                 disabled="#{financeManager.completed}" 
+                                 itemLabel="Prepared"
+                                 label="If this job is assigned to you, check to indicate that this job costing was completed." >
+            <p:ajax global="false" 
+                    listener="#{financeManager.completeJobCosting}"
+                    update="@this,exportJobCostingButton1"
+                    process="@this"/>
+        </p:selectBooleanCheckbox>
 
         <h:panelGroup>
             <h:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.costingApproved}"   

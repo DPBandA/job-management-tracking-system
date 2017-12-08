@@ -24,65 +24,11 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <p:toolbar id="jobsToolbar">
-        <p:toolbarGroup align="left" >   
-
-            <p:commandButton
-                id="createNewJobButton"
-                actionListener="#{jobManager.createNewJob}"
-                global="true"
-                rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
-                onstart="longProcessDialogVar.show();" 
-                onerror="connectionErrorDialog.show();"
-                value="New"                                       
-                title="Create new job"
-                icon="ui-icon-plusthick"
-                process="@this">  
-
-                <p:resetInput target=":mainTabViewForm:mainTabView" />
-
-            </p:commandButton>
-
-            <p:commandButton value="Approved"                                                    
-                             ajax="true"
-                             title="Mark the selected job costing as being approved"
-                             style="width: 150px"  
-                             rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
-                             actionListener="#{jobManager.financeManager.approveSelectedJobCostings}"
-                             update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
-                             onstart="longProcessDialogVar2.show();" 
-                             oncomplete="longProcessDialogVar2.hide();">                                                                                    
-            </p:commandButton>
-            <p:spacer height="0" width="10"  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"/>
-            <p:commandButton value="Invoiced"                                                    
-                             ajax="true"
-                             title="Mark the selected job costing as being invoiced"
-                             style="width: 150px"  
-                             rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}"
-                             actionListener="#{jobManager.financeManager.invoiceSelectedJobCostings}"
-                             update=":mainTabViewForm:mainTabView:jobsDatabaseTable"
-                             onstart="longProcessDialogVar2.show();" 
-                             oncomplete="longProcessDialogVar2.hide();">                                                                                    
-            </p:commandButton>
-
-            <p:spacer height="0" width="200"  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"/>
-            <p:commandButton
-                value="Reports"
-                actionListener="#{jobManager.openReportsTab}"
-                onstart="longProcessDialogVar.show();"
-               
-                rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}"
-                
-                onerror="connectionErrorDialog.show();"
-                title="Generate, view and export reports"
-                icon="ui-icon-newwin"
-                process="@this"/>
-
-        </p:toolbarGroup>
+    <p:toolbar id="cashierToolbar">       
 
         <p:toolbarGroup align="right" >                                   
-            <p:menuButton id="toolsButton" value="Tools" >
-                <p:menuitem actionListener="#{jobManager.financeManager.updateAccPacClient}"
+            <p:menuButton id="cashierToolsButton" value="Tools" >
+                <p:menuitem actionListener="#{financeManager.updateAccPacClient}"
                             onstart="longProcessDialogVar.show();"                                                    
                             value="Client credit status"
                             update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
@@ -101,7 +47,7 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
     </p:toolbar>   
 
-    <ui:include src="jobsDatabaseTable.xhtml"/>
+    <ui:include src="cashierViewTable.xhtml"/>
 
 </html>
 

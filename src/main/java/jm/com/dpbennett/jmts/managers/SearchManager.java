@@ -17,7 +17,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
  */
-
 package jm.com.dpbennett.jmts.managers;
 
 import java.io.Serializable;
@@ -385,6 +384,9 @@ public class SearchManager implements SearchManagement, Serializable {
                     jm.getMainTabView().renderTab(getEntityManager1(), "jobsTab", true);
                     jm.getMainTabView().update("mainTabViewForm:mainTabView");
                     jm.getMainTabView().select( jm.getMainTabView().getTabIndex("jobsTab"));
+//                    jm.getMainTabView().renderTab(getEntityManager1(), "cashierTab", true);
+//                    jm.getMainTabView().update("mainTabViewForm:mainTabView");
+//                    jm.getMainTabView().select(jm.getMainTabView().getTabIndex("cashierTab"));
                 }
                 break;
             case "Service Request Search":

@@ -286,7 +286,7 @@ public class MainTabView implements Serializable {
         // Cashier tab
         cashierTab = new MainTab(
                 "cashierTab",
-                "Cashier",
+                "Cashier View",
                 false,
                 false,
                 false,

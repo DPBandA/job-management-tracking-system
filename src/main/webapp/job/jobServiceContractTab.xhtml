@@ -26,153 +26,142 @@ Email: info@dpbennett.com.jm
     <p:tabView id="serviceDialogTabView"                       
                widgetVar="serviceDialogTabViewVar">
         <p:tab title="General Services">
-            <h:panelGrid id="serviceContract" columns="1" cellspacing="">
+            <h:panelGrid id="serviceContract" columns="1" >
                 <p:panel header="Services Involved" >
                     <h:panelGrid columns="3" cellspacing="10" >
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="testingService"
-                                                     value="#{contractManager.currentJob.serviceContract.serviceRequestedTesting}">
-                                <p:ajax listener="#{contractManager.updateJob}"                                       
-                                        global="false"                                        
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="testingService" value="Testing"/>
-                        </h:panelGroup>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="calibrationService" value="#{contractManager.serviceRequestedCalibration}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="calibrationService" value="Calibration"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="testingService" 
+                                                 itemLabel="Testing"
+                                                 value="#{contractManager.currentJob.serviceContract.serviceRequestedTesting}">
+                            <p:ajax listener="#{contractManager.updateJob}"                                       
+                                    global="false"                                        
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="labelEvaluationService" value="#{contractManager.serviceRequestedLabelEvaluation}" >
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="labelEvaluationService" value="Label Evaluation"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="calibrationService" 
+                                                 itemLabel="Calibration"
+                                                 value="#{contractManager.serviceRequestedCalibration}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="inspectionService" value="#{contractManager.serviceRequestedInspection}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="inspectionService" value="Inspection"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="labelEvaluationService"     
+                                                 itemLabel="Label Evaluation"
+                                                 value="#{contractManager.serviceRequestedLabelEvaluation}" >
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="consultancyService" value="#{contractManager.serviceRequestedConsultancy}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="consultancyService" value="Consultancy"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="inspectionService" 
+                                                 itemLabel="Inspection"
+                                                 value="#{contractManager.serviceRequestedInspection}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="trainingService" value="#{contractManager.serviceRequestedTraining}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="trainingService" value="Training"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="consultancyService" 
+                                                 itemLabel="Consultancy"
+                                                 value="#{contractManager.serviceRequestedConsultancy}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="otherService" value="#{contractManager.serviceRequestedOther}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"
-                                        update="otherServiceText"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="otherService" value="Other: "/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="trainingService" 
+                                                 itemLabel="Training"
+                                                 value="#{contractManager.serviceRequestedTraining}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2"  cellspacing="10" style="margin-top: -10px;">
+                        <p:selectBooleanCheckbox id="otherService" 
+                                                 itemLabel="Other:"
+                                                 value="#{contractManager.serviceRequestedOther}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"
+                                    update="otherServiceText"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <p:inputText id="otherServiceText"
-                                         disabled="#{!contractManager.serviceRequestedOther}"
-                                         maxlength="250"
-                                         value="#{contractManager.currentJob.serviceContract.serviceRequestedOtherText}" >
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        event="change"
-                                        global="false"
-                                        process="@this"/>
-                            </p:inputText>
-                        </h:panelGroup>
+                        <p:inputText id="otherServiceText"
+                                     disabled="#{!contractManager.serviceRequestedOther}"
+                                     maxlength="250"
+                                     value="#{contractManager.currentJob.serviceContract.serviceRequestedOtherText}" >
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    event="change"
+                                    global="false"
+                                    process="@this"/>
+                        </p:inputText>                       
                     </h:panelGrid>
                 </p:panel>
 
                 <p:panel header="Intended Market" >
                     <h:panelGrid columns="3" cellspacing="10" >
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="localMarket" value="#{contractManager.intendedMarketLocal}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"                                        
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="localMarket" value="Local"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="localMarket" 
+                                                 itemLabel="Local"
+                                                 value="#{contractManager.intendedMarketLocal}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"                                        
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="caricomMarket" value="#{contractManager.intendedMarketCaricom}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"                                        
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="caricomMarket" value="Caricom"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="caricomMarket" 
+                                                 itemLabel="Caricom"
+                                                 value="#{contractManager.intendedMarketCaricom}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"                                        
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="ukMarket" value="#{contractManager.intendedMarketUK}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"                                        
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="ukMarket" value="UK"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="ukMarket" 
+                                                 itemLabel="UK"
+                                                 value="#{contractManager.intendedMarketUK}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"                                        
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="usaMarket" value="#{contractManager.intendedMarketUSA}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"                                        
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="usaMarket" value="USA"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="usaMarket" 
+                                                 itemLabel="USA"
+                                                 value="#{contractManager.intendedMarketUSA}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"                                        
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="canadaMarket" value="#{contractManager.intendedMarketCanada}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"                                        
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="canadaMarket" value="Canada"/>
-                        </h:panelGroup>
+                        <p:selectBooleanCheckbox id="canadaMarket" 
+                                                 itemLabel="Canada"
+                                                 value="#{contractManager.intendedMarketCanada}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"                                        
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="2" cellspacing="10" style="margin-top: -10px;">
+                        <p:selectBooleanCheckbox id="otherIntendedMarket" 
+                                                 itemLabel="Other: "
+                                                 value="#{contractManager.intendedMarketOther}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"
+                                    update="otherIntendedMartketText"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                        <p:inputText id="otherIntendedMartketText"
 
-                        <h:panelGroup>
-                            <h:selectBooleanCheckbox id="otherIntendedMarket" value="#{contractManager.intendedMarketOther}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"
-                                        update="otherIntendedMartketText"
-                                        process="@this"/>
-                            </h:selectBooleanCheckbox>
-                            <h:outputLabel for="otherIntendedMarket" value="Other: "/>
-                            <p:inputText id="otherIntendedMartketText"
-                                         disabled="#{!contractManager.intendedMarketOther}"
-                                         maxlength="250"
-                                         value="#{contractManager.currentJob.serviceContract.intendedMarketOtherText}">
-                                <p:ajax listener="#{contractManager.updateJob}"
-                                        global="false"
-                                        event="change"                                        
-                                        process="@this"/>
-                            </p:inputText>
-                        </h:panelGroup>
+                                     disabled="#{!contractManager.intendedMarketOther}"
+                                     maxlength="250"
+                                     value="#{contractManager.currentJob.serviceContract.intendedMarketOtherText}">
+                            <p:ajax listener="#{contractManager.updateJob}"
+                                    global="false"
+                                    event="change"                                        
+                                    process="@this"/>
+                        </p:inputText>
                     </h:panelGrid>
                 </p:panel>
 

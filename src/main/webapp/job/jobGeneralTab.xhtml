@@ -53,6 +53,7 @@ Email: info@dpbennett.com.jm
             </h:panelGroup>
             <p:spacer height="0" width="5"/>
             <p:selectBooleanCheckbox id="autoGenerate" 
+                                     itemLabel="auto"
                                      style="vertical-align: middle"
                                      rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
@@ -63,8 +64,7 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:selectBooleanCheckbox>            
             <p:tooltip for="autoGenerate" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
-            <p:spacer width="5" />
-            <h:outputLabel for="autoGenerate" value="auto" rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}" />
+           
 
         </h:panelGroup>
 
