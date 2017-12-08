@@ -97,14 +97,14 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="4">
                     <h:panelGroup >
                         <h:outputText value="&nbsp;&nbsp;"/>
-                        <h:selectBooleanCheckbox id="jobCompleted"
+                        <p:selectBooleanCheckbox id="jobCompleted"
                                                  disabled="true"
+                                                 itemLabel="Job completed by: "
                                                  value="#{jobManager.completed}" >
                             <p:ajax listener="#{jobManager.updateJobCompleted}"
                                     global="false"                                    
                                     process="@this" />
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="jobCompleted" value="Job completed by: "/>
+                        </p:selectBooleanCheckbox>
                     </h:panelGroup>
 
                     <p:autoComplete id="completedBy"
@@ -138,14 +138,14 @@ Email: info@dpbennett.com.jm
 
                     <h:panelGroup>
                         <h:outputText value="&nbsp;&nbsp;"/>
-                        <h:selectBooleanCheckbox id="samplesCollected"
+                        <p:selectBooleanCheckbox id="samplesCollected"
+                                                 itemLabel="Sample(s) collected by: "
                                                  disabled="#{!jobManager.jobSaved}"
                                                  value="#{jobManager.samplesCollected}">
                             <p:ajax listener="#{jobManager.updateSamplesCollectedDate}"
                                     global="false"                                    
                                     process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="samplesCollected" value="Sample(s) collected by: "/>
+                        </p:selectBooleanCheckbox>
                     </h:panelGroup>
                     <p:inputText id="samplesCollectedBy"
                                  style="width: 215px;"

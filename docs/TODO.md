@@ -22,6 +22,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Double/Multiple View Creation
 - Change h:selectBooleanCheckbox to p:selectBooleanCheckbox
+- Relevant fields are not updated when checkboxes are checked on job status and
+  tracking tab.
 - Create checkbox group that allows selecting, jobs, cashier and job costing tabs.
   In JM user use jobTableViewPreference to store all 3 selections using get/set?
 - The default job tab that comes up should be based on the "Job table view" selected 
@@ -32,6 +34,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 Views can be viewed simultaneously for easy job costing updates.
 -- Create views/tabs for job costing and cashier instead of using job tables view. 
 #### Job Costing & Payment
+- Check that all message dialogs in the job costing control panel are displayed
+  Replace message dialogs with growl.
+- Payment dialog is displayed on once when the add payment button is pressed.
 - Set user and job when job is being created, edited or subcontracted. Update
   the costing tab and forms to use to reflect changes
 - updateJobCostingAndPayment() and other update methods in FM to update isDirty 
@@ -114,6 +119,8 @@ paymentTerms, rename JMTSUserId to userId
 * Check client credit status dialog
 * Test SystemAdmin functions. Remove features that are not fully implemented.
 * etc.
+
+### Issues to Address for Next Future Release
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

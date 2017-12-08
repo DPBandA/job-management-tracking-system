@@ -142,7 +142,7 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
                     </h:panelGrid>
-                    
+
                     <h:panelGrid columns="2" cellspacing="10" style="margin-top: -10px;">
                         <p:selectBooleanCheckbox id="otherIntendedMarket" 
                                                  itemLabel="Other: "
@@ -188,66 +188,56 @@ Email: info@dpbennett.com.jm
         <p:tab title="Additional Services">
             <p:panel header="Additional Services Requested" >
                 <h:panelGrid columns="1" cellspacing="10" >
-                    <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceUrgent" 
-                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceUrgent}">
-                            <p:ajax listener="#{contractManager.updateJob}"
-                                    global="false"                                    
-                                    process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="additionalServiceUrgent" value="Urgent (Additional charge incurred - call for more information)"/>
-                    </h:panelGroup>
+                    <p:selectBooleanCheckbox id="additionalServiceUrgent" 
+                                             itemLabel="Urgent (Additional charge incurred - call for more information)"
+                                             value="#{contractManager.currentJob.serviceContract.additionalServiceUrgent}">
+                        <p:ajax listener="#{contractManager.updateJob}"
+                                global="false"                                    
+                                process="@this"/>
+                    </p:selectBooleanCheckbox>
 
-                    <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceFaxResults" 
-                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceFaxResults}">
-                            <p:ajax listener="#{contractManager.updateJob}"
-                                    global="false"                                    
-                                    process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="additionalServiceFaxResults" value="Fax/Email Results (Subject to approval)"/>
-                    </h:panelGroup>
+                    <p:selectBooleanCheckbox id="additionalServiceFaxResults" 
+                                             itemLabel="Fax/Email Results (Subject to approval)"
+                                             value="#{contractManager.currentJob.serviceContract.additionalServiceFaxResults}">
+                        <p:ajax listener="#{contractManager.updateJob}"
+                                global="false"                                    
+                                process="@this"/>
+                    </p:selectBooleanCheckbox>
 
-                    <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceTelephonePresumptiveResults" 
-                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceTelephonePresumptiveResults}">
-                            <p:ajax listener="#{contractManager.updateJob}"
-                                    global="false"                                   
-                                    process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="additionalServiceTelephonePresumptiveResults" value="Telephone presumptive results"/>
-                    </h:panelGroup>
+                    <p:selectBooleanCheckbox id="additionalServiceTelephonePresumptiveResults" 
+                                             itemLabel="Telephone presumptive results"
+                                             value="#{contractManager.currentJob.serviceContract.additionalServiceTelephonePresumptiveResults}">
+                        <p:ajax listener="#{contractManager.updateJob}"
+                                global="false"                                   
+                                process="@this"/>
+                    </p:selectBooleanCheckbox>
 
-                    <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceSendMoreContractForms" 
-                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceSendMoreContractForms}">
-                            <p:ajax listener="#{contractManager.updateJob}"
-                                    global="false"                                    
-                                    process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="additionalServiceSendMoreContractForms" value="Send more service contract forms"/>
-                    </h:panelGroup>
-
-                    <h:panelGroup>
-                        <h:selectBooleanCheckbox id="additionalServiceOther" 
-                                                 value="#{contractManager.currentJob.serviceContract.additionalServiceOther}">
-                            <p:ajax listener="#{contractManager.updateJob}"
-                                    global="false"
-                                    update="additionalServiceOtherText"
-                                    process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="additionalServiceOther" value="Other: "/>
-                        <p:inputText id="additionalServiceOtherText"
-                                     maxlength="250"
-                                     disabled="#{!contractManager.currentJob.serviceContract.additionalServiceOther}"
-                                     value="#{contractManager.currentJob.serviceContract.additionalServiceOtherText}">
-                            <p:ajax listener="#{contractManager.updateJob}"
-                                    global="false"
-                                    event="change"                                   
-                                    process="@this"/>
-                        </p:inputText>
-                    </h:panelGroup>
-
+                    <p:selectBooleanCheckbox id="additionalServiceSendMoreContractForms" 
+                                             itemLabel="Send more service contract forms"
+                                             value="#{contractManager.currentJob.serviceContract.additionalServiceSendMoreContractForms}">
+                        <p:ajax listener="#{contractManager.updateJob}"
+                                global="false"                                    
+                                process="@this"/>
+                    </p:selectBooleanCheckbox>
+                </h:panelGrid>
+                <h:panelGrid columns="2" cellspacing="10" style="margin-top: -10px;" >
+                    <p:selectBooleanCheckbox id="additionalServiceOther" 
+                                             itemLabel="Other: "
+                                             value="#{contractManager.currentJob.serviceContract.additionalServiceOther}">
+                        <p:ajax listener="#{contractManager.updateJob}"
+                                global="false"
+                                update="additionalServiceOtherText"
+                                process="@this"/>
+                    </p:selectBooleanCheckbox>
+                    <p:inputText id="additionalServiceOtherText"
+                                 maxlength="250"
+                                 disabled="#{!contractManager.currentJob.serviceContract.additionalServiceOther}"
+                                 value="#{contractManager.currentJob.serviceContract.additionalServiceOtherText}">
+                        <p:ajax listener="#{contractManager.updateJob}"
+                                global="false"
+                                event="change"                                   
+                                process="@this"/>
+                    </p:inputText>
                 </h:panelGrid>
 
             </p:panel>
