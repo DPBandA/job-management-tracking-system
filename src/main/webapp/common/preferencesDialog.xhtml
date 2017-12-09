@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
     <h:form id="preferencesDialogForm">
 
         <p:dialog width="600"
-                  height="250"
+                  height="275"
                   draggable="true"
                   modal="true"
                   widgetVar="preferencesDialog"
@@ -78,41 +78,37 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid>
                 </p:tab>
                 <p:tab title="Modules" id="modulesTab">
-                    <h:panelGrid columns="2" id="modulesTabPanelGrid">
+                    <h:panelGrid columns="1" id="modulesTabPanelGrid" cellspacing="10">
 
-                        <h:selectBooleanCheckbox id="jobManagementAndTrackingUnitCheckbox" 
+                        <p:selectBooleanCheckbox id="jobManagementAndTrackingUnitCheckbox" 
                                                  disabled="false"
+                                                 itemLabel="Job Management &amp; Tracking"
                                                  value="#{jobManager.user.jobManagementAndTrackingUnit}" >
                             <p:ajax listener="#{jobManager.updateJobsTab}"
 
                                     global="false"
                                     process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="jobManagementAndTrackingUnitCheckbox" 
-                                       value="Job Management &amp; Tracking" />
+                        </p:selectBooleanCheckbox>
 
-                        <h:selectBooleanCheckbox id="financialAdminUnitCheckbox" 
+                        <p:selectBooleanCheckbox id="financialAdminUnitCheckbox" 
+                                                 itemLabel="Financial Administration"
                                                  rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}"
                                                  value="#{jobManager.user.financialAdminUnit}" >
                             <p:ajax listener="#{jobManager.updateFinancialAdminTab}"
                                     update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
                                     global="false"
                                     process="@this"/>
-                        </h:selectBooleanCheckbox>                        
-                        <h:outputLabel rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}" 
-                                       for="financialAdminUnitCheckbox" value="Financial Administration"/>      
+                        </p:selectBooleanCheckbox>      
 
-                        <h:selectBooleanCheckbox id="adminUnitCheckbox" 
+                        <p:selectBooleanCheckbox id="adminUnitCheckbox" 
+                                                 itemLabel="System Administration"
                                                  rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
                                                  value="#{jobManager.user.adminUnit}" >
                             <p:ajax listener="#{jobManager.updateAdminTab}"
                                     update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
                                     global="false"
                                     process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
-                                       for="adminUnitCheckbox" value="System Administration"/>                         
-
+                        </p:selectBooleanCheckbox>
 
                     </h:panelGrid> 
                 </p:tab>

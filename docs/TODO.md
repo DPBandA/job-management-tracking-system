@@ -21,17 +21,13 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Misc.
-- Change h:selectBooleanCheckbox to p:selectBooleanCheckbox. Use itemLabel attribute
-  to assign labels and not h:outputLabel where possible. 
-  * Continue with employee dialog and remove record id just have "Active" with checkbox.
-- Remove record ids from dialogs and just have "active" with checkbox
-- Relevant fields are not updated when checkboxes are checked on job status and
-  tracking tab such as sample collected by. Look at BSJDB for code that does this.
-- Create checkbox group that allows selecting, jobs, cashier and job costing tabs.
-  In JM user use jobTableViewPreference to store all 3 selections using get/set?
 - The default job tab that comes up should be based on the "Job table view" selected 
   in preferences.
 #### Double/Multiple View Creation
+- Impl is*PreferredJobTableView in JM user and use to control default tabs that
+  are displayed when user logs in.
+- Impl job searching that bring up cashier view as the default tab for testing
+  purposes. 
 - Create mainTabView tabs for job costing.
 - Make sure that the initManagers() is called job costing or job from cashier view are opened.
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
@@ -109,10 +105,13 @@ paymentTerms, rename JMTSUserId to userId
 * Use canEditInvoicingAndPayment where necessary
 * Ensure amount due is updated correctly using cash payments.
 - Put bold label for required field to be consistent.
-
 - Ensure billing address and contact are valid and not blank before saving job.
 ### Miscellaneous
 - Put some "help" text in the dashboard for system and finance admin for now.
+  or Impl find in systems admin that allow selecting use. employee etc
+- When "x" is used to close the job detail tab warn that the job was not saved
+  if this is the case.
+- Impl new department button/feature.
 ### Testing on Test and Live versions
 - Build for gf3.1.2.2 and deploy.
 - Assign git tag to next release.
@@ -177,6 +176,7 @@ paymentTerms, rename JMTSUserId to userId
 - Service Contract: “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
 - Create autocomplete list of "standard/common" product names using a "Distinct"
   type of the query on the existing samples.
+- Put list of preferred job table views (Jobs, Cashier, Job Costings) in JM User.
 - Implement sub-sectors by adding a collections field in the sector class.
 - Move all code dealing with authorization and privileges from JM to JMUser.
 - Fill in billing address and main contact of a client of the billing adddress
@@ -190,6 +190,8 @@ paymentTerms, rename JMTSUserId to userId
 - Move code dealing with Accpac, costing etc to AccountingManager.
 - Put job number in tab title...in brackets. Update the tab when something that 
   affects the job number changes.
+- Impl job backup as is done with samples and job edit cancelling and change
+  "close" button to "Cancel" button.
 - Change label Department* to Parent department* when job is subcontracted.
 - Add user/department privilege to add payments.
 - Do search when respective tab with search results table is selected for the 

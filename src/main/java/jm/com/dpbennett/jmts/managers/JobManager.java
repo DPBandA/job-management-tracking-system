@@ -186,7 +186,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         new DatePeriod("This month", "month", null, null, false, false, true),
                         "");
         dynamicTabView = true;
-        renderSearchComponent = true;         
+        renderSearchComponent = true;
         // Init Managers
         clientManager = Application.findBean("clientManager");
         reportManager = Application.findBean("reportManager");
@@ -728,8 +728,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void onDashboardTabChange(TabChangeEvent event) {
 
         String tabId = ((DashboardTab) event.getData()).getId();
-        mainTabView.renderTab(getEntityManager1(), tabId, true);
-
+        // Open the corresponding main view tab if necessary
+        //mainTabView.renderTab(getEntityManager1(), tabId, true);
+        
     }
 
     public void updateDashboard(String tabId) {
@@ -779,18 +780,23 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void editPreferences() {
     }
 
-    public void openJobsTab() {
-        dashboard.renderTab(getEntityManager1(), "jobsTab", true);
+    public void openJobsTab() {          
         mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
     }
+    
+    public void openCashierTab() {        
+        mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
+    }
+    
+    public void openJobCostingsTab() {        
+        mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
+    }
 
-    public void openSystemAdministrationTab() {
-        dashboard.renderTab(getEntityManager1(), "adminTab", true);
+    public void openSystemAdministrationTab() {        
         mainTabView.renderTab(getEntityManager1(), "adminTab", true);
     }
 
-    public void openFinancialAdministrationTab() {
-        dashboard.renderTab(getEntityManager1(), "financialAdminTab", true);
+    public void openFinancialAdministrationTab() {        
         mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
     }
 
@@ -1218,8 +1224,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateDocumentsCollectedDate() {
-        setDateDocumentCollected(null);
         setDirty(true);
+        if (!currentJob.getJobStatusAndTracking().getDocumentCollected()) {            
+            currentJob.getJobStatusAndTracking().setDocumentCollectedBy("");
+            setDateDocumentCollected(null);
+        }
     }
 
     public void updateJobCompleted() {
@@ -1235,7 +1244,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void updateSamplesCollectedDate() {
         setDirty(true);
-        setDateSamplesCollected(null);
+        if (!currentJob.getJobStatusAndTracking().getSamplesCollected()) {
+            currentJob.getJobStatusAndTracking().setSamplesCollectedBy("");
+            setDateSamplesCollected(null);
+        }
     }
 
     public void updateJobReportNumber() {
@@ -1953,7 +1965,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         contractManager.setCurrentJob(this.currentJob);
         contractManager.setUser(this.user);
         jobSampleManager.setCurrentJob(currentJob);
-        jobSampleManager.setUser(user);        
+        jobSampleManager.setUser(user);
         financeManager.setCurrentJob(currentJob);
         financeManager.setUser(user);
     }

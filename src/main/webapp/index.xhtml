@@ -50,7 +50,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="common/longProcessDialog.xhtml"/>   
         <ui:include src="common/preferencesDialog.xhtml"/>   
         <ui:include src="finance/cashPaymentDialog.xhtml"/>
-       
+
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
             <p:ajax event="toggle" listener="#{jobManager.handleLayoutUnitToggle}" />
 
@@ -90,6 +90,19 @@ Email: info@dpbennett.com.jm
                                         oncomplete="longProcessDialogVar.hide();"                                            
                                         value="Jobs"
                                         process="@this"/>
+                            <p:menuitem actionListener="#{jobManager.openCashierTab}"
+                                        rendered="#{jobManager.user.jobManagementAndTrackingUnit}"                                        
+                                        onstart="longProcessDialogVar.show();"                                        
+                                        oncomplete="longProcessDialogVar.hide();"                                            
+                                        value="Cashier View"
+                                        process="@this"/>
+                            <p:menuitem actionListener="#{jobManager.openJobCostingsTab}"
+                                        rendered="#{jobManager.user.jobManagementAndTrackingUnit}"                                        
+                                        onstart="longProcessDialogVar.show();"                                        
+                                        oncomplete="longProcessDialogVar.hide();"                                            
+                                        value="Job Costings"
+                                        process="@this"/>
+                            <p:separator rendered="#{jobManager.user.jobManagementAndTrackingUnit}" />
                             <p:menuitem value="Clients"
                                         onstart="longProcessDialogVar.show();"                                                    
                                         actionListener="#{jobManager.openClientsTab}"
@@ -113,7 +126,7 @@ Email: info@dpbennett.com.jm
                                         oncomplete="longProcessDialogVar.hide();"                                            
                                         value="Financial Administration"
                                         process="@this"/>
-                            <p:separator />                              
+                            <p:separator rendered="#{jobManager.user.adminUnit or jobManager.user.financialAdminUnit}"/>                              
                             <p:menuitem actionListener="#{jobManager.editPreferences}"
                                         onstart="longProcessDialogVar.show();"
                                         update=":preferencesDialogForm"
@@ -161,6 +174,9 @@ Email: info@dpbennett.com.jm
                             </h:panelGroup>
                             <h:panelGroup rendered="#{tab.renderCashierTab}">                                
                                 <ui:include src="job/cashierTab.xhtml" />   
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{tab.renderJobCostingsTab}">                                
+                                To be implemented
                             </h:panelGroup>
                             <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
                                 <ui:include src="admin/financialAdminTab.xhtml" /> 

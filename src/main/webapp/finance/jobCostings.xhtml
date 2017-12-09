@@ -140,14 +140,14 @@ Email: info@dpbennett.com.jm
 
                         <p:column headerText="Completed">
                             <p:cellEditor>  
-                                <f:facet name="output"><h:selectBooleanCheckbox value="#{jobCost.jobCostingAndPayment.costingCompleted}" /></f:facet>  
+                                <f:facet name="output"><p:selectBooleanCheckbox value="#{jobCost.jobCostingAndPayment.costingCompleted}" /></f:facet>  
                                 <f:facet name="input">
-                                    <h:selectBooleanCheckbox id="completedId" value="#{jobCost.jobCostingAndPayment.costingCompleted}" >                                         
+                                    <p:selectBooleanCheckbox id="completedId" value="#{jobCost.jobCostingAndPayment.costingCompleted}" >                                         
                                         <p:ajax event="change"
                                                 global="false"
                                                 update="@this"                                               
                                                 process="@this"/>
-                                    </h:selectBooleanCheckbox>  
+                                    </p:selectBooleanCheckbox>  
                                 </f:facet>  
                             </p:cellEditor>  
                         </p:column>    
@@ -156,7 +156,7 @@ Email: info@dpbennett.com.jm
                             <f:facet name="header">
                                 <h:outputText value="Approved"/>
                             </f:facet>
-                            <h:selectBooleanCheckbox value="#{jobCost.jobCostingAndPayment.costingApproved}" />
+                            <p:selectBooleanCheckbox value="#{jobCost.jobCostingAndPayment.costingApproved}" />
                         </p:column>    
 
                         <ui:remove>

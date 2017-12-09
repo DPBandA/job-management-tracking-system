@@ -143,6 +143,7 @@ Email: info@dpbennett.com.jm
                                                  disabled="#{!jobManager.jobSaved}"
                                                  value="#{jobManager.samplesCollected}">
                             <p:ajax listener="#{jobManager.updateSamplesCollectedDate}"
+                                    update="jobStatusAndTracking"
                                     global="false"                                    
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -175,7 +176,8 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Document(s) collected by: "
                                                  value="#{jobManager.documentCollected}">
                             <p:ajax listener="#{jobManager.updateDocumentsCollectedDate}"
-                                    global="false"                                    
+                                    global="false"    
+                                    update="jobStatusAndTracking"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
                     </h:panelGroup>

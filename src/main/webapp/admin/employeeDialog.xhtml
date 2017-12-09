@@ -64,67 +64,59 @@ Email: info@dpbennett.com.jm
                                  icon="ui-icon ui-icon-close" />               
             </h:panelGrid>
             <hr/>
-            <h:panelGrid columns="2">
-                <h:outputLabel value="Rec. ID #:" for="employeeNumber"/>
-                <h:panelGroup>
-                    <p:inputText value="#{systemManager.selectedEmployee.id}"
-                                 disabled="true"
-                                 id="employeeNumber" />
-                    <p:spacer height="0" width="5"/>                   
+            <p:panel>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Active:"/>                                  
                     <p:selectBooleanCheckbox id="employeeActive"
                                              style="vertical-align: middle"
-                                             value="#{systemManager.selectedEmployee.active}" >                       
-                    </p:selectBooleanCheckbox>
-                    <p:spacer height="0" width="5"/>
-                    <p:tooltip for="employeeActive" value="Check to indicate that this employee is enabled" showEffect="fade" hideEffect="fade" />
-                    <p:outputLabel for="employeeActive" value="Enable" /> 
-                </h:panelGroup>
+                                             value="#{systemManager.selectedEmployee.active}" />    
 
-                <h:outputText value="Title:" />
-                <p:selectOneMenu value="#{systemManager.selectedEmployee.title}" >
-                    <f:selectItems value="#{systemManager.personalTitles}" />
-                </p:selectOneMenu>
+                    <h:outputText value="Title:" />
+                    <p:selectOneMenu value="#{systemManager.selectedEmployee.title}" >
+                        <f:selectItems value="#{systemManager.personalTitles}" />
+                    </p:selectOneMenu>
 
-                <h:outputLabel value="Firstname *:" for="firstName"/>
-                <p:inputText value="#{systemManager.selectedEmployee.firstName}"
-                             id="firstName" validatorMessage="Please enter a valid name" />
+                    <h:outputLabel value="Firstname *:" for="firstName"/>
+                    <p:inputText value="#{systemManager.selectedEmployee.firstName}"
+                                 id="firstName" validatorMessage="Please enter a valid name" />
 
-                <h:outputLabel value="LastName *:" for="lastName"/>
-                <p:inputText value="#{systemManager.selectedEmployee.lastName}"
-                             id="lastName" validatorMessage="Please enter a valid name" />
+                    <h:outputLabel value="LastName *:" for="lastName"/>
+                    <p:inputText value="#{systemManager.selectedEmployee.lastName}"
+                                 id="lastName" validatorMessage="Please enter a valid name" />
 
-                <h:outputLabel value="Email:" for="employeeEmail"/>
-                <p:inputText value="#{systemManager.selectedEmployee.internet.email1}"
-                             id="employeeEmail" validatorMessage="Please enter a valid name" />
+                    <h:outputLabel value="Email:" for="employeeEmail"/>
+                    <p:inputText value="#{systemManager.selectedEmployee.internet.email1}"
+                                 id="employeeEmail" validatorMessage="Please enter a valid name" />
 
-                <h:outputText value="Business office:" />
-                <p:autoComplete style="width: 75%"
-                                dropdown="true"
-                                var="businessOffice"
-                                value="#{systemManager.selectedEmployee.businessOffice}"
-                                itemLabel="#{businessOffice.name}"
-                                itemValue="#{businessOffice}"
-                                converter="businessOfficeConverter"
-                                forceSelection="true"
-                                completeMethod="#{App.completeBusinessOffice}" >                  
-                </p:autoComplete>
+                    <h:outputText value="Business office:" />
+                    <p:autoComplete style="width: 75%"
+                                    dropdown="true"
+                                    var="businessOffice"
+                                    value="#{systemManager.selectedEmployee.businessOffice}"
+                                    itemLabel="#{businessOffice.name}"
+                                    itemValue="#{businessOffice}"
+                                    converter="businessOfficeConverter"
+                                    forceSelection="true"
+                                    completeMethod="#{App.completeBusinessOffice}" >                  
+                    </p:autoComplete>
 
-                <h:outputText value="Department:" />
-                <p:autoComplete var="department"
-                                dropdown="true"
-                                forceSelection="true"                               
-                                size="40"
-                                maxlength="250"
-                                scrollHeight="200"
-                                value="#{systemManager.selectedEmployee.department}"
-                                title="#{systemManager.selectedEmployee.department}"
-                                itemValue="#{department}"
-                                itemLabel="#{department.truncatedName}"
-                                converter="departmentConverter"
-                                completeMethod="#{App.completeDepartment}" >                
-                </p:autoComplete>                    
+                    <h:outputText value="Department:" />
+                    <p:autoComplete var="department"
+                                    dropdown="true"
+                                    forceSelection="true"                               
+                                    size="40"
+                                    maxlength="250"
+                                    scrollHeight="200"
+                                    value="#{systemManager.selectedEmployee.department}"
+                                    title="#{systemManager.selectedEmployee.department}"
+                                    itemValue="#{department}"
+                                    itemLabel="#{department.truncatedName}"
+                                    converter="departmentConverter"
+                                    completeMethod="#{App.completeDepartment}" >                
+                    </p:autoComplete>                    
 
-            </h:panelGrid>
+                </h:panelGrid>
+            </p:panel>
             <hr/>
             <h:panelGrid columns="4" >
                 <p:commandButton value="Ok"

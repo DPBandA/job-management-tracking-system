@@ -375,18 +375,26 @@ public class SearchManager implements SearchManagement, Serializable {
     }
 
     public void doSearch() {
-        RequestContext context = RequestContext.getCurrentInstance();
         switch (getCurrentSearchParameterKey()) {
             case "Job Search":
                 JobManager jm = Application.findBean("jobManager");
                 if (jm != null) {
                     jm.doJobSearch(getCurrentSearchParameters());
-                    jm.getMainTabView().renderTab(getEntityManager1(), "jobsTab", true);
-                    jm.getMainTabView().update("mainTabViewForm:mainTabView");
-                    jm.getMainTabView().select( jm.getMainTabView().getTabIndex("jobsTab"));
-//                    jm.getMainTabView().renderTab(getEntityManager1(), "cashierTab", true);
-//                    jm.getMainTabView().update("mainTabViewForm:mainTabView");
-//                    jm.getMainTabView().select(jm.getMainTabView().getTabIndex("cashierTab"));
+                    if (jm.getUser().isJobsPreferredJobTableView()) {
+                        jm.getMainTabView().renderTab(getEntityManager1(), "jobsTab", true);
+                        jm.getMainTabView().update("mainTabViewForm:mainTabView");
+                        jm.getMainTabView().select(jm.getMainTabView().getTabIndex("jobsTab"));
+                    }
+                    if (jm.getUser().isCashierPreferredJobTableView()) {
+                        jm.getMainTabView().renderTab(getEntityManager1(), "cashierTab", true);
+                        jm.getMainTabView().update("mainTabViewForm:mainTabView");
+                        jm.getMainTabView().select(jm.getMainTabView().getTabIndex("cashierTab"));
+                    }
+                    if (jm.getUser().isJobCostingsPreferredJobTableView()) {
+                        jm.getMainTabView().renderTab(getEntityManager1(), "jobCostingsTab", true);
+                        jm.getMainTabView().update("mainTabViewForm:mainTabView");
+                        jm.getMainTabView().select(jm.getMainTabView().getTabIndex("jobCostingsTab"));
+                    }
                 }
                 break;
             case "Service Request Search":

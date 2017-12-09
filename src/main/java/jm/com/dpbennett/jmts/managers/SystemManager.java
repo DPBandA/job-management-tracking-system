@@ -580,11 +580,11 @@ public class SystemManager implements Serializable {
     }
 
     public void editSystemOption() {
-        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 600);
     }
 
     public void editDepartment() {
-        PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 600);
     }
 
     public void editEmployee() {
@@ -592,7 +592,7 @@ public class SystemManager implements Serializable {
     }
 
     public void editUser() {
-        PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 450, 600);
+        PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 430, 600);
     }
 
     public Employee getSelectedEmployee() {
@@ -923,7 +923,7 @@ public class SystemManager implements Serializable {
         selectedUser = new JobManagerUser();
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
 
-        PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 450, 600);
+        PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 430, 600);
     }
 
     public void createNewDepartment() {
