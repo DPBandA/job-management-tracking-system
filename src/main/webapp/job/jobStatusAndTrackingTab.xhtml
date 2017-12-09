@@ -170,14 +170,14 @@ Email: info@dpbennett.com.jm
                     </p:calendar>
                     <h:panelGroup>
                         <h:outputText value="&nbsp;&nbsp;"/>
-                        <h:selectBooleanCheckbox id="docsCollected"
+                        <p:selectBooleanCheckbox id="docsCollected"
                                                  disabled="#{!jobManager.jobSaved}"
+                                                 itemLabel="Document(s) collected by: "
                                                  value="#{jobManager.documentCollected}">
                             <p:ajax listener="#{jobManager.updateDocumentsCollectedDate}"
                                     global="false"                                    
                                     process="@this"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel for="docsCollected" value="Document(s) collected by: "/>
+                        </p:selectBooleanCheckbox>
                     </h:panelGroup>
                     <p:inputText id="docsCollectedBy"
                                  disabled="#{!jobManager.documentCollected}"

@@ -588,11 +588,11 @@ public class SystemManager implements Serializable {
     }
 
     public void editEmployee() {
-        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 350, 600);
     }
 
     public void editUser() {
-        PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 450, 600);
     }
 
     public Employee getSelectedEmployee() {
@@ -923,7 +923,7 @@ public class SystemManager implements Serializable {
         selectedUser = new JobManagerUser();
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
 
-        PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 450, 600);
     }
 
     public void createNewDepartment() {
@@ -956,7 +956,7 @@ public class SystemManager implements Serializable {
         selectedEmployee = new Employee();
         selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(em, "Head Office"));
 
-        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 420, 600);
+        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 350, 600);
     }
 
     public void createNewSystemOption() {

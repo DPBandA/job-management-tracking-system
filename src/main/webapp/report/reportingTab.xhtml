@@ -28,12 +28,12 @@ Email: info@dpbennett.com.jm
 
         <h:outputLabel for="newClient" value="New client for department" />
         <h:panelGroup>
-            <h:selectBooleanCheckbox id="newClient"
+            <p:selectBooleanCheckbox id="newClient"
                                      value="#{jobManager.currentJob.newClient}" >
                 <p:ajax listener="#{jobManager.updateNewClient}"
                         global="false"
                         process="@this"/>
-            </h:selectBooleanCheckbox>
+            </p:selectBooleanCheckbox>
             <p:tooltip for="newClient" value="Check if this is a new client for the department" showEffect="fade" hideEffect="fade" />
         </h:panelGroup>
 

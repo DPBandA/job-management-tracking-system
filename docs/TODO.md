@@ -20,14 +20,18 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
-#### Double/Multiple View Creation
-- Change h:selectBooleanCheckbox to p:selectBooleanCheckbox
+#### Misc.
+- Change h:selectBooleanCheckbox to p:selectBooleanCheckbox. Use itemLabel attribute
+  to assign labels and not h:outputLabel where possible. 
+  * Continue with employee dialog and remove record id just have "Active" with checkbox.
+- Remove record ids from dialogs and just have "active" with checkbox
 - Relevant fields are not updated when checkboxes are checked on job status and
-  tracking tab.
+  tracking tab such as sample collected by. Look at BSJDB for code that does this.
 - Create checkbox group that allows selecting, jobs, cashier and job costing tabs.
   In JM user use jobTableViewPreference to store all 3 selections using get/set?
 - The default job tab that comes up should be based on the "Job table view" selected 
   in preferences.
+#### Double/Multiple View Creation
 - Create mainTabView tabs for job costing.
 - Make sure that the initManagers() is called job costing or job from cashier view are opened.
 - Implement "Double View" for the cashier so that the Cashier and Job Costing 
@@ -105,8 +109,10 @@ paymentTerms, rename JMTSUserId to userId
 * Use canEditInvoicingAndPayment where necessary
 * Ensure amount due is updated correctly using cash payments.
 - Put bold label for required field to be consistent.
-- Ensure billing address and contact are valid and not blank before saving job.
 
+- Ensure billing address and contact are valid and not blank before saving job.
+### Miscellaneous
+- Put some "help" text in the dashboard for system and finance admin for now.
 ### Testing on Test and Live versions
 - Build for gf3.1.2.2 and deploy.
 - Assign git tag to next release.
@@ -120,6 +126,7 @@ paymentTerms, rename JMTSUserId to userId
 * Test SystemAdmin functions. Remove features that are not fully implemented.
 * etc.
 
+-------------------------------------------------------------------------------
 ### Issues to Address for Next Future Release
 
 ### Reports
