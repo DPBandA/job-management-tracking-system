@@ -1993,6 +1993,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         initManagers();
     }
     
+    public void setEditJobCosting(Job currentJob) {
+        this.currentJob = currentJob;        
+        //financeManager.updateJobCostings();
+        initManagers();        
+    }
 
     @Override
     public void setDirty(Boolean dirty) {

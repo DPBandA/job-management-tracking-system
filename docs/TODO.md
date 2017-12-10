@@ -21,7 +21,11 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Double/Multiple View Creation
-- Move editJobCosting() back to JM from FM and use it in the cashier table.
+- Note that updateJobCostings() creates default job costings if none exist and
+  adds the costing from subcontracts if the job is subcontracted. Add this method
+  to the Job class and call it whenever the job costing is to be edited so that
+  all subcontracted job costs are included. Add all methods that updateJobCostings()
+  calls directly or indirectly in the Job or JobCostingAndPayment class.
 - Create a jobCostingAndPayment dialog for use in "cashier view". use the current
   jobCostingAndPaymentTab as foundation.
 - Impl job searching that bring up cashier view as the default tab for testing
@@ -104,12 +108,14 @@ paymentTerms, rename JMTSUserId to userId
 * Ensure amount due is updated correctly using cash payments.
 - Put bold label for required field to be consistent.
 - Ensure billing address and contact are valid and not blank before saving job.
+
 ### Miscellaneous
 - Put some "help" text in the dashboard for system and finance admin for now.
   or Impl find in systems admin that allow selecting use. employee etc
 - When "x" is used to close the job detail tab warn that the job was not saved
   if this is the case.
 - Impl new department button/feature.
+
 ### Testing on Test and Live versions
 - Build for gf3.1.2.2 and deploy.
 - Assign git tag to next release.
@@ -120,6 +126,7 @@ paymentTerms, rename JMTSUserId to userId
 * Exporting forms/reports: service contract, reports, job costing etc.
 * Check that client credit status dialog still works.
 * Check client credit status dialog
+* Test editing job costings with subcontracts.
 * Test SystemAdmin functions. Remove features that are not fully implemented.
 * etc.
 
