@@ -1,0 +1,375 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">   
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <title>Job Costing &amp; Payment</title>
+        <link rel="stylesheet" href="../css/main.css" />          
+        <script type="text/javascript" src="../js/commonJavascript.js" />     
+        <script type="text/javascript" src="../js/adminJavascript.js"/>
+    </h:head>
+    <h:body > 
+        <ui:include src="costingComponentDialog.xhtml"/>       
+        <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>    
+        <ui:include src="jobCostingSaveConfirmDialog.xhtml"/>
+        <ui:include src="jobCostingTemplateNameDialog.xhtml"/>        
+        <ui:include src="../common/longProcessDialog.xhtml"/>  
+        <ui:include src="../common/commonDialogs.xhtml"/>  
+        <h:form id="jobCostingAndPaymentDialogForm">            
+            <ui:include src="jobCostingDialogControlPanel.xhtml"/>
+            <p:panel header="General Information">
+                <h:panelGrid columns="3">
+                    <h:outputText value="Department:" style="font-weight: bold; width: 30%" />
+                    <p:spacer height="0" width="10"/>
+                    <h:outputText value="#{financeManager.currentJob.departmentAssignedToJob.name}" style="width: 60%" />
+
+                    <h:outputText value="Job number:" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <h:outputText value="#{financeManager.currentJob.jobNumber}" />
+
+                    <h:outputText value="Client" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <h:outputText value="#{financeManager.currentJob.client.name}" />
+
+                    <h:outputText value="Report number(s) *:" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <h:outputText value="#{financeManager.currentJob.reportNumber}" />                   
+
+                    <h:outputText value="Costing date:" style="font-weight: bold" />
+                    <p:spacer height="0" width="10"/>
+                    <p:calendar required="false"   
+                                readonly="true"
+                                readonlyInput="true"
+                                showOn="none"                                                                    
+                                id="costingDate"
+                                value="#{financeManager.jobCostingDate}"
+                                styleClass="read-only-inputfield"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"                                 
+                                listener="#{financeManager.handleJobCostingDateSelect}"/>
+                        <p:ajax event="keyup"                                 
+                                listener="#{financeManager.handleJobCostingDateSelect}"/>
+                    </p:calendar>
+
+                    <h:outputText value="Purchase order #:" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}" 
+                                 disabled="#{!financeManager.isAuthorizedToModifyCostings}"
+                                 style="width: 300px">
+                        <p:ajax event="keyup"
+                                global="false"
+                                listener="#{financeManager.updateJobCostingAndPayment}"                                
+                                process="@this"/>
+                    </p:inputText>
+
+                    <h:outputText value="Job description *:"  style="font-weight: bold" />
+                    <p:spacer height="0" width="10"/>
+                    <h:inputTextarea value="#{financeManager.currentJob.jobDescription}" 
+                                     required="false"
+                                     rows="2" style="width: 300px">
+                        <p:ajax event="keyup"
+                                global="false"
+                                process="@this"                               
+                                listener="#{financeManager.updateJobCostingValidity}"/>
+                    </h:inputTextarea>
+
+                    <h:outputText value="* = required" />
+                    <h:outputText value=""/>
+                    <h:outputText value=""/>
+
+                </h:panelGrid>
+            </p:panel>
+            <!-- Job costings and components -->
+            <p:panel id="costComponentsPanel" header="Costings" >
+                <h:panelGroup>                   
+                    <h:outputLabel value="Choose costing template: "
+                                   title="Choose an existing costing template"/>
+                    <p:autoComplete maxResults="12"
+                                    dropdown="true"
+                                    value="#{financeManager.selectedJobCostingTemplate}"
+                                    title="Choose an existing costing template name"
+                                    style="width: 150px"
+                                    forceSelection="true"
+                                    completeMethod="#{financeManager.completeJobCostingAndPaymentName}">
+                        <p:ajax event="itemSelect"
+                                update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
+                                listener="#{financeManager.updateCostingComponents}"
+                                process="@this"/>                      
+                    </p:autoComplete>
+                </h:panelGroup>
+
+                <h:panelGroup>
+                    <p:spacer height="0" width="20"/>
+                    <h:outputLabel value="Template name: "/>
+                    <p:inputText id="jobCostingsTemplateName"
+                                 value="#{financeManager.currentJob.jobCostingAndPayment.name}"
+                                 disabled="true"
+                                 style="width: 150px;background-color: lightgoldenrodyellow;font-weight: bolder">
+                        <p:ajax event="keyup"
+                                global="false"
+                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                process="@this"/>
+                    </p:inputText>
+                </h:panelGroup>
+
+                <hr/>
+                <p:commandButton title="Add new cost component"
+                                 value="New Item"
+                                 actionListener="#{financeManager.createNewCostComponent}"
+                                 disabled="#{financeManager.completed}"
+                                 update=":costingComponentDialogForm"
+                                 onstart="longProcessDialogVar.show();"
+                                 oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
+                                 icon="ui-icon-plus"
+                                 process="@this">
+                </p:commandButton>
+                <hr/>
+                <p:dataTable  var="costComponent"
+                              id="i#{jobCosting.id}"
+                              rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                              value="#{financeManager.currentJob.jobCostingAndPayment.allSortedCostComponents}">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Component" />
+                        </f:facet>
+                        <h:outputText value="#{costComponent.name}" />                    
+                    </p:column>
+                    <p:column rendered="#{!costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value="Code" />
+                        </f:facet>
+                        <h:outputText value="#{costComponent.code}" />
+                    </p:column>
+
+                    <p:column rendered="#{costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value=" " />
+                        </f:facet>
+                        <h:outputText value=" " />
+                    </p:column>
+
+                    <p:column rendered="#{!costComponent.isHeading}" >
+                        <f:facet name="header">
+                            <h:outputText value="Hours/Qty"/>
+                        </f:facet>
+                        <h:outputText value="#{costComponent.hoursOrQuantity}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column rendered="#{costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value=" " />
+                        </f:facet>
+                        <h:outputText value=" " />
+                    </p:column>
+
+                    <p:column  rendered="#{!costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value="Rate ($/hr/qty)" />
+                        </f:facet>
+                        <h:outputText value="#{costComponent.rate}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="Total ($):" style="text-align: right" />
+                        </f:facet>
+                    </p:column>
+
+                    <p:column rendered="#{costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value=" " />
+                        </f:facet>
+                        <h:outputText value=" " />
+                    </p:column>
+
+                    <p:column rendered="#{!costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value="Cost($)" />
+                        </f:facet>
+                        <h:outputText value="#{costComponent.cost}">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
+                        <f:facet name="footer">
+                            <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.finalCost}" 
+                                          style="text-align: right" >
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+                        </f:facet>
+                    </p:column>
+
+                    <p:column rendered="#{costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value=" " />
+                        </f:facet>
+                        <h:outputText value=" " />
+                    </p:column>
+
+                    <p:column style="width:32px" >
+                        <f:facet name="header">
+                            <h:outputText value="Edit" />
+                        </f:facet>
+                        <p:commandButton title="Edit cost component details"
+                                         actionListener="#{financeManager.editCostComponent}"
+                                         disabled="#{!costComponent.isEditable or financeManager.completed}"
+                                         update=":costingComponentDialogForm"
+                                         oncomplete="costingComponentDialog.show();"
+                                         icon="ui-icon ui-icon-pencil"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{costComponent}"
+                                                         target="#{financeManager.selectedCostComponent}" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column style="width:32px" >
+                        <f:facet name="header">
+                            <h:outputText value="Delete" />
+                        </f:facet>
+                        <p:commandButton title="Delete cost component"        
+                                         disabled="#{financeManager.completed}"
+                                         onclick="costComponentDeleteConfirm.show();"
+                                         icon="ui-icon-trash"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{costComponent}"
+                                                         target="#{financeManager.selectedCostComponent}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+                <hr/>
+                <p:commandButton title="Add new cost component"
+                                 value="New Item"
+                                 disabled="#{financeManager.completed}"
+                                 actionListener="#{financeManager.createNewCostComponent}"
+                                 update=":costingComponentDialogForm"
+                                 onstart="longProcessDialogVar.show();"
+                                 oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
+                                 icon="ui-icon-plus"
+                                 process="@this">
+                </p:commandButton>
+            </p:panel>
+            <p:panel id="costingSummaryPanel" header="Summary">
+                <h:panelGrid columns="3">
+                    <h:outputText value="Invoice number:" style="font-weight: bold;"/>
+                    <p:spacer height="0" width="10"/>
+                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.invoiceNumber}"
+                                 disabled="#{!financeManager.isAuthorizedToModifyCostings}"
+                                 maxlength="250" >
+                        <p:ajax event="keyup"
+                                global="false"                                
+                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                process="@this"/>
+                    </p:inputText>
+
+                    <h:outputText value="Receipt #s:" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.receiptNumber}" 
+                                 disabled="#{!financeManager.isAuthorizedToModifyCostings}"
+                                 style="width: 200px" >
+                        <p:ajax event="keyup"
+                                global="false"
+                                listener="#{financeManager.updateJobCostingAndPayment}"                                
+                                process="@this"/>
+                    </p:inputText>
+
+                    <h:outputText value="Total paid ($):" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.deposit}" 
+                                 title="This can only be edited on the 'Costing' tab"
+                                 readonly="true" 
+                                 style="background-color: lightgoldenrodyellow !important;">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        <p:ajax event="keyup"
+                                global="false"
+                                update=":jobCostingDialogForm:amountDue"
+                                listener="#{financeManager.updateAmountDue}"
+                                process="@this"/>
+                    </p:inputText>
+
+                    <ui:remove>                    
+                        <h:outputText value="Discount ($):" style="font-weight: bold;" />
+                        <p:spacer height="0" width="10"/>
+                        <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.discount}" >
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                            <p:ajax event="keyup"
+                                    global="false"
+                                    update=":jobCostingDialogForm:amountDue"
+                                    listener="#{financeManager.updateAmountDue}"
+                                    process="@this"/>
+                        </p:inputText>
+                    </ui:remove>
+
+                    <h:outputText value="Job cost ($):" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.finalCost}" 
+                                 style="background-color: lightgoldenrodyellow !important;"
+                                 readonly="true">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
+                    </p:inputText>
+
+                    <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.totalTaxLabel}" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.totalTax}" 
+                                 style="background-color: lightgoldenrodyellow !important;"
+                                 readonly="true">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
+                    </p:inputText>
+
+                    <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}"
+                                  style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.totalCost}" 
+                                 style="background-color: lightgoldenrodyellow !important;"
+                                 readonly="true">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
+                    </p:inputText>
+
+                    <h:outputText value="Amount due ($):" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <p:inputText id="amountDue"
+                                 value="#{financeManager.currentJob.jobCostingAndPayment.amountDue}"
+                                 style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                                 readonly="true">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    </p:inputText>
+
+                    <h:outputText value="Comments:"  style="font-weight: bold" />
+                    <p:spacer height="0" width="10"/>
+                    <h:inputTextarea value="#{financeManager.currentJob.comment}" rows="2" style="width: 450px">
+                        <p:ajax event="keyup"
+                                global="false"
+                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                process="@this"/>
+                    </h:inputTextarea>
+                </h:panelGrid>
+            </p:panel>  
+            <br/>           
+        </h:form>   
+    </h:body>
+</html>

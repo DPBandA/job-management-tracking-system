@@ -138,6 +138,7 @@ Email: info@dpbennett.com.jm
                                  actionListener="#{financeManager.editJobCosting}"
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="longProcessDialogVar.hide();"
+                                 rendered="#{!financeManager.enableOnlyPaymentEditing}"
                                  process="@this"
                                  title="View or edit job costing">
                     <p:ajax event="dialogReturn" 

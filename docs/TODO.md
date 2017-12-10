@@ -21,8 +21,14 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Double/Multiple View Creation
+- Use different jobsModel and job search results to see if this fixes the resetInput
+  issues.
 - Create a jobCostingAndPayment dialog for use in "cashier view". use the current
-  jobCostingAndPaymentTab as foundation.
+  jobCostingAndPaymentTab as foundation. NB disable editing jobs costing cost this
+  would create nested dialog that is not supported in PF 4.0.
+                   OR
+  * Disable all tabs except jobCostingAndPaymentTab and make jobCostingAndPaymentTab
+  the active tab.
 - Within the job costing dialog detect if there are subcontracts and inform about 
   this and "pull" in their costs based on instructions.  
 - Note that updateJobCostings() creates default job costings if none exist and
@@ -51,6 +57,7 @@ Views can be viewed simultaneously for easy job costing updates.
   * Implement getFinanceManager() and use it in jobCostingAndPaymentTab.xhtml 
     to access JobCostingAndPayment instead of directly in JM.
 - Check that job costing form works.
+- Only designated persons should be able to approve and invoice jobs in batch.
 - Use FM to check credit status?
 - Update job costing and payment forms to use FinanceManager (FM).
   * Implement "dirty" for JobCostingAndPayment and use it to flag as dirty and not the entire job. 
@@ -130,6 +137,7 @@ paymentTerms, rename JMTSUserId to userId
 * Check client credit status dialog
 * Test editing job costings with subcontracts.
 * Test SystemAdmin functions. Remove features that are not fully implemented.
+* Approve, invoice jobs singly or by batch from the job costings table.
 * etc.
 
 -------------------------------------------------------------------------------

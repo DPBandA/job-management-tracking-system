@@ -112,9 +112,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private List<Job> jobsWithCostings;
     private Job currentJobWithCosting;
     private Department jobCostDepartment;
-    private Job[] selectedJobs;
-//    private Boolean sendJobCostingCompletedEmail;
-//    private Boolean sendJobCostingApprovedEmail;
     private Boolean showPrepayments;
     private JobManagerUser user;
     private String invalidFormFieldMessage;
@@ -126,6 +123,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private Boolean dialogRenderNoButton;
     private Boolean dialogRenderCancelButton;
     private DialogActionHandler dialogActionHandler;
+    private Boolean enableOnlyPaymentEditing;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -137,9 +135,18 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         useAccPacCustomerList = false;
         addCashPayment = false;
         addCostComponent = false;
-//        sendJobCostingCompletedEmail = false;
-//        sendJobCostingApprovedEmail = false;
         addCostComponent = false;
+    }
+
+    public Boolean getEnableOnlyPaymentEditing() {
+        if (enableOnlyPaymentEditing == null) {
+            enableOnlyPaymentEditing = false;
+        }
+        return enableOnlyPaymentEditing;
+    }
+
+    public void setEnableOnlyPaymentEditing(Boolean enableOnlyPaymentEditing) {
+        this.enableOnlyPaymentEditing = enableOnlyPaymentEditing;
     }
 
     public Boolean getDialogRenderCancelButton() {
@@ -1444,16 +1451,14 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 //        // taxes was changed
 //        currentJob.getJobCostingAndPayment().calculateAmountDue();
 //    }
-
 //    public void editJobCosting() {
 //
 //        updateJobCostings();
 //
 //        PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 800);
 //    }
-
     public void openJobCostingDialog() {
-        
+
         PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 800);
     }
 
@@ -1860,7 +1865,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 //        } else if (currentJob.getJobSamples().size() > currentJob.getJobCostingAndPayment().getAllSortedCostComponents().size()) {
 //        }
 //    }
-
 //    public void createDefaultJobCostings(JobCostingAndPayment jobCostingAndPayment) {
 //
 //        if (currentJob.getJobCostingAndPayment().getCostComponents().isEmpty()) {
@@ -1869,7 +1873,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 //        }
 //
 //    }
-
     public Date getCurrentDate() {
         return new Date();
     }
@@ -2074,7 +2077,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 //            return dept;
 //        }
 //    }
-
     public Boolean isCurrentJobNew() {
         return (getCurrentJob().getId() == null);
     }

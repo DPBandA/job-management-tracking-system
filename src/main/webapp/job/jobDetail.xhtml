@@ -78,15 +78,15 @@ Email: info@dpbennett.com.jm
                     oncomplete="longProcessDialogVar.hide();" />
         </ui:remove>
 
-        <p:tab title="General" >
+        <p:tab title="General" rendered="#{!financeManager.enableOnlyPaymentEditing}">
             <ui:include src="jobGeneralTab.xhtml"/>
         </p:tab>     
 
-        <p:tab title="Service Contract">
+        <p:tab title="Service Contract" rendered="#{!financeManager.enableOnlyPaymentEditing}">
             <ui:include src="jobServiceContractTab.xhtml"/>
         </p:tab>
 
-        <p:tab title="Samples">
+        <p:tab title="Samples" rendered="#{!financeManager.enableOnlyPaymentEditing}">
             <ui:include src="jobSamplesTab.xhtml"/>
         </p:tab>
 
@@ -94,15 +94,15 @@ Email: info@dpbennett.com.jm
             <ui:include src="jobCostingAndPaymentTab.xhtml"/>
         </p:tab>    
 
-        <p:tab title="Grouping">
-            <ui:include src="jobGroupingTab.xhtml"/>
+        <p:tab title="Grouping" rendered="#{!financeManager.enableOnlyPaymentEditing}">
+            <ui:include src="jobGroupingTab.xhtml" />
         </p:tab>
 
-        <p:tab title="Status &amp; Tracking">
-            <ui:include src="jobStatusAndTrackingTab.xhtml"/>
+        <p:tab title="Status &amp; Tracking"  rendered="#{!financeManager.enableOnlyPaymentEditing}">
+            <ui:include src="jobStatusAndTrackingTab.xhtml" />
         </p:tab>               
 
-        <p:tab title="Reporting">
+        <p:tab title="Reporting" rendered="#{!financeManager.enableOnlyPaymentEditing}">
             <ui:include src="../report/reportingTab.xhtml"/>
         </p:tab>
 

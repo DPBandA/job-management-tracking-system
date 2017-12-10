@@ -89,22 +89,21 @@ Email: info@dpbennett.com.jm
         </p:column>
        
         <p:column style="width:32px" >
-            <p:commandButton title="View/Edit job costing/payment" 
-                             actionListener="#{financeManager.openJobCostingDialog}"
+             <p:commandButton title="View/Edit job costing and payment" 
                              update=":mainTabViewForm:mainTabView:formsMenuButton"
+                             actionListener="#{jobManager.editJob}"                             
                              onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
-
-                <p:resetInput target=":mainTabViewForm:mainTabView" />
                 
-                <f:setPropertyActionListener value="#{job}"
-                                             target="#{jobManager.editJobCosting}" />
+                <p:resetInput target=":mainTabViewForm:mainTabView" />
 
-            </p:commandButton>           
+                <f:setPropertyActionListener value="#{job}"
+                                             target="#{jobManager.editJobCostingAndPayment}" />
+
+            </p:commandButton>     
         </p:column>
 
     </p:dataTable>

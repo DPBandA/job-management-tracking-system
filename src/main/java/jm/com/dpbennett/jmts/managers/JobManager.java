@@ -710,10 +710,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Select the jobs tab if the job detail tab was closed
         if (tabId.equals("jobDetailTab")) {
-            MainTab tab = mainTabView.findTab("jobsTab");
-            if (tab != null) {
-                mainTabView.select("mainTabViewVar", mainTabView.getTabIndex());
-            }
+            financeManager.setEnableOnlyPaymentEditing(false);
+            //MainTab tab = mainTabView.findTab("jobsTab");
+            //if (tab != null) {
+            //    mainTabView.select("mainTabViewVar", mainTabView.getTabIndex());
+            //}
         }
     }
 
@@ -1760,7 +1761,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         RequestContext context = RequestContext.getCurrentInstance();
 
         mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
-        context.execute("jobFormTabVar.select(0);");
+        context.execute("jobFormTabVar.select(0);"); 
     }
 
     public String getJobAssignee() {
@@ -2000,8 +2001,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void setEditJobCosting(Job currentJob) {
         this.currentJob = currentJob;
-        //financeManager.updateJobCostings();
         initManagers();
+    }
+    
+    public void setEditJobCostingAndPayment(Job currentJob) {
+        this.currentJob = currentJob;
+        initManagers();
+        //financeManager.setEnableOnlyPaymentEditing(true);
     }
 
     @Override
