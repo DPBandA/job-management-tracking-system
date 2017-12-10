@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <p:dataTable id="jobsDatabaseTable"
+    <p:dataTable id="jobCostingsTable"
                  var="job"
                  paginator="true"
                  rows="15"  
@@ -39,8 +39,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
-        <p:column selectionMode="multiple"
-                  style="width:2%" />  
+        <p:column selectionMode="multiple" style="width:2%" />  
 
         <p:column sortBy="#{job.jobNumber}" >
             <f:facet name="header">
@@ -70,8 +69,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.jobCategory.name}" />
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.costingCompleted}"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
+        <p:column sortBy="#{job.jobCostingAndPayment.costingCompleted}" >
             <f:facet name="header">
                 <h:outputText value="Prep'd?"/>
             </f:facet>
@@ -79,8 +77,7 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.costingCompleted? 'green': 'red'}"/>            
         </p:column>  
 
-        <p:column sortBy="#{job.jobCostingAndPayment.costingApproved}"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
+        <p:column sortBy="#{job.jobCostingAndPayment.costingApproved}" >
             <f:facet name="header">
                 <h:outputText value="App'd?"/>
             </f:facet>
@@ -88,8 +85,7 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.costingApproved? 'green': 'red'}"/>            
         </p:column>  
 
-        <p:column sortBy="#{job.jobCostingAndPayment.invoiced}"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
+        <p:column sortBy="#{job.jobCostingAndPayment.invoiced}" >
             <f:facet name="header">
                 <h:outputText value="Inv'd?"/>
             </f:facet>
@@ -97,94 +93,24 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.invoiced? 'green': 'red'}"/>               
         </p:column>      
 
-        <p:column sortBy="#{job.jobStatusAndTracking.dateSubmitted}" style="min-width: 100px"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">
-            <f:facet name="header">
-                <h:outputText value="Submitted"/>
-            </f:facet>
-            <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
-                <f:convertDateTime pattern="MMM dd, yyyy"/>
-            </h:outputText>
-        </p:column>        
-        <p:column sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" style="min-width: 100px"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">
-            <f:facet name="header">
-                <h:outputText value="EDOC"/>
-            </f:facet>
-            <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">
-                <f:convertDateTime pattern="MMM dd, yyyy"/>
-            </h:outputText>
-        </p:column>
-        <p:column sortBy="#{job.jobStatusAndTracking.workProgress}" style="min-width: 85px"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">
-            <f:facet name="header">
-                <h:outputText value="Progress"/>
-            </f:facet>
-            <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />
-        </p:column>
-        <p:column style="width:32px"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">
-            <p:commandButton title="View/Edit job" 
+        <p:column style="width:32px" >
+            <p:commandButton title="View/Edit job costing" 
+                             actionListener="#{financeManager.openJobCostingDialog}"
                              update=":mainTabViewForm:mainTabView:formsMenuButton"
-                             actionListener="#{jobManager.editJob}"                             
                              onstart="longProcessDialogVar.show();"
-                             onerror="connectionErrorDialog.show();"
-                             global="true"
-                             process="@this"
-                             icon="ui-icon ui-icon-pencil">
-                <p:resetInput target=":mainTabViewForm:mainTabView" />
-
-                <p:resetInput target=":mainTabViewForm:mainTabView" />
-
-                <f:setPropertyActionListener value="#{job}"
-                                             id="editJobButtonPropListener"
-                                             target="#{jobManager.editCurrentJob}" />
-
-            </p:commandButton>           
-        </p:column>
-
-        <p:column style="width:32px"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">
-            <p:commandButton title="View/Edit job costing"                                 
-                             actionListener="#{jobManager.editJobCosting}"
-                             update=":mainTabViewForm:mainTabView:formsMenuButton,:jobCostingDialogForm"
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="jobCostingDialog.show();longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"   
-                             global="true"
-                             process="@this"
-                             icon="ui-icon ui-icon-pencil">
-
-                <p:resetInput target=":mainTabViewForm:mainTabView" />
-
-                <f:setPropertyActionListener value="#{job}" 
-                                             id="editJobButtonPropListener"
-                                             target="#{jobManager.currentJob}" />
-
-            </p:commandButton>           
-        </p:column>
-
-        <p:column style="width:32px"
-                  rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}">
-            <p:commandButton title="View/Edit job costing/payment" 
-                             actionListener="#{jobManager.editJobCosting}"
-                             update=":mainTabViewForm:mainTabView:formsMenuButton,:jobCostingDialogForm"
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="jobDialog.show();longProcessDialogVar.hide();jobFormTabVar.select(3);"
+                             oncomplete="longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
 
                 <p:resetInput target=":mainTabViewForm:mainTabView" />
-
+                
                 <f:setPropertyActionListener value="#{job}"
-                                             id="editJobButtonPropListener"
-                                             target="#{jobManager.currentJob}" />
+                                             target="#{jobManager.editJobCosting}" />
 
-            </p:commandButton>           
+            </p:commandButton>     
         </p:column>
-
 
     </p:dataTable>
 

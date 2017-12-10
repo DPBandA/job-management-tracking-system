@@ -21,13 +21,15 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Double/Multiple View Creation
+- Create a jobCostingAndPayment dialog for use in "cashier view". use the current
+  jobCostingAndPaymentTab as foundation.
+- Within the job costing dialog detect if there are subcontracts and inform about 
+  this and "pull" in their costs based on instructions.  
 - Note that updateJobCostings() creates default job costings if none exist and
   adds the costing from subcontracts if the job is subcontracted. Add this method
   to the Job class and call it whenever the job costing is to be edited so that
   all subcontracted job costs are included. Add all methods that updateJobCostings()
   calls directly or indirectly in the Job or JobCostingAndPayment class.
-- Create a jobCostingAndPayment dialog for use in "cashier view". use the current
-  jobCostingAndPaymentTab as foundation.
 - Impl job searching that bring up cashier view as the default tab for testing
   purposes. 
 - Create mainTabView tabs for job costing.
@@ -159,6 +161,8 @@ paymentTerms, rename JMTSUserId to userId
   "accountingManagement" is not found.
 - Make the creation of at least one address and one contact mandatory for 
   creating new clients.
+- Add parentJobId to Job and use it to find subcontracts for the purpose of pulling
+  in costs for subcontracts.
 - Check the return value from prepareAndSaveCurrentJob() and display message 
   based on success or failure. 
 - Impl copy and delete sample within the sample dialog.

@@ -113,8 +113,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private Job currentJobWithCosting;
     private Department jobCostDepartment;
     private Job[] selectedJobs;
-    private Boolean sendJobCostingCompletedEmail;
-    private Boolean sendJobCostingApprovedEmail;
+//    private Boolean sendJobCostingCompletedEmail;
+//    private Boolean sendJobCostingApprovedEmail;
     private Boolean showPrepayments;
     private JobManagerUser user;
     private String invalidFormFieldMessage;
@@ -137,8 +137,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         useAccPacCustomerList = false;
         addCashPayment = false;
         addCostComponent = false;
-        sendJobCostingCompletedEmail = false;
-        sendJobCostingApprovedEmail = false;
+//        sendJobCostingCompletedEmail = false;
+//        sendJobCostingApprovedEmail = false;
         addCostComponent = false;
     }
 
@@ -636,35 +636,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         return jobCostingFile;
     }
 
-    public void invoiceSelectedJobCostings() {
-        if (selectedJobs.length > 0) {
-            EntityManager em = getEntityManager1();
-
-            for (Job job : selectedJobs) {
-                if (job.getJobCostingAndPayment().getCostingApproved()) {
-                    em.getTransaction().begin();
-                    job.getJobCostingAndPayment().setInvoiced(true);
-                    BusinessEntityUtils.saveBusinessEntity(em, job);
-                    em.getTransaction().commit();
-                } else {
-                    em.getTransaction().begin();
-                    job.getJobCostingAndPayment().setInvoiced(false);
-                    BusinessEntityUtils.saveBusinessEntity(em, job);
-                    em.getTransaction().commit();
-                    displayCommonMessageDialog(null, "Job costing could not be marked as being invoiced because it was not approved", "Not Approved", "alert");
-                }
-            }
-        } else {
-            displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
-        }
-    }
-
     public Boolean getCanExportJobCosting() {
-        if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()
-                && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-            return false;
-        }
-        return true;
+        return !(getCurrentJob().getJobCostingAndPayment().getCostingApproved()
+                && getCurrentJob().getJobCostingAndPayment().getCostingCompleted());
     }
 
     public void invoiceJobCosting() {
@@ -680,31 +654,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             displayCommonMessageDialog(null, "You do not have permission to change the invoiced status of this job costing.", "Permission Denied", "alert");
             getCurrentJob().getJobCostingAndPayment().setInvoiced(!getCurrentJob().getJobCostingAndPayment().getInvoiced());
         }
-    }
-
-    public void approveSelectedJobCostings() {
-        if (selectedJobs.length > 0) {
-            EntityManager em = getEntityManager1();
-
-            for (int i = 0; i < selectedJobs.length; i++) {
-                Job job = selectedJobs[i];
-                if (job.getJobCostingAndPayment().getCostingCompleted()) {
-                    em.getTransaction().begin();
-                    job.getJobCostingAndPayment().setCostingApproved(true);
-                    BusinessEntityUtils.saveBusinessEntity(em, job);
-                    em.getTransaction().commit();
-                } else {
-                    em.getTransaction().begin();
-                    job.getJobCostingAndPayment().setCostingApproved(false);
-                    BusinessEntityUtils.saveBusinessEntity(em, job);
-                    em.getTransaction().commit();
-                    displayCommonMessageDialog(null, "Job costing could not be marked as being approved because it was not prepared", "Not Prepared", "alert");
-                }
-            }
-        } else {
-            displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
-        }
-
     }
 
     public List<Preference> getJobTableViewPreferences() {
@@ -837,11 +786,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(null);
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
             getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
-            sendJobCostingCompletedEmail = false;
+            //sendJobCostingCompletedEmail = false;
             displayCommonMessageDialog(null, "Please enter all required (*) fields before checking this job costing as being prepared.", "Required (*) Fields Missing", "info");
         } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
-            sendJobCostingCompletedEmail = true;
+            //sendJobCostingCompletedEmail = true;
             setDirty(true);
         }
     }
@@ -878,13 +827,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(null);
                 setJobCostingDate(null);
                 getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
-                sendJobCostingApprovedEmail = false;
+                //sendJobCostingApprovedEmail = false;
                 displayCommonMessageDialog(null, "This job costing cannot be approved before it is prepared", "Cannot Approve", "info");
             } else {
                 Date date = new Date();
                 setJobCostingDate(date);
                 getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(date);
-                sendJobCostingApprovedEmail = true;
+                //sendJobCostingApprovedEmail = true;
                 setDirty(true);
             }
         } else {

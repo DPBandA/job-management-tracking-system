@@ -1212,15 +1212,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         dashboard.renderTab(getEntityManager1(), "jobsTab", getUser().getJobManagementAndTrackingUnit());
         if (getUser().getJobManagementAndTrackingUnit()) {
             if (getUser().isJobsPreferredJobTableView()) {
-                 mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
+                mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
             }
             if (getUser().isCashierPreferredJobTableView()) {
-                 mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
+                mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
             }
             if (getUser().isJobCostingsPreferredJobTableView()) {
-                 mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
+                mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
             }
-           
+
         }
         setDirty(true);
     }
@@ -1393,6 +1393,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         try {
             if (isSubcontract) {
 
+                // tk replace this and other use of JS for messaging with 
+                // growl messaging
                 if (currentJob.getId() == null) {
                     context.addCallbackParam("jobNotSaved", true);
                     return false;
@@ -1455,6 +1457,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
 
             financeManager.setAccPacCustomer(new AccPacCustomer(""));
+
+            // tk replace this and other use of JS for messaging with 
+            // growl messaging
             if (context != null) {
                 context.addCallbackParam("jobCreated", jobCreated);
             }
@@ -1992,11 +1997,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.currentJob = currentJob;
         initManagers();
     }
-    
+
     public void setEditJobCosting(Job currentJob) {
-        this.currentJob = currentJob;        
+        this.currentJob = currentJob;
         //financeManager.updateJobCostings();
-        initManagers();        
+        initManagers();
     }
 
     @Override
@@ -2461,6 +2466,54 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         reportManager.setMainTabView(mainTabView);
         reportManager.setCurrentJob(currentJob);
         mainTabView.renderTab(getEntityManager1(), "reportsTab", true);
+    }
+
+    public void approveSelectedJobCostings() {
+        if (selectedJobs.length > 0) {
+            EntityManager em = getEntityManager1();
+
+            for (int i = 0; i < selectedJobs.length; i++) {
+                Job job = selectedJobs[i];
+                if (job.getJobCostingAndPayment().getCostingCompleted()) {
+                    em.getTransaction().begin();
+                    job.getJobCostingAndPayment().setCostingApproved(true);
+                    BusinessEntityUtils.saveBusinessEntity(em, job);
+                    em.getTransaction().commit();
+                } else {
+                    em.getTransaction().begin();
+                    job.getJobCostingAndPayment().setCostingApproved(false);
+                    BusinessEntityUtils.saveBusinessEntity(em, job);
+                    em.getTransaction().commit();
+                    displayCommonMessageDialog(null, "Job costing could not be marked as being approved because it was not prepared", "Not Prepared", "alert");
+                }
+            }
+        } else {
+            displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
+        }
+
+    }
+
+    public void invoiceSelectedJobCostings() {
+        if (selectedJobs.length > 0) {
+            EntityManager em = getEntityManager1();
+
+            for (Job job : selectedJobs) {
+                if (job.getJobCostingAndPayment().getCostingApproved()) {
+                    em.getTransaction().begin();
+                    job.getJobCostingAndPayment().setInvoiced(true);
+                    BusinessEntityUtils.saveBusinessEntity(em, job);
+                    em.getTransaction().commit();
+                } else {
+                    em.getTransaction().begin();
+                    job.getJobCostingAndPayment().setInvoiced(false);
+                    BusinessEntityUtils.saveBusinessEntity(em, job);
+                    em.getTransaction().commit();
+                    displayCommonMessageDialog(null, "Job costing could not be marked as being invoiced because it was not approved", "Not Approved", "alert");
+                }
+            }
+        } else {
+            displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
+        }
     }
 
 }
