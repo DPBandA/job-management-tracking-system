@@ -1454,6 +1454,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void editJobCosting() {
 
         EntityManager em = getEntityManager1();
+        
+        System.out.println("current job for job costing: " + currentJob); // tk
 
         Department dept = getDepartmentAssignedToJob(currentJob, em);
         if (dept != null) {

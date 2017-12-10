@@ -20,12 +20,10 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
-#### Misc.
-- The default job tab that comes up should be based on the "Job table view" selected 
-  in preferences.
 #### Double/Multiple View Creation
-- Impl is*PreferredJobTableView in JM user and use to control default tabs that
-  are displayed when user logs in.
+- Move editJobCosting() back to JM from FM and use it in the cashier table.
+- Create a jobCostingAndPayment dialog for use in "cashier view". use the current
+  jobCostingAndPaymentTab as foundation.
 - Impl job searching that bring up cashier view as the default tab for testing
   purposes. 
 - Create mainTabView tabs for job costing.
@@ -190,6 +188,8 @@ paymentTerms, rename JMTSUserId to userId
 - Move code dealing with Accpac, costing etc to AccountingManager.
 - Put job number in tab title...in brackets. Update the tab when something that 
   affects the job number changes.
+- Put all complete*() methods in their respective entity classes and call them
+  from the Application class.
 - Impl job backup as is done with samples and job edit cancelling and change
   "close" button to "Cancel" button.
 - Change label Department* to Parent department* when job is subcontracted.
