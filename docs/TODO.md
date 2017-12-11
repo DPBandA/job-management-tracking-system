@@ -21,6 +21,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Double/Multiple View Creation
+- Store the current mainView tab after tab change for later use.
 - Use different jobsModel and job search results to see if this fixes the resetInput
   issues.
 - Create a jobCostingAndPayment dialog for use in "cashier view". use the current
