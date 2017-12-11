@@ -21,15 +21,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Double/Multiple View Creation
-- Store the current mainView tab after tab change for later use.
-- Use different jobsModel and job search results to see if this fixes the resetInput
-  issues.
-- Create a jobCostingAndPayment dialog for use in "cashier view". use the current
-  jobCostingAndPaymentTab as foundation. NB disable editing jobs costing cost this
-  would create nested dialog that is not supported in PF 4.0.
-                   OR
-  * Disable all tabs except jobCostingAndPaymentTab and make jobCostingAndPaymentTab
-  the active tab.
+- Put toolbar in job detail tab.
 - Within the job costing dialog detect if there are subcontracts and inform about 
   this and "pull" in their costs based on instructions.  
 - Note that updateJobCostings() creates default job costings if none exist and
@@ -52,6 +44,7 @@ Views can be viewed simultaneously for easy job costing updates.
   the costing tab and forms to use to reflect changes
 - updateJobCostingAndPayment() and other update methods in FM to update isDirty 
   in JobCostingAndPayment and not the job. REVIEW THIS!!!
+- Put "Do costing" button in JobCostingAndPaymentTab.
 - Remove FM code from JM.  
   * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
     from JM.
@@ -120,8 +113,11 @@ paymentTerms, rename JMTSUserId to userId
 - Ensure billing address and contact are valid and not blank before saving job.
 
 ### Miscellaneous
+- Put "close" at top of all tabs for consistency.
 - Put some "help" text in the dashboard for system and finance admin for now.
   or Impl find in systems admin that allow selecting use. employee etc
+        OR
+  * Remove finance and admin from dashboard for now
 - When "x" is used to close the job detail tab warn that the job was not saved
   if this is the case.
 - Impl new department button/feature.

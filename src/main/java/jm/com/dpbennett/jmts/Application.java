@@ -808,6 +808,23 @@ public class Application {
             return new ArrayList<>();
         }
     }
+    
+    public List<String> getJobTableViews(){
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager1();
+
+            List<String> preferenceValues = Preference.findAllPreferenceValues(em, "");
+
+            return preferenceValues;
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
 
     public List<DepartmentUnit> completeDepartmentUnit(String query) {
         EntityManager em = null;

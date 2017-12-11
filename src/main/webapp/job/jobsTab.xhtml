@@ -24,11 +24,10 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <p:toolbar id="jobsToolbar">
-        <p:toolbarGroup align="left" >   
-
+    <p:toolbar>
+        <p:toolbarGroup align="left" style="height: 0;">   
             <p:commandButton
-                id="createNewJobButton"
+                style="vertical-align: top;"
                 actionListener="#{jobManager.createNewJob}"
                 global="true"                
                 onstart="longProcessDialogVar.show();" 
@@ -40,21 +39,23 @@ Email: info@dpbennett.com.jm
 
                 <p:resetInput target=":mainTabViewForm:mainTabView" />
 
-            </p:commandButton>
-            <p:spacer height="0" width="200" />
-            <p:commandButton
-                value="Reports"
-                actionListener="#{jobManager.openReportsTab}"
-                onstart="longProcessDialogVar.show();"                
-                onerror="connectionErrorDialog.show();"
-                title="Generate, view and export reports"
-                icon="ui-icon-newwin"
-                process="@this"/>
-
+            </p:commandButton>       
+            <p:spacer width="20"/>
+            <p:selectOneRadio style="display: inline;"
+                              value="#{jobManager.user.jobTableViewPreference}">
+                <f:selectItems value="#{App.jobTableViews}" 
+                               var="joView" 
+                               itemLabel="#{joView}" 
+                               itemValue="#{joView}"/>
+                <p:ajax listener="#{jobManager.updateJobView}"
+                        global="false"
+                        process="@this"/>
+            </p:selectOneRadio>                
+            
         </p:toolbarGroup>
-
-        <p:toolbarGroup align="right" >                                   
-            <p:menuButton id="toolsButton" value="Tools" >
+                 
+        <p:toolbarGroup align="right" >               
+            <p:menuButton value="Tools" >
                 <p:menuitem actionListener="#{financeManager.updateAccPacClient}"
                             onstart="longProcessDialogVar.show();"                                                    
                             value="Client credit status"
@@ -68,6 +69,12 @@ Email: info@dpbennett.com.jm
                             actionListener="#{jobManager.openClientsTab}"
                             oncomplete="longProcessDialogVar.hide();"
                             process="@this"/>
+                <p:separator />
+                <p:menuitem value="Reports"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            actionListener="#{jobManager.openReportsTab}"
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this"/>
 
             </p:menuButton>                                    
 
@@ -75,7 +82,7 @@ Email: info@dpbennett.com.jm
     </p:toolbar>   
 
     <ui:include src="jobsDatabaseTable.xhtml"/>
-    
+
 </html>
 
 

@@ -37,7 +37,6 @@ import jm.com.dpbennett.business.entity.management.SearchManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import jm.com.dpbennett.jmts.Application;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -381,27 +380,17 @@ public class SearchManager implements SearchManagement, Serializable {
                 if (jm != null) {
                     jm.doJobSearch(getCurrentSearchParameters());
                     if (jm.getUser().isJobsPreferredJobTableView()) {
-                        jm.getMainTabView().renderTab(getEntityManager1(), "jobsTab", true);
-                        jm.getMainTabView().update("mainTabViewForm:mainTabView");
-                        jm.getMainTabView().select(jm.getMainTabView().getTabIndex("jobsTab"));
+                        jm.openJobsTab();
                     }
                     if (jm.getUser().isCashierPreferredJobTableView()) {
-                        jm.getMainTabView().renderTab(getEntityManager1(), "cashierTab", true);
-                        jm.getMainTabView().update("mainTabViewForm:mainTabView");
-                        jm.getMainTabView().select(jm.getMainTabView().getTabIndex("cashierTab"));
+                        jm.openCashierTab();
                     }
                     if (jm.getUser().isJobCostingsPreferredJobTableView()) {
-                        jm.getMainTabView().renderTab(getEntityManager1(), "jobCostingsTab", true);
-                        jm.getMainTabView().update("mainTabViewForm:mainTabView");
-                        jm.getMainTabView().select(jm.getMainTabView().getTabIndex("jobCostingsTab"));
+                        jm.openJobCostingsTab();
                     }
                 }
                 break;
-            case "Service Request Search":
-                //ServiceManager sm = Application.findBean("serviceManager");
-                //if (sm != null) {
-                //    addMessage("Sorry!", "Service Request Search not yet implemented.");
-                //}
+            case "Service Request Search":               
                 break;
             case "Admin Search":
                 addMessage("Sorry!", "System Administration Search not yet implemented.");

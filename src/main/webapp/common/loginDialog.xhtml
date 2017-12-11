@@ -58,13 +58,7 @@ Email: info@dpbennett.com.jm
                              id="username" 
                              required="true"
                              label="username"
-                             validatorMessage="Please enter a valid username" >
-                    <p:ajax event="change"
-                            global="false"                            
-                            listener="#{jobManager.updateDatabaseModule}"
-                            process="@this"/>
-                </p:inputText>
-
+                             validatorMessage="Please enter a valid username" />
                 <h:outputLabel for="password" value="Password: * " />
                 <p:password id="password"
                             value="#{jobManager.password}"

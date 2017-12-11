@@ -58,7 +58,6 @@ import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCosting;
 import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
-import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Preference;
 import jm.com.dpbennett.business.entity.SystemOption;
@@ -213,7 +212,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         System.out.println("Initializing Accounting Manager...");
     }
 
-    public final EntityManager getEntityManager1() {
+    public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
 
@@ -421,13 +420,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean getCanEditJobCosting() {
-        // Can edit if user belongs to the department to which the job was assigned
-        if ((getCurrentJob().getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue())
-                || (getCurrentJob().getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue())) {
-            return true;
-        }
-
-        return false;
+        // Can edit if user belongs to the department to which the job was assigned        
+        return (getCurrentJob().getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue())
+                || (getCurrentJob().getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue());
     }
 
     public String getSelectedJobCostingTemplate() {
@@ -443,11 +438,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         if (getUser() != null) {
             if (currentJob.getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
                 return true;
-            } else if (currentJob.getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
-                return true;
-            } else {
-                return false;
-            }
+            } else return currentJob.getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue();
         } else {
             return false;
         }
@@ -571,7 +562,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         HashMap parameters = new HashMap();
 
         try {
-            parameters.put("jobId", getCurrentJob().getId().longValue());
+            parameters.put("jobId", getCurrentJob().getId());
 
             Client client = Application.getActiveClientByNameIfAvailable(em, getCurrentJob().getClient());
 
@@ -817,12 +808,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         if (Department.findDepartmentAssignedToJob(foundJob, em).getHead().getId().longValue() == getUser().getEmployee().getId().longValue()) {
             return true;
-        } else if ((Department.findDepartmentAssignedToJob(foundJob, em).getActingHead().getId().longValue() == getUser().getEmployee().getId().longValue())
-                && Department.findDepartmentAssignedToJob(foundJob, em).getActingHeadActive()) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return (Department.findDepartmentAssignedToJob(foundJob, em).getActingHead().getId().longValue() == getUser().getEmployee().getId().longValue())
+                && Department.findDepartmentAssignedToJob(foundJob, em).getActingHeadActive();
     }
 
     public void approveJobCosting() {

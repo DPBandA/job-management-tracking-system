@@ -26,6 +26,12 @@ Email: info@dpbennett.com.jm
 
     <p:panel id="jobCosting" header="Costing">
         <h:panelGrid columns="3">
+            <h:outputLabel value="Job number *: " style="font-weight: bold;font-size: 14px;" />
+            <h:outputText value="#{jobManager.currentJob.jobNumber}"
+                          id="jobNumberForCosting"
+                          styleClass="job-number"/>          
+            <h:outputText value="&nbsp;"/>
+
             <h:outputText value="Purchase order #: "/>
             <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
                          disabled="#{!financeManager.isAuthorizedToModifyCostings}"

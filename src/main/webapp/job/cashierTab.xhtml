@@ -24,10 +24,48 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <p:toolbar id="cashierToolbar">       
+    <p:toolbar>
+        <p:toolbarGroup align="left" style="height: 0;">   
+            <p:commandButton
+                style="vertical-align: top;"
+                actionListener="#{jobManager.createNewJob}"
+                global="true"                
+                onstart="longProcessDialogVar.show();" 
+                onerror="connectionErrorDialog.show();"
+                value="New"                                       
+                title="Create new job"
+                icon="ui-icon-plusthick"
+                process="@this">  
 
-        <p:toolbarGroup align="right" >                                   
-            <p:menuButton id="cashierToolsButton" value="Tools" >
+                <p:resetInput target=":mainTabViewForm:mainTabView" />
+
+            </p:commandButton>   
+            <p:spacer width="20"/>
+            <p:selectOneRadio style="display: inline;"
+                              value="#{jobManager.user.jobTableViewPreference}">
+                <f:selectItems value="#{App.jobTableViews}" 
+                               var="joView" 
+                               itemLabel="#{joView}" 
+                               itemValue="#{joView}"/>
+                <p:ajax listener="#{jobManager.updateJobView}"
+                        global="false"
+                        process="@this"/>
+            </p:selectOneRadio>                    
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right" >    
+            <ui:remove>
+                <p:commandButton
+                    value="Reports"
+                    actionListener="#{jobManager.openReportsTab}"
+                    onstart="longProcessDialogVar.show();"                
+                    onerror="connectionErrorDialog.show();"
+                    title="Generate, view and export reports"
+                    icon="ui-icon-newwin"
+                    process="@this"/>
+                <p:spacer width="5" />
+            </ui:remove>
+            <p:menuButton value="Tools">
                 <p:menuitem actionListener="#{financeManager.updateAccPacClient}"
                             onstart="longProcessDialogVar.show();"                                                    
                             value="Client credit status"
@@ -41,11 +79,18 @@ Email: info@dpbennett.com.jm
                             actionListener="#{jobManager.openClientsTab}"
                             oncomplete="longProcessDialogVar.hide();"
                             process="@this"/>
+                
+                <p:separator />
+                <p:menuitem value="Reports"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            actionListener="#{jobManager.openReportsTab}"
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this"/>
 
             </p:menuButton>                                    
 
         </p:toolbarGroup>
-    </p:toolbar>   
+    </p:toolbar>
 
     <ui:include src="cashierViewTable.xhtml"/>
 

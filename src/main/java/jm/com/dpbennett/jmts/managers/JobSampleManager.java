@@ -183,8 +183,10 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public void updateSample(AjaxBehaviorEvent event) {
-        if (hasFieldValueChange(event.getComponent().getId())) {
-            getSelectedJobSample().setIsDirty(true);
+        if (event.getComponent().getId() != null) {
+            if (hasFieldValueChange(event.getComponent().getId())) {
+                getSelectedJobSample().setIsDirty(true);
+            }
         }
     }
 
@@ -467,12 +469,12 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
                 if (!selectedJobSample.getMethodOfDisposal().equals(selectedJobSampleBackup.getMethodOfDisposal())) {
                     return true;
                 }
-                break;    
+                break;
             case "dateSampleReceived":
                 if (!selectedJobSample.getDateReceived().equals(selectedJobSampleBackup.getDateReceived())) {
                     return true;
                 }
-                break;      
+                break;
             default:
                 break;
         }

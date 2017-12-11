@@ -26,29 +26,51 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar id="jobCostingsToolbar">    
 
-        <p:toolbarGroup align="left">
-            <p:commandButton value="Approved"                                                    
-                             ajax="true"
+        <p:toolbarGroup align="left" style="height: 0;">
+            <p:commandButton value="Approved"      
+                             style="vertical-align: top;"
                              title="Check the selected job costing(s) as approved"
-                             style="width: 150px"
+
                              actionListener="#{jobManager.approveSelectedJobCostings}"
                              update=":mainTabViewForm:mainTabView:jobCostingsTable"
                              onstart="longProcessDialogVar2.show();" 
                              oncomplete="longProcessDialogVar2.hide();">                                                                                    
             </p:commandButton>
             <p:spacer height="0" width="10"/>
-            <p:commandButton value="Invoiced"                                                    
-                             ajax="true"
+            <p:commandButton value="Invoiced"    
+                             style="vertical-align: top;"
                              title="Check the selected job costing(s) as invoiced"
-                             style="width: 150px"  
+
                              actionListener="#{jobManager.invoiceSelectedJobCostings}"
                              update=":mainTabViewForm:mainTabView:jobCostingsTable"
                              onstart="longProcessDialogVar2.show();" 
                              oncomplete="longProcessDialogVar2.hide();">                                                                                    
             </p:commandButton>
+            <p:spacer width="20"/>
+            <p:selectOneRadio style="display: inline;"
+                              value="#{jobManager.user.jobTableViewPreference}">
+                <f:selectItems value="#{App.jobTableViews}" 
+                               var="joView" 
+                               itemLabel="#{joView}" 
+                               itemValue="#{joView}"/>
+                <p:ajax listener="#{jobManager.updateJobView}"
+                        global="false"
+                        process="@this"/>
+            </p:selectOneRadio>   
         </p:toolbarGroup>
 
-        <p:toolbarGroup align="right" >                                   
+        <p:toolbarGroup align="right" >       
+            <ui:remove>
+                <p:commandButton
+                    value="Reports"
+                    actionListener="#{jobManager.openReportsTab}"
+                    onstart="longProcessDialogVar.show();"                
+                    onerror="connectionErrorDialog.show();"
+                    title="Generate, view and export reports"
+                    icon="ui-icon-newwin"
+                    process="@this"/>
+                <p:spacer width="5" />
+            </ui:remove>
             <p:menuButton id="jobCostingsToolsButton" value="Tools" >
                 <p:menuitem actionListener="#{financeManager.updateAccPacClient}"
                             onstart="longProcessDialogVar.show();"                                                    
@@ -61,6 +83,12 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Client search"
                             onstart="longProcessDialogVar.show();"                                                    
                             actionListener="#{jobManager.openClientsTab}"
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this"/>
+                <p:separator />
+                <p:menuitem value="Reports"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            actionListener="#{jobManager.openReportsTab}"
                             oncomplete="longProcessDialogVar.hide();"
                             process="@this"/>
 

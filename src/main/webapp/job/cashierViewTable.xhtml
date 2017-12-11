@@ -27,8 +27,7 @@ Email: info@dpbennett.com.jm
     <p:dataTable id="cashierViewTable"
                  var="job"
                  paginator="true"
-                 rows="15"  
-                 selection="#{jobManager.selectedJobs}"
+                 rows="15" 
                  resizableColumns="false"                 
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
@@ -38,7 +37,6 @@ Email: info@dpbennett.com.jm
         <f:facet name="header">
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
-
 
         <p:column sortBy="#{job.jobNumber}" >
             <f:facet name="header">
@@ -91,7 +89,7 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px" >
              <p:commandButton title="View/Edit job costing and payment" 
                              update=":mainTabViewForm:mainTabView:formsMenuButton"
-                             actionListener="#{jobManager.editJob}"                             
+                             actionListener="#{jobManager.editJobCostingAndPayment}"                             
                              onstart="longProcessDialogVar.show();"
                              onerror="connectionErrorDialog.show();"
                              global="true"

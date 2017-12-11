@@ -74,6 +74,10 @@ public class MainTabView implements Serializable {
         context.execute("mainTabViewVar.select(" + this.tabIndex + ");");
 
     }
+    
+    public void select(String tabId) {        
+        select(getTabIndex(tabId));
+    }
 
     public void select(String componentVar, int tabIndex) {
         RequestContext context = RequestContext.getCurrentInstance();
@@ -206,12 +210,13 @@ public class MainTabView implements Serializable {
                 default:
                     break;
             }
+            
+            select(render);
         }
 
         // Update tabview and select the appropriate tab       
         update("mainTabViewForm:mainTabView");
 
-        select(render);
     }
 
     public void removeAllTabs() {

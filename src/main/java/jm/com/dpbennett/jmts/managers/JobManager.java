@@ -38,6 +38,7 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.mail.Message;
@@ -91,6 +92,7 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
+import org.primefaces.component.selectoneradio.SelectOneRadio;
 
 /**
  *
@@ -196,6 +198,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         contractManager = Application.findBean("contractManager");
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
+    }
+
+//    public FinanceManager getFinanceManager() {
+//        return financeManager;
+//    }
+    // tk
+    public Boolean getCanApplyGCT() {
+        return JobCostingAndPayment.getCanApplyGCT(getCurrentJob());
     }
 
     public MainTabView getMainTabView() {
@@ -556,11 +566,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void handleLayoutUnitToggle(ToggleEvent event) {
 
         if (event.getComponent().getId().equals("dashboard")) {
-            if (event.getVisibility().name().equals("VISIBLE")) {
-                westLayoutUnitCollapsed = false;
-            } else {
-                westLayoutUnitCollapsed = true;
-            }
+            westLayoutUnitCollapsed = !event.getVisibility().name().equals("VISIBLE");
         }
     }
 
@@ -783,14 +789,23 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void openJobsTab() {
         mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
+        mainTabView.renderTab(getEntityManager1(), "cashierTab", false);
+        mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", false);
+        mainTabView.select("jobsTab");
     }
 
     public void openCashierTab() {
         mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
+        mainTabView.renderTab(getEntityManager1(), "jobsTab", false);
+        mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", false);
+        mainTabView.select("cashierTab");
     }
 
     public void openJobCostingsTab() {
         mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
+        mainTabView.renderTab(getEntityManager1(), "cashierTab", false);
+        mainTabView.renderTab(getEntityManager1(), "jobsTab", false);
+        mainTabView.select("jobCostingsTab");
     }
 
     public void openSystemAdministrationTab() {
@@ -1184,6 +1199,26 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setDirty(true);
     }
 
+    public void updateJobView(AjaxBehaviorEvent event) {
+        
+        switch (((SelectOneRadio) event.getComponent()).getValue().toString()) {
+            case "Cashier View":
+                getUser().setJobTableViewPreference("Cashier View");
+                openCashierTab();
+                break;
+            case "Job Costings":
+                getUser().setJobTableViewPreference("Job Costings");
+                openJobCostingsTab();
+                break;
+            case "Jobs":
+                getUser().setJobTableViewPreference("Jobs");
+                openJobsTab();
+                break;
+            default:
+                break;
+        }
+    }
+
     public void updateJobClassification() {
         EntityManager em = getEntityManager1();
 
@@ -1441,6 +1476,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
                 mainTabView.renderTab(em, "jobDetailTab", true);
                 context.update("mainTabViewForm:mainTabView:jobFormTabView");
+                mainTabView.select("jobDetailTab");
                 context.execute("jobFormTabVar.select(0);");
 
             } else {
@@ -1761,7 +1797,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         RequestContext context = RequestContext.getCurrentInstance();
 
         mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
-        context.execute("jobFormTabVar.select(0);"); 
+        mainTabView.select("jobDetailTab");
+        context.execute("jobFormTabVar.select(0);");
+    }
+    
+    public void editJobCostingAndPayment() {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
+        mainTabView.select("jobDetailTab");
+        context.execute("jobFormTabVar.select(0);");
     }
 
     public String getJobAssignee() {
@@ -1890,7 +1935,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     currentSearchParameters.getSearchText(),
                     currentSearchParameters.getDatePeriod().getStartDate(),
                     currentSearchParameters.getDatePeriod().getEndDate(), false);
-            if (jobSearchResultList.isEmpty()) { // Do search with sampple search enabled
+
+            if (jobSearchResultList.isEmpty()) { // Do search with sample search enabled
                 jobSearchResultList = Job.findJobsByDateSearchField(em,
                         getUser(),
                         currentSearchParameters.getDateField(),
@@ -1900,7 +1946,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         currentSearchParameters.getDatePeriod().getStartDate(),
                         currentSearchParameters.getDatePeriod().getEndDate(), true);
             }
-
         } else {
             jobSearchResultList = new ArrayList<>();
         }
@@ -1958,22 +2003,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return jobSearchResultList;
     }
 
-    public int getNumberOfJobsFound() {
-        if (jobSearchResultList != null) {
-            return jobSearchResultList.size();
-        }
-
-        return 0;
-    }
-
-    public Boolean getRenderJobSearchResultsList() {
-        if (jobSearchResultList.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public Job getCurrentJob() {
         if (currentJob == null) {
             resetCurrentJob();
@@ -2003,11 +2032,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.currentJob = currentJob;
         initManagers();
     }
-    
+
     public void setEditJobCostingAndPayment(Job currentJob) {
         this.currentJob = currentJob;
         initManagers();
-        //financeManager.setEnableOnlyPaymentEditing(true);
+        financeManager.setEnableOnlyPaymentEditing(true); // tk
     }
 
     @Override
