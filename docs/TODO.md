@@ -20,11 +20,13 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
-### Misc.
-- Update main tab view correctly when preference dialog is updated/or closed.
 #### Job Costing & Payment
 - Within the job costing dialog detect if there are subcontracts and inform about 
-  this and "pull" in their costs based on instructions.  
+  this and "pull" in their costs based on instructions. 
+  * See how "Cost Component dialog can be used to bring in subcontract costs. 
+    Use the "Cost Code" slot to select subcontract costs if any. Remove "Cost Code"
+  * Impl menu that selects cost type "Variable Cost", "Fixed Cost", "Subcontracted job cost"
+  * The fields would change based on the cost type selected.
 - Note that updateJobCostings() creates default job costings if none exist and
   adds the costing from subcontracts if the job is subcontracted. Add this method
   to the Job class and call it whenever the job costing is to be edited so that
@@ -106,6 +108,7 @@ paymentTerms, rename JMTSUserId to userId
 - Ensure billing address and contact are valid and not blank before saving job.
 
 ### Miscellaneous
+- Receipt #s: text box is longer than the others.
 - Put "close" at top of all tabs for consistency.
 - Put some "help" text in the dashboard for system and finance admin for now.
   or Impl find in systems admin that allow selecting use. employee etc
@@ -363,6 +366,7 @@ paymentTerms, rename JMTSUserId to userId
 - User an "iterative" JSF component to implement the display of tabs and use
   collections to initialize the tabs.
 - Impl option to use LADP or some other authentication system.
+- Use tooltip component to get consistent tooltip across the app.
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in

@@ -1030,7 +1030,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.renderSearchComponent = renderSearchComponent;
     }
 
-    public void updatePreferedJobTableView() {
+    public void updatePreferedJobTableView(SelectEvent event) {
+        doJobViewUpdate((String) event.getObject());
         setDirty(true);
     }
 
@@ -1200,8 +1201,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobView(AjaxBehaviorEvent event) {
+
+        doJobViewUpdate(((SelectOneRadio) event.getComponent()).getValue().toString());
         
-        switch (((SelectOneRadio) event.getComponent()).getValue().toString()) {
+    }
+
+    public void doJobViewUpdate(String view) {
+
+        switch (view) {
             case "Cashier View":
                 getUser().setJobTableViewPreference("Cashier View");
                 openCashierTab();
@@ -1800,7 +1807,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         mainTabView.select("jobDetailTab");
         context.execute("jobFormTabVar.select(0);");
     }
-    
+
     public void editJobCostingAndPayment() {
         RequestContext context = RequestContext.getCurrentInstance();
 
@@ -2036,7 +2043,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void setEditJobCostingAndPayment(Job currentJob) {
         this.currentJob = currentJob;
         initManagers();
-        financeManager.setEnableOnlyPaymentEditing(true); 
+        financeManager.setEnableOnlyPaymentEditing(true);
     }
 
     @Override
