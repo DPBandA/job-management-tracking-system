@@ -438,7 +438,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         if (getUser() != null) {
             if (currentJob.getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
                 return true;
-            } else return currentJob.getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue();
+            } else {
+                return currentJob.getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue();
+            }
         } else {
             return false;
         }
@@ -707,6 +709,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setDirty(true);
     }
 
+    // tk rename this method
     public void updateAllJobCostings() {
         // Update all costs that depend on tax
         //editJobCosting();
@@ -714,6 +717,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         updateJobCostingEstimate();
 
         setDirty(true);
+    }
+    
+    public Boolean getJobHasSubcontracts() {
+        return currentJob.hasSubcontracts(getEntityManager1());
     }
 
     public void updateJobCostingEstimate() {
@@ -808,8 +815,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         if (Department.findDepartmentAssignedToJob(foundJob, em).getHead().getId().longValue() == getUser().getEmployee().getId().longValue()) {
             return true;
-        } else return (Department.findDepartmentAssignedToJob(foundJob, em).getActingHead().getId().longValue() == getUser().getEmployee().getId().longValue())
-                && Department.findDepartmentAssignedToJob(foundJob, em).getActingHeadActive();
+        } else {
+            return (Department.findDepartmentAssignedToJob(foundJob, em).getActingHead().getId().longValue() == getUser().getEmployee().getId().longValue())
+                    && Department.findDepartmentAssignedToJob(foundJob, em).getActingHeadActive();
+        }
     }
 
     public void approveJobCosting() {
@@ -1395,55 +1404,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         return JobCostingAndPayment.getCanApplyGCT(getCurrentJob());
     }
 
-//    public void updateJobCostings() {
-//        EntityManager em = getEntityManager1();
-//        
-//        Department dept = Department.findDepartmentAssignedToJob(currentJob, em);
-//        if (dept != null) {
-//            // Create 
-//            if (Department.findDepartmentAssignedToJob(currentJob, em).getJobCostingType().equals("Sample-based")) {
-//                createSampleBasedJobCostings(currentJob.getJobCostingAndPayment());
-//            } else {
-//                createDefaultJobCostings(currentJob.getJobCostingAndPayment());
-//            }
-//
-//            // Add sub-contract costings if any
-//            List<Job> jobs = Job.findJobsByYearReceivedAndJobSequenceNumber(em,
-//                    currentJob.getYearReceived(),
-//                    currentJob.getJobSequenceNumber());
-//            if (jobs != null) {
-//                for (Job job : jobs) {
-//                    if (job.getIsSubContracted() && !currentJob.getIsSubContracted()
-//                            && (job.getJobStatusAndTracking().getWorkProgress().equals("Completed"))) {
-//                        String ccName = "Subcontract to " + job.getSubContractedDepartment().getName() + " (" + job.getJobNumber() + ")";
-//                        // Check that this cost component does not already exist.
-//                        // The assumption is that only one component will be found if any
-//                        if (!CostComponent.findCostComponentsByName(ccName,
-//                                currentJob.getJobCostingAndPayment().getCostComponents()).isEmpty()) {
-//                            deleteCostComponentByName(ccName);
-//                        }
-//                        CostComponent cc
-//                                = new CostComponent(
-//                                        ccName,
-//                                        job.getJobCostingAndPayment().getFinalCost(),
-//                                        true, false);
-//
-//                        currentJob.getJobCostingAndPayment().getCostComponents().add(cc);
-//                        setDirty(true);
-//                    }
-//                }
-//            }
-//        }
-//        // NB: Ensure that amount due is recalc. in case something affects
-//        // taxes was changed
-//        currentJob.getJobCostingAndPayment().calculateAmountDue();
-//    }
-//    public void editJobCosting() {
-//
-//        updateJobCostings();
-//
-//        PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 800);
-//    }
     public void openJobCostingDialog() {
 
         PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 800);

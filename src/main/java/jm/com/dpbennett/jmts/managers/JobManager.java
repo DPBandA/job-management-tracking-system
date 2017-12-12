@@ -2036,7 +2036,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void setEditJobCostingAndPayment(Job currentJob) {
         this.currentJob = currentJob;
         initManagers();
-        financeManager.setEnableOnlyPaymentEditing(true); // tk
+        financeManager.setEnableOnlyPaymentEditing(true); 
     }
 
     @Override

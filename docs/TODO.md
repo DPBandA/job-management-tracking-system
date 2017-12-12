@@ -20,8 +20,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
-#### Double/Multiple View Creation
-- Put toolbar in job detail tab.
+### Misc.
+- Update main tab view correctly when preference dialog is updated/or closed.
+#### Job Costing & Payment
 - Within the job costing dialog detect if there are subcontracts and inform about 
   this and "pull" in their costs based on instructions.  
 - Note that updateJobCostings() creates default job costings if none exist and
@@ -29,14 +30,6 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
   to the Job class and call it whenever the job costing is to be edited so that
   all subcontracted job costs are included. Add all methods that updateJobCostings()
   calls directly or indirectly in the Job or JobCostingAndPayment class.
-- Impl job searching that bring up cashier view as the default tab for testing
-  purposes. 
-- Create mainTabView tabs for job costing.
-- Make sure that the initManagers() is called job costing or job from cashier view are opened.
-- Implement "Double View" for the cashier so that the Cashier and Job Costing 
-Views can be viewed simultaneously for easy job costing updates.
--- Create views/tabs for job costing and cashier instead of using job tables view. 
-#### Job Costing & Payment
 - Check that all message dialogs in the job costing control panel are displayed
   Replace message dialogs with growl.
 - Payment dialog is displayed on once when the add payment button is pressed.
@@ -135,7 +128,9 @@ paymentTerms, rename JMTSUserId to userId
 * Test editing job costings with subcontracts.
 * Test SystemAdmin functions. Remove features that are not fully implemented.
 * Approve, invoice jobs singly or by batch from the job costings table.
-* etc.
+* Edit exiting and create new clients, contacts and addresses.
+* Test out creation and use of costing templates.
+
 
 -------------------------------------------------------------------------------
 ### Issues to Address for Next Future Release

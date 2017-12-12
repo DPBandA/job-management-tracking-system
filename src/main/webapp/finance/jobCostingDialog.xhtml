@@ -151,6 +151,16 @@ Email: info@dpbennett.com.jm
                                  icon="ui-icon-plus"
                                  process="@this">
                 </p:commandButton>
+                <p:spacer width="5" />
+                <p:commandButton value="Add subcontracted job costs"                                 
+                                 disabled="#{financeManager.completed}"
+                                 rendered="#{financeManager.jobHasSubcontracts}"
+                                 update=""
+                                 onstart="longProcessDialogVar.show();"
+                                 oncomplete="longProcessDialogVar.hide();"
+                                 icon="ui-icon-plus"
+                                 process="@this">
+                </p:commandButton>
                 <hr/>
                 <p:dataTable  var="costComponent"
                               id="i#{jobCosting.id}"
@@ -270,6 +280,16 @@ Email: info@dpbennett.com.jm
                                  update=":costingComponentDialogForm"
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
+                                 icon="ui-icon-plus"
+                                 process="@this">
+                </p:commandButton>
+                <p:spacer width="5" />
+                <p:commandButton value="Add subcontracted job costs"                                 
+                                 disabled="#{financeManager.completed}"
+                                 rendered="#{financeManager.jobHasSubcontracts}"
+                                 update=""
+                                 onstart="longProcessDialogVar.show();"
+                                 oncomplete="longProcessDialogVar.hide();"
                                  icon="ui-icon-plus"
                                  process="@this">
                 </p:commandButton>
