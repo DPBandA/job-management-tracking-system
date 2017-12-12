@@ -933,22 +933,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         } else {
             return false;
         }
-    }
-
-    public List getWorkProgressList() {
-        ArrayList list = new ArrayList();
-        EntityManager em = getEntityManager1();
-
-        String listAsString = SystemOption.findSystemOptionByName(em, "workProgressList").getOptionValue();
-        String progressName[] = listAsString.split(";");
-
-        for (String name : progressName) {
-            list.add(new SelectItem(name, name));
-        }
-
-        return list;
-
-    }
+    }   
 
     public Integer getLongProcessProgress() {
         if (longProcessProgress == null) {
@@ -1201,8 +1186,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobView(AjaxBehaviorEvent event) {
-
-        doJobViewUpdate(((SelectOneRadio) event.getComponent()).getValue().toString());
+        
+        doJobViewUpdate(user.getJobTableViewPreference());
         
     }
 

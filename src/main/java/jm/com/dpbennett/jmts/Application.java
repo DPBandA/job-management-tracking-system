@@ -91,6 +91,33 @@ public class Application {
         themes.put("Redmond", "redmond");
         themes.put("Dark Hive", "dark-hive");
     }
+    
+    public List getWorkProgressList() {
+        ArrayList list = new ArrayList();
+        EntityManager em = getEntityManager1();
+
+        String listAsString = SystemOption.findSystemOptionByName(em, "workProgressList").getOptionValue();
+        String progressName[] = listAsString.split(";");
+
+        for (String name : progressName) {
+            list.add(new SelectItem(name, name));
+        }
+
+        return list;
+
+    }
+    
+     public List getCostCodeList() {
+        ArrayList costCodes = new ArrayList();
+
+        costCodes.add(new SelectItem("--", "--"));
+        costCodes.add(new SelectItem("FIXED", "Fixed cost"));
+        costCodes.add(new SelectItem("HEADING", "Heading"));
+        costCodes.add(new SelectItem("VARIABLE", "Variable cost"));        
+        costCodes.add(new SelectItem("SUBCONTRACT", "Subcontracted job cost"));
+        
+        return costCodes;
+    }
 
     public Map<String, String> getThemes() {
         return themes;

@@ -718,7 +718,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         setDirty(true);
     }
-    
+
     public Boolean getJobHasSubcontracts() {
         return currentJob.hasSubcontracts(getEntityManager1());
     }
@@ -850,12 +850,29 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setDirty(true);
     }
 
+    // tk to be updated
     public void updateCostCode() {
-        EntityManager em = getEntityManager1();
-        CostCode costCode = CostCode.findCostCodeByCode(em, selectedCostComponent.getCode());
-
-        if (costCode.getRate() != null) {
-            selectedCostComponent.setRate(costCode.getRate());
+        switch (selectedCostComponent.getCode()) {
+            case "FIXED":
+                selectedCostComponent.setIsFixedCost(true);
+                selectedCostComponent.setIsHeading(false);
+                break;
+            case "HEADING":
+                selectedCostComponent.setIsFixedCost(false);
+                selectedCostComponent.setIsHeading(true);
+                break;
+            case "VARIABLE":
+                selectedCostComponent.setIsFixedCost(false);
+                selectedCostComponent.setIsHeading(false);
+                break;
+            case "SUBCONTRACT":
+                selectedCostComponent.setIsFixedCost(true);
+                selectedCostComponent.setIsHeading(false);
+                break;
+            default:
+                selectedCostComponent.setIsFixedCost(false);
+                selectedCostComponent.setIsHeading(false);
+                break;
         }
 
         setDirty(true);
@@ -949,43 +966,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         }
 
         return true;
-    }
-
-    public void updateWorkProgress() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        if (checkWorkProgressReadinessToBeChanged()) {
-            if (!currentJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")) {
-                currentJob.getJobStatusAndTracking().setCompleted(false);
-                currentJob.getJobStatusAndTracking().setSamplesCollected(false);
-                currentJob.getJobStatusAndTracking().setDocumentCollected(false);
-                // overall job completion
-                currentJob.getJobStatusAndTracking().setDateOfCompletion(null);
-                // sample collection
-                currentJob.getJobStatusAndTracking().setSamplesCollectedBy(null);
-                currentJob.getJobStatusAndTracking().setDateSamplesCollected(null);
-                // document collection
-                currentJob.getJobStatusAndTracking().setDocumentCollectedBy(null);
-                currentJob.getJobStatusAndTracking().setDateDocumentCollected(null);
-
-                // Update start date
-                if (currentJob.getJobStatusAndTracking().getWorkProgress().equals("Ongoing")
-                        && currentJob.getJobStatusAndTracking().getStartDate() == null) {
-                    currentJob.getJobStatusAndTracking().setStartDate(new Date());
-                } else if (currentJob.getJobStatusAndTracking().getWorkProgress().equals("Not started")) {
-                    currentJob.getJobStatusAndTracking().setStartDate(null);
-                }
-
-                context.addCallbackParam("jobCompleted", false);
-            } else {
-                currentJob.getJobStatusAndTracking().setCompleted(true);
-                currentJob.getJobStatusAndTracking().setDateOfCompletion(new Date());
-                context.addCallbackParam("jobCompleted", true);
-            }
-
-            setDirty(true);
-        }
-
     }
 
     // tk to be modified

@@ -237,14 +237,16 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{tab.renderJobsTab}">                                
                                 <ui:include src="dashboard/jobsTab.xhtml" />   
                             </h:panelGroup>
-                            <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
-                                Implement selecting a tab via selectOneMenu and
-                                create new entity?
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{tab.renderAdminTab}" >
-                                Implement selecting a tab via selectOneMenu and
-                                create new entity?
-                            </h:panelGroup>  
+                            <ui:remove>
+                                <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
+                                    Implement selecting a tab via selectOneMenu and
+                                    create new entity?
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{tab.renderAdminTab}" >
+                                    Implement selecting a tab via selectOneMenu and
+                                    create new entity?
+                                </h:panelGroup>  
+                            </ui:remove>
                         </p:tab>                       
                     </p:accordionPanel>                    
                 </h:form>

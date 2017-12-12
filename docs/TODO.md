@@ -21,6 +21,10 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Job Costing & Payment
+- Redesign cost component dialog.
+  * Put toolbars.
+  * In getCode() check the various "booleans" and set code code accordingly
+  * Impl list of subcontracts if a job is subcontracted.
 - Within the job costing dialog detect if there are subcontracts and inform about 
   this and "pull" in their costs based on instructions. 
   * See how "Cost Component dialog can be used to bring in subcontract costs. 
@@ -154,6 +158,7 @@ paymentTerms, rename JMTSUserId to userId
 
 ### System Design
 #### Design
+- Use toolbar at top of every dialog and tab.
 - Create Tracking/OperationsManager and use to manage job status and tracking
 - Merge Application code into other managers and clean it up.
 - Change the message that is displayed when a job is subcontacted.
@@ -175,6 +180,7 @@ paymentTerms, rename JMTSUserId to userId
 - Find and put all jasper reports into reports package.
 - Export sample condition(s) to service contract.
 - Remove unused dialogs.
+- Put all statics lists as system options like the "workProgressList" option.
 - Restrict generation of service contract to an authorized person/department?
 - Remove the <ui:include /> from top of index.xhtml and put them in their
   respective *Tab or other files. This may make the index.xhtml file smaller
@@ -204,6 +210,7 @@ paymentTerms, rename JMTSUserId to userId
   affects the job number changes.
 - Put all complete*() methods in their respective entity classes and call them
   from the Application class.
+- Add privilege to a user to control which job view can be seen?
 - Impl job backup as is done with samples and job edit cancelling and change
   "close" button to "Cancel" button.
 - Change label Department* to Parent department* when job is subcontracted.

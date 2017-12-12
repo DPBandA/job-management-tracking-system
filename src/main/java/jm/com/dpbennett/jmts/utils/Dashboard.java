@@ -134,12 +134,12 @@ public class Dashboard implements Serializable {
                 case "jobsTab":
                     tab.setRenderJobsTab(em, render);
                     break;
-                case "financialAdminTab":
-                    tab.setRenderFinancialAdminTab(em, render);
-                    break;
-                case "adminTab":
-                    tab.setRenderAdminTab(em, render);
-                    break;
+//                case "financialAdminTab":
+//                    tab.setRenderFinancialAdminTab(em, render);
+//                    break;
+//                case "adminTab":
+//                    tab.setRenderAdminTab(em, render);
+//                    break;
                 default:
                     break;
             }
@@ -155,14 +155,14 @@ public class Dashboard implements Serializable {
                     jobsTab.setRenderJobsTab(em, render);
                     tabs.add(jobsTab);
                     break;
-                case "financialAdminTab":
-                    financialAdminTab.setRenderFinancialAdminTab(em, render);
-                    tabs.add(financialAdminTab);
-                    break;
-                case "adminTab":
-                    adminTab.setRenderAdminTab(em, render);
-                    tabs.add(adminTab);
-                    break;
+//                case "financialAdminTab":
+//                    financialAdminTab.setRenderFinancialAdminTab(em, render);
+//                    tabs.add(financialAdminTab);
+//                    break;
+//                case "adminTab":
+//                    adminTab.setRenderAdminTab(em, render);
+//                    tabs.add(adminTab);
+//                    break;
                 default:
                     break;
             }
@@ -189,26 +189,26 @@ public class Dashboard implements Serializable {
                 false,
                 false,
                 getUser());
-        // Financial admin tab
-        financialAdminTab = new DashboardTab(
-                "financialAdminTab",
-                "Financial Administration",
-                false,
-                false,
-                getUser().getFinancialAdminUnit(),
-                false,
-                false,
-                getUser());
-        // Admin tab
-        adminTab = new DashboardTab(
-                "adminTab",
-                "System Administration",
-                false,
-                false,
-                false,
-                getUser().getAdminUnit(),
-                false,
-                getUser());        
+//        // Financial admin tab
+//        financialAdminTab = new DashboardTab(
+//                "financialAdminTab",
+//                "Financial Administration",
+//                false,
+//                false,
+//                getUser().getFinancialAdminUnit(),
+//                false,
+//                false,
+//                getUser());
+//        // Admin tab
+//        adminTab = new DashboardTab(
+//                "adminTab",
+//                "System Administration",
+//                false,
+//                false,
+//                false,
+//                getUser().getAdminUnit(),
+//                false,
+//                getUser());        
     }
 
     public void reset(JobManagerUser user) {
@@ -219,12 +219,12 @@ public class Dashboard implements Serializable {
         if (getUser().getJobManagementAndTrackingUnit()) {
             tabs.add(jobsTab);
         }
-        if (getUser().getFinancialAdminUnit()) {
-            tabs.add(financialAdminTab);
-        }
-        if (getUser().getAdminUnit()) {
-            tabs.add(adminTab);
-        }
+//        if (getUser().getFinancialAdminUnit()) {
+//            tabs.add(financialAdminTab);
+//        }
+//        if (getUser().getAdminUnit()) {
+//            tabs.add(adminTab);
+//        }
     }
 
     public List<DashboardTab> getTabs() {

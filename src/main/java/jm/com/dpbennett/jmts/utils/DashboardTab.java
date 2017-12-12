@@ -87,25 +87,25 @@ public class DashboardTab {
         user.save(em);       
     }
 
-    public Boolean getRenderFinancialAdminTab() {
-        return renderFinancialAdminTab;
-    }
+//    public Boolean getRenderFinancialAdminTab() {
+//        return renderFinancialAdminTab;
+//    }
+//
+//    public void setRenderFinancialAdminTab(EntityManager em, Boolean render) {
+//        this.renderFinancialAdminTab = render;
+//        user.setFinancialAdminUnit(renderFinancialAdminTab);
+//        user.save(em);
+//    }
 
-    public void setRenderFinancialAdminTab(EntityManager em, Boolean render) {
-        this.renderFinancialAdminTab = render;
-        user.setFinancialAdminUnit(renderFinancialAdminTab);
-        user.save(em);
-    }
-
-    public Boolean getRenderAdminTab() {
-        return renderAdminTab;
-    }
-
-    public void setRenderAdminTab(EntityManager em, Boolean render) {
-        this.renderAdminTab = render;
-        user.setAdminUnit(renderAdminTab);
-        user.save(em);
-    }
+//    public Boolean getRenderAdminTab() {
+//        return renderAdminTab;
+//    }
+//
+//    public void setRenderAdminTab(EntityManager em, Boolean render) {
+//        this.renderAdminTab = render;
+//        user.setAdminUnit(renderAdminTab);
+//        user.save(em);
+//    }
 
     public Boolean getRenderJobDetailTab() {
         return renderJobDetailTab;

@@ -53,18 +53,7 @@ Email: info@dpbennett.com.jm
             </p:selectOneRadio>                    
         </p:toolbarGroup>
 
-        <p:toolbarGroup align="right" >    
-            <ui:remove>
-                <p:commandButton
-                    value="Reports"
-                    actionListener="#{jobManager.openReportsTab}"
-                    onstart="longProcessDialogVar.show();"                
-                    onerror="connectionErrorDialog.show();"
-                    title="Generate, view and export reports"
-                    icon="ui-icon-newwin"
-                    process="@this"/>
-                <p:spacer width="5" />
-            </ui:remove>
+        <p:toolbarGroup align="right" >               
             <p:menuButton value="Tools">
                 <p:menuitem actionListener="#{financeManager.updateAccPacClient}"
                             onstart="longProcessDialogVar.show();"                                                    
