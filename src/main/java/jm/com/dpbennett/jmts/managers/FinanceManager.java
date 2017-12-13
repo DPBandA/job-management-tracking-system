@@ -1023,6 +1023,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         try {
 
+            // tk this may or should be done in the job costing dialog.
             currentJob.getJobCostingAndPayment().calculateAmountDue();
 
             if (getUser().getEmployee() != null) {
@@ -1032,7 +1033,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             //prepareAndSaveCurrentJob(em);
             // Refresh to make sure job costings ids are not null to
             // avoid resaving newly created costing components
-            // tk check if this is still necessary
+            
+            // tk This is done so that newly added cost components are reloaded
+            // with non-null ids. May have to implement JobCostingAndPayment.save()
+            // that save cost compoents with null ids as is done for samples 
+            // to avoid doing this and prevent cost component duplicates from being created.
             currentJob.setJobCostingAndPayment(em.find(JobCostingAndPayment.class, currentJob.getJobCostingAndPayment().getId()));
 
         } catch (Exception e) {

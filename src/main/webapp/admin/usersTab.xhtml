@@ -23,32 +23,32 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    
-     <p:toolbar>
+
+    <p:toolbar>
         <p:toolbarGroup align="left" >   
-           <p:commandButton title="Add new user"                                  
-                     value="New"                                                     
-                     actionListener="#{systemManager.createNewUser}"
-                     onstart="longProcessDialogVar.show();"
-                     oncomplete="longProcessDialogVar.hide();"
-                     onerror="connectionErrorDialog.show();"
-                     global="true"
-                     process="@this"
-                     icon="ui-icon ui-icon-plus"/>
+            <p:commandButton title="Add new user"                                  
+                             value="New"                                                     
+                             actionListener="#{systemManager.createNewUser}"
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus"/>
             <p:spacer width="20" />
             <p:inputText id="userSearchText" 
-                     autocomplete="false"
-                     value="#{systemManager.userSearchText}"
-                     style="width:150px" 
-                     placeholder="Enter any part of name">
-            <p:ajax event="keyup"
-                    global="false"
-                    onstart="longProcessDialogVar.show();" 
-                    oncomplete="longProcessDialogVar.hide();"
-                    update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
-                    listener="#{systemManager.doUserSearch}"
-                    process="@this"/>                                   
-        </p:inputText>       
+                         autocomplete="false"
+                         value="#{systemManager.userSearchText}"
+                         style="width:150px" 
+                         placeholder="Enter any part of name">
+                <p:ajax event="keyup"
+                        global="false"
+                        onstart="longProcessDialogVar.show();" 
+                        oncomplete="longProcessDialogVar.hide();"
+                        update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
+                        listener="#{systemManager.doUserSearch}"
+                        process="@this"/>                                   
+            </p:inputText>       
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right">
@@ -100,9 +100,8 @@ Email: info@dpbennett.com.jm
             <f:facet name="header">
                 <h:outputText value="Status"/>
             </f:facet>
-            <h:outputText value="#{user.status}">
-                <f:convertDateTime timeStyle="long" timeZone="America/Jamaica" pattern="MMM dd, yyyy, h:mm:ss"/>
-            </h:outputText>
+            <h:outputText value="#{user.status}"
+                          style="font-weight: bold;color: #{user.status.startsWith('Checked in', 0) ? 'green': 'grey'}" />
         </p:column>     
         <p:column style="width:32px">
             <p:commandButton title="View/Edit"  

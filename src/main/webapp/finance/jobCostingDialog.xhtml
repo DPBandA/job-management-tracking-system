@@ -257,19 +257,24 @@ Email: info@dpbennett.com.jm
                         </f:facet>
                         <h:outputText value="#{costComponent.name}" />                    
                     </p:column>
-                    <p:column rendered="#{!costComponent.isHeading}">
-                        <f:facet name="header">
-                            <h:outputText value="Code" />
-                        </f:facet>
-                        <h:outputText value="#{costComponent.code}" />
-                    </p:column>
 
-                    <p:column rendered="#{costComponent.isHeading}">
-                        <f:facet name="header">
+                    <ui:remove>
+                        <p:column rendered="#{!costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value="Code" />
+                            </f:facet>
+                            <h:outputText value="#{costComponent.code}" />
+                        </p:column>
+
+
+                        <p:column rendered="#{costComponent.isHeading}">
+                            <f:facet name="header">
+                                <h:outputText value=" " />
+                            </f:facet>
                             <h:outputText value=" " />
-                        </f:facet>
-                        <h:outputText value=" " />
-                    </p:column>
+                        </p:column>
+
+                    </ui:remove>     
 
                     <p:column rendered="#{!costComponent.isHeading}" >
                         <f:facet name="header">

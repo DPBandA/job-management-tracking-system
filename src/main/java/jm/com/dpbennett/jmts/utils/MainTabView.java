@@ -228,7 +228,7 @@ public class MainTabView implements Serializable {
         jobsTab = new MainTab(
                 "jobsTab",
                 "Jobs",
-                getUser().isJobsPreferredJobTableView(),
+                getUser().getIsJobsPreferredJobTableView(),
                 false,
                 false,
                 false,
@@ -312,7 +312,7 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 false,
-                getUser().isCashierPreferredJobTableView(),
+                getUser().getIsCashierPreferredJobTableView(),
                 false,
                 getUser());
         // Job Costings tab
@@ -326,7 +326,7 @@ public class MainTabView implements Serializable {
                 false,
                 false,                
                 false,
-                getUser().isJobCostingsPreferredJobTableView(),
+                getUser().getIsJobCostingsPreferredJobTableView(),
                 getUser());
     }
 
@@ -335,13 +335,13 @@ public class MainTabView implements Serializable {
         // Construct tabs
         init();
         // Add tabs
-        if (getUser().isJobsPreferredJobTableView()) {
+        if (getUser().getIsJobsPreferredJobTableView()) {
             tabs.add(jobsTab);
         }
-        if (getUser().isCashierPreferredJobTableView()) {
+        if (getUser().getIsCashierPreferredJobTableView()) {
             tabs.add(cashierTab);
         }
-        if (getUser().isJobCostingsPreferredJobTableView()) {
+        if (getUser().getIsJobCostingsPreferredJobTableView()) {
             tabs.add(jobCostingsTab);
         }
         if (getUser().getFinancialAdminUnit()) {

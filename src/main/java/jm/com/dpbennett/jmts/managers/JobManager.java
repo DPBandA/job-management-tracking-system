@@ -1239,13 +1239,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void updateJobsTab() {
         dashboard.renderTab(getEntityManager1(), "jobsTab", getUser().getJobManagementAndTrackingUnit());
         if (getUser().getJobManagementAndTrackingUnit()) {
-            if (getUser().isJobsPreferredJobTableView()) {
+            if (getUser().getIsJobsPreferredJobTableView()) {
                 mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
             }
-            if (getUser().isCashierPreferredJobTableView()) {
+            if (getUser().getIsCashierPreferredJobTableView()) {
                 mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
             }
-            if (getUser().isJobCostingsPreferredJobTableView()) {
+            if (getUser().getIsJobCostingsPreferredJobTableView()) {
                 mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
             }
 

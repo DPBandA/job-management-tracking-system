@@ -379,13 +379,13 @@ public class SearchManager implements SearchManagement, Serializable {
                 JobManager jm = Application.findBean("jobManager");
                 if (jm != null) {
                     jm.doJobSearch(getCurrentSearchParameters());
-                    if (jm.getUser().isJobsPreferredJobTableView()) {
+                    if (jm.getUser().getIsJobsPreferredJobTableView()) {
                         jm.openJobsTab();
                     }
-                    if (jm.getUser().isCashierPreferredJobTableView()) {
+                    if (jm.getUser().getIsCashierPreferredJobTableView()) {
                         jm.openCashierTab();
                     }
-                    if (jm.getUser().isJobCostingsPreferredJobTableView()) {
+                    if (jm.getUser().getIsJobCostingsPreferredJobTableView()) {
                         jm.openJobCostingsTab();
                     }
                 }

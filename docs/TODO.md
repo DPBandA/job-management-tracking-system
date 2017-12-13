@@ -21,9 +21,14 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Job Costing & Payment
-- Redesign cost component dialog.
-  * Put toolbars.
-  * In getCode() check the various "booleans" and set code code accordingly
+- Impl saving job costing and updating the job costing table
+  * 
+  * Impl saving within job costing dialog.
+  * Impl closing job costing dialog and prompt if there are edits.
+- Impl dealing with subcontracts and redesign cost component dialog.
+  * Impl displaying list of subcontracts with costings that have been approved. 
+  * Put note beside "New Item" Listing the subcontract job number if there are any
+    and prompt to enter them if there are any completed and and approved.
   * Impl list of subcontracts if a job is subcontracted.
 - Within the job costing dialog detect if there are subcontracts and inform about 
   this and "pull" in their costs based on instructions. 
@@ -110,6 +115,7 @@ paymentTerms, rename JMTSUserId to userId
 * Ensure amount due is updated correctly using cash payments.
 - Put bold label for required field to be consistent.
 - Ensure billing address and contact are valid and not blank before saving job.
+- Impl Approved and Invoiced buttons in job costings tab.
 
 ### Miscellaneous
 - Receipt #s: text box is longer than the others.
@@ -154,10 +160,14 @@ paymentTerms, rename JMTSUserId to userId
 
 ### Clean Up
 - Clean up App. Put put can be put in JM and BEL.
-- Remove SearchManager and let each manager deal with their search.
+- Remove SearchManager and let each manager deal with their search. It's too complex.
 
 ### System Design
 #### Design
+- Check why checked out date and time for users does not seem to be correct.
+- Make all change output text to output label where required and make sure they are 
+  linked to their components using the "for" attribute.
+- See if text colour can be changed for "Checked in" users.
 - Use toolbar at top of every dialog and tab.
 - Create Tracking/OperationsManager and use to manage job status and tracking
 - Merge Application code into other managers and clean it up.
@@ -235,7 +245,8 @@ paymentTerms, rename JMTSUserId to userId
   buttons and search result table as is done with the jobs tab.
 - Use parentJob to link contracts with parent jobs and use it to pull 
   in subcontracts costs?
-- Rename JobManagerUser to User?
+- Impl canceling "Saving and Canceling" in all dialogs instead "Saving and Closing".
+  Use the backup and restore method used for samples.
 - Add Business to JobManagerUser. Add blob to Business for storing company logo.
 - Put text box in jobsTab to allow quick filter of search results.
 - Impl. ReportManager and put reporting in own tab.

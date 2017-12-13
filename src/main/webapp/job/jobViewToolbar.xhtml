@@ -1,0 +1,106 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"> 
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" style="height: 0;">   
+            <p:commandButton value="Approved"  
+                             rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
+                             style="vertical-align: top;"
+                             title="Check the selected job costing(s) as approved"
+
+                             actionListener="#{jobManager.approveSelectedJobCostings}"
+                             update=":mainTabViewForm:mainTabView:jobCostingsTable"
+                             onstart="longProcessDialogVar2.show();" 
+                             oncomplete="longProcessDialogVar2.hide();">                                                                                    
+            </p:commandButton>
+            <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
+            <p:commandButton value="Invoiced"    
+                             rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
+                             style="vertical-align: top;"
+                             title="Check the selected job costing(s) as invoiced"
+
+                             actionListener="#{jobManager.invoiceSelectedJobCostings}"
+                             update=":mainTabViewForm:mainTabView:jobCostingsTable"
+                             onstart="longProcessDialogVar2.show();" 
+                             oncomplete="longProcessDialogVar2.hide();">                                                                                    
+            </p:commandButton>
+            <p:commandButton
+                style="vertical-align: top;"
+                rendered="#{!jobManager.user.isJobCostingsPreferredJobTableView}"
+                actionListener="#{jobManager.createNewJob}"
+                global="true"                
+                onstart="longProcessDialogVar.show();" 
+                onerror="connectionErrorDialog.show();"
+                value="New"                                       
+                title="Create new job"
+                icon="ui-icon-plusthick"
+                process="@this">  
+
+                <p:resetInput target=":mainTabViewForm:mainTabView" />
+
+            </p:commandButton>       
+            <p:spacer width="20"/>
+            <p:selectOneRadio style="display: inline;"
+                              value="#{jobManager.user.jobTableViewPreference}">
+                <f:selectItems value="#{App.jobTableViews}" 
+                               var="joView" 
+                               itemLabel="#{joView}" 
+                               itemValue="#{joView}"/>
+                <p:ajax listener="#{jobManager.updateJobView}"
+                        global="false"
+                        process="@this"/>
+            </p:selectOneRadio>                
+
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right" >               
+            <p:menuButton value="Tools" >
+                <p:menuitem actionListener="#{financeManager.updateAccPacClient}"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            value="Client credit status"
+                            update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
+                            oncomplete="accPacClientInformationDialog.show();longProcessDialogVar.hide();"
+                            onerror="connectionErrorDialog.show();"
+                            process="@this"/>                
+
+                <p:menuitem value="Client search"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            actionListener="#{jobManager.openClientsTab}"
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this"/>
+                <p:separator />
+                <p:menuitem value="Reports"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            actionListener="#{jobManager.openReportsTab}"
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this"/>
+
+            </p:menuButton>                                    
+
+        </p:toolbarGroup>
+    </p:toolbar>   
+
+</html>
+
+
