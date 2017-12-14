@@ -92,6 +92,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         }
 
         selectedJobSample.setDateSampled(new Date());
+        selectedJobSampleBackup = new JobSample(this.selectedJobSample);
         jobSampleDialogTabViewActiveIndex = 0;
 
         if (event != null) {
@@ -183,7 +184,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public void updateSample(AjaxBehaviorEvent event) {
-        if (event.getComponent().getId() != null) {
+        if (event.getComponent() != null) {            
             if (hasFieldValueChange(event.getComponent().getId())) {
                 getSelectedJobSample().setIsDirty(true);
             }

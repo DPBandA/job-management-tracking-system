@@ -182,7 +182,7 @@ public class Dashboard implements Serializable {
         // Jobs tab
         jobsTab = new DashboardTab(
                 "jobsTab",
-                "Jobs",
+                "Job Management",
                 getUser().getJobManagementAndTrackingUnit(),
                 false,
                 false,

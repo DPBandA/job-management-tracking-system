@@ -22,9 +22,11 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Job Costing & Payment
 - Impl saving job costing and updating the job costing table
-  * 
+  * Impl JobCostingAndPayment.save().
   * Impl saving within job costing dialog.
   * Impl closing job costing dialog and prompt if there are edits.
+  * Display each cash payment and cost component in the lists to check if any
+    is has null id after saving
 - Impl dealing with subcontracts and redesign cost component dialog.
   * Impl displaying list of subcontracts with costings that have been approved. 
   * Put note beside "New Item" Listing the subcontract job number if there are any
