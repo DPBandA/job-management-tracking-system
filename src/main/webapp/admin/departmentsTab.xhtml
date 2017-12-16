@@ -29,6 +29,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new department"                                  
                              value="New"
                              actionListener="#{systemManager.createNewDepartment}"
+                             update=":headerForm:growl3"
                              onstart="longProcessDialogVar.show();"
                              oncomplete="longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"

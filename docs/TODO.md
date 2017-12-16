@@ -18,12 +18,11 @@
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
 ================================================================================
-### Read proposal/contract sent by RA and respond before Monday
 ### Issues to Address for Next Release
 #### Job Costing & Payment
 - Impl saving job costing and updating the job costing table
   * Impl saving within job costing dialog. Do automatic job save as is done with
-    samples?
+    samples. Change "Save" to "Ok" and close dialog when clicked. 
   * Impl closing job costing dialog and prompt if there are edits.
   * Display each cash payment and cost component in the lists to check if any
     is has null id after saving
@@ -120,17 +119,6 @@ paymentTerms, rename JMTSUserId to userId
 - Impl Approved and Invoiced buttons in job costings tab. Use growl instead of
   dialog to display message when invoices are approved/invoiced.
 
-### Miscellaneous
-- Receipt #s: text box is longer than the others.
-- Put "close" at top of all tabs for consistency.
-- Put some "help" text in the dashboard for system and finance admin for now.
-  or Impl find in systems admin that allow selecting use. employee etc
-        OR
-  * Remove finance and admin from dashboard for now
-- When "x" is used to close the job detail tab warn that the job was not saved
-  if this is the case.
-- Impl new department button/feature.
-
 ### Testing on Test and Live versions
 - Build for gf3.1.2.2 and deploy.
 - Assign git tag to next release.
@@ -147,32 +135,16 @@ paymentTerms, rename JMTSUserId to userId
 * Edit exiting and create new clients, contacts and addresses.
 * Test out creation and use of costing templates.
 
-
--------------------------------------------------------------------------------
+================================================================================
 ### Issues to Address for Next Future Release
-
-### Reports
-- Add default fields for department etc. and add field to allow disabling the 
-  changing of a field.
-- Make relevant fields autocomplete.
-- Add description, 2 departments, 3 date periods etc. in class Report.
-- Implement and include report templates for all reports generated to date.
-- For reports make company specific value parameters such as company name and logo.
-- Check for reports/queries on jobs that do not have any samples. Check for example
-  that these jobs are counted despite not have samples.
-
-### Clean Up
-- Clean up App. Put put can be put in JM and BEL.
-- Remove SearchManager and let each manager deal with their search. It's too complex.
-
 ### System Design
 #### Design
-- Check why checked out date and time for users does not seem to be correct.
-- Make all change output text to output label where required and make sure they are 
-  linked to their components using the "for" attribute.
-- See if text colour can be changed for "Checked in" users.
-- Use toolbar at top of every dialog and tab.
-- Create Tracking/OperationsManager and use to manage job status and tracking
+- Use toolbar at top of every dialog and tab...do for dashboard, sample tab, reporting tab, 
+  job detail, client dialog, address dialog, contact dialog,  and job sample dialogs.
+  Put toolbar at top and bottom where it makes sense.
+- Put "Job Search" at top of search parameters.
+- The "Reports" button in the dashboard and tools menu shows the busy wait indefinitely when
+  the reports tab is already showing. The tab is also not selected. Fix!.
 - Merge Application code into other managers and clean it up.
 - Change the message that is displayed when a job is subcontacted.
 - Create GeneralManager from JM that handles UserManagement and other general
@@ -386,8 +358,29 @@ paymentTerms, rename JMTSUserId to userId
 - Add chat feature. Allow person to add their image to their user profile?
 - User an "iterative" JSF component to implement the display of tabs and use
   collections to initialize the tabs.
-- Impl option to use LADP or some other authentication system.
 - Use tooltip component to get consistent tooltip across the app.
+
+==============================Future Long Term Development======================
+
+### Misc
+- Impl option to use LADP or some other authentication system.
+- Impl dialogs for all admin configuration eg. classification etc. and put edit
+  button in all tables.
+- Do not allow the creation of entities such as employee with the same name or warn if this is to be done.
+- Return costing templates with unique names and don't allow saving templates with same name.
+- Impl new department button/feature. Use new employee as template code.
+- Report things such as failed logins and login time and date in the user.activity field.
+- Create Tracking/OperationsManager and use to manage job status and tracking
+
+### Reports
+- Add default fields for department etc. and add field to allow disabling the 
+  changing of a field.
+- Make relevant fields autocomplete.
+- Add description, 2 departments, 3 date periods etc. in class Report.
+- Implement and include report templates for all reports generated to date.
+- For reports make company specific value parameters such as company name and logo.
+- Check for reports/queries on jobs that do not have any samples. Check for example
+  that these jobs are counted despite not have samples.
 
 ### Legal Documents/Office Module
 - Fix up entity classes by using ALL annotations for "persistenc commit" in
@@ -395,28 +388,6 @@ paymentTerms, rename JMTSUserId to userId
 - Watch out for dateselect and keyup events.
 - Fix issues where classifications are blank. Create new ones if necessary.
 - Remove trim from all find* methods
-
-#### Issues
-- Change "keyup" to "change" where possible.
-- Update system options table after editing an option.
-- Remove record id from dialogs.
-- Implement setting of logo and title of main page in system admin
-- Do not allow the creation of entities such as employee with the same name or warn if this is to be done.
-- Change all combobox to autocomplete with dropdown where possible.
-- When saving a job let the each "major" object do its own saving e.g JobStatusAndTracking(em).
-- Get rid of extra busy wait in login dialog.
-- Hide search dialog when no module is selected.
-- Checkout using converters such as employeeConverter that gets the actual object from the database. this could possibly prevent creating employees with blank names when saving a job.
-- Set lightyellow background for all form fields that are not editable.
-- Let findEmployeeByName and similar searches return only one result and not the first from several.
-- Implement adding digital or image signature using system admin?
-- Make all dialog closable wit "x" in upper right corner.
-- Use JSF validation where possible.
-- Check that developer email address in sys option is not used when sending emails about errors etc.
-- Check that "Search Type" is reset when a user logs off.
-- Add "Report Issue" button somewhere in GUI.
-- Remove closeEntityManager(em) where it's not necessary.
-- Return costing templates with unique names and don't allow saving templates with same name.
 
 ### Standards Module
 1) Standards development processs

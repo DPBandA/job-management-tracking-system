@@ -497,23 +497,12 @@ public class ClientManager implements Serializable, ClientManagement {
         try {
             List<Client> clients = Client.findActiveClientsByAnyPartOfName(em, query);
 
-            closeEntityManager(em);
-
             return clients;
 
         } catch (Exception e) {
             System.out.println(e);
             return new ArrayList<>();
-        } finally {
-            closeEntityManager(em);
         }
     }
 
-    public void closeEntityManager(EntityManager em) {
-        if (em != null) {
-            if (em.isOpen()) {
-                em.close();
-            }
-        }
-    }
 }

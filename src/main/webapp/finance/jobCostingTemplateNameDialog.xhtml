@@ -36,7 +36,7 @@ Email: info@dpbennett.com.jm
                 <h:outputLabel value="Template name: " style="font-weight: bold"/>
                 <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.name}"
                              style="width: 200px">
-                    <p:ajax event="keyup"
+                    <p:ajax event="change"
                             global="false"
                             listener="#{financeManager.updateJobCostingAndPayment}"
                             process="@this"/>

@@ -697,11 +697,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return false;
     }
 
-    public void addMessage(String summary, String detail, Severity severity) {
-        FacesMessage message = new FacesMessage(severity, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
     public void prepareToCloseJobDetailTab() {
 
         RequestContext requestContext = RequestContext.getCurrentInstance();
@@ -717,10 +712,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // Select the jobs tab if the job detail tab was closed
         if (tabId.equals("jobDetailTab")) {
             financeManager.setEnableOnlyPaymentEditing(false);
-            //MainTab tab = mainTabView.findTab("jobsTab");
-            //if (tab != null) {
-            //    mainTabView.select("mainTabViewVar", mainTabView.getTabIndex());
-            //}
+            if (isDirty()) {
+                PrimeFacesUtils.addMessage("Job Not Save!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
+            }
         }
     }
 
@@ -1528,7 +1522,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         EntityManager em = getEntityManager1();
         if (createJob(em, true)) {
             initManagers();
-            addMessage("Job Copied for Subcontract",
+            PrimeFacesUtils.addMessage("Job Copied for Subcontract",
                     "The current job was copied but the copy was not saved. "
                     + "Please enter or change the details for the copied job as required for the subcontract.",
                     FacesMessage.SEVERITY_INFO);
@@ -1592,36 +1586,36 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isCurrentJobNew() && getUser().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterDepartmentJob()
                 && getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))) {
             // User can enter new jobs for your department...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             // User can enter new jobs for yourself...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
             // User can edit any job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditDepartmentJob()
@@ -1630,30 +1624,30 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             // User can edit jobs for your department...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (isDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             // User can edit own jobs...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (currentJob.getIsToBeCopied()) {
             // Saving cause copy is being created
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (currentJob.getIsToBeSubcontracted()) {
             // Saving cause subcontract is being created
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
         } else if (!isDirty()) {
             // Job not dirty so it will not be saved.
-            addMessage("Already Saved", "Job was not saved because it was not modified or it was recently saved", FacesMessage.SEVERITY_INFO);
+            PrimeFacesUtils.addMessage("Already Saved", "Job was not saved because it was not modified or it was recently saved", FacesMessage.SEVERITY_INFO);
         } else {
-            addMessage("Insufficient Privilege",
+            PrimeFacesUtils.addMessage("Insufficient Privilege",
                     "You may not have the privilege to enter/save this job. \n"
                     + "Please contact the IT/MIS Department for further assistance.",
                     FacesMessage.SEVERITY_ERROR);

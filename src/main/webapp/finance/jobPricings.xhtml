@@ -80,7 +80,7 @@ Email: info@dpbennett.com.jm
                                     listener="#{financeManager.updateCurrentUnitCostDepartment}"
                                     global="false"                                    
                                     process="@this"/>
-                            <p:ajax event="keyup"
+                            <p:ajax event="change"
                                     listener="#{financeManager.updateCurrentUnitCostDepartment}"
                                     global="false"                                    
                                     process="@this" />
@@ -106,7 +106,7 @@ Email: info@dpbennett.com.jm
                                     listener="#{financeManager.updateCurrentUnitCostDepartmentUnit}"
                                     global="false"                                    
                                     process="@this" />
-                            <p:ajax event="keyup"
+                            <p:ajax event="change"
                                     listener="#{financeManager.updateCurrentUnitCostDepartmentUnit}"
                                     global="false"                                    
                                     process="@this" />
@@ -132,7 +132,7 @@ Email: info@dpbennett.com.jm
                                     listener="#{financeManager.updateCurrentUnitCostDepartmentLab}"
                                     global="false"                                    
                                     process="@this" />
-                            <p:ajax event="keyup"
+                            <p:ajax event="change"
                                     listener="#{financeManager.updateCurrentUnitCostDepartmentLab}"
                                     global="false"                                    
                                     process="@this" />
@@ -189,7 +189,7 @@ Email: info@dpbennett.com.jm
                                      rows="1"
                                      maxlength="1000"
                                      autoResize="false">
-                        <p:ajax event="keyup"
+                        <p:ajax event="change"
                                 listener="#{financeManager.update}"
                                 process="@this"/>
                     </p:inputTextarea>     
@@ -236,7 +236,7 @@ Email: info@dpbennett.com.jm
                                             update=":unitCostsTableForm"
                                             global="false"                                            
                                             process="@this" />
-                                    <p:ajax event="keyup"                                            
+                                    <p:ajax event="change"                                            
                                             listener="#{financeManager.updateUnitCostDepartment}"
                                             update=":unitCostsTableForm"
                                             global="false"                                           

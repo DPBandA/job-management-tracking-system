@@ -23,8 +23,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.persistence.EntityManager;
@@ -240,6 +242,9 @@ public class SystemManager implements Serializable {
     }
 
     public List<Classification> getFoundClassifications() {
+        if (foundClassifications == null) {
+            foundClassifications = new ArrayList<>();
+        }
         return foundClassifications;
     }
 
@@ -927,7 +932,9 @@ public class SystemManager implements Serializable {
     }
 
     public void createNewDepartment() {
-        toBeImpl();
+        PrimeFacesUtils.addMessage("Not Implemented", 
+                "The creation of new departments feature is not implemented at this time", 
+                FacesMessage.SEVERITY_INFO);
     }
 
     public void createNewClassification() {
@@ -1156,10 +1163,6 @@ public class SystemManager implements Serializable {
 
     public Date getCurrentDate() {
         return new Date();
-    }
-
-    public void toBeImpl() { // tk remove
-        System.out.println("To be implemented");
     }
 
     public void updateUserPrivilege(ValueChangeEvent event) {

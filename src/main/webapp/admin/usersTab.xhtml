@@ -98,10 +98,10 @@ Email: info@dpbennett.com.jm
         </p:column>
         <p:column>
             <f:facet name="header">
-                <h:outputText value="Status"/>
+                <h:outputText value="Activity"/>
             </f:facet>
-            <h:outputText value="#{user.status}"
-                          style="font-weight: bold;color: #{user.status.startsWith('Checked in', 0) ? 'green': 'grey'}" />
+            <h:outputText value="#{user.activity}"
+                          style="font-weight: bold;color: #{user.activity.startsWith('Checked/Logged in', 0) ? 'green': 'grey'}" />
         </p:column>     
         <p:column style="width:32px">
             <p:commandButton title="View/Edit"  

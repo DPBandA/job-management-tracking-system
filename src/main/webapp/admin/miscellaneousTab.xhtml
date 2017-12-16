@@ -87,6 +87,10 @@ Email: info@dpbennett.com.jm
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
+                
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"/>
+                
                 <f:setPropertyActionListener value="#{systemOption}"                                                                    
                                              target="#{systemManager.selectedSystemOption}" />
             </p:commandButton>           

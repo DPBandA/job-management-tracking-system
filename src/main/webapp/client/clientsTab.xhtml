@@ -55,12 +55,11 @@ Email: info@dpbennett.com.jm
             </p:inputText>
         </p:toolbarGroup>
 
-        <p:toolbarGroup align="right">
+        <p:toolbarGroup align="right" rendered="#{clientManager.user.privilege.canBeJMTSAdministrator}" >
             <h:outputText value="Active clients only: " />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
                                          id="activeClientsOnly"
-                                         disabled="#{!clientManager.user.privilege.canBeJMTSAdministrator}"
                                          value="#{clientManager.isActiveClientsOnly}" >
                     <p:ajax  update=":mainTabViewForm:mainTabView:clientsTable"
                              listener="#{clientManager.doClientSearch}"

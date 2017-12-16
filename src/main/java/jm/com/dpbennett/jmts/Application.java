@@ -78,7 +78,6 @@ public class Application {
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;
-    private List years;
     private final Map<String, String> themes = new TreeMap<>();
 
     /**
@@ -131,23 +130,7 @@ public class Application {
         return EMF2.createEntityManager();
     }
 
-    // tk move to business utils
-    public List getYears() {
-        if (years == null) {
-            years = new ArrayList();
-            Integer currentYear = Calendar.getInstance().get(Calendar.YEAR);
-            for (Integer i = currentYear; i > (currentYear - 10); i--) {
-                years.add(new SelectItem(i, i.toString()));
-            }
-
-        } else {
-            return years;
-        }
-
-        return years;
-    }
-
-    public List getDateFields() {
+    public List getDateSearchFields() {
         ArrayList dateFields = new ArrayList();
 
         dateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
@@ -627,61 +610,61 @@ public class Application {
         }
     }
 
-    public static ServiceRequest createNewServiceRequest(EntityManager em,
-            JobManagerUser user,
-            Boolean autoGenerateServiceRequestNumber) {
+//    public static ServiceRequest createNewServiceRequest(EntityManager em,
+//            JobManagerUser user,
+//            Boolean autoGenerateServiceRequestNumber) {
+//
+//        ServiceRequest sr = new ServiceRequest();
+//        sr.setClient(new Client(""));
+//        sr.setServiceRequestNumber("");
+//        sr.setJobDescription("");
+//
+//        sr.setBusinessOffice(getDefaultBusinessOffice(em, "Head Office"));
+//
+//        sr.setClassification(Classification.findClassificationByName(em, "--"));
+//        sr.setSector(Sector.findSectorByName(em, "--"));
+//        sr.setJobCategory(JobCategory.findJobCategoryByName(em, "--"));
+//        sr.setJobSubCategory(JobSubCategory.findJobSubCategoryByName(em, "--"));
+//
+//        sr.setServiceContract(createServiceContract());
+//        sr.setAutoGenerateServiceRequestNumber(autoGenerateServiceRequestNumber);
+//
+//        // job status and tracking
+//        sr.setDateSubmitted(new Date());
+//
+//        return sr;
+//    }
 
-        ServiceRequest sr = new ServiceRequest();
-        sr.setClient(new Client(""));
-        sr.setServiceRequestNumber("");
-        sr.setJobDescription("");
-
-        sr.setBusinessOffice(getDefaultBusinessOffice(em, "Head Office"));
-
-        sr.setClassification(Classification.findClassificationByName(em, "--"));
-        sr.setSector(Sector.findSectorByName(em, "--"));
-        sr.setJobCategory(JobCategory.findJobCategoryByName(em, "--"));
-        sr.setJobSubCategory(JobSubCategory.findJobSubCategoryByName(em, "--"));
-
-        sr.setServiceContract(createServiceContract());
-        sr.setAutoGenerateServiceRequestNumber(autoGenerateServiceRequestNumber);
-
-        // job status and tracking
-        sr.setDateSubmitted(new Date());
-
-        return sr;
-    }
-
-    public static ServiceContract createServiceContract() {
-        ServiceContract serviceContract = new ServiceContract();
-        // init service contract
-        serviceContract.setIntendedMarketLocal(true);
-        serviceContract.setAutoAddSampleInformation(true);
-        serviceContract.setAdditionalServiceUrgent(false);
-        serviceContract.setAdditionalServiceFaxResults(false);
-        serviceContract.setAdditionalServiceTelephonePresumptiveResults(false);
-        serviceContract.setAdditionalServiceSendMoreContractForms(false);
-        serviceContract.setAdditionalServiceOther(false);
-        serviceContract.setAdditionalServiceOtherText("");
-        serviceContract.setIntendedMarketLocal(false);
-        serviceContract.setIntendedMarketCaricom(false);
-        serviceContract.setIntendedMarketUK(false);
-        serviceContract.setIntendedMarketUSA(false);
-        serviceContract.setIntendedMarketCanada(false);
-        serviceContract.setIntendedMarketOther(false);
-        serviceContract.setIntendedMarketOtherText("");
-        serviceContract.setServiceRequestedTesting(false);
-        serviceContract.setServiceRequestedCalibration(false);
-        serviceContract.setServiceRequestedLabelEvaluation(false);
-        serviceContract.setServiceRequestedInspection(false);
-        serviceContract.setServiceRequestedConsultancy(false);
-        serviceContract.setServiceRequestedTraining(false);
-        serviceContract.setServiceRequestedOther(false);
-        serviceContract.setServiceRequestedOtherText("");
-        serviceContract.setSpecialInstructions("");
-
-        return serviceContract;
-    }
+//    public static ServiceContract createServiceContract() {
+//        ServiceContract serviceContract = new ServiceContract();
+//        // init service contract
+//        serviceContract.setIntendedMarketLocal(true);
+//        serviceContract.setAutoAddSampleInformation(true);
+//        serviceContract.setAdditionalServiceUrgent(false);
+//        serviceContract.setAdditionalServiceFaxResults(false);
+//        serviceContract.setAdditionalServiceTelephonePresumptiveResults(false);
+//        serviceContract.setAdditionalServiceSendMoreContractForms(false);
+//        serviceContract.setAdditionalServiceOther(false);
+//        serviceContract.setAdditionalServiceOtherText("");
+//        serviceContract.setIntendedMarketLocal(false);
+//        serviceContract.setIntendedMarketCaricom(false);
+//        serviceContract.setIntendedMarketUK(false);
+//        serviceContract.setIntendedMarketUSA(false);
+//        serviceContract.setIntendedMarketCanada(false);
+//        serviceContract.setIntendedMarketOther(false);
+//        serviceContract.setIntendedMarketOtherText("");
+//        serviceContract.setServiceRequestedTesting(false);
+//        serviceContract.setServiceRequestedCalibration(false);
+//        serviceContract.setServiceRequestedLabelEvaluation(false);
+//        serviceContract.setServiceRequestedInspection(false);
+//        serviceContract.setServiceRequestedConsultancy(false);
+//        serviceContract.setServiceRequestedTraining(false);
+//        serviceContract.setServiceRequestedOther(false);
+//        serviceContract.setServiceRequestedOtherText("");
+//        serviceContract.setSpecialInstructions("");
+//
+//        return serviceContract;
+//    }
 
     public static List<SelectItem> getStringListAsSelectItems(EntityManager em,
             String systemOption/*, 
