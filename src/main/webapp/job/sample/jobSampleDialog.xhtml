@@ -45,21 +45,25 @@ Email: info@dpbennett.com.jm
                      showSummary="true"
                      showDetail="false"/>
 
-            <p:commandButton value="Ok"
-                             actionListener="#{jobSampleManager.okJobSample}"
-                             onstart="longProcessDialogVar.show();"      
-                             update="job_sample_dialog_growl"
-                             oncomplete="longProcessDialogVar.hide();"
-                             icon="ui-icon ui-icon-check"
-                             process="@form"/>
-            <p:spacer height="0" width="5"/>
-            <p:commandButton value="Cancel"
-                             actionListener="#{jobSampleManager.cancelJobSampleDialogEdits}"                            
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
-                             icon="ui-icon ui-icon-close"
-                             process="@this"/>
-            <hr/>
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{jobSampleManager.okJobSample}"
+                                     onstart="longProcessDialogVar.show();"      
+                                     update="job_sample_dialog_growl"
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-check"
+                                     process="@form"/>
+                    <p:spacer height="0" width="5"/>
+                    <p:commandButton value="Cancel"
+                                     actionListener="#{jobSampleManager.cancelJobSampleDialogEdits}"                            
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-close"
+                                     process="@this"/>
+                </p:toolbarGroup>
+            </p:toolbar>            
+
             <p:tabView id="jobSampleDialogTabView"
                        activeIndex="#{jobSampleManager.jobSampleDialogTabViewActiveIndex}"
                        widgetVar="jobSampleDialogTabViewVar">
@@ -297,21 +301,24 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid>
                 </p:tab>
             </p:tabView>
-            <hr/>
-            <p:commandButton value="Ok"
-                             actionListener="#{jobSampleManager.okJobSample}"                             
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
-                             update="job_sample_dialog_growl"
-                             icon="ui-icon ui-icon-check"
-                             process="@form"/>
-            <p:spacer height="0" width="5"/>
-            <p:commandButton value="Cancel"
-                             actionListener="#{jobSampleManager.cancelJobSampleDialogEdits}"                           
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="jobSampleRequiredFieldMessageDialog.hide();longProcessDialogVar.hide();"
-                             icon="ui-icon ui-icon-close"
-                             process="@this"/>                
+            <p:toolbar style="margin-top: 5px;">
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{jobSampleManager.okJobSample}"
+                                     onstart="longProcessDialogVar.show();"      
+                                     update="job_sample_dialog_growl"
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-check"
+                                     process="@form"/>
+                    <p:spacer height="0" width="5"/>
+                    <p:commandButton value="Cancel"
+                                     actionListener="#{jobSampleManager.cancelJobSampleDialogEdits}"                            
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-close"
+                                     process="@this"/>
+                </p:toolbarGroup>
+            </p:toolbar>                      
         </h:form>
     </h:body>
 </html>

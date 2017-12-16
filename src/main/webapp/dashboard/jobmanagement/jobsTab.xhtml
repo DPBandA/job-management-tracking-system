@@ -24,32 +24,36 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <ui:include src="jobSearch.xhtml"/>
-    <h:panelGrid columns="3">
-        <p:commandButton
-            actionListener="#{jobManager.createNewJob}"
-            global="true"                                        
-            onstart="longProcessDialogVar.show();" 
-            onerror="connectionErrorDialog.show();"
-            value="New"                                       
-            title="Create new job"
-            icon="ui-icon-plusthick"
-            process="@this">  
+    <p:toolbar>
+        <p:toolbarGroup align="left">
+            <p:commandButton
+                actionListener="#{jobManager.createNewJob}"
+                global="true"                                        
+                onstart="longProcessDialogVar.show();" 
+                onerror="connectionErrorDialog.show();"
+                value="New"                     
+                title="Create new job"
+                icon="ui-icon-plusthick"
+                process="@this">  
 
-            <p:resetInput target=":mainTabViewForm:mainTabView" />
+                <p:resetInput target=":mainTabViewForm:mainTabView" />
 
-        </p:commandButton>
-
-        <p:commandButton
-            value="Reports"
-            actionListener="#{jobManager.openReportsTab}"
-            onstart="longProcessDialogVar.show();"                                                           
-            onerror="connectionErrorDialog.show();"
-            title="Generate, view and export reports"
-            icon="ui-icon-newwin"
-            process="@this"/>
-
-    </h:panelGrid>   
+            </p:commandButton>
+        </p:toolbarGroup>
+        <p:toolbarGroup align="right">
+            <p:commandButton
+                value="Reports"
+                actionListener="#{jobManager.openReportsTab}"
+                onstart="longProcessDialogVar.show();"                                                           
+                onerror="connectionErrorDialog.show();"
+                title="Generate, view and export reports"
+                icon="ui-icon-newwin"
+                process="@this"/>
+        </p:toolbarGroup>
+    </p:toolbar>
+    <h:outputText value="Job Search:" styleClass="output-text-header"/> 
+    <ui:include src="jobSearch.xhtml"/>   
+   
 
 </html>
 

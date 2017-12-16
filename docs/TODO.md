@@ -19,130 +19,12 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-#### Job Costing & Payment
-- Impl saving job costing and updating the job costing table
-  * Impl saving within job costing dialog. Do automatic job save as is done with
-    samples. Change "Save" to "Ok" and close dialog when clicked. 
-  * Impl closing job costing dialog and prompt if there are edits.
-  * Display each cash payment and cost component in the lists to check if any
-    is has null id after saving
-- Impl dealing with subcontracts and redesign cost component dialog.
-  * Impl displaying list of subcontracts with costings that have been approved. 
-  * Put note beside "New Item" Listing the subcontract job number if there are any
-    and prompt to enter them if there are any completed and and approved.
-  * Impl list of subcontracts if a job is subcontracted.
-- Within the job costing dialog detect if there are subcontracts and inform about 
-  this and "pull" in their costs based on instructions. 
-  * See how "Cost Component dialog can be used to bring in subcontract costs. 
-    Use the "Cost Code" slot to select subcontract costs if any. Remove "Cost Code"
-  * Impl menu that selects cost type "Variable Cost", "Fixed Cost", "Subcontracted job cost"
-  * The fields would change based on the cost type selected.
-- Note that updateJobCostings() creates default job costings if none exist and
-  adds the costing from subcontracts if the job is subcontracted. Add this method
-  to the Job class and call it whenever the job costing is to be edited so that
-  all subcontracted job costs are included. Add all methods that updateJobCostings()
-  calls directly or indirectly in the Job or JobCostingAndPayment class.
-- Check that all message dialogs in the job costing control panel are displayed
-  Replace message dialogs with growl.
-- Payment dialog is displayed on once when the add payment button is pressed.
-- Set user and job when job is being created, edited or subcontracted. Update
-  the costing tab and forms to use to reflect changes
-- updateJobCostingAndPayment() and other update methods in FM to update isDirty 
-  in JobCostingAndPayment and not the job. REVIEW THIS!!!
-- Put "Do costing" button in JobCostingAndPaymentTab.
-- Remove FM code from JM.  
-  * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
-    from JM.
-  * Implement getFinanceManager() and use it in jobCostingAndPaymentTab.xhtml 
-    to access JobCostingAndPayment instead of directly in JM.
-- Check that job costing form works.
-- Only designated persons should be able to approve and invoice jobs in batch.
-- Use FM to check credit status?
-- Update job costing and payment forms to use FinanceManager (FM).
-  * Implement "dirty" for JobCostingAndPayment and use it to flag as dirty and not the entire job. 
-  * Implement saving JobCostingAndPayment and no the entire job.
-- Create FinanceManager (FM) from JM and use it to manage job costing and payment.
-  * Complete by 
-- Implement "isDirty" for JobCostingAndPayment independently of the Job class.
-  *Implement save() in JobCostingAndPayment.
-  *Do not allow saving of job costing if job has not been saved.
-  *Set to CascadeType.REFRESH and save independently in Job class.
-- Implement save confirmation and dialog closing for job costing form.
-- Don't use discount in cash payment.
-- Job cost and may be other fields not being update when costing is updated. Fix!
-- Check that exporting job costing, service contract and other forms do not
-  save any entity as this is not necessary.
-- Fix job costing form export etc. and use the billing address and contact found in the 
-  job record if necessary.
-- Do resetInput when opening job costing dialogs?
-- The "Job Costing Modified" dialog does not have a no button.
-- Check if any of the job costing message dialog close the job detail tab.
-- Create contact field in the job record to assign contact to current job.
-- Try to export service contract and job costing for old jobs that do not have
-  billing address and contact fields set.
-- Implement prevention of the insertion of incorrect subcontract jobs costing 
-  Amounts which sometimes occur when the date of submission of a parent job is changed
-  Use parentJobId in the subcontract to solve this?
-- Remove payeeFirst/Lastname and put contact/person.
-- When subcontracted department is deleted and the job form is closed,
-  the subcontracted department field disappears when the form is reopened. Fix!
-- This was commented out of ClientManager: 
-    //getMain().displayCommonMessageDialog(null, "Please provide at least 1 character for the search text.", "Insufficient Characters", "alert");
-    Find way to get something like this back in without using getMain().
-- Do copy of billing address, contact and client before saving new job. Do
-  not allow changing these fields except by sysadmin. Implement doShallowCopy()
-  for client that does not copy the list of addresses and contacts.
-- Prevent changing of all fields that affect the service contract.
-- Put sys option that controls the changing auto job number generation. Make it
-  unchangeable by default.
-- For user status change Checked in/out to Last checked in "date/time.
-- Hide items in user menu if they are not selected in preferences.
-- Implement updateCashPayment() to record updates made to a field and store the updates.
-- Add cash payments feature so cashier can add cash payments.
-* Old Payments Tab Info:
-Invoice number(s): 		 
-Receipt #s: 		 
-Discount ($):
-Total paid ($): 		 
-Last payment date: 		 
-Payment terms:  
-* Add discount type and discount to cash payment form.
-* Add fields to cashPayment and database: discount, discountType, 
-paymentTerms, rename JMTSUserId to userId
-* Make a payment(first) as desosit and save to jobCostingAndPayment.deposit
-* Add PO number to payment panel. 
-* Update corresponding fields in jobCostingAndPayment as required.
-* Use canEditInvoicingAndPayment where necessary
-* Ensure amount due is updated correctly using cash payments.
-- Put bold label for required field to be consistent.
-- Ensure billing address and contact are valid and not blank before saving job.
-- Impl Approved and Invoiced buttons in job costings tab. Use growl instead of
-  dialog to display message when invoices are approved/invoiced.
-
-### Testing on Test and Live versions
-- Build for gf3.1.2.2 and deploy.
-- Assign git tag to next release.
-- Test all major use cases with normal user (kmiller).
-* Parent job entry with/without samples.
-* Add/Edit/Delete samples.
-* Creating subcontracts with/without samples.
-* Exporting forms/reports: service contract, reports, job costing etc.
-* Check that client credit status dialog still works.
-* Check client credit status dialog
-* Test editing job costings with subcontracts.
-* Test SystemAdmin functions. Remove features that are not fully implemented.
-* Approve, invoice jobs singly or by batch from the job costings table.
-* Edit exiting and create new clients, contacts and addresses.
-* Test out creation and use of costing templates.
-
-================================================================================
-### Issues to Address for Next Future Release
-### System Design
-#### Design
-- Use toolbar at top of every dialog and tab...do for dashboard, sample tab, reporting tab, 
-  job detail, client dialog, address dialog, contact dialog,  and job sample dialogs.
+#### Misc
+- Use toolbar at top/bottom of every dialog and tab...do client dialog, address dialog, 
+  contact dialog, job sample dialogs. 
   Put toolbar at top and bottom where it makes sense.
 - Put "Job Search" at top of search parameters.
+- Put client search and client status in menu.
 - The "Reports" button in the dashboard and tools menu shows the busy wait indefinitely when
   the reports tab is already showing. The tab is also not selected. Fix!.
 - Merge Application code into other managers and clean it up.
@@ -179,8 +61,6 @@ paymentTerms, rename JMTSUserId to userId
 - Service Contract: “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
 - Create autocomplete list of "standard/common" product names using a "Distinct"
   type of the query on the existing samples.
-- Put list of preferred job table views (Jobs, Cashier, Job Costings) in JM User.
-- Implement sub-sectors by adding a collections field in the sector class.
 - Move all code dealing with authorization and privileges from JM to JMUser.
 - Fill in billing address and main contact of a client of the billing adddress
   and contact fields of the job record are not valid eg blank??
@@ -360,8 +240,123 @@ paymentTerms, rename JMTSUserId to userId
   collections to initialize the tabs.
 - Use tooltip component to get consistent tooltip across the app.
 
-==============================Future Long Term Development======================
+#### Job Costing & Payment
+- Impl saving job costing and updating the job costing table
+  * Impl saving within job costing dialog. Do automatic job save as is done with
+    samples. Change "Save" to "Ok" and close dialog when clicked. 
+  * Impl closing job costing dialog and prompt if there are edits.
+  * Display each cash payment and cost component in the lists to check if any
+    is has null id after saving
+- Impl dealing with subcontracts and redesign cost component dialog.
+  * Impl displaying list of subcontracts with costings that have been approved. 
+  * Put note beside "New Item" Listing the subcontract job number if there are any
+    and prompt to enter them if there are any completed and and approved.
+  * Impl list of subcontracts if a job is subcontracted.
+- Within the job costing dialog detect if there are subcontracts and inform about 
+  this and "pull" in their costs based on instructions. 
+  * See how "Cost Component dialog can be used to bring in subcontract costs. 
+    Use the "Cost Code" slot to select subcontract costs if any. Remove "Cost Code"
+  * Impl menu that selects cost type "Variable Cost", "Fixed Cost", "Subcontracted job cost"
+  * The fields would change based on the cost type selected.
+- Note that updateJobCostings() creates default job costings if none exist and
+  adds the costing from subcontracts if the job is subcontracted. Add this method
+  to the Job class and call it whenever the job costing is to be edited so that
+  all subcontracted job costs are included. Add all methods that updateJobCostings()
+  calls directly or indirectly in the Job or JobCostingAndPayment class.
+- Check that all message dialogs in the job costing control panel are displayed
+  Replace message dialogs with growl.
+- Payment dialog is displayed on once when the add payment button is pressed.
+- Set user and job when job is being created, edited or subcontracted. Update
+  the costing tab and forms to use to reflect changes
+- updateJobCostingAndPayment() and other update methods in FM to update isDirty 
+  in JobCostingAndPayment and not the job. REVIEW THIS!!!
+- Put "Do costing" button in JobCostingAndPaymentTab.
+- Remove FM code from JM.  
+  * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
+    from JM.
+  * Implement getFinanceManager() and use it in jobCostingAndPaymentTab.xhtml 
+    to access JobCostingAndPayment instead of directly in JM.
+- Check that job costing form works.
+- Only designated persons should be able to approve and invoice jobs in batch.
+- Use FM to check credit status?
+- Update job costing and payment forms to use FinanceManager (FM).
+  * Implement "dirty" for JobCostingAndPayment and use it to flag as dirty and not the entire job. 
+  * Implement saving JobCostingAndPayment and no the entire job.
+- Create FinanceManager (FM) from JM and use it to manage job costing and payment.
+  * Complete by 
+- Implement "isDirty" for JobCostingAndPayment independently of the Job class.
+  *Implement save() in JobCostingAndPayment.
+  *Do not allow saving of job costing if job has not been saved.
+  *Set to CascadeType.REFRESH and save independently in Job class.
+- Implement save confirmation and dialog closing for job costing form.
+- Don't use discount in cash payment.
+- Job cost and may be other fields not being update when costing is updated. Fix!
+- Check that exporting job costing, service contract and other forms do not
+  save any entity as this is not necessary.
+- Fix job costing form export etc. and use the billing address and contact found in the 
+  job record if necessary.
+- Do resetInput when opening job costing dialogs?
+- The "Job Costing Modified" dialog does not have a no button.
+- Check if any of the job costing message dialog close the job detail tab.
+- Create contact field in the job record to assign contact to current job.
+- Try to export service contract and job costing for old jobs that do not have
+  billing address and contact fields set.
+- Implement prevention of the insertion of incorrect subcontract jobs costing 
+  Amounts which sometimes occur when the date of submission of a parent job is changed
+  Use parentJobId in the subcontract to solve this?
+- Remove payeeFirst/Lastname and put contact/person.
+- When subcontracted department is deleted and the job form is closed,
+  the subcontracted department field disappears when the form is reopened. Fix!
+- This was commented out of ClientManager: 
+    //getMain().displayCommonMessageDialog(null, "Please provide at least 1 character for the search text.", "Insufficient Characters", "alert");
+    Find way to get something like this back in without using getMain().
+- Do copy of billing address, contact and client before saving new job. Do
+  not allow changing these fields except by sysadmin. Implement doShallowCopy()
+  for client that does not copy the list of addresses and contacts.
+- Prevent changing of all fields that affect the service contract.
+- Put sys option that controls the changing auto job number generation. Make it
+  unchangeable by default.
+- For user status change Checked in/out to Last checked in "date/time.
+- Hide items in user menu if they are not selected in preferences.
+- Implement updateCashPayment() to record updates made to a field and store the updates.
+- Add cash payments feature so cashier can add cash payments.
+* Old Payments Tab Info:
+Invoice number(s): 		 
+Receipt #s: 		 
+Discount ($):
+Total paid ($): 		 
+Last payment date: 		 
+Payment terms:  
+* Add discount type and discount to cash payment form.
+* Add fields to cashPayment and database: discount, discountType, 
+paymentTerms, rename JMTSUserId to userId
+* Make a payment(first) as desosit and save to jobCostingAndPayment.deposit
+* Add PO number to payment panel. 
+* Update corresponding fields in jobCostingAndPayment as required.
+* Use canEditInvoicingAndPayment where necessary
+* Ensure amount due is updated correctly using cash payments.
+- Put bold label for required field to be consistent.
+- Ensure billing address and contact are valid and not blank before saving job.
+- Impl Approved and Invoiced buttons in job costings tab. Use growl instead of
+  dialog to display message when invoices are approved/invoiced.
 
+### Testing on Test and Live versions
+- Build for gf3.1.2.2 and deploy.
+- Assign git tag to next release.
+- Test all major use cases with normal user (kmiller).
+* Parent job entry with/without samples.
+* Add/Edit/Delete samples.
+* Creating subcontracts with/without samples.
+* Exporting forms/reports: service contract, reports, job costing etc.
+* Check that client credit status dialog still works.
+* Check client credit status dialog
+* Test editing job costings with subcontracts.
+* Test SystemAdmin functions. Remove features that are not fully implemented.
+* Approve, invoice jobs singly or by batch from the job costings table.
+* Edit exiting and create new clients, contacts and addresses.
+* Test out creation and use of costing templates.
+
+==============================Future Long Term Development======================
 ### Misc
 - Impl option to use LADP or some other authentication system.
 - Impl dialogs for all admin configuration eg. classification etc. and put edit
@@ -371,6 +366,13 @@ paymentTerms, rename JMTSUserId to userId
 - Impl new department button/feature. Use new employee as template code.
 - Report things such as failed logins and login time and date in the user.activity field.
 - Create Tracking/OperationsManager and use to manage job status and tracking
+- Put the job number etc in the job detail tab title based on the tabs being shown
+  eg. if it's only job costing and payment being shown then state that.
+- Implement sub-sectors by adding a collections field in the sector class.
+- Pass in the job only and not the contact and billing address to the Client Manager?
+- Impl Job Numbering/Sequencing interface that can be implemented for various 
+  organizations including the one used for the BSJ.
+- Put "Action" menu in client dialog to allow editing or creating new address/contact
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

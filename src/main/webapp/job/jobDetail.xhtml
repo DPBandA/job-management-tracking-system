@@ -23,57 +23,10 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:growl id="growl2" life="5000" showDetail="true" />
 
-    <p:toolbar>
-        <p:toolbarGroup align="left" >  
-            <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
-                             value="Save"
-                             update="formsMenuButton,:mainTabViewForm:mainTabView:jobFormTabView:jobNumberGroup,:mainTabViewForm:mainTabView:jobFormTabView:jobNumberForCosting,:mainTabViewForm:mainTabView:growl2"
-                             title="Save current job"
-                             icon="ui-icon-disk"
-                             process="@form" />
+    <ui:include src="jobDetailToolbar.xhtml"/>
 
-            <p:spacer height="0" width="10"/>
-            <p:commandButton value="Close"     
-                             actionListener="#{jobManager.prepareToCloseJobDetailTab}"
-                             onstart="longProcessDialogVar.show();"
-                             immediate="true"
-                             oncomplete="handleCloseJobDetailTab(xhr,status,args);longProcessDialogVar.hide();" 
-                             process="@this"
-                             icon="ui-icon ui-icon-close" />
-            <p:spacer height="0" width="100"/>
-
-            <p:commandButton
-                value="Subcontract..."
-                actionListener="#{jobManager.subContractJob}"
-                update="formsMenuButton,:mainTabViewForm:mainTabView:growl2"
-                rendered="#{!financeManager.enableOnlyPaymentEditing}"
-                global="true"               
-                onstart="longProcessDialogVar.show();"
-                oncomplete="handleCreateJobCopy(xhr, status, args);longProcessDialogVar.hide();"
-                title="Subcontract the current job by first creating a copy."
-                icon="ui-icon-copy"
-                process="@this"/>
-        </p:toolbarGroup>
-
-        <p:toolbarGroup align="right" >  
-            <p:menuButton id="formsMenuButton" value="Forms" rendered="true" >
-                <p:menuitem value="Service Contract"
-                            id="serviceContactForm"
-                            ajax="false" 
-                            immediate="true"
-                            disabled="#{!jobManager.currentJobIsValid}"                   
-                            update="longProgressDialogForm2"
-                            onclick="longProcessDialogVar2.show();" >
-                    <p:fileDownload value="#{jobManager.serviceContractFile}" />
-                </p:menuitem>
-            </p:menuButton>
-        </p:toolbarGroup>
-        
-    </p:toolbar>
-    
     <p:tabView id="jobFormTabView"
+               style="margin-bottom: 5px;"
                onTabShow="longProcessDialogVar.hide();"
                widgetVar="jobFormTabVar" >
 
@@ -112,23 +65,7 @@ Email: info@dpbennett.com.jm
         </p:tab>
 
     </p:tabView>
-
-    <hr/>
-    <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
-                     onstart="longProcessDialogVar.show();"
-                     oncomplete="longProcessDialogVar.hide();"
-                     value="Save"
-                     update="formsMenuButton,:mainTabViewForm:mainTabView:jobFormTabView:jobNumberGroup,:mainTabViewForm:mainTabView:jobFormTabView:jobNumberForCosting,:mainTabViewForm:mainTabView:growl2"
-                     title="Save current job"
-                     icon="ui-icon-disk"
-                     process="@form"/>
-    <p:spacer height="0" width="10"/>
-    <p:commandButton value="Close"             
-                     actionListener="#{jobManager.prepareToCloseJobDetailTab}"
-                     onstart="longProcessDialogVar.show();"
-                     immediate="true"
-                     oncomplete="handleCloseJobDetailTab(xhr,status,args);longProcessDialogVar.hide();" 
-                     process="@this"
-                     icon="ui-icon ui-icon-close" />
+    
+    <ui:include src="jobDetailToolbar.xhtml"/>
     <p/>       
 </html>

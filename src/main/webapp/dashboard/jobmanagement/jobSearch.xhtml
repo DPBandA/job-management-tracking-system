@@ -25,10 +25,8 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:panelGrid columns="2" cellspacing="5">
-
         <h:outputText value="Search type: " />
-        <p:selectOneMenu value="#{searchManager.currentSearchParameters.searchType}" 
-                         style="width: 155px;" >
+        <p:selectOneMenu value="#{searchManager.currentSearchParameters.searchType}" >
             <p:ajax                        
                 listener="#{searchManager.updateSearchType}"
                 process="@this" />
@@ -38,8 +36,7 @@ Email: info@dpbennett.com.jm
         <h:outputText value="Date field: " 
                       rendered="#{searchManager.currentSearchParameters.showDateField}"/>
         <p:selectOneMenu value="#{searchManager.currentSearchParameters.dateField}" 
-                         rendered="#{searchManager.currentSearchParameters.showDateField}" 
-                         style="width: 155px" >
+                         rendered="#{searchManager.currentSearchParameters.showDateField}" >
             <p:ajax                        
                 listener="#{searchManager.updateDateField}"
                 process="@this" />
@@ -48,8 +45,7 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Date period: " rendered="#{searchManager.currentSearchParameters.showDateField}"/>               
         <p:selectOneMenu value= "#{searchManager.currentSearchParameters.datePeriod.name}" 
-                         rendered="#{searchManager.currentSearchParameters.showDateField}"
-                         style="width: 155px" >
+                         rendered="#{searchManager.currentSearchParameters.showDateField}" >
             <p:ajax listener="#{searchManager.changeSearchDatePeriod}"
                     update="startSearchDate,endSearchDate"
                     process="@this" />
@@ -83,22 +79,24 @@ Email: info@dpbennett.com.jm
                     listener="#{searchManager.handleEndDateSelect}"/>
             <p:ajax event="keyup"                           
                     listener="#{searchManager.handleEndDateSelect}"/>
-        </p:calendar>
-        <p:spacer height="10" /> <p:spacer height="10" />
-        <p:inputText value="#{searchManager.currentSearchParameters.searchText}"  
-                     style="width: 125px"
-                     id="searchText"/>        
-        <p:commandButton value="Search"
-                         id="doSearch"
-                         onstart="longProcessDialogVar.show();"
-                         actionListener="#{searchManager.doSearch}"
-                         oncomplete="longProcessDialogVar.hide();"
-                         onerror="connectionErrorDialog.show();"
-                         update=":headerForm:growl3"
-                         icon="ui-icon-search"
-                         process="@form"/>
-    </h:panelGrid>
-    <p:watermark value="-- enter search text --" for="searchText" />
-    <hr/>
+        </p:calendar>   
+    </h:panelGrid>   
+    <p:toolbar>
+        <p:toolbarGroup align="left" >
+            <p:inputText value="#{searchManager.currentSearchParameters.searchText}"  
+                         id="searchText"/>        
+            <p:spacer width="5" />
+            <p:commandButton value="Search"
+                             id="doSearch"
+                             onstart="longProcessDialogVar.show();"
+                             actionListener="#{searchManager.doSearch}"
+                             oncomplete="longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"
+                             update=":headerForm:growl3"
+                             icon="ui-icon-search"
+                             process="@form"/>
+        </p:toolbarGroup>
+    </p:toolbar>
+    <p:watermark value="-- enter search text --" for="searchText" />   
     <p/>
 </html>

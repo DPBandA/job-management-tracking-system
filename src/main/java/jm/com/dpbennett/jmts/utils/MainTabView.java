@@ -120,6 +120,10 @@ public class MainTabView implements Serializable {
 
         return null;
     }
+    
+    public Boolean isTabRendered(String tabId) {
+        return !(findTab(tabId) == null);
+    }
 
     public int getTabIndex(String tabId) {
         MainTab tab = findTab(tabId);

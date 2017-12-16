@@ -67,3 +67,12 @@
 .read-only-inputfield .ui-inputfield {
     background-color: lightyellow !important;
 }
+
+.output-text-header {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: gray;
+    width: 100%;
+}

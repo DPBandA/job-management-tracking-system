@@ -164,18 +164,22 @@ Email: info@dpbennett.com.jm
 
         </h:panelGrid>
     </p:panel>
-    <p:panel id="cashPayments" header="Payment">        
-        <p:commandButton value="Add payment"
-                         title="Add new payment"
-                         actionListener="#{financeManager.createNewCashPayment}"
-                         update=":cashPaymentDialogForm"
-                         oncomplete="cashPaymentDialog.show();"
-                         disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                         onstart="longProcessDialogVar.show();"
-                         icon="ui-icon-plus"
-                         process="@this" />
-        <p:spacer height="10" width="0"/>
+    <p:panel id="cashPayments" header="Payment">    
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:commandButton value="Add payment"
+                                 title="Add new payment"
+                                 actionListener="#{financeManager.createNewCashPayment}"
+                                 update=":cashPaymentDialogForm"
+                                 oncomplete="cashPaymentDialog.show();"
+                                 disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                                 onstart="longProcessDialogVar.show();"
+                                 icon="ui-icon-plus"
+                                 process="@this" />
+            </p:toolbarGroup>
+        </p:toolbar>
         <p:dataTable id="cashPaymentTable"
+                     style="margin-top: 1px;margin-bottom: 1px;"
                      paginator="true"
                      rows="15"
                      var="cashPayment"
@@ -234,16 +238,19 @@ Email: info@dpbennett.com.jm
                 </p:row>               
             </p:columnGroup>
         </p:dataTable>
-        <p:spacer height="10" width="0"/>
-        <p:commandButton value="Add payment"
-                         title="Add new payment"
-                         actionListener="#{financeManager.createNewCashPayment}"
-                         update=":cashPaymentDialogForm"
-                         oncomplete="cashPaymentDialog.show();"
-                         disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                         onstart="longProcessDialogVar.show();"
-                         icon="ui-icon-plus"
-                         process="@this" />
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:commandButton value="Add payment"
+                                 title="Add new payment"
+                                 actionListener="#{financeManager.createNewCashPayment}"
+                                 update=":cashPaymentDialogForm"
+                                 oncomplete="cashPaymentDialog.show();"
+                                 disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                                 onstart="longProcessDialogVar.show();"
+                                 icon="ui-icon-plus"
+                                 process="@this" />
+            </p:toolbarGroup>
+        </p:toolbar>
     </p:panel>
 
 </html>

@@ -25,11 +25,29 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:form id="cashPaymentDialogForm">
         <p:dialog width="425"
-                  height="215"
+                  height="fit-content"
                   draggable="true"
                   modal="true"
                   widgetVar="cashPaymentDialog"
                   header="Payment Detail" >
+            <p:toolbar style="margin-bottom: 5px;">
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{financeManager.okCashPayment}"
+                                     icon="ui-icon-check"
+                                     oncomplete="cashPaymentDialog.hide();"
+
+                                     process="@form"/>
+                    <p:spacer height="0" width="5"/>
+                    <p:commandButton value="Cancel"
+                                     actionListener="#{financeManager.cancelCashPaymentEdit}"
+                                     update="cashPaymentDialogForm"
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="cashPaymentDialog.hide();longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-close"
+                                     process="@this"/>    
+                </p:toolbarGroup>
+            </p:toolbar>
             <h:panelGrid columns="2" style="width: 85%">
                 <h:outputText value="Type:" />    
                 <p:selectOneMenu 
@@ -65,7 +83,7 @@ Email: info@dpbennett.com.jm
                     value="#{financeManager.selectedCashPayment.discountType}">
                     <p:ajax
                         global="true"
-                        
+
                         listener="#{financeManager.updateCashPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.discountTypes}" />
@@ -75,7 +93,7 @@ Email: info@dpbennett.com.jm
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"
                             global="false"
-                           
+
                             listener="#{financeManager.updateCashPayment}"
                             process="@this"/>
                 </p:inputText>          
@@ -92,22 +110,25 @@ Email: info@dpbennett.com.jm
                             process="@this"/>
                 </p:inputTextarea>                
             </h:panelGrid>
-            <hr/> 
-            <p:commandButton value="Ok"
-                             actionListener="#{financeManager.okCashPayment}"
-                             icon="ui-icon-check"
-                             oncomplete="cashPaymentDialog.hide();"
-                             
-                             process="@form"/>
-            <p:spacer height="0" width="5"/>
-            <p:commandButton value="Cancel"
-                             actionListener="#{financeManager.cancelCashPaymentEdit}"
-                             update="cashPaymentDialogForm"
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="jobSampleDialog.hide();longProcessDialogVar.hide();"
-                             icon="ui-icon ui-icon-close"
-                             process="@this"/>    
+            <p:toolbar style="margin-top: 5px;">
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{financeManager.okCashPayment}"
+                                     icon="ui-icon-check"
+                                     oncomplete="cashPaymentDialog.hide();"
 
-        </p:dialog>
-    </h:form>    
+                                     process="@form"/>
+                    <p:spacer height="0" width="5"/>
+                    <p:commandButton value="Cancel"
+                                     actionListener="#{financeManager.cancelCashPaymentEdit}"
+                                     update="cashPaymentDialogForm"
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="cashPaymentDialog.hide();longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-close"
+                                     process="@this"/>    
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p/>
+        </p:dialog>       
+    </h:form>       
 </html>

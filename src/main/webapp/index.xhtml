@@ -84,27 +84,6 @@ Email: info@dpbennett.com.jm
                                       id="userMenu"
                                       style="float: right;" >
 
-                            <ui:remove id="remove_these_eventually">
-                                <p:menuitem actionListener="#{jobManager.openJobsTab}"
-                                            rendered="#{jobManager.user.jobManagementAndTrackingUnit}"                                        
-                                            onstart="longProcessDialogVar.show();"                                        
-                                            oncomplete="longProcessDialogVar.hide();"                                            
-                                            value="Jobs"
-                                            process="@this"/>
-                                <p:menuitem actionListener="#{jobManager.openCashierTab}"
-                                            rendered="#{jobManager.user.jobManagementAndTrackingUnit}"                                        
-                                            onstart="longProcessDialogVar.show();"                                        
-                                            oncomplete="longProcessDialogVar.hide();"                                            
-                                            value="Cashier View"
-                                            process="@this"/>
-                                <p:menuitem actionListener="#{jobManager.openJobCostingsTab}"
-                                            rendered="#{jobManager.user.jobManagementAndTrackingUnit}"                                        
-                                            onstart="longProcessDialogVar.show();"                                        
-                                            oncomplete="longProcessDialogVar.hide();"                                            
-                                            value="Job Costings"
-                                            process="@this"/>
-                                <p:separator rendered="#{jobManager.user.jobManagementAndTrackingUnit}" />
-                            </ui:remove>
                             <ui:remove id="remove_these_eventually_2">
                                 <p:menuitem value="Clients"
                                             onstart="longProcessDialogVar.show();"                                                    
@@ -172,6 +151,11 @@ Email: info@dpbennett.com.jm
                                 process="@this"
                                 update=":headerForm:growl3"
                                 listener="#{jobManager.onMainViewTabClose}" />  
+                        
+                        <p:ajax event="tabChange" 
+                                immediate="true"
+                                process="@this"                                
+                                listener="#{jobManager.onMainViewTabChange}" />  
 
                         <p:tab title="#{tab.name}" closable="true"  >
                             <h:panelGroup rendered="#{tab.renderJobsTab}">                                

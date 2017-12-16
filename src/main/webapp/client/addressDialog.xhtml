@@ -25,23 +25,26 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core">   
     <h:form id="addressForm">
         <p:dialog width="450"
-                  height="275"
+                  height="fit-content"
                   draggable="true"
                   closable="false"
                   modal="true"
                   widgetVar="addressFormDialog"
                   header="Address Detail" >
-            <p:commandButton value="Ok"
-                             actionListener="#{clientManager.okCurrentAddress}"
-                             icon="ui-icon-check"
-                             update=":clientForm:client_growl,:clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
-                             process="@form" />
-            <p:spacer width="10"/>
-            <p:commandButton value="Cancel"                                 
-                             icon="ui-icon-close"
-                             oncomplete="addressFormDialog.hide();"
-                             process="@this" />
-            <hr/>
+            <p:toolbar style="margin-bottom: 5px;">
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{clientManager.okCurrentAddress}"
+                                     icon="ui-icon-check"
+                                     update=":clientForm:client_growl,:clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                                     process="@form" />
+                    <p:spacer width="10"/>
+                    <p:commandButton value="Cancel"                                 
+                                     icon="ui-icon-close"
+                                     oncomplete="addressFormDialog.hide();"
+                                     process="@this" />         
+                </p:toolbarGroup>
+            </p:toolbar>
             <h:panelGrid columns="2" style="width: 85%">       
                 <h:outputText value="Type *:" style="font-weight: bold" />
                 <p:selectOneMenu value="#{clientManager.currentAddress.type}"
@@ -108,18 +111,21 @@ Email: info@dpbennett.com.jm
                 </p:selectOneMenu>                   
 
             </h:panelGrid>    
-            <hr/>
-            <p:commandButton value="Ok"
-                             actionListener="#{clientManager.okCurrentAddress}"
-                             icon="ui-icon-check"
-                             update=":clientForm:client_growl,:clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
-                             process="@form" />
-            <p:spacer width="10"/>
-            <p:commandButton value="Cancel"                                 
-                             icon="ui-icon-close"
-                             oncomplete="addressFormDialog.hide();"
-                             process="@this" />
-
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{clientManager.okCurrentAddress}"
+                                     icon="ui-icon-check"
+                                     update=":clientForm:client_growl,:clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                                     process="@form" />
+                    <p:spacer width="10"/>
+                    <p:commandButton value="Cancel"                                 
+                                     icon="ui-icon-close"
+                                     oncomplete="addressFormDialog.hide();"
+                                     process="@this" />         
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p/>
         </p:dialog>
     </h:form>    
 </html>

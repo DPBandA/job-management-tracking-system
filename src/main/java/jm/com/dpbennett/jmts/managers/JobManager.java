@@ -713,7 +713,20 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (tabId.equals("jobDetailTab")) {
             financeManager.setEnableOnlyPaymentEditing(false);
             if (isDirty()) {
-                PrimeFacesUtils.addMessage("Job Not Save!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
+                PrimeFacesUtils.addMessage("Job Not Saved!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
+            }
+        }
+    }
+
+    public void onMainViewTabChange(TabChangeEvent event) {
+        String tabId = ((MainTab) event.getData()).getId();
+
+        if (!tabId.equals("jobDetailTab") && mainTabView.isTabRendered("jobDetailTab")) {
+            financeManager.setEnableOnlyPaymentEditing(false);
+            mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
+            if (isDirty()) {
+                PrimeFacesUtils.addMessage("Job Not Saved!", "The recently opened job was edited but not saved", FacesMessage.SEVERITY_WARN);
+                RequestContext.getCurrentInstance().update("headerForm:growl3");
             }
         }
     }
@@ -804,10 +817,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void openSystemAdministrationTab() {
         mainTabView.renderTab(getEntityManager1(), "adminTab", true);
+        mainTabView.select("adminTab");
     }
 
     public void openFinancialAdministrationTab() {
         mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
+        mainTabView.select("financialAdminTab");
     }
 
     public String getJobsTabTitle() {
@@ -927,7 +942,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         } else {
             return false;
         }
-    }   
+    }
 
     public Integer getLongProcessProgress() {
         if (longProcessProgress == null) {
@@ -1180,9 +1195,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobView(AjaxBehaviorEvent event) {
-        
+
         doJobViewUpdate(user.getJobTableViewPreference());
-        
+
     }
 
     public void doJobViewUpdate(String view) {
@@ -2141,7 +2156,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
     }
 
     public void editJobClient() {
@@ -2153,7 +2168,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
     }
 
     public ServiceRequest createNewServiceRequest(EntityManager em,
@@ -2480,6 +2495,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         mainTabView.renderTab(getEntityManager1(), "clientsTab", true);
+        mainTabView.select("clientsTab");
     }
 
     public void openReportsTab() {
@@ -2487,6 +2503,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         reportManager.setMainTabView(mainTabView);
         reportManager.setCurrentJob(currentJob);
         mainTabView.renderTab(getEntityManager1(), "reportsTab", true);
+        mainTabView.select("reportsTab");
     }
 
     public void approveSelectedJobCostings() {
