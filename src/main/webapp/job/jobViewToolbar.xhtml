@@ -76,6 +76,13 @@ Email: info@dpbennett.com.jm
 
         <p:toolbarGroup align="right" >               
             <p:menuButton value="Tools" >
+                
+                <p:menuitem value="Client search"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            actionListener="#{jobManager.openClientsTab}"
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this"/>
+                
                 <p:menuitem actionListener="#{financeManager.updateAccPacClient}"
                             onstart="longProcessDialogVar.show();"                                                    
                             value="Client credit status"
@@ -84,11 +91,6 @@ Email: info@dpbennett.com.jm
                             onerror="connectionErrorDialog.show();"
                             process="@this"/>                
 
-                <p:menuitem value="Client search"
-                            onstart="longProcessDialogVar.show();"                                                    
-                            actionListener="#{jobManager.openClientsTab}"
-                            oncomplete="longProcessDialogVar.hide();"
-                            process="@this"/>
                 <p:separator />
                 <p:menuitem value="Reports"
                             onstart="longProcessDialogVar.show();"                                                    

@@ -458,9 +458,9 @@ public class Application {
         // init employee
         user.setEmployee(getDefaultEmployee(em, "--", "--"));
 
-        // name
         user.setUserFirstname("");
         user.setUserLastname("");
+        
         // default privileges
         user.getPrivilege().setCanEditOwnJob(Boolean.TRUE);
         user.getPrivilege().setCanEditDepartmentJob(Boolean.TRUE);

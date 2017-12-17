@@ -84,18 +84,6 @@ Email: info@dpbennett.com.jm
                                       id="userMenu"
                                       style="float: right;" >
 
-                            <p:menuitem value="Clients"
-                                        onstart="longProcessDialogVar.show();"                                                    
-                                        actionListener="#{jobManager.openClientsTab}"
-                                        oncomplete="longProcessDialogVar.hide();"
-                                        process="@this"/>
-                            <p:menuitem value="Reports"
-                                        onstart="longProcessDialogVar.show();"                                                    
-                                        actionListener="#{jobManager.openReportsTab}"
-                                        oncomplete="longProcessDialogVar.hide();"
-                                        process="@this"/>
-                            <p:separator /> 
-
                             <p:menuitem actionListener="#{jobManager.openSystemAdministrationTab}"
                                         rendered="#{jobManager.user.adminUnit}"
                                         onstart="longProcessDialogVar.show();"                                        

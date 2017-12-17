@@ -20,22 +20,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- If Job Detail tab is not the active tab and it is open then close it.
-- Use toolbar at top/bottom of every dialog and tab...do client dialog, address dialog, 
-  contact dialog, job sample dialogs. 
-  Put toolbar at top and bottom where it makes sense.
-- Put client search and client status in menu.
-- The "Reports" button in the dashboard and tools menu shows the busy wait indefinitely when
-  the reports tab is already showing. The tab is also not selected. Fix!.
-- Merge Application code into other managers and clean it up.
-- Change the message that is displayed when a job is subcontacted.
-- Create GeneralManager from JM that handles UserManagement and other general
-  management features.
-- Let AccountingManager and other "modules" implement interfaces that can be 
-  used by the JMTS or a default interface if a session bean with a name such as 
-  "accountingManagement" is not found.
+- Display growl when new job is created.
 - Make the creation of at least one address and one contact mandatory for 
-  creating new clients.
+  creating new clients. Do validation of address and contact in client validation.
 - Add parentJobId to Job and use it to find subcontracts for the purpose of pulling
   in costs for subcontracts.
 - Check the return value from prepareAndSaveCurrentJob() and display message 
@@ -43,8 +30,6 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - Impl copy and delete sample within the sample dialog.
 - Do validation of billing address and contact in prepareAndSaveCurrentJob()
   before saving.
-- Put "Advanced Search" heading in Jobs tab.
-- Find and put all jasper reports into reports package.
 - Export sample condition(s) to service contract.
 - Remove unused dialogs.
 - Put all statics lists as system options like the "workProgressList" option.
@@ -373,6 +358,12 @@ paymentTerms, rename JMTSUserId to userId
 - Impl Job Numbering/Sequencing interface that can be implemented for various 
   organizations including the one used for the BSJ.
 - Put "Action" menu in client dialog to allow editing or creating new address/contact
+- Add "Feedback" feature to allow user to report bugs, issues, feature request,
+  contact developer etc.
+- Impl "Actions" menu in jobs table that has "Edit", "Copy", "Subcontract". The 
+  privileges should be checked before doing so.
+- If a new job is being created and the currently opened job is unclean then prompt
+  to save it.
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

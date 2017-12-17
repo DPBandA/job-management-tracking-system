@@ -22,18 +22,22 @@ Email: info@dpbennett.com.jm
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <p:commandButton value="New"
-                     icon="ui-icon-plus" 
-                     update=":addressForm"
-                     title="Add new address"
-                     oncomplete="addressFormDialog.show();"
-                     actionListener="#{clientManager.createNewAddress}" 
-                     process="@this" >
+      xmlns:ui="http://java.sun.com/jsf/facelets">    
+    <p:toolbar style="margin-bottom: 1px;">
+        <p:toolbarGroup align="left">
+            <p:commandButton value="New"
+                             icon="ui-icon-plus" 
+                             update=":addressForm"
+                             title="Add new address"
+                             oncomplete="addressFormDialog.show();"
+                             actionListener="#{clientManager.createNewAddress}" 
+                             process="@this" >
 
-        <p:resetInput target=":addressForm" />
+                <p:resetInput target=":addressForm" />
 
-    </p:commandButton>
+            </p:commandButton>
+        </p:toolbarGroup>
+    </p:toolbar>
     <p:dataTable id="addressesTable"
                  var="address"
                  paginator="true"                                 
@@ -78,17 +82,21 @@ Email: info@dpbennett.com.jm
         </p:column>
 
     </p:dataTable>
-    <p:commandButton value="New"
-                     icon="ui-icon-plus" 
-                     title="Add new address"
-                     update=":addressForm"
-                     oncomplete="addressFormDialog.show();"
-                     actionListener="#{clientManager.createNewAddress}" 
-                     process="@this" >
+     <p:toolbar style="margin-top: 1px;">
+        <p:toolbarGroup align="left">
+            <p:commandButton value="New"
+                             icon="ui-icon-plus" 
+                             update=":addressForm"
+                             title="Add new address"
+                             oncomplete="addressFormDialog.show();"
+                             actionListener="#{clientManager.createNewAddress}" 
+                             process="@this" >
 
-        <p:resetInput target=":addressForm" />
+                <p:resetInput target=":addressForm" />
 
-    </p:commandButton>
+            </p:commandButton>
+        </p:toolbarGroup>
+    </p:toolbar>
 </html>
 
 

@@ -64,7 +64,7 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:selectBooleanCheckbox>            
             <p:tooltip for="autoGenerate" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
-           
+
 
         </h:panelGroup>
 
@@ -121,10 +121,9 @@ Email: info@dpbennett.com.jm
                             forceSelection="true"
                             completeMethod="#{App.completeClient}" >
 
-                <ui:remove>
-                    <f:attribute name="clientBillingAddressId" value="#{jobManager.currentJob.billingAddress.id}" />
-                    <f:attribute name="clientContactId" value="#{jobManager.currentJob.contact.id}" />
-                </ui:remove>
+                <f:attribute name="clientBillingAddressId" value="#{jobManager.currentJob.billingAddress.id}" />
+                
+                <f:attribute name="clientContactId" value="#{jobManager.currentJob.contact.id}" />
 
                 <p:ajax event="itemSelect"
                         update="clientContact,billingAddress,editClientButton"

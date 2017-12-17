@@ -23,18 +23,22 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-    <p:commandButton value="New"
-                     icon="ui-icon-plus" 
-                     title="Add new contact"
-                     update=":contactForm"
-                     oncomplete="contactFormDialog.show();"
-                     actionListener="#{clientManager.createNewContact}" 
-                     process="@this" >
 
-        <p:resetInput target=":contactForm" />
+    <p:toolbar style="margin-bottom: 1px;">
+        <p:toolbarGroup align="left">
+            <p:commandButton value="New"
+                             icon="ui-icon-plus" 
+                             title="Add new contact"
+                             update=":contactForm"
+                             oncomplete="contactFormDialog.show();"
+                             actionListener="#{clientManager.createNewContact}" 
+                             process="@this" >
 
-    </p:commandButton>
+                <p:resetInput target=":contactForm" />
 
+            </p:commandButton>
+        </p:toolbarGroup>
+    </p:toolbar> 
 
     <p:dataTable id="contactsTable"
                  var="contact"                                 
@@ -98,17 +102,22 @@ Email: info@dpbennett.com.jm
             </p:commandButton>
         </p:column>
     </p:dataTable>
-    <p:commandButton value="New"
-                     icon="ui-icon-plus" 
-                     title="Add new contact"
-                     update=":contactForm"
-                     oncomplete="contactFormDialog.show();"
-                     actionListener="#{clientManager.createNewContact}" 
-                     process="@this" >
+    
+    <p:toolbar style="margin-top: 1px;">
+        <p:toolbarGroup align="left">
+            <p:commandButton value="New"
+                             icon="ui-icon-plus" 
+                             title="Add new contact"
+                             update=":contactForm"
+                             oncomplete="contactFormDialog.show();"
+                             actionListener="#{clientManager.createNewContact}" 
+                             process="@this" >
 
-        <p:resetInput target=":contactForm" />
+                <p:resetInput target=":contactForm" />
 
-    </p:commandButton>
+            </p:commandButton>
+        </p:toolbarGroup>
+    </p:toolbar> 
 </html>
 
 

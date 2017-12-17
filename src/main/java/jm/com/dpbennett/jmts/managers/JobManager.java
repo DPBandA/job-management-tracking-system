@@ -727,6 +727,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 }
                 break;
             default:
+                if (!tabId.equals("jobDetailTab") && mainTabView.isTabRendered("jobDetailTab")) {
+                    financeManager.setEnableOnlyPaymentEditing(false);
+                    mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
+                    if (isDirty()) {
+                        PrimeFacesUtils.addMessage("Job Not Saved!", "The recently opened job was edited but not saved", FacesMessage.SEVERITY_WARN);
+                        RequestContext.getCurrentInstance().update("headerForm:growl3");
+                    }
+                }
                 break;
         }
 
@@ -735,14 +743,19 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void onMainViewTabChange(TabChangeEvent event) {
         String tabId = ((MainTab) event.getData()).getId();
 
-        if (!tabId.equals("jobDetailTab") && mainTabView.isTabRendered("jobDetailTab")) {
-            financeManager.setEnableOnlyPaymentEditing(false);
-            mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
-            if (isDirty()) {
-                PrimeFacesUtils.addMessage("Job Not Saved!", "The recently opened job was edited but not saved", FacesMessage.SEVERITY_WARN);
-                RequestContext.getCurrentInstance().update("headerForm:growl3");
-            }
+        switch (tabId) {
+            default:
+                if (!tabId.equals("jobDetailTab") && mainTabView.isTabRendered("jobDetailTab")) {
+                    financeManager.setEnableOnlyPaymentEditing(false);
+                    mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
+                    if (isDirty()) {
+                        PrimeFacesUtils.addMessage("Job Not Saved!", "The recently opened job was edited but not saved", FacesMessage.SEVERITY_WARN);
+                        RequestContext.getCurrentInstance().update("headerForm:growl3");
+                    }
+                }
+                break;
         }
+
     }
 
     public void closeJobDetailTab() {
@@ -999,8 +1012,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (checkJobEntryPrivilege(em, context)) {
             createJob(em, false);
             initManagers();
+            PrimeFacesUtils.addMessage("New Job Created", "Please enter the required fields for this job", FacesMessage.SEVERITY_INFO);
             mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
-            context.update("mainTabViewForm:mainTabView:jobFormTabView");
+            context.update("mainTabViewForm:mainTabView:jobFormTabView,headerForm:growl3");
             context.execute("jobFormTabVar.select(0);");
         }
 
