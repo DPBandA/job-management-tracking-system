@@ -706,16 +706,30 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void onMainViewTabClose(TabCloseEvent event) {
 
+        // Set render state of tab being closed
         String tabId = ((MainTab) event.getData()).getId();
         mainTabView.renderTab(getEntityManager1(), tabId, false);
 
-        // Select the jobs tab if the job detail tab was closed
-        if (tabId.equals("jobDetailTab")) {
-            financeManager.setEnableOnlyPaymentEditing(false);
-            if (isDirty()) {
-                PrimeFacesUtils.addMessage("Job Not Saved!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
-            }
+        // Close other tabs and take other actions as necessary
+        switch (tabId) {
+            case "jobDetailTab":
+                financeManager.setEnableOnlyPaymentEditing(false);
+                if (isDirty()) {
+                    PrimeFacesUtils.addMessage("Job Not Saved!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
+                }
+                break;
+            case "jobsTab":
+                // Close job detail tab
+                mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
+                financeManager.setEnableOnlyPaymentEditing(false);
+                if (isDirty()) {
+                    PrimeFacesUtils.addMessage("Job Not Saved!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
+                }
+                break;
+            default:
+                break;
         }
+
     }
 
     public void onMainViewTabChange(TabChangeEvent event) {

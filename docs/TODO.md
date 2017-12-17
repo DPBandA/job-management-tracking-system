@@ -20,10 +20,10 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
+- If Job Detail tab is not the active tab and it is open then close it.
 - Use toolbar at top/bottom of every dialog and tab...do client dialog, address dialog, 
   contact dialog, job sample dialogs. 
   Put toolbar at top and bottom where it makes sense.
-- Put "Job Search" at top of search parameters.
 - Put client search and client status in menu.
 - The "Reports" button in the dashboard and tools menu shows the busy wait indefinitely when
   the reports tab is already showing. The tab is also not selected. Fix!.
