@@ -16,216 +16,16 @@
 - In my.cnf add the following for mysql 5.7 >= to remove ONLY_FULL_GROUP_BY :
 [mysqld]
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+- Deactivate all ERROR* or [Error* clients.
 
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- Display growl when new job is created.
-- Make the creation of at least one address and one contact mandatory for 
-  creating new clients. Do validation of address and contact in client validation.
-- Add parentJobId to Job and use it to find subcontracts for the purpose of pulling
-  in costs for subcontracts.
-- Check the return value from prepareAndSaveCurrentJob() and display message 
-  based on success or failure. 
-- Impl copy and delete sample within the sample dialog.
-- Do validation of billing address and contact in prepareAndSaveCurrentJob()
-  before saving.
-- Export sample condition(s) to service contract.
-- Remove unused dialogs.
-- Put all statics lists as system options like the "workProgressList" option.
-- Restrict generation of service contract to an authorized person/department?
-- Remove the <ui:include /> from top of index.xhtml and put them in their
-  respective *Tab or other files. This may make the index.xhtml file smaller
-  and reduce load time.
-- Put client ID# (TRN etc.) into service contract?
-- Put button in service contract tab to generate service contract.
-- Try to fill in billing address and contact when new client is selected??
-- MainTabView and MainTab to be put in BEL so they can be used by other modules
-  that are developed independently of the JMTS.
-- In System Admin List all by default.  
-- Service Contract: “The contract is exporting date entered as the date submitted as well” this is from Garfield check it out.
-- Create autocomplete list of "standard/common" product names using a "Distinct"
-  type of the query on the existing samples.
-- Move all code dealing with authorization and privileges from JM to JMUser.
-- Fill in billing address and main contact of a client of the billing adddress
-  and contact fields of the job record are not valid eg blank??
-- Add default dept. in Report class.
-- Add parentSector to Sector class and add Sub-sector to Groupings tab. Sub-sectors
-  would be those that have a parent sector.
-- Move costing and payment features from JM to AccountingManager?
-- Add descriptions of grouping items to in "Groupings" tab.
-- For jasper reports fill in parameters such as images from configuration values stored in the database.
-- Move code dealing with Accpac, costing etc to AccountingManager.
-- Put job number in tab title...in brackets. Update the tab when something that 
-  affects the job number changes.
-- Put all complete*() methods in their respective entity classes and call them
-  from the Application class.
-- Add privilege to a user to control which job view can be seen?
-- Impl job backup as is done with samples and job edit cancelling and change
-  "close" button to "Cancel" button.
-- Change label Department* to Parent department* when job is subcontracted.
-- Add user/department privilege to add payments.
-- Do search when respective tab with search results table is selected for the 
-  System/Finance add min tabs.
-- Add search fields and dialogs where they don't exist. Impl find* methods that 
-  take "active" as argument and add checkbox to show/hide active objects.  
-- Put Application class in BEL for reuse by managers and other code.
-- Call JM init() to reset search results etc when user logs out.
-- Remove access to JobManager from SearchManager and implement access to it to similar
-  to how it's done with ClientManager.
-- Show message to the user if they login without being authenticated.
-- Check that if "authenticate" is unchecked ti does not allow the login of other
-  users with "authenticate"checked!!
-- Impl adding new country if from within the respective dialog if the country is
-  not in the list. Only user with privilege should be able to do this. Do not 
-  allow adding country if it already exist.
-- Remove all code that does not belong to JM to BEL or other manager.
-- Add feature to activate modules/units for users.
-- Use a toolbar at the top of search results on all tabs with search text box,
-  buttons and search result table as is done with the jobs tab.
-- Use parentJob to link contracts with parent jobs and use it to pull 
-  in subcontracts costs?
-- Impl canceling "Saving and Canceling" in all dialogs instead "Saving and Closing".
-  Use the backup and restore method used for samples.
-- Add Business to JobManagerUser. Add blob to Business for storing company logo.
-- Put text box in jobsTab to allow quick filter of search results.
-- Impl. ReportManager and put reporting in own tab.
-- Refactor and rename static methods from findEntityName*() to just find*() where
-  possible.
-- Move complete*() methods where possible from managers to Application.
-- Limit the maximum characters to be entered into a text field to 50. Put this
-  value in the BEL resource bundle which can be changed. Allow various maximums
-  for different types of fields.
-- Impl. number validator that accepts a minimum value such as 1. This can be used
-  in the sample dialog.
-- Replace handleSaveJobCostingAndPaymentRequest() with growl messages.
-- Replace dialog messages that have on "ok" button with growl messages.
-- Make all sensitive fields, especially those on the General tab unchangeable
-  except by system admin after a job has been saved. Use field groups with 
-  input and output fields as is done with the job number. 
-- Check if new clients can be created even without privilege.
-- Implement "isdirty" for client, contact, address and do shallow copy when they
-  change?
-- Samples table not updated after adding sample.
-- For job search let My Department job be the defaut.
-- Test out creating a new default client. Clean up client search and ensure 
-  consistency when doing search with ignoring case and part of client being searched.
-- Implement selectTab(index) in javascript that selects a tab based on the 
-  the number of tabs in the tabview and the default index position of the tab
-  as defined in index.html.
-- Modify updateEntity methods to not find the entity by name cause that's already
-  done by the respective converters.
-- Fix the use status displayed to show who is logged into the system.
-- Create separate login page instead of using login dialog?
-- Remove client dialog and put as closable tab.
-- Show control panel when a tab is open of this is applicable.
-- Check what happens if mainTabViewVar.select(0) is called and no tab is visible.
-- Implement checkboxes in user menu to allow activating modules and showing windows.
-- Create dialogs for classification instead of just adding a row in the table.  
-- Revisit admin dialogs and fix autocomplete scroll height, converters and validators.
-  Ensure the prevention of creating duplicate objects such as employees with the same name.
-- Move all "save and create" methods from JobManager to their respective entities
-- Change discount combobox to a menu.
-- Look to move fields and methods from JobManager in the entities such as Job.
-- Rename "Advanced Search" panel to something more general.
-- Put Job Costing dialog in own tab.
-- Create Home screen showing user's jobs, departmental job etc.
-- Display message when user logs on without authentication
-- Make country of origin autocomplete.
-- Redesign as group RESTFul web services (eg CRM, HRM) that are accessed by light weigh user interfaces
-- For job/survey and other search just return the values needed for the table display and not the entire job/survey record. This requires less bandwidth.
-- Implement data backup from one database to another ie database replication.
-- Get rid of use of "--" as placeholder objects and fields
-- Move JobManager and all other beans to BEL?
-- Replace names such as BSJ/Bureau of Standards and images with system options.
-- Fix up ServiceManager to use ClientManager the way it is used by JobManager
-- Separate address and contact dialogs into separate files and include them
-  into the clientForm.xml file as required. This is allow the contact and address
-  dialogs to be used independently.
-- Use validators outside of UI and implement validate() for relevant entities
-  such as client.
-- Use validators and growl to ensure display validation message consistency.
-- Put cancel button on contact and address dialogs.
-- Put every form in its on file.
-- Impl. the following using primefaces dialog framework: loginDialog, 
-  accPacClientInformationDialog, reportingDialog, jobSampleDialogs, jobDialog,
-  jobCostingDialogs, preferencesDialog, cashPaymentDialog
-- Change the Search combos to p:selectonemenu.
-- Add privileges to add address/contact?
-- Upgrade to latest primefaces if possible.
-- Redesign layout with dashboard component?
-- Merge Main and Application...Use just Application. May be get rid of both.
-- Make System Admin tab closable.
-- Make jobs tab closable but remember the JS call mainTabViewVar.select(0); that
-  may cause problems.
-- Show a summarized version of a completed job that does not allow editing. 
-  Create a separate job detail tab for this?
-- Check why <p:remoteCommand name="doJobSampleCopy"> is used and if copy sample
-  can be done without using a remote command.
-- Do not allow creating client that already exist. Use client validator.
-- Implement display of message when converter fails.
-- Implement dynamically hide/show "Jobs" tab based on search. Allow closing the
-  tab.
-- Use the "Advanced Search" panel for other purposes depending on what is selected
-  in the "Central" layout unit. Change the heading from "Advanced Search" to 
-  reflect its purpose.
-- Implement "Quick Search" for data list tables. Collapse "Advanced Search" for
-  for tabs that does not use advance search.
-- Add button for the creation of new objects such as jobs in the control panel
-  based on the active tab.
-- Put "Reports/Queries" in separate tab called "Reports" and put in user menu
-- Look at Garfield's design images on google docs for ideas.
-- Design a favicon and make it system option.
-- Try to put all styles as styleClass and put into index.css
-- Print service contract for only external client jobs??
-- Upgrade to Primefaces 6.x to take advantage of responsive design, new features
-  and components.
-- Use <link rel="shortcut icon" type="image/x-png" href="images/favicon.png" /> 
-  to add favicon when one is designed.
-- NB: JobManagerUser represents a user profile that has a Business, 
-  department, employee and privileges assigned. Departments also have privileges
-  and the user privileges along with the user privileges are used to determine
-  the effective privileges of the user.
-- Add department to user dialog.
-- Make TRN mandatory? Put system option to validate?
-- Reset all UI when log out including searches results so that if a new user 
-  logs in they will not see the searches of the previous user.
-- Implement searching for users that are not authenticated.
-- Show warning message when "authenticate" is unchecked.
-- Create netbeans module for installing the JMTS and adding modules.
-- Consider jmts.cloud, .co, .online as domains.
-- If user is not being authenticated use default password?
-- Remove first/lastname from JM user and use only employee first/lastname.
-- Create Task entity and associate tasks with a job.
-- Impl Module class that is used to register modules. Field would include the
-  tab ids associated with the module. Eventually the *Unit fields in JobManagerUser
-  would be name *Module eg standardComplianceModule.
-- Add date edited and by whom in Client.
-- get(index) is used to get the main phone and fax numbers for a contact. This
-  method may result in the returning of the right number for fax or phone so
-  use the type field to solve this.
-- Update system admin tables when values change.
-- Do shallow copy of client, billing address and contact before saving job to 
-  ensure that future edits of the client's name, billing address and contact
-  do not affect the job record?
-- Test and fix up report dialog...create ReportManager and change it to a tab.
-- Some report templates are given in system options while others are given
-  in Report table. Given all of them in Report table and delete the system options
-  over time.
-- Put job costing dialog in panel.
-- Disable "Approved" and Invoiced buttons in job costing control panel if
-  person is not authorized.
-- Convert job costing dialog to tab?
-- Store tab and tabview information in database (eg MainTab, MainTabView) 
-  in database.
-- See if set/get* methods that refer to currentJob methods can be removed.
-  Eg. currentJob.getServiceContract().setIntendedMarketOther().
-- Add chat feature. Allow person to add their image to their user profile?
-- User an "iterative" JSF component to implement the display of tabs and use
-  collections to initialize the tabs.
-- Use tooltip component to get consistent tooltip across the app.
+- Validate billing address and contact for valid/non-blank text.
 
 #### Job Costing & Payment
+- Add parentJobId to Job and use it to find subcontracts for the purpose of pulling
+  in costs for subcontracts.
 - Impl saving job costing and updating the job costing table
   * Impl saving within job costing dialog. Do automatic job save as is done with
     samples. Change "Save" to "Ok" and close dialog when clicked. 
@@ -289,7 +89,6 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - Implement prevention of the insertion of incorrect subcontract jobs costing 
   Amounts which sometimes occur when the date of submission of a parent job is changed
   Use parentJobId in the subcontract to solve this?
-- Remove payeeFirst/Lastname and put contact/person.
 - When subcontracted department is deleted and the job form is closed,
   the subcontracted department field disappears when the form is reopened. Fix!
 - This was commented out of ClientManager: 
@@ -364,6 +163,101 @@ paymentTerms, rename JMTSUserId to userId
   privileges should be checked before doing so.
 - If a new job is being created and the currently opened job is unclean then prompt
   to save it.
+- Impl multiple selection in client tab so that the selected clients can be activated
+  or deactivated fro example.
+- Indicate in the tab title if a form such as the Job Detail form has been edited.
+- Impl copy and delete sample within the sample dialog.
+- Use tooltip component to get consistent tooltip across the app.
+- User an "iterative" JSF component to implement the display of tabs and use
+  collections to initialize the tabs.
+- Add chat feature. Allow person to add their image to their user profile.
+- Some report templates are given in system options while others are given
+  in Report table. Given all of them in Report table and delete the system options
+  over time.
+- Do shallow copy of client, billing address and contact before saving job to 
+  ensure that future edits of the client's name, billing address and contact
+  do not affect the job record?
+- get(index) is used to get the main phone and fax numbers for a contact. This
+  method may result in the returning of the right number for fax or phone so
+  use the type field to solve this.
+- Consider jmts.cloud, .co, .online as domains.
+- Create netbeans module for installing the JMTS and adding modules.
+- Implement searching for users that are not authenticated.
+- Print service contract for only external client jobs??
+- Upgrade to Primefaces 6.x to take advantage of responsive design, new features
+  and components.
+- Use <link rel="shortcut icon" type="image/x-png" href="images/favicon.png" /> 
+  to add favicon when one is designed.
+- NB: JobManagerUser represents a user profile that has a Business, 
+  department, employee and privileges assigned. Departments also have privileges
+  and the user privileges along with the user privileges are used to determine
+  the effective privileges of the user.
+- Add department to user dialog.
+- Make TRN mandatory? Put system option to validate?
+- Reset all UI when log out including searches results so that if a new user 
+  logs in they will not see the searches of the previous user.
+- Try to put all styles as styleClass and put into index.css?
+- Look at Garfield's design images on google docs for ideas.
+- Design a favicon and make it system option.
+- Display message when user logs on without authentication
+- Export sample condition(s) to service contract?
+- Restrict generation of service contract to an authorized person/department?
+- Put client ID# (TRN etc.) into service contract?
+- Put button in service contract tab to generate service contract.
+- In System Admin List all by default.  
+- Create autocomplete list of "standard/common" product names using a "Distinct"
+  type of the query on the existing samples.
+- Add default dept. in Report class.
+- Add parentSector to Sector class and add Sub-sector to Groupings tab. Sub-sectors
+  would be those that have a parent sector.
+- Add descriptions of grouping items to in "Groupings" tab.
+- For jasper reports fill in parameters such as images from configuration values stored in the database.
+- Put job number in tab title...in brackets. Update the tab when something that 
+  affects the job number changes.
+- Add privilege to a user to control which job view can be seen?
+- Impl job backup as is done with samples and job edit cancelling and change
+  "close" button to "Cancel" button.
+- Change label Department* to Parent department* when job is subcontracted.
+- Add user/department privilege to add payments.
+- Add search fields and dialogs where they don't exist. Impl find* methods that 
+  take "active" as argument and add checkbox to show/hide active objects.  
+- Put Application class in BEL for reuse by managers and other code?
+- Call JM init() to reset search results etc when user logs out.
+- Remove access to JobManager from SearchManager and implement access to it to similar
+  to how it's done with ClientManager.
+- Show message to the user if they login without being authenticated.
+- Check that if "authenticate" is unchecked it does not allow the login of other
+  users with "authenticate"checked!!
+- Impl adding new country if from within the respective dialog if the country is
+  not in the list. Only user with privilege should be able to do this. Do not 
+  allow adding country if it already exist.
+- Add feature to activate modules/units for users.
+- Use a toolbar at the top of search results on all tabs with search text box,
+  buttons and search result table as is done with the jobs tab.
+- Use parentJob to link contracts with parent jobs and use it to pull 
+  in subcontracts costs?
+- Impl canceling "Saving and Canceling" in all dialogs instead "Saving and Closing".
+  Use the backup and restore method used for samples.
+- Add Business to JobManagerUser. Add blob to Business for storing company logo.
+- Put text box in jobsTab to allow quick filter of search results.
+- Refactor and rename static methods from findEntityName*() to just find*() where
+  possible.
+- Move complete*() methods where possible from managers to Application.
+- Limit the maximum characters to be entered into a text field to 50. Put this
+  value in the BEL resource bundle which can be changed. Allow various maximums
+  for different types of fields.
+- Impl. number validator that accepts a minimum value such as 1. This can be used
+  in the sample dialog.
+- Replace dialog messages that have only "ok" button with growl messages.
+- Make all sensitive fields, especially those on the General tab unchangeable
+  except by system admin after a job has been saved. Use field groups with 
+  input and output fields as is done with the job number. 
+- Check if new clients can be created even without privilege.
+- For job search let My Department job be the default.
+- Create separate login page instead of using login dialog?
+- Create dialogs for classification instead of just adding a row in the table.  
+- Revisit admin dialogs and fix autocomplete scroll height, converters and validators.
+  Ensure the prevention of creating duplicate objects such as employees with the same name.
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

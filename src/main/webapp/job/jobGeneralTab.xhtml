@@ -122,18 +122,21 @@ Email: info@dpbennett.com.jm
                             completeMethod="#{App.completeClient}" >
 
                 <f:attribute name="clientBillingAddressId" value="#{jobManager.currentJob.billingAddress.id}" />
-                
+
                 <f:attribute name="clientContactId" value="#{jobManager.currentJob.contact.id}" />
+
 
                 <p:ajax event="itemSelect"
                         update="clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
-                <p:ajax event="change"
-                        update="clientContact,billingAddress,editClientButton"
-                        listener="#{jobManager.updateJobEntryTabClient}"
-                        process="@this"/>   
+                <ui:remove>
+                    <p:ajax event="change"
+                            update="clientContact,billingAddress,editClientButton"
+                            listener="#{jobManager.updateJobEntryTabClient}"
+                            process="@this"/>
+                </ui:remove>
 
             </p:autoComplete>                    
             <p:spacer height="0" width="0"/>
@@ -180,10 +183,13 @@ Email: info@dpbennett.com.jm
                     update=":mainTabViewForm:mainTabView:growl2"
                     process="@this" />   
 
-            <p:ajax event="change"
-                    listener="#{jobManager.updateJob}"                                        
-                    update=":mainTabViewForm:mainTabView:growl2"
-                    process="@this" />               
+            <ui:remove>
+                <p:ajax event="change"
+                        listener="#{jobManager.updateJob}"                                        
+                        update=":mainTabViewForm:mainTabView:growl2"
+                        process="@this" />               
+            </ui:remove>
+
         </p:autoComplete>
 
         <h:outputText value="Contact *:" style="font-weight: bold" />  

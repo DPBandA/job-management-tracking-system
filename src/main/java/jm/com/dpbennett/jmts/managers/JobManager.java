@@ -1695,7 +1695,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     + "Please contact the IT/MIS Department for further assistance.",
                     FacesMessage.SEVERITY_ERROR);
         }
-
+       
     }
 
     public Boolean checkJobEntryPrivilege(EntityManager em, RequestContext context) {
@@ -2152,6 +2152,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (useAccPacCustomerList) {
             financeManager.updateCreditStatus(null);
         }
+        
+        // tk
+        System.out.println("billing addr: " + currentJob.getClient().getBillingAddress());
+        System.out.println("contact: " + currentJob.getClient().getMainContact());
 
         currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
         currentJob.setContact(currentJob.getClient().getMainContact());
