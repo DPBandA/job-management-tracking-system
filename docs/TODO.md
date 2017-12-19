@@ -1,5 +1,6 @@
 ## Things to do
 ### PENDING LIVE DATABASE ALTERATIONS:
+- Add: parent (ie PARENT_ID to Job class and table)
 - Add: discount, discountType, paymentTerms to CASHPAYMENT table
 - Rename: rename JMTSUserId to userId in CASHPAYMENT??
 - Add: BILLINGADDRESS_ID, CONTACT_ID to Job table (for billing address, contact)
@@ -18,14 +19,10 @@
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 - Deactivate all ERROR* or [Error* clients.
 
+
 ================================================================================
 ### Issues to Address for Next Release
-#### Misc
-- Validate billing address and contact for valid/non-blank text.
-
 #### Job Costing & Payment
-- Add parentJobId to Job and use it to find subcontracts for the purpose of pulling
-  in costs for subcontracts.
 - Impl saving job costing and updating the job costing table
   * Impl saving within job costing dialog. Do automatic job save as is done with
     samples. Change "Save" to "Ok" and close dialog when clicked. 

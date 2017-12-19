@@ -648,7 +648,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 getCurrentJob().getJobCostingAndPayment().setInvoiced(false);
                 displayCommonMessageDialog(null, "This job costing cannot be marked as being invoiced because it is not prepared/approved", "Not prepared/Approved", "alert");
             } else {
-                setDirty(true);
+                setJobCostingAndPaymentDirty(true);
             }
         } else {
             displayCommonMessageDialog(null, "You do not have permission to change the invoiced status of this job costing.", "Permission Denied", "alert");
@@ -706,7 +706,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobCostingAndPayment() {
-        setDirty(true);
+        setJobCostingAndPaymentDirty(true);
     }
 
     // tk rename this method
@@ -716,7 +716,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         //updateJobCostings(); // tk needed here?
         updateJobCostingEstimate();
 
-        setDirty(true);
+        setJobCostingAndPaymentDirty(true);
     }
 
     public Boolean getJobHasSubcontracts() {
@@ -766,7 +766,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
             displayCommonMessageDialog(null, "Removing the content of a required field has invalidated this job costing", "Invalid Job Costing", "info");
         } else {
-            setDirty(true);
+            setJobCostingAndPaymentDirty(true);
         }
     }
 
@@ -796,7 +796,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
             //sendJobCostingCompletedEmail = true;
-            setDirty(true);
+            setJobCostingAndPaymentDirty(true);
         }
     }
 
@@ -837,7 +837,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 setJobCostingDate(date);
                 getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(date);
                 //sendJobCostingApprovedEmail = true;
-                setDirty(true);
+                setJobCostingAndPaymentDirty(true);
             }
         } else {
             setJobCostingDate(null);
@@ -972,7 +972,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void closeJobCostingDialog() {
         // Redo search to reloasd stored jobs including
         // prompt to save modified job before attempting to create new job
-        if (isDirty()) {
+        if (isJobCostingAndPaymentDirty()) {
             RequestContext context = RequestContext.getCurrentInstance();
             context.update("jobCostingSaveConfirmDialogForm");
             context.execute("jobCostingSaveConfirm.show();");
@@ -1382,7 +1382,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void updateAmountDue() {
         currentJob.getJobCostingAndPayment().setAmountDue(currentJob.getJobCostingAndPayment().calculateAmountDue());
-        setDirty(true);
+        setJobCostingAndPaymentDirty(true);
     }
 
     public Boolean getCanApplyGCT() {
@@ -1415,7 +1415,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         setJobCostingDate(selectedDate);
 
-        setDirty(true);
+        setJobCostingAndPaymentDirty(true);
     }
 
     public List<JobCostingAndPayment> completeJobCostingAndPaymentName(String query) {
@@ -1483,14 +1483,21 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     @Override
-    public void setDirty(Boolean dirty) {
-        // tk set job costing and payment dirty instead
-        getCurrentJob().setIsDirty(dirty);
+    public void setDirty(Boolean dirty) {        
+        getCurrentJob().getJobCostingAndPayment().setIsDirty(dirty);
     }
 
     @Override
     public Boolean isDirty() {
-        return getCurrentJob().getIsDirty();
+        return getCurrentJob().getJobCostingAndPayment().getIsDirty();
+    }
+    
+    public void setJobCostingAndPaymentDirty(Boolean dirty) {        
+        getCurrentJob().getJobCostingAndPayment().setIsDirty(dirty);
+    }
+    
+     public Boolean isJobCostingAndPaymentDirty() {
+        return getCurrentJob().getJobCostingAndPayment().getIsDirty();
     }
 
     public void updateCurrentUnitCostDepartment() {
@@ -1727,7 +1734,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 currentJob.getJobCostingAndPayment().getCostComponents().clear();
                 currentJob.getJobCostingAndPayment().setCostComponents(copyCostComponents(jcp.getCostComponents()));
                 currentJob.getJobCostingAndPayment().calculateAmountDue();
-                setDirty(true);
+                setJobCostingAndPaymentDirty(true);
             } else {
                 // Nothing yet
             }

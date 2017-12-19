@@ -121,22 +121,10 @@ Email: info@dpbennett.com.jm
                             forceSelection="true"
                             completeMethod="#{App.completeClient}" >
 
-                <f:attribute name="clientBillingAddressId" value="#{jobManager.currentJob.billingAddress.id}" />
-
-                <f:attribute name="clientContactId" value="#{jobManager.currentJob.contact.id}" />
-
-
                 <p:ajax event="itemSelect"
                         update="clientContact,billingAddress,editClientButton"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
-
-                <ui:remove>
-                    <p:ajax event="change"
-                            update="clientContact,billingAddress,editClientButton"
-                            listener="#{jobManager.updateJobEntryTabClient}"
-                            process="@this"/>
-                </ui:remove>
 
             </p:autoComplete>                    
             <p:spacer height="0" width="0"/>

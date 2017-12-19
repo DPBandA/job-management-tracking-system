@@ -43,90 +43,9 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>  
         <h:form id="jobCostingDialogForm">  
-            <p:toolbar>
-                <p:toolbarGroup align="left" >  
-                    <p:commandButton value="Save"
-                                     disabled="#{financeManager.completed}"
-                                     onstart="longProcessDialogVar.show();"
-                                     actionListener="#{financeManager.validateJobCostingAndSaveJob}"                         
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     icon="ui-icon-check"
-                                     process="@this"/>
-                    <p:spacer width="10"/>
-                    <p:commandButton value="Close"
-                                     onstart="longProcessDialogVar.show();"
-                                     actionListener="#{financeManager.closeJobCostingDialog}"                         
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     icon="ui-icon-close"
-                                     process="@this"/>
-                    <p:spacer width="10"/>                    
-                    <h:panelGroup>
-                        <p:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.costingCompleted}" 
-                                                 id="prepared"
-                                                 style="vertical-align: bottom;"
-                                                 disabled="#{financeManager.completed}" 
-                                                 itemLabel="Prepared" >
-                            <p:ajax global="false" 
-                                    listener="#{financeManager.completeJobCosting}"
-                                    update="@this,exportJobCostingButton1"
-                                    process="@this"/>
-                        </p:selectBooleanCheckbox>
-                        <p:tooltip for="prepared" value="Check to indicate that this job costing was prepared completely" showEffect="fade" hideEffect="fade" />
-                    </h:panelGroup>
-                    <p:spacer width="10"/>
-                    <h:panelGroup>
-                        <p:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.costingApproved}"  
-                                                 id="approved"
-                                                 style="vertical-align: bottom;"
-                                                 itemLabel="Approved" >
-                            <p:ajax global="false"
-                                    listener="#{financeManager.approveJobCosting}"
-                                    update="costComponentsPanel,:jobCostingDialogForm:costingDate,@this,exportJobCostingButton1"
-                                    process="@this"/>
-                        </p:selectBooleanCheckbox>
-                        <p:tooltip for="approved" value="Check to indicate that this job costing was approved" showEffect="fade" hideEffect="fade" />
-                    </h:panelGroup>
-                    <p:spacer width="10"/>
-                    <h:panelGroup>
-                        <p:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.invoiced}"
-                                                 id="invoiced"
-                                                 style="vertical-align: bottom;"
-                                                 itemLabel="Invoiced" >
-                            <p:ajax global="false"                        
-                                    listener="#{financeManager.invoiceJobCosting}"
-                                    update="@this"
-                                    process="@this"/>
-                        </p:selectBooleanCheckbox>
-                        <p:tooltip for="invoiced" value="Check to indicate that an invoice was done for this job costing" showEffect="fade" hideEffect="fade" />           
-                    </h:panelGroup>   
-                    <p:spacer width="10"/>
-                    <h:panelGroup>
-                        <p:spacer height="0" width="5"/>
-                        <p:commandButton value="Export"  
-                                         id="exportJobCostingButton1"
-                                         disabled="#{financeManager.canExportJobCosting}"
-                                         immediate="true"
-                                         title="Export job costing"                        
-                                         ajax="false"
-                                         onclick="longProcessDialogVar2.show();">
-                            <p:fileDownload value="#{financeManager.jobCostingFile}" />
-                        </p:commandButton>
-                    </h:panelGroup>
-
-                </p:toolbarGroup>
-                <p:toolbarGroup align="right" >  
-                    <h:panelGroup>
-                        <p:spacer height="0" width="5"/>
-                        <p:commandButton value="Save costings as template"
-                                         update=":jobCostingTemplateNameDialogForm"
-                                         oncomplete="jobCostingTemplateNameDialog.show();"
-                                         title="Save costings as a template for reuse in another job costing"                        
-                                         ajax="true">           
-
-                        </p:commandButton>
-                    </h:panelGroup>
-                </p:toolbarGroup>
-            </p:toolbar>            
+            
+            <ui:include src="jobCostingDialogToolbar.xhtml"/> 
+            
             <p:panel header="General Information">
                 <h:panelGrid columns="3">
                     <h:outputText value="Department:" style="font-weight: bold; width: 30%" />
