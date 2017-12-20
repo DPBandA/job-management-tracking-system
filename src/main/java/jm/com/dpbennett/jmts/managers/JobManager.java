@@ -492,9 +492,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
                     dashboard.reset(user);
                     mainTabView.reset(user);
-
-                    updateAllForms(context);
-
                 }
 
             } else {
@@ -504,6 +501,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
 
             em.close();
+
+            updateAllForms(context);
         } catch (Exception e) {
             System.out.println(e);
             logonMessage = "Login error occured! Please try again or contact the System Administrator";
@@ -521,11 +520,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     private void updateAllForms(RequestContext context) {
         context.update("dashboardForm");
+        context.update("mainTabViewForm");
         context.update("headerForm");
-        dashboard.update("mainTabViewForm:mainTabView");
-        dashboard.update("dashboardForm:dashboardAccordion");
-        dashboard.select(0);
         context.update("loginForm");
+        dashboard.select(0);
+
     }
 
     public void logout() {
@@ -538,8 +537,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         logonMessage = "Please provide your login details below:";
         user = new JobManagerUser();
 
-        updateAllForms(context);
-
         // Hide search layout unit if initially shown
         if (!westLayoutUnitCollapsed) {
             westLayoutUnitCollapsed = true;
@@ -548,7 +545,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Unrender all tabs
         dashboard.removeAllTabs();
+        dashboard.setRender(false);
         mainTabView.removeAllTabs();
+        mainTabView.setRender(false);
+
+        updateAllForms(context);
 
         context.execute("loginDialog.show();longProcessDialogVar.hide();PrimeFaces.changeTheme('" + getUser().getUserInterfaceThemeName() + "');");
 
@@ -1695,7 +1696,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     + "Please contact the IT/MIS Department for further assistance.",
                     FacesMessage.SEVERITY_ERROR);
         }
-       
+
     }
 
     public Boolean checkJobEntryPrivilege(EntityManager em, RequestContext context) {
@@ -2152,7 +2153,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (useAccPacCustomerList) {
             financeManager.updateCreditStatus(null);
         }
-        
+
         // tk
         System.out.println("billing addr: " + currentJob.getClient().getBillingAddress());
         System.out.println("contact: " + currentJob.getClient().getMainContact());

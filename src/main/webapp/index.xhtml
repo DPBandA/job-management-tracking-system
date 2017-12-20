@@ -127,7 +127,8 @@ Email: info@dpbennett.com.jm
 
                 <h:form id="mainTabViewForm">                    
 
-                    <p:tabView id="mainTabView"                                                             
+                    <p:tabView id="mainTabView"   
+                               rendered="#{jobManager.mainTabView.render}"
                                value="#{jobManager.mainTabView.tabs}" 
                                var="tab"                                
                                onTabShow="longProcessDialogVar.hide();"
@@ -143,6 +144,7 @@ Email: info@dpbennett.com.jm
                                 immediate="true"
                                 process="@this"                                
                                 listener="#{jobManager.onMainViewTabChange}" />  
+                        
 
                         <p:tab title="#{tab.name}" closable="true"  >
                             <h:panelGroup rendered="#{tab.renderJobsTab}">                                
@@ -197,7 +199,7 @@ Email: info@dpbennett.com.jm
                                       value="#{jobManager.dashboard.tabs}" 
                                       var="tab" 
                                       widgetVar="dashboardAccordionVar"
-
+                                      rendered="#{jobManager.dashboard.render}"
                                       multiple="true">
 
                         <p:ajax event="tabChange"       

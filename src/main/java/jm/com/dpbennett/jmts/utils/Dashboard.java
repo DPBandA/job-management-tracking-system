@@ -32,6 +32,7 @@ import org.primefaces.context.RequestContext;
  */
 public class Dashboard implements Serializable {
 
+    private Boolean render;
     private Integer tabIndex;
     private List<DashboardTab> tabs;
     private JobManagerUser user;
@@ -43,6 +44,15 @@ public class Dashboard implements Serializable {
         this.user = user;
         tabs = new ArrayList<>();
         tabIndex = 0;
+        render = false;
+    }
+
+    public Boolean getRender() {
+        return render;
+    }
+
+    public void setRender(Boolean render) {
+        this.render = render;
     }
 
     public void update(String componentId) {
@@ -213,18 +223,16 @@ public class Dashboard implements Serializable {
 
     public void reset(JobManagerUser user) {
         this.user = user;
+        // Remove all
+        removeAllTabs();
         // Construct tabs
         init();
         // Add tabs
         if (getUser().getJobManagementAndTrackingUnit()) {
             tabs.add(jobsTab);
         }
-//        if (getUser().getFinancialAdminUnit()) {
-//            tabs.add(financialAdminTab);
-//        }
-//        if (getUser().getAdminUnit()) {
-//            tabs.add(adminTab);
-//        }
+
+        setRender(true);
     }
 
     public List<DashboardTab> getTabs() {

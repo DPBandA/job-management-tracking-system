@@ -32,6 +32,7 @@ import org.primefaces.context.RequestContext;
  */
 public class MainTabView implements Serializable {
 
+    private Boolean render;
     private Integer tabIndex;
     private List<MainTab> tabs;
     private JobManagerUser user;
@@ -48,6 +49,15 @@ public class MainTabView implements Serializable {
         this.user = user;
         tabs = new ArrayList<>();
         tabIndex = 0;
+        render = false;
+    }
+
+    public Boolean getRender() {
+        return render;
+    }
+
+    public void setRender(Boolean render) {
+        this.render = render;
     }
 
     public void update(String componentId) {
@@ -74,8 +84,8 @@ public class MainTabView implements Serializable {
         context.execute("mainTabViewVar.select(" + this.tabIndex + ");");
 
     }
-    
-    public void select(String tabId) {        
+
+    public void select(String tabId) {
         select(getTabIndex(tabId));
     }
 
@@ -120,7 +130,7 @@ public class MainTabView implements Serializable {
 
         return null;
     }
-    
+
     public Boolean isTabRendered(String tabId) {
         return !(findTab(tabId) == null);
     }
@@ -214,7 +224,7 @@ public class MainTabView implements Serializable {
                 default:
                     break;
             }
-            
+
             select(render);
         }
 
@@ -328,7 +338,7 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 false,
-                false,                
+                false,
                 false,
                 getUser().getIsJobCostingsPreferredJobTableView(),
                 getUser());
@@ -336,6 +346,8 @@ public class MainTabView implements Serializable {
 
     public void reset(JobManagerUser user) {
         this.user = user;
+        // Remove all
+        removeAllTabs();
         // Construct tabs
         init();
         // Add tabs
@@ -354,9 +366,29 @@ public class MainTabView implements Serializable {
         if (getUser().getAdminUnit()) {
             tabs.add(adminTab);
         }
+        
+        setRender(true);
     }
 
     public List<MainTab> getTabs() {
+        //return tabs;
+        // tk
+//        if (tabs.isEmpty()) {
+//            MainTab blank = new MainTab(
+//                    "",
+//                    "",
+//                    false,
+//                    false,
+//                    false,
+//                    false,
+//                    false,
+//                    false,
+//                    false,
+//                    false,
+//                    null);
+//            tabs.add(blank);
+//        }
+
         return tabs;
     }
 
