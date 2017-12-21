@@ -22,7 +22,12 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-#### Job Costing & Payment
+#### Misc
+- Impl reset() for all managers and use when user logs out.
+- See if the layout sections can be controlled by rendered="".
+- The Job Search combo boxes do not display properly in Firefox/Chromium browser. It happens
+  when first login. Fix!!
+#### Job Costing
 - Impl saving job costing and updating the job costing table
   * Impl saving within job costing dialog. Do automatic job save as is done with
     samples. Change "Save" to "Ok" and close dialog when clicked. 
@@ -47,7 +52,6 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
   calls directly or indirectly in the Job or JobCostingAndPayment class.
 - Check that all message dialogs in the job costing control panel are displayed
   Replace message dialogs with growl.
-- Payment dialog is displayed on once when the add payment button is pressed.
 - Set user and job when job is being created, edited or subcontracted. Update
   the costing tab and forms to use to reflect changes
 - updateJobCostingAndPayment() and other update methods in FM to update isDirty 
@@ -79,25 +83,14 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
   job record if necessary.
 - Do resetInput when opening job costing dialogs?
 - The "Job Costing Modified" dialog does not have a no button.
-- Check if any of the job costing message dialog close the job detail tab.
-- Create contact field in the job record to assign contact to current job.
-- Try to export service contract and job costing for old jobs that do not have
-  billing address and contact fields set.
 - Implement prevention of the insertion of incorrect subcontract jobs costing 
   Amounts which sometimes occur when the date of submission of a parent job is changed
   Use parentJobId in the subcontract to solve this?
 - When subcontracted department is deleted and the job form is closed,
   the subcontracted department field disappears when the form is reopened. Fix!
-- This was commented out of ClientManager: 
-    //getMain().displayCommonMessageDialog(null, "Please provide at least 1 character for the search text.", "Insufficient Characters", "alert");
-    Find way to get something like this back in without using getMain().
-- Do copy of billing address, contact and client before saving new job. Do
-  not allow changing these fields except by sysadmin. Implement doShallowCopy()
-  for client that does not copy the list of addresses and contacts.
-- Prevent changing of all fields that affect the service contract.
-- Put sys option that controls the changing auto job number generation. Make it
-  unchangeable by default.
-- For user status change Checked in/out to Last checked in "date/time.
+
+#### Cash Payment
+- Payment dialog is displayed on once when the add payment button is pressed.
 - Hide items in user menu if they are not selected in preferences.
 - Implement updateCashPayment() to record updates made to a field and store the updates.
 - Add cash payments feature so cashier can add cash payments.
@@ -136,6 +129,8 @@ paymentTerms, rename JMTSUserId to userId
 * Approve, invoice jobs singly or by batch from the job costings table.
 * Edit exiting and create new clients, contacts and addresses.
 * Test out creation and use of costing templates.
+* Export service contract and job costing for old jobs that do not have
+  billing address and contact fields set.
 
 ==============================Future Long Term Development======================
 ### Misc
@@ -255,6 +250,10 @@ paymentTerms, rename JMTSUserId to userId
 - Create dialogs for classification instead of just adding a row in the table.  
 - Revisit admin dialogs and fix autocomplete scroll height, converters and validators.
   Ensure the prevention of creating duplicate objects such as employees with the same name.
+- Once job is saved, prevent changing of all fields that affect the service contract?
+- Do copy of billing address, contact and client before saving new job. Do
+  not allow changing these fields except by sysadmin. Implement doShallowCopy()
+  for client that does not copy the list of addresses and contacts.
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 
