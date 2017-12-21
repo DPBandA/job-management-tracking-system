@@ -26,7 +26,6 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.persistence.EntityManager;
@@ -112,6 +111,10 @@ public class SystemManager implements Serializable {
      * Creates a new instance of SystemManager
      */
     public SystemManager() {
+        init();
+    }
+
+    private void init() {
         activeTabIndex = 0;
         activeNavigationTabIndex = 0;
         activeTabForm = "";
@@ -127,6 +130,10 @@ public class SystemManager implements Serializable {
         userSearchText = "";
         generalSearchText = "";
         systemOptionSearchText = "";
+    }
+    
+    public void reset() {
+        init();
     }
 
     public Boolean getShowActiveClassificationsOnly() {
@@ -932,8 +939,8 @@ public class SystemManager implements Serializable {
     }
 
     public void createNewDepartment() {
-        PrimeFacesUtils.addMessage("Not Implemented", 
-                "The creation of new departments feature is not implemented at this time", 
+        PrimeFacesUtils.addMessage("Not Implemented",
+                "The creation of new departments feature is not implemented at this time",
                 FacesMessage.SEVERITY_INFO);
     }
 

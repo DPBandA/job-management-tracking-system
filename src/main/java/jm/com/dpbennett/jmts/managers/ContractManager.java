@@ -68,15 +68,20 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
      * Creates a new instance of JobManagerBean
      */
     public ContractManager() {
-
+        init();
     }
 
     public void setCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
     }
 
-    public void init() {
-        System.out.println("Initializing Contract Manager...");
+    private void init() {
+        currentJob = null;
+        user = null;
+    }
+    
+    public void reset() {
+        init();
     }
 
     public void setUser(JobManagerUser user) {

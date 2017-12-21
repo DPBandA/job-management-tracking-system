@@ -34,9 +34,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
@@ -92,7 +90,6 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
-import org.primefaces.component.selectoneradio.SelectOneRadio;
 
 /**
  *
@@ -114,7 +111,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean renderJobDetailTab;
     @ManagedProperty(value = "Jobs")
     private Integer longProcessProgress;
-    private final Boolean useAccPacCustomerList;
+    private Boolean useAccPacCustomerList;
     private Boolean showJobEntry;
     private List<Job> jobSearchResultList;
     private String userPrivilegeDialogHeader;
@@ -122,14 +119,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Integer loginAttempts;
     private SearchParameters currentSearchParameters;
     // Managers
-    private final ClientManager clientManager;
-    private final SearchManager searchManager;
-    private final ReportManager reportManager;
-    private final FinanceManager financeManager;
-    private final JobSampleManager jobSampleManager;
-    private final ContractManager contractManager;
+    private ClientManager clientManager;
+    private SearchManager searchManager;
+    private ReportManager reportManager;
+    private FinanceManager financeManager;
+    private JobSampleManager jobSampleManager;
+    private ContractManager contractManager;
     //////////////////////////////////////////////////
-    private SearchParameters reportSearchParameters;
+    //private SearchParameters reportSearchParameters;
     private String searchText;
     private String dialogActionHandlerId;
     private String jobsTabTitle;
@@ -158,37 +155,23 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * Creates a new instance of JobManagerBean
      */
     public JobManager() {
+        init();
+    }
+
+    private void init() {
         password = null;
         username = null;
         showLogin = true;
         userLoggedIn = false;
         westLayoutUnitCollapsed = true;
+        logonMessage = "Please provide your login details below:";
         loginAttempts = 0;
         showJobEntry = false;
         longProcessProgress = 0;
         useAccPacCustomerList = false;
-        ArrayList searchTypes = new ArrayList();
-        ArrayList searchDateFields = new ArrayList();
-        searchTypes.add(new SelectItem("General", "General"));
-        // Add search fields
-        searchDateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
-        searchDateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
-        searchDateFields.add(new SelectItem("dateAndTimeEntered", "Date entered"));
-        reportSearchParameters
-                = new SearchParameters(
-                        "Report Data Search",
-                        null,
-                        false,
-                        searchTypes,
-                        true,
-                        "dateSubmitted",
-                        true,
-                        searchDateFields,
-                        "General",
-                        new DatePeriod("This month", "month", null, null, false, false, true),
-                        "");
         dynamicTabView = true;
         renderSearchComponent = true;
+        jobSearchResultList = new ArrayList<>();
         // Init Managers
         clientManager = Application.findBean("clientManager");
         reportManager = Application.findBean("reportManager");
@@ -200,10 +183,45 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         mainTabView = new MainTabView(getUser());
     }
 
-//    public FinanceManager getFinanceManager() {
-//        return financeManager;
-//    }
-    // tk
+    public void reset() {
+        RequestContext context = RequestContext.getCurrentInstance();
+
+        userLoggedIn = false;
+        showLogin = true;
+        password = "";
+        username = "";
+        logonMessage = "Please provide your login details below:";
+        user = new JobManagerUser();
+        westLayoutUnitCollapsed = true;
+        renderSearchComponent = true;
+        jobSearchResultList = new ArrayList<>();
+
+        // Reset managers
+        clientManager.reset();
+        contractManager.reset();
+        financeManager.reset();
+        jobSampleManager.reset();
+        reportManager.reset();
+        searchManager.reset();
+
+        // Unrender all tabs
+        dashboard.removeAllTabs();
+        dashboard.setRender(false);
+        mainTabView.removeAllTabs();
+        mainTabView.setRender(false);
+
+        updateAllForms(context);
+
+        // Return to default theme
+        context.execute(
+                "loginDialog.show();"
+                + "longProcessDialogVar.hide();"
+                + "PrimeFaces.changeTheme('"
+                + getUser().getUserInterfaceThemeName() + "');"
+                + "layoutVar.toggle('west');");
+
+    }
+
     public Boolean getCanApplyGCT() {
         return JobCostingAndPayment.getCanApplyGCT(getCurrentJob());
     }
@@ -299,13 +317,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void setDialogMessageSeverity(String dialogMessageSeverity) {
         this.dialogMessageSeverity = dialogMessageSeverity;
-    }
-
-    public void init() {
-        System.out.println("Initializing Job Manager...");
-        showLogin = true;
-        logonMessage = "Please provide your login details below:";
-        westLayoutUnitCollapsed = true;
     }
 
     public Boolean getWestLayoutUnitCollapsed() {
@@ -528,31 +539,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void logout() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        userLoggedIn = false;
-        showLogin = true;
-        password = "";
-        username = "";
-        logonMessage = "Please provide your login details below:";
-        user = new JobManagerUser();
-
-        // Hide search layout unit if initially shown
-        if (!westLayoutUnitCollapsed) {
-            westLayoutUnitCollapsed = true;
-            context.execute("layoutVar.toggle('west');");
-        }
-
-        // Unrender all tabs
-        dashboard.removeAllTabs();
-        dashboard.setRender(false);
-        mainTabView.removeAllTabs();
-        mainTabView.setRender(false);
-
-        updateAllForms(context);
-
-        context.execute("loginDialog.show();longProcessDialogVar.hide();PrimeFaces.changeTheme('" + getUser().getUserInterfaceThemeName() + "');");
-
+        reset();
     }
 
     public void handleKeepAlive() {
@@ -867,14 +854,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void setSearchText(String searchText) {
         this.searchText = searchText;
-    }
-
-    public SearchParameters getReportSearchParameters() {
-        return reportSearchParameters;
-    }
-
-    public void setReportSearchParameters(SearchParameters reportSearchParameters) {
-        this.reportSearchParameters = reportSearchParameters;
     }
 
     public void displayUserPrivilegeDialog(RequestContext context,
@@ -2027,9 +2006,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public List<Job> getJobSearchResultList() {
-        if (jobSearchResultList == null) {
-            jobSearchResultList = new ArrayList<>();
-        }
         return jobSearchResultList;
     }
 
@@ -2051,6 +2027,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         jobSampleManager.setUser(user);
         financeManager.setCurrentJob(currentJob);
         financeManager.setUser(user);
+    }
+
+    public void resetManagers() {
+        clientManager.reset();
     }
 
     public void setEditCurrentJob(Job currentJob) {

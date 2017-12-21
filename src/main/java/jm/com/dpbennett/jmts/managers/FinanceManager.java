@@ -128,6 +128,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
      * Creates a new instance of JobManagerBean
      */
     public FinanceManager() {
+        init();
+    }
+
+    private void init() {
         this.longProcessProgress = 0;
         accPacCustomer = new AccPacCustomer(null);
         filteredAccPacCustomerDocuments = new ArrayList<>();
@@ -135,6 +139,16 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         addCashPayment = false;
         addCostComponent = false;
         addCostComponent = false;
+        currentJob = null;
+        selectedCashPayment = null;
+        selectedCostComponent = null;
+        unitCostDepartment = null;
+        user = null;
+        jobCostDepartment = null;
+    }
+    
+    public void reset() {
+        init();
     }
 
     public Boolean getEnableOnlyPaymentEditing() {
@@ -206,10 +220,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void setDialogMessageSeverity(String dialogMessageSeverity) {
         this.dialogMessageSeverity = dialogMessageSeverity;
-    }
-
-    public void init() {
-        System.out.println("Initializing Accounting Manager...");
     }
 
     public EntityManager getEntityManager1() {
@@ -1033,7 +1043,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             //prepareAndSaveCurrentJob(em);
             // Refresh to make sure job costings ids are not null to
             // avoid resaving newly created costing components
-            
             // tk This is done so that newly added cost components are reloaded
             // with non-null ids. May have to implement JobCostingAndPayment.save()
             // that save cost compoents with null ids as is done for samples 
@@ -1483,7 +1492,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     @Override
-    public void setDirty(Boolean dirty) {        
+    public void setDirty(Boolean dirty) {
         getCurrentJob().getJobCostingAndPayment().setIsDirty(dirty);
     }
 
@@ -1491,12 +1500,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public Boolean isDirty() {
         return getCurrentJob().getJobCostingAndPayment().getIsDirty();
     }
-    
-    public void setJobCostingAndPaymentDirty(Boolean dirty) {        
+
+    public void setJobCostingAndPaymentDirty(Boolean dirty) {
         getCurrentJob().getJobCostingAndPayment().setIsDirty(dirty);
     }
-    
-     public Boolean isJobCostingAndPaymentDirty() {
+
+    public Boolean isJobCostingAndPaymentDirty() {
         return getCurrentJob().getJobCostingAndPayment().getIsDirty();
     }
 

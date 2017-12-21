@@ -62,8 +62,19 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
      * Creates a new instance of JobManagerBean
      */
     public JobSampleManager() {
+        init();
+    }
+
+    private void init() {
         selectedJobSample = new JobSample();
         jobSampleDialogTabViewActiveIndex = 0;
+        currentJob = null;
+        selectedJobSampleBackup = null;
+        user = null;
+    }
+
+    public void reset() {
+        init();
     }
 
     public void createNewJobSample(ActionEvent event) {
@@ -184,7 +195,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public void updateSample(AjaxBehaviorEvent event) {
-        if (event.getComponent() != null) {            
+        if (event.getComponent() != null) {
             if (hasFieldValueChange(event.getComponent().getId())) {
                 getSelectedJobSample().setIsDirty(true);
             }

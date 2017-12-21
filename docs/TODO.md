@@ -23,11 +23,14 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- Impl reset() for all managers and use when user logs out.
 - See if the layout sections can be controlled by rendered="".
 - The Job Search combo boxes do not display properly in Firefox/Chromium browser. It happens
   when first login. Fix!!
+- Automatically save job if client was edited and is done with samples.
+- Impl use of currentJob instead of all the other current*. Init ClientManager
+  as is done with other managers in initManagers().
 #### Job Costing
+- Impl saving edits done to the Job Costing and Payment tab.
 - Impl saving job costing and updating the job costing table
   * Impl saving within job costing dialog. Do automatic job save as is done with
     samples. Change "Save" to "Ok" and close dialog when clicked. 
@@ -254,6 +257,7 @@ paymentTerms, rename JMTSUserId to userId
 - Do copy of billing address, contact and client before saving new job. Do
   not allow changing these fields except by sysadmin. Implement doShallowCopy()
   for client that does not copy the list of addresses and contacts.
+- Make "Keep Alive" display a system option that is false by default.
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

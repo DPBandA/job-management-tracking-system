@@ -49,7 +49,7 @@ public class SearchManager implements SearchManagement, Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
-    private final HashMap searhParameters;
+    private HashMap searhParameters;
     private String currentSearchParameterKey;
     private JobManager jobManager;
 
@@ -57,7 +57,10 @@ public class SearchManager implements SearchManagement, Serializable {
      * Creates a new instance of SearchManager
      */
     public SearchManager() {
+        init();
+    }
 
+    private void init() {
         searhParameters = new HashMap();
         currentSearchParameterKey = "Job Search";
 
@@ -218,6 +221,10 @@ public class SearchManager implements SearchManagement, Serializable {
                         new DatePeriod("Custom", "custom",
                                 BusinessEntityUtils.createDate(2000, 0, 1), new Date(), false, false, false),
                         ""));
+    }
+    
+    public void reset() {
+        init();
     }
 
     public void addMessage(String summary, String detail) {
@@ -390,7 +397,7 @@ public class SearchManager implements SearchManagement, Serializable {
                     }
                 }
                 break;
-            case "Service Request Search":               
+            case "Service Request Search":
                 break;
             case "Admin Search":
                 addMessage("Sorry!", "System Administration Search not yet implemented.");

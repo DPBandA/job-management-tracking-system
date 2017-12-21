@@ -144,6 +144,10 @@ public class ReportManager implements Serializable {
      * Creates a new instance of JobManagerBean
      */
     public ReportManager() {
+        init();
+    }
+
+    private void init() {
         this.longProcessProgress = 0;
         this.columnsToExclude = "";
         // Accpac fields init        
@@ -184,7 +188,11 @@ public class ReportManager implements Serializable {
                 "year",
                 null,
                 null, false, false, true);
-
+        currentJob = null;
+    }
+    
+    public void reset() {
+        init();
     }
 
     // tk - test generating report for display in web browser
@@ -202,10 +210,10 @@ public class ReportManager implements Serializable {
         connection = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/jmts?"
                 + "user=user&password=secret");
-        
-        facesContext.responseComplete();        
+
+        facesContext.responseComplete();
         response.setContentType("application/pdf");
-        
+
         JasperRunManager.runReportToPdfStream(reportStream,
                 servletOutputStream, new HashMap(), connection);
         connection.close();
@@ -231,10 +239,6 @@ public class ReportManager implements Serializable {
 
     public void setUser(JobManagerUser user) {
         this.user = user;
-    }
-
-    public void init() {
-        System.out.println("Initializing Report Manager...");
     }
 
     public final EntityManager getEntityManager1() {

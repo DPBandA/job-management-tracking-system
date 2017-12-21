@@ -60,10 +60,11 @@ public class ClientManager implements Serializable, ClientManagement {
     private Boolean isToBeSaved;
     private Boolean isClientNameAndIdEditable;
     private Boolean isActiveClientsOnly;
+    // tk remove all current* use of currentJob instead
     private Client currentClient;
     private Contact currentContact;
     private Address currentAddress;
-    private ClientOwner clientOwner;
+    private ClientOwner clientOwner; // tk remove
     private JobManagerUser user;
     private String searchText;
     private List<Client> foundClients;
@@ -72,12 +73,26 @@ public class ClientManager implements Serializable, ClientManagement {
      * Creates a new instance of ClientForm
      */
     public ClientManager() {
+        init();
+    }
+
+    private void init() {
         isNewContact = false;
         isNewAddress = false;
         isNewClient = false;
         isToBeSaved = true;
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
+        currentClient = null;
+        currentContact = null;
+        currentAddress = null;
+        clientOwner = null;
+        user = null;
+        searchText= null;
+    }
+
+    public void reset() {
+        init();       
     }
 
     public void onClientCellEdit(CellEditEvent event) {
@@ -368,7 +383,7 @@ public class ClientManager implements Serializable, ClientManagement {
 
             if (isToBeSaved && isDirty) {
                 getCurrentClient().setDateEdited(new Date());
-                if (getUser() != null) {                   
+                if (getUser() != null) {
                     currentClient.setEditedBy(getUser().getEmployee());
                 }
                 currentClient.save(getEntityManager());
