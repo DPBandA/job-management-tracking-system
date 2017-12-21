@@ -23,7 +23,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- See if the layout sections can be controlled by rendered="".
+- See if the layout sections can be controlled by rendered="". Wrap <p:layout id="JMTSWeb"
+  in a form and see how if the layout sections can be updated.
 - The Job Search combo boxes do not display properly in Firefox/Chromium browser. It happens
   when first login. Fix!!
 - Automatically save job if client was edited and is done with samples.
