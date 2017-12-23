@@ -2134,10 +2134,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             financeManager.updateCreditStatus(null);
         }
 
-        // tk
-        System.out.println("billing addr: " + currentJob.getClient().getBillingAddress());
-        System.out.println("contact: " + currentJob.getClient().getMainContact());
-
         currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
         currentJob.setContact(currentJob.getClient().getMainContact());
 
@@ -2163,7 +2159,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void createNewJobClient() {
         clientManager.createNewClient(true);
         clientManager.setUser(getUser());
-        clientManager.setClientOwner(getCurrentJob());
+        clientManager.setCurrentJob(getCurrentJob());
         clientManager.setCurrentAddress(new Address());
         clientManager.setCurrentContact(new Contact());
         clientManager.setIsToBeSaved(true);
@@ -2174,7 +2170,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void editJobClient() {
         clientManager.setUser(getUser());
-        clientManager.setClientOwner(getCurrentJob());
+        clientManager.setCurrentJob(getCurrentJob());
         clientManager.setCurrentClient(getCurrentJob().getClient());
         clientManager.setCurrentAddress(getCurrentJob().getBillingAddress());
         clientManager.setCurrentContact(getCurrentJob().getContact());

@@ -21,32 +21,18 @@ Email: info@dpbennett.com.jm
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"> 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"> 
 
     <p:panel id="jobSamples" header="Job Samples">
 
-        <p:toolbar>
-            <p:toolbarGroup align="left">
-                <p:commandButton value="Add sample(s)"
-                                 title="Add new sample(s)"
-                                 actionListener="#{jobSampleManager.createNewJobSample}"                         
-                                 onstart="longProcessDialogVar.show();"
-                                 icon="ui-icon-plus"
-                                 process="@this" >
-
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobSampleManager.jobSampleDialogReturn}"                    
-                            update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"
-                            process="@form"/>
-
-                </p:commandButton>                
-            </p:toolbarGroup>
-        </p:toolbar>
+        <ui:include src="jobSamplesTabToolbar.xhtml"/>
 
         <p:dataTable id="jobSamplesTable"
                      paginator="true"
                      rows="15"
                      var="jobSample"
+                     style="margin-bottom: 1px;"
                      value="#{jobSampleManager.currentJob.filteredJobSamples}">
             <p:column style="width:100px"  >
                 <f:facet name="header">
@@ -142,25 +128,9 @@ Email: info@dpbennett.com.jm
                 </p:row>               
             </p:columnGroup>
         </p:dataTable>
-        <p:toolbar style="margin-top: 1px;">
-            <p:toolbarGroup align="left">
-                <p:commandButton value="Add sample(s)"
-                                 title="Add new sample(s)"
-                                 actionListener="#{jobSampleManager.createNewJobSample}"                         
-                                 onstart="longProcessDialogVar.show();"
-                                 icon="ui-icon-plus"
-                                 process="@this" >
-
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobSampleManager.jobSampleDialogReturn}"                    
-                            update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"
-                            process="@form"/>
-
-                </p:commandButton>                
-            </p:toolbarGroup>
-        </p:toolbar>
-
-
+        
+        <ui:include src="jobSamplesTabToolbar.xhtml"/>
+        
     </p:panel>    
 
 </html>

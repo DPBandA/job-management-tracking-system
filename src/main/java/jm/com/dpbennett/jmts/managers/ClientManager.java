@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
@@ -37,7 +38,7 @@ import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.context.RequestContext;
-import jm.com.dpbennett.business.entity.ClientOwner;
+import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.management.ClientManagement;
 import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
@@ -60,11 +61,10 @@ public class ClientManager implements Serializable, ClientManagement {
     private Boolean isToBeSaved;
     private Boolean isClientNameAndIdEditable;
     private Boolean isActiveClientsOnly;
-    // tk remove all current* use of currentJob instead
     private Client currentClient;
     private Contact currentContact;
     private Address currentAddress;
-    private ClientOwner clientOwner; // tk remove
+    private Job currentJob;
     private JobManagerUser user;
     private String searchText;
     private List<Client> foundClients;
@@ -86,13 +86,25 @@ public class ClientManager implements Serializable, ClientManagement {
         currentClient = null;
         currentContact = null;
         currentAddress = null;
-        clientOwner = null;
+        currentJob = null;
         user = null;
-        searchText= null;
+        searchText = null;
     }
 
     public void reset() {
-        init();       
+        init();
+    }
+
+    public Boolean isCurrentJobDirty() {
+        return getCurrentJob().getIsDirty();
+    }
+
+    public void clientDialogReturn() {
+        if (isCurrentJobDirty() && getCurrentJob().getId() != null) {
+            if (getCurrentJob().prepareAndSave(getEntityManager(), getUser()).isSuccess()) {
+                PrimeFacesUtils.addMessage("Client and Job Saved", "This job and the edited/added client were saved", FacesMessage.SEVERITY_INFO);
+            }
+        }
     }
 
     public void onClientCellEdit(CellEditEvent event) {
@@ -220,12 +232,12 @@ public class ClientManager implements Serializable, ClientManagement {
         return getCurrentClient().getContacts();
     }
 
-    public void setClientOwner(ClientOwner clientHandler) {
-        this.clientOwner = clientHandler;
+    public void setCurrentJob(Job currentJob) {
+        this.currentJob = currentJob;
     }
 
-    public ClientOwner getClientOwner() {
-        return clientOwner;
+    public Job getCurrentJob() {
+        return currentJob;
     }
 
     public Address getCurrentAddress() {
@@ -260,7 +272,7 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void editSelectedClient() {
-        setClientOwner(null);
+        setCurrentJob(null);
         setCurrentAddress(null);
         setCurrentContact(null);
         setIsToBeSaved(true);
@@ -288,9 +300,9 @@ public class ClientManager implements Serializable, ClientManagement {
         setIsDirty(true);
     }
 
-    public void updateClientOwner(Boolean isDirty) {
-        if (getClientOwner() != null) {
-            getClientOwner().setIsDirty(isDirty);
+    public void updateCurrentJob(Boolean isDirty) {
+        if (getCurrentJob() != null) {
+            getCurrentJob().setIsDirty(isDirty);
         }
     }
 
@@ -311,7 +323,7 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public void createNewClient() {
         createNewClient(true);
-        setClientOwner(null);
+        setCurrentJob(null);
         setCurrentAddress(getCurrentClient().getBillingAddress());
         setCurrentContact(getCurrentClient().getMainContact());
         setIsToBeSaved(true);
@@ -326,7 +338,7 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public void setIsDirty(Boolean isDirty) {
         this.isDirty = isDirty;
-        updateClientOwner(isDirty);
+        updateCurrentJob(isDirty);
     }
 
     @Override
@@ -392,10 +404,10 @@ public class ClientManager implements Serializable, ClientManagement {
             }
 
             // Pass edited object to the currentClient owner
-            if (clientOwner != null) {
-                clientOwner.setClient(getCurrentClient());
-                clientOwner.setBillingAddress(currentAddress);
-                clientOwner.setContact(currentContact);
+            if (currentJob != null) {
+                currentJob.setClient(getCurrentClient());
+                currentJob.setBillingAddress(currentAddress);
+                currentJob.setContact(currentContact);
             }
 
             isNewClient = false;

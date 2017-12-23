@@ -136,23 +136,20 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         return getCurrentJob().getIsDirty();
     }
 
-    public void addMessage(String summary, String detail, FacesMessage.Severity severity) {
-        FacesMessage message = new FacesMessage(severity, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
     public void jobSampleDialogReturn() {
-        if (!isCurrentJobDirty() && getSelectedJobSample().getIsDirty()) {
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                getSelectedJobSample().setIsDirty(false);
-                addMessage("Sample(s) and Job Saved", "This job and the edited/added sample(s) were saved", FacesMessage.SEVERITY_INFO);
+        if (getCurrentJob().getId() != null) {
+            if (!isCurrentJobDirty() && getSelectedJobSample().getIsDirty()) {
+                if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+                    getSelectedJobSample().setIsDirty(false);
+                    PrimeFacesUtils.addMessage("Sample(s) and Job Saved", "This job and the edited/added sample(s) were saved", FacesMessage.SEVERITY_INFO);
+                }
+            } else if (isCurrentJobDirty() && getSelectedJobSample().getIsDirty()) {
+                PrimeFacesUtils.addMessage("Sample(s) Added/Edited", "Save this job if you wish to keep the changes", FacesMessage.SEVERITY_WARN);
+            } else if (isCurrentJobDirty() && !getSelectedJobSample().getIsDirty()) {
+                PrimeFacesUtils.addMessage("Job to be Saved", "Sample(s) not edited but this job was previously edited but not saved", FacesMessage.SEVERITY_WARN);
+            } else if (!isCurrentJobDirty() && !getSelectedJobSample().getIsDirty()) {
+                // Nothing to do yet
             }
-        } else if (isCurrentJobDirty() && getSelectedJobSample().getIsDirty()) {
-            addMessage("Sample(s) Added/Edited", "Save this job if you wish to keep the changes", FacesMessage.SEVERITY_WARN);
-        } else if (isCurrentJobDirty() && !getSelectedJobSample().getIsDirty()) {
-            addMessage("Job to be Saved", "Sample(s) not edited but this job was previously edited but not saved", FacesMessage.SEVERITY_WARN);
-        } else if (!isCurrentJobDirty() && !getSelectedJobSample().getIsDirty()) {
-            // Nothing to do yet
         }
     }
 

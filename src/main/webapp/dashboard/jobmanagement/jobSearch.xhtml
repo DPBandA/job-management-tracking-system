@@ -26,7 +26,8 @@ Email: info@dpbennett.com.jm
 
     <h:panelGrid columns="2" cellspacing="5">
         <h:outputText value="Search type: " />
-        <p:selectOneMenu value="#{searchManager.currentSearchParameters.searchType}" >
+        <p:selectOneMenu value="#{searchManager.currentSearchParameters.searchType}" 
+                         style="width: 100%;">
             <p:ajax                        
                 listener="#{searchManager.updateSearchType}"
                 process="@this" />
@@ -36,6 +37,7 @@ Email: info@dpbennett.com.jm
         <h:outputText value="Date field: " 
                       rendered="#{searchManager.currentSearchParameters.showDateField}"/>
         <p:selectOneMenu value="#{searchManager.currentSearchParameters.dateField}" 
+                         style="width: 100%;"
                          rendered="#{searchManager.currentSearchParameters.showDateField}" >
             <p:ajax                        
                 listener="#{searchManager.updateDateField}"
@@ -45,6 +47,7 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Date period: " rendered="#{searchManager.currentSearchParameters.showDateField}"/>               
         <p:selectOneMenu value= "#{searchManager.currentSearchParameters.datePeriod.name}" 
+                         style="width: 100%;"
                          rendered="#{searchManager.currentSearchParameters.showDateField}" >
             <p:ajax listener="#{searchManager.changeSearchDatePeriod}"
                     update="startSearchDate,endSearchDate"

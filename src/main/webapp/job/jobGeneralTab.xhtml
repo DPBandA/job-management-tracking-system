@@ -136,7 +136,8 @@ Email: info@dpbennett.com.jm
                              process="@this,client"                             
                              title="View or edit this client's detail">   
                 <p:ajax event="dialogReturn" 
-                        update="billingAddress,clientContact,client"/>
+                        listener="#{clientManager.clientDialogReturn}"
+                        update=":mainTabViewForm:mainTabView:growl2,billingAddress,clientContact,client"/>
             </p:commandButton>
             <p:spacer height="0" width="15"/>
             <p:commandButton 
@@ -148,7 +149,8 @@ Email: info@dpbennett.com.jm
                 process="@this"
                 title="Add a new client to the client database">
                 <p:ajax event="dialogReturn" 
-                        update="billingAddress,clientContact,client"/>
+                        listener="#{clientManager.clientDialogReturn}"
+                        update=":mainTabViewForm:mainTabView:growl2,billingAddress,clientContact,client"/>
             </p:commandButton>
 
         </h:panelGroup>
