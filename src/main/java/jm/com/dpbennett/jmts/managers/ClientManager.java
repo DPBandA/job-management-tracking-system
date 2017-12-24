@@ -413,6 +413,7 @@ public class ClientManager implements Serializable, ClientManagement {
                return;
             }
 
+            // Update tracking
             if (isNewClient) {
                 getCurrentClient().setDateFirstReceived(new Date());
                 getCurrentClient().setDateEntered(new Date());
@@ -423,6 +424,7 @@ public class ClientManager implements Serializable, ClientManagement {
                 }
             }
 
+            // Do save
             if (isToBeSaved && isDirty) {
                 getCurrentClient().setDateEdited(new Date());
                 if (getUser() != null) {
@@ -524,6 +526,10 @@ public class ClientManager implements Serializable, ClientManagement {
 
         setIsDirty(false);
     }
+    
+    public void editCurrentContact() {
+        System.out.println("Editing current contact...");
+    }
 
     public void createNewAddress() {
         currentAddress = null;
@@ -546,6 +552,10 @@ public class ClientManager implements Serializable, ClientManagement {
         }
 
         setIsDirty(false);
+    }
+    
+    public void editCurrentAddress() {
+        System.out.println("Editing current address...");
     }
 
     public List<Client> completeClient(String query) {

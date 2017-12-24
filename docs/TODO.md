@@ -24,9 +24,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Misc
 - Change "New" button to "Actions" and add "Edit" and "New" menu items.
+- Track "dirtiness" of client, address and contact in their class and save accordingly.   
 - Check why an edited address sometimes appear twice in the addresses table.
-- Disable other rendered tabs when the job detail tab is rendered to prevent 
-  switching to those tabs??
 
 #### Job Costing
 - Impl saving edits done to the Job Costing and Payment tab.
@@ -262,7 +261,8 @@ paymentTerms, rename JMTSUserId to userId
 - Make "Keep Alive" display a system option that is false by default.
 - Use only one toolarbar for reportsTab. Do update of entire tab instead of
   specific components.
-
+- Disable other rendered tabs when the job detail tab is rendered to prevent 
+  switching to those tabs??
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

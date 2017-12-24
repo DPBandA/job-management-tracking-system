@@ -71,6 +71,20 @@ Email: info@dpbennett.com.jm
         <h:outputText value="#{clientManager.currentAddress.addressLine1}"/>  
         <p:menuButton value="Actions">
             <p:menuitem>                       
+                <p:commandButton value="Edit"
+                                 style="width: 100%;text-align: left;background: none;border: 0;"
+                                 icon="ui-icon-pencil"
+                                 title="Edit address"
+                                 update=":addressForm"
+                                 oncomplete="addressFormDialog.show();"
+                                 actionListener="#{clientManager.editCurrentAddress}" 
+                                 process="@this" >
+
+                    <p:resetInput target=":addressForm" />
+
+                </p:commandButton>          
+            </p:menuitem>
+            <p:menuitem>                       
                 <p:commandButton value="New"
                                  style="width: 100%;text-align: left;background: none;border: 0;"
                                  icon="ui-icon-plus" 
@@ -101,6 +115,20 @@ Email: info@dpbennett.com.jm
         <h:outputText id="currentContact" value="Contact: " style="font-weight: bold"/>    
         <h:outputText value="#{clientManager.currentContact.name}" />
         <p:menuButton value="Actions">
+            <p:menuitem>                       
+                <p:commandButton value="Edit"
+                                 style="width: 100%;text-align: left;background: none;border: 0;"
+                                 icon="ui-icon-plus" 
+                                 title="Edit current contact"
+                                 update=":contactForm"
+                                 oncomplete="contactFormDialog.show();"
+                                 actionListener="#{clientManager.editCurrentContact}" 
+                                 process="@this" >
+
+                    <p:resetInput target=":contactForm" />
+
+                </p:commandButton>       
+            </p:menuitem>
             <p:menuitem>                       
                 <p:commandButton value="New"
                                  style="width: 100%;text-align: left;background: none;border: 0;"
