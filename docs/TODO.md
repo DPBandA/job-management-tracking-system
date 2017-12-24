@@ -24,7 +24,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Misc
 - Change "New" button to "Actions" and add "Edit" and "New" menu items.
-- Check why an edited ddress sometimes appear twice in the addresses table.
+- Check why an edited address sometimes appear twice in the addresses table.
+- Disable other rendered tabs when the job detail tab is rendered to prevent 
+  switching to those tabs??
 
 #### Job Costing
 - Impl saving edits done to the Job Costing and Payment tab.
