@@ -28,42 +28,55 @@ Email: info@dpbennett.com.jm
 
     <p:panel header="Report/Query criteria">
         <h:panelGrid columns="2" id="reportPanelGrid" cellspacing="10">
-            <h:outputText value="Report:"/>
-            <p:selectOneMenu value="#{reportManager.report.id}">
-                <p:ajax listener="#{reportManager.refreshJobReport}"
-                        global="true"
-                        onstart="longProcessDialogVar2.show();"
-                        oncomplete="longProcessDialogVar2.hide();"
-                        update="reportPanelGrid,datePeriodsPanelGrid,jobsReportTableTabView,export1,export2"
-                        process="@this" />
-                <f:selectItems value="#{reportManager.jobReports}"
-                               var="report"
-                               itemLabel="#{report.name}"
-                               itemValue="#{report.id}"/>
-            </p:selectOneMenu>
+            <h:outputText value="Report:"/>    
+            <h:panelGroup>
+                <p:autoComplete var="report"      
+                                id="report"
+                                forceSelection="true"
+                                dropdown="true"
+                                size="40"
+                                scrollHeight="200" 
+                                value="#{reportManager.report}"
+                                title="#{reportManager.report}"
+                                itemValue="#{report}"
+                                itemLabel="#{report.name}"
+                                converter="reportConverter"
+                                completeMethod="#{App.completeReport}" >
+                    <p:ajax event="itemSelect"
+                            listener="#{reportManager.refreshJobReport}"
+                            onstart="longProcessDialogVar2.show();"
+                            oncomplete="longProcessDialogVar2.hide();"
+                            update="reportPanelGrid,datePeriodsPanelGrid,jobsReportTableTabView,export1,export2"
+                            process="@this" />
+                </p:autoComplete>
+                <p:watermark value="-- select a report --" for="report" />
+            </h:panelGroup>
 
             <h:outputText value="Department: " 
                           rendered="#{reportManager.renderReportingDepartment}"/>
-            <p:autoComplete var="department"
-                            id="reportingDepartment"
-                            rendered="#{reportManager.renderReportingDepartment}"                                   
-                            forceSelection="true"
-                            dropdown="false"
-                            size="40"
-                            value="#{reportManager.reportingDepartment}"
-                            title="#{reportManager.reportingDepartment}"
-                            itemValue="#{department}"
-                            itemLabel="#{department.name}"
-                            converter="departmentConverter"
-                            completeMethod="#{App.completeDepartment}" >
-                <p:ajax event="itemSelect"
-                        listener="#{reportManager.updateReportingDepartment}"
-                        global="false"
-                        onstart="longProcessDialogVar2.show();"
-                        oncomplete="longProcessDialogVar2.hide();"
-                        update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,reportingDepartment"
-                        process="@this" />
-            </p:autoComplete>
+            <h:panelGroup rendered="#{reportManager.renderReportingDepartment}">
+                <p:autoComplete var="department"
+                                id="reportingDepartment1"                                                                   
+                                forceSelection="true"
+                                dropdown="true"
+                                size="40"
+                                scrollHeight="200" 
+                                value="#{reportManager.reportingDepartment}"
+                                title="#{reportManager.reportingDepartment}"
+                                itemValue="#{department}"
+                                itemLabel="#{department.name}"
+                                converter="departmentConverter"
+                                completeMethod="#{App.completeDepartment}" >
+                    <p:ajax event="itemSelect"
+                            listener="#{reportManager.updateReportingDepartment}"
+                            global="false"
+                            onstart="longProcessDialogVar2.show();"
+                            oncomplete="longProcessDialogVar2.hide();"
+                            update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,reportingDepartment1"
+                            process="@this" />
+                </p:autoComplete>
+                <p:watermark value="-- select a department --" for="reportingDepartment1" />
+            </h:panelGroup>
 
             <h:outputText value="Employee: " rendered="#{reportManager.renderEmployee}" />
             <h:panelGroup rendered="#{reportManager.renderEmployee}">
@@ -71,12 +84,14 @@ Email: info@dpbennett.com.jm
                                 var="employee"
                                 size="40"
                                 maxlength="250"
+                                scrollHeight="200" 
                                 value="#{reportManager.reportEmployee}"
                                 title="#{reportManager.reportEmployee}"
                                 itemLabel="#{employee.name}"
                                 itemValue="#{employee}"
                                 converter="employeeConverter"
                                 forceSelection="true"
+                                dropdown="true"
                                 completeMethod="#{App.completeEmployee}" >
                     <p:ajax event="itemSelect"
                             update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,datePeriodsPanelGrid"
@@ -86,7 +101,8 @@ Email: info@dpbennett.com.jm
                             update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,datePeriodsPanelGrid"
                             listener="#{reportManager.updateReportEmployee}"
                             process="@this"/>
-                </p:autoComplete>                       
+                </p:autoComplete>    
+                <p:watermark value="-- select an employee --" for="reportEmployee" />
             </h:panelGroup>
         </h:panelGrid>
 

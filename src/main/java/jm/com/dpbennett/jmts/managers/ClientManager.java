@@ -41,6 +41,8 @@ import org.primefaces.context.RequestContext;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.management.ClientManagement;
 import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
+import jm.com.dpbennett.business.entity.validator.AddressValidator;
+import jm.com.dpbennett.business.entity.validator.ContactValidator;
 import jm.com.dpbennett.jmts.Application;
 import org.primefaces.event.CellEditEvent;
 
@@ -81,6 +83,7 @@ public class ClientManager implements Serializable, ClientManagement {
         isNewAddress = false;
         isNewClient = false;
         isToBeSaved = true;
+        isDirty = false;
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
         currentClient = null;
@@ -380,8 +383,35 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void okClient() {
+        Boolean hasValidAddress = false;
+        Boolean hasValidContact = false;        
 
         try {
+            
+            // Validate 
+            // Check for a valid address
+            for (Address address : currentClient.getAddresses()) {
+                hasValidAddress = hasValidAddress || AddressValidator.validate(address);
+            }
+            if (!hasValidAddress) {
+               PrimeFacesUtils.addMessage("Address Required", 
+                       "A valid address was not entered for this client", 
+                       FacesMessage.SEVERITY_ERROR); 
+               
+               return;
+            }
+            
+            // Check for a valid contact
+            for (Contact contact : currentClient.getContacts()) {
+                hasValidContact = hasValidContact || ContactValidator.validate(contact);
+            }
+            if (!hasValidContact) {
+               PrimeFacesUtils.addMessage("Contact Required", 
+                       "A valid contact was not entered for this client", 
+                       FacesMessage.SEVERITY_ERROR); 
+               
+               return;
+            }
 
             if (isNewClient) {
                 getCurrentClient().setDateFirstReceived(new Date());

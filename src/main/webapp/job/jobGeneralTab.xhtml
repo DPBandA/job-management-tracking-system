@@ -122,37 +122,43 @@ Email: info@dpbennett.com.jm
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update="clientContact,billingAddress,editClientButton"
+                        update="billingAddress,clientContact,clientActionsMenu"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
-            </p:autoComplete>                    
-            <p:spacer height="0" width="0"/>
-            <p:commandButton icon="ui-icon-pencil"                             
-                             id="editClientButton"
-                             disabled="${!jobManager.isClientNameValid}"
-                             onstart="longProcessDialogVar.show();"
-                             actionListener="#{jobManager.editJobClient}"  
-                             process="@this,client"                             
-                             title="View or edit this client's detail">   
-                <p:ajax event="dialogReturn" 
-                        listener="#{clientManager.clientDialogReturn}"
-                        update=":mainTabViewForm:mainTabView:growl2,billingAddress,clientContact,client"/>
-            </p:commandButton>
-            <p:spacer height="0" width="15"/>
-            <p:commandButton 
-                value="New"
-                icon="ui-icon-plus" 
-                onstart="longProcessDialogVar.show();"
-                rendered="#{jobManager.user.privilege.canAddClient}"
-                actionListener="#{jobManager.createNewJobClient}"                                            
-                process="@this"
-                title="Add a new client to the client database">
-                <p:ajax event="dialogReturn" 
-                        listener="#{clientManager.clientDialogReturn}"
-                        update=":mainTabViewForm:mainTabView:growl2,billingAddress,clientContact,client"/>
-            </p:commandButton>
+            </p:autoComplete>               
+            <p:menuButton id="clientActionsMenu" value="Actions">
+                <p:menuitem>                       
+                    <p:commandButton value="Edit client details"
+                                     icon="ui-icon-pencil" 
+                                     disabled="${!jobManager.isClientNameValid}"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     onstart="longProcessDialogVar.show();"
+                                     actionListener="#{jobManager.editJobClient}"  
+                                     process="@this,client"                             
+                                     title="View or edit this client's detail">   
+                        <p:ajax event="dialogReturn" 
+                                listener="#{clientManager.clientDialogReturn}"
+                                update=":mainTabViewForm:mainTabView:growl2,billingAddress,clientContact,client"/>
+                    </p:commandButton>            
+                </p:menuitem>
 
+                <p:menuitem >       
+                    <p:commandButton 
+                        value="Add new client"
+                        icon="ui-icon-plus" 
+                        style="width: 100%;text-align: left;background: none;border: 0;"
+                        onstart="longProcessDialogVar.show();"
+                        disabled="#{!jobManager.user.privilege.canAddClient}"
+                        actionListener="#{jobManager.createNewJobClient}"                                            
+                        process="@this"
+                        title="Add a new client to the client database">
+                        <p:ajax event="dialogReturn" 
+                                listener="#{clientManager.clientDialogReturn}"
+                                update=":mainTabViewForm:mainTabView:growl2,billingAddress,clientContact,client"/>
+                    </p:commandButton>
+                </p:menuitem>
+            </p:menuButton>       
         </h:panelGroup>
 
         <h:outputText value="Billing address *:" style="font-weight: bold" />    
@@ -161,6 +167,7 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         forceSelection="true"
                         converter="clientAddressConverter" 
+                        validator="addressValidator"
                         var="address"                        
                         itemValue="#{address}"
                         itemLabel="#{address.name}" 
@@ -188,6 +195,7 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         forceSelection="true"
                         converter="clientContactConverter" 
+                        validator="contactValidator"
                         var="contact"                        
                         itemValue="#{contact}"
                         itemLabel="#{contact.name}" 

@@ -23,15 +23,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- Set report is id to "--" report when reseting the report manager.
-  Or use entity converter instead of id ie create autocomplete.
-- Use only one toolarbar for reportsTab. Do update of entire tab instead of
-  specific components.
-- Add back contact and address validator to job contact and billing address.
-  * test with Cool Oasis
-- Ensure that all new clients and by extension a job has at least 1 address and
-  a contact before saving from the client dialog.
 - Change "New" button to "Actions" and add "Edit" and "New" menu items.
+- Check why an edited ddress sometimes appear twice in the addresses table.
+
 #### Job Costing
 - Impl saving edits done to the Job Costing and Payment tab.
 - Impl saving job costing and updating the job costing table
@@ -139,6 +133,7 @@ paymentTerms, rename JMTSUserId to userId
 * Export service contract and job costing for old jobs that do not have
   billing address and contact fields set.
 * Test entering job costings before a job is saved then save the job.
+* Test export all reports in live system.
 
 ==============================Future Long Term Development======================
 ### Misc
@@ -263,6 +258,9 @@ paymentTerms, rename JMTSUserId to userId
   not allow changing these fields except by sysadmin. Implement doShallowCopy()
   for client that does not copy the list of addresses and contacts.
 - Make "Keep Alive" display a system option that is false by default.
+- Use only one toolarbar for reportsTab. Do update of entire tab instead of
+  specific components.
+
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

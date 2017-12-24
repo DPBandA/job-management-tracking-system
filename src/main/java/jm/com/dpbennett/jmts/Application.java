@@ -23,8 +23,6 @@ import jm.com.dpbennett.business.entity.utils.DataItem;
 import jm.com.dpbennett.business.entity.utils.SortableSelectItem;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -58,10 +56,9 @@ import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Manufacturer;
 import jm.com.dpbennett.business.entity.PetrolCompany;
 import jm.com.dpbennett.business.entity.Preference;
+import jm.com.dpbennett.business.entity.Report;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.Service;
-import jm.com.dpbennett.business.entity.ServiceContract;
-import jm.com.dpbennett.business.entity.ServiceRequest;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
@@ -299,6 +296,21 @@ public class Application {
             List<Department> departments = Department.findActiveDepartmentsByName(em, query);
 
             return departments;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+    
+     public List<Report> completeReport(String query) {
+        EntityManager em = null;
+
+        try {
+            em = getEntityManager1();
+
+            List<Report> reports = Report.findReportsByName(em, query);
+
+            return reports;
 
         } catch (Exception e) {
             return new ArrayList<>();
