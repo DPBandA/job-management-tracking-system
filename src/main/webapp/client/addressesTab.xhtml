@@ -67,7 +67,7 @@ Email: info@dpbennett.com.jm
                 <p:resetInput target=":addressForm" />
 
                 <f:setPropertyActionListener value="#{address}"
-                                             target="#{clientManager.currentAddress}" />
+                                             target="#{clientManager.selectedAddress}" />
             </p:commandButton>
         </p:column>
 
@@ -77,7 +77,7 @@ Email: info@dpbennett.com.jm
                              global="true"
                              icon="ui-icon-trash">
                 <f:setPropertyActionListener value="#{address}"
-                                             target="#{clientManager.currentAddress}" />
+                                             target="#{clientManager.selectedAddress}" />
             </p:commandButton>
         </p:column>
 

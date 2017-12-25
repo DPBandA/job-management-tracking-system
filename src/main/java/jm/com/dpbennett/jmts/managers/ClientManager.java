@@ -39,7 +39,6 @@ import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.context.RequestContext;
 import jm.com.dpbennett.business.entity.Job;
-import jm.com.dpbennett.business.entity.management.ClientManagement;
 import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
 import jm.com.dpbennett.business.entity.validator.AddressValidator;
 import jm.com.dpbennett.business.entity.validator.ContactValidator;
@@ -52,7 +51,7 @@ import org.primefaces.event.CellEditEvent;
  */
 @Named
 @SessionScoped
-public class ClientManager implements Serializable, ClientManagement {
+public class ClientManager implements Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU") // tk to be put in resource bundle
     private EntityManagerFactory entityManagerFactory;
@@ -60,12 +59,11 @@ public class ClientManager implements Serializable, ClientManagement {
     private Boolean isNewClient;
     private Boolean isNewContact;
     private Boolean isNewAddress;
-    private Boolean isToBeSaved;
     private Boolean isClientNameAndIdEditable;
     private Boolean isActiveClientsOnly;
     private Client currentClient;
-    private Contact currentContact;
-    private Address currentAddress;
+    private Contact selectedContact;
+    private Address selectedAddress;
     private Job currentJob;
     private JobManagerUser user;
     private String searchText;
@@ -82,13 +80,12 @@ public class ClientManager implements Serializable, ClientManagement {
         isNewContact = false;
         isNewAddress = false;
         isNewClient = false;
-        isToBeSaved = true;
         isDirty = false;
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
         currentClient = null;
-        currentContact = null;
-        currentAddress = null;
+        selectedContact = null;
+        selectedAddress = null;
         currentJob = null;
         user = null;
         searchText = null;
@@ -96,6 +93,22 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public void reset() {
         init();
+    }
+
+    public Contact getSelectedContact() {
+        return selectedContact;
+    }
+
+    public void setSelectedContact(Contact selectedContact) {
+        this.selectedContact = selectedContact;
+    }
+
+    public Address getSelectedAddress() {
+        return selectedAddress;
+    }
+
+    public void setSelectedAddress(Address selectedAddress) {
+        this.selectedAddress = selectedAddress;
     }
 
     public Boolean isCurrentJobDirty() {
@@ -244,14 +257,7 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public Address getCurrentAddress() {
-        if (currentAddress == null) {
-            currentAddress = getCurrentClient().getBillingAddress();
-        }
-        return currentAddress;
-    }
-
-    public void setCurrentAddress(Address currentAddress) {
-        this.currentAddress = currentAddress;
+        return getCurrentClient().getBillingAddress();
     }
 
     public Boolean getIsClientNameAndIdEditable() {
@@ -271,26 +277,12 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void editClient() {
-        setIsToBeSaved(true);
     }
 
     public void editSelectedClient() {
         setCurrentJob(null);
-        setCurrentAddress(null);
-        setCurrentContact(null);
-        setIsToBeSaved(true);
-
+        
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
-
-    }
-
-    public Boolean getIsToBeSaved() {
-        return isToBeSaved;
-    }
-
-    @Override
-    public void setIsToBeSaved(Boolean isToBeSaved) {
-        this.isToBeSaved = isToBeSaved;
     }
 
     public void updateClient() {
@@ -309,16 +301,15 @@ public class ClientManager implements Serializable, ClientManagement {
         }
     }
 
-    public void updateCurrentContact() {
+    public void updateContact() {
         setIsDirty(true);
     }
 
-    public void updateCurrentAddress() {
+    public void updateAddress() {
         setIsDirty(true);
     }
 
-    @Override
-    public void createNewClient(Boolean active) {
+   public void createNewClient(Boolean active) {
         currentClient = new Client("", active);
 
         isNewClient = true;
@@ -327,9 +318,6 @@ public class ClientManager implements Serializable, ClientManagement {
     public void createNewClient() {
         createNewClient(true);
         setCurrentJob(null);
-        setCurrentAddress(getCurrentClient().getBillingAddress());
-        setCurrentContact(getCurrentClient().getMainContact());
-        setIsToBeSaved(true);
         setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
@@ -344,15 +332,13 @@ public class ClientManager implements Serializable, ClientManagement {
         updateCurrentJob(isDirty);
     }
 
-    @Override
-    public Client getCurrentClient() {
+   public Client getCurrentClient() {
         if (currentClient == null) {
             return new Client("");
         }
         return currentClient;
     }
 
-    @Override
     public void setCurrentClient(Client currentClient) {
         this.currentClient = currentClient;
         isNewClient = false;
@@ -384,33 +370,33 @@ public class ClientManager implements Serializable, ClientManagement {
 
     public void okClient() {
         Boolean hasValidAddress = false;
-        Boolean hasValidContact = false;        
+        Boolean hasValidContact = false;
 
         try {
-            
+
             // Validate 
             // Check for a valid address
             for (Address address : currentClient.getAddresses()) {
                 hasValidAddress = hasValidAddress || AddressValidator.validate(address);
             }
             if (!hasValidAddress) {
-               PrimeFacesUtils.addMessage("Address Required", 
-                       "A valid address was not entered for this client", 
-                       FacesMessage.SEVERITY_ERROR); 
-               
-               return;
+                PrimeFacesUtils.addMessage("Address Required",
+                        "A valid address was not entered for this client",
+                        FacesMessage.SEVERITY_ERROR);
+
+                return;
             }
-            
+
             // Check for a valid contact
             for (Contact contact : currentClient.getContacts()) {
                 hasValidContact = hasValidContact || ContactValidator.validate(contact);
             }
             if (!hasValidContact) {
-               PrimeFacesUtils.addMessage("Contact Required", 
-                       "A valid contact was not entered for this client", 
-                       FacesMessage.SEVERITY_ERROR); 
-               
-               return;
+                PrimeFacesUtils.addMessage("Contact Required",
+                        "A valid contact was not entered for this client",
+                        FacesMessage.SEVERITY_ERROR);
+
+                return;
             }
 
             // Update tracking
@@ -425,7 +411,7 @@ public class ClientManager implements Serializable, ClientManagement {
             }
 
             // Do save
-            if (isToBeSaved && isDirty) {
+            if (isDirty) {
                 getCurrentClient().setDateEdited(new Date());
                 if (getUser() != null) {
                     currentClient.setEditedBy(getUser().getEmployee());
@@ -435,11 +421,10 @@ public class ClientManager implements Serializable, ClientManagement {
                 isDirty = false;
             }
 
-            // Pass edited object to the currentClient owner
+            // Pass edited objects to the current job
+            // tk check necessary
             if (currentJob != null) {
                 currentJob.setClient(getCurrentClient());
-                currentJob.setBillingAddress(currentAddress);
-                currentJob.setContact(currentContact);
             }
 
             isNewClient = false;
@@ -457,34 +442,27 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void removeContact() {
-        getCurrentClient().getContacts().remove(currentContact);
+        getCurrentClient().getContacts().remove(selectedContact);
         setIsDirty(true);
-        currentContact = null;
+        selectedContact = null;
     }
 
     public void removeAddress() {
-        getCurrentClient().getAddresses().remove(currentAddress);
+        getCurrentClient().getAddresses().remove(selectedAddress);
         setIsDirty(true);
-        currentAddress = null;
+        selectedAddress = null;
     }
 
     public Contact getCurrentContact() {
-        if (currentContact == null) {
-            currentContact = getCurrentClient().getMainContact();
-        }
-        return currentContact;
+        return getCurrentClient().getMainContact();
     }
 
-    public void setCurrentContact(Contact currentContact) {
-        this.currentContact = currentContact;
-    }
+    public void okContact() {
 
-    public void okCurrentContact() {
-
-        currentContact = currentContact.prepare();
+        selectedContact = selectedContact.prepare();
 
         if (isNewContact) {
-            getCurrentClient().getContacts().add(currentContact);
+            getCurrentClient().getContacts().add(selectedContact);
             isNewContact = false;
         }
 
@@ -492,12 +470,12 @@ public class ClientManager implements Serializable, ClientManagement {
 
     }
 
-    public void okCurrentAddress() {
+    public void okAddress() {
 
-        currentAddress = currentAddress.prepare();
+        selectedAddress = selectedAddress.prepare();
 
         if (isNewAddress) {
-            getCurrentClient().getAddresses().add(currentAddress);
+            getCurrentClient().getAddresses().add(selectedAddress);
             isNewAddress = false;
         }
 
@@ -506,56 +484,56 @@ public class ClientManager implements Serializable, ClientManagement {
     }
 
     public void createNewContact() {
-        currentContact = null;
+        selectedContact = null;
 
         for (Contact contact : getCurrentClient().getContacts()) {
             if (contact.getFirstName().trim().isEmpty()) {
                 isNewContact = false;
-                currentContact = contact;
-                currentContact.setType("Main");
+                selectedContact = contact;
+                selectedContact.setType("Main");
                 break;
             }
         }
 
-        if (currentContact == null) {
+        if (selectedContact == null) {
             isNewContact = true;
-            currentContact = new Contact();
-            currentContact.setType("Main");
-            currentContact.setInternet(new Internet());
+            selectedContact = new Contact();
+            selectedContact.setType("Main");
+            selectedContact.setInternet(new Internet());
         }
 
         setIsDirty(false);
     }
-    
+
     public void editCurrentContact() {
-        System.out.println("Editing current contact...");
+        selectedContact = getCurrentContact();
     }
 
     public void createNewAddress() {
-        currentAddress = null;
+        selectedAddress = null;
 
         // Find an existing invalid or blank address and use it as the neww address
         for (Address address : getCurrentClient().getAddresses()) {
             if (address.getAddressLine1().trim().isEmpty()) {
                 isNewAddress = false;
-                currentAddress = address;
-                currentAddress.setType("Billing");
+                selectedAddress = address;
+                selectedAddress.setType("Billing");
                 break;
             }
         }
 
         // No existing blank or invalid address found so creating new one.
-        if (currentAddress == null) {
+        if (selectedAddress == null) {
             isNewAddress = true;
-            currentAddress = new Address();
-            currentAddress.setType("Billing");
+            selectedAddress = new Address();
+            selectedAddress.setType("Billing");
         }
-
+        
         setIsDirty(false);
     }
-    
+
     public void editCurrentAddress() {
-        System.out.println("Editing current address...");
+        selectedAddress = getCurrentAddress();
     }
 
     public List<Client> completeClient(String query) {

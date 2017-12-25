@@ -88,7 +88,7 @@ Email: info@dpbennett.com.jm
                 <p:resetInput target=":contactForm" />
 
                 <f:setPropertyActionListener value="#{contact}"
-                                             target="#{clientManager.currentContact}" />
+                                             target="#{clientManager.selectedContact}" />
             </p:commandButton>
         </p:column>
 
@@ -98,7 +98,7 @@ Email: info@dpbennett.com.jm
                              global="true"
                              icon="ui-icon-trash">
                 <f:setPropertyActionListener value="#{contact}"
-                                             target="#{clientManager.currentContact}" />
+                                             target="#{clientManager.selectedContact}" />
             </p:commandButton>
         </p:column>
     </p:dataTable>

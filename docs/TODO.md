@@ -23,9 +23,14 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- Change "New" button to "Actions" and add "Edit" and "New" menu items.
+- In Client Manager, impl getting the object with the highest id as the current billing
+  address or contact. Delete setCurrent* for address and contact
+- See if "add new" and similar variables can be replaced by "id==null" to check for 
+  newness and otherwise.
 - Track "dirtiness" of client, address and contact in their class and save accordingly.   
 - Check why an edited address sometimes appear twice in the addresses table.
+- Make sure that isDirty and not dirty is used to check the cleanliness of all
+  objects.
 
 #### Job Costing
 - Impl saving edits done to the Job Costing and Payment tab.

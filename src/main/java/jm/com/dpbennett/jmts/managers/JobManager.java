@@ -2160,9 +2160,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         clientManager.createNewClient(true);
         clientManager.setUser(getUser());
         clientManager.setCurrentJob(getCurrentJob());
-        clientManager.setCurrentAddress(new Address());
-        clientManager.setCurrentContact(new Contact());
-        clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
@@ -2172,9 +2169,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         clientManager.setUser(getUser());
         clientManager.setCurrentJob(getCurrentJob());
         clientManager.setCurrentClient(getCurrentJob().getClient());
-        clientManager.setCurrentAddress(getCurrentJob().getBillingAddress());
-        clientManager.setCurrentContact(getCurrentJob().getContact());
-        clientManager.setIsToBeSaved(true);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);

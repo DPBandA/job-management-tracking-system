@@ -34,7 +34,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-bottom: 5px;">
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{clientManager.okCurrentAddress}"
+                                     actionListener="#{clientManager.okAddress}"
                                      icon="ui-icon-check"
                                      update=":clientForm:client_growl,:clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
                                      process="@form" />
@@ -47,14 +47,14 @@ Email: info@dpbennett.com.jm
             </p:toolbar>
             <h:panelGrid columns="2" style="width: 85%">       
                 <h:outputText value="Type *:" style="font-weight: bold" />
-                <p:selectOneMenu value="#{clientManager.currentAddress.type}"
+                <p:selectOneMenu value="#{clientManager.selectedAddress.type}"
                                  id="addressType"
                                  validator="addressLineValidator"
                                  editable="true" >
                     <p:ajax
                         event="change"
                         global="true"
-                        listener="#{clientManager.updateCurrentAddress}"
+                        listener="#{clientManager.updateAddress}"
                         process="@this" />
 
                     <f:selectItem itemLabel="Billing" itemValue="Billing" />
@@ -62,42 +62,42 @@ Email: info@dpbennett.com.jm
                 </p:selectOneMenu>
 
                 <h:outputText value="Address (line 1) *:" style="font-weight: bold" />
-                <p:inputText value="#{clientManager.currentAddress.addressLine1}"
+                <p:inputText value="#{clientManager.selectedAddress.addressLine1}"
                              id="addressLine1"
                              maxlength="50"
                              validator="addressLineValidator"
                              style="width: 100%">
                     <p:ajax event="change"
                             global="true"
-                            listener="#{clientManager.updateCurrentAddress}"
+                            listener="#{clientManager.updateAddress}"
                             process="@this"/>
                 </p:inputText>
 
                 <h:outputText value="Address (line 2):" />
-                <p:inputText value="#{clientManager.currentAddress.addressLine2}"
+                <p:inputText value="#{clientManager.selectedAddress.addressLine2}"
                              id="addressLine2"     
                              maxlength="50"
                              style="width: 100%" >
                     <p:ajax event="change"
                             global="true"
-                            listener="#{clientManager.updateCurrentAddress}"
+                            listener="#{clientManager.updateAddress}"
                             process="@this"/>
                 </p:inputText>                
 
                 <h:outputText value="Nearest City/Town *:" style="font-weight: bold"/>
-                <p:inputText value="#{clientManager.currentAddress.city}"
+                <p:inputText value="#{clientManager.selectedAddress.city}"
                              id="addressCity"
                              maxlength="50"
                              validator="addressLineValidator"
                              style="width: 100%" >
                     <p:ajax event="change"
                             global="true"
-                            listener="#{clientManager.updateCurrentAddress}"
+                            listener="#{clientManager.updateAddress}"
                             process="@this"/>
                 </p:inputText>
 
                 <h:outputText value="Parish/State/Province *:" style="font-weight: bold" />
-                <p:selectOneMenu value="#{clientManager.currentAddress.stateOrProvince}"   
+                <p:selectOneMenu value="#{clientManager.selectedAddress.stateOrProvince}"   
                                  id="parishStateProvince"
                                  maxlength="50"
                                  validator="addressLineValidator"
@@ -114,7 +114,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{clientManager.okCurrentAddress}"
+                                     actionListener="#{clientManager.okAddress}"
                                      icon="ui-icon-check"
                                      update=":clientForm:client_growl,:clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
                                      process="@form" />
