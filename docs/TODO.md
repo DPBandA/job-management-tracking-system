@@ -23,12 +23,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- In Client, impl getting the the most recent billing address and contact.  
-  * Address and contact lists not being sorted. Impl a good sorting criterion.
 - The billing address and contact are not updated in the job when the client 
   dialog returns.
-- See if "add new" and similar variables can be replaced by "id==null" to check for 
-  newness and otherwise.
 - Track "dirtiness" of client, address and contact in their class and save accordingly.   
 - Check why an edited address sometimes appear twice in the addresses table.
 - Make sure that isDirty and not dirty is used to check the cleanliness of all

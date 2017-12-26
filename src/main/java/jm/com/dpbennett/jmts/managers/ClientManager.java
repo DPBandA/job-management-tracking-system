@@ -56,9 +56,6 @@ public class ClientManager implements Serializable {
     @PersistenceUnit(unitName = "JMTSPU") // tk to be put in resource bundle
     private EntityManagerFactory entityManagerFactory;
     private Boolean isDirty;
-    private Boolean isNewClient;
-    private Boolean isNewContact;
-    private Boolean isNewAddress;
     private Boolean isClientNameAndIdEditable;
     private Boolean isActiveClientsOnly;
     private Client currentClient;
@@ -77,9 +74,6 @@ public class ClientManager implements Serializable {
     }
 
     private void init() {
-        isNewContact = false;
-        isNewAddress = false;
-        isNewClient = false;
         isDirty = false;
         isClientNameAndIdEditable = false;
         foundClients = new ArrayList<>();
@@ -136,19 +130,11 @@ public class ClientManager implements Serializable {
     }
 
     public Boolean getIsNewContact() {
-        return isNewContact;
-    }
-
-    public void setIsNewContact(Boolean isNewContact) {
-        this.isNewContact = isNewContact;
+        return getSelectedContact().getId() == null;
     }
 
     public Boolean getIsNewAddress() {
-        return isNewAddress;
-    }
-
-    public void setIsNewAddress(Boolean isNewAddress) {
-        this.isNewAddress = isNewAddress;
+        return getSelectedAddress().getId() == null;
     }
 
     public Boolean getIsActiveClientsOnly() {
@@ -195,11 +181,7 @@ public class ClientManager implements Serializable {
     }
 
     public Boolean getIsNewClient() {
-        return isNewClient;
-    }
-
-    public void setIsNewClient(Boolean isNewClient) {
-        this.isNewClient = isNewClient;
+        return getCurrentClient().getId() == null;
     }
 
     public List<Address> completeClientAddress(String query) {
@@ -311,8 +293,6 @@ public class ClientManager implements Serializable {
 
     public void createNewClient(Boolean active) {
         currentClient = new Client("", active);
-
-        isNewClient = true;
     }
 
     public void createNewClient() {
@@ -341,7 +321,6 @@ public class ClientManager implements Serializable {
 
     public void setCurrentClient(Client currentClient) {
         this.currentClient = currentClient;
-        isNewClient = false;
     }
 
     public Client getClientById(EntityManager em, Long Id) {
@@ -357,7 +336,6 @@ public class ClientManager implements Serializable {
     public void cancelClientEdit(ActionEvent actionEvent) {
 
         setIsDirty(false);
-        isNewClient = false;
 
         RequestContext.getCurrentInstance().closeDialog(null);
     }
@@ -400,7 +378,7 @@ public class ClientManager implements Serializable {
             }
 
             // Update tracking
-            if (isNewClient) {
+            if (getIsNewClient()) {
                 getCurrentClient().setDateFirstReceived(new Date());
                 getCurrentClient().setDateEntered(new Date());
                 getCurrentClient().setDateEdited(new Date());
@@ -427,12 +405,9 @@ public class ClientManager implements Serializable {
                 currentJob.setClient(getCurrentClient());
             }
 
-            isNewClient = false;
-
             RequestContext.getCurrentInstance().closeDialog(null);
 
         } catch (Exception e) {
-            isNewClient = false;
             System.out.println(e);
         }
     }
@@ -461,9 +436,8 @@ public class ClientManager implements Serializable {
 
         selectedContact = selectedContact.prepare();
 
-        if (isNewContact) {
+        if (getIsNewContact()) {
             getCurrentClient().getContacts().add(selectedContact);
-            isNewContact = false;
         }
 
         RequestContext.getCurrentInstance().execute("contactFormDialog.hide();");
@@ -474,9 +448,8 @@ public class ClientManager implements Serializable {
 
         selectedAddress = selectedAddress.prepare();
 
-        if (isNewAddress) {
+        if (getIsNewAddress()) {
             getCurrentClient().getAddresses().add(selectedAddress);
-            isNewAddress = false;
         }
 
         RequestContext.getCurrentInstance().execute("addressFormDialog.hide();");
@@ -488,7 +461,6 @@ public class ClientManager implements Serializable {
 
         for (Contact contact : getCurrentClient().getContacts()) {
             if (contact.getFirstName().trim().isEmpty()) {
-                isNewContact = false;
                 selectedContact = contact;
                 selectedContact.setType("Main");
                 break;
@@ -496,7 +468,6 @@ public class ClientManager implements Serializable {
         }
 
         if (selectedContact == null) {
-            isNewContact = true;
             selectedContact = new Contact();
             selectedContact.setType("Main");
             selectedContact.setInternet(new Internet());
@@ -515,7 +486,6 @@ public class ClientManager implements Serializable {
         // Find an existing invalid or blank address and use it as the neww address
         for (Address address : getCurrentClient().getAddresses()) {
             if (address.getAddressLine1().trim().isEmpty()) {
-                isNewAddress = false;
                 selectedAddress = address;
                 selectedAddress.setType("Billing");
                 break;
@@ -524,7 +494,6 @@ public class ClientManager implements Serializable {
 
         // No existing blank or invalid address found so creating new one.
         if (selectedAddress == null) {
-            isNewAddress = true;
             selectedAddress = new Address();
             selectedAddress.setType("Billing");
         }
