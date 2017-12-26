@@ -578,8 +578,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             Client client = Application.getActiveClientByNameIfAvailable(em, getCurrentJob().getClient());
 
-            parameters.put("contactPersonName", BusinessEntityUtils.getContactFullName(client.getMainContact()));
-            parameters.put("customerAddress", client.getBillingAddress().toString());
+            parameters.put("contactPersonName", BusinessEntityUtils.getContactFullName(client.getDefaultContact()));
+            parameters.put("customerAddress", client.getDefaultAddress().toString());
             parameters.put("contactNumbers", client.getStringListOfContactPhoneNumbers());
             parameters.put("jobDescription", getCurrentJob().getJobDescription());
 

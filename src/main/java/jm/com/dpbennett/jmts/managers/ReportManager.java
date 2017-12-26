@@ -2120,19 +2120,19 @@ public class ReportManager implements Serializable {
                     "java.lang.String", dataCellStyle);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, 5, 0,
-                    ativeClient.getBillingAddress().getAddressLine1(),
+                    ativeClient.getDefaultAddress().getAddressLine1(),
                     "java.lang.String", dataCellStyle);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, 6, 0,
-                    ativeClient.getBillingAddress().getAddressLine2(),
+                    ativeClient.getDefaultAddress().getAddressLine2(),
                     "java.lang.String", dataCellStyle);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, 7, 0,
-                    ativeClient.getBillingAddress().getStateOrProvince(),
+                    ativeClient.getDefaultAddress().getStateOrProvince(),
                     "java.lang.String", dataCellStyle);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, 8, 0,
-                    ativeClient.getBillingAddress().getCity(),
+                    ativeClient.getDefaultAddress().getCity(),
                     "java.lang.String", dataCellStyle);
 
             // contracting business office
@@ -2189,25 +2189,25 @@ public class ReportManager implements Serializable {
             dataCellStyle.setFont(defaultFont);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, 11, 0,
-                    ativeClient.getMainContact(),
+                    ativeClient.getDefaultContact(),
                     "java.lang.String", dataCellStyle);
 
             // phone number
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, 13, 0,
-                    ativeClient.getMainContact().getMainPhoneNumber().getLocalNumber(),
+                    ativeClient.getDefaultContact().getMainPhoneNumber().getLocalNumber(),
                     "java.lang.String", dataCellStyle);
 
             // fax number
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, 13, 4,
-                    ativeClient.getMainContact().getMainFaxNumber().getLocalNumber(),
+                    ativeClient.getDefaultContact().getMainFaxNumber().getLocalNumber(),
                     "java.lang.String", dataCellStyle);
 
             // email address
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, 13, 7,
-                    ativeClient.getMainContact().getInternet().getEmail1(),
+                    ativeClient.getDefaultContact().getInternet().getEmail1(),
                     "java.lang.String", dataCellStyle);
 
             // p.o number
@@ -2807,7 +2807,7 @@ public class ReportManager implements Serializable {
             // Billing address    
             Address billingAddress;
             if (currentJob.getBillingAddress() == null) {
-                billingAddress = ativeClient.getBillingAddress();
+                billingAddress = ativeClient.getDefaultAddress();
             } else {
                 billingAddress = currentJob.getBillingAddress();
             }
@@ -2832,7 +2832,7 @@ public class ReportManager implements Serializable {
             // Name
             Contact contactPerson;
             if (currentJob.getContact() == null) {
-                contactPerson = ativeClient.getMainContact();
+                contactPerson = ativeClient.getDefaultContact();
             } else {
                 contactPerson = currentJob.getContact();
             }

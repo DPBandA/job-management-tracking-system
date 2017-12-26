@@ -759,7 +759,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             // Billing address    
             Address billingAddress;
             if (currentJob.getBillingAddress() == null) {
-                billingAddress = ativeClient.getBillingAddress();
+                billingAddress = ativeClient.getDefaultAddress();
             } else {
                 billingAddress = currentJob.getBillingAddress();
             }
@@ -784,7 +784,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             // Name
             Contact contactPerson;
             if (currentJob.getContact() == null) {
-                contactPerson = ativeClient.getMainContact();
+                contactPerson = ativeClient.getDefaultContact();
             } else {
                 contactPerson = currentJob.getContact();
             }

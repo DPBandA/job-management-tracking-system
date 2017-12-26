@@ -257,7 +257,7 @@ public class ClientManager implements Serializable {
     }
 
     public Address getCurrentAddress() {
-        return getCurrentClient().getBillingAddress();
+        return getCurrentClient().getDefaultAddress();
     }
 
     public Boolean getIsClientNameAndIdEditable() {
@@ -281,7 +281,7 @@ public class ClientManager implements Serializable {
 
     public void editSelectedClient() {
         setCurrentJob(null);
-        
+
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
     }
 
@@ -309,7 +309,7 @@ public class ClientManager implements Serializable {
         setIsDirty(true);
     }
 
-   public void createNewClient(Boolean active) {
+    public void createNewClient(Boolean active) {
         currentClient = new Client("", active);
 
         isNewClient = true;
@@ -332,7 +332,7 @@ public class ClientManager implements Serializable {
         updateCurrentJob(isDirty);
     }
 
-   public Client getCurrentClient() {
+    public Client getCurrentClient() {
         if (currentClient == null) {
             return new Client("");
         }
@@ -454,7 +454,7 @@ public class ClientManager implements Serializable {
     }
 
     public Contact getCurrentContact() {
-        return getCurrentClient().getMainContact();
+        return getCurrentClient().getDefaultContact();
     }
 
     public void okContact() {
@@ -528,7 +528,7 @@ public class ClientManager implements Serializable {
             selectedAddress = new Address();
             selectedAddress.setType("Billing");
         }
-        
+
         setIsDirty(false);
     }
 

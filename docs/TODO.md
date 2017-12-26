@@ -23,8 +23,10 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- In Client Manager, impl getting the object with the highest id as the current billing
-  address or contact. Delete setCurrent* for address and contact
+- In Client, impl getting the the most recent billing address and contact.  
+  * Address and contact lists not being sorted. Impl a good sorting criterion.
+- The billing address and contact are not updated in the job when the client 
+  dialog returns.
 - See if "add new" and similar variables can be replaced by "id==null" to check for 
   newness and otherwise.
 - Track "dirtiness" of client, address and contact in their class and save accordingly.   
@@ -268,6 +270,7 @@ paymentTerms, rename JMTSUserId to userId
   specific components.
 - Disable other rendered tabs when the job detail tab is rendered to prevent 
   switching to those tabs??
+- Add privileges for adding/editing contacts and addresses.
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

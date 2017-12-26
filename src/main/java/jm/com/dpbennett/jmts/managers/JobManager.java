@@ -1466,7 +1466,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 }
 
                 // Set default billing address
-                currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
+                currentJob.setBillingAddress(currentJob.getClient().getDefaultAddress());
 
                 // Get/Set contact of the person creating the subcontract.
                 Contact contact = Contact.findClientContactByEmployee(em,
@@ -2134,8 +2134,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             financeManager.updateCreditStatus(null);
         }
 
-        currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
-        currentJob.setContact(currentJob.getClient().getMainContact());
+        currentJob.setBillingAddress(currentJob.getClient().getDefaultAddress());
+        currentJob.setContact(currentJob.getClient().getDefaultContact());
 
         setDirty(true);
     }
