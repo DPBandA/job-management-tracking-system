@@ -367,16 +367,16 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     }
 
     public void updateJob() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     @Override
-    public void setDirty(Boolean dirty) {
+    public void setIsDirty(Boolean dirty) {
         getCurrentJob().setIsDirty(dirty);
     }
 
     @Override
-    public Boolean isDirty() {
+    public Boolean getIsDirty() {
         return getCurrentJob().getIsDirty();
     }
 
@@ -409,7 +409,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     }
 
     public void updateAssignee() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     HSSFCellStyle getDefaultCellStyle(HSSFWorkbook wb) {

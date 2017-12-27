@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
                          maxlength="250">
                 <p:ajax event="change"
                         global="false"
-                        listener="#{financeManager.updateJobCostingAndPayment}"
+                        listener="#{financeManager.updatePurchaseOrderNumber}"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>
@@ -69,7 +69,7 @@ Email: info@dpbennett.com.jm
                 <p:ajax event="change"
                         global="false"
                         update="minDepositIncludingTaxes"
-                        listener="#{financeManager.updateJobCostingEstimate}"
+                        listener="#{financeManager.updateMinimumDepositRequired}"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>      
@@ -83,7 +83,7 @@ Email: info@dpbennett.com.jm
                 <p:ajax
                     global="true"
                     update="estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
-                    listener="#{financeManager.updateAllJobCostings}"
+                    listener="#{financeManager.updateAllTaxes}"
                     process="@this" />
                 <f:selectItems value="#{financeManager.GCTPercentages}" />
             </p:selectOneMenu>  
@@ -97,10 +97,12 @@ Email: info@dpbennett.com.jm
                              style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
                              readonly="true"
                              maxlength="250">
+                    
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    
                     <p:ajax event="change"
                             global="false"                            
-                            listener="#{financeManager.updateJobCostingEstimate}"
+                            listener="#{financeManager.updateEstimatedCostIncludingTaxes}"
                             process="@this"/>
                 </p:inputText>
                 <h:outputText value="&nbsp;"/>
@@ -118,7 +120,7 @@ Email: info@dpbennett.com.jm
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="keyup"
                         global="false"                        
-                        listener="#{financeManager.updateJobCostingEstimate}"
+                        listener="#{financeManager.updateMinimumDepositIncludingTaxes}"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>   
@@ -135,7 +137,7 @@ Email: info@dpbennett.com.jm
                 <p:ajax event="keyup"
                         global="false"
                         update="amountDue2"
-                        listener="#{financeManager.updateAmountDue}"
+                        listener="#{financeManager.updateTotalCost}"
                         process="@this"/>
             </p:inputText>
 

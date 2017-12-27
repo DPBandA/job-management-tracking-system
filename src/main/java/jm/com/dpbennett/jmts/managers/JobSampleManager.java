@@ -123,12 +123,12 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     @Override
-    public void setDirty(Boolean dirty) {
+    public void setIsDirty(Boolean dirty) {
         selectedJobSample.setIsDirty(dirty);
     }
 
     @Override
-    public Boolean isDirty() {
+    public Boolean getIsDirty() {
         return selectedJobSample.getIsDirty();
     }
 
@@ -260,7 +260,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         }
         selectedJobSample = new JobSample();
 
-        setDirty(true);
+        setIsDirty(true);
 
         RequestContext.getCurrentInstance().closeDialog(null);
     }

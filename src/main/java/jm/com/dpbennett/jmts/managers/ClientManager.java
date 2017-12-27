@@ -55,7 +55,6 @@ public class ClientManager implements Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU") // tk to be put in resource bundle
     private EntityManagerFactory entityManagerFactory;
-    private Boolean isDirty;
     private Boolean isClientNameAndIdEditable;
     private Boolean isActiveClientsOnly;
     private Client currentClient;
@@ -74,8 +73,7 @@ public class ClientManager implements Serializable {
     }
 
     private void init() {
-        isDirty = false;
-        isClientNameAndIdEditable = false;
+        isClientNameAndIdEditable = false; // tk put as transient in Client
         foundClients = new ArrayList<>();
         currentClient = null;
         selectedContact = null;
@@ -105,12 +103,8 @@ public class ClientManager implements Serializable {
         this.selectedAddress = selectedAddress;
     }
 
-    public Boolean isCurrentJobDirty() {
-        return getCurrentJob().getIsDirty();
-    }
-
     public void clientDialogReturn() {
-        if (isCurrentJobDirty() && getCurrentJob().getId() != null) {
+        if (getCurrentJob().getIsDirty() && getCurrentJob().getId() != null) {
             if (getCurrentJob().prepareAndSave(getEntityManager(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Client and Job Saved", "This job and the edited/added client were saved", FacesMessage.SEVERITY_INFO);
             }
@@ -277,18 +271,12 @@ public class ClientManager implements Serializable {
         setIsDirty(true);
     }
 
-    public void updateCurrentJob(Boolean isDirty) {
-        if (getCurrentJob() != null) {
-            getCurrentJob().setIsDirty(isDirty);
-        }
-    }
-
     public void updateContact() {
         setIsDirty(true);
     }
 
     public void updateAddress() {
-        setIsDirty(true);
+        setIsDirty(true);        
     }
 
     public void createNewClient(Boolean active) {
@@ -304,12 +292,11 @@ public class ClientManager implements Serializable {
     }
 
     public Boolean getIsDirty() {
-        return isDirty;
+        return getCurrentClient().getIsDirty();
     }
 
     public void setIsDirty(Boolean isDirty) {
-        this.isDirty = isDirty;
-        updateCurrentJob(isDirty);
+        getCurrentClient().setIsDirty(isDirty);
     }
 
     public Client getCurrentClient() {
@@ -389,14 +376,17 @@ public class ClientManager implements Serializable {
             }
 
             // Do save
-            if (isDirty) {
+            if (getIsDirty()) {
                 getCurrentClient().setDateEdited(new Date());
                 if (getUser() != null) {
                     currentClient.setEditedBy(getUser().getEmployee());
                 }
                 currentClient.save(getEntityManager());
-
-                isDirty = false;
+                setIsDirty(false);
+                
+                // Set current job dirty so it can be saved when the client dialog 
+                // returns 
+                getCurrentJob().setIsDirty(true);
             }
 
             // Pass edited objects to the current job
@@ -439,6 +429,10 @@ public class ClientManager implements Serializable {
         if (getIsNewContact()) {
             getCurrentClient().getContacts().add(selectedContact);
         }
+        
+        if (currentJob != null) {
+            currentJob.setContact(selectedContact);
+        }
 
         RequestContext.getCurrentInstance().execute("contactFormDialog.hide();");
 
@@ -450,6 +444,10 @@ public class ClientManager implements Serializable {
 
         if (getIsNewAddress()) {
             getCurrentClient().getAddresses().add(selectedAddress);
+        }
+        
+        if (currentJob != null) {
+            currentJob.setBillingAddress(selectedAddress);
         }
 
         RequestContext.getCurrentInstance().execute("addressFormDialog.hide();");

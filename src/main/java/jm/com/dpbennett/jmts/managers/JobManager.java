@@ -689,7 +689,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         RequestContext requestContext = RequestContext.getCurrentInstance();
 
-        requestContext.addCallbackParam("isDirty", isDirty());
+        requestContext.addCallbackParam("isDirty", getIsDirty());
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
@@ -702,7 +702,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         switch (tabId) {
             case "jobDetailTab":
                 financeManager.setEnableOnlyPaymentEditing(false);
-                if (isDirty()) {
+                if (getIsDirty()) {
                     PrimeFacesUtils.addMessage("Job Not Saved!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
                 }
                 break;
@@ -710,7 +710,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 // Close job detail tab
                 mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
                 financeManager.setEnableOnlyPaymentEditing(false);
-                if (isDirty()) {
+                if (getIsDirty()) {
                     PrimeFacesUtils.addMessage("Job Not Saved!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
                 }
                 break;
@@ -718,7 +718,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 if (!tabId.equals("jobDetailTab") && mainTabView.isTabRendered("jobDetailTab")) {
                     financeManager.setEnableOnlyPaymentEditing(false);
                     mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
-                    if (isDirty()) {
+                    if (getIsDirty()) {
                         PrimeFacesUtils.addMessage("Job Not Saved!", "The recently opened job was edited but not saved", FacesMessage.SEVERITY_WARN);
                         RequestContext.getCurrentInstance().update("headerForm:growl3");
                     }
@@ -736,7 +736,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 if (!tabId.equals("jobDetailTab") && mainTabView.isTabRendered("jobDetailTab")) {
                     financeManager.setEnableOnlyPaymentEditing(false);
                     mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
-                    if (isDirty()) {
+                    if (getIsDirty()) {
                         PrimeFacesUtils.addMessage("Job Not Saved!", "The recently opened job was edited but not saved", FacesMessage.SEVERITY_WARN);
                         RequestContext.getCurrentInstance().update("headerForm:growl3");
                     }
@@ -1034,7 +1034,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void updatePreferedJobTableView(SelectEvent event) {
         doJobViewUpdate((String) event.getObject());
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public Boolean getCurrentJobIsValid() {
@@ -1191,15 +1191,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobCategory() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateJobSubCategory() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateJob() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateJobView(AjaxBehaviorEvent event) {
@@ -1235,22 +1235,22 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
         if (currentJob.getId() != null) {
-            financeManager.updateAllJobCostings();
+            financeManager.updateAllTaxes();
         }
     }
 
     public void updateTestsAndCalibration() {
         currentJob.setNoOfTestsOrCalibrations(currentJob.getNoOfTests() + currentJob.getNoOfCalibrations());
 
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void update() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updatePreferences() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateJobsTab() {
@@ -1267,7 +1267,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
 
         }
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateAdminTab() {
@@ -1275,7 +1275,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getUser().getAdminUnit()) {
             mainTabView.renderTab(getEntityManager1(), "adminTab", true);
         }
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateFinancialAdminTab() {
@@ -1283,11 +1283,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getUser().getFinancialAdminUnit()) {
             mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
         }
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateDocumentsCollectedDate() {
-        setDirty(true);
+        setIsDirty(true);
         if (!currentJob.getJobStatusAndTracking().getDocumentCollected()) {
             currentJob.getJobStatusAndTracking().setDocumentCollectedBy("");
             setDateDocumentCollected(null);
@@ -1302,11 +1302,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             currentJob.getJobStatusAndTracking().setWorkProgress("Not started");
             setJobCompletionDate(null);
         }
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateSamplesCollectedDate() {
-        setDirty(true);
+        setIsDirty(true);
         if (!currentJob.getJobStatusAndTracking().getSamplesCollected()) {
             currentJob.getJobStatusAndTracking().setSamplesCollectedBy("");
             setDateSamplesCollected(null);
@@ -1314,7 +1314,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobReportNumber() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateAutoGenerateJobNumber() {
@@ -1322,20 +1322,20 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (currentJob.getAutoGenerateJobNumber()) {
             currentJob.setJobNumber(getCurrentJobNumber());
         }
-        setDirty(true);
+        setIsDirty(true);
 
     }
 
     public void updateNewClient() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateJobNumber() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateSamplesCollected() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public Boolean checkWorkProgressReadinessToBeChanged() {
@@ -1419,7 +1419,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 context.addCallbackParam("jobCompleted", true);
             }
 
-            setDirty(true);
+            setIsDirty(true);
         }
 
     }
@@ -1496,9 +1496,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             } else {
                 jobCreated = true;
                 if (isSubcontract) {
-                    setDirty(true);
+                    setIsDirty(true);
                 } else {
-                    setDirty(false);
+                    setIsDirty(false);
                 }
             }
 
@@ -1538,7 +1538,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
         // set job dirty to ensure it is saved if attempt is made to close it
         //  before saving
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void subContractJob(ActionEvent actionEvent) {
@@ -1563,7 +1563,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void cancelJobEdit(ActionEvent actionEvent) {
-        setDirty(false);
+        setIsDirty(false);
         doJobSearch(searchManager.getCurrentSearchParameters());
         setRenderJobDetailTab(false);
     }
@@ -1577,7 +1577,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void closePreferencesDialog1(ActionEvent actionEvent) {
         RequestContext context = RequestContext.getCurrentInstance();
 
-        if (isDirty()) {
+        if (getIsDirty()) {
             // save prefs and update view
             savePreferences();
         }
@@ -1588,7 +1588,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         context.update("headerForm");
         context.execute("preferencesDialog.hide();");
 
-        setDirty(false);
+        setIsDirty(false);
     }
 
     public void savePreferences() {
@@ -1635,12 +1635,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
-        } else if (isDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
+        } else if (getIsDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
             // User can edit any job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
-        } else if (isDirty() && !isCurrentJobNew()
+        } else if (getIsDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditDepartmentJob()
                 && (getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))
                 || getUser().getEmployee().isMemberOf(currentJob.getDepartment()))) {
@@ -1649,7 +1649,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
-        } else if (isDirty() && !isCurrentJobNew()
+        } else if (getIsDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             // User can edit own jobs...saving
@@ -1666,7 +1666,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
             }
-        } else if (!isDirty()) {
+        } else if (!getIsDirty()) {
             // Job not dirty so it will not be saved.
             PrimeFacesUtils.addMessage("Already Saved", "Job was not saved because it was not modified or it was recently saved", FacesMessage.SEVERITY_INFO);
         } else {
@@ -1856,7 +1856,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         if (currentJob.getId() != null) {
-            financeManager.updateAllJobCostings();
+            financeManager.updateAllTaxes();
         }
     }
 
@@ -1865,7 +1865,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         currentJob.getJobStatusAndTracking().setDateOfCompletion(selectedDate);
 
-        setDirty(Boolean.TRUE);
+        setIsDirty(Boolean.TRUE);
     }
 
     public void updateDateExpectedCompletionDate(SelectEvent event) {
@@ -1873,7 +1873,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         currentJob.getJobStatusAndTracking().setExpectedDateOfCompletion(selectedDate);
 
-        setDirty(Boolean.TRUE);
+        setIsDirty(Boolean.TRUE);
     }
 
     public void updateDateSamplesCollected(SelectEvent event) {
@@ -1881,7 +1881,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         currentJob.getJobStatusAndTracking().setDateSamplesCollected(selectedDate);
 
-        setDirty(Boolean.TRUE);
+        setIsDirty(Boolean.TRUE);
     }
 
     public void updateDateDocsCollected(SelectEvent event) {
@@ -1889,7 +1889,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         currentJob.getJobStatusAndTracking().setDateDocumentCollected(selectedDate);
 
-        setDirty(Boolean.TRUE);
+        setIsDirty(Boolean.TRUE);
     }
 
     public List<Address> completeClientAddress(String query) {
@@ -2050,12 +2050,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     @Override
-    public void setDirty(Boolean dirty) {
+    public void setIsDirty(Boolean dirty) {
         getCurrentJob().setIsDirty(dirty);
     }
 
     @Override
-    public Boolean isDirty() {
+    public Boolean getIsDirty() {
         return getCurrentJob().getIsDirty();
     }
 
@@ -2065,7 +2065,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (currentJob.getAutoGenerateJobNumber()) {
                 currentJob.setJobNumber(getCurrentJobNumber());
             }
-            setDirty(true);
+            setIsDirty(true);
 
         } catch (Exception e) {
 
@@ -2074,11 +2074,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateSector() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateBillingAddress() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateDepartment() {
@@ -2095,7 +2095,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
             if (currentJob.getId() != null) {
-                financeManager.updateAllJobCostings();
+                financeManager.updateAllTaxes();
             }
 
         } catch (Exception e) {
@@ -2116,7 +2116,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
             if (currentJob.getId() != null) {
-                financeManager.updateAllJobCostings();
+                financeManager.updateAllTaxes();
             }
 
         } catch (Exception e) {
@@ -2137,11 +2137,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         currentJob.setBillingAddress(currentJob.getClient().getDefaultAddress());
         currentJob.setContact(currentJob.getClient().getDefaultContact());
 
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateAssignee() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public Job getSelectedJob() {
@@ -2392,7 +2392,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         if (dialogActionHandlerId.equals("unitCostDirty")) {
             RequestContext context = RequestContext.getCurrentInstance();
-            setDirty(false);
+            setIsDirty(false);
             context.execute("unitCostDialog.hide();");
         }
     }
@@ -2470,7 +2470,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     }
                 }
 
-            } else if (isDirty() && !getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))) {
+            } else if (getIsDirty() && !getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))) {
                 List<String> emails = Employee.getDepartmentSupervisorsEmailAddresses(Department.findDepartmentAssignedToJob(currentJob, em), em);
                 emails.add(Employee.findEmployeeDefaultEmailAdress(currentJob.getAssignedTo(), getEntityManager1()));
                 for (String email : emails) {

@@ -146,7 +146,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         user = null;
         jobCostDepartment = null;
     }
-    
+
     public void reset() {
         init();
     }
@@ -699,11 +699,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobCategory() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateJobSubCategory() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateCashPayment(AjaxBehaviorEvent event) {
@@ -719,22 +719,33 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setJobCostingAndPaymentDirty(true);
     }
 
-    // tk rename this method
-    public void updateAllJobCostings() {
-        // Update all costs that depend on tax
-        //editJobCosting();
-        //updateJobCostings(); // tk needed here?
+    public void updatePurchaseOrderNumber() {
+        setIsDirty(true);
+    }
+
+    public void updateAllTaxes() {
         updateJobCostingEstimate();
 
-        setJobCostingAndPaymentDirty(true);
+        setIsDirty(true);
     }
 
     public Boolean getJobHasSubcontracts() {
         return currentJob.hasSubcontracts(getEntityManager1());
     }
 
+    public void updateMinimumDepositRequired() {
+        updateJobCostingEstimate();
+    }
+
+    public void updateEstimatedCostIncludingTaxes() {
+        updateJobCostingEstimate();
+    }
+
+    public void updateMinimumDepositIncludingTaxes() {
+        updateJobCostingEstimate();
+    }
+
     public void updateJobCostingEstimate() {
-        EntityManager em = getEntityManager1();
 
         // Update estmated cost and min. deposit  
         if (currentJob.getJobCostingAndPayment().getEstimatedCost() != null) {
@@ -742,7 +753,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                     + currentJob.getJobCostingAndPayment().getEstimatedCost()
                     * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0);
             currentJob.getJobCostingAndPayment().setEstimatedCostIncludingTaxes(estimatedCostWithTaxes);
-            setDirty(true);
+            setIsDirty(true);
         }
 
         if (currentJob.getJobCostingAndPayment().getMinDeposit() != null) {
@@ -750,7 +761,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                     + currentJob.getJobCostingAndPayment().getMinDeposit()
                     * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0);
             currentJob.getJobCostingAndPayment().setMinDepositIncludingTaxes(minDepositWithTaxes);
-            setDirty(true);
+            setIsDirty(true);
         }
 
     }
@@ -763,11 +774,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             getCurrentJob().getJobCostingAndPayment().setLastPaymentEnteredBy(employee);
         }
         updateAmountDue();
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void update() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateJobCostingValidity() {
@@ -857,7 +868,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updatePreferences() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     // tk to be updated
@@ -885,7 +896,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 break;
         }
 
-        setDirty(true);
+        setIsDirty(true);
 
     }
 
@@ -915,18 +926,18 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateNewClient() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateDepartmentReport() {
     }
 
     public void updateJobNumber() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public void updateSamplesCollected() {
-        setDirty(true);
+        setIsDirty(true);
     }
 
     public Boolean checkWorkProgressReadinessToBeChanged() {
@@ -995,7 +1006,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         RequestContext context = RequestContext.getCurrentInstance();
 
         // prompt to save modified job before attempting to create new job
-        if (isDirty()) {
+        if (getIsDirty()) {
             // ask to save         
             displayCommonConfirmationDialog(initDialogActionHandlerId("unitCostDirty"), "This unit cost was modified. Do you wish to save it?", "Unit Cost Not Saved", "info");
         } else {
@@ -1005,7 +1016,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void cancelJobCostingEdit(ActionEvent actionEvent) {
-        setDirty(false);
+        setIsDirty(false);
 //        doJobSearch(searchManager.getCurrentSearchParameters());
 //        setRenderJobDetailTab(false);        
         RequestContext.getCurrentInstance().closeDialog(null);
@@ -1022,7 +1033,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             }
         }
 
-        setDirty(false);
+        setIsDirty(false);
     }
 
     // tk validation not done so change name?
@@ -1154,7 +1165,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             }
 
             em.getTransaction().commit();
-            setDirty(false);
+            setIsDirty(false);
 
         } catch (Exception e) {
             context.execute("undefinedErrorDialog.show();");
@@ -1330,7 +1341,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         for (CostComponent costComponent : components) {
             if (costComponent.getName().equals(componentName)) {
                 components.remove(index);
-                setDirty(Boolean.TRUE);
+                setIsDirty(Boolean.TRUE);
 
                 break;
             }
@@ -1386,12 +1397,16 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void updateFinalCost() {
         currentJob.getJobCostingAndPayment().setFinalCost(currentJob.getJobCostingAndPayment().getTotalJobCostingsAmount());
-        setDirty(true);
+        setIsDirty(true);
+    }
+    
+    public void updateTotalCost() {
+        updateAmountDue();
     }
 
     public void updateAmountDue() {
         currentJob.getJobCostingAndPayment().setAmountDue(currentJob.getJobCostingAndPayment().calculateAmountDue());
-        setJobCostingAndPaymentDirty(true);
+        setIsDirty(true);
     }
 
     public Boolean getCanApplyGCT() {
@@ -1492,13 +1507,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     @Override
-    public void setDirty(Boolean dirty) {
-        getCurrentJob().getJobCostingAndPayment().setIsDirty(dirty);
+    public void setIsDirty(Boolean dirty) {
+        getCurrentJob().setIsDirty(dirty);
     }
 
     @Override
-    public Boolean isDirty() {
-        return getCurrentJob().getJobCostingAndPayment().getIsDirty();
+    public Boolean getIsDirty() {
+        return getCurrentJob().getIsDirty();
     }
 
     public void setJobCostingAndPaymentDirty(Boolean dirty) {
@@ -1518,7 +1533,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 Department department = Department.findDepartmentByName(em, currentUnitCost.getDepartment().getName());
                 if (department != null) {
                     currentUnitCost.setDepartment(department);
-                    setDirty(true);
+                    setIsDirty(true);
                 }
             }
         } catch (Exception e) {
@@ -1536,7 +1551,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 DepartmentUnit departmentUnit = DepartmentUnit.findDepartmentUnitByName(em, currentUnitCost.getDepartmentUnit().getName());
                 if (departmentUnit != null) {
                     currentUnitCost.setDepartmentUnit(departmentUnit);
-                    setDirty(true);
+                    setIsDirty(true);
                 }
             }
         } catch (Exception e) {
@@ -1555,7 +1570,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
                 if (laboratory != null) {
                     currentUnitCost.setLaboratory(laboratory);
-                    setDirty(true);
+                    setIsDirty(true);
                 }
             }
 
@@ -1920,7 +1935,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         if (dialogActionHandlerId.equals("unitCostDirty")) {
             RequestContext context = RequestContext.getCurrentInstance();
-            setDirty(false);
+            setIsDirty(false);
             context.execute("unitCostDialog.hide();");
         }
     }

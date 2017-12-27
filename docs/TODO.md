@@ -22,17 +22,11 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-#### Misc
-- The billing address and contact are not updated in the job when the client 
-  dialog returns. Set the billing address and the contact of the current job
-  when an address or contact is added or edited.
-- Track "dirtiness" of client, address and contact in their class and save accordingly.   
-- Check why an edited address sometimes appear twice in the addresses table.
-- Make sure that isDirty and not dirty is used to check the cleanliness of all
-  objects.
 
 #### Job Costing
-- Impl saving edits done to the Job Costing and Payment tab.
+- Impl saving edits done to the Job Costing and Payment tab using FinanceManager.
+  * Continue impl update*() methods in JobCostingAndPaymentTab. Continue from updateTotalCost().
+- Change "Edit" button in JobCostingAndPaymentTab to "Actions" menu.
 - Impl saving job costing and updating the job costing table
   * Impl saving within job costing dialog. Do automatic job save as is done with
     samples. Change "Save" to "Ok" and close dialog when clicked. 
