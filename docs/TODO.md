@@ -90,10 +90,14 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - See if github api (if it exists) can be used to implement feedback system.
 
 #### Cash Payment
-- Payment dialog is displayed on once when the add payment button is pressed.
-- Hide items in user menu if they are not selected in preferences.
+- Payment dialog is displayed only once when the add payment button is pressed.
+  See if calling javascript code causes this.
 - Implement updateCashPayment() to record updates made to a field and store the updates.
+- In "getCashPayments" method, if the cashpayments is empty and there is a total
+  paid then add this total paid to the list of cashpayments. 
 - Add cash payments feature so cashier can add cash payments.
+- How are the min. deposit and total paid related. How are they currently handled
+  by the system. Should the total paid include the deposit.
 * Old Payments Tab Info:
 Invoice number(s): 		 
 Receipt #s: 		 
