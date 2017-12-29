@@ -30,10 +30,10 @@ Email: info@dpbennett.com.jm
                   modal="true"
                   widgetVar="costingComponentDialog"
                   header="Costing Component" >   
-            <p:toolbar>
+            <p:toolbar style="margin-bottom: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{financeManager.updateCostingComponent}"
+                                     actionListener="#{financeManager.okCostingComponent}"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                      onstart="longProcessDialogVar.show();"                              
                                      oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
@@ -46,8 +46,7 @@ Email: info@dpbennett.com.jm
                                      oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
                                      icon="ui-icon-close"/>
                 </p:toolbarGroup>
-            </p:toolbar>
-            <hr/>
+            </p:toolbar>            
             <p:panel>
                 <h:panelGrid id="costingComponentPanelGrid" columns="3" style="width: 100%">
                     <h:outputLabel value="Cost type:" for="costComponentType" style="font-weight: bold;" />
@@ -154,12 +153,11 @@ Email: info@dpbennett.com.jm
                     <h:outputText value=" "
                                   rendered="#{financeManager.selectedCostComponent.isHeading}" />
                 </h:panelGrid>
-            </p:panel>
-            <hr/>
-            <p:toolbar>
+            </p:panel>            
+            <p:toolbar style="margin-top: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{financeManager.updateCostingComponent}"
+                                     actionListener="#{financeManager.okCostingComponent}"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                      onstart="longProcessDialogVar.show();"                              
                                      oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"

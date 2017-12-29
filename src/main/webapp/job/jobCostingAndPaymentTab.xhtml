@@ -97,9 +97,9 @@ Email: info@dpbennett.com.jm
                              style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
                              readonly="true"
                              maxlength="250">
-                    
+
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                    
+
                     <p:ajax event="change"
                             global="false"                            
                             listener="#{financeManager.updateEstimatedCostIncludingTaxes}"
@@ -128,20 +128,19 @@ Email: info@dpbennett.com.jm
             <h:outputText 
                 id="totalCostLabel"
                 value="#{financeManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}"/>
-            <p:inputText id="totalCost"
-                         maxlength="250"
-                         value="#{financeManager.currentJob.jobCostingAndPayment.totalCost}"                                 
-                         style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
-                         readonly="true">
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                <p:ajax event="keyup"
-                        global="false"
-                        update="amountDue2"
-                        listener="#{financeManager.updateTotalCost}"
-                        process="@this"/>
-            </p:inputText>
-
             <h:panelGroup>
+                <p:inputText id="totalCost"
+                             maxlength="250"
+                             value="#{financeManager.currentJob.jobCostingAndPayment.totalCost}"                                 
+                             style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                             readonly="true">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    <p:ajax event="keyup"
+                            global="false"
+                            update="amountDue2"
+                            listener="#{financeManager.updateTotalCost}"
+                            process="@this"/>
+                </p:inputText>
                 <p:commandButton icon="ui-icon ui-icon-pencil"
                                  actionListener="#{financeManager.openJobCostingDialog}"
                                  onstart="longProcessDialogVar.show();"
@@ -149,11 +148,15 @@ Email: info@dpbennett.com.jm
                                  rendered="#{!financeManager.enableOnlyPaymentEditing}"
                                  process="@this"
                                  title="View or edit job costing">
+                    
                     <p:ajax event="dialogReturn" 
-                            update="jobCosting"/>
-                </p:commandButton>
-                <p:spacer height="0" width="10"/>    
+                            listener="#{financeManager.jobCostingDialogReturn}"
+                            update="jobCosting,:mainTabViewForm:mainTabView:growl2"/>
+                    
+                </p:commandButton>  
             </h:panelGroup>
+
+            <h:outputText value="&nbsp;"/> 
 
             <h:outputText value="Amount due ($):" style="font-weight: bold;" />            
             <p:inputText id="amountDue2"

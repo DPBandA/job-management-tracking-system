@@ -231,36 +231,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public JobManagerUser getUser() {
-        if (user == null) {
-            return new JobManagerUser();
-        }
-        return user;
-    }
-
-    /**
-     * Get user as currently stored in the database
-     *
-     * @param em
-     * @return
-     */
-    public JobManagerUser getUser(EntityManager em) {
-        if (user == null) {
-            return new JobManagerUser();
-        } else {
-            try {
-                if (user.getId() != null) {
-                    JobManagerUser foundUser = em.find(JobManagerUser.class, user.getId());
-                    if (foundUser != null) {
-                        em.refresh(foundUser);
-                        user = foundUser;
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println(e);
-                return new JobManagerUser();
-            }
-        }
-
         return user;
     }
 
@@ -723,6 +693,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setIsDirty(true);
     }
 
+    public void updateJobDescription() {
+        setIsDirty(true);
+    }
+
     public void updateAllTaxes() {
         updateJobCostingEstimate();
 
@@ -1035,36 +1009,50 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         setIsDirty(false);
     }
+    
+    public void jobCostingDialogReturn() {
+        if (getCurrentJob().getId() != null) {
+            if (getIsDirty()) {
+                if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {                    
+                    PrimeFacesUtils.addMessage("Job Costing and Job Saved", "This job and the costing were saved", FacesMessage.SEVERITY_INFO);
+                }
+            } 
+        }
+    }
 
-    // tk validation not done so change name?
-    public void validateJobCostingAndSaveJob(ActionEvent actionEvent) {
+    public void okJobCosting(ActionEvent actionEvent) {
 
         RequestContext context = RequestContext.getCurrentInstance();
-        EntityManager em = getEntityManager1();
+        //EntityManager em = getEntityManager1();
 
         try {
 
-            // tk this may or should be done in the job costing dialog.
             currentJob.getJobCostingAndPayment().calculateAmountDue();
 
             if (getUser().getEmployee() != null) {
                 currentJob.getJobCostingAndPayment().setFinalCostDoneBy(getUser().getEmployee().getName());
             }
 
-            //prepareAndSaveCurrentJob(em);
+            // tk
+//            if (currentJob.getId() != null) {
+//                currentJob.prepareAndSave(em, getUser());
+//            }
+            //prepareAndSaveCurrentJob(em); 
             // Refresh to make sure job costings ids are not null to
             // avoid resaving newly created costing components
             // tk This is done so that newly added cost components are reloaded
             // with non-null ids. May have to implement JobCostingAndPayment.save()
             // that save cost compoents with null ids as is done for samples 
             // to avoid doing this and prevent cost component duplicates from being created.
-            currentJob.setJobCostingAndPayment(em.find(JobCostingAndPayment.class, currentJob.getJobCostingAndPayment().getId()));
+            //currentJob.setJobCostingAndPayment(em.find(JobCostingAndPayment.class, currentJob.getJobCostingAndPayment().getId()));
 
         } catch (Exception e) {
             System.out.println(e);
         }
 
         context.addCallbackParam("jobCostingAndPaymentSaved", true);
+
+        RequestContext.getCurrentInstance().closeDialog(null);
     }
 
     public Boolean validateCurrentJobCosting() {
@@ -1378,7 +1366,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
      *
      * @return
      */
-    public Boolean getCompleted() {
+    public Boolean getIsJobCompleted() {
         if (currentJob != null) {
             return currentJob.getJobStatusAndTracking().getCompleted();
         } else {
@@ -1386,7 +1374,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void updateCostingComponent() {
+    public void okCostingComponent() {
         if (addCostComponent) {
             addCostComponent = false;
             currentJob.getJobCostingAndPayment().getCostComponents().add(selectedCostComponent);
@@ -1399,7 +1387,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         currentJob.getJobCostingAndPayment().setFinalCost(currentJob.getJobCostingAndPayment().getTotalJobCostingsAmount());
         setIsDirty(true);
     }
-    
+
     public void updateTotalCost() {
         updateAmountDue();
     }
@@ -1758,7 +1746,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 currentJob.getJobCostingAndPayment().getCostComponents().clear();
                 currentJob.getJobCostingAndPayment().setCostComponents(copyCostComponents(jcp.getCostComponents()));
                 currentJob.getJobCostingAndPayment().calculateAmountDue();
-                setJobCostingAndPaymentDirty(true);
+                setIsDirty(true);
             } else {
                 // Nothing yet
             }

@@ -22,14 +22,21 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-
+#### Misc
+- okClient() throws null pointer exception when called after editing via the
+  clients tab. This seems to be due to fact that it is accessing currentJob
+  although it is set to null.
+- Address fields being saved as null. Fix if can.
 #### Job Costing
-- Impl saving edits done to the Job Costing and Payment tab using FinanceManager.
-  * Continue impl update*() methods in JobCostingAndPaymentTab. Continue from updateTotalCost().
-- Change "Edit" button in JobCostingAndPaymentTab to "Actions" menu.
+- Impl jobCostingDialogReturn() and validation for job description. 
+- Impl explicit save of JobCostingAndPayment when saving job.
+- Impl dialog return for job costings table.
+- Put cost component type in costings table
+- Move "Save costings as template" button to costings panel and fix up 
+  "Costing Template Name" dialog to use toolbar.  
 - Impl saving job costing and updating the job costing table
   * Impl saving within job costing dialog. Do automatic job save as is done with
-    samples. Change "Save" to "Ok" and close dialog when clicked. 
+    samples. Change "Save" to "Ok", "Close" to "Cancel and close dialog when clicked. 
   * Impl closing job costing dialog and prompt if there are edits.
   * Display each cash payment and cost component in the lists to check if any
     is has null id after saving
@@ -88,6 +95,9 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - When subcontracted department is deleted and the job form is closed,
   the subcontracted department field disappears when the form is reopened. Fix!
 - See if github api (if it exists) can be used to implement feedback system.
+- Fix up costing template feature and make sure it works. 
+  * Update template name template is selected and don't allow saving 2 templates 
+  with the same name.
 
 #### Cash Payment
 - Payment dialog is displayed only once when the add payment button is pressed.
@@ -140,6 +150,9 @@ paymentTerms, rename JMTSUserId to userId
 
 ==============================Future Long Term Development======================
 ### Misc
+- Order PhoneNumber, Internet as is done with address and contact.
+- Impl preventing job costing and payment from being edited once job is marked 
+  as complete.
 - Impl option to use LADP or some other authentication system.
 - Impl dialogs for all admin configuration eg. classification etc. and put edit
   button in all tables.

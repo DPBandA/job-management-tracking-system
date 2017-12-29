@@ -144,7 +144,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton title="Add new cost component"
                                  value="New Item"
                                  actionListener="#{financeManager.createNewCostComponent}"
-                                 disabled="#{financeManager.completed}"
+                                 disabled="#{financeManager.isJobCompleted}"
                                  update=":costingComponentDialogForm"
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
@@ -239,7 +239,7 @@ Email: info@dpbennett.com.jm
                         </f:facet>
                         <p:commandButton title="Edit cost component details"
                                          actionListener="#{financeManager.editCostComponent}"
-                                         disabled="#{!costComponent.isEditable or financeManager.completed}"
+                                         disabled="#{!costComponent.isEditable or financeManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
                                          oncomplete="costingComponentDialog.show();"
                                          icon="ui-icon ui-icon-pencil"
@@ -253,7 +253,7 @@ Email: info@dpbennett.com.jm
                             <h:outputText value="Delete" />
                         </f:facet>
                         <p:commandButton title="Delete cost component"        
-                                         disabled="#{financeManager.completed}"
+                                         disabled="#{financeManager.isJobCompleted}"
                                          onclick="costComponentDeleteConfirm.show();"
                                          icon="ui-icon-trash"
                                          process="@this">
@@ -265,7 +265,7 @@ Email: info@dpbennett.com.jm
                 <hr/>
                 <p:commandButton title="Add new cost component"
                                  value="New Item"
-                                 disabled="#{financeManager.completed}"
+                                 disabled="#{financeManager.isJobCompleted}"
                                  actionListener="#{financeManager.createNewCostComponent}"
                                  update=":costingComponentDialogForm"
                                  onstart="longProcessDialogVar.show();"

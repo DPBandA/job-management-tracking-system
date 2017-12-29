@@ -43,9 +43,10 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>  
         <h:form id="jobCostingDialogForm">  
+            <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
             
             <ui:include src="jobCostingDialogToolbar.xhtml"/> 
-            
+
             <p:panel header="General Information">
                 <h:panelGrid columns="3">
                     <h:outputText value="Department:" style="font-weight: bold; width: 30%" />
@@ -60,7 +61,11 @@ Email: info@dpbennett.com.jm
                     <p:spacer height="0" width="10"/>
                     <h:outputText value="#{financeManager.currentJob.client.name}" />
 
-                    <h:outputText value="Report number(s) *:" style="font-weight: bold;" />
+                    <h:outputText value="Purchase order #:" style="font-weight: bold;" />
+                    <p:spacer height="0" width="10"/>
+                    <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}" />
+
+                    <h:outputText value="Report number(s):" style="font-weight: bold;" />
                     <p:spacer height="0" width="10"/>
                     <h:outputText value="#{financeManager.currentJob.reportNumber}" />                   
 
@@ -79,31 +84,25 @@ Email: info@dpbennett.com.jm
                                 listener="#{financeManager.handleJobCostingDateSelect}"/>
                         <p:ajax event="keyup"                                 
                                 listener="#{financeManager.handleJobCostingDateSelect}"/>
-                    </p:calendar>
-
-                    <h:outputText value="Purchase order #:" style="font-weight: bold;" />
-                    <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}" 
-                                 disabled="#{!financeManager.isAuthorizedToModifyCostings}"
-                                 style="width: 300px">
-                        <p:ajax event="change"
-                                global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"                                
-                                process="@this"/>
-                    </p:inputText>
+                    </p:calendar>                    
 
                     <h:outputText value="Job description *:"  style="font-weight: bold" />
                     <p:spacer height="0" width="10"/>
                     <h:inputTextarea value="#{financeManager.currentJob.jobDescription}" 
-                                     required="false"
-                                     rows="2" style="width: 300px">
-                        <p:ajax event="change"
+                                     id="jobDescription"
+                                     rows="2" 
+                                     style="width: 300px" >
+                        
+                        <p:ajax event="change"  
                                 global="false"
                                 process="@this"                               
-                                listener="#{financeManager.updateJobCostingValidity}"/>
+                                listener="#{financeManager.updateJobDescription}"/>
+                        
+                         <f:validator validatorId="requiredFieldValidator" />
+                         
                     </h:inputTextarea>
 
-                    <h:outputText value="* = required" />
+                    <h:outputText value="* = required" style="font-weight: bold;"/>
                     <h:outputText value=""/>
                     <h:outputText value=""/>
 
@@ -114,13 +113,14 @@ Email: info@dpbennett.com.jm
                 <p:toolbar>
                     <p:toolbarGroup align="left">
                         <h:panelGroup>                   
-                            <h:outputLabel value="Choose costing template: "
-                                           title="Choose an existing costing template"/>
+                            <h:outputLabel value="Select template: "
+                                           title="Select an existing costing template"/>
                             <p:autoComplete maxResults="12"
                                             dropdown="true"
                                             value="#{financeManager.selectedJobCostingTemplate}"
                                             title="Choose an existing costing template name"
                                             style="width: 150px"
+                                            scrollHeight="200" 
                                             forceSelection="true"
                                             completeMethod="#{financeManager.completeJobCostingAndPaymentName}">
                                 <p:ajax event="itemSelect"
@@ -128,11 +128,18 @@ Email: info@dpbennett.com.jm
                                         listener="#{financeManager.updateCostingComponents}"
                                         process="@this"/>                      
                             </p:autoComplete>
-                        </h:panelGroup>
+                        </h:panelGroup>    
+                    </p:toolbarGroup>
+                    <p:toolbarGroup align="right">
+                        <p:commandButton value="Save costings as template"
+                                         update=":jobCostingTemplateNameDialogForm"
+                                         oncomplete="jobCostingTemplateNameDialog.show();"
+                                         title="Save costings as a template for reuse in another job costing"                        
+                                         ajax="true">           
 
+                        </p:commandButton>
+                        <p:spacer width="5" />
                         <h:panelGroup>
-                            <p:spacer height="0" width="20"/>
-                            <h:outputLabel value="Template name: "/>
                             <p:inputText id="jobCostingsTemplateName"
                                          value="#{financeManager.currentJob.jobCostingAndPayment.name}"
                                          disabled="true"
@@ -142,6 +149,7 @@ Email: info@dpbennett.com.jm
                                         listener="#{financeManager.updateJobCostingAndPayment}"
                                         process="@this"/>
                             </p:inputText>
+                            <p:watermark value="-- not a template --" for="jobCostingsTemplateName" />
                         </h:panelGroup>
                     </p:toolbarGroup>
                 </p:toolbar>
@@ -151,19 +159,19 @@ Email: info@dpbennett.com.jm
                         <p:commandButton title="Add new cost component"
                                          value="New"
                                          actionListener="#{financeManager.createNewCostComponent}"
-                                         disabled="#{financeManager.completed}"
+                                         disabled="#{financeManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
                                          onstart="longProcessDialogVar.show();"
                                          oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
                                          icon="ui-icon-plus"
                                          process="@this">
                         </p:commandButton>
-                    </p:toolbarGroup>
+                    </p:toolbarGroup>                    
                 </p:toolbar>
                 <ui:remove>
                     <p:spacer width="5" />
                     <p:commandButton value="Add subcontracted job costs"                                 
-                                     disabled="#{financeManager.completed}"
+                                     disabled="#{financeManager.isJobCompleted}"
                                      rendered="#{financeManager.jobHasSubcontracts}"
                                      update=""
                                      onstart="longProcessDialogVar.show();"
@@ -264,7 +272,7 @@ Email: info@dpbennett.com.jm
                         </f:facet>
                         <p:commandButton title="Edit cost component details"
                                          actionListener="#{financeManager.editCostComponent}"
-                                         disabled="#{!costComponent.isEditable or financeManager.completed}"
+                                         disabled="#{!costComponent.isEditable or financeManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
                                          oncomplete="costingComponentDialog.show();"
                                          icon="ui-icon ui-icon-pencil"
@@ -278,7 +286,7 @@ Email: info@dpbennett.com.jm
                             <h:outputText value="Delete" />
                         </f:facet>
                         <p:commandButton title="Delete cost component"        
-                                         disabled="#{financeManager.completed}"
+                                         disabled="#{financeManager.isJobCompleted}"
                                          onclick="costComponentDeleteConfirm.show();"
                                          icon="ui-icon-trash"
                                          process="@this">
@@ -287,12 +295,12 @@ Email: info@dpbennett.com.jm
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
-                 <p:toolbar style="margin-top: 1px;">
+                <p:toolbar style="margin-top: 1px;">
                     <p:toolbarGroup>
                         <p:commandButton title="Add new cost component"
                                          value="New"
                                          actionListener="#{financeManager.createNewCostComponent}"
-                                         disabled="#{financeManager.completed}"
+                                         disabled="#{financeManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
                                          onstart="longProcessDialogVar.show();"
                                          oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
@@ -304,7 +312,7 @@ Email: info@dpbennett.com.jm
                 <ui:remove>
                     <p:spacer width="5" />
                     <p:commandButton value="Add subcontracted job costs"                                 
-                                     disabled="#{financeManager.completed}"
+                                     disabled="#{financeManager.isJobCompleted}"
                                      rendered="#{financeManager.jobHasSubcontracts}"
                                      update=""
                                      onstart="longProcessDialogVar.show();"
@@ -314,7 +322,7 @@ Email: info@dpbennett.com.jm
                     </p:commandButton>
                 </ui:remove>
             </p:panel>
-            <p:panel id="costingSummaryPanel" header="Summary">
+            <p:panel id="costingSummaryPanel" header="Costing &amp; Payment Summary">
                 <h:panelGrid columns="3">
                     <h:outputText value="Invoice number:" style="font-weight: bold;"/>
                     <p:spacer height="0" width="10"/>

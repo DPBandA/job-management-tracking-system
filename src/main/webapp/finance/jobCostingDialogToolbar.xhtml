@@ -24,15 +24,16 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar>
         <p:toolbarGroup align="left" >  
-            <p:commandButton value="Save"
-                             disabled="#{financeManager.completed}"
+            <p:commandButton value="Ok"
+                             disabled="#{financeManager.isJobCompleted}"
                              onstart="longProcessDialogVar.show();"
-                             actionListener="#{financeManager.validateJobCostingAndSaveJob}"                         
+                             actionListener="#{financeManager.okJobCosting}"                         
                              oncomplete="longProcessDialogVar.hide();"
                              icon="ui-icon-check"
-                             process="@this"/>
+                             update="jobCosting_growl"
+                             process="@form"/>
             <p:spacer width="10"/>
-            <p:commandButton value="Close"
+            <p:commandButton value="Cancel"
                              onstart="longProcessDialogVar.show();"
                              actionListener="#{financeManager.closeJobCostingDialog}"                         
                              oncomplete="longProcessDialogVar.hide();"
@@ -43,7 +44,7 @@ Email: info@dpbennett.com.jm
                 <p:selectBooleanCheckbox value="#{financeManager.currentJob.jobCostingAndPayment.costingCompleted}" 
                                          id="prepared"
                                          style="vertical-align: bottom;"
-                                         disabled="#{financeManager.completed}" 
+                                         disabled="#{financeManager.isJobCompleted}" 
                                          itemLabel="Prepared" >
                     <p:ajax global="false" 
                             listener="#{financeManager.completeJobCosting}"
@@ -92,19 +93,7 @@ Email: info@dpbennett.com.jm
                 </p:commandButton>
             </h:panelGroup>
 
-        </p:toolbarGroup>
-        <p:toolbarGroup align="right" >  
-            <h:panelGroup>
-                <p:spacer height="0" width="5"/>
-                <p:commandButton value="Save costings as template"
-                                 update=":jobCostingTemplateNameDialogForm"
-                                 oncomplete="jobCostingTemplateNameDialog.show();"
-                                 title="Save costings as a template for reuse in another job costing"                        
-                                 ajax="true">           
-
-                </p:commandButton>
-            </h:panelGroup>
-        </p:toolbarGroup>
+        </p:toolbarGroup>        
     </p:toolbar>            
 
 </html>

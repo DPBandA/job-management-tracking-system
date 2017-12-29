@@ -23,7 +23,7 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">    
-    
+
     <h:form id="jobCostingTemplateNameDialogForm">
         <p:dialog width="400"
                   height="100"
@@ -42,18 +42,22 @@ Email: info@dpbennett.com.jm
                             process="@this"/>
                 </p:inputText>
             </h:panelGrid>
-            <hr/>
-            <p:commandButton value="Ok"               
-                             actionListener="#{financeManager.validateJobCostingAndSaveJob}"
-                             update=":jobCostingDialogForm:jobCostingsTemplateName" 
-                             oncomplete="jobCostingTemplateNameDialog.hide();"
-                             icon="ui-icon ui-icon-check"
-                             process="@form"/>
-            <p:commandButton value="Cancel"                                                      
-                             oncomplete="jobCostingTemplateNameDialog.hide();"
-                             icon="ui-icon-close"/>    
+            <p:toolbar style="margin-top: 5px;">
+                <p:toolbarGroup>
+                    <p:commandButton value="Ok"               
+                                     actionListener="#{financeManager.okJobCosting}"
+                                     update=":jobCostingDialogForm:jobCostingsTemplateName" 
+                                     oncomplete="jobCostingTemplateNameDialog.hide();"
+                                     icon="ui-icon ui-icon-check"
+                                     process="@form"/>
+                    <p:spacer width="5"/>
+                    <p:commandButton value="Cancel"                                                      
+                                     oncomplete="jobCostingTemplateNameDialog.hide();"
+                                     icon="ui-icon-close"/>  
+                </p:toolbarGroup>
+            </p:toolbar>
 
         </p:dialog>
     </h:form>
-    
+
 </html>
