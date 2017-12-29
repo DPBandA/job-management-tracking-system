@@ -68,7 +68,10 @@ Email: info@dpbennett.com.jm
 
         <h:outputText id="currentBillingAddress" value="Most recent billing address: " 
                       style="font-weight: bold;"/> 
-        <h:outputText value="#{clientManager.currentAddress.addressLine1}"/>  
+        <h:panelGroup>
+            <h:outputText id="addressLine1" value="#{clientManager.currentAddress.addressLine1FriendlyDisplay}"/>  
+            <p:watermark for="addressLine1" value="-- none --" />
+        </h:panelGroup>
         <p:menuButton value="Actions">
             <p:menuitem>                       
                 <p:commandButton value="Edit"
@@ -113,7 +116,7 @@ Email: info@dpbennett.com.jm
         <h:outputText value="" />
 
         <h:outputText id="currentContact" value="Most recent contact: " style="font-weight: bold"/>    
-        <h:outputText value="#{clientManager.currentContact.name}" />
+        <h:outputText value="#{clientManager.currentContact.friendlyName}" />
         <p:menuButton value="Actions">
             <p:menuitem>                       
                 <p:commandButton value="Edit"

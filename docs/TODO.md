@@ -22,15 +22,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-#### Misc
-- okClient() throws null pointer exception when called after editing via the
-  clients tab. This seems to be due to fact that it is accessing currentJob
-  although it is set to null.
-- Address fields being saved as null. Fix if can.
 #### Job Costing
-- Impl jobCostingDialogReturn() and validation for job description. 
-- Impl explicit save of JobCostingAndPayment when saving job.
-- Impl dialog return for job costings table.
 - Put cost component type in costings table
 - Move "Save costings as template" button to costings panel and fix up 
   "Costing Template Name" dialog to use toolbar.  

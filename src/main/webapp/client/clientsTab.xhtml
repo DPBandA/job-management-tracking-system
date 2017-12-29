@@ -95,18 +95,18 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{client.name}" />
         </p:column>
 
-        <p:column sortBy="#{client.enteredBy}">
+        <p:column sortBy="#{client.editedBy}">
             <f:facet name="header">
-                <h:outputText value="Entered by"/>
+                <h:outputText value="Last edited by"/>
             </f:facet>
-            <h:outputText value="#{client.enteredBy}" />
+            <h:outputText value="#{client.editedBy}" />
         </p:column>
 
-        <p:column sortBy="#{client.dateEntered}">
+        <p:column sortBy="#{client.dateEdited}">
             <f:facet name="header">
-                <h:outputText value="Date entered"/>
+                <h:outputText value="Date last edited"/>
             </f:facet>
-            <h:outputText value="#{client.dateEntered}">
+            <h:outputText value="#{client.dateEdited}">
                 <f:convertDateTime pattern="MMM dd, yyyy"/>
             </h:outputText>
         </p:column>

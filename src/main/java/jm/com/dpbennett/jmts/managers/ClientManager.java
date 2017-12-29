@@ -276,7 +276,7 @@ public class ClientManager implements Serializable {
     }
 
     public void updateAddress() {
-        setIsDirty(true);        
+        setIsDirty(true);
     }
 
     public void createNewClient(Boolean active) {
@@ -383,16 +383,18 @@ public class ClientManager implements Serializable {
                 }
                 currentClient.save(getEntityManager());
                 setIsDirty(false);
-                
+
                 // Set current job dirty so it can be saved when the client dialog 
                 // returns 
-                getCurrentJob().setIsDirty(true);
+                if (getCurrentJob() != null) {
+                    getCurrentJob().setIsDirty(true);
+                }
             }
 
             // Pass edited objects to the current job
             // tk check necessary
-            if (currentJob != null) {
-                currentJob.setClient(getCurrentClient());
+            if (getCurrentJob() != null) {
+                getCurrentJob().setClient(getCurrentClient());
             }
 
             RequestContext.getCurrentInstance().closeDialog(null);
@@ -429,7 +431,7 @@ public class ClientManager implements Serializable {
         if (getIsNewContact()) {
             getCurrentClient().getContacts().add(selectedContact);
         }
-        
+
         if (currentJob != null) {
             currentJob.setContact(selectedContact);
         }
@@ -445,7 +447,7 @@ public class ClientManager implements Serializable {
         if (getIsNewAddress()) {
             getCurrentClient().getAddresses().add(selectedAddress);
         }
-        
+
         if (currentJob != null) {
             currentJob.setBillingAddress(selectedAddress);
         }
@@ -460,14 +462,12 @@ public class ClientManager implements Serializable {
         for (Contact contact : getCurrentClient().getContacts()) {
             if (contact.getFirstName().trim().isEmpty()) {
                 selectedContact = contact;
-                selectedContact.setType("Main");
                 break;
             }
         }
 
         if (selectedContact == null) {
-            selectedContact = new Contact();
-            selectedContact.setType("Main");
+            selectedContact = new Contact("", "", "Main");            
             selectedContact.setInternet(new Internet());
         }
 
@@ -485,15 +485,13 @@ public class ClientManager implements Serializable {
         for (Address address : getCurrentClient().getAddresses()) {
             if (address.getAddressLine1().trim().isEmpty()) {
                 selectedAddress = address;
-                selectedAddress.setType("Billing");
                 break;
             }
         }
 
         // No existing blank or invalid address found so creating new one.
         if (selectedAddress == null) {
-            selectedAddress = new Address();
-            selectedAddress.setType("Billing");
+            selectedAddress = new Address("", "Billing");
         }
 
         setIsDirty(false);

@@ -627,13 +627,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                     && !getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
                 getCurrentJob().getJobCostingAndPayment().setInvoiced(false);
                 displayCommonMessageDialog(null, "This job costing cannot be marked as being invoiced because it is not prepared/approved", "Not prepared/Approved", "alert");
-            } else {
-                setJobCostingAndPaymentDirty(true);
             }
         } else {
             displayCommonMessageDialog(null, "You do not have permission to change the invoiced status of this job costing.", "Permission Denied", "alert");
             getCurrentJob().getJobCostingAndPayment().setInvoiced(!getCurrentJob().getJobCostingAndPayment().getInvoiced());
         }
+
+        setIsDirty(true);
     }
 
     public List<Preference> getJobTableViewPreferences() {
@@ -786,13 +786,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(null);
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
             getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
-            //sendJobCostingCompletedEmail = false;
             displayCommonMessageDialog(null, "Please enter all required (*) fields before checking this job costing as being prepared.", "Required (*) Fields Missing", "info");
         } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
-            //sendJobCostingCompletedEmail = true;
-            setJobCostingAndPaymentDirty(true);
         }
+
+        setIsDirty(true);
     }
 
     /**
@@ -831,14 +830,14 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 Date date = new Date();
                 setJobCostingDate(date);
                 getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(date);
-                //sendJobCostingApprovedEmail = true;
-                setJobCostingAndPaymentDirty(true);
             }
         } else {
             setJobCostingDate(null);
             getCurrentJob().getJobCostingAndPayment().setCostingApproved(!getCurrentJob().getJobCostingAndPayment().getCostingApproved());
             displayCommonMessageDialog(null, "You do not have the permission to approve job costings.", "No Permission", "alert");
         }
+
+        setIsDirty(true);
     }
 
     public void updatePreferences() {
@@ -991,8 +990,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void cancelJobCostingEdit(ActionEvent actionEvent) {
         setIsDirty(false);
-//        doJobSearch(searchManager.getCurrentSearchParameters());
-//        setRenderJobDetailTab(false);        
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
@@ -1009,21 +1006,21 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         setIsDirty(false);
     }
-    
+
     public void jobCostingDialogReturn() {
+        
         if (getCurrentJob().getId() != null) {
             if (getIsDirty()) {
-                if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {                    
+                if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                     PrimeFacesUtils.addMessage("Job Costing and Job Saved", "This job and the costing were saved", FacesMessage.SEVERITY_INFO);
                 }
-            } 
+            }
         }
     }
 
     public void okJobCosting(ActionEvent actionEvent) {
 
         RequestContext context = RequestContext.getCurrentInstance();
-        //EntityManager em = getEntityManager1();
 
         try {
 
@@ -1033,26 +1030,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 currentJob.getJobCostingAndPayment().setFinalCostDoneBy(getUser().getEmployee().getName());
             }
 
-            // tk
-//            if (currentJob.getId() != null) {
-//                currentJob.prepareAndSave(em, getUser());
-//            }
-            //prepareAndSaveCurrentJob(em); 
-            // Refresh to make sure job costings ids are not null to
-            // avoid resaving newly created costing components
-            // tk This is done so that newly added cost components are reloaded
-            // with non-null ids. May have to implement JobCostingAndPayment.save()
-            // that save cost compoents with null ids as is done for samples 
-            // to avoid doing this and prevent cost component duplicates from being created.
-            //currentJob.setJobCostingAndPayment(em.find(JobCostingAndPayment.class, currentJob.getJobCostingAndPayment().getId()));
-
         } catch (Exception e) {
             System.out.println(e);
         }
 
         context.addCallbackParam("jobCostingAndPaymentSaved", true);
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        context.closeDialog(null);
     }
 
     public Boolean validateCurrentJobCosting() {
