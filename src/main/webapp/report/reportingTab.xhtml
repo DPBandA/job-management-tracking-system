@@ -61,7 +61,8 @@ Email: info@dpbennett.com.jm
                 <p:inputText id="numOfTests"                            
                              maxlength="250"
                              converterMessage="Please enter a valid number of tests."
-                             value="#{jobManager.currentJob.noOfTests}"                            
+                             value="#{jobManager.currentJob.noOfTests}"  
+                             styleClass="number-field"
                              style="width: 50px;" >                             
                     <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                             global="false"
@@ -78,6 +79,7 @@ Email: info@dpbennett.com.jm
                              maxlength="250"
                              converterMessage="Please enter a valid number of calibrations."
                              value="#{jobManager.currentJob.noOfCalibrations}"
+                             styleClass="number-field"
                              style="width: 50px;" >
                     <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                             global="false"
@@ -95,6 +97,7 @@ Email: info@dpbennett.com.jm
                              disabled="true"
                              maxlength="250"
                              value="#{jobManager.currentJob.noOfTestsOrCalibrations}"
+                             styleClass="number-field"
                              style="width: 50px;" >
                     <p:ajax listener="#{jobManager.updateJob}"
                             global="false"

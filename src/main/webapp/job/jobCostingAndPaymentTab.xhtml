@@ -47,6 +47,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.estimatedCost}"
                              converterMessage="Please enter a valid cost estimate."
+                             styleClass="number-field"
                              disabled="#{!financeManager.isAuthorizedToModifyCostings}"
                              maxlength="250">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
@@ -64,6 +65,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Minimum deposit required ($): "/>
             <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.minDeposit}"
                          disabled="#{!financeManager.isAuthorizedToModifyCostings}"
+                         styleClass="number-field"
                          maxlength="250">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="change"
@@ -78,8 +80,11 @@ Email: info@dpbennett.com.jm
             <p:selectOneMenu 
                 id="gct"                
                 disabled="#{!financeManager.canApplyGCT}"
-                style="width: 100px;"
+                style="width: 100px;text-indent: 45px;"  
                 value="#{financeManager.currentJob.jobCostingAndPayment.percentageGCT}">
+
+                <f:convertNumber minFractionDigits="3" maxFractionDigits="3"/>
+
                 <p:ajax
                     global="true"
                     update="estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
@@ -94,7 +99,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:inputText id="estimatedCostIncludingTaxes"
                              value="#{financeManager.currentJob.jobCostingAndPayment.estimatedCostIncludingTaxes}"
-                             style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                             styleClass="read-only-number-field"
                              readonly="true"
                              maxlength="250">
 
@@ -114,7 +119,7 @@ Email: info@dpbennett.com.jm
                           value="#{financeManager.currentJob.jobCostingAndPayment.minDepositWithTaxLabel}"/>
             <p:inputText id="minDepositIncludingTaxes"
                          value="#{financeManager.currentJob.jobCostingAndPayment.minDepositIncludingTaxes}"
-                         style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                         styleClass="read-only-number-field"
                          readonly="true"
                          maxlength="250">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
@@ -132,7 +137,7 @@ Email: info@dpbennett.com.jm
                 <p:inputText id="totalCost"
                              maxlength="250"
                              value="#{financeManager.currentJob.jobCostingAndPayment.totalCost}"                                 
-                             style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                             styleClass="read-only-number-field"
                              readonly="true">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="keyup"
@@ -148,11 +153,11 @@ Email: info@dpbennett.com.jm
                                  rendered="#{!financeManager.enableOnlyPaymentEditing}"
                                  process="@this"
                                  title="View or edit job costing">
-                    
+
                     <p:ajax event="dialogReturn" 
                             listener="#{financeManager.jobCostingDialogReturn}"
                             update="jobCosting,:mainTabViewForm:mainTabView:growl2"/>
-                    
+
                 </p:commandButton>  
             </h:panelGroup>
 
@@ -161,7 +166,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Amount due ($):" style="font-weight: bold;" />            
             <p:inputText id="amountDue2"
                          value="#{financeManager.currentJob.jobCostingAndPayment.amountDue}"
-                         style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                         styleClass="read-only-number-field"
                          readonly="true">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
             </p:inputText>
@@ -205,7 +210,8 @@ Email: info@dpbennett.com.jm
                 <f:facet name="header">
                     <h:outputText value="Amount"/>
                 </f:facet>
-                <h:outputText value="#{cashPayment.payment}"/>              
+                <h:outputText value="#{cashPayment.payment}"
+                              styleClass="datatable-number-field" />              
             </p:column>
             <p:column>
                 <f:facet name="header">
@@ -225,7 +231,7 @@ Email: info@dpbennett.com.jm
                         <f:setPropertyActionListener value="#{cashPayment}"
                                                      target="#{financeManager.selectedCashPayment}" />
                     </p:menuitem>                    
-                    <p:menuitem value="Delete this sample"
+                    <p:menuitem value="Delete this payment"
                                 onclick="jobSampleDeleteConfirm.show();"
                                 icon="ui-icon-trash"
                                 process="@this">

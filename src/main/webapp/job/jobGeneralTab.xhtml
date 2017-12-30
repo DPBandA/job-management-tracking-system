@@ -316,7 +316,8 @@ Email: info@dpbennett.com.jm
         <h:outputText value="TAT given to client *: "  style="font-weight: bold;" />
         <h:panelGroup>
             <p:inputText title="Estimated turnaround time (TAT) given to client"                         
-                         maxlength="250"
+                         maxlength="4"
+                         styleClass="number-field"
                          converterMessage="Invalid Turnaround Time (TAT)" 
                          validator="turnaroundTimeValidator"
                          value="#{jobManager.currentJob.estimatedTurnAroundTimeInDays}">

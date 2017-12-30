@@ -20,7 +20,8 @@ Email: info@dpbennett.com.jm
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">   
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">   
 
     <p:toolbar>
         <p:toolbarGroup align="left" >  
@@ -48,10 +49,12 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Prepared" >
                     <p:ajax global="false" 
                             listener="#{financeManager.completeJobCosting}"
-                            update="@this,exportJobCostingButton1"
+                            update="@this,jobCosting_growl,exportJobCostingButton1"
                             process="@this"/>
                 </p:selectBooleanCheckbox>
-                <p:tooltip for="prepared" value="Check to indicate that this job costing was prepared completely" showEffect="fade" hideEffect="fade" />
+                <ui:remove>
+                    <p:tooltip for="prepared" value="Check to indicate that this job costing was prepared completely" showEffect="fade" hideEffect="fade" />
+                </ui:remove>
             </h:panelGroup>
             <p:spacer width="10"/>
             <h:panelGroup>
@@ -61,10 +64,12 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Approved" >
                     <p:ajax global="false"
                             listener="#{financeManager.approveJobCosting}"
-                            update="costComponentsPanel,:jobCostingDialogForm:costingDate,@this,exportJobCostingButton1"
+                            update="@this,jobCosting_growl,costComponentsPanel,:jobCostingDialogForm:costingDate,exportJobCostingButton1"
                             process="@this"/>
                 </p:selectBooleanCheckbox>
-                <p:tooltip for="approved" value="Check to indicate that this job costing was approved" showEffect="fade" hideEffect="fade" />
+                <ui:remove>
+                    <p:tooltip for="approved" value="Check to indicate that this job costing was approved" showEffect="fade" hideEffect="fade" />
+                </ui:remove>
             </h:panelGroup>
             <p:spacer width="10"/>
             <h:panelGroup>
@@ -74,10 +79,12 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Invoiced" >
                     <p:ajax global="false"                        
                             listener="#{financeManager.invoiceJobCosting}"
-                            update="@this"
+                            update="@this,jobCosting_growl"
                             process="@this"/>
                 </p:selectBooleanCheckbox>
-                <p:tooltip for="invoiced" value="Check to indicate that an invoice was done for this job costing" showEffect="fade" hideEffect="fade" />           
+                <ui:remove>
+                    <p:tooltip for="invoiced" value="Check to indicate that an invoice was done for this job costing" showEffect="fade" hideEffect="fade" />           
+                </ui:remove>
             </h:panelGroup>   
             <p:spacer width="10"/>
             <h:panelGroup>

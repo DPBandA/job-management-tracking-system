@@ -44,7 +44,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/commonDialogs.xhtml"/>  
         <h:form id="jobCostingDialogForm">  
             <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
-            
+
             <ui:include src="jobCostingDialogToolbar.xhtml"/> 
 
             <p:panel header="General Information">
@@ -92,14 +92,14 @@ Email: info@dpbennett.com.jm
                                      id="jobDescription"
                                      rows="2" 
                                      style="width: 300px" >
-                        
+
                         <p:ajax event="change"  
                                 global="false"
                                 process="@this"                               
                                 listener="#{financeManager.updateJobDescription}"/>
-                        
-                         <f:validator validatorId="requiredFieldValidator" />
-                         
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
                     </h:inputTextarea>
 
                     <h:outputText value="* = required" style="font-weight: bold;"/>
@@ -191,29 +191,29 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="#{costComponent.name}" />                    
                     </p:column>
 
-                    <ui:remove>
-                        <p:column rendered="#{!costComponent.isHeading}">
-                            <f:facet name="header">
-                                <h:outputText value="Code" />
-                            </f:facet>
-                            <h:outputText value="#{costComponent.code}" />
-                        </p:column>
+
+                    <p:column rendered="#{!costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value="Type" />
+                        </f:facet>
+                        <h:outputText value="#{costComponent.code}" />
+                    </p:column>
 
 
-                        <p:column rendered="#{costComponent.isHeading}">
-                            <f:facet name="header">
-                                <h:outputText value=" " />
-                            </f:facet>
+                    <p:column rendered="#{costComponent.isHeading}">
+                        <f:facet name="header">
                             <h:outputText value=" " />
-                        </p:column>
+                        </f:facet>
+                        <h:outputText value=" " />
+                    </p:column>
 
-                    </ui:remove>     
 
                     <p:column rendered="#{!costComponent.isHeading}" >
                         <f:facet name="header">
                             <h:outputText value="Hours/Qty"/>
                         </f:facet>
-                        <h:outputText value="#{costComponent.hoursOrQuantity}">
+                        <h:outputText value="#{costComponent.hoursOrQuantity}"
+                                      styleClass="datatable-number-field" >
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                     </p:column>
@@ -229,11 +229,13 @@ Email: info@dpbennett.com.jm
                         <f:facet name="header">
                             <h:outputText value="Rate ($/hr/qty)" />
                         </f:facet>
-                        <h:outputText value="#{costComponent.rate}">
+                        <h:outputText value="#{costComponent.rate}" 
+                                      styleClass="datatable-number-field" >
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                         <f:facet name="footer">
-                            <h:outputText value="Total ($):" style="text-align: right" />
+                            <h:outputText value="Total ($):" 
+                                          styleClass="datatable-number-field" />
                         </f:facet>
                     </p:column>
 
@@ -246,14 +248,15 @@ Email: info@dpbennett.com.jm
 
                     <p:column rendered="#{!costComponent.isHeading}">
                         <f:facet name="header">
-                            <h:outputText value="Cost($)" />
+                            <h:outputText value="Cost ($)" />
                         </f:facet>
-                        <h:outputText value="#{costComponent.cost}">
+                        <h:outputText value="#{costComponent.cost}"
+                                      styleClass="datatable-number-field" >
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                         <f:facet name="footer">
                             <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.finalCost}" 
-                                          style="text-align: right" >
+                                          styleClass="datatable-number-field" >
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                             </h:outputText>
                         </f:facet>
@@ -349,8 +352,8 @@ Email: info@dpbennett.com.jm
                     <p:spacer height="0" width="10"/>
                     <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.deposit}" 
                                  title="This can only be edited on the 'Costing' tab"
-                                 readonly="true" 
-                                 style="background-color: lightgoldenrodyellow !important;">
+                                 readonly="true"
+                                 styleClass="read-only-number-field">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax event="keyup"
                                 global="false"
@@ -362,7 +365,8 @@ Email: info@dpbennett.com.jm
                     <ui:remove>                    
                         <h:outputText value="Discount ($):" style="font-weight: bold;" />
                         <p:spacer height="0" width="10"/>
-                        <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.discount}" >
+                        <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.discount}" 
+                                     styleClass="read-only-number-field" >
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                             <p:ajax event="keyup"
                                     global="false"
@@ -375,7 +379,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Job cost ($):" style="font-weight: bold;" />
                     <p:spacer height="0" width="10"/>
                     <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.finalCost}" 
-                                 style="background-color: lightgoldenrodyellow !important;"
+                                 styleClass="read-only-number-field"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
@@ -383,7 +387,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.totalTaxLabel}" style="font-weight: bold;" />
                     <p:spacer height="0" width="10"/>
                     <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.totalTax}" 
-                                 style="background-color: lightgoldenrodyellow !important;"
+                                 styleClass="read-only-number-field"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
@@ -392,7 +396,7 @@ Email: info@dpbennett.com.jm
                                   style="font-weight: bold;" />
                     <p:spacer height="0" width="10"/>
                     <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.totalCost}" 
-                                 style="background-color: lightgoldenrodyellow !important;"
+                                 styleClass="read-only-number-field"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
@@ -401,7 +405,7 @@ Email: info@dpbennett.com.jm
                     <p:spacer height="0" width="10"/>
                     <p:inputText id="amountDue"
                                  value="#{financeManager.currentJob.jobCostingAndPayment.amountDue}"
-                                 style="background-color: lightgoldenrodyellow !important;background-image: none;color: blue;"
+                                 styleClass="read-only-number-field"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     </p:inputText>

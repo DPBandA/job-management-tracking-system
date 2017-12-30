@@ -413,13 +413,25 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         this.selectedJobCostingTemplate = selectedJobCostingTemplate;
     }
 
-    private Boolean isJobAssignedToUserDepartment() {
+//    private Boolean isJobAssignedToUserDepartment() {
+//
+//        if (getUser() != null) {
+//            if (currentJob.getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
+//                return true;
+//            } else {
+//                return currentJob.getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue();
+//            }
+//        } else {
+//            return false;
+//        }
+//    }
+    private Boolean isJobAssignedToUserDepartment(Job job) {
 
         if (getUser() != null) {
-            if (currentJob.getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
+            if (job.getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
                 return true;
             } else {
-                return currentJob.getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue();
+                return job.getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue();
             }
         } else {
             return false;
@@ -622,18 +634,46 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void invoiceJobCosting() {
+//        if (getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
+//            if (!getCurrentJob().getJobCostingAndPayment().getCostingApproved()
+//                    && !getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+//                getCurrentJob().getJobCostingAndPayment().setInvoiced(false);
+//                PrimeFacesUtils.addMessage("Not prepared/Approved",
+//                        "This job costing cannot be marked as being invoiced because it is not prepared/approved",
+//                        FacesMessage.SEVERITY_ERROR);
+//            }
+//        } else {
+//            PrimeFacesUtils.addMessage("Permission Denied",
+//                    "You do not have permission to change the invoiced status of this job costing",
+//                    FacesMessage.SEVERITY_ERROR);
+//            getCurrentJob().getJobCostingAndPayment().setInvoiced(!getCurrentJob().getJobCostingAndPayment().getInvoiced());
+//        }
+        if (canInvoiceJobCosting(getCurrentJob())) {
+            setIsDirty(true);
+        }
+    }
+
+    public Boolean canInvoiceJobCosting(Job job) {
         if (getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-            if (!getCurrentJob().getJobCostingAndPayment().getCostingApproved()
-                    && !getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-                getCurrentJob().getJobCostingAndPayment().setInvoiced(false);
-                displayCommonMessageDialog(null, "This job costing cannot be marked as being invoiced because it is not prepared/approved", "Not prepared/Approved", "alert");
+            if (!job.getJobCostingAndPayment().getCostingApproved()
+                    && !job.getJobCostingAndPayment().getCostingCompleted()) {
+                job.getJobCostingAndPayment().setInvoiced(false);
+                PrimeFacesUtils.addMessage("Not prepared/Approved",
+                        "This job costing cannot be marked as being invoiced because it is not prepared/approved",
+                        FacesMessage.SEVERITY_ERROR);
+
+                return false;
             }
         } else {
-            displayCommonMessageDialog(null, "You do not have permission to change the invoiced status of this job costing.", "Permission Denied", "alert");
-            getCurrentJob().getJobCostingAndPayment().setInvoiced(!getCurrentJob().getJobCostingAndPayment().getInvoiced());
+            PrimeFacesUtils.addMessage("Permission Denied",
+                    "You do not have permission to change the invoiced status of this job costing",
+                    FacesMessage.SEVERITY_ERROR);
+            job.getJobCostingAndPayment().setInvoiced(!job.getJobCostingAndPayment().getInvoiced());
+
+            return false;
         }
 
-        setIsDirty(true);
+        return true;
     }
 
     public List<Preference> getJobTableViewPreferences() {
@@ -653,7 +693,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
      * @return
      */
     public Boolean canUserCompleteJobCosting(Job job) {
-        return isJobAssignedToUserDepartment();
+        return isJobAssignedToUserDepartment(job);
     }
 
     public CashPayment getSelectedCashPayment() {
@@ -772,21 +812,24 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         if (!getCurrentJob().getIsSubContracted() && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             if (!Job.findIncompleteSubcontracts(em, currentJob).isEmpty()) {
                 getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
-                displayCommonMessageDialog(null,
-                        "This job costing cannot be marked prepared before all subcontracted jobs are completed", "Incomplete Subcontracts", "info");
+                PrimeFacesUtils.addMessage("Incomplete Subcontracts",
+                        "This job costing cannot be marked prepared until all subcontracted jobs are completed",
+                        FacesMessage.SEVERITY_ERROR);
             }
         } else if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()) {
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(!getCurrentJob().getJobCostingAndPayment().getCostingCompleted());
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
-            displayCommonMessageDialog(null,
-                    "The job costing preparation status cannot be changed because it was already approved.",
-                    "Job Costing Already Approved", "info");
+            PrimeFacesUtils.addMessage("Job Costing Already Approved",
+                    "The job costing preparation status cannot be changed because it was already approved",
+                    FacesMessage.SEVERITY_ERROR);
         } else if (!validateCurrentJobCosting()
                 && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(null);
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
             getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
-            displayCommonMessageDialog(null, "Please enter all required (*) fields before checking this job costing as being prepared.", "Required (*) Fields Missing", "info");
+            PrimeFacesUtils.addMessage("Required (*) Fields Missing",
+                    "Please enter all required (*) fields before checking this job costing as being prepared",
+                    FacesMessage.SEVERITY_ERROR);
         } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
         }
@@ -816,44 +859,89 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void approveJobCosting() {
+//
+//        if (isUserDepartmentSupervisor(getCurrentJob())
+//                || (isJobAssignedToUserDepartment(getCurrentJob())
+//                && getUser().getPrivilege().getCanApproveJobCosting())) {
+//            if (!getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+//                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(null);
+//                setJobCostingDate(null);
+//                getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
+//                PrimeFacesUtils.addMessage("Cannot Approve",
+//                        "This job costing cannot be approved before it is prepared",
+//                        FacesMessage.SEVERITY_ERROR);
+//            } else {
+//                Date date = new Date();
+//                setJobCostingDate(date);
+//                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(date);
+//            }
+//        } else {
+//            setJobCostingDate(null);
+//            getCurrentJob().getJobCostingAndPayment().setCostingApproved(!getCurrentJob().getJobCostingAndPayment().getCostingApproved());
+//            PrimeFacesUtils.addMessage("No Permission",
+//                    "You do not have the permission to approve job costings",
+//                    FacesMessage.SEVERITY_ERROR);
+//        }
 
-        if (isUserDepartmentSupervisor(getCurrentJob())
-                || (isJobAssignedToUserDepartment()
+        if (canApproveJobCosting(getCurrentJob())) {
+            setIsDirty(true);
+        }
+    }
+
+    // tk impl
+    public Boolean canApproveJobCosting(Job job) {
+
+        if (isUserDepartmentSupervisor(job)
+                || (isJobAssignedToUserDepartment(job)
                 && getUser().getPrivilege().getCanApproveJobCosting())) {
-            if (!getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(null);
-                setJobCostingDate(null);
-                getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
-                //sendJobCostingApprovedEmail = false;
-                displayCommonMessageDialog(null, "This job costing cannot be approved before it is prepared", "Cannot Approve", "info");
+            if (!job.getJobCostingAndPayment().getCostingCompleted()) {
+                job.getJobStatusAndTracking().setDateCostingApproved(null);
+                job.getJobStatusAndTracking().setCostingDate(null);
+                job.getJobCostingAndPayment().setCostingApproved(false);
+                PrimeFacesUtils.addMessage("Cannot Approve",
+                        "This job costing cannot be approved before it is prepared",
+                        FacesMessage.SEVERITY_ERROR);
+
+                return false;
             } else {
                 Date date = new Date();
-                setJobCostingDate(date);
-                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(date);
+                job.getJobStatusAndTracking().setCostingDate(date);
+                job.getJobStatusAndTracking().setDateCostingApproved(date);
             }
         } else {
-            setJobCostingDate(null);
-            getCurrentJob().getJobCostingAndPayment().setCostingApproved(!getCurrentJob().getJobCostingAndPayment().getCostingApproved());
-            displayCommonMessageDialog(null, "You do not have the permission to approve job costings.", "No Permission", "alert");
+            job.getJobStatusAndTracking().setCostingDate(null);
+            job.getJobCostingAndPayment().setCostingApproved(!job.getJobCostingAndPayment().getCostingApproved());
+            PrimeFacesUtils.addMessage("No Permission",
+                    "You do not have the permission to approve job costings",
+                    FacesMessage.SEVERITY_ERROR);
+
+            return false;
         }
 
-        setIsDirty(true);
+        return true;
+
     }
 
     public void updatePreferences() {
         setIsDirty(true);
     }
 
-    // tk to be updated
     public void updateCostCode() {
         switch (selectedCostComponent.getCode()) {
             case "FIXED":
                 selectedCostComponent.setIsFixedCost(true);
                 selectedCostComponent.setIsHeading(false);
+                selectedCostComponent.setHours(0.0);
+                selectedCostComponent.setHoursOrQuantity(0.0);
+                selectedCostComponent.setRate(0.0);
                 break;
             case "HEADING":
                 selectedCostComponent.setIsFixedCost(false);
                 selectedCostComponent.setIsHeading(true);
+                selectedCostComponent.setHours(0.0);
+                selectedCostComponent.setHoursOrQuantity(0.0);
+                selectedCostComponent.setRate(0.0);
+                selectedCostComponent.setCost(0.0);
                 break;
             case "VARIABLE":
                 selectedCostComponent.setIsFixedCost(false);
@@ -862,6 +950,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             case "SUBCONTRACT":
                 selectedCostComponent.setIsFixedCost(true);
                 selectedCostComponent.setIsHeading(false);
+                selectedCostComponent.setHours(0.0);
+                selectedCostComponent.setHoursOrQuantity(0.0);
+                selectedCostComponent.setRate(0.0);
                 break;
             default:
                 selectedCostComponent.setIsFixedCost(false);
@@ -1008,7 +1099,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void jobCostingDialogReturn() {
-        
+
         if (getCurrentJob().getId() != null) {
             if (getIsDirty()) {
                 if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {

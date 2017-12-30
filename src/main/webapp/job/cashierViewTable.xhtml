@@ -63,7 +63,8 @@ Email: info@dpbennett.com.jm
             <f:facet name="header">
                 <h:outputText value="Est. ($)"/>
             </f:facet>
-            <h:outputText value="#{job.jobCostingAndPayment.estimatedCost}">
+            <h:outputText value="#{job.jobCostingAndPayment.estimatedCost}"
+                          styleClass="datatable-number-field" >
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
             </h:outputText>
         </p:column>
@@ -72,7 +73,8 @@ Email: info@dpbennett.com.jm
             <f:facet name="header">
                 <h:outputText value="Min. Deposit ($)"/>
             </f:facet>
-            <h:outputText value="#{job.jobCostingAndPayment.minDeposit}">
+            <h:outputText value="#{job.jobCostingAndPayment.minDeposit}"
+                          styleClass="datatable-number-field" >
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
             </h:outputText>
         </p:column>
@@ -81,7 +83,8 @@ Email: info@dpbennett.com.jm
             <f:facet name="header">
                 <h:outputText value="Amt Due($)"/>
             </f:facet>
-            <h:outputText value="#{job.jobCostingAndPayment.amountDue}">
+            <h:outputText value="#{job.jobCostingAndPayment.amountDue}"
+                          styleClass="datatable-number-field" >
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
             </h:outputText>
         </p:column>

@@ -18,50 +18,16 @@
 [mysqld]
 sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 - Deactivate all ERROR* or [Error* clients.
-
+- NB: Follow the BSJ 6 month proposal and do an assessment of the ISO procedures,
+  work instructions, procedures, audit reports etc. before starting development. This may take
+  at least a month. Study the proposal and layout a plan of action before starting.
+- NB: Do presentation to BSJ MIS staff to outline the current status of the JMTS
+  and the way forward.
 
 ================================================================================
 ### Issues to Address for Next Release
 #### Job Costing
-- Put cost component type in costings table
-- Move "Save costings as template" button to costings panel and fix up 
-  "Costing Template Name" dialog to use toolbar.  
-- Impl saving job costing and updating the job costing table
-  * Impl saving within job costing dialog. Do automatic job save as is done with
-    samples. Change "Save" to "Ok", "Close" to "Cancel and close dialog when clicked. 
-  * Impl closing job costing dialog and prompt if there are edits.
-  * Display each cash payment and cost component in the lists to check if any
-    is has null id after saving
-- Impl dealing with subcontracts and redesign cost component dialog.
-  * Impl displaying list of subcontracts with costings that have been approved. 
-  * Put note beside "New Item" Listing the subcontract job number if there are any
-    and prompt to enter them if there are any completed and and approved.
-  * Impl list of subcontracts if a job is subcontracted.
-- Within the job costing dialog detect if there are subcontracts and inform about 
-  this and "pull" in their costs based on instructions. 
-  * See how "Cost Component dialog can be used to bring in subcontract costs. 
-    Use the "Cost Code" slot to select subcontract costs if any. Remove "Cost Code"
-  * Impl menu that selects cost type "Variable Cost", "Fixed Cost", "Subcontracted job cost"
-  * The fields would change based on the cost type selected.
-- Note that updateJobCostings() creates default job costings if none exist and
-  adds the costing from subcontracts if the job is subcontracted. Add this method
-  to the Job class and call it whenever the job costing is to be edited so that
-  all subcontracted job costs are included. Add all methods that updateJobCostings()
-  calls directly or indirectly in the Job or JobCostingAndPayment class.
-- Check that all message dialogs in the job costing control panel are displayed
-  Replace message dialogs with growl.
-- Set user and job when job is being created, edited or subcontracted. Update
-  the costing tab and forms to use to reflect changes
-- updateJobCostingAndPayment() and other update methods in FM to update isDirty 
-  in JobCostingAndPayment and not the job. REVIEW THIS!!!
-- Put "Do costing" button in JobCostingAndPaymentTab.
-- Remove FM code from JM.  
-  * Do what editJobCosting() JM does in FM so that editJobCosting() can be deleted 
-    from JM.
-  * Implement getFinanceManager() and use it in jobCostingAndPaymentTab.xhtml 
-    to access JobCostingAndPayment instead of directly in JM.
-- Check that job costing form works.
-- Only designated persons should be able to approve and invoice jobs in batch.
+- Put the job number in the growl message for failed costing approval and invoicing.
 - Use FM to check credit status?
 - Update job costing and payment forms to use FinanceManager (FM).
   * Implement "dirty" for JobCostingAndPayment and use it to flag as dirty and not the entire job. 
@@ -90,6 +56,24 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - Fix up costing template feature and make sure it works. 
   * Update template name template is selected and don't allow saving 2 templates 
   with the same name.
+- Impl real canceling of job costing edits
+- Update and show the template name when a job is saved as a template. Use the 
+  template name input field instead of dialog box to enter the name of the template name
+  dialog.
+- Impl saving job costing and update the job costing table. Impl cancelling job 
+   costing dialog and prompt if there are edits. Impl job costing backup and 
+   restore as is done for sample edits. 
+- Impl dealing with subcontracts and redesign cost component dialog.
+  * Impl displaying list of subcontracts with costings that have been approved. 
+  * Put note beside "New Item" Listing the subcontract job number if there are any
+    and prompt to enter them if there are any completed and and approved.
+  * Impl list of subcontracts if a job is subcontracted.
+- Within the job costing dialog detect if there are subcontracts and inform about 
+  this and "pull" in their costs based on instructions. 
+  * See how "Cost Component dialog can be used to bring in subcontract costs. 
+    Use the "Cost Code" slot to select subcontract costs if any. Remove "Cost Code"
+  * Impl menu that selects cost type "Variable Cost", "Fixed Cost", "Subcontracted job cost"
+  * The fields would change based on the cost type selected.
 
 #### Cash Payment
 - Payment dialog is displayed only once when the add payment button is pressed.
@@ -119,6 +103,7 @@ paymentTerms, rename JMTSUserId to userId
 - Ensure billing address and contact are valid and not blank before saving job.
 - Impl Approved and Invoiced buttons in job costings tab. Use growl instead of
   dialog to display message when invoices are approved/invoiced.
+- Impl real canceling of payment edits.
 
 ### Testing on Test and Live versions
 - Build for gf3.1.2.2 and deploy.
@@ -139,6 +124,10 @@ paymentTerms, rename JMTSUserId to userId
   billing address and contact fields set.
 * Test entering job costings before a job is saved then save the job.
 * Test export all reports in live system.
+* Display each cash payment and cost component in the lists to check if any
+  is has null id after saving.
+* Test approving and invoicing job costings from job costing dialog and job 
+  costings table.
 
 ==============================Future Long Term Development======================
 ### Misc

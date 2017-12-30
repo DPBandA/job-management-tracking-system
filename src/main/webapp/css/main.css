@@ -76,3 +76,18 @@
     color: gray;
     width: 100%;
 }
+
+.number-field {
+    text-align: right;
+}
+
+.datatable-number-field {
+    float: right;
+}
+
+.read-only-number-field {
+    text-align: right;
+     background-color: lightyellow !important;
+    color: blue;
+}
+

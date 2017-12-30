@@ -2041,6 +2041,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void setEditJobCosting(Job currentJob) {
         this.currentJob = currentJob;
         initManagers();
+
+        setSelectedJobs(null);
     }
 
     public void setEditJobCostingAndPayment(Job currentJob) {
@@ -2513,23 +2515,20 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (selectedJobs.length > 0) {
             EntityManager em = getEntityManager1();
 
-            for (int i = 0; i < selectedJobs.length; i++) {
-                Job job = selectedJobs[i];
-                if (job.getJobCostingAndPayment().getCostingCompleted()) {
-                    em.getTransaction().begin();
+            financeManager.setUser(user);
+
+            for (Job job : selectedJobs) {
+                if (financeManager.canApproveJobCosting(job)) {
                     job.getJobCostingAndPayment().setCostingApproved(true);
-                    BusinessEntityUtils.saveBusinessEntity(em, job);
-                    em.getTransaction().commit();
                 } else {
-                    em.getTransaction().begin();
                     job.getJobCostingAndPayment().setCostingApproved(false);
-                    BusinessEntityUtils.saveBusinessEntity(em, job);
-                    em.getTransaction().commit();
-                    displayCommonMessageDialog(null, "Job costing could not be marked as being approved because it was not prepared", "Not Prepared", "alert");
                 }
+                job.save(em);
             }
         } else {
-            displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
+            PrimeFacesUtils.addMessage("No Selection",
+                    "No job costing was selected",
+                    FacesMessage.SEVERITY_INFO);
         }
 
     }
@@ -2538,22 +2537,32 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (selectedJobs.length > 0) {
             EntityManager em = getEntityManager1();
 
+            financeManager.setUser(user);
+
             for (Job job : selectedJobs) {
-                if (job.getJobCostingAndPayment().getCostingApproved()) {
-                    em.getTransaction().begin();
+                if (financeManager.canInvoiceJobCosting(job)) {
                     job.getJobCostingAndPayment().setInvoiced(true);
-                    BusinessEntityUtils.saveBusinessEntity(em, job);
-                    em.getTransaction().commit();
                 } else {
-                    em.getTransaction().begin();
                     job.getJobCostingAndPayment().setInvoiced(false);
-                    BusinessEntityUtils.saveBusinessEntity(em, job);
-                    em.getTransaction().commit();
-                    displayCommonMessageDialog(null, "Job costing could not be marked as being invoiced because it was not approved", "Not Approved", "alert");
                 }
+                job.save(em);
+//                if (job.getJobCostingAndPayment().getCostingApproved()) {
+//                    em.getTransaction().begin();
+//                    job.getJobCostingAndPayment().setInvoiced(true);
+//                    BusinessEntityUtils.saveBusinessEntity(em, job);
+//                    em.getTransaction().commit();
+//                } else {
+//                    em.getTransaction().begin();
+//                    job.getJobCostingAndPayment().setInvoiced(false);
+//                    BusinessEntityUtils.saveBusinessEntity(em, job);
+//                    em.getTransaction().commit();
+//                    displayCommonMessageDialog(null, "Job costing could not be marked as being invoiced because it was not approved", "Not Approved", "alert");
+//                }
             }
         } else {
-            displayCommonMessageDialog(null, "No job costing was selected", "No Selection", "info");
+            PrimeFacesUtils.addMessage("No Selection",
+                    "No job costing was selected",
+                    FacesMessage.SEVERITY_INFO);
         }
     }
 

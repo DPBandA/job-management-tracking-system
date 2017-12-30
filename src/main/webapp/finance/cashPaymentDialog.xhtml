@@ -68,7 +68,8 @@ Email: info@dpbennett.com.jm
                 </p:inputText>               
 
                 <h:outputText value="Amount:" />
-                <p:inputText value="#{financeManager.selectedCashPayment.payment}"                             
+                <p:inputText value="#{financeManager.selectedCashPayment.payment}"    
+                             styleClass="number-field"
                              maxlength="250">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"
@@ -88,7 +89,8 @@ Email: info@dpbennett.com.jm
                         process="@this" />
                     <f:selectItems value="#{App.discountTypes}" />
                 </p:selectOneMenu>             
-                <p:inputText value="#{financeManager.selectedCashPayment.discount}"                              
+                <p:inputText value="#{financeManager.selectedCashPayment.discount}"  
+                             styleClass="number-field"
                              maxlength="250">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="change"

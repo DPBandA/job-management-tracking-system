@@ -28,9 +28,8 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
                              style="vertical-align: top;"
                              title="Check the selected job costing(s) as approved"
-
                              actionListener="#{jobManager.approveSelectedJobCostings}"
-                             update=":mainTabViewForm:mainTabView:jobCostingsTable"
+                             update=":headerForm:growl3,:mainTabViewForm:mainTabView:jobCostingsTable"
                              onstart="longProcessDialogVar2.show();" 
                              oncomplete="longProcessDialogVar2.hide();">                                                                                    
             </p:commandButton>
@@ -39,9 +38,8 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
                              style="vertical-align: top;"
                              title="Check the selected job costing(s) as invoiced"
-
                              actionListener="#{jobManager.invoiceSelectedJobCostings}"
-                             update=":mainTabViewForm:mainTabView:jobCostingsTable"
+                             update=":headerForm:growl3,:mainTabViewForm:mainTabView:jobCostingsTable"
                              onstart="longProcessDialogVar2.show();" 
                              oncomplete="longProcessDialogVar2.hide();">                                                                                    
             </p:commandButton>
