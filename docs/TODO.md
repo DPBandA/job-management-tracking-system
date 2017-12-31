@@ -293,6 +293,7 @@ paymentTerms, rename JMTSUserId to userId
 12) QEMS
 13) Technical committees database
 14) Technical regulations/standards list/database/catalogue
+15) Marketing Requirements for Trade 
 
 ### Legal Metrology
 1) Check if all close buttons work in history dialogs. 
