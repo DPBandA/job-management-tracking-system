@@ -26,21 +26,16 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
+#### Misc
+- Limit the number of characters for all fields depending the purpose and type
+of field...continue with cash payment dialog then job costing dialog.
+- Check that job is not "dirty" before it is subcontracted.
 #### Job Costing
-- Put the job number in the growl message for failed costing approval and invoicing.
-- Use FM to check credit status?
-- Update job costing and payment forms to use FinanceManager (FM).
-  * Implement "dirty" for JobCostingAndPayment and use it to flag as dirty and not the entire job. 
-  * Implement saving JobCostingAndPayment and no the entire job.
-- Create FinanceManager (FM) from JM and use it to manage job costing and payment.
-  * Complete by 
-- Implement "isDirty" for JobCostingAndPayment independently of the Job class.
-  *Implement save() in JobCostingAndPayment.
-  *Do not allow saving of job costing if job has not been saved.
-  *Set to CascadeType.REFRESH and save independently in Job class.
-- Implement save confirmation and dialog closing for job costing form.
-- Don't use discount in cash payment.
-- Job cost and may be other fields not being update when costing is updated. Fix!
+- Make sure that the job is saved before allowing job costing edit.
+- Job cost and may be other fields not being updated when costing is updated. Fix!
+- A cost component appeared twice in the costimgs table when added. Check how this
+could have happened.
+- Implement field validation for cost component dialog.
 - Check that exporting job costing, service contract and other forms do not
   save any entity as this is not necessary.
 - Fix job costing form export etc. and use the billing address and contact found in the 
@@ -56,7 +51,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 - Fix up costing template feature and make sure it works. 
   * Update template name template is selected and don't allow saving 2 templates 
   with the same name.
-- Impl real canceling of job costing edits
+- Impl real canceling of job costing edits as is done for samples cause when the 
+  job costing dialog is opened and not edited and canceled a message says it was edited.
 - Update and show the template name when a job is saved as a template. Use the 
   template name input field instead of dialog box to enter the name of the template name
   dialog.
@@ -76,6 +72,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
   * The fields would change based on the cost type selected.
 
 #### Cash Payment
+- Impl validation for cash paymeny dialog.
+- Use discount for each cash payment or allow entry of one discount on the form?
 - Payment dialog is displayed only once when the add payment button is pressed.
   See if calling javascript code causes this.
 - Implement updateCashPayment() to record updates made to a field and store the updates.
@@ -260,6 +258,11 @@ paymentTerms, rename JMTSUserId to userId
 - Disable other rendered tabs when the job detail tab is rendered to prevent 
   switching to those tabs??
 - Add privileges for adding/editing contacts and addresses.
+- Impl the max character lengths as system options an set limits on the maximum
+  dollar values that can be entered as system options too. Consider the maximum
+  double values imposed by Java the possibility that values can overflow when added
+  divided or multiplied.
+
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

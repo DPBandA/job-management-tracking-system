@@ -73,7 +73,7 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="Reference *: " style="width: 50%;font-weight: bold;" />
                         <p:inputText id="sampleReference"
                                      value="#{jobSampleManager.selectedJobSample.reference}"
-                                     maxlength="250"
+                                     maxlength="40"
                                      required=""
                                      readonly="true"
                                      style="width: 50%;font-weight: bold;background-color: lightyellow;" >
@@ -87,7 +87,7 @@ Email: info@dpbennett.com.jm
                         <p:autoComplete id="sampledBy"
                                         style="width: 75%"
                                         var="sampledBy"
-                                        maxlength="250"
+                                        maxlength="40"
                                         value="#{jobSampleManager.selectedJobSample.sampledBy}"
                                         title="#{jobSampleManager.selectedJobSample.sampledBy}"
                                         itemLabel="#{sampledBy.name}"
@@ -129,7 +129,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Sample quantity *: " style="width: 50%;font-weight: bold;" />
                         <p:inputText  id="sampleQuantity"
-                                      maxlength="250"
+                                      maxlength="3"
                                       converter="javax.faces.Long"
                                       styleClass="number-field"
                                       required="true"
@@ -148,7 +148,7 @@ Email: info@dpbennett.com.jm
                                      id="productCommonName"
                                      required="true"
                                      requiredMessage="Please enter the common name of the product"
-                                     maxlength="250"
+                                     maxlength="40"
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"
@@ -161,6 +161,7 @@ Email: info@dpbennett.com.jm
                         <p:autoComplete value="#{jobSampleManager.selectedJobSample.countryOfOrigin}"     
                                         id="sampleCountryOfOrigin"
                                         forceSelection="true"  
+                                        maxlength="40"
                                         dropdown="true"
                                         scrollHeight="200" 
                                         completeMethod="#{App.completeCountry}" >
@@ -179,7 +180,7 @@ Email: info@dpbennett.com.jm
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productBrand}"
                                      id="productBrand"
                                      readonly="false"
-                                     maxlength="250"
+                                     maxlength="40"
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"
@@ -192,7 +193,7 @@ Email: info@dpbennett.com.jm
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productModel}"
                                      id="productModel"
                                      readonly="false"
-                                     maxlength="250"
+                                     maxlength="40"
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"                                    
@@ -205,7 +206,7 @@ Email: info@dpbennett.com.jm
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productSerialNumber}"
                                      id="productSerialNumber"
                                      readonly="false"
-                                     maxlength="250"
+                                     maxlength="40"
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"                                   
@@ -218,7 +219,7 @@ Email: info@dpbennett.com.jm
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productCode}"
                                      id="productCode"
                                      readonly="false"
-                                     maxlength="250"
+                                     maxlength="40"
                                      style="width: 50%;" >
                             <p:ajax event="change"
                                     global="false"                                   
@@ -249,7 +250,7 @@ Email: info@dpbennett.com.jm
                                          required="true"
                                          converterMessage="Please enter a valid product quantity"
                                          requiredMessage="Please enter a valid product quantity"                                         
-                                         maxlength="250"
+                                         maxlength="3"
                                          value="#{jobSampleManager.selectedJobSample.quantity}" >
                                 <p:ajax event="change"
                                         global="false"
@@ -261,7 +262,7 @@ Email: info@dpbennett.com.jm
                             <p:inputText id="productUnitOfMeasure"
                                          value="#{jobSampleManager.selectedJobSample.unitOfMeasure}"
                                          style="width: 75%"
-                                         maxlength="250"
+                                         maxlength="40"
                                          title="Product unit of measure">
                                 <p:ajax event="change"
                                         global="false"

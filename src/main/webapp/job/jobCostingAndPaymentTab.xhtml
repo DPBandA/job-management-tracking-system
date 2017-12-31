@@ -35,7 +35,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Purchase order #: "/>
             <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
                          disabled="#{!financeManager.isAuthorizedToModifyCostings}"
-                         maxlength="250">
+                         maxlength="40">
                 <p:ajax event="change"
                         global="false"
                         listener="#{financeManager.updatePurchaseOrderNumber}"
@@ -49,7 +49,7 @@ Email: info@dpbennett.com.jm
                              converterMessage="Please enter a valid cost estimate."
                              styleClass="number-field"
                              disabled="#{!financeManager.isAuthorizedToModifyCostings}"
-                             maxlength="250">
+                             maxlength="15" >
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     <p:ajax event="change"
                             global="false"
@@ -66,7 +66,7 @@ Email: info@dpbennett.com.jm
             <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.minDeposit}"
                          disabled="#{!financeManager.isAuthorizedToModifyCostings}"
                          styleClass="number-field"
-                         maxlength="250">
+                         maxlength="15">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="change"
                         global="false"
@@ -101,7 +101,7 @@ Email: info@dpbennett.com.jm
                              value="#{financeManager.currentJob.jobCostingAndPayment.estimatedCostIncludingTaxes}"
                              styleClass="read-only-number-field"
                              readonly="true"
-                             maxlength="250">
+                             maxlength="15">
 
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 
@@ -121,7 +121,7 @@ Email: info@dpbennett.com.jm
                          value="#{financeManager.currentJob.jobCostingAndPayment.minDepositIncludingTaxes}"
                          styleClass="read-only-number-field"
                          readonly="true"
-                         maxlength="250">
+                         maxlength="15">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="keyup"
                         global="false"                        
@@ -135,7 +135,7 @@ Email: info@dpbennett.com.jm
                 value="#{financeManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}"/>
             <h:panelGroup>
                 <p:inputText id="totalCost"
-                             maxlength="250"
+                             maxlength="15"
                              value="#{financeManager.currentJob.jobCostingAndPayment.totalCost}"                                 
                              styleClass="read-only-number-field"
                              readonly="true">
@@ -166,6 +166,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Amount due ($):" style="font-weight: bold;" />            
             <p:inputText id="amountDue2"
                          value="#{financeManager.currentJob.jobCostingAndPayment.amountDue}"
+                         maxlength="15"
                          styleClass="read-only-number-field"
                          readonly="true">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>

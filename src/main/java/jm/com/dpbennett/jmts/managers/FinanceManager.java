@@ -634,20 +634,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void invoiceJobCosting() {
-//        if (getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-//            if (!getCurrentJob().getJobCostingAndPayment().getCostingApproved()
-//                    && !getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-//                getCurrentJob().getJobCostingAndPayment().setInvoiced(false);
-//                PrimeFacesUtils.addMessage("Not prepared/Approved",
-//                        "This job costing cannot be marked as being invoiced because it is not prepared/approved",
-//                        FacesMessage.SEVERITY_ERROR);
-//            }
-//        } else {
-//            PrimeFacesUtils.addMessage("Permission Denied",
-//                    "You do not have permission to change the invoiced status of this job costing",
-//                    FacesMessage.SEVERITY_ERROR);
-//            getCurrentJob().getJobCostingAndPayment().setInvoiced(!getCurrentJob().getJobCostingAndPayment().getInvoiced());
-//        }
         if (canInvoiceJobCosting(getCurrentJob())) {
             setIsDirty(true);
         }
@@ -659,14 +645,14 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                     && !job.getJobCostingAndPayment().getCostingCompleted()) {
                 job.getJobCostingAndPayment().setInvoiced(false);
                 PrimeFacesUtils.addMessage("Not prepared/Approved",
-                        "This job costing cannot be marked as being invoiced because it is not prepared/approved",
+                        "The job costing " + job.getJobNumber() + " cannot be marked as being invoiced because it is not prepared/approved",
                         FacesMessage.SEVERITY_ERROR);
 
                 return false;
             }
         } else {
             PrimeFacesUtils.addMessage("Permission Denied",
-                    "You do not have permission to change the invoiced status of this job costing",
+                    "You do not have permission to change the invoiced status of the job costing for " + job.getJobNumber(),
                     FacesMessage.SEVERITY_ERROR);
             job.getJobCostingAndPayment().setInvoiced(!job.getJobCostingAndPayment().getInvoiced());
 
@@ -859,36 +845,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void approveJobCosting() {
-//
-//        if (isUserDepartmentSupervisor(getCurrentJob())
-//                || (isJobAssignedToUserDepartment(getCurrentJob())
-//                && getUser().getPrivilege().getCanApproveJobCosting())) {
-//            if (!getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-//                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(null);
-//                setJobCostingDate(null);
-//                getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
-//                PrimeFacesUtils.addMessage("Cannot Approve",
-//                        "This job costing cannot be approved before it is prepared",
-//                        FacesMessage.SEVERITY_ERROR);
-//            } else {
-//                Date date = new Date();
-//                setJobCostingDate(date);
-//                getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(date);
-//            }
-//        } else {
-//            setJobCostingDate(null);
-//            getCurrentJob().getJobCostingAndPayment().setCostingApproved(!getCurrentJob().getJobCostingAndPayment().getCostingApproved());
-//            PrimeFacesUtils.addMessage("No Permission",
-//                    "You do not have the permission to approve job costings",
-//                    FacesMessage.SEVERITY_ERROR);
-//        }
 
         if (canApproveJobCosting(getCurrentJob())) {
             setIsDirty(true);
         }
     }
 
-    // tk impl
     public Boolean canApproveJobCosting(Job job) {
 
         if (isUserDepartmentSupervisor(job)
@@ -899,7 +861,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 job.getJobStatusAndTracking().setCostingDate(null);
                 job.getJobCostingAndPayment().setCostingApproved(false);
                 PrimeFacesUtils.addMessage("Cannot Approve",
-                        "This job costing cannot be approved before it is prepared",
+                        "The job costing for " + job.getJobNumber() + " cannot be approved before it is prepared",
                         FacesMessage.SEVERITY_ERROR);
 
                 return false;
@@ -912,7 +874,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             job.getJobStatusAndTracking().setCostingDate(null);
             job.getJobCostingAndPayment().setCostingApproved(!job.getJobCostingAndPayment().getCostingApproved());
             PrimeFacesUtils.addMessage("No Permission",
-                    "You do not have the permission to approve job costings",
+                    "You do not have the permission to approve job costing for " + job.getJobNumber(),
                     FacesMessage.SEVERITY_ERROR);
 
             return false;
