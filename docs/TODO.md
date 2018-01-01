@@ -28,7 +28,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Misc
 - Fix up the system admin dialogs by adding toolbars, field validation etc.
-  * Continue with employeeDialog
+  * Continue with departmentDialog (departmentHead validation)
 - Get rid of unused or unneeded dialogs and use growl where possible.
 #### Job Costing
 - Replace "edit" and "delete" buttons in cost components table with menu. Use 

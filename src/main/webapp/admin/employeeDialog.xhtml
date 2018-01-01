@@ -37,20 +37,29 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>           
         <h:form id="employeeDialogForm">       
-            <h:panelGrid columns="4" >
-                <p:commandButton value="Ok"
-                                 actionListener="#{systemManager.saveSelectedEmployee}"
-                                 onstart="longProcessDialogVar.show();"
-                                 oncomplete="longProcessDialogVar.hide();"
-                                 icon="ui-icon ui-icon-check"
-                                 process="@form"/>
-                <p:commandButton value="Cancel"                                 
-                                 actionListener="#{systemManager.cancelEmployeeEdit}"
-                                 oncomplete="longProcessDialogVar.hide();"
-                                 icon="ui-icon ui-icon-close" />               
-            </h:panelGrid>
-            <hr/>
-            <p:panel>
+
+            <p:growl id="employeedialog_growl" life="5000" showDetail="true"/>
+
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{systemManager.saveSelectedEmployee}"
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-check"
+                                     update="employeedialog_growl"
+                                     process="@form"/>
+                    <p:spacer width="5" />
+                    <p:commandButton value="Cancel"  
+                                     immediate="true"
+                                     actionListener="#{systemManager.cancelEmployeeEdit}"
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-close" />  
+
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:panel style="margin-top: 1px;margin-bottom: 1px;">
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Active:"/>                                  
                     <p:selectBooleanCheckbox id="employeeActive"
@@ -62,33 +71,38 @@ Email: info@dpbennett.com.jm
                         <f:selectItems value="#{systemManager.personalTitles}" />
                     </p:selectOneMenu>
 
-                    <h:outputLabel value="Firstname *:" for="firstName"/>
+                    <h:outputLabel value="Firstname:" for="firstName" style="font-weight: bold;"/>
                     <p:inputText value="#{systemManager.selectedEmployee.firstName}"
-                                 id="firstName" validatorMessage="Please enter a valid name" />
+                                 id="firstName" 
+                                 validator="requiredFieldValidator" />
 
-                    <h:outputLabel value="LastName *:" for="lastName"/>
+                    <h:outputLabel value="LastName:" for="lastName" style="font-weight: bold;"/>
                     <p:inputText value="#{systemManager.selectedEmployee.lastName}"
-                                 id="lastName" validatorMessage="Please enter a valid name" />
+                                 id="lastName"                                  
+                                 validator="requiredFieldValidator" />
 
                     <h:outputLabel value="Email:" for="employeeEmail"/>
                     <p:inputText value="#{systemManager.selectedEmployee.internet.email1}"
                                  id="employeeEmail" validatorMessage="Please enter a valid name" />
 
-                    <h:outputText value="Business office:" />
+                    <h:outputText value="Business office:" style="font-weight: bold;" />
                     <p:autoComplete style="width: 75%"
                                     dropdown="true"
+                                    id="businessOffice"
                                     var="businessOffice"
                                     value="#{systemManager.selectedEmployee.businessOffice}"
                                     itemLabel="#{businessOffice.name}"
-                                    itemValue="#{businessOffice}"
+                                    itemValue="#{businessOffice}"                                     
+                                    validator="requiredFieldValidator"
                                     converter="businessOfficeConverter"
                                     forceSelection="true"
                                     completeMethod="#{App.completeBusinessOffice}" >                  
                     </p:autoComplete>
 
-                    <h:outputText value="Department:" />
+                    <h:outputText value="Department:" style="font-weight: bold;" />
                     <p:autoComplete var="department"
                                     dropdown="true"
+                                    id="departmentName"
                                     forceSelection="true"                               
                                     size="40"
                                     maxlength="250"
@@ -96,26 +110,34 @@ Email: info@dpbennett.com.jm
                                     value="#{systemManager.selectedEmployee.department}"
                                     title="#{systemManager.selectedEmployee.department}"
                                     itemValue="#{department}"
-                                    itemLabel="#{department.truncatedName}"
+                                    itemLabel="#{department.truncatedName}"                                     
+                                    validator="requiredFieldValidator"
                                     converter="departmentConverter"
                                     completeMethod="#{App.completeDepartment}" >                
                     </p:autoComplete>                    
 
                 </h:panelGrid>
             </p:panel>
-            <hr/>
-            <h:panelGrid columns="4" >
-                <p:commandButton value="Ok"
-                                 actionListener="#{systemManager.saveSelectedEmployee}"
-                                 onstart="longProcessDialogVar.show();"
-                                 oncomplete="longProcessDialogVar.hide();"
-                                 icon="ui-icon ui-icon-check"
-                                 process="@form"/>
-                <p:commandButton value="Cancel"                                 
-                                 actionListener="#{systemManager.cancelEmployeeEdit}"
-                                 oncomplete="longProcessDialogVar.hide();"
-                                 icon="ui-icon ui-icon-close" />               
-            </h:panelGrid>
+
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{systemManager.saveSelectedEmployee}"
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-check"
+                                     update="employeedialog_growl"
+                                     process="@form"/>
+                    <p:spacer width="5" />
+                    <p:commandButton value="Cancel"  
+                                     immediate="true"
+                                     actionListener="#{systemManager.cancelEmployeeEdit}"
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     icon="ui-icon ui-icon-close" />  
+
+                </p:toolbarGroup>
+            </p:toolbar>
+
         </h:form>
     </h:body>
 </html>

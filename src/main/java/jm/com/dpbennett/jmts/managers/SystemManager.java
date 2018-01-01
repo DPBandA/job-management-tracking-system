@@ -918,9 +918,11 @@ public class SystemManager implements Serializable {
     }
 
     public void createNewDepartment() {
-        PrimeFacesUtils.addMessage("Not Implemented",
-                "The creation of new departments feature is not implemented at this time",
-                FacesMessage.SEVERITY_INFO);
+
+        selectedDepartment = new Department();
+        selectedDepartment.setActive(true);
+
+        PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 600);
     }
 
     public void createNewClassification() {

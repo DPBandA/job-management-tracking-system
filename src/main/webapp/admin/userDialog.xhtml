@@ -60,7 +60,7 @@ Email: info@dpbennett.com.jm
 
             <p:panel style="margin-bottom: 1px;" >
                 <h:panelGrid columns="3" >
-                    <h:outputText value="Username: " />                          
+                    <h:outputText value="Username: " style="font-weight: bold;"/>                          
                     <p:inputText id="user"
                                  validator="requiredFieldValidator"
                                  value="#{systemManager.selectedUser.username}" />                       
@@ -69,7 +69,7 @@ Email: info@dpbennett.com.jm
                                              value="#{systemManager.selectedUser.authenticate}" />     
                 </h:panelGrid>
                 <h:panelGrid columns="2" >
-                    <h:outputText value="Employee: " />               
+                    <h:outputText value="Employee: " style="font-weight: bold;" />               
                     <p:autoComplete var="employee"
                                     size="40"
                                     scrollHeight="175"
