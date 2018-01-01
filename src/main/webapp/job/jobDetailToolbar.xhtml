@@ -37,7 +37,7 @@ Email: info@dpbennett.com.jm
                              actionListener="#{jobManager.prepareToCloseJobDetailTab}"
                              onstart="longProcessDialogVar.show();"
                              immediate="true"
-                             oncomplete="handleCloseJobDetailTab(xhr,status,args);longProcessDialogVar.hide();" 
+                             oncomplete="longProcessDialogVar.hide();" 
                              process="@this"
                              icon="ui-icon ui-icon-close" />
             <p:spacer height="0" width="100"/>
@@ -49,7 +49,7 @@ Email: info@dpbennett.com.jm
                 rendered="#{!financeManager.enableOnlyPaymentEditing}"
                 global="true"               
                 onstart="longProcessDialogVar.show();"
-                oncomplete="handleCreateJobCopy(xhr, status, args);longProcessDialogVar.hide();"
+                oncomplete="longProcessDialogVar.hide();"
                 title="Subcontract the current job by first creating a copy."
                 icon="ui-icon-copy"
                 process="@this"/>

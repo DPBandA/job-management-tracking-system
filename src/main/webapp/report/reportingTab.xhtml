@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <h:outputText value="No. of Tests " />
                 <p:inputText id="numOfTests"                            
-                             maxlength="250"
+                             maxlength="7"
                              converterMessage="Please enter a valid number of tests."
                              value="#{jobManager.currentJob.noOfTests}"  
                              styleClass="number-field"
@@ -76,7 +76,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <h:outputText value="No. of calibrations " />
                 <p:inputText id="numOfCalibrations"                             
-                             maxlength="250"
+                             maxlength="7"
                              converterMessage="Please enter a valid number of calibrations."
                              value="#{jobManager.currentJob.noOfCalibrations}"
                              styleClass="number-field"
@@ -95,7 +95,7 @@ Email: info@dpbennett.com.jm
                 <p:inputText id="numOfTestsOrCalibrations"
                              converter="javax.faces.Integer"
                              disabled="true"
-                             maxlength="250"
+                             maxlength="7"
                              value="#{jobManager.currentJob.noOfTestsOrCalibrations}"
                              styleClass="number-field"
                              style="width: 50px;" >
@@ -115,13 +115,16 @@ Email: info@dpbennett.com.jm
         <p:inputTextarea
             value="#{jobManager.currentJob.comment}"
             rows="4"
-            maxlength="250"
+            counter="commentCharsRemaining"
+            counterTemplate="{0} characters remaining."
+            maxlength="1000"
             style="width: 500px;" >
             <p:ajax event="change"
                     global="false"                   
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
         </p:inputTextarea>
+        <h:outputText id="commentCharsRemaining" /> 
     </h:panelGrid>
 
     <ui:remove>

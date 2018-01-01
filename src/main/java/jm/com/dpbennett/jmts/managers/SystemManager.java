@@ -651,25 +651,6 @@ public class SystemManager implements Serializable {
     public void loadDocument() {
     }
 
-//    public void onMainTabChange(TabChangeEvent event) {
-//        String tabTitle = event.getTab().getTitle();
-//        switch (tabTitle) {
-//            case "Documents database":
-//                //            activeNavigationTabIndex = 0;
-//                activeTabIndex = 0;
-//                searchText = previousSearchText;
-//                //            doLegalDocumentSearch();
-//                break;
-//            case "Reporting":
-//                //            activeNavigationTabIndex = 1;
-//                activeTabIndex = 1;
-//                previousSearchText = searchText;
-//                //            doLegalDocumentSearch();
-//                searchText = null;
-//                //            doLegalDocumentSearch();
-//                break;
-//        }
-//    }
     public void cancelUserEdit(ActionEvent actionEvent) {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
@@ -691,8 +672,6 @@ public class SystemManager implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
 
         boolean saved = JobManagerUser.save(em, selectedUser);
-
-        context.addCallbackParam("userSaved", saved);
 
         context.closeDialog(null);
 

@@ -60,7 +60,8 @@ Email: info@dpbennett.com.jm
                     <f:selectItems value="#{App.paymentTypes}" />
                 </p:selectOneMenu>   
                 <h:outputText value="Receipt #:" />
-                <p:inputText value="#{financeManager.selectedCashPayment.receiptNumber}" >
+                <p:inputText value="#{financeManager.selectedCashPayment.receiptNumber}" 
+                              maxlength="40" >
                     <p:ajax listener="#{financeManager.updateCashPayment}"
                             event="change"
                             global="false"                            
@@ -70,8 +71,10 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Amount:" />
                 <p:inputText value="#{financeManager.selectedCashPayment.payment}"    
                              styleClass="number-field"
-                             maxlength="250">
+                             maxlength="15">
+                    
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    
                     <p:ajax event="change"
                             global="false"                            
                             listener="#{financeManager.updateCashPayment}"
@@ -84,18 +87,18 @@ Email: info@dpbennett.com.jm
                     value="#{financeManager.selectedCashPayment.discountType}">
                     <p:ajax
                         global="true"
-
                         listener="#{financeManager.updateCashPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.discountTypes}" />
                 </p:selectOneMenu>             
                 <p:inputText value="#{financeManager.selectedCashPayment.discount}"  
                              styleClass="number-field"
-                             maxlength="250">
+                             maxlength="5">
+                    
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    
                     <p:ajax event="change"
                             global="false"
-
                             listener="#{financeManager.updateCashPayment}"
                             process="@this"/>
                 </p:inputText>          

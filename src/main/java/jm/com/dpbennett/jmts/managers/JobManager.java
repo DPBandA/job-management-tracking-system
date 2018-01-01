@@ -689,7 +689,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         RequestContext requestContext = RequestContext.getCurrentInstance();
 
-        requestContext.addCallbackParam("isDirty", getIsDirty());
+        if (currentJob.getIsDirty()) {
+            requestContext.execute("jobDetailTabCloseConfirmation.show();");
+        } else {
+            requestContext.execute("mainTabViewVar.remove(mainTabViewVar.getActiveIndex());mainTabViewVar.select(0);");
+        }
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
@@ -1433,17 +1437,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public Boolean createJob(EntityManager em, Boolean isSubcontract) {
 
         RequestContext context = RequestContext.getCurrentInstance();
-        Boolean jobCreated;
+        //Boolean jobCreated;
 
         try {
             if (isSubcontract) {
-
-                // tk replace this and other use of JS for messaging with 
-                // growl messaging
-                if (currentJob.getId() == null) {
-                    context.addCallbackParam("jobNotSaved", true);
-                    return false;
-                }
 
                 // Create copy of job and use current sequence number and year.
                 Long currentJobSequenceNumber = currentJob.getJobSequenceNumber();
@@ -1492,9 +1489,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob = Job.create(em, getUser(), true);
             }
             if (currentJob == null) {
-                jobCreated = false;
+                PrimeFacesUtils.addMessage("Job NOT Created",
+                        "An error occurred while creating a job. Try again or contact the System Administrator",
+                        FacesMessage.SEVERITY_ERROR);
             } else {
-                jobCreated = true;
                 if (isSubcontract) {
                     setIsDirty(true);
                 } else {
@@ -1503,12 +1501,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
 
             financeManager.setAccPacCustomer(new AccPacCustomer(""));
-
-            // tk replace this and other use of JS for messaging with 
-            // growl messaging
-            if (context != null) {
-                context.addCallbackParam("jobCreated", jobCreated);
-            }
 
         } catch (Exception e) {
             System.out.println(e);
@@ -1543,12 +1535,24 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void subContractJob(ActionEvent actionEvent) {
         EntityManager em = getEntityManager1();
+
+        if (currentJob.getId() == null || currentJob.getIsDirty()) {
+            PrimeFacesUtils.addMessage("Subcontract NOT Created",
+                    "This job must be saved before it can be subcontracted",
+                    FacesMessage.SEVERITY_ERROR);
+            return;
+        }
+
         if (createJob(em, true)) {
             initManagers();
             PrimeFacesUtils.addMessage("Job Copied for Subcontract",
                     "The current job was copied but the copy was not saved. "
-                    + "Please enter or change the details for the copied job as required for the subcontract.",
+                    + "Please enter or change the details for the copied job as required for the subcontract",
                     FacesMessage.SEVERITY_INFO);
+        } else {
+            PrimeFacesUtils.addMessage("Subcontract NOT Created",
+                    "The subcontract was not created. Contact your System Administrator",
+                    FacesMessage.SEVERITY_ERROR);
         }
     }
 

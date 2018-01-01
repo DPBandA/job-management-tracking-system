@@ -27,10 +27,12 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- Limit the number of characters for all fields depending the purpose and type
-of field...continue with cash payment dialog then job costing dialog.
-- Check that job is not "dirty" before it is subcontracted.
+- Fix up the system admin dialogs by adding toolbars, field validation etc.
+  * Continue with employeeDialog
+- Get rid of unused or unneeded dialogs and use growl where possible.
 #### Job Costing
+- Replace "edit" and "delete" buttons in cost components table with menu. Use 
+  the "Actions" menu in job samples table as example.
 - Make sure that the job is saved before allowing job costing edit.
 - Job cost and may be other fields not being updated when costing is updated. Fix!
 - A cost component appeared twice in the costimgs table when added. Check how this
@@ -126,6 +128,8 @@ paymentTerms, rename JMTSUserId to userId
   is has null id after saving.
 * Test approving and invoicing job costings from job costing dialog and job 
   costings table.
+* Take job through completion to see if "Job completed by:" checkbox is actually
+  checked. 
 
 ==============================Future Long Term Development======================
 ### Misc

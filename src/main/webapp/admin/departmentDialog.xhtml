@@ -32,9 +32,7 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
         <meta http-equiv="pragma" content="no-cache" />
         <title>Department Detail</title>
-        <link rel="stylesheet" href="../css/main.css" />
-        <script type="text/javascript" src="../js/commonJavascript.js" />     
-        <script type="text/javascript" src="../js/adminJavascript.js"/>
+        <link rel="stylesheet" href="../css/main.css" />  
     </h:head>
     <h:body >  
         <ui:include src="../common/longProcessDialog.xhtml"/>  
@@ -44,7 +42,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="Ok"
                                  actionListener="#{systemManager.saveSelectedDepartment}"
                                  onstart="longProcessDialogVar.show();"
-                                 oncomplete="longProcessDialogVar.hide();handleSaveSelectedDepartment(xhr, status, args);"
+                                 oncomplete="longProcessDialogVar.hide()"
                                  icon="ui-icon ui-icon-check"
                                  process="@form"/>
                 <p:commandButton value="Cancel"
@@ -74,6 +72,7 @@ Email: info@dpbennett.com.jm
                     <p:autoComplete var="departmentHead"
                                     size="40"
                                     dropdown="true"
+                                    scrollHeight="175"
                                     maxlength="50"
                                     value="#{systemManager.selectedDepartment.head}"
                                     title="#{systemManager.selectedDepartment.head}"
@@ -89,6 +88,7 @@ Email: info@dpbennett.com.jm
                         <p:autoComplete var="departmentActingHead"
                                         size="40"
                                         dropdown="true"
+                                        scrollHeight="175"
                                         maxlength="100"
                                         value="#{systemManager.selectedDepartment.actingHead}"
                                         title="#{systemManager.selectedDepartment.actingHead}"
@@ -161,7 +161,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="Ok"
                                  actionListener="#{systemManager.saveSelectedDepartment}"
                                  onstart="longProcessDialogVar.show();"
-                                 oncomplete="longProcessDialogVar.hide();handleSaveSelectedDepartment(xhr, status, args);"
+                                 oncomplete="longProcessDialogVar.hide()"
                                  icon="ui-icon ui-icon-check"
                                  process="@form"/>
                 <p:commandButton value="Cancel"
