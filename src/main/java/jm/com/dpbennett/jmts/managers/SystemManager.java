@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
@@ -106,6 +105,9 @@ public class SystemManager implements Serializable {
     private List<DocumentStandard> foundDocumentStandards;
     private Department selectedDepartment;
     private SystemOption selectedSystemOption;
+    private Classification selectedClassification;
+    private JobCategory selectedJobCategory;
+    private String jobCategorySearchText;
 
     /**
      * Creates a new instance of SystemManager
@@ -130,8 +132,33 @@ public class SystemManager implements Serializable {
         userSearchText = "";
         generalSearchText = "";
         systemOptionSearchText = "";
+        jobCategorySearchText = "";
     }
-    
+
+    public String getJobCategorySearchText() {
+        return jobCategorySearchText;
+    }
+
+    public void setJobCategorySearchText(String jobCategorySearchText) {
+        this.jobCategorySearchText = jobCategorySearchText;
+    }
+
+    public JobCategory getSelectedJobCategory() {
+        return selectedJobCategory;
+    }
+
+    public void setSelectedJobCategory(JobCategory selectedJobCategory) {
+        this.selectedJobCategory = selectedJobCategory;
+    }
+
+    public Classification getSelectedClassification() {
+        return selectedClassification;
+    }
+
+    public void setSelectedClassification(Classification selectedClassification) {
+        this.selectedClassification = selectedClassification;
+    }
+
     public void reset() {
         init();
     }
@@ -470,12 +497,9 @@ public class SystemManager implements Serializable {
             foundDepartments = new ArrayList<>();
         }
 
-        context.addCallbackParam("isConnectionLive", true);
     }
 
     public void doClassificationSearch() {
-
-        RequestContext context = RequestContext.getCurrentInstance();
 
         if (getShowActiveClassificationsOnly()) {
             foundClassifications = Classification.findActiveClassificationsByName(getEntityManager(), getClassificationSearchText());
@@ -487,36 +511,39 @@ public class SystemManager implements Serializable {
             foundClassifications = new ArrayList<>();
         }
 
-        context.addCallbackParam("isConnectionLive", true);
+    }
+    
+     public void doJobCategorySearch() {
+
+        foundJobCategories = JobCategory.findJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
+      
+        if (foundJobCategories == null) {
+            foundJobCategories = new ArrayList<>();
+        }
+
     }
 
     public void doSystemOptionSearch() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
+       
         foundSystemOptions = SystemOption.findSystemOptions(getEntityManager(), getSystemOptionSearchText());
 
         if (foundSystemOptions == null) {
             foundSystemOptions = new ArrayList<>();
         }
 
-        context.addCallbackParam("isConnectionLive", true);
     }
 
     public void doFinancialSystemOptionSearch() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
+        
         foundFinancialSystemOptions = SystemOption.findFinancialSystemOptions(getEntityManager(), getSystemOptionSearchText());
 
         if (foundFinancialSystemOptions == null) {
             foundFinancialSystemOptions = new ArrayList<>();
         }
 
-        context.addCallbackParam("isConnectionLive", true);
     }
 
     public void doEmployeeSearch() {
-
-        RequestContext context = RequestContext.getCurrentInstance();
 
         if (getIsActiveEmployeesOnly()) {
             foundEmployees = Employee.findActiveEmployeesByName(getEntityManager(), getEmployeeSearchText());
@@ -527,13 +554,10 @@ public class SystemManager implements Serializable {
         if (foundEmployees == null) {
             foundEmployees = new ArrayList<>();
         }
-
-        context.addCallbackParam("isConnectionLive", true);
+        
     }
 
     public void doUserSearch() {
-
-        RequestContext context = RequestContext.getCurrentInstance();
 
         foundUsers = JobManagerUser.findJobManagerUserByName(getEntityManager(), getUserSearchText());
 
@@ -551,8 +575,7 @@ public class SystemManager implements Serializable {
                 foundUsers.addAll(loggedInUsers);
             }
         }
-
-        context.addCallbackParam("isConnectionLive", true); // tk remove
+        
     }
 
     public String getFoundUser() {
@@ -592,7 +615,11 @@ public class SystemManager implements Serializable {
     }
 
     public void editSystemOption() {
-        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 600);
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
+    }
+
+    public void editClassification() {
+        PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 300, 600);
     }
 
     public void editDepartment() {
@@ -667,6 +694,14 @@ public class SystemManager implements Serializable {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
+    public void cancelClassificationEdit(ActionEvent actionEvent) {
+        RequestContext.getCurrentInstance().closeDialog(null);
+    }
+
+    public void cancelJobCategoryEdit(ActionEvent actionEvent) {
+        RequestContext.getCurrentInstance().closeDialog(null);
+    }
+
     public void saveSelectedUser(ActionEvent actionEvent) {
         EntityManager em = getEntityManager();
         RequestContext context = RequestContext.getCurrentInstance();
@@ -692,6 +727,22 @@ public class SystemManager implements Serializable {
         em.getTransaction().begin();
         BusinessEntityUtils.saveBusinessEntity(em, selectedSystemOption);
         em.getTransaction().commit();
+
+        RequestContext.getCurrentInstance().closeDialog(null);
+
+    }
+
+    public void saveSelectedClassification() {
+
+        selectedClassification.save(getEntityManager());
+
+        RequestContext.getCurrentInstance().closeDialog(null);
+
+    }
+
+    public void saveSelectedJobCategory() {
+
+        selectedJobCategory.save(getEntityManager());
 
         RequestContext.getCurrentInstance().closeDialog(null);
 
@@ -805,9 +856,9 @@ public class SystemManager implements Serializable {
         }
     }
 
-    public void updateCanEditJob() {
+    public void updateUserCanEditJob() {
 
-        if (selectedUser.getPrivilege().getCanEditJob().booleanValue()) {
+        if (selectedUser.getPrivilege().getCanEditJob()) {
             selectedUser.getPrivilege().setCanEditDepartmentJob(true);
             selectedUser.getPrivilege().setCanEditOwnJob(true);
         } else {
@@ -817,9 +868,9 @@ public class SystemManager implements Serializable {
 
     }
 
-    public void updateCanEnterJob() {
+    public void updateUserCanEnterJob() {
 
-        if (selectedUser.getPrivilege().getCanEnterJob().booleanValue()) {
+        if (selectedUser.getPrivilege().getCanEnterJob()) {
             selectedUser.getPrivilege().setCanEnterDepartmentJob(true);
             selectedUser.getPrivilege().setCanEnterOwnJob(true);
         } else {
@@ -829,11 +880,11 @@ public class SystemManager implements Serializable {
     }
 
     public void updateCanEditDepartmentalJob() {
-        System.out.println("Can edit dept job: " + selectedUser.getPrivilege().getCanEditDepartmentJob());
+
     }
 
     public void updateCanEnterDepartmentJob() {
-        System.out.println("Can enter dept job: " + selectedUser.getPrivilege().getCanEnterDepartmentJob());
+
     }
 
     public void updateFoundUser(SelectEvent event) {
@@ -926,11 +977,19 @@ public class SystemManager implements Serializable {
     }
 
     public void createNewClassification() {
-        foundClassifications.add(0, new Classification());
+        selectedClassification = new Classification();
+
+        PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 300, 600);
     }
 
     public void createNewJobCategory() {
-        foundJobCategories.add(0, new JobCategory());
+        selectedJobCategory = new JobCategory();
+
+        PrimeFacesUtils.openDialog(null, "jobCategoryDialog", true, true, true, 300, 500);
+    }
+
+    public void editJobCategory() {
+        PrimeFacesUtils.openDialog(null, "jobCategoryDialog", true, true, true, 300, 500);
     }
 
     public void createNewJobSubCategory() {
@@ -958,7 +1017,7 @@ public class SystemManager implements Serializable {
 
         selectedSystemOption = new SystemOption();
 
-        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 400, 600);
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 400, 500);
     }
 
     public void fetchDepartment(ActionEvent action) {

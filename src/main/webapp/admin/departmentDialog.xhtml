@@ -87,13 +87,15 @@ Email: info@dpbennett.com.jm
                                     itemLabel="#{departmentHead.name}"
                                     itemValue="#{departmentHead}"
                                     converter="employeeConverter"
+                                    validator="requiredFieldValidator"
                                     forceSelection="true"
                                     completeMethod="#{App.completeEmployee}" >                       
                     </p:autoComplete>       
 
-                    <h:outputText value="Acting Head:" style="font-weight: bold;" />
+                    <h:outputText value="Acting/Deputy Head:" style="font-weight: bold;" />
                     <h:panelGroup>
                         <p:autoComplete var="departmentActingHead"
+                                        id="departmentActingHead"
                                         dropdown="true"
                                         scrollHeight="175"
                                         maxlength="100"
@@ -101,6 +103,7 @@ Email: info@dpbennett.com.jm
                                         itemLabel="#{departmentActingHead.name}"
                                         itemValue="#{departmentActingHead}"
                                         converter="employeeConverter"
+                                        validator="requiredFieldValidator"
                                         forceSelection="true"
                                         completeMethod="#{App.completeEmployee}" >                       
                         </p:autoComplete>     
@@ -117,7 +120,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Email:" />
                     <p:inputText value="#{systemManager.selectedDepartment.internet.email1}"
                                  style="width:300px"
-                                 id="departmentEmail" validatorMessage="Please enter a valid name" />  
+                                 id="departmentEmail" />  
                 </h:panelGrid>
             </p:panel>
             <p:tabView >
@@ -125,20 +128,13 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="3" cellspacing="10">
                         <p:selectBooleanCheckbox id="canEnterJob" 
                                                  itemLabel="Enter any job"
-                                                 value="#{systemManager.selectedDepartment.privilege.canEnterJob}" >
-                            <p:ajax listener="#{systemManager.updateCanEnterJob}"   
-                                    event="change"                                    
-                                    process="@this"/>
-                        </p:selectBooleanCheckbox>
+                                                 value="#{systemManager.selectedDepartment.privilege.canEnterJob}" />
+                           
 
                         <p:selectBooleanCheckbox id="canEditJob"      
                                                  itemLabel="Edit any job"
-                                                 value="#{systemManager.selectedDepartment.privilege.canEditJob}">
-                            <p:ajax listener="#{systemManager.updateCanEditJob}"   
-                                    event="change"                                    
-                                    process="@this"/>
-                        </p:selectBooleanCheckbox>
-
+                                                 value="#{systemManager.selectedDepartment.privilege.canEditJob}" />
+                           
                         <p:selectBooleanCheckbox id="canEditInvoicingAndPayment"  
                                                  itemLabel="Edit invoicing and payment"
                                                  value="#{systemManager.selectedDepartment.privilege.canEditInvoicingAndPayment}" />

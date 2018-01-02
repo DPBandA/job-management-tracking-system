@@ -177,6 +177,20 @@
             <to-view-id>/job/sample/jobSampleDeleteConfirmDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>  
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>classificationDialog</from-outcome>
+            <to-view-id>/admin/classificationDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>jobCategoryDialog</from-outcome>
+            <to-view-id>/admin/jobCategoryDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.jmts.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>

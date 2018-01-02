@@ -29,13 +29,29 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new category"                                  
                              value="New"
                              actionListener="#{systemManager.createNewJobCategory}"
-                             onstart="longProcessDialogVar.show();"
-
-                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"
+                             onstart="longProcessDialogVar.show();"                             
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
-                             icon="ui-icon ui-icon-plus"/>          
+                             icon="ui-icon ui-icon-plus">
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable" />
+
+            </p:commandButton>  
+            <p:spacer width="20" />        
+            <p:inputText id="jobCategorySearchText" 
+                         value="#{systemManager.jobCategorySearchText}"
+                         style="width:150px" 
+                         placeholder="Enter any part of name">
+                <p:ajax event="keyup"
+                        global="false"
+                        onstart="longProcessDialogVar.show();" 
+                        oncomplete="longProcessDialogVar.hide();"
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"
+                        listener="#{systemManager.doJobCategorySearch}"
+                        process="@this"/>
+            </p:inputText>
         </p:toolbarGroup>
     </p:toolbar>    
     <p:dataTable id="JobCategoriesTable"                                       
@@ -68,7 +84,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>                                         
         </p:column>   
 
-        <p:column headerText="Is Earning">
+        <p:column headerText="Earnings">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{jobCategory.isBillable}" /></f:facet>
                 <f:facet name="input">
@@ -90,7 +106,24 @@ Email: info@dpbennett.com.jm
                     </p:selectOneMenu>
                 </f:facet>
             </p:cellEditor>                                         
-        </p:column>   
+        </p:column> 
+
+        <p:column style="width:32px">
+            <p:commandButton title="View or edit job category"   
+                             actionListener="#{systemManager.editJobCategory}"
+                             onstart="longProcessDialogVar.show();"                                                                    
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable" />
+
+                <f:setPropertyActionListener value="#{jobCategory}"                                                                    
+                                             target="#{systemManager.selectedJobCategory}" />
+            </p:commandButton>           
+        </p:column>
     </p:dataTable>     
 </html>
 

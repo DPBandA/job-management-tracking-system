@@ -1,5 +1,6 @@
 ## Things to do
 ### PENDING LIVE DATABASE ALTERATIONS:
+- Add: CATEGORY to Classification table (VARCHAR 255)
 - Add: parent (ie PARENT_ID to Job class and table)
 - Add: discount, discountType, paymentTerms to CASHPAYMENT table
 - Rename: rename JMTSUserId to userId in CASHPAYMENT??
@@ -28,9 +29,17 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Misc
 - Fix up the system admin dialogs by adding toolbars, field validation etc.
-  * Continue with departmentDialog (departmentHead validation)
+  * Add search field for tabs starting with classifications tab.
+  * Create dialogs and add edit button to tables for all system admin objects.
+  * Let all tabs show all rows in database by default.
+- Check that "dialogReturn" is used "New" button and all relevant buttons in SysAdmin.
+- In SystemManager impl and call save() in saveSelected*() methods.
 - Get rid of unused or unneeded dialogs and use growl where possible.
-#### Job Costing
+- Add all remaining dialogs under sys admin.
+- Change the message "This job cannot be marked as completed because it is not yet saved"
+  to "This job's work progress cannot be changed until the job is saved"
+
+#### Job Costing 
 - Replace "edit" and "delete" buttons in cost components table with menu. Use 
   the "Actions" menu in job samples table as example.
 - Make sure that the job is saved before allowing job costing edit.
@@ -133,6 +142,7 @@ paymentTerms, rename JMTSUserId to userId
 
 ==============================Future Long Term Development======================
 ### Misc
+- Impl finding classifications by category and use it when finding job classifications     
 - Order PhoneNumber, Internet as is done with address and contact.
 - Impl preventing job costing and payment from being edited once job is marked 
   as complete.
@@ -266,7 +276,8 @@ paymentTerms, rename JMTSUserId to userId
   dollar values that can be entered as system options too. Consider the maximum
   double values imposed by Java the possibility that values can overflow when added
   divided or multiplied.
-
+- Prevent changing a job's parent department once it is has subcontracts.
+- Check that the privileges set for user and department are impl properly.
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

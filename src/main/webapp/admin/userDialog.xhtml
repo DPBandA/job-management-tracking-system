@@ -93,7 +93,7 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="canEnterJob" 
                                                  itemLabel="Enter any job" 
                                                  value="#{systemManager.selectedUser.privilege.canEnterJob}" >
-                            <p:ajax listener="#{systemManager.updateCanEnterJob}"   
+                            <p:ajax listener="#{systemManager.updateUserCanEnterJob}"   
                                     event="change"
                                     update="canEnterOwnJob,canEnterDepartmentJob"
                                     process="@this"/>
@@ -117,7 +117,7 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="canEditJob"
                                                  itemLabel="Edit any job"
                                                  value="#{systemManager.selectedUser.privilege.canEditJob}">
-                            <p:ajax listener="#{systemManager.updateCanEditJob}"   
+                            <p:ajax listener="#{systemManager.updateUserCanEditJob}"   
                                     event="change"
                                     update="canEditOwnJob,canEditDepartmentalJob"
                                     process="@this"/>
@@ -133,7 +133,7 @@ Email: info@dpbennett.com.jm
                         </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canEditOwnJob" 
-                                                 itemLabel="Edit own jobs"
+                                                 itemLabel="Edit own job"
                                                  disabled="#{systemManager.selectedUser.privilege.canEditJob}"
                                                  value="#{systemManager.selectedUser.privilege.canEditOwnJob}"/>
 
