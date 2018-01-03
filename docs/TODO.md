@@ -29,7 +29,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ### Issues to Address for Next Release
 #### Misc
 - Fix up the system admin dialogs by adding toolbars, field validation etc.
-  * Add search field for tabs starting with classifications tab.
+  * Add dialog and search field for LDAP tab.
   * Create dialogs and add edit button to tables for all system admin objects.
   * Let all tabs show all rows in database by default.
 - Check that "dialogReturn" is used "New" button and all relevant buttons in SysAdmin.

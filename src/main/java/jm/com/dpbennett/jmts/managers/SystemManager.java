@@ -100,7 +100,6 @@ public class SystemManager implements Serializable {
     private List<LdapContext> foundLdapContexts;
     private List<Classification> foundClassifications;
     private List<JobCategory> foundJobCategories;
-    private List<JobSubCategory> foundJobSubCategories;
     private List<Sector> foundSectors;
     private List<DocumentStandard> foundDocumentStandards;
     private Department selectedDepartment;
@@ -108,6 +107,11 @@ public class SystemManager implements Serializable {
     private Classification selectedClassification;
     private JobCategory selectedJobCategory;
     private String jobCategorySearchText;
+    private JobSubCategory selectedJobSubcategory;
+    private String jobSubcategorySearchText;
+    private List<JobSubCategory> foundJobSubcategories;
+    private Sector selectedSector;
+    private String sectorSearchText;
 
     /**
      * Creates a new instance of SystemManager
@@ -133,6 +137,46 @@ public class SystemManager implements Serializable {
         generalSearchText = "";
         systemOptionSearchText = "";
         jobCategorySearchText = "";
+        jobSubcategorySearchText = "";
+    }
+
+    public String getSectorSearchText() {
+        return sectorSearchText;
+    }
+
+    public void setSectorSearchText(String sectorSearchText) {
+        this.sectorSearchText = sectorSearchText;
+    }
+
+    public Sector getSelectedSector() {
+        return selectedSector;
+    }
+
+    public void setSelectedSector(Sector selectedSector) {
+        this.selectedSector = selectedSector;
+    }
+
+    public List<JobSubCategory> getFoundJobSubcategories() {
+        if (foundJobSubcategories == null) {
+            foundJobSubcategories = JobSubCategory.findAllJobSubCategories(getEntityManager());
+        }
+        return foundJobSubcategories;
+    }
+
+    public JobSubCategory getSelectedJobSubcategory() {
+        return selectedJobSubcategory;
+    }
+
+    public void setSelectedJobSubcategory(JobSubCategory selectedJobSubcategory) {
+        this.selectedJobSubcategory = selectedJobSubcategory;
+    }
+
+    public String getJobSubcategorySearchText() {
+        return jobSubcategorySearchText;
+    }
+
+    public void setJobSubcategorySearchText(String jobSubcategorySearchText) {
+        this.jobSubcategorySearchText = jobSubcategorySearchText;
     }
 
     public String getJobCategorySearchText() {
@@ -253,17 +297,6 @@ public class SystemManager implements Serializable {
         this.foundDocumentStandards = foundDocumentStandards;
     }
 
-    public List<JobSubCategory> getFoundJobSubCategories() {
-        if (foundJobSubCategories == null) {
-            foundJobSubCategories = JobSubCategory.findAllJobSubCategories(getEntityManager());
-        }
-        return foundJobSubCategories;
-    }
-
-    public void setFoundJobSubCategories(List<JobSubCategory> foundJobSubCategories) {
-        this.foundJobSubCategories = foundJobSubCategories;
-    }
-
     public List<JobCategory> getFoundJobCategories() {
         if (foundJobCategories == null) {
             foundJobCategories = JobCategory.findAllJobCategories(getEntityManager());
@@ -372,7 +405,7 @@ public class SystemManager implements Serializable {
     }
 
     public void onJobSubCategoryCellEdit(CellEditEvent event) {
-        Application.saveBusinessEntity(getEntityManager(), getFoundJobSubCategories().get(event.getRowIndex()));
+        Application.saveBusinessEntity(getEntityManager(), getFoundJobSubcategories().get(event.getRowIndex()));
     }
 
     public void onSectorCellEdit(CellEditEvent event) {
@@ -512,19 +545,39 @@ public class SystemManager implements Serializable {
         }
 
     }
-    
-     public void doJobCategorySearch() {
+
+    public void doSectorSearch() {
+
+        foundSectors = Sector.findSectorsByName(getEntityManager(), getSectorSearchText());
+
+        if (foundSectors == null) {
+            foundSectors = new ArrayList<>();
+        }
+
+    }
+
+    public void doJobCategorySearch() {
 
         foundJobCategories = JobCategory.findJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
-      
+
         if (foundJobCategories == null) {
             foundJobCategories = new ArrayList<>();
         }
 
     }
 
+    public void doJobSubcategorySearch() {
+
+        foundJobSubcategories = JobSubCategory.findJobSubcategoriesByName(getEntityManager(), getJobSubcategorySearchText());
+
+        if (foundJobSubcategories == null) {
+            foundJobSubcategories = new ArrayList<>();
+        }
+
+    }
+
     public void doSystemOptionSearch() {
-       
+
         foundSystemOptions = SystemOption.findSystemOptions(getEntityManager(), getSystemOptionSearchText());
 
         if (foundSystemOptions == null) {
@@ -534,7 +587,7 @@ public class SystemManager implements Serializable {
     }
 
     public void doFinancialSystemOptionSearch() {
-        
+
         foundFinancialSystemOptions = SystemOption.findFinancialSystemOptions(getEntityManager(), getSystemOptionSearchText());
 
         if (foundFinancialSystemOptions == null) {
@@ -554,7 +607,7 @@ public class SystemManager implements Serializable {
         if (foundEmployees == null) {
             foundEmployees = new ArrayList<>();
         }
-        
+
     }
 
     public void doUserSearch() {
@@ -575,7 +628,7 @@ public class SystemManager implements Serializable {
                 foundUsers.addAll(loggedInUsers);
             }
         }
-        
+
     }
 
     public String getFoundUser() {
@@ -698,7 +751,15 @@ public class SystemManager implements Serializable {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
+    public void cancelSectorEdit(ActionEvent actionEvent) {
+        RequestContext.getCurrentInstance().closeDialog(null);
+    }
+
     public void cancelJobCategoryEdit(ActionEvent actionEvent) {
+        RequestContext.getCurrentInstance().closeDialog(null);
+    }
+
+    public void cancelJobSubcategoryEdit(ActionEvent actionEvent) {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
@@ -740,9 +801,25 @@ public class SystemManager implements Serializable {
 
     }
 
+    public void saveSelectedSector() {
+
+        selectedSector.save(getEntityManager());
+
+        RequestContext.getCurrentInstance().closeDialog(null);
+
+    }
+
     public void saveSelectedJobCategory() {
 
         selectedJobCategory.save(getEntityManager());
+
+        RequestContext.getCurrentInstance().closeDialog(null);
+
+    }
+
+    public void saveSelectedJobSubcategory() {
+
+        selectedJobSubcategory.save(getEntityManager());
 
         RequestContext.getCurrentInstance().closeDialog(null);
 
@@ -993,11 +1070,23 @@ public class SystemManager implements Serializable {
     }
 
     public void createNewJobSubCategory() {
-        foundJobSubCategories.add(0, new JobSubCategory());
+        selectedJobSubcategory = new JobSubCategory();
+
+        PrimeFacesUtils.openDialog(null, "jobSubcategoryDialog", true, true, true, 300, 500);
+    }
+
+    public void editJobSubcategory() {
+        PrimeFacesUtils.openDialog(null, "jobSubcategoryDialog", true, true, true, 300, 500);
     }
 
     public void createNewSector() {
-        foundSectors.add(0, new Sector());
+        selectedSector = new Sector();
+
+        PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 500);
+    }
+
+    public void editSector() {
+        PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 600);
     }
 
     public void createNewDocumentStandard() {

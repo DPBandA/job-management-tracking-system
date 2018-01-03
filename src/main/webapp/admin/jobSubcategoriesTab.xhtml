@@ -29,12 +29,29 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new job subcategory"                                  
                              value="New"
                              actionListener="#{systemManager.createNewJobSubCategory}"
-                             onstart="longProcessDialogVar.show();"                                                            
-                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
+                             onstart="longProcessDialogVar.show();" 
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
-                             icon="ui-icon ui-icon-plus"/>     
+                             icon="ui-icon ui-icon-plus">
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable" />
+
+            </p:commandButton>  
+            <p:spacer width="20" />        
+            <p:inputText id="jobSubcategorySearchText" 
+                         value="#{systemManager.jobSubcategorySearchText}"
+                         style="width:150px" 
+                         placeholder="Enter any part of name">
+                <p:ajax event="keyup"
+                        global="false"
+                        onstart="longProcessDialogVar.show();" 
+                        oncomplete="longProcessDialogVar.hide();"
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
+                        listener="#{systemManager.doJobSubcategorySearch}"
+                        process="@this"/>
+            </p:inputText>
         </p:toolbarGroup>
     </p:toolbar>    
     <p:dataTable id="JobSubcategoriesTable"                                       
@@ -45,7 +62,7 @@ Email: info@dpbennett.com.jm
                  rows="15"
                  widgetVar="JobSubcategoriesTableVar"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{systemManager.foundJobSubCategories}">
+                 value="#{systemManager.foundJobSubcategories}">
 
         <p:ajax event="cellEdit" listener="#{systemManager.onJobSubCategoryCellEdit}" />
 
@@ -90,6 +107,23 @@ Email: info@dpbennett.com.jm
                 </f:facet>
             </p:cellEditor>                                         
         </p:column>   
+
+        <p:column style="width:32px">
+            <p:commandButton title="View or edit job subcategory"   
+                             actionListener="#{systemManager.editJobSubcategory}"
+                             onstart="longProcessDialogVar.show();"                                                                    
+                             onerror="connectionErrorDialog.show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable" />
+
+                <f:setPropertyActionListener value="#{jobSubcategory}"                                                                    
+                                             target="#{systemManager.selectedJobSubcategory}" />
+            </p:commandButton>           
+        </p:column>
     </p:dataTable>     
 </html>
 
