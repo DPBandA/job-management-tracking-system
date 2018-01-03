@@ -55,6 +55,24 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
+        
+        <p:toolbarGroup align="right">
+            <p:outputLabel for="activeSectorsOnly" value="Active sectors only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="activeSectorsOnly"
+                                         value="#{systemManager.isActiveSectorsOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
+                             listener="#{systemManager.doSectorSearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>            
+                <p:tooltip for="activeSectorsOnly" value="Check to show active sectors only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+            </h:panelGroup>
+        </p:toolbarGroup>
+        
     </p:toolbar>    
     <p:dataTable id="SectorsTable"                                       
                  var="sector"     

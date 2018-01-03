@@ -53,6 +53,24 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
+        
+        <p:toolbarGroup align="right">
+            <p:outputLabel for="activeJobSubcategoriesOnly" value="Active job subcategories only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="activeJobSubcategoriesOnly"
+                                         value="#{systemManager.isActiveSectorsOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
+                             listener="#{systemManager.doJobSubcategorySearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>            
+                <p:tooltip for="activeJobSubcategoriesOnly" value="Check to show active job subcategories only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+            </h:panelGroup>
+        </p:toolbarGroup>
+        
     </p:toolbar>    
     <p:dataTable id="JobSubcategoriesTable"                                       
                  var="jobSubcategory"     

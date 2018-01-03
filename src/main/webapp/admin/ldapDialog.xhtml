@@ -43,7 +43,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedClassification}"
+                                     actionListener="#{systemManager.saveSelectedLdapContext}"
                                      onstart="longProcessDialogVar.show();"
                                      oncomplete="longProcessDialogVar.hide();"
                                      icon="ui-icon ui-icon-check"
@@ -51,7 +51,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{systemManager.cancelClassificationEdit}" 
+                                     actionListener="#{systemManager.cancelLdapContextEdit}" 
                                      immediate="true" 
                                      oncomplete="longProcessDialogVar.hide();"
                                      icon="ui-icon ui-icon-close" /> 
@@ -59,30 +59,31 @@ Email: info@dpbennett.com.jm
             </p:toolbar>
 
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
-                <h:panelGrid columns="2">     
+                <h:panelGrid columns="2">   
                     <h:outputLabel value="Active:" />               
                     <p:selectBooleanCheckbox style="vertical-align: middle"
-                                             value="#{systemManager.selectedClassification.active}" />    
-
+                                             value="#{systemManager.selectedLdapContext.active}" />  
+                   
                     <h:outputText value="Name:" style="font-weight: bold;" />
-                    <p:inputText value="#{systemManager.selectedClassification.name}"    
-                                 id="classificationName"
+                    <p:inputText value="#{systemManager.selectedLdapContext.name}"    
+                                 id="ldapName"
                                  style="width:300px" >
                         <f:validator validatorId="requiredFieldValidator" />
                     </p:inputText> 
 
-                    <h:outputText value="Description:" style="width: 50%;font-weight: bold;" />
-                    <p:inputTextarea  value="#{systemManager.selectedClassification.description}"
-                                      id="classificationDescription"
-                                      maxlength="1000"
-                                      rows="4"
+                    <h:outputText value="Domain:" style="width: 50%;font-weight: bold;" />
+                    <p:inputText  value="#{systemManager.selectedLdapContext.domainName}"
+                                      id="ldapDomainName"
                                       style="width:300px" >
                         <f:validator validatorId="requiredFieldValidator" />
-                    </p:inputTextarea>  
+                    </p:inputText>  
                     
-                    <h:outputLabel value="For job earnings:" />               
-                    <p:selectBooleanCheckbox style="vertical-align: middle"
-                                             value="#{systemManager.selectedClassification.isEarning}" /> 
+                    <h:outputLabel value="URL:" style="font-weight: bold;"/>               
+                    <p:inputText  value="#{systemManager.selectedLdapContext.providerUrl}"
+                                      id="ldapProviderUrl"
+                                      style="width:300px" >
+                        <f:validator validatorId="requiredFieldValidator" />
+                    </p:inputText>  
 
                 </h:panelGrid>
             </p:panel>
@@ -90,7 +91,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedClassification}"
+                                     actionListener="#{systemManager.saveSelectedLdapContext}"
                                      onstart="longProcessDialogVar.show();"
                                      oncomplete="longProcessDialogVar.hide();"
                                      icon="ui-icon ui-icon-check"
@@ -98,7 +99,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{systemManager.cancelClassificationEdit}" 
+                                     actionListener="#{systemManager.cancelLdapContextEdit}" 
                                      immediate="true" 
                                      oncomplete="longProcessDialogVar.hide();"
                                      icon="ui-icon ui-icon-close" /> 

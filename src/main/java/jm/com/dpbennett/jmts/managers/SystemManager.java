@@ -76,10 +76,14 @@ public class SystemManager implements Serializable {
     private Boolean endSearchDateDisabled;
     private Boolean privilegeValue;
     private Boolean searchTextVisible;
-    private Boolean isLoggedInUsersOnly; // tk change is* to show*
+    private Boolean isLoggedInUsersOnly;
     private Boolean isActiveEmployeesOnly;
     private Boolean isActiveDepartmentsOnly;
-    private Boolean showActiveClassificationsOnly;
+    private Boolean isActiveClassificationsOnly;
+    private Boolean isActiveJobCategoriesOnly;
+    private Boolean isActiveJobSubcategoriesOnly;
+    private Boolean isActiveSectorsOnly;
+    private Boolean isActiveLdapsOnly;
     private Date startDate;
     private Date endDate;
     private String searchText;
@@ -102,6 +106,7 @@ public class SystemManager implements Serializable {
     private List<JobCategory> foundJobCategories;
     private List<Sector> foundSectors;
     private List<DocumentStandard> foundDocumentStandards;
+    private List<JobSubCategory> foundJobSubcategories;
     private Department selectedDepartment;
     private SystemOption selectedSystemOption;
     private Classification selectedClassification;
@@ -109,9 +114,10 @@ public class SystemManager implements Serializable {
     private String jobCategorySearchText;
     private JobSubCategory selectedJobSubcategory;
     private String jobSubcategorySearchText;
-    private List<JobSubCategory> foundJobSubcategories;
     private Sector selectedSector;
     private String sectorSearchText;
+    private String ldapSearchText;
+    private LdapContext selectedLdapContext;
 
     /**
      * Creates a new instance of SystemManager
@@ -128,16 +134,76 @@ public class SystemManager implements Serializable {
         dateSearchField = "dateReceived";
         dateSearchPeriod = "thisMonth";
         searchTextVisible = true;
-        foundEmployees = new ArrayList<>();
-        foundUsers = new ArrayList<>();
-        foundDepartments = new ArrayList<>();
-        foundLdapContexts = new ArrayList<>();
+        foundEmployees = null;
+        foundUsers = null;
+        foundDepartments = null;
+        foundLdapContexts = null;
+        foundSystemOptions = null;
+        foundFinancialSystemOptions = null;
+        foundLdapContexts = null;
+        foundClassifications = null;
+        foundJobCategories = null;
+        foundJobSubcategories = null;
+        foundDocumentStandards = null;
         employeeSearchText = "";
         userSearchText = "";
         generalSearchText = "";
         systemOptionSearchText = "";
         jobCategorySearchText = "";
         jobSubcategorySearchText = "";
+        ldapSearchText = "";
+        isActiveJobCategoriesOnly = true;
+        isActiveJobSubcategoriesOnly = true;
+        isActiveSectorsOnly = true;
+        isActiveLdapsOnly = true;
+    }
+
+    public Boolean getIsActiveLdapsOnly() {
+        return isActiveLdapsOnly;
+    }
+
+    public void setIsActiveLdapsOnly(Boolean isActiveLdapsOnly) {
+        this.isActiveLdapsOnly = isActiveLdapsOnly;
+    }
+
+    public Boolean getIsActiveSectorsOnly() {
+        return isActiveSectorsOnly;
+    }
+
+    public void setIsActiveSectorsOnly(Boolean isActiveSectorsOnly) {
+        this.isActiveSectorsOnly = isActiveSectorsOnly;
+    }
+
+    public Boolean getIsActiveJobSubcategoriesOnly() {
+        return isActiveJobSubcategoriesOnly;
+    }
+
+    public void setIsActiveJobSubcategoriesOnly(Boolean isActiveJobSubcategoriesOnly) {
+        this.isActiveJobSubcategoriesOnly = isActiveJobSubcategoriesOnly;
+    }
+
+    public Boolean getIsActiveJobCategoriesOnly() {
+        return isActiveJobCategoriesOnly;
+    }
+
+    public void setIsActiveJobCategoriesOnly(Boolean isActiveJobCategoriesOnly) {
+        this.isActiveJobCategoriesOnly = isActiveJobCategoriesOnly;
+    }
+
+    public LdapContext getSelectedLdapContext() {
+        return selectedLdapContext;
+    }
+
+    public void setSelectedLdapContext(LdapContext selectedLdapContext) {
+        this.selectedLdapContext = selectedLdapContext;
+    }
+
+    public String getLdapSearchText() {        
+        return ldapSearchText;
+    }
+
+    public void setLdapSearchText(String ldapSearchText) {
+        this.ldapSearchText = ldapSearchText;
     }
 
     public String getSectorSearchText() {
@@ -158,7 +224,7 @@ public class SystemManager implements Serializable {
 
     public List<JobSubCategory> getFoundJobSubcategories() {
         if (foundJobSubcategories == null) {
-            foundJobSubcategories = JobSubCategory.findAllJobSubCategories(getEntityManager());
+            foundJobSubcategories = JobSubCategory.findAllActiveJobSubCategories(getEntityManager());
         }
         return foundJobSubcategories;
     }
@@ -207,15 +273,15 @@ public class SystemManager implements Serializable {
         init();
     }
 
-    public Boolean getShowActiveClassificationsOnly() {
-        if (showActiveClassificationsOnly == null) {
-            showActiveClassificationsOnly = true;
+    public Boolean getIsActiveClassificationsOnly() {
+        if (isActiveClassificationsOnly == null) {
+            isActiveClassificationsOnly = true;
         }
-        return showActiveClassificationsOnly;
+        return isActiveClassificationsOnly;
     }
 
-    public void setShowActiveClassificationsOnly(Boolean showActiveClassificationsOnly) {
-        this.showActiveClassificationsOnly = showActiveClassificationsOnly;
+    public void setIsActiveClassificationsOnly(Boolean isActiveClassificationsOnly) {
+        this.isActiveClassificationsOnly = isActiveClassificationsOnly;
     }
 
     public String getClassificationSearchText() {
@@ -277,7 +343,7 @@ public class SystemManager implements Serializable {
 
     public List<Sector> getFoundSectors() {
         if (foundSectors == null) {
-            foundSectors = Sector.findAllSectors(getEntityManager());
+            foundSectors = Sector.findAllActiveSectors(getEntityManager());
         }
         return foundSectors;
     }
@@ -299,7 +365,7 @@ public class SystemManager implements Serializable {
 
     public List<JobCategory> getFoundJobCategories() {
         if (foundJobCategories == null) {
-            foundJobCategories = JobCategory.findAllJobCategories(getEntityManager());
+            foundJobCategories = JobCategory.findAllActiveJobCategories(getEntityManager());
         }
         return foundJobCategories;
     }
@@ -310,13 +376,9 @@ public class SystemManager implements Serializable {
 
     public List<Classification> getFoundClassifications() {
         if (foundClassifications == null) {
-            foundClassifications = new ArrayList<>();
+            foundClassifications = Classification.findAllActiveClassifications(getEntityManager());
         }
         return foundClassifications;
-    }
-
-    public void setFoundClassifications(List<Classification> foundClassifications) {
-        this.foundClassifications = foundClassifications;
     }
 
     public SystemOption getSelectedSystemOption() {
@@ -375,24 +437,8 @@ public class SystemManager implements Serializable {
     }
 
     public void onLDAPCellEdit(CellEditEvent event) {
-        int index = event.getRowIndex();
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
 
-        try {
-            if (newValue != null && !newValue.equals(oldValue)) {
-                if (!newValue.toString().trim().equals("")) {
-                    EntityManager em = getEntityManager();
-
-                    em.getTransaction().begin();
-                    LdapContext context = getFoundLdapContexts().get(index);
-                    BusinessEntityUtils.saveBusinessEntity(em, context);
-                    em.getTransaction().commit();
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        getFoundLdapContexts().get(event.getRowIndex()).save(getEntityManager());
 
     }
 
@@ -417,14 +463,10 @@ public class SystemManager implements Serializable {
     }
 
     public List<LdapContext> getFoundLdapContexts() {
-        if (foundLdapContexts.isEmpty()) {
-            foundLdapContexts = LdapContext.findAllLdapContexts(getEntityManager());
+        if (foundLdapContexts == null) {
+            foundLdapContexts = LdapContext.findAllActiveLdapContexts(getEntityManager());
         }
         return foundLdapContexts;
-    }
-
-    public void setFoundLdapContexts(List<LdapContext> foundLdapContexts) {
-        this.foundLdapContexts = foundLdapContexts;
     }
 
     public List<SystemOption> getFoundSystemOptions() {
@@ -477,6 +519,9 @@ public class SystemManager implements Serializable {
     }
 
     public List<Department> getFoundDepartments() {
+        if (foundDepartments == null) {
+            foundDepartments = Department.findAllActiveDepartments(getEntityManager());
+        }
         return foundDepartments;
     }
 
@@ -493,11 +538,10 @@ public class SystemManager implements Serializable {
     }
 
     public List<JobManagerUser> getFoundUsers() {
+        if (foundUsers == null) {
+            foundUsers = JobManagerUser.findAllJobManagerUsers(getEntityManager());
+        }
         return foundUsers;
-    }
-
-    public void setFoundUsers(List<JobManagerUser> foundUsers) {
-        this.foundUsers = foundUsers;
     }
 
     public String getUserSearchText() {
@@ -526,54 +570,45 @@ public class SystemManager implements Serializable {
             foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
         }
 
-        if (foundDepartments == null) {
-            foundDepartments = new ArrayList<>();
-        }
-
     }
 
     public void doClassificationSearch() {
 
-        if (getShowActiveClassificationsOnly()) {
+        if (getIsActiveClassificationsOnly()) {
             foundClassifications = Classification.findActiveClassificationsByName(getEntityManager(), getClassificationSearchText());
         } else {
             foundClassifications = Classification.findClassificationsByName(getEntityManager(), getClassificationSearchText());
-        }
-
-        if (foundClassifications == null) {
-            foundClassifications = new ArrayList<>();
         }
 
     }
 
     public void doSectorSearch() {
 
-        foundSectors = Sector.findSectorsByName(getEntityManager(), getSectorSearchText());
-
-        if (foundSectors == null) {
-            foundSectors = new ArrayList<>();
+        if (getIsActiveSectorsOnly()) {
+            foundSectors = Sector.findActiveSectorsByName(getEntityManager(), getSectorSearchText());
+        } else {
+            foundSectors = Sector.findSectorsByName(getEntityManager(), getSectorSearchText());
         }
 
     }
 
     public void doJobCategorySearch() {
 
-        foundJobCategories = JobCategory.findJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
-
-        if (foundJobCategories == null) {
-            foundJobCategories = new ArrayList<>();
+        if (getIsActiveJobCategoriesOnly()) {
+            foundJobCategories = JobCategory.findActiveJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
+        } else {
+            foundJobCategories = JobCategory.findJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
         }
 
     }
 
     public void doJobSubcategorySearch() {
 
-        foundJobSubcategories = JobSubCategory.findJobSubcategoriesByName(getEntityManager(), getJobSubcategorySearchText());
-
-        if (foundJobSubcategories == null) {
-            foundJobSubcategories = new ArrayList<>();
+        if (getIsActiveJobSubcategoriesOnly()) {
+            foundJobSubcategories = JobSubCategory.findActiveJobSubcategoriesByName(getEntityManager(), getJobSubcategorySearchText());
+        } else {
+            foundJobSubcategories = JobSubCategory.findJobSubcategoriesByName(getEntityManager(), getJobSubcategorySearchText());
         }
-
     }
 
     public void doSystemOptionSearch() {
@@ -582,6 +617,15 @@ public class SystemManager implements Serializable {
 
         if (foundSystemOptions == null) {
             foundSystemOptions = new ArrayList<>();
+        }
+
+    }
+
+    public void doLdapContextSearch() {
+        if (getIsActiveLdapsOnly()) {
+            foundLdapContexts = LdapContext.findActiveLdapContexts(getEntityManager(), getLdapSearchText());
+        } else {
+            foundLdapContexts = LdapContext.findLdapContexts(getEntityManager(), getLdapSearchText());
         }
 
     }
@@ -602,10 +646,6 @@ public class SystemManager implements Serializable {
             foundEmployees = Employee.findActiveEmployeesByName(getEntityManager(), getEmployeeSearchText());
         } else {
             foundEmployees = Employee.findEmployeesByName(getEntityManager(), getEmployeeSearchText());
-        }
-
-        if (foundEmployees == null) {
-            foundEmployees = new ArrayList<>();
         }
 
     }
@@ -673,6 +713,10 @@ public class SystemManager implements Serializable {
 
     public void editClassification() {
         PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 300, 600);
+    }
+
+    public void editLdapContext() {
+        PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 600);
     }
 
     public void editDepartment() {
@@ -751,6 +795,10 @@ public class SystemManager implements Serializable {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
+    public void cancelLdapContextEdit(ActionEvent actionEvent) {
+        RequestContext.getCurrentInstance().closeDialog(null);
+    }
+
     public void cancelSectorEdit(ActionEvent actionEvent) {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
@@ -796,6 +844,14 @@ public class SystemManager implements Serializable {
     public void saveSelectedClassification() {
 
         selectedClassification.save(getEntityManager());
+
+        RequestContext.getCurrentInstance().closeDialog(null);
+
+    }
+
+    public void saveSelectedLdapContext() {
+
+        selectedLdapContext.save(getEntityManager());
 
         RequestContext.getCurrentInstance().closeDialog(null);
 
@@ -1059,6 +1115,12 @@ public class SystemManager implements Serializable {
         PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 300, 600);
     }
 
+    public void createNewLdapContext() {
+        selectedLdapContext = new LdapContext();
+
+        PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 600);
+    }
+
     public void createNewJobCategory() {
         selectedJobCategory = new JobCategory();
 
@@ -1106,7 +1168,7 @@ public class SystemManager implements Serializable {
 
         selectedSystemOption = new SystemOption();
 
-        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 400, 500);
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
     }
 
     public void fetchDepartment(ActionEvent action) {
@@ -1233,6 +1295,10 @@ public class SystemManager implements Serializable {
     }
 
     public List<Employee> getFoundEmployees() {
+        if (foundEmployees == null) {
+            foundEmployees = Employee.findAllActiveEmployees(getEntityManager());
+        }
+
         return foundEmployees;
     }
 
@@ -1266,23 +1332,17 @@ public class SystemManager implements Serializable {
                 setActiveTabIndex(0);
                 activeTabForm = "PetrolStationDatabaseForm";
                 break;
-            case "Gas Pump Test":
-                setActiveTabIndex(1);
-                activeTabForm = "GasPumpTestTabForm";
-                break;
-            case "Test Schedule":
-                setActiveTabIndex(2);
-                activeTabForm = "petrolPumpTestScheduleForm";
-                break;
             case "Job Management":
                 setActiveTabIndex(3);
                 activeTabForm = "JobManagementForm";
+                break;
+            default:
                 break;
         }
     }
 
     public String getSystemInfo() {
-        return ""; // tk info to provide to be decided.
+        return "";
     }
 
     public void setUser(JobManagerUser user) {

@@ -205,6 +205,13 @@
             <to-view-id>/admin/sectorDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>ldapDialog</from-outcome>
+            <to-view-id>/admin/ldapDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.jmts.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>

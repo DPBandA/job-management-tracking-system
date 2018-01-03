@@ -32,7 +32,6 @@ Email: info@dpbennett.com.jm
                              onstart="longProcessDialogVar.show();"
                              oncomplete="longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
-                             global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus"/>
             <p:spacer width="20" />
@@ -41,7 +40,6 @@ Email: info@dpbennett.com.jm
                          style="width:150px"
                          placeholder="Enter search text">
                 <p:ajax event="keyup"
-                        global="false"
                         onstart="longProcessDialogVar.show();" 
                         oncomplete="longProcessDialogVar.hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"
@@ -51,7 +49,7 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
         
          <p:toolbarGroup align="right">
-            <h:outputText value="Enabled employees only: " />  
+            <h:outputText value="Active employees only: " />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
                                          id="activeEmployeesOnly"
@@ -61,7 +59,7 @@ Email: info@dpbennett.com.jm
                              event="change"                                      
                              process="@this"/>
                 </p:selectBooleanCheckbox>            
-                <p:tooltip for="activeEmployeesOnly" value="Check to show enabled employees only" 
+                <p:tooltip for="activeEmployeesOnly" value="Check to show active employees only" 
                            showEffect="fade" hideEffect="fade" />
                 <p:spacer width="15" />                
             </h:panelGroup>
@@ -75,7 +73,6 @@ Email: info@dpbennett.com.jm
                  widgetVar="employeesTableVar"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  filteredValue="#{systemManager.foundEmployees}">
-
 
         <f:facet name="header">
             Employees
