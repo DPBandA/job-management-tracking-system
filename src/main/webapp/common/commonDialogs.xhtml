@@ -20,9 +20,7 @@ Email: info@dpbennett.com.jm
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core">   
+      xmlns:p="http://primefaces.org/ui">   
 
     <h:form id="commonMessageDialogForm">
         <p:confirmDialog severity="#{jobManager.dialogMessageSeverity}"
@@ -86,17 +84,17 @@ Email: info@dpbennett.com.jm
         </p:confirmDialog>
     </h:form>
 
-    <h:form id="invalidFieldDialogForm">
-        <p:confirmDialog severity="alert"
-                         closable="false"
-                         message="#{jobManager.invalidFormFieldMessage}"
-                         header="Field Entry Error"
-                         widgetVar="invalidFieldDialog"
-                         width="425">
-
+    <p:confirmDialog severity="alert"
+                     message="A server connection error occured! An attempt will be made to reconnect."
+                     header="Server Connection Error"
+                     widgetVar="connectionErrorAlertDialog"
+                     width="400">
+        <h:form>
             <p:commandButton value="Ok"
-                             onclick="invalidFieldDialog.hide();"
-                             icon="ui-icon-check"/>
-        </p:confirmDialog>
-    </h:form>
+                             onclick="reloadCurrentPage();"
+                             icon="ui-icon-check"
+                             />
+        </h:form>
+    </p:confirmDialog>
+
 </html>

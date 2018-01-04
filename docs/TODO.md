@@ -29,14 +29,10 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- Check that "dialogReturn" is used in "New" and "Edit" buttons in SysAdmin.
-- In SystemManager impl and call save() in saveSelected*() methods.
-- Get rid of unused or unneeded dialogs and use growl where possible.
-- Add all remaining dialogs under sys admin.
-- Change the message "This job cannot be marked as completed because it is not yet saved"
-  to "This job's work progress cannot be changed until the job is saved"
-- Indicate in tab title when job is edited.  
+- Indicate in tab title when job is edited. Test out with changing of job instructions field.
 - Use <p:outputLabel for="?" /> for checkboxes where required.
+- A job is still marked as completed despite the warning that it can't when the 
+  job costing is not completed. Fix!
 
 #### Job Costing 
 - Replace "edit" and "delete" buttons in cost components table with menu. Use 
@@ -138,9 +134,13 @@ paymentTerms, rename JMTSUserId to userId
   costings table.
 * Take job through completion to see if "Job completed by:" checkbox is actually
   checked. 
+* Check that the restriction to create jobs for one's own department actually works.
+
 
 ==============================Future Long Term Development======================
 ### Misc
+- Impl active field in JM User class and make system search for use active users
+  only for login for example.
 - Do order inactive clients in clients table.
 - Add active field to LdapContext.
 - Impl finding classifications by category and use it when finding job classifications     
@@ -247,6 +247,7 @@ paymentTerms, rename JMTSUserId to userId
 - Put text box in jobsTab to allow quick filter of search results.
 - Refactor and rename static methods from findEntityName*() to just find*() where
   possible.
+- Impl converters/validators to only use active entities when ever possible.
 - Move complete*() methods where possible from managers to Application.
 - Limit the maximum characters to be entered into a text field to 50. Put this
   value in the BEL resource bundle which can be changed. Allow various maximums
@@ -280,6 +281,14 @@ paymentTerms, rename JMTSUserId to userId
 - Prevent changing a job's parent department once it is has subcontracts.
 - Check that the privileges set for user and department are impl properly.
 - Implement search other fields such as descriptions for sysadmin objects.
+- Look serioulsy at the maximum integer and double values that can be represented
+  by Java and take these into consideration when working with currency and 
+  integer values.
+- Disable fields such as client, department etc. once the service contract has been
+  exported or job has been subcontracted. Add a field in the Job class for this
+  and allow only customer service, sysadmin or other designates to change it.
+- Change label for department to "Parent department" when a job is subcontracted.
+- Get rid of use of "--" for default objects.
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

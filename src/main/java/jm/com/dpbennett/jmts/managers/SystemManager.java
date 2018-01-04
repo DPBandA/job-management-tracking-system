@@ -198,7 +198,7 @@ public class SystemManager implements Serializable {
         this.selectedLdapContext = selectedLdapContext;
     }
 
-    public String getLdapSearchText() {        
+    public String getLdapSearchText() {
         return ldapSearchText;
     }
 
@@ -812,30 +812,23 @@ public class SystemManager implements Serializable {
     }
 
     public void saveSelectedUser(ActionEvent actionEvent) {
-        EntityManager em = getEntityManager();
-        RequestContext context = RequestContext.getCurrentInstance();
 
-        boolean saved = JobManagerUser.save(em, selectedUser);
+        selectedUser.save(getEntityManager());
 
-        context.closeDialog(null);
+        RequestContext.getCurrentInstance().closeDialog(null);
 
     }
 
     public void saveSelectedDepartment() {
-        EntityManager em = getEntityManager();
-        RequestContext context = RequestContext.getCurrentInstance();
 
-        context.addCallbackParam("departmentSaved", Department.save(em, selectedDepartment));
+        selectedDepartment.save(getEntityManager());
 
-        context.closeDialog(null);
+        RequestContext.getCurrentInstance().closeDialog(null);
     }
 
     public void saveSelectedSystemOption() {
-        EntityManager em = getEntityManager();
 
-        em.getTransaction().begin();
-        BusinessEntityUtils.saveBusinessEntity(em, selectedSystemOption);
-        em.getTransaction().commit();
+        selectedSystemOption.save(getEntityManager());
 
         RequestContext.getCurrentInstance().closeDialog(null);
 
@@ -882,44 +875,11 @@ public class SystemManager implements Serializable {
     }
 
     public void saveSelectedEmployee(ActionEvent actionEvent) {
-        EntityManager em = getEntityManager();
 
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        // validate names
-        // firstname and lastname
-        if (!BusinessEntityUtils.validateName(selectedEmployee.getFirstName())
-                || !BusinessEntityUtils.validateName(selectedEmployee.getLastName())) {
-            context.addCallbackParam("employeeSaved", false);
-            return;
-        } else {
-            selectedEmployee.setName(selectedEmployee.toString());
-        }
-
-        // Get needed objects
-        // business office
-        BusinessOffice businessOffice = BusinessOffice.findBusinessOfficeByName(em, selectedEmployee.getBusinessOffice().getName());
-        if (businessOffice != null) {
-            selectedEmployee.setBusinessOffice(businessOffice);
-        } else {
-            selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(em, "--"));
-        }
-
-        // department
-        Department department = Department.findDepartmentByName(em, selectedEmployee.getDepartment().getName());
-        if (department != null) {
-            selectedEmployee.setDepartment(department);
-        } else {
-            selectedEmployee.setDepartment(Department.findDefaultDepartment(em, "--"));
-        }
-
-        em.getTransaction().begin();
-        BusinessEntityUtils.saveBusinessEntity(em, selectedEmployee);
-        em.getTransaction().commit();
+        selectedEmployee.save(getEntityManager());
 
         RequestContext.getCurrentInstance().closeDialog(null);
 
-        context.addCallbackParam("employeeSaved", true);
     }
 
     public void updateSelectedUserDepartment() {

@@ -114,8 +114,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean useAccPacCustomerList;
     private Boolean showJobEntry;
     private List<Job> jobSearchResultList;
-    private String userPrivilegeDialogHeader;
-    private String userPrivilegeDialogMessage;
     private Integer loginAttempts;
     private SearchParameters currentSearchParameters;
     // Managers
@@ -654,7 +652,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         InitialLdapContext ctx;
 
         try {
-            List<jm.com.dpbennett.business.entity.LdapContext> ctxs = jm.com.dpbennett.business.entity.LdapContext.findAllLdapContexts(em);
+            List<jm.com.dpbennett.business.entity.LdapContext> ctxs = jm.com.dpbennett.business.entity.LdapContext.findAllActiveLdapContexts(em);
 
             for (jm.com.dpbennett.business.entity.LdapContext ldapContext : ctxs) {
                 ctx = ldapContext.getInitialLDAPContext(username, password);
@@ -860,32 +858,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.searchText = searchText;
     }
 
-    public void displayUserPrivilegeDialog(RequestContext context,
-            String header,
-            String message) {
-
-        setUserPrivilegeDialogHeader(header);
-        setUserPrivilegeDialogMessage(message);
-        context.update("userPrivilegeDialogForm");
-        context.execute("userPrivilegeDialog.show();");
-    }
-
-    public String getUserPrivilegeDialogHeader() {
-        return userPrivilegeDialogHeader;
-    }
-
-    public void setUserPrivilegeDialogHeader(String userPrivilegeDialogHeader) {
-        this.userPrivilegeDialogHeader = userPrivilegeDialogHeader;
-    }
-
-    public String getUserPrivilegeDialogMessage() {
-        return userPrivilegeDialogMessage;
-    }
-
-    public void setUserPrivilegeDialogMessage(String userPrivilegeDialogMessage) {
-        this.userPrivilegeDialogMessage = userPrivilegeDialogMessage;
-    }
-
     public Boolean getShowJobEntry() {
         return showJobEntry;
     }
@@ -1000,6 +972,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
             context.update("mainTabViewForm:mainTabView:jobFormTabView,headerForm:growl3");
             context.execute("jobFormTabVar.select(0);");
+        }
+        else {        
+            PrimeFacesUtils.addMessage("Job NOT Created", 
+                    "You do not have the prvilege to create jobs. Please contact your System Administrator", 
+                    FacesMessage.SEVERITY_ERROR);
+            context.update("headerForm:growl3");
+            context.execute("longProcessDialogVar.hide();");
         }
 
     }
@@ -1204,6 +1183,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void updateJob() {
         setIsDirty(true);
+        
+        // tk
+        MainTab tab = mainTabView.findTab("jobDetailTab");
+        if (tab != null) {
+            tab.setName("Job Detail (edited)");
+        }
     }
 
     public void updateJobView(AjaxBehaviorEvent event) {
@@ -1383,7 +1368,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
         } else {
             displayCommonMessageDialog(null,
-                    "This job cannot be marked as completed because it is not yet saved.",
+                    "This job's work progress cannot be changed until the job is saved.",
                     "Job Work Progress Cannot be Changed", "info");
             return false;
         }
@@ -1683,19 +1668,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean checkJobEntryPrivilege(EntityManager em, RequestContext context) {
-        // prompt to save modified job before attempting to create new job
-        if (getUser().getPrivilege().getCanEnterJob()
+        
+        return getUser().getPrivilege().getCanEnterJob()
                 || getUser().getPrivilege().getCanEnterDepartmentJob()
                 || getUser().getDepartment().getPrivilege().getCanEnterJob()
-                || getUser().getPrivilege().getCanEnterOwnJob()) {
-            return true;
-        } else {
-            displayUserPrivilegeDialog(context,
-                    "Job Entry Privilege",
-                    "You do not have job entry privilege.");
-
-            return false;
-        }
+                || getUser().getPrivilege().getCanEnterOwnJob();
     }
 
     public Boolean getIsClientNameValid() {

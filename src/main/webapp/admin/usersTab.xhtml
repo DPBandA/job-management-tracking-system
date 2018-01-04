@@ -34,7 +34,12 @@ Email: info@dpbennett.com.jm
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
-                             icon="ui-icon ui-icon-plus"/>
+                             icon="ui-icon ui-icon-plus">
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:usersTable"/>
+
+            </p:commandButton>
             <p:spacer width="20" />
             <p:inputText id="userSearchText" 
                          autocomplete="false"
@@ -114,8 +119,10 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-pencil">
                 <f:setPropertyActionListener value="#{user}"                                                                    
                                              target="#{systemManager.selectedUser}" />
+
                 <p:ajax event="dialogReturn" 
                         update=":mainTabViewForm:mainTabView:centerTabView:usersTable"/>
+
             </p:commandButton>           
         </p:column>
 

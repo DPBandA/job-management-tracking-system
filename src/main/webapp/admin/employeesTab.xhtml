@@ -23,7 +23,7 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-  
+
     <p:toolbar>
         <p:toolbarGroup align="left" >   
             <p:commandButton title="Add new employee"                                  
@@ -33,7 +33,12 @@ Email: info@dpbennett.com.jm
                              oncomplete="longProcessDialogVar.hide();"
                              onerror="connectionErrorDialog.show();"
                              process="@this"
-                             icon="ui-icon ui-icon-plus"/>
+                             icon="ui-icon ui-icon-plus" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"/>
+
+            </p:commandButton>
             <p:spacer width="20" />
             <p:inputText id="employeeSearchText" 
                          value="#{systemManager.employeeSearchText}"
@@ -47,8 +52,8 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
-        
-         <p:toolbarGroup align="right">
+
+        <p:toolbarGroup align="right">
             <h:outputText value="Active employees only: " />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
@@ -118,6 +123,7 @@ Email: info@dpbennett.com.jm
                                              target="#{systemManager.selectedEmployee}" />
                 <p:ajax event="dialogReturn" 
                         update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"/>
+
             </p:commandButton>           
         </p:column>
 

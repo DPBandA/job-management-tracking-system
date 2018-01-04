@@ -33,18 +33,6 @@ Email: info@dpbennett.com.jm
         </h:form>
     </p:confirmDialog>
 
-    <h:form id="userPrivilegeDialogForm">
-        <p:confirmDialog severity="info"
-                         header="#{jobManager.userPrivilegeDialogHeader}"
-                         message="#{jobManager.userPrivilegeDialogMessage}"
-                         widgetVar="userPrivilegeDialog"
-                         width="420">
-            <p:commandButton value="Ok"
-                             onclick="userPrivilegeDialog.hide();"
-                             icon="ui-icon-check"/>
-        </p:confirmDialog>
-    </h:form>
-
     <p:confirmDialog severity="info"
                      message="You have attempted to login two (2) or more times without success.
                      Your login credentials may be incorrect or your account has not yet been created.

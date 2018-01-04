@@ -34,7 +34,12 @@ Email: info@dpbennett.com.jm
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
-                             icon="ui-icon ui-icon-plus"/>
+                             icon="ui-icon ui-icon-plus" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"/>
+
+            </p:commandButton>
             <p:spacer width="20" />
             <p:inputText value="#{systemManager.systemOptionSearchText}"
                          id="systemOptionSearchTextId"
@@ -87,10 +92,10 @@ Email: info@dpbennett.com.jm
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
-                
+
                 <p:ajax event="dialogReturn" 
                         update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"/>
-                
+
                 <f:setPropertyActionListener value="#{systemOption}"                                                                    
                                              target="#{systemManager.selectedSystemOption}" />
             </p:commandButton>           

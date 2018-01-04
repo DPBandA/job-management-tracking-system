@@ -35,7 +35,12 @@ Email: info@dpbennett.com.jm
                              onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
-                             icon="ui-icon ui-icon-plus"/> 
+                             icon="ui-icon ui-icon-plus">
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
+
+            </p:commandButton> 
             <p:spacer width="20" />
             <p:inputText id="departmentSearchText" 
                          value="#{systemManager.departmentSearchText}"
@@ -49,8 +54,8 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
-        
-         <p:toolbarGroup align="right">
+
+        <p:toolbarGroup align="right">
             <h:outputText value="Active departments only: " />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
@@ -106,6 +111,7 @@ Email: info@dpbennett.com.jm
                                              target="#{systemManager.selectedDepartment}" />
                 <p:ajax event="dialogReturn" 
                         update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
+
             </p:commandButton>           
         </p:column>
 

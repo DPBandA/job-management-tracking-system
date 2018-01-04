@@ -966,55 +966,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setIsDirty(true);
     }
 
-    public Boolean checkWorkProgressReadinessToBeChanged() {
-        EntityManager em = getEntityManager1();
-
-        // Find the currently stored job and check it's work status
-        if (getCurrentJob().getId() != null) {
-            Job job = Job.findJobById(em, getCurrentJob().getId());
-            if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
-                    && !getUser().getPrivilege().getCanBeJMTSAdministrator()
-                    && !isUserDepartmentSupervisor(getCurrentJob())) {
-
-                // Reset current job to its saved work progress
-                getCurrentJob().getJobStatusAndTracking().
-                        setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
-
-                displayCommonMessageDialog(null,
-                        "This job is marked as completed and cannot be changed. You may contact the department's supervisor.",
-                        "Job Work Progress Cannot Be Changed", "info");
-
-                return false;
-            } else if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
-                    && (getUser().getPrivilege().getCanBeJMTSAdministrator()
-                    || isUserDepartmentSupervisor(getCurrentJob()))) {
-
-                return true;
-            } else if (!job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
-                    && getCurrentJob().getJobStatusAndTracking().getWorkProgress().equals("Completed")
-                    && !getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-
-                // Reset current job to its saved work progress
-                getCurrentJob().getJobStatusAndTracking().
-                        setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
-
-                displayCommonMessageDialog(null,
-                        "The job costing needs to be prepared before this job can marked as completed.",
-                        "Job Work Progress Cannot Be As Marked Completed", "info");
-
-                return false;
-
-            }
-        } else {
-            displayCommonMessageDialog(null,
-                    "This job cannot be marked as completed because it is not yet saved.",
-                    "Job Work Progress Cannot be Changed", "info");
-            return false;
-        }
-
-        return true;
-    }
-
     // tk to be modified
     public void closeJobCostingDialog() {
         // Redo search to reloasd stored jobs including
@@ -1131,8 +1082,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             if (department == null) {
                 setInvalidFormFieldMessage("This unit cost cannot be saved because a valid department was not entered.");
 
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
                 return;
             } else {
                 getCurrentUnitCost().setDepartment(department);
@@ -1157,24 +1106,21 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             // Service
             if (getCurrentUnitCost().getService().trim().equals("")) {
                 setInvalidFormFieldMessage("This unit cost cannot be saved because a valid service was not entered.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
+               
                 return;
             }
 
             // Cost
             if (getCurrentUnitCost().getCost() <= 0.0) {
                 setInvalidFormFieldMessage("This unit cost cannot be saved because a valid cost was not entered.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
+               
                 return;
             }
 
             // Effective date
             if (getCurrentUnitCost().getEffectiveDate() == null) {
                 setInvalidFormFieldMessage("This unit cost cannot be saved because a valid effective date was not entered.");
-                context.update("invalidFieldDialogForm");
-                context.execute("invalidFieldDialog.show();");
+                
                 return;
             }
 
