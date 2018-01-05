@@ -21,8 +21,7 @@ Email: info@dpbennett.com.jm
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -61,7 +60,7 @@ Email: info@dpbennett.com.jm
 
             <p:panel style="margin-bottom: 1px;">
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="Active:"/>               
+                    <h:outputLabel for="departmentActive" value="Active:"/>               
                     <p:selectBooleanCheckbox id="departmentActive"
                                              style="vertical-align: middle"
                                              value="#{systemManager.selectedDepartment.active}" />                       

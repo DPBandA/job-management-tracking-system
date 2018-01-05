@@ -85,17 +85,23 @@ public class SystemManager implements Serializable {
     private Boolean isActiveSectorsOnly;
     private Boolean isActiveLdapsOnly;
     private Date startDate;
-    private Date endDate;
-    private String searchText;
+    private Date endDate;    
     private Long selectedDocumentId;
     private JobManagerUser selectedUser;
     private JobManagerUser foundUser;
+    // Search text
+    private String searchText;
     private String userSearchText;
     private String employeeSearchText;
     private String departmentSearchText;
     private String generalSearchText;
     private String systemOptionSearchText;
     private String classificationSearchText;
+    private String jobCategorySearchText;
+    private String jobSubcategorySearchText;
+    private String sectorSearchText;
+    private String ldapSearchText;
+    // Found object lists
     private List<JobManagerUser> foundUsers;
     private List<Employee> foundEmployees;
     private List<Department> foundDepartments;
@@ -110,13 +116,9 @@ public class SystemManager implements Serializable {
     private Department selectedDepartment;
     private SystemOption selectedSystemOption;
     private Classification selectedClassification;
-    private JobCategory selectedJobCategory;
-    private String jobCategorySearchText;
-    private JobSubCategory selectedJobSubcategory;
-    private String jobSubcategorySearchText;
-    private Sector selectedSector;
-    private String sectorSearchText;
-    private String ldapSearchText;
+    private JobCategory selectedJobCategory;    
+    private JobSubCategory selectedJobSubcategory;    
+    private Sector selectedSector;    
     private LdapContext selectedLdapContext;
 
     /**
@@ -145,13 +147,19 @@ public class SystemManager implements Serializable {
         foundJobCategories = null;
         foundJobSubcategories = null;
         foundDocumentStandards = null;
+        // Search texts
+        searchText = "";
         employeeSearchText = "";
         userSearchText = "";
+        departmentSearchText = "";
         generalSearchText = "";
         systemOptionSearchText = "";
         jobCategorySearchText = "";
         jobSubcategorySearchText = "";
+        classificationSearchText = "";
+        sectorSearchText = "";
         ldapSearchText = "";
+        // Active flags
         isActiveJobCategoriesOnly = true;
         isActiveJobSubcategoriesOnly = true;
         isActiveSectorsOnly = true;

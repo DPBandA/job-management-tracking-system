@@ -24,20 +24,20 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar>
         <p:toolbarGroup align="left" style="height: 0;">   
-            <p:commandButton value="Approved"  
+            <p:commandButton value="Approve"  
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
                              style="vertical-align: top;"
-                             title="Check the selected job costing(s) as approved"
+                             title="Approve the selected job costing(s)"
                              actionListener="#{jobManager.approveSelectedJobCostings}"
                              update=":headerForm:growl3,:mainTabViewForm:mainTabView:jobCostingsTable"
                              onstart="longProcessDialogVar2.show();" 
                              oncomplete="longProcessDialogVar2.hide();">                                                                                    
             </p:commandButton>
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
-            <p:commandButton value="Invoiced"    
+            <p:commandButton value="Invoice"    
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
                              style="vertical-align: top;"
-                             title="Check the selected job costing(s) as invoiced"
+                             title="Invoice the selected job costing(s)"
                              actionListener="#{jobManager.invoiceSelectedJobCostings}"
                              update=":headerForm:growl3,:mainTabViewForm:mainTabView:jobCostingsTable"
                              onstart="longProcessDialogVar2.show();" 

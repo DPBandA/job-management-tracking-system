@@ -62,11 +62,23 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.classification.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.jobCategory.name}" >
+        <ui:remove>
+            <p:column sortBy="#{job.jobCategory.name}" >
+                <f:facet name="header">
+                    <h:outputText value="Category"/>
+                </f:facet>
+                <h:outputText value="#{job.jobCategory.name}" />
+            </p:column>
+        </ui:remove>
+
+        <p:column sortBy="#{job.jobCostingAndPayment.finalCost}" >
             <f:facet name="header">
-                <h:outputText value="Category"/>
+                <h:outputText value="Cost ($)"/>
             </f:facet>
-            <h:outputText value="#{job.jobCategory.name}" />
+            <h:outputText value="#{job.jobCostingAndPayment.finalCost}"  
+                          styleClass="datatable-number-field" >
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText>
         </p:column>
 
         <p:column sortBy="#{job.jobCostingAndPayment.costingCompleted}" >

@@ -21,8 +21,7 @@ Email: info@dpbennett.com.jm
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:f="http://java.sun.com/jsf/core">
     <p:panel id="jobStatusAndTracking" header="Job Status" > 
         <h:panelGrid columns="1" >
             <h:panelGroup>
@@ -81,7 +80,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax listener="#{jobManager.updateWorkProgress}"
                                 global="false"
-                                update="startDate,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update="startDate,:mainTabViewForm:mainTabView:jobDetailToolbar1,@this"
                                 process="@this"/>
                     </p:selectOneMenu>     
 

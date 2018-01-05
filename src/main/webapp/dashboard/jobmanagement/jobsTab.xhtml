@@ -41,7 +41,13 @@ Email: info@dpbennett.com.jm
             </p:commandButton>
         </p:toolbarGroup>
         <p:toolbarGroup align="right">
-            <p:menuButton value="Tools" >                
+            <p:menuButton value="Tools" >  
+                <p:menuitem value="Job Browser"
+                            onstart="longProcessDialogVar.show();"                                                    
+                            actionListener="#{jobManager.openJobBrowser}"
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this"/>
+                <p:separator />
                 <p:menuitem value="Client management"
                             onstart="longProcessDialogVar.show();"                                                    
                             actionListener="#{jobManager.openClientsTab}"
@@ -54,8 +60,7 @@ Email: info@dpbennett.com.jm
                             update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
                             oncomplete="accPacClientInformationDialog.show();longProcessDialogVar.hide();"
                             onerror="connectionErrorDialog.show();"
-                            process="@this"/>                
-
+                            process="@this"/>     
                 <p:separator />
                 <p:menuitem value="Reports"
                             onstart="longProcessDialogVar.show();"                                                    

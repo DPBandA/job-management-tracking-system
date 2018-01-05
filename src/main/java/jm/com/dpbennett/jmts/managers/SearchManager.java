@@ -379,7 +379,7 @@ public class SearchManager implements SearchManagement, Serializable {
 
         return suggestions;
     }
-
+    
     public void doSearch() {
         switch (getCurrentSearchParameterKey()) {
             case "Job Search":

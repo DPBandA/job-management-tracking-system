@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
                                          id="activeJobSubcategoriesOnly"
-                                         value="#{systemManager.isActiveSectorsOnly}" >
+                                         value="#{systemManager.isActiveJobSubcategoriesOnly}" >
                     <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
                              listener="#{systemManager.doJobSubcategorySearch}"
                              event="change"                                      

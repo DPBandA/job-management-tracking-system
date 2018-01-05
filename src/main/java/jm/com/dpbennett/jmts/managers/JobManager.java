@@ -812,6 +812,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void editPreferences() {
     }
 
+    public void openJobBrowser() {
+        if (getUser().getIsJobsPreferredJobTableView()) {
+            openJobsTab();
+        }
+        if (getUser().getIsCashierPreferredJobTableView()) {
+            openCashierTab();
+        }
+        if (getUser().getIsJobCostingsPreferredJobTableView()) {
+            openJobCostingsTab();
+        }
+    }
+
     public void openJobsTab() {
         mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
         mainTabView.renderTab(getEntityManager1(), "cashierTab", false);
@@ -1254,7 +1266,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateAdminTab() {
-        dashboard.renderTab(getEntityManager1(), "adminTab", getUser().getAdminUnit());
+        //dashboard.renderTab(getEntityManager1(), "adminTab", getUser().getAdminUnit());
         if (getUser().getAdminUnit()) {
             mainTabView.renderTab(getEntityManager1(), "adminTab", true);
         }
@@ -1262,7 +1274,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateFinancialAdminTab() {
-        dashboard.renderTab(getEntityManager1(), "financialAdminTab", getUser().getFinancialAdminUnit());
+        //dashboard.renderTab(getEntityManager1(), "financialAdminTab", getUser().getFinancialAdminUnit());
         if (getUser().getFinancialAdminUnit()) {
             mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
         }
@@ -1399,6 +1411,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
 
             setIsDirty(true);
+        } else {
+            if (getCurrentJob().getId() != null) {
+                // Set work progress to the currently saved state
+                Job job = Job.findJobById(getEntityManager1(), getCurrentJob().getId());
+                if (job != null) {
+                    getCurrentJob().getJobStatusAndTracking().setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
+                } else {
+                    getCurrentJob().getJobStatusAndTracking().setWorkProgress("Not started");
+                }
+            } else {
+                getCurrentJob().getJobStatusAndTracking().setWorkProgress("Not started");
+            }
         }
 
     }
