@@ -51,6 +51,13 @@ public class MainTabView implements Serializable {
         tabIndex = 0;
         render = false;
     }
+    
+    public void setTabName(String tabId, String name) {
+        MainTab tab = findTab(tabId);
+        if (tab != null) {
+            tab.setName(name);
+        }
+    }
 
     public Boolean getRender() {
         return render;

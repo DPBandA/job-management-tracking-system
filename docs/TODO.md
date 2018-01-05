@@ -29,11 +29,12 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- Indicate in tab title when job is edited. Test out with changing of job instructions field.
-  * Create setName(String tabId) in MainTabView to set the name of a tab...see code in updateJob().
 - Use <p:outputLabel for="?" /> for checkboxes where required.
 - A job is still marked as completed despite the warning that it can't when the 
   job costing is not completed. Fix!
+- Put the final cost in the "Job Costings tab. Take out classification to make space?
+- Put menu item in dashboard tools menu to open "job view" in it is not alread open.
+- Put tool tip on job search button.
 
 #### Job Costing 
 - Replace "edit" and "delete" buttons in cost components table with menu. Use 

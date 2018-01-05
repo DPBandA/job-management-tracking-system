@@ -91,3 +91,16 @@
     color: blue;
 }
 
+.ui-widget .ui-widget .invalid-number-field {
+    text-align: right;
+    border-color: lightgreen;
+}
+
+.ui-invalid-inputfield .ui-inputfield {
+   border-color: lightgreen;
+}
+
+.ui-widget .ui-widget .invalid-inputtextarea-field {    
+    border-color: lightgreen;
+}
+

@@ -45,8 +45,8 @@ Email: info@dpbennett.com.jm
                     <f:attribute name="autoGenerateJobNumber" value="#{jobManager.currentJob.autoGenerateJobNumber}" />
 
                     <p:ajax event="change"                            
-                            global="false"
-                            listener="#{jobManager.updateJobNumber}"
+                            update=":mainTabViewForm:mainTabView"
+                            listener="#{jobManager.updateJob}"
                             process="@this"/>
 
                 </p:inputText>
@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
                 <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}" 
                         event="change"
-                        update="jobNumberGroup"
+                        update=":mainTabViewForm:mainTabView"
                         global="false"                        
                         process="@this"/>
             </p:selectBooleanCheckbox>            
@@ -82,7 +82,7 @@ Email: info@dpbennett.com.jm
                         forceSelection="true"
                         completeMethod="#{App.completeBusinessOffice}" >
             <p:ajax event="itemSelect"                       
-                    update="jobNumberGroup,department"
+                    update=":mainTabViewForm:mainTabView"
                     listener="#{jobManager.updateBusinessOffice}"
                     process="@this"/>
         </p:autoComplete>        
@@ -91,6 +91,7 @@ Email: info@dpbennett.com.jm
         <p:autoComplete dropdown="true"
                         var="classification"
                         id="jobClassification"
+                        styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
                         size="35"
                         maxlength="40"
                         value="#{jobManager.currentJob.classification}"
@@ -102,7 +103,7 @@ Email: info@dpbennett.com.jm
                         completeMethod="#{App.completeClassification}" >
             <p:ajax event="itemSelect"                                                                  
                     listener="#{jobManager.updateJobClassification}"
-                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
+                    update=":mainTabViewForm:mainTabView"
                     process="@this"/>
         </p:autoComplete>
 
@@ -113,6 +114,7 @@ Email: info@dpbennett.com.jm
                             itemLabel="#{client.truncatedName}"
                             itemValue="#{client}"
                             size="35"
+                            styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
                             maxlength="40"
                             maxResults="24"                               
                             dropdown="false"
@@ -124,7 +126,7 @@ Email: info@dpbennett.com.jm
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update="billingAddress,clientContact,clientActionsMenu"
+                        update=":mainTabViewForm:mainTabView"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
@@ -141,7 +143,7 @@ Email: info@dpbennett.com.jm
                                      title="View or edit this client's detail">   
                         <p:ajax event="dialogReturn" 
                                 listener="#{clientManager.clientDialogReturn}"
-                                update=":mainTabViewForm:mainTabView:growl2,client,billingAddress,clientContact"/>
+                                update=":mainTabViewForm:mainTabView" />
                     </p:commandButton>            
                 </p:menuitem>
 
@@ -157,7 +159,7 @@ Email: info@dpbennett.com.jm
                         title="Add a new client to the client database">
                         <p:ajax event="dialogReturn" 
                                 listener="#{clientManager.clientDialogReturn}"
-                                update=":mainTabViewForm:mainTabView:growl2,billingAddress,clientContact,client"/>
+                                update=":mainTabViewForm:mainTabView" />
                     </p:commandButton>
                 </p:menuitem>
             </p:menuButton>       
@@ -169,6 +171,7 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         forceSelection="true"
                         size="35"
+                        styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
                         maxlength="40"
                         converter="clientAddressConverter" 
                         validator="addressValidator"
@@ -181,15 +184,8 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
-                    update=":mainTabViewForm:mainTabView:growl2"
+                    update=":mainTabViewForm:mainTabView"
                     process="@this" />   
-
-            <ui:remove>
-                <p:ajax event="change"
-                        listener="#{jobManager.updateJob}"                                        
-                        update=":mainTabViewForm:mainTabView:growl2"
-                        process="@this" />               
-            </ui:remove>
 
         </p:autoComplete>
 
@@ -199,6 +195,7 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         forceSelection="true"
                         maxlength="40"
+                        styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
                         converter="clientContactConverter" 
                         validator="contactValidator"
                         var="contact"                        
@@ -210,7 +207,7 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
-                    update=":mainTabViewForm:mainTabView:growl2"
+                    update=":mainTabViewForm:mainTabView"
                     process="@this" />   
 
         </p:autoComplete>        
@@ -222,11 +219,11 @@ Email: info@dpbennett.com.jm
                     navigator="true" 
                     pattern="MMM dd, yyyy" >
             <p:ajax event="dateSelect"
-                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
+                    update=":mainTabViewForm:mainTabView"
                     listener="#{jobManager.handleDateSubmittedSelect}" />
 
             <p:ajax event="keyup"
-                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
+                    update=":mainTabViewForm:mainTabView"
                     listener="#{jobManager.handleDateSubmittedSelect}" />
 
         </p:calendar>
@@ -238,7 +235,8 @@ Email: info@dpbennett.com.jm
                         forceSelection="true"      
                         dropdown="true"
                         scrollHeight="200" 
-                        size="35"                        
+                        size="35"  
+                        styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
                         maxlength="40"
                         value="#{jobManager.currentJob.department}"
                         title="#{jobManager.currentJob.department}"
@@ -246,17 +244,15 @@ Email: info@dpbennett.com.jm
                         itemLabel="#{department.name}"
                         converter="departmentConverter"
                         validator="businessEntityValidator"
-                        completeMethod="#{App.completeDepartment}" >
+                        completeMethod="#{App.completeDepartment}" >            
+           
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
+                    update=":mainTabViewForm:mainTabView"
                     process="@this" />
-            <p:ajax event="change"
-                    listener="#{jobManager.updateDepartment}"
-                    global="false"
-                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
-                    process="@this" />
+           
+
         </p:autoComplete>     
 
         <h:outputText value="Subcontracted dept.:"                      
@@ -266,7 +262,8 @@ Email: info@dpbennett.com.jm
                         rendered="#{jobManager.renderSubContractingDepartment}"
                         forceSelection="true"
                         var="department"
-                        size="35"                            
+                        size="35"         
+                        styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
                         maxlength="40"
                         itemValue="#{department}"
                         itemLabel="#{department.name}"
@@ -285,12 +282,9 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateSubContractedDepartment}"
-                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
+                    update=":mainTabViewForm:mainTabView"
                     process="@this" />
-            <p:ajax event="change"
-                    listener="#{jobManager.updateSubContractedDepartment}"
-                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:jobFormTabView:cashPayments"
-                    process="@this" />          
+           
         </p:autoComplete>
 
         <h:outputText value="Dept. rep./Assignee *: " style="font-weight: bold" />
@@ -298,6 +292,7 @@ Email: info@dpbennett.com.jm
             <p:autoComplete id="assignee"
                             var="assignedTo"                            
                             maxlength="40"
+                            styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
                             value="#{jobManager.currentJob.assignedTo}"
                             title="#{jobManager.currentJob.assignedTo}"
                             itemLabel="#{assignedTo.name}"
@@ -308,20 +303,21 @@ Email: info@dpbennett.com.jm
                             dropdown="true"
                             scrollHeight="200" 
                             completeMethod="#{App.completeEmployee}" >
+                
                 <p:ajax event="itemSelect"
                         listener="#{jobManager.updateAssignee}"
+                        update=":mainTabViewForm:mainTabView"
                         process="@this"/>
-                <p:ajax event="change"
-                        listener="#{jobManager.updateAssignee}"
-                        process="@this"/>
+               
             </p:autoComplete>           
         </h:panelGroup>
 
         <h:outputText value="TAT given to client *: "  style="font-weight: bold;" />
         <h:panelGroup>
-            <p:inputText title="Estimated turnaround time (TAT) given to client"                         
+            <p:inputText title="Estimated turnaround time (TAT) given to client"   
+                         id="estimatedTAT"
                          maxlength="4"
-                         styleClass="number-field"
+                         styleClass="#{not component.valid ? 'invalid-number-field' : 'number-field'}" 
                          converterMessage="Invalid Turnaround Time (TAT)" 
                          validator="turnaroundTimeValidator"
                          value="#{jobManager.currentJob.estimatedTurnAroundTimeInDays}">
@@ -330,6 +326,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax listener="#{jobManager.updateJob}"
                         global="false"
+                        update=":mainTabViewForm:mainTabView"
                         event="change"   
                         process="@this" />
                 <f:convertNumber integerOnly="true"/>
@@ -341,7 +338,8 @@ Email: info@dpbennett.com.jm
                                      style="vertical-align: middle"                                     
                                      value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" >
                 <p:ajax listener="#{jobManager.updateJob}"
-                        global="false"                       
+                        global="false"        
+                        update=":mainTabViewForm:mainTabView"
                         process="@this"/>
             </p:selectBooleanCheckbox>            
             <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
@@ -355,17 +353,17 @@ Email: info@dpbennett.com.jm
             counter="instructCharsRemaining"
             counterTemplate="{0} characters remaining."
             autoResize="false"
-            maxlength="1000"                 
+            maxlength="1000" 
+            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
             style="width: 500px;">
 
             <f:validator validatorId="requiredFieldValidator" />
 
             <p:ajax event="change"
-                    global="false"
                     update=":mainTabViewForm:mainTabView"
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
-            
+
         </p:inputTextarea> 
         <h:outputText value="&nbsp;&nbsp;" />
         <h:outputText id="instructCharsRemaining" /> 
