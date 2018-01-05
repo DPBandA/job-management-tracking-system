@@ -29,13 +29,15 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
-- Get rid of * = required field and * to remain consistent.
 - Use <p:outputLabel for="?" /> for checkboxes where required.
 - A job is still marked as completed despite the warning that it can't when the 
   job costing is not completed. Fix!
 - Put the final cost in the "Job Costings tab. Take out classification to make space?
 - Put menu item in dashboard tools menu to open "job view" in it is not alread open.
 - Put tool tip on job search button.
+- When job sample is deleted a message does not display that the job was saved
+  although it was. Fix!
+- Validate "Sample(s) collected by:" in job status and tracking.
 
 #### Job Costing 
 - Replace "edit" and "delete" buttons in cost components table with menu. Use 
@@ -69,6 +71,7 @@ could have happened.
    costing dialog and prompt if there are edits. Impl job costing backup and 
    restore as is done for sample edits. 
 - Impl dealing with subcontracts and redesign cost component dialog.
+  * Impl getSubcontracts() in Job class. 
   * Impl displaying list of subcontracts with costings that have been approved. 
   * Put note beside "New Item" Listing the subcontract job number if there are any
     and prompt to enter them if there are any completed and and approved.
@@ -79,6 +82,7 @@ could have happened.
     Use the "Cost Code" slot to select subcontract costs if any. Remove "Cost Code"
   * Impl menu that selects cost type "Variable Cost", "Fixed Cost", "Subcontracted job cost"
   * The fields would change based on the cost type selected.
+- Finish updating job detail tab toolbar when job is edited.
 
 #### Cash Payment
 - Impl validation for cash paymeny dialog.

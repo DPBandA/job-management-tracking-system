@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
 
     <p:panel id="jobCosting" header="Costing">
         <h:panelGrid columns="3">
-            <h:outputLabel value="Job number *: " style="font-weight: bold;font-size: 14px;" />
+            <h:outputLabel value="Job number: " style="font-weight: bold;font-size: 14px;" />
             <h:outputText value="#{jobManager.currentJob.jobNumber}"
                           id="jobNumberForCosting"
                           styleClass="job-number"/>          
@@ -39,6 +39,7 @@ Email: info@dpbennett.com.jm
                 <p:ajax event="change"
                         global="false"
                         listener="#{financeManager.updatePurchaseOrderNumber}"
+                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>
@@ -53,7 +54,7 @@ Email: info@dpbennett.com.jm
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     <p:ajax event="change"
                             global="false"
-                            update="estimatedCostIncludingTaxes"
+                            update="estimatedCostIncludingTaxes,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                             listener="#{financeManager.updateJobCostingEstimate}"
                             process="@this"/>
                 </p:inputText>
@@ -70,7 +71,7 @@ Email: info@dpbennett.com.jm
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="change"
                         global="false"
-                        update="minDepositIncludingTaxes"
+                        update="minDepositIncludingTaxes,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                         listener="#{financeManager.updateMinimumDepositRequired}"
                         process="@this"/>
             </p:inputText>
@@ -87,7 +88,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax
                     global="true"
-                    update="estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
+                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1,estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
                     listener="#{financeManager.updateAllTaxes}"
                     process="@this" />
                 <f:selectItems value="#{financeManager.GCTPercentages}" />
@@ -108,6 +109,7 @@ Email: info@dpbennett.com.jm
                     <p:ajax event="change"
                             global="false"                            
                             listener="#{financeManager.updateEstimatedCostIncludingTaxes}"
+                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
                             process="@this"/>
                 </p:inputText>
                 <h:outputText value="&nbsp;"/>
@@ -126,13 +128,13 @@ Email: info@dpbennett.com.jm
                 <p:ajax event="keyup"
                         global="false"                        
                         listener="#{financeManager.updateMinimumDepositIncludingTaxes}"
+                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>   
 
             <h:outputText 
                 id="totalCostLabel"
-                style="font-weight: bold;"
                 value="#{financeManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}"/>
             <h:panelGroup>
                 <p:inputText id="totalCost"
@@ -143,8 +145,8 @@ Email: info@dpbennett.com.jm
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     <p:ajax event="keyup"
                             global="false"
-                            update="amountDue2"
                             listener="#{financeManager.updateTotalCost}"
+                            update="amountDue2,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                             process="@this"/>
                 </p:inputText>
                 <p:commandButton icon="ui-icon ui-icon-pencil"
@@ -157,14 +159,14 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax event="dialogReturn" 
                             listener="#{financeManager.jobCostingDialogReturn}"
-                            update="jobCosting,:mainTabViewForm:mainTabView:growl2"/>
+                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting,:mainTabViewForm:mainTabView:growl2"/>
 
                 </p:commandButton>  
             </h:panelGroup>
 
             <h:outputText value="&nbsp;"/> 
 
-            <h:outputText value="Amount due ($):" style="font-weight: bold;" />            
+            <h:outputText value="Amount due ($):" />            
             <p:inputText id="amountDue2"
                          value="#{financeManager.currentJob.jobCostingAndPayment.amountDue}"
                          maxlength="15"

@@ -68,7 +68,7 @@ Email: info@dpbennett.com.jm
                 <p:tab title="General">
                     <h:panelGrid columns="2" style="width: 100%" >
 
-                        <h:outputText value="Reference *: " style="width: 50%;font-weight: bold;" />
+                        <h:outputText value="Reference: " style="width: 50%;font-weight: bold;" />
                         <p:inputText id="sampleReference"
                                      value="#{jobSampleManager.selectedJobSample.reference}"
                                      maxlength="40"
@@ -106,7 +106,7 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:autoComplete>
 
-                        <h:outputText value="Date sampled *:" style="width: 50%;font-weight: bold;" />
+                        <h:outputText value="Date sampled:" style="width: 50%;font-weight: bold;" />
                         <p:calendar  id="dateSampled"
                                      value="#{jobSampleManager.selectedJobSample.dateSampled}"
                                      navigator="true"
@@ -125,7 +125,7 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:calendar>
 
-                        <h:outputText value="Sample quantity *: " style="width: 50%;font-weight: bold;" />
+                        <h:outputText value="Sample quantity: " style="width: 50%;font-weight: bold;" />
                         <p:inputText  id="sampleQuantity"
                                       maxlength="3"
                                       converter="javax.faces.Long"
@@ -141,7 +141,7 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText value="Product common name *: " style="font-weight: bold;" />
+                        <h:outputText value="Product common name: " style="font-weight: bold;" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.name}"
                                      id="productCommonName"
                                      required="true"
@@ -240,7 +240,7 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputTextarea>
 
-                        <h:outputText value="Product quantity *: " style="font-weight: bold;" />
+                        <h:outputText value="Product quantity: " style="font-weight: bold;" />
                         <h:panelGroup >
                             <p:inputText id="productQuantity"
                                          style="width: 15%"
@@ -270,7 +270,7 @@ Email: info@dpbennett.com.jm
                             </p:inputText>
                             <p:watermark value="-- enter product unit --" for="productUnitOfMeasure"/>
                         </h:panelGroup>
-                        <h:outputText value="Method of disposal *: " style="font-weight: bold;" />
+                        <h:outputText value="Method of disposal: " style="font-weight: bold;" />
                         <p:selectOneMenu value="#{jobSampleManager.selectedJobSample.methodOfDisposal}" 
                                          id="methodOfDisposal">
                             <f:selectItems value="#{App.methodsOfDisposal}" />

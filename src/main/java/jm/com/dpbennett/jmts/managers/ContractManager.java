@@ -79,7 +79,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
         currentJob = null;
         user = null;
     }
-    
+
     public void reset() {
         init();
     }

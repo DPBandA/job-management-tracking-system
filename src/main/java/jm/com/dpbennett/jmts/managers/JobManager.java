@@ -749,7 +749,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void closeJobDetailTab() {
-        mainTabView.setTabName("jobDetailTab", "Job Detail");
+        currentJob.getJobStatusAndTracking().setEditStatus("");
         mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
     }
 
@@ -971,7 +971,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             initManagers();
             PrimeFacesUtils.addMessage("New Job Created", "Please enter the required fields for this job", FacesMessage.SEVERITY_INFO);
             mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
-            mainTabView.setTabName("jobDetailTab", "Job Detail");
             context.update("mainTabViewForm:mainTabView:jobFormTabView,headerForm:growl3");
             context.execute("jobFormTabVar.select(0);");
         } else {
@@ -1590,19 +1589,19 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             // User can enter/edit any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (isCurrentJobNew() && getUser().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterDepartmentJob()
@@ -1610,7 +1609,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             // User can enter new jobs for your department...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterOwnJob()
@@ -1618,13 +1617,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             // User can enter new jobs for yourself...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (getIsDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
             // User can edit any job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (getIsDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditDepartmentJob()
@@ -1634,7 +1633,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             // User can edit jobs for your department...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (getIsDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditOwnJob()
@@ -1642,19 +1641,19 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             // User can edit own jobs...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (currentJob.getIsToBeCopied()) {
             // Saving cause copy is being created
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (currentJob.getIsToBeSubcontracted()) {
             // Saving cause subcontract is being created
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                mainTabView.setTabName("jobDetailTab", "Job Detail");
+                currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (!getIsDirty()) {
             // Job not dirty so it will not be saved.
@@ -1788,7 +1787,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         RequestContext context = RequestContext.getCurrentInstance();
 
         mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
-        mainTabView.setTabName("jobDetailTab", "Job Detail");
+        currentJob.getJobStatusAndTracking().setEditStatus("");
         mainTabView.select("jobDetailTab");
 
         context.execute("jobFormTabVar.select(0);");
@@ -1830,7 +1829,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         currentJob.getJobStatusAndTracking().setDateSubmitted(date);
     }
 
-    public void handleDateSubmittedSelect() {
+    public void updateDateSubmitted() {
 
         EntityManager em = getEntityManager1();
 
@@ -2040,30 +2039,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     @Override
     public void setIsDirty(Boolean dirty) {
         getCurrentJob().setIsDirty(dirty);
-        if (dirty) {
-            mainTabView.setTabName("jobDetailTab", "Job Detail (edited)");
-        } else {
-            mainTabView.setTabName("jobDetailTab", "Job Detail");
-        }
     }
 
     @Override
     public Boolean getIsDirty() {
         return getCurrentJob().getIsDirty();
-    }
-
-    public void updateBusinessOffice(SelectEvent event) {
-
-        try {
-            if (currentJob.getAutoGenerateJobNumber()) {
-                currentJob.setJobNumber(getCurrentJobNumber());
-            }
-            setIsDirty(true);
-
-        } catch (Exception e) {
-
-            System.out.println(e);
-        }
     }
 
     public void updateSector() {
@@ -2090,7 +2070,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (currentJob.getId() != null) {
                 financeManager.updateAllTaxes();
             }
-            
+
             setIsDirty(true);
 
         } catch (Exception e) {
@@ -2132,10 +2112,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         currentJob.setBillingAddress(currentJob.getClient().getDefaultAddress());
         currentJob.setContact(currentJob.getClient().getDefaultContact());
 
-        setIsDirty(true);
-    }
-
-    public void updateAssignee() {
         setIsDirty(true);
     }
 

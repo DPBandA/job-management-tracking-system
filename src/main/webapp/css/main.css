@@ -93,14 +93,14 @@
 
 .ui-widget .ui-widget .invalid-number-field {
     text-align: right;
-    border-color: lightgreen;
+    border-color: lightblue;
 }
 
 .ui-invalid-inputfield .ui-inputfield {
-   border-color: lightgreen;
+   border-color: lightblue;
 }
 
 .ui-widget .ui-widget .invalid-inputtextarea-field {    
-    border-color: lightgreen;
+    border-color: lightblue;
 }
 

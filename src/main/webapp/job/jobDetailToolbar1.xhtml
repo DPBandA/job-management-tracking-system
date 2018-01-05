@@ -20,8 +20,9 @@ Email: info@dpbennett.com.jm
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:toolbar>
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <p:toolbar id="jobDetailToolbar1">
         <p:toolbarGroup align="left" >  
             <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
                              onstart="longProcessDialogVar.show();"
@@ -33,15 +34,22 @@ Email: info@dpbennett.com.jm
                              process="@form" />
 
             <p:spacer height="0" width="10"/>
+            
             <p:commandButton value="Close"     
                              actionListener="#{jobManager.prepareToCloseJobDetailTab}"
                              onstart="longProcessDialogVar.show();"
                              immediate="true"
                              oncomplete="longProcessDialogVar.hide();" 
                              process="@this"
-                             icon="ui-icon ui-icon-close" />
-            <p:spacer height="0" width="100"/>
+                             icon="ui-icon ui-icon-close" />           
+            
+            <p:spacer width="20" />
+            
+            <h:outputText value="#{jobManager.currentJob.jobStatusAndTracking.editStatus}" />
 
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right" >  
             <p:commandButton
                 value="Subcontract..."
                 actionListener="#{jobManager.subContractJob}"
@@ -53,9 +61,9 @@ Email: info@dpbennett.com.jm
                 title="Subcontract the current job by first creating a copy."
                 icon="ui-icon-copy"
                 process="@this"/>
-        </p:toolbarGroup>
-
-        <p:toolbarGroup align="right" >  
+            
+            <p:spacer width="20" />
+            
             <p:menuButton value="Forms" >
                 <p:menuitem value="Service Contract"
                             ajax="false" 
