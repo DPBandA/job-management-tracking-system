@@ -29,6 +29,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Misc
+- Get rid of * = required field and * to remain consistent.
 - Use <p:outputLabel for="?" /> for checkboxes where required.
 - A job is still marked as completed despite the warning that it can't when the 
   job costing is not completed. Fix!
