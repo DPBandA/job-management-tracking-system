@@ -263,13 +263,40 @@ Email: info@dpbennett.com.jm
                         </f:facet>
                         <h:outputText value=" " />
                     </p:column>
+                    <p:column style="width:32px" >
+                        <f:facet name="header">
+                            <h:outputText value="Edit" />
+                        </f:facet>
+                        <p:commandButton title="Edit cost component details"
+                                         actionListener="#{financeManager.editCostComponent}"
+                                         disabled="#{!costComponent.isEditable or financeManager.isJobCompleted}"
+                                         update=":costingComponentDialogForm"
+                                         oncomplete="costingComponentDialog.show();"
+                                         icon="ui-icon ui-icon-pencil"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{costComponent}"
+                                                         target="#{financeManager.selectedCostComponent}" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column style="width:32px" >
+                        <f:facet name="header">
+                            <h:outputText value="Delete" />
+                        </f:facet>
+                        <p:commandButton title="Delete cost component"        
+                                         disabled="#{financeManager.isJobCompleted}"
+                                         onclick="costComponentDeleteConfirm.show();"
+                                         icon="ui-icon-trash"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{costComponent}"
+                                                         target="#{financeManager.selectedCostComponent}" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <p:menuButton id="toolsButton" value="Actions">
 
-                    <p:column style="width:32px"  >
-
-                        <p:menuButton id="toolsButton" value="Actions" >
                             <p:menuitem>                       
                                 <p:commandButton   
-                                    value="Edit"
+                                    title="Edit cost component details"
                                     style="width: 100%;text-align: left;background: none;border: 0;"
                                     actionListener="#{financeManager.editCostComponent}"
                                     disabled="#{!costComponent.isEditable or financeManager.isJobCompleted}"
@@ -286,7 +313,7 @@ Email: info@dpbennett.com.jm
 
                             <p:menuitem >                       
                                 <p:commandButton   
-                                    value="Delete"
+                                    title="Delete cost component"
                                     style="width: 100%;text-align: left;background: none;border: 0;"
                                     disabled="#{financeManager.isJobCompleted}"
                                     onclick="costComponentDeleteConfirm.show();"
@@ -300,9 +327,7 @@ Email: info@dpbennett.com.jm
                             </p:menuitem>                   
 
                         </p:menuButton>                   
-                    </p:column>      
-              
-
+                    </p:column>           
                 </p:dataTable>
                 <p:toolbar style="margin-top: 1px;">
                     <p:toolbarGroup>

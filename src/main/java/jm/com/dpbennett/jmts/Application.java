@@ -107,10 +107,10 @@ public class Application {
         ArrayList costCodes = new ArrayList();
 
         costCodes.add(new SelectItem("--", "--"));
-        costCodes.add(new SelectItem("FIXED", "Fixed cost"));
+        costCodes.add(new SelectItem("FIXED", "Fixed"));
         costCodes.add(new SelectItem("HEADING", "Heading"));
-        costCodes.add(new SelectItem("VARIABLE", "Variable cost"));        
-        costCodes.add(new SelectItem("SUBCONTRACT", "Subcontracted job cost"));
+        costCodes.add(new SelectItem("VARIABLE", "Variable"));        
+        costCodes.add(new SelectItem("SUBCONTRACT", "Subcontract"));
         
         return costCodes;
     }

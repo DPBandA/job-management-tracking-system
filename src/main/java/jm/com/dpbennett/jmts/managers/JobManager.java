@@ -1104,22 +1104,20 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         currentJob.getJobStatusAndTracking().setExpectedDateOfCompletion(date);
     }
 
-    public Date getDateSamplesCollected() {
-        if (currentJob != null) {
-            if (currentJob.getJobStatusAndTracking().getDateSamplesCollected() != null) {
-                return currentJob.getJobStatusAndTracking().getDateSamplesCollected();
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    public void setDateSamplesCollected(Date date) {
-        currentJob.getJobStatusAndTracking().setDateSamplesCollected(date);
-    }
-
+//    public Date getDateSamplesCollected() {
+//        if (currentJob != null) {
+//            if (currentJob.getJobStatusAndTracking().getDateSamplesCollected() != null) {
+//                return currentJob.getJobStatusAndTracking().getDateSamplesCollected();
+//            } else {
+//                return null;
+//            }
+//        } else {
+//            return null;
+//        }
+//    }
+//    public void setDateSamplesCollected(Date date) {
+//        currentJob.getJobStatusAndTracking().setDateSamplesCollected(date);
+//    }
     public Date getDateDocumentCollected() {
         if (currentJob != null) {
             if (currentJob.getJobStatusAndTracking().getDateDocumentCollected() != null) {
@@ -1281,11 +1279,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setIsDirty(true);
     }
 
-    public void updateDocumentsCollectedDate() {
+    public void updateDocumentsCollectedBy() {
         setIsDirty(true);
         if (!currentJob.getJobStatusAndTracking().getDocumentCollected()) {
             currentJob.getJobStatusAndTracking().setDocumentCollectedBy("");
             setDateDocumentCollected(null);
+        } else {
+            setDateDocumentCollected(new Date());
         }
     }
 
@@ -1300,11 +1300,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setIsDirty(true);
     }
 
-    public void updateSamplesCollectedDate() {
+    public void updateSamplesCollectedBy() {
         setIsDirty(true);
         if (!currentJob.getJobStatusAndTracking().getSamplesCollected()) {
             currentJob.getJobStatusAndTracking().setSamplesCollectedBy("");
-            setDateSamplesCollected(null);
+            //setDateSamplesCollected(null);
+            currentJob.getJobStatusAndTracking().setDateSamplesCollected(null);
+        } else {
+            currentJob.getJobStatusAndTracking().setDateSamplesCollected(new Date());
         }
     }
 
@@ -1881,22 +1884,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         Date selectedDate = (Date) event.getObject();
 
         currentJob.getJobStatusAndTracking().setExpectedDateOfCompletion(selectedDate);
-
-        setIsDirty(Boolean.TRUE);
-    }
-
-    public void updateDateSamplesCollected(SelectEvent event) {
-        Date selectedDate = (Date) event.getObject();
-
-        currentJob.getJobStatusAndTracking().setDateSamplesCollected(selectedDate);
-
-        setIsDirty(Boolean.TRUE);
-    }
-
-    public void updateDateDocsCollected(SelectEvent event) {
-        Date selectedDate = (Date) event.getObject();
-
-        currentJob.getJobStatusAndTracking().setDateDocumentCollected(selectedDate);
 
         setIsDirty(Boolean.TRUE);
     }

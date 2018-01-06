@@ -128,7 +128,7 @@ Email: info@dpbennett.com.jm
                                     forceSelection="true"
                                     completeMethod="#{App.completeEmployee}" >
                         <p:ajax event="itemSelect"
-                                listener="#{jobManager.updateAssignee}" 
+                                listener="#{jobManager.updateJob}" 
                                 update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
                                 process="@this"/>
                     </p:autoComplete>
@@ -137,7 +137,8 @@ Email: info@dpbennett.com.jm
                     <p:calendar id="dateJobCompleted"
                                 disabled="#{!jobManager.completed}"
                                 pattern="MMM dd, yyyy"
-                                navigator="true"                                       
+                                navigator="true"          
+                                readonlyInput="true"
                                 value="#{jobManager.jobCompletionDate}" >
                         <p:ajax event="dateSelect"  
                                 update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
@@ -153,7 +154,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Sample(s) collected by: "
                                                  disabled="#{!jobManager.jobSaved}"
                                                  value="#{jobManager.samplesCollected}">
-                            <p:ajax listener="#{jobManager.updateSamplesCollectedDate}"
+                            <p:ajax listener="#{jobManager.updateSamplesCollectedBy}"
                                     update="jobStatusAndTracking,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                                     global="false"                                    
                                     process="@this"/>
@@ -164,24 +165,32 @@ Email: info@dpbennett.com.jm
                                  maxlength="250"
                                  disabled="#{!jobManager.samplesCollected}"
                                  value="#{jobManager.currentJob.jobStatusAndTracking.samplesCollectedBy}">
+                        
                         <p:ajax event="change"
                                 global="false"                                
                                 listener="#{jobManager.updateJob}"
                                 update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
                                 process="@this"/>
+                        
+                        <f:validator validatorId="requiredFieldValidator" />
+                        
+                        <f:attribute name="fieldRequired" 
+                                     value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected != null}" />
+                        
                     </p:inputText>
                     <h:outputText value="on: "/>
                     <p:calendar id="dateSamplesCollected"
                                 disabled="#{!jobManager.samplesCollected}"
                                 pattern="MMM dd, yyyy"
                                 navigator="true"
-                                value="#{jobManager.dateSamplesCollected}" >
+                                readonlyInput="true"
+                                value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected}" >
                         <p:ajax event="dateSelect"      
                                 update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
-                                listener="#{jobManager.updateDateSamplesCollected}"/>
+                                listener="#{jobManager.updateJob}"/>
                         <p:ajax event="change"    
                                 update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
-                                listener="#{jobManager.updateDateSamplesCollected}"/>
+                                listener="#{jobManager.updateJob}"/>
                     </p:calendar>
                     <h:panelGroup>
                         <h:outputText value="&nbsp;&nbsp;"/>
@@ -189,7 +198,7 @@ Email: info@dpbennett.com.jm
                                                  disabled="#{!jobManager.jobSaved}"
                                                  itemLabel="Document(s) collected by: "
                                                  value="#{jobManager.documentCollected}">
-                            <p:ajax listener="#{jobManager.updateDocumentsCollectedDate}"
+                            <p:ajax listener="#{jobManager.updateDocumentsCollectedBy}"
                                     global="false"    
                                     update="jobStatusAndTracking,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                                     process="@this"/>
@@ -200,24 +209,32 @@ Email: info@dpbennett.com.jm
                                  style="width: 215px;"
                                  maxlength="250"
                                  value="#{jobManager.currentJob.jobStatusAndTracking.documentCollectedBy}" >
+                        
                         <p:ajax listener="#{jobManager.updateJob}"
                                 update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
                                 global="false"
                                 event="change"                               
                                 process="@this"/>
+                        
+                        <f:validator validatorId="requiredFieldValidator" />
+                        
+                        <f:attribute name="fieldRequired" 
+                                     value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected != null}" />
+                        
                     </p:inputText>
                     <h:outputText value="on: "/>
                     <p:calendar id="dateDocsCollected"
                                 disabled="#{!jobManager.documentCollected}"
                                 pattern="MMM dd, yyyy"
                                 navigator="true"
-                                value="#{jobManager.dateDocumentCollected}" >
+                                readonlyInput="true"
+                                value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected}" >
                         <p:ajax event="dateSelect"    
                                 update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
-                                listener="#{jobManager.updateDateDocsCollected}"/>
+                                listener="#{jobManager.updateJob}"/>
                         <p:ajax event="change"      
                                 update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
-                                listener="#{jobManager.updateDateDocsCollected}"/>
+                                listener="#{jobManager.updateJob}"/>
                     </p:calendar>
                 </h:panelGrid>
             </h:panelGroup>

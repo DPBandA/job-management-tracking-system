@@ -34,9 +34,9 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      actionListener="#{financeManager.okCostingComponent}"
-                                     update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                     onstart="longProcessDialogVar.show();"                              
-                                     oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
+                                     update=":jobCostingDialogForm:jobCosting_growl,:jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
+                                     onstart="longProcessDialogVar.show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      icon="ui-icon ui-icon-check"
                                      process="@form"/>
                     <p:spacer width="5" />
@@ -86,11 +86,13 @@ Email: info@dpbennett.com.jm
 
                     <h:outputLabel value="Component:" style="font-weight: bold" />
                     <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{financeManager.selectedCostComponent.name}"                                 
+                    <p:inputText value="#{financeManager.selectedCostComponent.name}" 
+                                 id="costComponentName"
+                                 validator="requiredFieldValidator"
                                  style="width: 90%;" >
                         <p:ajax event="change"
-                                global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"                            
+                                global="false" 
+                                listener="#{financeManager.updateJobCostingAndPayment}" 
                                 process="@this"/>
                     </p:inputText>
 
@@ -100,8 +102,11 @@ Email: info@dpbennett.com.jm
                     <p:spacer rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
                               height="0" width="10"/>
                     <p:inputText rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
+                                 id="costComponentHoursOrQuantity"
                                  value="#{financeManager.selectedCostComponent.hoursOrQuantity}"
                                  styleClass="number-field"
+                                 validator="requiredFieldValidator"
+                                 converterMessage="Invalid Component Hours/Quantity"
                                  maxlength="3"
                                  style="width: 90%">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
@@ -122,9 +127,12 @@ Email: info@dpbennett.com.jm
                     <p:spacer rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
                               height="0" width="10"/>
                     <p:inputText rendered="#{!financeManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
+                                 id="costComponentRate"
                                  value="#{financeManager.selectedCostComponent.rate}"
                                  style="width: 90%"
                                  styleClass="number-field" 
+                                 validator="requiredFieldValidator"
+                                 converterMessage="Invalid Component Rate"
                                  maxlength="10" >
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax event="keyup"
@@ -148,6 +156,8 @@ Email: info@dpbennett.com.jm
                                  rendered="#{!financeManager.selectedCostComponent.isHeading}"                            
                                  value="#{financeManager.selectedCostComponent.cost}"
                                  readonly="#{!financeManager.selectedCostComponent.isFixedCost}"
+                                 validator="requiredFieldValidator"
+                                 converterMessage="Invalid Component Cost"
                                  styleClass="number-field #{!financeManager.selectedCostComponent.isFixedCost ? 'editableclass' : null}">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax event="change"
@@ -163,9 +173,9 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      actionListener="#{financeManager.okCostingComponent}"
-                                     update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
+                                     update=":jobCostingDialogForm:jobCosting_growl,:jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                      onstart="longProcessDialogVar.show();"                              
-                                     oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
+                                     oncomplete="longProcessDialogVar.hide();"
                                      icon="ui-icon ui-icon-check"
                                      process="@form"/>
                     <p:spacer width="5" />

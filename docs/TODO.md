@@ -28,25 +28,14 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-#### Misc
-- When job sample is deleted a message does not display that the job was saved
-  although it was. Fix!
-- Validate "Sample(s) collected by:" and "Documents collected by:" in job status and tracking.
-
 #### Job Costing 
-- Replace "edit" and "delete" buttons in cost components table with menu. Use 
-  the "Actions" menu in job samples table as example.
-- Make sure that the job is saved before allowing job costing edit.
-- Job cost and may be other fields not being updated when costing is updated. Fix!
-- A cost component appeared twice in the costimgs table when added. Check how this
-could have happened.
-- Implement field validation for cost component dialog.
 - Check that exporting job costing, service contract and other forms do not
   save any entity as this is not necessary.
 - Fix job costing form export etc. and use the billing address and contact found in the 
   job record if necessary.
 - Do resetInput when opening job costing dialogs?
 - The "Job Costing Modified" dialog does not have a no button.
+- NB: Costing still saved when canceled.
 - Implement prevention of the insertion of incorrect subcontract jobs costing 
   Amounts which sometimes occur when the date of submission of a parent job is changed
   Use parentJobId in the subcontract to solve this?
@@ -140,6 +129,7 @@ paymentTerms, rename JMTSUserId to userId
 
 ==============================Future Long Term Development======================
 ### Misc
+- Change privilege from "Approve job costing" to "Approve department's job costing"
 - Impl active field in JM User class and make system search for use active users
   only for login for example.
 - Do order inactive clients in clients table.
@@ -171,6 +161,8 @@ paymentTerms, rename JMTSUserId to userId
   to save it.
 - Impl multiple selection in client tab so that the selected clients can be activated
   or deactivated fro example.
+- Create Modules tab in user and department profiles to allow sys admin to 
+  control the modules that a user/department can access.
 - Indicate in the tab title if a form such as the Job Detail form has been edited.
 - Impl copy and delete sample within the sample dialog.
 - Use tooltip component to get consistent tooltip across the app.
@@ -274,6 +266,7 @@ paymentTerms, rename JMTSUserId to userId
   specific components.
 - Disable other rendered tabs when the job detail tab is rendered to prevent 
   switching to those tabs??
+- Impl copy of costing component from components table.
 - Add privileges for adding/editing contacts and addresses.
 - Impl the max character lengths as system options an set limits on the maximum
   dollar values that can be entered as system options too. Consider the maximum
@@ -292,6 +285,9 @@ paymentTerms, rename JMTSUserId to userId
 - Get rid of use of "--" for default objects.
 - Let users tab filter active users, users that are authenticated and users that
   have recent activities.
+- Create tax table and use it similar to gnucash to apply taxes to costs on a 
+  departmental basis.
+- Remove the colons from field labels?
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

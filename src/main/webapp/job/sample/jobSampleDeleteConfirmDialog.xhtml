@@ -32,15 +32,17 @@ Email: info@dpbennett.com.jm
         <link rel="stylesheet" href="../../css/main.css" /> 
     </h:head>
     <h:body>
-        <h:form id="jobSampleDeleteConfirmDialogForm">                 
+        <h:form id="jobSampleDeleteConfirmDialogForm">           
+            <p:growl id="growl" life="5000" showDetail="true" />
+            
             <h:panelGrid cellpadding="5">
                 <h:panelGroup>
-                    <h:outputText value="Are you sure you wish to delete the sample(s)?"  
+                    <h:outputText value="Are you sure you wish to delete the sample(s)? The job will be saved after deletion"  
                                   style="font-weight: normal;font-size: 12px;" />                    
                 </h:panelGroup>
                 <h:panelGroup >                        
                     <p:commandButton value="Yes"      
-                                     actionListener="#{jobSampleManager.deleteJobSample}"                                                                                                  
+                                     actionListener="#{jobSampleManager.deleteJobSample}" 
                                      icon="ui-icon ui-icon-check"
                                      process="@this"/>
                     <p:spacer height="0" width="5"/>

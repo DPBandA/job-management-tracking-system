@@ -76,7 +76,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="dialogReturn" 
                                     listener="#{jobSampleManager.jobSampleDialogReturn}"
-                                    update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
+                                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
                         </p:commandButton>                       
                     </p:menuitem>
@@ -95,7 +95,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="dialogReturn" 
                                     listener="#{jobSampleManager.jobSampleDialogReturn}"
-                                    update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
+                                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
                         </p:commandButton>
                     </p:menuitem>
@@ -112,9 +112,8 @@ Email: info@dpbennett.com.jm
                             <f:setPropertyActionListener value="#{jobSample}"
                                                          target="#{jobSampleManager.selectedJobSample}" />
 
-                            <p:ajax event="dialogReturn" 
-                                    listener="#{jobSampleManager.jobSampleDialogReturn}"
-                                    update=":mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
+                            <p:ajax event="dialogReturn"                                     
+                                    update=":headerForm:growl3,:mainTabViewForm:mainTabView:jobDetailToolbar1,:mainTabViewForm:mainTabView:jobFormTabView:jobNumber,:mainTabViewForm:mainTabView:jobFormTabView:jobSamples"/>
 
                         </p:commandButton>
                     </p:menuitem>                   

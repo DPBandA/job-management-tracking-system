@@ -308,11 +308,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void addMessage(String summary, String detail, Severity severity) {
-        FacesMessage message = new FacesMessage(severity, summary, detail);
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
     public List<AccPacDocument> getFilteredAccPacCustomerDocuments() {
         return filteredAccPacCustomerDocuments;
     }
@@ -1106,21 +1101,21 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             // Service
             if (getCurrentUnitCost().getService().trim().equals("")) {
                 setInvalidFormFieldMessage("This unit cost cannot be saved because a valid service was not entered.");
-               
+
                 return;
             }
 
             // Cost
             if (getCurrentUnitCost().getCost() <= 0.0) {
                 setInvalidFormFieldMessage("This unit cost cannot be saved because a valid cost was not entered.");
-               
+
                 return;
             }
 
             // Effective date
             if (getCurrentUnitCost().getEffectiveDate() == null) {
                 setInvalidFormFieldMessage("This unit cost cannot be saved because a valid effective date was not entered.");
-                
+
                 return;
             }
 
@@ -1364,6 +1359,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         }
         updateFinalCost();
         updateAmountDue();
+        
+        RequestContext.getCurrentInstance().execute("costingComponentDialog.hide();");
     }
 
     public void updateFinalCost() {
@@ -1385,8 +1382,19 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openJobCostingDialog() {
+        if (!currentJob.getIsDirty()) {
+            PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 850);
+        } else {
+            PrimeFacesUtils.addMessage("Job NOT Saved",
+                    "Job must be saved before the job costing can be viewed or edited",
+                    FacesMessage.SEVERITY_WARN);
+        }
+    }
 
-        PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 800);
+    public void editJobCosting() {
+
+        PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 850);
+
     }
 
     public void okCashPayment() {

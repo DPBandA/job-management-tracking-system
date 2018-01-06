@@ -136,7 +136,12 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         return getCurrentJob().getIsDirty();
     }
 
+    public void setCurrentJobDirty() {
+        getCurrentJob().setIsDirty(true);
+    }
+
     public void jobSampleDialogReturn() {
+
         if (getCurrentJob().getId() != null) {
             if (!isCurrentJobDirty() && getSelectedJobSample().getIsDirty()) {
                 if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
@@ -258,10 +263,16 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         if (currentJob.getAutoGenerateJobNumber()) {
             currentJob.setJobNumber(getCurrentJobNumber());
         }
-        selectedJobSample = new JobSample();
 
-        setIsDirty(true);
-
+        if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            PrimeFacesUtils.addMessage("Job Saved", 
+                    "Sample(s) deleted and the job was saved", FacesMessage.SEVERITY_INFO);
+        } else {
+            setCurrentJobDirty();
+            PrimeFacesUtils.addMessage("Job NOT Saved",
+                    "Sample(s) deleted but the job was not saved", FacesMessage.SEVERITY_WARN);
+        }
+       
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
@@ -279,7 +290,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
     public void openJobSampleDeleteConfirmDialog(ActionEvent event) {
 
-        PrimeFacesUtils.openDialog(null, "jobSampleDeleteConfirmDialog", true, true, true, 90, 375);
+        PrimeFacesUtils.openDialog(null, "jobSampleDeleteConfirmDialog", true, true, true, 110, 375);
     }
 
     public void doCopyJobSample() {
@@ -309,7 +320,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
             selectedJobSampleBackup = new JobSample(this.selectedJobSample);
             doCopyJobSample();
             this.selectedJobSample.setIsToBeAdded(true);
-            this.selectedJobSample.setIsDirty(false);
+            this.selectedJobSample.setIsDirty(true);
         }
     }
 
