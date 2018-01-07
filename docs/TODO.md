@@ -29,6 +29,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Job Costing & Misc
+- Save the preferred "job view" by saving the user when a new view is selected.
+  * Remove the preferred view item from the preference dialog.
 - Save job if it is dirty before exporting job cost analysis.
 - If job costing and is already approved and invoiced do not allow it to be approved
   again as this may change the approval/invoice date. Show growl message to that effect. 
