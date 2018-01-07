@@ -39,11 +39,14 @@ Email: info@dpbennett.com.jm
                     oncomplete="longProcessDialogVar.hide();"
                     listener="#{jobManager.closePreferencesDialog2}"/>
 
-            <p:commandButton value="Close" 
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
-                             actionListener="#{jobManager.closePreferencesDialog1}" />
-            <hr/>
+            <p:toolbar>
+                <p:toolbarGroup align="left" >
+                    <p:commandButton value="Close" 
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
+                                     actionListener="#{jobManager.closePreferencesDialog1}" />        
+                </p:toolbarGroup>
+            </p:toolbar>
             <p:tabView id="preferencesTabView" >
                 <p:tab title="General" id="generalTab">
                     <h:panelGrid columns="2">
