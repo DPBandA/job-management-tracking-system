@@ -29,7 +29,7 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Job Costing & Misc
-- Remove todo.md from git repo.
+- Remove todo.md from git repo...
 - Put toolbars in preference dialog.
 - Save the preferred "job view" by saving the user when a new view is selected.
   * Remove the preferred view item from the preference dialog.
