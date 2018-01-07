@@ -29,6 +29,8 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 ================================================================================
 ### Issues to Address for Next Release
 #### Job Costing & Misc
+- Remove todo.md from git repo.
+- Put toolbars in preference dialog.
 - Save the preferred "job view" by saving the user when a new view is selected.
   * Remove the preferred view item from the preference dialog.
 - Save job if it is dirty before exporting job cost analysis.
@@ -129,6 +131,9 @@ paymentTerms, rename JMTSUserId to userId
 
 ==============================Future Long Term Development======================
 ### Misc
+- Note: Units are intrinsic parts of the JMTS such as JM, sys and financial admin.
+  Modules are additional features such legal documents and standard compliance.
+  Delete other units from the system such as legalmetrology.
 - Change privilege from "Approve job costing" to "Approve department's job costing"
 - Impl active field in JM User class and make system search for use active users
   only for login for example.
@@ -141,6 +146,9 @@ paymentTerms, rename JMTSUserId to userId
 - Impl option to use LADP or some other authentication system.
 - Impl dialogs for all admin configuration eg. classification etc. and put edit
   button in all tables.
+- Convert job sample deletion dialog back to a <dialog> element and in 
+  jobSamplesTab.xhtml so that growl messages can be displayed when samples are 
+  deleted.
 - Do not allow the creation of entities such as employee with the same name or warn if this is to be done.
 - Return costing templates with unique names and don't allow saving templates with same name.
 - Impl new department button/feature. Use new employee as template code.
@@ -295,6 +303,13 @@ paymentTerms, rename JMTSUserId to userId
 - Remove the colons from field labels?
 - Put toolbar in service contract tab to export service contract, uncheck as
   as exported, email service contract etc.
+- In status and tracking add tracking table to show all activities performed on 
+  the job. Add section that allows added new action/activity such job completion.
+  See design layouts provide by G. Allen.
+- Show the list of privileges a user has in the preference dialog. Copy the UI
+  from sysadmin and make it read only...put them in a separate file and use
+  <include> to bring them in.
+- Impl use of camera to take pics of samples etc.
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

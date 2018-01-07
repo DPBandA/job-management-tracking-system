@@ -25,7 +25,6 @@ import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
@@ -264,7 +263,9 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
             currentJob.setJobNumber(getCurrentJobNumber());
         }
 
-        if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+        // Do job save if possible...
+       if (getCurrentJob().getId() != null && 
+               getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
             PrimeFacesUtils.addMessage("Job Saved", 
                     "Sample(s) deleted and the job was saved", FacesMessage.SEVERITY_INFO);
         } else {

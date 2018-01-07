@@ -23,10 +23,10 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:growl id="growl2" life="5000" showDetail="true" />
 
-    <ui:include src="jobDetailToolbar1.xhtml"/>
+    <ui:include src="jobDetailTopToolbar.xhtml"/>
 
     <p:tabView id="jobFormTabView"
-               style="margin-bottom: 5px;"
+               style="margin-top: 1px;margin-bottom: 1px;"
                activeIndex="1"
                onTabShow="longProcessDialogVar.hide();"
                widgetVar="jobFormTabVar" >
@@ -67,7 +67,7 @@ Email: info@dpbennett.com.jm
 
     </p:tabView>
 
-    <ui:include src="jobDetailToolbar2.xhtml"/>
+    <ui:include src="jobDetailBottomToolbar.xhtml"/>
 
     <p/>       
 </html>
