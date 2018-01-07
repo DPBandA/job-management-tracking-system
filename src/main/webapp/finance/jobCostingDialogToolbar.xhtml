@@ -50,7 +50,7 @@ Email: info@dpbennett.com.jm
                     <p:ajax global="true" 
                             listener="#{financeManager.completeJobCosting}"
                             update="@this,costingDate,jobCosting_growl,exportJobCostingButton1"
-                            process="@this"/>
+                            process="@form"/>
                 </p:selectBooleanCheckbox>
                 <ui:remove>
                     <p:tooltip for="prepared" value="Check to indicate that this job costing was prepared completely" showEffect="fade" hideEffect="fade" />
