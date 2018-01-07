@@ -28,14 +28,12 @@ sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_B
 
 ================================================================================
 ### Issues to Address for Next Release
-#### Job Costing 
-- Check that exporting job costing, service contract and other forms do not
-  save any entity as this is not necessary.
-- Fix job costing form export etc. and use the billing address and contact found in the 
-  job record if necessary.
-- Do resetInput when opening job costing dialogs?
+#### Job Costing & Misc
+- Save job if it is dirty before exporting job cost analysis.
+- If job costing and is already approved and invoiced do not allow it to be approved
+  again as this may change the approval/invoice date. Show growl message to that effect. 
 - The "Job Costing Modified" dialog does not have a no button.
-- NB: Costing still saved when canceled.
+- NB: Costing still saved when canceled. Fix!
 - Implement prevention of the insertion of incorrect subcontract jobs costing 
   Amounts which sometimes occur when the date of submission of a parent job is changed
   Use parentJobId in the subcontract to solve this?
@@ -191,6 +189,8 @@ paymentTerms, rename JMTSUserId to userId
   and the user privileges along with the user privileges are used to determine
   the effective privileges of the user.
 - Add department to user dialog.
+- Sort out all that needs to be "locked" once a job's status is marked as complete.
+  Display a warning before the work progress is set to complete.
 - Make TRN mandatory? Put system option to validate?
 - Reset all UI when log out including searches results so that if a new user 
   logs in they will not see the searches of the previous user.
@@ -273,6 +273,9 @@ paymentTerms, rename JMTSUserId to userId
   double values imposed by Java the possibility that values can overflow when added
   divided or multiplied.
 - Prevent changing a job's parent department once it is has subcontracts.
+- Put cost component type in job costing analysis to show if costing is
+  fixed variable etc. or put n/a in the rate and hours/unit column when the cost
+  component type is fixed or subcontract.
 - Check that the privileges set for user and department are impl properly.
 - Implement search other fields such as descriptions for sysadmin objects.
 - Look serioulsy at the maximum integer and double values that can be represented
@@ -288,6 +291,8 @@ paymentTerms, rename JMTSUserId to userId
 - Create tax table and use it similar to gnucash to apply taxes to costs on a 
   departmental basis.
 - Remove the colons from field labels?
+- Put toolbar in service contract tab to export service contract, uncheck as
+  as exported, email service contract etc.
 
 ### Reports
 - Add default fields for department etc. and add field to allow disabling the 

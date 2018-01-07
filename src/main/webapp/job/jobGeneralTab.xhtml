@@ -249,7 +249,7 @@ Email: info@dpbennett.com.jm
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                     process="@this" />
            
 
@@ -282,7 +282,7 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateSubContractedDepartment}"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                     process="@this" />
            
         </p:autoComplete>

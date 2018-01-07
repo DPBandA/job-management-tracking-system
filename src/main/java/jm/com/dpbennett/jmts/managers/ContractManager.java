@@ -450,7 +450,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             Job job = Job.findJobById(em, jobId);
             job.getJobCostingAndPayment().calculateAmountDue();
 
-            Client ativeClient = Application.getActiveClientByNameIfAvailable(em, job.getClient());
+            Client client = job.getClient();
 
             File file = new File(filePath);
 
@@ -753,16 +753,11 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "A20",
-                    ativeClient.getName(),
+                    client.getName(),
                     "java.lang.String", dataCellStyle);
 
             // Billing address    
-            Address billingAddress;
-            if (currentJob.getBillingAddress() == null) {
-                billingAddress = ativeClient.getDefaultAddress();
-            } else {
-                billingAddress = currentJob.getBillingAddress();
-            }
+            Address billingAddress = currentJob.getBillingAddress();
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "A22",
                     billingAddress.getAddressLine1(),
@@ -782,12 +777,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
 
             // Contact person
             // Name
-            Contact contactPerson;
-            if (currentJob.getContact() == null) {
-                contactPerson = ativeClient.getDefaultContact();
-            } else {
-                contactPerson = currentJob.getContact();
-            }
+            Contact contactPerson = currentJob.getContact();            
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderLeft((short) 1);
             dataCellStyle.setFont(defaultFont);

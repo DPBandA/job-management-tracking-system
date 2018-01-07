@@ -679,24 +679,6 @@ public class Application {
         }
     }
 
-    /**
-     * Use the active client if one is available
-     *
-     * @param em
-     * @param clientToFind
-     * @return
-     */
-    public static Client getActiveClientByNameIfAvailable(EntityManager em, Client clientToFind) {
-        Client foundClient = Client.findActiveClientByName(em, clientToFind.getName(),
-                false);
-        if (foundClient != null) {
-            // Return the client that was supplied as parameter
-            return foundClient;
-        } else {
-            return clientToFind;
-        }
-    }
-
     public static List<DataItem> getStringListAsSortableDataItems(EntityManager em,
             String systemOption) {
         ArrayList list = new ArrayList();

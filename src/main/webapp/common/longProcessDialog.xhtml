@@ -20,8 +20,7 @@ Email: info@dpbennett.com.jm
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:p="http://primefaces.org/ui">
     <h:form id="longProgressDialogForm">
         <p:dialog id="longProgressDialog"               
                   closable="false"
@@ -100,6 +99,39 @@ Email: info@dpbennett.com.jm
                             global="false"
                             oncomplete="longProcessDialogVar3.hide();"
                             listener="#{reportManager.onLongProcessComplete}" />
+                </p:progressBar>
+            </h:panelGroup>
+        </p:dialog>
+    </h:form>
+    
+    <h:form id="longProgressDialogForm4">
+        <p:dialog id="longProgressDialog4"
+                  onShow="longProcessBarVar4.start();"
+                  closable="false"
+                  resizable="false"
+                  showHeader="false"
+                  modal="false"
+                  onHide="longProcessBarVar4.cancel();"
+                  widgetVar="longProcessDialogVar4">
+
+            <h:panelGroup>
+                <table border="0" width="100%">                   
+                    <tr>
+                        <td align="center">
+                            <h:graphicImage value="/images/ajaxloading.gif" width="24" height="24" />
+                        </td>
+                    </tr>
+                </table>
+
+                <p:progressBar widgetVar="longProcessBarVar4"
+                               ajax="true"
+                               style="visibility: hidden;height: 0px"
+                               interval="500"
+                               value="#{financeManager.longProcessProgress}" >
+                    <p:ajax event="complete"
+                            global="false"
+                            oncomplete="longProcessDialogVar4.hide();"
+                            listener="#{financeManager.onLongProcessComplete}" />
                 </p:progressBar>
             </h:panelGroup>
         </p:dialog>

@@ -546,6 +546,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         this.longProcessProgress = longProcessProgress;
     }
 
+    // tk get forms 
     public StreamedContent getJobCostingAnalysisFile(EntityManager em) {
 
         HashMap parameters = new HashMap();
@@ -553,10 +554,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         try {
             parameters.put("jobId", getCurrentJob().getId());
 
-            Client client = Application.getActiveClientByNameIfAvailable(em, getCurrentJob().getClient());
+            Client client = getCurrentJob().getClient();
 
-            parameters.put("contactPersonName", BusinessEntityUtils.getContactFullName(client.getDefaultContact()));
-            parameters.put("customerAddress", client.getDefaultAddress().toString());
+            parameters.put("contactPersonName", BusinessEntityUtils.getContactFullName(getCurrentJob().getContact()));
+            parameters.put("customerAddress", getCurrentJob().getBillingAddress().toString());
             parameters.put("contactNumbers", client.getStringListOfContactPhoneNumbers());
             parameters.put("jobDescription", getCurrentJob().getJobDescription());
 
@@ -610,7 +611,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         try {
             em = getEntityManager1();
 
-            //prepareAndSaveCurrentJob(em);
             jobCostingFile = getJobCostingAnalysisFile(em);
 
             setLongProcessProgress(100);
