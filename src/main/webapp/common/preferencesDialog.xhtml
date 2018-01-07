@@ -47,7 +47,8 @@ Email: info@dpbennett.com.jm
                                      actionListener="#{jobManager.closePreferencesDialog1}" />        
                 </p:toolbarGroup>
             </p:toolbar>
-            <p:tabView id="preferencesTabView" >
+            <p:tabView id="preferencesTabView" 
+                       style="margin-top: 1px;margin-bottom: 1px;">
                 <p:tab title="General" id="generalTab">
                     <h:panelGrid columns="2">
                         <h:outputText value="Theme:"/>
@@ -116,11 +117,14 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid> 
                 </p:tab>
             </p:tabView>
-            <hr/>           
-            <p:commandButton value="Close" 
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
-                             actionListener="#{jobManager.closePreferencesDialog1}" />
+             <p:toolbar>
+                <p:toolbarGroup align="left" >
+                    <p:commandButton value="Close" 
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
+                                     actionListener="#{jobManager.closePreferencesDialog1}" />        
+                </p:toolbarGroup>
+            </p:toolbar>
         </p:dialog>
     </h:form>
 </html>

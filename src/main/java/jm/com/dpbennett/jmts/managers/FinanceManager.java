@@ -611,6 +611,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         try {
             em = getEntityManager1();
 
+            if (getCurrentJob().getIsDirty()) {
+                getCurrentJob().getJobCostingAndPayment().save(em);
+            }
+
             jobCostingFile = getJobCostingAnalysisFile(em);
 
             setLongProcessProgress(100);
@@ -796,23 +800,31 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 PrimeFacesUtils.addMessage("Incomplete Subcontracts",
                         "This job costing cannot be marked prepared until all subcontracted jobs are completed",
                         FacesMessage.SEVERITY_ERROR);
+                
+                return;
             }
+            getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
+            getCurrentJob().getJobStatusAndTracking().setCostingDate(new Date());
         } else if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()) {
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(!getCurrentJob().getJobCostingAndPayment().getCostingCompleted());
-            getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
             PrimeFacesUtils.addMessage("Job Costing Already Approved",
                     "The job costing preparation status cannot be changed because it was already approved",
                     FacesMessage.SEVERITY_ERROR);
         } else if (!validateCurrentJobCosting()
                 && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(null);
+            getCurrentJob().getJobStatusAndTracking().setCostingDate(null);
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(false);
             getCurrentJob().getJobCostingAndPayment().setCostingApproved(false);
             PrimeFacesUtils.addMessage("Required (*) Fields Missing",
                     "Please enter all required (*) fields before checking this job costing as being prepared",
                     FacesMessage.SEVERITY_ERROR);
-        } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+        } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {           
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
+            getCurrentJob().getJobStatusAndTracking().setCostingDate(new Date());
+        } else if (!getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+            getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(null);
+            getCurrentJob().getJobStatusAndTracking().setCostingDate(null);
         }
 
         setIsDirty(true);
@@ -1359,7 +1371,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         }
         updateFinalCost();
         updateAmountDue();
-        
+
         RequestContext.getCurrentInstance().execute("costingComponentDialog.hide();");
     }
 
@@ -1394,7 +1406,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void editJobCosting() {
 
         PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 850);
-
     }
 
     public void okCashPayment() {
@@ -1405,20 +1416,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     }
 
-    public Date getJobCostingDate() {
-        return currentJob.getJobStatusAndTracking().getCostingDate();
-    }
-
-    public void setJobCostingDate(Date date) {
-        currentJob.getJobStatusAndTracking().setCostingDate(date);
-    }
-
-    public void handleJobCostingDateSelect(SelectEvent event) {
-        Date selectedDate = (Date) event.getObject();
-
-        setJobCostingDate(selectedDate);
-
-        setJobCostingAndPaymentDirty(true);
+    public void handleJobCostingDateSelect() {
+        //setJobCostingAndPaymentDirty(true);
+        setIsDirty(true);
     }
 
     public List<JobCostingAndPayment> completeJobCostingAndPaymentName(String query) {

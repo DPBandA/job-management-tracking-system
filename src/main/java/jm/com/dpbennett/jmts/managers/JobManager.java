@@ -1196,9 +1196,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobView(AjaxBehaviorEvent event) {
-
         doJobViewUpdate(user.getJobTableViewPreference());
-
+        user.save(getEntityManager1());
     }
 
     public void doJobViewUpdate(String view) {
@@ -2498,12 +2497,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             financeManager.setUser(user);
 
             for (Job job : selectedJobs) {
-                if (financeManager.canApproveJobCosting(job)) {
-                    job.getJobCostingAndPayment().setCostingApproved(true);
+                if (!job.getJobCostingAndPayment().getCostingApproved()) {
+                    if (financeManager.canApproveJobCosting(job)) {
+                        job.getJobCostingAndPayment().setCostingApproved(true);
+                    } else {
+                        job.getJobCostingAndPayment().setCostingApproved(false);
+                    }
+                    job.save(em);
                 } else {
-                    job.getJobCostingAndPayment().setCostingApproved(false);
+                    PrimeFacesUtils.addMessage("Aready Approved",
+                            "The job costing for " + job.getJobNumber() + " was already approved",
+                            FacesMessage.SEVERITY_INFO);
                 }
-                job.save(em);
             }
         } else {
             PrimeFacesUtils.addMessage("No Selection",
