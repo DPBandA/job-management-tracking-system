@@ -91,7 +91,9 @@ Email: info@dpbennett.com.jm
                     update=":mainTabViewForm:mainTabView:jobDetailToolbar1,estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
                     listener="#{financeManager.updateAllTaxes}"
                     process="@this" />
+                
                 <f:selectItems value="#{financeManager.GCTPercentages}" />
+                
             </p:selectOneMenu>  
             <h:outputText value="&nbsp;"/>
 

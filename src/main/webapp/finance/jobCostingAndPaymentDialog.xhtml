@@ -35,8 +35,7 @@ Email: info@dpbennett.com.jm
     </h:head>
     <h:body > 
         <ui:include src="costingComponentDialog.xhtml"/>       
-        <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>    
-        <ui:include src="jobCostingSaveConfirmDialog.xhtml"/>
+        <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>  
         <ui:include src="jobCostingTemplateNameDialog.xhtml"/>        
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>  
@@ -72,9 +71,9 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"                                 
-                                listener="#{financeManager.handleJobCostingDateSelect}"/>
+                                listener="#{financeManager.updateJobCostingDate}"/>
                         <p:ajax event="keyup"                                 
-                                listener="#{financeManager.handleJobCostingDateSelect}"/>
+                                listener="#{financeManager.updateJobCostingDate}"/>
                     </p:calendar>
 
                     <h:outputText value="Purchase order #:" style="font-weight: bold;" />

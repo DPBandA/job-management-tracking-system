@@ -2498,10 +2498,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             for (Job job : selectedJobs) {
                 if (!job.getJobCostingAndPayment().getCostingApproved()) {
-                    if (financeManager.canApproveJobCosting(job)) {
+                    if (financeManager.canChangeJobCostingApprovalStatus(job)) {
                         job.getJobCostingAndPayment().setCostingApproved(true);
+                        job.getJobStatusAndTracking().setDateCostingApproved(new Date());
                     } else {
                         job.getJobCostingAndPayment().setCostingApproved(false);
+                        job.getJobStatusAndTracking().setDateCostingApproved(null);
                     }
                     job.save(em);
                 } else {
@@ -2525,25 +2527,20 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             financeManager.setUser(user);
 
             for (Job job : selectedJobs) {
-                if (financeManager.canInvoiceJobCosting(job)) {
-                    job.getJobCostingAndPayment().setInvoiced(true);
+                if (!job.getJobCostingAndPayment().getInvoiced()) {
+                    if (financeManager.canInvoiceJobCosting(job)) {
+                        job.getJobCostingAndPayment().setInvoiced(true);
+                    } else {
+                        job.getJobCostingAndPayment().setInvoiced(false);
+                    }
+                    job.save(em);
                 } else {
-                    job.getJobCostingAndPayment().setInvoiced(false);
+                    PrimeFacesUtils.addMessage("Aready Invoiced",
+                            "The job costing for " + job.getJobNumber() + " was already invoiced",
+                            FacesMessage.SEVERITY_INFO);
                 }
-                job.save(em);
-//                if (job.getJobCostingAndPayment().getCostingApproved()) {
-//                    em.getTransaction().begin();
-//                    job.getJobCostingAndPayment().setInvoiced(true);
-//                    BusinessEntityUtils.saveBusinessEntity(em, job);
-//                    em.getTransaction().commit();
-//                } else {
-//                    em.getTransaction().begin();
-//                    job.getJobCostingAndPayment().setInvoiced(false);
-//                    BusinessEntityUtils.saveBusinessEntity(em, job);
-//                    em.getTransaction().commit();
-//                    displayCommonMessageDialog(null, "Job costing could not be marked as being invoiced because it was not approved", "Not Approved", "alert");
-//                }
             }
+
         } else {
             PrimeFacesUtils.addMessage("No Selection",
                     "No job costing was selected",

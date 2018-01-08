@@ -35,8 +35,7 @@ Email: info@dpbennett.com.jm
     </h:head>
     <h:body > 
         <ui:include src="costingComponentDialog.xhtml"/>       
-        <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>    
-        <ui:include src="jobCostingSaveConfirmDialog.xhtml"/>
+        <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>   
         <ui:include src="jobCostingTemplateNameDialog.xhtml"/>        
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>  
@@ -79,9 +78,9 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"                                 
-                                listener="#{financeManager.handleJobCostingDateSelect}"/>
+                                listener="#{financeManager.updateJobCostingDate}"/>
                         <p:ajax event="keyup"                                 
-                                listener="#{financeManager.handleJobCostingDateSelect}"/>
+                                listener="#{financeManager.updateJobCostingDate}"/>
                     </p:calendar>                    
 
                     <h:outputText value="Job description:"  style="font-weight: bold" />
@@ -163,18 +162,7 @@ Email: info@dpbennett.com.jm
                         </p:commandButton>
                     </p:toolbarGroup>                    
                 </p:toolbar>
-                <ui:remove>
-                    <p:spacer width="5" />
-                    <p:commandButton value="Add subcontracted job costs"                                 
-                                     disabled="#{financeManager.isJobCompleted}"
-                                     rendered="#{financeManager.jobHasSubcontracts}"
-                                     update=""
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     icon="ui-icon-plus"
-                                     process="@this">
-                    </p:commandButton>
-                </ui:remove>               
+
                 <p:dataTable  var="costComponent"
                               id="i#{jobCosting.id}"
                               rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
@@ -301,7 +289,7 @@ Email: info@dpbennett.com.jm
 
                         </p:menuButton>                   
                     </p:column>      
-              
+
 
                 </p:dataTable>
                 <p:toolbar style="margin-top: 1px;">
@@ -317,19 +305,7 @@ Email: info@dpbennett.com.jm
                                          process="@this">
                         </p:commandButton>
                     </p:toolbarGroup>
-                </p:toolbar>
-                <ui:remove>
-                    <p:spacer width="5" />
-                    <p:commandButton value="Add subcontracted job costs"                                 
-                                     disabled="#{financeManager.isJobCompleted}"
-                                     rendered="#{financeManager.jobHasSubcontracts}"
-                                     update=""
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     icon="ui-icon-plus"
-                                     process="@this">
-                    </p:commandButton>
-                </ui:remove>
+                </p:toolbar>                
             </p:panel>
             <p:panel id="costingSummaryPanel" header="Costing &amp; Payment Summary">
                 <h:panelGrid columns="3">
@@ -423,14 +399,6 @@ Email: info@dpbennett.com.jm
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                     </p:inputText>
 
-                    <h:outputText value="Comments:"  />
-                    <p:spacer height="0" width="10"/>
-                    <h:inputTextarea value="#{financeManager.currentJob.comment}" rows="2" style="width: 450px">
-                        <p:ajax event="change"
-                                global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"
-                                process="@this"/>
-                    </h:inputTextarea>
                 </h:panelGrid>
             </p:panel>  
             <br/>           
