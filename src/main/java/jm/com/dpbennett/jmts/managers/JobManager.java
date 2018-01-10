@@ -1438,16 +1438,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public Boolean createJob(EntityManager em, Boolean isSubcontract) {
 
         RequestContext context = RequestContext.getCurrentInstance();
-        //Boolean jobCreated;
 
         try {
             if (isSubcontract) {
-
-                // Create copy of job and use current sequence number and year.
+                
+                // Save current job as parent job for use in the subcontract
+                Job parent = currentJob;
+                // Create copy of job and use current sequence number and year.                
                 Long currentJobSequenceNumber = currentJob.getJobSequenceNumber();
                 Integer yearReceived = currentJob.getYearReceived();
-
                 currentJob = Job.copy(em, currentJob, getUser(), true, true);
+                currentJob.setParent(parent);
                 currentJob.setClassification(new Classification());
                 currentJob.setSubContractedDepartment(new Department());
                 currentJob.setIsToBeSubcontracted(isSubcontract);

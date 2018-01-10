@@ -406,18 +406,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         this.selectedJobCostingTemplate = selectedJobCostingTemplate;
     }
 
-//    private Boolean isJobAssignedToUserDepartment() {
-//
-//        if (getUser() != null) {
-//            if (currentJob.getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
-//                return true;
-//            } else {
-//                return currentJob.getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue();
-//            }
-//        } else {
-//            return false;
-//        }
-//    }
     private Boolean isJobAssignedToUserDepartment(Job job) {
         
         if (getUser() != null) {
@@ -728,8 +716,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setIsDirty(true);
     }
     
-    public Boolean getJobHasSubcontracts() {
-        return currentJob.hasSubcontracts(getEntityManager1());
+    public String getSubcontractsMessage() {
+        if (currentJob.hasSubcontracts(getEntityManager1())) {
+            return "Subcontracts: " + currentJob.getSubcontracts(getEntityManager1()).toString();
+        }
+        
+        return "";
     }
     
     public void updateMinimumDepositRequired() {
@@ -1973,26 +1965,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         return address;
     }
 
-//    public Department getDepartmentAssignedToJob(Job job, EntityManager em) {
-//
-//        Department dept;
-//
-//        if (job.getSubContractedDepartment().getName().equals("--")
-//                || job.getSubContractedDepartment().getName().equals("")) {
-//            // This is not a subcontracted job see return to parent department            
-//            dept = Department.findDepartmentByName(em, job.getDepartment().getName());
-//            if (dept != null) {
-//                em.refresh(dept);
-//            }
-//
-//            return dept;
-//        } else {
-//            dept = Department.findDepartmentByName(em, job.getSubContractedDepartment().getName());
-//            em.refresh(dept);
-//
-//            return dept;
-//        }
-//    }
     public Boolean isCurrentJobNew() {
         return (getCurrentJob().getId() == null);
     }
