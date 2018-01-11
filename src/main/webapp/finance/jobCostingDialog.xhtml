@@ -113,11 +113,11 @@ Email: info@dpbennett.com.jm
                                             dropdown="true"
                                             value="#{financeManager.selectedJobCostingTemplate}"
                                             title="Choose an existing costing template name"
-                                            style="width: 150px"
+                                            style="width: 150px;"
                                             scrollHeight="200" 
                                             forceSelection="true"
                                             completeMethod="#{financeManager.completeJobCostingAndPaymentName}">
-                                <p:ajax event="itemSelect"
+                                <p:ajax event="itemSelect"                                    
                                         update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                         listener="#{financeManager.updateCostingComponents}"
                                         process="@this"/>                      
@@ -125,25 +125,24 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>    
                     </p:toolbarGroup>
                     <p:toolbarGroup align="right">
+                        
                         <p:commandButton value="Save costings as template"
                                          update=":jobCostingTemplateNameDialogForm"
                                          oncomplete="jobCostingTemplateNameDialog.show();"
                                          title="Save costings as a template for reuse in another job costing"                        
-                                         ajax="true">           
+                                         ajax="true" />           
 
-                        </p:commandButton>
                         <p:spacer width="5" />
                         <h:panelGroup>
                             <p:inputText id="jobCostingsTemplateName"
                                          value="#{financeManager.currentJob.jobCostingAndPayment.name}"
-                                         disabled="true"
-                                         style="width: 150px;background-color: lightgoldenrodyellow;font-weight: bolder">
+                                         style="width: 150px;">
                                 <p:ajax event="change"
                                         global="false"
                                         listener="#{financeManager.updateJobCostingAndPayment}"
                                         process="@this"/>
                             </p:inputText>
-                            <p:watermark value="-- not a template --" for="jobCostingsTemplateName" />
+                            <p:watermark value="-- enter template name --" for="jobCostingsTemplateName" />
                         </h:panelGroup>
                     </p:toolbarGroup>
                 </p:toolbar>
