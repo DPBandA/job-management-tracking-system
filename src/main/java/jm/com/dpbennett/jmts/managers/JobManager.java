@@ -1544,6 +1544,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     FacesMessage.SEVERITY_ERROR);
             return;
         }
+        else  if (currentJob.getIsSubContract()) {
+            PrimeFacesUtils.addMessage("Subcontract NOT Created",
+                    "A subcontract cannot be subcontracted",
+                    FacesMessage.SEVERITY_ERROR);
+            return;
+        }
 
         if (createJob(em, true)) {
             initManagers();
@@ -2399,11 +2405,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean getDisableDepartment() {
-        return getCurrentJob().getIsSubContracted() || getCurrentJob().getIsToBeSubcontracted();
+        return getCurrentJob().getIsSubContract() || getCurrentJob().getIsToBeSubcontracted();
     }
 
     public Boolean getRenderSubContractingDepartment() {
-        return getCurrentJob().getIsToBeSubcontracted() || getCurrentJob().getIsSubContracted();
+        return getCurrentJob().getIsToBeSubcontracted() || getCurrentJob().getIsSubContract();
     }
 
     /**
@@ -2413,7 +2419,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public Boolean getDisableSubContracting() {
         try {
-            if (getCurrentJob().getIsSubContracted() || getCurrentJob().getIsToBeCopied()) {
+            if (getCurrentJob().getIsSubContract() || getCurrentJob().getIsToBeCopied()) {
                 return false;
             } else if (getCurrentJob().getId() != null) {
                 return false;

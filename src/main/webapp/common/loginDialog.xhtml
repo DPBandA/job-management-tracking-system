@@ -53,13 +53,13 @@ Email: info@dpbennett.com.jm
 
             <h:outputText id="loginMessage" value="#{jobManager.logonMessage}" style="font-weight: bold" />
             <h:panelGrid columns="2" cellpadding="5">
-                <h:outputLabel for="username" value="Username: *" />
+                <h:outputLabel for="username" value="Username:" style="font-weight: bold" />
                 <p:inputText value="#{jobManager.username}"
                              id="username" 
                              required="true"
                              label="username"
                              validatorMessage="Please enter a valid username" />
-                <h:outputLabel for="password" value="Password: * " />
+                <h:outputLabel for="password" value="Password:" style="font-weight: bold" />
                 <p:password id="password"
                             value="#{jobManager.password}"
                             maxlength="255" 

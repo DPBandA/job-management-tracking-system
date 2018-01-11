@@ -42,6 +42,7 @@ import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
+import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.Country;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
@@ -87,7 +88,7 @@ public class Application {
         themes.put("Redmond", "redmond");
         themes.put("Dark Hive", "dark-hive");
     }
-    
+
     public List getWorkProgressList() {
         ArrayList list = new ArrayList();
         EntityManager em = getEntityManager1();
@@ -102,17 +103,9 @@ public class Application {
         return list;
 
     }
-    
-     public List getCostCodeList() {
-        ArrayList costCodes = new ArrayList();
 
-        costCodes.add(new SelectItem("--", "--"));
-        costCodes.add(new SelectItem("FIXED", "Fixed"));
-        costCodes.add(new SelectItem("HEADING", "Heading"));
-        costCodes.add(new SelectItem("VARIABLE", "Variable"));        
-        costCodes.add(new SelectItem("SUBCONTRACT", "Subcontract"));
-        
-        return costCodes;
+    public List getCostCodeList() {        
+        return CostComponent.getCostCodeList();
     }
 
     public Map<String, String> getThemes() {
@@ -301,8 +294,8 @@ public class Application {
             return new ArrayList<>();
         }
     }
-    
-     public List<Report> completeReport(String query) {
+
+    public List<Report> completeReport(String query) {
         EntityManager em = null;
 
         try {
@@ -472,7 +465,7 @@ public class Application {
 
         user.setUserFirstname("");
         user.setUserLastname("");
-        
+
         // default privileges
         user.getPrivilege().setCanEditOwnJob(Boolean.TRUE);
         user.getPrivilege().setCanEditDepartmentJob(Boolean.TRUE);
@@ -756,8 +749,8 @@ public class Application {
             return new ArrayList<>();
         }
     }
-    
-    public List<String> getJobTableViews(){
+
+    public List<String> getJobTableViews() {
         EntityManager em = null;
 
         try {

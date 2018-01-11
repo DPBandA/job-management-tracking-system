@@ -65,24 +65,23 @@ Email: info@dpbennett.com.jm
                                 process="@this"/>
                     </p:selectOneMenu>    
 
-                    <ui:remove>
-                        <h:outputLabel rendered="#{!financeManager.selectedCostComponent.isHeading}" 
-                                       value="Subcontract:" style="font-weight: bold;" />
-                        <p:spacer rendered="#{!financeManager.selectedCostComponent.isHeading}" height="0" width="10"/>
-                        <p:selectOneMenu rendered="#{!financeManager.selectedCostComponent.isHeading}"
-                                         id="costCode"
-                                         value="#{financeManager.selectedCostComponent.code}"
-                                         style="width: 100%" >
-                            <p:ajax event="change"
-                                    global="false"                            
-                                    listener="#{financeManager.updateCostCode}"
-                                    process="@this"/>
-                            <f:selectItems  value="#{financeManager.allCostCodes}"
-                                            var="costCode"
-                                            itemValue="#{costCode.code}"
-                                            itemLabel="#{costCode.code}"/>
-                        </p:selectOneMenu>
-                    </ui:remove>
+
+                    <h:outputLabel rendered="#{!financeManager.selectedCostComponent.isSubcontract}" 
+                                   value="Subcontract:" style="font-weight: bold;" />
+                    <p:spacer rendered="#{!financeManager.selectedCostComponent.isSubcontract}" height="0" width="10"/>
+                    <p:selectOneMenu rendered="#{!financeManager.selectedCostComponent.isSubcontract}"
+                                     id="subcontract"
+                                     value="#{financeManager.selectedCostComponent.name}"
+                                     style="width: 100%" >
+                        <p:ajax event="change"
+                                global="false"                            
+                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                process="@this"/>
+                        <f:selectItems  value="#{financeManager.allSubcontracts}"
+                                        var="subcontact"
+                                        itemValue="#{subcontact.id}"
+                                        itemLabel="#{subcontact.getJobNumber}"/>
+                    </p:selectOneMenu>
 
                     <h:outputLabel value="Component:" style="font-weight: bold" />
                     <p:spacer height="0" width="10"/>
