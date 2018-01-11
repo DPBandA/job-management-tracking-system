@@ -40,7 +40,8 @@ Email: info@dpbennett.com.jm
                                      icon="ui-icon ui-icon-check"
                                      process="@form"/>
                     <p:spacer width="5" />
-                    <p:commandButton value="Cancel"       
+                    <p:commandButton value="Cancel" 
+                                     immediate="true"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                      onstart="longProcessDialogVar.show();"                              
                                      oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
@@ -66,21 +67,21 @@ Email: info@dpbennett.com.jm
                     </p:selectOneMenu>    
 
 
-                    <h:outputLabel rendered="#{!financeManager.selectedCostComponent.isSubcontract}" 
+                    <h:outputLabel rendered="#{financeManager.selectedCostComponent.isSubcontract}" 
                                    value="Subcontract:" style="font-weight: bold;" />
-                    <p:spacer rendered="#{!financeManager.selectedCostComponent.isSubcontract}" height="0" width="10"/>
-                    <p:selectOneMenu rendered="#{!financeManager.selectedCostComponent.isSubcontract}"
-                                     id="subcontract"
-                                     value="#{financeManager.selectedCostComponent.name}"
+                    <p:spacer rendered="#{financeManager.selectedCostComponent.isSubcontract}" height="0" width="10"/>
+                    <p:selectOneMenu id="subcontract"        
+                                     rendered="#{financeManager.selectedCostComponent.isSubcontract}"
                                      style="width: 100%" >
                         <p:ajax event="change"
-                                global="false"                            
-                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                global="false"         
+                                update="costingComponentPanelGrid"
+                                listener="#{financeManager.updateSubcontract}"
                                 process="@this"/>
                         <f:selectItems  value="#{financeManager.allSubcontracts}"
                                         var="subcontact"
                                         itemValue="#{subcontact.id}"
-                                        itemLabel="#{subcontact.getJobNumber}"/>
+                                        itemLabel="#{subcontact.jobNumberWithCostLabel}"/>
                     </p:selectOneMenu>
 
                     <h:outputLabel value="Component:" style="font-weight: bold" />
@@ -154,10 +155,10 @@ Email: info@dpbennett.com.jm
                                  style="width: 90%;"
                                  rendered="#{!financeManager.selectedCostComponent.isHeading}"                            
                                  value="#{financeManager.selectedCostComponent.cost}"
-                                 readonly="#{!financeManager.selectedCostComponent.isFixedCost}"
+                                 readonly="#{financeManager.selectedCostComponent.isCostReadOnly}"
                                  validator="requiredFieldValidator"
                                  converterMessage="Invalid Component Cost"
-                                 styleClass="number-field #{!financeManager.selectedCostComponent.isFixedCost ? 'editableclass' : null}">
+                                 styleClass="number-field #{financeManager.selectedCostComponent.isCostReadOnly ? 'editableclass' : null}">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax event="change"
                                 global="false"                            
@@ -179,6 +180,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"       
+                                     immediate="true"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                      onstart="longProcessDialogVar.show();"                              
                                      oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"

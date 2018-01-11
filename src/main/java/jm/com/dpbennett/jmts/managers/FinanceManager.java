@@ -75,6 +75,7 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 /**
  *
@@ -701,6 +702,18 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setJobCostingAndPaymentDirty(true);
     }
 
+    public void updateSubcontract(AjaxBehaviorEvent event) {
+        if (!((SelectOneMenu) event.getComponent()).getValue().toString().equals("null")) {
+            Long subcontractId = new Long(((SelectOneMenu) event.getComponent()).getValue().toString());
+            Job subcontract = Job.findJobById(getEntityManager1(), subcontractId);
+
+            selectedCostComponent.setCost(subcontract.getJobCostingAndPayment().getFinalCost());
+            selectedCostComponent.setName("Subcontract (" + subcontract.getJobNumber() + ")");
+
+            setJobCostingAndPaymentDirty(true);
+        }
+    }
+
     public void updatePurchaseOrderNumber() {
         setIsDirty(true);
     }
@@ -718,9 +731,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public String getSubcontractsMessage() {
         if (!currentJob.findSubcontracts(getEntityManager1()).isEmpty()) {
-            return "Subcontract(s): " + Job.getJobNumbersWithCosts(currentJob.getSubcontracts(getEntityManager1()));
+            return ("{ " + currentJob.getSubcontracts(getEntityManager1()).size() + " subcontract(s) exist(s) that can be added as cost item(s) }");
         } else if (!currentJob.findPossibleSubcontracts(getEntityManager1()).isEmpty()) {
-            return "Possible subcontract(s: " + Job.getJobNumbersWithCosts(currentJob.findPossibleSubcontracts(getEntityManager1()));
+            return ("{ " + currentJob.getPossibleSubcontracts(getEntityManager1()).size() + " possible subcontract(s) exist(s) that can be added as cost item(s) }");
         } else {
             return "";
         }
@@ -1436,18 +1449,19 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         return codes;
     }
-    
+
     public List<Job> getAllSubcontracts() {
         List<Job> subcontracts = new ArrayList<>();
-        
-        subcontracts.addAll(currentJob.findSubcontracts(getEntityManager1()));
-        subcontracts.addAll(currentJob.findPossibleSubcontracts(getEntityManager1()));
-        
-        return subcontracts;
-    }
 
-    private EntityManagerFactory getEMF1() {
-        return EMF1;
+        if (!currentJob.findSubcontracts(getEntityManager1()).isEmpty()) {
+            subcontracts.addAll(currentJob.findSubcontracts(getEntityManager1()));
+        } else {
+            subcontracts.addAll(currentJob.findPossibleSubcontracts(getEntityManager1()));
+        }
+
+        subcontracts.add(0, new Job("-- select a subcontract"));
+
+        return subcontracts;
     }
 
     private EntityManagerFactory getEMF2() {
