@@ -39,6 +39,7 @@ import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.BusinessEntity;
 import jm.com.dpbennett.business.entity.BusinessOffice;
+import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
@@ -50,6 +51,7 @@ import jm.com.dpbennett.business.entity.DepartmentUnit;
 import jm.com.dpbennett.business.entity.Distributor;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.JobCategory;
+import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.JobSubCategory;
@@ -160,28 +162,24 @@ public class Application {
      * @return
      */
     public List getDiscountTypes() {
-        ArrayList discountTypes = new ArrayList();
-
-        discountTypes.add(new SelectItem("Fixed Cost", "Discount ($): "));
-        discountTypes.add(new SelectItem("Percentage", "Discount (%): "));
-
-        return discountTypes;
+        
+        return JobCostingAndPayment.getDiscountTypes();
     }
 
     /**
-     * NB: Payment types to be put in database not hard coded.
-     *
-     * @return
+     * 
+     * @return 
      */
     public List getPaymentTypes() {
-        ArrayList paymentTypes = new ArrayList();
-
-        paymentTypes.add(new SelectItem("Cash", "Cash"));
-        paymentTypes.add(new SelectItem("Cheque", "Cheque"));
-        paymentTypes.add(new SelectItem("Credit Card", "Credit Card"));
-        paymentTypes.add(new SelectItem("Debit Card", "Debit Card"));
-
-        return paymentTypes;
+       return CashPayment.getPaymentTypes();
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public List getPaymentPurposes() {
+       return CashPayment.getPaymentPurposes();
     }
 
     /*

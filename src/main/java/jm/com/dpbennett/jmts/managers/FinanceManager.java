@@ -1321,8 +1321,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void createNewCashPayment(ActionEvent event) {
-        addCashPayment = true;
+        addCashPayment = true; // tk use id == null check instead
         selectedCashPayment = new CashPayment();
+        
+        // tk Check which purpose to make the default in the future
+        selectedCashPayment.setPaymentPurpose("Deposit");
     }
 
     public void createNewCostComponent(ActionEvent event) {
@@ -1331,7 +1334,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void cancelCashPaymentEdit() {
-
+        selectedCashPayment.setIsDirty(false);
     }
 
     /**
@@ -1394,7 +1397,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         // tk
         // update jobCostingAndPayment.receiptNumber...append receipt number.
         // exec. jobManager.updateTotalDeposit(), jobManager.updateAmountDue() is exec by jobManager.updateTotalDeposit()?
-        System.out.println("Ok cashpayment");
+        System.out.println("Ok cashpayment...save...");
+        // cashPaymentDialog.hide();
+        RequestContext.getCurrentInstance().execute("cashPaymentDialog.hide();");
 
     }
 

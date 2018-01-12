@@ -21,10 +21,9 @@ Email: info@dpbennett.com.jm
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:form id="cashPaymentDialogForm">
-        <p:dialog width="425"
+        <p:dialog width="500"
                   height="fit-content"
                   draggable="true"
                   modal="true"
@@ -35,11 +34,11 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{financeManager.okCashPayment}"
                                      icon="ui-icon-check"
-                                     oncomplete="cashPaymentDialog.hide();"
-
+                                     update=":headerForm:growl3"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
+                                     immediate="true"
                                      actionListener="#{financeManager.cancelCashPaymentEdit}"
                                      update="cashPaymentDialogForm"
                                      onstart="longProcessDialogVar.show();"
@@ -59,9 +58,21 @@ Email: info@dpbennett.com.jm
                         process="@this" />
                     <f:selectItems value="#{App.paymentTypes}" />
                 </p:selectOneMenu>   
+
+                <h:outputText value="Purpose of payment:" />    
+                <p:selectOneMenu 
+                    id="paymentPurpose"      
+                    value="#{financeManager.selectedCashPayment.paymentPurpose}">
+                    <p:ajax
+                        global="true"                        
+                        listener="#{financeManager.updateCashPayment}"
+                        process="@this" />
+                    <f:selectItems value="#{App.paymentPurposes}" />
+                </p:selectOneMenu>   
+
                 <h:outputText value="Receipt #:" />
                 <p:inputText value="#{financeManager.selectedCashPayment.receiptNumber}" 
-                              maxlength="40" >
+                             maxlength="40" >
                     <p:ajax listener="#{financeManager.updateCashPayment}"
                             event="change"
                             global="false"                            
@@ -71,16 +82,19 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Amount:" />
                 <p:inputText value="#{financeManager.selectedCashPayment.payment}"    
                              styleClass="number-field"
+                             validator="requiredFieldValidator"
+                             converterMessage="Invalid amount"
                              maxlength="15">
-                    
+
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                    
+
                     <p:ajax event="change"
                             global="false"                            
                             listener="#{financeManager.updateCashPayment}"
                             process="@this"/>
                 </p:inputText>                
 
+                <h:outputText value="Discount type:" />
                 <p:selectOneMenu 
                     id="discountType"      
                     disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
@@ -90,13 +104,18 @@ Email: info@dpbennett.com.jm
                         listener="#{financeManager.updateCashPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.discountTypes}" />
-                </p:selectOneMenu>             
+                </p:selectOneMenu>                   
+
+
+                <h:outputText value="Discount:" />
                 <p:inputText value="#{financeManager.selectedCashPayment.discount}"  
                              styleClass="number-field"
+                             validator="requiredFieldValidator"
+                             converterMessage="Invalid discount"
                              maxlength="5">
-                    
+
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                    
+
                     <p:ajax event="change"
                             global="false"
                             listener="#{financeManager.updateCashPayment}"
@@ -105,7 +124,8 @@ Email: info@dpbennett.com.jm
 
                 <h:outputText value="Terms:" />
                 <p:inputTextarea
-                    value="#{financeManager.selectedCashPayment.paymentTerms}"                     
+                    value="#{financeManager.selectedCashPayment.paymentTerms}"
+                    style="width: 250px;"
                     maxlength="250"
                     rows="2">
                     <p:ajax event="change"
@@ -120,15 +140,14 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{financeManager.okCashPayment}"
                                      icon="ui-icon-check"
-                                     oncomplete="cashPaymentDialog.hide();"
-
+                                     update=":headerForm:growl3"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
+                                     immediate="true"
                                      actionListener="#{financeManager.cancelCashPaymentEdit}"
                                      update="cashPaymentDialogForm"
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="cashPaymentDialog.hide();longProcessDialogVar.hide();"
+                                     oncomplete="cashPaymentDialog.hide();"
                                      icon="ui-icon ui-icon-close"
                                      process="@this"/>    
                 </p:toolbarGroup>

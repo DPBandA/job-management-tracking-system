@@ -109,8 +109,7 @@ Email: info@dpbennett.com.jm
                         <h:panelGroup>                   
                             <h:outputLabel value="Select template: "
                                            title="Select an existing costing template"/>
-                            <p:autoComplete maxResults="12"
-                                            dropdown="true"
+                            <p:autoComplete dropdown="true"
                                             value="#{financeManager.selectedJobCostingTemplate}"
                                             title="Choose an existing costing template name"
                                             style="width: 150px;"
@@ -124,16 +123,11 @@ Email: info@dpbennett.com.jm
                             </p:autoComplete>
                         </h:panelGroup>    
                     </p:toolbarGroup>
-                    <p:toolbarGroup align="right">
-                        
-                        <p:commandButton value="Save costings as template"
-                                         update=":jobCostingTemplateNameDialogForm"
-                                         oncomplete="jobCostingTemplateNameDialog.show();"
-                                         title="Save costings as a template for reuse in another job costing"                        
-                                         ajax="true" />           
-
-                        <p:spacer width="5" />
+                    <p:toolbarGroup align="right">                        
                         <h:panelGroup>
+                            <h:outputLabel title="Enter a name to save the costings as a template" 
+                                           for="jobCostingsTemplateName" 
+                                           value="Template name: " />
                             <p:inputText id="jobCostingsTemplateName"
                                          value="#{financeManager.currentJob.jobCostingAndPayment.name}"
                                          style="width: 150px;">
@@ -143,6 +137,7 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             </p:inputText>
                             <p:watermark value="-- enter template name --" for="jobCostingsTemplateName" />
+                            <p:tooltip for="jobCostingsTemplateName" value="Enter a name to save the costings as a template" />
                         </h:panelGroup>
                     </p:toolbarGroup>
                 </p:toolbar>
