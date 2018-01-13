@@ -552,7 +552,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumber());
             parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount());
             parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscountType());
-            parameters.put("deposit", getCurrentJob().getJobCostingAndPayment().getDeposit());
+            parameters.put("deposit", getCurrentJob().getJobCostingAndPayment().getPayment());
             parameters.put("amountDue", getCurrentJob().getJobCostingAndPayment().getAmountDue());
             parameters.put("totalTax", getCurrentJob().getJobCostingAndPayment().getTotalTax());
             parameters.put("totalTaxLabel", getCurrentJob().getJobCostingAndPayment().getTotalTaxLabel());
@@ -621,7 +621,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void invoiceJobCosting() {
         if (canInvoiceJobCosting(getCurrentJob())) {
-            setIsDirty(true);
+             setJobCostingAndPaymentDirty(true);
         } else {
             getCurrentJob().getJobCostingAndPayment().setInvoiced(!getCurrentJob().
                     getJobCostingAndPayment().getInvoiced());
@@ -687,15 +687,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void updateJobSubCategory() {
         setIsDirty(true);
-    }
-
-    public void updateCashPayment(AjaxBehaviorEvent event) {
-
-        System.out.println("Fields for: " + CashPayment.class.getSimpleName());
-        Field[] fields = CashPayment.class.getDeclaredFields();
-        for (Field field : fields) {
-            System.out.println("Name: " + field.getName() + "\n");
-        }
     }
 
     public void updateJobCostingAndPayment() {
@@ -813,7 +804,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             getCurrentJob().getJobStatusAndTracking().setCostingDate(null);
         }
 
-        setIsDirty(true);
+         setJobCostingAndPaymentDirty(true);
     }
 
     /**
@@ -845,7 +836,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             } else {
                 getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(null);
             }
-            setIsDirty(true);
+             setJobCostingAndPaymentDirty(true);
         } else {
             getCurrentJob().getJobCostingAndPayment().
                     setCostingApproved(!getCurrentJob().getJobCostingAndPayment().getCostingApproved());
@@ -920,7 +911,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 break;
         }
 
-        setIsDirty(true);
+        setJobCostingAndPaymentDirty(true);
 
     }
 
@@ -1321,7 +1312,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void createNewCashPayment(ActionEvent event) {
-        addCashPayment = true; // tk use id == null check instead
+        addCashPayment = true;
         selectedCashPayment = new CashPayment();
         
         // tk Check which purpose to make the default in the future
@@ -1393,12 +1384,22 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 850);
     }
 
-    public void okCashPayment() {
+    public void okCashPayment() {        
         // tk
-        // update jobCostingAndPayment.receiptNumber...append receipt number.
+        // update jobCostingAndPayment.receiptNumber...get receipt #s from 
+        //   cash payments and set jobCostingAndPayment.receiptNumber
         // exec. jobManager.updateTotalDeposit(), jobManager.updateAmountDue() is exec by jobManager.updateTotalDeposit()?
-        System.out.println("Ok cashpayment...save...");
-        // cashPaymentDialog.hide();
+        
+        if (addCashPayment) {
+            addCashPayment = false;
+            currentJob.getJobCostingAndPayment().getCashPayments().add(selectedCashPayment);
+        }
+        
+        updateFinalCost();
+        updateAmountDue();
+        
+        setJobCostingAndPaymentDirty(true);
+        
         RequestContext.getCurrentInstance().execute("cashPaymentDialog.hide();");
 
     }

@@ -642,14 +642,14 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setWrapText(true);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "V9",
-                    currentJob.getJobCostingAndPayment().getDeposit(),
+                    currentJob.getJobCostingAndPayment().getPayment(),
                     "Currency", dataCellStyle);
 
             // PAYMENT BREAKDOWN
-            // Calculate GCT and Job Cost
-            Double jobCost = (100.0 * currentJob.getJobCostingAndPayment().getDeposit())
+            // Calculate GCT from payment
+            Double payment = (100.0 * currentJob.getJobCostingAndPayment().getPayment())
                     / (currentJob.getJobCostingAndPayment().getPercentageGCT() + 100.0);
-            Double jobGCT = currentJob.getJobCostingAndPayment().getDeposit() - jobCost;
+            Double jobGCT = currentJob.getJobCostingAndPayment().getPayment() - payment;
             // GCT
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderTop((short) 1);
@@ -660,7 +660,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
                     wb, serviceContractSheet, "AC9",
                     jobGCT,
                     "Currency", dataCellStyle);
-            // Job
+            // Payment
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderBottom((short) 1);
             dataCellStyle.setFont(defaultFont);
@@ -668,7 +668,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "AC10",
-                    jobCost,
+                    payment,
                     "Currency", dataCellStyle);
 
             // DATE PAID (date of last payment)
@@ -704,7 +704,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "AL10",
                         currentJob.getJobCostingAndPayment().getEstimatedCostIncludingTaxes()
-                        - currentJob.getJobCostingAndPayment().getDeposit(),
+                        - currentJob.getJobCostingAndPayment().getPayment(),
                         "Currency", dataCellStyle);
             }
 

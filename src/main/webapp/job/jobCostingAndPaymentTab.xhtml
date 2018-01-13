@@ -184,7 +184,7 @@ Email: info@dpbennett.com.jm
     <p:panel id="cashPayments" header="Payment">    
         <p:toolbar>
             <p:toolbarGroup align="left">
-                <p:commandButton value="Add payment"
+                <p:commandButton value="New"
                                  title="Add new payment"
                                  actionListener="#{financeManager.createNewCashPayment}"
                                  update=":cashPaymentDialogForm"
@@ -227,7 +227,9 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="#{cashPayment.paymentTerms}"/>              
             </p:column>
             <p:column style="width:32px">
-                <p:menuButton id="toolsButton" value="Actions" >
+                <p:menuButton id="toolsButton" 
+                              disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                              value="Actions" >
                     <p:menuitem value="Edit payment details"
                                 actionListener="#{financeManager.editCashPayment}"
                                 update=""
@@ -258,7 +260,7 @@ Email: info@dpbennett.com.jm
         </p:dataTable>
         <p:toolbar>
             <p:toolbarGroup align="left">
-                <p:commandButton value="Add payment"
+                <p:commandButton value="New"
                                  title="Add new payment"
                                  actionListener="#{financeManager.createNewCashPayment}"
                                  update=":cashPaymentDialogForm"

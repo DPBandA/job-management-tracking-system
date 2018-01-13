@@ -34,7 +34,7 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{financeManager.okCashPayment}"
                                      icon="ui-icon-check"
-                                     update=":headerForm:growl3"
+                                     update=":headerForm:growl3,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
@@ -47,78 +47,91 @@ Email: info@dpbennett.com.jm
                                      process="@this"/>    
                 </p:toolbarGroup>
             </p:toolbar>
-            <h:panelGrid columns="2" style="width: 85%">
-                <h:outputText value="Type:" />    
+            <h:panelGrid columns="2" style="width: 85%;">
+                <h:outputText value="Type:" style="font-weight: bold;" />    
                 <p:selectOneMenu 
                     id="type"      
                     value="#{financeManager.selectedCashPayment.type}">
                     <p:ajax
                         global="true"                        
-                        listener="#{financeManager.updateCashPayment}"
+                        listener="#{financeManager.updateJobCostingAndPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.paymentTypes}" />
                 </p:selectOneMenu>   
 
-                <h:outputText value="Purpose of payment:" />    
+                <h:outputText value="Purpose of payment:" style="font-weight: bold;" />    
                 <p:selectOneMenu 
                     id="paymentPurpose"      
                     value="#{financeManager.selectedCashPayment.paymentPurpose}">
                     <p:ajax
                         global="true"                        
-                        listener="#{financeManager.updateCashPayment}"
+                        listener="#{financeManager.updateJobCostingAndPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.paymentPurposes}" />
                 </p:selectOneMenu>   
 
+                <h:outputText value="Payment date:" style="font-weight: bold" />
+                <p:calendar id="paymentDate"
+                            value="#{financeManager.selectedCashPayment.dateOfPayment}" 
+                            readonlyInput="true"
+                            navigator="true" 
+                            pattern="MMM dd, yyyy" >
+                    <p:ajax event="dateSelect"
+                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                            listener="#{financeManager.updateJobCostingAndPayment}" />
+
+                </p:calendar>
+
                 <h:outputText value="Receipt #:" />
                 <p:inputText value="#{financeManager.selectedCashPayment.receiptNumber}" 
                              maxlength="40" >
-                    <p:ajax listener="#{financeManager.updateCashPayment}"
+                    <p:ajax listener="#{financeManager.updateJobCostingAndPayment}"
                             event="change"
                             global="false"                            
                             process="@this"/>
                 </p:inputText>               
 
-                <h:outputText value="Amount:" />
-                <p:inputText value="#{financeManager.selectedCashPayment.payment}"    
+                <h:outputText value="Amount:" style="font-weight: bold;" />
+                <p:inputText value="#{financeManager.selectedCashPayment.payment}"  
+                             id="paymentAmount"
                              styleClass="number-field"
                              validator="requiredFieldValidator"
-                             converterMessage="Invalid amount"
+                             converterMessage="Invalid payment amount"
                              maxlength="15">
 
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 
                     <p:ajax event="change"
                             global="false"                            
-                            listener="#{financeManager.updateCashPayment}"
+                            listener="#{financeManager.updateJobCostingAndPayment}"
                             process="@this"/>
                 </p:inputText>                
 
-                <h:outputText value="Discount type:" />
+                <h:outputText value="Discount type:" style="font-weight: bold;" />
                 <p:selectOneMenu 
-                    id="discountType"      
-                    disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                    value="#{financeManager.selectedCashPayment.discountType}">
+                    id="discountType" 
+                    value="#{financeManager.currentJob.jobCostingAndPayment.discountType}">
                     <p:ajax
                         global="true"
-                        listener="#{financeManager.updateCashPayment}"
+                        listener="#{financeManager.updateJobCostingAndPayment}"
                         process="@this" />
                     <f:selectItems value="#{App.discountTypes}" />
                 </p:selectOneMenu>                   
 
 
-                <h:outputText value="Discount:" />
-                <p:inputText value="#{financeManager.selectedCashPayment.discount}"  
+                <h:outputText value="Discount:" style="font-weight: bold;" />
+                <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.discount}"  
+                             id="discountAmount"
                              styleClass="number-field"
                              validator="requiredFieldValidator"
-                             converterMessage="Invalid discount"
+                             converterMessage="Invalid discount value"
                              maxlength="5">
 
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 
                     <p:ajax event="change"
                             global="false"
-                            listener="#{financeManager.updateCashPayment}"
+                            listener="#{financeManager.updateJobCostingAndPayment}"
                             process="@this"/>
                 </p:inputText>          
 
@@ -131,7 +144,7 @@ Email: info@dpbennett.com.jm
                     <p:ajax event="change"
                             global="false"
                             update=""
-                            listener="#{financeManager.updateCashPayment}"
+                            listener="#{financeManager.updateJobCostingAndPayment}"
                             process="@this"/>
                 </p:inputTextarea>                
             </h:panelGrid>
@@ -140,14 +153,15 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{financeManager.okCashPayment}"
                                      icon="ui-icon-check"
-                                     update=":headerForm:growl3"
+                                     update=":headerForm:growl3,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
-                    <p:commandButton value="Cancel"
+                   <p:commandButton value="Cancel"
                                      immediate="true"
                                      actionListener="#{financeManager.cancelCashPaymentEdit}"
                                      update="cashPaymentDialogForm"
-                                     oncomplete="cashPaymentDialog.hide();"
+                                     onstart="longProcessDialogVar.show();"
+                                     oncomplete="cashPaymentDialog.hide();longProcessDialogVar.hide();"
                                      icon="ui-icon ui-icon-close"
                                      process="@this"/>    
                 </p:toolbarGroup>
