@@ -91,9 +91,9 @@ Email: info@dpbennett.com.jm
                     update=":mainTabViewForm:mainTabView:jobDetailToolbar1,estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
                     listener="#{financeManager.updateAllTaxes}"
                     process="@this" />
-                
+
                 <f:selectItems value="#{financeManager.GCTPercentages}" />
-                
+
             </p:selectOneMenu>  
             <h:outputText value="&nbsp;"/>
 
@@ -187,12 +187,17 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="New"
                                  title="Add new payment"
                                  actionListener="#{financeManager.createNewCashPayment}"
-                                 update=":cashPaymentDialogForm"
-                                 oncomplete="cashPaymentDialog.show();"
                                  disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                                  onstart="longProcessDialogVar.show();"
                                  icon="ui-icon-plus"
-                                 process="@this" />
+                                 process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{financeManager.cashPaymentDialogReturn}"                    
+                            update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
+                            process="@this"/>
+
+                </p:commandButton>
             </p:toolbarGroup>
         </p:toolbar>
         <p:dataTable id="cashPaymentTable"
@@ -230,22 +235,41 @@ Email: info@dpbennett.com.jm
                 <p:menuButton id="toolsButton" 
                               disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                               value="Actions" >
-                    <p:menuitem value="Edit payment details"
-                                actionListener="#{financeManager.editCashPayment}"
-                                update=""
-                                onstart="longProcessDialogVar.show();"
-                                oncomplete=""
-                                icon="ui-icon-pencil"
-                                process="@this">
-                        <f:setPropertyActionListener value="#{cashPayment}"
-                                                     target="#{financeManager.selectedCashPayment}" />
-                    </p:menuitem>                    
-                    <p:menuitem value="Delete this payment"
-                                onclick="jobSampleDeleteConfirm.show();"
-                                icon="ui-icon-trash"
-                                process="@this">
-                        <f:setPropertyActionListener value="#{cashPayment}"
-                                                     target="#{financeManager.selectedCashPayment}" />
+                    <p:menuitem>
+                        <p:commandButton value="Edit payment details"
+                                         actionListener="#{financeManager.editCashPayment}"
+                                         style="width: 100%;text-align: left;background: none;border: 0;"
+                                         onstart="longProcessDialogVar.show();"
+                                         oncomplete=""
+                                         icon="ui-icon-pencil"
+                                         process="@this">
+
+                            <f:setPropertyActionListener value="#{cashPayment}"
+                                                         target="#{financeManager.selectedCashPayment}" />
+
+                            <p:ajax event="dialogReturn" 
+                                    listener="#{financeManager.cashPaymentDialogReturn}"                    
+                                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
+                                    process="@this"/>
+
+                        </p:commandButton>  
+                    </p:menuitem>
+                    <p:menuitem>
+                        <p:commandButton value="Delete this payment"
+                                         onclick="jobSampleDeleteConfirm.show();"
+                                         style="width: 100%;text-align: left;background: none;border: 0;"
+                                         icon="ui-icon-trash"
+                                         process="@this">
+
+                            <f:setPropertyActionListener value="#{cashPayment}"
+                                                         target="#{financeManager.selectedCashPayment}" />
+
+                            <p:ajax event="dialogReturn" 
+                                    listener="#{financeManager.cashPaymentDialogReturn}"                    
+                                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
+                                    process="@this"/>
+
+                        </p:commandButton>
                     </p:menuitem>
                 </p:menuButton>          
             </p:column>            
@@ -263,12 +287,17 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="New"
                                  title="Add new payment"
                                  actionListener="#{financeManager.createNewCashPayment}"
-                                 update=":cashPaymentDialogForm"
-                                 oncomplete="cashPaymentDialog.show();"
                                  disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                                  onstart="longProcessDialogVar.show();"
                                  icon="ui-icon-plus"
-                                 process="@this" />
+                                 process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{financeManager.cashPaymentDialogReturn}"                   
+                            update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
+                            process="@this"/>
+
+                </p:commandButton>
             </p:toolbarGroup>
         </p:toolbar>
     </p:panel>
