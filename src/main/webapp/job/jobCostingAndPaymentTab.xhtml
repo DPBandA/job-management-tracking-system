@@ -156,7 +156,6 @@ Email: info@dpbennett.com.jm
                                  update=":mainTabViewForm:mainTabView:growl2"
                                  onstart="longProcessDialogVar.show();"
                                  oncomplete="longProcessDialogVar.hide();"
-                                 rendered="#{!financeManager.enableOnlyPaymentEditing}"
                                  process="@this"
                                  title="View or edit job costing">
 
@@ -236,7 +235,7 @@ Email: info@dpbennett.com.jm
                               disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                               value="Actions" >
                     <p:menuitem>
-                        <p:commandButton value="Edit payment details"
+                        <p:commandButton value="Edit"
                                          actionListener="#{financeManager.editCashPayment}"
                                          style="width: 100%;text-align: left;background: none;border: 0;"
                                          onstart="longProcessDialogVar.show();"
@@ -255,8 +254,8 @@ Email: info@dpbennett.com.jm
                         </p:commandButton>  
                     </p:menuitem>
                     <p:menuitem>
-                        <p:commandButton value="Delete this payment"
-                                         onclick="jobSampleDeleteConfirm.show();"
+                        <p:commandButton value="Delete"
+                                         actionListener="#{financeManager.openCashPaymentDeleteConfirmDialog}"
                                          style="width: 100%;text-align: left;background: none;border: 0;"
                                          icon="ui-icon-trash"
                                          process="@this">

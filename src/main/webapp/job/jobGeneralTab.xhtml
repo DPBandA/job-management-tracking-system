@@ -125,7 +125,7 @@ Email: info@dpbennett.com.jm
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update="billingAddress,clientContact,clientActionsMenu,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
@@ -142,7 +142,7 @@ Email: info@dpbennett.com.jm
                                      title="View or edit this client's detail">   
                         <p:ajax event="dialogReturn" 
                                 listener="#{clientManager.clientDialogReturn}"
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1" />
+                                update="client,clientActionsMenu,:mainTabViewForm:mainTabView:jobDetailToolbar1" />
                     </p:commandButton>            
                 </p:menuitem>
 
@@ -158,7 +158,7 @@ Email: info@dpbennett.com.jm
                         title="Add a new client to the client database">
                         <p:ajax event="dialogReturn" 
                                 listener="#{clientManager.clientDialogReturn}"
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1" />
+                                update="client,clientActionsMenu,:mainTabViewForm:mainTabView:jobDetailToolbar1" />
                     </p:commandButton>
                 </p:menuitem>
             </p:menuButton>       

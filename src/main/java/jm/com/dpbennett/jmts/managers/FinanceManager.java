@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
@@ -56,6 +57,7 @@ import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCosting;
 import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
+import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Preference;
 import jm.com.dpbennett.business.entity.SystemOption;
@@ -1319,7 +1321,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void editCashPayment(ActionEvent event) {
 
         PrimeFacesUtils.openDialog(null, "cashPaymentDialog", true, true, true, 400, 500);
-        
+
     }
 
     public void createNewCostComponent(ActionEvent event) {
@@ -1842,11 +1844,43 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public Boolean deleteCashPayment(EntityManager em, Long Id) {
-        CashPayment cashPayment;
+    public void deleteCashPayment() {
 
-        cashPayment = em.find(CashPayment.class, Id);
-        return BusinessEntityUtils.deleteEntity(em, cashPayment);
+        List<CashPayment> payments = currentJob.getJobCostingAndPayment().getCashPayments();
+        int index = 0;
+        for (CashPayment payment : payments) {            
+            if (payment.getPayment().doubleValue() == selectedCashPayment.getPayment().doubleValue()) {
+                payments.remove(index);
+                break;
+            }
+            ++index;
+        }
+
+        updateFinalCost();
+        updateAmountDue();
+
+        // Do job save if possible...
+        if (getCurrentJob().getId() != null
+                && getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            PrimeFacesUtils.addMessage("Job Saved",
+                    "The payment was deleted and the job was saved", FacesMessage.SEVERITY_INFO);
+        } else {
+            setJobCostingAndPaymentDirty(true);
+            PrimeFacesUtils.addMessage("Job NOT Saved",
+                    "The payment was deleted but the job was not saved", FacesMessage.SEVERITY_WARN);
+        }
+
+        RequestContext.getCurrentInstance().closeDialog(null);
+
+    }
+
+    public void openCashPaymentDeleteConfirmDialog(ActionEvent event) {
+
+        PrimeFacesUtils.openDialog(null, "cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
+    }
+
+    public void closeJCashPaymentDeleteConfirmDialog() {
+        RequestContext.getCurrentInstance().closeDialog(null);
     }
 
     public void openJobPricingsDialog() {
