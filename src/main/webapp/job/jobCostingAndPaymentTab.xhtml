@@ -274,10 +274,11 @@ Email: info@dpbennett.com.jm
             </p:column>            
             <p:columnGroup type="footer">
                 <p:row>
-                    <p:column colspan="2" style="text-align:right" footerText="Total payments: #{financeManager.currentJob.jobCostingAndPayment.deposit}"/>
-                    <ui:remove>
-                        <p:column colspan="3" style="text-align:right" footerText="Total ??: #{financeManager.currentJob.jobCostingAndPayment.deposit}"/>
-                    </ui:remove>
+                    <p:column colspan="2" 
+                              style="text-align:right;" 
+                              footerText="Total payments ($): "/>                                        
+                    <p:column style="text-align:right;"                               
+                              footerText="#{financeManager.currentJob.jobCostingAndPayment.payment}"/>
                 </p:row>               
             </p:columnGroup>
         </p:dataTable>

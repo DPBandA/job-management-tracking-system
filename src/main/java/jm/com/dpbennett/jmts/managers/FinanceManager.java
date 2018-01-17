@@ -743,27 +743,48 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void updateMinimumDepositIncludingTaxes() {
         updateJobCostingEstimate();
     }
-
-    public void updateJobCostingEstimate() {
+    
+     public void updateJobCostingEstimate() {
 
         // Update estmated cost and min. deposit  
         if (currentJob.getJobCostingAndPayment().getEstimatedCost() != null) {
-            Double estimatedCostWithTaxes = BusinessEntityUtils.roundTo2DecimalPlaces(currentJob.getJobCostingAndPayment().getEstimatedCost()
+            Double estimatedCostWithTaxes = currentJob.getJobCostingAndPayment().getEstimatedCost()
                     + currentJob.getJobCostingAndPayment().getEstimatedCost()
-                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0);
+                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0;
             currentJob.getJobCostingAndPayment().setEstimatedCostIncludingTaxes(estimatedCostWithTaxes);
             setIsDirty(true);
         }
 
         if (currentJob.getJobCostingAndPayment().getMinDeposit() != null) {
-            Double minDepositWithTaxes = BusinessEntityUtils.roundTo2DecimalPlaces(currentJob.getJobCostingAndPayment().getMinDeposit()
+            Double minDepositWithTaxes = currentJob.getJobCostingAndPayment().getMinDeposit()
                     + currentJob.getJobCostingAndPayment().getMinDeposit()
-                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0);
+                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0;
             currentJob.getJobCostingAndPayment().setMinDepositIncludingTaxes(minDepositWithTaxes);
             setIsDirty(true);
         }
 
     }
+
+//    public void updateJobCostingEstimate() {
+//
+//        // Update estmated cost and min. deposit  
+//        if (currentJob.getJobCostingAndPayment().getEstimatedCost() != null) {
+//            Double estimatedCostWithTaxes = BusinessEntityUtils.roundTo2DecimalPlaces(currentJob.getJobCostingAndPayment().getEstimatedCost()
+//                    + currentJob.getJobCostingAndPayment().getEstimatedCost()
+//                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0);
+//            currentJob.getJobCostingAndPayment().setEstimatedCostIncludingTaxes(estimatedCostWithTaxes);
+//            setIsDirty(true);
+//        }
+//
+//        if (currentJob.getJobCostingAndPayment().getMinDeposit() != null) {
+//            Double minDepositWithTaxes = BusinessEntityUtils.roundTo2DecimalPlaces(currentJob.getJobCostingAndPayment().getMinDeposit()
+//                    + currentJob.getJobCostingAndPayment().getMinDeposit()
+//                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0);
+//            currentJob.getJobCostingAndPayment().setMinDepositIncludingTaxes(minDepositWithTaxes);
+//            setIsDirty(true);
+//        }
+//
+//    }
 
     public void updateTotalDeposit() {
         EntityManager em = getEntityManager1();
@@ -1847,13 +1868,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void deleteCashPayment() {
 
         List<CashPayment> payments = currentJob.getJobCostingAndPayment().getCashPayments();
-        int index = 0;
+        //int index = 0;
         for (CashPayment payment : payments) {            
-            if (payment.getPayment().doubleValue() == selectedCashPayment.getPayment().doubleValue()) {
-                payments.remove(index);
+            if (payment.equals(selectedCashPayment)) {
+                payments.remove(selectedCashPayment);
                 break;
             }
-            ++index;
+            //++index;
         }
 
         updateFinalCost();
