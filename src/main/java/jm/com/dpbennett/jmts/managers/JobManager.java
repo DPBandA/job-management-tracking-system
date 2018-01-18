@@ -233,8 +233,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getApplicationHeader() {
-        return SystemOption.findSystemOptionByName(getEntityManager1(),
+        String header = SystemOption.findSystemOptionByName(getEntityManager1(),
                 "applicationHeader").getOptionValue();
+
+        return (header != null ? header : "Job Management &amp; Tracking System");
     }
 
     public String getApplicationSubheader() {
@@ -242,8 +244,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getEntityManager1(),
                 "applicationSubheader").getOptionValue();
 
-        if (subHeader.trim().equals("None")) {
-            return getUser().getEmployee().getDepartment().getName();
+        if (subHeader != null) {
+            if (subHeader.trim().equals("None")) {
+                return getUser().getEmployee().getDepartment().getName();
+            }
+        }
+        else {
+            subHeader = "";
         }
 
         return subHeader;
@@ -1441,7 +1448,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         try {
             if (isSubcontract) {
-                
+
                 // Save current job as parent job for use in the subcontract
                 Job parent = currentJob;
                 // Create copy of job and use current sequence number and year.                
@@ -1543,8 +1550,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     "This job must be saved before it can be subcontracted",
                     FacesMessage.SEVERITY_ERROR);
             return;
-        }
-        else  if (currentJob.getIsSubContract()) {
+        } else if (currentJob.getIsSubContract()) {
             PrimeFacesUtils.addMessage("Subcontract NOT Created",
                     "A subcontract cannot be subcontracted",
                     FacesMessage.SEVERITY_ERROR);
