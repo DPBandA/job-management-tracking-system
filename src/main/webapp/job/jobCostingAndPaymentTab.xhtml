@@ -222,13 +222,15 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Amount"/>
                 </f:facet>
                 <h:outputText value="#{cashPayment.payment}"
-                              styleClass="datatable-number-field" />              
+                              styleClass="datatable-number-field" >
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText>
             </p:column>
             <p:column>
                 <f:facet name="header">
-                    <h:outputText value="Terms"/>
+                    <h:outputText value="Purpose"/>
                 </f:facet>
-                <h:outputText value="#{cashPayment.paymentTerms}"/>              
+                <h:outputText value="#{cashPayment.paymentPurpose}"/>              
             </p:column>
             <p:column style="width:32px">
                 <p:menuButton id="toolsButton" 
@@ -277,8 +279,13 @@ Email: info@dpbennett.com.jm
                     <p:column colspan="2" 
                               style="text-align:right;" 
                               footerText="Total payments ($): "/>                                        
-                    <p:column style="text-align:right;"                               
-                              footerText="#{financeManager.currentJob.jobCostingAndPayment.payment}"/>
+                    <p:column style="text-align:right;"> 
+                        <f:facet name="footer">
+                            <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.totalPayment}" >
+                                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                            </h:outputText>
+                        </f:facet>                        
+                    </p:column>
                 </p:row>               
             </p:columnGroup>
         </p:dataTable>

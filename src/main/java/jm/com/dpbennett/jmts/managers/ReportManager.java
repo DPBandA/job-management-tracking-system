@@ -239,7 +239,7 @@ public class ReportManager implements Serializable {
         this.user = user;
     }
 
-    public final EntityManager getEntityManager1() {
+    public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
 

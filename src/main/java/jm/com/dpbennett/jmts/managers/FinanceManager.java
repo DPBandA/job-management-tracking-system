@@ -21,7 +21,6 @@ package jm.com.dpbennett.jmts.managers;
 
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.DateFormat;
@@ -32,7 +31,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
@@ -57,7 +55,6 @@ import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCosting;
 import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
-import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Preference;
 import jm.com.dpbennett.business.entity.SystemOption;
@@ -94,8 +91,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private EntityManagerFactory EMF2;
     private Job currentJob;
     private CashPayment selectedCashPayment;
-    private Boolean addCostComponent;
-    private Boolean addCashPayment;
     private StreamedContent jobCostingFile;
     @ManagedProperty(value = "Jobs")
     private Integer longProcessProgress;
@@ -137,9 +132,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         accPacCustomer = new AccPacCustomer(null);
         filteredAccPacCustomerDocuments = new ArrayList<>();
         useAccPacCustomerList = false;
-        addCashPayment = false;
-        addCostComponent = false;
-        addCostComponent = false;
         currentJob = null;
         selectedCashPayment = null;
         selectedCostComponent = null;
@@ -554,7 +546,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumber());
             parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount());
             parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscountType());
-            parameters.put("deposit", getCurrentJob().getJobCostingAndPayment().getPayment());
+            parameters.put("deposit", getCurrentJob().getJobCostingAndPayment().getTotalPayment());
             parameters.put("amountDue", getCurrentJob().getJobCostingAndPayment().getAmountDue());
             parameters.put("totalTax", getCurrentJob().getJobCostingAndPayment().getTotalTax());
             parameters.put("totalTaxLabel", getCurrentJob().getJobCostingAndPayment().getTotalTaxLabel());
@@ -723,10 +715,14 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getSubcontractsMessage() {
-        if (!currentJob.findSubcontracts(getEntityManager1()).isEmpty()) {
-            return ("{ " + currentJob.getSubcontracts(getEntityManager1()).size() + " subcontract(s) exist(s) that can be added as cost item(s) }");
-        } else if (!currentJob.findPossibleSubcontracts(getEntityManager1()).isEmpty()) {
-            return ("{ " + currentJob.getPossibleSubcontracts(getEntityManager1()).size() + " possible subcontract(s) exist(s) that can be added as cost item(s) }");
+        if (currentJob.getId() != null) {
+            if (!currentJob.findSubcontracts(getEntityManager1()).isEmpty()) {
+                return ("{ " + currentJob.getSubcontracts(getEntityManager1()).size() + " subcontract(s) exist(s) that can be added as cost item(s) }");
+            } else if (!currentJob.findPossibleSubcontracts(getEntityManager1()).isEmpty()) {
+                return ("{ " + currentJob.getPossibleSubcontracts(getEntityManager1()).size() + " possible subcontract(s) exist(s) that can be added as cost item(s) }");
+            } else {
+                return "";
+            }
         } else {
             return "";
         }
@@ -743,8 +739,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void updateMinimumDepositIncludingTaxes() {
         updateJobCostingEstimate();
     }
-    
-     public void updateJobCostingEstimate() {
+
+    public void updateJobCostingEstimate() {
 
         // Update estmated cost and min. deposit  
         if (currentJob.getJobCostingAndPayment().getEstimatedCost() != null) {
@@ -785,7 +781,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 //        }
 //
 //    }
-
     public void updateTotalDeposit() {
         EntityManager em = getEntityManager1();
 
@@ -1329,11 +1324,16 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void createNewCashPayment(ActionEvent event) {
-        addCashPayment = true;
         selectedCashPayment = new CashPayment();
 
-        // tk Check which purpose to make the default in the future
-        selectedCashPayment.setPaymentPurpose("Deposit");
+        // If there were other payments it is assumed that this is a final payment.
+        // Otherwsie, it is assumed to be a deposit.
+        if (currentJob.getJobCostingAndPayment().getCashPayments().size() > 0) {
+            selectedCashPayment.setPaymentPurpose("Final");
+        }
+        else {
+            selectedCashPayment.setPaymentPurpose("Deposit");
+        }
 
         PrimeFacesUtils.openDialog(null, "cashPaymentDialog", true, true, true, 400, 500);
 
@@ -1346,7 +1346,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void createNewCostComponent(ActionEvent event) {
-        addCostComponent = true;
         selectedCostComponent = new CostComponent();
     }
 
@@ -1379,8 +1378,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void okCostingComponent() {
-        if (addCostComponent) {
-            addCostComponent = false;
+        if (selectedCostComponent.getId() == null) {
             currentJob.getJobCostingAndPayment().getCostComponents().add(selectedCostComponent);
         }
         updateFinalCost();
@@ -1408,7 +1406,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openJobCostingDialog() {
-        if (!currentJob.getIsDirty()) {
+        if (currentJob.getId() != null && !currentJob.getIsDirty()) {
             PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 850);
         } else {
             PrimeFacesUtils.addMessage("Job NOT Saved",
@@ -1424,8 +1422,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void okCashPayment() {
 
-        if (addCashPayment) {
-            addCashPayment = false;
+        if (getSelectedCashPayment().getId() == null) {
             currentJob.getJobCostingAndPayment().getCashPayments().add(selectedCashPayment);
         }
 
@@ -1491,13 +1488,17 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public List<Job> getAllSubcontracts() {
         List<Job> subcontracts = new ArrayList<>();
 
-        if (!currentJob.findSubcontracts(getEntityManager1()).isEmpty()) {
-            subcontracts.addAll(currentJob.findSubcontracts(getEntityManager1()));
-        } else {
-            subcontracts.addAll(currentJob.findPossibleSubcontracts(getEntityManager1()));
-        }
+        if (currentJob.getId() != null) {
+            if (!currentJob.findSubcontracts(getEntityManager1()).isEmpty()) {
+                subcontracts.addAll(currentJob.findSubcontracts(getEntityManager1()));
+            } else {
+                subcontracts.addAll(currentJob.findPossibleSubcontracts(getEntityManager1()));
+            }
 
-        subcontracts.add(0, new Job("-- select a subcontract"));
+            subcontracts.add(0, new Job("-- select a subcontract --"));
+        } else {
+            subcontracts.add(0, new Job("-- none exists --"));
+        }
 
         return subcontracts;
     }
@@ -1869,7 +1870,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         List<CashPayment> payments = currentJob.getJobCostingAndPayment().getCashPayments();
         //int index = 0;
-        for (CashPayment payment : payments) {            
+        for (CashPayment payment : payments) {
             if (payment.equals(selectedCashPayment)) {
                 payments.remove(selectedCashPayment);
                 break;

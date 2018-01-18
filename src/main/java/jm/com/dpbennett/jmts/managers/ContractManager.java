@@ -95,7 +95,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
         return user;
     }
 
-    public final EntityManager getEntityManager1() {
+    public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
 
@@ -642,14 +642,14 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setWrapText(true);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "V9",
-                    currentJob.getJobCostingAndPayment().getPayment(),
+                    currentJob.getJobCostingAndPayment().getTotalPayment(),
                     "Currency", dataCellStyle);
 
             // PAYMENT BREAKDOWN
             // Calculate GCT from payment
-            Double payment = (100.0 * currentJob.getJobCostingAndPayment().getPayment())
+            Double payment = (100.0 * currentJob.getJobCostingAndPayment().getTotalPayment())
                     / (currentJob.getJobCostingAndPayment().getPercentageGCT() + 100.0);
-            Double jobGCT = currentJob.getJobCostingAndPayment().getPayment() - payment;
+            Double jobGCT = currentJob.getJobCostingAndPayment().getTotalPayment() - payment;
             // GCT
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderTop((short) 1);
@@ -704,7 +704,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "AL10",
                         currentJob.getJobCostingAndPayment().getEstimatedCostIncludingTaxes()
-                        - currentJob.getJobCostingAndPayment().getPayment(),
+                        - currentJob.getJobCostingAndPayment().getTotalPayment(),
                         "Currency", dataCellStyle);
             }
 

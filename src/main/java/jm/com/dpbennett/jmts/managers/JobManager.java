@@ -383,7 +383,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.password = password;
     }
 
-    public final EntityManager getEntityManager1() {
+    public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
 
