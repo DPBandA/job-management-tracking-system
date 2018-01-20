@@ -157,8 +157,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     private void init() {
-        password = null;
-        username = null;
+        password = "";
+        username = "";
         showLogin = true;
         userLoggedIn = false;
         westLayoutUnitCollapsed = true;
@@ -182,7 +182,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void reset() {
-        RequestContext context = RequestContext.getCurrentInstance();
+        RequestContext context = RequestContext.getCurrentInstance();       
 
         userLoggedIn = false;
         showLogin = true;
@@ -233,10 +233,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getApplicationHeader() {
-        String header = SystemOption.findSystemOptionByName(getEntityManager1(),
-                "applicationHeader").getOptionValue();
+        SystemOption option = SystemOption.findSystemOptionByName(getEntityManager1(),
+                "applicationHeader");
 
-        return (header != null ? header : "Job Management &amp; Tracking System");
+        return (option != null ? option.getOptionValue() : "Job Management & Tracking System");
+        
     }
 
     public String getApplicationSubheader() {
@@ -248,8 +249,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (subHeader.trim().equals("None")) {
                 return getUser().getEmployee().getDepartment().getName();
             }
-        }
-        else {
+        } else {
             subHeader = "";
         }
 
@@ -364,10 +364,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     @Override
     public String getUsername() {
-        if (username == null) {
-            username = SystemOption.findSystemOptionByName(getEntityManager1(),
-                    "defaultUsername").getOptionValue();
-        }
+//        if (username == null) {
+//            username = SystemOption.findSystemOptionByName(getEntityManager1(),
+//                    "defaultUsername").getOptionValue();
+//        }
         return username;
     }
 
@@ -378,10 +378,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     @Override
     public String getPassword() {
-        if (password == null) {
-            password = SystemOption.findSystemOptionByName(getEntityManager1(),
-                    "defaultPassword").getOptionValue();
-        }
+//        if (password == null) {
+//            password = SystemOption.findSystemOptionByName(getEntityManager1(),
+//                    "defaultPassword").getOptionValue();
+//        }
         return password;
     }
 
@@ -483,9 +483,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 password = "";
             }
             // wrap up
-            if (getUserLoggedIn()) {
-                getUser().setPollTime(new Date());
-                getUser().save(em);
+            if (getUserLoggedIn()) {                        
+                user.logActivity("Logged in", getEntityManager1());
                 setShowLogin(false);
                 username = "";
                 password = "";
@@ -544,12 +543,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void logout() {
+                
+        user.logActivity("Logged out", getEntityManager1());
+        
         reset();
     }
 
     public void handleKeepAlive() {
         getUser().setPollTime(new Date());
         // NB: Time is based on the time zone set in the application server
+        // tk print if "debug is set to true
         System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
         if (getUser().getId() != null) {
             getUser().save(getEntityManager1());

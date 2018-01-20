@@ -29,12 +29,16 @@ Email: info@dpbennett.com.jm
               widgetVar="accPacClientInformationDialog"
               header="Client Credit Status" >     
 
-        <p:commandButton value="Close"
-                         onclick="accPacClientInformationDialog.hide();"
-                         type="button"
-                         icon="ui-icon ui-icon-close" />
-        <hr/>
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="Close"
+                                 onclick="accPacClientInformationDialog.hide();"
+                                 type="button"
+                                 icon="ui-icon ui-icon-close" />
+            </p:toolbarGroup>
+        </p:toolbar>
         <p:tabView id="accPacClientInformationTabView"
+                   style="margin-top: 1px;margin-bottom: 1px;"
                    widgetVar="clientTabVar" >
             <p:tab title="Credit status">
                 <h:form id="accPacClientCreditStatusForm">
@@ -42,11 +46,14 @@ Email: info@dpbennett.com.jm
                 </h:form>
             </p:tab>
         </p:tabView>
-        <hr/>
-        <p:commandButton value="Close"
-                         onclick="accPacClientInformationDialog.hide();"
-                         type="button"
-                         icon="ui-icon ui-icon-close" />
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="Close"
+                                 onclick="accPacClientInformationDialog.hide();"
+                                 type="button"
+                                 icon="ui-icon ui-icon-close" />
+            </p:toolbarGroup>
+        </p:toolbar>
 
     </p:dialog>
 </html>

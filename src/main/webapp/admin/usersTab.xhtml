@@ -56,22 +56,24 @@ Email: info@dpbennett.com.jm
             </p:inputText>       
         </p:toolbarGroup>
 
-        <p:toolbarGroup align="right">
-            <p:outputLabel for="loggedInUsersOnly" value="Active users only: " />  
-            <h:panelGroup>
-                <p:selectBooleanCheckbox style="vertical-align: middle"
-                                         id="loggedInUsersOnly"
-                                         value="#{systemManager.isLoggedInUsersOnly}" >
-                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
-                             listener="#{systemManager.doUserSearch}"
-                             event="change"                                      
-                             process="@this"/>
-                </p:selectBooleanCheckbox>            
-                <p:tooltip for="loggedInUsersOnly" value="Check to show logged in users only" 
-                           showEffect="fade" hideEffect="fade" />
-                <p:spacer width="15" />                
-            </h:panelGroup>
-        </p:toolbarGroup>
+        <ui:remove>
+            <p:toolbarGroup align="right">
+                <p:outputLabel for="loggedInUsersOnly" value="Active users only: " />  
+                <h:panelGroup>
+                    <p:selectBooleanCheckbox style="vertical-align: middle"
+                                             id="loggedInUsersOnly"
+                                             value="#{systemManager.isLoggedInUsersOnly}" >
+                        <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
+                                 listener="#{systemManager.doUserSearch}"
+                                 event="change"                                      
+                                 process="@this"/>
+                    </p:selectBooleanCheckbox>            
+                    <p:tooltip for="loggedInUsersOnly" value="Check to show logged in users only" 
+                               showEffect="fade" hideEffect="fade" />
+                    <p:spacer width="15" />                
+                </h:panelGroup>
+            </p:toolbarGroup>
+        </ui:remove>
     </p:toolbar>    
     <p:dataTable id="usersTable"                                       
                  var="user"                                        
@@ -105,8 +107,8 @@ Email: info@dpbennett.com.jm
             <f:facet name="header">
                 <h:outputText value="Activity"/>
             </f:facet>
-            <h:outputText value="#{user.activity}"
-                          style="font-weight: bold;color: #{user.activity.startsWith('Checked/Logged in', 0) ? 'green': 'grey'}" />
+            <h:outputText value="#{user.loggedActivity}"
+                          style="font-weight: bold;color: #{user.activity.startsWith('Logged in', 0) ? 'green': 'grey'}" />
         </p:column>     
         <p:column style="width:32px">
             <p:commandButton title="View or edit user profile"  

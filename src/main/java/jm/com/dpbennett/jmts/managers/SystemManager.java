@@ -664,18 +664,19 @@ public class SystemManager implements Serializable {
 
         if (foundUsers == null) {
             foundUsers = new ArrayList<>();
-        } else {
-            if (isLoggedInUsersOnly) {
-                List<JobManagerUser> loggedInUsers = new ArrayList<>();
-                for (JobManagerUser jmuser : foundUsers) {
-                    if (jmuser.isLoggedIn()) {
-                        loggedInUsers.add(jmuser);
-                    }
-                }
-                foundUsers.clear();
-                foundUsers.addAll(loggedInUsers);
-            }
-        }
+        } 
+//        else {
+//            if (isLoggedInUsersOnly) {
+//                List<JobManagerUser> loggedInUsers = new ArrayList<>();
+//                for (JobManagerUser jmuser : foundUsers) {
+//                    if (jmuser.isLoggedIn()) {
+//                        loggedInUsers.add(jmuser);
+//                    }
+//                }
+//                foundUsers.clear();
+//                foundUsers.addAll(loggedInUsers);
+//            }
+//        }
 
     }
 
@@ -736,7 +737,7 @@ public class SystemManager implements Serializable {
     }
 
     public void editUser() {
-        PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 430, 600);
+        PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 430, 650);
     }
 
     public Employee getSelectedEmployee() {
@@ -1066,7 +1067,7 @@ public class SystemManager implements Serializable {
         selectedUser = new JobManagerUser();
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
 
-        PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 430, 600);
+        PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 430, 650);
     }
 
     public void createNewDepartment() {
