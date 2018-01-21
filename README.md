@@ -1,5 +1,6 @@
 # Job Management & Tracking System (JMTS)
-## The JMTS is an enterprise software that facilitates the management and tracking of jobs and their related activities.
+## The JMTS is an enterprise software that facilitates business management including
+the management and tracking of jobs and their associated activities.
 ========================================================================================================================
 ## Proposed or Existing Modules/Services
 - Document Management
