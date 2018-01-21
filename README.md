@@ -18,7 +18,7 @@
 - Factory Management
 - Messaging & Chat
 
-
-## Things to do
-- Address issues in TODO.md
-- Create diagram showing new design as a "Generic ERP". See sketched diagram.
+## Installation
+### MySQL
+- In my.cnf add the following for mysql 5.7 >= to remove ONLY_FULL_GROUP_BY : [mysqld] sql_mode = STRICT_TRA
+NS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
