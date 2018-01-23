@@ -13,10 +13,10 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="startOFPeriod" class="java.util.Date" isForPrompting="false">
+	<parameter name="startOFPeriod" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="endOFPeriod" class="java.util.Date" isForPrompting="false">
+	<parameter name="endOFPeriod" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -36,20 +36,37 @@
      address.`ID` AS address_ID,
      phonenumber.`LOCALNUMBER` AS phonenumber_LOCALNUMBER,
      internet.`EMAIL1` AS internet_EMAIL1,
-     department.`NAME` AS department_NAME
+     department.`NAME` AS department_NAME,
+     jobstatusandtracking.`DATESUBMITTED` AS jobstatusandtracking_DATESUBMITTED
 FROM
      `client` client INNER JOIN `client_address` client_address ON client.`ID` = client_address.`Client_ID`
      INNER JOIN `address` address ON client_address.`addresses_ID` = address.`ID`
      INNER JOIN `client_contact` client_contact ON client.`ID` = client_contact.`Client_ID`
      INNER JOIN `job` job ON client.`ID` = job.`CLIENT_ID`
      INNER JOIN `department` department ON job.`DEPARTMENT_ID` = department.`ID`
+     INNER JOIN `jobstatusandtracking` jobstatusandtracking ON job.`JOBSTATUSANDTRACKING_ID` = jobstatusandtracking.`ID`
      INNER JOIN `contact` contact ON client_contact.`contacts_ID` = contact.`ID`
      INNER JOIN `contact_phonenumber` contact_phonenumber ON contact.`ID` = contact_phonenumber.`Contact_ID`
      INNER JOIN `internet` internet ON contact.`INTERNET_ID` = internet.`ID`
      INNER JOIN `phonenumber` phonenumber ON contact_phonenumber.`phoneNumbers_ID` = phonenumber.`ID`
 WHERE
      client.`ACTIVE` = 1
+AND jobstatusandtracking.`DATESUBMITTED` >= $P{startOFPeriod}
+AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOFPeriod}
+AND  client.`NAME` NOT LIKE '%Bureau%'
+AND  (department.`NAME` LIKE '%Microbiology%'
+OR  department.`NAME` LIKE '%Chemistry%'
+OR  department.`NAME` LIKE '%Packaging%'
+OR  department.`NAME` LIKE '%Mechanical%'
+OR  department.`NAME` LIKE '%Electrical%'
+OR  department.`NAME` LIKE '%Civil%'
+OR  department.`NAME` LIKE '%Industrial%'
+OR  department.`NAME` LIKE '%National Certification%')
+
+GROUP BY address.`ADDRESSLINE1`
+
 ORDER BY
+     department.`NAME`,
      client.`NAME` ASC,
      address.`ID` DESC,
      contact.`ID` DESC]]>
@@ -70,6 +87,7 @@ ORDER BY
 	<field name="phonenumber_LOCALNUMBER" class="java.lang.String"/>
 	<field name="internet_EMAIL1" class="java.lang.String"/>
 	<field name="department_NAME" class="java.lang.String"/>
+	<field name="jobstatusandtracking_DATESUBMITTED" class="java.sql.Date"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -99,14 +117,14 @@ ORDER BY
 			<staticText>
 				<reportElement style="Column header" x="364" y="0" width="132" height="18" forecolor="#000000" uuid="f62abab1-cda1-4ad7-8acd-c67e26c68f43"/>
 				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Client]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="709" y="0" width="231" height="18" forecolor="#000000" uuid="517983bd-497d-4977-9a8c-57d9f344af0e"/>
 				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 					<paragraph leftIndent="20"/>
 				</textElement>
 				<text><![CDATA[Contact(s)]]></text>
@@ -114,7 +132,7 @@ ORDER BY
 			<staticText>
 				<reportElement style="Column header" x="496" y="0" width="213" height="18" forecolor="#000000" uuid="cab8ad73-ab35-404f-8de9-790cddb16df9"/>
 				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 					<paragraph leftIndent="10"/>
 				</textElement>
 				<text><![CDATA[Address(es)]]></text>
@@ -122,7 +140,7 @@ ORDER BY
 			<staticText>
 				<reportElement style="Column header" x="940" y="0" width="433" height="18" forecolor="#000000" uuid="1b364744-31be-4013-8c6c-32d7f846de1d"/>
 				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 					<paragraph leftIndent="20"/>
 				</textElement>
 				<text><![CDATA[Telephone/Fax Number(s)]]></text>
@@ -130,7 +148,7 @@ ORDER BY
 			<staticText>
 				<reportElement style="Column header" x="1373" y="0" width="318" height="18" forecolor="#000000" uuid="c6e4c348-f814-4431-a8a3-432d29d4c3a4"/>
 				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 					<paragraph leftIndent="20"/>
 				</textElement>
 				<text><![CDATA[Email]]></text>
@@ -138,7 +156,7 @@ ORDER BY
 			<staticText>
 				<reportElement style="Column header" x="0" y="0" width="364" height="18" forecolor="#000000" uuid="014e50fc-e006-46c9-a7b0-119644456b51"/>
 				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Department]]></text>
 			</staticText>
@@ -151,14 +169,14 @@ ORDER BY
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" isPrintRepeatedValues="false" x="364" y="0" width="132" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="ef99faed-6c45-41ad-8c29-4bea78f09886"/>
 					<textElement>
-						<font fontName="SansSerif" size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" isPrintRepeatedValues="false" x="709" y="0" width="231" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="0432cfc8-afb0-4c3e-b9a5-01e5d2281a2d"/>
 					<textElement>
-						<font fontName="SansSerif" size="14"/>
+						<font fontName="SansSerif" size="12"/>
 						<paragraph leftIndent="20"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{contact_FIRSTNAME} + " " +  $F{contact_LASTNAME}]]></textFieldExpression>
@@ -166,7 +184,7 @@ ORDER BY
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" isPrintRepeatedValues="false" x="496" y="0" width="213" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="938b981a-e048-49b9-ac2d-af4995eb1800"/>
 					<textElement>
-						<font fontName="SansSerif" size="14"/>
+						<font fontName="SansSerif" size="12"/>
 						<paragraph leftIndent="10"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{address_ADDRESSLINE1} + " " + $F{address_ADDRESSLINE2}
@@ -176,7 +194,7 @@ ORDER BY
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="940" y="0" width="433" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="923e6101-b40e-4b5b-a11a-dd43aa126eb2"/>
 					<textElement>
-						<font fontName="SansSerif" size="14"/>
+						<font fontName="SansSerif" size="12"/>
 						<paragraph leftIndent="20"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{phonenumber_LOCALNUMBER}]]></textFieldExpression>
@@ -184,7 +202,7 @@ ORDER BY
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" isPrintRepeatedValues="false" x="1373" y="0" width="318" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="b7a99667-8385-4c10-96fc-73df1d16f632"/>
 					<textElement>
-						<font fontName="SansSerif" size="14"/>
+						<font fontName="SansSerif" size="12"/>
 						<paragraph leftIndent="20"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{internet_EMAIL1}]]></textFieldExpression>
@@ -192,9 +210,9 @@ ORDER BY
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" isPrintRepeatedValues="false" x="0" y="0" width="364" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="97cc292b-2107-4ef0-bf74-04ae30548595"/>
 					<textElement>
-						<font fontName="SansSerif" size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{department_NAME}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

@@ -71,7 +71,9 @@ Email: info@dpbennett.com.jm
             </p:menuButton>         
         </p:toolbarGroup>
     </p:toolbar>
-    <h:outputText value="Job Search:" styleClass="output-text-header"/> 
+    <ui:remove>
+        <h:outputText value="Job Search:" styleClass="output-text-header"/> 
+    </ui:remove>
     <ui:include src="jobSearch.xhtml"/>   
 
 

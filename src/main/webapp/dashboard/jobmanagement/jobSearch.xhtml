@@ -24,82 +24,84 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <h:panelGrid columns="2" cellspacing="5">
-        <h:outputText value="Search type: " />
-        <p:selectOneMenu value="#{searchManager.currentSearchParameters.searchType}" 
-                         style="width: 100%;">
-            <p:ajax                        
-                listener="#{searchManager.updateSearchType}"
-                process="@this" />
-            <f:selectItems value="#{searchManager.authorizedSearchTypes}" />
-        </p:selectOneMenu>
-
-        <h:outputText value="Date field: " 
-                      rendered="#{searchManager.currentSearchParameters.showDateField}"/>
-        <p:selectOneMenu value="#{searchManager.currentSearchParameters.dateField}" 
-                         style="width: 100%;"
-                         rendered="#{searchManager.currentSearchParameters.showDateField}" >
-            <p:ajax                        
-                listener="#{searchManager.updateDateField}"
-                process="@this" />
-            <f:selectItems value="#{searchManager.currentSearchParameters.searchDateFields}" />
-        </p:selectOneMenu>
-
-        <h:outputText value="Date period: " rendered="#{searchManager.currentSearchParameters.showDateField}"/>               
-        <p:selectOneMenu value= "#{searchManager.currentSearchParameters.datePeriod.name}" 
-                         style="width: 100%;"
-                         rendered="#{searchManager.currentSearchParameters.showDateField}" >
-            <p:ajax listener="#{searchManager.changeSearchDatePeriod}"
-                    update="startSearchDate,endSearchDate"
+    <p:panel header="Job Search" >
+        <h:panelGrid columns="2" cellspacing="5">
+            <h:outputText value="Search type: " />
+            <p:selectOneMenu value="#{searchManager.currentSearchParameters.searchType}" 
+                             style="width: 100%;">
+                <p:ajax                        
+                    listener="#{searchManager.updateSearchType}"
                     process="@this" />
-            <f:selectItems value="#{App.datePeriods}"/>
-        </p:selectOneMenu>
-        <h:outputText value="Start:" 
-                      rendered="#{searchManager.currentSearchParameters.showDateField}" />
-        <p:calendar id="startSearchDate"
-                    value="#{searchManager.currentSearchParameters.datePeriod.startDate}"                    
-                    size="17"
-                    navigator="true"
-                    rendered="#{searchManager.currentSearchParameters.showDateField}"
-                    disabled="#{searchManager.currentSearchParameters.datePeriod.startDateDisabled}"
-                    pattern="MMM dd, yyyy" >
-            <p:ajax event="dateSelect"                            
-                    listener="#{searchManager.handleStartDateSelect}"/>
-            <p:ajax event="keyup"                            
-                    listener="#{searchManager.handleStartDateSelect}"/>
-        </p:calendar>
+                <f:selectItems value="#{searchManager.authorizedSearchTypes}" />
+            </p:selectOneMenu>
 
-        <h:outputText value="End:" 
-                      rendered="#{searchManager.currentSearchParameters.showDateField}" />
-        <p:calendar id="endSearchDate"
-                    rendered="#{searchManager.currentSearchParameters.showDateField}"
-                    value="#{searchManager.currentSearchParameters.datePeriod.endDate}"
-                    size="17"
-                    navigator="true"
-                    disabled="#{searchManager.currentSearchParameters.datePeriod.endDateDisabled}"
-                    pattern="MMM dd, yyyy" >
-            <p:ajax event="dateSelect"                           
-                    listener="#{searchManager.handleEndDateSelect}"/>
-            <p:ajax event="keyup"                           
-                    listener="#{searchManager.handleEndDateSelect}"/>
-        </p:calendar>   
-    </h:panelGrid>   
-    <p:toolbar>
-        <p:toolbarGroup align="left" >
-            <p:inputText value="#{searchManager.currentSearchParameters.searchText}"  
-                         id="searchText"/>        
-            <p:spacer width="5" />
-            <p:commandButton value="Search"
-                             id="doSearch"
-                             onstart="longProcessDialogVar.show();"
-                             actionListener="#{searchManager.doSearch}"
-                             oncomplete="longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"
-                             update=":headerForm:growl3"
-                             icon="ui-icon-search"
-                             process="@form"/>
-        </p:toolbarGroup>
-    </p:toolbar>
-    <p:watermark value="-- enter search text --" for="searchText" />   
-    <p/>
+            <h:outputText value="Date field: " 
+                          rendered="#{searchManager.currentSearchParameters.showDateField}"/>
+            <p:selectOneMenu value="#{searchManager.currentSearchParameters.dateField}" 
+                             style="width: 100%;"
+                             rendered="#{searchManager.currentSearchParameters.showDateField}" >
+                <p:ajax                        
+                    listener="#{searchManager.updateDateField}"
+                    process="@this" />
+                <f:selectItems value="#{searchManager.currentSearchParameters.searchDateFields}" />
+            </p:selectOneMenu>
+
+            <h:outputText value="Date period: " rendered="#{searchManager.currentSearchParameters.showDateField}"/>               
+            <p:selectOneMenu value= "#{searchManager.currentSearchParameters.datePeriod.name}" 
+                             style="width: 100%;"
+                             rendered="#{searchManager.currentSearchParameters.showDateField}" >
+                <p:ajax listener="#{searchManager.changeSearchDatePeriod}"
+                        update="startSearchDate,endSearchDate"
+                        process="@this" />
+                <f:selectItems value="#{App.datePeriods}"/>
+            </p:selectOneMenu>
+            <h:outputText value="Start:" 
+                          rendered="#{searchManager.currentSearchParameters.showDateField}" />
+            <p:calendar id="startSearchDate"
+                        value="#{searchManager.currentSearchParameters.datePeriod.startDate}"                    
+                        size="17"
+                        navigator="true"
+                        rendered="#{searchManager.currentSearchParameters.showDateField}"
+                        disabled="#{searchManager.currentSearchParameters.datePeriod.startDateDisabled}"
+                        pattern="MMM dd, yyyy" >
+                <p:ajax event="dateSelect"                            
+                        listener="#{searchManager.handleStartDateSelect}"/>
+                <p:ajax event="keyup"                            
+                        listener="#{searchManager.handleStartDateSelect}"/>
+            </p:calendar>
+
+            <h:outputText value="End:" 
+                          rendered="#{searchManager.currentSearchParameters.showDateField}" />
+            <p:calendar id="endSearchDate"
+                        rendered="#{searchManager.currentSearchParameters.showDateField}"
+                        value="#{searchManager.currentSearchParameters.datePeriod.endDate}"
+                        size="17"
+                        navigator="true"
+                        disabled="#{searchManager.currentSearchParameters.datePeriod.endDateDisabled}"
+                        pattern="MMM dd, yyyy" >
+                <p:ajax event="dateSelect"                           
+                        listener="#{searchManager.handleEndDateSelect}"/>
+                <p:ajax event="keyup"                           
+                        listener="#{searchManager.handleEndDateSelect}"/>
+            </p:calendar>   
+        </h:panelGrid>   
+        <p:toolbar>
+            <p:toolbarGroup align="left" >
+                <p:inputText value="#{searchManager.currentSearchParameters.searchText}"  
+                             style="width: 50%;"
+                             id="searchText"/>        
+                <p:spacer width="5" />
+                <p:commandButton value="Search"
+                                 id="doSearch"
+                                 onstart="longProcessDialogVar.show();"
+                                 actionListener="#{searchManager.doSearch}"
+                                 oncomplete="longProcessDialogVar.hide();"
+                                 onerror="connectionErrorDialog.show();"
+                                 update=":headerForm:growl3"
+                                 icon="ui-icon-search"
+                                 process="@form"/>
+            </p:toolbarGroup>
+        </p:toolbar>
+        <p:watermark value="-- enter search text --" for="searchText" />   
+    </p:panel>
 </html>

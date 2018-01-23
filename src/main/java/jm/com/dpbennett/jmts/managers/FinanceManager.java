@@ -686,6 +686,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void updateJobCostingAndPayment() {
         setJobCostingAndPaymentDirty(true);
     }
+    
+    public void updateCashPayment() {
+        getSelectedCashPayment().setIsDirty(true);
+    }
 
     public void updateSubcontract(AjaxBehaviorEvent event) {
         if (!((SelectOneMenu) event.getComponent()).getValue().toString().equals("null")) {
