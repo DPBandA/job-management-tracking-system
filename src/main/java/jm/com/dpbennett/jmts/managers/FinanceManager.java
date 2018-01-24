@@ -388,9 +388,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean getCanEditJobCosting() {
-        // Can edit if user belongs to the department to which the job was assigned        
-        return (getCurrentJob().getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue())
-                || (getCurrentJob().getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue());
+        // Can edit if user belongs to the department to which the job was assigned
+        return getUser().getPrivilege().getCanBeFinancialAdministrator()
+                || getCurrentJob().getJobCostingAndPayment().getCashPayments().isEmpty();
     }
 
     public String getSelectedJobCostingTemplate() {
@@ -686,11 +686,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void updateJobCostingAndPayment() {
         setJobCostingAndPaymentDirty(true);
     }
-    
+
     public void updateCashPayment() {
         getSelectedCashPayment().setIsDirty(true);
     }
-    
+
     public void updateCostComponent() {
         getSelectedCostComponent().setIsDirty(true);
     }
@@ -719,7 +719,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         updateJobCostingEstimate();
         updateTotalCost();
 
-        setIsDirty(true);
+        setJobCostingAndPaymentDirty(true);
     }
 
     public String getSubcontractsMessage() {
@@ -756,7 +756,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                     + currentJob.getJobCostingAndPayment().getEstimatedCost()
                     * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0;
             currentJob.getJobCostingAndPayment().setEstimatedCostIncludingTaxes(estimatedCostWithTaxes);
-            setIsDirty(true);
+            setJobCostingAndPaymentDirty(true);
         }
 
         if (currentJob.getJobCostingAndPayment().getMinDeposit() != null) {
@@ -764,31 +764,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                     + currentJob.getJobCostingAndPayment().getMinDeposit()
                     * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0;
             currentJob.getJobCostingAndPayment().setMinDepositIncludingTaxes(minDepositWithTaxes);
-            setIsDirty(true);
+            setJobCostingAndPaymentDirty(true);
         }
 
     }
 
-//    public void updateJobCostingEstimate() {
-//
-//        // Update estmated cost and min. deposit  
-//        if (currentJob.getJobCostingAndPayment().getEstimatedCost() != null) {
-//            Double estimatedCostWithTaxes = BusinessEntityUtils.roundTo2DecimalPlaces(currentJob.getJobCostingAndPayment().getEstimatedCost()
-//                    + currentJob.getJobCostingAndPayment().getEstimatedCost()
-//                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0);
-//            currentJob.getJobCostingAndPayment().setEstimatedCostIncludingTaxes(estimatedCostWithTaxes);
-//            setIsDirty(true);
-//        }
-//
-//        if (currentJob.getJobCostingAndPayment().getMinDeposit() != null) {
-//            Double minDepositWithTaxes = BusinessEntityUtils.roundTo2DecimalPlaces(currentJob.getJobCostingAndPayment().getMinDeposit()
-//                    + currentJob.getJobCostingAndPayment().getMinDeposit()
-//                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0);
-//            currentJob.getJobCostingAndPayment().setMinDepositIncludingTaxes(minDepositWithTaxes);
-//            setIsDirty(true);
-//        }
-//
-//    }
     public void updateTotalDeposit() {
         EntityManager em = getEntityManager1();
 
@@ -1338,8 +1318,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         // Otherwsie, it is assumed to be a deposit.
         if (currentJob.getJobCostingAndPayment().getCashPayments().size() > 0) {
             selectedCashPayment.setPaymentPurpose("Final");
-        }
-        else {
+        } else {
             selectedCashPayment.setPaymentPurpose("Deposit");
         }
 
@@ -1361,6 +1340,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         selectedCashPayment.setIsDirty(false);
 
         RequestContext.getCurrentInstance().closeDialog(null);
+    }
+
+    public void cancelCostComponentEdit() {
+        selectedCostComponent.setIsDirty(false);
     }
 
     public void cashPaymentDialogReturn() {

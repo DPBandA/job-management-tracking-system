@@ -42,6 +42,7 @@ Email: info@dpbennett.com.jm
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel" 
                                      immediate="true"
+                                     actionListener="#{financeManager.cancelCostComponentEdit}"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                      onstart="longProcessDialogVar.show();"                              
                                      oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
@@ -181,6 +182,7 @@ Email: info@dpbennett.com.jm
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"       
                                      immediate="true"
+                                     actionListener="#{financeManager.cancelCostComponentEdit}"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                      onstart="longProcessDialogVar.show();"                              
                                      oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
