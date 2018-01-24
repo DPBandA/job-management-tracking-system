@@ -92,7 +92,7 @@ Email: info@dpbennett.com.jm
                                  style="width: 90%;" >
                         <p:ajax event="change"
                                 global="false" 
-                                listener="#{financeManager.updateJobCostingAndPayment}" 
+                                listener="#{financeManager.updateCostComponent}" 
                                 process="@this"/>
                     </p:inputText>
 
@@ -112,12 +112,12 @@ Email: info@dpbennett.com.jm
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax event="keyup"
                                 global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                listener="#{financeManager.updateCostComponent}"
                                 update="costingComponentDialogForm:costComponentCost"
                                 process="@this"/>
                         <p:ajax event="change"
                                 global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                listener="#{financeManager.updateCostComponent}"
                                 update="costingComponentDialogForm:costComponentCost"
                                 process="@this"/>
                     </p:inputText>
@@ -137,12 +137,12 @@ Email: info@dpbennett.com.jm
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax event="keyup"
                                 global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                listener="#{financeManager.updateCostComponent}"
                                 update="costingComponentDialogForm:costComponentCost"
                                 process="@this"/>
                         <p:ajax event="change"
                                 global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                listener="#{financeManager.updateCostComponent}"
                                 update="costingComponentDialogForm:costComponentCost"
                                 process="@this"/>
                     </p:inputText>
@@ -162,7 +162,7 @@ Email: info@dpbennett.com.jm
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax event="change"
                                 global="false"                            
-                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                listener="#{financeManager.updateCostComponent}"
                                 process="@this"/>
                     </p:inputText>
                     <h:outputText value=" "

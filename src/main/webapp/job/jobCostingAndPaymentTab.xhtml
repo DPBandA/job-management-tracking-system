@@ -39,7 +39,7 @@ Email: info@dpbennett.com.jm
                 <p:ajax event="change"
                         global="false"
                         listener="#{financeManager.updatePurchaseOrderNumber}"
-                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update="@this,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>

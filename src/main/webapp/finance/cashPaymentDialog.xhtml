@@ -77,7 +77,7 @@ Email: info@dpbennett.com.jm
                         value="#{financeManager.selectedCashPayment.paymentPurpose}">
                         <p:ajax
                             global="true"                        
-                            listener="#{financeManager.updateJobCostingAndPayment}"
+                            listener="#{financeManager.updateCashPayment}"
                             process="@this" />
                         <f:selectItems value="#{App.paymentPurposes}" />
                     </p:selectOneMenu>   
@@ -89,14 +89,14 @@ Email: info@dpbennett.com.jm
                                 navigator="true" 
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                listener="#{financeManager.updateJobCostingAndPayment}" />
+                                listener="#{financeManager.updateCashPayment}" />
 
                     </p:calendar>
 
                     <h:outputText value="Receipt #:" />
                     <p:inputText value="#{financeManager.selectedCashPayment.receiptNumber}" 
                                  maxlength="40" >
-                        <p:ajax listener="#{financeManager.updateJobCostingAndPayment}"
+                        <p:ajax listener="#{financeManager.updateCashPayment}"
                                 event="change"
                                 global="false"                            
                                 process="@this"/>
@@ -114,7 +114,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="change"
                                 global="false"                            
-                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                listener="#{financeManager.updateCashPayment}"
                                 process="@this"/>
                     </p:inputText>                
 
@@ -124,7 +124,7 @@ Email: info@dpbennett.com.jm
                         value="#{financeManager.currentJob.jobCostingAndPayment.discountType}">
                         <p:ajax
                             global="true"
-                            listener="#{financeManager.updateJobCostingAndPayment}"
+                            listener="#{financeManager.updateCashPayment}"
                             process="@this" />
                         <f:selectItems value="#{App.discountTypes}" />
                     </p:selectOneMenu>                   
@@ -142,7 +142,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="change"
                                 global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                listener="#{financeManager.updateCashPayment}"
                                 process="@this"/>
                     </p:inputText>          
 
@@ -154,7 +154,7 @@ Email: info@dpbennett.com.jm
                         rows="2">
                         <p:ajax event="change"
                                 global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                listener="#{financeManager.updateCashPayment}"
                                 process="@this"/>
                     </p:inputTextarea>                
                 </h:panelGrid>

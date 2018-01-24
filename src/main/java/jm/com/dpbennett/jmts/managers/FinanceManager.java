@@ -690,6 +690,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void updateCashPayment() {
         getSelectedCashPayment().setIsDirty(true);
     }
+    
+    public void updateCostComponent() {
+        getSelectedCostComponent().setIsDirty(true);
+    }
 
     public void updateSubcontract(AjaxBehaviorEvent event) {
         if (!((SelectOneMenu) event.getComponent()).getValue().toString().equals("null")) {
@@ -699,12 +703,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             selectedCostComponent.setCost(subcontract.getJobCostingAndPayment().getFinalCost());
             selectedCostComponent.setName("Subcontract (" + subcontract.getJobNumber() + ")");
 
-            setJobCostingAndPaymentDirty(true);
+            updateCostComponent();
         }
     }
 
     public void updatePurchaseOrderNumber() {
-        setIsDirty(true);
+        setJobCostingAndPaymentDirty(true);
     }
 
     public void updateJobDescription() {
@@ -933,7 +937,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 break;
         }
 
-        setJobCostingAndPaymentDirty(true);
+        updateCostComponent();
 
     }
 
