@@ -707,43 +707,47 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void updatePurchaseOrderNumber() {
-        EntityManager em = getEntityManager1();
-        
-       
-        if(getCurrentJob().getJobCostingAndPayment().getId() != null) {
-            JobCostingAndPayment jcp = 
-                    JobCostingAndPayment.findJobCostingAndPaymentById(em, 
-                            getCurrentJob().getJobCostingAndPayment().getId());
-            em.refresh(jcp);
-            
-            if (!jcp.getCashPayments().isEmpty()) {
-                // Reset PO#
-                getCurrentJob().getJobCostingAndPayment().
-                        setPurchaseOrderNumber(jcp.getPurchaseOrderNumber());
-                
-                setJobCostingAndPaymentDirty(false);
-            }
-            else {
-                setJobCostingAndPaymentDirty(true);
-            }
-            
-        }
-        else {
-            setJobCostingAndPaymentDirty(true);
-        }               
-        
-    }
-
     public void updateJobDescription() {
         setJobCostingAndPaymentDirty(true);
     }
 
     public void updateAllTaxes() {
-        updateJobCostingEstimate();
-        updateTotalCost();
+        EntityManager em = getEntityManager1();
 
-        setJobCostingAndPaymentDirty(true);
+        if (getCurrentJob().getJobCostingAndPayment().getId() != null) {
+            JobCostingAndPayment jcp
+                    = JobCostingAndPayment.findJobCostingAndPaymentById(em,
+                            getCurrentJob().getJobCostingAndPayment().getId());
+            em.refresh(jcp);
+
+            if (!jcp.getCashPayments().isEmpty()) {
+                // Reset PO#
+                getCurrentJob().getJobCostingAndPayment().
+                        setPurchaseOrderNumber(jcp.getPurchaseOrderNumber());
+
+                // Reset tax
+                getCurrentJob().getJobCostingAndPayment().
+                        setPercentageGCT(jcp.getPercentageGCT());
+
+                
+                updateJobCostingEstimate();
+                updateTotalCost();
+
+                setJobCostingAndPaymentDirty(false);
+            } else {
+                updateJobCostingEstimate();
+                updateTotalCost();
+
+                setJobCostingAndPaymentDirty(true);
+            }
+
+        } else {
+            updateJobCostingEstimate();
+            updateTotalCost();
+
+            setJobCostingAndPaymentDirty(true);
+        }
+
     }
 
     public String getSubcontractsMessage() {
@@ -761,7 +765,75 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateMinimumDepositRequired() {
-        updateJobCostingEstimate();
+        EntityManager em = getEntityManager1();
+
+        if (getCurrentJob().getJobCostingAndPayment().getId() != null) {
+            JobCostingAndPayment jcp
+                    = JobCostingAndPayment.findJobCostingAndPaymentById(em,
+                            getCurrentJob().getJobCostingAndPayment().getId());
+            em.refresh(jcp);
+
+            if (!jcp.getCashPayments().isEmpty()) {
+
+                // Reset min deposit required
+                getCurrentJob().getJobCostingAndPayment().
+                        setMinDeposit(jcp.getMinDeposit());
+
+                // Reset cash payments
+                getCurrentJob().getJobCostingAndPayment().
+                        setCashPayments(jcp.getCashPayments());
+
+                PrimeFacesUtils.addMessage("Permission Denied",
+                        "A payment was made on this job so update of this field is not allowed",
+                        FacesMessage.SEVERITY_ERROR);
+
+                setJobCostingAndPaymentDirty(false);
+
+            } else {
+                updateJobCostingEstimate();
+
+                setJobCostingAndPaymentDirty(true);
+            }
+
+        } else {
+            updateJobCostingEstimate();
+
+            setJobCostingAndPaymentDirty(true);
+        }
+
+    }
+
+    public void updatePurchaseOrderNumber() {
+        EntityManager em = getEntityManager1();
+
+        if (getCurrentJob().getJobCostingAndPayment().getId() != null) {
+            JobCostingAndPayment jcp
+                    = JobCostingAndPayment.findJobCostingAndPaymentById(em,
+                            getCurrentJob().getJobCostingAndPayment().getId());
+            em.refresh(jcp);
+
+            if (!jcp.getCashPayments().isEmpty()) {
+                // Reset PO#
+                getCurrentJob().getJobCostingAndPayment().
+                        setPurchaseOrderNumber(jcp.getPurchaseOrderNumber());
+
+                // Reset cash payments
+                getCurrentJob().getJobCostingAndPayment().
+                        setCashPayments(jcp.getCashPayments());
+
+                PrimeFacesUtils.addMessage("Permission Denied",
+                        "A payment was made on this job so update of this field is not allowed",
+                        FacesMessage.SEVERITY_ERROR);
+
+                setJobCostingAndPaymentDirty(false);
+            } else {
+                setJobCostingAndPaymentDirty(true);
+            }
+
+        } else {
+            setJobCostingAndPaymentDirty(true);
+        }
+
     }
 
     public void updateEstimatedCostIncludingTaxes() {
@@ -774,20 +846,49 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void updateJobCostingEstimate() {
 
-        // Update estmated cost and min. deposit  
-        if (currentJob.getJobCostingAndPayment().getEstimatedCost() != null) {
-            Double estimatedCostWithTaxes = currentJob.getJobCostingAndPayment().getEstimatedCost()
-                    + currentJob.getJobCostingAndPayment().getEstimatedCost()
-                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0;
-            currentJob.getJobCostingAndPayment().setEstimatedCostIncludingTaxes(estimatedCostWithTaxes);
-            setJobCostingAndPaymentDirty(true);
-        }
+        EntityManager em = getEntityManager1();
 
-        if (currentJob.getJobCostingAndPayment().getMinDeposit() != null) {
-            Double minDepositWithTaxes = currentJob.getJobCostingAndPayment().getMinDeposit()
-                    + currentJob.getJobCostingAndPayment().getMinDeposit()
-                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0;
-            currentJob.getJobCostingAndPayment().setMinDepositIncludingTaxes(minDepositWithTaxes);
+        if (getCurrentJob().getJobCostingAndPayment().getId() != null) {
+            JobCostingAndPayment jcp
+                    = JobCostingAndPayment.findJobCostingAndPaymentById(em,
+                            getCurrentJob().getJobCostingAndPayment().getId());
+            em.refresh(jcp);
+
+            if (!jcp.getCashPayments().isEmpty()) {
+                // Reset cost estimate
+                getCurrentJob().getJobCostingAndPayment().
+                        setEstimatedCost(jcp.getEstimatedCost());
+
+                // Reset cash payments
+                getCurrentJob().getJobCostingAndPayment().
+                        setCashPayments(jcp.getCashPayments());
+
+                PrimeFacesUtils.addMessage("Permission Denied",
+                        "A payment was made on this job so update of this field is not allowed",
+                        FacesMessage.SEVERITY_ERROR);
+
+                setJobCostingAndPaymentDirty(false);
+            } else {
+                // Update estmated cost and min. deposit  
+                // tk may not need to do this here but in the respective get methods
+                if (currentJob.getJobCostingAndPayment().getEstimatedCost() != null) {
+                    Double estimatedCostWithTaxes = currentJob.getJobCostingAndPayment().getEstimatedCost()
+                            + currentJob.getJobCostingAndPayment().getEstimatedCost()
+                            * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0;
+                    currentJob.getJobCostingAndPayment().setEstimatedCostIncludingTaxes(estimatedCostWithTaxes);
+                    setJobCostingAndPaymentDirty(true);
+                }
+
+                // tk may not need to do this here but in the respective get methods
+                if (currentJob.getJobCostingAndPayment().getMinDeposit() != null) {
+                    Double minDepositWithTaxes = currentJob.getJobCostingAndPayment().getMinDeposit()
+                            + currentJob.getJobCostingAndPayment().getMinDeposit()
+                            * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100.0;
+                    currentJob.getJobCostingAndPayment().setMinDepositIncludingTaxes(minDepositWithTaxes);
+                    setJobCostingAndPaymentDirty(true);
+                }
+            }
+        } else {
             setJobCostingAndPaymentDirty(true);
         }
 
@@ -1417,7 +1518,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean getCanApplyGCT() {
-        
+
         return JobCostingAndPayment.getCanApplyGCT(getCurrentJob())
                 && getCanEditJobCosting();
     }
@@ -2109,11 +2210,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             return true;
         }
         return false;
-    }
-
-    public Boolean getIsAuthorizedToModifyCostings() {
-        // For now
-        return true;
     }
 
     public List<SelectItem> getGCTPercentages() { // tk put in a costing entity

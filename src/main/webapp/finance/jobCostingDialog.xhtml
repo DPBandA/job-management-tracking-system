@@ -155,9 +155,9 @@ Email: info@dpbennett.com.jm
                                          process="@this">
                         </p:commandButton>
                         <ui:remove>
-                        <p:spacer width="10" />
-                        <h:outputText value="#{financeManager.subcontractsMessage}" 
-                                      style="color: gold;font-weight: bold;" />
+                            <p:spacer width="10" />
+                            <h:outputText value="#{financeManager.subcontractsMessage}" 
+                                          style="color: gold;font-weight: bold;" />
                         </ui:remove>
                     </p:toolbarGroup>                    
                 </p:toolbar>
@@ -308,22 +308,24 @@ Email: info@dpbennett.com.jm
             </p:panel>
             <p:panel id="costingSummaryPanel" header="Costing &amp; Payment Summary">
                 <h:panelGrid columns="3">
-                    <h:outputText value="Invoice number:" />
-                    <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.invoiceNumber}"
-                                 disabled="#{!financeManager.isAuthorizedToModifyCostings}"
-                                 maxlength="40" >
-                        <p:ajax event="change"
-                                global="false"                                
-                                listener="#{financeManager.updateJobCostingAndPayment}"
-                                process="@this"/>
-                    </p:inputText>
+                    <ui:remove>
+                        <h:outputText value="Invoice number:" />
+                        <p:spacer height="0" width="10"/>
+                        <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.invoiceNumber}"
+                                     maxlength="40" >
+                            <p:ajax event="change"
+                                    global="false"                                
+                                    listener="#{financeManager.updateJobCostingAndPayment}"
+                                    process="@this"/>
+                        </p:inputText>
+                    </ui:remove>
 
                     <h:outputText value="Receipt #s:" />
                     <p:spacer height="0" width="10"/>
                     <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.receiptNumber}" 
-                                 maxlength="120"
-                                 disabled="#{!financeManager.isAuthorizedToModifyCostings}" >
+                                 maxlength="120" 
+                                 styleClass="read-only-text-field"
+                                 readonly="true" >
                         <p:ajax event="change"
                                 global="false"
                                 listener="#{financeManager.updateJobCostingAndPayment}"                                
@@ -332,7 +334,7 @@ Email: info@dpbennett.com.jm
 
                     <h:outputText value="Total paid ($):" />
                     <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.deposit}" 
+                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.totalPayment}" 
                                  readonly="true"
                                  maxlength="15"
                                  styleClass="read-only-number-field">

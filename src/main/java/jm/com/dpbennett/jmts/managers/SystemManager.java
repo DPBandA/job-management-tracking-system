@@ -85,7 +85,7 @@ public class SystemManager implements Serializable {
     private Boolean isActiveSectorsOnly;
     private Boolean isActiveLdapsOnly;
     private Date startDate;
-    private Date endDate;    
+    private Date endDate;
     private Long selectedDocumentId;
     private JobManagerUser selectedUser;
     private JobManagerUser foundUser;
@@ -116,9 +116,9 @@ public class SystemManager implements Serializable {
     private Department selectedDepartment;
     private SystemOption selectedSystemOption;
     private Classification selectedClassification;
-    private JobCategory selectedJobCategory;    
-    private JobSubCategory selectedJobSubcategory;    
-    private Sector selectedSector;    
+    private JobCategory selectedJobCategory;
+    private JobSubCategory selectedJobSubcategory;
+    private Sector selectedSector;
     private LdapContext selectedLdapContext;
 
     /**
@@ -664,7 +664,7 @@ public class SystemManager implements Serializable {
 
         if (foundUsers == null) {
             foundUsers = new ArrayList<>();
-        } 
+        }
 //        else {
 //            if (isLoggedInUsersOnly) {
 //                List<JobManagerUser> loggedInUsers = new ArrayList<>();
@@ -725,7 +725,13 @@ public class SystemManager implements Serializable {
     }
 
     public void editLdapContext() {
-        PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 600);
+        PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 450);
+    }
+
+    public void createNewLdapContext() {
+        selectedLdapContext = new LdapContext();
+
+        PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 450);
     }
 
     public void editDepartment() {
@@ -1082,12 +1088,6 @@ public class SystemManager implements Serializable {
         selectedClassification = new Classification();
 
         PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 300, 600);
-    }
-
-    public void createNewLdapContext() {
-        selectedLdapContext = new LdapContext();
-
-        PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 600);
     }
 
     public void createNewJobCategory() {
