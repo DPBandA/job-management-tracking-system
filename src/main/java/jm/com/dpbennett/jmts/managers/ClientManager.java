@@ -39,7 +39,7 @@ import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.context.RequestContext;
 import jm.com.dpbennett.business.entity.Job;
-import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
+import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.business.entity.validator.AddressValidator;
 import jm.com.dpbennett.business.entity.validator.ContactValidator;
 import jm.com.dpbennett.jmts.Application;

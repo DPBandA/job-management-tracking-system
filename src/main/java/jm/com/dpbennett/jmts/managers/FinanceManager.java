@@ -72,7 +72,7 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
-import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
+import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 

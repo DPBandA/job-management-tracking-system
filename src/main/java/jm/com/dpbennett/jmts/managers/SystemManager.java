@@ -44,7 +44,7 @@ import jm.com.dpbennett.business.entity.LdapContext;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
+import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;

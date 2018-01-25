@@ -38,7 +38,7 @@ import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
+import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import org.primefaces.context.RequestContext;
 
 /**

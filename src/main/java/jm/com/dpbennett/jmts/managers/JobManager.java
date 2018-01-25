@@ -19,7 +19,7 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
-import jm.com.dpbennett.business.entity.utils.JobDataModel;
+import jm.com.dpbennett.jmts.utils.JobDataModel;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -88,7 +88,7 @@ import org.primefaces.event.TabCloseEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
-import jm.com.dpbennett.business.entity.utils.PrimeFacesUtils;
+import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
 
 /**
