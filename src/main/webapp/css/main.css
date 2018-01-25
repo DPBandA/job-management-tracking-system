@@ -91,6 +91,11 @@
     color: blue;
 }
 
+.read-only-text-field {   
+    background-color: lightyellow !important;
+    color: blue;
+}
+
 .ui-widget .ui-widget .invalid-number-field {
     text-align: right;
     border-color: lightblue;

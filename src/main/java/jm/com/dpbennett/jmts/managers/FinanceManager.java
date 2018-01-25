@@ -708,7 +708,31 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updatePurchaseOrderNumber() {
-        setJobCostingAndPaymentDirty(true);
+        EntityManager em = getEntityManager1();
+        
+       
+        if(getCurrentJob().getJobCostingAndPayment().getId() != null) {
+            JobCostingAndPayment jcp = 
+                    JobCostingAndPayment.findJobCostingAndPaymentById(em, 
+                            getCurrentJob().getJobCostingAndPayment().getId());
+            em.refresh(jcp);
+            
+            if (!jcp.getCashPayments().isEmpty()) {
+                // Reset PO#
+                getCurrentJob().getJobCostingAndPayment().
+                        setPurchaseOrderNumber(jcp.getPurchaseOrderNumber());
+                
+                setJobCostingAndPaymentDirty(false);
+            }
+            else {
+                setJobCostingAndPaymentDirty(true);
+            }
+            
+        }
+        else {
+            setJobCostingAndPaymentDirty(true);
+        }               
+        
     }
 
     public void updateJobDescription() {
@@ -1393,7 +1417,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean getCanApplyGCT() {
-        return JobCostingAndPayment.getCanApplyGCT(getCurrentJob());
+        
+        return JobCostingAndPayment.getCanApplyGCT(getCurrentJob())
+                && getCanEditJobCosting();
     }
 
     public void openJobCostingDialog() {

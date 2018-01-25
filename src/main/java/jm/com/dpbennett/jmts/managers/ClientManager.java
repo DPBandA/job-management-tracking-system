@@ -148,7 +148,7 @@ public class ClientManager implements Serializable {
 
     public void doClientSearch() {
         if (searchText.trim().length() > 1) {
-            if (isActiveClientsOnly) {
+            if (getIsActiveClientsOnly()) {
                 foundClients = Client.findActiveClientsByFirstPartOfName(getEntityManager(), searchText);
             } else {
                 foundClients = Client.findClientsByFirstPartOfName(getEntityManager(), searchText);

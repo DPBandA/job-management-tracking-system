@@ -34,12 +34,13 @@ Email: info@dpbennett.com.jm
 
             <h:outputText value="Purchase order #: "/>
             <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
-                         disabled="#{!financeManager.isAuthorizedToModifyCostings}"
-                         maxlength="40">
+                         readonly="#{!financeManager.canEditJobCosting}"
+                         styleClass="#{financeManager.canEditJobCosting eq true ? '' : 'read-only-text-field'}"
+                         maxlength="40" >
                 <p:ajax event="change"
                         global="false"
                         listener="#{financeManager.updatePurchaseOrderNumber}"
-                        update="@this,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update="@this,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>
@@ -48,13 +49,13 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.estimatedCost}"
                              converterMessage="Please enter a valid cost estimate."
-                             styleClass="number-field"
-                             disabled="#{!financeManager.isAuthorizedToModifyCostings}"
+                             styleClass="#{financeManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
+                             readonly="#{!financeManager.canEditJobCosting}"
                              maxlength="15" >
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     <p:ajax event="change"
                             global="false"
-                            update="estimatedCostIncludingTaxes,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                            update="@this,:mainTabViewForm:mainTabView:growl2,estimatedCostIncludingTaxes,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                             listener="#{financeManager.updateJobCostingEstimate}"
                             process="@this"/>
                 </p:inputText>
@@ -65,13 +66,13 @@ Email: info@dpbennett.com.jm
 
             <h:outputText value="Minimum deposit required ($): "/>
             <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.minDeposit}"
-                         disabled="#{!financeManager.isAuthorizedToModifyCostings}"
-                         styleClass="number-field"
+                         readonly="#{!financeManager.canEditJobCosting}"
+                         styleClass="#{financeManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
                          maxlength="15">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="change"
                         global="false"
-                        update="minDepositIncludingTaxes,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update="@this,:mainTabViewForm:mainTabView:growl2,minDepositIncludingTaxes,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                         listener="#{financeManager.updateMinimumDepositRequired}"
                         process="@this"/>
             </p:inputText>
@@ -80,15 +81,16 @@ Email: info@dpbennett.com.jm
             <h:outputText value="GCT(%):"/>
             <p:selectOneMenu 
                 id="gct"                
-                disabled="#{!financeManager.canApplyGCT}"
+                disabled="#{!financeManager.canApplyGCT}"                
                 style="width: 100px;text-indent: 45px;"  
+                styleClass="#{financeManager.canApplyGCT eq true ? '' : 'read-only-inputfield'}"
                 value="#{financeManager.currentJob.jobCostingAndPayment.percentageGCT}">
 
                 <f:convertNumber minFractionDigits="3" maxFractionDigits="3"/>
 
                 <p:ajax
                     global="true"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1,estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
+                    update="@this,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobDetailToolbar1,estimatedCostIncludingTaxes,minDepositIncludingTaxes,totalCostLabel,costEstimateLabel,minDepositLabel,totalCost,amountDue2"
                     listener="#{financeManager.updateAllTaxes}"
                     process="@this" />
 
@@ -108,11 +110,6 @@ Email: info@dpbennett.com.jm
 
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 
-                    <p:ajax event="change"
-                            global="false"                            
-                            listener="#{financeManager.updateEstimatedCostIncludingTaxes}"
-                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
-                            process="@this"/>
                 </p:inputText>
                 <h:outputText value="&nbsp;"/>
                 <h:outputText value="&nbsp;"/>
@@ -127,11 +124,7 @@ Email: info@dpbennett.com.jm
                          readonly="true"
                          maxlength="15">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                <p:ajax event="keyup"
-                        global="false"                        
-                        listener="#{financeManager.updateMinimumDepositIncludingTaxes}"
-                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
-                        process="@this"/>
+               
             </p:inputText>
             <h:outputText value="&nbsp;"/>   
 
@@ -145,11 +138,7 @@ Email: info@dpbennett.com.jm
                              styleClass="read-only-number-field"
                              readonly="true">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-                    <p:ajax event="keyup"
-                            global="false"
-                            listener="#{financeManager.updateTotalCost}"
-                            update="amountDue2,:mainTabViewForm:mainTabView:jobDetailToolbar1"
-                            process="@this"/>
+                    
                 </p:inputText>
                 <p:commandButton icon="ui-icon ui-icon-pencil"
                                  actionListener="#{financeManager.openJobCostingDialog}"
@@ -174,13 +163,16 @@ Email: info@dpbennett.com.jm
                          maxlength="15"
                          styleClass="read-only-number-field"
                          readonly="true">
+                
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                
             </p:inputText>
             <h:outputText value="&nbsp;"/>              
 
         </h:panelGrid>
     </p:panel>
-    <p:panel id="cashPayments" header="Payment">    
+    
+    <p:panel id="cashPayments" header="Payment" >    
         <p:toolbar>
             <p:toolbarGroup align="left">
                 <p:commandButton value="New"
@@ -302,7 +294,7 @@ Email: info@dpbennett.com.jm
                     <p:ajax event="dialogReturn" 
                             listener="#{financeManager.cashPaymentDialogReturn}"                   
                             update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
-                            process="@this"/>
+                            process="@this" />
 
                 </p:commandButton>
             </p:toolbarGroup>
