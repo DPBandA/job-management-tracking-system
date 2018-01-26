@@ -711,7 +711,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setJobCostingAndPaymentDirty(true);
     }
 
-    public void updateAllTaxes() {
+    public void updateAllTaxes(AjaxBehaviorEvent event) {
         EntityManager em = getEntityManager1();
 
         if (getCurrentJob().getJobCostingAndPayment().getId() != null) {
@@ -720,18 +720,20 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                             getCurrentJob().getJobCostingAndPayment().getId());
             em.refresh(jcp);
 
-            if (!jcp.getCashPayments().isEmpty()) {
-                // Reset PO#
-                getCurrentJob().getJobCostingAndPayment().
-                        setPurchaseOrderNumber(jcp.getPurchaseOrderNumber());
+            if (!(jcp.getCashPayments().isEmpty()
+                    || getUser().getPrivilege().getCanBeFinancialAdministrator())) {
 
                 // Reset tax
                 getCurrentJob().getJobCostingAndPayment().
                         setPercentageGCT(jcp.getPercentageGCT());
 
-                
-                updateJobCostingEstimate();
-                updateTotalCost();
+                // Reset cash payments
+                getCurrentJob().getJobCostingAndPayment().
+                        setCashPayments(jcp.getCashPayments());
+
+                PrimeFacesUtils.addMessage("Permission Denied",
+                        "A payment was made on this job so update of this field is not allowed",
+                        FacesMessage.SEVERITY_ERROR);
 
                 setJobCostingAndPaymentDirty(false);
             } else {
@@ -773,7 +775,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                             getCurrentJob().getJobCostingAndPayment().getId());
             em.refresh(jcp);
 
-            if (!jcp.getCashPayments().isEmpty()) {
+            if (!(jcp.getCashPayments().isEmpty()
+                    || getUser().getPrivilege().getCanBeFinancialAdministrator())) {
 
                 // Reset min deposit required
                 getCurrentJob().getJobCostingAndPayment().
@@ -812,7 +815,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                             getCurrentJob().getJobCostingAndPayment().getId());
             em.refresh(jcp);
 
-            if (!jcp.getCashPayments().isEmpty()) {
+            if (!(jcp.getCashPayments().isEmpty()
+                    || getUser().getPrivilege().getCanBeFinancialAdministrator())) {
                 // Reset PO#
                 getCurrentJob().getJobCostingAndPayment().
                         setPurchaseOrderNumber(jcp.getPurchaseOrderNumber());
@@ -854,7 +858,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                             getCurrentJob().getJobCostingAndPayment().getId());
             em.refresh(jcp);
 
-            if (!jcp.getCashPayments().isEmpty()) {
+            if (!(jcp.getCashPayments().isEmpty()
+                    || getUser().getPrivilege().getCanBeFinancialAdministrator())) {
                 // Reset cost estimate
                 getCurrentJob().getJobCostingAndPayment().
                         setEstimatedCost(jcp.getEstimatedCost());

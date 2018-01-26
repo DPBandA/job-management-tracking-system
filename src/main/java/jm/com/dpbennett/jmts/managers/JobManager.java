@@ -1237,7 +1237,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
         if (currentJob.getId() != null) {
-            financeManager.updateAllTaxes();
+            financeManager.updateAllTaxes(null);
         }
     }
 
@@ -1626,6 +1626,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void saveCurrentJob() {
         EntityManager em = getEntityManager1();
+        
+        // tk prevent overwriting samples
+        if (!jobSampleManager.isSamplesDirty() && currentJob.getId() != null) {
+            Job savedJob = Job.findJobById(em, currentJob.getId());
+            em.refresh(savedJob);
+            currentJob.setJobSamples(savedJob.getJobSamples());
+        }
 
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
@@ -1881,7 +1888,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         if (currentJob.getId() != null) {
-            financeManager.updateAllTaxes();
+            financeManager.updateAllTaxes(null);
         }
 
         setIsDirty(true);
@@ -2094,7 +2101,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
             if (currentJob.getId() != null) {
-                financeManager.updateAllTaxes();
+                financeManager.updateAllTaxes(null);
             }
 
             setIsDirty(true);
@@ -2117,7 +2124,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
             if (currentJob.getId() != null) {
-                financeManager.updateAllTaxes();
+                financeManager.updateAllTaxes(null);
             }
 
         } catch (Exception e) {

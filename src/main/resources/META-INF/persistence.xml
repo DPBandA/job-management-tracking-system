@@ -99,6 +99,7 @@
     </properties>
   </persistence-unit>
   <persistence-unit name="AccPacPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <non-jta-data-source>jdbc/__ACCPACDBPool</non-jta-data-source>
     <class>jm.com.dpbennett.business.entity.AccPacCustomer</class>
     <class>jm.com.dpbennett.business.entity.AccPacDocument</class>

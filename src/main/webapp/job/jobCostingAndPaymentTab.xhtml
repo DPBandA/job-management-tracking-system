@@ -86,10 +86,9 @@ Email: info@dpbennett.com.jm
                 styleClass="#{financeManager.canApplyGCT eq true ? '' : 'read-only-inputfield'}"
                 value="#{financeManager.currentJob.jobCostingAndPayment.percentageGCT}">
 
-                <f:convertNumber minFractionDigits="3" maxFractionDigits="3"/>
+                <f:convertNumber minFractionDigits="1" maxFractionDigits="1"/>
 
                 <p:ajax
-                    event="change"
                     global="true"
                     update="jobCosting,cashPayments,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                     listener="#{financeManager.updateAllTaxes}"

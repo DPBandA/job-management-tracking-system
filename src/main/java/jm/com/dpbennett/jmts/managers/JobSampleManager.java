@@ -56,7 +56,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     private JobSample selectedJobSampleBackup;
     private Integer jobSampleDialogTabViewActiveIndex;
     private JobManagerUser user;
-
+    
     /**
      * Creates a new instance of JobManagerBean
      */
@@ -75,7 +75,18 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     public void reset() {
         init();
     }
+    
+    public Boolean isSamplesDirty() {
+        Boolean dirty = false;
+                
+        for (JobSample jobSample : getCurrentJob().getJobSamples()) {
+            dirty = dirty || jobSample.getIsDirty();
+        }
+        
+        return dirty;
+    }
 
+    
     public void createNewJobSample(ActionEvent event) {
 
         if (getCurrentJob().hasOnlyDefaultJobSample()) {
@@ -264,16 +275,16 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         }
 
         // Do job save if possible...
-       if (getCurrentJob().getId() != null && 
-               getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-            PrimeFacesUtils.addMessage("Job Saved", 
+        if (getCurrentJob().getId() != null
+                && getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            PrimeFacesUtils.addMessage("Job Saved",
                     "Sample(s) deleted and the job was saved", FacesMessage.SEVERITY_INFO);
         } else {
             setCurrentJobDirty();
             PrimeFacesUtils.addMessage("Job NOT Saved",
                     "Sample(s) deleted but the job was not saved", FacesMessage.SEVERITY_WARN);
         }
-       
+
         RequestContext.getCurrentInstance().closeDialog(null);
     }
 
@@ -283,7 +294,18 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public void setEditSelectedJobSample(JobSample selectedJobSample) {
-        this.selectedJobSample = selectedJobSample;
+        
+        // Get the saved sample for edit if it exists
+        if (selectedJobSample.getId() != null) {
+            EntityManager em = getEntityManager1();
+            this.selectedJobSample = JobSample.findJobSampleById(em, selectedJobSample.getId());
+            em.refresh(this.selectedJobSample);
+            getCurrentJob().getJobSamples().remove(selectedJobSample);
+            getCurrentJob().getJobSamples().add(this.selectedJobSample);  
+        } else {
+            this.selectedJobSample = selectedJobSample;
+        }
+
         selectedJobSampleBackup = new JobSample(this.selectedJobSample);
         this.selectedJobSample.setIsToBeAdded(false);
         this.selectedJobSample.setIsDirty(false);
