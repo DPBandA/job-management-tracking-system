@@ -116,35 +116,7 @@ Email: info@dpbennett.com.jm
                                 global="false"                            
                                 listener="#{financeManager.updateCashPayment}"
                                 process="@this"/>
-                    </p:inputText>                
-
-                    <h:outputText value="Discount type:" style="font-weight: bold;" />
-                    <p:selectOneMenu 
-                        id="discountType" 
-                        value="#{financeManager.currentJob.jobCostingAndPayment.discountType}">
-                        <p:ajax
-                            global="true"
-                            listener="#{financeManager.updateCashPayment}"
-                            process="@this" />
-                        <f:selectItems value="#{App.discountTypes}" />
-                    </p:selectOneMenu>                   
-
-
-                    <h:outputText value="Discount:" style="font-weight: bold;" />
-                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.discount}"  
-                                 id="discountAmount"
-                                 styleClass="number-field"
-                                 validator="requiredFieldValidator"
-                                 converterMessage="Invalid discount value"
-                                 maxlength="5">
-
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-
-                        <p:ajax event="change"
-                                global="false"
-                                listener="#{financeManager.updateCashPayment}"
-                                process="@this"/>
-                    </p:inputText>          
+                    </p:inputText>     
 
                     <h:outputText value="Terms:" />
                     <p:inputTextarea

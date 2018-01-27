@@ -308,30 +308,7 @@ Email: info@dpbennett.com.jm
             </p:panel>
             <p:panel id="costingSummaryPanel" header="Costing &amp; Payment Summary">
                 <h:panelGrid columns="3">
-                    <ui:remove>
-                        <h:outputText value="Invoice number:" />
-                        <p:spacer height="0" width="10"/>
-                        <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.invoiceNumber}"
-                                     maxlength="40" >
-                            <p:ajax event="change"
-                                    global="false"                                
-                                    listener="#{financeManager.updateJobCostingAndPayment}"
-                                    process="@this"/>
-                        </p:inputText>
-                    </ui:remove>
-
-                    <h:outputText value="Receipt #s:" />
-                    <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.receiptNumber}" 
-                                 maxlength="120" 
-                                 styleClass="read-only-text-field"
-                                 readonly="true" >
-                        <p:ajax event="change"
-                                global="false"
-                                listener="#{financeManager.updateJobCostingAndPayment}"                                
-                                process="@this"/>
-                    </p:inputText>
-
+                    
                     <h:outputText value="Total paid ($):" />
                     <p:spacer height="0" width="10"/>
                     <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.totalPayment}" 

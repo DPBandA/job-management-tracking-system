@@ -78,27 +78,7 @@ Email: info@dpbennett.com.jm
             </p:inputText>
             <h:outputText value="&nbsp;"/>      
 
-            <h:outputText value="GCT(%):"/>
-            <ui:remove>
-                <p:selectOneMenu 
-                    id="gct"                
-                    disabled="#{!financeManager.canApplyGCT}"                
-                    style="width: 100px;text-indent: 45px;"  
-                    styleClass="#{financeManager.canApplyGCT eq true ? '' : 'read-only-inputfield'}"
-                    value="#{financeManager.currentJob.jobCostingAndPayment.percentageGCT}" >
-
-                    <f:convertNumber minFractionDigits="1" maxFractionDigits="1"/>
-
-                    <p:ajax
-                        global="true"
-                        update="jobCosting,cashPayments,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobDetailToolbar1"
-                        listener="#{financeManager.updateAllTaxes}"
-                        process="@this" />
-
-                    <f:selectItems value="#{financeManager.GCTPercentages}" />
-
-                </p:selectOneMenu>  
-            </ui:remove>
+            <h:outputText value="GCT(%):"/>            
             <p:autoComplete id="gct"
                             value="#{financeManager.currentJob.jobCostingAndPayment.percentageGCT}"
                             dropdown="true"
@@ -169,7 +149,7 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax event="dialogReturn" 
                             listener="#{financeManager.jobCostingDialogReturn}"
-                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting,:mainTabViewForm:mainTabView:growl2"/>
+                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting,cashPayments,:mainTabViewForm:mainTabView:growl2"/>
 
                 </p:commandButton>  
             </h:panelGroup>
@@ -204,18 +184,76 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax event="dialogReturn" 
                             listener="#{financeManager.cashPaymentDialogReturn}"                    
-                            update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
+                            update="cashPayments,jobCosting,:mainTabViewForm:mainTabView:growl2,cashPayments"
                             process="@this"/>
 
                 </p:commandButton>
             </p:toolbarGroup>
         </p:toolbar>
+        <p:panel style="margin-bottom: 1px;margin-top: 1px;">
+            <h:panelGrid columns="2">
+
+                <h:outputText value="Invoice number:" />
+                <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.invoiceNumber}"
+                             maxlength="40" >
+                    <p:ajax event="change"                            
+                            listener="#{financeManager.updateJobCostingAndPayment}"
+                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                            process="@this"/>
+                </p:inputText>
+
+                <h:outputText value="Receipt #s:" />
+                <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.receiptNumber}" 
+                             id="receiptNumbers"
+                             maxlength="120" 
+                             styleClass="read-only-text-field"
+                             readonly="true" >                   
+                </p:inputText>
+
+                <h:outputText value="Discount:" />
+                <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.discount}"  
+                             id="discountAmount"
+                             style="width: 72%;"
+                             styleClass="number-field"
+                             validator="requiredFieldValidator"
+                             converterMessage="Invalid discount value"
+                             maxlength="5">
+
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+
+                    <p:ajax event="change"
+                            global="false"
+                            listener="#{financeManager.updateJobCostingAndPayment}"
+                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting"
+                            process="@this"/>
+                </p:inputText> 
+
+                <h:outputText value="Discount type:" />
+                <p:selectOneMenu 
+                    id="discountType" 
+                    style="width: 72%;"
+                    value="#{financeManager.currentJob.jobCostingAndPayment.discountType}">
+                    <p:ajax
+                        global="true"
+                        listener="#{financeManager.updateJobCostingAndPayment}"
+                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting"
+                        process="@this" />
+                    <f:selectItems value="#{App.discountTypes}" />
+                </p:selectOneMenu>                  
+
+            </h:panelGrid>
+        </p:panel>        
         <p:dataTable id="cashPaymentTable"
                      style="margin-top: 1px;margin-bottom: 1px;"
                      paginator="true"
                      rows="15"
                      var="cashPayment"
                      value="#{financeManager.currentJob.jobCostingAndPayment.cashPayments}">
+
+            <f:facet name="header">
+                <h:outputText value="Cash Payments" />
+            </f:facet>
+
             <p:column style="width:100px"  >
                 <f:facet name="header">
                     <h:outputText value="Receipt #" />
@@ -261,7 +299,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="dialogReturn" 
                                     listener="#{financeManager.cashPaymentDialogReturn}"                    
-                                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
+                                    update=":mainTabViewForm:mainTabView:jobFormTabView:cashPayments,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2"
                                     process="@this"/>
 
                         </p:commandButton>  
@@ -278,7 +316,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="dialogReturn" 
                                     listener="#{financeManager.cashPaymentDialogReturn}"                    
-                                    update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
+                                    update=":mainTabViewForm:mainTabView:jobFormTabView:cashPayments,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2"
                                     process="@this"/>
 
                         </p:commandButton>
@@ -312,7 +350,7 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax event="dialogReturn" 
                             listener="#{financeManager.cashPaymentDialogReturn}"                   
-                            update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobFormTabView:cashPaymentTable"
+                            update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,cashPayments"
                             process="@this" />
 
                 </p:commandButton>

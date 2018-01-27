@@ -373,6 +373,12 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     @Override
     public void setIsDirty(Boolean dirty) {
         getCurrentJob().setIsDirty(dirty);
+        
+        if (dirty) {
+            getCurrentJob().getJobStatusAndTracking().setEditStatus("(edited)");
+        } else {
+            getCurrentJob().getJobStatusAndTracking().setEditStatus("");
+        }
     }
 
     @Override
@@ -448,7 +454,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
         try {
 
             Job job = Job.findJobById(em, jobId);
-            job.getJobCostingAndPayment().calculateAmountDue();
+            //job.getJobCostingAndPayment().calculateAmountDue();
 
             Client client = job.getClient();
 

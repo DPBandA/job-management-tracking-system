@@ -182,7 +182,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void reset() {
-        RequestContext context = RequestContext.getCurrentInstance();       
+        RequestContext context = RequestContext.getCurrentInstance();
 
         userLoggedIn = false;
         showLogin = true;
@@ -237,7 +237,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 "applicationHeader");
 
         return (option != null ? option.getOptionValue() : "Job Management & Tracking System");
-        
+
     }
 
     public String getApplicationSubheader() {
@@ -483,7 +483,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 password = "";
             }
             // wrap up
-            if (getUserLoggedIn()) {                        
+            if (getUserLoggedIn()) {
                 user.logActivity("Logged in", getEntityManager1());
                 setShowLogin(false);
                 username = "";
@@ -543,9 +543,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void logout() {
-                
+
         user.logActivity("Logged out", getEntityManager1());
-        
+
         reset();
     }
 
@@ -1626,7 +1626,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void saveCurrentJob() {
         EntityManager em = getEntityManager1();
-        
+
         // Prevent overwriting samples that were another user.
         if (!jobSampleManager.isSamplesDirty() && currentJob.getId() != null) {
             Job savedJob = Job.findJobById(em, currentJob.getId());
@@ -2058,6 +2058,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void setEditJobCosting(Job currentJob) {
         this.currentJob = currentJob;
+
+        // Reload cash payments if possible to avoid overwriting them 
+        // when saving
+        EntityManager em = getEntityManager1();
+        JobCostingAndPayment jcp
+                = JobCostingAndPayment.findJobCostingAndPaymentById(em,
+                        getCurrentJob().getJobCostingAndPayment().getId());
+
+        em.refresh(jcp);
+
+        currentJob.getJobCostingAndPayment().setCashPayments(jcp.getCashPayments());
+
         initManagers();
 
         setSelectedJobs(null);
@@ -2072,6 +2084,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     @Override
     public void setIsDirty(Boolean dirty) {
         getCurrentJob().setIsDirty(dirty);
+        if (dirty) {
+            getCurrentJob().getJobStatusAndTracking().setEditStatus("(edited)");
+        } else {
+            getCurrentJob().getJobStatusAndTracking().setEditStatus("");
+        }
     }
 
     @Override

@@ -1145,7 +1145,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         try {
 
-            currentJob.getJobCostingAndPayment().calculateAmountDue();
+            //currentJob.getJobCostingAndPayment().calculateAmountDue();
 
             if (getUser().getEmployee() != null) {
                 currentJob.getJobCostingAndPayment().setFinalCostDoneBy(getUser().getEmployee().getName());
@@ -1452,13 +1452,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             selectedCashPayment.setPaymentPurpose("Deposit");
         }
 
-        PrimeFacesUtils.openDialog(null, "cashPaymentDialog", true, true, true, 400, 500);
+        PrimeFacesUtils.openDialog(null, "cashPaymentDialog", true, true, true, 350, 500);
 
     }
 
     public void editCashPayment(ActionEvent event) {
 
-        PrimeFacesUtils.openDialog(null, "cashPaymentDialog", true, true, true, 400, 500);
+        PrimeFacesUtils.openDialog(null, "cashPaymentDialog", true, true, true, 350, 500);
 
     }
 
@@ -1518,7 +1518,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateAmountDue() {
-        currentJob.getJobCostingAndPayment().setAmountDue(currentJob.getJobCostingAndPayment().calculateAmountDue());
+        //currentJob.getJobCostingAndPayment().setAmountDue(currentJob.getJobCostingAndPayment().calculateAmountDue());
         setJobCostingAndPaymentDirty(true);
     }
 
@@ -1530,6 +1530,17 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void openJobCostingDialog() {
         if (currentJob.getId() != null && !currentJob.getIsDirty()) {
+            // Reload cash payments if possible to avoid overwriting them 
+            // when saving
+            EntityManager em = getEntityManager1();
+            JobCostingAndPayment jcp
+                    = JobCostingAndPayment.findJobCostingAndPaymentById(em,
+                            getCurrentJob().getJobCostingAndPayment().getId());
+
+            em.refresh(jcp);
+
+            currentJob.getJobCostingAndPayment().setCashPayments(jcp.getCashPayments());
+
             PrimeFacesUtils.openDialog(null, "jobCostingDialog", true, true, true, 600, 850);
         } else {
             PrimeFacesUtils.addMessage("Job NOT Saved",
@@ -1650,6 +1661,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void setJobCostingAndPaymentDirty(Boolean dirty) {
         getCurrentJob().getJobCostingAndPayment().setIsDirty(dirty);
+
+        if (dirty) {
+            getCurrentJob().getJobStatusAndTracking().setEditStatus("(edited)");
+        } else {
+            getCurrentJob().getJobStatusAndTracking().setEditStatus("");
+        }
     }
 
     public Boolean isJobCostingAndPaymentDirty() {
@@ -1889,7 +1906,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             if (jcp != null) {
                 currentJob.getJobCostingAndPayment().getCostComponents().clear();
                 currentJob.getJobCostingAndPayment().setCostComponents(copyCostComponents(jcp.getCostComponents()));
-                currentJob.getJobCostingAndPayment().calculateAmountDue();
+                //currentJob.getJobCostingAndPayment().calculateAmountDue();
                 setJobCostingAndPaymentDirty(true);
             } else {
                 // Nothing yet
@@ -2235,7 +2252,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
             String listAsString = SystemOption.findSystemOptionByName(em, "GCTPercentageList").getOptionValue();
             String percentage[] = listAsString.split(itemSep);
-            
+
             for (String percent : percentage) {
                 if (percent.contains(query)) {
                     percentages.add(Double.parseDouble(percent));
