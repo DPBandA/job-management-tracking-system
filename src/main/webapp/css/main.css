@@ -68,6 +68,15 @@
     background-color: lightyellow !important;
 }
 
+.read-only-right-inputfield .ui-inputfield {
+    background-color: lightyellow !important;
+    text-align: right;
+}
+
+.right-inputfield .ui-inputfield {
+    text-align: right;
+}
+
 .output-text-header {
     display: block;
     margin-top: 10px;

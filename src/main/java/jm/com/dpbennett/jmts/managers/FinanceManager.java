@@ -2225,4 +2225,33 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         return percentages;
     }
 
+    public List<Double> completeTaxPercentage(String query) {
+        List<Double> percentages = new ArrayList<>();
+
+        try {
+
+            EntityManager em = getEntityManager1();
+
+            String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
+            String listAsString = SystemOption.findSystemOptionByName(em, "GCTPercentageList").getOptionValue();
+            String percentage[] = listAsString.split(itemSep);
+            
+            for (String percent : percentage) {
+                if (percent.contains(query)) {
+                    percentages.add(Double.parseDouble(percent));
+                }
+            }
+//            for (Contact contact : getCurrentJob().getClient().getContacts()) {
+//                if (contact.toString().toUpperCase().contains(query.toUpperCase())) {
+//                    contacts.add(contact);
+//                }
+//            }
+            return percentages;
+        } catch (NumberFormatException e) {
+
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+
 }
