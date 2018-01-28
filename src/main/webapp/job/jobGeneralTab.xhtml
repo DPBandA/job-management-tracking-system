@@ -72,7 +72,8 @@ Email: info@dpbennett.com.jm
         <p:autoComplete id="businessOffice"
                         size="35"
                         maxlength="40"
-                        dropdown="true"
+                        dropdown="true" 
+                        readonly="false"
                         var="businessOffice"
                         value="#{jobManager.currentJob.businessOffice}"
                         itemLabel="#{businessOffice.name}"
@@ -230,6 +231,7 @@ Email: info@dpbennett.com.jm
         <h:outputText value="Department: " style="font-weight: bold" />
         <p:autoComplete id="department"  
                         disabled="#{jobManager.disableDepartment}"
+                        readonly="#{jobManager.disableDepartment}"
                         var="department"
                         forceSelection="true"      
                         dropdown="true"

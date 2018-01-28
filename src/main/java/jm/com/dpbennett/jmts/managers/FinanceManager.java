@@ -2258,17 +2258,33 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                     percentages.add(Double.parseDouble(percent));
                 }
             }
-//            for (Contact contact : getCurrentJob().getClient().getContacts()) {
-//                if (contact.toString().toUpperCase().contains(query.toUpperCase())) {
-//                    contacts.add(contact);
-//                }
-//            }
+
             return percentages;
         } catch (NumberFormatException e) {
 
             System.out.println(e);
             return new ArrayList<>();
         }
+    }
+    
+    /**
+     * Return discount types. NB: Discount types to be obtained from System Options
+     * in the future
+     * @param query
+     * @return 
+     */
+    public List<String> completeDiscountType(String query) {
+        String discountTypes[] = {"Currency", "Percentage"};
+        List<String> matchedDiscountTypes = new ArrayList<>();
+        
+        for (String discountType : discountTypes) {
+            if (discountType.contains(query)) {
+                matchedDiscountTypes.add(discountType);
+            } 
+        }
+        
+        return matchedDiscountTypes;
+
     }
 
 }

@@ -90,7 +90,7 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Username"/>
             </f:facet>
             <h:outputText value="#{user.username}" />
-        </p:column>
+        </p:column>        
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Firstname"/>
@@ -109,7 +109,16 @@ Email: info@dpbennett.com.jm
             </f:facet>
             <h:outputText value="#{user.loggedActivity}"
                           style="font-weight: bold;color: #{user.activity.startsWith('Logged in', 0) ? 'green': 'grey'}" />
-        </p:column>     
+        </p:column>  
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Authenticate"/>
+            </f:facet>           
+            <p:selectBooleanCheckbox 
+                style="display: block;text-align: center;"
+                disabled="true"
+                value="#{user.authenticate}" />
+        </p:column>
         <p:column style="width:32px">
             <p:commandButton title="View or edit user profile"  
                              actionListener="#{systemManager.editUser}"

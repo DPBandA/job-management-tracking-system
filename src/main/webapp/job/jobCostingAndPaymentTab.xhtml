@@ -27,7 +27,7 @@ Email: info@dpbennett.com.jm
     <p:panel id="jobCosting" header="Costing">
         <h:panelGrid columns="3">
             <h:outputLabel value="Job number: " style="font-weight: bold;font-size: 14px;" />
-            <h:outputText value="#{jobManager.currentJob.jobNumber}"
+            <h:outputText value="#{financeManager.currentJob.jobNumber}"
                           id="jobNumberForCosting"
                           styleClass="job-number"/>          
             <h:outputText value="&nbsp;"/>
@@ -195,6 +195,8 @@ Email: info@dpbennett.com.jm
 
                 <h:outputText value="Invoice number:" />
                 <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.invoiceNumber}"
+                             readonly="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                             styleClass="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment ? '' : 'read-only-text-field'}" 
                              maxlength="40" >
                     <p:ajax event="change"                            
                             listener="#{financeManager.updateJobCostingAndPayment}"
@@ -213,11 +215,11 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Discount:" />
                 <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.discount}"  
                              id="discountAmount"
-                             style="width: 72%;"
-                             styleClass="number-field"
+                             readonly="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                             styleClass="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment ? 'number-field' : 'read-only-number-field'}" 
                              validator="requiredFieldValidator"
                              converterMessage="Invalid discount value"
-                             maxlength="5">
+                             maxlength="5" >
 
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 
@@ -229,17 +231,35 @@ Email: info@dpbennett.com.jm
                 </p:inputText> 
 
                 <h:outputText value="Discount type:" />
-                <p:selectOneMenu 
-                    id="discountType" 
-                    style="width: 72%;"
-                    value="#{financeManager.currentJob.jobCostingAndPayment.discountType}">
+                <ui:remove>
+                    <p:selectOneMenu 
+                        id="discountType" 
+                        style="width: 72%;"
+                        value="#{financeManager.currentJob.jobCostingAndPayment.discountType}">
+                        <p:ajax
+                            global="true"
+                            listener="#{financeManager.updateJobCostingAndPayment}"
+                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting"
+                            process="@this" />
+                        <f:selectItems value="#{App.discountTypes}" />
+                    </p:selectOneMenu>      
+                </ui:remove>
+                <p:autoComplete id="discountType"
+                                value="#{financeManager.currentJob.jobCostingAndPayment.discountType}"
+                                dropdown="true"
+                                forceSelection="true"
+                                readonly="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                                styleClass="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment ? '' : 'read-only-inputfield'}" 
+                                completeMethod="#{financeManager.completeDiscountType}">
+
                     <p:ajax
+                        event="itemSelect"
                         global="true"
                         listener="#{financeManager.updateJobCostingAndPayment}"
                         update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting"
                         process="@this" />
-                    <f:selectItems value="#{App.discountTypes}" />
-                </p:selectOneMenu>                  
+
+                </p:autoComplete>      
 
             </h:panelGrid>
         </p:panel>        
@@ -283,7 +303,7 @@ Email: info@dpbennett.com.jm
             </p:column>
             <p:column style="width:32px">
                 <p:menuButton id="toolsButton" 
-                              disabled="#{!jobManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                              disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                               value="Actions" >
                     <p:menuitem>
                         <p:commandButton value="Edit"
