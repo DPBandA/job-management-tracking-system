@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costing and Invoicing" pageWidth="2048" pageHeight="595" orientation="Landscape" columnWidth="2008" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costing and Invoicing with Dates" pageWidth="2048" pageHeight="595" orientation="Landscape" columnWidth="2008" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="771"/>
+	<property name="ireport.x" value="381"/>
 	<property name="ireport.y" value="0"/>
-	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
-	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
-	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
-	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
-	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="SansSerif" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="SansSerif" pdfFontName="Times-Roman">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
 			<style mode="Opaque" backcolor="#F0EFEF"/>
@@ -84,35 +84,21 @@ GROUP BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="48" splitType="Stretch">
+		<band height="54" splitType="Stretch">
 			<staticText>
-				<reportElement x="504" y="0" width="32" height="32" uuid="009efcc9-63e9-4d00-b670-4257dfe35112"/>
-				<textElement textAlignment="Center">
-					<font size="24"/>
-				</textElement>
-				<text><![CDATA[to]]></text>
-			</staticText>
-			<textField pattern="MMM dd, yyyy">
-				<reportElement x="360" y="0" width="144" height="32" uuid="d5611c1a-a524-4d54-95d0-ff03a309c091"/>
-				<textElement>
-					<font size="24"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{startOFPeriod}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="-2" y="0" width="362" height="32" uuid="e7b3e603-6a90-490d-b930-2d05c7f366a6"/>
+				<reportElement x="0" y="30" width="826" height="24" uuid="e7b3e603-6a90-490d-b930-2d05c7f366a6"/>
 				<textElement textAlignment="Left" markup="none">
-					<font size="24"/>
+					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Jobs Received During the Period: ]]></text>
+				<text><![CDATA[Job Costing and Invoicing with Date Periods]]></text>
 			</staticText>
-			<textField pattern="MMM dd, yyyy">
-				<reportElement x="536" y="0" width="157" height="32" uuid="647daabd-380d-40b1-9eaf-cf8158e2e208"/>
-				<textElement>
-					<font size="24"/>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="5" width="826" height="24" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
+				<textElement textAlignment="Left" markup="none">
+					<font size="18" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{endOFPeriod}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Bureau of Standards Jamaica]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -123,56 +109,56 @@ GROUP BY
 			<staticText>
 				<reportElement style="Column header" x="0" y="0" width="164" height="23" forecolor="#000000" uuid="8144f9ca-43c1-4c98-8e9b-d1e5e55d376d"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Job number]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="164" y="0" width="133" height="23" forecolor="#000000" uuid="8f43d481-ce38-47ff-8a2c-74c3737c6227"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Client]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="297" y="0" width="156" height="23" forecolor="#000000" uuid="93dfbeba-67c1-4ecd-83c1-8ea0ad190b4d"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date Work Completed]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="453" y="0" width="161" height="23" forecolor="#000000" uuid="a4ef0739-5a62-4cad-b55e-3f90902b93b4"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Costing Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="614" y="0" width="167" height="23" forecolor="#000000" uuid="45f15ab5-aaff-442f-8d24-c4a5bccf3b91"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Approval Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="781" y="0" width="258" height="23" forecolor="#000000" uuid="f42bc4b8-4b86-4531-91f3-3669c7d53a26"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Days betw. Costing & Job Compl. Dates]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="1281" y="0" width="139" height="23" forecolor="#000000" uuid="be8bf530-c8e2-4ba1-a248-bd4e871fe7c7"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cost]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="1039" y="0" width="242" height="23" forecolor="#000000" uuid="ce1d6929-4a2e-4831-83b6-090a46dd2bf1"/>
 				<textElement>
-					<font isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Days betw. Approval & Costing Dates]]></text>
 			</staticText>
@@ -185,56 +171,56 @@ GROUP BY
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="0" y="0" width="164" height="18" uuid="10c394c0-a8a3-47ea-921a-9cec4cb4ed2a"/>
 					<textElement>
-						<font size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{job_JOBNUMBER}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="164" y="0" width="133" height="18" uuid="c3c79e99-eac9-43d4-9886-a03c302dc945"/>
 					<textElement>
-						<font size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="297" y="0" width="156" height="18" uuid="b9e70d58-2a47-44be-823e-57747fb99142"/>
 					<textElement>
-						<font size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATEOFCOMPLETION}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="453" y="0" width="161" height="18" uuid="e27818a6-82d4-4255-be0f-d2b4f70263c4"/>
 					<textElement>
-						<font size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jobstatusandtracking_COSTINGDATE}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="614" y="0" width="167" height="18" uuid="7163f898-56d7-4437-95c2-b4f12f97aec5"/>
 					<textElement>
-						<font size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATECOSTINGAPPROVED}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="781" y="0" width="258" height="18" uuid="7f2bc54a-c0e9-431b-ae46-806562dc54ed"/>
 					<textElement>
-						<font size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{DaysBetweenCostingAndJobCompl}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="1281" y="0" width="139" height="18" uuid="f1a416f5-4fec-48e5-9dd3-955691486500"/>
 					<textElement>
-						<font size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jobcostingandpayment_FINALCOST}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="1039" y="0" width="242" height="18" uuid="96c28c92-8e55-4fb5-af99-74b259cafbad"/>
 					<textElement>
-						<font size="14"/>
+						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{DaysBetweenCostApprAndCosting}]]></textFieldExpression>
 				</textField>
@@ -251,14 +237,14 @@ GROUP BY
 				<textField evaluationTime="Report">
 					<reportElement style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF" uuid="5ebe8fdb-3450-4e6f-a9db-981a17105dbd"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="SansSerif" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="Column header" x="677" y="3" width="80" height="20" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" uuid="14a0048f-8751-4ab0-ab25-c29b45ede76a"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font fontName="SansSerif" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
