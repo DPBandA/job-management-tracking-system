@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costing and Invoicing with Dates" pageWidth="2048" pageHeight="595" orientation="Landscape" columnWidth="2008" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costing and Approval Dates and Periods" pageWidth="2048" pageHeight="595" orientation="Landscape" columnWidth="2008" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="381"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
@@ -43,7 +43,8 @@
      jobstatusandtracking.`DATECOSTINGAPPROVED` AS jobstatusandtracking_DATECOSTINGAPPROVED,
      jobstatusandtracking.`COSTINGDATE` AS jobstatusandtracking_COSTINGDATE,
      job.`JOBSEQUENCENUMBER` AS job_JOBSEQUENCENUMBER,
-     jobstatusandtracking.`COSTINGDATE` AS test
+     jobstatusandtracking.`COSTINGDATE` AS test,
+     client.`ACTIVE` AS client_ACTIVE
 FROM
      `job` job INNER JOIN `jobstatusandtracking` jobstatusandtracking ON job.`JOBSTATUSANDTRACKING_ID` = jobstatusandtracking.`ID`
      INNER JOIN `jobcostingandpayment` jobcostingandpayment ON job.`JOBCOSTINGANDPAYMENT_ID` = jobcostingandpayment.`ID`
@@ -54,6 +55,7 @@ WHERE
  AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOFPeriod}
  AND jobsubcategory.`IsEarning` = 1
  AND jobstatusandtracking.`WORKPROGRESS` = 'Completed'
+ AND client.`ACTIVE` = 1
 GROUP BY
      job.`ID`]]>
 	</queryString>
@@ -90,7 +92,7 @@ GROUP BY
 				<textElement textAlignment="Left" markup="none">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Job Costing and Invoicing with Date Periods]]></text>
+				<text><![CDATA[Job Costing and Approval Dates and Periods (Mar 1, 2016 to Apr 30, 2017)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="5" width="826" height="24" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
@@ -210,7 +212,7 @@ GROUP BY
 					</textElement>
 					<textFieldExpression><![CDATA[$F{DaysBetweenCostingAndJobCompl}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true">
+				<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="1281" y="0" width="139" height="18" uuid="f1a416f5-4fec-48e5-9dd3-955691486500"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>

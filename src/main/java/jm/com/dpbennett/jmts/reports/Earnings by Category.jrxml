@@ -445,7 +445,7 @@ ORDER BY
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="#,##0.00">
+						<textField pattern="$#,##0.00">
 							<reportElement style="Crosstab Data Text" x="0" y="0" width="119" height="25" uuid="5bfa59b8-ae84-4e08-8831-664c7225f660"/>
 							<textFieldExpression><![CDATA[$V{EarningsMeasure}]]></textFieldExpression>
 						</textField>
@@ -456,7 +456,7 @@ ORDER BY
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="#,##0.00">
+						<textField pattern="$#,##0.00">
 							<reportElement style="Crosstab Data Text" x="0" y="0" width="119" height="25" uuid="2b43f4c2-1b27-4be5-8b07-1041929be758"/>
 							<textFieldExpression><![CDATA[$V{EarningsMeasure}]]></textFieldExpression>
 						</textField>
@@ -467,7 +467,7 @@ ORDER BY
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="#,##0.00">
+						<textField pattern="$#,##0.00">
 							<reportElement style="Crosstab Data Text" x="0" y="0" width="122" height="25" uuid="5135114d-e24e-45dc-a6ea-af3460aa108d"/>
 							<textFieldExpression><![CDATA[$V{EarningsMeasure}]]></textFieldExpression>
 						</textField>
@@ -478,7 +478,7 @@ ORDER BY
 						<box>
 							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
 						</box>
-						<textField pattern="#,##0.00">
+						<textField pattern="$#,##0.00">
 							<reportElement style="Crosstab Data Text" x="0" y="0" width="122" height="25" uuid="2bc2f6e0-630b-4f7b-a7c3-ae5e9d96b553"/>
 							<textFieldExpression><![CDATA[$V{EarningsMeasure}]]></textFieldExpression>
 						</textField>

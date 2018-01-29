@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costing with Discount" pageWidth="2048" pageHeight="595" orientation="Landscape" columnWidth="2008" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costing and Approval Dates and Periods" pageWidth="2048" pageHeight="595" orientation="Landscape" columnWidth="2008" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="616"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
@@ -24,11 +24,16 @@
      DATEDIFF(jobstatusandtracking.`COSTINGDATE`,jobstatusandtracking.`DATEOFCOMPLETION`) AS DaysBetweenCostingAndJobCompl,
      DATEDIFF(jobstatusandtracking.`DATECOSTINGAPPROVED`,jobstatusandtracking.`COSTINGDATE`) AS DaysBetweenCostApprAndCosting,
      job.`ID` AS job_ID,
+     job.`JOBSTATUSANDTRACKING_ID` AS job_JOBSTATUSANDTRACKING_ID,
+     jobstatusandtracking.`ID` AS jobstatusandtracking_ID,
      jobstatusandtracking.`DATESUBMITTED` AS jobstatusandtracking_DATESUBMITTED,
      jobstatusandtracking.`DATEOFCOMPLETION` AS jobstatusandtracking_DATEOFCOMPLETION,
      jobcostingandpayment.`ID` AS jobcostingandpayment_ID,
      jobcostingandpayment.`FINALCOST` AS jobcostingandpayment_FINALCOST,
+     jobstatusandtracking.`PRODUCTORSAMPLERECEIVEDBY` AS jobstatusandtracking_PRODUCTORSAMPLERECEIVEDBY,
+     jobstatusandtracking.`EXPECTEDDATEOFCOMPLETION` AS jobstatusandtracking_EXPECTEDDATEOFCOMPLETION,
      job.`JOBNUMBER` AS job_JOBNUMBER,
+     job.`JOBCOSTINGANDPAYMENT_ID` AS job_JOBCOSTINGANDPAYMENT_ID,
      client.`ID` AS client_ID,
      client.`NAME` AS client_NAME,
      jobsubcategory.`ID` AS jobsubcategory_ID,
@@ -39,34 +44,34 @@
      jobstatusandtracking.`COSTINGDATE` AS jobstatusandtracking_COSTINGDATE,
      job.`JOBSEQUENCENUMBER` AS job_JOBSEQUENCENUMBER,
      jobstatusandtracking.`COSTINGDATE` AS test,
-     client.`ACTIVE` AS client_ACTIVE,
-     jobcostingandpayment.`DISCOUNT` AS jobcostingandpayment_DISCOUNT,
-     jobcostingandpayment.`DISCOUNTTYPE` AS jobcostingandpayment_DISCOUNTTYPE,
-     department.`NAME` AS department_NAME
+     client.`ACTIVE` AS client_ACTIVE
 FROM
      `job` job INNER JOIN `jobstatusandtracking` jobstatusandtracking ON job.`JOBSTATUSANDTRACKING_ID` = jobstatusandtracking.`ID`
      INNER JOIN `jobcostingandpayment` jobcostingandpayment ON job.`JOBCOSTINGANDPAYMENT_ID` = jobcostingandpayment.`ID`
      INNER JOIN `client` client ON job.`CLIENT_ID` = client.`ID`
      INNER JOIN `jobsubcategory` jobsubcategory ON job.`JOBSUBCATEGORY_ID` = jobsubcategory.`ID`
-     INNER JOIN `department` department ON job.`DEPARTMENT_ID` = department.`ID`
 WHERE
      jobstatusandtracking.`DATESUBMITTED` >= $P{startOFPeriod}
  AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOFPeriod}
  AND jobsubcategory.`IsEarning` = 1
  AND jobstatusandtracking.`WORKPROGRESS` = 'Completed'
  AND client.`ACTIVE` = 1
- AND jobcostingandpayment.`DISCOUNT` > 0
 GROUP BY
      job.`ID`]]>
 	</queryString>
 	<field name="DaysBetweenCostingAndJobCompl" class="java.lang.Integer"/>
 	<field name="DaysBetweenCostApprAndCosting" class="java.lang.Integer"/>
 	<field name="job_ID" class="java.lang.Long"/>
+	<field name="job_JOBSTATUSANDTRACKING_ID" class="java.lang.Long"/>
+	<field name="jobstatusandtracking_ID" class="java.lang.Long"/>
 	<field name="jobstatusandtracking_DATESUBMITTED" class="java.sql.Date"/>
 	<field name="jobstatusandtracking_DATEOFCOMPLETION" class="java.sql.Date"/>
 	<field name="jobcostingandpayment_ID" class="java.lang.Long"/>
 	<field name="jobcostingandpayment_FINALCOST" class="java.lang.Double"/>
+	<field name="jobstatusandtracking_PRODUCTORSAMPLERECEIVEDBY" class="java.lang.String"/>
+	<field name="jobstatusandtracking_EXPECTEDDATEOFCOMPLETION" class="java.sql.Date"/>
 	<field name="job_JOBNUMBER" class="java.lang.String"/>
+	<field name="job_JOBCOSTINGANDPAYMENT_ID" class="java.lang.Long"/>
 	<field name="client_ID" class="java.lang.Long"/>
 	<field name="client_NAME" class="java.lang.String"/>
 	<field name="jobsubcategory_ID" class="java.lang.Long"/>
@@ -77,10 +82,6 @@ GROUP BY
 	<field name="jobstatusandtracking_COSTINGDATE" class="java.sql.Date"/>
 	<field name="job_JOBSEQUENCENUMBER" class="java.lang.Long"/>
 	<field name="test" class="java.sql.Date"/>
-	<field name="client_ACTIVE" class="java.lang.Boolean"/>
-	<field name="jobcostingandpayment_DISCOUNT" class="java.lang.Double"/>
-	<field name="jobcostingandpayment_DISCOUNTTYPE" class="java.lang.String"/>
-	<field name="department_NAME" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -91,7 +92,7 @@ GROUP BY
 				<textElement textAlignment="Left" markup="none">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Job Costing with Discount (Mar 1, 2016 to Apr 30, 2017)]]></text>
+				<text><![CDATA[Job Costing and Approval Dates and Periods (Mar 1, 2016 to Apr 30, 2017)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="5" width="826" height="24" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
@@ -126,7 +127,7 @@ GROUP BY
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Department]]></text>
+				<text><![CDATA[Date Work Completed]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="453" y="0" width="161" height="23" forecolor="#000000" uuid="a4ef0739-5a62-4cad-b55e-3f90902b93b4"/>
@@ -140,28 +141,28 @@ GROUP BY
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Job Compl'n Date]]></text>
+				<text><![CDATA[Approval Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="781" y="0" width="135" height="23" forecolor="#000000" uuid="f42bc4b8-4b86-4531-91f3-3669c7d53a26"/>
+				<reportElement style="Column header" x="781" y="0" width="258" height="23" forecolor="#000000" uuid="f42bc4b8-4b86-4531-91f3-3669c7d53a26"/>
+				<textElement>
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Days betw. Costing & Job Compl. Dates]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1281" y="0" width="139" height="23" forecolor="#000000" uuid="be8bf530-c8e2-4ba1-a248-bd4e871fe7c7"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cost]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="1053" y="0" width="149" height="23" forecolor="#000000" uuid="be8bf530-c8e2-4ba1-a248-bd4e871fe7c7"/>
+				<reportElement style="Column header" x="1039" y="0" width="242" height="23" forecolor="#000000" uuid="ce1d6929-4a2e-4831-83b6-090a46dd2bf1"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Discount Value ($/%)]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="916" y="0" width="137" height="23" forecolor="#000000" uuid="ce1d6929-4a2e-4831-83b6-090a46dd2bf1"/>
-				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Discount Type]]></text>
+				<text><![CDATA[Days betw. Approval & Costing Dates]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -188,7 +189,7 @@ GROUP BY
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{department_NAME}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATEOFCOMPLETION}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="453" y="0" width="161" height="18" uuid="e27818a6-82d4-4255-be0f-d2b4f70263c4"/>
@@ -202,28 +203,28 @@ GROUP BY
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATEOFCOMPLETION}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATECOSTINGAPPROVED}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="781" y="0" width="258" height="18" uuid="7f2bc54a-c0e9-431b-ae46-806562dc54ed"/>
+					<textElement>
+						<font fontName="SansSerif" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{DaysBetweenCostingAndJobCompl}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="781" y="0" width="135" height="18" uuid="7f2bc54a-c0e9-431b-ae46-806562dc54ed"/>
+					<reportElement style="Detail" positionType="Float" x="1281" y="0" width="139" height="18" uuid="f1a416f5-4fec-48e5-9dd3-955691486500"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jobcostingandpayment_FINALCOST}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="1053" y="0" width="149" height="18" uuid="f1a416f5-4fec-48e5-9dd3-955691486500"/>
-					<textElement>
-						<font fontName="SansSerif" size="12"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{jobcostingandpayment_DISCOUNT}]]></textFieldExpression>
-				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="916" y="0" width="137" height="18" uuid="96c28c92-8e55-4fb5-af99-74b259cafbad"/>
+					<reportElement style="Detail" positionType="Float" x="1039" y="0" width="242" height="18" uuid="96c28c92-8e55-4fb5-af99-74b259cafbad"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
-					<textFieldExpression><![CDATA[ ( $F{jobcostingandpayment_DISCOUNTTYPE} == null ? "Fixed Cost" : $F{jobcostingandpayment_DISCOUNTTYPE} )]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{DaysBetweenCostApprAndCosting}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
