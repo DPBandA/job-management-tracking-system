@@ -21,20 +21,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-     CASE 
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 1 THEN 'January'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 2 THEN 'February'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 3 THEN 'March' 
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 4 THEN 'April'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 5 THEN 'May'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 6 THEN 'June'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 7 THEN 'July'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 8 THEN 'August'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 9 THEN 'September'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 10 THEN 'October'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 11 THEN 'November'
-       WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) = 12 THEN 'December'
-     END AS Month,
+     CASE WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=1 THEN 'January'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=2 THEN 'February'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=3 THEN 'March'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=4 THEN 'April'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=5 THEN 'May'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=6 THEN 'June'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=7 THEN 'July'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=8 THEN 'August'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=9 THEN 'September'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=10 THEN 'October'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=11 THEN 'November'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=12 THEN 'December'END AS Month,
      SUM(jobcostingandpayment.`FINALCOST`) AS Cost,
      COUNT(job.`ID`) AS NumOfJobs,
      jobstatusandtracking.`DATEOFCOMPLETION` AS jobstatusandtracking_DATEOFCOMPLETION,
@@ -42,22 +29,29 @@
      jobstatusandtracking.`WORKPROGRESS` AS jobstatusandtracking_WORKPROGRESS,
      jobsubcategory.`SubCategory` AS Category,
      department.`NAME` AS department_NAME,
-     job.`ID` AS job_ID
+     job.`ID` AS job_ID,
+     department_A.`NAME` AS department_A_NAME,
+     department_A.`ID` AS department_A_ID
 FROM
      `job` job INNER JOIN `jobstatusandtracking` jobstatusandtracking ON job.`JOBSTATUSANDTRACKING_ID` = jobstatusandtracking.`ID`
      INNER JOIN `jobcostingandpayment` jobcostingandpayment ON job.`JOBCOSTINGANDPAYMENT_ID` = jobcostingandpayment.`ID`
      INNER JOIN `jobsubcategory` jobsubcategory ON job.`JOBSUBCATEGORY_ID` = jobsubcategory.`ID`
      INNER JOIN `department` department ON job.`DEPARTMENT_ID` = department.`ID`
+     INNER JOIN `department` department_A ON job.`SUBCONTRACTEDDEPARTMENT_ID` = department_A.`ID`
 WHERE
      jobstatusandtracking.`DATEOFCOMPLETION` >= $P{startOFPeriod}
  AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{endOFPeriod}
  AND jobsubcategory.`IsEarning` = 1
  AND jobstatusandtracking.`WORKPROGRESS` = 'Completed'
+ AND (department_A.`NAME` = '--'
+  OR department_A.`NAME` = '' OR department_A.`ID` IS NULL)
 GROUP BY
      department.`NAME`,
      Month
 ORDER BY
-     department.`NAME` ASC, NumOfJobs DESC, MONTH(jobstatusandtracking.`DATEOFCOMPLETION`) ASC]]>
+     department.`NAME` ASC,
+     NumOfJobs DESC,
+     MONTH ASC]]>
 	</queryString>
 	<field name="Month" class="java.lang.String"/>
 	<field name="Cost" class="java.lang.Double">
@@ -70,6 +64,8 @@ ORDER BY
 	<field name="Category" class="java.lang.String"/>
 	<field name="department_NAME" class="java.lang.String"/>
 	<field name="job_ID" class="java.lang.Long"/>
+	<field name="department_A_NAME" class="java.lang.String"/>
+	<field name="department_A_ID" class="java.lang.Long"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
