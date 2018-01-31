@@ -120,7 +120,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="dialogReturn" 
                         listener="#{financeManager.jobCostingDialogReturn}"
-                        update="jobCostingsTable,:headerForm:growl3"/>
+                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCostingsTable,:headerForm:growl3"/>
 
                 <f:setPropertyActionListener value="#{job}"
                                              target="#{jobManager.editJobCosting}" />

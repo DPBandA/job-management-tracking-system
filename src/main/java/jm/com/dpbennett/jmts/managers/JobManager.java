@@ -2541,9 +2541,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     if (financeManager.canChangeJobCostingApprovalStatus(job)) {
                         job.getJobCostingAndPayment().setCostingApproved(true);
                         job.getJobStatusAndTracking().setDateCostingApproved(new Date());
+                        job.getJobCostingAndPayment().setIsDirty(true);
                     } else {
                         job.getJobCostingAndPayment().setCostingApproved(false);
                         job.getJobStatusAndTracking().setDateCostingApproved(null);
+                        job.getJobCostingAndPayment().setIsDirty(true);
                     }
                     job.save(em);
                 } else {
@@ -2570,8 +2572,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 if (!job.getJobCostingAndPayment().getInvoiced()) {
                     if (financeManager.canInvoiceJobCosting(job)) {
                         job.getJobCostingAndPayment().setInvoiced(true);
+                        job.getJobCostingAndPayment().setIsDirty(true);
                     } else {
                         job.getJobCostingAndPayment().setInvoiced(false);
+                        job.getJobCostingAndPayment().setIsDirty(true);
                     }
                     job.save(em);
                 } else {

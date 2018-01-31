@@ -594,6 +594,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             if (getCurrentJob().getIsDirty()) {
                 getCurrentJob().getJobCostingAndPayment().save(em);
+                getCurrentJob().setIsDirty(false);
             }
 
             jobCostingFile = getJobCostingAnalysisFile(em);
@@ -1133,6 +1134,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         if (getCurrentJob().getId() != null) {
             if (isJobCostingAndPaymentDirty()) {
                 if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+                    getCurrentJob().getJobStatusAndTracking().setEditStatus("");
                     PrimeFacesUtils.addMessage("Job Costing and Job Saved", "This job and the costing were saved", FacesMessage.SEVERITY_INFO);
                 }
             }
