@@ -126,7 +126,7 @@ Email: info@dpbennett.com.jm
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update="billingAddress,clientContact,clientActionsMenu,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update=":mainTabViewForm:mainTabView:jobFormTabView:generalTabPanel,:mainTabViewForm:mainTabView:jobDetailToolbar1"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
