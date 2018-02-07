@@ -83,12 +83,14 @@ Email: info@dpbennett.com.jm
             Employees
         </f:facet>
 
-        <p:column>
-            <f:facet name="header">
-                <h:outputText value="Rec. ID"/>
-            </f:facet>
-            <h:outputText value="#{employee.id}" />
-        </p:column>
+        <ui:remove>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Rec. ID"/>
+                </f:facet>
+                <h:outputText value="#{employee.id}" />
+            </p:column>
+        </ui:remove>
 
         <p:column>
             <f:facet name="header">

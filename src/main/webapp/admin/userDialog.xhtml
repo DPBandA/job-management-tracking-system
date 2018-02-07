@@ -37,7 +37,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/> 
         <h:form id="userDialogForm" >    
-            
+
             <p:growl id="userdialog_growl" life="5000" showDetail="true"/>
 
             <p:toolbar style="margin-bottom: 1px;">
@@ -58,20 +58,20 @@ Email: info@dpbennett.com.jm
                 </p:toolbarGroup>
             </p:toolbar>
 
-            <p:panel style="margin-bottom: 1px;" >
-                <h:panelGrid columns="3" >
-                    <h:outputText value="Username: " style="font-weight: bold;"/>                          
+            <p:panel style="margin-bottom: 1px;" >             
+                <h:panelGrid columns="2" >
+                    <h:outputText value="Username: " style="font-weight: bold;"/>  
                     <p:inputText id="user"
                                  validator="requiredFieldValidator"
-                                 value="#{systemManager.selectedUser.username}" />                       
+                                 value="#{systemManager.selectedUser.username}" />    
+
+
+                    <h:outputText value="Authenticate" style="font-weight: bold;"/> 
                     <p:selectBooleanCheckbox id="authenticateUser" 
-                                             itemLabel="authenticate"
-                                             value="#{systemManager.selectedUser.authenticate}" />     
-                </h:panelGrid>
-                <h:panelGrid columns="2" >
+                                             value="#{systemManager.selectedUser.authenticate}" /> 
+
                     <h:outputText value="Employee: " style="font-weight: bold;" />               
                     <p:autoComplete var="employee"
-                                    size="40"
                                     scrollHeight="175"
                                     dropdown="true"
                                     maxlength="250"
@@ -82,6 +82,21 @@ Email: info@dpbennett.com.jm
                                     converter="employeeConverter"
                                     forceSelection="true"
                                     completeMethod="#{App.completeEmployee}" >                       
+                    </p:autoComplete>   
+
+                    <h:outputText value="Department: " style="font-weight: bold;" />               
+                    <p:autoComplete var="department"
+                                    scrollHeight="175"
+                                    dropdown="true"
+                                    size="30"
+                                    maxlength="250"
+                                    value="#{systemManager.selectedUser.department}"
+                                    title="#{systemManager.selectedUser.department}"
+                                    itemLabel="#{department.name}"
+                                    itemValue="#{department}"
+                                    converter="departmentConverter"
+                                    forceSelection="true"
+                                    completeMethod="#{App.completeDepartment}" >                       
                     </p:autoComplete>   
 
                 </h:panelGrid>

@@ -30,6 +30,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import jm.com.dpbennett.business.entity.Business;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Department;
@@ -84,9 +85,10 @@ public class SystemManager implements Serializable {
     private Boolean isActiveJobSubcategoriesOnly;
     private Boolean isActiveSectorsOnly;
     private Boolean isActiveLdapsOnly;
+    private Boolean isActiveBusinessesOnly;
     private Date startDate;
     private Date endDate;
-    private Long selectedDocumentId;
+    //private Long selectedDocumentId;
     private JobManagerUser selectedUser;
     private JobManagerUser foundUser;
     // Search text
@@ -101,6 +103,7 @@ public class SystemManager implements Serializable {
     private String jobSubcategorySearchText;
     private String sectorSearchText;
     private String ldapSearchText;
+    private String businessSearchText;
     // Found object lists
     private List<JobManagerUser> foundUsers;
     private List<Employee> foundEmployees;
@@ -113,6 +116,8 @@ public class SystemManager implements Serializable {
     private List<Sector> foundSectors;
     private List<DocumentStandard> foundDocumentStandards;
     private List<JobSubCategory> foundJobSubcategories;
+    private List<Business> foundBusinesses;
+    // Selected objects
     private Department selectedDepartment;
     private SystemOption selectedSystemOption;
     private Classification selectedClassification;
@@ -120,6 +125,7 @@ public class SystemManager implements Serializable {
     private JobSubCategory selectedJobSubcategory;
     private Sector selectedSector;
     private LdapContext selectedLdapContext;
+    private Business selectedBusiness;
 
     /**
      * Creates a new instance of SystemManager
@@ -164,6 +170,22 @@ public class SystemManager implements Serializable {
         isActiveJobSubcategoriesOnly = true;
         isActiveSectorsOnly = true;
         isActiveLdapsOnly = true;
+    }
+
+    public String getBusinessSearchText() {
+        return businessSearchText;
+    }
+
+    public void setBusinessSearchText(String businessSearchText) {
+        this.businessSearchText = businessSearchText;
+    }
+
+    public Business getSelectedBusiness() {
+        return selectedBusiness;
+    }
+
+    public void setSelectedBusiness(Business selectedBusiness) {
+        this.selectedBusiness = selectedBusiness;
     }
 
     public Boolean getIsActiveLdapsOnly() {
@@ -305,6 +327,10 @@ public class SystemManager implements Serializable {
             isActiveDepartmentsOnly = true;
         }
         return isActiveDepartmentsOnly;
+    }
+
+    public Boolean getIsActiveBusinessesOnly() {
+        return true; // tk for now
     }
 
     public void setIsActiveDepartmentsOnly(Boolean isActiveDepartmentsOnly) {
@@ -533,6 +559,14 @@ public class SystemManager implements Serializable {
         return foundDepartments;
     }
 
+    public List<Business> getFoundBusinesses() {
+        if (foundBusinesses == null)  {
+            foundBusinesses = Business.findAllBusinesses(getEntityManager());
+        }
+        
+        return foundBusinesses;
+    }
+    
     public void setFoundDepartments(List<Department> foundDepartments) {
         this.foundDepartments = foundDepartments;
     }
@@ -577,6 +611,19 @@ public class SystemManager implements Serializable {
         } else {
             foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
         }
+
+    }
+
+    public void doBusinessSearch() {
+
+        System.out.println("Doing business search..."); // tk
+//        RequestContext context = RequestContext.getCurrentInstance();
+//
+//        if (getIsActiveDepartmentsOnly()) {
+//            foundDepartments = Department.findActiveDepartmentsByName(getEntityManager(), getDepartmentSearchText());
+//        } else {
+//            foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
+//        }
 
     }
 
@@ -737,6 +784,10 @@ public class SystemManager implements Serializable {
     public void editDepartment() {
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 600);
     }
+    
+    public void editBusiness() {
+        PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 600);
+    }
 
     public void editEmployee() {
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 350, 600);
@@ -801,6 +852,10 @@ public class SystemManager implements Serializable {
     public void cancelDepartmentEdit(ActionEvent actionEvent) {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
+    
+    public void cancelBusinessEdit(ActionEvent actionEvent) {
+        RequestContext.getCurrentInstance().closeDialog(null);
+    }
 
     public void cancelSystemOptionEdit(ActionEvent actionEvent) {
         RequestContext.getCurrentInstance().closeDialog(null);
@@ -837,6 +892,13 @@ public class SystemManager implements Serializable {
     public void saveSelectedDepartment() {
 
         selectedDepartment.save(getEntityManager());
+
+        RequestContext.getCurrentInstance().closeDialog(null);
+    }
+    
+    public void saveSelectedBusiness() {
+
+        //selectedBusiness.save(getEntityManager()); tk impl
 
         RequestContext.getCurrentInstance().closeDialog(null);
     }
@@ -1084,6 +1146,13 @@ public class SystemManager implements Serializable {
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 600);
     }
 
+    public void createNewBusiness() {
+
+        selectedBusiness = new Business();
+
+        //PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 460, 600);
+    }
+
     public void createNewClassification() {
         selectedClassification = new Classification();
 
@@ -1197,14 +1266,13 @@ public class SystemManager implements Serializable {
         this.searchText = searchText;
     }
 
-    public Long getSelectedDocumentId() {
-        return selectedDocumentId;
-    }
-
-    public void setSelectedDocumentId(Long selectedDocumentId) {
-        this.selectedDocumentId = selectedDocumentId;
-    }
-
+//    public Long getSelectedDocumentId() {
+//        return selectedDocumentId;
+//    }
+//
+//    public void setSelectedDocumentId(Long selectedDocumentId) {
+//        this.selectedDocumentId = selectedDocumentId;
+//    }
     public Date getStartDate() {
         return startDate;
     }
