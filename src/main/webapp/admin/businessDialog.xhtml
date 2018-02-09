@@ -36,7 +36,9 @@ Email: info@dpbennett.com.jm
     </h:head>
     <h:body >  
         <ui:include src="../common/longProcessDialog.xhtml"/>  
-        <ui:include src="../common/commonDialogs.xhtml"/>           
+        <ui:include src="../common/commonDialogs.xhtml"/>   
+        <ui:include src="departmentPickListDialog.xhtml"/>   
+        
         <h:form id="businessDialogForm">        
 
             <p:growl id="businessdialog_growl" life="5000" showDetail="true"/>
@@ -85,17 +87,48 @@ Email: info@dpbennett.com.jm
             </p:panel>
             <p:tabView >
                 <p:tab title="Departments">
+                    <p:toolbar>
+                        <p:toolbarGroup align="left" >   
+                            <p:commandButton title="Add department"                                  
+                                             value="Add"
+                                             
+                                             update=":businessDialogForm:businessdialog_growl,departmentsTable"
+                                             onstart="longProcessDialogVar.show();departmentPickListDialog.show();"
+                                             oncomplete="longProcessDialogVar.hide();"
+                                             onerror="connectionErrorDialog.show();"
+                                             global="true"
+                                             process="@this"
+                                             icon="ui-icon ui-icon-plus">
+
+                            </p:commandButton>                           
+                        </p:toolbarGroup>                    
+                    </p:toolbar>    
                     <p:dataTable id="departmentsTable"
                                  paginator="true"
                                  rows="15"
                                  var="department"
-                                 style="margin-bottom: 1px;"
+                                 style="margin-bottom: 1px;margin-top: 1px;"
                                  value="#{systemManager.selectedBusiness.departments}">
+
                         <p:column style="width:100px"  >
                             <f:facet name="header">
                                 <h:outputText value="Name" />
                             </f:facet>
                             <h:outputText value="#{department.name}" />
+                        </p:column>
+
+                        <p:column style="width:100px"  >
+                            <f:facet name="header">
+                                <h:outputText value="Head" />
+                            </f:facet>
+                            <h:outputText value="#{department.head}" />
+                        </p:column>
+
+                        <p:column style="width:100px"  >
+                            <f:facet name="header">
+                                <h:outputText value="Code" />
+                            </f:facet>
+                            <h:outputText value="#{department.subGroupCode}" />
                         </p:column>
 
                         <p:column style="width:32px">
@@ -104,7 +137,7 @@ Email: info@dpbennett.com.jm
                                 <p:menuitem >                       
                                     <p:commandButton   
                                         value="Remove"
-                                        
+
                                         style="width: 100%;text-align: left;background: none;border: 0;"
                                         onstart="longProcessDialogVar.show();"
                                         icon="ui-icon-trash"
@@ -112,7 +145,7 @@ Email: info@dpbennett.com.jm
 
                                         <f:setPropertyActionListener value="#{jobSample}"
                                                                      target="#{systemManager.selectedBusiness}" />
-                                        
+
 
                                     </p:commandButton>
                                 </p:menuitem>                   

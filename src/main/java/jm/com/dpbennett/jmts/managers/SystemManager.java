@@ -52,6 +52,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
+import org.primefaces.model.DualListModel;
 
 /**
  *
@@ -126,6 +127,7 @@ public class SystemManager implements Serializable {
     private Sector selectedSector;
     private LdapContext selectedLdapContext;
     private Business selectedBusiness;
+    private DualListModel<Department> departmentDualList;
 
     /**
      * Creates a new instance of SystemManager
@@ -170,6 +172,23 @@ public class SystemManager implements Serializable {
         isActiveJobSubcategoriesOnly = true;
         isActiveSectorsOnly = true;
         isActiveLdapsOnly = true;
+    }
+
+    public DualListModel<Department> getDepartmentDualList() {
+        // tk
+
+        List<Department> source = new ArrayList<>();
+        List<Department> target = new ArrayList<>();
+        
+        source = Department.findAllActiveDepartments(getEntityManager());
+        
+        departmentDualList = new DualListModel<>(source, target);
+
+        return departmentDualList;
+    }
+
+    public void setDepartmentDualList(DualListModel<Department> departmentDualList) {
+        this.departmentDualList = departmentDualList;
     }
 
     public String getBusinessSearchText() {
@@ -560,13 +579,17 @@ public class SystemManager implements Serializable {
     }
 
     public List<Business> getFoundBusinesses() {
-        if (foundBusinesses == null)  {
-            foundBusinesses = Business.findAllBusinesses(getEntityManager());
-        }
-        
+        //if (foundBusinesses == null)  {
+        foundBusinesses = Business.findAllBusinesses(getEntityManager());
+        //}
+
         return foundBusinesses;
     }
-    
+
+    public void okDepartmentPickList() {
+
+    }
+
     public void setFoundDepartments(List<Department> foundDepartments) {
         this.foundDepartments = foundDepartments;
     }
@@ -784,7 +807,7 @@ public class SystemManager implements Serializable {
     public void editDepartment() {
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 600);
     }
-    
+
     public void editBusiness() {
         PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 600);
     }
@@ -852,7 +875,7 @@ public class SystemManager implements Serializable {
     public void cancelDepartmentEdit(ActionEvent actionEvent) {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
-    
+
     public void cancelBusinessEdit(ActionEvent actionEvent) {
         RequestContext.getCurrentInstance().closeDialog(null);
     }
@@ -895,10 +918,10 @@ public class SystemManager implements Serializable {
 
         RequestContext.getCurrentInstance().closeDialog(null);
     }
-    
+
     public void saveSelectedBusiness() {
 
-        //selectedBusiness.save(getEntityManager()); tk impl
+        selectedBusiness.save(getEntityManager());
 
         RequestContext.getCurrentInstance().closeDialog(null);
     }
@@ -1150,7 +1173,7 @@ public class SystemManager implements Serializable {
 
         selectedBusiness = new Business();
 
-        //PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 460, 600);
+        PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 600);
     }
 
     public void createNewClassification() {

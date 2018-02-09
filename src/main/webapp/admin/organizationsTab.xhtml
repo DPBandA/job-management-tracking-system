@@ -92,7 +92,21 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Name"/>
             </f:facet>
             <h:outputText value="#{business.name}" />
-        </p:column>                          
+        </p:column>   
+        
+         <p:column>
+            <f:facet name="header">
+                <h:outputText value="Notes"/>
+            </f:facet>
+            <h:outputText value="#{business.notes}" />
+        </p:column>
+        
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Departments"/>
+            </f:facet>
+            <h:outputText value="#{business.departmentList}" />
+        </p:column>  
 
         <p:column style="width:32px">
             <p:commandButton title="View or edit organization"   
