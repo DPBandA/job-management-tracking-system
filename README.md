@@ -12,7 +12,6 @@
 - Standards Compliance
 - Certification and Accreditation
 - Metrology Management
-- Legal Metrology Management
 - Product Management
 - Factory Management
 - Messaging & Chat
