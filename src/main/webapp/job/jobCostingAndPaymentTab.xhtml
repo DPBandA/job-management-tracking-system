@@ -142,8 +142,8 @@ Email: info@dpbennett.com.jm
                 <p:commandButton icon="ui-icon ui-icon-pencil"
                                  actionListener="#{financeManager.openJobCostingDialog}"
                                  update=":mainTabViewForm:mainTabView:growl2"
-                                 onstart="longProcessDialogVar.show();"
-                                 oncomplete="longProcessDialogVar.hide();"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
                                  process="@this"
                                  title="View or edit job costing">
 
@@ -178,7 +178,7 @@ Email: info@dpbennett.com.jm
                                  title="Add new payment"
                                  actionListener="#{financeManager.createNewCashPayment}"
                                  disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                                 onstart="longProcessDialogVar.show();"
+                                 onstart="PF('longProcessDialogVar').show();"
                                  icon="ui-icon-plus"
                                  process="@this" >
 
@@ -309,7 +309,7 @@ Email: info@dpbennett.com.jm
                         <p:commandButton value="Edit"
                                          actionListener="#{financeManager.editCashPayment}"
                                          style="width: 100%;text-align: left;background: none;border: 0;"
-                                         onstart="longProcessDialogVar.show();"
+                                         onstart="PF('longProcessDialogVar').show();"
                                          oncomplete=""
                                          icon="ui-icon-pencil"
                                          process="@this">
@@ -364,7 +364,7 @@ Email: info@dpbennett.com.jm
                                  title="Add new payment"
                                  actionListener="#{financeManager.createNewCashPayment}"
                                  disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                                 onstart="longProcessDialogVar.show();"
+                                 onstart="PF('longProcessDialogVar').show();"
                                  icon="ui-icon-plus"
                                  process="@this" >
 

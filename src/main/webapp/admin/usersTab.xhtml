@@ -29,9 +29,9 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new user"                                  
                              value="New"                                                     
                              actionListener="#{systemManager.createNewUser}"
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus">
@@ -48,8 +48,8 @@ Email: info@dpbennett.com.jm
                          placeholder="Enter any part of name">
                 <p:ajax event="keyup"
                         global="false"
-                        onstart="longProcessDialogVar.show();" 
-                        oncomplete="longProcessDialogVar.hide();"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
                         listener="#{systemManager.doUserSearch}"
                         process="@this"/>                                   
@@ -122,9 +122,9 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit user profile"  
                              actionListener="#{systemManager.editUser}"
-                             onstart="longProcessDialogVar.show();"
+                             onstart="PF('longProcessDialogVar').show();"
 
-                             onerror="connectionErrorDialog.show();"
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">

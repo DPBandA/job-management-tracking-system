@@ -33,7 +33,7 @@ Email: info@dpbennett.com.jm
         <title>Payment Detail</title>
         <link rel="stylesheet" href="../css/main.css" /> 
     </h:head>
-    <h:body onload="longProcessDialogVar.hide();">        
+    <h:body onload="PF('longProcessDialogVar').hide();">        
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <h:form id="cashPaymentDialogForm" >    
             <p:growl id="cash_payment_dialog_growl" 
@@ -52,8 +52,8 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Cancel"
                                      immediate="true"
                                      actionListener="#{financeManager.cancelCashPaymentEdit}"
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close"
                                      process="@this"/>    
                 </p:toolbarGroup>
@@ -142,8 +142,8 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Cancel"
                                      immediate="true"
                                      actionListener="#{financeManager.cancelCashPaymentEdit}"
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close"
                                      process="@this"/>    
                 </p:toolbarGroup>

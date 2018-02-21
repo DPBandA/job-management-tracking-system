@@ -32,8 +32,8 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Yes"      
                              actionListener="#{financeManager.deleteCostComponent}"
                              update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="costComponentDeleteConfirm.hide();longProcessDialogVar.hide();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="costComponentDeleteConfirm.hide();PF('longProcessDialogVar').hide();"
                              icon="ui-icon ui-icon-check"
                              process="@this"/>
             <p:commandButton value="No"

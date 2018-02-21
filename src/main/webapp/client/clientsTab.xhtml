@@ -30,7 +30,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton 
                 value="New"
                 icon="ui-icon-plus" 
-                onstart="longProcessDialogVar.show();"
+                onstart="PF('longProcessDialogVar').show();"
                 disabled="#{!clientManager.user.privilege.canAddClient}"
                 actionListener="#{clientManager.createNewClient}"                                            
                 process="@this"
@@ -128,7 +128,7 @@ Email: info@dpbennett.com.jm
 
         <p:column style="width:32px">
             <p:commandButton icon="ui-icon-pencil"
-                             onstart="longProcessDialogVar.show();"
+                             onstart="PF('longProcessDialogVar').show();"
                              actionListener="#{clientManager.editSelectedClient}"
                              process="@this"
                              title="View or edit this client's detail">

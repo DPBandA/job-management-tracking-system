@@ -137,7 +137,7 @@ Email: info@dpbennett.com.jm
                                      icon="ui-icon-pencil" 
                                      disabled="${!jobManager.isClientNameValid}"
                                      style="width: 100%;text-align: left;background: none;border: 0;"
-                                     onstart="longProcessDialogVar.show();"
+                                     onstart="PF('longProcessDialogVar').show();"
                                      actionListener="#{jobManager.editJobClient}"  
                                      process="@this,client"                             
                                      title="View or edit this client's detail">   
@@ -152,7 +152,7 @@ Email: info@dpbennett.com.jm
                         value="Add new client"
                         icon="ui-icon-plus" 
                         style="width: 100%;text-align: left;background: none;border: 0;"
-                        onstart="longProcessDialogVar.show();"
+                        onstart="PF('longProcessDialogVar').show();"
                         disabled="#{!jobManager.user.privilege.canAddClient}"
                         actionListener="#{jobManager.createNewJobClient}"                                            
                         process="@this"

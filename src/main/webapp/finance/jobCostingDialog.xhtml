@@ -149,8 +149,8 @@ Email: info@dpbennett.com.jm
                                          actionListener="#{financeManager.createNewCostComponent}"
                                          disabled="#{financeManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
-                                         onstart="longProcessDialogVar.show();"
-                                         oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
+                                         onstart="PF('longProcessDialogVar').show();"
+                                         oncomplete="costingComponentDialog.show();PF('longProcessDialogVar').hide();"
                                          icon="ui-icon-plus"
                                          process="@this">
                         </p:commandButton>
@@ -298,8 +298,8 @@ Email: info@dpbennett.com.jm
                                          actionListener="#{financeManager.createNewCostComponent}"
                                          disabled="#{financeManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
-                                         onstart="longProcessDialogVar.show();"
-                                         oncomplete="costingComponentDialog.show();longProcessDialogVar.hide();"
+                                         onstart="PF('longProcessDialogVar').show();"
+                                         oncomplete="costingComponentDialog.show();PF('longProcessDialogVar').hide();"
                                          icon="ui-icon-plus"
                                          process="@this">
                         </p:commandButton>

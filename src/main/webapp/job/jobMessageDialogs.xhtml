@@ -50,9 +50,9 @@ Email: info@dpbennett.com.jm
 
             <p:commandButton value="Yes"                             
                              actionListener="#{jobManager.saveAndCloseCurrentJob}"
-                             onstart="longProcessDialogVar.show();"
+                             onstart="PF('longProcessDialogVar').show();"
                              update=":mainTabViewForm"
-                             oncomplete="longProcessDialogVar.hide();jobSaveConfirm.hide();mainTabViewVar.select(0);"
+                             oncomplete="PF('longProcessDialogVar').hide();jobSaveConfirm.hide();mainTabViewVar.select(0);"
                              icon="ui-icon-check"
                              process="@this"/>
             <p:commandButton value="No"

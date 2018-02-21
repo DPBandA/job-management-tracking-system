@@ -35,15 +35,15 @@ Email: info@dpbennett.com.jm
                   header="Preferences" >
 
             <p:ajax event="close"    
-                    onstart="longProcessDialogVar.show();"
-                    oncomplete="longProcessDialogVar.hide();"
+                    onstart="PF('longProcessDialogVar').show();"
+                    oncomplete="PF('longProcessDialogVar').hide();"
                     listener="#{jobManager.closePreferencesDialog2}"/>
 
             <p:toolbar>
                 <p:toolbarGroup align="left" >
                     <p:commandButton value="Close" 
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
+                                     onstart="PF('longProcessDialogVar').show();"
+                                     oncomplete="PF('longProcessDialogVar').hide();mainTabViewVar.select(0);"
                                      actionListener="#{jobManager.closePreferencesDialog1}" />        
                 </p:toolbarGroup>
             </p:toolbar>
@@ -120,8 +120,8 @@ Email: info@dpbennett.com.jm
              <p:toolbar>
                 <p:toolbarGroup align="left" >
                     <p:commandButton value="Close" 
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide();mainTabViewVar.select(0);"
+                                     onstart="PF('longProcessDialogVar').show();"
+                                     oncomplete="PF('longProcessDialogVar').hide();mainTabViewVar.select(0);"
                                      actionListener="#{jobManager.closePreferencesDialog1}" />        
                 </p:toolbarGroup>
             </p:toolbar>

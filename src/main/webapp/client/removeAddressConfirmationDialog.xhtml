@@ -31,9 +31,9 @@ Email: info@dpbennett.com.jm
                          width="400">
             <p:commandButton value="Yes"
                              actionListener="#{clientManager.removeAddress}"
-                             onstart="longProcessDialogVar.show();"
+                             onstart="PF('longProcessDialogVar').show();"
                              update=":clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
-                             oncomplete="deleteAddressDialog.hide();longProcessDialogVar.hide();"
+                             oncomplete="deleteAddressDialog.hide();PF('longProcessDialogVar').hide();"
                              icon="ui-icon-check"/>
             <p:commandButton value="No"
                              oncomplete="deleteAddressDialog.hide();"

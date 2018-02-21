@@ -29,7 +29,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon-plus" 
                              update=":addressForm"
                              title="Add new address"
-                             oncomplete="addressFormDialog.show();"
+                             oncomplete="PF('addressFormDialog').show();"
                              actionListener="#{clientManager.createNewAddress}" 
                              process="@this" >
 
@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit address"
                              update=":addressForm"
-                             oncomplete="addressFormDialog.show();"
+                             oncomplete="PF('addressFormDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon-pencil">
@@ -73,7 +73,7 @@ Email: info@dpbennett.com.jm
 
         <p:column style="width:32px">
             <p:commandButton title="Delete Address"
-                             oncomplete="deleteAddressDialog.show();"
+                             oncomplete="PF('deleteAddressDialog').show();"
                              global="true"
                              icon="ui-icon-trash">
                 <f:setPropertyActionListener value="#{address}"
@@ -88,7 +88,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon-plus" 
                              update=":addressForm"
                              title="Add new address"
-                             oncomplete="addressFormDialog.show();"
+                             oncomplete="PF('addressFormDialog').show();"
                              actionListener="#{clientManager.createNewAddress}" 
                              process="@this" >
 

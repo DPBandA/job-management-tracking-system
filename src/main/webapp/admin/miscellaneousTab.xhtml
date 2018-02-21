@@ -29,9 +29,9 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new option"                                  
                              value="New"
                              actionListener="#{systemManager.createNewSystemOption}"                                                     
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus" >
@@ -46,8 +46,8 @@ Email: info@dpbennett.com.jm
                          style="width:150px" placeholder="Enter search text">
                 <p:ajax event="keyup"
                         global="false"
-                        onstart="longProcessDialogVar.show();" 
-                        oncomplete="longProcessDialogVar.hide();"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"
                         listener="#{systemManager.doSystemOptionSearch}"
                         process="@this"/>
@@ -87,8 +87,8 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit system option"   
                              actionListener="#{systemManager.editSystemOption}"
-                             onstart="longProcessDialogVar.show();"                                                                    
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"                                                                    
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">

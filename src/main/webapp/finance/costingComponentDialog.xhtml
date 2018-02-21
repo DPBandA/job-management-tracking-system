@@ -35,8 +35,8 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{financeManager.okCostingComponent}"
                                      update=":jobCostingDialogForm:jobCosting_growl,:jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                     onstart="longProcessDialogVar.show();" 
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
                                      process="@form"/>
                     <p:spacer width="5" />
@@ -44,8 +44,8 @@ Email: info@dpbennett.com.jm
                                      immediate="true"
                                      actionListener="#{financeManager.cancelCostComponentEdit}"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                     onstart="longProcessDialogVar.show();"                              
-                                     oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();"                              
+                                     oncomplete="costingComponentDialog.hide();PF('longProcessDialogVar').hide();"
                                      icon="ui-icon-close"/>
                 </p:toolbarGroup>
             </p:toolbar>            
@@ -175,8 +175,8 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{financeManager.okCostingComponent}"
                                      update=":jobCostingDialogForm:jobCosting_growl,:jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                     onstart="longProcessDialogVar.show();"                              
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();"                              
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
                                      process="@form"/>
                     <p:spacer width="5" />
@@ -184,8 +184,8 @@ Email: info@dpbennett.com.jm
                                      immediate="true"
                                      actionListener="#{financeManager.cancelCostComponentEdit}"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                     onstart="longProcessDialogVar.show();"                              
-                                     oncomplete="costingComponentDialog.hide();longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();"                              
+                                     oncomplete="costingComponentDialog.hide();PF('longProcessDialogVar').hide();"
                                      icon="ui-icon-close"/>
                 </p:toolbarGroup>
             </p:toolbar> 

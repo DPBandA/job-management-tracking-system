@@ -76,7 +76,7 @@ public class Dashboard implements Serializable {
 
         this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
 
-        context.execute("dashboardAccordionVar.select(" + this.tabIndex + ");");
+        context.execute("PF('dashboardAccordionVar').select(" + this.tabIndex + ");");
 
     }
 
@@ -85,7 +85,7 @@ public class Dashboard implements Serializable {
 
         this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
 
-        context.execute(componentVar + ".select(" + this.tabIndex + ");");
+        context.execute("PF('" + componentVar + "')" + ".select(" + this.tabIndex + ");");
 
     }
 
@@ -93,9 +93,9 @@ public class Dashboard implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
 
         if (wasTabAdded) {
-            context.execute("dashboardAccordionVar.select(" + tabIndex + ");");
+            context.execute("PF('dashboardAccordionVar').select(" + tabIndex + ");");
         } else {
-            context.execute("dashboardAccordionVar.select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
+            context.execute("PF('dashboardAccordionVar').select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
         }
     }
 
@@ -103,9 +103,9 @@ public class Dashboard implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
 
         if (wasTabAdded) {
-            context.execute(componentVar + ".select(" + tabIndex + ");");
+            context.execute("PF('" + componentVar + "')" + ".select(" + tabIndex + ");");
         } else {
-            context.execute(componentVar + ".select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
+            context.execute("PF('" + componentVar + "')" + ".select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
         }
     }
 

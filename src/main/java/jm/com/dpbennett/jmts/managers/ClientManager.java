@@ -436,7 +436,7 @@ public class ClientManager implements Serializable {
             currentJob.setContact(selectedContact);
         }
 
-        RequestContext.getCurrentInstance().execute("contactFormDialog.hide();");
+        RequestContext.getCurrentInstance().execute("PF('contactFormDialog').hide();");
 
     }
 
@@ -452,7 +452,7 @@ public class ClientManager implements Serializable {
             currentJob.setBillingAddress(selectedAddress);
         }
 
-        RequestContext.getCurrentInstance().execute("addressFormDialog.hide();");
+        RequestContext.getCurrentInstance().execute("PF('addressFormDialog').hide();");
 
     }
 

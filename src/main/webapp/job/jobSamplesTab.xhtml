@@ -66,7 +66,7 @@ Email: info@dpbennett.com.jm
                             id="editSampleDetail"
                             value="Edit sample(s)"
                             style="width: 100%;text-align: left;background: none;border: 0;"
-                            onstart="longProcessDialogVar.show();"  
+                            onstart="PF('longProcessDialogVar').show();"  
                             icon="ui-icon-pencil"
                             actionListener="#{jobSampleManager.editJobSample}"                                           
                             process="@this">
@@ -84,7 +84,7 @@ Email: info@dpbennett.com.jm
                     <p:menuitem >       
                         <p:commandButton   
                             value="Copy sample(s)"                               
-                            onstart="longProcessDialogVar.show();"
+                            onstart="PF('longProcessDialogVar').show();"
                             style="width: 100%;text-align: left;background: none;border: 0;"
                             actionListener="#{jobSampleManager.copyJobSample}"                            
                             icon="ui-icon-copy"
@@ -105,7 +105,7 @@ Email: info@dpbennett.com.jm
                             value="Delete sample(s)"
                             actionListener="#{jobSampleManager.openJobSampleDeleteConfirmDialog}"
                             style="width: 100%;text-align: left;background: none;border: 0;"
-                            onstart="longProcessDialogVar.show();"
+                            onstart="PF('longProcessDialogVar').show();"
                             icon="ui-icon-trash"
                             process="@this">
 

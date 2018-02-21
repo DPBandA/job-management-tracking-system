@@ -26,16 +26,16 @@ Email: info@dpbennett.com.jm
 
         <p:commandButton value="Save"
                          disabled="#{financeManager.isJobCompleted}"
-                         onstart="longProcessDialogVar.show();"
+                         onstart="PF('longProcessDialogVar').show();"
                          actionListener="#{financeManager.okJobCosting}"                         
-                         oncomplete="longProcessDialogVar.hide();"
+                         oncomplete="PF('longProcessDialogVar').hide();"
                          icon="ui-icon-check"
                          process="@this"/>
 
         <p:commandButton value="Close"
-                         onstart="longProcessDialogVar.show();"
+                         onstart="PF('longProcessDialogVar').show();"
                          actionListener="#{financeManager.cancelJobCostingDialog}"                         
-                         oncomplete="longProcessDialogVar.hide();"
+                         oncomplete="PF('longProcessDialogVar').hide();"
                          icon="ui-icon-close"
                          process="@this"/>
 
