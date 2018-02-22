@@ -34,7 +34,7 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.dialogRenderOkButton}"
                              actionListener="#{jobManager.handleDialogOkButtonPressed()}"
                              onstart="PF('longProcessDialogVar').show();"                                                    
-                             oncomplete="commonMessageDialog.hide();PF('longProcessDialogVar').hide();"
+                             oncomplete="PF('commonMessageDialog').hide();PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon-check"/>
@@ -43,7 +43,7 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.dialogRenderYesButton}"
                              actionListener="#{jobManager.handleDialogYesButtonPressed()}"
                              onstart="PF('longProcessDialogVar').show();"                                                    
-                             oncomplete="commonMessageDialog.hide();PF('longProcessDialogVar').hide();"
+                             oncomplete="PF('commonMessageDialog').hide();PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon-check"/>
@@ -52,7 +52,7 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.dialogRenderNoButton}"
                              actionListener="#{jobManager.handleDialogNoButtonPressed()}"
                              onstart="PF('longProcessDialogVar').show();"                                                    
-                             oncomplete="commonMessageDialog.hide();PF('longProcessDialogVar').hide();"
+                             oncomplete="PF('commonMessageDialog').hide();PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon-close"/>            
@@ -61,7 +61,7 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.dialogRenderCancelButton}"
                              actionListener="#{jobManager.handleDialogCancelButtonPressed()}"
                              onstart="PF('longProcessDialogVar').show();"                                                    
-                             oncomplete="commonMessageDialog.hide();PF('longProcessDialogVar').hide();"
+                             oncomplete="PF('commonMessageDialog').hide();PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon-cancel"/>       

@@ -43,7 +43,7 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left" >
                     <p:commandButton value="Close" 
                                      onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();mainTabViewVar.select(0);"
+                                     oncomplete="PF('longProcessDialogVar').hide();PF('mainTabViewVar').select(0);"
                                      actionListener="#{jobManager.closePreferencesDialog1}" />        
                 </p:toolbarGroup>
             </p:toolbar>
@@ -121,7 +121,7 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left" >
                     <p:commandButton value="Close" 
                                      onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();mainTabViewVar.select(0);"
+                                     oncomplete="PF('longProcessDialogVar').hide();PF('mainTabViewVar').select(0);"
                                      actionListener="#{jobManager.closePreferencesDialog1}" />        
                 </p:toolbarGroup>
             </p:toolbar>

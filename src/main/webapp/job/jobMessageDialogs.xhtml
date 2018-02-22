@@ -30,12 +30,12 @@ Email: info@dpbennett.com.jm
                          width="425">
 
             <p:commandButton value="Yes"    
-                             oncomplete="jobDetailTabCloseConfirmation.hide();"
+                             oncomplete="PF('jobDetailTabCloseConfirmation').hide();"
                              icon="ui-icon-check"
                              process="@this"/>
             <p:commandButton value="No"                                                         
                              actionListener="#{jobManager.closeJobDetailTab}"
-                             oncomplete="jobDetailTabCloseConfirmation.hide();"
+                             oncomplete="PF('jobDetailTabCloseConfirmation').hide();"
                              icon="ui-icon-close"/>       
         </p:confirmDialog>
     </h:form>       
@@ -52,13 +52,13 @@ Email: info@dpbennett.com.jm
                              actionListener="#{jobManager.saveAndCloseCurrentJob}"
                              onstart="PF('longProcessDialogVar').show();"
                              update=":mainTabViewForm"
-                             oncomplete="PF('longProcessDialogVar').hide();jobSaveConfirm.hide();mainTabViewVar.select(0);"
+                             oncomplete="PF('longProcessDialogVar').hide();PF('jobSaveConfirm').hide();PF('mainTabViewVar').select(0);"
                              icon="ui-icon-check"
                              process="@this"/>
             <p:commandButton value="No"
                              actionListener="#{jobManager.cancelJobEdit}"
                              update=":mainTabViewForm"
-                             oncomplete="jobSaveConfirm.hide();mainTabViewVar.select(0);"
+                             oncomplete="PF('jobSaveConfirm').hide();PF('mainTabViewVar').select(0);"
                              icon="ui-icon-close"/>       
         </p:confirmDialog>
     </h:form>       
@@ -70,7 +70,7 @@ Email: info@dpbennett.com.jm
                      width="425">
         <h:form id="jobModifiedDialogForm">
             <p:commandButton value="Ok"
-                             oncomplete="jobModifiedDialog.hide();"
+                             oncomplete="PF('jobModifiedDialog').hide();"
                              icon="ui-icon-check"
                              process="@this"/>
         </h:form>
@@ -83,7 +83,7 @@ Email: info@dpbennett.com.jm
                      width="425">
         <h:form id="jobNotSavedDialogForm">
             <p:commandButton value="Ok"
-                             oncomplete="jobNotSavedDialog.hide();"
+                             oncomplete="PF('jobNotSavedDialog').hide();"
                              icon="ui-icon-check"
                              process="@this"/>
         </h:form>

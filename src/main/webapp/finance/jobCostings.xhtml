@@ -154,7 +154,7 @@ Email: info@dpbennett.com.jm
                                                  onerror="PF('connectionErrorDialog').show();"
                                                  actionListener="#{financeManager.editUnitCost}"
                                                  update=":unitCostForm"
-                                                 oncomplete="unitCostDialog.show();"
+                                                 oncomplete="PF('unitCostDialog').show();"
                                                  global="true"
                                                  icon="ui-icon-pencil">
                                     <f:setPropertyActionListener value="#{unitCost}" 

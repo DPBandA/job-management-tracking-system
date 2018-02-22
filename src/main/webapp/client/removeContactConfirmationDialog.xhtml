@@ -33,10 +33,10 @@ Email: info@dpbennett.com.jm
                              actionListener="#{clientManager.removeContact}"
                              onstart="PF('longProcessDialogVar').show();"
                              update=":clientForm:clientFormTabView:contactsTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
-                             oncomplete="deleteContactDialog.hide();PF('longProcessDialogVar').hide();"
+                             oncomplete="PF('deleteContactDialog').hide();PF('longProcessDialogVar').hide();"
                              icon="ui-icon-check"/>
             <p:commandButton value="No"
-                             oncomplete="deleteContactDialog.hide();"
+                             oncomplete="PF('deleteContactDialog').hide();"
                              icon="ui-icon-cancel"/>
         </p:confirmDialog>
     </h:form>

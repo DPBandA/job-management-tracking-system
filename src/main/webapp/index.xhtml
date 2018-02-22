@@ -96,7 +96,7 @@ Email: info@dpbennett.com.jm
                             <p:menuitem actionListener="#{jobManager.editPreferences}"
                                         onstart="PF('longProcessDialogVar').show();"
                                         update=":preferencesDialogForm"
-                                        oncomplete="PF('longProcessDialogVar').hide();preferencesDialog.show();"
+                                        oncomplete="PF('longProcessDialogVar').hide();PF('preferencesDialog').show();"
                                         onerror="PF('connectionErrorDialog').show();"    
                                         value="Preferences"
                                         process="@this"/>

@@ -47,12 +47,12 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"               
                                      actionListener="#{financeManager.okJobCosting}"
                                      update=":jobCostingDialogForm:jobCostingsTemplateName" 
-                                     oncomplete="jobCostingTemplateNameDialog.hide();"
+                                     oncomplete="PF('jobCostingTemplateNameDialog').hide();"
                                      icon="ui-icon ui-icon-check"
                                      process="@form"/>
                     <p:spacer width="5"/>
                     <p:commandButton value="Cancel"                                                      
-                                     oncomplete="jobCostingTemplateNameDialog.hide();"
+                                     oncomplete="PF('jobCostingTemplateNameDialog').hide();"
                                      icon="ui-icon-close"/>  
                 </p:toolbarGroup>
             </p:toolbar>

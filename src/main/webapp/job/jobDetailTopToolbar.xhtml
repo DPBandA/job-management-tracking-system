@@ -70,7 +70,7 @@ Email: info@dpbennett.com.jm
                             immediate="true"
                             disabled="#{!jobManager.currentJobIsValid}"                   
                             update="longProgressDialogForm2"
-                            onclick="longProcessDialogVar2.show();" >
+                            onclick="PF('longProcessDialogVar2').show();" >
                     <p:fileDownload value="#{jobManager.serviceContractFile}" />
                 </p:menuitem>
             </p:menuButton>

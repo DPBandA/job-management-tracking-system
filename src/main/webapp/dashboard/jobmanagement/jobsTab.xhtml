@@ -58,7 +58,7 @@ Email: info@dpbennett.com.jm
                             onstart="PF('longProcessDialogVar').show();"                                                    
                             value="Client credit status"
                             update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
-                            oncomplete="accPacClientInformationDialog.show();PF('longProcessDialogVar').hide();"
+                            oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
                             onerror="PF('connectionErrorDialog').show();"
                             process="@this"/>     
                 <p:separator />

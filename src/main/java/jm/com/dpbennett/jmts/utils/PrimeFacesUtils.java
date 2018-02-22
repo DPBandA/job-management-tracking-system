@@ -31,8 +31,11 @@ public class PrimeFacesUtils {
         options.put("resizable", resizable);
         options.put("contentHeight", contentHeight);
         options.put("contentWidth", contentWidth);
+//        options.put("contentHeight", "100%");
+//        options.put("contentWidth", "100%");
 
         RequestContext.getCurrentInstance().openDialog(outcome, options, null);
+        //PrimeFaces.current().dialog.openDynamic(outcome, options, null);
     }
 
     public static void addMessage(String summary, String detail, FacesMessage.Severity severity) {
