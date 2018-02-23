@@ -29,10 +29,10 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new sector"                                  
                              value="New"
                              actionListener="#{systemManager.createNewSector}"
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
-                             onerror="connectionErrorDialog.show();"
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus" >
@@ -48,8 +48,8 @@ Email: info@dpbennett.com.jm
                          placeholder="Enter any part of name">
                 <p:ajax event="keyup"
                         global="false"
-                        onstart="longProcessDialogVar.show();" 
-                        oncomplete="longProcessDialogVar.hide();"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
                         listener="#{systemManager.doSectorSearch}"
                         process="@this"/>
@@ -119,8 +119,8 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit sector"   
                              actionListener="#{systemManager.editSector}"
-                             onstart="longProcessDialogVar.show();"                                                                    
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"                                                                    
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">

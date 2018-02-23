@@ -29,8 +29,8 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new job subcategory"                                  
                              value="New"
                              actionListener="#{systemManager.createNewJobSubCategory}"
-                             onstart="longProcessDialogVar.show();" 
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();" 
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus">
@@ -46,8 +46,8 @@ Email: info@dpbennett.com.jm
                          placeholder="Enter any part of name">
                 <p:ajax event="keyup"
                         global="false"
-                        onstart="longProcessDialogVar.show();" 
-                        oncomplete="longProcessDialogVar.hide();"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
                         listener="#{systemManager.doJobSubcategorySearch}"
                         process="@this"/>
@@ -129,8 +129,8 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit job subcategory"   
                              actionListener="#{systemManager.editJobSubcategory}"
-                             onstart="longProcessDialogVar.show();"                                                                    
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"                                                                    
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">

@@ -253,7 +253,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setDialogMessageSeverity(dialoMessageSeverity);
 
         context.update("commonMessageDialogForm");
-        context.execute("commonMessageDialog.show();");
+        context.execute("PF('commonMessageDialog').show();");
     }
 
     public void displayCommonConfirmationDialog(DialogActionHandler dialogActionHandler,
@@ -274,7 +274,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setDialogMessageSeverity(dialoMessageSeverity);
 
         context.update("commonMessageDialogForm");
-        context.execute("commonMessageDialog.show();");
+        context.execute("PF('commonMessageDialog').show();");
     }
 
     public void handleDialogOkButtonPressed() {
@@ -1105,7 +1105,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             // ask to save         
             displayCommonConfirmationDialog(initDialogActionHandlerId("unitCostDirty"), "This unit cost was modified. Do you wish to save it?", "Unit Cost Not Saved", "info");
         } else {
-            context.execute("unitCostDialog.hide();");
+            context.execute("PF('unitCostDialog').hide();");
         }
 
     }
@@ -1246,7 +1246,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             Long id = BusinessEntityUtils.saveBusinessEntity(em, currentUnitCost);
             if (id == null) {
-                context.execute("undefinedErrorDialog.show();");
+                context.execute("PF('undefinedErrorDialog').show();");
                 sendErrorEmail("An error occured while saving this unit cost",
                         "Unit cost save error occured");
                 return;
@@ -1256,7 +1256,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             setIsDirty(false);
 
         } catch (Exception e) {
-            context.execute("undefinedErrorDialog.show();");
+            context.execute("PF('undefinedErrorDialog').show();");
             System.out.println(e);
             // send error message to developer's email
             sendErrorEmail("An exception occurred while saving a unit cost!",
@@ -1507,7 +1507,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         updateFinalCost();
         updateAmountDue();
 
-        RequestContext.getCurrentInstance().execute("costingComponentDialog.hide();");
+        RequestContext.getCurrentInstance().execute("PF('costingComponentDialog').hide();");
     }
 
     public void updateFinalCost() {
@@ -2092,7 +2092,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         currentUnitCost = new UnitCost();
 
         context.update("unitCostForm");
-        context.execute("unitCostDialog.show();");
+        context.execute("PF('unitCostDialog').show();");
     }
 
     public void editUnitCost() {
@@ -2108,7 +2108,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         if (dialogActionHandlerId.equals("unitCostDirty")) {
             RequestContext context = RequestContext.getCurrentInstance();
             saveUnitCost();
-            context.execute("unitCostDialog.hide();");
+            context.execute("PF('unitCostDialog').hide();");
         }
 
     }
@@ -2119,7 +2119,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         if (dialogActionHandlerId.equals("unitCostDirty")) {
             RequestContext context = RequestContext.getCurrentInstance();
             setIsDirty(false);
-            context.execute("unitCostDialog.hide();");
+            context.execute("PF('unitCostDialog').hide();");
         }
     }
 

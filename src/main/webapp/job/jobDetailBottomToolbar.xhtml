@@ -24,8 +24,8 @@ Email: info@dpbennett.com.jm
     <p:toolbar id="jobDetailToolbar2">
         <p:toolbarGroup align="left" >  
             <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              value="Save"
                              update=":mainTabViewForm:mainTabView,:mainTabViewForm:mainTabView:growl2"
                              title="Save current job"
@@ -35,9 +35,9 @@ Email: info@dpbennett.com.jm
             <p:spacer height="0" width="10"/>
             <p:commandButton value="Close"     
                              actionListener="#{jobManager.prepareToCloseJobDetailTab}"
-                             onstart="longProcessDialogVar.show();"
+                             onstart="PF('longProcessDialogVar').show();"
                              immediate="true"
-                             oncomplete="longProcessDialogVar.hide();" 
+                             oncomplete="PF('longProcessDialogVar').hide();" 
                              process="@this"
                              icon="ui-icon ui-icon-close" />            
         </p:toolbarGroup>

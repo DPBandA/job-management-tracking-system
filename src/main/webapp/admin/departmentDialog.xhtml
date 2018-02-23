@@ -44,15 +44,15 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      actionListener="#{systemManager.saveSelectedDepartment}"
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide()"
+                                     onstart="PF('longProcessDialogVar').show();"
+                                     oncomplete="PF('longProcessDialogVar').hide()"
                                      icon="ui-icon ui-icon-check"
                                      update="departmentdialog_growl"
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
                                      actionListener="#{systemManager.cancelDepartmentEdit}"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            
                 </p:toolbarGroup>
@@ -161,15 +161,15 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      actionListener="#{systemManager.saveSelectedDepartment}"
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide()"
+                                     onstart="PF('longProcessDialogVar').show();"
+                                     oncomplete="PF('longProcessDialogVar').hide()"
                                      icon="ui-icon ui-icon-check"
                                      update="departmentdialog_growl"
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
                                      actionListener="#{systemManager.cancelDepartmentEdit}"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            
                 </p:toolbarGroup>

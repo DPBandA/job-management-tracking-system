@@ -46,22 +46,22 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     onstart="longProcessDialogVar.show();"
+                                     onstart="PF('longProcessDialogVar').show();"
                                      actionListener="#{clientManager.okClient}"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      update="client_growl"                             
                                      icon="ui-icon-check"/>
                     <p:spacer width="10"/>
                     <p:commandButton value="Cancel"
                                      immediate="true" 
-                                     onstart="longProcessDialogVar.show();"
+                                     onstart="PF('longProcessDialogVar').show();"
                                      actionListener="#{clientManager.cancelClientEdit}"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" />
                 </p:toolbarGroup>
             </p:toolbar>
             <p:tabView id="clientFormTabView"
-                       onTabShow="longProcessDialogVar.hide();"
+                       onTabShow="PF('longProcessDialogVar').hide();"
                        dynamic="true"
                        widgetVar="clientFormTabVar" >
                 <p:tab id="clientDetailsTab" title="General details">
@@ -82,17 +82,17 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-top: 5px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     onstart="longProcessDialogVar.show();"
+                                     onstart="PF('longProcessDialogVar').show();"
                                      actionListener="#{clientManager.okClient}"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      update="client_growl"                             
                                      icon="ui-icon-check"/>
                     <p:spacer width="10"/>
                     <p:commandButton value="Cancel"
                                      immediate="true" 
-                                     onstart="longProcessDialogVar.show();"
+                                     onstart="PF('longProcessDialogVar').show();"
                                      actionListener="#{clientManager.cancelClientEdit}"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" />
                 </p:toolbarGroup>
             </p:toolbar>

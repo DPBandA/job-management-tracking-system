@@ -75,9 +75,9 @@ Email: info@dpbennett.com.jm
                                 <p:watermark value="-- enter search text --" for="jobCostSearchText" />
                                 <p:spacer height="0" width="5"/>
                                 <p:commandButton value="Search"                                                 
-                                                 onstart="longProcessDialogVar.show();"
-                                                 oncomplete="longProcessDialogVar.hide();"
-                                                 onerror="connectionErrorDialog.show();" 
+                                                 onstart="PF('longProcessDialogVar').show();"
+                                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                                 onerror="PF('connectionErrorDialog').show();" 
                                                  actionListener="#{financeManager.doJobCostSearch}"
                                                  icon="ui-icon-search"
                                                  process="@this,jobCostDepartment,jobCostSearchText"/>
@@ -150,11 +150,11 @@ Email: info@dpbennett.com.jm
                         <ui:remove>
                             <p:column style="width:32px">
                                 <p:commandButton title="View or edit unit cost"
-                                                 onstart="longProcessDialogVar.show();"
-                                                 onerror="connectionErrorDialog.show();"
+                                                 onstart="PF('longProcessDialogVar').show();"
+                                                 onerror="PF('connectionErrorDialog').show();"
                                                  actionListener="#{financeManager.editUnitCost}"
                                                  update=":unitCostForm"
-                                                 oncomplete="unitCostDialog.show();"
+                                                 oncomplete="PF('unitCostDialog').show();"
                                                  global="true"
                                                  icon="ui-icon-pencil">
                                     <f:setPropertyActionListener value="#{unitCost}" 

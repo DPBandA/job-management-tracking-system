@@ -25,8 +25,8 @@ Email: info@dpbennett.com.jm
     <p:toolbar id="jobDetailToolbar1">
         <p:toolbarGroup align="left" >  
             <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              value="Save"
                              update=":mainTabViewForm:mainTabView,:mainTabViewForm:mainTabView:growl2"
                              title="Save current job"
@@ -37,9 +37,9 @@ Email: info@dpbennett.com.jm
             
             <p:commandButton value="Close"     
                              actionListener="#{jobManager.prepareToCloseJobDetailTab}"
-                             onstart="longProcessDialogVar.show();"
+                             onstart="PF('longProcessDialogVar').show();"
                              immediate="true"
-                             oncomplete="longProcessDialogVar.hide();" 
+                             oncomplete="PF('longProcessDialogVar').hide();" 
                              process="@this"
                              icon="ui-icon ui-icon-close" />           
             
@@ -56,8 +56,8 @@ Email: info@dpbennett.com.jm
                 update=":mainTabViewForm:mainTabView:growl2"
                 rendered="#{!financeManager.enableOnlyPaymentEditing}"
                 global="true"               
-                onstart="longProcessDialogVar.show();"
-                oncomplete="longProcessDialogVar.hide();"
+                onstart="PF('longProcessDialogVar').show();"
+                oncomplete="PF('longProcessDialogVar').hide();"
                 title="Subcontract the current job by first creating a copy."
                 icon="ui-icon-copy"
                 process="@this"/>
@@ -70,7 +70,7 @@ Email: info@dpbennett.com.jm
                             immediate="true"
                             disabled="#{!jobManager.currentJobIsValid}"                   
                             update="longProgressDialogForm2"
-                            onclick="longProcessDialogVar2.show();" >
+                            onclick="PF('longProcessDialogVar2').show();" >
                     <p:fileDownload value="#{jobManager.serviceContractFile}" />
                 </p:menuitem>
             </p:menuButton>

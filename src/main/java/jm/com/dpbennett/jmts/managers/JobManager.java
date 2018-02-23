@@ -212,11 +212,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Return to default theme
         context.execute(
-                "loginDialog.show();"
-                + "longProcessDialogVar.hide();"
+                "PF('loginDialog').show();"
+                + "PF('longProcessDialogVar').hide();"
                 + "PrimeFaces.changeTheme('"
                 + getUser().getUserInterfaceThemeName() + "');"
-                + "layoutVar.toggle('west');");
+                + "PF('layoutVar').toggle('west');");
 
     }
 
@@ -438,7 +438,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         ++loginAttempts;
         if (loginAttempts == 2) {
-            context.execute("loginAttemptsDialog.show();");
+            context.execute("PF('loginAttemptsDialog').show();");
             try {
                 // send email to system administrator
                 BusinessEntityUtils.postMail(null, null, "Failed user login", "Username: " + username + "\nDate/Time: " + new Date());
@@ -446,7 +446,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 Logger.getLogger(JobManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (loginAttempts > 2) {// tk # attempts to be made option
-            context.execute("loginAttemptsDialog.show();");
+            context.execute("PF('loginAttemptsDialog').show();");
         }
 
         username = "";
@@ -490,19 +490,21 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 password = "";
                 loginAttempts = 0;
                 if (context != null) {
-                    context.addCallbackParam("userLogggedIn", getUserLoggedIn());
+                    //context.addCallbackParam("userLogggedIn", getUserLoggedIn());
 
                     em.getTransaction().begin();
                     BusinessEntityUtils.saveBusinessEntity(em, user);
                     em.getTransaction().commit();
 
-                    // Show search layout unit if initially collapsed
+
                     if (westLayoutUnitCollapsed) {
                         westLayoutUnitCollapsed = false;
-                        context.execute("layoutVar.toggle('west');");
+                        context.execute("PF('layoutVar').toggle('west');");
                     }
 
-                    context.execute("loginDialog.hide();PrimeFaces.changeTheme('"
+                    context.execute("PF('loginDialog').hide();");
+
+                    context.execute("PrimeFaces.changeTheme('"
                             + getUser().getUserInterfaceThemeName() + "');");
 
                     dashboard.reset(user);
@@ -538,7 +540,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         context.update("mainTabViewForm");
         context.update("headerForm");
         context.update("loginForm");
-        dashboard.select(0);
+        //dashboard.select(0); tk remove this method if it will never be needed.
 
     }
 
@@ -600,7 +602,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setDialogMessageSeverity(dialoMessageSeverity);
 
         context.update("commonMessageDialogForm");
-        context.execute("commonMessageDialog.show();");
+        context.execute("PF('commonMessageDialog').show();");
     }
 
     public void displayCommonConfirmationDialog(DialogActionHandler dialogActionHandler,
@@ -621,7 +623,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setDialogMessageSeverity(dialoMessageSeverity);
 
         context.update("commonMessageDialogForm");
-        context.execute("commonMessageDialog.show();");
+        context.execute("PF('commonMessageDialog').show();");
     }
 
     public void handleDialogOkButtonPressed() {
@@ -698,9 +700,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         RequestContext requestContext = RequestContext.getCurrentInstance();
 
         if (currentJob.getIsDirty()) {
-            requestContext.execute("jobDetailTabCloseConfirmation.show();");
+            requestContext.execute("PF('jobDetailTabCloseConfirmation').show();");
         } else {
-            requestContext.execute("mainTabViewVar.remove(mainTabViewVar.getActiveIndex());mainTabViewVar.select(0);");
+            requestContext.execute("PF('mainTabViewVar').remove(PF('mainTabViewVar').getActiveIndex());PF('mainTabViewVar').select(0);");
         }
     }
 
@@ -994,13 +996,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             PrimeFacesUtils.addMessage("New Job Created", "Please enter the required fields for this job", FacesMessage.SEVERITY_INFO);
             mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
             context.update("mainTabViewForm:mainTabView:jobFormTabView,headerForm:growl3");
-            context.execute("jobFormTabVar.select(0);");
+            context.execute("PF('jobFormTabVar').select(0);");
         } else {
             PrimeFacesUtils.addMessage("Job NOT Created",
                     "You do not have the prvilege to create jobs. Please contact your System Administrator",
                     FacesMessage.SEVERITY_ERROR);
             context.update("headerForm:growl3");
-            context.execute("longProcessDialogVar.hide();");
+            context.execute("PF('longProcessDialogVar').hide();");
         }
 
     }
@@ -1495,7 +1497,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 mainTabView.renderTab(em, "jobDetailTab", true);
                 context.update("mainTabViewForm:mainTabView:jobFormTabView");
                 mainTabView.select("jobDetailTab");
-                context.execute("jobFormTabVar.select(0);");
+                context.execute("PF('jobFormTabVar').select(0);");
 
             } else {
                 currentJob = Job.create(em, getUser(), true);
@@ -1607,7 +1609,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         dashboard.update("dashboardForm:dashboardAccordion");
 
         context.update("headerForm");
-        context.execute("preferencesDialog.hide();");
+        context.execute("PF('preferencesDialog').hide();");
 
         setIsDirty(false);
     }
@@ -1839,7 +1841,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         currentJob.getJobStatusAndTracking().setEditStatus("");
         mainTabView.select("jobDetailTab");
 
-        context.execute("jobFormTabVar.select(0);");
+        context.execute("PF('jobFormTabVar').select(0);");
     }
 
     public void editJobCostingAndPayment() {
@@ -1847,7 +1849,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
         mainTabView.select("jobDetailTab");
-        context.execute("jobFormTabVar.select(0);");
+        context.execute("PF('jobFormTabVar').select(0);");
     }
 
     public String getJobAssignee() {
@@ -2403,7 +2405,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         if (dialogActionHandlerId.equals("unitCostDirty")) {
             RequestContext context = RequestContext.getCurrentInstance();
-            context.execute("unitCostDialog.hide();");
+            context.execute("PF('unitCostDialog').hide();");
         }
 
     }
@@ -2414,7 +2416,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (dialogActionHandlerId.equals("unitCostDirty")) {
             RequestContext context = RequestContext.getCurrentInstance();
             setIsDirty(false);
-            context.execute("unitCostDialog.hide();");
+            context.execute("PF('unitCostDialog').hide();");
         }
     }
 

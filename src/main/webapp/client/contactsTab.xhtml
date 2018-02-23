@@ -30,7 +30,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon-plus" 
                              title="Add new contact"
                              update=":contactForm"
-                             oncomplete="contactFormDialog.show();"
+                             oncomplete="PF('contactFormDialog').show();"
                              actionListener="#{clientManager.createNewContact}" 
                              process="@this" >
 
@@ -80,7 +80,7 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit contact"
                              update=":contactForm"
-                             oncomplete="contactFormDialog.show();"
+                             oncomplete="PF('contactFormDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon-pencil">
@@ -94,7 +94,7 @@ Email: info@dpbennett.com.jm
 
         <p:column style="width:32px">
             <p:commandButton title="Delete contact"
-                             oncomplete="deleteContactDialog.show();"
+                             oncomplete="PF('deleteContactDialog').show();"
                              global="true"
                              icon="ui-icon-trash">
                 <f:setPropertyActionListener value="#{contact}"
@@ -109,7 +109,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon-plus" 
                              title="Add new contact"
                              update=":contactForm"
-                             oncomplete="contactFormDialog.show();"
+                             oncomplete="PF('contactFormDialog').show();"
                              actionListener="#{clientManager.createNewContact}" 
                              process="@this" >
 

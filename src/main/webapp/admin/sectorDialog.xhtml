@@ -44,8 +44,8 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{systemManager.saveSelectedSector}"
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
                                      update="growl"
                                      process="@form"/>
@@ -53,7 +53,7 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Cancel"
                                      actionListener="#{systemManager.cancelSectorEdit}" 
                                      immediate="true" 
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" /> 
                 </p:toolbarGroup>
             </p:toolbar>
@@ -87,8 +87,8 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{systemManager.saveSelectedSector}"
-                                     onstart="longProcessDialogVar.show();"
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
                                      update="growl"
                                      process="@form"/>
@@ -96,7 +96,7 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Cancel"
                                      actionListener="#{systemManager.cancelSectorEdit}" 
                                      immediate="true" 
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" /> 
                 </p:toolbarGroup>
             </p:toolbar>

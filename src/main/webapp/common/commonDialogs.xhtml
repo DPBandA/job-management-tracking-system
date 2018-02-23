@@ -33,36 +33,36 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Ok" 
                              rendered="#{jobManager.dialogRenderOkButton}"
                              actionListener="#{jobManager.handleDialogOkButtonPressed()}"
-                             onstart="longProcessDialogVar.show();"                                                    
-                             oncomplete="commonMessageDialog.hide();longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"                                                    
+                             oncomplete="PF('commonMessageDialog').hide();PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon-check"/>
 
             <p:commandButton value="Yes" 
                              rendered="#{jobManager.dialogRenderYesButton}"
                              actionListener="#{jobManager.handleDialogYesButtonPressed()}"
-                             onstart="longProcessDialogVar.show();"                                                    
-                             oncomplete="commonMessageDialog.hide();longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"                                                    
+                             oncomplete="PF('commonMessageDialog').hide();PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon-check"/>
 
             <p:commandButton value="No" 
                              rendered="#{jobManager.dialogRenderNoButton}"
                              actionListener="#{jobManager.handleDialogNoButtonPressed()}"
-                             onstart="longProcessDialogVar.show();"                                                    
-                             oncomplete="commonMessageDialog.hide();longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"                                                    
+                             oncomplete="PF('commonMessageDialog').hide();PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon-close"/>            
             <p:spacer height="0" width="20"/>
             <p:commandButton value="Cancel" 
                              rendered="#{jobManager.dialogRenderCancelButton}"
                              actionListener="#{jobManager.handleDialogCancelButtonPressed()}"
-                             onstart="longProcessDialogVar.show();"                                                    
-                             oncomplete="commonMessageDialog.hide();longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"                                                    
+                             oncomplete="PF('commonMessageDialog').hide();PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon-cancel"/>       
 

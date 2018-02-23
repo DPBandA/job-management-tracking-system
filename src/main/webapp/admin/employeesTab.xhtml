@@ -29,9 +29,9 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new employee"                                  
                              value="New"
                              actionListener="#{systemManager.createNewEmployee}"
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon ui-icon-plus" >
 
@@ -45,8 +45,8 @@ Email: info@dpbennett.com.jm
                          style="width:150px"
                          placeholder="Enter search text">
                 <p:ajax event="keyup"
-                        onstart="longProcessDialogVar.show();" 
-                        oncomplete="longProcessDialogVar.hide();"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"
                         listener="#{systemManager.doEmployeeSearch}"
                         process="@this"/>
@@ -116,8 +116,8 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit employee"   
                              actionListener="#{systemManager.editEmployee}"
-                             onstart="longProcessDialogVar.show();"
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">

@@ -20,8 +20,7 @@ Email: info@dpbennett.com.jm
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html" 
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"> 
     <h:head>
@@ -36,9 +35,9 @@ Email: info@dpbennett.com.jm
         <link rel="stylesheet" href="css/main.css" />
     </h:head>
     <h:body onload="checkWhichBrowser();
-            longProcessDialogVar.hide();
+            PF('longProcessDialogVar').hide();
             mainTabViewVar.select(0);"            
-            onmouseover="longProcessDialogVar.hide();">
+            onmouseover="PF('longProcessDialogVar').hide();">
         <ui:include src="common/commonDialogs.xhtml" />                       
         <ui:include src="common/loginDialog.xhtml"/>
         <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>               
@@ -83,28 +82,28 @@ Email: info@dpbennett.com.jm
 
                             <p:menuitem actionListener="#{jobManager.openSystemAdministrationTab}"
                                         rendered="#{jobManager.user.adminUnit}"
-                                        onstart="longProcessDialogVar.show();"                                        
-                                        oncomplete="longProcessDialogVar.hide();"                                            
+                                        onstart="PF('longProcessDialogVar').show();"                                        
+                                        oncomplete="PF('longProcessDialogVar').hide();"                                            
                                         value="System Administration"
                                         process="@this"/>
                             <p:menuitem actionListener="#{jobManager.openFinancialAdministrationTab}"
                                         rendered="#{jobManager.user.financialAdminUnit}"
-                                        onstart="longProcessDialogVar.show();"                                        
-                                        oncomplete="longProcessDialogVar.hide();"                                            
+                                        onstart="PF('longProcessDialogVar').show();"                                        
+                                        oncomplete="PF('longProcessDialogVar').hide();"                                            
                                         value="Financial Administration"
                                         process="@this"/>
                             <p:separator rendered="#{jobManager.user.adminUnit or jobManager.user.financialAdminUnit}"/>                              
                             <p:menuitem actionListener="#{jobManager.editPreferences}"
-                                        onstart="longProcessDialogVar.show();"
+                                        onstart="PF('longProcessDialogVar').show();"
                                         update=":preferencesDialogForm"
-                                        oncomplete="longProcessDialogVar.hide();preferencesDialog.show();"
-                                        onerror="connectionErrorDialog.show();"    
+                                        oncomplete="PF('longProcessDialogVar').hide();PF('preferencesDialog').show();"
+                                        onerror="PF('connectionErrorDialog').show();"    
                                         value="Preferences"
                                         process="@this"/>
                             <p:separator />  
                             <p:menuitem actionListener="#{jobManager.logout}"
-                                        onstart="longProcessDialogVar.show();"                                               
-                                        onerror="connectionErrorDialog.show();"                                              
+                                        onstart="PF('longProcessDialogVar').show();"                                               
+                                        onerror="PF('connectionErrorDialog').show();"                                              
                                         icon="ui-icon-circle-arrow-w"
                                         value="Logout"
                                         process="@this"/>                             
@@ -129,7 +128,7 @@ Email: info@dpbennett.com.jm
                                value="#{jobManager.mainTabView.tabs}" 
                                var="tab"         
                                style="border-width: 0px;"
-                               onTabShow="longProcessDialogVar.hide();"
+                               onTabShow="PF('longProcessDialogVar').hide();"
                                widgetVar="mainTabViewVar">
 
                         <p:ajax event="tabClose" 

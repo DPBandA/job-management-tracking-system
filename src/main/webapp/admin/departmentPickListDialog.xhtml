@@ -35,15 +35,15 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{systemManager.okDepartmentPickList}"
                                      update=":businessDialogForm"
-                                     onstart="longProcessDialogVar.show();" 
-                                     oncomplete="longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel" 
                                      immediate="true"
-                                     onstart="longProcessDialogVar.show();"                              
-                                     oncomplete="departmentPickListDialog.hide();longProcessDialogVar.hide();"
+                                     onstart="PF('longProcessDialogVar').show();"                              
+                                     oncomplete="PF('departmentPickListDialog').hide();PF('longProcessDialogVar').hide();"
                                      icon="ui-icon-close"/>
                 </p:toolbarGroup>
             </p:toolbar>            

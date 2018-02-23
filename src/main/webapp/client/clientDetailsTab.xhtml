@@ -79,7 +79,7 @@ Email: info@dpbennett.com.jm
                                  icon="ui-icon-pencil"
                                  title="Edit address"
                                  update=":addressForm"
-                                 oncomplete="addressFormDialog.show();"
+                                 oncomplete="PF('addressFormDialog').show();"
                                  actionListener="#{clientManager.editCurrentAddress}" 
                                  process="@this" >
 
@@ -93,7 +93,7 @@ Email: info@dpbennett.com.jm
                                  icon="ui-icon-plus" 
                                  title="Add new address"
                                  update=":addressForm"
-                                 oncomplete="addressFormDialog.show();"
+                                 oncomplete="PF('addressFormDialog').show();"
                                  actionListener="#{clientManager.createNewAddress}" 
                                  process="@this" >
 
@@ -124,7 +124,7 @@ Email: info@dpbennett.com.jm
                                  icon="ui-icon-pencil"
                                  title="Edit contact"
                                  update=":contactForm"
-                                 oncomplete="contactFormDialog.show();"
+                                 oncomplete="PF('contactFormDialog').show();"
                                  actionListener="#{clientManager.editCurrentContact}" 
                                  process="@this" >
 
@@ -138,7 +138,7 @@ Email: info@dpbennett.com.jm
                                  icon="ui-icon-plus" 
                                  title="Add new contact"
                                  update=":contactForm"
-                                 oncomplete="contactFormDialog.show();"
+                                 oncomplete="PF('contactFormDialog').show();"
                                  actionListener="#{clientManager.createNewContact}" 
                                  process="@this" >
 

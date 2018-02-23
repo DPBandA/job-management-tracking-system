@@ -28,9 +28,9 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new LDAP Option"                                  
                              value="New"
                              actionListener="#{systemManager.createNewLdapContext}"
-                             onstart="longProcessDialogVar.show();"                                                            
+                             onstart="PF('longProcessDialogVar').show();"                                                            
                              update=""
-                             onerror="connectionErrorDialog.show();"
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus" >
@@ -45,8 +45,8 @@ Email: info@dpbennett.com.jm
                          placeholder="Enter search text">
                 <p:ajax event="keyup"
                         global="false"
-                        onstart="longProcessDialogVar.show();" 
-                        oncomplete="longProcessDialogVar.hide();"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:LDAPTable"
                         listener="#{systemManager.doLdapContextSearch}"
                         process="@this"/>
@@ -123,8 +123,8 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit LDAP"   
                              actionListener="#{systemManager.editLdapContext}"
-                             onstart="longProcessDialogVar.show();"                                                                    
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"                                                                    
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">

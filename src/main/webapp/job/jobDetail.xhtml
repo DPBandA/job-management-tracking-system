@@ -28,13 +28,13 @@ Email: info@dpbennett.com.jm
     <p:tabView id="jobFormTabView"
                style="margin-top: 1px;margin-bottom: 1px;"
                activeIndex="1"
-               onTabShow="longProcessDialogVar.hide();"
+               onTabShow="PF('longProcessDialogVar').hide();"
                widgetVar="jobFormTabVar" >
 
         <ui:remove>
             <p:ajax event="tabChange" 
-                    onstart="longProcessDialogVar.show();"
-                    oncomplete="longProcessDialogVar.hide();" />
+                    onstart="PF('longProcessDialogVar').show();"
+                    oncomplete="PF('longProcessDialogVar').hide();" />
         </ui:remove>
 
         <p:tab title="General" rendered="#{!financeManager.enableOnlyPaymentEditing}">

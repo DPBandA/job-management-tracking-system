@@ -88,7 +88,7 @@ public class MainTabView implements Serializable {
 
         this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
 
-        context.execute("mainTabViewVar.select(" + this.tabIndex + ");");
+        context.execute("PF('mainTabViewVar').select(" + this.tabIndex + ");");
 
     }
 
@@ -101,7 +101,7 @@ public class MainTabView implements Serializable {
 
         this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
 
-        context.execute(componentVar + ".select(" + this.tabIndex + ");");
+        context.execute("PF('" + componentVar + "')" + ".select(" + this.tabIndex + ");");
 
     }
 
@@ -109,9 +109,9 @@ public class MainTabView implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
 
         if (wasTabAdded) {
-            context.execute("mainTabViewVar.select(" + tabIndex + ");");
+            context.execute("PF('mainTabViewVar').select(" + tabIndex + ");");
         } else {
-            context.execute("mainTabViewVar.select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
+            context.execute("PF('mainTabViewVar').select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
         }
     }
 
@@ -119,9 +119,9 @@ public class MainTabView implements Serializable {
         RequestContext context = RequestContext.getCurrentInstance();
 
         if (wasTabAdded) {
-            context.execute(componentVar + ".select(" + tabIndex + ");");
+            context.execute("PF('" + componentVar + "')" + ".select(" + tabIndex + ");");
         } else {
-            context.execute(componentVar + ".select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
+            context.execute("PF('" + componentVar + "')" + ".select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
         }
     }
 

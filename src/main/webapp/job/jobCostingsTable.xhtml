@@ -33,7 +33,9 @@ Email: info@dpbennett.com.jm
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
 
-        <p:ajax event="page"  onstart="longProcessDialogVar.show();" oncomplete="longProcessDialogVar.hide();" />
+        <p:ajax event="page"  
+                onstart="PF('longProcessDialogVar').show();" 
+                oncomplete="PF('longProcessDialogVar').hide();" />
 
         <f:facet name="header">
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
@@ -109,9 +111,9 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="View or edit job costing" 
                              actionListener="#{financeManager.editJobCosting}"
                              update=":headerForm:growl3"
-                             onstart="longProcessDialogVar.show();"
-                             oncomplete="longProcessDialogVar.hide();"
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">

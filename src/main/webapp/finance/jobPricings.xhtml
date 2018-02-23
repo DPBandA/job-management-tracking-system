@@ -46,8 +46,8 @@ Email: info@dpbennett.com.jm
                       widgetVar="unitCostDialog"
                       header="Price Detail" >
                 <p:commandButton actionListener="#{financeManager.saveUnitCost}"                            
-                                 onstart="longProcessDialogVar.show();"
-                                 oncomplete="longProcessDialogVar.hide();"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
                                  value="Save"                                     
                                  title="Save unit cost"
                                  icon="ui-icon-disk"
@@ -55,8 +55,8 @@ Email: info@dpbennett.com.jm
                 <p:spacer height="0" width="10"/>
                 <p:commandButton value="Close"
                                  actionListener="#{financeManager.closeUnitCostDialog}"
-                                 onstart="longProcessDialogVar.show();"
-                                 oncomplete="longProcessDialogVar.hide();"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
                                  async="true"                                                                
                                  process="@this"
                                  icon="ui-icon ui-icon-close" />                   
@@ -196,8 +196,8 @@ Email: info@dpbennett.com.jm
                 </h:panelGrid>
                 <hr/>
                 <p:commandButton actionListener="#{financeManager.saveUnitCost}"                            
-                                 onstart="longProcessDialogVar.show();"
-                                 oncomplete="longProcessDialogVar.hide();"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
                                  value="Save"                                     
                                  title="Save unit cost"
                                  icon="ui-icon-disk"
@@ -205,8 +205,8 @@ Email: info@dpbennett.com.jm
                 <p:spacer height="0" width="10"/>
                 <p:commandButton value="Close"
                                  actionListener="#{financeManager.closeUnitCostDialog}"
-                                 onstart="longProcessDialogVar.show();"
-                                 oncomplete="longProcessDialogVar.hide();"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
                                  async="true"                                                                
                                  process="@this"
                                  icon="ui-icon ui-icon-close" />                  
@@ -251,18 +251,18 @@ Email: info@dpbennett.com.jm
                                 <p:watermark value="-- enter search text --" for="unitCostSearchText" />
                                 <p:spacer height="0" width="5"/>
                                 <p:commandButton value="Search"                                                 
-                                                 onstart="longProcessDialogVar.show();"
-                                                 oncomplete="longProcessDialogVar.hide();"
-                                                 onerror="connectionErrorDialog.show();" 
+                                                 onstart="PF('longProcessDialogVar').show();"
+                                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                                 onerror="PF('connectionErrorDialog').show();" 
                                                  actionListener="#{financeManager.doUnitCostSearch}"
                                                  icon="ui-icon-search"
                                                  process="@this,unitCostDepartment,unitCostSearchText"/>
                             </h:panelGroup>
                             <p:spacer height="0" width="25"/>
                             <p:commandButton value="New"                                                 
-                                             onstart="longProcessDialogVar.show();"
-                                             oncomplete="longProcessDialogVar.hide();"
-                                             onerror="connectionErrorDialog.show();" 
+                                             onstart="PF('longProcessDialogVar').show();"
+                                             oncomplete="PF('longProcessDialogVar').hide();"
+                                             onerror="PF('connectionErrorDialog').show();" 
                                              actionListener="#{financeManager.createNewUnitCost}"
                                              icon="ui-icon-plus"
                                              process="@this"/>
@@ -318,11 +318,11 @@ Email: info@dpbennett.com.jm
 
                         <p:column style="width:32px">
                             <p:commandButton title="View or edit unit cost"
-                                             onstart="longProcessDialogVar.show();"
-                                             onerror="connectionErrorDialog.show();"
+                                             onstart="PF('longProcessDialogVar').show();"
+                                             onerror="PF('connectionErrorDialog').show();"
                                              actionListener="#{financeManager.editUnitCost}"
                                              update=":unitCostForm"
-                                             oncomplete="unitCostDialog.show();"
+                                             oncomplete="PF('unitCostDialog').show();"
                                              global="true"
                                              icon="ui-icon-pencil">
                                 <f:setPropertyActionListener value="#{unitCost}" 
