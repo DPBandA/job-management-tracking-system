@@ -1789,6 +1789,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * Update/create alert for the current job if the job is not completed.
      *
      * @param em
+     * @throws java.lang.Exception
      */
     public void updateAlert(EntityManager em) throws Exception {
         if (getCurrentJob().getJobStatusAndTracking().getCompleted() == null) {
