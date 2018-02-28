@@ -22,20 +22,12 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:growl id="growl2" life="5000" showDetail="true" />
-
+    
     <ui:include src="jobDetailTopToolbar.xhtml"/>
 
     <p:tabView id="jobFormTabView"
-               style="margin-top: 1px;margin-bottom: 1px;"
-               activeIndex="1"
-               onTabShow="PF('longProcessDialogVar').hide();"
+               style="margin-top: 1px;margin-bottom: 1px;"               
                widgetVar="jobFormTabVar" >
-
-        <ui:remove>
-            <p:ajax event="tabChange" 
-                    onstart="PF('longProcessDialogVar').show();"
-                    oncomplete="PF('longProcessDialogVar').hide();" />
-        </ui:remove>
 
         <p:tab title="General" rendered="#{!financeManager.enableOnlyPaymentEditing}">
             <ui:include src="jobGeneralTab.xhtml"/>

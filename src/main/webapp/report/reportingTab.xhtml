@@ -31,7 +31,7 @@ Email: info@dpbennett.com.jm
             <p:selectBooleanCheckbox id="newClient"
                                      value="#{jobManager.currentJob.newClient}" >
                 <p:ajax listener="#{jobManager.updateNewClient}"
-                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update=":jobDialogForm:jobDetailToolbar1"
                         global="false"
                         process="@this"/>
             </p:selectBooleanCheckbox>
@@ -48,7 +48,7 @@ Email: info@dpbennett.com.jm
                 <p:ajax event="change"
                         global="false"                       
                         listener="#{jobManager.updateJobReportNumber}"
-                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update=":jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
             </p:inputText>
             <p:tooltip for="reportNumbers" value="Enter the report number(s) for this job" showEffect="fade" hideEffect="fade" />          
@@ -69,7 +69,7 @@ Email: info@dpbennett.com.jm
                     <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                             global="false"
                             event="keyup"
-                            update="numOfTestsOrCalibrations,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                            update="numOfTestsOrCalibrations,:jobDialogForm:jobDetailToolbar1"
                             process="@this"/>
                     <f:convertNumber integerOnly="true"/>
                 </p:inputText>
@@ -86,7 +86,7 @@ Email: info@dpbennett.com.jm
                     <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                             global="false"
                             event="keyup"
-                            update="numOfTestsOrCalibrations,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                            update="numOfTestsOrCalibrations,:jobDialogForm:jobDetailToolbar1"
                             process="@this"/>
                     <f:convertNumber integerOnly="true"/>
                 </p:inputText>
@@ -102,7 +102,7 @@ Email: info@dpbennett.com.jm
                              styleClass="number-field"
                              style="width: 50px;" >
                     <p:ajax listener="#{jobManager.updateJob}"
-                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                            update=":jobDialogForm:jobDetailToolbar1"
                             global="false"
                             event="change"                            
                             process="@this"/>
@@ -125,7 +125,7 @@ Email: info@dpbennett.com.jm
             <p:ajax event="change"
                     global="false"                   
                     listener="#{jobManager.updateJob}"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
         </p:inputTextarea>
         <h:outputText id="commentCharsRemaining" /> 

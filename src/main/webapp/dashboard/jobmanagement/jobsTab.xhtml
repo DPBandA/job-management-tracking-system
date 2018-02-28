@@ -19,9 +19,7 @@ Email: info@dpbennett.com.jm
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <p:toolbar>
@@ -30,15 +28,13 @@ Email: info@dpbennett.com.jm
                 actionListener="#{jobManager.createNewJob}"
                 global="true"                                        
                 onstart="PF('longProcessDialogVar').show();" 
+                oncomplete="PF('longProcessDialogVar').hide();"
                 onerror="PF('connectionErrorDialog').show();"
                 value="New"                     
                 title="Create new job"
                 icon="ui-icon-plusthick"
-                process="@this">  
+                process="@this" />  
 
-                <p:resetInput target=":mainTabViewForm:mainTabView" />
-
-            </p:commandButton>
         </p:toolbarGroup>
         <p:toolbarGroup align="right">
             <p:menuButton value="Tools" >  
@@ -71,9 +67,7 @@ Email: info@dpbennett.com.jm
             </p:menuButton>         
         </p:toolbarGroup>
     </p:toolbar>
-    <ui:remove>
-        <h:outputText value="Job Search:" styleClass="output-text-header"/> 
-    </ui:remove>
+   
     <ui:include src="jobSearch.xhtml"/>   
 
 

@@ -237,6 +237,13 @@
             <to-view-id>/admin/businessDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>  
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>jobDialog</from-outcome>
+            <to-view-id>/job/jobDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.jmts.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>

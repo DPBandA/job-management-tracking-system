@@ -1,9 +1,8 @@
 # Things to do
 
 ## Testing, Training & Misc
-- Upgrade to PF 5.x and revert back to p:dialog for Job Dialog.
-  * Check boxes dont appear properly in tables. Try fixing it or downgrade to
-    to a lower PF version. 
+- Remove "Job Detail" tab and fully implement Job Dialog (eg new job and edit job 
+  and job costing and all other job views that are generated from the various job.
 - Impl "Organization" in JM user so that the user' correct organization can be
   selected when subcontracting a job.
   * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
@@ -21,8 +20,8 @@
 - Take job through completion to see if "Job completed by:" checkbox is actually checked.
 - Test that the restriction to create jobs for one's own department actually works.
 - Test adding payment with discount.
-- Change @ManagedBean to @Named as possible.
-- Doc requirement in inception report.
+- Doc requirement in inception report...job should not be marked completed until
+  approved.
 
 ## Misc & Reports
 - business_department table to be added to database table if it is automatically

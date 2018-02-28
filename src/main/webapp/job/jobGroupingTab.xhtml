@@ -37,7 +37,7 @@ Email: info@dpbennett.com.jm
                         completeMethod="#{App.completeActiveSectors}" >
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateSector}"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
         </p:autoComplete>     
 
@@ -55,7 +55,7 @@ Email: info@dpbennett.com.jm
                         completeMethod="#{App.completeActiveJobCategories}" >
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobCategory}"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
         </p:autoComplete>     
 
@@ -72,7 +72,7 @@ Email: info@dpbennett.com.jm
                         completeMethod="#{App.completeActiveJobSubCategories}" >
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobSubCategory}"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
         </p:autoComplete>     
 

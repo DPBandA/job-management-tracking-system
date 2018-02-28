@@ -40,7 +40,7 @@ Email: info@dpbennett.com.jm
                 <p:ajax event="change"
                         global="false"
                         listener="#{financeManager.updatePurchaseOrderNumber}"
-                        update="jobCosting,cashPayments,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
             </p:inputText>
             <h:outputText value="&nbsp;"/>
@@ -55,7 +55,7 @@ Email: info@dpbennett.com.jm
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     <p:ajax event="change"
                             global="false"
-                            update="jobCosting,cashPayments,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                            update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                             listener="#{financeManager.updateJobCostingEstimate}"
                             process="@this"/>
                 </p:inputText>
@@ -72,7 +72,7 @@ Email: info@dpbennett.com.jm
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 <p:ajax event="change"
                         global="false"
-                        update="jobCosting,cashPayments,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                         listener="#{financeManager.updateMinimumDepositRequired}"
                         process="@this"/>
             </p:inputText>
@@ -91,7 +91,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="itemSelect"
                         global="true"
-                        update="jobCosting,cashPayments,:mainTabViewForm:mainTabView:growl2,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                         listener="#{financeManager.updateAllTaxes}"
                         process="@this" />
 
@@ -141,7 +141,7 @@ Email: info@dpbennett.com.jm
                 </p:inputText>
                 <p:commandButton icon="ui-icon ui-icon-pencil"
                                  actionListener="#{financeManager.openJobCostingDialog}"
-                                 update=":mainTabViewForm:mainTabView:growl2"
+                                 update=":jobDialogForm:growl2"
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  process="@this"
@@ -149,7 +149,7 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax event="dialogReturn" 
                             listener="#{financeManager.jobCostingDialogReturn}"
-                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting,cashPayments,:mainTabViewForm:mainTabView:growl2"/>
+                            update=":jobDialogForm:jobDetailToolbar1,jobCosting,cashPayments,:jobDialogForm:growl2"/>
 
                 </p:commandButton>  
             </h:panelGroup>
@@ -184,7 +184,7 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax event="dialogReturn" 
                             listener="#{financeManager.cashPaymentDialogReturn}"                    
-                            update="cashPayments,jobCosting,:mainTabViewForm:mainTabView:growl2,cashPayments"
+                            update="cashPayments,jobCosting,:jobDialogForm:growl2,cashPayments"
                             process="@this"/>
 
                 </p:commandButton>
@@ -200,7 +200,7 @@ Email: info@dpbennett.com.jm
                              maxlength="40" >
                     <p:ajax event="change"                            
                             listener="#{financeManager.updateJobCostingAndPayment}"
-                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                            update=":jobDialogForm:jobDetailToolbar1"
                             process="@this"/>
                 </p:inputText>
 
@@ -226,7 +226,7 @@ Email: info@dpbennett.com.jm
                     <p:ajax event="change"
                             global="false"
                             listener="#{financeManager.updateJobCostingAndPayment}"
-                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting"
+                            update=":jobDialogForm:jobDetailToolbar1,jobCosting"
                             process="@this"/>
                 </p:inputText> 
 
@@ -239,7 +239,7 @@ Email: info@dpbennett.com.jm
                         <p:ajax
                             global="true"
                             listener="#{financeManager.updateJobCostingAndPayment}"
-                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting"
+                            update=":jobDialogForm:jobDetailToolbar1,jobCosting"
                             process="@this" />
                         <f:selectItems value="#{App.discountTypes}" />
                     </p:selectOneMenu>      
@@ -256,7 +256,7 @@ Email: info@dpbennett.com.jm
                         event="itemSelect"
                         global="true"
                         listener="#{financeManager.updateJobCostingAndPayment}"
-                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1,jobCosting"
+                        update=":jobDialogForm:jobDetailToolbar1,jobCosting"
                         process="@this" />
 
                 </p:autoComplete>      
@@ -319,7 +319,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="dialogReturn" 
                                     listener="#{financeManager.cashPaymentDialogReturn}"                    
-                                    update=":mainTabViewForm:mainTabView:jobFormTabView:cashPayments,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2"
+                                    update="jobFormTabView:cashPayments,jobFormTabView:jobCosting,:jobDialogForm:growl2"
                                     process="@this"/>
 
                         </p:commandButton>  
@@ -336,7 +336,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="dialogReturn" 
                                     listener="#{financeManager.cashPaymentDialogReturn}"                    
-                                    update=":mainTabViewForm:mainTabView:jobFormTabView:cashPayments,:mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2"
+                                    update="jobFormTabView:cashPayments,jobFormTabView:jobCosting,:jobDialogForm:growl2"
                                     process="@this"/>
 
                         </p:commandButton>
@@ -370,7 +370,7 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax event="dialogReturn" 
                             listener="#{financeManager.cashPaymentDialogReturn}"                   
-                            update=":mainTabViewForm:mainTabView:jobFormTabView:jobCosting,:mainTabViewForm:mainTabView:growl2,cashPayments"
+                            update="jobFormTabView:jobCosting,:jobDialogForm:growl2,cashPayments"
                             process="@this" />
 
                 </p:commandButton>

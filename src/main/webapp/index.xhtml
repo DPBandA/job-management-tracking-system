@@ -36,13 +36,12 @@ Email: info@dpbennett.com.jm
     </h:head>
     <h:body onload="checkWhichBrowser();
             PF('longProcessDialogVar').hide();
-            mainTabViewVar.select(0);"            
-            onmouseover="PF('longProcessDialogVar').hide();">
+            mainTabViewVar.select(0);" >
         <ui:include src="common/commonDialogs.xhtml" />                       
         <ui:include src="common/loginDialog.xhtml"/>
         <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>               
         <ui:include src="job/jobAlertDialogs.xhtml"/>
-        <ui:include src="job/jobMessageDialogs.xhtml"/>          
+        <ui:include src="job/jobMessageDialogs.xhtml"/>   
         <ui:include src="common/generalAlertDialogs.xhtml"/>
         <ui:include src="common/longProcessDialog.xhtml"/>   
         <ui:include src="common/preferencesDialog.xhtml"/>   
@@ -159,9 +158,11 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{tab.renderAdminTab}" >
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
                             </h:panelGroup>
-                            <h:panelGroup rendered="#{tab.renderJobDetailTab}" >
-                                <ui:include src="job/jobDetail.xhtml"/> 
-                            </h:panelGroup>
+                            <ui:remove>
+                                <h:panelGroup rendered="#{tab.renderJobDetailTab}" >
+                                    <ui:include src="job/jobDetail.xhtml"/> 
+                                </h:panelGroup>
+                            </ui:remove>
                             <h:panelGroup rendered="#{tab.renderClientsTab}" >
                                 <ui:include src="client/clientsTab.xhtml" />                                                                
                             </h:panelGroup>

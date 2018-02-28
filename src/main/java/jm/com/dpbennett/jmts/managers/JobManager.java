@@ -496,7 +496,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     BusinessEntityUtils.saveBusinessEntity(em, user);
                     em.getTransaction().commit();
 
-
                     if (westLayoutUnitCollapsed) {
                         westLayoutUnitCollapsed = false;
                         context.execute("PF('layoutVar').toggle('west');");
@@ -994,9 +993,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             createJob(em, false);
             initManagers();
             PrimeFacesUtils.addMessage("New Job Created", "Please enter the required fields for this job", FacesMessage.SEVERITY_INFO);
-            mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
-            context.update("mainTabViewForm:mainTabView:jobFormTabView,headerForm:growl3");
-            context.execute("PF('jobFormTabVar').select(0);");
+            //mainTabView.renderTab(getEntityManager1(), "jobDetailTab", true);
+            //context.update("mainTabViewForm:mainTabView:jobFormTabView,headerForm:growl3");
+            //context.execute("PF('jobFormTabVar').select(0);");
+            Map<String, Object> options = new HashMap<>();
+            options.put("modal", true);
+            options.put("draggable", true);
+            options.put("resizable", true);
+            options.put("contentWidth", 850);
+            options.put("contentHeight", 600);
+
+            RequestContext.getCurrentInstance().openDialog("jobDialog", options, null);
         } else {
             PrimeFacesUtils.addMessage("Job NOT Created",
                     "You do not have the prvilege to create jobs. Please contact your System Administrator",

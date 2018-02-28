@@ -12,6 +12,10 @@
         <param-name>primefaces.SUBMIT</param-name>
         <param-value>partial</param-value>
     </context-param>  
+    <context-param>
+        <param-name>primefaces.LEGACY_WIDGET_NAMESPACE</param-name>
+        <param-value>true</param-value>
+    </context-param>
     
     <!-- Can be used to put managed beans in separate file
     <context-param>

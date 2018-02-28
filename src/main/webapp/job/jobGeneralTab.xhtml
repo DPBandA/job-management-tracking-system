@@ -45,7 +45,7 @@ Email: info@dpbennett.com.jm
                     <f:attribute name="autoGenerateJobNumber" value="#{jobManager.currentJob.autoGenerateJobNumber}" />
 
                     <p:ajax event="change"                            
-                            update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                            update=":jobDialogForm:jobDetailToolbar1"
                             listener="#{jobManager.updateJob}"
                             process="@this"/>
 
@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
                 <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}" 
                         event="change"
-                        update="jobNumberGroup,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
                         global="false"                        
                         process="@this"/>
             </p:selectBooleanCheckbox>            
@@ -83,7 +83,7 @@ Email: info@dpbennett.com.jm
                         forceSelection="true"
                         completeMethod="#{App.completeBusinessOffice}" >
             <p:ajax event="itemSelect"                       
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
         </p:autoComplete>        
@@ -104,7 +104,7 @@ Email: info@dpbennett.com.jm
                         completeMethod="#{App.completeClassification}" >
             <p:ajax event="itemSelect"                                                                  
                     listener="#{jobManager.updateJobClassification}"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
         </p:autoComplete>
 
@@ -126,14 +126,14 @@ Email: info@dpbennett.com.jm
                             completeMethod="#{App.completeClient}" >
 
                 <p:ajax event="itemSelect"
-                        update=":mainTabViewForm:mainTabView:jobFormTabView:generalTabPanel,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update="jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
             </p:autoComplete>               
             <p:menuButton id="clientActionsMenu" value="Actions">
                 <p:menuitem>                       
-                    <p:commandButton value="Edit client details"
+                    <p:commandButton value="Edit client"
                                      icon="ui-icon-pencil" 
                                      disabled="${!jobManager.isClientNameValid}"
                                      style="width: 100%;text-align: left;background: none;border: 0;"
@@ -143,7 +143,7 @@ Email: info@dpbennett.com.jm
                                      title="View or edit this client's detail">   
                         <p:ajax event="dialogReturn" 
                                 listener="#{clientManager.clientDialogReturn}"
-                                update="client,clientActionsMenu,:mainTabViewForm:mainTabView:jobDetailToolbar1" />
+                                update="client,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
                     </p:commandButton>            
                 </p:menuitem>
 
@@ -159,7 +159,7 @@ Email: info@dpbennett.com.jm
                         title="Add a new client to the client database">
                         <p:ajax event="dialogReturn" 
                                 listener="#{clientManager.clientDialogReturn}"
-                                update="client,clientActionsMenu,:mainTabViewForm:mainTabView:jobDetailToolbar1" />
+                                update="client,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
                     </p:commandButton>
                 </p:menuitem>
             </p:menuButton>       
@@ -184,7 +184,7 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     process="@this" />   
 
         </p:autoComplete>
@@ -207,7 +207,7 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     process="@this" />   
 
         </p:autoComplete>        
@@ -219,11 +219,11 @@ Email: info@dpbennett.com.jm
                     navigator="true" 
                     pattern="MMM dd, yyyy" >
             <p:ajax event="dateSelect"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateDateSubmitted}" />
 
             <p:ajax event="keyup"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateDateSubmitted}" />
 
         </p:calendar>
@@ -250,7 +250,7 @@ Email: info@dpbennett.com.jm
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
                     process="@this" />
            
 
@@ -283,7 +283,7 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateSubContractedDepartment}"
-                    update="jobNumberGroup,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
                     process="@this" />
            
         </p:autoComplete>
@@ -307,7 +307,7 @@ Email: info@dpbennett.com.jm
                 
                 <p:ajax event="itemSelect"
                         listener="#{jobManager.updateJob}"
-                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update=":jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
                
             </p:autoComplete>           
@@ -327,7 +327,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax listener="#{jobManager.updateJob}"
                         global="false"
-                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update=":jobDialogForm:jobDetailToolbar1"
                         event="change"   
                         process="@this" />
                 <f:convertNumber integerOnly="true"/>
@@ -340,7 +340,7 @@ Email: info@dpbennett.com.jm
                                      value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" >
                 <p:ajax listener="#{jobManager.updateJob}"
                         global="false"        
-                        update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                        update=":jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
             </p:selectBooleanCheckbox>            
             <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
@@ -361,7 +361,7 @@ Email: info@dpbennett.com.jm
             <f:validator validatorId="requiredFieldValidator" />
 
             <p:ajax event="change"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
 

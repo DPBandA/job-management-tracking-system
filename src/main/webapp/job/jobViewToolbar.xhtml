@@ -29,7 +29,7 @@ Email: info@dpbennett.com.jm
                              style="vertical-align: top;"
                              title="Approve the selected job costing(s)"
                              actionListener="#{jobManager.approveSelectedJobCostings}"
-                             update=":headerForm:growl3,:mainTabViewForm:mainTabView:jobCostingsTable"
+                             update=":headerForm:growl3,jobCostingsTable"
                              onstart="PF('longProcessDialogVar2').show();" 
                              oncomplete="PF('longProcessDialogVar2').hide();">                                                                                    
             </p:commandButton>
@@ -39,7 +39,7 @@ Email: info@dpbennett.com.jm
                              style="vertical-align: top;"
                              title="Invoice the selected job costing(s)"
                              actionListener="#{jobManager.invoiceSelectedJobCostings}"
-                             update=":headerForm:growl3,:mainTabViewForm:mainTabView:jobCostingsTable"
+                             update=":headerForm:growl3,jobCostingsTable"
                              onstart="PF('longProcessDialogVar2').show();" 
                              oncomplete="PF('longProcessDialogVar2').hide();">                                                                                    
             </p:commandButton>

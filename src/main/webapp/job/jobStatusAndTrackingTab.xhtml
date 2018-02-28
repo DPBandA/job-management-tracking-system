@@ -46,10 +46,10 @@ Email: info@dpbennett.com.jm
                                 readonlyInput="true"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.expectedStartDate}" >
                         <p:ajax event="dateSelect"      
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
                         <p:ajax event="change"      
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
                     </p:calendar>
 
@@ -59,10 +59,10 @@ Email: info@dpbennett.com.jm
                                 readonlyInput="true"
                                 value="#{jobManager.expectedDateOfCompletion}" >
                         <p:ajax event="dateSelect"   
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateDateExpectedCompletionDate}"/>
                         <p:ajax event="change"  
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateDateExpectedCompletionDate}"/>
                     </p:calendar>
 
@@ -80,7 +80,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax listener="#{jobManager.updateWorkProgress}"
                                 global="false"
-                                update="startDate,:mainTabViewForm:mainTabView:jobDetailToolbar1,@this"
+                                update="startDate,:jobDialogForm:jobDetailToolbar1,@this"
                                 process="@this"/>
                     </p:selectOneMenu>     
 
@@ -91,10 +91,10 @@ Email: info@dpbennett.com.jm
                                 readonlyInput="true"                                
                                 value="#{jobManager.currentJob.jobStatusAndTracking.startDate}" >
                         <p:ajax event="dateSelect"     
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
                         <p:ajax event="change"       
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
                     </p:calendar>
                 </h:panelGrid>
@@ -109,7 +109,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Job completed by: "
                                                  value="#{jobManager.completed}" >
                             <p:ajax listener="#{jobManager.updateJobCompleted}"
-                                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                    update=":jobDialogForm:jobDetailToolbar1"
                                     global="false"                                    
                                     process="@this" />
                         </p:selectBooleanCheckbox>
@@ -129,7 +129,7 @@ Email: info@dpbennett.com.jm
                                     completeMethod="#{App.completeEmployee}" >
                         <p:ajax event="itemSelect"
                                 listener="#{jobManager.updateJob}" 
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 process="@this"/>
                     </p:autoComplete>
 
@@ -141,10 +141,10 @@ Email: info@dpbennett.com.jm
                                 readonlyInput="true"
                                 value="#{jobManager.jobCompletionDate}" >
                         <p:ajax event="dateSelect"  
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateDateJobCompleted}"/>
                         <p:ajax event="change"        
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateDateJobCompleted}"/>
                     </p:calendar>
 
@@ -155,7 +155,7 @@ Email: info@dpbennett.com.jm
                                                  disabled="#{!jobManager.jobSaved}"
                                                  value="#{jobManager.samplesCollected}">
                             <p:ajax listener="#{jobManager.updateSamplesCollectedBy}"
-                                    update="jobStatusAndTracking,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                    update="jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1"
                                     global="false"                                    
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -169,7 +169,7 @@ Email: info@dpbennett.com.jm
                         <p:ajax event="change"
                                 global="false"                                
                                 listener="#{jobManager.updateJob}"
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 process="@this"/>
                         
                         <f:validator validatorId="requiredFieldValidator" />
@@ -186,10 +186,10 @@ Email: info@dpbennett.com.jm
                                 readonlyInput="true"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected}" >
                         <p:ajax event="dateSelect"      
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
                         <p:ajax event="change"    
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
                     </p:calendar>
                     <h:panelGroup>
@@ -200,7 +200,7 @@ Email: info@dpbennett.com.jm
                                                  value="#{jobManager.documentCollected}">
                             <p:ajax listener="#{jobManager.updateDocumentsCollectedBy}"
                                     global="false"    
-                                    update="jobStatusAndTracking,:mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                    update="jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
                     </h:panelGroup>
@@ -211,7 +211,7 @@ Email: info@dpbennett.com.jm
                                  value="#{jobManager.currentJob.jobStatusAndTracking.documentCollectedBy}" >
                         
                         <p:ajax listener="#{jobManager.updateJob}"
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 global="false"
                                 event="change"                               
                                 process="@this"/>
@@ -230,10 +230,10 @@ Email: info@dpbennett.com.jm
                                 readonlyInput="true"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected}" >
                         <p:ajax event="dateSelect"    
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
                         <p:ajax event="change"      
-                                update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
                     </p:calendar>
                 </h:panelGrid>
@@ -251,7 +251,7 @@ Email: info@dpbennett.com.jm
             <p:ajax event="change"
                     global="false"                    
                     listener="#{jobManager.updateJob}"
-                    update=":mainTabViewForm:mainTabView:jobDetailToolbar1"
+                    update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
         </p:inputTextarea>
         <br/>
