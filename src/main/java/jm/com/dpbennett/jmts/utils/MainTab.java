@@ -29,7 +29,7 @@ public class MainTab {
     private Boolean renderJobsTab;
     private Boolean renderFinancialAdminTab;
     private Boolean renderAdminTab;
-    private Boolean renderJobDetailTab;
+    //private Boolean renderJobDetailTab;
     private Boolean renderClientsTab;
     private Boolean renderReportsTab;
     private Boolean renderCashierTab;
@@ -52,7 +52,7 @@ public class MainTab {
         this.id = id;
         this.name = name;
         this.user = user;
-        this.renderJobDetailTab = renderJobDetailTab;
+        //this.renderJobDetailTab = renderJobDetailTab;
         this.renderJobsTab = renderJobsTab;
         this.renderFinancialAdminTab = renderFinancialAdminTab;
         this.renderAdminTab = renderAdminTab;
@@ -134,13 +134,13 @@ public class MainTab {
         this.renderAdminTab = render;
     }
 
-    public Boolean getRenderJobDetailTab() {
-        return renderJobDetailTab;
-    }
-
-    public void setRenderJobDetailTab(Boolean renderJobDetailTab) {
-        this.renderJobDetailTab = renderJobDetailTab;
-    }
+//    public Boolean getRenderJobDetailTab() {
+//        return renderJobDetailTab;
+//    }
+//
+//    public void setRenderJobDetailTab(Boolean renderJobDetailTab) {
+//        this.renderJobDetailTab = renderJobDetailTab;
+//    }
 
     public JobManagerUser getUser() {
         return user;

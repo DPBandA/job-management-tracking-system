@@ -164,9 +164,9 @@ public class MainTabView implements Serializable {
                 case "jobsTab":
                     tab.setRenderJobsTab(em, render);
                     break;
-                case "jobDetailTab":
-                    tab.setRenderJobDetailTab(render);
-                    break;
+//                case "jobDetailTab":
+//                    tab.setRenderJobDetailTab(render);
+//                    break;
                 case "financialAdminTab":
                     tab.setRenderFinancialAdminTab(em, render);
                     break;
@@ -200,10 +200,10 @@ public class MainTabView implements Serializable {
                     jobsTab.setRenderJobsTab(em, render);
                     tabs.add(jobsTab);
                     break;
-                case "jobDetailTab":
-                    jobDetailTab.setRenderJobDetailTab(render);
-                    tabs.add(jobDetailTab);
-                    break;
+//                case "jobDetailTab":
+//                    jobDetailTab.setRenderJobDetailTab(render);
+//                    tabs.add(jobDetailTab);
+//                    break;
                 case "financialAdminTab":
                     financialAdminTab.setRenderFinancialAdminTab(em, render);
                     tabs.add(financialAdminTab);

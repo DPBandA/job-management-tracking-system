@@ -1,6 +1,8 @@
 # Things to do
 
 ## Testing, Training & Misc
+- "Handle keep alive" does not seem to be working. Fix. UseIdleMonitor and not the
+   "keepalive" method. Log off user if system is not used after timeout.
 - Remove "Job Detail" tab and fully implement Job Dialog (eg new job and edit job 
   and job costing and all other job views that are generated from the various job.
 - Impl "Organization" in JM user so that the user' correct organization can be
@@ -20,8 +22,10 @@
 - Take job through completion to see if "Job completed by:" checkbox is actually checked.
 - Test that the restriction to create jobs for one's own department actually works.
 - Test adding payment with discount.
-- Doc requirement in inception report...job should not be marked completed until
+- Doc requirement in inception report. Job should not be marked completed until
   approved.
+- Allow system to allow copying and pasting into text field and record field
+  as being edited.
 
 ## Misc & Reports
 - business_department table to be added to database table if it is automatically
