@@ -1,6 +1,11 @@
 # Things to do
+## Inception Report
+- Get requirements for Food Dept.
 
 ## Testing, Training & Misc
+- Check if the currently opened job was saved since it was opened or last saved
+   by the user and inform and take appropriate action if the user tries to save.
+   Test with 2 users logged in with different browsers.
 - "Handle keep alive" does not seem to be working. Fix. UseIdleMonitor and not the
    "keepalive" method. Log off user if system is not used after timeout.
 - Remove "Job Detail" tab and fully implement Job Dialog (eg new job and edit job 
@@ -314,22 +319,42 @@ cement types for a standard eg. Mandatory, Voluntary etc.??
 
 Monthly Report
 
-• # of weighing and measuring devices (what are the devices?) were targeted for verifications during the period under review (break out the devices into various categories and state the numbers for each category). Do not include # of calibrations in the number of verifications (state the difference). • # of premises visited for the purposes of testing and verifying weighing and measuring devices. • # of weighing and measuring devices that were tested and verified during the period under review. • % of those tested and verified that were in compliance with related metrological requirements? • # of investigations of suspected inaccurate measurements were conducted? (it is assumed that these investigations were as a result of complaints received from consumers and businesses who believed that they had received inaccurate measurements) • Types of weighing and measuring devices were these investigations conducted and the results of the investigations. • # of gas pump stickers that were issued during this financial year. # issued during the corresponding period last financial year.
-Foods Inspectorate
+• # of weighing and measuring devices (what are the devices?) were targeted for 
+verifications during the period under review (break out the devices into various 
+categories and state the numbers for each category). 
+Do not include # of calibrations in the number of verifications (state the difference). 
+• # of premises visited for the purposes of testing and verifying weighing and measuring devices. 
+• # of weighing and measuring devices that were tested and verified during the period under review. 
+• % of those tested and verified that were in compliance with related metrological requirements? 
+• # of investigations of suspected inaccurate measurements were conducted? 
+(it is assumed that these investigations were as a result of complaints received 
+from consumers and businesses who believed that they had received inaccurate measurements) 
+• Types of weighing and measuring devices were these investigations conducted 
+and the results of the investigations. 
+• # of gas pump stickers that were issued during this financial year. 
+# issued during the corresponding period last financial year.
 
-See notes on inspection form: do regs 1-4, sampling inspection type, tie in sample collection form.
-Implement track registration from time of request/application to completion: see Registration Tracking Sheet (Revised).xlsx: Fields to add to Registration class: assignedInspector, dateAssignedToInspector, assigned etc.
-Implement alert 8 weeks before registration due via popup or email to inspector and other relevant personnel eg supervisor.
-Implement tracking of application for certificates.
-Lock form upon client signature is affixed to the food factory report.
-System to generate certificates for client.
-Add HACCP recognition programme audit tab in the food inspection form.
-Associate a factory with a client by adding a Client class to the factory class.
-Move pages to web folder under project folder and stop using webpages folder.
-Save inspection form when tab is closed?
-Factory inspection office should default to that of the officer doing the inspection if it is not null. Should default to head office if null.
-Find a different solution than using “currentFoodFactory.getAllBusinessEntitiesLists()” to save new items added to a list. See how it’s done in ComplianceConnect for example.
-Check if food inspection forms have been merged.
+Foods Inspectorate
+- Itinerary generation (based on operations research).
+- Look at the data required to be captured and to design database
+- Look at the fields in the FOOD ESTABLISHMENT INSPECTION REPORT to determine 
+  requirements.
+- See notes on inspection form: do regs 1-4, sampling inspection type, tie in sample collection form.
+- Implement track registration from time of request/application to completion: see Registration Tracking Sheet (Revised).xlsx: Fields to add to Registration class: assignedInspector, dateAssignedToInspector, assigned etc.
+- Implement alert 8 weeks before registration due via popup or email to inspector 
+and other relevant personnel eg supervisor.
+- Implement tracking of application for certificates.
+- Lock form upon client signature is affixed to the food factory report.
+- System to generate certificates for client.
+- Add HACCP recognition programme audit tab in the food inspection form.
+- Associate a factory with a client by adding a Client class to the factory class.
+- Move pages to web folder under project folder and stop using webpages folder.
+- Save inspection form when tab is closed?
+- Factory inspection office should default to that of the officer doing the 
+inspection if it is not null. Should default to head office if null.
+- Find a different solution than using “currentFoodFactory.getAllBusinessEntitiesLists()” 
+to save new items added to a list. See how it’s done in ComplianceConnect for example.
+- Check if food inspection forms have been merged.
 - Develop calendar view for itinerary that shows the planned activity for inspectors.
 
 Status & Tracking
