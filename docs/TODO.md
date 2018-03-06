@@ -2,7 +2,9 @@
 ## Inception Report
 - Get requirements for Food Dept.
 
+
 ## Testing, Training & Misc
+- Get and use activiti for process documentation.
 - Check if the currently opened job was saved since it was opened or last saved
    by the user and inform and take appropriate action if the user tries to save.
    Test with 2 users logged in with different browsers.
@@ -33,6 +35,9 @@
   as being edited.
 
 ## Misc & Reports
+- Don't allow Comments/Description fields to grow in height when text is entered
+  as is done in the System Option Detail dialog.
+- Show date of activity for user in user profiles table.
 - business_department table to be added to database table if it is automatically
   added during deployment.
 - Check service contract comes out good on live jmts.
@@ -335,12 +340,15 @@ and the results of the investigations.
 # issued during the corresponding period last financial year.
 
 Foods Inspectorate
+
 - Itinerary generation (based on operations research).
 - Look at the data required to be captured and to design database
 - Look at the fields in the FOOD ESTABLISHMENT INSPECTION REPORT to determine 
   requirements.
 - See notes on inspection form: do regs 1-4, sampling inspection type, tie in sample collection form.
-- Implement track registration from time of request/application to completion: see Registration Tracking Sheet (Revised).xlsx: Fields to add to Registration class: assignedInspector, dateAssignedToInspector, assigned etc.
+- Implement track registration from time of request/application to completion: 
+see Registration Tracking Sheet (Revised).xlsx: Fields to add to 
+Registration class: assignedInspector, dateAssignedToInspector, assigned etc.
 - Implement alert 8 weeks before registration due via popup or email to inspector 
 and other relevant personnel eg supervisor.
 - Implement tracking of application for certificates.
@@ -359,15 +367,15 @@ to save new items added to a list. See how it’s done in ComplianceConnect for 
 
 Status & Tracking
 
-    Status note field needs to be locked and a button be used to add updates to it. These updates would be added as new line (i.e. \n). And updates can therefore only be added but not deleted.
-    Remove dateCostingCompleted, dateCostingApproved, depositDate, dateOfLastPayment and costingDate from where they should not because they are all in jobStatusAndTracking. Make sure they are not being used first.
-    Steps to be tracked: (i) dispatch date to client (ii) delivery of report/sample to customer service (iii) assignment of job by team leader (iv) date customer was contacted (v) date email sent to client when job is completed. (vi) re-issue of report.
+Status note field needs to be locked and a button be used to add updates to it. These updates would be added as new line (i.e. \n). And updates can therefore only be added but not deleted.
+Remove dateCostingCompleted, dateCostingApproved, depositDate, dateOfLastPayment and costingDate from where they should not because they are all in jobStatusAndTracking. Make sure they are not being used first.
+Steps to be tracked: (i) dispatch date to client (ii) delivery of report/sample to customer service (iii) assignment of job by team leader (iv) date customer was contacted (v) date email sent to client when job is completed. (vi) re-issue of report.
 
 Accpac Integration
 
-    Add option to change days to add to invoice date to get invoice due date.
-    Accpac invoice due date = DUEDATE(DOCDATE) + 15 days (for example). 1 to x days the invoice should be marked as current. PI is code for pre-payment and IN is for invoice.
-    For credit status show invoice due date and not invoice date?
+Add option to change days to add to invoice date to get invoice due date.
+Accpac invoice due date = DUEDATE(DOCDATE) + 15 days (for example). 1 to x days the invoice should be marked as current. PI is code for pre-payment and IN is for invoice.
+For credit status show invoice due date and not invoice date?
 
 Standard Compliance Module
 General
