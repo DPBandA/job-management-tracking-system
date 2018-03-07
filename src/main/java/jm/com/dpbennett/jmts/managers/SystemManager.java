@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -58,7 +59,7 @@ import org.primefaces.model.DualListModel;
  *
  * @author Desmond Bennett
  */
-@Named
+@ManagedBean
 @SessionScoped
 public class SystemManager implements Serializable {
 
@@ -732,12 +733,13 @@ public class SystemManager implements Serializable {
     }
 
     public void doUserSearch() {
-
+       
         foundUsers = JobManagerUser.findJobManagerUserByName(getEntityManager(), getUserSearchText());
 
         if (foundUsers == null) {
             foundUsers = new ArrayList<>();
         }
+       
 //        else {
 //            if (isLoggedInUsersOnly) {
 //                List<JobManagerUser> loggedInUsers = new ArrayList<>();
@@ -820,6 +822,8 @@ public class SystemManager implements Serializable {
     }
 
     public void editUser() {
+        System.out.println("Selected user: " + getSelectedUser()); // tk
+        
         PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 430, 650);
     }
 
@@ -840,6 +844,8 @@ public class SystemManager implements Serializable {
         if (selectedUser == null) {
             selectedUser = new JobManagerUser();
         }
+        
+        System.out.println(" public JobManagerUser getSelectedUser(): " + selectedUser); // tk
 
         return selectedUser;
     }

@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -92,7 +93,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private Job currentJob;
     private CashPayment selectedCashPayment;
     private StreamedContent jobCostingFile;
-    @ManagedProperty(value = "Jobs")
+    //@ManagedProperty(value = "Jobs")
     private Integer longProcessProgress;
     private AccPacCustomer accPacCustomer;
     private List<AccPacDocument> filteredAccPacCustomerDocuments;

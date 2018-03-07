@@ -32,12 +32,12 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -57,7 +57,6 @@ import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
-import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Job;
@@ -77,7 +76,6 @@ import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import static jm.com.dpbennett.jmts.Application.checkForLDAPUser;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
 import jm.com.dpbennett.jmts.utils.Dashboard;
-import jm.com.dpbennett.jmts.utils.DashboardTab;
 import jm.com.dpbennett.jmts.utils.MainTab;
 import jm.com.dpbennett.jmts.utils.MainTabView;
 import org.primefaces.context.RequestContext;
@@ -178,13 +176,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         financeManager = Application.findBean("financeManager");
         jobSampleManager = Application.findBean("jobSampleManager");
         contractManager = Application.findBean("contractManager");
-        dashboard = new Dashboard(getUser());
+        dashboard = new Dashboard(); //Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
     }
 
     public void jobDialogReturn() {
         System.out.println("jobDialogReturn..."); // tk
-        PrimeFaces.current().executeScript("PF('longProcessDialogVar').hide();");
+        //PrimeFaces.current().executeScript("PF('longProcessDialogVar').hide();");
     }
 
     public void reset() {
@@ -209,8 +207,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchManager.reset();
 
         // Unrender all tabs
-        dashboard.removeAllTabs();
-        dashboard.setRender(false);
+//        dashboard.removeAllTabs();
+//        dashboard.setRender(false);
         mainTabView.removeAllTabs();
         mainTabView.setRender(false);
 
@@ -709,6 +707,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         } else {
             //requestContext.execute("PF('mainTabViewVar').remove(PF('mainTabViewVar').getActiveIndex());PF('mainTabViewVar').select(0);");
             PrimeFaces.current().dialog().closeDynamic(null);
+            //requestContext.closeDialog(null);
         }
     }
 
@@ -758,10 +757,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void onDashboardTabChange(TabChangeEvent event) {
 
-        String tabId = ((DashboardTab) event.getData()).getId();
+        //String tabId = ((DashboardTab) event.getData()).getId();
         // Open the corresponding main view tab if necessary
         //mainTabView.renderTab(getEntityManager1(), tabId, true);
-
     }
 
     public void updateDashboard(String tabId) {
@@ -774,7 +772,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             case "financialAdminTab":
                 break;
             case "jobsViewTab":
-                break;            
+                break;
             case "clientsTab":
                 break;
             default:
@@ -824,7 +822,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             mainTabView.renderTab(getEntityManager1(), "cashierTab", false);
             mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
         }
-        
+
         mainTabView.select("jobsViewTab");
 
     }
@@ -965,15 +963,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (checkUserJobEntryPrivilege()) {
             createJob(em, false);
             initManagers();
-            Map<String, Object> options = new HashMap<>();
-            options.put("modal", true);
-            options.put("draggable", true);
-            options.put("resizable", true);
-            options.put("closable", false);
-            options.put("contentWidth", 850);
-            options.put("contentHeight", 600);
 
-            PrimeFaces.current().dialog().openDynamic("jobDialog", options, null);
+            //PrimeFaces.current().dialog().openDynamic("jobDialog", options, null);
+            PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
         } else {
             // tk test this code with user that does not have the required privilege.
             PrimeFacesUtils.addMessage("Job NOT Created",
@@ -1192,7 +1184,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         switch (view) {
             case "Cashier View":
-                getUser().setJobTableViewPreference("Cashier View");                
+                getUser().setJobTableViewPreference("Cashier View");
                 openJobBrowser();
                 break;
             case "Job Costings":
@@ -1234,7 +1226,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobsTab() {
-        dashboard.renderTab(getEntityManager1(), "jobsTab", getUser().getJobManagementAndTrackingUnit());
+        //dashboard.renderTab(getEntityManager1(), "jobsTab", getUser().getJobManagementAndTrackingUnit());
         if (getUser().getJobManagementAndTrackingUnit()) {
             if (getUser().getIsJobsPreferredJobTableView()) {
                 mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
@@ -1580,9 +1572,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             // save prefs and update view
             savePreferences();
         }
-
-        dashboard.update("mainTabViewForm:mainTabView");
-        dashboard.update("dashboardForm:dashboardAccordion");
+//
+//        dashboard.update("mainTabViewForm:mainTabView");
+//        dashboard.update("dashboardForm:dashboardAccordion");
 
         context.update("headerForm");
         context.execute("PF('preferencesDialog').hide();");

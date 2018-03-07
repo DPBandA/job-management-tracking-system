@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
@@ -49,7 +50,7 @@ import org.primefaces.event.CellEditEvent;
  *
  * @author dbennett
  */
-@Named
+@ManagedBean
 @SessionScoped
 public class ClientManager implements Serializable {
 

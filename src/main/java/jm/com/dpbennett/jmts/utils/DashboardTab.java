@@ -23,50 +23,48 @@ import javax.persistence.EntityManager;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 
 public class DashboardTab {
+    
+    public enum TabId {JOB_MANAGEMENT, SYSTEM_ADMIN, FINANCIAL_ADMIN};
 
-    private String id;
+    private TabId id;
     private String name;
-    private Boolean renderJobsTab;
-    private Boolean renderFinancialAdminTab;
-    private Boolean renderAdminTab;
-    private Boolean renderJobDetailTab;
-    private Boolean renderClientsTab;
-    private JobManagerUser user;
+    private String content;
+    private int test = 0;
 
     public DashboardTab(
-            String id,
+            TabId id,
             String name,
-            Boolean renderJobsTab,
-            Boolean renderJobDetailTab,
-            Boolean renderFinancialAdminTab,
-            Boolean renderAdminTab,
-            Boolean renderClientsTab,
-            JobManagerUser user) {
+            String content) {
 
         this.id = id;
         this.name = name;
-        this.user = user;
-        this.renderJobDetailTab = renderJobDetailTab;
-        this.renderJobsTab = renderJobsTab;
-        this.renderFinancialAdminTab = renderFinancialAdminTab;
-        this.renderAdminTab = renderAdminTab;
-        this.renderClientsTab = renderClientsTab;
+        this.content = content;
     }
 
-    public String getId() {
+    public int getTest() {
+        return test;
+    }
+
+    public void setTest(int test) {
+        this.test = test;
+    }
+    
+    public int getIsJobManagementTab() {
+        System.out.println("is job manaegement"); //tk
+        
+        return id == TabId.JOB_MANAGEMENT ?  1 : 0;
+    }
+   
+    public TabId getId() {
+        if (id == null) {
+            id = TabId.JOB_MANAGEMENT;
+        }
+
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(TabId id) {
         this.id = id;
-    }
-
-    public Boolean getRenderClientsTab() {
-        return renderClientsTab;
-    }
-
-    public void setRenderClientsTab(Boolean renderClientsTab) {
-        this.renderClientsTab = renderClientsTab;
     }
 
     public String getName() {
@@ -77,50 +75,11 @@ public class DashboardTab {
         this.name = name;
     }
 
-    public Boolean getRenderJobsTab() {
-        return renderJobsTab;
+    public String getContent() {
+        return content;
     }
 
-    public void setRenderJobsTab(EntityManager em, Boolean render) {
-        this.renderJobsTab = render;
-        user.setJobManagementAndTrackingUnit(renderJobsTab);
-        user.save(em);       
+    public void setContent(String content) {
+        this.content = content;
     }
-
-//    public Boolean getRenderFinancialAdminTab() {
-//        return renderFinancialAdminTab;
-//    }
-//
-//    public void setRenderFinancialAdminTab(EntityManager em, Boolean render) {
-//        this.renderFinancialAdminTab = render;
-//        user.setFinancialAdminUnit(renderFinancialAdminTab);
-//        user.save(em);
-//    }
-
-//    public Boolean getRenderAdminTab() {
-//        return renderAdminTab;
-//    }
-//
-//    public void setRenderAdminTab(EntityManager em, Boolean render) {
-//        this.renderAdminTab = render;
-//        user.setAdminUnit(renderAdminTab);
-//        user.save(em);
-//    }
-
-    public Boolean getRenderJobDetailTab() {
-        return renderJobDetailTab;
-    }
-
-    public void setRenderJobDetailTab(Boolean renderJobDetailTab) {
-        this.renderJobDetailTab = renderJobDetailTab;
-    }
-    
-    public JobManagerUser getUser() {
-        return user;
-    }
-
-    public void setUser(JobManagerUser user) {
-        this.user = user;
-    }
-
 }

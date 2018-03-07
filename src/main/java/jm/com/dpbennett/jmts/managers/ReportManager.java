@@ -41,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -110,7 +111,7 @@ import org.primefaces.event.SelectEvent;
  *
  * @author Desmond Bennett
  */
-@Named
+@ManagedBean
 @SessionScoped
 public class ReportManager implements Serializable {
 

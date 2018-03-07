@@ -32,21 +32,25 @@ import org.primefaces.context.RequestContext;
  */
 public class Dashboard implements Serializable {
 
-    private Boolean render;
-    private Integer tabIndex;
     private List<DashboardTab> tabs;
-    private JobManagerUser user;
-    private DashboardTab jobsTab;
-    private DashboardTab financialAdminTab;
-    private DashboardTab adminTab;
-
-    public Dashboard(JobManagerUser user) {
-        this.user = user;
+    private Boolean render;
+       public Dashboard() {
         tabs = new ArrayList<>();
-        tabIndex = 0;
-        render = false;
+        tabs.add(new DashboardTab(DashboardTab.TabId.JOB_MANAGEMENT, "Job Management", ""));
+        tabs.add(new DashboardTab(DashboardTab.TabId.SYSTEM_ADMIN, "System Admin", ""));
+        tabs.add(new DashboardTab(DashboardTab.TabId.FINANCIAL_ADMIN, "Financial Management", ""));
+
+        render = true;
     }
 
+    private void init() {
+
+    }
+
+    public void reset(JobManagerUser user) {
+
+    }
+    
     public Boolean getRender() {
         return render;
     }
@@ -55,187 +59,8 @@ public class Dashboard implements Serializable {
         this.render = render;
     }
 
-    public void update(String componentId) {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        context.update(componentId);
-    }
-
-    public void update(String tabId, String componentId, String componentVar) {
-        RequestContext context = RequestContext.getCurrentInstance();
-        DashboardTab tab = findTab(tabId);
-
-        if (tab != null) {
-            context.update(componentId);
-            select(componentVar, true);
-        }
-    }
-
-    public void select(int tabIndex) {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
-
-        context.execute("PF('dashboardAccordionVar').select(" + this.tabIndex + ");");
-
-    }
-
-    public void select(String componentVar, int tabIndex) {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
-
-        context.execute("PF('" + componentVar + "')" + ".select(" + this.tabIndex + ");");
-
-    }
-
-    public void select(Boolean wasTabAdded) {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        if (wasTabAdded) {
-            context.execute("PF('dashboardAccordionVar').select(" + tabIndex + ");");
-        } else {
-            context.execute("PF('dashboardAccordionVar').select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
-        }
-    }
-
-    public void select(String componentVar, Boolean wasTabAdded) {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        if (wasTabAdded) {
-            context.execute("PF('" + componentVar + "')" + ".select(" + tabIndex + ");");
-        } else {
-            context.execute("PF('" + componentVar + "')" + ".select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
-        }
-    }
-
-    public DashboardTab findTab(String tabId) {
-        tabIndex = 0;
-
-        for (DashboardTab tab : tabs) {
-            if (tab.getId().equals(tabId)) {
-                return tab;
-            }
-            ++tabIndex;
-        }
-
-        return null;
-    }
-
-    public int getTabIndex(String tabId) {
-        DashboardTab tab = findTab(tabId);
-        if (tab != null) {
-            return tabIndex;
-        }
-
-        return -1;
-    }
-
-    public void renderTab(
-            EntityManager em,
-            String tabId,
-            Boolean render) {
-
-        DashboardTab tab = findTab(tabId);
-
-        if (tab != null && !render) {
-            // DashboardTab is being removed
-            switch (tabId) {
-                case "jobsTab":
-                    tab.setRenderJobsTab(em, render);
-                    break;
-//                case "financialAdminTab":
-//                    tab.setRenderFinancialAdminTab(em, render);
-//                    break;
-//                case "adminTab":
-//                    tab.setRenderAdminTab(em, render);
-//                    break;
-                default:
-                    break;
-            }
-            tabs.remove(tab);
-        } else if (tab != null && render) {
-            // DashboardTab already rendered
-        } else if (tab == null && !render) {
-            // DashboardTab is not be rendered            
-        } else if (tab == null && render) {
-            // DashboardTab is to be rendered    
-            switch (tabId) {
-                case "jobsTab":
-                    jobsTab.setRenderJobsTab(em, render);
-                    tabs.add(jobsTab);
-                    break;
-//                case "financialAdminTab":
-//                    financialAdminTab.setRenderFinancialAdminTab(em, render);
-//                    tabs.add(financialAdminTab);
-//                    break;
-//                case "adminTab":
-//                    adminTab.setRenderAdminTab(em, render);
-//                    tabs.add(adminTab);
-//                    break;
-                default:
-                    break;
-            }
-        }
-
-        // Update tabview and select the appropriate tab
-        update("dashboardForm:dashboardAccordion");
-
-        select(render);
-    }
-
-    public void removeAllTabs() {
-        tabs.clear();
-    }
-
-    private void init() {
-        // Jobs tab
-        jobsTab = new DashboardTab(
-                "jobsTab",
-                "Job Management",
-                getUser().getJobManagementAndTrackingUnit(),
-                false,
-                false,
-                false,
-                false,
-                getUser());
-//        // Financial admin tab
-//        financialAdminTab = new DashboardTab(
-//                "financialAdminTab",
-//                "Financial Administration",
-//                false,
-//                false,
-//                getUser().getFinancialAdminUnit(),
-//                false,
-//                false,
-//                getUser());
-//        // Admin tab
-//        adminTab = new DashboardTab(
-//                "adminTab",
-//                "System Administration",
-//                false,
-//                false,
-//                false,
-//                getUser().getAdminUnit(),
-//                false,
-//                getUser());        
-    }
-
-    public void reset(JobManagerUser user) {
-        this.user = user;
-        // Remove all
-        removeAllTabs();
-        // Construct tabs
-        init();
-        // Add tabs
-        if (getUser().getJobManagementAndTrackingUnit()) {
-            tabs.add(jobsTab);
-        }
-
-        setRender(true);
-    }
-
     public List<DashboardTab> getTabs() {
+
         return tabs;
     }
 
@@ -243,22 +68,4 @@ public class Dashboard implements Serializable {
         this.tabs = tabs;
     }
 
-    public JobManagerUser getUser() {
-        if (user == null) {
-            return new JobManagerUser();
-        }
-        return user;
-    }
-
-    public void setUser(JobManagerUser user) {
-        this.user = user;
-    }
-
-    public Integer getTabIndex() {
-        return tabIndex;
-    }
-
-    public void setTabIndex(Integer tabIndex) {
-        this.tabIndex = tabIndex;
-    }
 }

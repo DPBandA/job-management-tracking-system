@@ -29,9 +29,8 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new user"                                  
                              value="New"                                                     
                              actionListener="#{systemManager.createNewUser}"
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             onerror="PF('connectionErrorDialog').show();"
+                             onstart="longProcessDialogVar.show();"                             
+                             onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus">
@@ -41,15 +40,14 @@ Email: info@dpbennett.com.jm
 
             </p:commandButton>
             <p:spacer width="20" />
-            <p:inputText id="userSearchText" 
-                         autocomplete="false"
+            <p:inputText id="userSearchText"                          
                          value="#{systemManager.userSearchText}"
                          style="width:150px" 
                          placeholder="Enter any part of name">
                 <p:ajax event="keyup"
-                        global="false"
-                        onstart="PF('longProcessDialogVar').show();" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
+                        global="true"
+                        onstart="longProcessDialogVar.show();" 
+                        oncomplete="longProcessDialogVar.hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
                         listener="#{systemManager.doUserSearch}"
                         process="@this"/>                                   
@@ -122,12 +120,13 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit user profile"  
                              actionListener="#{systemManager.editUser}"
-                             onstart="PF('longProcessDialogVar').show();"
-
-                             onerror="PF('connectionErrorDialog').show();"
+                             onstart="longProcessDialogVar.show();"
+                             oncomplete="longProcessDialogVar.hide();"
+                             onerror="connectionErrorDialog.show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
+                
                 <f:setPropertyActionListener value="#{user}"                                                                    
                                              target="#{systemManager.selectedUser}" />
 

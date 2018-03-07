@@ -3,6 +3,10 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
+- Impl dashboard using "h:repeat" element and update dashboard and dashboard tab
+  accordingly.
+- Look oout for the changing of @ManagedBean to @Named where this is needed if
+  things do not work as expected.
 - Implement updating the jobs table loading a job from the table.
 - Redesign MainTabView and MainTab classes to use "p:repeat" and "jobsViewTab"
   with multiple tables.
@@ -21,9 +25,6 @@
   * Impl businessConverter/Validator. 
   * Add active/head fields to Business class
 - Start drafting "inception" report and workplan. See meeting notes.
-- External dialog not opening in right location. 
-  * Look at PrimeFaces.current().dialog.openDynamic("viewCars", options, null);
-    and the manual.
 - Test Edit exiting and create new clients, contacts and addresses.
 - Test out creation and use of costing templates.
 - Test Export service contract and job costing for old jobs that do not have billing 
@@ -40,6 +41,7 @@
 ## Misc & Reports
 - Look back at saveCurrentJob() to see em.refresh(savedJob); and why it throws
   an exception.
+- Add "closeable" option to PrimeFacesUtils.openDialog().
 - Check if the currently opened job was saved since it was opened or last saved
    by the user and inform and take appropriate action if the user tries to save.
    Test with 2 users logged in with different browsers.

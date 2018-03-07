@@ -34,8 +34,7 @@ public class PrimeFacesUtils {
 
         //RequestContext.getCurrentInstance().openDialog(outcome, options, null);
         PrimeFaces.current().dialog().openDynamic(outcome, options, null);
-        //RequestContext.getCurrentInstance().openDialog(outcome);
-        
+                
     }
 
     public static void addMessage(String summary, String detail, FacesMessage.Severity severity) {

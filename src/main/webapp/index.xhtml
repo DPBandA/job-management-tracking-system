@@ -22,7 +22,8 @@ Email: info@dpbennett.com.jm
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html" 
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
         <meta http-equiv="cache-control" content="max-age=0" />
@@ -151,12 +152,7 @@ Email: info@dpbennett.com.jm
                             </h:panelGroup>
                             <h:panelGroup rendered="#{tab.renderAdminTab}" >
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
-                            </h:panelGroup>
-                            <ui:remove>
-                                <h:panelGroup rendered="#{tab.renderJobDetailTab}" >
-                                    <ui:include src="job/jobDetail.xhtml"/> 
-                                </h:panelGroup>
-                            </ui:remove>
+                            </h:panelGroup>                           
                             <h:panelGroup rendered="#{tab.renderClientsTab}" >
                                 <ui:include src="client/clientsTab.xhtml" />                                                                
                             </h:panelGroup>
@@ -187,6 +183,7 @@ Email: info@dpbennett.com.jm
                 collapsed="#{jobManager.westLayoutUnitCollapsed}"
                 collapsible="true">   
                 <h:form id="dashboardForm" > 
+
                     <p:accordionPanel id="dashboardAccordion" 
                                       value="#{jobManager.dashboard.tabs}" 
                                       var="tab" 
@@ -199,24 +196,17 @@ Email: info@dpbennett.com.jm
                                 process="@this"
                                 listener="#{jobManager.onDashboardTabChange}" />
 
-                        <p:tab title="#{tab.name}" >
-                            <h:panelGroup rendered="#{tab.renderJobsTab}">                                
-                                <ui:include src="dashboard/jobmanagement/jobsTab.xhtml" />   
-                            </h:panelGroup>
-                            <ui:remove>
-                                <h:panelGroup  rendered="#{tab.renderFinancialAdminTab}">
-                                    Implement selecting a tab via selectOneMenu and
-                                    create new entity?
-                                </h:panelGroup>
-                                <h:panelGroup rendered="#{tab.renderAdminTab}" >
-                                    Implement selecting a tab via selectOneMenu and
-                                    create new entity?
-                                </h:panelGroup>  
-                            </ui:remove>
-                        </p:tab>                       
-                    </p:accordionPanel>                    
-                </h:form>
+                        <p:tab title="#{tab.name}" > 
+                            <c:if test="#{tab.test eq 0}">
+                                <ui:include src="dashboard/jobmanagement/jobsTab.xhtml" />
+                            </c:if>
+                               
+                        </p:tab>   
 
+                    </p:accordionPanel>      
+
+
+                </h:form>
             </p:layoutUnit>
 
         </p:layout>
