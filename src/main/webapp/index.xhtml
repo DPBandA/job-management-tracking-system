@@ -186,7 +186,7 @@ Email: info@dpbennett.com.jm
 
                     <p:accordionPanel id="dashboardAccordion" 
                                       value="#{jobManager.dashboard.tabs}" 
-                                      var="tab" 
+                                      var="t" 
                                       widgetVar="dashboardAccordionVar"
                                       rendered="#{jobManager.dashboard.render}"
                                       multiple="true">
@@ -196,8 +196,8 @@ Email: info@dpbennett.com.jm
                                 process="@this"
                                 listener="#{jobManager.onDashboardTabChange}" />
 
-                        <p:tab title="#{tab.name}" > 
-                            <c:if test="#{tab.test eq 0}">
+                        <p:tab title="#{t.name}" > 
+                            <c:if test="#{t.test eq 0}">
                                 <ui:include src="dashboard/jobmanagement/jobsTab.xhtml" />
                             </c:if>
                                
