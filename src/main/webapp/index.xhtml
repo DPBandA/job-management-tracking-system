@@ -197,10 +197,16 @@ Email: info@dpbennett.com.jm
                                 listener="#{jobManager.onDashboardTabChange}" />
 
                         <p:tab title="#{t.name}" > 
-                            <c:if test="#{t.test eq 0}">
+                            <ui:remove>
+                                <c:if test="#{t.test eq 0}">
+                                    <ui:include src="dashboard/jobmanagement/jobsTab.xhtml" />
+                                </c:if>
+                            </ui:remove>
+
+                            <h:panelGroup rendered="#{t.name == 'Job Management'}">
                                 <ui:include src="dashboard/jobmanagement/jobsTab.xhtml" />
-                            </c:if>
-                               
+                            </h:panelGroup>
+
                         </p:tab>   
 
                     </p:accordionPanel>      

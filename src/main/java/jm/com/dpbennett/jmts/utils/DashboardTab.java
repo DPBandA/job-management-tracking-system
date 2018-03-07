@@ -49,10 +49,10 @@ public class DashboardTab {
         this.test = test;
     }
     
-    public int getIsJobManagementTab() {
+    public boolean getIsJobManagementTab() {
         System.out.println("is job manaegement"); //tk
         
-        return id == TabId.JOB_MANAGEMENT ?  1 : 0;
+        return id == TabId.JOB_MANAGEMENT;
     }
    
     public TabId getId() {
