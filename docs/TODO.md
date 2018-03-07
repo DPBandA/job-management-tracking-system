@@ -2,12 +2,15 @@
 ## Inception Report
 - Get requirements for Food Dept.
 
-
 ## Testing, Training & Misc
-- Get and use activiti for process documentation.
-- Check if the currently opened job was saved since it was opened or last saved
-   by the user and inform and take appropriate action if the user tries to save.
-   Test with 2 users logged in with different browsers.
+- Implement updating the jobs table loading a job from the table.
+- Redesign MainTabView and MainTab classes to use "p:repeat" and "jobsViewTab"
+  with multiple tables.
+- Externaldialogs take a long while to load. Check why? 
+  * Note first that objects are not being loaded in the dialogs.
+  * Test loading a simple dialog that does not access the database  
+- Check out the call financeManager.setEnableOnlyPaymentEditing(false/true);
+  and see if it is still relevant.
 - "Handle keep alive" does not seem to be working. Fix. UseIdleMonitor and not the
    "keepalive" method. Log off user if system is not used after timeout.
 - Remove "Job Detail" tab and fully implement Job Dialog (eg new job and edit job 
@@ -35,6 +38,12 @@
   as being edited.
 
 ## Misc & Reports
+- Look back at saveCurrentJob() to see em.refresh(savedJob); and why it throws
+  an exception.
+- Check if the currently opened job was saved since it was opened or last saved
+   by the user and inform and take appropriate action if the user tries to save.
+   Test with 2 users logged in with different browsers.
+- Get and use activiti for process documentation.
 - Don't allow Comments/Description fields to grow in height when text is entered
   as is done in the System Option Detail dialog.
 - Show date of activity for user in user profiles table.

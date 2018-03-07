@@ -182,6 +182,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         mainTabView = new MainTabView(getUser());
     }
 
+    public void jobDialogReturn() {
+        System.out.println("jobDialogReturn..."); // tk
+        PrimeFaces.current().executeScript("PF('longProcessDialogVar').hide();");
+    }
+
     public void reset() {
         RequestContext context = RequestContext.getCurrentInstance();
 
@@ -702,7 +707,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (currentJob.getIsDirty()) {
             requestContext.execute("PF('jobDetailTabCloseConfirmation').show();");
         } else {
-            requestContext.execute("PF('mainTabViewVar').remove(PF('mainTabViewVar').getActiveIndex());PF('mainTabViewVar').select(0);");
+            //requestContext.execute("PF('mainTabViewVar').remove(PF('mainTabViewVar').getActiveIndex());PF('mainTabViewVar').select(0);");
+            PrimeFaces.current().dialog().closeDynamic(null);
         }
     }
 
@@ -714,29 +720,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Close other tabs and take other actions as necessary
         switch (tabId) {
-//            case "jobDetailTab":
-//                financeManager.setEnableOnlyPaymentEditing(false);
-//                if (getIsDirty()) {
-//                    PrimeFacesUtils.addMessage("Job Not Saved!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
-//                }
-//                break;
-            case "jobsTab":
-                // Close job detail tab
-//                mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
-                financeManager.setEnableOnlyPaymentEditing(false);
-                if (getIsDirty()) {
-                    PrimeFacesUtils.addMessage("Job Not Saved!", "The current job was edited but not saved", FacesMessage.SEVERITY_WARN);
-                }
+            case "jobsViewTab":
+                //financeManager.setEnableOnlyPaymentEditing(false);  tk
                 break;
             default:
-//                if (!tabId.equals("jobDetailTab") && mainTabView.isTabRendered("jobDetailTab")) {
-//                    financeManager.setEnableOnlyPaymentEditing(false);
-//                    mainTabView.renderTab(getEntityManager1(), "jobDetailTab", false);
-//                    if (getIsDirty()) {
-//                        PrimeFacesUtils.addMessage("Job Not Saved!", "The recently opened job was edited but not saved", FacesMessage.SEVERITY_WARN);
-//                        RequestContext.getCurrentInstance().update("headerForm:growl3");
-//                    }
-//                }
                 break;
         }
 
@@ -786,10 +773,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 break;
             case "financialAdminTab":
                 break;
-            case "jobsTab":
-                break;
-            case "jobDetailTab":
-                break;
+            case "jobsViewTab":
+                break;            
             case "clientsTab":
                 break;
             default:
@@ -807,7 +792,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 //    public void setRenderJobDetailTab(Boolean renderJobDetailTab) {
 //        this.renderJobDetailTab = renderJobDetailTab;
 //    }
-
     /**
      * Get selected job which is usually displayed in a table.
      *
@@ -826,35 +810,23 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void openJobBrowser() {
         if (getUser().getIsJobsPreferredJobTableView()) {
-            openJobsTab();
+            mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
+            mainTabView.renderTab(getEntityManager1(), "cashierTab", false);
+            mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", false);
         }
         if (getUser().getIsCashierPreferredJobTableView()) {
-            openCashierTab();
+            mainTabView.renderTab(getEntityManager1(), "jobsTab", false);
+            mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
+            mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", false);
         }
         if (getUser().getIsJobCostingsPreferredJobTableView()) {
-            openJobCostingsTab();
+            mainTabView.renderTab(getEntityManager1(), "jobsTab", false);
+            mainTabView.renderTab(getEntityManager1(), "cashierTab", false);
+            mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
         }
-    }
+        
+        mainTabView.select("jobsViewTab");
 
-    public void openJobsTab() {
-        mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
-        mainTabView.renderTab(getEntityManager1(), "cashierTab", false);
-        mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", false);
-        mainTabView.select("jobsTab");
-    }
-
-    public void openCashierTab() {
-        mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
-        mainTabView.renderTab(getEntityManager1(), "jobsTab", false);
-        mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", false);
-        mainTabView.select("cashierTab");
-    }
-
-    public void openJobCostingsTab() {
-        mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
-        mainTabView.renderTab(getEntityManager1(), "cashierTab", false);
-        mainTabView.renderTab(getEntityManager1(), "jobsTab", false);
-        mainTabView.select("jobCostingsTab");
     }
 
     public void openSystemAdministrationTab() {
@@ -987,7 +959,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void createNewJob() {
-               
+
         EntityManager em = getEntityManager1();
 
         if (checkUserJobEntryPrivilege()) {
@@ -997,6 +969,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             options.put("modal", true);
             options.put("draggable", true);
             options.put("resizable", true);
+            options.put("closable", false);
             options.put("contentWidth", 850);
             options.put("contentHeight", 600);
 
@@ -1219,16 +1192,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         switch (view) {
             case "Cashier View":
-                getUser().setJobTableViewPreference("Cashier View");
-                openCashierTab();
+                getUser().setJobTableViewPreference("Cashier View");                
+                openJobBrowser();
                 break;
             case "Job Costings":
                 getUser().setJobTableViewPreference("Job Costings");
-                openJobCostingsTab();
+                openJobBrowser();
                 break;
             case "Jobs":
                 getUser().setJobTableViewPreference("Jobs");
-                openJobsTab();
+                openJobBrowser();
                 break;
             default:
                 break;
@@ -1632,7 +1605,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void saveCurrentJob() {
         EntityManager em = getEntityManager1();
 
-        // Prevent overwriting samples that were another user.
+        // tk
+        // Prevent overwriting samples that were edited by another user.
         if (!jobSampleManager.isSamplesDirty() && currentJob.getId() != null) {
             Job savedJob = Job.findJobById(em, currentJob.getId());
             em.refresh(savedJob);

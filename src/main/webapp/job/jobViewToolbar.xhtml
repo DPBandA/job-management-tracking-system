@@ -20,13 +20,14 @@ Email: info@dpbennett.com.jm
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"> 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"> 
 
     <p:toolbar>
-        <p:toolbarGroup align="left" style="height: 0;">   
+        <p:toolbarGroup align="left" >   
             <p:commandButton value="Approve"  
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
-                             style="vertical-align: top;"
+                             
                              title="Approve the selected job costing(s)"
                              actionListener="#{jobManager.approveSelectedJobCostings}"
                              update=":headerForm:growl3,jobCostingsTable"
@@ -36,7 +37,6 @@ Email: info@dpbennett.com.jm
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
             <p:commandButton value="Invoice"    
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
-                             style="vertical-align: top;"
                              title="Invoice the selected job costing(s)"
                              actionListener="#{jobManager.invoiceSelectedJobCostings}"
                              update=":headerForm:growl3,jobCostingsTable"
@@ -44,7 +44,6 @@ Email: info@dpbennett.com.jm
                              oncomplete="PF('longProcessDialogVar2').hide();">                                                                                    
             </p:commandButton>
             <p:commandButton
-                style="vertical-align: top;"
                 rendered="#{!jobManager.user.isJobCostingsPreferredJobTableView}"
                 actionListener="#{jobManager.createNewJob}"
                 global="true"                
@@ -59,8 +58,9 @@ Email: info@dpbennett.com.jm
 
             </p:commandButton>       
             <p:spacer width="20"/>
-            <p:selectOneRadio style="display: inline;"
-                              value="#{jobManager.user.jobTableViewPreference}">
+       
+            <p:selectOneButton 
+                               value="#{jobManager.user.jobTableViewPreference}">
                 <f:selectItems value="#{App.jobTableViews}" 
                                var="jobView" 
                                itemLabel="#{jobView}" 
@@ -68,9 +68,10 @@ Email: info@dpbennett.com.jm
                 <p:ajax listener="#{jobManager.updateJobView}"
                         onstart="PF('longProcessDialogVar2').show();" 
                         oncomplete="PF('longProcessDialogVar2').hide();"
+                        update="mainTabViewForm:mainTabView"
                         global="false"
                         process="@this"/>
-            </p:selectOneRadio>                
+            </p:selectOneButton>
 
         </p:toolbarGroup>
 

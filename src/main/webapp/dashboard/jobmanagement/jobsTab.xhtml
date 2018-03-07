@@ -28,13 +28,17 @@ Email: info@dpbennett.com.jm
                 actionListener="#{jobManager.createNewJob}"
                 global="true"                                        
                 onstart="PF('longProcessDialogVar').show();" 
-                oncomplete="PF('longProcessDialogVar').hide();"
                 onerror="PF('connectionErrorDialog').show();"
                 value="New"       
                 update="headerForm:growl3"
                 title="Create new job"
                 icon="ui-icon-plusthick"
-                process="@this" />  
+                process="@this" >
+            
+                <p:ajax event="dialogReturn" 
+                        listener="#{jobManager.jobDialogReturn}" />
+            
+            </p:commandButton>
 
         </p:toolbarGroup>
         <p:toolbarGroup align="right">

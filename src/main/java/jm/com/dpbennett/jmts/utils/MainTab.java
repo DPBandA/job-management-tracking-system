@@ -58,8 +58,8 @@ public class MainTab {
         this.renderAdminTab = renderAdminTab;
         this.renderClientsTab = renderClientsTab;
         this.renderReportsTab = renderReportsTab;
-        this.renderCashierTab = renderCashierTab;
-        this.renderJobCostingsTab = renderJobCostingsTab;
+        //this.renderCashierTab = renderCashierTab;
+        //this.renderJobCostingsTab = renderJobCostingsTab;
     }
 
     public String getId() {

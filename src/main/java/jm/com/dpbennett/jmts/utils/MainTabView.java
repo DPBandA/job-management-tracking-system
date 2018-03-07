@@ -161,7 +161,7 @@ public class MainTabView implements Serializable {
         if (tab != null && !render) {
             // MainTab is being removed
             switch (tabId) {
-                case "jobsTab":
+                case "jobsViewTab":
                     tab.setRenderJobsTab(em, render);
                     break;
 //                case "jobDetailTab":
@@ -179,12 +179,12 @@ public class MainTabView implements Serializable {
                 case "reportsTab":
                     tab.setRenderReportsTab(render);
                     break;
-                case "cashierTab":
-                    tab.setRenderCashierTab(render);
-                    break;
-                case "jobCostingsTab":
-                    tab.setRenderJobCostingsTab(render);
-                    break;
+//                case "cashierTab":
+//                    tab.setRenderCashierTab(render);
+//                    break;
+//                case "jobCostingsTab":
+//                    tab.setRenderJobCostingsTab(render);
+//                    break;
                 default:
                     break;
             }
@@ -196,14 +196,10 @@ public class MainTabView implements Serializable {
         } else if (tab == null && render) {
             // MainTab is to be rendered    
             switch (tabId) {
-                case "jobsTab":
+                case "jobsViewTab":
                     jobsTab.setRenderJobsTab(em, render);
                     tabs.add(jobsTab);
                     break;
-//                case "jobDetailTab":
-//                    jobDetailTab.setRenderJobDetailTab(render);
-//                    tabs.add(jobDetailTab);
-//                    break;
                 case "financialAdminTab":
                     financialAdminTab.setRenderFinancialAdminTab(em, render);
                     tabs.add(financialAdminTab);
@@ -220,23 +216,20 @@ public class MainTabView implements Serializable {
                     reportsTab.setRenderReportsTab(render);
                     tabs.add(reportsTab);
                     break;
-                case "cashierTab":
-                    cashierTab.setRenderCashierTab(render);
-                    tabs.add(cashierTab);
-                    break;
-                case "jobCostingsTab":
-                    jobCostingsTab.setRenderJobCostingsTab(render);
-                    tabs.add(jobCostingsTab);
-                    break;
+//                case "cashierTab":
+//                    cashierTab.setRenderCashierTab(render);
+//                    tabs.add(cashierTab);
+//                    break;
+//                case "jobCostingsTab":
+//                    jobCostingsTab.setRenderJobCostingsTab(render);
+//                    tabs.add(jobCostingsTab);
+//                    break;
                 default:
                     break;
             }
 
-            select(render);
+            //select(render);
         }
-
-        // Update tabview and select the appropriate tab       
-        update("mainTabViewForm:mainTabView");
 
     }
 
@@ -286,8 +279,8 @@ public class MainTabView implements Serializable {
                 getUser());
         // Job detail tab
         jobDetailTab = new MainTab(
-                "jobDetailTab",
-                "Job Detail",
+                "jobsViewTab",
+                "Jobs View",
                 false,
                 false,
                 false,

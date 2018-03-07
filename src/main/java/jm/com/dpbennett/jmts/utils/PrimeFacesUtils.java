@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -32,7 +32,8 @@ public class PrimeFacesUtils {
         options.put("contentHeight", contentHeight);
         options.put("contentWidth", contentWidth);
 
-        RequestContext.getCurrentInstance().openDialog(outcome, options, null);
+        //RequestContext.getCurrentInstance().openDialog(outcome, options, null);
+        PrimeFaces.current().dialog().openDynamic(outcome, options, null);
         //RequestContext.getCurrentInstance().openDialog(outcome);
         
     }

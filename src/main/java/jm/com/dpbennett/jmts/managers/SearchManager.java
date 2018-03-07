@@ -222,7 +222,7 @@ public class SearchManager implements SearchManagement, Serializable {
                                 BusinessEntityUtils.createDate(2000, 0, 1), new Date(), false, false, false),
                         ""));
     }
-    
+
     public void reset() {
         init();
     }
@@ -379,22 +379,22 @@ public class SearchManager implements SearchManagement, Serializable {
 
         return suggestions;
     }
-    
+
     public void doSearch() {
         switch (getCurrentSearchParameterKey()) {
             case "Job Search":
                 JobManager jm = Application.findBean("jobManager");
                 if (jm != null) {
                     jm.doJobSearch(getCurrentSearchParameters());
-                    if (jm.getUser().getIsJobsPreferredJobTableView()) {
-                        jm.openJobsTab();
-                    }
-                    if (jm.getUser().getIsCashierPreferredJobTableView()) {
-                        jm.openCashierTab();
-                    }
-                    if (jm.getUser().getIsJobCostingsPreferredJobTableView()) {
-                        jm.openJobCostingsTab();
-                    }
+                    //if (jm.getUser().getIsJobsPreferredJobTableView()) {
+                    jm.openJobBrowser();
+                    //}
+//                    if (jm.getUser().getIsCashierPreferredJobTableView()) {
+//                        jm.openCashierTab();
+//                    }
+//                    if (jm.getUser().getIsJobCostingsPreferredJobTableView()) {
+//                        jm.openJobCostingsTab();
+//                    }
                 }
                 break;
             case "Service Request Search":
