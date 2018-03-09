@@ -197,7 +197,46 @@ Email: info@dpbennett.com.jm
                                                  rendered="#{systemManager.selectedUser.privilege.canBeSuperUser}"
                                                  value="#{systemManager.selectedUser.privilege.canBeSuperUser}" />                       
                     </h:panelGrid>
-                </p:tab>                    
+                </p:tab>
+
+                <p:tab title="Modules">
+                    <h:panelGrid columns="3" cellspacing="10">
+
+                        <p:selectBooleanCheckbox id="canAccessComplianceUnit" 
+                                                 itemLabel="Compliance"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessComplianceUnit}" />
+
+                        <p:selectBooleanCheckbox id="canAccessCertificationUnit" 
+                                                 itemLabel="Certification"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessCertificationUnit}" />
+
+                        <p:selectBooleanCheckbox id="canAccessFoodsUnit" 
+                                                 itemLabel="Food Inspectorate"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessFoodsUnit}" />
+
+                        <p:selectBooleanCheckbox id="canAccessJobManagementUnit" 
+                                                 itemLabel="Job Management"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessJobManagementUnit}" />
+
+                        <p:selectBooleanCheckbox id="canAccessLegalMetrologyUnit" 
+                                                 itemLabel="Legal Metrology"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessLegalMetrologyUnit}" />
+
+                        <p:selectBooleanCheckbox id="canAccessLegalOfficeUnit" 
+                                                 itemLabel="Legal Office"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessLegalOfficeUnit}" />    
+
+                        <p:selectBooleanCheckbox id="canAccessServiceRequestUnit" 
+                                                 itemLabel="Service Request"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessServiceRequestUnit}" /> 
+                        
+                        <p:selectBooleanCheckbox id="canAccessStandardsUnit" 
+                                                 itemLabel="Standards"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessStandardsUnit}" /> 
+
+
+                    </h:panelGrid>
+                </p:tab>
 
             </p:tabView>
 

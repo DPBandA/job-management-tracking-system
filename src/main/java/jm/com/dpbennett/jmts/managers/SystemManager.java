@@ -821,10 +821,8 @@ public class SystemManager implements Serializable {
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 350, 600);
     }
 
-    public void editUser() {
-        System.out.println("Selected user: " + getSelectedUser()); // tk
-        
-        PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 430, 650);
+    public void editUser() {        
+        PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 430, 750);
     }
 
     public Employee getSelectedEmployee() {
@@ -845,8 +843,6 @@ public class SystemManager implements Serializable {
             selectedUser = new JobManagerUser();
         }
         
-        System.out.println(" public JobManagerUser getSelectedUser(): " + selectedUser); // tk
-
         return selectedUser;
     }
 
@@ -1028,14 +1024,10 @@ public class SystemManager implements Serializable {
         if (selectedUser.getEmployee() != null) {
             if (selectedUser.getEmployee().getId() != null) {
                 selectedUser.setEmployee(Employee.findEmployeeById(getEntityManager(), selectedUser.getEmployee().getId()));
-                selectedUser.setUserFirstname(selectedUser.getEmployee().getFirstName());
-                selectedUser.setUserLastname(selectedUser.getEmployee().getLastName());
             } else {
                 Employee employee = Employee.findDefaultEmployee(getEntityManager(), "--", "--", true);
                 if (selectedUser.getEmployee() != null) {
                     selectedUser.setEmployee(employee);
-                    selectedUser.setUserFirstname(selectedUser.getEmployee().getFirstName());
-                    selectedUser.setUserLastname(selectedUser.getEmployee().getLastName());
                     selectedUser.setDepartment(Department.findDefaultDepartment(getEntityManager(), "--"));
                 }
             }
@@ -1043,8 +1035,6 @@ public class SystemManager implements Serializable {
             Employee employee = Employee.findDefaultEmployee(getEntityManager(), "--", "--", true);
             if (selectedUser.getEmployee() != null) {
                 selectedUser.setEmployee(employee);
-                selectedUser.setUserFirstname(selectedUser.getEmployee().getFirstName());
-                selectedUser.setUserLastname(selectedUser.getEmployee().getLastName());
             }
         }
     }
@@ -1167,7 +1157,7 @@ public class SystemManager implements Serializable {
         selectedUser = new JobManagerUser();
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
 
-        PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 430, 650);
+        PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 430, 750);
     }
 
     public void createNewDepartment() {

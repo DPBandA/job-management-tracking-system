@@ -19,20 +19,15 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.utils;
 
-import javax.persistence.EntityManager;
-import jm.com.dpbennett.business.entity.JobManagerUser;
-
 public class DashboardTab {
-    
-    public enum TabId {JOB_MANAGEMENT, SYSTEM_ADMIN, FINANCIAL_ADMIN};
 
-    private TabId id;
+    private String id;
     private String name;
     private String content;
     private int test = 0;
 
     public DashboardTab(
-            TabId id,
+            String id,
             String name,
             String content) {
 
@@ -48,22 +43,16 @@ public class DashboardTab {
     public void setTest(int test) {
         this.test = test;
     }
-    
-    public boolean getIsJobManagementTab() {
-        System.out.println("is job manaegement"); //tk
-        
-        return id == TabId.JOB_MANAGEMENT;
-    }
-   
-    public TabId getId() {
+
+    public String getId() {
         if (id == null) {
-            id = TabId.JOB_MANAGEMENT;
+            id = "Job Management";
         }
 
         return id;
     }
 
-    public void setId(TabId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -3,9 +3,13 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Impl dashboard using "h:repeat" element and update dashboard and dashboard tab
-  accordingly.
-- Look oout for the changing of @ManagedBean to @Named where this is needed if
+- Impl dashboard:
+  * If access privilege is unchecked then "turn off" the corresponding unit.
+  * Add field (legalOfficeUnit) for Legal Office to class and database.
+  * Modify dashboard and user menu to display tabs and menu items based on
+    privileges and selection.
+  * Move unit privileges to "Modules" tab.
+- Look out for the changing of @ManagedBean to @Named where this is needed if
   things do not work as expected.
 - Implement updating the jobs table loading a job from the table.
 - Redesign MainTabView and MainTab classes to use "p:repeat" and "jobsViewTab"
@@ -39,11 +43,17 @@
   as being edited.
 
 ## Misc & Reports
+- Change context.execute to PrimeFaces.executeScript.
+- Add and MySQL 5.1.45 connector/j to glassfish and LEGALOFFICEUNIT to JMUser 
+  in all databases.
+- Add all new unit access privileges to class and database.
 - Setup jmts-processes as Activiti explorer for JMTS. Use jmts/jmtstest as the
   databases.
+- Add Standards and Certification as separate units in all databases.
 - Integrate Activiti with BSJ LDAP (AD).
 - Look back at saveCurrentJob() to see em.refresh(savedJob); and why it throws
   an exception.
+- Allow assigning job to more than one assignee.
 - Add "closeable" option to PrimeFacesUtils.openDialog().
 - Check if the currently opened job was saved since it was opened or last saved
    by the user and inform and take appropriate action if the user tries to save.

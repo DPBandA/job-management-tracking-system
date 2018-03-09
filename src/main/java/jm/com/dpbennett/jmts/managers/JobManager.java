@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
@@ -176,7 +175,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         financeManager = Application.findBean("financeManager");
         jobSampleManager = Application.findBean("jobSampleManager");
         contractManager = Application.findBean("contractManager");
-        dashboard = new Dashboard(); //Dashboard(getUser());
+        dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
     }
 
@@ -1226,36 +1225,39 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobsTab() {
+        // tk
+        System.out.println("Render dashboard jobs tab: " + getUser().getJobManagementAndTrackingUnit());
         //dashboard.renderTab(getEntityManager1(), "jobsTab", getUser().getJobManagementAndTrackingUnit());
-        if (getUser().getJobManagementAndTrackingUnit()) {
-            if (getUser().getIsJobsPreferredJobTableView()) {
-                mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
-            }
-            if (getUser().getIsCashierPreferredJobTableView()) {
-                mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
-            }
-            if (getUser().getIsJobCostingsPreferredJobTableView()) {
-                mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
-            }
-
-        }
-        setIsDirty(true);
+//        if (getUser().getJobManagementAndTrackingUnit()) {
+//            if (getUser().getIsJobsPreferredJobTableView()) {
+//                mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
+//            }
+//            if (getUser().getIsCashierPreferredJobTableView()) {
+//                mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
+//            }
+//            if (getUser().getIsJobCostingsPreferredJobTableView()) {
+//                mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
+//            }
+//
+//        }
+//        setIsDirty(true); // tk should this be done considering that the job 
+                          // was not edited?
     }
 
     public void updateAdminTab() {
         //dashboard.renderTab(getEntityManager1(), "adminTab", getUser().getAdminUnit());
         if (getUser().getAdminUnit()) {
-            mainTabView.renderTab(getEntityManager1(), "adminTab", true);
+            //mainTabView.renderTab(getEntityManager1(), "adminTab", true);
         }
-        setIsDirty(true);
+        //setIsDirty(true);
     }
 
     public void updateFinancialAdminTab() {
         //dashboard.renderTab(getEntityManager1(), "financialAdminTab", getUser().getFinancialAdminUnit());
         if (getUser().getFinancialAdminUnit()) {
-            mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
+            //mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
         }
-        setIsDirty(true);
+        //setIsDirty(true);
     }
 
     public void updateDocumentsCollectedBy() {

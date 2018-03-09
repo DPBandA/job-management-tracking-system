@@ -24,33 +24,165 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import jm.com.dpbennett.business.entity.JobManagerUser;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
- * @author desbenn
+ * @author Desmond Bennett
  */
 public class Dashboard implements Serializable {
 
+    private JobManagerUser user;
     private List<DashboardTab> tabs;
     private Boolean render;
-       public Dashboard() {
-        tabs = new ArrayList<>();
-        tabs.add(new DashboardTab(DashboardTab.TabId.JOB_MANAGEMENT, "Job Management", ""));
-        tabs.add(new DashboardTab(DashboardTab.TabId.SYSTEM_ADMIN, "System Admin", ""));
-        tabs.add(new DashboardTab(DashboardTab.TabId.FINANCIAL_ADMIN, "Financial Management", ""));
+    private Integer tabIndex;
 
-        render = true;
+    public Dashboard(JobManagerUser user) {
+        this.user = user;
+        tabs = new ArrayList<>();
+        tabIndex = 0;
+        render = false;
+    }
+
+    public void removeAllTabs() {
+        tabs.clear();
+    }
+
+    // tk change to addTab since rendering is not actually being done here
+    public void renderTab(
+            EntityManager em,
+            String tabId,
+            Boolean render) {
+
+        DashboardTab tab = findTab(tabId);
+
+        if (tab != null && !render) {
+            // DashboardTab is being removed           
+            tabs.remove(tab);
+        } else if (tab != null && render) {
+            // DashboardTab already rendered
+        } else if (tab == null && !render) {
+            // DashboardTab is not be rendered            
+        } else if (tab == null && render) {
+            // DashboardTab is to be rendered    
+            tabs.add(tab);
+        }
+
+        // Update tabview and select the appropriate tab
+        update("dashboardForm:dashboardAccordion");
+
+        select(render);
+    }
+
+    public int getTabIndex(String tabId) {
+        DashboardTab tab = findTab(tabId);
+        if (tab != null) {
+            return tabIndex;
+        }
+
+        return -1;
+    }
+
+    public JobManagerUser getUser() {
+        return user;
+    }
+
+    public void setUser(JobManagerUser user) {
+        this.user = user;
+    }
+
+    public DashboardTab findTab(String tabId) {
+        tabIndex = 0;
+
+        for (DashboardTab tab : tabs) {
+            if (tab.getId().equals(tabId)) {
+                return tab;
+            }
+            ++tabIndex;
+        }
+
+        return null;
+    }
+
+    public void select(int tabIndex) {
+
+        this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
+
+        PrimeFaces.current().executeScript("PF('dashboardAccordionVar').select(" + this.tabIndex + ");");
+
+    }
+
+    public void select(String componentVar, int tabIndex) {
+
+        this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
+
+        PrimeFaces.current().executeScript("PF('" + componentVar + "')" + ".select(" + this.tabIndex + ");");
+
+    }
+
+    public void select(Boolean wasTabAdded) {
+
+        if (wasTabAdded) {
+            PrimeFaces.current().executeScript("PF('dashboardAccordionVar').select(" + tabIndex + ");");
+        } else {
+            PrimeFaces.current().executeScript("PF('dashboardAccordionVar').select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
+        }
+    }
+
+    public void select(String componentVar, Boolean wasTabAdded) {
+
+        if (wasTabAdded) {
+            PrimeFaces.current().executeScript("PF('" + componentVar + "')" + ".select(" + tabIndex + ");");
+        } else {
+            PrimeFaces.current().executeScript("PF('" + componentVar + "')" + ".select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
+        }
+    }
+
+    public void update(String tabId, String componentId, String componentVar) {
+
+        DashboardTab tab = findTab(tabId);
+
+        if (tab != null) {
+            PrimeFaces.current().ajax().update(componentId);
+            select(componentVar, true);
+        }
+    }
+
+    public void update(String componentId) {
+        PrimeFaces.current().ajax().update(componentId);
+    }
+
+    public Integer getTabIndex() {
+        return tabIndex;
+    }
+
+    public void setTabIndex(Integer tabIndex) {
+        this.tabIndex = tabIndex;
     }
 
     private void init() {
 
+        if (getUser().getJobManagementAndTrackingUnit()) {
+            tabs.add(new DashboardTab("Job Management", "Job Management", ""));
+        }
+        if (getUser().getAdminUnit()) {
+            tabs.add(new DashboardTab("System Administration", "System Administration", ""));
+        }
+        if (getUser().getFinancialAdminUnit()) {
+            tabs.add(new DashboardTab("Financial Administration", "Financial Administration", ""));
+        }
     }
 
     public void reset(JobManagerUser user) {
+        this.user = user;
 
+        // Remove all tabs re-init
+        removeAllTabs();
+        init();
+
+        setRender(true);
     }
-    
+
     public Boolean getRender() {
         return render;
     }
