@@ -39,6 +39,9 @@
   as being edited.
 
 ## Misc & Reports
+- Setup jmts-processes as Activiti explorer for JMTS. Use jmts/jmtstest as the
+  databases.
+- Integrate Activiti with BSJ LDAP (AD).
 - Look back at saveCurrentJob() to see em.refresh(savedJob); and why it throws
   an exception.
 - Add "closeable" option to PrimeFacesUtils.openDialog().
