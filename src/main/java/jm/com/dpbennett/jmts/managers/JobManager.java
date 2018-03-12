@@ -206,8 +206,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchManager.reset();
 
         // Unrender all tabs
-//        dashboard.removeAllTabs();
-//        dashboard.setRender(false);
+        dashboard.removeAllTabs();
+        dashboard.setRender(false);
         mainTabView.removeAllTabs();
         mainTabView.setRender(false);
 
@@ -1224,41 +1224,57 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setIsDirty(true);
     }
 
-    public void updateJobsTab() {
-        // tk
-        System.out.println("Render dashboard jobs tab: " + getUser().getJobManagementAndTrackingUnit());
-        //dashboard.renderTab(getEntityManager1(), "jobsTab", getUser().getJobManagementAndTrackingUnit());
-//        if (getUser().getJobManagementAndTrackingUnit()) {
-//            if (getUser().getIsJobsPreferredJobTableView()) {
-//                mainTabView.renderTab(getEntityManager1(), "jobsTab", true);
-//            }
-//            if (getUser().getIsCashierPreferredJobTableView()) {
-//                mainTabView.renderTab(getEntityManager1(), "cashierTab", true);
-//            }
-//            if (getUser().getIsJobCostingsPreferredJobTableView()) {
-//                mainTabView.renderTab(getEntityManager1(), "jobCostingsTab", true);
-//            }
-//
-//        }
-//        setIsDirty(true); // tk should this be done considering that the job 
-                          // was not edited?
-    }
+    public void updateDashboardTabs(AjaxBehaviorEvent event) {
 
-    public void updateAdminTab() {
-        //dashboard.renderTab(getEntityManager1(), "adminTab", getUser().getAdminUnit());
-        if (getUser().getAdminUnit()) {
-            //mainTabView.renderTab(getEntityManager1(), "adminTab", true);
+        switch (event.getComponent().getId()) {
+            case "jobManagementAndTrackingUnit":
+                dashboard.renderTab(getEntityManager1(), "Job Management",
+                        getUser().getJobManagementAndTrackingUnit());
+                break;
+            case "financialAdminUnit":
+                dashboard.renderTab(getEntityManager1(), "Financial Administration",
+                        getUser().getFinancialAdminUnit());
+                break;
+            case "adminUnit":
+                dashboard.renderTab(getEntityManager1(), "System Administration",
+                        getUser().getAdminUnit());
+                break;
+            case "complianceUnit":
+                dashboard.renderTab(getEntityManager1(), "Standard Compliance",
+                        getUser().getComplianceUnit());
+                break;
+            case "foodsUnit":
+                dashboard.renderTab(getEntityManager1(), "Food Inspectorate",
+                        getUser().getFoodsUnit());
+                break;
+            case "standardsUnit":
+                dashboard.renderTab(getEntityManager1(), "Standards",
+                        getUser().getStandardsUnit());
+                break;
+            case "certificationUnit":
+                dashboard.renderTab(getEntityManager1(), "Certification",
+                        getUser().getCertificationUnit());
+                break;
+            case "serviceRequestUnit":
+                dashboard.renderTab(getEntityManager1(), "Service Request",
+                        getUser().getServiceRequestUnit());
+                break;
+            case "legalOfficeUnit":
+                dashboard.renderTab(getEntityManager1(), "Legal Office",
+                        getUser().getLegalOfficeUnit());
+                break;
+            case "crmUnit":
+                dashboard.renderTab(getEntityManager1(), "Customer Relationship Management",
+                        getUser().getCrmUnit());
+                break;
+            case "legalMetrologyUnit":
+                dashboard.renderTab(getEntityManager1(), "Legal Metrology",
+                        getUser().getLegalMetrologyUnit());
+                break;    
+            default:
+                break;
         }
-        //setIsDirty(true);
-    }
 
-    public void updateFinancialAdminTab() {
-        //dashboard.renderTab(getEntityManager1(), "financialAdminTab", getUser().getFinancialAdminUnit());
-        if (getUser().getFinancialAdminUnit()) {
-            //mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
-            
-        }
-        //setIsDirty(true);
     }
 
     public void updateDocumentsCollectedBy() {
@@ -1571,18 +1587,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void closePreferencesDialog1(ActionEvent actionEvent) {
         RequestContext context = RequestContext.getCurrentInstance();
 
-        //if (getIsDirty()) {
-            // save prefs and update view
-            savePreferences();
-        //}
-//
-//        dashboard.update("mainTabViewForm:mainTabView");
-//        dashboard.update("dashboardForm:dashboardAccordion");
-
+        savePreferences();
+       
         context.update("headerForm");
         context.execute("PF('preferencesDialog').hide();");
-
-        //setIsDirty(false);
     }
 
     public void savePreferences() {

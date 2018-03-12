@@ -64,8 +64,8 @@ public class Dashboard implements Serializable {
         } else if (tab == null && !render) {
             // DashboardTab is not be rendered            
         } else if (tab == null && render) {
-            // DashboardTab is to be rendered    
-            tabs.add(tab);
+            // DashboardTab is to be rendered 
+            tabs.add(new DashboardTab(tabId, tabId));
         }
 
         // Update tabview and select the appropriate tab

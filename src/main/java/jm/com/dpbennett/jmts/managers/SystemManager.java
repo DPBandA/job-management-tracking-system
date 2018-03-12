@@ -26,6 +26,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -175,17 +176,28 @@ public class SystemManager implements Serializable {
         isActiveLdapsOnly = true;
     }
 
-    public DualListModel<Department> getDepartmentDualList() {
-        
-       // tk build source and target based on all the existing departments
-       // and what alread exist in the business
+    public void updateModuleAccess(AjaxBehaviorEvent event) {
+        switch (event.getComponent().getId()) {
+            case "canAccessComplianceUnit":
+                //getSelectedUser().setComplianceUnit(getSelectedUser().
+                //        getPrivilege().getCanAccessComplianceUnit());
+                break;
+            default:
+                break;
 
+        }
+    }
+
+    public DualListModel<Department> getDepartmentDualList() {
+
+        // tk build source and target based on all the existing departments
+        // and what alread exist in the business
         List<Department> source = new ArrayList<>();
         List<Department> target = new ArrayList<>();
-        
+
         source = Department.findAllActiveDepartments(getEntityManager());
         //target = selectedBusiness.getDepartments();
-        
+
         departmentDualList = new DualListModel<>(source, target);
 
         return departmentDualList;
@@ -733,13 +745,13 @@ public class SystemManager implements Serializable {
     }
 
     public void doUserSearch() {
-       
+
         foundUsers = JobManagerUser.findJobManagerUserByName(getEntityManager(), getUserSearchText());
 
         if (foundUsers == null) {
             foundUsers = new ArrayList<>();
         }
-       
+
 //        else {
 //            if (isLoggedInUsersOnly) {
 //                List<JobManagerUser> loggedInUsers = new ArrayList<>();
@@ -752,7 +764,6 @@ public class SystemManager implements Serializable {
 //                foundUsers.addAll(loggedInUsers);
 //            }
 //        }
-
     }
 
     public String getFoundUser() {
@@ -821,7 +832,7 @@ public class SystemManager implements Serializable {
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 350, 600);
     }
 
-    public void editUser() {        
+    public void editUser() {
         PrimeFacesUtils.openDialog(getSelectedUser(), "userDialog", true, true, true, 430, 750);
     }
 
@@ -842,7 +853,7 @@ public class SystemManager implements Serializable {
         if (selectedUser == null) {
             selectedUser = new JobManagerUser();
         }
-        
+
         return selectedUser;
     }
 

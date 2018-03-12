@@ -79,20 +79,7 @@ Email: info@dpbennett.com.jm
                                       iconPos="left"
                                       id="userMenu"
                                       style="float: right;" >
-
-                            <p:menuitem actionListener="#{jobManager.openSystemAdministrationTab}"
-                                        rendered="#{jobManager.user.adminUnit}"
-                                        onstart="PF('longProcessDialogVar').show();"                                        
-                                        oncomplete="PF('longProcessDialogVar').hide();"                                            
-                                        value="System Administration"
-                                        process="@this"/>
-                            <p:menuitem actionListener="#{jobManager.openFinancialAdministrationTab}"
-                                        rendered="#{jobManager.user.financialAdminUnit}"
-                                        onstart="PF('longProcessDialogVar').show();"                                        
-                                        oncomplete="PF('longProcessDialogVar').hide();"                                            
-                                        value="Financial Administration"
-                                        process="@this"/>
-                            <p:separator rendered="#{jobManager.user.adminUnit or jobManager.user.financialAdminUnit}"/>                              
+                            
                             <p:menuitem actionListener="#{jobManager.editPreferences}"
                                         onstart="PF('longProcessDialogVar').show();"
                                         update=":preferencesDialogForm"
@@ -106,7 +93,8 @@ Email: info@dpbennett.com.jm
                                         onerror="PF('connectionErrorDialog').show();"                                              
                                         icon="ui-icon-circle-arrow-w"
                                         value="Logout"
-                                        process="@this"/>                             
+                                        process="@this"/>    
+                            
                         </p:menuButton>   
 
                     </h:panelGrid>

@@ -60,7 +60,7 @@ Email: info@dpbennett.com.jm
 
             <p:panel style="margin-bottom: 1px;" >             
                 <h:panelGrid columns="2" >
-                    <h:outputText value="Username: " style="font-weight: bold;"/>  
+                    <h:outputText value="Username" style="font-weight: bold;"/>  
                     <p:inputText id="user"
                                  validator="requiredFieldValidator"
                                  value="#{systemManager.selectedUser.username}" />    
@@ -70,7 +70,7 @@ Email: info@dpbennett.com.jm
                     <p:selectBooleanCheckbox id="authenticateUser" 
                                              value="#{systemManager.selectedUser.authenticate}" /> 
 
-                    <h:outputText value="Employee: " style="font-weight: bold;" />               
+                    <h:outputText value="Employee" style="font-weight: bold;" />               
                     <p:autoComplete var="employee"
                                     scrollHeight="175"
                                     dropdown="true"
@@ -84,7 +84,7 @@ Email: info@dpbennett.com.jm
                                     completeMethod="#{App.completeEmployee}" >                       
                     </p:autoComplete>   
 
-                    <h:outputText value="Department: " style="font-weight: bold;" />               
+                    <h:outputText value="Department" style="font-weight: bold;" />               
                     <p:autoComplete var="department"
                                     scrollHeight="175"
                                     dropdown="true"
@@ -159,7 +159,7 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid>
                 </p:tab>
                 <p:tab title="Organizational Privileges">
-                    <h:panelGrid columns="3" cellspacing="10">
+                    <h:panelGrid columns="4" cellspacing="10">
                         <p:selectBooleanCheckbox id="canAddClient" 
                                                  itemLabel="Add client"
                                                  value="#{systemManager.selectedUser.privilege.canAddClient}" />
@@ -199,12 +199,16 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid>
                 </p:tab>
 
-                <p:tab title="Modules">
-                    <h:panelGrid columns="3" cellspacing="10">
+                <p:tab title="Module Access">
+                    <h:panelGrid columns="4" cellspacing="10">
 
                         <p:selectBooleanCheckbox id="canAccessComplianceUnit" 
-                                                 itemLabel="Compliance"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessComplianceUnit}" />
+                                                 itemLabel="Standard Compliance"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessComplianceUnit}" >
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canAccessCertificationUnit" 
                                                  itemLabel="Certification"
@@ -233,6 +237,9 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="canAccessStandardsUnit" 
                                                  itemLabel="Standards"
                                                  value="#{systemManager.selectedUser.privilege.canAccessStandardsUnit}" /> 
+                         <p:selectBooleanCheckbox id="canAccessCRMUnit" 
+                                                 itemLabel="CRM"
+                                                 value="#{systemManager.selectedUser.privilege.canAccessCRMUnit}" />
 
 
                     </h:panelGrid>

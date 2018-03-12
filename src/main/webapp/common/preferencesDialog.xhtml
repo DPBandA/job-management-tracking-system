@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
     <h:form id="preferencesDialogForm">
 
         <p:dialog width="700"
-                  height="275"
+                  height="300"
                   draggable="true"
                   modal="true"
                   widgetVar="preferencesDialog"
@@ -41,7 +41,7 @@ Email: info@dpbennett.com.jm
 
             <p:toolbar>
                 <p:toolbarGroup align="left" >
-                    <p:commandButton value="Close" 
+                    <p:commandButton value="Ok" 
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();PF('mainTabViewVar').select(0);"
                                      actionListener="#{jobManager.closePreferencesDialog1}" />        
@@ -85,11 +85,10 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="3" id="modulesTabPanelGrid" cellspacing="10">
 
                         <p:selectBooleanCheckbox id="jobManagementAndTrackingUnit" 
-                                                 disabled="false"
+                                                 rendered="#{jobManager.user.privilege.canAccessJobManagementUnit}"
                                                  itemLabel="Job Management &amp; Tracking"
                                                  value="#{jobManager.user.jobManagementAndTrackingUnit}" >
-                            <p:ajax listener="#{jobManager.updateJobsTab}"
-
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -98,8 +97,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Financial Administration"
                                                  rendered="#{jobManager.user.privilege.canBeFinancialAdministrator}"
                                                  value="#{jobManager.user.financialAdminUnit}" >
-                            <p:ajax listener="#{jobManager.updateFinancialAdminTab}"
-                                    update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>      
@@ -108,8 +106,79 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="System Administration"
                                                  rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
                                                  value="#{jobManager.user.adminUnit}" >
-                            <p:ajax listener="#{jobManager.updateAdminTab}"
-                                    update=":preferencesDialogForm:preferencesTabView:modulesTabPanelGrid"
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+
+                        <p:selectBooleanCheckbox id="complianceUnit" 
+                                                 itemLabel="Standard Compliance"
+                                                 rendered="#{jobManager.user.privilege.canAccessComplianceUnit}"
+                                                 value="#{jobManager.user.complianceUnit}" >
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+
+                        <p:selectBooleanCheckbox id="certificationUnit" 
+                                                 itemLabel="Certification"
+                                                 rendered="#{jobManager.user.privilege.canAccessCertificationUnit}"
+                                                 value="#{jobManager.user.certificationUnit}" >
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                        
+                        <p:selectBooleanCheckbox id="foodsUnit" 
+                                                 itemLabel="Food Inspectorate"
+                                                 rendered="#{jobManager.user.privilege.canAccessFoodsUnit}"
+                                                 value="#{jobManager.user.foodsUnit}" >
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                        
+                        <p:selectBooleanCheckbox id="legalMetrologyUnit" 
+                                                 itemLabel="Legal Metrology"
+                                                 rendered="#{jobManager.user.privilege.canAccessLegalMetrologyUnit}"
+                                                 value="#{jobManager.user.legalMetrologyUnit}" >
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                        
+                        <p:selectBooleanCheckbox id="legalOfficeUnit" 
+                                                 itemLabel="Legal Office"
+                                                 rendered="#{jobManager.user.privilege.canAccessLegalOfficeUnit}"
+                                                 value="#{jobManager.user.legalOfficeUnit}" >
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                        
+                        <p:selectBooleanCheckbox id="serviceRequestUnit" 
+                                                 itemLabel="Service Request"
+                                                 rendered="#{jobManager.user.privilege.canAccessServiceRequestUnit}"
+                                                 value="#{jobManager.user.serviceRequestUnit}" >
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                        
+                        <p:selectBooleanCheckbox id="standardsUnit" 
+                                                 itemLabel="Standards"
+                                                 rendered="#{jobManager.user.privilege.canAccessStandardsUnit}"
+                                                 value="#{jobManager.user.standardsUnit}" >
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                        
+                        <p:selectBooleanCheckbox id="crmUnit" 
+                                                 itemLabel="CRM"
+                                                 rendered="#{jobManager.user.privilege.canAccessCRMUnit}"
+                                                 value="#{jobManager.user.crmUnit}" >
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -117,9 +186,9 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid> 
                 </p:tab>
             </p:tabView>
-             <p:toolbar>
+            <p:toolbar>
                 <p:toolbarGroup align="left" >
-                    <p:commandButton value="Close" 
+                    <p:commandButton value="Ok" 
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();PF('mainTabViewVar').select(0);"
                                      actionListener="#{jobManager.closePreferencesDialog1}" />        

@@ -1,13 +1,14 @@
 # Things to do
 ## Database update
-- Add required fields to JMUser and Privilege tables to all databases.
+- Add required fields to JMUser and Privilege tables for all databases.
 
 ## Inception Report and Misc
 - Provide content and format report based on BABOK if possible.
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Remove "module selection" from user menu.
+- Deal with saving user details when the user is already logged on. 
+  try CascadeType.REFRESH for privilege in JMUser.
 - Preference dialog seems to set the job dirty. Fix that.
 - Impl adding/removing dashbaord tab based on preference selection
 - Impl dashboard (update live and test databases:
@@ -18,6 +19,7 @@
     privileges and selection.
   * Move unit privileges to "Modules" tab.
 - Financial admin tab needs new button and search text field.
+- Change "Jobs" tab title to "Job Browser".
 - Look out for the changing of @ManagedBean to @Named where this is needed if
   things do not work as expected.
 - Implement updating the jobs table loading a job from the table.
@@ -62,6 +64,7 @@
 - Add all new unit access privileges to class and database.
 - Setup jmts-processes as Activiti explorer for JMTS. Use jmts/jmtstest as the
   databases.
+- Add general preference to hide/show dashboard.
 - Add Standards and Certification as separate units in all databases.
 - Integrate Activiti with BSJ LDAP (AD).
 - Look back at saveCurrentJob() to see em.refresh(savedJob); and why it throws
@@ -570,23 +573,23 @@ Notification to be sent for certificates and job costing to be done which I thou
 
 Customer Relation Management
 
-Allow add/edit of contact or client separately based on privilege and don't make a copy of the client as is current done.
-Implement cancel adding contact and address in dialog.
-Make sure job costing and service contract uses job billing address and the contact assigned to the job and NOT the client main contact.
-Ensure that overseas clients are not charged GCT. Indicate with field in client table. If the main/billing address is changed to something other than "local" the change client to international. Show alert when this is done?
-Implement 'Main' phone number as is done for 'Main' contact.
-Make TRN mandatory for local clients?
-Add country to address/contact details/record.
-Address type for newly added address does not change when selected in table. Fix!
-Enforce entry of certain data if not credit customer. Determine this data.
+- Allow add/edit of contact or client separately based on privilege and don't make a copy of the client as is current done.
+- Implement cancel adding contact and address in dialog.
+- Make sure job costing and service contract uses job billing address and the contact assigned to the job and NOT the client main contact.
+- Ensure that overseas clients are not charged GCT. Indicate with field in client table. If the main/billing address is changed to something other than "local" the change client to international. Show alert when this is done?
+- Implement 'Main' phone number as is done for 'Main' contact.
+- Make TRN mandatory for local clients?
+- Add country to address/contact details/record.
+- Address type for newly added address does not change when selected in table. Fix!
+- Enforce entry of certain data if not credit customer. Determine this data.
 
 Human Resource Management
 
-Check out why employees with blank names are being created. The blank employees are linked to jobs so look for clues in the job creation and update process. Look at all senarios where an
-employee could be created. check if creating a new user causes this.
-Dont let newly created employees be active except when created via system admin.
-Delete blank internet and business office created linked to blank employees? Ensure that only "activate" employees are retrieved or created
-Implement assigning a person to more than one department.
+- Check out why employees with blank names are being created. The blank employees are linked to jobs so look for clues in the job creation and update process. Look at all senarios where an
+- employee could be created. check if creating a new user causes this.
+- Dont let newly created employees be active except when created via system admin.
+- Delete blank internet and business office created linked to blank employees? Ensure that only "activate" employees are retrieved or created
+- Implement assigning a person to more than one department.
 
 Accounting/Financial Services
 
