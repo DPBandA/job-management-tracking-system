@@ -163,13 +163,38 @@ public class Dashboard implements Serializable {
     private void init() {
 
         if (getUser().getJobManagementAndTrackingUnit()) {
-            tabs.add(new DashboardTab("Job Management", "Job Management", ""));
+            tabs.add(new DashboardTab("Job Management", "Job Management"));
         }
         if (getUser().getAdminUnit()) {
-            tabs.add(new DashboardTab("System Administration", "System Administration", ""));
+            tabs.add(new DashboardTab("System Administration", "System Administration"));
         }
         if (getUser().getFinancialAdminUnit()) {
-            tabs.add(new DashboardTab("Financial Administration", "Financial Administration", ""));
+            tabs.add(new DashboardTab("Financial Administration", "Financial Administration"));
+        }
+        if (getUser().getComplianceUnit()) {
+            tabs.add(new DashboardTab("Standard Compliance", "Standard Compliance"));
+        }
+        if (getUser().getFoodsUnit()) {
+            tabs.add(new DashboardTab("Food Inspectorate", "Food Inspectorate"));
+        }
+        if (getUser().getLegalMetrologyUnit()) {
+            tabs.add(new DashboardTab("Legal Metrology", "Legal Metrology"));
+        }
+        if (getUser().getStandardsUnit()) {
+            tabs.add(new DashboardTab("Standards", "Standards"));
+        }
+        if (getUser().getCertificationUnit()) {
+            tabs.add(new DashboardTab("Certification", "Certification"));
+        }
+        if (getUser().getServiceRequestUnit()) {
+            tabs.add(new DashboardTab("Service Request", "Service Request"));
+        }
+        if (getUser().getLegalOfficeUnit()) {
+            tabs.add(new DashboardTab("Legal Office", "Legal Office"));
+        }
+        if (getUser().getCrmUnit()) {
+            tabs.add(new DashboardTab("Customer Relationship Management",
+                    "Customer Relationship Management"));
         }
     }
 

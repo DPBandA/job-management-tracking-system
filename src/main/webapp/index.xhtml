@@ -189,7 +189,7 @@ Email: info@dpbennett.com.jm
                                       var="t" 
                                       widgetVar="dashboardAccordionVar"
                                       rendered="#{jobManager.dashboard.render}"
-                                      multiple="true">
+                                      multiple="false">
 
                         <p:ajax event="tabChange"       
                                 immediate="true"
@@ -197,9 +197,49 @@ Email: info@dpbennett.com.jm
                                 listener="#{jobManager.onDashboardTabChange}" />
 
                         <p:tab title="#{t.name}" > 
-                         
+
                             <h:panelGroup rendered="#{t.name == 'Job Management'}">
                                 <ui:include src="dashboard/jobmanagement/jobsTab.xhtml" />
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'System Administration'}">
+                                System Administration
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'Financial Administration'}">
+                                Financial Administration
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'Standard Compliance'}">
+                                Standard Compliance
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'Food Inspectorate'}">
+                                Food Inspectorate
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'Legal Metrology'}">
+                                Legal Metrology
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'Standards'}">
+                                Standards
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'Certification'}">
+                                Certification
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'Service Request'}">
+                                Service Request
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'Legal Office'}">
+                                Legal Office
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.name == 'Customer Relationship Management'}">
+                                Customer Relationship Management
                             </h:panelGroup>
 
                         </p:tab>   

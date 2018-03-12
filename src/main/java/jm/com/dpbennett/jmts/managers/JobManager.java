@@ -1256,6 +1256,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         //dashboard.renderTab(getEntityManager1(), "financialAdminTab", getUser().getFinancialAdminUnit());
         if (getUser().getFinancialAdminUnit()) {
             //mainTabView.renderTab(getEntityManager1(), "financialAdminTab", true);
+            
         }
         //setIsDirty(true);
     }
@@ -1570,10 +1571,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void closePreferencesDialog1(ActionEvent actionEvent) {
         RequestContext context = RequestContext.getCurrentInstance();
 
-        if (getIsDirty()) {
+        //if (getIsDirty()) {
             // save prefs and update view
             savePreferences();
-        }
+        //}
 //
 //        dashboard.update("mainTabViewForm:mainTabView");
 //        dashboard.update("dashboardForm:dashboardAccordion");
@@ -1581,7 +1582,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         context.update("headerForm");
         context.execute("PF('preferencesDialog').hide();");
 
-        setIsDirty(false);
+        //setIsDirty(false);
     }
 
     public void savePreferences() {

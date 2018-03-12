@@ -23,30 +23,18 @@ public class DashboardTab {
 
     private String id;
     private String name;
-    private String content;
-    private int test = 0;
-
+   
     public DashboardTab(
             String id,
-            String name,
-            String content) {
+            String name) {
 
         this.id = id;
         this.name = name;
-        this.content = content;
-    }
-
-    public int getTest() {
-        return test;
-    }
-
-    public void setTest(int test) {
-        this.test = test;
     }
 
     public String getId() {
         if (id == null) {
-            id = "Job Management";
+            id = "";
         }
 
         return id;
@@ -63,12 +51,5 @@ public class DashboardTab {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
+  
 }

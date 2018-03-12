@@ -1,14 +1,23 @@
 # Things to do
-## Inception Report
+## Database update
+- Add required fields to JMUser and Privilege tables to all databases.
+
+## Inception Report and Misc
+- Provide content and format report based on BABOK if possible.
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Impl dashboard:
+- Remove "module selection" from user menu.
+- Preference dialog seems to set the job dirty. Fix that.
+- Impl adding/removing dashbaord tab based on preference selection
+- Impl dashboard (update live and test databases:
+  * Add Industrial Training/Customer Service Unit.
   * If access privilege is unchecked then "turn off" the corresponding unit.
   * Add field (legalOfficeUnit) for Legal Office to class and database.
   * Modify dashboard and user menu to display tabs and menu items based on
     privileges and selection.
   * Move unit privileges to "Modules" tab.
+- Financial admin tab needs new button and search text field.
 - Look out for the changing of @ManagedBean to @Named where this is needed if
   things do not work as expected.
 - Implement updating the jobs table loading a job from the table.
@@ -43,9 +52,13 @@
   as being edited.
 
 ## Misc & Reports
+- Add privileges to add/edit contact/address and put client privileges in own tab.
+- Add CRM and "Corporate Office" as modules.
 - Change context.execute to PrimeFaces.executeScript.
 - Add and MySQL 5.1.45 connector/j to glassfish and LEGALOFFICEUNIT to JMUser 
   in all databases.
+- Add representatives field to Job class, database and form.
+- Add divisions to 
 - Add all new unit access privileges to class and database.
 - Setup jmts-processes as Activiti explorer for JMTS. Use jmts/jmtstest as the
   databases.
