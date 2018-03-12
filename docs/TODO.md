@@ -3,6 +3,7 @@
 - Add required fields to JMUser and Privilege tables for all databases.
 
 ## Inception Report and Misc
+- Get procedure documents from QEMS of the BSJ, NCRA and NCBJ
 - Provide content and format report based on BABOK if possible.
 - Get requirements for Food Dept.
 
