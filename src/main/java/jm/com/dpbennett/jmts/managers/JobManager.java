@@ -1008,7 +1008,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void updatePreferedJobTableView(SelectEvent event) {
         doJobViewUpdate((String) event.getObject());
-        setIsDirty(true);
+        //setIsDirty(true);
     }
 
     public Boolean getCurrentJobIsValid() {
@@ -1221,56 +1221,61 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updatePreferences() {
-        setIsDirty(true);
+        //setIsDirty(true);
     }
 
     public void updateDashboardTabs(AjaxBehaviorEvent event) {
 
         switch (event.getComponent().getId()) {
             case "jobManagementAndTrackingUnit":
-                dashboard.renderTab(getEntityManager1(), "Job Management",
-                        getUser().getJobManagementAndTrackingUnit());
+                dashboard.addTab(getEntityManager1(), "Job Management",
+                        getUser().getModules().getJobManagementAndTrackingModule());
                 break;
             case "financialAdminUnit":
-                dashboard.renderTab(getEntityManager1(), "Financial Administration",
-                        getUser().getFinancialAdminUnit());
+                dashboard.addTab(getEntityManager1(), "Financial Administration",
+                        getUser().getModules().getFinancialAdminModule());
                 break;
             case "adminUnit":
-                dashboard.renderTab(getEntityManager1(), "System Administration",
-                        getUser().getAdminUnit());
+                dashboard.addTab(getEntityManager1(), "System Administration",
+                        getUser().getModules().getAdminModule());
+                
+                // tk
+                System.out.println("Admin mod: " + getUser().getModules().getAdminModule());
+                getUser().getModules().setIsDirty(true);
+                getUser().save(getEntityManager1());
                 break;
             case "complianceUnit":
-                dashboard.renderTab(getEntityManager1(), "Standard Compliance",
-                        getUser().getComplianceUnit());
+                dashboard.addTab(getEntityManager1(), "Standard Compliance",
+                        getUser().getModules().getComplianceModule());
                 break;
             case "foodsUnit":
-                dashboard.renderTab(getEntityManager1(), "Food Inspectorate",
-                        getUser().getFoodsUnit());
+                dashboard.addTab(getEntityManager1(), "Food Inspectorate",
+                        getUser().getModules().getFoodsModule());
                 break;
             case "standardsUnit":
-                dashboard.renderTab(getEntityManager1(), "Standards",
-                        getUser().getStandardsUnit());
+                dashboard.addTab(getEntityManager1(), "Standards",
+                        getUser().getModules().getStandardsModule());
                 break;
             case "certificationUnit":
-                dashboard.renderTab(getEntityManager1(), "Certification",
-                        getUser().getCertificationUnit());
+                dashboard.addTab(getEntityManager1(), "Certification",
+                        getUser().getModules().getCertificationModule());
                 break;
             case "serviceRequestUnit":
-                dashboard.renderTab(getEntityManager1(), "Service Request",
-                        getUser().getServiceRequestUnit());
+                dashboard.addTab(getEntityManager1(), "Service Request",
+                        getUser().getModules().getServiceRequestModule());
                 break;
             case "legalOfficeUnit":
-                dashboard.renderTab(getEntityManager1(), "Legal Office",
-                        getUser().getLegalOfficeUnit());
+                dashboard.addTab(getEntityManager1(), "Legal Office",
+                        getUser().getModules().getLegalOfficeModule());
                 break;
             case "crmUnit":
-                dashboard.renderTab(getEntityManager1(), "Customer Relationship Management",
-                        getUser().getCrmUnit());
+                dashboard.addTab(getEntityManager1(), "Customer Relationship Management",
+                        getUser().getModules().getCrmModule());
                 break;
             case "legalMetrologyUnit":
-                dashboard.renderTab(getEntityManager1(), "Legal Metrology",
-                        getUser().getLegalMetrologyUnit());
-                break;    
+                dashboard.addTab(getEntityManager1(), "Legal Metrology",
+                        getUser().getModules().getLegalMetrologyModule());
+                break;
             default:
                 break;
         }
@@ -1587,17 +1592,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void closePreferencesDialog1(ActionEvent actionEvent) {
         RequestContext context = RequestContext.getCurrentInstance();
 
-        savePreferences();
-       
+        //savePreferences();
+        getUser().save(getEntityManager1());
+
         context.update("headerForm");
         context.execute("PF('preferencesDialog').hide();");
     }
 
-    public void savePreferences() {
-        // user object holds preferences for now so we save it
-        getUser().save(getEntityManager1());
-    }
-
+//    public void savePreferences() {
+//        // user object holds preferences for now so we save it
+//        getUser().save(getEntityManager1());
+//    }
     public void saveAndCloseCurrentJob() {
 
 //        setRenderJobDetailTab(false);

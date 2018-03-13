@@ -257,7 +257,7 @@ public class MainTabView implements Serializable {
                 "Financial Administration",
                 false,
                 false,
-                getUser().getFinancialAdminUnit(),
+                getUser().getModules().getFinancialAdminModule(),
                 false,
                 false,
                 false,
@@ -271,7 +271,7 @@ public class MainTabView implements Serializable {
                 false,
                 false,
                 false,
-                getUser().getAdminUnit(),
+                getUser().getModules().getAdminModule(),
                 false,
                 false,
                 false,
@@ -360,10 +360,10 @@ public class MainTabView implements Serializable {
         if (getUser().getIsJobCostingsPreferredJobTableView()) {
             tabs.add(jobCostingsTab);
         }
-        if (getUser().getFinancialAdminUnit()) {
+        if (getUser().getModules().getFinancialAdminModule()) {
             tabs.add(financialAdminTab);
         }
-        if (getUser().getAdminUnit()) {
+        if (getUser().getModules().getAdminModule()) {
             tabs.add(adminTab);
         }
         

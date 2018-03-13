@@ -179,13 +179,47 @@ public class SystemManager implements Serializable {
     public void updateModuleAccess(AjaxBehaviorEvent event) {
         switch (event.getComponent().getId()) {
             case "canAccessComplianceUnit":
-                //getSelectedUser().setComplianceUnit(getSelectedUser().
-                //        getPrivilege().getCanAccessComplianceUnit());
+                getSelectedUser().getModules().setComplianceModule(getSelectedUser().
+                        getPrivilege().getCanAccessComplianceUnit());
                 break;
+            case "canAccessCertificationUnit":
+                getSelectedUser().getModules().setCertificationModule(getSelectedUser().
+                        getPrivilege().getCanAccessCertificationUnit());
+                break;
+            case "canAccessFoodsUnit":
+                getSelectedUser().getModules().setFoodsModule(getSelectedUser().
+                        getPrivilege().getCanAccessFoodsUnit());
+                break;
+            case "canAccessJobManagementUnit":
+                getSelectedUser().getModules().setJobManagementAndTrackingModule(getSelectedUser().
+                        getPrivilege().getCanAccessJobManagementUnit());
+                break;
+            case "canAccessLegalMetrologyUnit":
+                getSelectedUser().getModules().setLegalMetrologyModule(getSelectedUser().
+                        getPrivilege().getCanAccessLegalMetrologyUnit());
+                break;
+            case "canAccessLegalOfficeUnit":
+                getSelectedUser().getModules().setLegalOfficeModule(getSelectedUser().
+                        getPrivilege().getCanAccessLegalOfficeUnit());
+                break;
+            case "canAccessServiceRequestUnit":
+                getSelectedUser().getModules().setServiceRequestModule(getSelectedUser().
+                        getPrivilege().getCanAccessServiceRequestUnit());
+                break;
+            case "canAccessStandardsUnit":
+                getSelectedUser().getModules().setStandardsModule(getSelectedUser().
+                        getPrivilege().getCanAccessStandardsUnit());
+                break;
+            case "canAccessCRMUnit":
+                getSelectedUser().getModules().setCrmModule(getSelectedUser().
+                        getPrivilege().getCanAccessCRMUnit());
+                break;    
             default:
                 break;
 
         }
+
+        getSelectedUser().getPrivilege().setIsDirty(true);
     }
 
     public DualListModel<Department> getDepartmentDualList() {

@@ -93,6 +93,7 @@
     <class>jm.com.dpbennett.business.entity.DepartmentUnit</class>
     <class>jm.com.dpbennett.business.entity.Preference</class>
     <class>jm.com.dpbennett.business.entity.DocumentTracking</class>
+    <class>jm.com.dpbennett.business.entity.Modules</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>

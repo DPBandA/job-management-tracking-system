@@ -49,7 +49,7 @@ public class Dashboard implements Serializable {
     }
 
     // tk change to addTab since rendering is not actually being done here
-    public void renderTab(
+    public void addTab(
             EntityManager em,
             String tabId,
             Boolean render) {
@@ -162,37 +162,37 @@ public class Dashboard implements Serializable {
 
     private void init() {
 
-        if (getUser().getJobManagementAndTrackingUnit()) {
+        if (getUser().getModules().getJobManagementAndTrackingModule()) {
             tabs.add(new DashboardTab("Job Management", "Job Management"));
         }
-        if (getUser().getAdminUnit()) {
+        if (getUser().getModules().getAdminModule()) {
             tabs.add(new DashboardTab("System Administration", "System Administration"));
         }
-        if (getUser().getFinancialAdminUnit()) {
+        if (getUser().getModules().getFinancialAdminModule()) {
             tabs.add(new DashboardTab("Financial Administration", "Financial Administration"));
         }
-        if (getUser().getComplianceUnit()) {
+        if (getUser().getModules().getComplianceModule()) {
             tabs.add(new DashboardTab("Standard Compliance", "Standard Compliance"));
         }
-        if (getUser().getFoodsUnit()) {
+        if (getUser().getModules().getFoodsModule()) {
             tabs.add(new DashboardTab("Food Inspectorate", "Food Inspectorate"));
         }
-        if (getUser().getLegalMetrologyUnit()) {
+        if (getUser().getModules().getLegalMetrologyModule()) {
             tabs.add(new DashboardTab("Legal Metrology", "Legal Metrology"));
         }
-        if (getUser().getStandardsUnit()) {
+        if (getUser().getModules().getStandardsModule()) {
             tabs.add(new DashboardTab("Standards", "Standards"));
         }
-        if (getUser().getCertificationUnit()) {
+        if (getUser().getModules().getCertificationModule()) {
             tabs.add(new DashboardTab("Certification", "Certification"));
         }
-        if (getUser().getServiceRequestUnit()) {
+        if (getUser().getModules().getServiceRequestModule()) {
             tabs.add(new DashboardTab("Service Request", "Service Request"));
         }
-        if (getUser().getLegalOfficeUnit()) {
+        if (getUser().getModules().getLegalOfficeModule()) {
             tabs.add(new DashboardTab("Legal Office", "Legal Office"));
         }
-        if (getUser().getCrmUnit()) {
+        if (getUser().getModules().getCrmModule()) {
             tabs.add(new DashboardTab("Customer Relationship Management",
                     "Customer Relationship Management"));
         }

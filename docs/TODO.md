@@ -1,6 +1,7 @@
 # Things to do
 ## Database update
 - Add required fields to JMUser and Privilege tables for all databases.
+- Add MODULES_ID to JMUsers and modules table to database. 
 
 ## Inception Report and Misc
 - Get procedure documents from QEMS of the BSJ, NCRA and NCBJ
@@ -8,8 +9,16 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Deal with saving user details when the user is already logged on. 
-  try CascadeType.REFRESH for privilege in JMUser.
+- Deal with saving user details when the user is already logged on.
+  * Save user immediately when module is selected in pref. dialog??
+    Check why it doesn't work otherwise.
+  * Retire use of Units in JMUser and create Module class instead. Use the term
+    Module and not Unit where applicable.
+  * Rename "canAccess?Unit" to "canAccess?Module"
+  * Test adding new user.
+  * Add "dirty" field to privilege and use when saving user.
+  * Load user record from database when opening preference dialog.
+  * Add event listener for all privilege fields.
 - Preference dialog seems to set the job dirty. Fix that.
 - Impl adding/removing dashbaord tab based on preference selection
 - Impl dashboard (update live and test databases:
@@ -107,6 +116,7 @@
 - Remove impl of Converter from all entities.
 - Relook at the whole sequence of events when job costing parameters such as
   tax, tolal cost, estimate etc are edited.
+- Rename privilege table to privileges if it does not result in data lost.
 - Do not save job also when an object in the Job class is edited if this is not
 - Create the LegalDepartmentPortal as a git branch of the JMTS.
 - Impl real canceling of payment edits as is done with job samples.

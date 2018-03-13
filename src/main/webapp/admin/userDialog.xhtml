@@ -159,7 +159,7 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid>
                 </p:tab>
                 <p:tab title="Organizational Privileges">
-                    <h:panelGrid columns="4" cellspacing="10">
+                    <h:panelGrid columns="3" cellspacing="10">
                         <p:selectBooleanCheckbox id="canAddClient" 
                                                  itemLabel="Add client"
                                                  value="#{systemManager.selectedUser.privilege.canAddClient}" />
@@ -212,34 +212,77 @@ Email: info@dpbennett.com.jm
 
                         <p:selectBooleanCheckbox id="canAccessCertificationUnit" 
                                                  itemLabel="Certification"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessCertificationUnit}" />
+                                                 value="#{systemManager.selectedUser.privilege.canAccessCertificationUnit}" >
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canAccessFoodsUnit" 
                                                  itemLabel="Food Inspectorate"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessFoodsUnit}" />
+                                                 value="#{systemManager.selectedUser.privilege.canAccessFoodsUnit}" >
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canAccessJobManagementUnit" 
                                                  itemLabel="Job Management"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessJobManagementUnit}" />
+                                                 value="#{systemManager.selectedUser.privilege.canAccessJobManagementUnit}" >
+
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canAccessLegalMetrologyUnit" 
                                                  itemLabel="Legal Metrology"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessLegalMetrologyUnit}" />
+                                                 value="#{systemManager.selectedUser.privilege.canAccessLegalMetrologyUnit}" >
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canAccessLegalOfficeUnit" 
                                                  itemLabel="Legal Office"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessLegalOfficeUnit}" />    
+                                                 value="#{systemManager.selectedUser.privilege.canAccessLegalOfficeUnit}" >
+
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>    
 
                         <p:selectBooleanCheckbox id="canAccessServiceRequestUnit" 
                                                  itemLabel="Service Request"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessServiceRequestUnit}" /> 
-                        
+                                                 value="#{systemManager.selectedUser.privilege.canAccessServiceRequestUnit}" >
+
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox> 
+
                         <p:selectBooleanCheckbox id="canAccessStandardsUnit" 
                                                  itemLabel="Standards"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessStandardsUnit}" /> 
-                         <p:selectBooleanCheckbox id="canAccessCRMUnit" 
+                                                 value="#{systemManager.selectedUser.privilege.canAccessStandardsUnit}" >
+
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
+
+                        <p:selectBooleanCheckbox id="canAccessCRMUnit" 
                                                  itemLabel="CRM"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessCRMUnit}" />
+                                                 value="#{systemManager.selectedUser.privilege.canAccessCRMUnit}" >
+
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
 
                     </h:panelGrid>
