@@ -12,6 +12,7 @@
 
 ## Testing, Training & Misc
 - Dashboard not being updated when module is selected in preference dialog.
+- Make "canAccessJMTS" default to true.
 - Impl MainTab view as is done with Dashboard:
   * Create "jobsViewTab" with title "Job Browser" with multiple table views.
   * Look out for the changing of @ManagedBean to @Named where this is needed if
