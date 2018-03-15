@@ -40,6 +40,7 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -196,7 +197,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public void closeJobSampleDeleteConfirmDialog() {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public Integer getJobSampleDialogTabViewActiveIndex() {
@@ -246,7 +247,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         }
         jobSampleDialogTabViewActiveIndex = 0;
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void deleteJobSample() {
@@ -286,7 +287,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
                     "Sample(s) deleted but the job was not saved", FacesMessage.SEVERITY_WARN);
         }
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void editJobSample(ActionEvent event) {
@@ -352,7 +353,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         // Restore backed up job sample        
         selectedJobSample.copy(selectedJobSampleBackup);
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     private Long getCurrentNumberOfJobSamples() {

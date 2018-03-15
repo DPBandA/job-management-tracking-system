@@ -49,6 +49,7 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
@@ -176,6 +177,41 @@ public class SystemManager implements Serializable {
         isActiveLdapsOnly = true;
     }
 
+    public void updatePrivileges(AjaxBehaviorEvent event) {
+        switch (event.getComponent().getId()) {
+            // Job Privileges
+            case "canEnterJob":
+                selectedUser.getPrivilege().
+                        setCanEnterDepartmentJob(selectedUser.getPrivilege().getCanEnterJob());
+                selectedUser.getPrivilege().
+                        setCanEnterOwnJob(selectedUser.getPrivilege().getCanEnterJob());
+                break;
+            case "canEditJob":
+                selectedUser.getPrivilege().setCanEditDepartmentJob(selectedUser.
+                        getPrivilege().getCanEditJob());
+                selectedUser.getPrivilege().setCanEditOwnJob(selectedUser.getPrivilege().getCanEditJob());
+                break;
+            case "canEnterDepartmentJob":
+            case "canEnterOwnJob":
+            case "canEditDepartmentalJob":
+            case "canEditOwnJob":
+            case "canApproveJobCosting":
+            // Organizational Privileges    
+            case "canAddClient":
+            case "canDeleteClient":
+            case "canAddEmployee":
+            case "canDeleteEmployee":
+            case "canAddDepartment":
+            case "canDeleteDepartment":
+            case "canBeSuperUser":
+                break;
+            default:
+                break;
+        }
+
+        selectedUser.getPrivilege().setIsDirty(true);
+    }
+
     public void updateModuleAccess(AjaxBehaviorEvent event) {
         switch (event.getComponent().getId()) {
             case "canAccessComplianceUnit":
@@ -213,13 +249,22 @@ public class SystemManager implements Serializable {
             case "canAccessCRMUnit":
                 getSelectedUser().getModules().setCrmModule(getSelectedUser().
                         getPrivilege().getCanAccessCRMUnit());
-                break;    
+                break;
+            case "canBeFinancialAdministrator":
+                getSelectedUser().getModules().setFinancialAdminModule(getSelectedUser().
+                        getPrivilege().getCanBeFinancialAdministrator());
+                break;
+            case "canBeJMTSAdministrator":
+                getSelectedUser().getModules().setAdminModule(getSelectedUser().
+                        getPrivilege().getCanBeJMTSAdministrator());
+                break;
             default:
                 break;
 
         }
 
         getSelectedUser().getPrivilege().setIsDirty(true);
+        getSelectedUser().getModules().setIsDirty(true);
     }
 
     public DualListModel<Department> getDepartmentDualList() {
@@ -915,50 +960,50 @@ public class SystemManager implements Serializable {
     }
 
     public void cancelUserEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelEmployeeEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelDepartmentEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelBusinessEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelSystemOptionEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelClassificationEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelLdapContextEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelSectorEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelJobCategoryEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelJobSubcategoryEdit(ActionEvent actionEvent) {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void saveSelectedUser(ActionEvent actionEvent) {
 
         selectedUser.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -966,21 +1011,21 @@ public class SystemManager implements Serializable {
 
         selectedDepartment.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void saveSelectedBusiness() {
 
         selectedBusiness.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void saveSelectedSystemOption() {
 
         selectedSystemOption.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -988,7 +1033,7 @@ public class SystemManager implements Serializable {
 
         selectedClassification.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -996,7 +1041,7 @@ public class SystemManager implements Serializable {
 
         selectedLdapContext.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -1004,7 +1049,7 @@ public class SystemManager implements Serializable {
 
         selectedSector.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -1012,7 +1057,7 @@ public class SystemManager implements Serializable {
 
         selectedJobCategory.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -1020,7 +1065,7 @@ public class SystemManager implements Serializable {
 
         selectedJobSubcategory.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -1028,7 +1073,7 @@ public class SystemManager implements Serializable {
 
         selectedEmployee.save(getEntityManager());
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -1093,33 +1138,32 @@ public class SystemManager implements Serializable {
         }
     }
 
-    public void updateUserCanEditJob() {
-
-        if (selectedUser.getPrivilege().getCanEditJob()) {
-            selectedUser.getPrivilege().setCanEditDepartmentJob(true);
-            selectedUser.getPrivilege().setCanEditOwnJob(true);
-        } else {
-            selectedUser.getPrivilege().setCanEditDepartmentJob(false);
-            selectedUser.getPrivilege().setCanEditOwnJob(false);
-        }
-
-    }
-
-    public void updateUserCanEnterJob() {
-
-        if (selectedUser.getPrivilege().getCanEnterJob()) {
-            selectedUser.getPrivilege().setCanEnterDepartmentJob(true);
-            selectedUser.getPrivilege().setCanEnterOwnJob(true);
-        } else {
-            selectedUser.getPrivilege().setCanEnterDepartmentJob(false);
-            selectedUser.getPrivilege().setCanEnterOwnJob(false);
-        }
-    }
-
-    public void updateCanEditDepartmentalJob() {
-
-    }
-
+//    public void updateUserCanEditJob() {
+//
+//        if (selectedUser.getPrivilege().getCanEditJob()) {
+//            selectedUser.getPrivilege().setCanEditDepartmentJob(true);
+//            selectedUser.getPrivilege().setCanEditOwnJob(true);
+//        } else {
+//            selectedUser.getPrivilege().setCanEditDepartmentJob(false);
+//            selectedUser.getPrivilege().setCanEditOwnJob(false);
+//        }
+//
+//    }
+//    public void updateUserCanEnterJob() {
+//
+//        if (selectedUser.getPrivilege().getCanEnterJob()) {
+//            selectedUser.getPrivilege().setCanEnterDepartmentJob(true);
+//            selectedUser.getPrivilege().setCanEnterOwnJob(true);
+//        } else {
+//            selectedUser.getPrivilege().setCanEnterDepartmentJob(false);
+//            selectedUser.getPrivilege().setCanEnterOwnJob(false);
+//        }
+//
+//        selectedUser.getPrivilege().setIsDirty(true);
+//    }
+//    public void updateCanEditDepartmentalJob() {
+//
+//    }
     public void updateCanEnterDepartmentJob() {
 
     }
@@ -1272,6 +1316,7 @@ public class SystemManager implements Serializable {
     public void createNewSystemOption() {
 
         selectedSystemOption = new SystemOption();
+        selectedSystemOption.setCategory("FINANCE");
 
         PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
     }

@@ -28,8 +28,8 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new LDAP Option"                                  
                              value="New"
                              actionListener="#{systemManager.createNewLdapContext}"
-                             onstart="PF('longProcessDialogVar').show();"                                                            
-                             update=""
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
@@ -52,8 +52,8 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
-        
-         <p:toolbarGroup align="right">
+
+        <p:toolbarGroup align="right">
             <p:outputLabel for="activeLdapOnly" value="Active LDAP options only: " />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
@@ -69,7 +69,7 @@ Email: info@dpbennett.com.jm
                 <p:spacer width="15" />                
             </h:panelGroup>
         </p:toolbarGroup>
-        
+
     </p:toolbar>    
     <p:dataTable id="LDAPTable"                                       
                  var="ldap"     
@@ -86,14 +86,14 @@ Email: info@dpbennett.com.jm
         <f:facet name="header">
             LDAP Options
         </f:facet>
-        
-         <p:column headerText="Name">
+
+        <p:column headerText="Name">
             <p:cellEditor>
                 <f:facet name="output"> <h:outputText value="#{ldap.name}" /></f:facet>
                 <f:facet name="input"><p:inputText value="#{ldap.name}" style="width:96%"/></f:facet>
             </p:cellEditor>                                         
         </p:column>   
-        
+
         <p:column headerText="Domain">
             <p:cellEditor>
                 <f:facet name="output"> <h:outputText value="#{ldap.domainName}" /></f:facet>
@@ -107,7 +107,7 @@ Email: info@dpbennett.com.jm
                 <f:facet name="input"><p:inputText value="#{ldap.providerUrl}" style="width:96%"/></f:facet>
             </p:cellEditor>                                         
         </p:column>   
-        
+
         <p:column headerText="Active" sortBy="#{ldap.usable}">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{ldap.usable}" /></f:facet>
@@ -119,11 +119,12 @@ Email: info@dpbennett.com.jm
                 </f:facet>
             </p:cellEditor>                                         
         </p:column>  
-        
+
         <p:column style="width:32px">
             <p:commandButton title="View or edit LDAP"   
                              actionListener="#{systemManager.editLdapContext}"
-                             onstart="PF('longProcessDialogVar').show();"                                                                    
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"

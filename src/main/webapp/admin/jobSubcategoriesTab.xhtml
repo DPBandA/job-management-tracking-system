@@ -29,7 +29,8 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new job subcategory"                                  
                              value="New"
                              actionListener="#{systemManager.createNewJobSubCategory}"
-                             onstart="PF('longProcessDialogVar').show();" 
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
@@ -53,7 +54,7 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
-        
+
         <p:toolbarGroup align="right">
             <p:outputLabel for="activeJobSubcategoriesOnly" value="Active job subcategories only: " />  
             <h:panelGroup>
@@ -70,7 +71,7 @@ Email: info@dpbennett.com.jm
                 <p:spacer width="15" />                
             </h:panelGroup>
         </p:toolbarGroup>
-        
+
     </p:toolbar>    
     <p:dataTable id="JobSubcategoriesTable"                                       
                  var="jobSubcategory"     
@@ -129,7 +130,8 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit job subcategory"   
                              actionListener="#{systemManager.editJobSubcategory}"
-                             onstart="PF('longProcessDialogVar').show();"                                                                    
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"

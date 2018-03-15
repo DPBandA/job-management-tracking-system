@@ -24,19 +24,36 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <p:outputPanel>                                
-        <p:inputText value="#{systemManager.systemOptionSearchText}"                                             
-                     style="width:250px" placeholder="Enter any part of option description">
-            <p:ajax event="keyup"
-                    global="false"
-                    onstart="PF('longProcessDialogVar').show();" 
-                    oncomplete="PF('longProcessDialogVar').hide();"
-                    update=":mainTabViewForm:mainTabView:financialSystemOptionsTable"
-                    listener="#{systemManager.doFinancialSystemOptionSearch}"
-                    process="@this"/>
-        </p:inputText>
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new option"                                  
+                             value="New"
+                             actionListener="#{systemManager.createNewSystemOption}"                                                     
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus" >
 
-    </p:outputPanel>    
+                <p:ajax event="dialogReturn" 
+                        listener="#{systemManager.doFinancialSystemOptionSearch}"
+                        update=":mainTabViewForm:mainTabView:financialSystemOptionsTable"/>
+
+            </p:commandButton>
+            <p:spacer width="20" />
+            <p:inputText value="#{systemManager.systemOptionSearchText}"                                             
+                         style="width:250px" placeholder="Enter any part of option description">
+                <p:ajax event="keyup"
+                        global="false"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
+                        update=":mainTabViewForm:mainTabView:financialSystemOptionsTable"
+                        listener="#{systemManager.doFinancialSystemOptionSearch}"
+                        process="@this"/>
+            </p:inputText>
+        </p:toolbarGroup>
+    </p:toolbar>    
     <p:dataTable id="financialSystemOptionsTable"                                       
                  var="systemOption"     
                  editable="true" 
@@ -44,6 +61,7 @@ Email: info@dpbennett.com.jm
                  paginator="true"
                  rows="15"
                  widgetVar="systemOptionsTableVar"
+                 style="margin-top: 1px;"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{systemManager.foundFinancialSystemOptions}">
 
@@ -70,13 +88,20 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit system option"   
                              actionListener="#{systemManager.editSystemOption}"
-                             onstart="PF('longProcessDialogVar').show();"                                                                    
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
+
                 <f:setPropertyActionListener value="#{systemOption}"                                                                    
                                              target="#{systemManager.selectedSystemOption}" />
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{systemManager.doFinancialSystemOptionSearch}"
+                        update=":mainTabViewForm:mainTabView:financialSystemOptionsTable"/>
+
             </p:commandButton>           
         </p:column>
     </p:dataTable> 

@@ -33,7 +33,7 @@ import org.primefaces.PrimeFaces;
 public class Dashboard implements Serializable {
 
     private JobManagerUser user;
-    private List<DashboardTab> tabs;
+    private List<Tab> tabs;
     private Boolean render;
     private Integer tabIndex;
 
@@ -54,18 +54,18 @@ public class Dashboard implements Serializable {
             String tabId,
             Boolean render) {
 
-        DashboardTab tab = findTab(tabId);
+        Tab tab = findTab(tabId);
 
         if (tab != null && !render) {
-            // DashboardTab is being removed           
+            // Tab is being removed           
             tabs.remove(tab);
         } else if (tab != null && render) {
-            // DashboardTab already rendered
+            // Tab already rendered
         } else if (tab == null && !render) {
-            // DashboardTab is not be rendered            
+            // Tab is not be rendered            
         } else if (tab == null && render) {
-            // DashboardTab is to be rendered 
-            tabs.add(new DashboardTab(tabId, tabId));
+            // Tab is to be rendered 
+            tabs.add(new Tab(tabId, tabId));
         }
 
         // Update tabview and select the appropriate tab
@@ -75,7 +75,7 @@ public class Dashboard implements Serializable {
     }
 
     public int getTabIndex(String tabId) {
-        DashboardTab tab = findTab(tabId);
+        Tab tab = findTab(tabId);
         if (tab != null) {
             return tabIndex;
         }
@@ -91,10 +91,10 @@ public class Dashboard implements Serializable {
         this.user = user;
     }
 
-    public DashboardTab findTab(String tabId) {
+    public Tab findTab(String tabId) {
         tabIndex = 0;
 
-        for (DashboardTab tab : tabs) {
+        for (Tab tab : tabs) {
             if (tab.getId().equals(tabId)) {
                 return tab;
             }
@@ -140,7 +140,7 @@ public class Dashboard implements Serializable {
 
     public void update(String tabId, String componentId, String componentVar) {
 
-        DashboardTab tab = findTab(tabId);
+        Tab tab = findTab(tabId);
 
         if (tab != null) {
             PrimeFaces.current().ajax().update(componentId);
@@ -163,37 +163,37 @@ public class Dashboard implements Serializable {
     private void init() {
 
         if (getUser().getModules().getJobManagementAndTrackingModule()) {
-            tabs.add(new DashboardTab("Job Management", "Job Management"));
+            tabs.add(new Tab("Job Management", "Job Management"));
         }
         if (getUser().getModules().getAdminModule()) {
-            tabs.add(new DashboardTab("System Administration", "System Administration"));
+            tabs.add(new Tab("System Administration", "System Administration"));
         }
         if (getUser().getModules().getFinancialAdminModule()) {
-            tabs.add(new DashboardTab("Financial Administration", "Financial Administration"));
+            tabs.add(new Tab("Financial Administration", "Financial Administration"));
         }
         if (getUser().getModules().getComplianceModule()) {
-            tabs.add(new DashboardTab("Standard Compliance", "Standard Compliance"));
+            tabs.add(new Tab("Standard Compliance", "Standard Compliance"));
         }
         if (getUser().getModules().getFoodsModule()) {
-            tabs.add(new DashboardTab("Food Inspectorate", "Food Inspectorate"));
+            tabs.add(new Tab("Food Inspectorate", "Food Inspectorate"));
         }
         if (getUser().getModules().getLegalMetrologyModule()) {
-            tabs.add(new DashboardTab("Legal Metrology", "Legal Metrology"));
+            tabs.add(new Tab("Legal Metrology", "Legal Metrology"));
         }
         if (getUser().getModules().getStandardsModule()) {
-            tabs.add(new DashboardTab("Standards", "Standards"));
+            tabs.add(new Tab("Standards", "Standards"));
         }
         if (getUser().getModules().getCertificationModule()) {
-            tabs.add(new DashboardTab("Certification", "Certification"));
+            tabs.add(new Tab("Certification", "Certification"));
         }
         if (getUser().getModules().getServiceRequestModule()) {
-            tabs.add(new DashboardTab("Service Request", "Service Request"));
+            tabs.add(new Tab("Service Request", "Service Request"));
         }
         if (getUser().getModules().getLegalOfficeModule()) {
-            tabs.add(new DashboardTab("Legal Office", "Legal Office"));
+            tabs.add(new Tab("Legal Office", "Legal Office"));
         }
         if (getUser().getModules().getCrmModule()) {
-            tabs.add(new DashboardTab("Customer Relationship Management",
+            tabs.add(new Tab("Customer Relationship Management",
                     "Customer Relationship Management"));
         }
     }
@@ -216,12 +216,12 @@ public class Dashboard implements Serializable {
         this.render = render;
     }
 
-    public List<DashboardTab> getTabs() {
+    public List<Tab> getTabs() {
 
         return tabs;
     }
 
-    public void setTabs(ArrayList<DashboardTab> tabs) {
+    public void setTabs(ArrayList<Tab> tabs) {
         this.tabs = tabs;
     }
 

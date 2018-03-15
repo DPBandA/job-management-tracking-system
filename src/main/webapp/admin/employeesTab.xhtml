@@ -117,6 +117,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="View or edit employee"   
                              actionListener="#{systemManager.editEmployee}"
                              onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"

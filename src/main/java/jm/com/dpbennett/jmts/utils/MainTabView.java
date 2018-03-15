@@ -34,16 +34,16 @@ public class MainTabView implements Serializable {
 
     private Boolean render;
     private Integer tabIndex;
-    private List<MainTab> tabs;
+    private List<Tab> tabs;
     private JobManagerUser user;
-    private MainTab jobsTab;
-    private MainTab financialAdminTab;
-    private MainTab adminTab;
-    private MainTab jobDetailTab;
-    private MainTab clientsTab;
-    private MainTab reportsTab;
-    private MainTab cashierTab;
-    private MainTab jobCostingsTab;
+//    private MainTab jobsTab;
+//    private MainTab financialAdminTab;
+//    private MainTab adminTab;
+//    private MainTab jobDetailTab;
+//    private MainTab clientsTab;
+//    private MainTab reportsTab;
+//    private MainTab cashierTab;
+//    private MainTab jobCostingsTab;
 
     public MainTabView(JobManagerUser user) {
         this.user = user;
@@ -51,9 +51,9 @@ public class MainTabView implements Serializable {
         tabIndex = 0;
         render = false;
     }
-    
+
     public void setTabName(String tabId, String name) {
-        MainTab tab = findTab(tabId);
+        Tab tab = findTab(tabId);
         if (tab != null) {
             tab.setName(name);
         }
@@ -75,7 +75,7 @@ public class MainTabView implements Serializable {
 
     public void update(String tabId, String componentId, String componentVar) {
         RequestContext context = RequestContext.getCurrentInstance();
-        MainTab tab = findTab(tabId);
+        Tab tab = findTab(tabId);
 
         if (tab != null) {
             context.update(componentId);
@@ -125,10 +125,10 @@ public class MainTabView implements Serializable {
         }
     }
 
-    public MainTab findTab(String tabId) {
+    public Tab findTab(String tabId) {
         tabIndex = 0;
 
-        for (MainTab tab : tabs) {
+        for (Tab tab : tabs) {
             if (tab.getId().equals(tabId)) {
                 return tab;
             }
@@ -143,7 +143,7 @@ public class MainTabView implements Serializable {
     }
 
     public int getTabIndex(String tabId) {
-        MainTab tab = findTab(tabId);
+        Tab tab = findTab(tabId);
         if (tab != null) {
             return tabIndex;
         }
@@ -151,85 +151,29 @@ public class MainTabView implements Serializable {
         return -1;
     }
 
-    public void renderTab(
+    public void addTab(
             EntityManager em,
             String tabId,
             Boolean render) {
 
-        MainTab tab = findTab(tabId);
+        Tab tab = findTab(tabId);
 
         if (tab != null && !render) {
-            // MainTab is being removed
-            switch (tabId) {
-                case "jobsViewTab":
-                    tab.setRenderJobsTab(em, render);
-                    break;
-//                case "jobDetailTab":
-//                    tab.setRenderJobDetailTab(render);
-//                    break;
-                case "financialAdminTab":
-                    tab.setRenderFinancialAdminTab(em, render);
-                    break;
-                case "adminTab":
-                    tab.setRenderAdminTab(em, render);
-                    break;
-                case "clientsTab":
-                    tab.setRenderClientsTab(render);
-                    break;
-                case "reportsTab":
-                    tab.setRenderReportsTab(render);
-                    break;
-//                case "cashierTab":
-//                    tab.setRenderCashierTab(render);
-//                    break;
-//                case "jobCostingsTab":
-//                    tab.setRenderJobCostingsTab(render);
-//                    break;
-                default:
-                    break;
-            }
+            // Tab is being removed           
             tabs.remove(tab);
         } else if (tab != null && render) {
-            // MainTab already rendered
+            // Tab already rendered
         } else if (tab == null && !render) {
-            // MainTab is not be rendered            
+            // Tab is not be rendered            
         } else if (tab == null && render) {
-            // MainTab is to be rendered    
-            switch (tabId) {
-                case "jobsViewTab":
-                    jobsTab.setRenderJobsTab(em, render);
-                    tabs.add(jobsTab);
-                    break;
-                case "financialAdminTab":
-                    financialAdminTab.setRenderFinancialAdminTab(em, render);
-                    tabs.add(financialAdminTab);
-                    break;
-                case "adminTab":
-                    adminTab.setRenderAdminTab(em, render);
-                    tabs.add(adminTab);
-                    break;
-                case "clientsTab":
-                    clientsTab.setRenderClientsTab(render);
-                    tabs.add(clientsTab);
-                    break;
-                case "reportsTab":
-                    reportsTab.setRenderReportsTab(render);
-                    tabs.add(reportsTab);
-                    break;
-//                case "cashierTab":
-//                    cashierTab.setRenderCashierTab(render);
-//                    tabs.add(cashierTab);
-//                    break;
-//                case "jobCostingsTab":
-//                    jobCostingsTab.setRenderJobCostingsTab(render);
-//                    tabs.add(jobCostingsTab);
-//                    break;
-                default:
-                    break;
-            }
-
-            //select(render);
+            // Tab is to be rendered 
+            tabs.add(new Tab(tabId, tabId));
         }
+
+        // Update accordion and select the appropriate tab
+        update("mainTabViewForm:mainTabView");
+
+        select(render);
 
     }
 
@@ -238,161 +182,144 @@ public class MainTabView implements Serializable {
     }
 
     private void init() {
-        // Jobs tab
-        jobsTab = new MainTab(
-                "jobsTab",
-                "Jobs",
-                getUser().getIsJobsPreferredJobTableView(),
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                getUser());
-        // Financial admin tab
-        financialAdminTab = new MainTab(
-                "financialAdminTab",
-                "Financial Administration",
-                false,
-                false,
-                getUser().getModules().getFinancialAdminModule(),
-                false,
-                false,
-                false,
-                false,
-                false,
-                getUser());
-        // Admin tab
-        adminTab = new MainTab(
-                "adminTab",
-                "System Administration",
-                false,
-                false,
-                false,
-                getUser().getModules().getAdminModule(),
-                false,
-                false,
-                false,
-                false,
-                getUser());
-        // Job detail tab
-        jobDetailTab = new MainTab(
-                "jobsViewTab",
-                "Jobs View",
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                getUser());
-        // Clients tab
-        clientsTab = new MainTab(
-                "clientsTab",
-                "Clients",
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                getUser());
-        // Reports tab
-        reportsTab = new MainTab(
-                "reportsTab",
-                "Reports",
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                getUser());
-        // Cashier tab
-        cashierTab = new MainTab(
-                "cashierTab",
-                "Cashier View",
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                getUser().getIsCashierPreferredJobTableView(),
-                false,
-                getUser());
-        // Job Costings tab
-        jobCostingsTab = new MainTab(
-                "jobCostingsTab",
-                "Job Costings",
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                false,
-                getUser().getIsJobCostingsPreferredJobTableView(),
-                getUser());
+//        // Jobs tab
+//        jobsTab = new MainTab(
+//                "jobsTab",
+//                "Jobs",
+//                getUser().getIsJobsPreferredJobTableView(),
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                getUser());
+//        // Financial admin tab
+//        financialAdminTab = new MainTab(
+//                "financialAdminTab",
+//                "Financial Administration",
+//                false,
+//                false,
+//                getUser().getModules().getFinancialAdminModule(),
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                getUser());
+//        // Admin tab
+//        adminTab = new MainTab(
+//                "adminTab",
+//                "System Administration",
+//                false,
+//                false,
+//                false,
+//                getUser().getModules().getAdminModule(),
+//                false,
+//                false,
+//                false,
+//                false,
+//                getUser());
+//        // Job detail tab
+//        jobDetailTab = new MainTab(
+//                "jobsViewTab",
+//                "Jobs View",
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                getUser());
+//        // Clients tab
+//        clientsTab = new MainTab(
+//                "clientsTab",
+//                "Clients",
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                getUser());
+//        // Reports tab
+//        reportsTab = new MainTab(
+//                "reportsTab",
+//                "Reports",
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                getUser());
+//        // Cashier tab
+//        cashierTab = new MainTab(
+//                "cashierTab",
+//                "Cashier View",
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                getUser().getIsCashierPreferredJobTableView(),
+//                false,
+//                getUser());
+//        // Job Costings tab
+//        jobCostingsTab = new MainTab(
+//                "jobCostingsTab",
+//                "Job Costings",
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                false,
+//                getUser().getIsJobCostingsPreferredJobTableView(),
+//                getUser());
+
+        if (getUser().getModules().getJobManagementAndTrackingModule()) {
+            tabs.add(new Tab("Job Browser", "Job Browser"));
+        }
+        if (getUser().getModules().getAdminModule()) {
+            tabs.add(new Tab("System Administration", "System Administration"));
+        }
+        if (getUser().getModules().getFinancialAdminModule()) {
+            tabs.add(new Tab("Financial Administration", "Financial Administration"));
+        }
+//        if (getUser().getModules().getComplianceModule()) {
+//            tabs.add(new Tab("Clients", "Clients"));
+//        }
+//        if (getUser().getModules().getFoodsModule()) {
+//            tabs.add(new Tab("Reports", "Reports"));
+//        }
     }
 
     public void reset(JobManagerUser user) {
         this.user = user;
-        // Remove all
+
+        // Remove all tabs re-init
         removeAllTabs();
-        // Construct tabs
         init();
-        // Add tabs
-        if (getUser().getIsJobsPreferredJobTableView()) {
-            tabs.add(jobsTab);
-        }
-        if (getUser().getIsCashierPreferredJobTableView()) {
-            tabs.add(cashierTab);
-        }
-        if (getUser().getIsJobCostingsPreferredJobTableView()) {
-            tabs.add(jobCostingsTab);
-        }
-        if (getUser().getModules().getFinancialAdminModule()) {
-            tabs.add(financialAdminTab);
-        }
-        if (getUser().getModules().getAdminModule()) {
-            tabs.add(adminTab);
-        }
-        
+
         setRender(true);
     }
 
-    public List<MainTab> getTabs() {
-        //return tabs;
-        // tk
-//        if (tabs.isEmpty()) {
-//            MainTab blank = new MainTab(
-//                    "",
-//                    "",
-//                    false,
-//                    false,
-//                    false,
-//                    false,
-//                    false,
-//                    false,
-//                    false,
-//                    false,
-//                    null);
-//            tabs.add(blank);
-//        }
+    public List<Tab> getTabs() {
 
         return tabs;
     }
 
-    public void setTabs(ArrayList<MainTab> tabs) {
+    public void setTabs(ArrayList<Tab> tabs) {
         this.tabs = tabs;
     }
 

@@ -1,7 +1,9 @@
 # Things to do
+
 ## Database update
-- Add required fields to JMUser and Privilege tables for all databases.
+- Add JMUser fields: 
 - Add MODULES_ID to JMUsers and modules table to database. 
+- Add Module table and fields
 
 ## Inception Report and Misc
 - Get procedure documents from QEMS of the BSJ, NCRA and NCBJ
@@ -9,39 +11,17 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Deal with saving user details when the user is already logged on.
-  * Save user immediately when module is selected in pref. dialog??
-    Check why it doesn't work otherwise.
-  * Retire use of Units in JMUser and create Module class instead. Use the term
-    Module and not Unit where applicable.
-  * Rename "canAccess?Unit" to "canAccess?Module"
-  * Test adding new user.
-  * Add "dirty" field to privilege and use when saving user.
-  * Load user record from database when opening preference dialog.
-  * Add event listener for all privilege fields.
-- Preference dialog seems to set the job dirty. Fix that.
-- Impl adding/removing dashbaord tab based on preference selection
-- Impl dashboard (update live and test databases:
-  * Add Industrial Training/Customer Service Unit.
-  * If access privilege is unchecked then "turn off" the corresponding unit.
-  * Add field (legalOfficeUnit) for Legal Office to class and database.
-  * Modify dashboard and user menu to display tabs and menu items based on
-    privileges and selection.
-  * Move unit privileges to "Modules" tab.
-- Financial admin tab needs new button and search text field.
-- Change "Jobs" tab title to "Job Browser".
-- Look out for the changing of @ManagedBean to @Named where this is needed if
+- Dashboard not being updated when module is selected in preference dialog.
+- Impl MainTab view as is done with Dashboard:
+  * Create "jobsViewTab" with title "Job Browser" with multiple table views.
+  * Look out for the changing of @ManagedBean to @Named where this is needed if
   things do not work as expected.
 - Implement updating the jobs table loading a job from the table.
 - Redesign MainTabView and MainTab classes to use "p:repeat" and "jobsViewTab"
-  with multiple tables.
-- Externaldialogs take a long while to load. Check why? 
-  * Note first that objects are not being loaded in the dialogs.
-  * Test loading a simple dialog that does not access the database  
+  with multiple table views.
+- Impl dialog return and do search for all system option dialogs. Fix busy wait.
 - Check out the call financeManager.setEnableOnlyPaymentEditing(false/true);
   and see if it is still relevant.
-- "Handle keep alive" does not seem to be working. Fix. UseIdleMonitor and not the
-   "keepalive" method. Log off user if system is not used after timeout.
 - Remove "Job Detail" tab and fully implement Job Dialog (eg new job and edit job 
   and job costing and all other job views that are generated from the various job.
 - Impl "Organization" in JM user so that the user' correct organization can be
@@ -64,6 +44,8 @@
   as being edited.
 
 ## Misc & Reports
+- Consider associating the "Privilege" and "Modules" classes with other business
+  classes such as Division and Organization.
 - Add privileges to add/edit contact/address and put client privileges in own tab.
 - Add CRM and "Corporate Office" as modules.
 - Change context.execute to PrimeFaces.executeScript.
@@ -74,6 +56,8 @@
 - Add all new unit access privileges to class and database.
 - Setup jmts-processes as Activiti explorer for JMTS. Use jmts/jmtstest as the
   databases.
+- Remove Department from user profile and use the employee field to find the 
+  the user's department when needed
 - Add general preference to hide/show dashboard.
 - Add Standards and Certification as separate units in all databases.
 - Integrate Activiti with BSJ LDAP (AD).
@@ -129,6 +113,7 @@
   This may take at least a month. Study the proposal and layout a plan of action before starting.
 - Get rid of use of "--" to determine if a job is sub contracted cause selecting
   it "de-subcontracts" a job and turn it into a parent job.
+- Put 1px margin between toolbars and other components.
 - Note: Units are intrinsic parts of the JMTS such as JM, sys and financial admin. 
   Modules are additional features such legal documents and standard compliance. 
   Delete other units from the system such as legalmetrology??
@@ -638,11 +623,15 @@ NB (Put in Wiki): The job costing template is : c:\jasperreports\Job Costing.jas
 
 Database management
 
-Implement quick and advanced search for data lists.
-Remove excess classification entries for "Non-Earning - Internal Client Request" and "--". NB Check what is causing them to be created.
-Find all entities that references the current entity before deleting. try with employee and client for example. create interface for this.
-Remove fields from database that are not used: jobcostingandpayment: depositDate, jobcostingandpayment: dateOfLastPayment
+- Implement quick and advanced search for data lists.
+- Remove excess classification entries for "Non-Earning - Internal Client Request" 
+  and "--". NB Check what is causing them to be created.
+- Find all entities that references the current entity before deleting. try with 
+  employee and client for example. create interface for this.
+- Remove fields from database that are not used: 
+  eg jobcostingandpayment: depositDate, jobcostingandpayment: dateOfLastPayment
+- Rename privilege table to privileges.
 
-Notes:
+Notes
 
 Consider getting code for iReport and maintain it via github.

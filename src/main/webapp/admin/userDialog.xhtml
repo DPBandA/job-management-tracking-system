@@ -108,53 +108,79 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="canEnterJob" 
                                                  itemLabel="Enter any job" 
                                                  value="#{systemManager.selectedUser.privilege.canEnterJob}" >
-                            <p:ajax listener="#{systemManager.updateUserCanEnterJob}"   
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
                                     event="change"
                                     update="canEnterOwnJob,canEnterDepartmentJob"
                                     process="@this"/>
+
                         </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canEnterDepartmentJob" 
                                                  itemLabel="Enter department's jobs"
                                                  disabled="#{systemManager.selectedUser.privilege.canEnterJob}"
                                                  value="#{systemManager.selectedUser.privilege.canEnterDepartmentJob}" >
-                            <p:ajax listener="#{systemManager.updateCanEnterDepartmentJob}"   
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
                                     event="change"
                                     update="canEnterOwnJob"
                                     process="@this"/>
+
                         </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canEnterOwnJob" 
                                                  itemLabel="Enter own jobs"
                                                  disabled="#{systemManager.selectedUser.privilege.canEnterJob}"
-                                                 value="#{systemManager.selectedUser.privilege.canEnterOwnJob}" />
+                                                 value="#{systemManager.selectedUser.privilege.canEnterOwnJob}" >
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canEditJob"
                                                  itemLabel="Edit any job"
                                                  value="#{systemManager.selectedUser.privilege.canEditJob}">
-                            <p:ajax listener="#{systemManager.updateUserCanEditJob}"   
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
                                     event="change"
                                     update="canEditOwnJob,canEditDepartmentalJob"
                                     process="@this"/>
+
                         </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canEditDepartmentalJob" 
                                                  itemLabel="Edit department's jobs"
                                                  disabled="#{systemManager.selectedUser.privilege.canEditJob}"
                                                  value="#{systemManager.selectedUser.privilege.canEditDepartmentJob}" >
-                            <p:ajax listener="#{systemManager.updateCanEditDepartmentalJob}"   
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
                                     event="change"
-                                    update="canEditOwnJob"/>
+                                    process="@this"/>
+
                         </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canEditOwnJob" 
                                                  itemLabel="Edit own job"
                                                  disabled="#{systemManager.selectedUser.privilege.canEditJob}"
-                                                 value="#{systemManager.selectedUser.privilege.canEditOwnJob}"/>
+                                                 value="#{systemManager.selectedUser.privilege.canEditOwnJob}" >
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canApproveJobCosting" 
                                                  itemLabel="Approve job costing for department"
-                                                 value="#{systemManager.selectedUser.privilege.canApproveJobCosting}"/>
+                                                 value="#{systemManager.selectedUser.privilege.canApproveJobCosting}">
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
                     </h:panelGrid>
                 </p:tab>
@@ -162,45 +188,79 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="3" cellspacing="10">
                         <p:selectBooleanCheckbox id="canAddClient" 
                                                  itemLabel="Add client"
-                                                 value="#{systemManager.selectedUser.privilege.canAddClient}" />
+                                                 value="#{systemManager.selectedUser.privilege.canAddClient}" >
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canDeleteClient" 
                                                  itemLabel="Delete client"
-                                                 value="#{systemManager.selectedUser.privilege.canDeleteClient}" />
+                                                 value="#{systemManager.selectedUser.privilege.canDeleteClient}" >
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canAddEmployee" 
                                                  itemLabel="Add employee"
-                                                 value="#{systemManager.selectedUser.privilege.canAddEmployee}" />
+                                                 value="#{systemManager.selectedUser.privilege.canAddEmployee}" >
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canDeleteEmployee" 
                                                  itemLabel="Delete employee"
-                                                 value="#{systemManager.selectedUser.privilege.canDeleteEmployee}" />
+                                                 value="#{systemManager.selectedUser.privilege.canDeleteEmployee}" >
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canAddDepartment" 
                                                  itemLabel="Add department"
-                                                 value="#{systemManager.selectedUser.privilege.canAddDepartment}" />
+                                                 value="#{systemManager.selectedUser.privilege.canAddDepartment}" >
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canDeleteDepartment" 
                                                  itemLabel="Delete department"
-                                                 value="#{systemManager.selectedUser.privilege.canDeleteDepartment}" />
+                                                 value="#{systemManager.selectedUser.privilege.canDeleteDepartment}" >
 
-                        <p:selectBooleanCheckbox id="canBeFinancialAdministrator" 
-                                                 itemLabel="Financial administrator"
-                                                 value="#{systemManager.selectedUser.privilege.canBeFinancialAdministrator}" />
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
 
-                        <p:selectBooleanCheckbox id="canBeJMTSAdministrator" 
-                                                 itemLabel="System administrator"
-                                                 value="#{systemManager.selectedUser.privilege.canBeJMTSAdministrator}" />
+                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canBeSuperUser" 
                                                  itemLabel="Super User"
                                                  rendered="#{systemManager.selectedUser.privilege.canBeSuperUser}"
-                                                 value="#{systemManager.selectedUser.privilege.canBeSuperUser}" />                       
+                                                 value="#{systemManager.selectedUser.privilege.canBeSuperUser}" >
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>                       
                     </h:panelGrid>
                 </p:tab>
 
                 <p:tab title="Module Access">
-                    <h:panelGrid columns="4" cellspacing="10">
+                    <h:panelGrid columns="3" cellspacing="10">
 
                         <p:selectBooleanCheckbox id="canAccessComplianceUnit" 
                                                  itemLabel="Standard Compliance"
@@ -277,6 +337,26 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="canAccessCRMUnit" 
                                                  itemLabel="CRM"
                                                  value="#{systemManager.selectedUser.privilege.canAccessCRMUnit}" >
+
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
+
+                        <p:selectBooleanCheckbox id="canBeFinancialAdministrator" 
+                                                 itemLabel="Financial administration"
+                                                 value="#{systemManager.selectedUser.privilege.canBeFinancialAdministrator}" >
+
+                            <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                    global="false"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
+
+                        <p:selectBooleanCheckbox id="canBeJMTSAdministrator" 
+                                                 itemLabel="System administration"
+                                                 value="#{systemManager.selectedUser.privilege.canBeJMTSAdministrator}" >
 
                             <p:ajax listener="#{systemManager.updateModuleAccess}"
                                     global="false"

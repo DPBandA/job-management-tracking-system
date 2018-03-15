@@ -31,8 +31,8 @@ Email: info@dpbennett.com.jm
                              actionListener="#{systemManager.createNewSector}"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
-                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
                              onerror="PF('connectionErrorDialog').show();"
+                             update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus" >
@@ -55,7 +55,7 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
-        
+
         <p:toolbarGroup align="right">
             <p:outputLabel for="activeSectorsOnly" value="Active sectors only: " />  
             <h:panelGroup>
@@ -72,7 +72,7 @@ Email: info@dpbennett.com.jm
                 <p:spacer width="15" />                
             </h:panelGroup>
         </p:toolbarGroup>
-        
+
     </p:toolbar>    
     <p:dataTable id="SectorsTable"                                       
                  var="sector"     
@@ -119,7 +119,8 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit sector"   
                              actionListener="#{systemManager.editSector}"
-                             onstart="PF('longProcessDialogVar').show();"                                                                    
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"

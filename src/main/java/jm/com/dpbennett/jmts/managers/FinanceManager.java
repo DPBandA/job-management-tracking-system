@@ -75,6 +75,7 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 /**
@@ -1095,7 +1096,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void cancelJobCostingDialog() {
         setJobCostingAndPaymentDirty(false);
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void closeUnitCostDialog() {
@@ -1113,7 +1114,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void cancelJobCostingEdit(ActionEvent actionEvent) {
         setIsDirty(false);
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelJobCostingAndPayment(ActionEvent actionEvent) {
@@ -1144,11 +1145,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void okJobCosting(ActionEvent actionEvent) {
 
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        try {
-
-            //currentJob.getJobCostingAndPayment().calculateAmountDue();
+       try {
 
             if (getUser().getEmployee() != null) {
                 currentJob.getJobCostingAndPayment().setFinalCostDoneBy(getUser().getEmployee().getName());
@@ -1158,7 +1155,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             System.out.println(e);
         }
 
-        context.closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public Boolean validateCurrentJobCosting() {
@@ -1472,7 +1469,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void cancelCashPaymentEdit() {
         selectedCashPayment.setIsDirty(false);
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void cancelCostComponentEdit() {
@@ -1566,7 +1563,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         updateFinalCost();
         updateAmountDue();
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -2012,13 +2009,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void deleteCashPayment() {
 
         List<CashPayment> payments = currentJob.getJobCostingAndPayment().getCashPayments();
-        //int index = 0;
+        
         for (CashPayment payment : payments) {
             if (payment.equals(selectedCashPayment)) {
                 payments.remove(selectedCashPayment);
                 break;
             }
-            //++index;
         }
 
         updateFinalCost();
@@ -2035,7 +2031,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                     "The payment was deleted but the job was not saved", FacesMessage.SEVERITY_WARN);
         }
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
 
     }
 
@@ -2045,7 +2041,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void closeJCashPaymentDeleteConfirmDialog() {
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public void openJobPricingsDialog() {

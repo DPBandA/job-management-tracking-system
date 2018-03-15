@@ -19,12 +19,12 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.utils;
 
-public class DashboardTab {
+public class Tab {
 
     private String id;
     private String name;
    
-    public DashboardTab(
+    public Tab(
             String id,
             String name) {
 

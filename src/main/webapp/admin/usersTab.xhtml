@@ -29,8 +29,9 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new user"                                  
                              value="New"                                                     
                              actionListener="#{systemManager.createNewUser}"
-                             onstart="longProcessDialogVar.show();"                             
-                             onerror="connectionErrorDialog.show();"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus">

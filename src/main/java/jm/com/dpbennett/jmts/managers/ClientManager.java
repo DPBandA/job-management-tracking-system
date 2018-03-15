@@ -44,6 +44,7 @@ import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.business.entity.validator.AddressValidator;
 import jm.com.dpbennett.business.entity.validator.ContactValidator;
 import jm.com.dpbennett.jmts.Application;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 
 /**
@@ -325,7 +326,7 @@ public class ClientManager implements Serializable {
 
         setIsDirty(false);
 
-        RequestContext.getCurrentInstance().closeDialog(null);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
     public EntityManager getEntityManager() {
@@ -398,7 +399,7 @@ public class ClientManager implements Serializable {
                 getCurrentJob().setClient(getCurrentClient());
             }
 
-            RequestContext.getCurrentInstance().closeDialog(null);
+            PrimeFaces.current().dialog().closeDynamic(null);
 
         } catch (Exception e) {
             System.out.println(e);

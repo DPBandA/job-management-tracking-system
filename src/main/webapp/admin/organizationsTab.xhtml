@@ -93,14 +93,14 @@ Email: info@dpbennett.com.jm
             </f:facet>
             <h:outputText value="#{business.name}" />
         </p:column>   
-        
-         <p:column>
+
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Notes"/>
             </f:facet>
             <h:outputText value="#{business.notes}" />
         </p:column>
-        
+
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Departments"/>
@@ -112,6 +112,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="View or edit organization"   
                              actionListener="#{systemManager.editBusiness}"
                              onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"

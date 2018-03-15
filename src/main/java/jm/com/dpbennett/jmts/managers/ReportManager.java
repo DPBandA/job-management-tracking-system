@@ -229,7 +229,7 @@ public class ReportManager implements Serializable {
     }
 
     public void closeReportsTab() {
-        mainTabView.renderTab(getEntityManager1(), "reportsTab", false);
+        mainTabView.addTab(getEntityManager1(), "reportsTab", false);
     }
 
     public JobManagerUser getUser() {
