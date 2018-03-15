@@ -24,7 +24,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -49,13 +48,12 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
-import jm.com.dpbennett.jmts.Application;
 
 /**
  *
  * @author Desmond Bennett
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class ContractManager implements Serializable, BusinessEntityManagement {
 

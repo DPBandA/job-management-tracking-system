@@ -92,12 +92,11 @@ Email: info@dpbennett.com.jm
                              actionListener="#{jobManager.editJob}"                             
                              onstart="PF('longProcessDialogVar').show();"
                              onerror="PF('connectionErrorDialog').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
-                
-                <p:resetInput target=":mainTabViewForm:mainTabView" />
-                          
+                                          
                 <f:setPropertyActionListener value="#{job}"
                                              id="editJobButtonPropListener"
                                              target="#{jobManager.editCurrentJob}" />

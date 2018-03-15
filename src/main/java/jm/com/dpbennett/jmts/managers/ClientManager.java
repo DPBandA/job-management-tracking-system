@@ -51,7 +51,7 @@ import org.primefaces.event.CellEditEvent;
  *
  * @author dbennett
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class ClientManager implements Serializable {
 
@@ -73,7 +73,7 @@ public class ClientManager implements Serializable {
     public ClientManager() {
         init();
     }
-
+    
     private void init() {
         isClientNameAndIdEditable = false; // tk put as transient in Client
         foundClients = new ArrayList<>();
@@ -260,7 +260,7 @@ public class ClientManager implements Serializable {
     public void editSelectedClient() {
         setCurrentJob(null);
 
-        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
     }
 
     public void updateClient() {
@@ -290,7 +290,7 @@ public class ClientManager implements Serializable {
         setCurrentJob(null);
         setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 420, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
     }
 
     public Boolean getIsDirty() {

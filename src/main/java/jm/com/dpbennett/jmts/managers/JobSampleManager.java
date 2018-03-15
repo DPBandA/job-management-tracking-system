@@ -47,7 +47,7 @@ import org.primefaces.context.RequestContext;
  *
  * @author Desmond Bennett
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class JobSampleManager implements Serializable, BusinessEntityManagement {
 
@@ -119,7 +119,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         jobSampleDialogTabViewActiveIndex = 0;
 
         if (event != null) {
-            PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
+            PrimeFacesUtils.openDialog(null, "/job/sample/jobSampleDialog", true, true, true, 600, 700);
         }
     }
 
@@ -292,7 +292,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
     public void editJobSample(ActionEvent event) {
         jobSampleDialogTabViewActiveIndex = 0;
-        PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
+        PrimeFacesUtils.openDialog(null, "/job/sample/jobSampleDialog", true, true, true, 600, 700);
     }
 
     public void setEditSelectedJobSample(JobSample selectedJobSample) {
@@ -336,7 +336,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public void copyJobSample() {
-        PrimeFacesUtils.openDialog(null, "jobSampleDialog", true, true, true, 600, 700);
+        PrimeFacesUtils.openDialog(null, "/job/sample/jobSampleDialog", true, true, true, 600, 700);
     }
 
     public void setCopySelectedJobSample(JobSample selectedJobSample) {

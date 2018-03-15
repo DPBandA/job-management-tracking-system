@@ -32,9 +32,9 @@ public class PrimeFacesUtils {
         options.put("contentHeight", contentHeight);
         options.put("contentWidth", contentWidth);
 
-        //RequestContext.getCurrentInstance().openDialog(outcome, options, null);
         PrimeFaces.current().dialog().openDynamic(outcome, options, null);
-                
+        //RequestContext.getCurrentInstance().openDialog(outcome, options, null);
+                        
     }
 
     public static void addMessage(String summary, String detail, FacesMessage.Severity severity) {

@@ -130,25 +130,21 @@ Email: info@dpbennett.com.jm
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
-            </p:autoComplete>     
-           
+            </p:autoComplete>               
             <p:menuButton id="clientActionsMenu" value="Actions">
                 <p:menuitem>                       
                     <p:commandButton value="Edit client"
-                                     id="editClient"
                                      icon="ui-icon-pencil" 
                                      disabled="${!jobManager.isClientNameValid}"
                                      style="width: 100%;text-align: left;background: none;border: 0;"
                                      onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
+                                     oncomplete="PF('longProcessDialogVar').show();"
                                      actionListener="#{jobManager.editJobClient}"  
                                      process="@this,client"                             
-                                     title="View or edit this client's detail">  
-                        
+                                     title="View or edit this client's detail">   
                         <p:ajax event="dialogReturn" 
                                 listener="#{clientManager.clientDialogReturn}"
                                 update="client,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
-                        
                     </p:commandButton>            
                 </p:menuitem>
 
@@ -158,7 +154,6 @@ Email: info@dpbennett.com.jm
                         icon="ui-icon-plus" 
                         style="width: 100%;text-align: left;background: none;border: 0;"
                         onstart="PF('longProcessDialogVar').show();"
-                        oncomplete="PF('longProcessDialogVar').hide();"
                         disabled="#{!jobManager.user.privilege.canAddClient}"
                         actionListener="#{jobManager.createNewJobClient}"                                            
                         process="@this"
@@ -252,13 +247,13 @@ Email: info@dpbennett.com.jm
                         converter="departmentConverter"
                         validator="businessEntityValidator"
                         completeMethod="#{App.completeDepartment}" >            
-
+           
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
                     update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
                     process="@this" />
-
+           
 
         </p:autoComplete>     
 
@@ -291,7 +286,7 @@ Email: info@dpbennett.com.jm
                     listener="#{jobManager.updateSubContractedDepartment}"
                     update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
                     process="@this" />
-
+           
         </p:autoComplete>
 
         <h:outputText value="Dept. rep./Assignee: " style="font-weight: bold" />
@@ -310,12 +305,12 @@ Email: info@dpbennett.com.jm
                             dropdown="true"
                             scrollHeight="200" 
                             completeMethod="#{App.completeEmployee}" >
-
+                
                 <p:ajax event="itemSelect"
                         listener="#{jobManager.updateJob}"
                         update=":jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
-
+               
             </p:autoComplete>           
         </h:panelGroup>
 

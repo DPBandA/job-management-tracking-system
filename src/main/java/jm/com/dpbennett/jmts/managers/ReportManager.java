@@ -41,7 +41,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -51,9 +50,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import jm.com.dpbennett.business.entity.Address;
-import jm.com.dpbennett.business.entity.Client;
-import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.DepartmentReport;
@@ -92,17 +88,14 @@ import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
-import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.MainTabView;
 import net.sf.jasperreports.engine.JasperRunManager;
 import org.primefaces.event.SelectEvent;
@@ -111,7 +104,7 @@ import org.primefaces.event.SelectEvent;
  *
  * @author Desmond Bennett
  */
-@ManagedBean
+@Named
 @SessionScoped
 public class ReportManager implements Serializable {
 

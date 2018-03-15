@@ -29,6 +29,7 @@ Email: info@dpbennett.com.jm
                 global="true"                                        
                 onstart="PF('longProcessDialogVar').show();" 
                 onerror="PF('connectionErrorDialog').show();"
+                oncomplete="PF('longProcessDialogVar').hide();"
                 value="New"       
                 update="headerForm:growl3"
                 title="Create new job"
@@ -44,9 +45,9 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="right">
             <p:menuButton value="Tools" >  
                 <p:menuitem value="Job Browser"
-                            onstart="PF('longProcessDialogVar').show();"                                                    
-                            actionListener="#{jobManager.openJobBrowser}"
+                            onstart="PF('longProcessDialogVar').show();" 
                             oncomplete="PF('longProcessDialogVar').hide();"
+                            actionListener="#{jobManager.openJobBrowser}"                            
                             process="@this"/>
                 <p:separator />
                 <p:menuitem value="Client management"

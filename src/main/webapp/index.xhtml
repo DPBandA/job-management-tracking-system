@@ -132,19 +132,19 @@ Email: info@dpbennett.com.jm
 
 
                         <p:tab title="#{t.name}" closable="true"  >
-                            <h:panelGroup rendered="#{t.name == 'Job Browser'}">                                
-                                <ui:include src="job/jobsTab.xhtml" />   
+                            <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
+                                <ui:include src="job/jobBrowser.xhtml" />   
                             </h:panelGroup>                           
-                            <h:panelGroup  rendered="#{t.name == 'Financial Administration'}">
+                            <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
                                 <ui:include src="admin/financialAdminTab.xhtml" /> 
                             </h:panelGroup>
-                            <h:panelGroup rendered="#{t.name == 'System Administration'}" >
+                            <h:panelGroup rendered="#{t.id == 'System Administration'}" >
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
                             </h:panelGroup>                           
-                            <h:panelGroup rendered="#{t.name == 'Clients'}" >
+                            <h:panelGroup rendered="#{t.id == 'Clients'}" >
                                 <ui:include src="client/clientsTab.xhtml" />                                                                
                             </h:panelGroup>
-                            <h:panelGroup rendered="#{t.name == 'Reports'}" >
+                            <h:panelGroup rendered="#{t.id == 'Reports'}" >
                                 <ui:include src="report/reportsTab.xhtml" />                                                                
                             </h:panelGroup>
                         </p:tab>
@@ -186,47 +186,47 @@ Email: info@dpbennett.com.jm
 
                         <p:tab title="#{t.name}" > 
 
-                            <h:panelGroup rendered="#{t.name == 'Job Management'}">
+                            <h:panelGroup rendered="#{t.id == 'Job Management'}">
                                 <ui:include src="dashboard/jobmanagement/jobsTab.xhtml" />
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'System Administration'}">
+                            <h:panelGroup rendered="#{t.id == 'System Administration'}">
                                 System Administration
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'Financial Administration'}">
+                            <h:panelGroup rendered="#{t.id == 'Financial Administration'}">
                                 Financial Administration
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'Standard Compliance'}">
+                            <h:panelGroup rendered="#{t.id == 'Standard Compliance'}">
                                 Standard Compliance
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'Food Inspectorate'}">
+                            <h:panelGroup rendered="#{t.id == 'Food Inspectorate'}">
                                 Food Inspectorate
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'Legal Metrology'}">
+                            <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
                                 Legal Metrology
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'Standards'}">
+                            <h:panelGroup rendered="#{t.id == 'Standards'}">
                                 Standards
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'Certification'}">
+                            <h:panelGroup rendered="#{t.id == 'Certification'}">
                                 Certification
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'Service Request'}">
+                            <h:panelGroup rendered="#{t.id == 'Service Request'}">
                                 Service Request
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'Legal Office'}">
+                            <h:panelGroup rendered="#{t.id == 'Legal Office'}">
                                 Legal Office
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.name == 'Customer Relationship Management'}">
+                            <h:panelGroup rendered="#{t.id == 'Customer Relationship Management'}">
                                 Customer Relationship Management
                             </h:panelGroup>
 

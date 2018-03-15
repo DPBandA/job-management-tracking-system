@@ -11,15 +11,14 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Dashboard not being updated when module is selected in preference dialog.
-- Make "canAccessJMTS" default to true.
-- Impl MainTab view as is done with Dashboard:
-  * Create "jobsViewTab" with title "Job Browser" with multiple table views.
-  * Look out for the changing of @ManagedBean to @Named where this is needed if
-  things do not work as expected.
+- Impl creating and editing Job. Look out for "Named" and "ManagedBean" issue.
+  * Fix samples table
+  * Fix creating and editing samples
+  * (edited) does not go away when job is saved.
 - Implement updating the jobs table loading a job from the table.
-- Redesign MainTabView and MainTab classes to use "p:repeat" and "jobsViewTab"
-  with multiple table views.
+- :jobDialogForm:jobFormTabView:jobNumber/jobSamples was removed from samples table or related component
+  "update" check if it is needed and should be reintroduced.
+- Impl add MainView tab when selected in preferences.
 - Impl dialog return and do search for all system option dialogs. Fix busy wait.
 - Check out the call financeManager.setEnableOnlyPaymentEditing(false/true);
   and see if it is still relevant.
@@ -74,6 +73,7 @@
 - Don't allow Comments/Description fields to grow in height when text is entered
   as is done in the System Option Detail dialog.
 - Show date of activity for user in user profiles table.
+- widen the panels under service contract general services.
 - business_department table to be added to database table if it is automatically
   added during deployment.
 - Check service contract comes out good on live jmts.
@@ -132,6 +132,7 @@
 - Remove department from employee dialog and start using department from JM user
   whenever the user's department is needed.
 - Add head and active fields to Business class and table.
+- Put page in address and contact tables for client dialog.
 Impl preventing job costing and payment from being edited once job is marked as complete.
 Impl option to use LADP or some other authentication system.
 Impl dialogs for all admin configuration eg. classification etc. and put edit button in all tables.
@@ -236,7 +237,6 @@ Change label for department to "Parent department" when a job is subcontracted.
 Get rid of use of "--" for default objects.
 Let users tab filter active users, users that are authenticated and users that have recent activities.
 Create tax table and use it similar to gnucash to apply taxes to costs on a departmental basis.
-Remove the colons from field labels?
 Put toolbar in service contract tab to export service contract, uncheck as as exported, email service contract etc.
 In status and tracking add tracking table to show all activities performed on the job. Add section that allows added new action/activity such job completion. See design layouts provide by G. Allen.
 Show the list of privileges a user has in the preference dialog. Copy the UI from sysadmin and make it read only...put them in a separate file and use to bring them in.

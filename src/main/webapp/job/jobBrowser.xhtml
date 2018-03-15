@@ -23,13 +23,16 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <ui:include src="jobViewToolbar.xhtml"/>
-    <h:panelGroup rendered="#{tab.renderJobsTab}">    
+
+    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Jobs'}">    
         <ui:include src="jobsTable.xhtml"/>    
     </h:panelGroup>
-    <h:panelGroup rendered="#{tab.renderJobCostingsTab}">   
+
+    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">   
         <ui:include src="jobCostingsTable.xhtml"/>
     </h:panelGroup>
-    <h:panelGroup rendered="#{tab.renderCashierTab}"> 
+
+    <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}"> 
         <ui:include src="cashierViewTable.xhtml"/>
     </h:panelGroup>
 

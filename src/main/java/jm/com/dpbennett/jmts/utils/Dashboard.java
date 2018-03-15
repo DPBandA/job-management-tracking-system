@@ -60,9 +60,9 @@ public class Dashboard implements Serializable {
             // Tab is being removed           
             tabs.remove(tab);
         } else if (tab != null && render) {
-            // Tab already rendered
+            // Tab already added
         } else if (tab == null && !render) {
-            // Tab is not be rendered            
+            // Tab is not be added            
         } else if (tab == null && render) {
             // Tab is to be rendered 
             tabs.add(new Tab(tabId, tabId));

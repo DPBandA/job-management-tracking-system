@@ -129,6 +129,7 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton icon="ui-icon-pencil"
                              onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              actionListener="#{clientManager.editSelectedClient}"
                              process="@this"
                              title="View or edit this client's detail">
