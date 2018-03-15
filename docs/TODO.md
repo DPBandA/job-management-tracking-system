@@ -30,6 +30,7 @@
   * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
   * Impl businessConverter/Validator. 
   * Add active/head fields to Business class
+- Do report for Edmondson.
 - Start drafting "inception" report and workplan. See meeting notes.
 - Test Edit exiting and create new clients, contacts and addresses.
 - Test out creation and use of costing templates.
