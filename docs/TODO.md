@@ -14,6 +14,7 @@
 - Impl creating and editing Job. Look out for "Named" and "ManagedBean" issue.
   * Fix samples table
   * Fix creating and editing samples
+  * Fix edit job costing..Fix dialog.
   * (edited) does not go away when job is saved.
 - Implement updating the jobs table loading a job from the table.
 - :jobDialogForm:jobFormTabView:jobNumber/jobSamples was removed from samples table or related component
