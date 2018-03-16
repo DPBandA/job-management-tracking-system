@@ -27,8 +27,9 @@ Email: info@dpbennett.com.jm
             <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              value="Save"
-                             update=":jobDialogForm:growl2"
+                             update=":jobDialogForm"
                              title="Save current job"
                              icon="ui-icon-disk"
                              process="@form" />
@@ -38,8 +39,9 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Close"     
                              actionListener="#{jobManager.prepareToCloseJobDetail}"
                              onstart="PF('longProcessDialogVar').show();"
-                             immediate="true"
                              oncomplete="PF('longProcessDialogVar').hide();" 
+                             onerror="PF('connectionErrorDialog').show();"
+                             immediate="true"                             
                              process="@this"
                              icon="ui-icon ui-icon-close" />           
             
@@ -58,6 +60,7 @@ Email: info@dpbennett.com.jm
                 global="true"               
                 onstart="PF('longProcessDialogVar').show();"
                 oncomplete="PF('longProcessDialogVar').hide();"
+                onerror="PF('connectionErrorDialog').show();"
                 title="Subcontract the current job by first creating a copy."
                 icon="ui-icon-copy"
                 process="@this"/>

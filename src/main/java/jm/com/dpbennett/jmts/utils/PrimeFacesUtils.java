@@ -33,8 +33,11 @@ public class PrimeFacesUtils {
         options.put("contentWidth", contentWidth);
 
         PrimeFaces.current().dialog().openDynamic(outcome, options, null);
-        //RequestContext.getCurrentInstance().openDialog(outcome, options, null);
-                        
+                             
+    }
+    
+    public static void closeDialog(Object data) {
+        PrimeFaces.current().dialog().closeDynamic(data);
     }
 
     public static void addMessage(String summary, String detail, FacesMessage.Severity severity) {

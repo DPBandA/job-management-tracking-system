@@ -180,7 +180,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void jobDialogReturn() {
-        //PrimeFaces.current().executeScript("PF('longProcessDialogVar').hide();");
+        if (currentJob.getIsDirty()) {
+            PrimeFacesUtils.addMessage("Job was NOT saved", "The recently edited job was not saved", FacesMessage.SEVERITY_WARN);
+            PrimeFaces.current().ajax().update("headerForm:growl3");
+        }
     }
 
     public void reset() {
@@ -697,18 +700,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void prepareToCloseJobDetail() {
-
-        RequestContext requestContext = RequestContext.getCurrentInstance();
-
-        if (currentJob.getIsDirty()) {
-            requestContext.execute("PF('jobDetailTabCloseConfirmation').show();");
-        } else {
-            //requestContext.execute("PF('mainTabViewVar').remove(PF('mainTabViewVar').getActiveIndex());PF('mainTabViewVar').select(0);");
-            PrimeFaces.current().dialog().closeDynamic(null);
-        }
+        PrimeFacesUtils.closeDialog(null);
     }
 
-    public void onMainViewTabClose(TabCloseEvent event) {         
+    public void onMainViewTabClose(TabCloseEvent event) {
         String tabId = ((Tab) event.getData()).getId();
         mainTabView.addTab(getEntityManager1(), tabId, false);
     }
@@ -718,15 +713,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // String tabId = ((MainTab) event.getData()).getId();      
     }
 
-    public void closeJobDetailTab() {
-        currentJob.getJobStatusAndTracking().setEditStatus("");
-        mainTabView.addTab(getEntityManager1(), "jobDetailTab", false);
-    }
-
-    public void closeReportsTab() {
-        mainTabView.addTab(getEntityManager1(), "reportsTab", false);
-    }
-
+//    public void closeJobDetailTab() {
+//        currentJob.getJobStatusAndTracking().setEditStatus("");
+//        mainTabView.addTab(getEntityManager1(), "jobDetailTab", false);
+//    }
+//
+//    public void closeReportsTab() {
+//        mainTabView.addTab(getEntityManager1(), "reportsTab", false);
+//    }
     public void onDashboardTabChange(TabChangeEvent event) {
 
         //String tabId = ((DashboardTab) event.getData()).getId();
@@ -779,22 +773,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openJobBrowser() {
-//        if (getUser().getIsJobsPreferredJobTableView()) {
-//            mainTabView.addTab(getEntityManager1(), "jobsTab", true);
-//            mainTabView.addTab(getEntityManager1(), "cashierTab", false);
-//            mainTabView.addTab(getEntityManager1(), "jobCostingsTab", false);
-//        }
-//        if (getUser().getIsCashierPreferredJobTableView()) {
-//            mainTabView.addTab(getEntityManager1(), "jobsTab", false);
-//            mainTabView.addTab(getEntityManager1(), "cashierTab", true);
-//            mainTabView.addTab(getEntityManager1(), "jobCostingsTab", false);
-//        }
-//        if (getUser().getIsJobCostingsPreferredJobTableView()) {
-//            mainTabView.addTab(getEntityManager1(), "jobsTab", false);
-//            mainTabView.addTab(getEntityManager1(), "cashierTab", false);
-//            mainTabView.addTab(getEntityManager1(), "jobCostingsTab", true);
-//        }
-
         // Add the Job Browser tab is 
         mainTabView.addTab(getEntityManager1(), "Job Browser", true);
         mainTabView.select("Job Browser");
@@ -936,7 +914,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (checkUserJobEntryPrivilege()) {
             createJob(em, false);
             initManagers();
-
+            financeManager.setEnableOnlyPaymentEditing(false);
             PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
         } else {
             // tk test this code with user that does not have the required privilege.
@@ -1224,7 +1202,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getUser().save(getEntityManager1());
                 break;
             case "foodsUnit":
-                dashboard.addTab(getEntityManager1(), "Food Inspectorate",
+                dashboard.addTab(getEntityManager1(), "Foods Inspectorate",
                         getUser().getModules().getFoodsModule());
                 getUser().getModules().setIsDirty(true);
                 getUser().save(getEntityManager1());
@@ -1568,8 +1546,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void cancelJobEdit(ActionEvent actionEvent) {
         setIsDirty(false);
+        PrimeFacesUtils.closeDialog(null);
         doJobSearch(searchManager.getCurrentSearchParameters());
-//        setRenderJobDetailTab(false);
     }
 
     public void closePreferencesDialog2(CloseEvent closeEvent) {
@@ -1583,10 +1561,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void saveAndCloseCurrentJob() {
-
-//        setRenderJobDetailTab(false);
         saveCurrentJob();
-
+        PrimeFacesUtils.closeDialog(null);
     }
 
     public void saveCurrentJob() {
@@ -1811,11 +1787,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void editJobCostingAndPayment() {
-        RequestContext context = RequestContext.getCurrentInstance();
-
-        mainTabView.addTab(getEntityManager1(), "jobDetailTab", true);
-        mainTabView.select("jobDetailTab");
-        context.execute("PF('jobFormTabVar').select(0);");
+        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
     }
 
     public String getJobAssignee() {
@@ -2022,6 +1994,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void setEditCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
         initManagers();
+        financeManager.setEnableOnlyPaymentEditing(false);
     }
 
     public void setEditJobCosting(Job currentJob) {

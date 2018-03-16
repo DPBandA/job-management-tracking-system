@@ -70,7 +70,7 @@ Email: info@dpbennett.com.jm
                 <f:convertDateTime pattern="MMM dd, yyyy"/>
             </h:outputText>
         </p:column>     
-        
+
         <p:column sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" style="min-width: 100px" >
             <f:facet name="header">
                 <h:outputText value="EDOC"/>
@@ -79,31 +79,34 @@ Email: info@dpbennett.com.jm
                 <f:convertDateTime pattern="MMM dd, yyyy"/>
             </h:outputText>
         </p:column>
-        
+
         <p:column sortBy="#{job.jobStatusAndTracking.workProgress}" style="min-width: 85px" >
             <f:facet name="header">
                 <h:outputText value="Progress"/>
             </f:facet>
             <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />
         </p:column>
-        
+
         <p:column style="width:32px" >
             <p:commandButton title="View or edit job" 
                              actionListener="#{jobManager.editJob}"                             
                              onstart="PF('longProcessDialogVar').show();"
-                             onerror="PF('connectionErrorDialog').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
-                                          
+
                 <f:setPropertyActionListener value="#{job}"
                                              id="editJobButtonPropListener"
                                              target="#{jobManager.editCurrentJob}" />
 
+                <p:ajax event="dialogReturn" 
+                        listener="#{jobManager.jobDialogReturn}" />
+
             </p:commandButton>           
         </p:column>
-        
+
     </p:dataTable>
 
 

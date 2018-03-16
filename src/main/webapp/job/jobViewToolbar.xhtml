@@ -26,8 +26,7 @@ Email: info@dpbennett.com.jm
     <p:toolbar>
         <p:toolbarGroup align="left" >   
             <p:commandButton value="Approve"  
-                             rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
-                             
+                             rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
                              title="Approve the selected job costing(s)"
                              actionListener="#{jobManager.approveSelectedJobCostings}"
                              update=":headerForm:growl3,jobCostingsTable"
@@ -48,14 +47,16 @@ Email: info@dpbennett.com.jm
                 actionListener="#{jobManager.createNewJob}"
                 global="true"                
                 onstart="PF('longProcessDialogVar').show();" 
+                oncomplete="PF('longProcessDialogVar').hide();"
                 onerror="PF('connectionErrorDialog').show();"
                 value="New"                                       
                 title="Create new job"
                 icon="ui-icon-plusthick"
                 process="@this">  
 
-                <p:resetInput target=":mainTabViewForm:mainTabView" />
-
+                <p:ajax event="dialogReturn" 
+                        listener="#{jobManager.jobDialogReturn}" />
+                
             </p:commandButton>       
             <p:spacer width="20"/>
        

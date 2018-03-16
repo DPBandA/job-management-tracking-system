@@ -175,7 +175,7 @@ public class Dashboard implements Serializable {
             tabs.add(new Tab("Standard Compliance", "Standard Compliance"));
         }
         if (getUser().getModules().getFoodsModule()) {
-            tabs.add(new Tab("Food Inspectorate", "Food Inspectorate"));
+            tabs.add(new Tab("Foods Inspectorate", "Foods Inspectorate"));
         }
         if (getUser().getModules().getLegalMetrologyModule()) {
             tabs.add(new Tab("Legal Metrology", "Legal Metrology"));

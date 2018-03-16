@@ -50,15 +50,13 @@ Email: info@dpbennett.com.jm
 
             <p:commandButton value="Yes"                             
                              actionListener="#{jobManager.saveAndCloseCurrentJob}"
-                             onstart="PF('longProcessDialogVar').show();"
-                             update=":mainTabViewForm"
-                             oncomplete="PF('longProcessDialogVar').hide();PF('jobSaveConfirm').hide();PF('mainTabViewVar').select(0);"
+                             onstart="PF('longProcessDialogVar').show();"                            
+                             oncomplete="PF('longProcessDialogVar').hide();PF('jobSaveConfirm').hide();"
                              icon="ui-icon-check"
                              process="@this"/>
             <p:commandButton value="No"
-                             actionListener="#{jobManager.cancelJobEdit}"
-                             update=":mainTabViewForm"
-                             oncomplete="PF('jobSaveConfirm').hide();PF('mainTabViewVar').select(0);"
+                             actionListener="#{jobManager.cancelJobEdit}"                            
+                             oncomplete="PF('jobSaveConfirm').hide();"
                              icon="ui-icon-close"/>       
         </p:confirmDialog>
     </h:form>       
