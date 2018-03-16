@@ -142,37 +142,37 @@
 - Some report templates are given in system options while others are given in Report table. 
   Given all of them in Report table and delete the system options over time.
 - get(index) is used to get the main phone and fax numbers for a contact. 
-  This method may result in the returning of the right number for fax or phone so use the type field to solve this.
-Print service contract for only external client jobs??
-Upgrade to Primefaces 6.x to take advantage of responsive design, new features and components.
-Use to add favicon when one is designed.
-NB: JobManagerUser represents a user profile that has a Business, department, employee and privileges assigned. Departments also have privileges and the user privileges along with the user privileges are used to determine the effective privileges of the user.
-Add department to user dialog.
-Sort out all that needs to be "locked" once a job's status is marked as complete. Display a warning before the work progress is set to complete.
-Make TRN mandatory? Put system option to validate?
-Reset all UI when log out including searches results so that if a new user logs in they will not see the searches of the previous user.
-Try to put all styles as styleClass and put into index.css?
-Look at Garfield's design images on google docs for ideas.
-Design a favicon and make it system option.
-Display message when user logs on without authentication
+  This method may result in the returning of the right number for fax or phone 
+  so use the type field to solve this.
+- NB: JobManagerUser represents a user profile that has a employee and privileges assigned. 
+  Departments also have privileges and along with the user privileges are used 
+  to determine the effective privileges of the user.
+- Change CRM tab id and title to "Customer Management" and the Clients tab
+  in MainTabView to "Customer Management".
+- Remove department from user dialog.
+- Sort out all that needs to be "locked" once a job's status is marked as complete. 
+  Display a warning before the work progress is set to complete.
+- Reset all UI when log out including searches results so that if a new user logs 
+  in they will not see the searches of the previous user.
+- Display message when user logs on without authentication
 - Assign git tag to next release.
-Export sample condition(s) to service contract?
-Restrict generation of service contract to an authorized person/department?
-Put client ID# (TRN etc.) into service contract?
-- Implement a system to alert users if they have the same job opened.
-- Put button in service contract tab to generate service contract.
-- Create autocomplete list of "standard/common" product names using a "Distinct" 
+- Export sample condition(s) to service contract.
+- Restrict generation of service contract to an authorized person/department?
+  Put client ID# (TRN etc.) into service contract?
+Implement a system to alert users if they have the same job opened.
+Put button in service contract tab to generate service contract.
+Create autocomplete list of "standard/common" product names using a "Distinct" 
   type of the query on the existing samples.
-- Add parentSector to Sector class and add Sub-sector to Groupings tab. 
+Add parentSector to Sector class and add Sub-sector to Groupings tab. 
   Sub-sectors would be those that have a parent sector.
-- Add descriptions of grouping items to in "Groupings" tab.
-- For jasper reports fill in parameters such as images from configuration values 
+Add descriptions of grouping items to in "Groupings" tab.
+For jasper reports fill in parameters such as images from configuration values 
   stored in the database.
-- Impl job backup as is done with samples and job edit canceling and change 
+Impl job backup as is done with samples and job edit canceling and change 
   "close" button to "Cancel" button.
-- Change label Department* to Parent department* when job is subcontracted.
-- Check why GCT field shows yellow although it can be changed.
-- Add user/department privilege to add payments.
+Change label Department* to Parent department* when job is subcontracted.
+Check why GCT field shows yellow although it can be changed.
+Add user/department privilege to add payments.
 Add search fields and dialogs where they don't exist. Impl find* methods that take "active" as argument and add checkbox to show/hide active objects.
 Put Application class in BEL for reuse by managers and other code?
 Call JM init() to reset search results etc when user logs out.
