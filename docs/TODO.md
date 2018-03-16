@@ -44,6 +44,9 @@
   approved.
 - Allow system to allow copying and pasting into text field and record field
   as being edited.
+- Fix "Business office" dropdown menu in employee dialog.
+- For existing jobs add the contact/address to the client if it does not already exist in the 
+  client's list of contacts/addresses.
 
 ## Misc & Reports
 - Consider associating the "Privilege" and "Modules" classes with other business
@@ -133,38 +136,13 @@
 - Remove department from employee dialog and start using department from JM user
   whenever the user's department is needed.
 - Add head and active fields to Business class and table.
-- Put page in address and contact tables for client dialog.
-Impl preventing job costing and payment from being edited once job is marked as complete.
-Impl option to use LADP or some other authentication system.
-Impl dialogs for all admin configuration eg. classification etc. and put edit button in all tables.
-Convert job sample deletion dialog back to a element and in jobSamplesTab.xhtml so that growl messages can be displayed when samples are deleted.
-Do not allow the creation of entities such as employee with the same name or warn if this is to be done.
-Return costing templates with unique names and don't allow saving templates with same name.
-Impl new department button/feature. Use new employee as template code.
-Report things such as failed logins and login time and date in the user.activity field.
+- Put pages in address and contact tables for client dialog.
+- Impl preventing job costing and payment from being edited once job is marked as complete.
 - Prevent job costing from being edited once it is approved and not when the job is marked completed.
-Create Tracking/OperationsManager and use to manage job status and tracking
-Put the job number etc in the job detail tab title based on the tabs being shown eg. if it's only job costing and payment being shown then state that.
-Implement sub-sectors by adding a collections field in the sector class.
-Pass in the job only and not the contact and billing address to the Client Manager?
-Impl Job Numbering/Sequencing interface that can be implemented for various organizations including the one used for the BSJ.
-Put "Action" menu in client dialog to allow editing or creating new address/contact
-Add "Feedback" feature to allow user to report bugs, issues, feature request, contact developer etc.
-Impl "Actions" menu in jobs table that has "Edit", "Copy", "Subcontract". The privileges should be checked before doing so.
-If a new job is being created and the currently opened job is unclean then prompt to save it.
-Impl multiple selection in client tab so that the selected clients can be activated or deactivated fro example.
-Create Modules tab in user and department profiles to allow sys admin to control the modules that a user/department can access.
-Indicate in the tab title if a form such as the Job Detail form has been edited.
-Impl copy and delete sample within the sample dialog.
-Use tooltip component to get consistent tooltip across the app.
-User an "iterative" JSF component to implement the display of tabs and use collections to initialize the tabs.
-Add chat feature. Allow person to add their image to their user profile.
-Some report templates are given in system options while others are given in Report table. Given all of them in Report table and delete the system options over time.
-Do shallow copy of client, billing address and contact before saving job to ensure that future edits of the client's name, billing address and contact do not affect the job record?
-get(index) is used to get the main phone and fax numbers for a contact. This method may result in the returning of the right number for fax or phone so use the type field to solve this.
-Consider jmts.cloud, .co, .online as domains.
-Create netbeans module for installing the JMTS and adding modules.
-Implement searching for users that are not authenticated.
+- Some report templates are given in system options while others are given in Report table. 
+  Given all of them in Report table and delete the system options over time.
+- get(index) is used to get the main phone and fax numbers for a contact. 
+  This method may result in the returning of the right number for fax or phone so use the type field to solve this.
 Print service contract for only external client jobs??
 Upgrade to Primefaces 6.x to take advantage of responsive design, new features and components.
 Use to add favicon when one is designed.
