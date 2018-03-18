@@ -54,9 +54,11 @@
   client's list of contacts/addresses.
 - Test "Approve" and "Invoiced" buttons.
 - Run through process of entering, updating a job including subcontracts.
-- Setup http://bosapp/jmts and link the current app on boshrmapp to it using stealth url forwarding. Use the technique from zoneedit.
+- Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
+  stealth url forwarding. Use the technique from zoneedit.
+- Deploy on test production system.
 
-## Misc & Reports
+## Next release
 - Consider associating the "Privilege" and "Modules" classes with other business
   classes such as Division and Organization.
 - Add privileges to add/edit contact/address and put client privileges in own tab.
