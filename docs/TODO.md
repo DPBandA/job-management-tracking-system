@@ -11,6 +11,8 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
+- Do not automatically insert the default contact in job contact for existing jobs.
+  * Test this out with existing BSJ jobs.
 - Impl creating and editing Job. Look out for "Named" and "ManagedBean" issue.
   * Run financeManager.setEnableOnlyPaymentEditing(); where appropriate.
   * Fix closing job when it is dirty.
@@ -51,6 +53,8 @@
 - For existing jobs add the contact/address to the client if it does not already exist in the 
   client's list of contacts/addresses.
 - Test "Approve" and "Invoiced" buttons.
+- Run through process of entering, updating a job including subcontracts.
+- Setup http://bosapp/jmts and link the current app on boshrmapp to it using stealth url forwarding. Use the technique from zoneedit.
 
 ## Misc & Reports
 - Consider associating the "Privilege" and "Modules" classes with other business
@@ -162,65 +166,31 @@
 - Export sample condition(s) to service contract.
 - Restrict generation of service contract to an authorized person/department?
   Put client ID# (TRN etc.) into service contract?
-Put button in service contract tab to generate service contract.
-Create autocomplete list of "standard/common" product names using a "Distinct" 
-  type of the query on the existing samples.
-Add parentSector to Sector class and add Sub-sector to Groupings tab. 
-  Sub-sectors would be those that have a parent sector.
-Add descriptions of grouping items to in "Groupings" tab.
-For jasper reports fill in parameters such as images from configuration values 
-  stored in the database.
-Impl job backup as is done with samples and job edit canceling and change 
-  "close" button to "Cancel" button.
-Change label Department* to Parent department* when job is subcontracted.
-Check why GCT field shows yellow although it can be changed.
-Add user/department privilege to add payments.
-Add search fields and dialogs where they don't exist. Impl find* methods that take "active" as argument and add checkbox to show/hide active objects.
-Put Application class in BEL for reuse by managers and other code?
-Call JM init() to reset search results etc when user logs out.
-Remove access to JobManager from SearchManager and implement access to it to similar to how it's done with ClientManager.
-Show message to the user if they login without being authenticated.
-Check that if "authenticate" is unchecked it does not allow the login of other users with "authenticate"checked!!
-Impl adding new country if from within the respective dialog if the country is not in the list. Only user with privilege should be able to do this. Do not allow adding country if it already exist.
-Add feature to activate modules/units for users.
-Use parentJob to link contracts with parent jobs and use it to pull in subcontracts costs?
-Impl canceling "Saving and Canceling" in all dialogs instead "Saving and Closing". Use the backup and restore method used for samples.
-Add Business to JobManagerUser. Add blob to Business for storing company logo.
-Put text box in jobsTab to allow quick filter of search results.
-Refactor and rename static methods from findEntityName*() to just find*() where possible.
-Impl converters/validators to only use active entities when ever possible.
-Move complete*() methods where possible from managers to Application.
-Limit the maximum characters to be entered into a text field to 50. Put this value in the BEL resource bundle which can be changed. Allow various maximums for different types of fields.
-Impl. number validator that accepts a minimum value such as 1. This can be used in the sample dialog.
-Replace dialog messages that have only "ok" button with growl messages.
-Make all sensitive fields, especially those on the General tab unchangeable except by system admin after a job has been saved. Use field groups with input and output fields as is done with the job number.
-Check if new clients can be created even without privilege.
-For job search let My Department job be the default.
-Create separate login page instead of using login dialog?
-Create dialogs for classification instead of just adding a row in the table.
-Revisit admin dialogs and fix autocomplete scroll height, converters and validators. Ensure the prevention of creating duplicate objects such as employees with the same name.
-Once job is saved, prevent changing of all fields that affect the service contract?
-Do copy of billing address, contact and client before saving new job. Do not allow changing these fields except by sysadmin. Implement doShallowCopy() for client that does not copy the list of addresses and contacts.
-Make "Keep Alive" display a system option that is false by default.
-Use only one toolarbar for reportsTab. Do update of entire tab instead of specific components.
-Disable other rendered tabs when the job detail tab is rendered to prevent switching to those tabs??
-Impl copy of costing component from components table.
-Add privileges for adding/editing contacts and addresses.
-Impl the max character lengths as system options an set limits on the maximum dollar values that can be entered as system options too. Consider the maximum double values imposed by Java the possibility that values can overflow when added divided or multiplied.
-Prevent changing a job's parent department once it is has subcontracts.
-Put cost component type in job costing analysis to show if costing is fixed variable etc. or put n/a in the rate and hours/unit column when the cost component type is fixed or subcontract.
-Check that the privileges set for user and department are impl properly.
-Implement search other fields such as descriptions for sysadmin objects.
-Look serioulsy at the maximum integer and double values that can be represented by Java and take these into consideration when working with currency and integer values.
-Disable fields such as client, department etc. once the service contract has been exported or job has been subcontracted. Add a field in the Job class for this and allow only customer service, sysadmin or other designates to change it.
-Change label for department to "Parent department" when a job is subcontracted.
-Get rid of use of "--" for default objects.
-Let users tab filter active users, users that are authenticated and users that have recent activities.
-Create tax table and use it similar to gnucash to apply taxes to costs on a departmental basis.
-Put toolbar in service contract tab to export service contract, uncheck as as exported, email service contract etc.
-In status and tracking add tracking table to show all activities performed on the job. Add section that allows added new action/activity such job completion. See design layouts provide by G. Allen.
-Show the list of privileges a user has in the preference dialog. Copy the UI from sysadmin and make it read only...put them in a separate file and use to bring them in.
-Impl use of camera to take pics of samples etc.
+- Create LegalTask that extends Task and create other concrete Task classes for CIAO for example. 
+- Create Tracking class that can attached to any class to enable tracking of that class. Fields coul include loginDateTime.
+- Create process package for strore BPMN files.
+- Put button in service contract tab to generate service contract.
+- Create dialogs for classification and other objects instead of just adding a row in the table.
+- Make "Keep Alive" system.out display a system option that is false by default.
+- Impl copy of costing component from components table.
+- Implement the max character lengths as system options and set limits on the maximum 
+dollar values that can be entered as system options. 
+- Consider the maximum double values imposed by Java the possibility that values 
+can overflow when added divided or multiplied.
+- Prevent changing a job's parent department once it is has subcontracts.
+- Put cost component type in job costing analysis to show if costing is fixed variable etc. or put n/a in the rate and hours/unit column when the cost component type is fixed or subcontract.
+- Check that the privileges set for user and department are impl properly.
+- Implement search other fields such as descriptions for sysadmin objects.
+- Look seriously at the maximum integer and double values that can be represented by Java and take these into consideration when working with currency and integer values.
+- Disable fields such as client, department etc. once the service contract has been exported or job has been subcontracted. Add a field in the Job class for this and allow only customer service, sysadmin or other designates to change it.
+- Change label for department to "Parent department" when a job is subcontracted.
+- Get rid of use of "--" for default objects.
+- Let users tab filter active users, users that are authenticated and users that have recent activities.
+- Create tax table and use it similar to gnucash to apply taxes to costs on a departmental basis.
+- Put toolbar in service contract tab to export service contract, uncheck as as exported, email service contract etc.
+- In status and tracking add tracking table to show all activities performed on the job. Add section that allows added new action/activity such job completion. See design layouts provide by G. Allen.
+- Show the list of privileges a user has in the preference dialog. Copy the UI from sysadmin and make it read only...put them in a separate file and use to bring them in.
+- Impl use of camera to take pics of samples etc.
 - Add invoiceDate to JobStatusAndTracking class and database.
 - Check if cost component id is null and use it when adding new CC instead of
   using addCostComponent variable.
@@ -246,7 +216,6 @@ Impl use of camera to take pics of samples etc.
   Do similar for other job views.
 - Note that TIMESTAMP does not work with the current version of MySQL used by 
   BSJ.
-- Use <ui:repeat to display dashboard and maintab tabs? 
 - Add TODO to remove auto-boxing/unauto-boxing where it is not necessary.
 - Adopt the use of "Release Notes" to announce new JMTS releases.
 - Paste the text directly into a CODE_OF_CONDUCT file in your repository. 
