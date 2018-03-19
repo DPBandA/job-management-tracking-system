@@ -11,6 +11,14 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
+- Test displaying busy dialog when before dialog is displayed and hide when
+  dialog returns.
+- Exception org.primefaces.expression.ComponentNotFoundException 
+  org.primefaces.expression.ComponentNotFoundException: Cannot find component 
+  for expression "jobFormTabView:cashPayments" referenced from 
+  "jobDialogForm:jobFormTabView:cashPaymentTable:0:j_idt162". occurs for job 26/2018/0013/51.
+  Possible solution: Put jobDialogForm: in front of jobFormTabView:cashPayments.
+  Check why this happens for this job and possibly other jobs.
 - Do not automatically insert the default contact in job contact for existing jobs.
   * Test this out with existing BSJ jobs.
 - Impl creating and editing Job. Look out for "Named" and "ManagedBean" issue.
@@ -28,8 +36,6 @@
 - Impl dialog return and do search for all system option dialogs. Fix busy wait.
 - Check out the call financeManager.setEnableOnlyPaymentEditing(false/true);
   and see if it is still relevant.
-- Remove "Job Detail" tab and fully implement Job Dialog (eg new job and edit job 
-  and job costing and all other job views that are generated from the various job.
 - Impl "Organization" in JM user so that the user' correct organization can be
   selected when subcontracting a job.
   * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
@@ -59,6 +65,20 @@
 - Deploy on test production system.
 
 ## Next release
+- Get list of jobs with incorrect clients from Dwight (not Ramdon)
+- Send email notification when invoice is approved. 
+- Allow printing of approved or invoiced jobs.
+- Check exactly what is not being saved when tic says things are not being saved.
+- Delete Business class from employee class and other classes that should not have it
+- Implement searching by sample job sample.
+- Find way to deactivate old costing templates...Add "active" field to "JobCostingAndPayment"
+  and provide interface to deactivate the old templates.
+- Implement entering sampling information as required by Micro B. and may be Chemistry.
+- Implement assigning "reps" to a job as a means to assigning more than one person to job
+  as required by Chemistry/Micro B.
+- Color code jobs that are late/time and recently visited.
+- Get client credit status showing same info as as shown by accpac.
+- Price list for all of documents/jobs. 
 - Consider associating the "Privilege" and "Modules" classes with other business
   classes such as Division and Organization.
 - Add privileges to add/edit contact/address and put client privileges in own tab.
