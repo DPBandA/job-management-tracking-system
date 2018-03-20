@@ -4,6 +4,8 @@
 - Add JMUser fields: 
 - Add MODULES_ID to JMUsers and modules table to database. 
 - Add Module table and fields
+- Add "active" field to Report class
+- For icons: https://www.primefaces.org/showcase/ui/misc/fa.xhtml
 
 ## Inception Report and Workplan
 - Get procedure documents from QEMS of the BSJ, NCRA and NCBJ
@@ -11,52 +13,27 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Deactivate feature that inserts client and contact when job is subcontract
-  until it is implemented in next release.
-- Impl. adding contact to client with "+" button?
-- Impl creating and editing Job. Look out for "Named" and "ManagedBean" issue.
-  * Fix edit job costing..Fix dialog.
-  * Fix opening job from cashier view table.
-  * Fix adding payments.
-  * Check that all components display properly in the job and related dialogs.
-- Implement updating the jobs table loading a job from the table.
-- Impl add MainView tab when selected in preferences.
-- Impl dialog return and do search for all system option dialogs. Fix busy wait.
-- Test Edit exiting and create new clients, contacts and addresses.
-- Test out creation and use of costing templates.
-- Test Export service contract and job costing for old jobs that do not have billing 
-  address and contact fields set.
-- Test export all reports in live system.
-- Take job through completion to see if "Job completed by:" checkbox is actually checked.
-- Test that the restriction to create jobs for one's own department actually works.
-- Test adding payment with discount.
-- Do not automatically insert the default contact in job contact for existing jobs.
-  * Test this out with existing BSJ jobs.
-- Allow system to allow copying and pasting into text field and record field
-  as being edited.
-- Fix "Business office" and other "dropdown menu" in employee dialog.
-- For existing jobs add the contact/address to the client if it does not already exist in the 
-  client's list of contacts/addresses.
-- Test "Approve" and "Invoiced" buttons.
-- Run through process of entering, updating a job including subcontracts.
+- Implement search dialog similar to job search for finance/general admin in dashboard.
+- Reinsert code that sends email if job save error occurs.
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
   stealth url forwarding. Use the technique from zoneedit.
-- Reinsert code that sends email if job save error occurs.
-- Add a search types that find jobs that are: 
-(i) earning parent jobs 
-(ii) earning jobs
-(iii) non-earning jobs
 - Update database, setup stealth and deploy on test production system.
-- Train Cashier and Customer Service
+- Arrange training for Cashier and Customer Service.
+- Do report for Edmondson.
 
 ## Next release
-- Do report for Edmondson.
+- Make address and contact dialogs external and lmplement adding contact/address 
+  via the client's action menu.
 - Impl "Organization" so that the user's correct organization can be
   selected when subcontracting a job.
   * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
   * Impl businessConverter/Validator. 
   * Add active/head fields to Business class
 - Job should not be marked completed until approved.
+- Add a search types that find jobs that are: 
+(i) earning parent jobs 
+(ii) earning jobs
+(iii) non-earning jobs
 - Update the service contract template with the new control number (MKTG_F_01/04) 
   and other footer information. 
   * Let G.A. do the update and create 3 templates one for each organization.
@@ -66,6 +43,7 @@
 - Get list of jobs with incorrect clients from Dwight (not Ramdon)
 - Send email notification when invoice is approved. 
 - Allow printing of approved or invoiced jobs.
+- Implement adding new employee in user dialog.
 - Check exactly what is not being saved when tic says things are not being saved.
 - Delete Business class from employee class and other classes that should not have it
 - Implement searching by sample job sample.
@@ -160,6 +138,7 @@
   date that the costing is deemed to be completed.
 - Check that the getting of a new job sequence number and the saving of a job
   is done in one transaction.
+- Add "Reports" tab to "system admin"
 - Remove department from employee dialog and start using department from JM user
   whenever the user's department is needed.
 - Add head and active fields to Business class and table.
@@ -246,3 +225,6 @@ can overflow when added divided or multiplied.
   should then be removed.
 - Impl sending alerts to all or specific persons. The messages would be displayed
   when the use just logs on or popup if the user is already logged on.
+- Revamp the privilege system. If a person only have the privilege to enter/edit own
+job then they should not be able to assign a job to anybody but themself. Similar
+thing applies to department job entry/edit privilege.

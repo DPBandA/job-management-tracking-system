@@ -51,7 +51,7 @@ Email: info@dpbennett.com.jm
                        style="margin-top: 1px;margin-bottom: 1px;">
                 <p:tab title="General" id="generalTab">
                     <h:panelGrid columns="2">
-                        
+
                         <h:outputText value="Theme:"/>
                         <p:themeSwitcher value="#{jobManager.user.userInterfaceThemeName}" 
                                          style="width:165px" 
@@ -64,7 +64,7 @@ Email: info@dpbennett.com.jm
                         </p:themeSwitcher>  
 
                         <h:outputText value="Job table view:"/>
-                        
+
                         <p:autoComplete forceSelection="true"                               
                                         maxlength="250"
                                         value="#{jobManager.user.jobTableViewPreference}"
@@ -93,6 +93,15 @@ Email: info@dpbennett.com.jm
                             <p:ajax listener="#{jobManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
+                        </p:selectBooleanCheckbox>                     
+
+                        <p:selectBooleanCheckbox id="adminUnit" 
+                                                 itemLabel="System Administration"
+                                                 rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
+                                                 value="#{jobManager.user.modules.adminModule}" >
+                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
                         </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="financialAdminUnit" 
@@ -103,15 +112,6 @@ Email: info@dpbennett.com.jm
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>      
-
-                        <p:selectBooleanCheckbox id="adminUnit" 
-                                                 itemLabel="System Administration"
-                                                 rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
-                                                 value="#{jobManager.user.modules.adminModule}" >
-                            <p:ajax listener="#{jobManager.updateDashboardTabs}"
-                                    global="false"
-                                    process="@this"/>
-                        </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="complianceUnit" 
                                                  itemLabel="Standard Compliance"
@@ -130,7 +130,7 @@ Email: info@dpbennett.com.jm
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
-                        
+
                         <p:selectBooleanCheckbox id="foodsUnit" 
                                                  itemLabel="Foods Inspectorate"
                                                  rendered="#{jobManager.user.privilege.canAccessFoodsUnit}"
@@ -139,7 +139,7 @@ Email: info@dpbennett.com.jm
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
-                        
+
                         <p:selectBooleanCheckbox id="legalMetrologyUnit" 
                                                  itemLabel="Legal Metrology"
                                                  rendered="#{jobManager.user.privilege.canAccessLegalMetrologyUnit}"
@@ -148,7 +148,7 @@ Email: info@dpbennett.com.jm
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
-                        
+
                         <p:selectBooleanCheckbox id="legalOfficeUnit" 
                                                  itemLabel="Legal Documents"
                                                  rendered="#{jobManager.user.privilege.canAccessLegalOfficeUnit}"
@@ -157,7 +157,7 @@ Email: info@dpbennett.com.jm
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
-                        
+
                         <p:selectBooleanCheckbox id="serviceRequestUnit" 
                                                  itemLabel="Service Request"
                                                  rendered="#{jobManager.user.privilege.canAccessServiceRequestUnit}"
@@ -166,7 +166,7 @@ Email: info@dpbennett.com.jm
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
-                        
+
                         <p:selectBooleanCheckbox id="standardsUnit" 
                                                  itemLabel="Standards"
                                                  rendered="#{jobManager.user.privilege.canAccessStandardsUnit}"
@@ -175,7 +175,7 @@ Email: info@dpbennett.com.jm
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
-                        
+
                         <p:selectBooleanCheckbox id="crmUnit" 
                                                  itemLabel="CRM"
                                                  rendered="#{jobManager.user.privilege.canAccessCRMUnit}"

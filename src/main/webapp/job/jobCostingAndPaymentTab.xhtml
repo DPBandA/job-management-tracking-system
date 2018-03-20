@@ -275,7 +275,7 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Cash Payments" />
             </f:facet>
 
-            <p:column style="width:100px"  >
+            <p:column >
                 <f:facet name="header">
                     <h:outputText value="Receipt #" />
                 </f:facet>
@@ -302,7 +302,7 @@ Email: info@dpbennett.com.jm
                 </f:facet>
                 <h:outputText value="#{cashPayment.paymentPurpose}"/>              
             </p:column>
-            <p:column style="width:32px">
+            <p:column >
                 <p:menuButton id="toolsButton" 
                               disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                               value="Actions" >

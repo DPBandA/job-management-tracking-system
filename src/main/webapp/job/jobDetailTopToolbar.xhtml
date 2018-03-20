@@ -55,7 +55,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton
                 value="Subcontract..."
                 actionListener="#{jobManager.subContractJob}"
-                update=":jobDialogForm:growl2"
+                update=":jobDialogForm,:jobDialogForm:growl2"
                 rendered="#{!financeManager.enableOnlyPaymentEditing}"
                 global="true"               
                 onstart="PF('longProcessDialogVar').show();"

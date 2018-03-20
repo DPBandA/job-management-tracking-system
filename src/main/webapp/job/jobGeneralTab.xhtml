@@ -147,7 +147,7 @@ Email: info@dpbennett.com.jm
                         <p:ajax event="dialogReturn" 
                                 oncomplete="PF('longProcessDialogVar').hide();"
                                 listener="#{clientManager.clientDialogReturn}"
-                                update="client,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
+                                update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
                         
                     </p:commandButton>            
                 </p:menuitem>
@@ -166,7 +166,7 @@ Email: info@dpbennett.com.jm
                         <p:ajax event="dialogReturn" 
                                 oncomplete="PF('longProcessDialogVar').hide();"
                                 listener="#{clientManager.clientDialogReturn}"
-                                update="client,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
+                                update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
                         
                     </p:commandButton>
                 </p:menuitem>
@@ -183,7 +183,8 @@ Email: info@dpbennett.com.jm
                         maxlength="40"
                         converter="clientAddressConverter" 
                         validator="addressValidator"
-                        var="address"                        
+                        var="address"  
+                        scrollHeight="200"
                         itemValue="#{address}"
                         itemLabel="#{address.name}" 
                         completeMethod="#{jobManager.completeClientAddress}">
@@ -202,6 +203,7 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.currentJob.contact}"
                         dropdown="true"
                         forceSelection="true"
+                        scrollHeight="200"
                         maxlength="40"
                         styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
                         converter="clientContactConverter" 

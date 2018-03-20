@@ -80,8 +80,9 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax listener="#{jobManager.updateWorkProgress}"
                                 global="false"
-                                update="startDate,:jobDialogForm:jobDetailToolbar1,@this"
+                                update=":jobDialogForm:growl2,startDate,:jobDialogForm:jobDetailToolbar1,@this"
                                 process="@this"/>
+                        
                     </p:selectOneMenu>     
 
                     <h:outputText value="Start date: "/>

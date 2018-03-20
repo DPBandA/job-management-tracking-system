@@ -1452,13 +1452,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             selectedCashPayment.setPaymentPurpose("Deposit");
         }
 
-        PrimeFacesUtils.openDialog(null, "cashPaymentDialog", true, true, true, 350, 500);
+        PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDialog", true, true, true, 350, 500);
 
     }
 
     public void editCashPayment(ActionEvent event) {
 
-        PrimeFacesUtils.openDialog(null, "cashPaymentDialog", true, true, true, 350, 500);
+        PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDialog", true, true, true, 350, 500);
 
     }
 
@@ -2037,7 +2037,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void openCashPaymentDeleteConfirmDialog(ActionEvent event) {
 
-        PrimeFacesUtils.openDialog(null, "cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
+        PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
     }
 
     public void closeJCashPaymentDeleteConfirmDialog() {

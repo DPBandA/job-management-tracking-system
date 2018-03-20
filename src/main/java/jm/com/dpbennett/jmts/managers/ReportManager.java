@@ -213,16 +213,12 @@ public class ReportManager implements Serializable {
         servletOutputStream.close();
     }
 
-    public MainTabView getMainTabView() {
-        return mainTabView;
-    }
-
     public void setMainTabView(MainTabView mainTabView) {
         this.mainTabView = mainTabView;
     }
 
     public void closeReportsTab() {
-        mainTabView.addTab(getEntityManager1(), "reportsTab", false);
+        mainTabView.addTab(getEntityManager1(), "Reports", false);
     }
 
     public JobManagerUser getUser() {

@@ -70,8 +70,6 @@ public class Dashboard implements Serializable {
 
         // Update tabview and select the appropriate tab
         update("dashboardForm:dashboardAccordion");
-
-        select(render);
     }
 
     public int getTabIndex(String tabId) {

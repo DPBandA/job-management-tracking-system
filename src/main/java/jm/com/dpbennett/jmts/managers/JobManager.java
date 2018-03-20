@@ -1316,9 +1316,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getCurrentJob().getJobStatusAndTracking().
                         setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
 
-                displayCommonMessageDialog(null,
-                        "This job is marked as completed and cannot be changed. You may contact the department's supervisor.",
-                        "Job Work Progress Cannot Be Changed", "info");
+                PrimeFacesUtils.addMessage("Job Work Progress Cannot Be Changed",
+                        "\"This job is marked as completed and cannot be changed. You may contact the department's supervisor.",
+                        FacesMessage.SEVERITY_WARN);
 
                 return false;
             } else if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
@@ -1334,17 +1334,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getCurrentJob().getJobStatusAndTracking().
                         setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
 
-                displayCommonMessageDialog(null,
+                PrimeFacesUtils.addMessage("Job Work Progress Cannot Be As Marked Completed",
                         "The job costing needs to be prepared before this job can marked as completed.",
-                        "Job Work Progress Cannot Be As Marked Completed", "info");
+                        FacesMessage.SEVERITY_WARN);
 
                 return false;
 
             }
         } else {
-            displayCommonMessageDialog(null,
+
+            PrimeFacesUtils.addMessage("Job Work Progress Cannot be Changed",
                     "This job's work progress cannot be changed until the job is saved.",
-                    "Job Work Progress Cannot be Changed", "info");
+                    FacesMessage.SEVERITY_WARN);
             return false;
         }
 
@@ -1427,37 +1428,33 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob.setJobSequenceNumber(currentJobSequenceNumber);
 
                 // Get and use this organization's name as the client
-                SystemOption sysOption
-                        = SystemOption.findSystemOptionByName(em, "organizationName");
-                if (sysOption != null) {
-                    currentJob.setClient(Client.findActiveDefaultClient(em, sysOption.getOptionValue(), true));
-                } else {
-                    currentJob.setClient(Client.findActiveDefaultClient(em, "--", true));
-                }
-
+//                SystemOption sysOption
+//                        = SystemOption.findSystemOptionByName(em, "organizationName");
+//                if (sysOption != null) {
+//                    currentJob.setClient(Client.findActiveDefaultClient(em, sysOption.getOptionValue(), true));
+//                } else {
+//                    currentJob.setClient(Client.findActiveDefaultClient(em, "--", true));
+//                }
                 // Set default billing address
-                currentJob.setBillingAddress(currentJob.getClient().getDefaultAddress());
-
+//                currentJob.setBillingAddress(currentJob.getClient().getDefaultAddress());
                 // Get/Set contact of the person creating the subcontract.
-                Contact contact = Contact.findClientContactByEmployee(em,
-                        getUser().getEmployee(),
-                        currentJob.getClient().getId());
-                if (contact != null) {
-                    currentJob.setContact(contact);
-                } else { // Create this contact and add it to the client
-                    contact = new Contact(getUser().getEmployee().getFirstName(),
-                            getUser().getEmployee().getLastName());
-                    contact.save(em);
-                    currentJob.getClient().getContacts().add(contact);
-                    currentJob.getClient().save(em);
-                    currentJob.setContact(contact);
-                }
-
-                mainTabView.addTab(em, "jobDetailTab", true);
-                context.update("mainTabViewForm:mainTabView:jobFormTabView");
-                mainTabView.select("jobDetailTab");
-                context.execute("PF('jobFormTabVar').select(0);");
-
+//                Contact contact = Contact.findClientContactByEmployee(em,
+//                        getUser().getEmployee(),
+//                        currentJob.getClient().getId());
+//                if (contact != null) {
+//                    currentJob.setContact(contact);
+//                } else { // Create this contact and add it to the client
+//                    contact = new Contact(getUser().getEmployee().getFirstName(),
+//                            getUser().getEmployee().getLastName());
+//                    contact.save(em);
+//                    currentJob.getClient().getContacts().add(contact);
+//                    currentJob.getClient().save(em);
+//                    currentJob.setContact(contact);
+//                }
+                //mainTabView.addTab(em, "jobDetailTab", true);
+                //context.update("mainTabViewForm:mainTabView:jobFormTabView");
+                //mainTabView.select("jobDetailTab");
+                //context.execute("PF('jobFormTabVar').select(0);");
             } else {
                 currentJob = Job.create(em, getUser(), true);
             }
@@ -2100,8 +2097,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             financeManager.updateCreditStatus(null);
         }
 
-        currentJob.setBillingAddress(currentJob.getClient().getDefaultAddress());
-        currentJob.setContact(currentJob.getClient().getDefaultContact());
+        //currentJob.setBillingAddress(currentJob.getClient().getDefaultAddress());
+        //currentJob.setContact(currentJob.getClient().getDefaultContact());
+        currentJob.setBillingAddress(new Address());
+        currentJob.setContact(new Contact());
 
         setIsDirty(true);
     }
@@ -2458,7 +2457,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void openClientsTab() {
         clientManager.setUser(user);
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-
+        clientManager.setMainTabView(mainTabView);
         mainTabView.addTab(getEntityManager1(), "Clients", true);
         mainTabView.select("Clients");
     }

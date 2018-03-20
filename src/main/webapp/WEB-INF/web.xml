@@ -12,6 +12,11 @@
         <param-value>#{jobManager.user.userInterfaceThemeName}</param-value>
     </context-param>
     
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    
     <!--
     <context-param>
         <param-name>primefaces.THEME</param-name>

@@ -44,6 +44,7 @@ import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.business.entity.validator.AddressValidator;
 import jm.com.dpbennett.business.entity.validator.ContactValidator;
 import jm.com.dpbennett.jmts.Application;
+import jm.com.dpbennett.jmts.utils.MainTabView;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 
@@ -66,6 +67,7 @@ public class ClientManager implements Serializable {
     private JobManagerUser user;
     private String searchText;
     private List<Client> foundClients;
+    private MainTabView mainTabView;
 
     /**
      * Creates a new instance of ClientForm
@@ -73,7 +75,7 @@ public class ClientManager implements Serializable {
     public ClientManager() {
         init();
     }
-    
+
     private void init() {
         isClientNameAndIdEditable = false; // tk put as transient in Client
         foundClients = new ArrayList<>();
@@ -285,6 +287,14 @@ public class ClientManager implements Serializable {
         currentClient = new Client("", active);
     }
 
+    public void setMainTabView(MainTabView mainTabView) {
+        this.mainTabView = mainTabView;
+    }
+
+    public void closeClientsTab() {
+        mainTabView.addTab(getEntityManager(), "Clients", false);
+    }
+
     public void createNewClient() {
         createNewClient(true);
         setCurrentJob(null);
@@ -469,7 +479,7 @@ public class ClientManager implements Serializable {
         }
 
         if (selectedContact == null) {
-            selectedContact = new Contact("", "", "Main");            
+            selectedContact = new Contact("", "", "Main");
             selectedContact.setInternet(new Internet());
         }
 

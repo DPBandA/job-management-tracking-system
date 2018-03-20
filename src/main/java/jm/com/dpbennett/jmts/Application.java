@@ -299,7 +299,7 @@ public class Application {
         try {
             em = getEntityManager1();
 
-            List<Report> reports = Report.findReportsByName(em, query);
+            List<Report> reports = Report.findActiveReportsByName(em, query);
 
             return reports;
 

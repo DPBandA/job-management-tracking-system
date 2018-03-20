@@ -19,6 +19,7 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,6 +50,7 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
+import jm.com.dpbennett.jmts.utils.MainTabView;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
@@ -175,6 +177,12 @@ public class SystemManager implements Serializable {
         isActiveJobSubcategoriesOnly = true;
         isActiveSectorsOnly = true;
         isActiveLdapsOnly = true;
+    }
+
+    public MainTabView getMainTabView() {
+        JobManager jm = Application.findBean("jobManager");
+
+        return jm.getMainTabView();
     }
 
     public void updatePrivileges(AjaxBehaviorEvent event) {
@@ -820,7 +828,6 @@ public class SystemManager implements Serializable {
         } else {
             foundEmployees = Employee.findEmployeesByName(getEntityManager(), getEmployeeSearchText());
         }
-
     }
 
     public void doUserSearch() {
@@ -900,7 +907,7 @@ public class SystemManager implements Serializable {
     }
 
     public void editDepartment() {
-        PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 600);
+        PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
     }
 
     public void editBusiness() {
@@ -1245,6 +1252,8 @@ public class SystemManager implements Serializable {
 
         selectedUser = new JobManagerUser();
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
+        
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
         PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 430, 750);
     }
@@ -1254,7 +1263,7 @@ public class SystemManager implements Serializable {
         selectedDepartment = new Department();
         selectedDepartment.setActive(true);
 
-        PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 600);
+        PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
     }
 
     public void createNewBusiness() {

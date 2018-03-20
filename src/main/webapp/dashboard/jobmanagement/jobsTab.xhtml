@@ -37,6 +37,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="dialogReturn" 
                         oncomplete="PF('longProcessDialogVar').hide();"
+                        update=":mainTabViewForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>

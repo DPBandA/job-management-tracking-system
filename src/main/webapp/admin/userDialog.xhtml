@@ -84,20 +84,22 @@ Email: info@dpbennett.com.jm
                                     completeMethod="#{App.completeEmployee}" >                       
                     </p:autoComplete>   
 
-                    <h:outputText value="Department" style="font-weight: bold;" />               
-                    <p:autoComplete var="department"
-                                    scrollHeight="175"
-                                    dropdown="true"
-                                    size="30"
-                                    maxlength="250"
-                                    value="#{systemManager.selectedUser.department}"
-                                    title="#{systemManager.selectedUser.department}"
-                                    itemLabel="#{department.name}"
-                                    itemValue="#{department}"
-                                    converter="departmentConverter"
-                                    forceSelection="true"
-                                    completeMethod="#{App.completeDepartment}" >                       
-                    </p:autoComplete>   
+                    <ui:remove>
+                        <h:outputText value="Department" style="font-weight: bold;" />               
+                        <p:autoComplete var="department"
+                                        scrollHeight="175"
+                                        dropdown="true"
+                                        size="30"
+                                        maxlength="250"
+                                        value="#{systemManager.selectedUser.department}"
+                                        title="#{systemManager.selectedUser.department}"
+                                        itemLabel="#{department.name}"
+                                        itemValue="#{department}"
+                                        converter="departmentConverter"
+                                        forceSelection="true"
+                                        completeMethod="#{App.completeDepartment}" >                       
+                        </p:autoComplete>   
+                    </ui:remove>
 
                 </h:panelGrid>
             </p:panel>

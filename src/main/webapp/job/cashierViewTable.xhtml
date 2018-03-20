@@ -104,7 +104,8 @@ Email: info@dpbennett.com.jm
                                              target="#{jobManager.editJobCostingAndPayment}" />
 
                 <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
+                        oncomplete="PF('longProcessDialogVar').hide();"                        
+                        update=":mainTabViewForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>     
