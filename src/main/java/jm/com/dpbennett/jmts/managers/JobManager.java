@@ -1226,7 +1226,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getUser().save(getEntityManager1());
                 break;
             case "legalOfficeUnit":
-                dashboard.addTab(getEntityManager1(), "Legal Office",
+                dashboard.addTab(getEntityManager1(), "Legal Documents",
                         getUser().getModules().getLegalOfficeModule());
                 getUser().getModules().setIsDirty(true);
                 getUser().save(getEntityManager1());
@@ -1579,19 +1579,19 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (isCurrentJobNew() && getUser().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (isCurrentJobNew()
@@ -1599,7 +1599,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 && getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))) {
             // User can enter new jobs for your department...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (isCurrentJobNew()
@@ -1607,13 +1607,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 && isCurrentJobJobAssignedToUser()) {
             // User can enter new jobs for yourself...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (getIsDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
             // User can edit any job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (getIsDirty() && !isCurrentJobNew()
@@ -1623,7 +1623,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             // User can edit jobs for your department...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (getIsDirty() && !isCurrentJobNew()
@@ -1631,19 +1631,19 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 && isCurrentJobJobAssignedToUser()) {
             // User can edit own jobs...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (currentJob.getIsToBeCopied()) {
             // Saving cause copy is being created
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (currentJob.getIsToBeSubcontracted()) {
             // Saving cause subcontract is being created
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Success!", "Job was saved", FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             }
         } else if (!getIsDirty()) {

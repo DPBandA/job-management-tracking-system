@@ -94,8 +94,7 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px" >
             <p:commandButton title="View or edit job costing and payment" 
                              actionListener="#{jobManager.editJobCostingAndPayment}"                             
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onstart="PF('longProcessDialogVar').show();"                             
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
@@ -105,6 +104,7 @@ Email: info@dpbennett.com.jm
                                              target="#{jobManager.editJobCostingAndPayment}" />
 
                 <p:ajax event="dialogReturn" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>     

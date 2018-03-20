@@ -51,6 +51,7 @@ Email: info@dpbennett.com.jm
                        style="margin-top: 1px;margin-bottom: 1px;">
                 <p:tab title="General" id="generalTab">
                     <h:panelGrid columns="2">
+                        
                         <h:outputText value="Theme:"/>
                         <p:themeSwitcher value="#{jobManager.user.userInterfaceThemeName}" 
                                          style="width:165px" 
@@ -63,6 +64,7 @@ Email: info@dpbennett.com.jm
                         </p:themeSwitcher>  
 
                         <h:outputText value="Job table view:"/>
+                        
                         <p:autoComplete forceSelection="true"                               
                                         maxlength="250"
                                         value="#{jobManager.user.jobTableViewPreference}"
@@ -81,7 +83,7 @@ Email: info@dpbennett.com.jm
 
                     </h:panelGrid>
                 </p:tab>
-                <p:tab title="Modules" id="modulesTab">
+                <p:tab title="Module Access" id="modulesTab">
                     <h:panelGrid columns="3" id="modulesTabPanelGrid" cellspacing="10">
 
                         <p:selectBooleanCheckbox id="jobManagementAndTrackingUnit" 
@@ -148,7 +150,7 @@ Email: info@dpbennett.com.jm
                         </p:selectBooleanCheckbox>
                         
                         <p:selectBooleanCheckbox id="legalOfficeUnit" 
-                                                 itemLabel="Legal Office"
+                                                 itemLabel="Legal Documents"
                                                  rendered="#{jobManager.user.privilege.canAccessLegalOfficeUnit}"
                                                  value="#{jobManager.user.modules.legalOfficeModule}" >
                             <p:ajax listener="#{jobManager.updateDashboardTabs}"

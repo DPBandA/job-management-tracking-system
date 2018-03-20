@@ -190,7 +190,7 @@ public class Dashboard implements Serializable {
             tabs.add(new Tab("Service Request", "Service Request"));
         }
         if (getUser().getModules().getLegalOfficeModule()) {
-            tabs.add(new Tab("Legal Office", "Legal Office"));
+            tabs.add(new Tab("Legal Documents", "Legal Documents"));
         }
         if (getUser().getModules().getCrmModule()) {
             tabs.add(new Tab("Customer Relationship Management",

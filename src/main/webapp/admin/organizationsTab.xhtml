@@ -30,14 +30,14 @@ Email: info@dpbennett.com.jm
                              value="New"
                              actionListener="#{systemManager.createNewBusiness}"
                              update=":headerForm:growl3"
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onstart="PF('longProcessDialogVar').show();"                             
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"/>
 
             </p:commandButton> 
@@ -111,8 +111,7 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit organization"   
                              actionListener="#{systemManager.editBusiness}"
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onstart="PF('longProcessDialogVar').show();"                             
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
@@ -120,6 +119,7 @@ Email: info@dpbennett.com.jm
                 <f:setPropertyActionListener value="#{business}"                                                                    
                                              target="#{systemManager.selectedBusiness}" />
                 <p:ajax event="dialogReturn" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"/>
 
             </p:commandButton>           

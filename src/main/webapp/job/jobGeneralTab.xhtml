@@ -139,13 +139,13 @@ Email: info@dpbennett.com.jm
                                      icon="ui-icon-pencil" 
                                      disabled="${!jobManager.isClientNameValid}"
                                      style="width: 100%;text-align: left;background: none;border: 0;"
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
+                                     onstart="PF('longProcessDialogVar').show();"                                     
                                      actionListener="#{jobManager.editJobClient}"  
                                      process="@this,client"                             
                                      title="View or edit this client's detail">  
                         
                         <p:ajax event="dialogReturn" 
+                                oncomplete="PF('longProcessDialogVar').hide();"
                                 listener="#{clientManager.clientDialogReturn}"
                                 update="client,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
                         
@@ -157,15 +157,17 @@ Email: info@dpbennett.com.jm
                         value="Add new client"
                         icon="ui-icon-plus" 
                         style="width: 100%;text-align: left;background: none;border: 0;"
-                        onstart="PF('longProcessDialogVar').show();"
-                        oncomplete="PF('longProcessDialogVar').hide();"
+                        onstart="PF('longProcessDialogVar').show();"                        
                         disabled="#{!jobManager.user.privilege.canAddClient}"
                         actionListener="#{jobManager.createNewJobClient}"                                            
                         process="@this"
                         title="Add a new client to the client database">
+                        
                         <p:ajax event="dialogReturn" 
+                                oncomplete="PF('longProcessDialogVar').hide();"
                                 listener="#{clientManager.clientDialogReturn}"
                                 update="client,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
+                        
                     </p:commandButton>
                 </p:menuitem>
             </p:menuButton>       

@@ -11,23 +11,10 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Test displaying busy dialog when before dialog is displayed and hide when
-  dialog returns.
-- Exception org.primefaces.expression.ComponentNotFoundException 
-  org.primefaces.expression.ComponentNotFoundException: Cannot find component 
-  for expression "jobFormTabView:cashPayments" referenced from 
-  "jobDialogForm:jobFormTabView:cashPaymentTable:0:j_idt162". occurs for job 26/2018/0013/51.
-  Possible solution: Put jobDialogForm: in front of jobFormTabView:cashPayments.
-  Check why this happens for this job and possibly other jobs.
-- Do not automatically insert the default contact in job contact for existing jobs.
-  * Test this out with existing BSJ jobs.
 - Impl creating and editing Job. Look out for "Named" and "ManagedBean" issue.
-  * Run financeManager.setEnableOnlyPaymentEditing(); where appropriate.
-  * Fix closing job when it is dirty.
-  * Fix samples table
-  * Fix creating and editing samples
   * Fix edit job costing..Fix dialog.
   * Fix opening job from cashier view table.
+  * Fix adding payments.
   * Check that all components display properly in the job dialog.
 - Implement updating the jobs table loading a job from the table.
 - :jobDialogForm:jobFormTabView:jobNumber/jobSamples was removed from samples table or related component
@@ -47,12 +34,17 @@
 - Test out creation and use of costing templates.
 - Test Export service contract and job costing for old jobs that do not have billing 
   address and contact fields set.
+- Update the service contract template with the new control number (MKTG_F_01/04) 
+  and other footer information. 
+  * Let G.A. do the update and create 3 templates one for each organization.
 - Test export all reports in live system.
 - Take job through completion to see if "Job completed by:" checkbox is actually checked.
 - Test that the restriction to create jobs for one's own department actually works.
 - Test adding payment with discount.
 - Doc requirement in inception report. Job should not be marked completed until
   approved.
+- Do not automatically insert the default contact in job contact for existing jobs.
+  * Test this out with existing BSJ jobs.
 - Allow system to allow copying and pasting into text field and record field
   as being edited.
 - Fix "Business office" dropdown menu in employee dialog.
@@ -62,6 +54,11 @@
 - Run through process of entering, updating a job including subcontracts.
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
   stealth url forwarding. Use the technique from zoneedit.
+- Reinsert code that sends email if job save error occurs.
+- Add a search types that find jobs that are: 
+(i) earning parent jobs 
+(ii) earning jobs
+(iii) non-earning jobs
 - Deploy on test production system.
 
 ## Next release

@@ -29,6 +29,7 @@ public class PrimeFacesUtils {
         options.put("modal", modal);
         options.put("draggable", draggable);
         options.put("resizable", resizable);
+        options.put("closable", false);
         options.put("contentHeight", contentHeight);
         options.put("contentWidth", contentWidth);
 

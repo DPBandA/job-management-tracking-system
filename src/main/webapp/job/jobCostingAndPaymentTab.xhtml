@@ -142,12 +142,12 @@ Email: info@dpbennett.com.jm
                 <p:commandButton icon="ui-icon ui-icon-pencil"
                                  actionListener="#{financeManager.openJobCostingDialog}"
                                  update=":jobDialogForm:growl2"
-                                 onstart="PF('longProcessDialogVar').show();"
-                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                 onstart="PF('longProcessDialogVar').show();"                                 
                                  process="@this"
                                  title="View or edit job costing">
 
                     <p:ajax event="dialogReturn" 
+                            oncomplete="PF('longProcessDialogVar').hide();"
                             listener="#{financeManager.jobCostingDialogReturn}"
                             update=":jobDialogForm:jobDetailToolbar1,jobCosting,cashPayments,:jobDialogForm:growl2"/>
 
@@ -183,6 +183,7 @@ Email: info@dpbennett.com.jm
                                  process="@this" >
 
                     <p:ajax event="dialogReturn" 
+                            oncomplete="PF('longProcessDialogVar').hide();"
                             listener="#{financeManager.cashPaymentDialogReturn}"                    
                             update="cashPayments,jobCosting,:jobDialogForm:growl2,cashPayments"
                             process="@this"/>
@@ -309,8 +310,7 @@ Email: info@dpbennett.com.jm
                         <p:commandButton value="Edit"
                                          actionListener="#{financeManager.editCashPayment}"
                                          style="width: 100%;text-align: left;background: none;border: 0;"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         oncomplete="PF('longProcessDialogVar').hide();"
+                                         onstart="PF('longProcessDialogVar').show();"                                         
                                          icon="ui-icon-pencil"
                                          process="@this">
 
@@ -318,8 +318,9 @@ Email: info@dpbennett.com.jm
                                                          target="#{financeManager.selectedCashPayment}" />
 
                             <p:ajax event="dialogReturn" 
+                                    oncomplete="PF('longProcessDialogVar').hide();"
                                     listener="#{financeManager.cashPaymentDialogReturn}"                    
-                                    update="jobFormTabView:cashPayments,jobFormTabView:jobCosting,:jobDialogForm:growl2"
+                                    update="jobDialogForm:jobFormTabView:cashPayments,jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:growl2"
                                     process="@this"/>
 
                         </p:commandButton>  
@@ -336,7 +337,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="dialogReturn" 
                                     listener="#{financeManager.cashPaymentDialogReturn}"                    
-                                    update="jobFormTabView:cashPayments,jobFormTabView:jobCosting,:jobDialogForm:growl2"
+                                    update="jobDialogForm:jobFormTabView:cashPayments,jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:growl2"
                                     process="@this"/>
 
                         </p:commandButton>
@@ -369,6 +370,7 @@ Email: info@dpbennett.com.jm
                                  process="@this" >
 
                     <p:ajax event="dialogReturn" 
+                            oncomplete="PF('longProcessDialogVar').hide();"
                             listener="#{financeManager.cashPaymentDialogReturn}"                   
                             update="jobFormTabView:jobCosting,:jobDialogForm:growl2,cashPayments"
                             process="@this" />

@@ -46,8 +46,7 @@ Email: info@dpbennett.com.jm
                 rendered="#{!jobManager.user.isJobCostingsPreferredJobTableView}"
                 actionListener="#{jobManager.createNewJob}"
                 global="true"                
-                onstart="PF('longProcessDialogVar').show();" 
-                oncomplete="PF('longProcessDialogVar').hide();"
+                onstart="PF('longProcessDialogVar').show();"                 
                 onerror="PF('connectionErrorDialog').show();"
                 value="New"                                       
                 title="Create new job"
@@ -55,6 +54,7 @@ Email: info@dpbennett.com.jm
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         listener="#{jobManager.jobDialogReturn}" />
                 
             </p:commandButton>       

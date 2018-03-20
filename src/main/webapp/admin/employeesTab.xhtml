@@ -30,12 +30,12 @@ Email: info@dpbennett.com.jm
                              value="New"
                              actionListener="#{systemManager.createNewEmployee}"
                              onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              process="@this"
                              icon="ui-icon ui-icon-plus" >
 
                 <p:ajax event="dialogReturn" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"/>
 
             </p:commandButton>

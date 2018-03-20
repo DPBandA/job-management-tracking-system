@@ -29,16 +29,16 @@ Email: info@dpbennett.com.jm
                 global="true"                                        
                 onstart="PF('longProcessDialogVar').show();" 
                 onerror="PF('connectionErrorDialog').show();"
-                oncomplete="PF('longProcessDialogVar').hide();"
                 value="New"       
                 update="headerForm:growl3"
                 title="Create new job"
                 icon="ui-icon-plusthick"
                 process="@this" >
-            
+
                 <p:ajax event="dialogReturn" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         listener="#{jobManager.jobDialogReturn}" />
-            
+
             </p:commandButton>
 
         </p:toolbarGroup>
@@ -73,7 +73,7 @@ Email: info@dpbennett.com.jm
             </p:menuButton>         
         </p:toolbarGroup>
     </p:toolbar>
-   
+
     <ui:include src="jobSearch.xhtml"/>   
 
 
