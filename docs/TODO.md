@@ -5,7 +5,7 @@
 - Add MODULES_ID to JMUsers and modules table to database. 
 - Add Module table and fields
 
-## Inception Report and Misc
+## Inception Report and Workplan
 - Get procedure documents from QEMS of the BSJ, NCRA and NCBJ
 - Provide content and format report based on BABOK if possible.
 - Get requirements for Food Dept.
@@ -21,28 +21,19 @@
   "update" check if it is needed and should be reintroduced.
 - Impl add MainView tab when selected in preferences.
 - Impl dialog return and do search for all system option dialogs. Fix busy wait.
-- Check out the call financeManager.setEnableOnlyPaymentEditing(false/true);
-  and see if it is still relevant.
-- Impl "Organization" in JM user so that the user' correct organization can be
+- Impl "Organization" so that the user's correct organization can be
   selected when subcontracting a job.
   * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
   * Impl businessConverter/Validator. 
   * Add active/head fields to Business class
-- Do report for Edmondson.
-- Start drafting "inception" report and workplan. See meeting notes.
 - Test Edit exiting and create new clients, contacts and addresses.
 - Test out creation and use of costing templates.
 - Test Export service contract and job costing for old jobs that do not have billing 
   address and contact fields set.
-- Update the service contract template with the new control number (MKTG_F_01/04) 
-  and other footer information. 
-  * Let G.A. do the update and create 3 templates one for each organization.
 - Test export all reports in live system.
 - Take job through completion to see if "Job completed by:" checkbox is actually checked.
 - Test that the restriction to create jobs for one's own department actually works.
 - Test adding payment with discount.
-- Doc requirement in inception report. Job should not be marked completed until
-  approved.
 - Do not automatically insert the default contact in job contact for existing jobs.
   * Test this out with existing BSJ jobs.
 - Allow system to allow copying and pasting into text field and record field
@@ -59,9 +50,15 @@
 (i) earning parent jobs 
 (ii) earning jobs
 (iii) non-earning jobs
-- Deploy on test production system.
+- Update database, setup stealth and deploy on test production system.
+- Train Cashier and Customer Service
 
 ## Next release
+- Do report for Edmondson.
+- Job should not be marked completed until approved.
+- Update the service contract template with the new control number (MKTG_F_01/04) 
+  and other footer information. 
+  * Let G.A. do the update and create 3 templates one for each organization.
 - Retire initManagers() and let each manager get currentJob and user from JobManager.
   Note that ClientManager checks the currentJob when "ok" and that it is also used
   when not connected with a job.
