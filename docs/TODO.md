@@ -11,21 +11,17 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
+- Deactivate feature that inserts client and contact when job is subcontract
+  until it is implemented in next release.
+- Impl. adding contact to client with "+" button?
 - Impl creating and editing Job. Look out for "Named" and "ManagedBean" issue.
   * Fix edit job costing..Fix dialog.
   * Fix opening job from cashier view table.
   * Fix adding payments.
   * Check that all components display properly in the job and related dialogs.
 - Implement updating the jobs table loading a job from the table.
-- :jobDialogForm:jobFormTabView:jobNumber/jobSamples was removed from samples table or related component
-  "update" check if it is needed and should be reintroduced.
 - Impl add MainView tab when selected in preferences.
 - Impl dialog return and do search for all system option dialogs. Fix busy wait.
-- Impl "Organization" so that the user's correct organization can be
-  selected when subcontracting a job.
-  * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
-  * Impl businessConverter/Validator. 
-  * Add active/head fields to Business class
 - Test Edit exiting and create new clients, contacts and addresses.
 - Test out creation and use of costing templates.
 - Test Export service contract and job costing for old jobs that do not have billing 
@@ -38,7 +34,7 @@
   * Test this out with existing BSJ jobs.
 - Allow system to allow copying and pasting into text field and record field
   as being edited.
-- Fix "Business office" dropdown menu in employee dialog.
+- Fix "Business office" and other "dropdown menu" in employee dialog.
 - For existing jobs add the contact/address to the client if it does not already exist in the 
   client's list of contacts/addresses.
 - Test "Approve" and "Invoiced" buttons.
@@ -55,6 +51,11 @@
 
 ## Next release
 - Do report for Edmondson.
+- Impl "Organization" so that the user's correct organization can be
+  selected when subcontracting a job.
+  * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
+  * Impl businessConverter/Validator. 
+  * Add active/head fields to Business class
 - Job should not be marked completed until approved.
 - Update the service contract template with the new control number (MKTG_F_01/04) 
   and other footer information. 
