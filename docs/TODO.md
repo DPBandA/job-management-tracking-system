@@ -15,7 +15,7 @@
   * Fix edit job costing..Fix dialog.
   * Fix opening job from cashier view table.
   * Fix adding payments.
-  * Check that all components display properly in the job dialog.
+  * Check that all components display properly in the job and related dialogs.
 - Implement updating the jobs table loading a job from the table.
 - :jobDialogForm:jobFormTabView:jobNumber/jobSamples was removed from samples table or related component
   "update" check if it is needed and should be reintroduced.
@@ -62,6 +62,9 @@
 - Deploy on test production system.
 
 ## Next release
+- Retire initManagers() and let each manager get currentJob and user from JobManager.
+  Note that ClientManager checks the currentJob when "ok" and that it is also used
+  when not connected with a job.
 - Get list of jobs with incorrect clients from Dwight (not Ramdon)
 - Send email notification when invoice is approved. 
 - Allow printing of approved or invoiced jobs.
