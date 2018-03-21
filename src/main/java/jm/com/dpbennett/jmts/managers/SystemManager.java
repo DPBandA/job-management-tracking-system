@@ -828,6 +828,8 @@ public class SystemManager implements Serializable {
         } else {
             foundEmployees = Employee.findEmployeesByName(getEntityManager(), getEmployeeSearchText());
         }
+        
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
     }
 
     public void doUserSearch() {
@@ -837,6 +839,8 @@ public class SystemManager implements Serializable {
         if (foundUsers == null) {
             foundUsers = new ArrayList<>();
         }
+
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
 //        else {
 //            if (isLoggedInUsersOnly) {
@@ -902,6 +906,9 @@ public class SystemManager implements Serializable {
 
     public void createNewLdapContext() {
         selectedLdapContext = new LdapContext();
+
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
 
         PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 450);
     }
@@ -1252,7 +1259,7 @@ public class SystemManager implements Serializable {
 
         selectedUser = new JobManagerUser();
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
-        
+
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
         PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 430, 750);
@@ -1263,6 +1270,8 @@ public class SystemManager implements Serializable {
         selectedDepartment = new Department();
         selectedDepartment.setActive(true);
 
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
     }
 
@@ -1270,17 +1279,25 @@ public class SystemManager implements Serializable {
 
         selectedBusiness = new Business();
 
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+
         PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 600);
     }
 
     public void createNewClassification() {
         selectedClassification = new Classification();
 
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+
         PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 300, 600);
     }
 
     public void createNewJobCategory() {
         selectedJobCategory = new JobCategory();
+
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
 
         PrimeFacesUtils.openDialog(null, "jobCategoryDialog", true, true, true, 300, 500);
     }
@@ -1292,6 +1309,9 @@ public class SystemManager implements Serializable {
     public void createNewJobSubCategory() {
         selectedJobSubcategory = new JobSubCategory();
 
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+
         PrimeFacesUtils.openDialog(null, "jobSubcategoryDialog", true, true, true, 300, 500);
     }
 
@@ -1301,6 +1321,9 @@ public class SystemManager implements Serializable {
 
     public void createNewSector() {
         selectedSector = new Sector();
+
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
 
         PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 500);
     }
@@ -1319,6 +1342,8 @@ public class SystemManager implements Serializable {
         selectedEmployee = new Employee();
         selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(em, "Head Office"));
 
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 350, 600);
     }
 
@@ -1326,6 +1351,9 @@ public class SystemManager implements Serializable {
 
         selectedSystemOption = new SystemOption();
         selectedSystemOption.setCategory("FINANCE");
+
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
 
         PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
     }
