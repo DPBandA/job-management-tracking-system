@@ -5,6 +5,7 @@
 - Add MODULES_ID to JMUsers and modules table to database. 
 - Add Module table and fields
 - Add "active" field to Report class
+- Add fields to support the Organization tab in System Admin.
 - For icons: https://www.primefaces.org/showcase/ui/misc/fa.xhtml
 
 ## Inception Report and Workplan
@@ -14,6 +15,9 @@
 
 ## Testing, Training & Misc
 - Implement search dialog similar to job search for finance/general admin in dashboard.
+- Retire initManagers() and let each manager get currentJob and user from JobManager.
+  Note that ClientManager checks the currentJob when "ok" and that it is also used
+  when not connected with a job.
 - Reinsert code that sends email if job save error occurs.
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
   stealth url forwarding. Use the technique from zoneedit.
@@ -37,9 +41,6 @@
 - Update the service contract template with the new control number (MKTG_F_01/04) 
   and other footer information. 
   * Let G.A. do the update and create 3 templates one for each organization.
-- Retire initManagers() and let each manager get currentJob and user from JobManager.
-  Note that ClientManager checks the currentJob when "ok" and that it is also used
-  when not connected with a job.
 - Get list of jobs with incorrect clients from Dwight (not Ramdon)
 - Send email notification when invoice is approved. 
 - Allow printing of approved or invoiced jobs.
