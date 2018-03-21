@@ -9,6 +9,8 @@
 - For icons: https://www.primefaces.org/showcase/ui/misc/fa.xhtml
 
 ## Inception Report and Workplan
+- Format report by focusing on JMTS modules or the features and requirements 
+  required by the various divisions.
 - Get procedure documents from QEMS of the BSJ, NCRA and NCBJ
 - Provide content and format report based on BABOK if possible.
 - Get requirements for Food Dept.
@@ -21,8 +23,9 @@
 - Reinsert code that sends email if job save error occurs.
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
   stealth url forwarding. Use the technique from zoneedit.
-- Update database, setup stealth and deploy on test production system.
+- Update database tables on production system.
 - Arrange training for Cashier and Customer Service.
+- Complete inception report to be attached to invoice.
 - Do report for Edmondson.
 
 ## Next release
