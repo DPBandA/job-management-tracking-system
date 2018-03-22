@@ -17,8 +17,7 @@
 
 ## Testing, Training & Misc
 - Implement finance/general admin toolbar in dashboard.
-  * Impl. setting focus to system admin search text box when selected in search 
-    menu.
+  * Impl. selecting search toolbar by selecting respective tab. Double-tab selection not working. Fix!
 - Retire initManagers() and let each manager get currentJob and user from JobManager.
   Note that ClientManager checks the currentJob when "ok" and that it is also used
   when not connected with a job.
@@ -34,7 +33,7 @@
 - Include javascript check of a variable if it is null as a means to determine
   if connection is live in keepAlive code. 
 - Test creating new and searching for system objects from dashboard toolbar menu.
-- Make address and contact dialogs external and lmplement adding contact/address 
+- Make address and contact dialogs external and implement adding contact/address 
   via the client's action menu.
 - Impl "Organization" so that the user's correct organization can be
   selected when subcontracting a job.

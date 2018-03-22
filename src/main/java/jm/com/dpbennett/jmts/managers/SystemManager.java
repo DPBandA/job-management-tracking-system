@@ -737,6 +737,8 @@ public class SystemManager implements Serializable {
         } else {
             foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
         }
+        
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
     }
 
@@ -760,6 +762,9 @@ public class SystemManager implements Serializable {
         } else {
             foundClassifications = Classification.findClassificationsByName(getEntityManager(), getClassificationSearchText());
         }
+        
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
 
     }
 
@@ -780,6 +785,9 @@ public class SystemManager implements Serializable {
         } else {
             foundJobCategories = JobCategory.findJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
         }
+        
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
 
     }
 

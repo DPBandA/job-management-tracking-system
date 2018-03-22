@@ -188,7 +188,7 @@ Email: info@dpbennett.com.jm
                                      update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
                                      process="@this" />
                 </p:menuitem>      
-                
+
                 <p:menuitem>                       
                     <p:commandButton value="Employees"
                                      style="width: 100%;text-align: left;background: none;border: 0;"
@@ -200,6 +200,44 @@ Email: info@dpbennett.com.jm
                                      update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"
                                      process="@this" />
                 </p:menuitem>  
+
+                <p:menuitem>                       
+                    <p:commandButton value="Departments"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     title="Search for departments"
+                                     icon="fa fa-search"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{systemManager.doDepartmentSearch}" 
+                                     oncomplete="longProcessDialogVar.hide();centerTabVar.select(2);"
+                                     update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
+                                     process="@this" />
+                </p:menuitem>  
+
+                <p:menuitem>                       
+                    <p:commandButton value="Job classifications"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     title="Search for job classifications"
+                                     icon="fa fa-search"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{systemManager.doClassificationSearch}" 
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable"
+                                     process="@this" />
+                </p:menuitem> 
+
+                <ui:remove>
+                    <p:menuitem>                       
+                        <p:commandButton value="Job categories"
+                                         style="width: 100%;text-align: left;background: none;border: 0;"
+                                         title="Search for job categories"
+                                         icon="fa fa-search"
+                                         onstart="PF('longProcessDialogVar').show();" 
+                                         actionListener="#{systemManager.doJobCategorySearch}" 
+                                         oncomplete="longProcessDialogVar.hide();dataListsTabViewVar.select(1);"
+                                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"
+                                         process="@this" />
+                    </p:menuitem> 
+                </ui:remove>
 
             </p:menuButton>         
         </p:toolbarGroup>
