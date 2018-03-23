@@ -17,19 +17,23 @@
 
 ## Testing, Training & Misc
 - Implement finance/general admin toolbar in dashboard.
-  * Impl. selecting search toolbar by selecting respective tab. Double-tab selection not working. Fix!
+  * Impl. selecting search toolbar by selecting respective tab. 
+  * Double-tab selection not working for search . Fix by selecting tab as is done for LDAP search.
+    Display header form growl if the tab cannot be selected.
 - Retire initManagers() and let each manager get currentJob and user from JobManager.
   Note that ClientManager checks the currentJob when "ok" and that it is also used
   when not connected with a job.
 - Reinsert code that sends email if job save error occurs.
-- Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
-  stealth url forwarding. Use the technique from zoneedit.
 - Update database tables on production system.
-- Arrange training for Cashier and Customer Service.
+- Prepare for and arrange training for Cashier and Customer Service.
 - Complete inception report to be attached to invoice.
 - Do report for Edmondson.
 
 ## Next release
+- Setup glassfish as windows service. 
+  * See http://www.luv2code.com/2013/11/13/install-glassfish-4-as-a-windows-service/
+- Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
+  stealth url forwarding. Use the technique from zoneedit.
 - Include javascript check of a variable if it is null as a means to determine
   if connection is live in keepAlive code. 
 - Test creating new and searching for system objects from dashboard toolbar menu.

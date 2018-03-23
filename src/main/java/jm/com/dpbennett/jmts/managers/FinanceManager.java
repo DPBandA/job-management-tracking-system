@@ -1145,7 +1145,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void okJobCosting(ActionEvent actionEvent) {
 
-       try {
+        try {
 
             if (getUser().getEmployee() != null) {
                 currentJob.getJobCostingAndPayment().setFinalCostDoneBy(getUser().getEmployee().getName());
@@ -1546,6 +1546,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             PrimeFacesUtils.addMessage("Job NOT Saved",
                     "Job must be saved before the job costing can be viewed or edited",
                     FacesMessage.SEVERITY_WARN);
+            PrimeFaces.current().executeScript("PF('longProcessDialogVar').hide();");
         }
     }
 
@@ -2009,7 +2010,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void deleteCashPayment() {
 
         List<CashPayment> payments = currentJob.getJobCostingAndPayment().getCashPayments();
-        
+
         for (CashPayment payment : payments) {
             if (payment.equals(selectedCashPayment)) {
                 payments.remove(selectedCashPayment);
@@ -2069,27 +2070,24 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     // tk delete if not needed
     public void doUnitCostSearch() {
-        RequestContext context = RequestContext.getCurrentInstance();
 
         unitCosts = UnitCost.findUnitCosts(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
-        context.update("unitCostsTableForm");
+        PrimeFaces.current().ajax().update("unitCostsTableForm");
     }
 
     // tk delete if not needed
     public void doJobCostSearch() {
-        RequestContext context = RequestContext.getCurrentInstance();
 
         jobsWithCostings = Job.findJobsWithJobCosting(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
-        context.update("jobCostsTableForm");
+        PrimeFaces.current().ajax().update("jobCostsTableForm");
     }
 
     public void createNewUnitCost() {
-        RequestContext context = RequestContext.getCurrentInstance();
 
         currentUnitCost = new UnitCost();
 
-        context.update("unitCostForm");
-        context.execute("PF('unitCostDialog').show();");
+        PrimeFaces.current().ajax().update("unitCostForm");
+        PrimeFaces.current().executeScript("PF('unitCostDialog').show();");
     }
 
     public void editUnitCost() {
@@ -2103,9 +2101,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void handleDialogYesButtonClick() {
 
         if (dialogActionHandlerId.equals("unitCostDirty")) {
-            RequestContext context = RequestContext.getCurrentInstance();
             saveUnitCost();
-            context.execute("PF('unitCostDialog').hide();");
+            PrimeFaces.current().executeScript("PF('unitCostDialog').hide();");
         }
 
     }
@@ -2265,23 +2262,24 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             return new ArrayList<>();
         }
     }
-    
+
     /**
-     * Return discount types. NB: Discount types to be obtained from System Options
-     * in the future
+     * Return discount types. NB: Discount types to be obtained from System
+     * Options in the future
+     *
      * @param query
-     * @return 
+     * @return
      */
     public List<String> completeDiscountType(String query) {
         String discountTypes[] = {"Currency", "Percentage"};
         List<String> matchedDiscountTypes = new ArrayList<>();
-        
+
         for (String discountType : discountTypes) {
             if (discountType.contains(query)) {
                 matchedDiscountTypes.add(discountType);
-            } 
+            }
         }
-        
+
         return matchedDiscountTypes;
 
     }

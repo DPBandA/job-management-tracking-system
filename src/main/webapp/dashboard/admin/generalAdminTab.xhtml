@@ -225,19 +225,65 @@ Email: info@dpbennett.com.jm
                                      process="@this" />
                 </p:menuitem> 
 
-                <ui:remove>
-                    <p:menuitem>                       
-                        <p:commandButton value="Job categories"
-                                         style="width: 100%;text-align: left;background: none;border: 0;"
-                                         title="Search for job categories"
-                                         icon="fa fa-search"
-                                         onstart="PF('longProcessDialogVar').show();" 
-                                         actionListener="#{systemManager.doJobCategorySearch}" 
-                                         oncomplete="longProcessDialogVar.hide();dataListsTabViewVar.select(1);"
-                                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"
-                                         process="@this" />
-                    </p:menuitem> 
-                </ui:remove>
+                <p:menuitem>                       
+                    <p:commandButton value="Job categories"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     title="Search for job categories"
+                                     icon="fa fa-search"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{systemManager.doJobCategorySearch}" 
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"
+                                     process="@this" />
+                </p:menuitem> 
+
+                <p:menuitem>                       
+                    <p:commandButton value="Job subcategories"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     title="Search for job subcategories"
+                                     icon="fa fa-search"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{systemManager.doJobSubcategorySearch}" 
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
+                                     process="@this" />
+                </p:menuitem> 
+
+                <p:menuitem>                       
+                    <p:commandButton value="Sectors"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     title="Search for sectors"
+                                     icon="fa fa-search"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{systemManager.doSectorSearch}" 
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
+                                     process="@this" />
+                </p:menuitem> 
+                
+                <p:menuitem>                       
+                    <p:commandButton value="LDAP configurations"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     title="Search for LDAP configurations"
+                                     icon="fa fa-search"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{systemManager.doLdapContextSearch}" 
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:LDAPTable"
+                                     process="@this" />
+                </p:menuitem>
+                
+                <p:menuitem>                       
+                    <p:commandButton value="System configurations"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     title="Search for system configurations"
+                                     icon="fa fa-search"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{systemManager.doSystemOptionSearch}" 
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"
+                                     process="@this" />
+                </p:menuitem>
 
             </p:menuButton>         
         </p:toolbarGroup>

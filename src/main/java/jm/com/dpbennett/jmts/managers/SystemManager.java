@@ -737,7 +737,7 @@ public class SystemManager implements Serializable {
         } else {
             foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
         }
-        
+
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
     }
@@ -762,7 +762,7 @@ public class SystemManager implements Serializable {
         } else {
             foundClassifications = Classification.findClassificationsByName(getEntityManager(), getClassificationSearchText());
         }
-        
+
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
         PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
 
@@ -776,6 +776,9 @@ public class SystemManager implements Serializable {
             foundSectors = Sector.findSectorsByName(getEntityManager(), getSectorSearchText());
         }
 
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+
     }
 
     public void doJobCategorySearch() {
@@ -785,7 +788,7 @@ public class SystemManager implements Serializable {
         } else {
             foundJobCategories = JobCategory.findJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
         }
-        
+
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
         PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
 
@@ -798,6 +801,9 @@ public class SystemManager implements Serializable {
         } else {
             foundJobSubcategories = JobSubCategory.findJobSubcategoriesByName(getEntityManager(), getJobSubcategorySearchText());
         }
+
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
     }
 
     public void doSystemOptionSearch() {
@@ -808,6 +814,9 @@ public class SystemManager implements Serializable {
             foundSystemOptions = new ArrayList<>();
         }
 
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
+
     }
 
     public void doLdapContextSearch() {
@@ -815,6 +824,14 @@ public class SystemManager implements Serializable {
             foundLdapContexts = LdapContext.findActiveLdapContexts(getEntityManager(), getLdapSearchText());
         } else {
             foundLdapContexts = LdapContext.findLdapContexts(getEntityManager(), getLdapSearchText());
+        }
+
+        if (getMainTabView().findTab("System Administration") == null) {
+            getMainTabView().addTab(getEntityManager(), "System Administration", true);
+            PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
+        } else {
+            PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
+            PrimeFaces.current().executeScript("PF('systemConfigurationTabViewVar').select(0);");
         }
 
     }
@@ -836,7 +853,7 @@ public class SystemManager implements Serializable {
         } else {
             foundEmployees = Employee.findEmployeesByName(getEntityManager(), getEmployeeSearchText());
         }
-        
+
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
     }
 
