@@ -19,17 +19,16 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -53,7 +52,6 @@ import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.MainTabView;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.Tab;
-import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.TabChangeEvent;
@@ -730,8 +728,6 @@ public class SystemManager implements Serializable {
 
     public void doDepartmentSearch() {
 
-        RequestContext context = RequestContext.getCurrentInstance();
-
         if (getIsActiveDepartmentsOnly()) {
             foundDepartments = Department.findActiveDepartmentsByName(getEntityManager(), getDepartmentSearchText());
         } else {
@@ -744,15 +740,6 @@ public class SystemManager implements Serializable {
 
     public void doBusinessSearch() {
 
-        System.out.println("Doing business search..."); // tk
-//        RequestContext context = RequestContext.getCurrentInstance();
-//
-//        if (getIsActiveDepartmentsOnly()) {
-//            foundDepartments = Department.findActiveDepartmentsByName(getEntityManager(), getDepartmentSearchText());
-//        } else {
-//            foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
-//        }
-
     }
 
     public void doClassificationSearch() {
@@ -763,8 +750,7 @@ public class SystemManager implements Serializable {
             foundClassifications = Classification.findClassificationsByName(getEntityManager(), getClassificationSearchText());
         }
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+        selectSystemAdminTab("dataListsTabViewVar", "Classifications", 3, 0);
 
     }
 
@@ -776,8 +762,7 @@ public class SystemManager implements Serializable {
             foundSectors = Sector.findSectorsByName(getEntityManager(), getSectorSearchText());
         }
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+        selectSystemAdminTab("dataListsTabViewVar", "Sectors", 3, 3);
 
     }
 
@@ -789,8 +774,7 @@ public class SystemManager implements Serializable {
             foundJobCategories = JobCategory.findJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
         }
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+        selectSystemAdminTab("dataListsTabViewVar", "Job categories", 3, 1);
 
     }
 
@@ -802,8 +786,28 @@ public class SystemManager implements Serializable {
             foundJobSubcategories = JobSubCategory.findJobSubcategoriesByName(getEntityManager(), getJobSubcategorySearchText());
         }
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+        selectSystemAdminTab("dataListsTabViewVar", "Job subcategories", 3, 2);
+
+    }
+
+    /**
+     * Select an system administration tab based on whether or not the tab is
+     * already opened.
+     *
+     * @param innerTabViewVar
+     * @param innerTabName
+     * @param adminTabIndex
+     * @param innerTabIndex
+     */
+    private void selectSystemAdminTab(String innerTabViewVar, String innerTabName, int adminTabIndex, int innerTabIndex) {
+        if (getMainTabView().findTab("System Administration") == null) {
+            getMainTabView().addTab(getEntityManager(), "System Administration", true);
+            PrimeFaces.current().executeScript("PF('centerTabVar').select(" + adminTabIndex + ");");
+            PrimeFacesUtils.addMessage("Select Tab", "Select the " + innerTabName + " tab to begin search", FacesMessage.SEVERITY_INFO);
+        } else {
+            PrimeFaces.current().executeScript("PF('centerTabVar').select(" + adminTabIndex + ");");
+            PrimeFaces.current().executeScript("PF('" + innerTabViewVar + "').select(" + innerTabIndex + ");");
+        }
     }
 
     public void doSystemOptionSearch() {
@@ -814,8 +818,7 @@ public class SystemManager implements Serializable {
             foundSystemOptions = new ArrayList<>();
         }
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
+        selectSystemAdminTab("systemConfigurationTabViewVar", "Miscellaneous", 4, 1);
 
     }
 
@@ -826,13 +829,7 @@ public class SystemManager implements Serializable {
             foundLdapContexts = LdapContext.findLdapContexts(getEntityManager(), getLdapSearchText());
         }
 
-        if (getMainTabView().findTab("System Administration") == null) {
-            getMainTabView().addTab(getEntityManager(), "System Administration", true);
-            PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
-        } else {
-            PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
-            PrimeFaces.current().executeScript("PF('systemConfigurationTabViewVar').select(0);");
-        }
+        selectSystemAdminTab("systemConfigurationTabViewVar", "LDAP", 4, 0);
 
     }
 
@@ -855,6 +852,7 @@ public class SystemManager implements Serializable {
         }
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
+       
     }
 
     public void doUserSearch() {
@@ -865,8 +863,9 @@ public class SystemManager implements Serializable {
             foundUsers = new ArrayList<>();
         }
 
+        // Add tab if it does not exist
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
-
+       
 //        else {
 //            if (isLoggedInUsersOnly) {
 //                List<JobManagerUser> loggedInUsers = new ArrayList<>();

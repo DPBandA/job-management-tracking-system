@@ -25,7 +25,6 @@ import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
@@ -39,9 +38,9 @@ import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import org.primefaces.PrimeFaces;
-import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -53,12 +52,11 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
-    private Job currentJob;
     private JobSample selectedJobSample;
     private JobSample selectedJobSampleBackup;
     private Integer jobSampleDialogTabViewActiveIndex;
-    private JobManagerUser user;
-    
+    private JobManager jobManager;
+
     /**
      * Creates a new instance of JobManagerBean
      */
@@ -69,26 +67,30 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     private void init() {
         selectedJobSample = new JobSample();
         jobSampleDialogTabViewActiveIndex = 0;
-        currentJob = null;
         selectedJobSampleBackup = null;
-        user = null;
+    }
+
+    public JobManager getJobManager() {
+        if (jobManager == null) {
+            jobManager = Application.findBean("jobManager");
+        }
+        return jobManager;
     }
 
     public void reset() {
         init();
     }
-    
+
     public Boolean isSamplesDirty() {
         Boolean dirty = false;
-                
+
         for (JobSample jobSample : getCurrentJob().getJobSamples()) {
             dirty = dirty || jobSample.getIsDirty();
         }
-        
+
         return dirty;
     }
 
-    
     public void createNewJobSample(ActionEvent event) {
 
         if (getCurrentJob().hasOnlyDefaultJobSample()) {
@@ -99,7 +101,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
             selectedJobSample = new JobSample();
             selectedJobSample.setIsToBeAdded(true);
             // Init sample
-            selectedJobSample.setJobId(currentJob.getId());
+            selectedJobSample.setJobId(getCurrentJob().getId());
             selectedJobSample.setSampleQuantity(1L);
             selectedJobSample.setQuantity(1L);
 
@@ -123,15 +125,8 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         }
     }
 
-    public void setUser(JobManagerUser user) {
-        this.user = user;
-    }
-
     public JobManagerUser getUser() {
-        if (user == null) {
-            return new JobManagerUser();
-        }
-        return user;
+        return getJobManager().getUser();
     }
 
     @Override
@@ -220,7 +215,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         EntityManager em = getEntityManager1();
         updateSampleReference();
         if (selectedJobSample.getIsToBeAdded()) {
-            currentJob.getJobSamples().add(selectedJobSample);
+            getCurrentJob().getJobSamples().add(selectedJobSample);
         }
 
         selectedJobSample.setIsToBeAdded(false);
@@ -230,20 +225,20 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         updateSampleReferences();
 
         // Update department
-        if (!currentJob.getDepartment().getName().equals("")) {
-            Department department = Department.findDepartmentByName(em, currentJob.getDepartment().getName());
+        if (!getCurrentJob().getDepartment().getName().equals("")) {
+            Department department = Department.findDepartmentByName(em, getCurrentJob().getDepartment().getName());
             if (department != null) {
-                currentJob.setDepartment(department);
+                getCurrentJob().setDepartment(department);
             }
         }
         // Update subcontracted department
-        if (!currentJob.getSubContractedDepartment().getName().equals("")) {
-            Department subContractedDepartment = Department.findDepartmentByName(em, currentJob.getSubContractedDepartment().getName());
-            currentJob.setSubContractedDepartment(subContractedDepartment);
+        if (!getCurrentJob().getSubContractedDepartment().getName().equals("")) {
+            Department subContractedDepartment = Department.findDepartmentByName(em, getCurrentJob().getSubContractedDepartment().getName());
+            getCurrentJob().setSubContractedDepartment(subContractedDepartment);
         }
 
-        if (currentJob.getAutoGenerateJobNumber()) {
-            currentJob.setJobNumber(getCurrentJobNumber());
+        if (getCurrentJob().getAutoGenerateJobNumber()) {
+            getCurrentJob().setJobNumber(getCurrentJobNumber());
         }
         jobSampleDialogTabViewActiveIndex = 0;
 
@@ -253,13 +248,13 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     public void deleteJobSample() {
 
         // update number of samples
-        if ((currentJob.getNumberOfSamples() - selectedJobSample.getSampleQuantity()) > 0) {
-            currentJob.setNumberOfSamples(currentJob.getNumberOfSamples() - selectedJobSample.getSampleQuantity());
+        if ((getCurrentJob().getNumberOfSamples() - selectedJobSample.getSampleQuantity()) > 0) {
+            getCurrentJob().setNumberOfSamples(getCurrentJob().getNumberOfSamples() - selectedJobSample.getSampleQuantity());
         } else {
-            currentJob.setNumberOfSamples(0L);
+            getCurrentJob().setNumberOfSamples(0L);
         }
 
-        List<JobSample> samples = currentJob.getJobSamples();
+        List<JobSample> samples = getCurrentJob().getJobSamples();
         int index = 0;
         for (JobSample sample : samples) {
             if (sample.getReference().equals(selectedJobSample.getReference())) {
@@ -272,8 +267,8 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
         updateSampleReferences();
 
-        if (currentJob.getAutoGenerateJobNumber()) {
-            currentJob.setJobNumber(getCurrentJobNumber());
+        if (getCurrentJob().getAutoGenerateJobNumber()) {
+            getCurrentJob().setJobNumber(getCurrentJobNumber());
         }
 
         // Do job save if possible...
@@ -296,14 +291,14 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public void setEditSelectedJobSample(JobSample selectedJobSample) {
-        
+
         // Get the saved sample for edit if it exists
         if (selectedJobSample.getId() != null) {
             EntityManager em = getEntityManager1();
             this.selectedJobSample = JobSample.findJobSampleById(em, selectedJobSample.getId());
             em.refresh(this.selectedJobSample);
             getCurrentJob().getJobSamples().remove(selectedJobSample);
-            getCurrentJob().getJobSamples().add(this.selectedJobSample);  
+            getCurrentJob().getJobSamples().add(this.selectedJobSample);
         } else {
             this.selectedJobSample = selectedJobSample;
         }
@@ -357,11 +352,11 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     private Long getCurrentNumberOfJobSamples() {
-        if (currentJob.getNumberOfSamples() == null) {
-            currentJob.setNumberOfSamples(0L);
-            return currentJob.getNumberOfSamples();
+        if (getCurrentJob().getNumberOfSamples() == null) {
+            getCurrentJob().setNumberOfSamples(0L);
+            return getCurrentJob().getNumberOfSamples();
         } else {
-            return currentJob.getNumberOfSamples();
+            return getCurrentJob().getNumberOfSamples();
         }
     }
 
@@ -371,36 +366,34 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     public void checkNumberOfJobSamplesAndGroups() {
         EntityManager em = getEntityManager1();
 
-        // setup context for client response
-        RequestContext context = RequestContext.getCurrentInstance();
         // check for max sample
         int maxSamples = Integer.parseInt(SystemOption.findSystemOptionByName(em, "maximumJobSamples").getOptionValue());
         if (getCurrentNumberOfJobSamples() == maxSamples) {
-            context.addCallbackParam("maxJobSamplesReached", true);
+            PrimeFaces.current().ajax().addCallbackParam("maxJobSamplesReached", true);
         }
         // check for max sample groups
         int maxGropus = Integer.parseInt(SystemOption.findSystemOptionByName(em, "maximumJobSampleGroups").getOptionValue());
-        if (currentJob.getJobSamples().size() == maxGropus) {
-            context.addCallbackParam("maxJobSampleGroupsReached", true);
+        if (getCurrentJob().getJobSamples().size() == maxGropus) {
+            PrimeFaces.current().ajax().addCallbackParam("maxJobSampleGroupsReached", true);
         }
     }
 
     private void setNumberOfSamples() {
-        currentJob.setNumberOfSamples(0L);
-        for (int i = 0; i < currentJob.getJobSamples().size(); i++) {
-            if (currentJob.getJobSamples().get(i).getSampleQuantity() == null) {
-                currentJob.getJobSamples().get(i).setSampleQuantity(1L);
+        getCurrentJob().setNumberOfSamples(0L);
+        for (int i = 0; i < getCurrentJob().getJobSamples().size(); i++) {
+            if (getCurrentJob().getJobSamples().get(i).getSampleQuantity() == null) {
+                getCurrentJob().getJobSamples().get(i).setSampleQuantity(1L);
             }
-            currentJob.setNumberOfSamples(currentJob.getNumberOfSamples()
-                    + currentJob.getJobSamples().get(i).getSampleQuantity());
+            getCurrentJob().setNumberOfSamples(getCurrentJob().getNumberOfSamples()
+                    + getCurrentJob().getJobSamples().get(i).getSampleQuantity());
         }
     }
 
     private void updateSampleReferences() {
         Long refIndex = 0L;
 
-        ArrayList<JobSample> samplesCopy = new ArrayList<>(currentJob.getJobSamples());
-        currentJob.getJobSamples().clear();
+        ArrayList<JobSample> samplesCopy = new ArrayList<>(getCurrentJob().getJobSamples());
+        getCurrentJob().getJobSamples().clear();
 
         for (JobSample jobSample : samplesCopy) {
 
@@ -412,7 +405,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
                         + BusinessEntityUtils.getAlphaCode(refIndex + jobSample.getSampleQuantity() - 1));
             }
 
-            currentJob.getJobSamples().add(jobSample);
+            getCurrentJob().getJobSamples().add(jobSample);
 
             refIndex = refIndex + jobSample.getSampleQuantity();
 
@@ -420,11 +413,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public Job getCurrentJob() {
-        return currentJob;
-    }
-
-    public void setCurrentJob(Job currentJob) {
-        this.currentJob = currentJob;
+        return getJobManager().getCurrentJob();
     }
 
     public JobSample getSelectedJobSample() {
@@ -436,7 +425,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
     }
 
     public String getCurrentJobNumber() {
-        return Job.getJobNumber(currentJob, getEntityManager1());
+        return Job.getJobNumber(getCurrentJob(), getEntityManager1());
     }
 
     private EntityManager getEntityManager1() {

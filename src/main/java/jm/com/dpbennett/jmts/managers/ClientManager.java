@@ -25,7 +25,6 @@ import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
@@ -38,8 +37,6 @@ import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import org.primefaces.context.RequestContext;
-import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.business.entity.validator.AddressValidator;
 import jm.com.dpbennett.business.entity.validator.ContactValidator;
@@ -60,14 +57,13 @@ public class ClientManager implements Serializable {
     private EntityManagerFactory entityManagerFactory;
     private Boolean isClientNameAndIdEditable;
     private Boolean isActiveClientsOnly;
-    private Client currentClient;
+    private Client selectedClient;
     private Contact selectedContact;
     private Address selectedAddress;
-    private Job currentJob;
-    private JobManagerUser user;
     private String searchText;
     private List<Client> foundClients;
     private MainTabView mainTabView;
+    private JobManager jobManager;
 
     /**
      * Creates a new instance of ClientForm
@@ -76,19 +72,32 @@ public class ClientManager implements Serializable {
         init();
     }
 
+    public JobManager getJobManager() {
+        if (jobManager == null) {
+            jobManager = Application.findBean("jobManager");
+        }
+        return jobManager;
+    }
+
     private void init() {
         isClientNameAndIdEditable = false; // tk put as transient in Client
         foundClients = new ArrayList<>();
-        currentClient = null;
+        selectedClient = null;
         selectedContact = null;
         selectedAddress = null;
-        currentJob = null;
-        user = null;
         searchText = null;
     }
 
     public void reset() {
         init();
+    }
+
+    public Client getSelectedClient() {
+        return selectedClient;
+    }
+
+    public void setSelectedClient(Client selectedClient) {
+        this.selectedClient = selectedClient;
     }
 
     public Contact getSelectedContact() {
@@ -107,13 +116,14 @@ public class ClientManager implements Serializable {
         this.selectedAddress = selectedAddress;
     }
 
-    public void clientDialogReturn() {
-        if (getCurrentJob().getIsDirty() && getCurrentJob().getId() != null) {
-            if (getCurrentJob().prepareAndSave(getEntityManager(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Client and Job Saved", "This job and the edited/added client were saved", FacesMessage.SEVERITY_INFO);
-            }
-        }
-    }
+    // tk to be removed
+//    public void clientDialogReturn() {
+//        if (getCurrentJob().getIsDirty() && getCurrentJob().getId() != null) {
+//            if (getCurrentJob().prepareAndSave(getEntityManager(), getUser()).isSuccess()) {
+//                PrimeFacesUtils.addMessage("Client and Job Saved", "This job and the edited/added client were saved", FacesMessage.SEVERITY_INFO);
+//            }
+//        }
+//    }
 
     public void onClientCellEdit(CellEditEvent event) {
         Application.saveBusinessEntity(getEntityManager(), getFoundClients().get(event.getRowIndex()));
@@ -228,14 +238,6 @@ public class ClientManager implements Serializable {
         return getCurrentClient().getContacts();
     }
 
-    public void setCurrentJob(Job currentJob) {
-        this.currentJob = currentJob;
-    }
-
-    public Job getCurrentJob() {
-        return currentJob;
-    }
-
     public Address getCurrentAddress() {
         return getCurrentClient().getDefaultAddress();
     }
@@ -249,18 +251,13 @@ public class ClientManager implements Serializable {
     }
 
     public JobManagerUser getUser() {
-        return this.user;
-    }
-
-    public void setUser(JobManagerUser user) {
-        this.user = user;
+        return getJobManager().getUser();
     }
 
     public void editClient() {
     }
 
     public void editSelectedClient() {
-        setCurrentJob(null);
 
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
     }
@@ -270,7 +267,7 @@ public class ClientManager implements Serializable {
     }
 
     public void updateClientName(AjaxBehaviorEvent event) {
-        currentClient.setName(currentClient.getName().trim());
+        selectedClient.setName(selectedClient.getName().trim());
 
         setIsDirty(true);
     }
@@ -284,7 +281,7 @@ public class ClientManager implements Serializable {
     }
 
     public void createNewClient(Boolean active) {
-        currentClient = new Client("", active);
+        selectedClient = new Client("", active);
     }
 
     public void setMainTabView(MainTabView mainTabView) {
@@ -297,7 +294,7 @@ public class ClientManager implements Serializable {
 
     public void createNewClient() {
         createNewClient(true);
-        setCurrentJob(null);
+
         setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
@@ -312,14 +309,14 @@ public class ClientManager implements Serializable {
     }
 
     public Client getCurrentClient() {
-        if (currentClient == null) {
+        if (selectedClient == null) {
             return new Client("");
         }
-        return currentClient;
+        return selectedClient;
     }
 
     public void setCurrentClient(Client currentClient) {
-        this.currentClient = currentClient;
+        this.selectedClient = currentClient;
     }
 
     public Client getClientById(EntityManager em, Long Id) {
@@ -353,7 +350,7 @@ public class ClientManager implements Serializable {
 
             // Validate 
             // Check for a valid address
-            for (Address address : currentClient.getAddresses()) {
+            for (Address address : selectedClient.getAddresses()) {
                 hasValidAddress = hasValidAddress || AddressValidator.validate(address);
             }
             if (!hasValidAddress) {
@@ -365,7 +362,7 @@ public class ClientManager implements Serializable {
             }
 
             // Check for a valid contact
-            for (Contact contact : currentClient.getContacts()) {
+            for (Contact contact : selectedClient.getContacts()) {
                 hasValidContact = hasValidContact || ContactValidator.validate(contact);
             }
             if (!hasValidContact) {
@@ -382,8 +379,8 @@ public class ClientManager implements Serializable {
                 getCurrentClient().setDateEntered(new Date());
                 getCurrentClient().setDateEdited(new Date());
                 if (getUser() != null) {
-                    currentClient.setEnteredBy(getUser().getEmployee());
-                    currentClient.setEditedBy(getUser().getEmployee());
+                    selectedClient.setEnteredBy(getUser().getEmployee());
+                    selectedClient.setEditedBy(getUser().getEmployee());
                 }
             }
 
@@ -391,22 +388,10 @@ public class ClientManager implements Serializable {
             if (getIsDirty()) {
                 getCurrentClient().setDateEdited(new Date());
                 if (getUser() != null) {
-                    currentClient.setEditedBy(getUser().getEmployee());
+                    selectedClient.setEditedBy(getUser().getEmployee());
                 }
-                currentClient.save(getEntityManager());
+                selectedClient.save(getEntityManager());
                 setIsDirty(false);
-
-                // Set current job dirty so it can be saved when the client dialog 
-                // returns 
-                if (getCurrentJob() != null) {
-                    getCurrentJob().setIsDirty(true);
-                }
-            }
-
-            // Pass edited objects to the current job
-            // tk check necessary
-            if (getCurrentJob() != null) {
-                getCurrentJob().setClient(getCurrentClient());
             }
 
             PrimeFaces.current().dialog().closeDynamic(null);
@@ -444,11 +429,7 @@ public class ClientManager implements Serializable {
             getCurrentClient().getContacts().add(selectedContact);
         }
 
-        if (currentJob != null) {
-            currentJob.setContact(selectedContact);
-        }
-
-        RequestContext.getCurrentInstance().execute("PF('contactFormDialog').hide();");
+        PrimeFaces.current().executeScript("PF('contactFormDialog').hide();");
 
     }
 
@@ -460,11 +441,7 @@ public class ClientManager implements Serializable {
             getCurrentClient().getAddresses().add(selectedAddress);
         }
 
-        if (currentJob != null) {
-            currentJob.setBillingAddress(selectedAddress);
-        }
-
-        RequestContext.getCurrentInstance().execute("PF('addressFormDialog').hide();");
+        PrimeFaces.current().executeScript("PF('addressFormDialog').hide();");
 
     }
 

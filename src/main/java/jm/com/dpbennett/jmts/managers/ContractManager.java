@@ -48,6 +48,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
+import jm.com.dpbennett.jmts.Application;
 
 /**
  *
@@ -59,9 +60,8 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
-    private Job currentJob;
-    private JobManagerUser user;
     private Integer longProcessProgress;
+    private JobManager jobManager;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -70,28 +70,26 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
         init();
     }
 
-    public void setCurrentJob(Job currentJob) {
-        this.currentJob = currentJob;
+    public JobManager getJobManager() {
+        if (jobManager == null) {
+            jobManager = Application.findBean("jobManager");
+        }
+        return jobManager;
+    }
+
+    public Job getCurrentJob() {
+        return getJobManager().getCurrentJob();
     }
 
     private void init() {
-        currentJob = null;
-        user = null;
     }
 
     public void reset() {
         init();
     }
 
-    public void setUser(JobManagerUser user) {
-        this.user = user;
-    }
-
     public JobManagerUser getUser() {
-        if (user == null) {
-            return new JobManagerUser();
-        }
-        return user;
+        return getJobManager().getUser();
     }
 
     public EntityManager getEntityManager1() {
@@ -106,7 +104,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             em = getEntityManager1();
 
             String filePath = SystemOption.findSystemOptionByName(em, "serviceContract").getOptionValue();
-            FileInputStream stream = createServiceContractExcelFileInputStream(em, getUser(), currentJob.getId(), filePath);
+            FileInputStream stream = createServiceContractExcelFileInputStream(em, getUser(), getCurrentJob().getId(), filePath);
 
             DefaultStreamedContent dsc = new DefaultStreamedContent(stream, "application/xls", "servicecontract.xls");
 
@@ -159,164 +157,164 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
 
     // service requested - calibration
     public Boolean getServiceRequestedCalibration() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getServiceRequestedCalibration();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getServiceRequestedCalibration();
         } else {
             return false;
         }
     }
 
     public void setServiceRequestedCalibration(Boolean b) {
-        currentJob.getServiceContract().setServiceRequestedCalibration(b);
+        getCurrentJob().getServiceContract().setServiceRequestedCalibration(b);
     }
 
     // service requested - label evaluation
     public Boolean getServiceRequestedLabelEvaluation() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getServiceRequestedLabelEvaluation();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getServiceRequestedLabelEvaluation();
         } else {
             return false;
         }
     }
 
     public void setServiceRequestedLabelEvaluation(Boolean b) {
-        currentJob.getServiceContract().setServiceRequestedLabelEvaluation(b);
+        getCurrentJob().getServiceContract().setServiceRequestedLabelEvaluation(b);
     }
 
     // service requested - inspection
     public Boolean getServiceRequestedInspection() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getServiceRequestedInspection();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getServiceRequestedInspection();
         } else {
             return false;
         }
     }
 
     public void setServiceRequestedInspection(Boolean b) {
-        currentJob.getServiceContract().setServiceRequestedInspection(b);
+        getCurrentJob().getServiceContract().setServiceRequestedInspection(b);
     }
 
     // service requested - consultancy
     public Boolean getServiceRequestedConsultancy() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getServiceRequestedConsultancy();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getServiceRequestedConsultancy();
         } else {
             return false;
         }
     }
 
     public void setServiceRequestedConsultancy(Boolean b) {
-        currentJob.getServiceContract().setServiceRequestedConsultancy(b);
+        getCurrentJob().getServiceContract().setServiceRequestedConsultancy(b);
     }
 
     // service requested - training
     public Boolean getServiceRequestedTraining() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getServiceRequestedTraining();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getServiceRequestedTraining();
         } else {
             return false;
         }
     }
 
     public void setServiceRequestedTraining(Boolean b) {
-        currentJob.getServiceContract().setServiceRequestedTraining(b);
+        getCurrentJob().getServiceContract().setServiceRequestedTraining(b);
     }
 
     // service requested - other
     public Boolean getServiceRequestedOther() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getServiceRequestedOther();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getServiceRequestedOther();
         } else {
             return false;
         }
     }
 
     public void setServiceRequestedOther(Boolean b) {
-        currentJob.getServiceContract().setServiceRequestedOther(b);
+        getCurrentJob().getServiceContract().setServiceRequestedOther(b);
         if (!b) {
-            currentJob.getServiceContract().setServiceRequestedOtherText(null);
+            getCurrentJob().getServiceContract().setServiceRequestedOtherText(null);
         }
     }
 
     //Intended Market
     //intended martket - local
     public Boolean getIntendedMarketLocal() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getIntendedMarketLocal();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getIntendedMarketLocal();
         } else {
             return false;
         }
     }
 
     public void setIntendedMarketLocal(Boolean b) {
-        currentJob.getServiceContract().setIntendedMarketLocal(b);
+        getCurrentJob().getServiceContract().setIntendedMarketLocal(b);
     }
 
     // intended martket - caricom
     public Boolean getIntendedMarketCaricom() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getIntendedMarketCaricom();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getIntendedMarketCaricom();
         } else {
             return false;
         }
     }
 
     public void setIntendedMarketCaricom(Boolean b) {
-        currentJob.getServiceContract().setIntendedMarketCaricom(b);
+        getCurrentJob().getServiceContract().setIntendedMarketCaricom(b);
     }
 
     // intended martket - UK
     public Boolean getIntendedMarketUK() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getIntendedMarketUK();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getIntendedMarketUK();
         } else {
             return false;
         }
     }
 
     public void setIntendedMarketUK(Boolean b) {
-        currentJob.getServiceContract().setIntendedMarketUK(b);
+        getCurrentJob().getServiceContract().setIntendedMarketUK(b);
     }
 
     // intended martket - USA
     public Boolean getIntendedMarketUSA() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getIntendedMarketUSA();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getIntendedMarketUSA();
         } else {
             return false;
         }
     }
 
     public void setIntendedMarketUSA(Boolean b) {
-        currentJob.getServiceContract().setIntendedMarketUSA(b);
+        getCurrentJob().getServiceContract().setIntendedMarketUSA(b);
     }
     // intended martket - Canada
 
     public Boolean getIntendedMarketCanada() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getIntendedMarketCanada();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getIntendedMarketCanada();
         } else {
             return false;
         }
     }
 
     public void setIntendedMarketCanada(Boolean b) {
-        currentJob.getServiceContract().setIntendedMarketCanada(b);
+        getCurrentJob().getServiceContract().setIntendedMarketCanada(b);
     }
 
     // intended martket - Canada
     public Boolean getIntendedMarketOther() {
-        if (currentJob != null) {
-            return currentJob.getServiceContract().getIntendedMarketOther();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getServiceContract().getIntendedMarketOther();
         } else {
             return false;
         }
     }
 
     public void setIntendedMarketOther(Boolean b) {
-        currentJob.getServiceContract().setIntendedMarketOther(b);
+        getCurrentJob().getServiceContract().setIntendedMarketOther(b);
         if (!b) {
-            currentJob.getServiceContract().setIntendedMarketOtherText(null);
+            getCurrentJob().getServiceContract().setIntendedMarketOtherText(null);
         }
     }
 
@@ -325,15 +323,15 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
      * @return
      */
     public Boolean getCompleted() {
-        if (currentJob != null) {
-            return currentJob.getJobStatusAndTracking().getCompleted();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getJobStatusAndTracking().getCompleted();
         } else {
             return false;
         }
     }
 
     public void setCompleted(Boolean b) {
-        currentJob.getJobStatusAndTracking().setCompleted(b);
+        getCurrentJob().getJobStatusAndTracking().setCompleted(b);
     }
 
     public Boolean getJobSaved() {
@@ -341,28 +339,28 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     }
 
     public Boolean getSamplesCollected() {
-        if (currentJob != null) {
-            return currentJob.getJobStatusAndTracking().getSamplesCollected();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getJobStatusAndTracking().getSamplesCollected();
         } else {
             return false;
         }
     }
 
     public void setSamplesCollected(Boolean b) {
-        currentJob.getJobStatusAndTracking().setSamplesCollected(b);
+        getCurrentJob().getJobStatusAndTracking().setSamplesCollected(b);
     }
 
     // documents collected by
     public Boolean getDocumentCollected() {
-        if (currentJob != null) {
-            return currentJob.getJobStatusAndTracking().getDocumentCollected();
+        if (getCurrentJob() != null) {
+            return getCurrentJob().getJobStatusAndTracking().getDocumentCollected();
         } else {
             return false;
         }
     }
 
     public void setDocumentCollected(Boolean b) {
-        currentJob.getJobStatusAndTracking().setDocumentCollected(b);
+        getCurrentJob().getJobStatusAndTracking().setDocumentCollected(b);
     }
 
     public void updateJob() {
@@ -372,7 +370,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     @Override
     public void setIsDirty(Boolean dirty) {
         getCurrentJob().setIsDirty(dirty);
-        
+
         if (dirty) {
             getCurrentJob().getJobStatusAndTracking().setEditStatus("(edited)");
         } else {
@@ -383,10 +381,6 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     @Override
     public Boolean getIsDirty() {
         return getCurrentJob().getIsDirty();
-    }
-
-    public Job getCurrentJob() {
-        return currentJob;
     }
 
     /**
@@ -492,7 +486,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "A6", // A = 0 , 6 = 5
-                    currentJob.getJobNumber(),
+                    getCurrentJob().getJobNumber(),
                     "java.lang.String", dataCellStyle);
 
             // Contracting business office       
@@ -504,7 +498,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "K6",
-                    currentJob.getBusinessOffice().getName(),
+                    getCurrentJob().getBusinessOffice().getName(),
                     "java.lang.String", dataCellStyle);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "K7",
@@ -522,7 +516,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "F9",
-                    currentJob.getJobStatusAndTracking().getEnteredBy().getName(),
+                    getCurrentJob().getJobStatusAndTracking().getEnteredBy().getName(),
                     "java.lang.String", dataCellStyle);
 
             // Date agent prepared contract:   
@@ -536,7 +530,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "F10",
-                    currentJob.getJobStatusAndTracking().getDateAndTimeEntered(),
+                    getCurrentJob().getJobStatusAndTracking().getDateAndTimeEntered(),
                     "java.util.Date", dataCellStyle);
 
             // Department in charge of job (Parent department):   
@@ -550,7 +544,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "F11",
-                    currentJob.getDepartment().getName(),
+                    getCurrentJob().getDepartment().getName(),
                     "java.lang.String", dataCellStyle);
 
             // Estimated turn around time:
@@ -564,7 +558,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "F12",
-                    currentJob.getEstimatedTurnAroundTimeInDays(),
+                    getCurrentJob().getEstimatedTurnAroundTimeInDays(),
                     "java.lang.String", dataCellStyle);
 
             // Estimated Sub Total (J$):
@@ -578,7 +572,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "F13",
-                    currentJob.getJobCostingAndPayment().getEstimatedCost(),
+                    getCurrentJob().getJobCostingAndPayment().getEstimatedCost(),
                     "Currency", dataCellStyle);
 
             dataCellStyle = getDefaultCellStyle(wb);
@@ -591,8 +585,8 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "F14",
-                    currentJob.getJobCostingAndPayment().getEstimatedCost()
-                    * currentJob.getJobCostingAndPayment().getPercentageGCT() / 100,
+                    getCurrentJob().getJobCostingAndPayment().getEstimatedCost()
+                    * getCurrentJob().getJobCostingAndPayment().getPercentageGCT() / 100,
                     "Currency", dataCellStyle);
 
             // Estimated Total Cost (J$):
@@ -606,7 +600,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "F15",
-                    currentJob.getJobCostingAndPayment().getEstimatedCostIncludingTaxes(),
+                    getCurrentJob().getJobCostingAndPayment().getEstimatedCostIncludingTaxes(),
                     "Currency", dataCellStyle);
 
             // Minimum First Deposit (J$):
@@ -619,7 +613,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "F16",
-                    currentJob.getJobCostingAndPayment().getMinDepositIncludingTaxes(),
+                    getCurrentJob().getJobCostingAndPayment().getMinDepositIncludingTaxes(),
                     "Currency", dataCellStyle);
 
             // RECEIPT #
@@ -633,7 +627,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setWrapText(true);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "R9",
-                    currentJob.getJobCostingAndPayment().getReceiptNumber(),
+                    getCurrentJob().getJobCostingAndPayment().getReceiptNumber(),
                     "java.lang.String", dataCellStyle);
 
             // TOTAL PAID (J$)
@@ -647,14 +641,14 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setWrapText(true);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "V9",
-                    currentJob.getJobCostingAndPayment().getTotalPayment(),
+                    getCurrentJob().getJobCostingAndPayment().getTotalPayment(),
                     "Currency", dataCellStyle);
 
             // PAYMENT BREAKDOWN
             // Calculate GCT from payment
-            Double payment = (100.0 * currentJob.getJobCostingAndPayment().getTotalPayment())
-                    / (currentJob.getJobCostingAndPayment().getPercentageGCT() + 100.0);
-            Double jobGCT = currentJob.getJobCostingAndPayment().getTotalPayment() - payment;
+            Double payment = (100.0 * getCurrentJob().getJobCostingAndPayment().getTotalPayment())
+                    / (getCurrentJob().getJobCostingAndPayment().getPercentageGCT() + 100.0);
+            Double jobGCT = getCurrentJob().getJobCostingAndPayment().getTotalPayment() - payment;
             // GCT
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderTop((short) 1);
@@ -684,7 +678,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "AH9",
-                    currentJob.getJobStatusAndTracking().getDepositDate(),
+                    getCurrentJob().getJobStatusAndTracking().getDepositDate(),
                     "java.util.Date", dataCellStyle);
 
             // BALANCE (amount due) 
@@ -692,14 +686,14 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setFont(defaultFont);
             dataCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            if (currentJob.getJobCostingAndPayment().getFinalCost() > 0.0) {
+            if (getCurrentJob().getJobCostingAndPayment().getFinalCost() > 0.0) {
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "AL9",
                         "exactly",
                         "java.lang.String", dataCellStyle);
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "AL10",
-                        currentJob.getJobCostingAndPayment().getAmountDue(),
+                        getCurrentJob().getJobCostingAndPayment().getAmountDue(),
                         "Currency", dataCellStyle);
             } else {
                 BusinessEntityUtils.setExcelCellValue(
@@ -708,8 +702,8 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
                         "java.lang.String", dataCellStyle);
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "AL10",
-                        currentJob.getJobCostingAndPayment().getEstimatedCostIncludingTaxes()
-                        - currentJob.getJobCostingAndPayment().getTotalPayment(),
+                        getCurrentJob().getJobCostingAndPayment().getEstimatedCostIncludingTaxes()
+                        - getCurrentJob().getJobCostingAndPayment().getTotalPayment(),
                         "Currency", dataCellStyle);
             }
 
@@ -722,10 +716,10 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setFont(defaultFont);
             dataCellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
-            if (!currentJob.getJobCostingAndPayment().getPaymentTerms().trim().equals("")) {
+            if (!getCurrentJob().getJobCostingAndPayment().getPaymentTerms().trim().equals("")) {
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "R12",
-                        currentJob.getJobCostingAndPayment().getPaymentTerms(),
+                        getCurrentJob().getJobCostingAndPayment().getPaymentTerms(),
                         "java.lang.String", dataCellStyle);
             } else {
                 BusinessEntityUtils.setExcelCellValue(
@@ -746,7 +740,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "AL12",
-                    currentJob.getJobCostingAndPayment().getLastPaymentEnteredBy().getName(),
+                    getCurrentJob().getJobCostingAndPayment().getLastPaymentEnteredBy().getName(),
                     "java.lang.String", dataCellStyle);
 
             // CLIENT NAME & BILLING ADDRESS
@@ -762,7 +756,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
                     "java.lang.String", dataCellStyle);
 
             // Billing address    
-            Address billingAddress = currentJob.getBillingAddress();
+            Address billingAddress = getCurrentJob().getBillingAddress();
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "A22",
                     billingAddress.getAddressLine1(),
@@ -782,7 +776,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
 
             // Contact person
             // Name
-            Contact contactPerson = currentJob.getContact();            
+            Contact contactPerson = getCurrentJob().getContact();
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderLeft((short) 1);
             dataCellStyle.setFont(defaultFont);
@@ -898,7 +892,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             }
 
             // Purchase Order:        
-            if (currentJob.getJobCostingAndPayment().getPurchaseOrderNumber().equals("")) {
+            if (getCurrentJob().getJobCostingAndPayment().getPurchaseOrderNumber().equals("")) {
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "AN25",
                         "Not applicable",
@@ -906,7 +900,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             } else {
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "AN25",
-                        currentJob.getJobCostingAndPayment().getPurchaseOrderNumber(),
+                        getCurrentJob().getJobCostingAndPayment().getPurchaseOrderNumber(),
                         "java.lang.String", dataCellStyle);
             }
 
@@ -918,7 +912,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "M24",
-                    currentJob.getInstructions(),
+                    getCurrentJob().getInstructions(),
                     "java.lang.String", dataCellStyle);
 
             // DESCRIPTION OF SUBMITTED SAMPLE(S)

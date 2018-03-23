@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import jm.com.dpbennett.business.entity.JobManagerUser;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -36,7 +36,7 @@ public class MainTabView implements Serializable {
     private Integer tabIndex;
     private List<Tab> tabs;
     private JobManagerUser user;
-    
+
     public MainTabView(JobManagerUser user) {
         this.user = user;
         tabs = new ArrayList<>();
@@ -60,27 +60,24 @@ public class MainTabView implements Serializable {
     }
 
     public void update(String componentId) {
-        RequestContext context = RequestContext.getCurrentInstance();
 
-        context.update(componentId);
+        PrimeFaces.current().ajax().update(componentId);
     }
 
     public void update(String tabId, String componentId, String componentVar) {
-        RequestContext context = RequestContext.getCurrentInstance();
         Tab tab = findTab(tabId);
 
         if (tab != null) {
-            context.update(componentId);
+            PrimeFaces.current().ajax().update(componentId);
             select(componentVar, true);
         }
     }
 
     public void select(int tabIndex) {
-        RequestContext context = RequestContext.getCurrentInstance();
 
         this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
 
-        context.execute("PF('mainTabViewVar').select(" + this.tabIndex + ");");
+        PrimeFaces.current().executeScript("PF('mainTabViewVar').select(" + this.tabIndex + ");");
 
     }
 
@@ -89,31 +86,28 @@ public class MainTabView implements Serializable {
     }
 
     public void select(String componentVar, int tabIndex) {
-        RequestContext context = RequestContext.getCurrentInstance();
 
         this.tabIndex = tabIndex < 0 ? 0 : tabIndex;
 
-        context.execute("PF('" + componentVar + "')" + ".select(" + this.tabIndex + ");");
+        PrimeFaces.current().executeScript("PF('" + componentVar + "')" + ".select(" + this.tabIndex + ");");
 
     }
 
     public void select(Boolean wasTabAdded) {
-        RequestContext context = RequestContext.getCurrentInstance();
 
         if (wasTabAdded) {
-            context.execute("PF('mainTabViewVar').select(" + tabIndex + ");");
+            PrimeFaces.current().executeScript("PF('mainTabViewVar').select(" + tabIndex + ");");
         } else {
-            context.execute("PF('mainTabViewVar').select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
+            PrimeFaces.current().executeScript("PF('mainTabViewVar').select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
         }
     }
 
     public void select(String componentVar, Boolean wasTabAdded) {
-        RequestContext context = RequestContext.getCurrentInstance();
 
         if (wasTabAdded) {
-            context.execute("PF('" + componentVar + "')" + ".select(" + tabIndex + ");");
+            PrimeFaces.current().executeScript("PF('" + componentVar + "')" + ".select(" + tabIndex + ");");
         } else {
-            context.execute("PF('" + componentVar + "')" + ".select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
+            PrimeFaces.current().executeScript("PF('" + componentVar + "')" + ".select(" + ((tabIndex - 1) < 0 ? 0 : (tabIndex - 1)) + ");");
         }
     }
 
@@ -153,6 +147,8 @@ public class MainTabView implements Serializable {
         if (tab != null && !render) {
             // Tab is being removed           
             tabs.remove(tab);
+            update("mainTabViewForm:mainTabView");
+            select(render);
         } else if (tab != null && render) {
             // Tab already added
         } else if (tab == null && !render) {
@@ -160,12 +156,9 @@ public class MainTabView implements Serializable {
         } else if (tab == null && render) {
             // Tab is to be added 
             tabs.add(new Tab(tabId, tabId));
+            update("mainTabViewForm:mainTabView");
+            select(render);
         }
-
-        // Update accordion and select the appropriate tab
-        update("mainTabViewForm:mainTabView");
-
-        select(render);
 
     }
 

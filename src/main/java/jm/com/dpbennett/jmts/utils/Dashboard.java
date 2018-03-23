@@ -59,6 +59,9 @@ public class Dashboard implements Serializable {
         if (tab != null && !render) {
             // Tab is being removed           
             tabs.remove(tab);
+            // Update tabview and select the appropriate tab
+            update("dashboardForm:dashboardAccordion");
+            select(render);
         } else if (tab != null && render) {
             // Tab already added
         } else if (tab == null && !render) {
@@ -66,10 +69,10 @@ public class Dashboard implements Serializable {
         } else if (tab == null && render) {
             // Tab is to be rendered 
             tabs.add(new Tab(tabId, tabId));
+            // Update tabview and select the appropriate tab
+            update("dashboardForm:dashboardAccordion");
+            select(render);
         }
-
-        // Update tabview and select the appropriate tab
-        update("dashboardForm:dashboardAccordion");
     }
 
     public int getTabIndex(String tabId) {

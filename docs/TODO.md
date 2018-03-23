@@ -16,13 +16,15 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Implement finance/general admin toolbar in dashboard.
-  * Impl. selecting search toolbar by selecting respective tab. 
-  * Double-tab selection not working for search . Fix by selecting tab as is done for LDAP search.
-    Display header form growl if the tab cannot be selected.
+- Tab admin object search not working when selected from dashboard toolbar!! Fix!!
+- When search text is edited/erased in the "system admin tabs" the text is not erased properly cause 
+  the tab is refreshed each time a search is done. Fix!!.
 - Retire initManagers() and let each manager get currentJob and user from JobManager.
   Note that ClientManager checks the currentJob when "ok" and that it is also used
   when not connected with a job.
+  * Remove dependency of the client manager on the current job.
+  * Test Clients module/tab.
+  * Update clientDialogReturn() to check for client and not job dirtiness.
 - Reinsert code that sends email if job save error occurs.
 - Update database tables on production system.
 - Prepare for and arrange training for Cashier and Customer Service.
@@ -35,7 +37,7 @@
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
   stealth url forwarding. Use the technique from zoneedit.
 - Include javascript check of a variable if it is null as a means to determine
-  if connection is live in keepAlive code. 
+  if connection is live in keepAlive code. Use something like context.addCallbackParam("jobCompleted", false);
 - Test creating new and searching for system objects from dashboard toolbar menu.
 - Make address and contact dialogs external and implement adding contact/address 
   via the client's action menu.
@@ -52,7 +54,7 @@
 - Update the service contract template with the new control number (MKTG_F_01/04) 
   and other footer information. 
   * Let G.A. do the update and create 3 templates one for each organization.
-- Get list of jobs with incorrect clients from Dwight (not Ramdon)
+- Get list of jobs with incorrect clients from Dwight (not Dr Ramdon)
 - Send email notification when invoice is approved. 
 - Allow printing of approved or invoiced jobs.
 - Implement adding new employee in user dialog.

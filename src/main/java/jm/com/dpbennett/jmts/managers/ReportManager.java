@@ -67,6 +67,7 @@ import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReport;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
+import jm.com.dpbennett.jmts.Application;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -109,7 +110,7 @@ import org.primefaces.event.SelectEvent;
 public class ReportManager implements Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")
-    private EntityManagerFactory EMF1;    
+    private EntityManagerFactory EMF1;
     private Job currentJob;
     private String columnsToExclude;
     private Report report;
@@ -129,14 +130,21 @@ public class ReportManager implements Serializable {
     private DatePeriod monthlyReportDatePeriod;
     private DatePeriod monthlyReportDataDatePeriod;
     private DatePeriod monthlyReportYearDatePeriod;
-    private JobManagerUser user;
     private MainTabView mainTabView;
+    private JobManager jobManager;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public ReportManager() {
         init();
+    }
+
+    public JobManager getJobManager() {
+        if (jobManager == null) {
+            jobManager = Application.findBean("jobManager");
+        }
+        return jobManager;
     }
 
     private void init() {
@@ -182,7 +190,7 @@ public class ReportManager implements Serializable {
                 null, false, false, true);
         currentJob = null;
     }
-    
+
     public void reset() {
         init();
     }
@@ -222,11 +230,7 @@ public class ReportManager implements Serializable {
     }
 
     public JobManagerUser getUser() {
-        return user;
-    }
-
-    public void setUser(JobManagerUser user) {
-        this.user = user;
+        return getJobManager().getUser();
     }
 
     public EntityManager getEntityManager1() {

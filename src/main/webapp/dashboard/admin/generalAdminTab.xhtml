@@ -221,7 +221,7 @@ Email: info@dpbennett.com.jm
                                      onstart="PF('longProcessDialogVar').show();" 
                                      actionListener="#{systemManager.doClassificationSearch}" 
                                      oncomplete="longProcessDialogVar.hide();"
-                                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable"
+                                     update=":headerForm:growl3,:mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable"
                                      process="@this" />
                 </p:menuitem> 
 
@@ -233,7 +233,7 @@ Email: info@dpbennett.com.jm
                                      onstart="PF('longProcessDialogVar').show();" 
                                      actionListener="#{systemManager.doJobCategorySearch}" 
                                      oncomplete="longProcessDialogVar.hide();"
-                                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"
+                                     update=":headerForm:growl3,:mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"
                                      process="@this" />
                 </p:menuitem> 
 
@@ -245,7 +245,7 @@ Email: info@dpbennett.com.jm
                                      onstart="PF('longProcessDialogVar').show();" 
                                      actionListener="#{systemManager.doJobSubcategorySearch}" 
                                      oncomplete="longProcessDialogVar.hide();"
-                                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
+                                     update=":headerForm:growl3,:mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"
                                      process="@this" />
                 </p:menuitem> 
 
@@ -257,10 +257,10 @@ Email: info@dpbennett.com.jm
                                      onstart="PF('longProcessDialogVar').show();" 
                                      actionListener="#{systemManager.doSectorSearch}" 
                                      oncomplete="longProcessDialogVar.hide();"
-                                     update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
+                                     update=":headerForm:growl3,:mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"
                                      process="@this" />
                 </p:menuitem> 
-                
+
                 <p:menuitem>                       
                     <p:commandButton value="LDAP configurations"
                                      style="width: 100%;text-align: left;background: none;border: 0;"
@@ -269,10 +269,10 @@ Email: info@dpbennett.com.jm
                                      onstart="PF('longProcessDialogVar').show();" 
                                      actionListener="#{systemManager.doLdapContextSearch}" 
                                      oncomplete="longProcessDialogVar.hide();"
-                                     update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:LDAPTable"
+                                     update=":headerForm:growl3,:mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:LDAPTable"
                                      process="@this" />
                 </p:menuitem>
-                
+
                 <p:menuitem>                       
                     <p:commandButton value="System configurations"
                                      style="width: 100%;text-align: left;background: none;border: 0;"
@@ -281,7 +281,7 @@ Email: info@dpbennett.com.jm
                                      onstart="PF('longProcessDialogVar').show();" 
                                      actionListener="#{systemManager.doSystemOptionSearch}" 
                                      oncomplete="longProcessDialogVar.hide();"
-                                     update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"
+                                     update=":headerForm:growl3,:mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"
                                      process="@this" />
                 </p:menuitem>
 
