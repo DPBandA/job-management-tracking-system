@@ -16,22 +16,12 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Tab admin object search not working when selected from dashboard toolbar!! Fix!!
-- When search text is edited/erased in the "system admin tabs" the text is not erased properly cause 
-  the tab is refreshed each time a search is done. Fix!!.
-- Retire initManagers() and let each manager get currentJob and user from JobManager.
-  Note that ClientManager checks the currentJob when "ok" and that it is also used
-  when not connected with a job.
-  * Remove dependency of the client manager on the current job.
-  * Test Clients module/tab.
-  * Update clientDialogReturn() to check for client and not job dirtiness.
-- Reinsert code that sends email if job save error occurs.
-- Update database tables on production system.
+- Update database tables on test and production systems.
 - Prepare for and arrange training for Cashier and Customer Service.
 - Complete inception report to be attached to invoice.
 - Do report for Edmondson.
 
-## Next release
+## Next release (April 2018)
 - Setup glassfish as windows service. 
   * See http://www.luv2code.com/2013/11/13/install-glassfish-4-as-a-windows-service/
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
@@ -113,9 +103,7 @@
   background. Use readOnly attribute instead of disabled wherever this is possible.
 - The "Active:" label is not linked to the checkbox in the client dialog.
 - Prevent changing adding/editing cost components once costing is approved/invoiced.
-- Show the "authenticate" flag in the users table.
 - Let client search in clients tab search any part of client's name.
-- Get all Parish/State/Province to show in client dialog.
 - Put "Reports" configuration in Sys Admin Configuration tab.
 - Add default fields for department etc. and add field to allow disabling the changing of a field.
 - Make relevant fields autocomplete.
@@ -219,8 +207,6 @@ can overflow when added divided or multiplied.
 - Add feature to add picture to job sample record by using the camera attached to the system.
 - Add system option to hide/show Job tabs and fields eg Samples tab could be hidden for a
   company that doesn't use it.
-- See if the opened tab can be selected when the Job Detail lab is automatically
-  closed.
 - See if system can run on Payara mirco.
 - Depreciate the "deposit" and subsequently remove the field from the JCP class
   and database. May have to create a cash payment from the deposit field fist.
@@ -242,3 +228,4 @@ can overflow when added divided or multiplied.
 - Revamp the privilege system. If a person only have the privilege to enter/edit own
 job then they should not be able to assign a job to anybody but themself. Similar
 thing applies to department job entry/edit privilege.
+- NOTE: postMail() hardcoded values to be made system options.

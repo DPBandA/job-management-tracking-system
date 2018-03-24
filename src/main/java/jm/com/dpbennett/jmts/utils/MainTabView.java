@@ -145,16 +145,18 @@ public class MainTabView implements Serializable {
         Tab tab = findTab(tabId);
 
         if (tab != null && !render) {
-            // Tab is being removed           
+            // Tab is being removed so remove and update the tab view          
             tabs.remove(tab);
             update("mainTabViewForm:mainTabView");
             select(render);
         } else if (tab != null && render) {
-            // Tab already added
+            // Tab already added so just update and select
+            update("mainTabViewForm:mainTabView");
+            select(render);
         } else if (tab == null && !render) {
             // Tab is not be added            
         } else if (tab == null && render) {
-            // Tab is to be added 
+            // Tab is to be added so add and render
             tabs.add(new Tab(tabId, tabId));
             update("mainTabViewForm:mainTabView");
             select(render);

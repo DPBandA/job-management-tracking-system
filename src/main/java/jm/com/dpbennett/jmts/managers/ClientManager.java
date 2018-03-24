@@ -93,6 +93,9 @@ public class ClientManager implements Serializable {
     }
 
     public Client getSelectedClient() {
+        if (selectedClient == null) {
+            return new Client("");
+        }
         return selectedClient;
     }
 
@@ -124,7 +127,6 @@ public class ClientManager implements Serializable {
 //            }
 //        }
 //    }
-
     public void onClientCellEdit(CellEditEvent event) {
         Application.saveBusinessEntity(getEntityManager(), getFoundClients().get(event.getRowIndex()));
     }
@@ -189,7 +191,7 @@ public class ClientManager implements Serializable {
     }
 
     public Boolean getIsNewClient() {
-        return getCurrentClient().getId() == null;
+        return getSelectedClient().getId() == null;
     }
 
     public List<Address> completeClientAddress(String query) {
@@ -197,7 +199,7 @@ public class ClientManager implements Serializable {
 
         try {
 
-            for (Address address : getCurrentClient().getAddresses()) {
+            for (Address address : getSelectedClient().getAddresses()) {
                 if (address.toString().toUpperCase().contains(query.toUpperCase())) {
                     addresses.add(address);
                 }
@@ -216,7 +218,7 @@ public class ClientManager implements Serializable {
 
         try {
 
-            for (Contact contact : getCurrentClient().getContacts()) {
+            for (Contact contact : getSelectedClient().getContacts()) {
                 if (contact.toString().toUpperCase().contains(query.toUpperCase())) {
                     contacts.add(contact);
                 }
@@ -231,15 +233,15 @@ public class ClientManager implements Serializable {
     }
 
     public List<Address> getAddressesModel() {
-        return getCurrentClient().getAddresses();
+        return getSelectedClient().getAddresses();
     }
 
     public List<Contact> getContactsModel() {
-        return getCurrentClient().getContacts();
+        return getSelectedClient().getContacts();
     }
 
     public Address getCurrentAddress() {
-        return getCurrentClient().getDefaultAddress();
+        return getSelectedClient().getDefaultAddress();
     }
 
     public Boolean getIsClientNameAndIdEditable() {
@@ -301,22 +303,11 @@ public class ClientManager implements Serializable {
     }
 
     public Boolean getIsDirty() {
-        return getCurrentClient().getIsDirty();
+        return getSelectedClient().getIsDirty();
     }
 
     public void setIsDirty(Boolean isDirty) {
-        getCurrentClient().setIsDirty(isDirty);
-    }
-
-    public Client getCurrentClient() {
-        if (selectedClient == null) {
-            return new Client("");
-        }
-        return selectedClient;
-    }
-
-    public void setCurrentClient(Client currentClient) {
-        this.selectedClient = currentClient;
+        getSelectedClient().setIsDirty(isDirty);
     }
 
     public Client getClientById(EntityManager em, Long Id) {
@@ -375,9 +366,9 @@ public class ClientManager implements Serializable {
 
             // Update tracking
             if (getIsNewClient()) {
-                getCurrentClient().setDateFirstReceived(new Date());
-                getCurrentClient().setDateEntered(new Date());
-                getCurrentClient().setDateEdited(new Date());
+                getSelectedClient().setDateFirstReceived(new Date());
+                getSelectedClient().setDateEntered(new Date());
+                getSelectedClient().setDateEdited(new Date());
                 if (getUser() != null) {
                     selectedClient.setEnteredBy(getUser().getEmployee());
                     selectedClient.setEditedBy(getUser().getEmployee());
@@ -386,7 +377,7 @@ public class ClientManager implements Serializable {
 
             // Do save
             if (getIsDirty()) {
-                getCurrentClient().setDateEdited(new Date());
+                getSelectedClient().setDateEdited(new Date());
                 if (getUser() != null) {
                     selectedClient.setEditedBy(getUser().getEmployee());
                 }
@@ -402,23 +393,23 @@ public class ClientManager implements Serializable {
     }
 
     public Boolean getIsClientValid() {
-        return BusinessEntityUtils.validateText(getCurrentClient().getName());
+        return BusinessEntityUtils.validateText(getSelectedClient().getName());
     }
 
     public void removeContact() {
-        getCurrentClient().getContacts().remove(selectedContact);
+        getSelectedClient().getContacts().remove(selectedContact);
         setIsDirty(true);
         selectedContact = null;
     }
 
     public void removeAddress() {
-        getCurrentClient().getAddresses().remove(selectedAddress);
+        getSelectedClient().getAddresses().remove(selectedAddress);
         setIsDirty(true);
         selectedAddress = null;
     }
 
     public Contact getCurrentContact() {
-        return getCurrentClient().getDefaultContact();
+        return getSelectedClient().getDefaultContact();
     }
 
     public void okContact() {
@@ -426,7 +417,7 @@ public class ClientManager implements Serializable {
         selectedContact = selectedContact.prepare();
 
         if (getIsNewContact()) {
-            getCurrentClient().getContacts().add(selectedContact);
+            getSelectedClient().getContacts().add(selectedContact);
         }
 
         PrimeFaces.current().executeScript("PF('contactFormDialog').hide();");
@@ -438,7 +429,7 @@ public class ClientManager implements Serializable {
         selectedAddress = selectedAddress.prepare();
 
         if (getIsNewAddress()) {
-            getCurrentClient().getAddresses().add(selectedAddress);
+            getSelectedClient().getAddresses().add(selectedAddress);
         }
 
         PrimeFaces.current().executeScript("PF('addressFormDialog').hide();");
@@ -448,7 +439,7 @@ public class ClientManager implements Serializable {
     public void createNewContact() {
         selectedContact = null;
 
-        for (Contact contact : getCurrentClient().getContacts()) {
+        for (Contact contact : getSelectedClient().getContacts()) {
             if (contact.getFirstName().trim().isEmpty()) {
                 selectedContact = contact;
                 break;
@@ -471,7 +462,7 @@ public class ClientManager implements Serializable {
         selectedAddress = null;
 
         // Find an existing invalid or blank address and use it as the neww address
-        for (Address address : getCurrentClient().getAddresses()) {
+        for (Address address : getSelectedClient().getAddresses()) {
             if (address.getAddressLine1().trim().isEmpty()) {
                 selectedAddress = address;
                 break;

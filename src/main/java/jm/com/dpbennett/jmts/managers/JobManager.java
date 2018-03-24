@@ -177,13 +177,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         mainTabView = new MainTabView(getUser());
     }
 
-    // tk review use in client dialog etc.
     public void clientDialogReturn() {
-//        if (getCurrentJob().getIsDirty() && getCurrentJob().getId() != null) {
-//            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-//                PrimeFacesUtils.addMessage("Client and Job Saved", "This job and the edited/added client were saved", FacesMessage.SEVERITY_INFO);
-//            }
-//        }
+        if (clientManager.getSelectedClient().getId() != null) {
+            getCurrentJob().setClient(clientManager.getSelectedClient());
+        }
     }
 
     public void jobDialogReturn() {
@@ -501,7 +498,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 loginAttempts = 0;
 
                 user.save(getEntityManager1());
-                
+
                 if (westLayoutUnitCollapsed) {
                     westLayoutUnitCollapsed = false;
                     PrimeFaces.current().executeScript("PF('layoutVar').toggle('west');");
@@ -716,7 +713,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateDashboard(String tabId) {
-       
+
         PrimeFaces.current().ajax().update("dashboardForm");
 
     }
@@ -1340,7 +1337,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 } else if (currentJob.getJobStatusAndTracking().getWorkProgress().equals("Not started")) {
                     currentJob.getJobStatusAndTracking().setStartDate(null);
                 }
-               
+
             } else {
                 currentJob.getJobStatusAndTracking().setCompleted(true);
                 currentJob.getJobStatusAndTracking().setDateOfCompletion(new Date());
@@ -1497,8 +1494,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void saveCurrentJob() {
         EntityManager em = getEntityManager1();
 
-        // tk
-        // Prevent overwriting samples that were edited by another user.
+        // tk...may not be necessary
+        // Prevent overwriting samples that were edited by another user by 
+        // loading the existing samples from the database.
         if (!jobSampleManager.isSamplesDirty() && currentJob.getId() != null) {
             Job savedJob = Job.findJobById(em, currentJob.getId());
             em.refresh(savedJob);
@@ -1510,18 +1508,40 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
+
         } else if (isCurrentJobNew() && getUser().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterDepartmentJob()
@@ -1530,6 +1550,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterOwnJob()
@@ -1538,12 +1565,26 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
         } else if (getIsDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
             // User can edit any job...saving
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
         } else if (getIsDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditDepartmentJob()
@@ -1554,6 +1595,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
         } else if (getIsDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditOwnJob()
@@ -1562,18 +1610,39 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
         } else if (currentJob.getIsToBeCopied()) {
             // Saving cause copy is being created
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
         } else if (currentJob.getIsToBeSubcontracted()) {
             // Saving cause subcontract is being created
             if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
+            } else {
+                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
+                // tk setup this up properly without hardcoded values
+                sendErrorEmail("An error occurred while saving a job!",
+                        "Job number: " + currentJob.getJobNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date());
             }
         } else if (!getIsDirty()) {
             // Job not dirty so it will not be saved.
@@ -1705,7 +1774,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void editJob() {
-       
+
         currentJob.getJobStatusAndTracking().setEditStatus("");
         PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
 
@@ -2051,7 +2120,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void editJobClient() {
-        clientManager.setCurrentClient(getCurrentJob().getClient());
+        clientManager.setSelectedClient(getCurrentJob().getClient());
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         PrimeFacesUtils.openDialog(null, "/client/clientDialog", true, true, true, 450, 700);

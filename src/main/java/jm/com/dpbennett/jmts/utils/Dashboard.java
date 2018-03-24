@@ -57,15 +57,16 @@ public class Dashboard implements Serializable {
         Tab tab = findTab(tabId);
 
         if (tab != null && !render) {
-            // Tab is being removed           
+            // Tab is being removed and update the dashboard          
             tabs.remove(tab);
-            // Update tabview and select the appropriate tab
+            // Update dashboard and select the appropriate tab
             update("dashboardForm:dashboardAccordion");
             select(render);
         } else if (tab != null && render) {
-            // Tab already added
+            // Tab already added so select and update the dashboard
+            select(render);
         } else if (tab == null && !render) {
-            // Tab is not be added            
+            // Tab is not be added or removed           
         } else if (tab == null && render) {
             // Tab is to be rendered 
             tabs.add(new Tab(tabId, tabId));

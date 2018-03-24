@@ -734,7 +734,10 @@ public class SystemManager implements Serializable {
             foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
         }
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        // Add tab if it does not exist
+        if (getMainTabView().findTab("System Administration") == null) {
+            getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        }
 
     }
 
@@ -851,8 +854,11 @@ public class SystemManager implements Serializable {
             foundEmployees = Employee.findEmployeesByName(getEntityManager(), getEmployeeSearchText());
         }
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-       
+        // Add tab if it does not exist
+        if (getMainTabView().findTab("System Administration") == null) {
+            getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        }
+
     }
 
     public void doUserSearch() {
@@ -864,8 +870,10 @@ public class SystemManager implements Serializable {
         }
 
         // Add tab if it does not exist
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-       
+        if (getMainTabView().findTab("System Administration") == null) {
+            getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        }
+
 //        else {
 //            if (isLoggedInUsersOnly) {
 //                List<JobManagerUser> loggedInUsers = new ArrayList<>();

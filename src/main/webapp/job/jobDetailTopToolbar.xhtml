@@ -43,13 +43,14 @@ Email: info@dpbennett.com.jm
                              onerror="PF('connectionErrorDialog').show();"
                              immediate="true"                             
                              process="@this"
-                             icon="ui-icon ui-icon-close" />           
-            
+                             icon="ui-icon ui-icon-close" />            
+
             <p:spacer width="20" />
-            
+
             <h:outputText value="#{jobManager.currentJob.jobStatusAndTracking.editStatus}" />
 
         </p:toolbarGroup>
+
 
         <p:toolbarGroup align="right" >  
             <p:commandButton
@@ -64,9 +65,9 @@ Email: info@dpbennett.com.jm
                 title="Subcontract the current job by first creating a copy."
                 icon="ui-icon-copy"
                 process="@this"/>
-            
+
             <p:spacer width="20" />
-            
+
             <p:menuButton value="Forms" >
                 <p:menuitem value="Service Contract"
                             ajax="false" 

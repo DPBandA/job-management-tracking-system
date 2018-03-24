@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"> 
     <h:panelGrid id="generalDetailsPanelGrid" columns="3" cellspacing="5" >
         <h:outputText value="Name:" style="font-weight: bold;" />       
-        <p:inputText value="#{clientManager.currentClient.name}"
+        <p:inputText value="#{clientManager.selectedClient.name}"
                      style="width: 150%;"
                      id="clientName"
                      disabled="#{!clientManager.isClientNameAndIdEditable}"
@@ -40,7 +40,7 @@ Email: info@dpbennett.com.jm
         <h:outputText value="" />
 
         <h:outputText value="Taxpayer Registration Number (TRN):" />        
-        <p:inputText value="#{clientManager.currentClient.taxRegistrationNumber}"
+        <p:inputText value="#{clientManager.selectedClient.taxRegistrationNumber}"
                      id="trn"
                      disabled="#{!clientManager.isClientNameAndIdEditable}" >
             <p:ajax event="change"                    
@@ -56,7 +56,7 @@ Email: info@dpbennett.com.jm
             <p:selectBooleanCheckbox style="vertical-align: middle"
                                      id="clientActive"
                                      disabled="#{!clientManager.user.privilege.canBeJMTSAdministrator}"
-                                     value="#{clientManager.currentClient.active}" >
+                                     value="#{clientManager.selectedClient.active}" >
                 <p:ajax listener="#{clientManager.updateClient}"
                         event="change"                                      
                         process="@this"/>
