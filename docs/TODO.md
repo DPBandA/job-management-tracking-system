@@ -62,7 +62,6 @@
 - Consider associating the "Privilege" and "Modules" classes with other business
   classes such as Division and Organization.
 - Add privileges to add/edit contact/address and put client privileges in own tab.
-- Add CRM and "Corporate Office" as modules.
 - Change context.execute to PrimeFaces.executeScript.
 - Add and MySQL 5.1.45 connector/j to glassfish and LEGALOFFICEUNIT to JMUser 
   in all databases.
@@ -155,8 +154,6 @@
 - NB: JobManagerUser represents a user profile that has a employee and privileges assigned. 
   Departments also have privileges and along with the user privileges are used 
   to determine the effective privileges of the user.
-- Change CRM tab id and title to "Customer Management" and the Clients tab
-  in MainTabView to "Customer Management".
 - Remove department from user dialog.
 - Sort out all that needs to be "locked" once a job's status is marked as complete. 
   Display a warning before the work progress is set to complete.

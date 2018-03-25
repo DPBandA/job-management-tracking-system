@@ -1194,7 +1194,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getUser().save(getEntityManager1());
                 break;
             case "crmUnit":
-                dashboard.addTab(getEntityManager1(), "Customer Relationship Management",
+                dashboard.addTab(getEntityManager1(), "Client Management",
                         getUser().getModules().getCrmModule());
                 getUser().getModules().setIsDirty(true);
                 getUser().save(getEntityManager1());
