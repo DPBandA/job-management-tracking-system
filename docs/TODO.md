@@ -22,6 +22,8 @@
 - Do report for Edmondson.
 
 ## Next release (April 2018)
+- Change "Standard Compliance" to "Compliance" or "Standards Compliance"?
+- Change "Legal Documents" to "Legal Office"?
 - Setup glassfish as windows service. 
   * See http://www.luv2code.com/2013/11/13/install-glassfish-4-as-a-windows-service/
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
