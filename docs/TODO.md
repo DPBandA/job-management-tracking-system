@@ -17,7 +17,6 @@
 
 ## Testing, Training & Misc
 - Setup glassfish as windows service. 
-  * Config to run on port 80. Test with sample web app.
   * Create strong admin password
   * Set sql_mode according to README.md.
 - Update database tables on test and production systems.
