@@ -16,6 +16,10 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
+- Setup glassfish as windows service. 
+  * Config to run on port 80. Test with sample web app.
+  * Create strong admin password
+  * Set sql_mode according to README.md.
 - Update database tables on test and production systems.
 - Prepare for and arrange training for Cashier and Customer Service.
 - Complete inception report to be attached to invoice.
@@ -24,8 +28,6 @@
 ## Next release (April 2018)
 - Change "Standard Compliance" to "Compliance" or "Standards Compliance"?
 - Change "Legal Documents" to "Legal Office"?
-- Setup glassfish as windows service. 
-  * See http://www.luv2code.com/2013/11/13/install-glassfish-4-as-a-windows-service/
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
   stealth url forwarding. Use the technique from zoneedit.
 - Include javascript check of a variable if it is null as a means to determine

@@ -18,5 +18,7 @@
 
 ### Installation
 #### MySQL
-- In my.cnf add the following for mysql 5.7 >= to remove ONLY_FULL_GROUP_BY : [mysqld] sql_mode = STRICT_TRA
-NS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+- In my.cnf add the following for mysql 5.7 >= to remove ONLY_FULL_GROUP_BY : [mysqld] sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
+- Setup glassfish/payara as Windows service. 
+  * See http://www.luv2code.com/2013/11/13/install-glassfish-4-as-a-windows-service/
