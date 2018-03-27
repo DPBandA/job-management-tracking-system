@@ -16,10 +16,11 @@
 - Get requirements for Food Dept.
 
 ## Testing, Training & Misc
-- Setup glassfish as windows service. 
+- Setup glassfish on bosapp. 
   * Create strong admin password
   * Set sql_mode according to README.md.
 - Update database tables on test and production systems.
+  * Switch to using bosapp database instead of local database. 
 - Prepare for and arrange training for Cashier and Customer Service.
 - Complete inception report to be attached to invoice.
 - Do report for Edmondson.
