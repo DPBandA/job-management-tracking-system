@@ -3,27 +3,19 @@
 ## Database update
 - Add JMUser fields: 
 - Add MODULES_ID to JMUsers and modules table to database. 
-- Add Module table and fields
-- Add "active" field to Report class
+- Add fields privileges table.
+- Add "active" field to Report class.
 - Add fields to support the Organization tab in System Admin.
-- For icons: https://www.primefaces.org/showcase/ui/misc/fa.xhtml
-
-## Inception Report and Workplan
-- Format report by focusing on JMTS modules or the features and requirements 
-  required by the various divisions.
-- Get procedure documents from QEMS of the BSJ, NCRA and NCBJ
-- Provide content and format report based on BABOK if possible.
-- Get requirements for Food Dept.
+- For icons: https://www.primefaces.org/showcase/ui/misc/fa.xhtml.
 
 ## Testing, Training & Misc
-- Setup glassfish on bosapp. 
-  * Create strong admin password
-  * Set sql_mode according to README.md.
-- Update database tables on test and production systems.
-  * Switch to using bosapp database instead of local database. 
+- Update database tables on test and production systems. See ## Database update
+  * Export bosapp mylq57 data to mysql55 and test data search in jmts.
+- Switch to using bosapp database instead of local database. 
 - Prepare for and arrange training for Cashier and Customer Service.
 - Complete inception report to be attached to invoice.
 - Do report for Edmondson.
+- Send proposed features to NCRA based on inception report.
 
 ## Next release (April 2018)
 - Change "Standard Compliance" to "Compliance" or "Standards Compliance"?
