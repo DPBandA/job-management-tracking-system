@@ -7,10 +7,16 @@
 - Add "active" field to Report class.
 - Add fields to support the Organization tab in System Admin.
 - For icons: https://www.primefaces.org/showcase/ui/misc/fa.xhtml.
+- Pc IP: 172.16.16.13
 
 ## Testing, Training & Misc
+- Fix job search slowness:
+  * Setup GF3 and test MySQL/JPA slowness:
+  * Try with the local mysql57 with the 5.1.45 driver.
+  * Try what's at https://zeroturnaround.com/rebellabs/how-to-use-jpa-correctly-to-avoid-complaints-of-a-slow-application/
+    and https://zeroturnaround.com/rebellabs/three-jpa-2-1-features-that-will-boost-your-applications-performance/
+  * Use database pagination with setFirstResult() and setMaxResults()
 - Update database tables on test and production systems. See ## Database update
-  * Export bosapp mylq57 data to mysql55 and test data search in jmts.
 - Switch to using bosapp database instead of local database. 
 - Prepare for and arrange training for Cashier and Customer Service.
 - Complete inception report to be attached to invoice.
