@@ -9,7 +9,7 @@
 - Job Management
 - Project Management
 - Inventory Management
-- Standards Compliance
+- Compliance
 - Certification and Accreditation
 - Metrology Management
 - Product Management

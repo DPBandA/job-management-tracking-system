@@ -66,7 +66,7 @@ Email: info@dpbennett.com.jm
                                  value="#{systemManager.selectedUser.username}" />    
 
 
-                    <h:outputText value="Authenticate" style="font-weight: bold;"/> 
+                    <p:outputLabel value="Authenticate" for="authenticateUser" style="font-weight: bold;"/> 
                     <p:selectBooleanCheckbox id="authenticateUser" 
                                              value="#{systemManager.selectedUser.authenticate}" /> 
 
@@ -265,7 +265,7 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="3" cellspacing="10">
 
                         <p:selectBooleanCheckbox id="canAccessComplianceUnit" 
-                                                 itemLabel="Standard Compliance"
+                                                 itemLabel="Compliance"
                                                  value="#{systemManager.selectedUser.privilege.canAccessComplianceUnit}" >
                             <p:ajax listener="#{systemManager.updateModuleAccess}"
                                     global="false"
@@ -307,7 +307,7 @@ Email: info@dpbennett.com.jm
                         </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="canAccessLegalOfficeUnit" 
-                                                 itemLabel="Legal Documents"
+                                                 itemLabel="Legal"
                                                  value="#{systemManager.selectedUser.privilege.canAccessLegalOfficeUnit}" >
 
                             <p:ajax listener="#{systemManager.updateModuleAccess}"

@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <p:focus for="userSearchText"/>
-    
+
     <p:toolbar>
         <p:toolbarGroup align="left" >   
             <p:commandButton title="Add new employee"                                  
@@ -108,12 +108,14 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{employee.lastName}" />
         </p:column>
 
-        <p:column>
-            <f:facet name="header">
-                <h:outputText value="Business Office"/>
-            </f:facet>
-            <h:outputText value="#{employee.businessOffice.name}" />
-        </p:column>
+        <ui:remove>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Business Office"/>
+                </f:facet>
+                <h:outputText value="#{employee.businessOffice.name}" />
+            </p:column>
+        </ui:remove>
 
         <p:column style="width:32px">
             <p:commandButton title="View or edit employee"   

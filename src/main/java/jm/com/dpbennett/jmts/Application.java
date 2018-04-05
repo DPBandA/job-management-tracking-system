@@ -477,7 +477,7 @@ public class Application {
             employee = new Employee();
             employee.setFirstName(firstName);
             employee.setLastName(lastName);
-            employee.setBusinessOffice(getDefaultBusinessOffice(em, "--"));
+            //employee.setBusinessOffice(getDefaultBusinessOffice(em, "--"));
             //employee.setDepartment(getDefaultDepartment(em, "--"));
             // save
             em.getTransaction().begin();

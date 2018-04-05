@@ -1158,7 +1158,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getUser().save(getEntityManager1());
                 break;
             case "complianceUnit":
-                dashboard.addTab(getEntityManager1(), "Standard Compliance",
+                dashboard.addTab(getEntityManager1(), "Compliance",
                         getUser().getModules().getComplianceModule());
                 getUser().getModules().setIsDirty(true);
                 getUser().save(getEntityManager1());
@@ -1188,7 +1188,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getUser().save(getEntityManager1());
                 break;
             case "legalOfficeUnit":
-                dashboard.addTab(getEntityManager1(), "Legal Documents",
+                dashboard.addTab(getEntityManager1(), "Legal",
                         getUser().getModules().getLegalOfficeModule());
                 getUser().getModules().setIsDirty(true);
                 getUser().save(getEntityManager1());

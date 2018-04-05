@@ -60,8 +60,9 @@ Email: info@dpbennett.com.jm
 
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
                 <h:panelGrid columns="2">   
-                    <h:outputLabel value="Active:" />               
+                    <p:outputLabel value="Active:" for="ldapActive" />               
                     <p:selectBooleanCheckbox style="vertical-align: middle"
+                                             id="ldapActive"
                                              value="#{systemManager.selectedLdapContext.active}" />  
                    
                     <h:outputText value="Name:" style="font-weight: bold;" />

@@ -2,116 +2,34 @@
 
 ## Next release (April 24-25, 2018)
 
-Database update (boshrmapp test & production):
-- Backup database
-- Add JMUser fields: 
-- Add MODULES_ID to JMUsers and modules table to database. 
-- Add fields privileges table.
-- Add "active" field to Report class.
-- Add fields to support the Organization tab in System Admin.
-- Test deployment with latest release
-- Setup use of jmstest database
+NB: Joan wants to borrow galaxy tab 2 charger.
+
 Testing, Training & Misc:
-- Fix job search slowness:
-  * Setup GF3 and test MySQL/JPA slowness:
-  * Try with the local mysql57 with the 5.1.45 driver.
-  * Try what's at https://zeroturnaround.com/rebellabs/how-to-use-jpa-correctly-to-avoid-complaints-of-a-slow-application/
-    and https://zeroturnaround.com/rebellabs/three-jpa-2-1-features-that-will-boost-your-applications-performance/
-  * Use database pagination with setFirstResult() and setMaxResults()
-- Update database tables on test and production systems. See ## Database update
-- Switch to using bosapp database instead of local database. 
-- Prepare for and arrange training for Cashier and Customer Service.
-- Do report for Edmondson.
-- Send proposed features to NCRA based on inception report.
-- Change "Standard Compliance" to "Compliance" or "Standards Compliance"?
-- Change "Legal Documents" to "Legal Office"?
-- Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
-  stealth url forwarding. Use the technique from zoneedit.
-- Include javascript check of a variable if it is null as a means to determine
-  if connection is live in keepAlive code. Use something like context.addCallbackParam("jobCompleted", false);
-- Test creating new and searching for system objects from dashboard toolbar menu.
-- Make address and contact dialogs external and implement adding contact/address 
-  via the client's action menu.
 - Impl "Organization" so that the user's correct organization can be
   selected when subcontracting a job.
   * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
   * Impl businessConverter/Validator. 
   * Add active/head fields to Business class
 - Job should not be marked completed until approved.
-- Add a search types that find jobs that are: 
-(i) earning parent jobs 
-(ii) earning jobs
-(iii) non-earning jobs
 - Update the service contract template with the new control number (MKTG_F_01/04) 
   and other footer information. 
   * Let G.A. do the update and create 3 templates one for each organization.
 - Get list of jobs with incorrect clients from Dwight (not Dr Ramdon)
-- Send email notification when invoice is approved. 
-- Allow printing of approved or invoiced jobs.
-- Implement adding new employee in user dialog.
-- Check exactly what is not being saved when tic says things are not being saved.
-- Delete Business class from employee class and other classes that should not have it
-- Implement searching by sample job sample.
-- Find way to deactivate old costing templates...Add "active" field to "JobCostingAndPayment"
-  and provide interface to deactivate the old templates.
-- Implement entering sampling information as required by Micro B. and may be Chemistry.
 - Implement assigning "reps" to a job as a means to assigning more than one person to job
   as required by Chemistry/Micro B.
 - Color code jobs that are late/time and recently visited.
-- Get client credit status showing same info as as shown by accpac.
-- Price list for all of documents/jobs. 
-- Consider associating the "Privilege" and "Modules" classes with other business
-  classes such as Division and Organization.
 - Add privileges to add/edit contact/address and put client privileges in own tab.
 - Change context.execute to PrimeFaces.executeScript.
-- Add and MySQL 5.1.45 connector/j to glassfish and LEGALOFFICEUNIT to JMUser 
-  in all databases.
 - Add representatives field to Job class, database and form.
-- Add divisions to 
-- Add all new unit access privileges to class and database.
-- Setup jmts-processes as Activiti explorer for JMTS. Use jmts/jmtstest as the
-  databases.
-- Remove Department from user profile and use the employee field to find the 
-  the user's department when needed
 - Add general preference to hide/show dashboard.
-- Add Standards and Certification as separate units in all databases.
-- Check if PF('connectionErrorDialog').show(); works wherever it is used.
-- Integrate Activiti with BSJ LDAP (AD).
-- Look back at saveCurrentJob() to see em.refresh(savedJob); and why it throws
-  an exception.
-- Allow assigning job to more than one assignee.
-- Add "closeable" option to PrimeFacesUtils.openDialog().
-- Check if the currently opened job was saved since it was opened or last saved
-   by the user and inform and take appropriate action if the user tries to save.
-   Test with 2 users logged in with different browsers.
-- Don't allow Comments/Description fields to grow in height when text is entered
-  as is done in the System Option Detail dialog.
-- Show date of activity for user in user profiles table.
-- widen the panels under service contract general services.
-- business_department table to be added to database table if it is automatically
-  added during deployment.
-- Check service contract comes out good on live jmts.
-- Impl isDirty in all business entities.
-- When an item in a table is edited before it is saved, it reappears in the table
-  because its Id is null so it is added again in the list. This happens for 
-  cost components, client address and contacts etc. Fix this by checking is the
-  item is already in the list before adding it.
-- Check that user info in the users table do not blank out when user dialog is
-  oked or cancelled.
-- Standardize and make all field that are disabled or uneditable have yellow
-  background. Use readOnly attribute instead of disabled wherever this is possible.
-- The "Active:" label is not linked to the checkbox in the client dialog.
+- Add "closeable" option to PrimeFacesUtils.openDialog(). Make job dialog closeable
+  and others not.
+- Widen the panels under service contract general services.
+- When the "active" checkbox for tabs on "List" is checked the entire tabview 
+  refreshes. Fix!
 - Prevent changing adding/editing cost components once costing is approved/invoiced.
 - Let client search in clients tab search any part of client's name.
-- Put "Reports" configuration in Sys Admin Configuration tab.
-- Add default fields for department etc. and add field to allow disabling the changing of a field.
-- Make relevant fields autocomplete.
-- Add description, 2 departments, 3 date periods etc. in class Report.
-- Implement and include report templates for all reports generated to date.
-- For reports make company specific value parameters such as company name and logo.
-- Check for reports/queries on jobs that do not have any samples. Check for example that these jobs are counted despite not have samples.
 - Add system option to display "Handling keep alive session..." in debugging mode.
-- Remove impl of Converter from all entities.
 - Relook at the whole sequence of events when job costing parameters such as
   tax, tolal cost, estimate etc are edited.
 - Rename privilege table to privileges if it does not result in data lost.
@@ -207,25 +125,73 @@ can overflow when added divided or multiplied.
 - Depreciate the "deposit" and subsequently remove the field from the JCP class
   and database. May have to create a cash payment from the deposit field fist.
 - Add: country to Address dialog?
-- Set tab to "Job Detail (Costing and Payment) when cashier view is selected). 
-  Do similar for other job views.
-- Note that TIMESTAMP does not work with the current version of MySQL used by 
-  BSJ.
-- Add TODO to remove auto-boxing/unauto-boxing where it is not necessary.
 - Adopt the use of "Release Notes" to announce new JMTS releases.
-- Paste the text directly into a CODE_OF_CONDUCT file in your repository. 
-  Keep the file in your project’s root directory so it’s easy to find, and link 
-  to it from your README.
 - Let the subcontracted department be null for parent job and change the job numbering
   system and other business logic to reflect this fact. The use of "--" department
   should then be removed.
 - Impl sending alerts to all or specific persons. The messages would be displayed
   when the use just logs on or popup if the user is already logged on.
-- Revamp the privilege system. If a person only have the privilege to enter/edit own
+- Impl organizations tab in system admin.
 job then they should not be able to assign a job to anybody but themself. Similar
 thing applies to department job entry/edit privilege.
-- NOTE: postMail() hardcoded values to be made system options.
+- Do report for Edmondson.
 - Train Customer Service/Finance/Engineering/Legal Office
+- 2/3 "--" departments were created in production database. Check why this occurred
+  and ensure that all classes that refer to depa
 - Do report and invoice
 
 ## Next release (May 24-25, 2018)
+- Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
+  stealth url forwarding. Use the technique from zoneedit.
+- Send proposed features to NCRA based on inception report.
+- Fix job search slowness:
+  * Setup GF3 and test MySQL/JPA slowness:
+  * Try with the local mysql57 with the 5.1.45 driver.
+  * Try what's at https://zeroturnaround.com/rebellabs/how-to-use-jpa-correctly-to-avoid-complaints-of-a-slow-application/
+    and https://zeroturnaround.com/rebellabs/three-jpa-2-1-features-that-will-boost-your-applications-performance/
+  * Use database pagination with setFirstResult() and setMaxResults()
+- Include javascript check of a variable if it is null as a means to determine
+  if connection is live in keepAlive code. Use something like context.addCallbackParam("jobCompleted", false);
+- Implement adding new employee in user dialog.
+- Revamp the privilege system. If a person only have the privilege to enter/edit own
+- Paste the text directly into a CODE_OF_CONDUCT file in your repository. 
+  Keep the file in your project’s root directory so it’s easy to find, and link 
+  to it from your README.
+- Make address and contact dialogs external and implement adding contact/address 
+  via the client's action menu.
+- Add a search types that find jobs that are: 
+(i) earning parent jobs 
+(ii) earning jobs
+(iii) non-earning jobs
+- Allow printing of approved or invoiced jobs.
+- Send email notification when invoice is approved.
+- Assign BusinessOffices to Business class. 
+- Add Business class to Job class.
+- If a job has samples with the same search text return only one instance of the 
+  job in the search results. Add search on the following fields: Product common name,
+  country, sampledBy, Additional details.
+  * Implement search that deals with case when important fields are null such as
+    jobSamples.
+- Add divisions to Business/Organizations
+- NOTE: postMail() hard-coded values to be made system options.
+- Find way to deactivate old costing templates...Add "active" field to "JobCostingAndPayment"
+  and provide interface to deactivate the old templates.
+- Implement entering sampling information as required by Micro B. and may be Chemistry.
+- Get client credit status showing same info as as shown by accpac.
+- Price list for all of documents/jobs. 
+- Setup jmts-processes as Activiti explorer for JMTS. Use jmts/jmtstest as the
+  databases.
+- Integrate Activiti with BSJ LDAP (AD).
+- Remove Department from user profile and employee field to find the 
+  the user's department when needed.
+- Sync opened job: Check if the currently opened job was saved since it was opened or last saved
+   by the user and inform and take appropriate action if the user tries to save.
+   Test with 2 users logged in with different browsers.
+- Show date of activity for user in user profiles table: Attach "tracking" feature 
+  to the user profile for this.
+- Put "Reports" configuration in Sys Admin Configuration tab.
+  * Add description, 2 departments, 3 date periods etc. in class Report.
+  * Implement and include report templates for all reports generated to date.
+  * For reports make company specific value parameters such as company name and logo.
+  * Check for reports/queries on jobs that do not have any samples. 
+  Check for example that these jobs are counted despite not have samples. 

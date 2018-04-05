@@ -60,8 +60,9 @@ Email: info@dpbennett.com.jm
 
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
                 <h:panelGrid columns="2">     
-                    <h:outputLabel value="Active:" />               
+                    <p:outputLabel for="classificationActive" value="Active:" />               
                     <p:selectBooleanCheckbox style="vertical-align: middle"
+                                             id="classificationActive"
                                              value="#{systemManager.selectedClassification.active}" />    
 
                     <h:outputText value="Name:" style="font-weight: bold;" />
@@ -75,13 +76,15 @@ Email: info@dpbennett.com.jm
                     <p:inputTextarea  value="#{systemManager.selectedClassification.description}"
                                       id="classificationDescription"
                                       maxlength="1000"
+                                      autoResize="false"
                                       rows="4"
                                       style="width:300px" >
                         <f:validator validatorId="requiredFieldValidator" />
                     </p:inputTextarea>  
                     
-                    <h:outputLabel value="For job earnings:" />               
+                    <p:outputLabel for="earningsJob" value="For job earnings:" />               
                     <p:selectBooleanCheckbox style="vertical-align: middle"
+                                             id="earningsJob"
                                              value="#{systemManager.selectedClassification.isEarning}" /> 
 
                 </h:panelGrid>

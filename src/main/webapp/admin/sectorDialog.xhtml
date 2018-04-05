@@ -60,8 +60,9 @@ Email: info@dpbennett.com.jm
 
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
                 <h:panelGrid columns="2">     
-                    <h:outputLabel value="Active:" />               
+                    <p:outputLabel value="Active:" for="sectorActive" />               
                     <p:selectBooleanCheckbox style="vertical-align: middle"
+                                             id="sectorActive"
                                              value="#{systemManager.selectedSector.active}" />    
 
                     <h:outputText value="Name:" style="font-weight: bold;" />
@@ -76,6 +77,7 @@ Email: info@dpbennett.com.jm
                                       id="sectorDescription"
                                       maxlength="1000"
                                       rows="4"
+                                      autoResize="false"
                                       style="width:300px" >
                         <f:validator validatorId="requiredFieldValidator" />
                     </p:inputTextarea>  

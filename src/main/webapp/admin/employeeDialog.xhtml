@@ -61,7 +61,7 @@ Email: info@dpbennett.com.jm
 
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
                 <h:panelGrid columns="2">
-                    <h:outputLabel value="Active:"/>                                  
+                    <p:outputLabel for="employeeActive" value="Active:"/>                                  
                     <p:selectBooleanCheckbox id="employeeActive"
                                              style="vertical-align: middle"
                                              value="#{systemManager.selectedEmployee.active}" />    
@@ -85,6 +85,7 @@ Email: info@dpbennett.com.jm
                     <p:inputText value="#{systemManager.selectedEmployee.internet.email1}"
                                  id="employeeEmail" validatorMessage="Please enter a valid name" />
 
+                    <ui:remove>
                     <h:outputText value="Business office:" style="font-weight: bold;" />
                     <p:autoComplete dropdown="true"
                                     id="businessOffice"
@@ -97,6 +98,7 @@ Email: info@dpbennett.com.jm
                                     forceSelection="true"
                                     completeMethod="#{App.completeBusinessOffice}" >                  
                     </p:autoComplete>
+                    </ui:remove>
 
                     <h:outputText value="Department:" style="font-weight: bold;" />
                     <p:autoComplete var="department"

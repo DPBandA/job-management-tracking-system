@@ -1140,13 +1140,13 @@ public class SystemManager implements Serializable {
         }
     }
 
-    public void updateSelectedEmployeeBusinessOffice() {
-        if (selectedEmployee.getBusinessOffice().getId() != null) {
-            selectedEmployee.setBusinessOffice(BusinessOffice.findBusinessOfficeById(getEntityManager(), selectedEmployee.getBusinessOffice().getId()));
-        } else {  // try to get defaut
-            selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(getEntityManager(), "--"));
-        }
-    }
+//    public void updateSelectedEmployeeBusinessOffice() {
+//        if (selectedEmployee.getBusinessOffice().getId() != null) {
+//            selectedEmployee.setBusinessOffice(BusinessOffice.findBusinessOfficeById(getEntityManager(), selectedEmployee.getBusinessOffice().getId()));
+//        } else {  // try to get defaut
+//            selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(getEntityManager(), "--"));
+//        }
+//    }
 
     public void updateSelectedDepartmentHead() {
         if (selectedDepartment.getHead().getId() != null) {
@@ -1372,7 +1372,7 @@ public class SystemManager implements Serializable {
         EntityManager em = getEntityManager();
 
         selectedEmployee = new Employee();
-        selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(em, "Head Office"));
+        //selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(em, "Head Office"));
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
