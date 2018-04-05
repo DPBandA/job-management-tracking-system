@@ -78,7 +78,6 @@ Testing, Training & Misc:
 - Reset all UI when log out including searches results so that if a new user logs 
   in they will not see the searches of the previous user.
 - Display message when user logs on without authentication
-- Assign git tag to next release.
 - Export sample condition(s) to service contract.
 - Restrict generation of service contract to an authorized person/department?
   Put client ID# (TRN etc.) into service contract?
@@ -195,3 +194,4 @@ thing applies to department job entry/edit privilege.
   * For reports make company specific value parameters such as company name and logo.
   * Check for reports/queries on jobs that do not have any samples. 
   Check for example that these jobs are counted despite not have samples. 
+- Assign git tag to next release.
