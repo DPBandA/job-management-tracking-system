@@ -1,15 +1,17 @@
 # Things to do
 
-## Database update
+## Next release (April 24-25, 2018)
+
+Database update (boshrmapp test & production):
+- Backup database
 - Add JMUser fields: 
 - Add MODULES_ID to JMUsers and modules table to database. 
 - Add fields privileges table.
 - Add "active" field to Report class.
 - Add fields to support the Organization tab in System Admin.
-- For icons: https://www.primefaces.org/showcase/ui/misc/fa.xhtml.
-- Pc IP: 172.16.16.13
-
-## Testing, Training & Misc
+- Test deployment with latest release
+- Setup use of jmstest database
+Testing, Training & Misc:
 - Fix job search slowness:
   * Setup GF3 and test MySQL/JPA slowness:
   * Try with the local mysql57 with the 5.1.45 driver.
@@ -19,11 +21,8 @@
 - Update database tables on test and production systems. See ## Database update
 - Switch to using bosapp database instead of local database. 
 - Prepare for and arrange training for Cashier and Customer Service.
-- Complete inception report to be attached to invoice.
 - Do report for Edmondson.
 - Send proposed features to NCRA based on inception report.
-
-## Next release (April 2018)
 - Change "Standard Compliance" to "Compliance" or "Standards Compliance"?
 - Change "Legal Documents" to "Legal Office"?
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
@@ -85,7 +84,6 @@
 - Check if the currently opened job was saved since it was opened or last saved
    by the user and inform and take appropriate action if the user tries to save.
    Test with 2 users logged in with different browsers.
-- Get and use activiti for process documentation.
 - Don't allow Comments/Description fields to grow in height when text is entered
   as is done in the System Option Detail dialog.
 - Show date of activity for user in user profiles table.
@@ -206,7 +204,6 @@ can overflow when added divided or multiplied.
 - Add feature to add picture to job sample record by using the camera attached to the system.
 - Add system option to hide/show Job tabs and fields eg Samples tab could be hidden for a
   company that doesn't use it.
-- See if system can run on Payara mirco.
 - Depreciate the "deposit" and subsequently remove the field from the JCP class
   and database. May have to create a cash payment from the deposit field fist.
 - Add: country to Address dialog?
@@ -228,3 +225,7 @@ can overflow when added divided or multiplied.
 job then they should not be able to assign a job to anybody but themself. Similar
 thing applies to department job entry/edit privilege.
 - NOTE: postMail() hardcoded values to be made system options.
+- Train Customer Service/Finance/Engineering/Legal Office
+- Do report and invoice
+
+## Next release (May 24-25, 2018)
