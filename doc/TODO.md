@@ -1,20 +1,8 @@
 # Things to do
 
+## Do JMTS presentation and status update for OJ.
+
 ## Next release (April 24-25, 2018)
-
-NB: Joan wants to borrow galaxy tab 2 charger.
-
-Testing, Training & Misc:
-- Impl "Organization" so that the user's correct organization can be
-  selected when subcontracting a job.
-  * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
-  * Impl businessConverter/Validator. 
-  * Add active/head fields to Business class
-- Job should not be marked completed until approved.
-- Update the service contract template with the new control number (MKTG_F_01/04) 
-  and other footer information. 
-  * Let G.A. do the update and create 3 templates one for each organization.
-- Get list of jobs with incorrect clients from Dwight (not Dr Ramdon)
 - Implement assigning "reps" to a job as a means to assigning more than one person to job
   as required by Chemistry/Micro B.
 - Color code jobs that are late/time and recently visited.
@@ -27,65 +15,31 @@ Testing, Training & Misc:
 - Widen the panels under service contract general services.
 - When the "active" checkbox for tabs on "List" is checked the entire tabview 
   refreshes. Fix!
+- Doing search/new entry in the sys admin "Lists" and "Configuration" tabs cause a "switch"
+  from the tab. Fix!
 - Prevent changing adding/editing cost components once costing is approved/invoiced.
 - Let client search in clients tab search any part of client's name.
 - Add system option to display "Handling keep alive session..." in debugging mode.
 - Relook at the whole sequence of events when job costing parameters such as
-  tax, tolal cost, estimate etc are edited.
+  tax, total cost, estimate etc are edited.
 - Rename privilege table to privileges if it does not result in data lost.
 - Do not save job also when an object in the Job class is edited if this is not
 - Create the LegalDepartmentPortal as a git branch of the JMTS.
 - Impl real canceling of payment edits as is done with job samples.
-- Replace organizationName system option use with "Internal" Business class 
-  when this feature is implemented
-- Follow the BSJ 6 month proposal and do an assessment of the ISO procedures, 
-  work instructions, procedures, audit reports etc. before starting development. 
-  This may take at least a month. Study the proposal and layout a plan of action before starting.
-- Get rid of use of "--" to determine if a job is sub contracted cause selecting
-  it "de-subcontracts" a job and turn it into a parent job.
-- Put 1px margin between toolbars and other components.
-- Note: Units are intrinsic parts of the JMTS such as JM, sys and financial admin. 
-  Modules are additional features such legal documents and standard compliance. 
-  Delete other units from the system such as legalmetrology??
-- Add "identification" and "identificationType" to Client class.
-- Impl finding classifications by category and use it when finding job classifications
-- Order PhoneNumber, Internet as is done with address and contact.
-- When loading table records from System Admin such as user etc 
-  load the database record before editing.
-- Do not allow changing the department to which a job is saved except by sys admin.
-- For all the costing dates, determine what should be the "Costing Date" or the 
-  date that the costing is deemed to be completed.
-- Check that the getting of a new job sequence number and the saving of a job
-  is done in one transaction.
-- Add "Reports" tab to "system admin"
-- Remove department from employee dialog and start using department from JM user
-  whenever the user's department is needed.
-- Add head and active fields to Business class and table.
-- Put pages in address and contact tables for client dialog.
+--------------------------------------------------------------------------------
+- Impl "Organization" so that the user's correct organization can be
+  selected when subcontracting a job.
+  * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
+  * Impl businessConverter/Validator. 
+  * Add active/head fields to Business class
+- Job should not be marked completed until approved.
+- Update the service contract template with the new control number (MKTG_F_01/04) 
+  and other footer information. 
+  * Let G.A. do the update and create 3 templates one for each organization.
+- Get list of jobs with incorrect clients from Dwight (not Dr Ramdon)
 - Impl preventing job costing and payment from being edited once job is marked as complete.
 - Prevent job costing from being edited once it is approved and not when the job is marked completed.
-- Some report templates are given in system options while others are given in Report table. 
-  Given all of them in Report table and delete the system options over time.
-- get(index) is used to get the main phone and fax numbers for a contact. 
-  This method may result in the returning of the right number for fax or phone 
-  so use the type field to solve this.
-- NB: JobManagerUser represents a user profile that has a employee and privileges assigned. 
-  Departments also have privileges and along with the user privileges are used 
-  to determine the effective privileges of the user.
-- Remove department from user dialog.
-- Sort out all that needs to be "locked" once a job's status is marked as complete. 
-  Display a warning before the work progress is set to complete.
-- Reset all UI when log out including searches results so that if a new user logs 
-  in they will not see the searches of the previous user.
-- Display message when user logs on without authentication
-- Export sample condition(s) to service contract.
-- Restrict generation of service contract to an authorized person/department?
-  Put client ID# (TRN etc.) into service contract?
-- Create LegalTask that extends Task and create other concrete Task classes for CIAO for example. 
-- Create Tracking class that can attached to any class to enable tracking of that class. Fields coul include loginDateTime.
-- Create process package for strore BPMN files.
-- Put button in service contract tab to generate service contract.
-- Create dialogs for classification and other objects instead of just adding a row in the table.
+- Display message when user logs on without authentication.
 - Make "Keep Alive" system.out display a system option that is false by default.
 - Impl copy of costing component from components table.
 - Implement the max character lengths as system options and set limits on the maximum 
@@ -93,29 +47,17 @@ dollar values that can be entered as system options.
 - Consider the maximum double values imposed by Java the possibility that values 
 can overflow when added divided or multiplied.
 - Prevent changing a job's parent department once it is has subcontracts.
-- Put cost component type in job costing analysis to show if costing is fixed variable etc. or put n/a in the rate and hours/unit column when the cost component type is fixed or subcontract.
+- Put cost component type in job costing analysis to show if costing is fixed variable etc. 
+  or put n/a in the rate and hours/unit column when the cost component type is fixed or subcontract.
 - Check that the privileges set for user and department are impl properly.
 - Implement search other fields such as descriptions for sysadmin objects.
-- Look seriously at the maximum integer and double values that can be represented by Java and take these into consideration when working with currency and integer values.
-- Disable fields such as client, department etc. once the service contract has been exported or job has been subcontracted. Add a field in the Job class for this and allow only customer service, sysadmin or other designates to change it.
+- Disable fields such as client, department etc. once the service contract has been 
+  exported or job has been subcontracted. Add a field in the Job class for this 
+  and allow only customer service, sysadmin or other designates to change it.
 - Change label for department to "Parent department" when a job is subcontracted.
 - Get rid of use of "--" for default objects.
 - Let users tab filter active users, users that are authenticated and users that have recent activities.
 - Create tax table and use it similar to gnucash to apply taxes to costs on a departmental basis.
-- Put toolbar in service contract tab to export service contract, uncheck as as exported, email service contract etc.
-- In status and tracking add tracking table to show all activities performed on the job. Add section that allows added new action/activity such job completion. See design layouts provide by G. Allen.
-- Show the list of privileges a user has in the preference dialog. Copy the UI from sysadmin and make it read only...put them in a separate file and use to bring them in.
-- Impl use of camera to take pics of samples etc.
-- Add invoiceDate to JobStatusAndTracking class and database.
-- Check if cost component id is null and use it when adding new CC instead of
-  using addCostComponent variable.
-- Put methods such as approveJobCosting() in their associated class such as JCP 
-  so they can be reused by web services developed independently of the JMTS by using
-  the BEL.
-- See if github api (if it exists) can be used to implement feedback system.
-- Make currency symbol a system option.
-- Impl real canceling of job costing edits as is done for samples cause when the 
-  job costing dialog is opened and not edited and canceled a message says it was edited.
 - In CashPayment replace payeeTitle, payeeFirstname and payeeLastname with "Contact payment"
   which would be part of the client associated with the job.
 - Add feature to add picture to job sample record by using the camera attached to the system.
@@ -134,12 +76,15 @@ can overflow when added divided or multiplied.
 job then they should not be able to assign a job to anybody but themself. Similar
 thing applies to department job entry/edit privilege.
 - Do report for Edmondson.
-- Train Customer Service/Finance/Engineering/Legal Office
 - 2/3 "--" departments were created in production database. Check why this occurred
-  and ensure that all classes that refer to depa
+  and ensure that all classes that refer to department use REFRESH cascade type.
 - Do report and invoice
+- Train Customer Service/Finance/Engineering/Legal Office.
 
 ## Next release (May 24-25, 2018)
+- Remove the fields from the top of the cash payments table and put them in the
+  cash payment dialog where possible. Put invoiceNumber in CashPayment class.
+- "--" departments are being created delete them and find reason why it is happening.
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
   stealth url forwarding. Use the technique from zoneedit.
 - Send proposed features to NCRA based on inception report.
@@ -196,3 +141,21 @@ thing applies to department job entry/edit privilege.
   * Check for reports/queries on jobs that do not have any samples. 
   Check for example that these jobs are counted despite not have samples. 
 - Assign git tag to next release.
+- Implement "Templates" tab with "Form", "Letter" and "Report" sub tabs.
+- Make currency symbol a system option.
+- Put methods such as approveJobCosting() in their associated class such as JCP 
+  so they can be reused by web services developed independently of the JMTS by using
+  the BEL.
+- Add invoiceDate to JobStatusAndTracking class and database.
+- Some report templates are given in system options while others are given in Report table. 
+  Given all of them in Report table and delete the system options over time.
+- For all the costing dates, determine what should be the "Costing Date" or the 
+  date that the costing is deemed to be completed.
+- Add clients tab to system admin main tab.
+- Merge the "edit/delete" buttons in contacts and address table in an "Actions"
+  menu as is done for samples table.
+- Replace organizationName system option use with "Internal" Business class 
+  when this feature is implemented.
+- Make it known that if a person is given the "Can approve job costing" privilege
+then they cannot approve a job if it is flagged completed. Review to see if this 
+should be changed.

@@ -106,6 +106,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             String filePath = SystemOption.findSystemOptionByName(em, "serviceContract").getOptionValue();
             FileInputStream stream = createServiceContractExcelFileInputStream(em, getUser(), getCurrentJob().getId(), filePath);
 
+            // tk remove?
             DefaultStreamedContent dsc = new DefaultStreamedContent(stream, "application/xls", "servicecontract.xls");
 
             return dsc;

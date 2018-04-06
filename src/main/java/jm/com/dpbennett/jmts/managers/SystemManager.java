@@ -954,7 +954,7 @@ public class SystemManager implements Serializable {
     }
 
     public void editEmployee() {
-        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 350, 600);
+        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
     }
 
     public void editUser() {
@@ -1376,7 +1376,7 @@ public class SystemManager implements Serializable {
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
-        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 350, 600);
+        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
     }
 
     public void createNewSystemOption() {

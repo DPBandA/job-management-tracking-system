@@ -41,7 +41,8 @@ Email: info@dpbennett.com.jm
     </p:toolbar> 
 
     <p:dataTable id="contactsTable"
-                 var="contact"                                 
+                 var="contact"   
+                 paginator="true"  
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{clientManager.contactsModel}">
 
@@ -102,7 +103,7 @@ Email: info@dpbennett.com.jm
             </p:commandButton>
         </p:column>
     </p:dataTable>
-    
+
     <p:toolbar style="margin-top: 1px;">
         <p:toolbarGroup align="left">
             <p:commandButton value="New"

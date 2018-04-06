@@ -26,10 +26,11 @@ Email: info@dpbennett.com.jm
 
     <ui:include src="reportsTabToolbar1.xhtml"/>
 
-    <p:panel header="Report/Query criteria">
+    <p:panel header="Report/Query criteria" style="margin-bottom: 1px;margin-top: 1px;" >
         <h:panelGrid columns="2" id="reportPanelGrid" cellspacing="10">
             <h:outputText value="Report:"/>    
             <h:panelGroup>
+                
                 <p:autoComplete var="report"      
                                 id="report"
                                 forceSelection="true"
@@ -42,6 +43,7 @@ Email: info@dpbennett.com.jm
                                 itemLabel="#{report.name}"
                                 converter="reportConverter"
                                 completeMethod="#{App.completeReport}" >
+                    
                     <p:ajax event="itemSelect"
                             listener="#{reportManager.refreshJobReport}"
                             onstart="PF('longProcessDialogVar2').show();"

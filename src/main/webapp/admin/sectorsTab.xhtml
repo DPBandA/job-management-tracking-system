@@ -73,13 +73,15 @@ Email: info@dpbennett.com.jm
             </h:panelGroup>
         </p:toolbarGroup>
 
-    </p:toolbar>    
+    </p:toolbar>  
+    
     <p:dataTable id="SectorsTable"                                       
                  var="sector"     
                  editable="true" 
                  editMode="cell"
                  paginator="true"
                  rows="15"
+                 style="margin-top: 1px;"
                  widgetVar="SectorsTableVar"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{systemManager.foundSectors}">

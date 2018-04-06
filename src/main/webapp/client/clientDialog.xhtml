@@ -60,9 +60,11 @@ Email: info@dpbennett.com.jm
                                      icon="ui-icon ui-icon-close" />
                 </p:toolbarGroup>
             </p:toolbar>
+            
             <p:tabView id="clientFormTabView"
                        onTabShow="PF('longProcessDialogVar').hide();"
                        dynamic="true"
+                       style="margin-top: 1px;margin-bottom: 1px;"
                        widgetVar="clientFormTabVar" >
                 <p:tab id="clientDetailsTab" title="General details">
                     <ui:include src="clientDetailsTab.xhtml"/>
@@ -79,7 +81,7 @@ Email: info@dpbennett.com.jm
                     <ui:include src="trackingTab.xhtml" />
                 </p:tab>
             </p:tabView>
-            <p:toolbar style="margin-top: 5px;">
+            <p:toolbar>
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      onstart="PF('longProcessDialogVar').show();"

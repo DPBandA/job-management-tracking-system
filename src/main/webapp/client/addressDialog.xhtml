@@ -31,7 +31,7 @@ Email: info@dpbennett.com.jm
                   modal="true"
                   widgetVar="addressFormDialog"
                   header="Address Detail" >
-            <p:toolbar style="margin-bottom: 5px;">
+            <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{clientManager.okAddress}"
@@ -45,90 +45,92 @@ Email: info@dpbennett.com.jm
                                      process="@this" />         
                 </p:toolbarGroup>
             </p:toolbar>
-            <h:panelGrid columns="2" style="width: 85%">       
-                <h:outputText value="Type:" style="font-weight: bold" />
-                <p:selectOneMenu value="#{clientManager.selectedAddress.type}"
-                                 id="addressType"
-                                 validator="addressLineValidator"
-                                 editable="true" >
-                    <p:ajax
-                        event="change"
-                        global="true"
-                        listener="#{clientManager.updateAddress}"
-                        process="@this" />
-
-                    <f:selectItem itemLabel="Billing" itemValue="Billing" />
-                    <f:selectItem itemLabel="General" itemValue="General" />
-                </p:selectOneMenu>
-
-                <h:outputText value="Address (line 1):" style="font-weight: bold" />
-                <p:inputText value="#{clientManager.selectedAddress.addressLine1}"
-                             id="addressLine1"
-                             maxlength="50"
-                             validator="addressLineValidator"
-                             style="width: 100%">
-                    <p:ajax event="change"
-                            global="true"
-                            listener="#{clientManager.updateAddress}"
-                            process="@this"/>
-                </p:inputText>
-
-                <h:outputText value="Address (line 2):" />
-                <p:inputText value="#{clientManager.selectedAddress.addressLine2}"
-                             id="addressLine2"     
-                             maxlength="50"
-                             style="width: 100%" >
-                    <p:ajax event="change"
-                            global="true"
-                            listener="#{clientManager.updateAddress}"
-                            process="@this"/>
-                </p:inputText>                
-
-                <h:outputText value="Nearest City/Town:" style="font-weight: bold"/>
-                <p:inputText value="#{clientManager.selectedAddress.city}"
-                             id="addressCity"
-                             maxlength="50"
-                             validator="addressLineValidator"
-                             style="width: 100%" >
-                    <p:ajax event="change"
-                            global="true"
-                            listener="#{clientManager.updateAddress}"
-                            process="@this"/>
-                </p:inputText>
-
-                <h:outputText value="Parish/State/Province:" style="font-weight: bold" />
-                <h:panelGroup>
-                    <p:selectOneMenu value="#{clientManager.selectedAddress.stateOrProvince}"   
-                                     id="parishStateProvince"
-                                     maxlength="50"
+            <p:panel style="margin-top: 1px;margin-bottom: 1px;">
+                <h:panelGrid columns="2" style="width: 85%">       
+                    <h:outputText value="Type:" style="font-weight: bold" />
+                    <p:selectOneMenu value="#{clientManager.selectedAddress.type}"
+                                     id="addressType"
                                      validator="addressLineValidator"
-                                     editable="true">
+                                     editable="true" >
                         <p:ajax
-                            global="true"
                             event="change"
-                            listener="#{clientManager.updateClient}"
+                            global="true"
+                            listener="#{clientManager.updateAddress}"
                             process="@this" />
-                        <f:selectItems value="#{App.jamaicaParishes}" />
-                    </p:selectOneMenu>  
-                    <p:watermark value="-- enter or select --" for="parishStateProvince"/>
-            </h:panelGroup>
 
-        </h:panelGrid>    
-        <p:toolbar>
-            <p:toolbarGroup align="left">
-                <p:commandButton value="Ok"
-                                 actionListener="#{clientManager.okAddress}"
-                                 icon="ui-icon-check"
-                                 update=":clientForm:client_growl,:clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
-                                 process="@form" />
-                <p:spacer width="10"/>
-                <p:commandButton value="Cancel"                                 
-                                 icon="ui-icon-close"
-                                 oncomplete="PF('addressFormDialog').hide();"
-                                 process="@this" />         
-            </p:toolbarGroup>
-        </p:toolbar>
-        <p/>
-    </p:dialog>
-</h:form>    
+                        <f:selectItem itemLabel="Billing" itemValue="Billing" />
+                        <f:selectItem itemLabel="General" itemValue="General" />
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Address (line 1):" style="font-weight: bold" />
+                    <p:inputText value="#{clientManager.selectedAddress.addressLine1}"
+                                 id="addressLine1"
+                                 maxlength="50"
+                                 validator="addressLineValidator"
+                                 style="width: 100%">
+                        <p:ajax event="change"
+                                global="true"
+                                listener="#{clientManager.updateAddress}"
+                                process="@this"/>
+                    </p:inputText>
+
+                    <h:outputText value="Address (line 2):" />
+                    <p:inputText value="#{clientManager.selectedAddress.addressLine2}"
+                                 id="addressLine2"     
+                                 maxlength="50"
+                                 style="width: 100%" >
+                        <p:ajax event="change"
+                                global="true"
+                                listener="#{clientManager.updateAddress}"
+                                process="@this"/>
+                    </p:inputText>                
+
+                    <h:outputText value="Nearest City/Town:" style="font-weight: bold"/>
+                    <p:inputText value="#{clientManager.selectedAddress.city}"
+                                 id="addressCity"
+                                 maxlength="50"
+                                 validator="addressLineValidator"
+                                 style="width: 100%" >
+                        <p:ajax event="change"
+                                global="true"
+                                listener="#{clientManager.updateAddress}"
+                                process="@this"/>
+                    </p:inputText>
+
+                    <h:outputText value="Parish/State/Province:" style="font-weight: bold" />
+                    <h:panelGroup>
+                        <p:selectOneMenu value="#{clientManager.selectedAddress.stateOrProvince}"   
+                                         id="parishStateProvince"
+                                         maxlength="50"
+                                         validator="addressLineValidator"
+                                         editable="true">
+                            <p:ajax
+                                global="true"
+                                event="change"
+                                listener="#{clientManager.updateClient}"
+                                process="@this" />
+                            <f:selectItems value="#{App.jamaicaParishes}" />
+                        </p:selectOneMenu>  
+                        <p:watermark value="-- enter or select --" for="parishStateProvince"/>
+                    </h:panelGroup>
+
+                </h:panelGrid> 
+            </p:panel>
+            <p:toolbar>
+                <p:toolbarGroup align="left">
+                    <p:commandButton value="Ok"
+                                     actionListener="#{clientManager.okAddress}"
+                                     icon="ui-icon-check"
+                                     update=":clientForm:client_growl,:clientForm:clientFormTabView:addressesTable,:clientForm:clientFormTabView:generalDetailsPanelGrid"
+                                     process="@form" />
+                    <p:spacer width="10"/>
+                    <p:commandButton value="Cancel"                                 
+                                     icon="ui-icon-close"
+                                     oncomplete="PF('addressFormDialog').hide();"
+                                     process="@this" />         
+                </p:toolbarGroup>
+            </p:toolbar>
+            <p/>
+        </p:dialog>
+    </h:form>    
 </html>

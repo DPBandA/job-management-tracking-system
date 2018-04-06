@@ -26,14 +26,14 @@ Email: info@dpbennett.com.jm
 
     <h:form id="contactForm">
         <p:dialog width="450"
-                  height="350"
+                  height="370"
                   draggable="true"
                   closable="false"
                   modal="true"
                   widgetVar="contactFormDialog"
                   header="Contact Detail" >
 
-            <p:toolbar style="margin-bottom: 5px;">
+            <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{clientManager.okContact}"
@@ -47,109 +47,110 @@ Email: info@dpbennett.com.jm
                                      process="@this" />
                 </p:toolbarGroup>
             </p:toolbar>                
+            <p:panel style="margin-top: 1px;margin-bottom: 1px;">
+                <h:panelGrid columns="2" style="width: 85%">
 
-            <h:panelGrid columns="2" style="width: 85%">
+                    <h:outputText value="Type:" style="font-weight: bold" />
+                    <p:selectOneMenu value="#{clientManager.selectedContact.type}"
+                                     id="contactType" 
+                                     maxlength="50"
+                                     validator="contactValidator">
+                        <p:ajax
+                            event="change"
+                            global="true"
+                            listener="#{clientManager.updateContact}"
+                            process="@this" />
+                        <f:selectItem itemLabel="Main" itemValue="Main" />
+                        <f:selectItem itemLabel="General" itemValue="General" />
+                    </p:selectOneMenu>
 
-                <h:outputText value="Type:" style="font-weight: bold" />
-                <p:selectOneMenu value="#{clientManager.selectedContact.type}"
-                                 id="contactType" 
+                    <h:outputText value="Title:" />
+                    <p:inputText value="#{clientManager.selectedContact.title}"
                                  maxlength="50"
-                                 validator="contactValidator">
-                    <p:ajax
-                        event="change"
-                        global="true"
-                        listener="#{clientManager.updateContact}"
-                        process="@this" />
-                    <f:selectItem itemLabel="Main" itemValue="Main" />
-                    <f:selectItem itemLabel="General" itemValue="General" />
-                </p:selectOneMenu>
+                                 style="width: 100%" >
+                        <p:ajax event="change"
+                                global="true"                                    
+                                listener="#{clientManager.updateContact}"
+                                process="@this"/>
+                    </p:inputText>               
 
-                <h:outputText value="Title:" />
-                <p:inputText value="#{clientManager.selectedContact.title}"
-                             maxlength="50"
-                             style="width: 100%" >
-                    <p:ajax event="change"
-                            global="true"                                    
-                            listener="#{clientManager.updateContact}"
-                            process="@this"/>
-                </p:inputText>               
+                    <h:outputText value="Firstname:" style="font-weight: bold" />
+                    <p:inputText value="#{clientManager.selectedContact.firstName}"
+                                 id="contactFirstname"
+                                 maxlength="50"
+                                 validator="contactValidator"
+                                 style="width: 100%" >
+                        <p:ajax event="change"
+                                global="true"                                    
+                                listener="#{clientManager.updateContact}"
+                                process="@this"/>
+                    </p:inputText>
 
-                <h:outputText value="Firstname:" style="font-weight: bold" />
-                <p:inputText value="#{clientManager.selectedContact.firstName}"
-                             id="contactFirstname"
-                             maxlength="50"
-                             validator="contactValidator"
-                             style="width: 100%" >
-                    <p:ajax event="change"
-                            global="true"                                    
-                            listener="#{clientManager.updateContact}"
-                            process="@this"/>
-                </p:inputText>
+                    <h:outputText value="Lastname:" style="font-weight: bold" />
+                    <p:inputText value="#{clientManager.selectedContact.lastName}"
+                                 id="contactLastname"
+                                 maxlength="50"
+                                 validator="contactValidator"
+                                 style="width: 100%" >
+                        <p:ajax event="change"
+                                global="true"                                    
+                                listener="#{clientManager.updateContact}"
+                                process="@this"/>
+                    </p:inputText>
 
-                <h:outputText value="Lastname:" style="font-weight: bold" />
-                <p:inputText value="#{clientManager.selectedContact.lastName}"
-                             id="contactLastname"
-                             maxlength="50"
-                             validator="contactValidator"
-                             style="width: 100%" >
-                    <p:ajax event="change"
-                            global="true"                                    
-                            listener="#{clientManager.updateContact}"
-                            process="@this"/>
-                </p:inputText>
+                    <h:outputText value="Position:" />
+                    <p:inputText value="#{clientManager.selectedContact.position}"
+                                 maxlength="50"
+                                 style="width: 100%" >
+                        <p:ajax event="change"
+                                global="true"                                    
+                                listener="#{clientManager.updateContact}"
+                                process="@this"/>
+                    </p:inputText>
 
-                <h:outputText value="Position:" />
-                <p:inputText value="#{clientManager.selectedContact.position}"
-                             maxlength="50"
-                             style="width: 100%" >
-                    <p:ajax event="change"
-                            global="true"                                    
-                            listener="#{clientManager.updateContact}"
-                            process="@this"/>
-                </p:inputText>
+                    <h:outputText value="Phone:" />
+                    <p:inputText value="#{clientManager.selectedContact.mainPhoneNumber.localNumber}"
+                                 maxlength="50"
+                                 style="width: 100%" >
+                        <p:ajax event="change"
+                                global="true"                                    
+                                listener="#{clientManager.updateContact}"
+                                process="@this"/>
+                    </p:inputText>
 
-                <h:outputText value="Phone:" />
-                <p:inputText value="#{clientManager.selectedContact.mainPhoneNumber.localNumber}"
-                             maxlength="50"
-                             style="width: 100%" >
-                    <p:ajax event="change"
-                            global="true"                                    
-                            listener="#{clientManager.updateContact}"
-                            process="@this"/>
-                </p:inputText>
+                    <h:outputText value="Email:" />
+                    <p:inputText value="#{clientManager.selectedContact.internet.email1}"
+                                 maxlength="50"
+                                 style="width: 100%" >                
+                        <p:ajax event="change"
+                                global="true"                                    
+                                listener="#{clientManager.updateContact}"
+                                process="@this"/>
+                    </p:inputText>
 
-                <h:outputText value="Email:" />
-                <p:inputText value="#{clientManager.selectedContact.internet.email1}"
-                             maxlength="50"
-                             style="width: 100%" >                
-                    <p:ajax event="change"
-                            global="true"                                    
-                            listener="#{clientManager.updateContact}"
-                            process="@this"/>
-                </p:inputText>
+                    <h:outputText value="Website:" />
+                    <p:inputText value="#{clientManager.selectedContact.internet.website1}"
+                                 maxlength="50"
+                                 style="width: 100%" >
+                        <p:ajax event="change"
+                                global="true"                                    
+                                listener="#{clientManager.updateContact}"
+                                process="@this"/>
+                    </p:inputText>
 
-                <h:outputText value="Website:" />
-                <p:inputText value="#{clientManager.selectedContact.internet.website1}"
-                             maxlength="50"
-                             style="width: 100%" >
-                    <p:ajax event="change"
-                            global="true"                                    
-                            listener="#{clientManager.updateContact}"
-                            process="@this"/>
-                </p:inputText>
+                    <h:outputText value="Fax:" />
+                    <p:inputText value="#{clientManager.selectedContact.mainFaxNumber.localNumber}"
+                                 maxlength="50"
+                                 style="width: 100%">
+                        <p:ajax event="change"
+                                global="true"                                    
+                                listener="#{clientManager.updateContact}"
+                                process="@this"/>
+                    </p:inputText>
 
-                <h:outputText value="Fax:" />
-                <p:inputText value="#{clientManager.selectedContact.mainFaxNumber.localNumber}"
-                             maxlength="50"
-                             style="width: 100%">
-                    <p:ajax event="change"
-                            global="true"                                    
-                            listener="#{clientManager.updateContact}"
-                            process="@this"/>
-                </p:inputText>
-
-            </h:panelGrid>
-            <p:toolbar style="margin-top: 5px;">
+                </h:panelGrid>
+            </p:panel>
+            <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{clientManager.okContact}"
