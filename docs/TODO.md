@@ -144,7 +144,8 @@ thing applies to department job entry/edit privilege.
   stealth url forwarding. Use the technique from zoneedit.
 - Send proposed features to NCRA based on inception report.
 - Fix job search slowness:
-  * Setup GF3 and test MySQL/JPA slowness:
+  * Setup GF3 and test MySQL/JPA slowness
+  * Checkout if indices are required
   * Try with the local mysql57 with the 5.1.45 driver.
   * Try what's at https://zeroturnaround.com/rebellabs/how-to-use-jpa-correctly-to-avoid-complaints-of-a-slow-application/
     and https://zeroturnaround.com/rebellabs/three-jpa-2-1-features-that-will-boost-your-applications-performance/
