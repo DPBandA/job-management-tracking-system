@@ -474,6 +474,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 em.refresh(jobManagerUser);
                 if (!jobManagerUser.getAuthenticate()) {
                     System.out.println("User will NOT be authenticated.");
+                    PrimeFacesUtils.addMessage("NOT Authenticated!",
+                            "Authentication is not activated. Please contact your System Administrator",
+                            FacesMessage.SEVERITY_WARN);
                     setUser(jobManagerUser);
                     setUserLoggedIn(true);
                 } else if (validateAndAssociateUser(em, getUsername(), getPassword())) {
@@ -877,7 +880,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             createJob(em, false);
             //initManagers();
             financeManager.setEnableOnlyPaymentEditing(false);
-            PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
+            PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, false, 600, 850);
         } else {
             // tk test this code with user that does not have the required privilege.
             PrimeFacesUtils.addMessage("Job NOT Created",
@@ -1776,12 +1779,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void editJob() {
 
         currentJob.getJobStatusAndTracking().setEditStatus("");
-        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
+        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, false, 600, 850);
 
     }
 
     public void editJobCostingAndPayment() {
-        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
+        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, false, 600, 850);
     }
 
     public String getJobAssignee() {

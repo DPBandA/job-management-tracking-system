@@ -25,18 +25,31 @@ public class PrimeFacesUtils {
             Integer contentHeight,
             Integer contentWidth) {
 
+        PrimeFacesUtils.openDialog(null, outcome, modal, draggable, resizable, false, contentHeight, contentWidth);
+
+    }
+
+    public static void openDialog(Object entity,
+            String outcome,
+            Boolean modal,
+            Boolean draggable,
+            Boolean resizable,
+            Boolean closable,
+            Integer contentHeight,
+            Integer contentWidth) {
+
         Map<String, Object> options = new HashMap<>();
         options.put("modal", modal);
         options.put("draggable", draggable);
         options.put("resizable", resizable);
-        options.put("closable", false);
+        options.put("closable", closable);
         options.put("contentHeight", contentHeight);
         options.put("contentWidth", contentWidth);
 
         PrimeFaces.current().dialog().openDynamic(outcome, options, null);
-                             
+
     }
-    
+
     public static void closeDialog(Object data) {
         PrimeFaces.current().dialog().closeDynamic(data);
     }

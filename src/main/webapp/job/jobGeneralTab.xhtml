@@ -131,7 +131,7 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
 
             </p:autoComplete>     
-           
+
             <p:menuButton id="clientActionsMenu" value="Actions">
                 <p:menuitem>                       
                     <p:commandButton value="Edit client"
@@ -143,12 +143,12 @@ Email: info@dpbennett.com.jm
                                      actionListener="#{jobManager.editJobClient}"  
                                      process="@this,client"                             
                                      title="View or edit this client's detail">  
-                        
+
                         <p:ajax event="dialogReturn" 
                                 oncomplete="PF('longProcessDialogVar').hide();"
                                 listener="#{jobManager.clientDialogReturn}"
                                 update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
-                        
+
                     </p:commandButton>            
                 </p:menuitem>
 
@@ -162,12 +162,12 @@ Email: info@dpbennett.com.jm
                         actionListener="#{jobManager.createNewJobClient}"                                            
                         process="@this"
                         title="Add a new client to the client database">
-                        
+
                         <p:ajax event="dialogReturn" 
                                 oncomplete="PF('longProcessDialogVar').hide();"
                                 listener="#{jobManager.clientDialogReturn}"
                                 update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
-                        
+
                     </p:commandButton>
                 </p:menuitem>
             </p:menuButton>       
@@ -298,30 +298,52 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>
 
-        <h:outputText value="Dept. rep./Assignee: " style="font-weight: bold" />
-        <h:panelGroup>
-            <p:autoComplete id="assignee"
-                            var="assignedTo"                            
-                            maxlength="40"
-                            styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
-                            value="#{jobManager.currentJob.assignedTo}"
-                            title="#{jobManager.currentJob.assignedTo}"
-                            itemLabel="#{assignedTo.name}"
-                            itemValue="#{assignedTo}"
-                            converter="employeeConverter"
-                            validator="businessEntityValidator"
-                            forceSelection="true"
-                            dropdown="true"
-                            scrollHeight="200" 
-                            completeMethod="#{App.completeEmployee}" >
+        <h:outputText value="Assignee: " style="font-weight: bold" />       
+        <p:autoComplete id="assignee"
+                        var="assignedTo"                            
+                        maxlength="40"
+                        styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
+                        value="#{jobManager.currentJob.assignedTo}"
+                        title="#{jobManager.currentJob.assignedTo}"
+                        itemLabel="#{assignedTo.name}"
+                        itemValue="#{assignedTo}"
+                        converter="employeeConverter"
+                        validator="businessEntityValidator"
+                        forceSelection="true"
+                        dropdown="true"
+                        scrollHeight="200" 
+                        completeMethod="#{App.completeEmployee}" >
 
-                <p:ajax event="itemSelect"
-                        listener="#{jobManager.updateJob}"
-                        update=":jobDialogForm:jobDetailToolbar1"
-                        process="@this"/>
+            <p:ajax event="itemSelect"
+                    listener="#{jobManager.updateJob}"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+        </p:autoComplete>  
 
-            </p:autoComplete>           
-        </h:panelGroup>
+        <h:outputText value="Representative(s): " />       
+        <p:autoComplete id="representatives"
+                        var="representative"   
+                        value="#{jobManager.currentJob.representatives}"
+                        itemLabel="#{representative.name}"
+                        itemValue="#{representative}"
+                        converter="employeeConverter"
+                        forceSelection="true"
+                        dropdown="true"
+                        scrollHeight="200"                         
+                        multiple="true"
+                        completeMethod="#{App.completeEmployee}" >
+
+            <p:ajax event="itemSelect"
+                    listener="#{jobManager.updateJob}"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            
+            <p:ajax event="itemUnselect"
+                    listener="#{jobManager.updateJob}"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            
+        </p:autoComplete>
 
         <h:outputText value="TAT given to client: "  style="font-weight: bold;" />
         <h:panelGroup>

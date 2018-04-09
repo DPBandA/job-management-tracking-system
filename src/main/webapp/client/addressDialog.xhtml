@@ -107,12 +107,31 @@ Email: info@dpbennett.com.jm
                             <p:ajax
                                 global="true"
                                 event="change"
-                                listener="#{clientManager.updateClient}"
+                                listener="#{clientManager.updateAddress}"
                                 process="@this" />
                             <f:selectItems value="#{App.jamaicaParishes}" />
                         </p:selectOneMenu>  
                         <p:watermark value="-- enter or select --" for="parishStateProvince"/>
                     </h:panelGroup>
+                    
+                    <h:outputText value="Country of Origin:" />
+                    <p:autoComplete value="#{clientManager.selectedAddress.country}"     
+                                        id="country"
+                                        forceSelection="true"  
+                                        maxlength="40"
+                                        dropdown="true"
+                                        scrollHeight="200" 
+                                        completeMethod="#{App.completeCountry}" >
+                        
+                            <p:ajax event="itemSelect"                              
+                                    listener="#{clientManager.updateAddress}"
+                                    process="@this" />      
+
+                            <p:ajax event="change"                              
+                                    listener="#{clientManager.updateAddress}"
+                                    process="@this" />    
+                            
+                        </p:autoComplete>
 
                 </h:panelGrid> 
             </p:panel>

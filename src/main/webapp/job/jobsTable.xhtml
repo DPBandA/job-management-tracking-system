@@ -29,7 +29,8 @@ Email: info@dpbennett.com.jm
                  paginator="true"
                  rows="15"  
                  selection="#{jobManager.selectedJobs}"
-                 resizableColumns="false"                 
+                 resizableColumns="false"
+                 rowStyleClass="#{job.colorCode}"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
 

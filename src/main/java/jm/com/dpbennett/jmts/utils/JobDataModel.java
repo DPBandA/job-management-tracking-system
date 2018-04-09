@@ -29,7 +29,7 @@ import org.primefaces.model.SelectableDataModel;
  * @author dbennett
  */
 public class JobDataModel extends ListDataModel<Job> implements SelectableDataModel<Job> {
-    
+
     private List<Job> list;
 
     public JobDataModel() {
@@ -37,7 +37,7 @@ public class JobDataModel extends ListDataModel<Job> implements SelectableDataMo
 
     public JobDataModel(List<Job> list) {
         super(list);
-        this. list = list;
+        this.list = list;
     }
 
     @Override
@@ -55,4 +55,5 @@ public class JobDataModel extends ListDataModel<Job> implements SelectableDataMo
 
         return null;
     }
+
 }
