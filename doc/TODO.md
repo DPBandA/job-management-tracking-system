@@ -1,8 +1,16 @@
 # Things to do
 
-## Do JMTS presentation and status update for OJ.
+Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
+- Send email re Sonia's issue.
+- Status update for OJ.
+- JMTS presentation with Balwayne. 
+- Check account/call @10:00 re payment.
+- Make it known that if a person is given the "Can approve job costing" privilege
+then they cannot approve a job if it is flagged completed. Review to see if this 
+should be changed. Search for this privilege and see how it is handled.
+- Hide/show the "Approved/Invoiced" buttons based on privilege.
 - Implement assigning "reps" to a job as a means to assigning more than one person to job
   as required by Chemistry/Micro B.
 - Color code jobs that are late/time and recently visited.
@@ -156,6 +164,4 @@ thing applies to department job entry/edit privilege.
   menu as is done for samples table.
 - Replace organizationName system option use with "Internal" Business class 
   when this feature is implemented.
-- Make it known that if a person is given the "Can approve job costing" privilege
-then they cannot approve a job if it is flagged completed. Review to see if this 
-should be changed.
+
