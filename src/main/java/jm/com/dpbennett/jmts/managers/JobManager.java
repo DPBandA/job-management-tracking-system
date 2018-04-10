@@ -1975,21 +1975,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.currentJob = currentJob;
     }
 
-//    private void initManagers() {
-//        contractManager.setCurrentJob(this.currentJob);
-//        contractManager.setUser(this.user);
-//        jobSampleManager.setCurrentJob(currentJob);
-//        jobSampleManager.setUser(user);
-//        financeManager.setCurrentJob(currentJob);
-//        financeManager.setUser(user);
-//    }
     public void resetManagers() {
         clientManager.reset();
     }
 
     public void setEditCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
-        //initManagers();
+        this.currentJob.setVisited(true);
         financeManager.setEnableOnlyPaymentEditing(false);
     }
 

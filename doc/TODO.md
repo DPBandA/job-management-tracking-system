@@ -4,6 +4,7 @@ Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
 - Color code jobs that are due, soon due, overdue and recently visited (light grey).
+  * Do for all job browser tables.
 - When the "active" checkbox for tabs on "List" is checked the entire tab view 
   refreshes. Fix!
 - Doing search/new entry in the sys admin "Lists" and "Configuration" tabs cause a "switch"
@@ -33,6 +34,7 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Implement Legal Office module using the Legal Departmental Portal.
 - 2/3 "--" departments were created in production database. Check why this occurred
   and ensure that all classes that refer to department use REFRESH cascade type.
+- Deploy as jmtstrain for testing and training.
 - Do report and invoice
 - Train Customer Service/Finance/Engineering/Legal Office.
 

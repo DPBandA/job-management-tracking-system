@@ -40,6 +40,26 @@
     background-image: none;
     color: #000000;
 }
+.orangeredbg {
+    background-color:orangered;
+    background-image: none;
+    color: #000000;
+}
+.lightyellowbg {
+    background-color:lightyellow;
+    background-image: none;
+    color: #000000;
+}
+.lightgreenbg {
+    background-color:lightgreen;
+    background-image: none;
+    color: #000000;
+}
+.yellowbg {
+    background-color:yellow;
+    background-image: none;
+    color: #000000;
+}
 .header {
     background-color: gray;
     background-image: none;
