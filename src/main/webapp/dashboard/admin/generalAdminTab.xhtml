@@ -73,6 +73,22 @@ Email: info@dpbennett.com.jm
 
                     </p:commandButton>          
                 </p:menuitem>  
+                
+                <p:menuitem>                       
+                    <p:commandButton value="Organization"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     title="Create new organization"
+                                     icon="fa fa-plus"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{systemManager.createNewBusiness}" 
+                                     process="@this" >
+
+                        <p:ajax event="dialogReturn" 
+                                oncomplete="longProcessDialogVar.hide();centerTabVar.select(3);"
+                                update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"/>
+
+                    </p:commandButton>          
+                </p:menuitem>  
 
                 <p:menuitem>                       
                     <p:commandButton value="Job classification"
@@ -212,6 +228,18 @@ Email: info@dpbennett.com.jm
                                      update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
                                      process="@this" />
                 </p:menuitem>  
+                
+                <p:menuitem>                       
+                    <p:commandButton value="Organizations"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     title="Search for organizations"
+                                     icon="fa fa-search"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{systemManager.doBusinessSearch}" 
+                                     oncomplete="longProcessDialogVar.hide();centerTabVar.select(3);"
+                                     update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"
+                                     process="@this" />
+                </p:menuitem> 
 
                 <p:menuitem>                       
                     <p:commandButton value="Job classifications"

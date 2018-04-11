@@ -277,11 +277,8 @@ public class SystemManager implements Serializable {
 
         // tk build source and target based on all the existing departments
         // and what alread exist in the business
-        List<Department> source = new ArrayList<>();
-        List<Department> target = new ArrayList<>();
-
-        source = Department.findAllActiveDepartments(getEntityManager());
-        //target = selectedBusiness.getDepartments();
+        List<Department> source = Department.findAllActiveDepartments(getEntityManager());
+        List<Department> target = selectedBusiness.getDepartments();
 
         departmentDualList = new DualListModel<>(source, target);
 
@@ -680,15 +677,18 @@ public class SystemManager implements Serializable {
     }
 
     public List<Business> getFoundBusinesses() {
-        //if (foundBusinesses == null)  {
-        foundBusinesses = Business.findAllBusinesses(getEntityManager());
-        //}
+        if (foundBusinesses == null) {
+            foundBusinesses = Business.findAllBusinesses(getEntityManager());
+        }
 
         return foundBusinesses;
     }
 
     public void okDepartmentPickList() {
-
+        
+       // tk 
+       getSelectedBusiness().setDepartments(departmentDualList.getTarget());
+       //getSelectedBusiness().getDepartments().addAll(departmentDualList.getTarget());
     }
 
     public void setFoundDepartments(List<Department> foundDepartments) {
@@ -742,7 +742,12 @@ public class SystemManager implements Serializable {
     }
 
     public void doBusinessSearch() {
+        foundBusinesses = Business.findBusinessesByName(getEntityManager(), getBusinessSearchText());
 
+        // Add tab if it does not exist
+        if (getMainTabView().findTab("System Administration") == null) {
+            getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        }
     }
 
     public void doClassificationSearch() {
@@ -753,7 +758,7 @@ public class SystemManager implements Serializable {
             foundClassifications = Classification.findClassificationsByName(getEntityManager(), getClassificationSearchText());
         }
 
-        selectSystemAdminTab("dataListsTabViewVar", "Classifications", 3, 0);
+        selectSystemAdminTab("dataListsTabViewVar", "Classifications", 4, 0);
 
     }
 
@@ -765,7 +770,7 @@ public class SystemManager implements Serializable {
             foundSectors = Sector.findSectorsByName(getEntityManager(), getSectorSearchText());
         }
 
-        selectSystemAdminTab("dataListsTabViewVar", "Sectors", 3, 3);
+        selectSystemAdminTab("dataListsTabViewVar", "Sectors", 4, 3);
 
     }
 
@@ -777,7 +782,7 @@ public class SystemManager implements Serializable {
             foundJobCategories = JobCategory.findJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
         }
 
-        selectSystemAdminTab("dataListsTabViewVar", "Job categories", 3, 1);
+        selectSystemAdminTab("dataListsTabViewVar", "Job categories", 4, 1);
 
     }
 
@@ -789,7 +794,7 @@ public class SystemManager implements Serializable {
             foundJobSubcategories = JobSubCategory.findJobSubcategoriesByName(getEntityManager(), getJobSubcategorySearchText());
         }
 
-        selectSystemAdminTab("dataListsTabViewVar", "Job subcategories", 3, 2);
+        selectSystemAdminTab("dataListsTabViewVar", "Job subcategories", 4, 2);
 
     }
 
@@ -821,7 +826,7 @@ public class SystemManager implements Serializable {
             foundSystemOptions = new ArrayList<>();
         }
 
-        selectSystemAdminTab("systemConfigurationTabViewVar", "Miscellaneous", 4, 1);
+        selectSystemAdminTab("systemConfigurationTabViewVar", "Miscellaneous", 5, 1);
 
     }
 
@@ -832,7 +837,7 @@ public class SystemManager implements Serializable {
             foundLdapContexts = LdapContext.findLdapContexts(getEntityManager(), getLdapSearchText());
         }
 
-        selectSystemAdminTab("systemConfigurationTabViewVar", "LDAP", 4, 0);
+        selectSystemAdminTab("systemConfigurationTabViewVar", "LDAP", 5, 0);
 
     }
 
@@ -950,7 +955,7 @@ public class SystemManager implements Serializable {
     }
 
     public void editBusiness() {
-        PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 600);
+        PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 700);
     }
 
     public void editEmployee() {
@@ -1147,7 +1152,6 @@ public class SystemManager implements Serializable {
 //            selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(getEntityManager(), "--"));
 //        }
 //    }
-
     public void updateSelectedDepartmentHead() {
         if (selectedDepartment.getHead().getId() != null) {
             selectedDepartment.setHead(Employee.findEmployeeById(getEntityManager(), selectedDepartment.getHead().getId()));
@@ -1300,7 +1304,6 @@ public class SystemManager implements Serializable {
     public void createNewDepartment() {
 
         selectedDepartment = new Department();
-        selectedDepartment.setActive(true);
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
@@ -1313,7 +1316,7 @@ public class SystemManager implements Serializable {
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
-        PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 600);
+        PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 700);
     }
 
     public void createNewClassification() {

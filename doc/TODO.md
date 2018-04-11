@@ -3,21 +3,11 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Color code jobs that are due, soon due, overdue and recently visited (light grey).
-  * Do for all job browser tables.
-  * For completed check if status "Completed" correspond to the completed flag.
-- When the "active" checkbox for tabs on "List" is checked the entire tab view 
-  refreshes. Fix!
-- Doing search/new entry in the sys admin "Lists" and "Configuration" tabs cause a "switch"
-  from the tab. Fix!
-- Relook at the whole sequence of events when job costing parameters such as
-  tax, total cost, estimate etc are edited.
-- Impl real canceling of payment edits as is done with job samples.
-- JMTS presentation with Balwayne.
 - Impl "Organization" so that the user's correct organization can be
   selected when subcontracting a job.
-  * Impl departmentPickListDialog. Check why Test Dept2. does not appear in the list.
-  * Impl businessConverter/Validator. 
+  * Create comma separated list of departments.
+  * Impl saving business and departments. May have to change REFRESH to ALL for 
+    departments cascade.  
   * Add active/head fields to Business class
 - Job should not be marked completed until approved: 
   * Is it possible to set the job entry to accept completed only when the costing has been approved?
@@ -36,7 +26,7 @@ Modules for next release: Job Management, Legal Office, Client Management
 - 2/3 "--" departments were created in production database. Check why this occurred
   and ensure that all classes that refer to department use REFRESH cascade type.
 - Deploy as jmtstrain for testing and training.
-- Do report and invoice
+- Do report and invoice.
 - Train Customer Service/Finance/Engineering/Legal Office.
 
 ## Next release (May 24-25, 2018)

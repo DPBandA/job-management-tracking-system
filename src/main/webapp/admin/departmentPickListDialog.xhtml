@@ -30,13 +30,13 @@ Email: info@dpbennett.com.jm
                   modal="true"
                   widgetVar="departmentPickListDialog"
                   header="Choose Department(s)" >   
-            <p:toolbar style="margin-bottom: 1px;">
+            <p:toolbar>
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      actionListener="#{systemManager.okDepartmentPickList}"
-                                     update=":businessDialogForm"
+                                     update=":businessDialogForm:businessDepartments:departmentsTable"
                                      onstart="PF('longProcessDialogVar').show();" 
-                                     oncomplete="PF('longProcessDialogVar').hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();PF('departmentPickListDialog').hide();"
                                      icon="ui-icon ui-icon-check"
                                      process="@form"/>
                     <p:spacer width="5" />
@@ -48,15 +48,31 @@ Email: info@dpbennett.com.jm
                 </p:toolbarGroup>
             </p:toolbar>            
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
-                
+
                 <p:pickList value="#{systemManager.departmentDualList}" 
                             var="department"
                             itemLabel="#{department.name}" 
                             itemValue="#{department}" 
                             converter="departmentConverter" />
-                    
-            </p:panel>            
 
+            </p:panel>            
+            <p:toolbar>
+                <p:toolbarGroup>
+                    <p:commandButton value="Ok"
+                                     actionListener="#{systemManager.okDepartmentPickList}"
+                                     update=":businessDialogForm:businessDepartments:departmentsTable"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="PF('longProcessDialogVar').hide();PF('departmentPickListDialog').hide();"
+                                     icon="ui-icon ui-icon-check"
+                                     process="@form"/>
+                    <p:spacer width="5" />
+                    <p:commandButton value="Cancel" 
+                                     immediate="true"
+                                     onstart="PF('longProcessDialogVar').show();"                              
+                                     oncomplete="PF('departmentPickListDialog').hide();PF('longProcessDialogVar').hide();"
+                                     icon="ui-icon-close"/>
+                </p:toolbarGroup>
+            </p:toolbar>  
             <p/>
         </p:dialog>
     </h:form>    

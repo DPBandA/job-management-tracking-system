@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>   
         <ui:include src="departmentPickListDialog.xhtml"/>   
-        
+
         <h:form id="businessDialogForm">        
 
             <p:growl id="businessdialog_growl" life="5000" showDetail="true"/>
@@ -85,13 +85,13 @@ Email: info@dpbennett.com.jm
 
                 </h:panelGrid>
             </p:panel>
-            <p:tabView >
+            <p:tabView id="businessDepartments">
                 <p:tab title="Departments">
                     <p:toolbar>
                         <p:toolbarGroup align="left" >   
                             <p:commandButton title="Add department"                                  
                                              value="Add"
-                                             
+
                                              update=":businessDialogForm:businessdialog_growl,departmentsTable"
                                              onstart="PF('longProcessDialogVar').show();PF('departmentPickListDialog').show();"
                                              oncomplete="PF('longProcessDialogVar').hide();"
@@ -110,49 +110,67 @@ Email: info@dpbennett.com.jm
                                  style="margin-bottom: 1px;margin-top: 1px;"
                                  value="#{systemManager.selectedBusiness.departments}">
 
-                        <p:column style="width:100px"  >
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Name" />
                             </f:facet>
                             <h:outputText value="#{department.name}" />
                         </p:column>
 
-                        <p:column style="width:100px"  >
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Head" />
                             </f:facet>
                             <h:outputText value="#{department.head}" />
                         </p:column>
 
-                        <p:column style="width:100px"  >
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Code" />
                             </f:facet>
                             <h:outputText value="#{department.subGroupCode}" />
                         </p:column>
 
-                        <p:column style="width:32px">
-                            <p:menuButton id="toolsButton" value="Actions">
+                        <ui:remove>
+                            <p:column style="width:32px">
+                                <p:menuButton id="toolsButton" value="Actions">
 
-                                <p:menuitem >                       
-                                    <p:commandButton   
-                                        value="Remove"
+                                    <p:menuitem >                       
+                                        <p:commandButton   
+                                            value="Remove"
+                                            style="width: 100%;text-align: left;background: none;border: 0;"
+                                            onstart="PF('longProcessDialogVar').show();"
+                                            icon="ui-icon-trash"
+                                            process="@this">
 
-                                        style="width: 100%;text-align: left;background: none;border: 0;"
-                                        onstart="PF('longProcessDialogVar').show();"
-                                        icon="ui-icon-trash"
-                                        process="@this">
-
-                                        <f:setPropertyActionListener value="#{jobSample}"
-                                                                     target="#{systemManager.selectedBusiness}" />
+                                            <f:setPropertyActionListener value="#{jobSample}"
+                                                                         target="#{systemManager.selectedBusiness}" />
 
 
-                                    </p:commandButton>
-                                </p:menuitem>                   
+                                        </p:commandButton>
+                                    </p:menuitem>                   
 
-                            </p:menuButton>                   
-                        </p:column>   
+                                </p:menuButton>                   
+                            </p:column>
+                        </ui:remove>
+
                     </p:dataTable>
+                    <p:toolbar>
+                        <p:toolbarGroup align="left" >   
+                            <p:commandButton title="Add department"                                  
+                                             value="Add"
+
+                                             update=":businessDialogForm:businessdialog_growl,departmentsTable"
+                                             onstart="PF('longProcessDialogVar').show();PF('departmentPickListDialog').show();"
+                                             oncomplete="PF('longProcessDialogVar').hide();"
+                                             onerror="PF('connectionErrorDialog').show();"
+                                             global="true"
+                                             process="@this"
+                                             icon="ui-icon ui-icon-plus">
+
+                            </p:commandButton>                           
+                        </p:toolbarGroup>                    
+                    </p:toolbar> 
                 </p:tab>                           
 
             </p:tabView>
