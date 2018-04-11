@@ -5,6 +5,7 @@ Modules for next release: Job Management, Legal Office, Client Management
 ## Next release (April 24-25, 2018)
 - Color code jobs that are due, soon due, overdue and recently visited (light grey).
   * Do for all job browser tables.
+  * For completed check if status "Completed" correspond to the completed flag.
 - When the "active" checkbox for tabs on "List" is checked the entire tab view 
   refreshes. Fix!
 - Doing search/new entry in the sys admin "Lists" and "Configuration" tabs cause a "switch"

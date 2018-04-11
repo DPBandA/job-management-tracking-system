@@ -1987,6 +1987,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void setEditJobCosting(Job currentJob) {
         this.currentJob = currentJob;
+        this.currentJob.setVisited(true);
 
         // Reload cash payments if possible to avoid overwriting them 
         // when saving
@@ -2005,7 +2006,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void setEditJobCostingAndPayment(Job currentJob) {
         this.currentJob = currentJob;
-        //initManagers();
+        this.currentJob.setVisited(true);
+       
         financeManager.setEnableOnlyPaymentEditing(true);
     }
 
