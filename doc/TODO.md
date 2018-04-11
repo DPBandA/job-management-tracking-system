@@ -5,7 +5,8 @@ Modules for next release: Job Management, Legal Office, Client Management
 ## Next release (April 24-25, 2018)
 - Impl "Organization" so that the user's correct organization can be
   selected when subcontracting a job.
-  * Create comma separated list of departments.
+  * Enure that what's is in the target list is not in the source list.
+    Check if there is a "removeAll()" method that does this.
   * Impl saving business and departments. May have to change REFRESH to ALL for 
     departments cascade.  
   * Add active/head fields to Business class
