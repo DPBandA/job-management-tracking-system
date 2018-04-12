@@ -277,8 +277,11 @@ public class SystemManager implements Serializable {
 
         // tk build source and target based on all the existing departments
         // and what alread exist in the business
+                
         List<Department> source = Department.findAllActiveDepartments(getEntityManager());
         List<Department> target = selectedBusiness.getDepartments();
+        
+        source.removeAll(target);
 
         departmentDualList = new DualListModel<>(source, target);
 

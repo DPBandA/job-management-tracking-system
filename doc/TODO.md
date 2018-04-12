@@ -10,6 +10,7 @@ Modules for next release: Job Management, Legal Office, Client Management
   * Impl saving business and departments. May have to change REFRESH to ALL for 
     departments cascade.  
   * Add active/head fields to Business class
+  * Business dialog not scrolling check why.
 - Job should not be marked completed until approved: 
   * Is it possible to set the job entry to accept completed only when the costing has been approved?
 - Update the service contract template with the new control number (MKTG_F_01/04) 
