@@ -34,10 +34,10 @@ Email: info@dpbennett.com.jm
                              update="jobCosting_growl"
                              process="@form"/>
             <p:spacer width="10"/>
-            <p:commandButton value="Cancel"
+            <p:commandButton value="Close"
                              onstart="PF('longProcessDialogVar').show();"
                              immediate="true"
-                             actionListener="#{financeManager.cancelJobCostingDialog}"                         
+                             actionListener="#{financeManager.closelJobCostingDialog}"                         
                              oncomplete="PF('longProcessDialogVar').hide();"
                              icon="ui-icon-close"
                              process="@this"/>

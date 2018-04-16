@@ -133,6 +133,17 @@ public class Application {
 
         return dateFields;
     }
+    
+     public List getLegalDocumentDateSearchFields() {
+        ArrayList dateFields = new ArrayList();
+
+        // add items
+        dateFields.add(new SelectItem("dateOfCompletion", "Date delivered"));
+        dateFields.add(new SelectItem("dateReceived", "Date received"));
+        dateFields.add(new SelectItem("expectedDateOfCompletion", "Agreed delivery date"));
+
+        return dateFields;
+    }
 
     public List getContactTypes() {
 
@@ -153,6 +164,14 @@ public class Application {
         searchTypes.add(new SelectItem("My jobs", "My jobs"));
         searchTypes.add(new SelectItem("My department's jobs", "My department's jobs"));
 
+        return searchTypes;
+    }
+    
+    public List getLegalDocumentSearchTypes() {
+        ArrayList searchTypes = new ArrayList();
+
+        searchTypes.add(new SelectItem("General", "General"));
+      
         return searchTypes;
     }
 

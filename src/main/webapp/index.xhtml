@@ -134,7 +134,10 @@ Email: info@dpbennett.com.jm
                         <p:tab title="#{t.name}" closable="true"  >
                             <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                 <ui:include src="job/jobBrowser.xhtml" />   
-                            </h:panelGroup>                           
+                            </h:panelGroup>       
+                            <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
+                                <ui:include src="legal/documentBrowser.xhtml" />   
+                            </h:panelGroup> 
                             <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
                                 <ui:include src="admin/financialAdminTab.xhtml" /> 
                             </h:panelGroup>
@@ -222,8 +225,8 @@ Email: info@dpbennett.com.jm
                                 Service Request
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.id == 'Legal'}">
-                                Legal Documents
+                            <h:panelGroup rendered="#{t.id == 'Document Management'}">
+                                <ui:include src="dashboard/legal/documentsTab.xhtml" />
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Customer Relationship Management'}">

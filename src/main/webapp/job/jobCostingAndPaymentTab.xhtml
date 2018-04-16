@@ -35,6 +35,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Purchase order #: "/>
             <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
                          readonly="#{!financeManager.canEditJobCosting}"
+                         disabled="#{financeManager.isJobCompleted}" 
                          styleClass="#{financeManager.canEditJobCosting eq true ? '' : 'read-only-text-field'}"
                          maxlength="40" >
                 <p:ajax event="change"
@@ -51,6 +52,7 @@ Email: info@dpbennett.com.jm
                              converterMessage="Please enter a valid cost estimate."
                              styleClass="#{financeManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
                              readonly="#{!financeManager.canEditJobCosting}"
+                             disabled="#{financeManager.isJobCompleted}" 
                              maxlength="15" >
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
                     <p:ajax event="change"
@@ -67,6 +69,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Minimum deposit required ($): "/>
             <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.minDeposit}"
                          readonly="#{!financeManager.canEditJobCosting}"
+                         disabled="#{financeManager.isJobCompleted}" 
                          styleClass="#{financeManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
                          maxlength="15">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
@@ -83,6 +86,7 @@ Email: info@dpbennett.com.jm
                             value="#{financeManager.currentJob.jobCostingAndPayment.percentageGCT}"
                             dropdown="true"
                             forceSelection="true"
+                            disabled="#{financeManager.isJobCompleted}" 
                             maxlength="10"
                             styleClass="#{financeManager.canApplyGCT eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
                             completeMethod="#{financeManager.completeTaxPercentage}">
@@ -194,24 +198,18 @@ Email: info@dpbennett.com.jm
         <p:panel style="margin-bottom: 1px;margin-top: 1px;">
             <h:panelGrid columns="2">
 
-                <h:outputText value="Invoice number:" />
-                <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.invoiceNumber}"
-                             readonly="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                             styleClass="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment ? '' : 'read-only-text-field'}" 
-                             maxlength="40" >
-                    <p:ajax event="change"                            
-                            listener="#{financeManager.updateJobCostingAndPayment}"
-                            update=":jobDialogForm:jobDetailToolbar1"
-                            process="@this"/>
-                </p:inputText>
-
-                <h:outputText value="Receipt #s:" />
-                <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.receiptNumber}" 
-                             id="receiptNumbers"
-                             maxlength="120" 
-                             styleClass="read-only-text-field"
-                             readonly="true" >                   
-                </p:inputText>
+                <ui:remove>
+                    <h:outputText value="Invoice number:" />
+                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.invoiceNumber}"
+                                 readonly="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                                 styleClass="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment ? '' : 'read-only-text-field'}" 
+                                 maxlength="40" >
+                        <p:ajax event="change"                            
+                                listener="#{financeManager.updateJobCostingAndPayment}"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this"/>
+                    </p:inputText>
+                </ui:remove>
 
                 <h:outputText value="Discount:" />
                 <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.discount}"  
@@ -231,20 +229,7 @@ Email: info@dpbennett.com.jm
                             process="@this"/>
                 </p:inputText> 
 
-                <h:outputText value="Discount type:" />
-                <ui:remove>
-                    <p:selectOneMenu 
-                        id="discountType" 
-                        style="width: 72%;"
-                        value="#{financeManager.currentJob.jobCostingAndPayment.discountType}">
-                        <p:ajax
-                            global="true"
-                            listener="#{financeManager.updateJobCostingAndPayment}"
-                            update=":jobDialogForm:jobDetailToolbar1,jobCosting"
-                            process="@this" />
-                        <f:selectItems value="#{App.discountTypes}" />
-                    </p:selectOneMenu>      
-                </ui:remove>
+                <h:outputText value="Discount type:" />               
                 <p:autoComplete id="discountType"
                                 value="#{financeManager.currentJob.jobCostingAndPayment.discountType}"
                                 dropdown="true"
@@ -260,7 +245,7 @@ Email: info@dpbennett.com.jm
                         update=":jobDialogForm:jobDetailToolbar1,jobCosting"
                         process="@this" />
 
-                </p:autoComplete>      
+                </p:autoComplete>   
 
             </h:panelGrid>
         </p:panel>        

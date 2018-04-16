@@ -35,11 +35,12 @@ Email: info@dpbennett.com.jm
         <link rel="stylesheet" href="../css/main.css" />  
     </h:head>
     <h:body >  
+        
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>   
-        <ui:include src="departmentPickListDialog.xhtml"/>   
+        <ui:include src="departmentPickListDialog.xhtml"/>
 
-        <h:form id="businessDialogForm">        
+        <h:form id="businessDialogForm">     
 
             <p:growl id="businessdialog_growl" life="5000" showDetail="true"/>
 
@@ -89,7 +90,7 @@ Email: info@dpbennett.com.jm
                 <p:tab title="Departments">
                     <p:toolbar>
                         <p:toolbarGroup align="left" >   
-                            <p:commandButton title="Add department"                                  
+                            <p:commandButton title="Add department(s)"                                  
                                              value="Add"
 
                                              update=":businessDialogForm:businessdialog_growl,departmentsTable"
@@ -157,7 +158,7 @@ Email: info@dpbennett.com.jm
                     </p:dataTable>
                     <p:toolbar>
                         <p:toolbarGroup align="left" >   
-                            <p:commandButton title="Add department"                                  
+                            <p:commandButton title="Add department(s)"                                  
                                              value="Add"
 
                                              update=":businessDialogForm:businessdialog_growl,departmentsTable"

@@ -87,6 +87,7 @@ Email: info@dpbennett.com.jm
                     <p:spacer height="0" width="10"/>
                     <p:inputTextarea value="#{financeManager.currentJob.jobDescription}" 
                                      id="jobDescription"
+                                     disabled="#{financeManager.isJobCompleted}" 
                                      rows="2" 
                                      style="width: 300px" >
 
@@ -113,6 +114,7 @@ Email: info@dpbennett.com.jm
                                             value="#{financeManager.selectedJobCostingTemplate}"
                                             title="Choose an existing costing template name"                                                                                    
                                             scrollHeight="200" 
+                                            disabled="#{financeManager.isJobCompleted}" 
                                             forceSelection="true"
                                             completeMethod="#{financeManager.completeJobCostingAndPaymentName}">
                                 <p:ajax event="itemSelect"                                    
@@ -129,6 +131,7 @@ Email: info@dpbennett.com.jm
                                            value="Template name: " />
                             <p:inputText id="jobCostingsTemplateName"
                                          value="#{financeManager.currentJob.jobCostingAndPayment.name}"
+                                         disabled="#{financeManager.isJobCompleted}" 
                                          style="width: 150px;">
                                 <p:ajax event="change"
                                         global="false"
@@ -251,8 +254,9 @@ Email: info@dpbennett.com.jm
                     </p:column>
 
                     <p:column>
-
-                        <p:menuButton id="toolsButton" value="Actions" >
+                        <p:menuButton id="toolsButton" 
+                                      disabled="#{financeManager.isJobCompleted}" 
+                                      value="Actions" >
                             <p:menuitem>                       
                                 <p:commandButton   
                                     value="Edit"
@@ -287,7 +291,6 @@ Email: info@dpbennett.com.jm
 
                         </p:menuButton>                   
                     </p:column>      
-
 
                 </p:dataTable>
                 <p:toolbar style="margin-top: 1px;">

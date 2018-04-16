@@ -1088,8 +1088,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setIsDirty(true);
     }
 
-    public void cancelJobCostingDialog() {
-        setJobCostingAndPaymentDirty(false);
+    public void closelJobCostingDialog() {
+        //setJobCostingAndPaymentDirty(false);
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 

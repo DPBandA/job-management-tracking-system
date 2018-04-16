@@ -173,6 +173,9 @@ public class MainTabView implements Serializable {
         if (getUser().getModules().getJobManagementAndTrackingModule()) {
             tabs.add(new Tab("Job Browser", "Job Browser"));
         }
+        if (getUser().getModules().getLegalOfficeModule()) {
+            tabs.add(new Tab("Document Browser", "Document Browser"));
+        }
         if (getUser().getModules().getAdminModule()) {
             tabs.add(new Tab("System Administration", "System Administration"));
         }

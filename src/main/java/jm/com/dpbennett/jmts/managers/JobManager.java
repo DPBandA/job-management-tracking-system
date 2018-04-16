@@ -1191,7 +1191,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getUser().save(getEntityManager1());
                 break;
             case "legalOfficeUnit":
-                dashboard.addTab(getEntityManager1(), "Legal",
+                dashboard.addTab(getEntityManager1(), "Document Management",
                         getUser().getModules().getLegalOfficeModule());
                 getUser().getModules().setIsDirty(true);
                 getUser().save(getEntityManager1());
@@ -1272,32 +1272,44 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Find the currently stored job and check it's work status
         if (getCurrentJob().getId() != null) {
-            Job job = Job.findJobById(em, getCurrentJob().getId());
-            if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
+            Job savedJob = Job.findJobById(em, getCurrentJob().getId());
+
+            // Do not allow flagging job as completed unless job costing is approved
+            if (!getCurrentJob().getJobCostingAndPayment().getCostingApproved()
+                    && getCurrentJob().getJobStatusAndTracking().getWorkProgress().equals("Completed")) {
+
+                PrimeFacesUtils.addMessage("Job Work Progress Cannot Be As Marked Completed",
+                        "The job costing needs to be approved before this job can marked as completed.",
+                        FacesMessage.SEVERITY_WARN);
+
+                return false;
+            }
+
+            if (savedJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")
                     && !getUser().getPrivilege().getCanBeJMTSAdministrator()
                     && !getUser().isUserDepartmentSupervisor(getCurrentJob(), em)) {
 
                 // Reset current job to its saved work progress
                 getCurrentJob().getJobStatusAndTracking().
-                        setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
+                        setWorkProgress(savedJob.getJobStatusAndTracking().getWorkProgress());
 
                 PrimeFacesUtils.addMessage("Job Work Progress Cannot Be Changed",
                         "\"This job is marked as completed and cannot be changed. You may contact the department's supervisor.",
                         FacesMessage.SEVERITY_WARN);
 
                 return false;
-            } else if (job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
+            } else if (savedJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")
                     && (getUser().getPrivilege().getCanBeJMTSAdministrator()
                     || getUser().isUserDepartmentSupervisor(getCurrentJob(), em))) {
-
+                // System admin can change work status even if it's completed.
                 return true;
-            } else if (!job.getJobStatusAndTracking().getWorkProgress().equals("Completed")
+            } else if (!savedJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")
                     && getCurrentJob().getJobStatusAndTracking().getWorkProgress().equals("Completed")
                     && !getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
 
                 // Reset current job to its saved work progress
                 getCurrentJob().getJobStatusAndTracking().
-                        setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
+                        setWorkProgress(savedJob.getJobStatusAndTracking().getWorkProgress());
 
                 PrimeFacesUtils.addMessage("Job Work Progress Cannot Be As Marked Completed",
                         "The job costing needs to be prepared before this job can marked as completed.",
@@ -1349,7 +1361,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             setIsDirty(true);
         } else {
             if (getCurrentJob().getId() != null) {
-                // Set work progress to the currently saved state
+                // Reset work progress to the currently saved state
                 Job job = Job.findJobById(getEntityManager1(), getCurrentJob().getId());
                 if (job != null) {
                     getCurrentJob().getJobStatusAndTracking().setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
@@ -2007,7 +2019,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void setEditJobCostingAndPayment(Job currentJob) {
         this.currentJob = currentJob;
         this.currentJob.setVisited(true);
-       
+
         financeManager.setEnableOnlyPaymentEditing(true);
     }
 

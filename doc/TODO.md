@@ -3,31 +3,19 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Impl "Organization" so that the user's correct organization can be
-  selected when subcontracting a job.
-  * Enure that what's is in the target list is not in the source list.
-    Check if there is a "removeAll()" method that does this.
-  * Impl saving business and departments. May have to change REFRESH to ALL for 
-    departments cascade.  
-  * Add active/head fields to Business class
-  * Business dialog not scrolling check why.
-- Job should not be marked completed until approved: 
-  * Is it possible to set the job entry to accept completed only when the costing has been approved?
+- Release next version as jmtsbeta3 for training and testing. Add latest mysql driver
+  and restart app server.
 - Update the service contract template with the new control number (MKTG_F_01/04) 
   and other footer information. 
   * Let Yuval do the update and create 3 templates one for each organization.
 - Get list of jobs with incorrect clients from Bremmer.
   * See Bremmer's email for the details.
   * Do a "job report with clients" to facilitate extracting the list of jobs with the issue
-- Impl preventing job costing and payment from being edited once job is marked as complete.
-- Prevent job costing from being edited once it is approved and not when the job is marked completed.
-- Remove the fields from the top of the cash payments table and put them in the
-  cash payment dialog where possible. Put invoiceNumber in CashPayment class.
+- Make sure discount is applied appropriately.
+- "Fixed Cost" is current used a discount type. Check how this is applied with
+    the "new" system.
 - Do report for Edmondson.
 - Implement Legal Office module using the Legal Departmental Portal.
-- 2/3 "--" departments were created in production database. Check why this occurred
-  and ensure that all classes that refer to department use REFRESH cascade type.
-- Deploy as jmtstrain for testing and training.
 - Do report and invoice.
 - Train Customer Service/Finance/Engineering/Legal Office.
 
@@ -59,7 +47,7 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Allow printing of approved or invoiced jobs.
 - Send email notification when invoice is approved.
 - Assign BusinessOffices to Business class. 
-- Add Business class to Job class.
+- Add Business class to Job class?
 - If a job has samples with the same search text return only one instance of the 
   job in the search results. Add search on the following fields: Product common name,
   country, sampledBy, Additional details.
@@ -111,4 +99,6 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Display message if an object's dialog is closed but not saved.
 - Depreciate the "deposit" and subsequently remove the field from the JCP class
   and database. May have to create a cash payment from the deposit field fist.
+- Lock job costing after it is approved. Allow assigned department to edit?
+- In "Jobs entered by employee" change "sample" column to "product".
 
