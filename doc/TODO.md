@@ -3,8 +3,7 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Release next version as jmtsbeta3 for training and testing. Add latest mysql driver
-  and restart app server.
+- Do report showing unapproved job costings.
 - Update the service contract template with the new control number (MKTG_F_01/04) 
   and other footer information. 
   * Let Yuval do the update and create 3 templates one for each organization.
@@ -16,6 +15,10 @@ Modules for next release: Job Management, Legal Office, Client Management
     the "new" system.
 - Do report for Edmondson.
 - Implement Legal Office module using the Legal Departmental Portal.
+  * Impl dashboard panel.
+  * Size seach fields the way it is done for job search
+- Release next version as jmtsbeta3 for training and testing. Add latest mysql driver
+  and restart app server.
 - Do report and invoice.
 - Train Customer Service/Finance/Engineering/Legal Office.
 

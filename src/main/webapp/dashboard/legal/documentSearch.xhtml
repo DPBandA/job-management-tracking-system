@@ -45,9 +45,8 @@ Email: info@dpbennett.com.jm
             </p:selectOneMenu>
 
             <h:outputText value="Date period: " />
-            <p:selectOneMenu value="#{legalDocumentManager.dateSearchPeriod}" style="width: 100%;" >
+            <p:selectOneMenu value="#{legalDocumentManager.datePeriod.name}" style="width: 100%;" >
                 <p:ajax update="legalDocStartSearchDate,legalDocEndSearchDate"
-                        global="false"
                         listener="#{legalDocumentManager.changeSearchDatePeriod}"
                         process="@this" />
                 <f:selectItems value="#{App.datePeriods}" />
@@ -55,23 +54,25 @@ Email: info@dpbennett.com.jm
 
             <h:outputText value="Start date:"/>
             <p:calendar id="legalDocStartSearchDate"
-                        value="#{legalDocumentManager.startDate}"
+                        value="#{legalDocumentManager.datePeriod.startDate}"
                         navigator="true"
                         disabled="#{legalDocumentManager.startSearchDateDisabled}"
                         pattern="MMM dd, yyyy" >
                 <p:ajax event="dateSelect"
-                        update=""
+                        listener="#{legalDocumentManager.handleStartSearchDateSelect}" />
+                <p:ajax event="keyup"
                         listener="#{legalDocumentManager.handleStartSearchDateSelect}" />
             </p:calendar>
 
             <h:outputText value="End date:"/>
             <p:calendar id="legalDocEndSearchDate"
-                        value="#{legalDocumentManager.endDate}"
+                        value="#{legalDocumentManager.datePeriod.endDate}"
                         navigator="true"
                         disabled="#{legalDocumentManager.endSearchDateDisabled}"
                         pattern="MMM dd, yyyy" >
                 <p:ajax event="dateSelect"
-                        update=""
+                        listener="#{legalDocumentManager.handleEndSearchDateSelect}" />
+                <p:ajax event="keyup"
                         listener="#{legalDocumentManager.handleEndSearchDateSelect}" />
             </p:calendar>
 

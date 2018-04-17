@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:form id="costingComponentDialogForm">
-        <p:dialog width="350"
+        <p:dialog width="400"
                   height="auto"
                   draggable="true"
                   modal="true"
@@ -71,8 +71,7 @@ Email: info@dpbennett.com.jm
                                    value="Subcontract:" style="font-weight: bold;" />
                     <p:spacer rendered="#{financeManager.selectedCostComponent.isSubcontract}" height="0" width="10"/>
                     <p:selectOneMenu id="subcontract"        
-                                     rendered="#{financeManager.selectedCostComponent.isSubcontract}"
-                                     style="width: 100%" >
+                                     rendered="#{financeManager.selectedCostComponent.isSubcontract}" >
                         <p:ajax event="change"
                                 global="false"         
                                 update="costingComponentPanelGrid"

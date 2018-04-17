@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -27,6 +28,7 @@ import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Client;
+import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.DocumentReport;
 import jm.com.dpbennett.business.entity.DocumentSequenceNumber;
@@ -57,7 +59,7 @@ import org.primefaces.event.TabChangeEvent;
  *
  * @author Desmond Bennett
  */
-@Named
+@ManagedBean
 @SessionScoped
 public class LegalDocumentManager implements Serializable {
 
@@ -69,12 +71,13 @@ public class LegalDocumentManager implements Serializable {
     private String activeTabForm;
     private Tab activeTab;
     private String dateSearchField;
-    private String dateSearchPeriod;
+    //private String dateSearchPeriod;
+    private DatePeriod datePeriod;
     private String searchType;
     private Boolean startSearchDateDisabled;
     private Boolean endSearchDateDisabled;
-    private Date startDate;
-    private Date endDate;
+//    private Date startDate;
+//    private Date endDate;
     private String searchText;
     private String previousSearchText;
     private Boolean searchTextVisible;
@@ -97,9 +100,18 @@ public class LegalDocumentManager implements Serializable {
         activeTabForm = "";
         searchType = "General";
         dateSearchField = "dateReceived";
-        dateSearchPeriod = "thisMonth";
+        //dateSearchPeriod = "thisMonth";
+        datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         searchTextVisible = true;
         changeSearchDatePeriod();
+    }
+
+    public DatePeriod getDatePeriod() {
+        return datePeriod;
+    }
+
+    public void setDatePeriod(DatePeriod datePeriod) {
+        this.datePeriod = datePeriod;
     }
 
     public String getStatus() {
@@ -200,36 +212,32 @@ public class LegalDocumentManager implements Serializable {
         doLegalDocumentSearch();
     }
 
-    
     // tk make use of DatePeriod class for this as is done for job search
     public final void changeSearchDatePeriod() {
-                  
-//        if (dateSearchPeriod.equals("Custom")) {
-//            setStartSearchDateDisabled(false);
-//            setEndSearchDateDisabled(false);
-//        } else if (dateSearchPeriod.equals("This year")) {
-//            startDate = getStartOfCurrentYear();
-//            endDate = getEndOfCurrentYear();
-//            setStartSearchDateDisabled(true);
-//            setEndSearchDateDisabled(true);
-//        } else if (dateSearchPeriod.equals("Month")) {
-//            startDate = getStartOfCurrentMonth();
-//            endDate = getEndOfCurrentMonth();
-//            setStartSearchDateDisabled(true);
-//            setEndSearchDateDisabled(true);
-//        }
-//        if (EMF != null) {
-//            doLegalDocumentSearch();
-//        }
-
+        System.out.println("update date fields...: " + getDatePeriod().getName()); // tk
+        getDatePeriod().initDatePeriod();
+    }
+//
+//    public void handleStartSearchDateSelect() {
+//        doLegalDocumentSearch();
+//    }
+//
+//    public void handleEndSearchDateSelect() {
+//        doLegalDocumentSearch();
+//    }
+    
+     public void handleStartSearchDateSelect(SelectEvent event) {
+        //dateSearchPeriod.setStartDate(event.getDate());
+        getDatePeriod().setStartDate((Date) event.getObject());
+        doLegalDocumentSearch();
+        //doSearch();
     }
 
-    public void handleStartSearchDateSelect() {
+    public void handleEndSearchDateSelect(SelectEvent event) {
+        //dateSearchPeriod.setEndDate(event.getDate());
+        getDatePeriod().setEndDate((Date) event.getObject());
         doLegalDocumentSearch();
-    }
-
-    public void handleEndSearchDateSelect() {
-        doLegalDocumentSearch();
+        //doSearch();
     }
 
     public void handleKeepAlive() {
@@ -809,17 +817,17 @@ public class LegalDocumentManager implements Serializable {
 
         activeDocTabIndex = 0;
     }
-    
+
     public void documentDialogReturn() {
         System.out.println("Doc dialog return...");
     }
-    
+
     public void openDocumentBrowser() {
         // Add the Job Browser tab is 
         getMainTabView().addTab(getEntityManager(), "Document Browser", true);
         getMainTabView().select("Document Browser");
     }
-    
+
     public MainTabView getMainTabView() {
         JobManager jm = Application.findBean("jobManager");
 
@@ -915,9 +923,9 @@ public class LegalDocumentManager implements Serializable {
         if (selectedDocument != null) {
             return LegalDocument.findLegalDocumentsByDateSearchField(em,
                     dateSearchField, "By type", selectedDocument.getType().getName(), // tk get from main search
-                    startDate, endDate);
+                    getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
         } else {
-            return new ArrayList<LegalDocument>();
+            return new ArrayList<>();
         }
     }
 
@@ -941,21 +949,20 @@ public class LegalDocumentManager implements Serializable {
         this.dateSearchField = dateSearchField;
     }
 
-    public String getDateSearchPeriod() {
-        return dateSearchPeriod;
-    }
-
-    public void setDateSearchPeriod(String dateSearchPeriod) {
-        this.dateSearchPeriod = dateSearchPeriod;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
+//    public String getDateSearchPeriod() {
+//        return dateSearchPeriod;
+//    }
+//
+//    public void setDateSearchPeriod(String dateSearchPeriod) {
+//        this.dateSearchPeriod = dateSearchPeriod;
+//    }
+//    public Date getEndDate() {
+//        return endDate;
+//    }
+//
+//    public void setEndDate(Date endDate) {
+//        this.endDate = endDate;
+//    }
 
     public Boolean getEndSearchDateDisabled() {
         return endSearchDateDisabled;
@@ -981,13 +988,13 @@ public class LegalDocumentManager implements Serializable {
         this.selectedDocumentId = selectedDocumentId;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
+//    public Date getStartDate() {
+//        return startDate;
+//    }
+//
+//    public void setStartDate(Date startDate) {
+//        this.startDate = startDate;
+//    }
 
     public Boolean getStartSearchDateDisabled() {
         return startSearchDateDisabled;
@@ -1029,11 +1036,11 @@ public class LegalDocumentManager implements Serializable {
             if (searchText != null) {
                 documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
                         dateSearchField, searchType, searchText.trim(),
-                        startDate, endDate);
+                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
             } else { // get all documents based on common test ie "" for now
                 documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
                         dateSearchField, searchType, "",
-                        startDate, endDate);
+                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
             }
         } else if (activeTabIndex == 1) { // report based search
             if (documentReport == null) { // get first listed report
@@ -1058,11 +1065,11 @@ public class LegalDocumentManager implements Serializable {
             if (documentReport.getShowNumberOfDocuments()) {// this means a report that involves grouping
                 documentSearchResultList = LegalDocument.findGroupedLegalDocumentsByDateSearchField(em,
                         dateSearchField, searchType,
-                        startDate, endDate);
+                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
             } else if (!documentReport.getShowNumberOfDocuments()) { // report that includes all documents within the specified dates
                 documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
                         dateSearchField, searchType, "",
-                        startDate, endDate);
+                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
             }
         }
     }
