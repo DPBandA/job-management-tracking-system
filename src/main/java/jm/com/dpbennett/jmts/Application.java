@@ -49,6 +49,7 @@ import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.DepartmentUnit;
 import jm.com.dpbennett.business.entity.Distributor;
+import jm.com.dpbennett.business.entity.DocumentType;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.JobCategory;
 import jm.com.dpbennett.business.entity.JobCostingAndPayment;
@@ -306,6 +307,21 @@ public class Application {
             List<Department> departments = Department.findActiveDepartmentsByName(em, query);
 
             return departments;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<DocumentType> completeDocumentType(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<DocumentType> documentTypes = DocumentType.findDocumentTypesByName(em, query);
+
+            return documentTypes;
 
         } catch (Exception e) {
             return new ArrayList<>();

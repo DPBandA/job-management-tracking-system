@@ -3,7 +3,19 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
+- Implement Legal Office module using the Legal Departmental Portal.
+  * Add classification as autocomplete field.
+  * Add menu button for editing and adding document type.
+  * Fix up form field using, autocomplete, PF fields, conversion and validation
+    etc.
+  * Put required field labels in bold and make use of growl from conversion/validation.
+  * Implement adding new and editing existing documents.
+  * Address "Legal/Task Module/Management" issue.
+  * Put menu in documents table.
+- Deactivate [Error - select Bureau... clients
+- Send email to NCRA re feedback on email sent re docs.
 - Do report showing unapproved job costings.
+- Get jasper reports plugin for Yuval.
 - Update the service contract template with the new control number (MKTG_F_01/04) 
   and other footer information. 
   * Let Yuval do the update and create 3 templates one for each organization.
@@ -14,9 +26,6 @@ Modules for next release: Job Management, Legal Office, Client Management
 - "Fixed Cost" is current used a discount type. Check how this is applied with
     the "new" system.
 - Do report for Edmondson.
-- Implement Legal Office module using the Legal Departmental Portal.
-  * Impl dashboard panel.
-  * Size seach fields the way it is done for job search
 - Release next version as jmtsbeta3 for training and testing. Add latest mysql driver
   and restart app server.
 - Do report and invoice.

@@ -38,6 +38,7 @@ Email: info@dpbennett.com.jm
     <h:body onload="checkWhichBrowser();
             PF('longProcessDialogVar').hide();
             mainTabViewVar.select(0);" >
+        
         <ui:include src="common/commonDialogs.xhtml" />                       
         <ui:include src="common/loginDialog.xhtml"/>
         <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>               
@@ -46,6 +47,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="common/generalAlertDialogs.xhtml"/>
         <ui:include src="common/longProcessDialog.xhtml"/>   
         <ui:include src="common/preferencesDialog.xhtml"/>   
+        <ui:include src="legal/dialogs.xhtml" />
 
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
             <p:ajax event="toggle" listener="#{jobManager.handleLayoutUnitToggle}" />
@@ -225,7 +227,7 @@ Email: info@dpbennett.com.jm
                                 Service Request
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.id == 'Document Management'}">
+                            <h:panelGroup rendered="#{t.id == 'Document Management'}">                               
                                 <ui:include src="dashboard/legal/documentsTab.xhtml" />
                             </h:panelGroup>
 

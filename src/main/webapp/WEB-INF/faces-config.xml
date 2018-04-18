@@ -25,7 +25,11 @@
     <converter>
         <converter-id>departmentConverter</converter-id>
         <converter-class>jm.com.dpbennett.business.entity.converter.DepartmentConverter</converter-class>
-    </converter>                                    
+    </converter>     
+    <converter>
+        <converter-id>documentTypeConverter</converter-id>
+        <converter-class>jm.com.dpbennett.business.entity.converter.DocumentTypeConverter</converter-class>
+    </converter>                               
     <converter>
         <converter-id>clientConverter</converter-id>
         <converter-class>jm.com.dpbennett.business.entity.converter.ActiveClientConverter</converter-class>

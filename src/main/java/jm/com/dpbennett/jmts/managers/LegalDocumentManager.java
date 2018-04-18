@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
 import javax.naming.NamingEnumeration;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.SearchControls;
@@ -49,7 +47,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
@@ -71,13 +68,8 @@ public class LegalDocumentManager implements Serializable {
     private String activeTabForm;
     private Tab activeTab;
     private String dateSearchField;
-    //private String dateSearchPeriod;
     private DatePeriod datePeriod;
     private String searchType;
-    private Boolean startSearchDateDisabled;
-    private Boolean endSearchDateDisabled;
-//    private Date startDate;
-//    private Date endDate;
     private String searchText;
     private String previousSearchText;
     private Boolean searchTextVisible;
@@ -89,7 +81,9 @@ public class LegalDocumentManager implements Serializable {
     @Column(length = 1024)
     private String status;
     private String priorityLevel;
+    // Managers
     private JobManager jobManager;
+    private ClientManager clientManager;
 
     /**
      * Creates a new instance of JobManager
@@ -100,10 +94,36 @@ public class LegalDocumentManager implements Serializable {
         activeTabForm = "";
         searchType = "General";
         dateSearchField = "dateReceived";
-        //dateSearchPeriod = "thisMonth";
-        datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
+        // tk to be set back to month
+        datePeriod = new DatePeriod("This year", "year", null, null, false, false, false);
+        //datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         searchTextVisible = true;
         changeSearchDatePeriod();
+
+    }
+
+    public Boolean getIsClientNameValid() {
+        return BusinessEntityUtils.validateName(getCurrentDocument().getExternalClient().getName());
+    }
+
+    public void editExternalClient() {
+        clientManager.setSelectedClient(getCurrentDocument().getExternalClient());
+        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+
+        PrimeFacesUtils.openDialog(null, "/client/clientDialog", true, true, true, 450, 700);
+    }
+
+    public void externalClientDialogReturn() {
+        if (clientManager.getSelectedClient().getId() != null) {
+            getCurrentDocument().setExternalClient(clientManager.getSelectedClient());
+        }
+    }
+
+    public void createNewExternalClient() {
+        clientManager.createNewClient(true);
+        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+
+        PrimeFacesUtils.openDialog(null, "/client/clientDialog", true, true, true, 450, 700);
     }
 
     public DatePeriod getDatePeriod() {
@@ -214,126 +234,17 @@ public class LegalDocumentManager implements Serializable {
 
     // tk make use of DatePeriod class for this as is done for job search
     public final void changeSearchDatePeriod() {
-        System.out.println("update date fields...: " + getDatePeriod().getName()); // tk
         getDatePeriod().initDatePeriod();
     }
-//
-//    public void handleStartSearchDateSelect() {
-//        doLegalDocumentSearch();
-//    }
-//
-//    public void handleEndSearchDateSelect() {
-//        doLegalDocumentSearch();
-//    }
-    
-     public void handleStartSearchDateSelect(SelectEvent event) {
-        //dateSearchPeriod.setStartDate(event.getDate());
+
+    public void handleStartSearchDateSelect(SelectEvent event) {
         getDatePeriod().setStartDate((Date) event.getObject());
         doLegalDocumentSearch();
-        //doSearch();
     }
 
     public void handleEndSearchDateSelect(SelectEvent event) {
-        //dateSearchPeriod.setEndDate(event.getDate());
         getDatePeriod().setEndDate((Date) event.getObject());
         doLegalDocumentSearch();
-        //doSearch();
-    }
-
-    public void handleKeepAlive() {
-        EntityManager em = getEntityManager();
-
-        em.getTransaction().begin();
-        getUser().setPollTime(new Date());
-//        jm.saveBusinessEntity(em, user);
-        BusinessEntityUtils.saveBusinessEntity(em, getUser());
-        em.getTransaction().commit();
-    }
-
-    private Date getStartOfCurrentYear() { // tk put in lib
-        Calendar c, current;
-
-        // current time and date
-        current = Calendar.getInstance();
-        c = Calendar.getInstance();
-        // set start date
-        c.set(current.get(Calendar.YEAR), Calendar.JANUARY, 1, 0, 0, 0);
-
-        return c.getTime();
-    }
-
-    private Date getStartOfCurrentMonth() { // tk put in lib
-        Calendar c, current;
-
-        // current time and date
-        current = Calendar.getInstance();
-        c = Calendar.getInstance();
-        // set start date
-        c.set(current.get(Calendar.YEAR), current.get(Calendar.MONTH), 1, 0, 0, 0);
-
-        return c.getTime();
-    }
-
-    private int getDaysInMonth(int month) {
-        Calendar current = Calendar.getInstance();
-
-        switch (month) {
-            case Calendar.JANUARY:
-                return 31;
-            case Calendar.FEBRUARY:
-                int currentYear = current.get(Calendar.YEAR);
-                if ((currentYear % 4) == 0) { // leap year?
-                    return 29;
-                } else {
-                    return 28;
-                }
-            case Calendar.MARCH:
-                return 31;
-            case Calendar.APRIL:
-                return 30;
-            case Calendar.MAY:
-                return 31;
-            case Calendar.JUNE:
-                return 30;
-            case Calendar.JULY:
-                return 31;
-            case Calendar.AUGUST:
-                return 31;
-            case Calendar.SEPTEMBER:
-                return 30;
-            case Calendar.OCTOBER:
-                return 31;
-            case Calendar.NOVEMBER:
-                return 30;
-            case Calendar.DECEMBER:
-                return 31;
-            default:
-                return -1;
-        }
-    }
-
-    private Date getEndOfCurrentMonth() { // tk put in lib
-        Calendar c, current;
-
-        // current time and date
-        current = Calendar.getInstance();
-        c = Calendar.getInstance();
-        // set end date
-        c.set(current.get(Calendar.YEAR), current.get(Calendar.MONTH), getDaysInMonth(current.get(Calendar.MONTH)), 23, 59, 59);
-
-        return c.getTime();
-    }
-
-    private Date getEndOfCurrentYear() { // tk put in lib
-        Calendar c, current;
-
-        // current time and date
-        current = Calendar.getInstance();
-        c = Calendar.getInstance();
-        // set end date
-        c.set(current.get(Calendar.YEAR), Calendar.DECEMBER, 31, 23, 59, 59);
-
-        return c.getTime();
     }
 
     public int getNumberOfDocumentsFound() {
@@ -410,7 +321,6 @@ public class LegalDocumentManager implements Serializable {
             if (currentDocument.getAutoGenerateNumber()) {
                 currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
             }
-            return;
         } // if type with this name exists update the code and save
         else if ((DocumentType.findDocumentTypeByName(em, currentDocument.getType().getName()) != null)
                 || (DocumentType.findDocumentTypeByCode(em, currentDocument.getType().getCode()) != null)) {
@@ -422,7 +332,6 @@ public class LegalDocumentManager implements Serializable {
                 currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
             }
 
-            return;
         } else {
             em.getTransaction().begin();
             currentDocument.getType().setId(null); // forces saving of new type.
@@ -538,27 +447,11 @@ public class LegalDocumentManager implements Serializable {
         }
     }
 
-    public List<Employee> completeEmployee(String query) {
-
-        try {
-            List<Employee> employees = Employee.findEmployeesByName(getEntityManager(), query);
-//            List<String> suggestions = new ArrayList<String>();
-            if (employees != null) {
-                return employees;
-            } else {
-                return new ArrayList<Employee>();
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            return new ArrayList<Employee>();
-        }
-    }
-
     public List<String> completeType(String query) {
 
         try {
             List<DocumentType> types = DocumentType.findDocumentTypesByName(getEntityManager(), query);
-            List<String> suggestions = new ArrayList<String>();
+            List<String> suggestions = new ArrayList<>();
             if (types != null) {
                 if (!types.isEmpty()) {
                     for (DocumentType type : types) {
@@ -571,7 +464,7 @@ public class LegalDocumentManager implements Serializable {
         } catch (Exception e) {
             System.out.println(e);
 
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
     }
 
@@ -579,7 +472,7 @@ public class LegalDocumentManager implements Serializable {
 
         try {
             List<DocumentType> types = DocumentType.findDocumentTypesByCode(getEntityManager(), query);
-            List<String> suggestions = new ArrayList<String>();
+            List<String> suggestions = new ArrayList<>();
             if (types != null) {
                 if (!types.isEmpty()) {
                     for (DocumentType type : types) {
@@ -654,20 +547,20 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void updateClient(SelectEvent event) {
-        EntityManager em = getEntityManager();
-
-        if (currentDocument.getExternalClient().getName() != null) {
-            Client client = Client.findClientByName(em, currentDocument.getExternalClient().getName(), true);
-            if (client != null) {
-                currentDocument.setExternalClient(client);
-            } else {
-                if (!currentDocument.getExternalClient().getName().trim().equals("")) {
-                    currentDocument.setExternalClient(new Client(currentDocument.getExternalClient().getName().trim()));
-                } else {
-                    currentDocument.setExternalClient(null);
-                }
-            }
-        }
+//        EntityManager em = getEntityManager();
+//
+//        if (currentDocument.getExternalClient().getName() != null) {
+//            Client client = Client.findClientByName(em, currentDocument.getExternalClient().getName(), true);
+//            if (client != null) {
+//                currentDocument.setExternalClient(client);
+//            } else {
+//                if (!currentDocument.getExternalClient().getName().trim().equals("")) {
+//                    currentDocument.setExternalClient(new Client(currentDocument.getExternalClient().getName().trim()));
+//                } else {
+//                    currentDocument.setExternalClient(null);
+//                }
+//            }
+//        }
 
     }
 
@@ -776,10 +669,10 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void updateResquestingDepartment() {
-        if (currentDocument.getRequestingDepartment().getId() != null) {
-            currentDocument.setRequestingDepartment(Department.findDepartmentById(getEntityManager(),
-                    currentDocument.getRequestingDepartment().getId()));
-        }
+//        if (currentDocument.getRequestingDepartment().getId() != null) {
+//            currentDocument.setRequestingDepartment(Department.findDepartmentById(getEntityManager(),
+//                    currentDocument.getRequestingDepartment().getId()));
+//        }
     }
 
     /**
@@ -787,13 +680,13 @@ public class LegalDocumentManager implements Serializable {
      * partly based on the document type.
      */
     public void updateDocumentType() {
-        if (currentDocument.getType().getId() != null) {
-            currentDocument.setType(DocumentType.findDocumentTypeById(getEntityManager(),
-                    currentDocument.getType().getId()));
-            if (currentDocument.getAutoGenerateNumber()) {
-                currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
-            }
+//        if (currentDocument.getType().getId() != null) {
+//            currentDocument.setType(DocumentType.findDocumentTypeById(getEntityManager(),
+//                    currentDocument.getType().getId()));
+        if (currentDocument.getAutoGenerateNumber()) {
+            currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED")); // tk to db option
         }
+//        }
     }
 
     public void updateDocumentReport() {
@@ -838,18 +731,25 @@ public class LegalDocumentManager implements Serializable {
         return getJobManager().getUser();
     }
 
+    // tk remove use of default employee, department etc and just create 
+    // new blank objects
     public LegalDocument createNewLegalDocument(EntityManager em,
             JobManagerUser user) {
 
         LegalDocument legalDocument = new LegalDocument();
         legalDocument.setAutoGenerateNumber(Boolean.TRUE);
         // department, employee & business office
-        if (user != null) {
-            if (user.getEmployee() != null) {
-                legalDocument.setResponsibleOfficer(Employee.findEmployeeById(em, user.getEmployee().getId()));
-                legalDocument.setResponsibleDepartment(Department.findDepartmentById(em, user.getEmployee().getDepartment().getId()));
-            }
-        }
+//        if (getUser() != null) {
+//            if (getUser().getEmployee() != null) {
+//                legalDocument.setResponsibleOfficer(Employee.findEmployeeById(em, getUser().getEmployee().getId()));
+//                legalDocument.setResponsibleDepartment(Department.findDepartmentById(em, getUser().getEmployee().getDepartment().getId()));
+//            }
+//        }
+
+        // tk
+        legalDocument.setResponsibleOfficer(Employee.findDefaultEmployee(getEntityManager(), "--", "--", true));
+        legalDocument.setResponsibleDepartment(Department.findDefaultDepartment(em, "--"));
+
         // externla client
         //legalDocument.setExternalClient(getDefaultClient(em, "--"));
         // default requesting department
@@ -963,15 +863,13 @@ public class LegalDocumentManager implements Serializable {
 //    public void setEndDate(Date endDate) {
 //        this.endDate = endDate;
 //    }
-
-    public Boolean getEndSearchDateDisabled() {
-        return endSearchDateDisabled;
-    }
-
-    public void setEndSearchDateDisabled(Boolean endSearchDateDisabled) {
-        this.endSearchDateDisabled = endSearchDateDisabled;
-    }
-
+//    public Boolean getEndSearchDateDisabled() {
+//        return endSearchDateDisabled;
+//    }
+//
+//    public void setEndSearchDateDisabled(Boolean endSearchDateDisabled) {
+//        this.endSearchDateDisabled = endSearchDateDisabled;
+//    }
     public String getSearchText() {
         return searchText;
     }
@@ -995,15 +893,13 @@ public class LegalDocumentManager implements Serializable {
 //    public void setStartDate(Date startDate) {
 //        this.startDate = startDate;
 //    }
-
-    public Boolean getStartSearchDateDisabled() {
-        return startSearchDateDisabled;
-    }
-
-    public void setStartSearchDateDisabled(Boolean startSearchDateDisabled) {
-        this.startSearchDateDisabled = startSearchDateDisabled;
-    }
-
+//    public Boolean getStartSearchDateDisabled() {
+//        return startSearchDateDisabled;
+//    }
+//
+//    public void setStartSearchDateDisabled(Boolean startSearchDateDisabled) {
+//        this.startSearchDateDisabled = startSearchDateDisabled;
+//    }
     public String getSearchType() {
         return searchType;
     }
@@ -1032,46 +928,48 @@ public class LegalDocumentManager implements Serializable {
 
         EntityManager em = getEntityManager();
 
-        if (activeTabIndex == 0) {
-            if (searchText != null) {
-                documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
-                        dateSearchField, searchType, searchText.trim(),
-                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
-            } else { // get all documents based on common test ie "" for now
-                documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
-                        dateSearchField, searchType, "",
-                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
-            }
-        } else if (activeTabIndex == 1) { // report based search
-            if (documentReport == null) { // get first listed report
-                List<DocumentReport> reports = DocumentReport.findAllDocumentReports(em);
-                if (reports != null) {
-                    if (!reports.isEmpty()) {
-                        documentReport = reports.get(0);
-                    }
-                }
-            } else if (documentReport.getId() != null) {
-                documentReport = DocumentReport.findDocumentReportById(em, documentReport.getId());
-            } else { // get first report
-                List<DocumentReport> reports = DocumentReport.findAllDocumentReports(em);
-                if (reports != null) {
-                    if (!reports.isEmpty()) {
-                        documentReport = reports.get(0);
-                    }
-                }
-            }
-
-            // do actual report generation here
-            if (documentReport.getShowNumberOfDocuments()) {// this means a report that involves grouping
-                documentSearchResultList = LegalDocument.findGroupedLegalDocumentsByDateSearchField(em,
-                        dateSearchField, searchType,
-                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
-            } else if (!documentReport.getShowNumberOfDocuments()) { // report that includes all documents within the specified dates
-                documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
-                        dateSearchField, searchType, "",
-                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
-            }
+//        if (activeTabIndex == 0) {
+        if (searchText != null) {
+            documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
+                    dateSearchField, searchType, searchText.trim(),
+                    getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
+        } else { // get all documents based on common test ie "" for now
+            documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
+                    dateSearchField, searchType, "",
+                    getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
         }
+//        } else if (activeTabIndex == 1) { // report based search
+//            if (documentReport == null) { // get first listed report
+//                List<DocumentReport> reports = DocumentReport.findAllDocumentReports(em);
+//                if (reports != null) {
+//                    if (!reports.isEmpty()) {
+//                        documentReport = reports.get(0);
+//                    }
+//                }
+//            } else if (documentReport.getId() != null) {
+//                documentReport = DocumentReport.findDocumentReportById(em, documentReport.getId());
+//            } else { // get first report
+//                List<DocumentReport> reports = DocumentReport.findAllDocumentReports(em);
+//                if (reports != null) {
+//                    if (!reports.isEmpty()) {
+//                        documentReport = reports.get(0);
+//                    }
+//                }
+//            }
+//
+//            // do actual report generation here
+//            if (documentReport.getShowNumberOfDocuments()) {// this means a report that involves grouping
+//                documentSearchResultList = LegalDocument.findGroupedLegalDocumentsByDateSearchField(em,
+//                        dateSearchField, searchType,
+//                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
+//            } else if (!documentReport.getShowNumberOfDocuments()) { // report that includes all documents within the specified dates
+//                documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
+//                        dateSearchField, searchType, "",
+//                        getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
+//            }
+//        }
+
+        openDocumentBrowser();
     }
 
     public List<BusinessOffice> getBusinessOffices() {
@@ -1096,7 +994,7 @@ public class LegalDocumentManager implements Serializable {
 
     public List<Employee> getEmployees() {
         List<Employee> employees = Employee.findAllEmployees(getEntityManager());
-        List<Employee> some = new ArrayList<Employee>();
+        List<Employee> some = new ArrayList<>();
 
         //return jm.getAllEmployees(getEntityManager());
         for (int i = 0; i < employees.size() - 150; i++) {
@@ -1182,21 +1080,12 @@ public class LegalDocumentManager implements Serializable {
         return jobManager;
     }
 
-    private boolean setupDatabaseConnection(String PU) {
-        if (EMF == null) {
-            try {
-                EMF = Persistence.createEntityManagerFactory(PU);
-                if (EMF.isOpen()) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (Exception ex) {
-                return false;
-            }
-        } else {
-            return true;
+    public ClientManager getClientManager() {
+        if (clientManager == null) {
+            clientManager = Application.findBean("clientManager");
         }
+
+        return clientManager;
     }
 
     private EntityManager getEntityManager() {

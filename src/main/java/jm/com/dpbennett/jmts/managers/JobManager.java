@@ -1899,7 +1899,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void doJobSearch(SearchParameters currentSearchParameters) {
         this.currentSearchParameters = currentSearchParameters;
-        EntityManager em = null;
+        EntityManager em;
 
         if (getUser().getId() != null) {
             em = getEntityManager1();

@@ -27,7 +27,7 @@ Email: info@dpbennett.com.jm
     <p:panel header="Document Search" >
         <h:panelGrid columns="2" cellspacing="5">
             <h:outputText value="Search type: " />
-            <p:selectOneMenu value="#{legalDocumentManager.searchType}" style="width: 100%;" >
+            <p:selectOneMenu value="#{legalDocumentManager.searchType}" style="width: 90%;" >
                 <p:ajax update="searchText"
                         global="false"
                         listener="#{legalDocumentManager.updateSearchText}"
@@ -36,7 +36,7 @@ Email: info@dpbennett.com.jm
             </p:selectOneMenu>
 
             <h:outputText value="Date field: " />
-            <p:selectOneMenu value="#{legalDocumentManager.dateSearchField}" style="width: 100%;" >
+            <p:selectOneMenu value="#{legalDocumentManager.dateSearchField}" style="width: 90%;" >
                 <p:ajax update="searchText"
                         global="false"
                         listener="#{legalDocumentManager.updateSearchText}"
@@ -45,7 +45,7 @@ Email: info@dpbennett.com.jm
             </p:selectOneMenu>
 
             <h:outputText value="Date period: " />
-            <p:selectOneMenu value="#{legalDocumentManager.datePeriod.name}" style="width: 100%;" >
+            <p:selectOneMenu value="#{legalDocumentManager.datePeriod.name}" style="width: 90%;" >
                 <p:ajax update="legalDocStartSearchDate,legalDocEndSearchDate"
                         listener="#{legalDocumentManager.changeSearchDatePeriod}"
                         process="@this" />
@@ -56,7 +56,7 @@ Email: info@dpbennett.com.jm
             <p:calendar id="legalDocStartSearchDate"
                         value="#{legalDocumentManager.datePeriod.startDate}"
                         navigator="true"
-                        disabled="#{legalDocumentManager.startSearchDateDisabled}"
+                        disabled="#{legalDocumentManager.datePeriod.startDateDisabled}"
                         pattern="MMM dd, yyyy" >
                 <p:ajax event="dateSelect"
                         listener="#{legalDocumentManager.handleStartSearchDateSelect}" />
@@ -68,7 +68,7 @@ Email: info@dpbennett.com.jm
             <p:calendar id="legalDocEndSearchDate"
                         value="#{legalDocumentManager.datePeriod.endDate}"
                         navigator="true"
-                        disabled="#{legalDocumentManager.endSearchDateDisabled}"
+                        disabled="#{legalDocumentManager.datePeriod.endDateDisabled}"
                         pattern="MMM dd, yyyy" >
                 <p:ajax event="dateSelect"
                         listener="#{legalDocumentManager.handleEndSearchDateSelect}" />
@@ -76,6 +76,22 @@ Email: info@dpbennett.com.jm
                         listener="#{legalDocumentManager.handleEndSearchDateSelect}" />
             </p:calendar>
 
-        </h:panelGrid>          
+        </h:panelGrid> 
+        <p:toolbar>
+            <p:toolbarGroup align="right" >
+                <p:inputText value="#{legalDocumentManager.searchText}"  
+                             style="width: 50%;"/>        
+                <p:spacer width="5" />
+                <p:commandButton value="Search"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 actionListener="#{legalDocumentManager.doLegalDocumentSearch}"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                 onerror="PF('connectionErrorDialog').show();"
+                                 update=":headerForm:growl3"
+                                 icon="ui-icon-search"
+                                 process="@form"/>
+            </p:toolbarGroup>
+        </p:toolbar>
+        <p:watermark value="-- enter search text --" for="searchText" />   
     </p:panel>
 </html>
