@@ -107,21 +107,22 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void editExternalClient() {
-        clientManager.setSelectedClient(getCurrentDocument().getExternalClient());
-        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        
+        getClientManager().setSelectedClient(getCurrentDocument().getExternalClient());
+        getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         PrimeFacesUtils.openDialog(null, "/client/clientDialog", true, true, true, 450, 700);
     }
 
     public void externalClientDialogReturn() {
-        if (clientManager.getSelectedClient().getId() != null) {
-            getCurrentDocument().setExternalClient(clientManager.getSelectedClient());
+        if (getClientManager().getSelectedClient().getId() != null) {
+            getCurrentDocument().setExternalClient(getClientManager().getSelectedClient());
         }
     }
 
     public void createNewExternalClient() {
-        clientManager.createNewClient(true);
-        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        getClientManager().createNewClient(true);
+        getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         PrimeFacesUtils.openDialog(null, "/client/clientDialog", true, true, true, 450, 700);
     }
@@ -436,17 +437,6 @@ public class LegalDocumentManager implements Serializable {
         return legalDocument;
     }
 
-    public List<Client> completeClient(String query) { // tk use version in Application class
-        try {
-
-            return Client.findActiveClientsByAnyPartOfName(getEntityManager(), query);
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
     public List<String> completeType(String query) {
 
         try {
@@ -532,35 +522,21 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void updateSubmittebBy(SelectEvent event) {
-        currentDocument.setSubmittedBy(getEmployeeByName(currentDocument.getSubmittedBy(), currentDocument.getSubmittedBy().getName()));
+        //currentDocument.setSubmittedBy(getEmployeeByName(currentDocument.getSubmittedBy(), currentDocument.getSubmittedBy().getName()));
     }
 
     public void updateOfficerResponsible(SelectEvent event) {
-        currentDocument.setResponsibleOfficer(getEmployeeByName(currentDocument.getResponsibleOfficer(), currentDocument.getResponsibleOfficer().getName()));
+        //currentDocument.setResponsibleOfficer(getEmployeeByName(currentDocument.getResponsibleOfficer(), currentDocument.getResponsibleOfficer().getName()));
     }
 
     public void updateType(SelectEvent event) {
-        System.out.println(currentDocument.getType().getName());
+        //System.out.println(currentDocument.getType().getName());
     }
 
     public void updateCode(SelectEvent event) {
     }
 
     public void updateClient(SelectEvent event) {
-//        EntityManager em = getEntityManager();
-//
-//        if (currentDocument.getExternalClient().getName() != null) {
-//            Client client = Client.findClientByName(em, currentDocument.getExternalClient().getName(), true);
-//            if (client != null) {
-//                currentDocument.setExternalClient(client);
-//            } else {
-//                if (!currentDocument.getExternalClient().getName().trim().equals("")) {
-//                    currentDocument.setExternalClient(new Client(currentDocument.getExternalClient().getName().trim()));
-//                } else {
-//                    currentDocument.setExternalClient(null);
-//                }
-//            }
-//        }
 
     }
 
@@ -683,6 +659,8 @@ public class LegalDocumentManager implements Serializable {
 //        if (currentDocument.getType().getId() != null) {
 //            currentDocument.setType(DocumentType.findDocumentTypeById(getEntityManager(),
 //                    currentDocument.getType().getId()));
+
+        System.out.println("doc type: " + currentDocument.getType().getName()); // tk
         if (currentDocument.getAutoGenerateNumber()) {
             currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED")); // tk to db option
         }

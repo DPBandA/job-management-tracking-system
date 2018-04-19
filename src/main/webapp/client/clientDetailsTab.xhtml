@@ -72,7 +72,7 @@ Email: info@dpbennett.com.jm
             <h:outputText id="addressLine1" value="#{clientManager.currentAddress.addressLine1FriendlyDisplay}"/>  
             <p:watermark for="addressLine1" value="-- none --" />
         </h:panelGroup>
-        <p:menuButton value="Actions">
+        <p:menuButton icon="ui-icon-pencil" title="Add or edit address">
             <p:menuitem>                       
                 <p:commandButton value="Edit"
                                  style="width: 100%;text-align: left;background: none;border: 0;"
@@ -117,7 +117,7 @@ Email: info@dpbennett.com.jm
 
         <h:outputText id="currentContact" value="Most recent contact: " style="font-weight: bold"/>    
         <h:outputText value="#{clientManager.currentContact.friendlyName}" />
-        <p:menuButton value="Actions">
+        <p:menuButton icon="ui-icon-pencil" title="Add or edit contact">
             <p:menuitem>                       
                 <p:commandButton value="Edit"
                                  style="width: 100%;text-align: left;background: none;border: 0;"

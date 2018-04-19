@@ -92,6 +92,16 @@ public class Application {
         themes.put("Dark Hive", "dark-hive");
     }
 
+    public List getDocumentForms() {
+        ArrayList forms = new ArrayList();
+
+        forms.add(new SelectItem("E", "Electronic"));
+        forms.add(new SelectItem("H", "Hard copy"));
+        forms.add(new SelectItem("V", "Verbal"));
+
+        return forms;
+    }
+
     public List getWorkProgressList() {
         ArrayList list = new ArrayList();
         EntityManager em = getEntityManager1();
@@ -107,7 +117,7 @@ public class Application {
 
     }
 
-    public List getCostCodeList() {        
+    public List getCostCodeList() {
         return CostComponent.getCostCodeList();
     }
 
@@ -134,8 +144,8 @@ public class Application {
 
         return dateFields;
     }
-    
-     public List getLegalDocumentDateSearchFields() {
+
+    public List getLegalDocumentDateSearchFields() {
         ArrayList dateFields = new ArrayList();
 
         // add items
@@ -167,12 +177,12 @@ public class Application {
 
         return searchTypes;
     }
-    
+
     public List getLegalDocumentSearchTypes() {
         ArrayList searchTypes = new ArrayList();
 
         searchTypes.add(new SelectItem("General", "General"));
-      
+
         return searchTypes;
     }
 
@@ -182,24 +192,24 @@ public class Application {
      * @return
      */
     public List getDiscountTypes() {
-        
+
         return JobCostingAndPayment.getDiscountTypes();
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public List getPaymentTypes() {
-       return CashPayment.getPaymentTypes();
+        return CashPayment.getPaymentTypes();
     }
-    
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public List getPaymentPurposes() {
-       return CashPayment.getPaymentPurposes();
+        return CashPayment.getPaymentPurposes();
     }
 
     /*
@@ -312,7 +322,7 @@ public class Application {
             return new ArrayList<>();
         }
     }
-    
+
     public List<DocumentType> completeDocumentType(String query) {
         EntityManager em;
 

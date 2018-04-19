@@ -287,10 +287,10 @@ Email: info@dpbennett.com.jm
                 </f:facet>
                 <h:outputText value="#{cashPayment.paymentPurpose}"/>              
             </p:column>
-            <p:column >
+            <p:column style="width:32px" >
                 <p:menuButton id="toolsButton" 
                               disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                              value="Actions" >
+                              icon="ui-icon-pencil" title="Edit or delete payment" >
                     <p:menuitem>
                         <p:commandButton value="Edit"
                                          actionListener="#{financeManager.editCashPayment}"

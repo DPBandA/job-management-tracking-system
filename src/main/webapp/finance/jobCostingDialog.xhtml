@@ -253,10 +253,11 @@ Email: info@dpbennett.com.jm
                         <h:outputText value=" " />
                     </p:column>
 
-                    <p:column>
+                    <p:column style="width:32px" >
                         <p:menuButton id="toolsButton" 
                                       disabled="#{financeManager.isJobCompleted}" 
-                                      value="Actions" >
+                                      title="Edit or delete cost component"
+                                      icon="ui-icon-pencil" >
                             <p:menuitem>                       
                                 <p:commandButton   
                                     value="Edit"

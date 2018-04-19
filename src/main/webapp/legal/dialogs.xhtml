@@ -11,7 +11,7 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <p:dialog width="600"
-              height="660"
+              height="575"
               modal="true"
               widgetVar="documentDialog"
               header="Document Detail">
@@ -27,7 +27,7 @@ and open the template in the editor.
                 <p:tab title="General" >
                     <h:panelGrid columns="2" id="general">
 
-                        <h:outputText value="Document # *:" />
+                        <h:outputText value="Document #:" style="font-weight: bold;" />
                         <h:panelGroup>
                             <p:inputText value="#{legalDocumentManager.currentDocument.number}"
                                          id="currentDocumentNumber"
@@ -45,7 +45,7 @@ and open the template in the editor.
                             </p:selectBooleanCheckbox>
                         </h:panelGroup>
 
-                        <h:outputText value="Priority level:" />
+                        <h:outputText value="Priority level:" style="font-weight: bold;" />
                         <p:selectOneMenu value="#{legalDocumentManager.currentDocument.priorityLevel}" >
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     global="false"
@@ -68,6 +68,7 @@ and open the template in the editor.
                                         completeMethod="#{App.completeDepartment}" >            
 
                             <p:ajax listener="#{legalDocumentManager.updateResquestingDepartment}"
+                                    event="itemSelect"
                                     global="false"
                                     process="@this" />
 
@@ -82,19 +83,19 @@ and open the template in the editor.
                                             size="35"
                                             maxlength="40" 
                                             scrollHeight="200" 
-                                            itemLabel="#{client}"
+                                            itemLabel="#{client.truncatedName}"
                                             itemValue="#{client}"
                                             title="#{client.name}"
                                             forceSelection="true"
                                             converter="clientConverter"
-                                            completeMethod="#{legalDocumentManager.completeClient}" >
+                                            completeMethod="#{App.completeClient}" >
 
-                                <p:ajax event="change"   
+                                <p:ajax event="itemSelect"   
                                         update="clientActionsMenu"
                                         listener="#{legalDocumentManager.updateClient}" />
 
                             </p:autoComplete>                           
-                            <p:menuButton id="clientActionsMenu" value="Actions">
+                            <p:menuButton id="clientActionsMenu" icon="ui-icon-pencil" >
                                 <p:menuitem>                       
                                     <p:commandButton value="Edit client"
                                                      icon="ui-icon-pencil" 
@@ -135,7 +136,7 @@ and open the template in the editor.
                             <p:watermark for="client" value="-- select a client --"/>
                         </h:panelGroup>
 
-                        <h:outputText value="Requesting employee *:" />
+                        <h:outputText value="Requesting employee:" style="font-weight: bold;" />
                         <p:autoComplete id="submittedBy"  
                                         maxlength="40"
                                         scrollHeight="200" 
@@ -155,22 +156,8 @@ and open the template in the editor.
                         </p:autoComplete>
 
 
-                        <h:outputText value="Document type: " />
-                        <h:panelGroup>
-                            <ui:remove>
-                                <p:selectOneMenu id="documentType" 
-                                                 value="#{legalDocumentManager.currentDocument.type.id}" 
-                                                 style="width: 100px;" >
-                                    <p:ajax listener="#{legalDocumentManager.updateDocumentType}"
-                                            global="false"
-                                            update="currentDocumentNumber"
-                                            process="@this" />
-                                    <f:selectItems value="#{legalDocumentManager.documentTypes}"
-                                                   var="docType"
-                                                   itemLabel="#{docType.name}"
-                                                   itemValue="#{docType.id}"/>
-                                </p:selectOneMenu>
-                            </ui:remove>
+                        <h:outputText value="Document type: " style="font-weight: bold;" />
+                        <h:panelGroup>                           
                             <p:autoComplete var="documentType"
                                             id="documentType"
                                             forceSelection="true"      
@@ -186,7 +173,9 @@ and open the template in the editor.
                                             completeMethod="#{App.completeDocumentType}" >            
 
                                 <p:ajax listener="#{legalDocumentManager.updateDocumentType}"
+                                        event="itemSelect"
                                         global="false"
+                                        update="currentDocumentNumber"
                                         process="@this" />
 
                             </p:autoComplete>
@@ -199,39 +188,46 @@ and open the template in the editor.
                                              icon="ui-icon ui-icon-pencil" />
                         </h:panelGroup>
 
-                        <h:outputText value="Classification:" />
-                        <p:selectOneMenu value="#{legalDocumentManager.currentDocument.classification.id}" style="width: 100%;" >
-                            <p:ajax listener="#{legalDocumentManager.updateDocument}"
-                                    global="false"
-                                    process="@this" />
-                            <f:selectItems value="#{legalDocumentManager.classifications}"
-                                           var="classification"
-                                           itemLabel="#{classification.name}"
-                                           itemValue="#{classification.id}"/>
-                        </p:selectOneMenu>
+                        <h:outputText value="Classification:" style="font-weight: bold;" />
+                        <p:autoComplete dropdown="true"
+                                        var="classification"
+                                        id="classification"
+                                        styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
+                                        size="35"
+                                        maxlength="40"
+                                        value="#{legalDocumentManager.currentDocument.classification}"
+                                        itemLabel="#{classification.name}"                        
+                                        itemValue="#{classification}"                        
+                                        converter="classificationConverter"
+                                        validator="businessEntityValidator"
+                                        forceSelection="true"
+                                        completeMethod="#{App.completeClassification}" >
+                            <p:ajax event="itemSelect"                                                                  
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this"/>
+                        </p:autoComplete>
 
-                        <h:outputText value="Document form:" />
-                        <p:selectOneMenu value="#{legalDocumentManager.currentDocument.documentForm}" style="width: 100%;" >
+                        <h:outputText value="Document form:" style="font-weight: bold;" />
+                        <p:selectOneMenu value="#{legalDocumentManager.currentDocument.documentForm}" >
                             <p:ajax listener="#{legalDocumentManager.updateDocumentForm}"
                                     global="false"
                                     update="currentDocumentNumber"
                                     process="@this" />
-                            <f:selectItems value="#{JMTSApp.documentForms}"
+                            <f:selectItems value="#{App.documentForms}"
                                            />
                         </p:selectOneMenu>
 
-                        <h:outputText value="Date received *:"/>
+                        <h:outputText value="Date received:" style="font-weight: bold;" />
                         <p:calendar id="dateReceived"
                                     value="#{legalDocumentManager.currentDocument.dateReceived}"
                                     navigator="true"
-
                                     pattern="MMM dd, yyyy" >
                             <p:ajax event="dateSelect"
-                                    update="actualTurnaroundTime"
+                                    update="actualTurnaroundTime,currentDocumentNumber"
                                     listener="#{legalDocumentManager.updateDateReceived}" />
                         </p:calendar>
 
-                        <h:outputText value="Particulars:" />
+                        <h:outputText value="Particulars:" style="font-weight: bold;" />
                         <p:inputTextarea value="#{legalDocumentManager.currentDocument.description}"
                                          id="documentDescription"
                                          rows="3"
@@ -243,7 +239,7 @@ and open the template in the editor.
                                     process="@this"/>
                         </p:inputTextarea>
 
-                        <h:outputText value="Nature of request:" />
+                        <h:outputText value="Nature of request:" style="font-weight: bold;" />
                         <p:inputTextarea value="#{legalDocumentManager.currentDocument.workPerformedOnDocument}"
                                          id="workPerformedOnDocument"
                                          rows="3"
@@ -272,24 +268,34 @@ and open the template in the editor.
 
                 <p:tab title="Tracking">
                     <h:panelGrid columns="2">
+                        <h:outputText value="Department responsible:" style="font-weight: bold;" />                       
+                        <p:autoComplete var="department"
+                                        forceSelection="true"      
+                                        dropdown="true"
+                                        scrollHeight="200" 
+                                        size="35"  
+                                        maxlength="40"
+                                        value="#{legalDocumentManager.currentDocument.responsibleDepartment}"
+                                        itemValue="#{department}"
+                                        itemLabel="#{department.name}"
+                                        converter="departmentConverter"
+                                        validator="businessEntityValidator"
+                                        completeMethod="#{App.completeDepartment}" >            
 
-                        <h:outputText value="Department responsible:" />
-                        <p:selectOneMenu value="#{legalDocumentManager.currentDocument.responsibleDepartment.id}"
-                                         style="width: 100%;" >
-                            <p:ajax listener="#{legalDocumentManager.updateDepartmentResponsible}"
+                            <p:ajax listener="#{legalDocumentManager.updateResquestingDepartment}"
+                                    event="itemSelect"
                                     global="false"
-                                    update="currentDocumentNumber"
                                     process="@this" />
-                            <f:selectItems value="#{legalDocumentManager.departments}"
-                                           var="department"
-                                           itemLabel="#{department.name}"
-                                           itemValue="#{department.id}"/>
-                        </p:selectOneMenu>
 
-                        <h:outputText value="Officer responsible *:" />
-                        <p:autoComplete id="officerResponsible"
-                                        style="width: 75%"                                       
+                        </p:autoComplete> 
+
+                        <h:outputText value="Officer responsible:" style="font-weight: bold;" />
+                        <p:autoComplete id="officerResponsible"   
+                                        maxlength="40"
+                                        scrollHeight="200" 
+                                        size="35"
                                         var="officerResponsible"
+                                        dropdown="true"
                                         value="#{legalDocumentManager.currentDocument.responsibleOfficer}"
                                         itemLabel="#{officerResponsible.name}"
                                         itemValue="#{officerResponsible}"
@@ -301,19 +307,7 @@ and open the template in the editor.
                                     process="@this"/>
                         </p:autoComplete>
 
-                        <ui:remove>
-                            <p:selectOneMenu value="#{legalDocumentManager.currentDocument.responsibleOfficer.id}" style="width: 100%;">
-                                <p:ajax listener="#{legalDocumentManager.updateDocument}"
-                                        global="false"
-                                        process="@this" />
-                                <f:selectItems value="#{legalDocumentManager.employees}"
-                                               var="employee"
-                                               itemLabel="#{employee}"
-                                               itemValue="#{employee.id}"/>
-                            </p:selectOneMenu>
-                        </ui:remove>
-
-                        <h:outputText value="Agreed delivery date:" />
+                        <h:outputText value="Agreed delivery date:" style="font-weight: bold;" />
                         <p:calendar id="expectedDeliveryDate"
                                     value="#{legalDocumentManager.currentDocument.expectedDateOfCompletion}"
                                     navigator="true"
@@ -333,7 +327,7 @@ and open the template in the editor.
                                     listener="#{legalDocumentManager.updateDeliveryDate}" />
                         </p:calendar>
 
-                        <h:outputText value="Set turnaround time (days):" />
+                        <h:outputText value="Set turnaround time (days):" style="font-weight: bold;" />
                         <p:inputText value="#{legalDocumentManager.currentDocument.turnAroundTime}"
                                      converter="javax.faces.Integer"
                                      validatorMessage="Please enter a valid turnaround time" >
@@ -343,7 +337,7 @@ and open the template in the editor.
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText value="Actual turnaround time (days):" />
+                        <h:outputText value="Actual turnaround time (days):" style="font-weight: bold;" />
                         <p:inputText value="#{legalDocumentManager.currentDocument.currentDocumentTurnaroundTime}"
                                      id="actualTurnaroundTime"
                                      style="background-color: lightgray"
@@ -362,16 +356,7 @@ and open the template in the editor.
                                     process="@this" />
                             <f:selectItems value="#{legalDocumentManager.statuses}"/>
                         </p:selectOneMenu>
-                        <ui:remove>
-                            <p:inputTextarea value="#{legalDocumentManager.currentDocument.status}"
-                                             style="width: 300px">
-                                <p:ajax event="change"
-                                        global="false"
-                                        listener="#{legalDocumentManager.updateDocument}"
-                                        process="@this"/>
-                            </p:inputTextarea>
-                        </ui:remove>
-
+                        
                         <h:outputText value="Comment:" />
                         <p:inputTextarea value="#{legalDocumentManager.currentDocument.comments}"
                                          style="width: 300px">
@@ -380,6 +365,7 @@ and open the template in the editor.
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
                         </p:inputTextarea>
+                        
                     </h:panelGrid>
                 </p:tab>
             </p:tabView>
