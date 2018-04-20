@@ -4,8 +4,8 @@ Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
 - Implement Legal Office module using the Legal Departmental Portal.
-  * Impl client edit
   * Add menu button for editing and adding document type.
+    Add conversion and validation.
   * Fix up form field using, autocomplete, PF fields, conversion and validation
     etc.
   * Put required field labels in bold and make use of growl from conversion/validation.
@@ -14,6 +14,8 @@ Modules for next release: Job Management, Legal Office, Client Management
   * Impl isDirty for all field updates.
   * Address "Legal/Task Module/Management" issue.
   * Put menu in documents table.
+  * Make use of growl and not javascript base messaging.
+  * Deploy as /legal and eventually deactivate /LegalDepartmentPortal
 - Deactivate [Error - select Bureau... clients
 - Send email to NCRA re feedback on email sent re docs.
 - Do report showing unapproved job costings.
@@ -28,6 +30,7 @@ Modules for next release: Job Management, Legal Office, Client Management
 - "Fixed Cost" is current used a discount type. Check how this is applied with
     the "new" system.
 - Do report for Edmondson.
+- Check all tooltips for correctness.
 - Release next version as jmtsbeta3 for training and testing. Add latest mysql driver
   and restart app server.
 - Do report and invoice.

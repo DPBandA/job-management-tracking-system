@@ -21,7 +21,6 @@ import javax.naming.ldap.LdapContext;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
@@ -107,7 +106,7 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void editExternalClient() {
-        
+
         getClientManager().setSelectedClient(getCurrentDocument().getExternalClient());
         getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
@@ -283,34 +282,16 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void editDocumentType(ActionEvent actionEvent) {
-        //tk
-//        if (currentDocument != null) {
-//            if (currentDocument.getId() != null) {
-//                currentDocument = jm.getLegalDocumentById(getEntityManager(), currentDocument.getId());
-//                // get most recent type from database
-//                if (currentDocument.getType() != null) {
-//                    currentDocument.setType(jm.getDocumentTypeById(getEntityManager(), currentDocument.getType().getId()));
-//                }
-//            }
-//        }
+
+    }
+
+    public void createNewDocumentType(ActionEvent actionEvent) {
+
     }
 
     public void cancelDocumentTypeEdit(ActionEvent actionEvent) {
     }
 
-//    public Client getExternalClient() {
-//        if (currentDocument.getExternalClient() == null) {
-//            currentDocument.setExternalClient(jm.getDefaultClient(getEntityManager(), "--"));
-//
-//            return currentDocument.getExternalClient();
-//        } else {
-//            return currentDocument.getExternalClient();
-//        }
-//    }
-//
-//    public void setExternalClient(Client client) {
-//        currentDocument.setExternalClient(client);
-//    }
     public void saveDocumentType(ActionEvent actionEvent) {
         EntityManager em = getEntityManager();
 
@@ -475,38 +456,10 @@ public class LegalDocumentManager implements Serializable {
         } catch (Exception e) {
             System.out.println(e);
 
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
     }
 
-//    public String getSubmittedBy() {
-//        //return currentDocument.getSubmittedBy().getLastName() + ", " + currentDocument.getSubmittedBy().getFirstName();
-//        return currentDocument.getSubmittedBy().getName();
-//    }
-//
-//    public void setSubmittedBy(String name) {
-//        if (name != null) {
-//            String names[] = name.split(",");
-//            if (names.length == 2) {
-//                currentDocument.getSubmittedBy().setFirstName(names[1].trim());
-//                currentDocument.getSubmittedBy().setLastName(names[0].trim());
-//            }
-//        }
-//    }
-//    public String getOfficerResponsible() {
-//        return currentDocument.getResponsibleOfficer().getLastName() + ", "
-//                + currentDocument.getResponsibleOfficer().getFirstName();
-//    }
-//
-//    public void setOfficerResponsible(String name) {
-//        if (name != null) {
-//            String names[] = name.split(",");
-//            if (names.length == 2) {
-//                currentDocument.getResponsibleOfficer().setFirstName(names[1].trim());
-//                currentDocument.getResponsibleOfficer().setLastName(names[0].trim());
-//            }
-//        }
-//    }
     private Employee getEmployeeByName(Employee employee, String name) {
         String names[] = name.split(",");
         if (names.length == 2) {
@@ -522,22 +475,18 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void updateSubmittebBy(SelectEvent event) {
-        //currentDocument.setSubmittedBy(getEmployeeByName(currentDocument.getSubmittedBy(), currentDocument.getSubmittedBy().getName()));
     }
 
     public void updateOfficerResponsible(SelectEvent event) {
-        //currentDocument.setResponsibleOfficer(getEmployeeByName(currentDocument.getResponsibleOfficer(), currentDocument.getResponsibleOfficer().getName()));
     }
 
     public void updateType(SelectEvent event) {
-        //System.out.println(currentDocument.getType().getName());
     }
 
     public void updateCode(SelectEvent event) {
     }
 
     public void updateClient(SelectEvent event) {
-
     }
 
     public void editClient() {
@@ -606,20 +555,18 @@ public class LegalDocumentManager implements Serializable {
 
     public void updateDocument() {
         if (currentDocument.getAutoGenerateNumber()) {
+            // tk doc # to be created and implemented as an interface
             currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
         }
     }
 
     public void updateDeliveryDate() {
-        //currentDocument.setDateOfCompletion(e.getDate());
     }
 
     public void updateExpectedDeliveryDate() {
-        //currentDocument.setExpectedDateOfCompletion(e.getDate());
     }
 
     public void updateDateReceived() {
-        //currentDocument.setDateReceived(e.getDate());
         Calendar c = Calendar.getInstance();
 
         // set new month received
@@ -645,10 +592,6 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void updateResquestingDepartment() {
-//        if (currentDocument.getRequestingDepartment().getId() != null) {
-//            currentDocument.setRequestingDepartment(Department.findDepartmentById(getEntityManager(),
-//                    currentDocument.getRequestingDepartment().getId()));
-//        }
     }
 
     /**
@@ -656,15 +599,10 @@ public class LegalDocumentManager implements Serializable {
      * partly based on the document type.
      */
     public void updateDocumentType() {
-//        if (currentDocument.getType().getId() != null) {
-//            currentDocument.setType(DocumentType.findDocumentTypeById(getEntityManager(),
-//                    currentDocument.getType().getId()));
 
-        System.out.println("doc type: " + currentDocument.getType().getName()); // tk
         if (currentDocument.getAutoGenerateNumber()) {
-            currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED")); // tk to db option
+            currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
         }
-//        }
     }
 
     public void updateDocumentReport() {
@@ -827,27 +765,6 @@ public class LegalDocumentManager implements Serializable {
         this.dateSearchField = dateSearchField;
     }
 
-//    public String getDateSearchPeriod() {
-//        return dateSearchPeriod;
-//    }
-//
-//    public void setDateSearchPeriod(String dateSearchPeriod) {
-//        this.dateSearchPeriod = dateSearchPeriod;
-//    }
-//    public Date getEndDate() {
-//        return endDate;
-//    }
-//
-//    public void setEndDate(Date endDate) {
-//        this.endDate = endDate;
-//    }
-//    public Boolean getEndSearchDateDisabled() {
-//        return endSearchDateDisabled;
-//    }
-//
-//    public void setEndSearchDateDisabled(Boolean endSearchDateDisabled) {
-//        this.endSearchDateDisabled = endSearchDateDisabled;
-//    }
     public String getSearchText() {
         return searchText;
     }
@@ -864,20 +781,6 @@ public class LegalDocumentManager implements Serializable {
         this.selectedDocumentId = selectedDocumentId;
     }
 
-//    public Date getStartDate() {
-//        return startDate;
-//    }
-//
-//    public void setStartDate(Date startDate) {
-//        this.startDate = startDate;
-//    }
-//    public Boolean getStartSearchDateDisabled() {
-//        return startSearchDateDisabled;
-//    }
-//
-//    public void setStartSearchDateDisabled(Boolean startSearchDateDisabled) {
-//        this.startSearchDateDisabled = startSearchDateDisabled;
-//    }
     public String getSearchType() {
         return searchType;
     }
@@ -950,38 +853,6 @@ public class LegalDocumentManager implements Serializable {
         openDocumentBrowser();
     }
 
-    public List<BusinessOffice> getBusinessOffices() {
-        return BusinessOffice.findAllBusinessOffices(getEntityManager());
-    }
-
-    public List<Department> getDepartments() {
-        return Department.findAllDepartments(getEntityManager());
-    }
-
-    public List<DocumentType> getDocumentTypes() {
-        return DocumentType.findAllDocumentTypes(getEntityManager());
-    }
-
-    public List<Classification> getClassifications() {
-        return Classification.findAllClassifications(getEntityManager());
-    }
-
-    public List<DocumentReport> getDocumentReports() {
-        return DocumentReport.findAllDocumentReports(getEntityManager());
-    }
-
-    public List<Employee> getEmployees() {
-        List<Employee> employees = Employee.findAllEmployees(getEntityManager());
-        List<Employee> some = new ArrayList<>();
-
-        //return jm.getAllEmployees(getEntityManager());
-        for (int i = 0; i < employees.size() - 150; i++) {
-            some.add(employees.get(i));
-        }
-
-        return some;
-    }
-
     public int getActiveTabIndex() {
         return activeTabIndex;
     }
@@ -996,59 +867,6 @@ public class LegalDocumentManager implements Serializable {
 
     public void setActiveTabIndex(int activeTabIndex) {
         this.activeTabIndex = activeTabIndex;
-    }
-
-    public String getSystemInfo() {
-        return ""; // tk info to provide to be decided.
-    }
-
-    public List<String> completeSearchText(String query) {
-        List<String> suggestions = new ArrayList<>();
-//
-//        if (searchType.equals("My department's jobs")) {
-//            List<Department> department = jm.getAllDepartments(getEntityManager());
-//            for (Department d : department) {
-//                if (d.getName().trim().toUpperCase().startsWith(query.trim().toUpperCase())) {
-//                    suggestions.add(d.getName());
-//                }
-//            }
-//        }
-//
-        return suggestions;
-    }
-
-    // 
-    private String getUserBasicAttributes(String username, LdapContext ctx) {
-        String userdetails = null; // tk
-        try {
-
-            SearchControls constraints = new SearchControls();
-            constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
-            String[] attrIDs = {"distinguishedName",
-                "sn",
-                "givenname",
-                "mail",
-                "telephonenumber"};
-            constraints.setReturningAttributes(attrIDs);
-            //First input parameter is search bas, it can be "CN=Users,DC=YourDomain,DC=com"
-            //Second Attribute can be uid=username
-            NamingEnumeration answer = ctx.search("DC=bos,DC=local", "sAMAccountName="
-                    + username, constraints);
-            if (answer.hasMore()) {
-                Attributes attrs = ((SearchResult) answer.next()).getAttributes();
-                System.out.println("distinguishedName " + attrs.get("distinguishedName"));
-                System.out.println("givenname " + attrs.get("givenname"));
-                System.out.println("sn " + attrs.get("sn"));
-                System.out.println("mail " + attrs.get("mail"));
-                System.out.println("telephonenumber " + attrs.get("telephonenumber"));
-            } else {
-                throw new Exception("Invalid User");
-            }
-
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-        return userdetails;
     }
 
     public JobManager getJobManager() {
@@ -1068,10 +886,6 @@ public class LegalDocumentManager implements Serializable {
 
     private EntityManager getEntityManager() {
         return EMF.createEntityManager();
-    }
-
-    public Date getCurrentDate() {
-        return new Date();
     }
 
     public void formatDocumentTableXLS(Object document, String headerTitle) {

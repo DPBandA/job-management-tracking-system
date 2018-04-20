@@ -104,7 +104,7 @@ and open the template in the editor.
                                                      onstart="PF('longProcessDialogVar').show();"                                     
                                                      actionListener="#{legalDocumentManager.editExternalClient}"  
                                                      process="@this,client"                             
-                                                     title="View or edit this client's detail">  
+                                                     title="Edit this client's detail">  
 
                                         <p:ajax event="dialogReturn" 
                                                 oncomplete="PF('longProcessDialogVar').hide();"
@@ -179,13 +179,33 @@ and open the template in the editor.
                                         process="@this" />
 
                             </p:autoComplete>
-                            <p:spacer height="0" width="4"/>
-                            <p:commandButton title="View, edit or add new type"
-                                             actionListener="#{legalDocumentManager.editDocumentType}"
-                                             update="currentDocumentNumber,:documentTypeDialogForm"
-                                             oncomplete="documentTypeDialog.show();"
-                                             process="@this"
-                                             icon="ui-icon ui-icon-pencil" />
+                            <p:spacer height="0" width="4"/>                           
+                            <p:menuButton icon="ui-icon-pencil" >
+                                <p:menuitem>                       
+                                    <p:commandButton value="Edit type"
+                                                     icon="ui-icon-pencil" 
+                                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                                     onstart="PF('longProcessDialogVar').show();"  
+                                                     oncomplete="documentTypeDialog.show();PF('longProcessDialogVar').hide();"
+                                                     actionListener="#{legalDocumentManager.editDocumentType}" 
+                                                     process="@this,client"    
+                                                     update="currentDocumentNumber,:documentTypeDialogForm"
+                                                     title="Edit document type" >         
+                                    </p:commandButton>
+                                </p:menuitem>                                
+                                <p:menuitem >       
+                                    <p:commandButton 
+                                        value="Add new type"
+                                        icon="ui-icon-plus" 
+                                        style="width: 100%;text-align: left;background: none;border: 0;"
+                                        onstart="PF('longProcessDialogVar').show();" 
+                                        oncomplete="documentTypeDialog.show();PF('longProcessDialogVar').hide();"
+                                        actionListener="#{legalDocumentManager.createNewDocumentType}"                                            
+                                        process="@this"
+                                        title="Add a new document type">
+                                    </p:commandButton>
+                                </p:menuitem>
+                            </p:menuButton>   
                         </h:panelGroup>
 
                         <h:outputText value="Classification:" style="font-weight: bold;" />
@@ -356,7 +376,7 @@ and open the template in the editor.
                                     process="@this" />
                             <f:selectItems value="#{legalDocumentManager.statuses}"/>
                         </p:selectOneMenu>
-                        
+
                         <h:outputText value="Comment:" />
                         <p:inputTextarea value="#{legalDocumentManager.currentDocument.comments}"
                                          style="width: 300px">
@@ -365,7 +385,7 @@ and open the template in the editor.
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
                         </p:inputTextarea>
-                        
+
                     </h:panelGrid>
                 </p:tab>
             </p:tabView>
