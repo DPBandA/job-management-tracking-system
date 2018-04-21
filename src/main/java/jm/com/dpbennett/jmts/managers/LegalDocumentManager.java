@@ -273,12 +273,12 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void editDocument(ActionEvent actionEvent) {
-        if (currentDocument != null) {
-            if (currentDocument.getId() != null) {
-                selectedDocumentId = currentDocument.getId();
-                currentDocument = LegalDocument.findLegalDocumentById(getEntityManager(), currentDocument.getId());
-            }
-        }
+//        if (currentDocument != null) {
+//            if (currentDocument.getId() != null) {
+//                selectedDocumentId = currentDocument.getId();
+//                currentDocument = LegalDocument.findLegalDocumentById(getEntityManager(), currentDocument.getId());
+//            }
+//        }
     }
 
     public void editDocumentType(ActionEvent actionEvent) {
@@ -698,6 +698,10 @@ public class LegalDocumentManager implements Serializable {
         }
 
         return currentDocument;
+    }
+    
+    public void setTargetDocument(LegalDocument legalDocument) {
+        currentDocument = legalDocument;
     }
 
     public void setCurrentDocument(LegalDocument currentDocument) {

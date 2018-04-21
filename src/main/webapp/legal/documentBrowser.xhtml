@@ -62,29 +62,21 @@ and open the template in the editor.
             </h:outputText>
         </p:column>
         <p:column style="width:32px">
-            <ui:remove>
-                <p:commandButton title="View/Edit"
-                                 update=":documentDialogForm"
-                                 actionListener="#{legalDocumentManager.editDocument}"
-                                 oncomplete="documentDialog.show();PF('longProcessDialogVar').hide();"
-                                 onstart="PF('longProcessDialogVar').show();"
-                                 icon="ui-icon ui-icon-pencil">
 
-                    <f:setPropertyActionListener value="#{document}"
-                                                 target="#{legalDocumentManager.currentDocument}" />
-
-                </p:commandButton>
-            </ui:remove>
             <p:menuButton icon="ui-icon-pencil" title="Edit or delete">
                 <p:menuitem>                       
                     <p:commandButton value="View or edit"
-                                     icon="ui-icon-pencil" 
+                                     icon="ui-icon ui-icon-pencil" 
                                      update=":documentDialogForm"
-                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"                                    
                                      onstart="PF('longProcessDialogVar').show();"  
                                      oncomplete="documentDialog.show();PF('longProcessDialogVar').hide();"
                                      actionListener="#{legalDocumentManager.editDocument}" 
-                                     title="Edit document" >         
+                                     process="@this" >      
+
+                        <f:setPropertyActionListener value="#{document}"
+                                                     target="#{legalDocumentManager.currentDocument}" />
+
                     </p:commandButton>
                 </p:menuitem>                                
                 <p:menuitem >       
@@ -92,23 +84,18 @@ and open the template in the editor.
                         value="Delete"
                         icon="ui-icon-trash" 
                         style="width: 100%;text-align: left;background: none;border: 0;"
-                        onclick="documentDeleteConfirm.show();"
-                        title="Delete document">
+                        onclick="documentDeleteConfirm.show();" 
+                        process="@this" >
+
+                        <f:setPropertyActionListener value="#{document}"
+                                                     target="#{legalDocumentManager.selectedDocument}" />
+
                     </p:commandButton>
                 </p:menuitem>
             </p:menuButton>   
+
         </p:column>
-        <ui:remove>
-            <p:column style="width:32px">
-                <p:commandButton title="Delete"
-                                 onclick="documentDeleteConfirm.show();"
-                                 update=""
-                                 icon="ui-icon ui-icon-trash">
-                    <f:setPropertyActionListener value="#{document}"
-                                                 target="#{legalDocumentManager.selectedDocument}" />
-                </p:commandButton>
-            </p:column>
-        </ui:remove>
+
     </p:dataTable>
 
     <ui:include src="documentBrowserToolbar.xhtml" />

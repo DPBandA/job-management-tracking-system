@@ -1991,6 +1991,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         clientManager.reset();
     }
 
+    // tk rename to setTargetJob
     public void setEditCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
         this.currentJob.setVisited(true);
