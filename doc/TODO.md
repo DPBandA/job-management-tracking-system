@@ -3,20 +3,18 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Implement Legal Office module using the Legal Departmental Portal.
-  * Add menu button for editing and adding document type.
-    Add conversion and validation.
-  * Use menu button and row highlight in table.
-  * Fix up form field using, autocomplete, PF fields, conversion and validation
-    etc.
-  * Put required field labels in bold and make use of growl from conversion/validation.
+- Implement Legal Office module:
+  * Impl saving form validation of all required form fields. Use growl where required.
   * Implement adding new and editing existing documents. Ensure that fields
     such as Responsible Department and Officer are filled out.
-  * Impl isDirty for all field updates.
+  * Impl isDirty for all field updates. Delete update*() methods and use updateDocument()
+    where required. Call setIsDirty() in the method.
   * Address "Legal/Task Module/Management" issue.
-  * Put menu in documents table.
   * Make use of growl and not javascript base messaging.
-  * Deploy as /legal and eventually deactivate /LegalDepartmentPortal
+  * Allow entering new classification with the a category. Update JM to get 
+    classificatons based on category.
+- Client Management Module:
+  * Impl dashboard with "New" and "Tools" menu.
 - Deactivate [Error - select Bureau... clients
 - Send email to NCRA re feedback on email sent re docs.
 - Do report showing unapproved job costings.

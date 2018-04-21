@@ -189,7 +189,7 @@ and open the template in the editor.
                                                      oncomplete="documentTypeDialog.show();PF('longProcessDialogVar').hide();"
                                                      actionListener="#{legalDocumentManager.editDocumentType}" 
                                                      process="@this,client"    
-                                                     update="currentDocumentNumber,:documentTypeDialogForm"
+                                                     update=":documentTypeDialogForm"
                                                      title="Edit document type" >         
                                     </p:commandButton>
                                 </p:menuitem>                                
@@ -200,6 +200,7 @@ and open the template in the editor.
                                         style="width: 100%;text-align: left;background: none;border: 0;"
                                         onstart="PF('longProcessDialogVar').show();" 
                                         oncomplete="documentTypeDialog.show();PF('longProcessDialogVar').hide();"
+                                        update=":documentTypeDialogForm"
                                         actionListener="#{legalDocumentManager.createNewDocumentType}"                                            
                                         process="@this"
                                         title="Add a new document type">
@@ -516,17 +517,17 @@ and open the template in the editor.
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Document type: " for="newDocumentType"/>
                     <p:autoComplete id="newDocumentType"
-                                    value="#{legalDocumentManager.currentDocument.type.name}"
-                                    title="#{legalDocumentManager.currentDocument.type.name}"
-                                    completeMethod="#{legalDocumentManager.completeType}" >
+                                    value="#{legalDocumentManager.currentDocumentType.name}"
+                                    title="#{legalDocumentManager.currentDocumentType.name}"
+                                    completeMethod="#{legalDocumentManager.completeTypeName}" >
                         <p:ajax event="itemSelect"
                                 listener="#{legalDocumentManager.updateType}" />
                     </p:autoComplete>
 
                     <h:outputLabel value="Document code: " for="newDocumentCode"/>
                     <p:autoComplete id="newDocumentCode"
-                                    value="#{legalDocumentManager.currentDocument.type.code}"
-                                    title="#{legalDocumentManager.currentDocument.type.code}"
+                                    value="#{legalDocumentManager.currentDocumentType.code}"
+                                    title="#{legalDocumentManager.currentDocumentType.code}"
                                     completeMethod="#{legalDocumentManager.completeCode}" >
                         <p:ajax event="itemSelect"
                                 listener="#{legalDocumentManager.updateCode}" />

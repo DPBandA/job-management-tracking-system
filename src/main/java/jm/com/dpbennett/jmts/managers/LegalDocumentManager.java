@@ -13,16 +13,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
-import javax.naming.NamingEnumeration;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.SearchControls;
-import javax.naming.directory.SearchResult;
-import javax.naming.ldap.LdapContext;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.DatePeriod;
@@ -71,11 +65,11 @@ public class LegalDocumentManager implements Serializable {
     private String searchType;
     private String searchText;
     private String previousSearchText;
-    private Boolean searchTextVisible;
     private Long selectedDocumentId;
     private List<LegalDocument> documentSearchResultList;
     private LegalDocument selectedDocument;
     private LegalDocument currentDocument;
+    private DocumentType currentDocumentType;
     private DocumentReport documentReport;
     @Column(length = 1024)
     private String status;
@@ -96,9 +90,16 @@ public class LegalDocumentManager implements Serializable {
         // tk to be set back to month
         datePeriod = new DatePeriod("This year", "year", null, null, false, false, false);
         //datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
-        searchTextVisible = true;
         changeSearchDatePeriod();
 
+    }
+
+    public DocumentType getCurrentDocumentType() {
+        return currentDocumentType;
+    }
+
+    public void setCurrentDocumentType(DocumentType currentDocumentType) {
+        this.currentDocumentType = currentDocumentType;
     }
 
     public Boolean getIsClientNameValid() {
@@ -158,14 +159,13 @@ public class LegalDocumentManager implements Serializable {
         this.activeDocTabIndex = activeDocTabIndex;
     }
 
-    public Boolean getSearchTextVisible() {
-        return searchTextVisible;
-    }
-
-    public void setSearchTextVisible(Boolean searchTextVisible) {
-        this.searchTextVisible = searchTextVisible;
-    }
-
+//    public Boolean getSearchTextVisible() {
+//        return searchTextVisible;
+//    }
+//
+//    public void setSearchTextVisible(Boolean searchTextVisible) {
+//        this.searchTextVisible = searchTextVisible;
+//    }
     public DocumentReport getDocumentReport() {
         if (documentReport == null) {
             documentReport = new DocumentReport();
@@ -194,14 +194,14 @@ public class LegalDocumentManager implements Serializable {
 //            activeNavigationTabIndex = 0;
             activeTabIndex = 0;
             searchText = previousSearchText;
-            searchTextVisible = true;
+            //searchTextVisible = true;
         } else if (tabTitle.equals("Reporting")) {
 //            activeNavigationTabIndex = 1;
             activeTabIndex = 1;
             previousSearchText = searchText;
             // do search with the default search text used in doLegalDocumentSearch()
             searchText = "";
-            searchTextVisible = false;
+            //searchTextVisible = false;
         }
         doLegalDocumentSearch();
     }
@@ -282,48 +282,31 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void editDocumentType(ActionEvent actionEvent) {
-
+        currentDocumentType = getCurrentDocument().getType();
     }
 
     public void createNewDocumentType(ActionEvent actionEvent) {
-
+        currentDocumentType = new DocumentType();
     }
 
-    public void cancelDocumentTypeEdit(ActionEvent actionEvent) {
-    }
-
+    /**
+     * Save update document number. If this is a new type set the document type 
+     * to a "blank" type so he that the new type can be selected from the autocomplete component.
+     * @param actionEvent 
+     */
     public void saveDocumentType(ActionEvent actionEvent) {
-        EntityManager em = getEntityManager();
 
-        DocumentType type = DocumentType.findDocumentTypeByNameAndCode(em, currentDocument.getType().getName(),
-                currentDocument.getType().getCode());
-        // if document already exist do not save
-        if (type != null) {
-            // update document number
-            if (currentDocument.getAutoGenerateNumber()) {
-                currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
-            }
-        } // if type with this name exists update the code and save
-        else if ((DocumentType.findDocumentTypeByName(em, currentDocument.getType().getName()) != null)
-                || (DocumentType.findDocumentTypeByCode(em, currentDocument.getType().getCode()) != null)) {
-            em.getTransaction().begin();
-            BusinessEntityUtils.saveBusinessEntity(em, currentDocument.getType());
-            em.getTransaction().commit();
-            // update document number
-            if (currentDocument.getAutoGenerateNumber()) {
-                currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
-            }
+       if (getCurrentDocumentType().getId() == null) {
+            getCurrentDocumentType().save(getEntityManager());
+            currentDocument.setType(new DocumentType());
+        }
+        else {
+            getCurrentDocumentType().save(getEntityManager());
+            currentDocument.setType(getCurrentDocumentType());
+        }
 
-        } else {
-            em.getTransaction().begin();
-            currentDocument.getType().setId(null); // forces saving of new type.
-            BusinessEntityUtils.saveBusinessEntity(em, currentDocument.getType());
-            em.getTransaction().commit();
-
-            // update document number
-            if (currentDocument.getAutoGenerateNumber()) {
-                currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
-            }
+        if (currentDocument.getAutoGenerateNumber()) {
+            currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
         }
     }
 
@@ -418,7 +401,7 @@ public class LegalDocumentManager implements Serializable {
         return legalDocument;
     }
 
-    public List<String> completeType(String query) {
+    public List<String> completeTypeName(String query) {
 
         try {
             List<DocumentType> types = DocumentType.findDocumentTypesByName(getEntityManager(), query);

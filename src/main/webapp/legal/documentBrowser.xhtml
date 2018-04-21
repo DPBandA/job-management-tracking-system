@@ -16,14 +16,15 @@ and open the template in the editor.
                  var="document"
                  paginator="true"
                  rows="15"
+                 rowStyleClass="#{document.rowStyle}"
                  style="margin-top: 1px;margin-bottom: 1px;"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{legalDocumentManager.documentSearchResultList}">
-        
+
         <f:facet name="header">
             <h:outputText value="Document search results (#{legalDocumentManager.numberOfDocumentsFound})"/>
         </f:facet>
-        
+
         <p:column style="width:150px">
             <f:facet name="header">
                 <h:outputText value="Document #"/>
@@ -61,29 +62,55 @@ and open the template in the editor.
             </h:outputText>
         </p:column>
         <p:column style="width:32px">
-            <p:commandButton title="View/Edit"
-                             update=":documentDialogForm"
-                             actionListener="#{legalDocumentManager.editDocument}"
-                             oncomplete="documentDialog.show();PF('longProcessDialogVar').hide();"
-                             onstart="PF('longProcessDialogVar').show();"
-                             icon="ui-icon ui-icon-pencil">
-                
-                <f:setPropertyActionListener value="#{document}"
-                                             target="#{legalDocumentManager.currentDocument}" />
-                
-            </p:commandButton>
+            <ui:remove>
+                <p:commandButton title="View/Edit"
+                                 update=":documentDialogForm"
+                                 actionListener="#{legalDocumentManager.editDocument}"
+                                 oncomplete="documentDialog.show();PF('longProcessDialogVar').hide();"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 icon="ui-icon ui-icon-pencil">
+
+                    <f:setPropertyActionListener value="#{document}"
+                                                 target="#{legalDocumentManager.currentDocument}" />
+
+                </p:commandButton>
+            </ui:remove>
+            <p:menuButton icon="ui-icon-pencil" title="Edit or delete">
+                <p:menuitem>                       
+                    <p:commandButton value="View or edit"
+                                     icon="ui-icon-pencil" 
+                                     update=":documentDialogForm"
+                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                     onstart="PF('longProcessDialogVar').show();"  
+                                     oncomplete="documentDialog.show();PF('longProcessDialogVar').hide();"
+                                     actionListener="#{legalDocumentManager.editDocument}" 
+                                     title="Edit document" >         
+                    </p:commandButton>
+                </p:menuitem>                                
+                <p:menuitem >       
+                    <p:commandButton 
+                        value="Delete"
+                        icon="ui-icon-trash" 
+                        style="width: 100%;text-align: left;background: none;border: 0;"
+                        onclick="documentDeleteConfirm.show();"
+                        title="Delete document">
+                    </p:commandButton>
+                </p:menuitem>
+            </p:menuButton>   
         </p:column>
-        <p:column style="width:32px">
-            <p:commandButton title="Delete"
-                             onclick="documentDeleteConfirm.show();"
-                             update=""
-                             icon="ui-icon ui-icon-trash">
-                <f:setPropertyActionListener value="#{document}"
-                                             target="#{legalDocumentManager.selectedDocument}" />
-            </p:commandButton>
-        </p:column>
+        <ui:remove>
+            <p:column style="width:32px">
+                <p:commandButton title="Delete"
+                                 onclick="documentDeleteConfirm.show();"
+                                 update=""
+                                 icon="ui-icon ui-icon-trash">
+                    <f:setPropertyActionListener value="#{document}"
+                                                 target="#{legalDocumentManager.selectedDocument}" />
+                </p:commandButton>
+            </p:column>
+        </ui:remove>
     </p:dataTable>
-    
+
     <ui:include src="documentBrowserToolbar.xhtml" />
 
 </html>
