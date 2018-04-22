@@ -13,7 +13,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -40,10 +39,9 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.primefaces.component.tabview.Tab;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.TabChangeEvent;
 
 /**
  *
@@ -55,26 +53,15 @@ public class LegalDocumentManager implements Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF;
-    private int activeTabIndex;
-    private int activeDocTabIndex;
-    private int activeNavigationTabIndex;
-    private String activeTabForm;
-    private Tab activeTab;
     private String dateSearchField;
     private DatePeriod datePeriod;
     private String searchType;
     private String searchText;
-    private String previousSearchText;
-    private Long selectedDocumentId;
     private List<LegalDocument> documentSearchResultList;
     private LegalDocument selectedDocument;
     private LegalDocument currentDocument;
     private DocumentType currentDocumentType;
     private DocumentReport documentReport;
-    @Column(length = 1024)
-    private String status;
-    private String priorityLevel;
-    // Managers
     private JobManager jobManager;
     private ClientManager clientManager;
 
@@ -82,9 +69,6 @@ public class LegalDocumentManager implements Serializable {
      * Creates a new instance of JobManager
      */
     public LegalDocumentManager() {
-        activeTabIndex = 0;
-        activeNavigationTabIndex = 0;
-        activeTabForm = "";
         searchType = "General";
         dateSearchField = "dateReceived";
         // tk to be set back to month
@@ -135,37 +119,6 @@ public class LegalDocumentManager implements Serializable {
         this.datePeriod = datePeriod;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getPriorityLevel() {
-        return priorityLevel;
-    }
-
-    public void setPriorityLevel(String priorityLevel) {
-        this.priorityLevel = priorityLevel;
-    }
-
-    public int getActiveDocTabIndex() {
-        return activeDocTabIndex;
-    }
-
-    public void setActiveDocTabIndex(int activeDocTabIndex) {
-        this.activeDocTabIndex = activeDocTabIndex;
-    }
-
-//    public Boolean getSearchTextVisible() {
-//        return searchTextVisible;
-//    }
-//
-//    public void setSearchTextVisible(Boolean searchTextVisible) {
-//        this.searchTextVisible = searchTextVisible;
-//    }
     public DocumentReport getDocumentReport() {
         if (documentReport == null) {
             documentReport = new DocumentReport();
@@ -177,73 +130,15 @@ public class LegalDocumentManager implements Serializable {
         this.documentReport = documentReport;
     }
 
-    public int getActiveNavigationTabIndex() {
-        return activeNavigationTabIndex;
-    }
-
-    public void setActiveNavigationTabIndex(int activeNavigationTabIndex) {
-        this.activeNavigationTabIndex = activeNavigationTabIndex;
-    }
-
-    public void loadDocument() {
-    }
-
-    public void onMainTabChange(TabChangeEvent event) {
-        String tabTitle = event.getTab().getTitle();
-        if (tabTitle.equals("Documents database")) {
-//            activeNavigationTabIndex = 0;
-            activeTabIndex = 0;
-            searchText = previousSearchText;
-            //searchTextVisible = true;
-        } else if (tabTitle.equals("Reporting")) {
-//            activeNavigationTabIndex = 1;
-            activeTabIndex = 1;
-            previousSearchText = searchText;
-            // do search with the default search text used in doLegalDocumentSearch()
-            searchText = "";
-            //searchTextVisible = false;
-        }
-        doLegalDocumentSearch();
-    }
-
-    public void onDocTabChange(TabChangeEvent event) {
-        String tabTitle = event.getTab().getTitle();
-        if (tabTitle.equals("General")) {
-            activeDocTabIndex = 0;
-        } else if (tabTitle.equals("Tracking")) {
-            activeDocTabIndex = 1;
-        }
-    }
-
-    public void onNavigationTabChange(TabChangeEvent event) {
-//        String tabTitle = event.getTab().getTitle();
-//        if (tabTitle.equals("Document search criteria")) {
-//            activeTabIndex = 0;
-//            activeNavigationTabIndex = 0;
-//            searchText = previousSearchText;
-//            doLegalDocumentSearch();
-//        } else if (tabTitle.equals("Reporting criteria")) {
-//            activeTabIndex = 1;
-//            activeNavigationTabIndex = 1;
-//            previousSearchText = searchText;
-//            searchText = "ed";
-//            doLegalDocumentSearch();
-//        }
-        doLegalDocumentSearch();
-    }
-
-    // tk make use of DatePeriod class for this as is done for job search
     public final void changeSearchDatePeriod() {
         getDatePeriod().initDatePeriod();
     }
 
     public void handleStartSearchDateSelect(SelectEvent event) {
-        getDatePeriod().setStartDate((Date) event.getObject());
         doLegalDocumentSearch();
     }
 
     public void handleEndSearchDateSelect(SelectEvent event) {
-        getDatePeriod().setEndDate((Date) event.getObject());
         doLegalDocumentSearch();
     }
 
@@ -269,16 +164,11 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void cancelDocumentEdit(ActionEvent actionEvent) {
-        activeDocTabIndex = 0;
+        getCurrentDocument().setIsDirty(false);
     }
 
     public void editDocument(ActionEvent actionEvent) {
-//        if (currentDocument != null) {
-//            if (currentDocument.getId() != null) {
-//                selectedDocumentId = currentDocument.getId();
-//                currentDocument = LegalDocument.findLegalDocumentById(getEntityManager(), currentDocument.getId());
-//            }
-//        }
+        getCurrentDocument().setIsDirty(false);
     }
 
     public void editDocumentType(ActionEvent actionEvent) {
@@ -290,17 +180,18 @@ public class LegalDocumentManager implements Serializable {
     }
 
     /**
-     * Save update document number. If this is a new type set the document type 
-     * to a "blank" type so he that the new type can be selected from the autocomplete component.
-     * @param actionEvent 
+     * Save update document number. If this is a new type set the document type
+     * to a "blank" type so he that the new type can be selected from the
+     * autocomplete component.
+     *
+     * @param actionEvent
      */
     public void saveDocumentType(ActionEvent actionEvent) {
 
-       if (getCurrentDocumentType().getId() == null) {
+        if (getCurrentDocumentType().getId() == null) {
             getCurrentDocumentType().save(getEntityManager());
             currentDocument.setType(new DocumentType());
-        }
-        else {
+        } else {
             getCurrentDocumentType().save(getEntityManager());
             currentDocument.setType(getCurrentDocumentType());
         }
@@ -311,96 +202,70 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void saveCurrentLegalDocument(ActionEvent actionEvent) {
-        EntityManager em = getEntityManager();
-        RequestContext context = RequestContext.getCurrentInstance();
 
-        try {
+        if (currentDocument.getIsDirty()) {
+            EntityManager em = getEntityManager();
 
-            // validate required values.
-            if (currentDocument.getNumber() == null) {
-                context.addCallbackParam("valueRequired", true);
-                return;
-            } else if (currentDocument.getNumber().trim().equals("")) {
-                context.addCallbackParam("valueRequired", true);
-                return;
-            } else if (getEmployeeByName(currentDocument.getSubmittedBy(), currentDocument.getSubmittedBy().getName()) == null) {
-                context.addCallbackParam("valueRequired", true);
-                return;
-            } else if (getEmployeeByName(currentDocument.getResponsibleOfficer(), currentDocument.getResponsibleOfficer().getName()) == null) {
-                context.addCallbackParam("valueRequired", true);
-                return;
-            } else if (currentDocument.getDateReceived() == null) {
-                context.addCallbackParam("valueRequired", true);
-                return;
-            } else {
-                context.addCallbackParam("valueRequired", false);
-            }
+            try {
+                //saveLegalDocument(em, currentDocument);           
+                if (DocumentSequenceNumber.findDocumentSequenceNumber(em,
+                        currentDocument.getSequenceNumber(),
+                        currentDocument.getYearReceived(),
+                        currentDocument.getMonthReceived(),
+                        currentDocument.getType().getId()) == null) {
 
-            // get needed objects
-            // get objects
-            currentDocument.setType(DocumentType.findDocumentTypeById(em, currentDocument.getType().getId()));
-            //currentDocument.setResponsibleOfficer(jm.getEmployeeById(em, currentDocument.getResponsibleOfficer().getId()));
-            Employee responsibleOfficer = Employee.findEmployeeByName(em,
-                    currentDocument.getResponsibleOfficer().getFirstName(),
-                    currentDocument.getResponsibleOfficer().getLastName());
-            if (responsibleOfficer != null) {
-                currentDocument.setResponsibleOfficer(responsibleOfficer);
-            }
-            currentDocument.setResponsibleDepartment(Department.findDepartmentById(em, currentDocument.getResponsibleDepartment().getId()));
-            currentDocument.setRequestingDepartment(Department.findDepartmentById(em, currentDocument.getRequestingDepartment().getId()));
-            //currentDocument.setSubmittedBy(getEmployeeByName(currentDocument.getSubmittedBy(), currentDocument.getSubmittedBy().getName()));
-            Employee submittedBy = Employee.findEmployeeByName(em,
-                    currentDocument.getSubmittedBy().getFirstName(),
-                    currentDocument.getSubmittedBy().getLastName());
-            if (submittedBy != null) {
-                currentDocument.setSubmittedBy(submittedBy);
-            }
-            currentDocument.setClassification(Classification.findClassificationById(em, currentDocument.getClassification().getId()));
+                    currentDocument.setSequenceNumber(DocumentSequenceNumber.findNextDocumentSequenceNumber(em,
+                            currentDocument.getYearReceived(),
+                            currentDocument.getMonthReceived(),
+                            currentDocument.getType().getId()));
+                }
 
-            // save client and doc
-            em.getTransaction().begin();
-            // Get client from database if it exists
-            updateClient();
-            if (!currentDocument.getExternalClient().getName().trim().equals("")) {
-                BusinessEntityUtils.saveBusinessEntity(em, currentDocument.getExternalClient());
-            } else {
-                currentDocument.setExternalClient(null);
+                if (currentDocument.getAutoGenerateNumber()) {
+                    currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
+                }
+
+                // Do save, set clean and dismiss dialog
+                currentDocument.save(em);
+                currentDocument.setIsDirty(false);
+                PrimeFaces.current().executeScript("PF('documentDialog').hide();");
+                // documentDialog.hide();
+
+                // Redo search
+                doLegalDocumentSearch();
+
+            } catch (Exception e) {
+                System.out.println(e);
             }
-            saveLegalDocument(em, currentDocument);
-            em.getTransaction().commit();
-            // redo search
-            doLegalDocumentSearch();
-            // reset to first first doc tab
-            activeDocTabIndex = 0;
-            // add callback param
-            context.addCallbackParam("legalDocumentSaved", true);
-        } catch (Exception e) {
-            System.out.println(e);
-            context.addCallbackParam("legalDocumentSaved", false);
+        }
+        else {
+            PrimeFaces.current().executeScript("PF('documentDialog').hide();");
         }
     }
 
-    public LegalDocument saveLegalDocument(EntityManager em, LegalDocument legalDocument) {
-
-        // check if the current sequence number exist and assign a new sequence number if needed
-        if (DocumentSequenceNumber.findDocumentSequenceNumber(em,
-                legalDocument.getSequenceNumber(),
-                legalDocument.getYearReceived(),
-                legalDocument.getMonthReceived(),
-                legalDocument.getType().getId()) == null) {
-            legalDocument.setSequenceNumber(DocumentSequenceNumber.findNextDocumentSequenceNumber(em,
-                    legalDocument.getYearReceived(),
-                    legalDocument.getMonthReceived(),
-                    legalDocument.getType().getId()));
-        }
-        if (legalDocument.getAutoGenerateNumber()) {
-            legalDocument.setNumber(LegalDocument.getLegalDocumentNumber(legalDocument, "ED"));
-        }
-        BusinessEntityUtils.saveBusinessEntity(em, legalDocument);
-
-        return legalDocument;
-    }
-
+    // is this or the previous method needed? which one should be deleted
+//    public LegalDocument saveLegalDocument(EntityManager em, LegalDocument legalDocument) {
+//
+//        // Check if the current sequence number exist and assign a new sequence number if needed
+//        if (DocumentSequenceNumber.findDocumentSequenceNumber(em,
+//                legalDocument.getSequenceNumber(),
+//                legalDocument.getYearReceived(),
+//                legalDocument.getMonthReceived(),
+//                legalDocument.getType().getId()) == null) {
+//
+//            legalDocument.setSequenceNumber(DocumentSequenceNumber.findNextDocumentSequenceNumber(em,
+//                    legalDocument.getYearReceived(),
+//                    legalDocument.getMonthReceived(),
+//                    legalDocument.getType().getId()));
+//        }
+//
+//        if (legalDocument.getAutoGenerateNumber()) {
+//            legalDocument.setNumber(LegalDocument.getLegalDocumentNumber(legalDocument, "ED"));
+//        }
+//
+//        BusinessEntityUtils.saveBusinessEntity(em, legalDocument);
+//
+//        return legalDocument;
+//    }
     public List<String> completeTypeName(String query) {
 
         try {
@@ -457,19 +322,8 @@ public class LegalDocumentManager implements Serializable {
 
     }
 
-    public void updateSubmittebBy(SelectEvent event) {
-    }
-
-    public void updateOfficerResponsible(SelectEvent event) {
-    }
-
-    public void updateType(SelectEvent event) {
-    }
-
-    public void updateCode(SelectEvent event) {
-    }
-
-    public void updateClient(SelectEvent event) {
+    public void updateDocumentType(SelectEvent event) {
+        getCurrentDocumentType().setIsDirty(true);
     }
 
     public void editClient() {
@@ -477,10 +331,6 @@ public class LegalDocumentManager implements Serializable {
             currentDocument.setExternalClient(new Client(""));
             currentDocument.getExternalClient().setInternet(new Internet());
         }
-    }
-
-    public void updateClient() {
-        updateClient(null);
     }
 
     public void saveClient(ActionEvent actionEvent) {
@@ -537,31 +387,22 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void updateDocument() {
+
         if (currentDocument.getAutoGenerateNumber()) {
-            // tk doc # to be created and implemented as an interface
             currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
         }
-    }
 
-    public void updateDeliveryDate() {
-    }
-
-    public void updateExpectedDeliveryDate() {
+        getCurrentDocument().setIsDirty(true);
     }
 
     public void updateDateReceived() {
         Calendar c = Calendar.getInstance();
 
-        // set new month received
         c.setTime(currentDocument.getDateReceived());
         currentDocument.setMonthReceived(c.get(Calendar.MONTH));
         currentDocument.setYearReceived(c.get(Calendar.YEAR));
-        if (currentDocument.getAutoGenerateNumber()) {
-            currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
-        }
-    }
 
-    public void updateAutoGenerateNumber() {
+        updateDocument();
     }
 
     public void updateDepartmentResponsible() {
@@ -574,20 +415,6 @@ public class LegalDocumentManager implements Serializable {
         }
     }
 
-    public void updateResquestingDepartment() {
-    }
-
-    /**
-     * Updates the document type and then update the document number which is
-     * partly based on the document type.
-     */
-    public void updateDocumentType() {
-
-        if (currentDocument.getAutoGenerateNumber()) {
-            currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
-        }
-    }
-
     public void updateDocumentReport() {
         if (documentReport.getId() != null) {
             documentReport = DocumentReport.findDocumentReportById(getEntityManager(), documentReport.getId());
@@ -595,19 +422,8 @@ public class LegalDocumentManager implements Serializable {
         }
     }
 
-    public void updateDocumentForm() {
-        if (currentDocument.getAutoGenerateNumber()) {
-            currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
-        }
-    }
-
-    // tk seriously change this code and use current method for creating new object
-    // Could use new department creation as example.
     public void createNewLegalDocument(ActionEvent action) {
-        selectedDocumentId = currentDocument.getId();
         currentDocument = createNewLegalDocument(getEntityManager(), getUser());
-
-        activeDocTabIndex = 0;
     }
 
     public void documentDialogReturn() {
@@ -683,15 +499,6 @@ public class LegalDocumentManager implements Serializable {
         return department;
     }
 
-    public void fetchDepartment(ActionEvent action) {
-    }
-
-    public void fetchEmployee(ActionEvent action) {
-    }
-
-    public void exportDocumentReportTable() {
-    }
-
     public LegalDocument getCurrentDocument() {
         if (currentDocument == null) {
             currentDocument = createNewLegalDocument(getEntityManager(), getUser());
@@ -699,7 +506,7 @@ public class LegalDocumentManager implements Serializable {
 
         return currentDocument;
     }
-    
+
     public void setTargetDocument(LegalDocument legalDocument) {
         currentDocument = legalDocument;
     }
@@ -736,14 +543,6 @@ public class LegalDocumentManager implements Serializable {
         this.documentSearchResultList = documentSearchResultList;
     }
 
-    public Tab getActiveTab() {
-        return activeTab;
-    }
-
-    public void setActiveTab(Tab activeTab) {
-        this.activeTab = activeTab;
-    }
-
     public String getDateSearchField() {
         return dateSearchField;
     }
@@ -758,14 +557,6 @@ public class LegalDocumentManager implements Serializable {
 
     public void setSearchText(String searchText) {
         this.searchText = searchText;
-    }
-
-    public Long getSelectedDocumentId() {
-        return selectedDocumentId;
-    }
-
-    public void setSelectedDocumentId(Long selectedDocumentId) {
-        this.selectedDocumentId = selectedDocumentId;
     }
 
     public String getSearchType() {
@@ -796,7 +587,6 @@ public class LegalDocumentManager implements Serializable {
 
         EntityManager em = getEntityManager();
 
-//        if (activeTabIndex == 0) {
         if (searchText != null) {
             documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
                     dateSearchField, searchType, searchText.trim(),
@@ -840,22 +630,6 @@ public class LegalDocumentManager implements Serializable {
         openDocumentBrowser();
     }
 
-    public int getActiveTabIndex() {
-        return activeTabIndex;
-    }
-
-    public String getActiveTabForm() {
-        return activeTabForm;
-    }
-
-    public void setActiveTabForm(String activeTabForm) {
-        this.activeTabForm = activeTabForm;
-    }
-
-    public void setActiveTabIndex(int activeTabIndex) {
-        this.activeTabIndex = activeTabIndex;
-    }
-
     public JobManager getJobManager() {
         if (jobManager == null) {
             jobManager = Application.findBean("jobManager");
@@ -880,9 +654,8 @@ public class LegalDocumentManager implements Serializable {
         HSSFSheet sheet = wb.getSheetAt(0);
         // get columns row
         int numCols = sheet.getRow(0).getPhysicalNumberOfCells();
-//        // create heading row
+        // create heading row
         sheet.shiftRows(0, sheet.getLastRowNum(), 1);
-//        sheet.createRow(0);
 
         HSSFRow header = sheet.getRow(0);
         HSSFFont headerFont = wb.createFont();
@@ -910,8 +683,6 @@ public class LegalDocumentManager implements Serializable {
         // Column setup
         // get columns row
         HSSFRow cols = sheet.getRow(1);
-//        HSSFRow cols = sheet.getRow(0);
-
         HSSFCellStyle cellStyle = wb.createCellStyle();
         cellStyle.setFillForegroundColor(HSSFColor.YELLOW.index);
         cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
@@ -919,14 +690,12 @@ public class LegalDocumentManager implements Serializable {
         // set columns widths
         for (int i = 0; i < cols.getPhysicalNumberOfCells(); i++) {
 
-            //if (i != 2) { // if not particulars column
             sheet.autoSizeColumn(i);
-            //} else {
+
             if (sheet.getColumnWidth(i) > 15000) {
                 sheet.setColumnWidth(i, 15000);
             }
 
-            //}
         }
         // set columns cell style
         for (int i = 0; i < cols.getPhysicalNumberOfCells(); i++) {

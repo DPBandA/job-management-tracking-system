@@ -13,10 +13,10 @@ Modules for next release: Job Management, Legal Office, Client Management
   * Make use of growl and not javascript base messaging.
   * Allow entering new classification with the a category. Update JM to get 
     classificatons based on category.
+  * "Merge" reporting tab with the general reporting feature.
+  * Put license info on top of files.
 - Client Management Module:
   * Impl dashboard with "New" and "Tools" menu.
-- Deactivate [Error - select Bureau... clients
-- Send email to NCRA re feedback on email sent re docs.
 - Do report showing unapproved job costings.
 - Get jasper reports plugin for Yuval.
 - Update the service contract template with the new control number (MKTG_F_01/04) 
@@ -36,6 +36,7 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Train Customer Service/Finance/Engineering/Legal Office.
 
 ## Next release (May 24-25, 2018)
+- Send email to NCRA re feedback on email sent re docs.
 - "--" departments are being created delete them and find reason why it is happening.
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
   stealth url forwarding. Use the technique from zoneedit.
