@@ -7,8 +7,6 @@ Modules for next release: Job Management, Legal Office, Client Management
   * Impl saving form validation of all required form fields. Use growl where required.
   * Implement adding new and editing existing documents. Ensure that fields
     such as Responsible Department and Officer are filled out.
-  * Impl isDirty for all field updates. Delete update*() methods and use updateDocument()
-    where required. Call setIsDirty() in the method.
   * Address "Legal/Task Module/Management" issue.
   * Make use of growl and not javascript base messaging.
   * Allow entering new classification with the a category. Update JM to get 
