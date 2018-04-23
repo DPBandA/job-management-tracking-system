@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left">
             <p:commandButton value="Ok"
                              actionListener="#{legalDocumentManager.saveCurrentLegalDocument}"
-                             update=":typeGroupDialogForm"
+                             update="document_dialog_growl"
                              title="Save and close"
                              onstart="PF('longProcessDialogVar').show();"  
                              oncomplete="PF('longProcessDialogVar').hide();"

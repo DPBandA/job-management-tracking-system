@@ -92,6 +92,30 @@ public class Application {
         themes.put("Dark Hive", "dark-hive");
     }
 
+    public List getDocumentStatuses() {
+        ArrayList statuses = new ArrayList();
+
+        statuses.add(new SelectItem("--", "--"));
+        statuses.add(new SelectItem("Clarification required", "Clarification required"));
+        statuses.add(new SelectItem("Completed", "Completed"));
+        statuses.add(new SelectItem("On target", "On target"));
+        statuses.add(new SelectItem("Transferred to Ministry", "Transferred to Ministry"));
+
+        return statuses;
+    }
+    
+    public List getPriorityLevels() {
+        ArrayList levels = new ArrayList();
+
+        levels.add(new SelectItem("--", "--"));
+        levels.add(new SelectItem("High", "High"));
+        levels.add(new SelectItem("Medium", "Medium"));
+        levels.add(new SelectItem("Low", "Low"));
+        levels.add(new SelectItem("Emergency", "Emergency"));
+
+        return levels;
+    }
+
     public List getDocumentForms() {
         ArrayList forms = new ArrayList();
 

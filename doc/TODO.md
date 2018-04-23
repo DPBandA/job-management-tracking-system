@@ -4,15 +4,11 @@ Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
 - Implement Legal Office module:
-  * Impl saving form validation of all required form fields. Use growl where required.
-  * Implement adding new and editing existing documents. Ensure that fields
-    such as Responsible Department and Officer are filled out.
-  * Address "Legal/Task Module/Management" issue.
-  * Make use of growl and not javascript base messaging.
-  * Allow entering new classification with the a category. Update JM to get 
+  * Impl entering classification category
+  * Allow entering new classification with a category. Update JM to get 
     classificatons based on category.
   * "Merge" reporting tab with the general reporting feature.
-  * Put license info on top of files.
+  * Address "Legal/Task Module/Management" issue.
 - Client Management Module:
   * Impl dashboard with "New" and "Tools" menu.
 - Do report showing unapproved job costings.

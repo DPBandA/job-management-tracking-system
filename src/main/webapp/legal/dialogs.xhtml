@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -32,8 +47,9 @@ and open the template in the editor.
                             <p:inputText value="#{legalDocumentManager.currentDocument.number}"
                                          id="currentDocumentNumber"
                                          title="#{legalDocumentManager.currentDocument.number}"
-                                         readonly="#{legalDocumentManager.currentDocument.autoGenerateNumber}"                                       
-                                         validatorMessage="Please enter a valid number" >
+                                         readonly="#{legalDocumentManager.currentDocument.autoGenerateNumber}"  >
+
+                                <f:validator validatorId="requiredFieldValidator" />
 
                                 <p:ajax event="change"                                        
                                         listener="#{legalDocumentManager.updateDocument}"
@@ -45,21 +61,21 @@ and open the template in the editor.
                                                      itemLabel="auto"
                                                      title="Enable/disable automatic number generation"
                                                      value="#{legalDocumentManager.currentDocument.autoGenerateNumber}">
-                                
+
                                 <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                         update=":documentDialogForm"
                                         process="@this"/>
-                                
+
                             </p:selectBooleanCheckbox>
                         </h:panelGroup>
 
                         <h:outputText value="Priority level:" style="font-weight: bold;" />
                         <p:selectOneMenu value="#{legalDocumentManager.currentDocument.priorityLevel}" >
-                            
+
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     process="@this" />
-                            
-                            <f:selectItems value="#{legalDocumentManager.priorityLevels}"/>
+
+                            <f:selectItems value="#{App.priorityLevels}"/>
                         </p:selectOneMenu>
 
                         <h:outputText value="Requesting department:" style="font-weight: bold;" />                       
@@ -230,34 +246,35 @@ and open the template in the editor.
                                         validator="businessEntityValidator"
                                         forceSelection="true"
                                         completeMethod="#{App.completeClassification}" >
-                            
+
                             <p:ajax event="itemSelect"                                                                  
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
-                            
+
                         </p:autoComplete>
 
                         <h:outputText value="Document form:" style="font-weight: bold;" />
                         <p:selectOneMenu value="#{legalDocumentManager.currentDocument.documentForm}" >
-                            
+
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     update="currentDocumentNumber"
                                     process="@this" />
-                            
+
                             <f:selectItems value="#{App.documentForms}" />
-                            
+
                         </p:selectOneMenu>
 
                         <h:outputText value="Date received:" style="font-weight: bold;" />
                         <p:calendar id="dateReceived"
                                     value="#{legalDocumentManager.currentDocument.dateReceived}"
+                                    readonlyInput="true"
                                     navigator="true"
                                     pattern="MMM dd, yyyy" >
-                            
+
                             <p:ajax event="dateSelect"
                                     update="actualTurnaroundTime,currentDocumentNumber"
                                     listener="#{legalDocumentManager.updateDateReceived}" />
-                            
+
                         </p:calendar>
 
                         <h:outputText value="Particulars:" style="font-weight: bold;" />
@@ -266,24 +283,26 @@ and open the template in the editor.
                                          rows="3"
                                          autoResize="false"
                                          style="width: 300px">
-                            
+
+                            <f:validator validatorId="requiredFieldValidator" />
+
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
-                            
+
                         </p:inputTextarea>
 
-                        <h:outputText value="Nature of request:" style="font-weight: bold;" />
+                        <h:outputText value="Nature of request:" />
                         <p:inputTextarea value="#{legalDocumentManager.currentDocument.workPerformedOnDocument}"
                                          id="workPerformedOnDocument"
                                          rows="3"
                                          autoResize="false"
                                          style="width: 300px">
-                            
+
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
-                            
+
                         </p:inputTextarea>
 
                         <h:outputText value="Strategic Goal:" />
@@ -292,11 +311,11 @@ and open the template in the editor.
                                          rows="3"
                                          autoResize="false"
                                          style="width: 300px">
-                            
+
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
-                            
+
                         </p:inputTextarea>
 
                     </h:panelGrid>
@@ -335,81 +354,86 @@ and open the template in the editor.
                                         itemLabel="#{officerResponsible.name}"
                                         itemValue="#{officerResponsible}"
                                         converter="employeeConverter"
+                                        validator="businessEntityValidator"
                                         forceSelection="true"
                                         completeMethod="#{App.completeEmployee}" >
-                            
+
                             <p:ajax event="itemSelect"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
-                            
+
                         </p:autoComplete>
 
-                        <h:outputText value="Agreed delivery date:" style="font-weight: bold;" />
+                        <h:outputText value="Agreed delivery date:" />
                         <p:calendar id="expectedDeliveryDate"
                                     value="#{legalDocumentManager.currentDocument.expectedDateOfCompletion}"
+                                    readonlyInput="true"
                                     navigator="true"
                                     pattern="MMM dd, yyyy" >
-                            
+
                             <p:ajax event="dateSelect"
                                     update=":documentDialogForm"
                                     listener="#{legalDocumentManager.updateDocument}" />
-                            
+
                         </p:calendar>
 
                         <h:outputText value="Delivery date:" />
                         <p:calendar id="deliveryDate"
                                     value="#{legalDocumentManager.currentDocument.dateOfCompletion}"
+                                    readonlyInput="true"
                                     navigator="true"
                                     pattern="MMM dd, yyyy" >
-                            
+
                             <p:ajax event="dateSelect"
                                     update="actualTurnaroundTime"
                                     listener="#{legalDocumentManager.updateDocument}" />
-                            
+
                         </p:calendar>
 
-                        <h:outputText value="Set turnaround time (days):" style="font-weight: bold;" />
+                        <h:outputText value="Set turnaround time (days):" />
                         <p:inputText value="#{legalDocumentManager.currentDocument.turnAroundTime}"
-                                     converter="javax.faces.Integer"
-                                     validatorMessage="Please enter a valid turnaround time" >
-                            
+                                     converterMessage="Invalid Turnaround Time (TAT)" 
+                                     validator="turnaroundTimeValidator" >
+
+                            <f:attribute name="tatRequired" value="#{false}" />
+
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
-                            
+
                         </p:inputText>
 
-                        <h:outputText value="Actual turnaround time (days):" style="font-weight: bold;" />
+                        <h:outputText value="Actual turnaround time (days):" />
                         <p:inputText value="#{legalDocumentManager.currentDocument.currentDocumentTurnaroundTime}"
                                      id="actualTurnaroundTime"
                                      style="background-color: lightgray"
                                      readonly="true" >
-                            
+
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
-                            
+
                         </p:inputText>
 
                         <h:outputText value="Status:" />                       
                         <p:selectOneMenu value="#{legalDocumentManager.currentDocument.status}"
                                          style="width: 100%;" >
-                            
+
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     process="@this" />
-                            
-                            <f:selectItems value="#{legalDocumentManager.statuses}"/>
-                            
+
+                            <f:selectItems value="#{App.documentStatuses}"/>
+
                         </p:selectOneMenu>
 
                         <h:outputText value="Comment:" />
                         <p:inputTextarea value="#{legalDocumentManager.currentDocument.comments}"
                                          style="width: 300px">
-                            
+
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
-                            
+
                         </p:inputTextarea>
 
                     </h:panelGrid>
@@ -417,7 +441,7 @@ and open the template in the editor.
             </p:tabView>
 
             <ui:include src="documentDialogToolbar.xhtml" />
-            
+
             <p/>
         </h:form>
     </p:dialog>
