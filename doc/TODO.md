@@ -4,13 +4,17 @@ Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
 - Implement Legal Office module:
-  * Impl entering classification category
-  * Allow entering new classification with a category. Update JM to get 
-    classificatons based on category.
   * "Merge" reporting tab with the general reporting feature.
   * Address "Legal/Task Module/Management" issue.
+- Impl complete method in JM that gets classifications with "Job" category.
+  Deploy the beta and change existing categories to "Job".
 - Client Management Module:
   * Impl dashboard with "New" and "Tools" menu.
+- Remove PF('longProcessDialogVar').hide(); from dialog return and put it in
+  "onstart"
+- Make key dialogs such as jobDialog closeable.
+- Search for employees that are assigned to Customer Service and remove them.
+  Let search include search for department.
 - Do report showing unapproved job costings.
 - Get jasper reports plugin for Yuval.
 - Update the service contract template with the new control number (MKTG_F_01/04) 

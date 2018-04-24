@@ -43,7 +43,9 @@ Email: info@dpbennett.com.jm
                 <p:ajax                        
                     listener="#{searchManager.updateDateField}"
                     process="@this" />
+                
                 <f:selectItems value="#{searchManager.currentSearchParameters.searchDateFields}" />
+                
             </p:selectOneMenu>
 
             <h:outputText value="Date period: " rendered="#{searchManager.currentSearchParameters.showDateField}"/>               

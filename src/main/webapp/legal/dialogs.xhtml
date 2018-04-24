@@ -30,6 +30,7 @@ Email: info@dpbennett.com.jm
               modal="true"
               widgetVar="documentDialog"
               header="Document Detail">
+        
         <h:form id="documentDialogForm">
 
             <p:growl id="document_dialog_growl" life="5000" showDetail="true" />
@@ -203,9 +204,9 @@ Email: info@dpbennett.com.jm
 
                             </p:autoComplete>
                             <p:spacer height="0" width="4"/>                           
-                            <p:menuButton icon="ui-icon-pencil" >
+                            <p:menuButton icon="ui-icon-pencil" title="Edit or add new type">
                                 <p:menuitem>                       
-                                    <p:commandButton value="Edit type"
+                                    <p:commandButton value="Edit"
                                                      icon="ui-icon-pencil" 
                                                      style="width: 100%;text-align: left;background: none;border: 0;"
                                                      onstart="PF('longProcessDialogVar').show();"  
@@ -218,7 +219,7 @@ Email: info@dpbennett.com.jm
                                 </p:menuitem>                                
                                 <p:menuitem >       
                                     <p:commandButton 
-                                        value="Add new type"
+                                        value="New"
                                         icon="ui-icon-plus" 
                                         style="width: 100%;text-align: left;background: none;border: 0;"
                                         onstart="PF('longProcessDialogVar').show();" 
@@ -233,25 +234,65 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:outputText value="Classification:" style="font-weight: bold;" />
-                        <p:autoComplete dropdown="true"
-                                        var="classification"
-                                        id="classification"
-                                        styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
-                                        size="35"
-                                        maxlength="40"
-                                        value="#{legalDocumentManager.currentDocument.classification}"
-                                        itemLabel="#{classification.name}"                        
-                                        itemValue="#{classification}"                        
-                                        converter="classificationConverter"
-                                        validator="businessEntityValidator"
-                                        forceSelection="true"
-                                        completeMethod="#{App.completeClassification}" >
+                        <h:panelGroup>
+                            <p:autoComplete dropdown="true"
+                                            var="classification"
+                                            id="classification"
+                                            styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
+                                            size="35"
+                                            maxlength="40"
+                                            value="#{legalDocumentManager.currentDocument.classification}"
+                                            itemLabel="#{classification.name}"                        
+                                            itemValue="#{classification}"                        
+                                            converter="classificationConverter"
+                                            validator="businessEntityValidator"
+                                            forceSelection="true"
+                                            completeMethod="#{legalDocumentManager.completeClassification}" >
 
-                            <p:ajax event="itemSelect"                                                                  
-                                    listener="#{legalDocumentManager.updateDocument}"
-                                    process="@this"/>
+                                <p:ajax event="itemSelect"                                                                  
+                                        listener="#{legalDocumentManager.updateDocument}"
+                                        process="@this"/>
 
-                        </p:autoComplete>
+                            </p:autoComplete>
+                            <p:spacer height="0" width="4"/>                           
+                            <p:menuButton icon="ui-icon-pencil" title="Edit or add new classification">
+                                <p:menuitem>                       
+                                    <p:commandButton value="Edit"
+                                                     icon="ui-icon-pencil" 
+                                                     style="width: 100%;text-align: left;background: none;border: 0;"
+                                                     onstart="PF('longProcessDialogVar').show();"  
+                                                     oncomplete="PF('longProcessDialogVar').hide();"
+                                                     actionListener="#{legalDocumentManager.editClassification}" 
+                                                     process="@this,classification"  
+                                                     title="Edit classification" >   
+
+                                        <p:ajax event="dialogReturn" 
+                                                oncomplete="PF('longProcessDialogVar').hide();"
+                                                listener="#{legalDocumentManager.classificationDialogReturn}"
+                                                update="classification" />
+
+                                    </p:commandButton>
+                                </p:menuitem>                                
+                                <p:menuitem >       
+                                    <p:commandButton 
+                                        value="New"
+                                        icon="ui-icon-plus" 
+                                        style="width: 100%;text-align: left;background: none;border: 0;"
+                                        onstart="PF('longProcessDialogVar').show();" 
+                                        oncomplete="PF('longProcessDialogVar').hide();"
+                                        actionListener="#{legalDocumentManager.createNewClassification}"                                            
+                                        process="@this"
+                                        title="Add a new classification">
+
+                                        <p:ajax event="dialogReturn" 
+                                                oncomplete="PF('longProcessDialogVar').hide();"
+                                                listener="#{legalDocumentManager.classificationDialogReturn}"
+                                                update="classification" />
+
+                                    </p:commandButton>
+                                </p:menuitem>
+                            </p:menuButton>   
+                        </h:panelGroup>
 
                         <h:outputText value="Document form:" style="font-weight: bold;" />
                         <p:selectOneMenu value="#{legalDocumentManager.currentDocument.documentForm}" >

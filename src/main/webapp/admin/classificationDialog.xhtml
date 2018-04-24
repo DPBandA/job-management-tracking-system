@@ -63,13 +63,25 @@ Email: info@dpbennett.com.jm
                     <p:outputLabel for="classificationActive" value="Active:" />               
                     <p:selectBooleanCheckbox style="vertical-align: middle"
                                              id="classificationActive"
-                                             value="#{systemManager.selectedClassification.active}" />    
+                                             value="#{systemManager.selectedClassification.active}" /> 
+
+                    <h:outputText value="Category:" style="font-weight: bold;" />
+                    <p:selectOneMenu value="#{systemManager.selectedClassification.category}" 
+                                     id="classificationCategory" >
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                        <f:selectItems value="#{App.classificationCategories}"/>
+
+                    </p:selectOneMenu>
 
                     <h:outputText value="Name:" style="font-weight: bold;" />
                     <p:inputText value="#{systemManager.selectedClassification.name}"    
                                  id="classificationName"
                                  style="width:300px" >
+
                         <f:validator validatorId="requiredFieldValidator" />
+
                     </p:inputText> 
 
                     <h:outputText value="Description:" style="width: 50%;font-weight: bold;" />
@@ -79,9 +91,11 @@ Email: info@dpbennett.com.jm
                                       autoResize="false"
                                       rows="4"
                                       style="width:300px" >
+
                         <f:validator validatorId="requiredFieldValidator" />
+
                     </p:inputTextarea>  
-                    
+
                     <p:outputLabel for="earningsJob" value="For job earnings:" />               
                     <p:selectBooleanCheckbox style="vertical-align: middle"
                                              id="earningsJob"

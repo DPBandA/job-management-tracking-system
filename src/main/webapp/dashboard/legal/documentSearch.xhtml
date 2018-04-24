@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Date period: " />
             <p:selectOneMenu value="#{legalDocumentManager.datePeriod.name}" style="width: 90%;" >
                 <p:ajax update="legalDocStartSearchDate,legalDocEndSearchDate"
-                        listener="#{legalDocumentManager.changeSearchDatePeriod}"
+                        listener="#{legalDocumentManager.datePeriod.initDatePeriod}"
                         process="@this" />
                 <f:selectItems value="#{App.datePeriods}" />
             </p:selectOneMenu >

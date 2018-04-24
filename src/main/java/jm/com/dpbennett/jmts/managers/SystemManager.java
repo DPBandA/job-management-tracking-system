@@ -92,7 +92,6 @@ public class SystemManager implements Serializable {
     private Boolean isActiveBusinessesOnly;
     private Date startDate;
     private Date endDate;
-    //private Long selectedDocumentId;
     private JobManagerUser selectedUser;
     private JobManagerUser foundUser;
     // Search text
@@ -275,9 +274,6 @@ public class SystemManager implements Serializable {
 
     public DualListModel<Department> getDepartmentDualList() {
 
-        // tk build source and target based on all the existing departments
-        // and what alread exist in the business
-                
         List<Department> source = Department.findAllActiveDepartments(getEntityManager());
         List<Department> target = selectedBusiness.getDepartments();
         
@@ -450,7 +446,7 @@ public class SystemManager implements Serializable {
     }
 
     public Boolean getIsActiveBusinessesOnly() {
-        return true; // tk for now
+        return true;
     }
 
     public void setIsActiveDepartmentsOnly(Boolean isActiveDepartmentsOnly) {
@@ -688,10 +684,9 @@ public class SystemManager implements Serializable {
     }
 
     public void okDepartmentPickList() {
+      
+        getSelectedBusiness().setDepartments(departmentDualList.getTarget());
         
-       // tk 
-       getSelectedBusiness().setDepartments(departmentDualList.getTarget());
-       //getSelectedBusiness().getDepartments().addAll(departmentDualList.getTarget());
     }
 
     public void setFoundDepartments(List<Department> foundDepartments) {
@@ -882,18 +877,6 @@ public class SystemManager implements Serializable {
             getMainTabView().addTab(getEntityManager(), "System Administration", true);
         }
 
-//        else {
-//            if (isLoggedInUsersOnly) {
-//                List<JobManagerUser> loggedInUsers = new ArrayList<>();
-//                for (JobManagerUser jmuser : foundUsers) {
-//                    if (jmuser.isLoggedIn()) {
-//                        loggedInUsers.add(jmuser);
-//                    }
-//                }
-//                foundUsers.clear();
-//                foundUsers.addAll(loggedInUsers);
-//            }
-//        }
     }
 
     public String getFoundUser() {
@@ -937,7 +920,7 @@ public class SystemManager implements Serializable {
     }
 
     public void editClassification() {
-        PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 300, 600);
+        PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 325, 600);
     }
 
     public void editLdapContext() {
@@ -948,7 +931,7 @@ public class SystemManager implements Serializable {
         selectedLdapContext = new LdapContext();
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(5);");
 
         PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 450);
     }
@@ -1148,13 +1131,6 @@ public class SystemManager implements Serializable {
         }
     }
 
-//    public void updateSelectedEmployeeBusinessOffice() {
-//        if (selectedEmployee.getBusinessOffice().getId() != null) {
-//            selectedEmployee.setBusinessOffice(BusinessOffice.findBusinessOfficeById(getEntityManager(), selectedEmployee.getBusinessOffice().getId()));
-//        } else {  // try to get defaut
-//            selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(getEntityManager(), "--"));
-//        }
-//    }
     public void updateSelectedDepartmentHead() {
         if (selectedDepartment.getHead().getId() != null) {
             selectedDepartment.setHead(Employee.findEmployeeById(getEntityManager(), selectedDepartment.getHead().getId()));
@@ -1191,32 +1167,6 @@ public class SystemManager implements Serializable {
         }
     }
 
-//    public void updateUserCanEditJob() {
-//
-//        if (selectedUser.getPrivilege().getCanEditJob()) {
-//            selectedUser.getPrivilege().setCanEditDepartmentJob(true);
-//            selectedUser.getPrivilege().setCanEditOwnJob(true);
-//        } else {
-//            selectedUser.getPrivilege().setCanEditDepartmentJob(false);
-//            selectedUser.getPrivilege().setCanEditOwnJob(false);
-//        }
-//
-//    }
-//    public void updateUserCanEnterJob() {
-//
-//        if (selectedUser.getPrivilege().getCanEnterJob()) {
-//            selectedUser.getPrivilege().setCanEnterDepartmentJob(true);
-//            selectedUser.getPrivilege().setCanEnterOwnJob(true);
-//        } else {
-//            selectedUser.getPrivilege().setCanEnterDepartmentJob(false);
-//            selectedUser.getPrivilege().setCanEnterOwnJob(false);
-//        }
-//
-//        selectedUser.getPrivilege().setIsDirty(true);
-//    }
-//    public void updateCanEditDepartmentalJob() {
-//
-//    }
     public void updateCanEnterDepartmentJob() {
 
     }
@@ -1326,16 +1276,16 @@ public class SystemManager implements Serializable {
         selectedClassification = new Classification();
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
 
-        PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 300, 600);
+        PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 325, 600);
     }
 
     public void createNewJobCategory() {
         selectedJobCategory = new JobCategory();
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
 
         PrimeFacesUtils.openDialog(null, "jobCategoryDialog", true, true, true, 300, 500);
     }
@@ -1348,7 +1298,7 @@ public class SystemManager implements Serializable {
         selectedJobSubcategory = new JobSubCategory();
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
 
         PrimeFacesUtils.openDialog(null, "jobSubcategoryDialog", true, true, true, 300, 500);
     }
@@ -1361,7 +1311,7 @@ public class SystemManager implements Serializable {
         selectedSector = new Sector();
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
 
         PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 500);
     }
@@ -1378,8 +1328,7 @@ public class SystemManager implements Serializable {
         EntityManager em = getEntityManager();
 
         selectedEmployee = new Employee();
-        //selectedEmployee.setBusinessOffice(BusinessOffice.findDefaultBusinessOffice(em, "Head Office"));
-
+        
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
 
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
@@ -1391,7 +1340,7 @@ public class SystemManager implements Serializable {
         selectedSystemOption.setCategory("FINANCE");
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(5);");
 
         PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
     }
@@ -1453,13 +1402,6 @@ public class SystemManager implements Serializable {
         this.searchText = searchText;
     }
 
-//    public Long getSelectedDocumentId() {
-//        return selectedDocumentId;
-//    }
-//
-//    public void setSelectedDocumentId(Long selectedDocumentId) {
-//        this.selectedDocumentId = selectedDocumentId;
-//    }
     public Date getStartDate() {
         return startDate;
     }
@@ -1586,12 +1528,8 @@ public class SystemManager implements Serializable {
     }
 
     public void updateUserPrivilege(ValueChangeEvent event) {
-        //System.out.println("Yes: " + privilegeName);       
-        System.out.println(event.getComponent().getId());
-        System.out.println("val " + !((Boolean) getPrivilegeValue()).booleanValue());
     }
 
     public void handleUserDialogReturn() {
-        System.out.println("user dialog return");
     }
 }

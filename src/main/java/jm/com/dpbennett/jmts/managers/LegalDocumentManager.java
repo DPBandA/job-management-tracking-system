@@ -26,7 +26,6 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
-import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -75,12 +74,28 @@ public class LegalDocumentManager implements Serializable {
     private DocumentReport documentReport;
     private JobManager jobManager;
     private ClientManager clientManager;
+    private SystemManager systemManager;
 
     public LegalDocumentManager() {
         searchType = "General";
         dateSearchField = "dateReceived";
         datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         datePeriod.initDatePeriod();
+    }
+
+    public List<Classification> completeClassification(String query) {
+        EntityManager em = getEntityManager();
+
+        try {
+
+            List<Classification> classifications = Classification.findActiveClassificationsByNameAndCategory(em, query, "Legal");
+
+            return classifications;
+        } catch (Exception e) {
+
+            System.out.println(e);
+            return new ArrayList<>();
+        }
     }
 
     public DocumentType getCurrentDocumentType() {
@@ -106,6 +121,12 @@ public class LegalDocumentManager implements Serializable {
     public void externalClientDialogReturn() {
         if (getClientManager().getSelectedClient().getId() != null) {
             getCurrentDocument().setExternalClient(getClientManager().getSelectedClient());
+        }
+    }
+
+    public void classificationDialogReturn() {
+        if (getSystemManager().getSelectedClassification().getId() != null) {
+            getCurrentDocument().setClassification(getSystemManager().getSelectedClassification());
         }
     }
 
@@ -176,8 +197,22 @@ public class LegalDocumentManager implements Serializable {
         currentDocumentType = getCurrentDocument().getType();
     }
 
+    public void editClassification(ActionEvent actionEvent) {
+        getSystemManager().setSelectedClassification(getCurrentDocument().getClassification());
+
+        PrimeFacesUtils.openDialog(null, "/admin/classificationDialog", true, true, true, 325, 600);
+    }
+
     public void createNewDocumentType(ActionEvent actionEvent) {
         currentDocumentType = new DocumentType();
+    }
+
+    public void createNewClassification(ActionEvent actionEvent) {
+        getSystemManager().setSelectedClassification(new Classification());
+        getSystemManager().getSelectedClassification().setCategory("Legal");
+        getSystemManager().getSelectedClassification().setIsEarning(false);
+
+        PrimeFacesUtils.openDialog(null, "/admin/classificationDialog", true, true, true, 325, 600);
     }
 
     /**
@@ -483,6 +518,13 @@ public class LegalDocumentManager implements Serializable {
             jobManager = Application.findBean("jobManager");
         }
         return jobManager;
+    }
+
+    public SystemManager getSystemManager() {
+        if (systemManager == null) {
+            systemManager = Application.findBean("systemManager");
+        }
+        return systemManager;
     }
 
     public ClientManager getClientManager() {

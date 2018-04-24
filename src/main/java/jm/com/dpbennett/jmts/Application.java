@@ -91,6 +91,10 @@ public class Application {
         themes.put("Redmond", "redmond");
         themes.put("Dark Hive", "dark-hive");
     }
+    
+    public List getClassificationCategories() {
+        return Classification.getCategories();
+    }
 
     public List getDocumentStatuses() {
         ArrayList statuses = new ArrayList();
@@ -317,7 +321,7 @@ public class Application {
     }
 
     public List<BusinessOffice> completeBusinessOffice(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -333,7 +337,7 @@ public class Application {
     }
 
     public List<Department> completeDepartment(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -363,7 +367,7 @@ public class Application {
     }
 
     public List<Report> completeReport(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -411,7 +415,7 @@ public class Application {
     }
 
     public List<Employee> completeEmployee(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
 
@@ -752,7 +756,7 @@ public class Application {
     }
 
     public List<Classification> completeClassification(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -768,7 +772,7 @@ public class Application {
     }
 
     public ArrayList<String> completeCountry(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -784,7 +788,7 @@ public class Application {
     }
 
     public List<AccPacCustomer> completeAccPacClient(String query) {
-        EntityManager em2 = null;
+        EntityManager em2;
 
         try {
             em2 = getEntityManager2();
@@ -798,7 +802,7 @@ public class Application {
     }
 
     public List<String> completePreferenceValue(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -815,7 +819,7 @@ public class Application {
     }
 
     public List<String> getJobTableViews() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -832,7 +836,7 @@ public class Application {
     }
 
     public List<DepartmentUnit> completeDepartmentUnit(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -849,7 +853,7 @@ public class Application {
     }
 
     public List<Laboratory> completeLaboratory(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
