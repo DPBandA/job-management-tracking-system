@@ -121,6 +121,7 @@ public class SystemManager implements Serializable {
     private List<JobSubCategory> foundJobSubcategories;
     private List<Business> foundBusinesses;
     // Selected objects
+    private DocumentType selectedDocumentType;
     private Department selectedDepartment;
     private SystemOption selectedSystemOption;
     private Classification selectedClassification;
@@ -174,6 +175,14 @@ public class SystemManager implements Serializable {
         isActiveJobSubcategoriesOnly = true;
         isActiveSectorsOnly = true;
         isActiveLdapsOnly = true;
+    }
+
+    public DocumentType getSelectedDocumentType() {
+        return selectedDocumentType;
+    }
+
+    public void setSelectedDocumentType(DocumentType selectedDocumentType) {
+        this.selectedDocumentType = selectedDocumentType;
     }
 
     public MainTabView getMainTabView() {
@@ -935,6 +944,10 @@ public class SystemManager implements Serializable {
 
         PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 450);
     }
+    
+    public void openDocumentTypeDialog(String url) {
+        PrimeFacesUtils.openDialog(null, url, true, true, true, 175, 400);
+    }
 
     public void editDepartment() {
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
@@ -1007,6 +1020,10 @@ public class SystemManager implements Serializable {
     public void cancelDepartmentEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
+    
+    public void cancelDocumentTypeEdit(ActionEvent actionEvent) {
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
 
     public void cancelBusinessEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
@@ -1047,6 +1064,13 @@ public class SystemManager implements Serializable {
     public void saveSelectedDepartment() {
 
         selectedDepartment.save(getEntityManager());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
+    
+    public void saveSelectedDocumentType() {
+
+        selectedDocumentType.save(getEntityManager());
 
         PrimeFaces.current().dialog().closeDynamic(null);
     }

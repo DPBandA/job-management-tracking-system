@@ -92,6 +92,48 @@ public class Application {
         themes.put("Dark Hive", "dark-hive");
     }
     
+    public List<String> completeDocumentTypeName(String query) {
+
+        try {
+            List<DocumentType> types = DocumentType.findDocumentTypesByName(getEntityManager1(), query);
+            List<String> suggestions = new ArrayList<>();
+            if (types != null) {
+                if (!types.isEmpty()) {
+                    for (DocumentType type : types) {
+                        suggestions.add(type.getName());
+                    }
+                }
+            }
+
+            return suggestions;
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<String> completeDocumentTypeCode(String query) {
+
+        try {
+            List<DocumentType> types = DocumentType.findDocumentTypesByCode(getEntityManager1(), query);
+            List<String> suggestions = new ArrayList<>();
+            if (types != null) {
+                if (!types.isEmpty()) {
+                    for (DocumentType type : types) {
+                        suggestions.add(type.getCode());
+                    }
+                }
+            }
+
+            return suggestions;
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+    
     public List getClassificationCategories() {
         return Classification.getCategories();
     }

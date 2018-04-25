@@ -202,10 +202,24 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>jobCategoryDialog</from-outcome>
-            <to-view-id>/admin/jobCategoryDialog.xhtml</to-view-id>
+            <from-outcome>classificationDialog</from-outcome>
+            <to-view-id>/admin/classificationDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>documentTypeDialog</from-outcome>
+            <to-view-id>/admin/documentTypeDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>legalDocumentDialog</from-outcome>
+            <to-view-id>/admin/legalDocumentDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

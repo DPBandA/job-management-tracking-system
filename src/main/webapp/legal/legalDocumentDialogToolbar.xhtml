@@ -24,18 +24,20 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar>
         <p:toolbarGroup align="left">
-            
             <p:commandButton value="Ok"
-                             actionListener="#{legalDocumentManager.saveDocumentType}"
-                             oncomplete="documentTypeDialog.hide();"
-                             update=":documentDialogForm:docTabView:documentType,:documentDialogForm:docTabView:currentDocumentNumber"
+                             actionListener="#{legalDocumentManager.saveCurrentLegalDocument}"
+                             update="document_dialog_growl"
+                             title="Save and close"
+                             onstart="PF('longProcessDialogVar').show();"  
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              icon="ui-icon ui-icon-check"
                              process="@form"/>
             <p:spacer width="10" />
             <p:commandButton value="Cancel"
-                             oncomplete="documentTypeDialog.hide();"
-                             process="@this"
-                             icon="ui-icon ui-icon-close" /> 
+                             actionListener="#{legalDocumentManager.cancelDocumentEdit}"
+                             title="Cancel edit and close"
+                             type="button"
+                             icon="ui-icon ui-icon-close" />
 
         </p:toolbarGroup>
     </p:toolbar>

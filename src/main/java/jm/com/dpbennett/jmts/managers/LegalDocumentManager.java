@@ -70,7 +70,6 @@ public class LegalDocumentManager implements Serializable {
     private List<LegalDocument> documentSearchResultList;
     private LegalDocument selectedDocument;
     private LegalDocument currentDocument;
-    private DocumentType currentDocumentType;
     private DocumentReport documentReport;
     private JobManager jobManager;
     private ClientManager clientManager;
@@ -98,14 +97,6 @@ public class LegalDocumentManager implements Serializable {
         }
     }
 
-    public DocumentType getCurrentDocumentType() {
-        return currentDocumentType;
-    }
-
-    public void setCurrentDocumentType(DocumentType currentDocumentType) {
-        this.currentDocumentType = currentDocumentType;
-    }
-
     public Boolean getIsClientNameValid() {
         return BusinessEntityUtils.validateName(getCurrentDocument().getExternalClient().getName());
     }
@@ -127,6 +118,13 @@ public class LegalDocumentManager implements Serializable {
     public void classificationDialogReturn() {
         if (getSystemManager().getSelectedClassification().getId() != null) {
             getCurrentDocument().setClassification(getSystemManager().getSelectedClassification());
+        }
+    }
+
+    public void documentTypeDialogReturn() {
+        if (getSystemManager().getSelectedDocumentType().getId() != null) {
+            getCurrentDocument().setType(getSystemManager().getSelectedDocumentType());
+            updateDocument();
         }
     }
 
@@ -194,7 +192,9 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void editDocumentType(ActionEvent actionEvent) {
-        currentDocumentType = getCurrentDocument().getType();
+        
+        getSystemManager().setSelectedDocumentType(getCurrentDocument().getType());
+        getSystemManager().openDocumentTypeDialog("/admin/documentTypeDialog");
     }
 
     public void editClassification(ActionEvent actionEvent) {
@@ -203,38 +203,12 @@ public class LegalDocumentManager implements Serializable {
         PrimeFacesUtils.openDialog(null, "/admin/classificationDialog", true, true, true, 325, 600);
     }
 
-    public void createNewDocumentType(ActionEvent actionEvent) {
-        currentDocumentType = new DocumentType();
-    }
-
     public void createNewClassification(ActionEvent actionEvent) {
         getSystemManager().setSelectedClassification(new Classification());
         getSystemManager().getSelectedClassification().setCategory("Legal");
         getSystemManager().getSelectedClassification().setIsEarning(false);
 
         PrimeFacesUtils.openDialog(null, "/admin/classificationDialog", true, true, true, 325, 600);
-    }
-
-    /**
-     * Save update document number. If this is a new type set the document type
-     * to a "blank" type so he that the new type can be selected from the
-     * autocomplete component.
-     *
-     * @param actionEvent
-     */
-    public void saveDocumentType(ActionEvent actionEvent) {
-
-        if (getCurrentDocumentType().getId() == null) {
-            getCurrentDocumentType().save(getEntityManager());
-            currentDocument.setType(new DocumentType());
-        } else {
-            getCurrentDocumentType().save(getEntityManager());
-            currentDocument.setType(getCurrentDocumentType());
-        }
-
-        if (currentDocument.getAutoGenerateNumber()) {
-            currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
-        }
     }
 
     public void saveCurrentLegalDocument(ActionEvent actionEvent) {
@@ -262,7 +236,7 @@ public class LegalDocumentManager implements Serializable {
                 // Do save, set clean and dismiss dialog
                 currentDocument.save(em);
                 currentDocument.setIsDirty(false);
-                PrimeFaces.current().executeScript("PF('documentDialog').hide();");
+                //PrimeFaces.current().executeScript("PF('documentDialog').hide();");
 
                 // Redo search
                 doLegalDocumentSearch();
@@ -271,54 +245,8 @@ public class LegalDocumentManager implements Serializable {
                 System.out.println(e);
             }
         } else {
-            PrimeFaces.current().executeScript("PF('documentDialog').hide();");
+            //PrimeFaces.current().executeScript("PF('documentDialog').hide();");
         }
-    }
-
-    public List<String> completeTypeName(String query) {
-
-        try {
-            List<DocumentType> types = DocumentType.findDocumentTypesByName(getEntityManager(), query);
-            List<String> suggestions = new ArrayList<>();
-            if (types != null) {
-                if (!types.isEmpty()) {
-                    for (DocumentType type : types) {
-                        suggestions.add(type.getName());
-                    }
-                }
-            }
-
-            return suggestions;
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public List<String> completeCode(String query) {
-
-        try {
-            List<DocumentType> types = DocumentType.findDocumentTypesByCode(getEntityManager(), query);
-            List<String> suggestions = new ArrayList<>();
-            if (types != null) {
-                if (!types.isEmpty()) {
-                    for (DocumentType type : types) {
-                        suggestions.add(type.getCode());
-                    }
-                }
-            }
-
-            return suggestions;
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public void updateDocumentType(SelectEvent event) {
-        getCurrentDocumentType().setIsDirty(true);
     }
 
     public void updateDocument() {
@@ -359,6 +287,9 @@ public class LegalDocumentManager implements Serializable {
 
     public void createNewLegalDocument(ActionEvent action) {
         currentDocument = createNewLegalDocument(getEntityManager(), getUser());
+        
+        // tk open dialog
+        
     }
 
     public void documentDialogReturn() {

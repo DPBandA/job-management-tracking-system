@@ -4,8 +4,10 @@ Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
 - Implement Legal Office module:
-  * "Merge" reporting tab with the general reporting feature.
+  * Make LegalDocument dialog external
+  * Do search when search field is changed as is currently done?
   * Address "Legal/Task Module/Management" issue.
+  * "Merge" reporting tab with the general reporting feature. 
 - Impl complete method in JM that gets classifications with "Job" category.
   Deploy the beta and change existing categories to "Job".
 - Client Management Module:
@@ -13,6 +15,7 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Remove PF('longProcessDialogVar').hide(); from dialog return and put it in
   "onstart"
 - Make key dialogs such as jobDialog closeable.
+- Change logo.
 - Search for employees that are assigned to Customer Service and remove them.
   Let search include search for department.
 - Do report showing unapproved job costings.
