@@ -90,6 +90,10 @@ Email: info@dpbennett.com.jm
 
                         <f:setPropertyActionListener value="#{document}"
                                                      target="#{legalDocumentManager.currentDocument}" />
+                        
+                        <p:ajax event="dialogReturn" 
+                                listener="#{legalDocumentManager.documentDialogReturn}"
+                                update="documentTable,:headerForm:growl3" />
 
                     </p:commandButton>
                 </p:menuitem>                                

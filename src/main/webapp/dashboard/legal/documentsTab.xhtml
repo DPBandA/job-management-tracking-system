@@ -27,7 +27,8 @@ Email: info@dpbennett.com.jm
             <p:commandButton
                 actionListener="#{legalDocumentManager.createNewLegalDocument}"
                 global="true"                                        
-                onstart="PF('longProcessDialogVar').show();" 
+                onstart="PF('longProcessDialogVar').show();"                 
+                oncomplete="PF('longProcessDialogVar').hide();"
                 onerror="PF('connectionErrorDialog').show();"
                 value="New"       
                 update="headerForm:growl3"
@@ -36,8 +37,7 @@ Email: info@dpbennett.com.jm
                 process="@this" >
 
                 <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
-                        update=":mainTabViewForm:mainTabView"
+                        update=":mainTabViewForm:mainTabView,:headerForm:growl3"
                         listener="#{legalDocumentManager.documentDialogReturn}" />
 
             </p:commandButton>

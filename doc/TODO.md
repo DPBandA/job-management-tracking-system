@@ -3,10 +3,9 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Implement Legal Office module:
-  * Make LegalDocument dialog external
-  * Do search when search field is changed as is currently done?
-  * Address "Legal/Task Module/Management" issue.
+- Address "Legal/Task Module/Management" issue: 
+  * Automatically calculate and insert "Set turnaround time (days)" 
+  * Re-deploy jmtsbeta3 and enter new doc types into database.
   * "Merge" reporting tab with the general reporting feature. 
 - Impl complete method in JM that gets classifications with "Job" category.
   Deploy the beta and change existing categories to "Job".
@@ -33,8 +32,8 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Check all tooltips for correctness.
 - Release next version as jmtsbeta3 for training and testing. Add latest mysql driver
   and restart app server.
-- Do report and invoice.
-- Train Customer Service/Finance/Engineering/Legal Office.
+- Send email re changes and offer training where necessary. Send special email to
+  select persons in Finance.
 
 ## Next release (May 24-25, 2018)
 - Send email to NCRA re feedback on email sent re docs.

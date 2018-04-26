@@ -28,26 +28,32 @@ Email: info@dpbennett.com.jm
         <h:panelGrid columns="2" cellspacing="5">
             <h:outputText value="Search type: " />
             <p:selectOneMenu value="#{legalDocumentManager.searchType}" style="width: 90%;" >
+                
                 <p:ajax update="searchText"
                         global="false"
-                        listener="#{legalDocumentManager.updateSearchText}"
+                        listener="#{legalDocumentManager.updateSearch}"
                         process="@this" />
+                
                 <f:selectItems value="#{App.legalDocumentSearchTypes}" />
+                
             </p:selectOneMenu>
 
             <h:outputText value="Date field: " />
             <p:selectOneMenu value="#{legalDocumentManager.dateSearchField}" style="width: 90%;" >
+                
                 <p:ajax update="searchText"
                         global="false"
-                        listener="#{legalDocumentManager.updateSearchText}"
+                        listener="#{legalDocumentManager.updateSearch}"
                         process="@this" />
+                
                 <f:selectItems value="#{App.legalDocumentDateSearchFields}" />
+                
             </p:selectOneMenu>
 
             <h:outputText value="Date period: " />
             <p:selectOneMenu value="#{legalDocumentManager.datePeriod.name}" style="width: 90%;" >
                 <p:ajax update="legalDocStartSearchDate,legalDocEndSearchDate"
-                        listener="#{legalDocumentManager.datePeriod.initDatePeriod}"
+                        listener="#{legalDocumentManager.updateDatePeriodSearch}"
                         process="@this" />
                 <f:selectItems value="#{App.datePeriods}" />
             </p:selectOneMenu >

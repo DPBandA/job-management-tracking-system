@@ -126,13 +126,13 @@ Email: info@dpbennett.com.jm
                                                          icon="ui-icon-pencil" 
                                                          disabled="${!legalDocumentManager.isClientNameValid}"
                                                          style="width: 100%;text-align: left;background: none;border: 0;"
-                                                         onstart="PF('longProcessDialogVar').show();"                                     
+                                                         onstart="PF('longProcessDialogVar').show();"                                                           
+                                                         oncomplete="PF('longProcessDialogVar').hide();"
                                                          actionListener="#{legalDocumentManager.editExternalClient}"  
                                                          process="@this,client"                             
                                                          title="Edit this client's detail">  
 
                                             <p:ajax event="dialogReturn" 
-                                                    oncomplete="PF('longProcessDialogVar').hide();"
                                                     listener="#{legalDocumentManager.externalClientDialogReturn}"
                                                     update="client" />
 

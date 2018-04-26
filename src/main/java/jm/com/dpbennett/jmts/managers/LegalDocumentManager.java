@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
@@ -128,6 +129,12 @@ public class LegalDocumentManager implements Serializable {
         }
     }
 
+    public void documentDialogReturn() {
+        if (getCurrentDocument().getIsDirty()) {
+            PrimeFacesUtils.addMessage("Document NOT Saved!", "", FacesMessage.SEVERITY_WARN);
+        }
+    }
+
     public void createNewExternalClient() {
         getClientManager().createNewClient(true);
         getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
@@ -184,15 +191,17 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void cancelDocumentEdit(ActionEvent actionEvent) {
-        getCurrentDocument().setIsDirty(false);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
-    public void editDocument(ActionEvent actionEvent) {
+    public void editDocument() {
         getCurrentDocument().setIsDirty(false);
+
+        PrimeFacesUtils.openDialog(null, "/legal/legalDocumentDialog", true, true, true, true, 600, 575);
     }
 
     public void editDocumentType(ActionEvent actionEvent) {
-        
+
         getSystemManager().setSelectedDocumentType(getCurrentDocument().getType());
         getSystemManager().openDocumentTypeDialog("/admin/documentTypeDialog");
     }
@@ -236,7 +245,8 @@ public class LegalDocumentManager implements Serializable {
                 // Do save, set clean and dismiss dialog
                 currentDocument.save(em);
                 currentDocument.setIsDirty(false);
-                //PrimeFaces.current().executeScript("PF('documentDialog').hide();");
+
+                PrimeFaces.current().dialog().closeDynamic(null);
 
                 // Redo search
                 doLegalDocumentSearch();
@@ -245,7 +255,7 @@ public class LegalDocumentManager implements Serializable {
                 System.out.println(e);
             }
         } else {
-            //PrimeFaces.current().executeScript("PF('documentDialog').hide();");
+            PrimeFaces.current().dialog().closeDynamic(null);
         }
     }
 
@@ -287,13 +297,7 @@ public class LegalDocumentManager implements Serializable {
 
     public void createNewLegalDocument(ActionEvent action) {
         currentDocument = createNewLegalDocument(getEntityManager(), getUser());
-        
-        // tk open dialog
-        
-    }
-
-    public void documentDialogReturn() {
-        System.out.println("Doc dialog return...");
+        editDocument();
     }
 
     public void openDocumentBrowser() {
@@ -405,26 +409,21 @@ public class LegalDocumentManager implements Serializable {
         this.searchType = searchType;
     }
 
-    public void updateSearchText() {
+    public void updateSearch() {
         switch (searchType) {
             case "General":
                 doLegalDocumentSearch();
-                break;
-            case "My jobs":
-                if (getUser() != null) {
-                    searchText = getUser().getEmployee().getLastName() + ", " + getUser().getEmployee().getFirstName();
-                    doLegalDocumentSearch();
-                }
-                break;
-            case "My department's jobs":
-                if (getUser() != null) {
-                    searchText = getUser().getDepartment().getName();
-                    doLegalDocumentSearch();
-                }
-                break;
+                break;            
             default:
+                doLegalDocumentSearch();
                 break;
         }
+    }
+    
+    public void updateDatePeriodSearch() {
+        getDatePeriod().initDatePeriod();
+        
+        doLegalDocumentSearch();
     }
 
     public void doLegalDocumentSearch() {
