@@ -90,6 +90,7 @@ public class SystemManager implements Serializable {
     private Boolean isActiveSectorsOnly;
     private Boolean isActiveLdapsOnly;
     private Boolean isActiveBusinessesOnly;
+    private Boolean isActiveDocumentTypesOnly;
     private Date startDate;
     private Date endDate;
     private JobManagerUser selectedUser;
@@ -107,6 +108,7 @@ public class SystemManager implements Serializable {
     private String sectorSearchText;
     private String ldapSearchText;
     private String businessSearchText;
+    private String documentTypeSearchText;
     // Found object lists
     private List<JobManagerUser> foundUsers;
     private List<Employee> foundEmployees;
@@ -120,6 +122,7 @@ public class SystemManager implements Serializable {
     private List<DocumentStandard> foundDocumentStandards;
     private List<JobSubCategory> foundJobSubcategories;
     private List<Business> foundBusinesses;
+    private List<DocumentType> foundDocumentTypes;
     // Selected objects
     private DocumentType selectedDocumentType;
     private Department selectedDepartment;
@@ -170,11 +173,30 @@ public class SystemManager implements Serializable {
         classificationSearchText = "";
         sectorSearchText = "";
         ldapSearchText = "";
+        documentTypeSearchText = "";
         // Active flags
         isActiveJobCategoriesOnly = true;
         isActiveJobSubcategoriesOnly = true;
         isActiveSectorsOnly = true;
         isActiveLdapsOnly = true;
+        isActiveBusinessesOnly = true;
+        isActiveDocumentTypesOnly = true;
+    }
+
+    public Boolean getIsActiveDocumentTypesOnly() {
+        return isActiveDocumentTypesOnly;
+    }
+
+    public void setIsActiveDocumentTypesOnly(Boolean isActiveDocumentTypesOnly) {
+        this.isActiveDocumentTypesOnly = isActiveDocumentTypesOnly;
+    }
+
+    public String getDocumentTypeSearchText() {
+        return documentTypeSearchText;
+    }
+
+    public void setDocumentTypeSearchText(String documentTypeSearchText) {
+        this.documentTypeSearchText = documentTypeSearchText;
     }
 
     public DocumentType getSelectedDocumentType() {
@@ -285,7 +307,7 @@ public class SystemManager implements Serializable {
 
         List<Department> source = Department.findAllActiveDepartments(getEntityManager());
         List<Department> target = selectedBusiness.getDepartments();
-        
+
         source.removeAll(target);
 
         departmentDualList = new DualListModel<>(source, target);
@@ -455,7 +477,11 @@ public class SystemManager implements Serializable {
     }
 
     public Boolean getIsActiveBusinessesOnly() {
-        return true;
+        return isActiveBusinessesOnly;
+    }
+
+    public void setIsActiveBusinessesOnly(Boolean isActiveBusinessesOnly) {
+        this.isActiveBusinessesOnly = isActiveBusinessesOnly;
     }
 
     public void setIsActiveDepartmentsOnly(Boolean isActiveDepartmentsOnly) {
@@ -498,6 +524,18 @@ public class SystemManager implements Serializable {
     public void onPrivilegeValueChanged(ValueChangeEvent event) {
         System.out.println("Test" + event.getSource());
 
+    }
+
+    public List<DocumentType> getFoundDocumentTypes() {
+        if (foundDocumentTypes == null) {
+            foundDocumentTypes = DocumentType.findAllDocumentTypes(getEntityManager());
+        }
+
+        return foundDocumentTypes;
+    }
+
+    public void setFoundDocumentTypes(List<DocumentType> foundDocumentTypes) {
+        this.foundDocumentTypes = foundDocumentTypes;
     }
 
     public List<Sector> getFoundSectors() {
@@ -693,9 +731,9 @@ public class SystemManager implements Serializable {
     }
 
     public void okDepartmentPickList() {
-      
+
         getSelectedBusiness().setDepartments(departmentDualList.getTarget());
-        
+
     }
 
     public void setFoundDepartments(List<Department> foundDepartments) {
@@ -779,6 +817,13 @@ public class SystemManager implements Serializable {
 
         selectSystemAdminTab("dataListsTabViewVar", "Sectors", 4, 3);
 
+    }
+
+    public void doDocumentTypeSearch() {
+        
+        foundDocumentTypes = DocumentType.findDocumentTypesByName(getEntityManager(), getDocumentTypeSearchText());
+       
+        selectSystemAdminTab("dataListsTabViewVar", "Document types", 4, 4);
     }
 
     public void doJobCategorySearch() {
@@ -944,7 +989,7 @@ public class SystemManager implements Serializable {
 
         PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 450);
     }
-    
+
     public void openDocumentTypeDialog(String url) {
         PrimeFacesUtils.openDialog(null, url, true, true, true, 175, 400);
     }
@@ -1020,7 +1065,7 @@ public class SystemManager implements Serializable {
     public void cancelDepartmentEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
-    
+
     public void cancelDocumentTypeEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
@@ -1067,7 +1112,7 @@ public class SystemManager implements Serializable {
 
         PrimeFaces.current().dialog().closeDynamic(null);
     }
-    
+
     public void saveSelectedDocumentType() {
 
         selectedDocumentType.save(getEntityManager());
@@ -1274,6 +1319,7 @@ public class SystemManager implements Serializable {
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(0);");
 
         PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 430, 750);
     }
@@ -1283,6 +1329,7 @@ public class SystemManager implements Serializable {
         selectedDepartment = new Department();
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(2);");
 
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
     }
@@ -1292,6 +1339,7 @@ public class SystemManager implements Serializable {
         selectedBusiness = new Business();
 
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
 
         PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 700);
     }
@@ -1340,8 +1388,22 @@ public class SystemManager implements Serializable {
         PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 500);
     }
 
+    public void createNewDocumentType() {
+        selectedDocumentType = new DocumentType();
+
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
+
+        PrimeFacesUtils.openDialog(null, "documentTypeDialog", true, true, true, 275, 400);
+
+    }
+
     public void editSector() {
         PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 600);
+    }
+    
+    public void editDocumentType() {
+        openDocumentTypeDialog("documentTypeDialog");
     }
 
     public void createNewDocumentStandard() {
@@ -1349,11 +1411,11 @@ public class SystemManager implements Serializable {
     }
 
     public void createNewEmployee() {
-        EntityManager em = getEntityManager();
 
         selectedEmployee = new Employee();
-        
+
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
+        PrimeFaces.current().executeScript("PF('centerTabVar').select(1);");
 
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
     }

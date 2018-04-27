@@ -3,9 +3,10 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
+- Fix and test the tab select when "business entities" are created.
 - Address "Legal/Task Module/Management" issue: 
-  * Automatically calculate and insert "Set turnaround time (days)" 
-  * Re-deploy jmtsbeta3 and enter new doc types into database.
+  * Widen the legal doc dialog.
+  * Re-deploy jmtsbeta3 with document types tab and enter new doc types into database.
   * "Merge" reporting tab with the general reporting feature. 
 - Impl complete method in JM that gets classifications with "Job" category.
   Deploy the beta and change existing categories to "Job".

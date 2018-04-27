@@ -327,7 +327,7 @@ Email: info@dpbennett.com.jm
                                     pattern="MMM dd, yyyy" >
 
                             <p:ajax event="dateSelect"
-                                    update="actualTurnaroundTime,currentDocumentNumber"
+                                    update="actualTurnaroundTime,currentDocumentNumber,turnAroundTime"
                                     listener="#{legalDocumentManager.updateDateReceived}" />
 
                         </p:calendar>
@@ -427,6 +427,7 @@ Email: info@dpbennett.com.jm
                                     pattern="MMM dd, yyyy" >
 
                             <p:ajax event="dateSelect"
+                                    update="turnAroundTime"
                                     listener="#{legalDocumentManager.updateDocument}" />
 
                         </p:calendar>
@@ -446,7 +447,10 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Set turnaround time (days):" />
                         <p:inputText value="#{legalDocumentManager.currentDocument.turnAroundTime}"
+                                     id="turnAroundTime"
                                      converterMessage="Invalid Turnaround Time (TAT)" 
+                                     readonly="true"
+                                     styleClass="read-only-text-field"
                                      validator="turnaroundTimeValidator" >
 
                             <f:attribute name="tatRequired" value="#{false}" />
@@ -460,7 +464,7 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="Actual turnaround time (working days):" />
                         <p:inputText value="#{legalDocumentManager.currentDocument.currentDocumentTurnaroundTime}"
                                      id="actualTurnaroundTime"
-                                     style="background-color: lightgray"
+                                     styleClass="read-only-text-field"
                                      readonly="true" >
 
                             <p:ajax event="change"
@@ -470,8 +474,7 @@ Email: info@dpbennett.com.jm
                         </p:inputText>
 
                         <h:outputText value="Status:" />                       
-                        <p:selectOneMenu value="#{legalDocumentManager.currentDocument.status}"
-                                         style="width: 100%;" >
+                        <p:selectOneMenu value="#{legalDocumentManager.currentDocument.status}" >
 
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     process="@this" />
