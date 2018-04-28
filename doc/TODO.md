@@ -7,7 +7,9 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Address "Legal/Task Module/Management" issue: 
   * Widen the legal doc dialog.
   * Re-deploy jmtsbeta3 with document types tab and enter new doc types into database.
-  * "Merge" reporting tab with the general reporting feature. 
+  * "Merge" reporting tab with the general reporting feature. Impl the 
+    "Report Templates" tab in sys admin and add the "Legal" category field for
+    legal office reports.    
 - Impl complete method in JM that gets classifications with "Job" category.
   Deploy the beta and change existing categories to "Job".
 - Client Management Module:

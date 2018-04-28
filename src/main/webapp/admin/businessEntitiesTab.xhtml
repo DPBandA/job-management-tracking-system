@@ -24,7 +24,8 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
     <p:tabView id="dataListsTabView" 
-               widgetVar="dataListsTabViewVar"               
+               widgetVar="dataListsTabViewVar"       
+               scrollable="false"
                dynamic="true">                                         
         <p:tab title="Classifications">
             <ui:include src="classificationsTab.xhtml" />  
@@ -40,7 +41,16 @@ Email: info@dpbennett.com.jm
         </p:tab>     
         <p:tab title="Document types">
             <ui:include src="documentTypesTab.xhtml" />   
-        </p:tab>         
+        </p:tab>    
+        <p:tab title="Report templates">
+             
+        </p:tab> 
+        <p:tab title="Form templates">
+             
+        </p:tab>
+        <p:tab title="Letter templates">
+             
+        </p:tab>
     </p:tabView>         
 </html>
 
