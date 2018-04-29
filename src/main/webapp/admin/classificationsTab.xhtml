@@ -97,6 +97,13 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>                                           
         </p:column>   
 
+        <p:column headerText="Category">
+            <p:cellEditor>
+                <f:facet name="output"> <h:outputText value="#{classification.category}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{classification.category}" style="width:96%"/></f:facet>
+            </p:cellEditor>                                           
+        </p:column> 
+
         <p:column headerText="Description">
             <p:cellEditor>
                 <f:facet name="output"><h:outputText value="#{classification.description}" /></f:facet>

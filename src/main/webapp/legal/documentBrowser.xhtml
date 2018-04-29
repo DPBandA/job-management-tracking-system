@@ -82,15 +82,18 @@ Email: info@dpbennett.com.jm
                 <p:menuitem>                       
                     <p:commandButton value="View or edit"
                                      icon="ui-icon ui-icon-pencil" 
-                                     update=":documentDialogForm"
                                      style="width: 100%;text-align: left;background: none;border: 0;"                                    
                                      onstart="PF('longProcessDialogVar').show();"  
-                                     oncomplete="documentDialog.show();PF('longProcessDialogVar').hide();"
+                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      actionListener="#{legalDocumentManager.editDocument}" 
                                      process="@this" >      
 
                         <f:setPropertyActionListener value="#{document}"
                                                      target="#{legalDocumentManager.currentDocument}" />
+                        
+                        <p:ajax event="dialogReturn" 
+                                listener="#{legalDocumentManager.documentDialogReturn}"
+                                update="documentTable,:headerForm:growl3" />
 
                     </p:commandButton>
                 </p:menuitem>                                

@@ -91,6 +91,52 @@ public class Application {
         themes.put("Redmond", "redmond");
         themes.put("Dark Hive", "dark-hive");
     }
+    
+    public List<String> completeDocumentTypeName(String query) {
+
+        try {
+            List<DocumentType> types = DocumentType.findDocumentTypesByName(getEntityManager1(), query);
+            List<String> suggestions = new ArrayList<>();
+            if (types != null) {
+                if (!types.isEmpty()) {
+                    for (DocumentType type : types) {
+                        suggestions.add(type.getName());
+                    }
+                }
+            }
+
+            return suggestions;
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<String> completeDocumentTypeCode(String query) {
+
+        try {
+            List<DocumentType> types = DocumentType.findDocumentTypesByCode(getEntityManager1(), query);
+            List<String> suggestions = new ArrayList<>();
+            if (types != null) {
+                if (!types.isEmpty()) {
+                    for (DocumentType type : types) {
+                        suggestions.add(type.getCode());
+                    }
+                }
+            }
+
+            return suggestions;
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+    
+    public List getClassificationCategories() {
+        return Classification.getCategories();
+    }
 
     public List getDocumentStatuses() {
         ArrayList statuses = new ArrayList();
@@ -317,7 +363,7 @@ public class Application {
     }
 
     public List<BusinessOffice> completeBusinessOffice(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -333,7 +379,7 @@ public class Application {
     }
 
     public List<Department> completeDepartment(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -363,7 +409,7 @@ public class Application {
     }
 
     public List<Report> completeReport(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -411,7 +457,7 @@ public class Application {
     }
 
     public List<Employee> completeEmployee(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
 
@@ -752,7 +798,7 @@ public class Application {
     }
 
     public List<Classification> completeClassification(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -768,7 +814,7 @@ public class Application {
     }
 
     public ArrayList<String> completeCountry(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -784,7 +830,7 @@ public class Application {
     }
 
     public List<AccPacCustomer> completeAccPacClient(String query) {
-        EntityManager em2 = null;
+        EntityManager em2;
 
         try {
             em2 = getEntityManager2();
@@ -798,7 +844,7 @@ public class Application {
     }
 
     public List<String> completePreferenceValue(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -815,7 +861,7 @@ public class Application {
     }
 
     public List<String> getJobTableViews() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -832,7 +878,7 @@ public class Application {
     }
 
     public List<DepartmentUnit> completeDepartmentUnit(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -849,7 +895,7 @@ public class Application {
     }
 
     public List<Laboratory> completeLaboratory(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();

@@ -23,40 +23,35 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
-
-    <p:tabView id="centerTabView"   
-               widgetVar="centerTabVar"
+    <p:tabView id="dataListsTabView" 
+               widgetVar="dataListsTabViewVar"       
                scrollable="false"
-               dynamic="true">
-
-        <p:tab id="UsersTab" title="Users">
-            <ui:include src="usersTab.xhtml"/>  
+               dynamic="true">                                         
+        <p:tab title="Classifications">
+            <ui:include src="classificationsTab.xhtml" />  
         </p:tab>
-
-        <p:tab id="employeesTab" title="Employees">                  
-            <ui:include src="employeesTab.xhtml"/>    
+        <p:tab title="Job categories">
+            <ui:include src="jobCategoriesTab.xhtml" />
         </p:tab>
-
-        <p:tab id="departmentsTab" title="Departments">
-            <ui:include src="departmentsTab.xhtml"/>  
+        <p:tab title="Job subcategories">
+            <ui:include src="jobSubcategoriesTab.xhtml" />
         </p:tab>
-
-        <p:tab id="organizationsTab" title="Organizations">
-            <ui:include src="organizationsTab.xhtml"/>  
+        <p:tab title="Sectors">
+            <ui:include src="sectorsTab.xhtml" />   
+        </p:tab>     
+        <p:tab title="Document types">
+            <ui:include src="documentTypesTab.xhtml" />   
+        </p:tab>    
+        <p:tab title="Report templates">
+             
+        </p:tab> 
+        <p:tab title="Form templates">
+             
         </p:tab>
-
-        <p:tab id="dataListsTab" title="Business Entities">                                    
-            <ui:include src="businessEntitiesTab.xhtml"/>                          
+        <p:tab title="Letter templates">
+             
         </p:tab>
-
-        <p:tab id="systemOptionsTab" 
-               title="Configuration" 
-               rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}">
-            <ui:include src="systemOptionsTab.xhtml"/>   
-        </p:tab>
-
-    </p:tabView>
-
+    </p:tabView>         
 </html>
 
 

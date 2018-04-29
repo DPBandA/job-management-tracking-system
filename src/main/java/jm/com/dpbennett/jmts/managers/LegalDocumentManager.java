@@ -23,10 +23,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
-import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -71,10 +71,10 @@ public class LegalDocumentManager implements Serializable {
     private List<LegalDocument> documentSearchResultList;
     private LegalDocument selectedDocument;
     private LegalDocument currentDocument;
-    private DocumentType currentDocumentType;
     private DocumentReport documentReport;
     private JobManager jobManager;
     private ClientManager clientManager;
+    private SystemManager systemManager;
 
     public LegalDocumentManager() {
         searchType = "General";
@@ -83,12 +83,19 @@ public class LegalDocumentManager implements Serializable {
         datePeriod.initDatePeriod();
     }
 
-    public DocumentType getCurrentDocumentType() {
-        return currentDocumentType;
-    }
+    public List<Classification> completeClassification(String query) {
+        EntityManager em = getEntityManager();
 
-    public void setCurrentDocumentType(DocumentType currentDocumentType) {
-        this.currentDocumentType = currentDocumentType;
+        try {
+
+            List<Classification> classifications = Classification.findActiveClassificationsByNameAndCategory(em, query, "Legal");
+
+            return classifications;
+        } catch (Exception e) {
+
+            System.out.println(e);
+            return new ArrayList<>();
+        }
     }
 
     public Boolean getIsClientNameValid() {
@@ -106,6 +113,25 @@ public class LegalDocumentManager implements Serializable {
     public void externalClientDialogReturn() {
         if (getClientManager().getSelectedClient().getId() != null) {
             getCurrentDocument().setExternalClient(getClientManager().getSelectedClient());
+        }
+    }
+
+    public void classificationDialogReturn() {
+        if (getSystemManager().getSelectedClassification().getId() != null) {
+            getCurrentDocument().setClassification(getSystemManager().getSelectedClassification());
+        }
+    }
+
+    public void documentTypeDialogReturn() {
+        if (getSystemManager().getSelectedDocumentType().getId() != null) {
+            getCurrentDocument().setType(getSystemManager().getSelectedDocumentType());
+            updateDocument();
+        }
+    }
+
+    public void documentDialogReturn() {
+        if (getCurrentDocument().getIsDirty()) {
+            PrimeFacesUtils.addMessage("Document NOT Saved!", "", FacesMessage.SEVERITY_WARN);
         }
     }
 
@@ -165,41 +191,33 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void cancelDocumentEdit(ActionEvent actionEvent) {
-        getCurrentDocument().setIsDirty(false);
+        PrimeFaces.current().dialog().closeDynamic(null);
     }
 
-    public void editDocument(ActionEvent actionEvent) {
+    public void editDocument() {
         getCurrentDocument().setIsDirty(false);
+
+        PrimeFacesUtils.openDialog(null, "/legal/legalDocumentDialog", true, true, true, true, 600, 575);
     }
 
     public void editDocumentType(ActionEvent actionEvent) {
-        currentDocumentType = getCurrentDocument().getType();
+
+        getSystemManager().setSelectedDocumentType(getCurrentDocument().getType());
+        getSystemManager().openDocumentTypeDialog("/admin/documentTypeDialog");
     }
 
-    public void createNewDocumentType(ActionEvent actionEvent) {
-        currentDocumentType = new DocumentType();
+    public void editClassification(ActionEvent actionEvent) {
+        getSystemManager().setSelectedClassification(getCurrentDocument().getClassification());
+
+        PrimeFacesUtils.openDialog(null, "/admin/classificationDialog", true, true, true, 325, 600);
     }
 
-    /**
-     * Save update document number. If this is a new type set the document type
-     * to a "blank" type so he that the new type can be selected from the
-     * autocomplete component.
-     *
-     * @param actionEvent
-     */
-    public void saveDocumentType(ActionEvent actionEvent) {
+    public void createNewClassification(ActionEvent actionEvent) {
+        getSystemManager().setSelectedClassification(new Classification());
+        getSystemManager().getSelectedClassification().setCategory("Legal");
+        getSystemManager().getSelectedClassification().setIsEarning(false);
 
-        if (getCurrentDocumentType().getId() == null) {
-            getCurrentDocumentType().save(getEntityManager());
-            currentDocument.setType(new DocumentType());
-        } else {
-            getCurrentDocumentType().save(getEntityManager());
-            currentDocument.setType(getCurrentDocumentType());
-        }
-
-        if (currentDocument.getAutoGenerateNumber()) {
-            currentDocument.setNumber(LegalDocument.getLegalDocumentNumber(currentDocument, "ED"));
-        }
+        PrimeFacesUtils.openDialog(null, "/admin/classificationDialog", true, true, true, 325, 600);
     }
 
     public void saveCurrentLegalDocument(ActionEvent actionEvent) {
@@ -227,7 +245,8 @@ public class LegalDocumentManager implements Serializable {
                 // Do save, set clean and dismiss dialog
                 currentDocument.save(em);
                 currentDocument.setIsDirty(false);
-                PrimeFaces.current().executeScript("PF('documentDialog').hide();");
+
+                PrimeFaces.current().dialog().closeDynamic(null);
 
                 // Redo search
                 doLegalDocumentSearch();
@@ -236,54 +255,8 @@ public class LegalDocumentManager implements Serializable {
                 System.out.println(e);
             }
         } else {
-            PrimeFaces.current().executeScript("PF('documentDialog').hide();");
+            PrimeFaces.current().dialog().closeDynamic(null);
         }
-    }
-
-    public List<String> completeTypeName(String query) {
-
-        try {
-            List<DocumentType> types = DocumentType.findDocumentTypesByName(getEntityManager(), query);
-            List<String> suggestions = new ArrayList<>();
-            if (types != null) {
-                if (!types.isEmpty()) {
-                    for (DocumentType type : types) {
-                        suggestions.add(type.getName());
-                    }
-                }
-            }
-
-            return suggestions;
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public List<String> completeCode(String query) {
-
-        try {
-            List<DocumentType> types = DocumentType.findDocumentTypesByCode(getEntityManager(), query);
-            List<String> suggestions = new ArrayList<>();
-            if (types != null) {
-                if (!types.isEmpty()) {
-                    for (DocumentType type : types) {
-                        suggestions.add(type.getCode());
-                    }
-                }
-            }
-
-            return suggestions;
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public void updateDocumentType(SelectEvent event) {
-        getCurrentDocumentType().setIsDirty(true);
     }
 
     public void updateDocument() {
@@ -324,10 +297,7 @@ public class LegalDocumentManager implements Serializable {
 
     public void createNewLegalDocument(ActionEvent action) {
         currentDocument = createNewLegalDocument(getEntityManager(), getUser());
-    }
-
-    public void documentDialogReturn() {
-        System.out.println("Doc dialog return...");
+        editDocument();
     }
 
     public void openDocumentBrowser() {
@@ -439,26 +409,21 @@ public class LegalDocumentManager implements Serializable {
         this.searchType = searchType;
     }
 
-    public void updateSearchText() {
+    public void updateSearch() {
         switch (searchType) {
             case "General":
                 doLegalDocumentSearch();
-                break;
-            case "My jobs":
-                if (getUser() != null) {
-                    searchText = getUser().getEmployee().getLastName() + ", " + getUser().getEmployee().getFirstName();
-                    doLegalDocumentSearch();
-                }
-                break;
-            case "My department's jobs":
-                if (getUser() != null) {
-                    searchText = getUser().getDepartment().getName();
-                    doLegalDocumentSearch();
-                }
-                break;
+                break;            
             default:
+                doLegalDocumentSearch();
                 break;
         }
+    }
+    
+    public void updateDatePeriodSearch() {
+        getDatePeriod().initDatePeriod();
+        
+        doLegalDocumentSearch();
     }
 
     public void doLegalDocumentSearch() {
@@ -483,6 +448,13 @@ public class LegalDocumentManager implements Serializable {
             jobManager = Application.findBean("jobManager");
         }
         return jobManager;
+    }
+
+    public SystemManager getSystemManager() {
+        if (systemManager == null) {
+            systemManager = Application.findBean("systemManager");
+        }
+        return systemManager;
     }
 
     public ClientManager getClientManager() {

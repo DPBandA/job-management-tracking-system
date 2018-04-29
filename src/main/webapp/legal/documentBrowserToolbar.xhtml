@@ -25,12 +25,19 @@ Email: info@dpbennett.com.jm
     <p:toolbar>
         <p:toolbarGroup align="left">
             <p:commandButton value="New"
-                             update=":documentDialogForm"
                              actionListener="#{legalDocumentManager.createNewLegalDocument}"
+                             onstart="PF('longProcessDialogVar').show();"                 
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
                              title="Add a new document"
-                             oncomplete="documentDialog.show();"
                              icon="ui-icon ui-icon-plus"
-                             process="@this" />
+                             process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView,:headerForm:growl3"
+                        listener="#{legalDocumentManager.documentDialogReturn}" />
+
+            </p:commandButton>
         </p:toolbarGroup>
     </p:toolbar>
 

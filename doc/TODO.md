@@ -3,14 +3,23 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Implement Legal Office module:
-  * Impl entering classification category
-  * Allow entering new classification with a category. Update JM to get 
-    classificatons based on category.
-  * "Merge" reporting tab with the general reporting feature.
-  * Address "Legal/Task Module/Management" issue.
+- Fix and test the tab select when "business entities" are created.
+- Address "Legal/Task Module/Management" issue: 
+  * Widen the legal doc dialog.
+  * Re-deploy jmtsbeta3 with document types tab and enter new doc types into database.
+  * "Merge" reporting tab with the general reporting feature. Impl the 
+    "Report Templates" tab in sys admin and add the "Legal" category field for
+    legal office reports.    
+- Impl complete method in JM that gets classifications with "Job" category.
+  Deploy the beta and change existing categories to "Job".
 - Client Management Module:
   * Impl dashboard with "New" and "Tools" menu.
+- Remove PF('longProcessDialogVar').hide(); from dialog return and put it in
+  "onstart"
+- Make key dialogs such as jobDialog closeable.
+- Change logo.
+- Search for employees that are assigned to Customer Service and remove them.
+  Let search include search for department.
 - Do report showing unapproved job costings.
 - Get jasper reports plugin for Yuval.
 - Update the service contract template with the new control number (MKTG_F_01/04) 
@@ -26,8 +35,8 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Check all tooltips for correctness.
 - Release next version as jmtsbeta3 for training and testing. Add latest mysql driver
   and restart app server.
-- Do report and invoice.
-- Train Customer Service/Finance/Engineering/Legal Office.
+- Send email re changes and offer training where necessary. Send special email to
+  select persons in Finance.
 
 ## Next release (May 24-25, 2018)
 - Send email to NCRA re feedback on email sent re docs.
