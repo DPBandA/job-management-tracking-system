@@ -80,9 +80,9 @@ Email: info@dpbennett.com.jm
 
             <p:menuButton icon="ui-icon-pencil" title="Edit or delete">
                 <p:menuitem>                       
-                    <p:commandButton value="View or edit"
+                    <p:commandButton value="View or edit"                                  
                                      icon="ui-icon ui-icon-pencil" 
-                                     style="width: 100%;text-align: left;background: none;border: 0;"                                    
+                                     style="width: 300%;text-align: left;background: none;border: 0;"                                    
                                      onstart="PF('longProcessDialogVar').show();"  
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      actionListener="#{legalDocumentManager.editDocument}" 
@@ -90,18 +90,18 @@ Email: info@dpbennett.com.jm
 
                         <f:setPropertyActionListener value="#{document}"
                                                      target="#{legalDocumentManager.currentDocument}" />
-                        
+
                         <p:ajax event="dialogReturn" 
                                 listener="#{legalDocumentManager.documentDialogReturn}"
                                 update="documentTable,:headerForm:growl3" />
 
                     </p:commandButton>
-                </p:menuitem>                                
+                </p:menuitem>       
                 <p:menuitem >       
                     <p:commandButton 
                         value="Delete"
                         icon="ui-icon-trash" 
-                        style="width: 100%;text-align: left;background: none;border: 0;"
+                        style="width: 300%;text-align: left;background: none;border: 0;"
                         onclick="documentDeleteConfirm.show();" 
                         process="@this" >
 

@@ -90,14 +90,14 @@ Email: info@dpbennett.com.jm
             Classifications
         </f:facet>
 
-        <p:column headerText="Name">
+        <p:column headerText="Name" sortBy="#{classification.name}">
             <p:cellEditor>
                 <f:facet name="output"> <h:outputText value="#{classification.name}" /></f:facet>
                 <f:facet name="input"><p:inputText value="#{classification.name}" style="width:96%"/></f:facet>
             </p:cellEditor>                                           
         </p:column>   
 
-        <p:column headerText="Category">
+        <p:column headerText="Category" sortBy="#{classification.category}">
             <p:cellEditor>
                 <f:facet name="output"> <h:outputText value="#{classification.category}" /></f:facet>
                 <f:facet name="input"><p:inputText value="#{classification.category}" style="width:96%"/></f:facet>

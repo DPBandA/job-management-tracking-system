@@ -197,7 +197,7 @@ public class LegalDocumentManager implements Serializable {
     public void editDocument() {
         getCurrentDocument().setIsDirty(false);
 
-        PrimeFacesUtils.openDialog(null, "/legal/legalDocumentDialog", true, true, true, true, 600, 575);
+        PrimeFacesUtils.openDialog(null, "/legal/legalDocumentDialog", true, true, true, true, 600, 600);
     }
 
     public void editDocumentType(ActionEvent actionEvent) {

@@ -261,7 +261,7 @@ Email: info@dpbennett.com.jm
                             <p:menuitem>                       
                                 <p:commandButton   
                                     value="Edit"
-                                    style="width: 100%;text-align: left;background: none;border: 0;"
+                                    style="width: 300%;text-align: left;background: none;border: 0;"
                                     actionListener="#{financeManager.editCostComponent}"
                                     disabled="#{!costComponent.isEditable or financeManager.isJobCompleted}"
                                     update=":costingComponentDialogForm"
@@ -278,7 +278,7 @@ Email: info@dpbennett.com.jm
                             <p:menuitem >                       
                                 <p:commandButton   
                                     value="Delete"
-                                    style="width: 100%;text-align: left;background: none;border: 0;"
+                                    style="width: 300%;text-align: left;background: none;border: 0;"
                                     disabled="#{financeManager.isJobCompleted}"
                                     onclick="costComponentDeleteConfirm.show();"
                                     icon="ui-icon-trash"

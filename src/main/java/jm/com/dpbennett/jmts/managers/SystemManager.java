@@ -320,6 +320,9 @@ public class SystemManager implements Serializable {
     }
 
     public String getBusinessSearchText() {
+        if (businessSearchText == null) {
+            businessSearchText = "";
+        }
         return businessSearchText;
     }
 
@@ -820,9 +823,9 @@ public class SystemManager implements Serializable {
     }
 
     public void doDocumentTypeSearch() {
-        
+
         foundDocumentTypes = DocumentType.findDocumentTypesByName(getEntityManager(), getDocumentTypeSearchText());
-       
+
         selectSystemAdminTab("dataListsTabViewVar", "Document types", 4, 4);
     }
 
@@ -1401,7 +1404,7 @@ public class SystemManager implements Serializable {
     public void editSector() {
         PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 600);
     }
-    
+
     public void editDocumentType() {
         openDocumentTypeDialog("documentTypeDialog");
     }
