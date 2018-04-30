@@ -109,14 +109,12 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{employee.lastName}" />
         </p:column>
 
-        <ui:remove>
-            <p:column>
-                <f:facet name="header">
-                    <h:outputText value="Business Office"/>
-                </f:facet>
-                <h:outputText value="#{employee.businessOffice.name}" />
-            </p:column>
-        </ui:remove>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Department"/>
+            </f:facet>
+            <h:outputText value="#{employee.department.name}" />
+        </p:column>       
 
         <p:column style="width:32px">
             <p:commandButton title="View or edit employee"   

@@ -3,7 +3,6 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Impl employee search with department field.
 - Fix and test the tab select when "business entities" are created.
 - Address "Legal/Task Module/Management" issue: 
   * Widen the legal doc dialog.
