@@ -104,7 +104,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Job selectedJob;
     private Boolean dynamicTabView;
     private Boolean renderSearchComponent;
-    //private Boolean renderJobDetailTab;
     @ManagedProperty(value = "Jobs")
     private Integer longProcessProgress;
     private Boolean useAccPacCustomerList;
@@ -1095,25 +1094,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         user.save(getEntityManager1());
     }
 
-//    public void doJobViewUpdate(String view) {
-//
-//        switch (view) {
-//            case "Cashier View":
-//                getUser().setJobTableViewPreference("Cashier View");
-//                openJobBrowser();
-//                break;
-//            case "Job Costings":
-//                getUser().setJobTableViewPreference("Job Costings");
-//                openJobBrowser();
-//                break;
-//            case "Jobs":
-//                getUser().setJobTableViewPreference("Jobs");
-//                openJobBrowser();
-//                break;
-//            default:
-//                break;
-//        }
-//    }
     public void updateJobClassification() {
         EntityManager em = getEntityManager1();
 
@@ -1687,6 +1667,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return BusinessEntityUtils.validateText(currentJob.getBillingAddress().getName());
     }
 
+    /**
+     * NB: Message body and subject are to be obtained from a "template". The variables
+     * in the template are to be inserted where {variable} appears.
+     * @param job
+     * @return 
+     */
     public String getNewJobEmailMessage(Job job) {
         String message = "";
         DateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
@@ -1713,6 +1699,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return message;
     }
 
+    /**
+     * NB: Message body and subject are to be obtained from a "template". The variables
+     * in the template are to be inserted where {variable} appears.
+     * @param job
+     * @return 
+     */
     public String getUpdatedJobEmailMessage(Job job) {
         String message = "";
         DateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");

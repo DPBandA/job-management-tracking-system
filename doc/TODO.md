@@ -3,13 +3,9 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Change "Jobs" tab title to "Jobs View"
-- Address "Legal/Task Module/Management" issue: 
-  * "Merge" reporting tab with the general reporting feature. Impl the 
-    "Report Templates" tab in sys admin and add the "Legal" category field for
-    legal office reports.    
 - Client Management Module:
   * Impl dashboard with "New" and "Tools" menu.
+  * Change "Clients" and "Client Management" tabs to "Client Browser"?
 - Remove PF('longProcessDialogVar').hide(); from dialog return and put it in
   "onstart" and make all dialogs closeable.
 - Change logo.
@@ -25,6 +21,10 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Make sure discount is applied appropriately.
 - "Fixed Cost" is current used a discount type. Check how this is applied with
     the "new" system.
+- Address "Legal/Task Module/Management" issue: 
+  * "Merge" reporting tab with the general reporting feature. Impl the 
+    "Report Templates" tab in sys admin and add the "Legal" category field for
+    legal office reports.
 - Release next version as jmtsbeta3 for training and testing. Add latest mysql driver
   and restart app server.
 - Send email re changes and offer training where necessary. Send special email to
