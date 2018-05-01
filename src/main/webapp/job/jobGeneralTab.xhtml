@@ -101,7 +101,7 @@ Email: info@dpbennett.com.jm
                         converter="classificationConverter"
                         validator="businessEntityValidator"
                         forceSelection="true"
-                        completeMethod="#{App.completeClassification}" >
+                        completeMethod="#{App.completeJobClassification}" >
             <p:ajax event="itemSelect"                                                                  
                     listener="#{jobManager.updateJobClassification}"
                     update=":jobDialogForm:jobDetailToolbar1"

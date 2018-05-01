@@ -812,6 +812,22 @@ public class Application {
             return new ArrayList<>();
         }
     }
+    
+    public List<Classification> completeJobClassification(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<Classification> classifications = Classification.findActiveClassificationsByNameAndCategory(em, query, "Job");
+
+            return classifications;
+        } catch (Exception e) {
+
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
 
     public ArrayList<String> completeCountry(String query) {
         EntityManager em;
