@@ -3,6 +3,7 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
+- Change "Jobs" tab title to "Jobs View"
 - Address "Legal/Task Module/Management" issue: 
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
