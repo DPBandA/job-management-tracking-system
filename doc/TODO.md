@@ -96,7 +96,6 @@ Modules for next release: Job Management, Legal Office, Client Management
   Given all of them in Report table and delete the system options over time.
 - For all the costing dates, determine what should be the "Costing Date" or the 
   date that the costing is deemed to be completed.
-- Add clients tab to system admin main tab.
 - Merge the "edit/delete" buttons in contacts and address table in an "Actions"
   menu as is done for samples table.
 - Replace organizationName system option use with "Internal" Business class 
