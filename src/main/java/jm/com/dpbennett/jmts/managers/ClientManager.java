@@ -62,7 +62,7 @@ public class ClientManager implements Serializable {
     private Address selectedAddress;
     private String searchText;
     private List<Client> foundClients;
-    private MainTabView mainTabView;
+    //private MainTabView mainTabView;
     private JobManager jobManager;
 
     /**
@@ -77,6 +77,12 @@ public class ClientManager implements Serializable {
             jobManager = Application.findBean("jobManager");
         }
         return jobManager;
+    }
+
+    public void openClientsTab() {
+        setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        getJobManager().getMainTabView().addTab(getEntityManager(), "Clients", true);
+        getJobManager().getMainTabView().select("Clients");
     }
 
     private void init() {
@@ -282,24 +288,18 @@ public class ClientManager implements Serializable {
         setIsDirty(true);
     }
 
-    public void createNewClient(Boolean active) {
-        selectedClient = new Client("", active);
-    }
-
-    public void setMainTabView(MainTabView mainTabView) {
-        this.mainTabView = mainTabView;
-    }
-
-    public void closeClientsTab() {
-        mainTabView.addTab(getEntityManager(), "Clients", false);
-    }
-
     public void createNewClient() {
         createNewClient(true);
 
         setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
+        getJobManager().getMainTabView().addTab(getEntityManager(), "Clients", true);
+
         PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
+    }
+
+    public void createNewClient(Boolean active) {
+        selectedClient = new Client("", active);
     }
 
     public Boolean getIsDirty() {

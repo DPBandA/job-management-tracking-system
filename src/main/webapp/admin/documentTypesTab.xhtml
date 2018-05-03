@@ -29,7 +29,8 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new document type"                                  
                              value="New"
                              actionListener="#{systemManager.createNewDocumentType}"
-                             onstart="PF('longProcessDialogVar').show();"                             
+                             onstart="PF('longProcessDialogVar').show();"                                 
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:documentTypesTable"
                              global="true"
@@ -37,7 +38,6 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus" >
 
                 <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:documentTypesTable" />
 
             </p:commandButton>     
@@ -109,14 +109,14 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit document type"   
                              actionListener="#{systemManager.editDocumentType}"
-                             onstart="PF('longProcessDialogVar').show();"                             
+                             onstart="PF('longProcessDialogVar').show();"                                 
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
 
                 <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:documentTypesTable" />
 
                 <f:setPropertyActionListener value="#{documentType}"                                                                    

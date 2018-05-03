@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
         <h:outputLabel value="Job number: " style="font-weight: bold;font-size: 14px;" />
         <h:panelGroup>
             <h:panelGroup id="jobNumberGroup">
-                
+
                 <h:outputText id="jobNumber" 
                               rendered="#{jobManager.currentJob.autoGenerateJobNumber}"
                               value="#{jobManager.currentJob.jobNumber}" 
@@ -139,13 +139,13 @@ Email: info@dpbennett.com.jm
                                      icon="ui-icon-pencil" 
                                      disabled="${!jobManager.isClientNameValid}"
                                      style="width: 300%;text-align: left;background: none;border: 0;"
-                                     onstart="PF('longProcessDialogVar').show();"                                     
+                                     onstart="PF('longProcessDialogVar').show();"   
+                                     oncomplete="PF('longProcessDialogVar').hide();"                                  
                                      actionListener="#{jobManager.editJobClient}"  
                                      process="@this,client"                             
                                      title="View or edit this client's detail">  
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="PF('longProcessDialogVar').hide();"
                                 listener="#{jobManager.clientDialogReturn}"
                                 update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
 
@@ -157,21 +157,21 @@ Email: info@dpbennett.com.jm
                         value="Add new client"
                         icon="ui-icon-plus" 
                         style="width: 300%;text-align: left;background: none;border: 0;"
-                        onstart="PF('longProcessDialogVar').show();"                        
+                        onstart="PF('longProcessDialogVar').show();"    
+                        oncomplete="PF('longProcessDialogVar').hide();"                    
                         disabled="#{!jobManager.user.privilege.canAddClient}"
                         actionListener="#{jobManager.createNewJobClient}"                                            
                         process="@this"
                         title="Add a new client to the client database">
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="PF('longProcessDialogVar').hide();"
                                 listener="#{jobManager.clientDialogReturn}"
                                 update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
 
                     </p:commandButton>
                 </p:menuitem>
             </p:menuButton>      
-            
+
         </h:panelGroup>
 
         <h:outputText value="Billing address:" style="font-weight: bold" />    
@@ -338,12 +338,12 @@ Email: info@dpbennett.com.jm
                     listener="#{jobManager.updateJob}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
-            
+
             <p:ajax event="itemUnselect"
                     listener="#{jobManager.updateJob}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
-            
+
         </p:autoComplete>
 
         <h:outputText value="TAT given to client: "  style="font-weight: bold;" />

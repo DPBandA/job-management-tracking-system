@@ -30,14 +30,14 @@ Email: info@dpbennett.com.jm
                              value="New"
                              actionListener="#{systemManager.createNewDepartment}"
                              update=":headerForm:growl3"
-                             onstart="PF('longProcessDialogVar').show();"                             
+                             onstart="PF('longProcessDialogVar').show();"                              
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
 
             </p:commandButton> 
@@ -104,6 +104,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="View or edit department"   
                              actionListener="#{systemManager.editDepartment}"
                              onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
@@ -111,7 +112,6 @@ Email: info@dpbennett.com.jm
                 <f:setPropertyActionListener value="#{department}"                                                                    
                                              target="#{systemManager.selectedDepartment}" />
                 <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
 
             </p:commandButton>           

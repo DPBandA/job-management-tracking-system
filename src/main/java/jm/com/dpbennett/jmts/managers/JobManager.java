@@ -36,6 +36,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -55,6 +56,7 @@ import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
+import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Job;
@@ -110,16 +112,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean showJobEntry;
     private List<Job> jobSearchResultList;
     private Integer loginAttempts;
-    private SearchParameters currentSearchParameters;
+    //private SearchParameters currentSearchParameters;
     // Managers
     private ClientManager clientManager;
-    private SearchManager searchManager;
     private ReportManager reportManager;
     private FinanceManager financeManager;
     private JobSampleManager jobSampleManager;
     private ContractManager contractManager;
     //////////////////////////////////////////////////
-    //private SearchParameters reportSearchParameters;
+    private DatePeriod dateSearchPeriod;
+    private String dateSearchField;
+    private String searchType;
     private String searchText;
     private String dialogActionHandlerId;
     private String jobsTabTitle;
@@ -168,12 +171,112 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // Init Managers
         clientManager = Application.findBean("clientManager");
         reportManager = Application.findBean("reportManager");
-        searchManager = Application.findBean("searchManager");
         financeManager = Application.findBean("financeManager");
         jobSampleManager = Application.findBean("jobSampleManager");
         contractManager = Application.findBean("contractManager");
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
+        // Search fields init
+        searchType = "";
+        dateSearchField = "dateAndTimeEntered";
+        dateSearchPeriod = new DatePeriod("This month", "month", null, null, false, false, false);
+        dateSearchPeriod.initDatePeriod();
+    }
+
+    public void handleStartSearchDateSelect(SelectEvent event) {
+
+    }
+
+    public void handleEndSearchDateSelect(SelectEvent event) {
+
+    }
+
+    public DatePeriod getDateSearchPeriod() {
+        return dateSearchPeriod;
+    }
+
+    public void setDateSearchPeriod(DatePeriod dateSearchPeriod) {
+        this.dateSearchPeriod = dateSearchPeriod;
+    }
+
+    public void updateSearchType() {
+        //doSearch();
+    }
+
+    public void updateDateSearchField() {
+        //doSearch();
+    }
+
+    public String getDateSearchField() {
+        return dateSearchField;
+    }
+
+    public void setDateSearchField(String dateSearchField) {
+        this.dateSearchField = dateSearchField;
+    }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
+    }
+
+    public ArrayList getSearchTypes() {
+        ArrayList searchTypes = new ArrayList();
+
+        searchTypes.add(new SelectItem("General", "General"));
+        searchTypes.add(new SelectItem("My jobs", "My jobs"));
+        searchTypes.add(new SelectItem("My department's jobs", "My department's jobs"));
+        searchTypes.add(new SelectItem("Parent jobs only", "Parent jobs only"));
+        searchTypes.add(new SelectItem("Unapproved job costings", "Unapproved job costings"));
+        searchTypes.add(new SelectItem("Incomplete jobs", "Incomplete jobs"));
+
+        return searchTypes;
+    }
+
+    public ArrayList getDateSearchFields() {
+        ArrayList dateSearchFields = new ArrayList();
+
+        dateSearchFields.add(new SelectItem("dateAndTimeEntered", "Date entered"));
+        dateSearchFields.add(new SelectItem("dateSubmitted", "Date submitted"));
+        dateSearchFields.add(new SelectItem("dateCostingApproved", "Date costing approved"));
+        dateSearchFields.add(new SelectItem("dateOfCompletion", "Date completed"));
+        dateSearchFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
+        dateSearchFields.add(new SelectItem("dateSamplesCollected", "Date sample(s) collected"));
+        dateSearchFields.add(new SelectItem("dateDocumentCollected", "Date document(s) collected"));
+
+        return dateSearchFields;
+    }
+
+    public ArrayList getAuthorizedSearchTypes() {
+
+        // Filter list based on user's authorization
+        EntityManager em = getEntityManager1();
+
+        if (getUser(em).getPrivilege().getCanEditJob()
+                || getUser(em).getPrivilege().getCanEnterJob()
+                || getUser(em).getPrivilege().getCanEditInvoicingAndPayment()
+                || getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditInvoicingAndPayment()
+                || getUser(em).getEmployee().getDepartment().getPrivilege().getCanEditJob()
+                || getUser(em).getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
+            return getSearchTypes();
+        } else {
+
+            ArrayList newList = new ArrayList();
+            for (Object obj : getSearchTypes()) {
+                SelectItem item = (SelectItem) obj;
+                if (!item.getLabel().equals("General")
+                        && !item.getLabel().equals("Unapproved job costings") 
+                        && !item.getLabel().equals("Incomplete jobs")) {
+                    newList.add(item);
+                }
+            }
+
+            return newList;
+        }
+
     }
 
     public void clientDialogReturn() {
@@ -207,7 +310,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         financeManager.reset();
         jobSampleManager.reset();
         reportManager.reset();
-        searchManager.reset();
 
         // Unrender all tabs
         dashboard.removeAllTabs();
@@ -879,7 +981,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             createJob(em, false);
             //initManagers();
             financeManager.setEnableOnlyPaymentEditing(false);
-            PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, false, 600, 850);
+            PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
         } else {
             // tk test this code with user that does not have the required privilege.
             PrimeFacesUtils.addMessage("Job NOT Created",
@@ -1462,13 +1564,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getSearchResultsTableHeader() {
-        return Application.getSearchResultsTableHeader(currentSearchParameters, getJobSearchResultList());
+        return Application.getSearchResultsTableHeader(getDateSearchPeriod(), getJobSearchResultList());
     }
 
     public void cancelJobEdit(ActionEvent actionEvent) {
         setIsDirty(false);
         PrimeFacesUtils.closeDialog(null);
-        doJobSearch(searchManager.getCurrentSearchParameters());
+        doJobSearch();
     }
 
     public void closePreferencesDialog2(CloseEvent closeEvent) {
@@ -1668,10 +1770,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * NB: Message body and subject are to be obtained from a "template". The variables
-     * in the template are to be inserted where {variable} appears.
+     * NB: Message body and subject are to be obtained from a "template". The
+     * variables in the template are to be inserted where {variable} appears.
+     *
      * @param job
-     * @return 
+     * @return
      */
     public String getNewJobEmailMessage(Job job) {
         String message = "";
@@ -1700,10 +1803,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * NB: Message body and subject are to be obtained from a "template". The variables
-     * in the template are to be inserted where {variable} appears.
+     * NB: Message body and subject are to be obtained from a "template". The
+     * variables in the template are to be inserted where {variable} appears.
+     *
      * @param job
-     * @return 
+     * @return
      */
     public String getUpdatedJobEmailMessage(Job job) {
         String message = "";
@@ -1783,12 +1887,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void editJob() {
 
         currentJob.getJobStatusAndTracking().setEditStatus("");
-        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, false, 600, 850);
+        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
 
     }
 
     public void editJobCostingAndPayment() {
-        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, false, 600, 850);
+        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
     }
 
     public String getJobAssignee() {
@@ -1889,34 +1993,39 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void doJobSearch(SearchParameters currentSearchParameters) {
-        this.currentSearchParameters = currentSearchParameters;
-        EntityManager em;
+    public void doJobSearch() {
 
         if (getUser().getId() != null) {
-            em = getEntityManager1();
+            EntityManager em = getEntityManager1();
             jobSearchResultList = Job.findJobsByDateSearchField(em,
                     getUser(),
-                    currentSearchParameters.getDateField(),
-                    currentSearchParameters.getJobType(),
-                    currentSearchParameters.getSearchType(),
-                    currentSearchParameters.getSearchText(),
-                    currentSearchParameters.getDatePeriod().getStartDate(),
-                    currentSearchParameters.getDatePeriod().getEndDate(), false);
+                    getDateSearchField(),
+                    "",
+                    getSearchType(),
+                    getSearchText(),
+                    getDateSearchPeriod().getStartDate(),
+                    getDateSearchPeriod().getEndDate(), false);
 
             if (jobSearchResultList.isEmpty()) { // Do search with sample search enabled
                 jobSearchResultList = Job.findJobsByDateSearchField(em,
                         getUser(),
-                        currentSearchParameters.getDateField(),
-                        currentSearchParameters.getJobType(),
-                        currentSearchParameters.getSearchType(),
-                        currentSearchParameters.getSearchText(),
-                        currentSearchParameters.getDatePeriod().getStartDate(),
-                        currentSearchParameters.getDatePeriod().getEndDate(), true);
+                        getDateSearchField(),
+                        "",
+                        getSearchType(),
+                        getSearchText(),
+                        getDateSearchPeriod().getStartDate(),
+                        getDateSearchPeriod().getEndDate(), true);
             }
         } else {
             jobSearchResultList = new ArrayList<>();
         }
+
+        // Set "Job View" based on search type
+        if (getSearchType().equals("Unapproved job costings")) {
+            getUser().setJobTableViewPreference("Job Costings");
+        }
+        
+        openJobBrowser();
 
     }
 
@@ -2424,7 +2533,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void openClientsTab() {
         clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-        clientManager.setMainTabView(mainTabView);
         mainTabView.addTab(getEntityManager1(), "Clients", true);
         mainTabView.select("Clients");
     }

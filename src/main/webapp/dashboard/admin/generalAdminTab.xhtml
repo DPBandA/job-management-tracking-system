@@ -32,11 +32,12 @@ Email: info@dpbennett.com.jm
                                      title="Create new user"
                                      icon="fa fa-user-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewUser}" 
                                      process="@this" >
 
-                        <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();centerTabVar.select(0);"
+                        <p:ajax event="dialogReturn"
+                                oncomplete="centerTabVar.select(0);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:usersTable"/>
 
                     </p:commandButton>          
@@ -48,11 +49,12 @@ Email: info@dpbennett.com.jm
                                      title="Create new employee"
                                      icon="fa fa-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewEmployee}" 
                                      process="@this" >
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();centerTabVar.select(1);"
+                                oncomplete="centerTabVar.select(1);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"/>
 
                     </p:commandButton>          
@@ -64,27 +66,29 @@ Email: info@dpbennett.com.jm
                                      title="Create new department"
                                      icon="fa fa-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewDepartment}" 
                                      process="@this" >
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();centerTabVar.select(2);"
+                                oncomplete="centerTabVar.select(2);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
 
                     </p:commandButton>          
                 </p:menuitem>  
-                
+
                 <p:menuitem>                       
                     <p:commandButton value="Organization"
                                      style="width: 300%;text-align: left;background: none;border: 0;"
                                      title="Create new organization"
                                      icon="fa fa-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewBusiness}" 
                                      process="@this" >
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();centerTabVar.select(3);"
+                                oncomplete="centerTabVar.select(3);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"/>
 
                     </p:commandButton>          
@@ -96,11 +100,12 @@ Email: info@dpbennett.com.jm
                                      title="Create new job classification"
                                      icon="fa fa-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewClassification}" 
                                      process="@this" >
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();dataListsTabViewVar.select(0);"
+                                oncomplete="dataListsTabViewVar.select(0);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable"/>
 
                     </p:commandButton>          
@@ -112,11 +117,12 @@ Email: info@dpbennett.com.jm
                                      title="Create new job category"
                                      icon="fa fa-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewJobCategory}" 
                                      process="@this" >
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();dataListsTabViewVar.select(1);"
+                                oncomplete="dataListsTabViewVar.select(1);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable"/>
 
                     </p:commandButton>          
@@ -128,11 +134,12 @@ Email: info@dpbennett.com.jm
                                      title="Create new job subcategory"
                                      icon="fa fa-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewJobSubCategory}" 
                                      process="@this" >
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();dataListsTabViewVar.select(2);"
+                                oncomplete="dataListsTabViewVar.select(2);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobSubcategoriesTable"/>
 
                     </p:commandButton>          
@@ -144,11 +151,12 @@ Email: info@dpbennett.com.jm
                                      title="Create new job subcategory"
                                      icon="fa fa-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewSector}" 
                                      process="@this" >
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();dataListsTabViewVar.select(3);"
+                                oncomplete="dataListsTabViewVar.select(3);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable"/>
 
                     </p:commandButton>          
@@ -160,11 +168,12 @@ Email: info@dpbennett.com.jm
                                      title="Create new LDAP configuration"
                                      icon="fa fa-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewLdapContext}" 
                                      process="@this" >
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();systemConfigurationTabViewVar.select(0);"
+                                oncomplete="systemConfigurationTabViewVar.select(0);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:LDAPTable"/>
 
                     </p:commandButton>          
@@ -176,11 +185,12 @@ Email: info@dpbennett.com.jm
                                      title="Create new system configuration"
                                      icon="fa fa-plus"
                                      onstart="PF('longProcessDialogVar').show();" 
+                                     oncomplete="longProcessDialogVar.hide();"
                                      actionListener="#{systemManager.createNewSystemOption}" 
                                      process="@this" >
 
                         <p:ajax event="dialogReturn" 
-                                oncomplete="longProcessDialogVar.hide();systemConfigurationTabViewVar.select(1);"
+                                oncomplete="systemConfigurationTabViewVar.select(1);"
                                 update=":mainTabViewForm:mainTabView:centerTabView:systemConfigurationTabView:systemOptionsTable"/>
 
                     </p:commandButton>          
@@ -228,7 +238,7 @@ Email: info@dpbennett.com.jm
                                      update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
                                      process="@this" />
                 </p:menuitem>  
-                
+
                 <p:menuitem>                       
                     <p:commandButton value="Organizations"
                                      style="width: 300%;text-align: left;background: none;border: 0;"

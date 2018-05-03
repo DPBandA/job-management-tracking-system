@@ -88,7 +88,8 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit system option"   
                              actionListener="#{systemManager.editSystemOption}"
-                             onstart="PF('longProcessDialogVar').show();"                             
+                             onstart="PF('longProcessDialogVar').show();"  
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
@@ -97,8 +98,7 @@ Email: info@dpbennett.com.jm
                 <f:setPropertyActionListener value="#{systemOption}"                                                                    
                                              target="#{systemManager.selectedSystemOption}" />
 
-                <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
+                <p:ajax event="dialogReturn"
                         listener="#{systemManager.doFinancialSystemOptionSearch}"
                         update=":mainTabViewForm:mainTabView:financialSystemOptionsTable"/>
 

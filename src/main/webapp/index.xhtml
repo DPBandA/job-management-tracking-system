@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
     <h:body onload="checkWhichBrowser();
             PF('longProcessDialogVar').hide();
             mainTabViewVar.select(0);" >
-        
+
         <ui:include src="common/commonDialogs.xhtml" />                       
         <ui:include src="common/loginDialog.xhtml"/>
         <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>               
@@ -61,7 +61,7 @@ Email: info@dpbennett.com.jm
                     <p:growl id="growl3" life="5000" showDetail="true" />
                     <h:panelGrid rendered="#{jobManager.renderUserMenu()}" width="100%" 
                                  border="0" columns="3" >
-                        <p:graphicImage value="images/Logo.jpg"/>
+                        <p:graphicImage value="images/BSJ Logo - H41.png"/>
                         <h:panelGrid>   
 
                             <div align="center">
@@ -81,7 +81,7 @@ Email: info@dpbennett.com.jm
                                       iconPos="left"
                                       id="userMenu"
                                       style="float: right;" >
-                            
+
                             <p:menuitem actionListener="#{jobManager.editPreferences}"
                                         onstart="PF('longProcessDialogVar').show();"
                                         update=":preferencesDialogForm"
@@ -96,7 +96,7 @@ Email: info@dpbennett.com.jm
                                         icon="ui-icon-circle-arrow-w"
                                         value="Logout"
                                         process="@this"/>    
-                            
+
                         </p:menuButton>   
 
                     </h:panelGrid>
@@ -112,7 +112,7 @@ Email: info@dpbennett.com.jm
                           position="center">
 
                 <h:form id="mainTabViewForm">   
-                   
+
                     <p:tabView id="mainTabView"   
                                rendered="#{jobManager.mainTabView.render}"
                                value="#{jobManager.mainTabView.tabs}" 
@@ -170,7 +170,7 @@ Email: info@dpbennett.com.jm
             <p:layoutUnit
                 id="dashboard"    
                 position="west" 
-                size="350"
+                size="375"
                 header="Dashboard"
                 resizable="true"                  
                 collapsed="#{jobManager.westLayoutUnitCollapsed}"
@@ -231,8 +231,8 @@ Email: info@dpbennett.com.jm
                                 <ui:include src="dashboard/legal/documentsTab.xhtml" />
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.id == 'Customer Relationship Management'}">
-                                Customer Relationship Management
+                            <h:panelGroup rendered="#{t.id == 'Client Management'}">
+                                <ui:include src="dashboard/client/clientsTab.xhtml" />
                             </h:panelGroup>
 
                         </p:tab>   

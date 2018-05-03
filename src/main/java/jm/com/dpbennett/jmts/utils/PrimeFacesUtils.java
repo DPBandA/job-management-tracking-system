@@ -25,7 +25,7 @@ public class PrimeFacesUtils {
             Integer contentHeight,
             Integer contentWidth) {
 
-        PrimeFacesUtils.openDialog(null, outcome, modal, draggable, resizable, false, contentHeight, contentWidth);
+        PrimeFacesUtils.openDialog(null, outcome, modal, draggable, resizable, true, contentHeight, contentWidth);
 
     }
 

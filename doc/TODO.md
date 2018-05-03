@@ -3,35 +3,32 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Client Management Module:
-  * Impl dashboard with "New" and "Tools" menu.
-  * Change "Clients" and "Client Management" tabs to "Client Browser"?
-- Remove PF('longProcessDialogVar').hide(); from dialog return and put it in
-  "onstart" and make all dialogs closeable.
-- Change logo.
-- Search for employees that are assigned to Customer Service and remove them.
-  Let search include search for department.
-- Do report showing unapproved job costings.
-- Update the service contract template with the new control number (MKTG_F_01/04) 
-  and other footer information. 
-  * Let Yuval do the update and create 3 templates one for each organization.
+- "Fixed Cost" is current used a discount type. Check how this is applied with
+    the "new" system.
+- Make sure discount is applied appropriately. Note that it is not current applied
+  to the cost estimate.
+- Find way to access and edit deposits:
+  * Test adding a payment to a job that already has a deposit.
+- Deploy latest update. Add latest mysql driver and restart app server. (@2100)
 - Get list of jobs with incorrect clients from Bremmer.
   * See Bremmer's email for the details.
   * Do a "job report with clients" to facilitate extracting the list of jobs with the issue
-- Make sure discount is applied appropriately.
-- "Fixed Cost" is current used a discount type. Check how this is applied with
-    the "new" system.
 - Address "Legal/Task Module/Management" issue: 
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
     legal office reports.
-- Release next version as jmtsbeta3 for training and testing. Add latest mysql driver
-  and restart app server.
+- Do presentation for OJ.
+  * Note reports on areas of earnings as discussed with RA
+  * Note sample tracking as discussed with RA and Engineering.
+  * Improved search based on search types.
 - Send email re changes and offer training where necessary. Send special email to
   select persons in Finance.
 
 ## Next release (May 24-25, 2018)
 - Send email to NCRA re feedback on email sent re docs.
+- Update the service contract template with the new control number (MKTG_F_01/04) 
+  and other footer information. 
+  * Let Yuval do the update and create 3 templates one for each organization.
 - "--" departments are being created delete them and find reason why it is happening.
 - Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
   stealth url forwarding. Use the technique from zoneedit.

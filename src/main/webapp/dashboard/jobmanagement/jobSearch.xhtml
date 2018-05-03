@@ -27,76 +27,74 @@ Email: info@dpbennett.com.jm
     <p:panel header="Job Search" >
         <h:panelGrid columns="2" cellspacing="5">
             <h:outputText value="Search type: " />
-            <p:selectOneMenu value="#{searchManager.currentSearchParameters.searchType}" 
+            <p:selectOneMenu value="#{jobManager.searchType}" 
                              style="width: 90%;">
                 <p:ajax                        
-                    listener="#{searchManager.updateSearchType}"
+                    listener="#{jobManager.updateSearchType}"
                     process="@this" />
-                <f:selectItems value="#{searchManager.authorizedSearchTypes}" />
+                
+                <f:selectItems value="#{jobManager.authorizedSearchTypes}" />
+                
             </p:selectOneMenu>
 
-            <h:outputText value="Date field: " 
-                          rendered="#{searchManager.currentSearchParameters.showDateField}"/>
-            <p:selectOneMenu value="#{searchManager.currentSearchParameters.dateField}" 
-                             style="width: 90%;"
-                             rendered="#{searchManager.currentSearchParameters.showDateField}" >
+            <h:outputText value="Date field: " />
+            <p:selectOneMenu value="#{jobManager.dateSearchField}" 
+                             style="width: 90%;" >
                 <p:ajax                        
-                    listener="#{searchManager.updateDateField}"
+                    listener="#{jobManager.updateDateSearchField}"
                     process="@this" />
                 
-                <f:selectItems value="#{searchManager.currentSearchParameters.searchDateFields}" />
+                <f:selectItems value="#{jobManager.dateSearchFields}" />
                 
             </p:selectOneMenu>
 
-            <h:outputText value="Date period: " rendered="#{searchManager.currentSearchParameters.showDateField}"/>               
-            <p:selectOneMenu value= "#{searchManager.currentSearchParameters.datePeriod.name}" 
-                             style="width: 90%;"
-                             rendered="#{searchManager.currentSearchParameters.showDateField}" >
-                <p:ajax listener="#{searchManager.changeSearchDatePeriod}"
+            <h:outputText value="Date period: " />               
+            <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}" 
+                             style="width: 90%;" >
+                
+                <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
                         update="startSearchDate,endSearchDate"
                         process="@this" />
+                
                 <f:selectItems value="#{App.datePeriods}"/>
+                
             </p:selectOneMenu>
-            <h:outputText value="Start:" 
-                          rendered="#{searchManager.currentSearchParameters.showDateField}" />
+            <h:outputText value="Start:"  />
             <p:calendar id="startSearchDate"
-                        value="#{searchManager.currentSearchParameters.datePeriod.startDate}"                    
+                        value="#{jobManager.dateSearchPeriod.startDate}"                    
                         size="17"
                         navigator="true"
-                        rendered="#{searchManager.currentSearchParameters.showDateField}"
-                        disabled="#{searchManager.currentSearchParameters.datePeriod.startDateDisabled}"
+                        disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
                         pattern="MMM dd, yyyy" >
                 <p:ajax event="dateSelect"                            
-                        listener="#{searchManager.handleStartDateSelect}"/>
+                        listener="#{jobManager.handleStartSearchDateSelect}" />
                 <p:ajax event="keyup"                            
-                        listener="#{searchManager.handleStartDateSelect}"/>
+                        listener="#{jobManager.handleStartSearchDateSelect}" />
             </p:calendar>
 
-            <h:outputText value="End:" 
-                          rendered="#{searchManager.currentSearchParameters.showDateField}" />
+            <h:outputText value="End:" />
             <p:calendar id="endSearchDate"
-                        rendered="#{searchManager.currentSearchParameters.showDateField}"
-                        value="#{searchManager.currentSearchParameters.datePeriod.endDate}"
+                        value="#{jobManager.dateSearchPeriod.endDate}"
                         size="17"
                         navigator="true"
-                        disabled="#{searchManager.currentSearchParameters.datePeriod.endDateDisabled}"
+                        disabled="#{jobManager.dateSearchPeriod.endDateDisabled}"
                         pattern="MMM dd, yyyy" >
                 <p:ajax event="dateSelect"                           
-                        listener="#{searchManager.handleEndDateSelect}"/>
+                        listener="#{jobManager.handleEndSearchDateSelect}"/>
                 <p:ajax event="keyup"                           
-                        listener="#{searchManager.handleEndDateSelect}"/>
+                        listener="#{jobManager.handleEndSearchDateSelect}"/>
             </p:calendar>   
         </h:panelGrid>   
         <p:toolbar>
             <p:toolbarGroup align="right" >
-                <p:inputText value="#{searchManager.currentSearchParameters.searchText}"  
+                <p:inputText value="#{jobManager.searchText}"  
                              style="width: 50%;"
                              id="searchText"/>        
                 <p:spacer width="5" />
                 <p:commandButton value="Search"
                                  id="doSearch"
                                  onstart="PF('longProcessDialogVar').show();"
-                                 actionListener="#{searchManager.doSearch}"
+                                 actionListener="#{jobManager.doJobSearch}"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  onerror="PF('connectionErrorDialog').show();"
                                  update=":headerForm:growl3"

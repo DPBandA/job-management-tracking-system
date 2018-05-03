@@ -29,14 +29,14 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new classification"                                  
                              value="New"
                              actionListener="#{systemManager.createNewClassification}"
-                             onstart="PF('longProcessDialogVar').show();"
+                             onstart="PF('longProcessDialogVar').show();"                                                    
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus">
 
-                <p:ajax event="dialogReturn"                         
-                        oncomplete="PF('longProcessDialogVar').hide();"
+                <p:ajax event="dialogReturn"  
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable" />
 
             </p:commandButton>
@@ -138,14 +138,14 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit classification"   
                              actionListener="#{systemManager.editClassification}"
-                             onstart="PF('longProcessDialogVar').show();"                             
+                             onstart="PF('longProcessDialogVar').show();" 
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
 
-                <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
+                <p:ajax event="dialogReturn"                         
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable" />
 
                 <f:setPropertyActionListener value="#{classification}"                                                                    

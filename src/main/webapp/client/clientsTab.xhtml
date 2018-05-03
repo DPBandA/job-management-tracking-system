@@ -35,15 +35,15 @@ Email: info@dpbennett.com.jm
                 value="New"
                 icon="ui-icon-plus" 
                 onstart="PF('longProcessDialogVar').show();"
+                oncomplete="longProcessDialogVar.hide();"
                 disabled="#{!clientManager.user.privilege.canAddClient}"
                 actionListener="#{clientManager.createNewClient}"                                            
                 process="@this"
                 title="Add a new client to the client database" >
-                
+
                 <p:ajax event="dialogReturn" 
-                        oncomplete="longProcessDialogVar.hide();"
                         update=":mainTabViewForm:mainTabView:clientsTable"/>
-                
+
             </p:commandButton>
             <p:spacer width="20" />
             <p:inputText id="clientSearchText" 
@@ -89,7 +89,7 @@ Email: info@dpbennett.com.jm
                  value="#{clientManager.foundClients}">                        
 
         <p:ajax event="cellEdit" listener="#{clientManager.onClientCellEdit}" />
-        
+
         <f:facet name="header">
             <h:outputText value="Search Results (found: #{clientManager.numClientFound})" />
         </f:facet>
@@ -134,21 +134,23 @@ Email: info@dpbennett.com.jm
 
         <p:column style="width:32px">
             <p:commandButton icon="ui-icon-pencil"
-                             onstart="PF('longProcessDialogVar').show();"                             
+                             onstart="PF('longProcessDialogVar').show();"                               
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              actionListener="#{clientManager.editSelectedClient}"
                              process="@this"
                              title="View or edit this client's detail">
+
                 <f:setPropertyActionListener value="#{client}" 
                                              target="#{clientManager.selectedClient}" />
+
                 <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:clientsTable"/>
 
             </p:commandButton>
         </p:column>
     </p:dataTable>
-    
-     <p:toolbar>
+
+    <p:toolbar>
         <p:toolbarGroup align="left" >   
             <p:commandButton value="Close"
                              actionListener="#{clientManager.closeClientsTab}"
@@ -158,17 +160,17 @@ Email: info@dpbennett.com.jm
                 value="New"
                 icon="ui-icon-plus" 
                 onstart="PF('longProcessDialogVar').show();"
+                oncomplete="longProcessDialogVar.hide();"
                 disabled="#{!clientManager.user.privilege.canAddClient}"
                 actionListener="#{clientManager.createNewClient}"                                            
                 process="@this"
                 title="Add a new client to the client database" >
-                
+
                 <p:ajax event="dialogReturn" 
-                        oncomplete="longProcessDialogVar.hide();"
                         update=":mainTabViewForm:mainTabView:clientsTable"/>
-                
+
             </p:commandButton>
-           
+
         </p:toolbarGroup>
 
     </p:toolbar>

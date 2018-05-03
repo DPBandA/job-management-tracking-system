@@ -132,13 +132,13 @@ Email: info@dpbennett.com.jm
                                                      icon="ui-icon-pencil" 
                                                      disabled="${!legalDocumentManager.isClientNameValid}"
                                                      style="width: 300%;text-align: left;background: none;border: 0;"
-                                                     onstart="PF('longProcessDialogVar').show();"                                     
+                                                     onstart="PF('longProcessDialogVar').show();"     
+                                                     oncomplete="PF('longProcessDialogVar').hide();"                                
                                                      actionListener="#{legalDocumentManager.editExternalClient}"  
                                                      process="@this,client"                             
                                                      title="Edit this client's detail">  
 
                                         <p:ajax event="dialogReturn" 
-                                                oncomplete="PF('longProcessDialogVar').hide();"
                                                 listener="#{legalDocumentManager.externalClientDialogReturn}"
                                                 update="client" />
 
@@ -150,14 +150,14 @@ Email: info@dpbennett.com.jm
                                         value="Add new client"
                                         icon="ui-icon-plus" 
                                         style="width: 300%;text-align: left;background: none;border: 0;"
-                                        onstart="PF('longProcessDialogVar').show();"                        
+                                        onstart="PF('longProcessDialogVar').show();"        
+                                        oncomplete="PF('longProcessDialogVar').hide();"                
                                         disabled="#{!legalDocumentManager.user.privilege.canAddClient}"
                                         actionListener="#{legalDocumentManager.createNewExternalClient}"                                            
                                         process="@this"
                                         title="Add a new client to the client database">
 
                                         <p:ajax event="dialogReturn" 
-                                                oncomplete="PF('longProcessDialogVar').hide();"
                                                 listener="#{legalDocumentManager.externalClientDialogReturn}"
                                                 update="client" />
 
@@ -281,7 +281,6 @@ Email: info@dpbennett.com.jm
                                                      title="Edit classification" >   
 
                                         <p:ajax event="dialogReturn" 
-                                                oncomplete="PF('longProcessDialogVar').hide();"
                                                 listener="#{legalDocumentManager.classificationDialogReturn}"
                                                 update="classification" />
 
@@ -299,7 +298,6 @@ Email: info@dpbennett.com.jm
                                         title="Add a new classification">
 
                                         <p:ajax event="dialogReturn" 
-                                                oncomplete="PF('longProcessDialogVar').hide();"
                                                 listener="#{legalDocumentManager.classificationDialogReturn}"
                                                 update="classification" />
 

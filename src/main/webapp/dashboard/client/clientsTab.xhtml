@@ -25,9 +25,10 @@ Email: info@dpbennett.com.jm
     <p:toolbar style="margin-bottom: 1px;">
         <p:toolbarGroup align="left">
             <p:commandButton
-                actionListener="#{jobManager.createNewJob}"
+                actionListener="#{clientManager.createNewClient}"                
+                disabled="#{!clientManager.user.privilege.canAddClient}"
                 global="true"                                        
-                onstart="PF('longProcessDialogVar').show();" 
+                onstart="PF('longProcessDialogVar').show();"                 
                 oncomplete="PF('longProcessDialogVar').hide();"
                 onerror="PF('connectionErrorDialog').show();"
                 value="New"       
@@ -37,23 +38,16 @@ Email: info@dpbennett.com.jm
                 process="@this" >
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
-                        listener="#{jobManager.jobDialogReturn}" />
+                        update=":mainTabViewForm:mainTabView:clientsTable" />
 
             </p:commandButton>
 
         </p:toolbarGroup>
         <p:toolbarGroup align="right">
-            <p:menuButton value="Tools" >  
-                <p:menuitem value="Job Browser"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            oncomplete="PF('longProcessDialogVar').hide();"
-                            actionListener="#{jobManager.openJobBrowser}"                            
-                            process="@this"/>
-                <p:separator />
+            <p:menuButton value="Tools" >                 
                 <p:menuitem value="Client management"
                             onstart="PF('longProcessDialogVar').show();"                                                    
-                            actionListener="#{jobManager.openClientsTab}"
+                            actionListener="#{clientManager.openClientsTab}"
                             oncomplete="PF('longProcessDialogVar').hide();"
                             process="@this"/>
 
@@ -64,19 +58,10 @@ Email: info@dpbennett.com.jm
                             oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
                             onerror="PF('connectionErrorDialog').show();"
                             process="@this"/>     
-                <p:separator />
-                <p:menuitem value="Reports"
-                            onstart="PF('longProcessDialogVar').show();"                                                    
-                            actionListener="#{jobManager.openReportsTab}"
-                            oncomplete="PF('longProcessDialogVar').hide();"
-                            process="@this"/>
 
             </p:menuButton>         
         </p:toolbarGroup>
     </p:toolbar>
-
-    <ui:include src="jobSearch.xhtml"/>   
-
 
 </html>
 

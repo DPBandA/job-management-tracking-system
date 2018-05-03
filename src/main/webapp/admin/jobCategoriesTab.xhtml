@@ -29,14 +29,14 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new category"                                  
                              value="New"
                              actionListener="#{systemManager.createNewJobCategory}"
-                             onstart="PF('longProcessDialogVar').show();"                             
+                             onstart="PF('longProcessDialogVar').show();"  
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable" />
 
             </p:commandButton>  
@@ -130,15 +130,14 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px">
             <p:commandButton title="View or edit job category"   
                              actionListener="#{systemManager.editJobCategory}"
-                             onstart="PF('longProcessDialogVar').show();"
-                             
+                             onstart="PF('longProcessDialogVar').show();"                             
+                             oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
 
                 <p:ajax event="dialogReturn" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable" />
 
                 <f:setPropertyActionListener value="#{jobCategory}"                                                                    

@@ -91,7 +91,7 @@ public class Application {
         themes.put("Redmond", "redmond");
         themes.put("Dark Hive", "dark-hive");
     }
-    
+
     public List<String> completeDocumentTypeName(String query) {
 
         try {
@@ -112,7 +112,7 @@ public class Application {
             return new ArrayList<>();
         }
     }
-    
+
     public List<String> completeDocumentTypeCode(String query) {
 
         try {
@@ -133,7 +133,7 @@ public class Application {
             return new ArrayList<>();
         }
     }
-    
+
     public List getClassificationCategories() {
         return Classification.getCategories();
     }
@@ -149,7 +149,7 @@ public class Application {
 
         return statuses;
     }
-    
+
     public List getPriorityLevels() {
         ArrayList levels = new ArrayList();
 
@@ -526,6 +526,20 @@ public class Application {
         }
     }
 
+    public static String getSearchResultsTableHeader(DatePeriod datePeriod, List searchResultsList) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+
+        if (datePeriod.getStartDate() != null
+                && datePeriod.getEndDate() != null) {
+            return "Period: " + formatter.format(datePeriod.getStartDate()) + " to "
+                    + formatter.format(datePeriod.getEndDate()) + " (found: "
+                    + searchResultsList.size() + ")";
+        } else {
+            return "Search Results";
+        }
+
+    }
+
     public static String getSearchResultsTableHeader(List searchResultsList) {
         return "Search Results (found: " + searchResultsList.size() + ")";
     }
@@ -812,7 +826,7 @@ public class Application {
             return new ArrayList<>();
         }
     }
-    
+
     public List<Classification> completeJobClassification(String query) {
         EntityManager em;
 
