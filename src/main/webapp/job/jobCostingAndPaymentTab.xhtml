@@ -184,6 +184,7 @@ Email: info@dpbennett.com.jm
                                  disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                                  onstart="PF('longProcessDialogVar').show();" 
                                  oncomplete="PF('longProcessDialogVar').hide();"
+                                 update=":jobDialogForm:growl2"
                                  icon="ui-icon-plus"
                                  process="@this" >
 
@@ -254,7 +255,7 @@ Email: info@dpbennett.com.jm
                      paginator="true"
                      rows="15"
                      var="cashPayment"
-                     value="#{financeManager.currentJob.jobCostingAndPayment.cashPayments}">
+                     value="#{financeManager.currentJob.cashPayments}">
 
             <f:facet name="header">
                 <h:outputText value="Cash Payments" />
@@ -296,7 +297,8 @@ Email: info@dpbennett.com.jm
                                          actionListener="#{financeManager.editCashPayment}"
                                          style="width: 300%;text-align: left;background: none;border: 0;"
                                          onstart="PF('longProcessDialogVar').show();"   
-                                         oncomplete="PF('longProcessDialogVar').hide();"                                       
+                                         oncomplete="PF('longProcessDialogVar').hide();" 
+                                         update=":jobDialogForm:growl2"
                                          icon="ui-icon-pencil"
                                          process="@this">
 
@@ -352,6 +354,7 @@ Email: info@dpbennett.com.jm
                                  disabled="#{!financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                                  onstart="PF('longProcessDialogVar').show();" 
                                  oncomplete="PF('longProcessDialogVar').hide();"
+                                 update=":jobDialogForm:growl2"
                                  icon="ui-icon-plus"
                                  process="@this" >
 

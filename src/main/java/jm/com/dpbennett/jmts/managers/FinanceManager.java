@@ -238,7 +238,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void displayCommonMessageDialog(DialogActionHandler dialogActionHandler, String dialogMessage,
             String dialogMessageHeader,
             String dialoMessageSeverity) {
-        
+
         setDialogActionHandler(dialogActionHandler);
 
         setDialogRenderOkButton(true);
@@ -665,7 +665,19 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void setSelectedCashPayment(CashPayment selectedCashPayment) {
+
         this.selectedCashPayment = selectedCashPayment;
+
+        // If this is a new cash payment ensure that all related costs are updated
+        // and the job cost and payment saved.
+        if (getSelectedCashPayment().getId() == null) {
+            updateFinalCost();
+            updateAmountDue();
+           
+            if (!getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+                PrimeFacesUtils.addMessage("Payment and Job NOT Saved!", "Payment and the job and the payment were NOT saved!", FacesMessage.SEVERITY_ERROR);
+            }           
+        }
     }
 
     public EntityManager getEntityManager2() {
@@ -1434,17 +1446,24 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void createNewCashPayment(ActionEvent event) {
-        selectedCashPayment = new CashPayment();
 
-        // If there were other payments it is assumed that this is a final payment.
-        // Otherwsie, it is assumed to be a deposit.
-        if (getCurrentJob().getJobCostingAndPayment().getCashPayments().size() > 0) {
-            selectedCashPayment.setPaymentPurpose("Final");
+        if (getCurrentJob().getId() != null) {
+            selectedCashPayment = new CashPayment();
+
+            // If there were other payments it is assumed that this is a final payment.
+            // Otherwsie, it is assumed to be a deposit.
+            if (getCurrentJob().getJobCostingAndPayment().getCashPayments().size() > 0) {
+                selectedCashPayment.setPaymentPurpose("Final");
+            } else {
+                selectedCashPayment.setPaymentPurpose("Deposit");
+            }
+
+            PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDialog", true, true, true, 350, 500);
         } else {
-            selectedCashPayment.setPaymentPurpose("Deposit");
+            PrimeFacesUtils.addMessage("Job NOT Saved",
+                    "Job must be saved before a new payment can be added",
+                    FacesMessage.SEVERITY_WARN);
         }
-
-        PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDialog", true, true, true, 350, 500);
 
     }
 
@@ -2034,12 +2053,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openJobPricingsDialog() {
-        
+
         PrimeFacesUtils.openDialog(null, "jobPricings", true, true, true, 600, 800);
     }
 
     public void openJobCostingsDialog() {
-               
+
         PrimeFacesUtils.openDialog(null, "jobCostings", true, true, true, 600, 800);
     }
 

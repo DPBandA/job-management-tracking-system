@@ -3,29 +3,36 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- "Fixed Cost" is current used a discount type. Check how this is applied with
-    the "new" system.
-- Make sure discount is applied appropriately. Note that it is not current applied
-  to the cost estimate.
-- Find way to access and edit deposits:
-  * Test adding a payment to a job that already has a deposit.
-- Deploy latest update. Add latest mysql driver and restart app server. (@2100)
-- Get list of jobs with incorrect clients from Bremmer.
-  * See Bremmer's email for the details.
-  * Do a "job report with clients" to facilitate extracting the list of jobs with the issue
+- Get list of jobs with incorrect clients from Bremmer/Stephens:
+  * Bremmer: We are seeing a recurring pattern in changes being made to the JMTS. 
+    The most recent one was seen for Job#25/2018/0399 which was originally logged 
+    as Grace food processors (meat Division) and is now reflecting Garth Dawkins.
+ 
+    We would like to bring it to your attention so that the matter could be 
+    investigated and actions taken to address this occurrence.
+ 
+    Additionally there is an outstanding matter that has not been resolved for 
+    Salada jobs which were changed to reflect SRC as shown on job# 25/2017/7491 and 25/2017/5925. 
+    NB: Do a "job report with clients" to facilitate extracting the list of jobs with the issue
 - Address "Legal/Task Module/Management" issue: 
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
     legal office reports.
+- Deploy latest update. Add latest mysql driver and restart app server.
 - Do presentation for OJ.
   * Note reports on areas of earnings as discussed with RA
   * Note sample tracking as discussed with RA and Engineering.
   * Improved search based on search types.
+  * Mention customization for each organization. ie logo, firewall etc.
 - Send email re changes and offer training where necessary. Send special email to
-  select persons in Finance.
+  select persons in Finance. Look for screen shots on home PC.
+- Do JMTS Audit Data for OJ.
 
 ## Next release (May 24-25, 2018)
 - Send email to NCRA re feedback on email sent re docs.
+- Add "Parent earning jobs" and change "Parent jobs only" to "Parent jobs".
+- Find way to allow department heads to use "General" and other authorized 
+  search types.
 - Update the service contract template with the new control number (MKTG_F_01/04) 
   and other footer information. 
   * Let Yuval do the update and create 3 templates one for each organization.
