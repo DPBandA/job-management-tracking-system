@@ -3,17 +3,6 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Get list of jobs with incorrect clients from Bremmer/Stephens:
-  * Bremmer: We are seeing a recurring pattern in changes being made to the JMTS. 
-    The most recent one was seen for Job#25/2018/0399 which was originally logged 
-    as Grace food processors (meat Division) and is now reflecting Garth Dawkins.
- 
-    We would like to bring it to your attention so that the matter could be 
-    investigated and actions taken to address this occurrence.
- 
-    Additionally there is an outstanding matter that has not been resolved for 
-    Salada jobs which were changed to reflect SRC as shown on job# 25/2017/7491 and 25/2017/5925. 
-    NB: Do a "job report with clients" to facilitate extracting the list of jobs with the issue
 - Address "Legal/Task Module/Management" issue: 
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
