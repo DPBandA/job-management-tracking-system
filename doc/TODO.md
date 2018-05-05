@@ -7,6 +7,9 @@ Modules for next release: Job Management, Legal Office, Client Management
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
     legal office reports.
+  * Store "Agreed Turnaround Time" and "Actual Turnaround Time" in datebase for
+    for display in display in report.
+  * Impl selecting strategic goal from drop down list.
 - Deploy latest update. Add latest mysql driver and restart app server.
 - Do presentation for OJ.
   * Note reports on areas of earnings as discussed with RA
