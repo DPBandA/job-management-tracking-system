@@ -10,6 +10,7 @@ Modules for next release: Job Management, Legal Office, Client Management
   * Store "Agreed Turnaround Time" and "Actual Turnaround Time" in datebase for
     for display in display in report.
   * Impl selecting strategic goal from drop down list.
+  * Create "actualTurnaroundTime" field and store the calculated value in it.
 - Deploy latest update. Add latest mysql driver and restart app server.
 - Do presentation for OJ.
   * Note reports on areas of earnings as discussed with RA
