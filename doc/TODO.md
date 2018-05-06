@@ -7,10 +7,6 @@ Modules for next release: Job Management, Legal Office, Client Management
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
     legal office reports.
-  * Store "Agreed Turnaround Time" and "Actual Turnaround Time" in datebase for
-    for display in display in report. Create "actualTurnaroundTime" field and 
-    store the calculated value in it.
-  * Impl selecting strategic goal from drop down list.
 - Deploy latest update.
 - Do status update as /jmts and deactivate.
 - Send email re changes and offer training where necessary. Send special email to

@@ -197,7 +197,7 @@ public class LegalDocumentManager implements Serializable {
     public void editDocument() {
         getCurrentDocument().setIsDirty(false);
 
-        PrimeFacesUtils.openDialog(null, "/legal/legalDocumentDialog", true, true, true, true, 600, 600);
+        PrimeFacesUtils.openDialog(null, "/legal/legalDocumentDialog", true, true, true, true, 600, 625);
     }
 
     public void editDocumentType(ActionEvent actionEvent) {
@@ -218,6 +218,12 @@ public class LegalDocumentManager implements Serializable {
         getSystemManager().getSelectedClassification().setIsEarning(false);
 
         PrimeFacesUtils.openDialog(null, "/admin/classificationDialog", true, true, true, 325, 600);
+    }
+
+    public void createNewDocumentType(ActionEvent actionEvent) {
+        getSystemManager().setSelectedDocumentType(new DocumentType());
+
+        PrimeFacesUtils.openDialog(null, "/admin/documentTypeDialog", true, true, true, 275, 400);
     }
 
     public void saveCurrentLegalDocument(ActionEvent actionEvent) {
@@ -243,8 +249,10 @@ public class LegalDocumentManager implements Serializable {
                 }
 
                 // Do save, set clean and dismiss dialog
-                currentDocument.save(em);
-                currentDocument.setIsDirty(false);
+                currentDocument.setEditedBy(getUser().getEmployee());
+                if (currentDocument.save(em).isSuccess()) {
+                    currentDocument.setIsDirty(false);
+                }
 
                 PrimeFaces.current().dialog().closeDynamic(null);
 
@@ -413,16 +421,16 @@ public class LegalDocumentManager implements Serializable {
         switch (searchType) {
             case "General":
                 doLegalDocumentSearch();
-                break;            
+                break;
             default:
                 doLegalDocumentSearch();
                 break;
         }
     }
-    
+
     public void updateDatePeriodSearch() {
         getDatePeriod().initDatePeriod();
-        
+
         doLegalDocumentSearch();
     }
 
@@ -530,5 +538,20 @@ public class LegalDocumentManager implements Serializable {
 
     public void postProcessXLS(Object document) {
         formatDocumentTableXLS(document, documentReport.getName());
+    }
+
+    public List<String> completeGoal(String query) {
+        // tk put in sys options
+        String goals[] = {"# 1", "# 2", "# 3", "# 4", "# 5"};
+        List<String> matchedGoals = new ArrayList<>();
+
+        for (String goal : goals) {
+            if (goal.contains(query)) {
+                matchedGoals.add(goal);
+            }
+        }
+
+        return matchedGoals;
+
     }
 }

@@ -359,17 +359,35 @@ Email: info@dpbennett.com.jm
                         </p:inputTextarea>
 
                         <h:outputText value="Strategic Goal:" />
-                        <p:inputTextarea value="#{legalDocumentManager.currentDocument.goal}"
-                                         id="strategicGoal"
-                                         rows="3"
-                                         autoResize="false"
-                                         style="width: 300px">
+                        <ui:remove>
+                            <p:inputTextarea value="#{legalDocumentManager.currentDocument.goal}"
+                                             id="strategicGoal"
+                                             rows="3"
+                                             autoResize="false"
+                                             style="width: 300px">
+
+                                <p:ajax event="change"
+                                        listener="#{legalDocumentManager.updateDocument}"
+                                        process="@this"/>
+
+                            </p:inputTextarea>
+                        </ui:remove>
+                        <p:autoComplete id="strategicGoal"
+                                        value="#{legalDocumentManager.currentDocument.goal}"
+                                        dropdown="true"
+                                        forceSelection="false" 
+                                        completeMethod="#{legalDocumentManager.completeGoal}">
 
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
-                                    process="@this"/>
+                                    process="@this" />
+                            
+                            <p:ajax event="itemSelect"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this" />
 
-                        </p:inputTextarea>
+                        </p:autoComplete> 
+
 
                     </h:panelGrid>
                 </p:tab>
@@ -444,7 +462,7 @@ Email: info@dpbennett.com.jm
                         </p:calendar>
 
                         <h:outputText value="Set turnaround time (working days):" />
-                        <p:inputText value="#{legalDocumentManager.currentDocument.turnAroundTime}"
+                        <p:inputText value="#{legalDocumentManager.currentDocument.turnaroundTime}"
                                      id="turnAroundTime"
                                      converterMessage="Invalid Turnaround Time (TAT)" 
                                      readonly="true"
@@ -460,7 +478,7 @@ Email: info@dpbennett.com.jm
                         </p:inputText>
 
                         <h:outputText value="Actual turnaround time (working days):" />
-                        <p:inputText value="#{legalDocumentManager.currentDocument.currentDocumentTurnaroundTime}"
+                        <p:inputText value="#{legalDocumentManager.currentDocument.actualTurnaroundTime}"
                                      id="actualTurnaroundTime"
                                      styleClass="read-only-text-field"
                                      readonly="true" >
