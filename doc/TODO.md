@@ -8,17 +8,19 @@ Modules for next release: Job Management, Legal Office, Client Management
     "Report Templates" tab in sys admin and add the "Legal" category field for
     legal office reports.
   * Store "Agreed Turnaround Time" and "Actual Turnaround Time" in datebase for
-    for display in display in report.
+    for display in display in report. Create "actualTurnaroundTime" field and 
+    store the calculated value in it.
   * Impl selecting strategic goal from drop down list.
-  * Create "actualTurnaroundTime" field and store the calculated value in it.
-- Deploy latest update. Add latest mysql driver and restart app server.
+- Deploy latest update.
+- Do status update as /jmts and deactivate.
+- Send email re changes and offer training where necessary. Send special email to
+  select persons in Finance. Look for screen shots on home PC.
 - Do presentation for OJ.
+  * Mention need to do documentation before this could be done.
   * Note reports on areas of earnings as discussed with RA
   * Note sample tracking as discussed with RA and Engineering.
   * Improved search based on search types.
   * Mention customization for each organization. ie logo, firewall etc.
-- Send email re changes and offer training where necessary. Send special email to
-  select persons in Finance. Look for screen shots on home PC.
 - Do JMTS Audit Data for OJ.
 
 ## Next release (May 24-25, 2018)
