@@ -353,7 +353,7 @@ public class LegalDocumentManager implements Serializable {
         if (currentDocument == null) {
             currentDocument = createNewLegalDocument(getEntityManager(), getUser());
         }
-
+        
         return currentDocument;
     }
 
@@ -363,6 +363,8 @@ public class LegalDocumentManager implements Serializable {
 
     public void setCurrentDocument(LegalDocument currentDocument) {
         this.currentDocument = currentDocument;
+        
+        this.currentDocument.setVisited(true);
     }
 
     public LegalDocument getSelectedDocument() {

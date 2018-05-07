@@ -3,12 +3,14 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
+- Impl reportTemplateDialog
+- Impl reportTemplatesTab
 - Address "Legal/Task Module/Management" issue: 
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
     legal office reports.
 - Deploy latest update.
-- Do status update as /jmts and deactivate.
+- Deploy as /jmts and deactivate.
 - Send email re changes and offer training where necessary. Send special email to
   select persons in Finance. Look for screen shots on home PC.
 - Do presentation for OJ.
