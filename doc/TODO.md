@@ -4,7 +4,10 @@ Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
 - Impl reportTemplateDialog
+  * Add the additional fields as required.
 - Impl reportTemplatesTab
+- In report manager get the database connection params from system option 
+  and not the Report class.
 - Impl del. system option.
 - Put adding doc type and classification in legal doc "New" menu.
 - Address "Legal/Task Module/Management" issue: 
