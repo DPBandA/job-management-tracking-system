@@ -5,13 +5,6 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
-	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[bGVnYWxkb2N1bWVudCBBUyAsMTYwLDE1LGIxNWRjOTQ5LTMxZGMtNGFjMi05NGIxLTllYjk1MGZk
-ZGEwOTtlbXBsb3llZSAsMTUsMTA2LDBmOTVhYzdlLTJkNWQtNDQyYS05ZTY0LWNkYWIzMzZlM2Y3
-NTtqbXRzLmRvY3VtZW50dHlwZSAsMzk5LDkyLGM0NjZjMWI2LTFhMTItNDdmZC05ZTkwLWE3MGEw
-ODYyN2YyMzs=
-]]>
-	</property>
 	<style name="particularsStyle" mode="Transparent" fill="Solid" hTextAlign="Left" hImageAlign="Left" vTextAlign="Top" vImageAlign="Top" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{legaldocument_GOAL}.toString().trim().equals("# 1")]]></conditionExpression>
@@ -22,22 +15,16 @@ ODYyN2YyMzs=
 			<style mode="Opaque" forecolor="#000000" backcolor="#CCFFFF" fill="Solid" rotation="None" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$F{legaldocument_GOAL}.toString().trim().equals("# 3")]]></conditionExpression>
+			<conditionExpression><![CDATA[$F{legaldocument_GOAL}.toString().trim().equals("# 1")]]></conditionExpression>
 			<style mode="Opaque" forecolor="#000000" backcolor="#CC99FF" fill="Solid" rotation="None" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$F{legaldocument_GOAL}.toString().trim().equals("# 4")]]></conditionExpression>
-			<style mode="Opaque" forecolor="#000000" backcolor="#CCFFCC" fill="Solid" rotation="None" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+			<conditionExpression><![CDATA[$F{legaldocument_GOAL}.toString().trim().equals("# 1")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#CC99FF" fill="Solid" rotation="None" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 		</conditionalStyle>
 		<conditionalStyle>
-			<conditionExpression><![CDATA[$F{legaldocument_GOAL}.toString().trim().equals("# 5")]]></conditionExpression>
-			<style mode="Opaque" forecolor="#000000" backcolor="#FFFF99" fill="Solid" rotation="None" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
-		</conditionalStyle>
-	</style>
-	<style name="turnaroundTimeStyle" mode="Transparent" fill="Solid" hTextAlign="Left" hImageAlign="Left" vTextAlign="Top" vImageAlign="Top" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
-		<conditionalStyle>
-			<conditionExpression><![CDATA[$F{legaldocument_DATEOFCOMPLETION}.getTime() > $F{legaldocument_EXPECTEDDATEOFCOMPLETION}.getTime()]]></conditionExpression>
-			<style mode="Opaque" forecolor="#000000" backcolor="#FF0000" fill="Solid" rotation="None" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
+			<conditionExpression><![CDATA[$F{legaldocument_GOAL}.toString().trim().equals("# 1")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#000000" backcolor="#CC99FF" fill="Solid" rotation="None" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 		</conditionalStyle>
 	</style>
 	<parameter name="reportTitle" class="java.lang.String" isForPrompting="false">
@@ -46,129 +33,39 @@ ODYyN2YyMzs=
 	<parameter name="startPeriod1" class="java.util.Date"/>
 	<parameter name="startPeriod2" class="java.util.Date"/>
 	<queryString>
-		<![CDATA[SELECT legaldocument.`ID` AS legaldocument_ID,
-	legaldocument.`NUMBER` AS legaldocument_NUMBER,
-	legaldocument.`EXPECTEDDATEOFCOMPLETION` AS legaldocument_EXPECTEDDATEOFCOMPLETION,
-	legaldocument.`DESCRIPTION` AS legaldocument_DESCRIPTION,
-	legaldocument.`TURNAROUNDTIME` AS legaldocument_TURNAROUNDTIME,
-	legaldocument.`DATEOFCOMPLETION` AS legaldocument_DATEOFCOMPLETION,
-	legaldocument.`SUBMITTEDBY_ID` AS legaldocument_SUBMITTEDBY_ID,
-	legaldocument.`GOAL` AS legaldocument_GOAL,
-	employee.`ID` AS employee_ID,
-	employee.`LASTNAME` AS employee_LASTNAME,
-	legaldocument.`TYPE_ID` AS legaldocument_TYPE_ID,
-	employee.`FIRSTNAME` AS employee_FIRSTNAME,
-	legaldocument.`DATERECEIVED` AS legaldocument_DATERECEIVED,
-	jmts.documenttype.`ID`,
-	jmts.documenttype.`NAME`
-FROM employee employee
-	INNER JOIN legaldocument ON 
-	 legaldocument.`SUBMITTEDBY_ID` = employee.`ID` 
-	INNER JOIN jmts.documenttype ON 
-	 jmts.documenttype.`ID` = legaldocument.`TYPE_ID` 
-WHERE 
-	 legaldocument.`DATERECEIVED` >= $P{startPeriod1} 
-	 AND legaldocument.`DATERECEIVED` <= $P{startPeriod2} 
-ORDER BY legaldocument.`TYPE_ID` DESC]]>
+		<![CDATA[SELECT
+     legaldocument.`ID` AS legaldocument_ID,
+     legaldocument.`NUMBER` AS legaldocument_NUMBER,
+     legaldocument.`EXPECTEDDATEOFCOMPLETION` AS legaldocument_EXPECTEDDATEOFCOMPLETION,
+     legaldocument.`DESCRIPTION` AS legaldocument_DESCRIPTION,
+     legaldocument.`TURNAROUNDTIME` AS legaldocument_TURNAROUNDTIME,
+     legaldocument.`DATEOFCOMPLETION` AS legaldocument_DATEOFCOMPLETION,
+     legaldocument.`SUBMITTEDBY_ID` AS legaldocument_SUBMITTEDBY_ID,
+     legaldocument.`GOAL` AS legaldocument_GOAL,
+     employee.`ID` AS employee_ID,
+     employee.`LASTNAME` AS employee_LASTNAME,
+     legaldocument.`TYPE_ID` AS legaldocument_TYPE_ID,
+     employee.`FIRSTNAME` AS employee_FIRSTNAME,
+     legaldocument.`DATERECEIVED` AS legaldocument_DATERECEIVED
+FROM
+     `employee` employee INNER JOIN `legaldocument` legaldocument ON employee.`ID` = legaldocument.`SUBMITTEDBY_ID`
+WHERE legaldocument.`DATERECEIVED` >= $P{startPeriod1} AND legaldocument.`DATERECEIVED` <= $P{startPeriod2}
+ORDER BY
+     legaldocument.`TYPE_ID`]]>
 	</queryString>
-	<field name="legaldocument_ID" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_ID"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="legaldocument_NUMBER" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_NUMBER"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="legaldocument_EXPECTEDDATEOFCOMPLETION" class="java.sql.Date">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_EXPECTEDDATEOFCOMPLETION"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="legaldocument_DESCRIPTION" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_DESCRIPTION"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="legaldocument_TURNAROUNDTIME" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_TURNAROUNDTIME"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="legaldocument_DATEOFCOMPLETION" class="java.sql.Date">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_DATEOFCOMPLETION"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="legaldocument_SUBMITTEDBY_ID" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_SUBMITTEDBY_ID"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="legaldocument_GOAL" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_GOAL"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="employee_ID" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="employee_ID"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
-	</field>
-	<field name="employee_LASTNAME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="employee_LASTNAME"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
-	</field>
-	<field name="legaldocument_TYPE_ID" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_TYPE_ID"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="employee_FIRSTNAME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="employee_FIRSTNAME"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
-	</field>
-	<field name="legaldocument_DATERECEIVED" class="java.sql.Date">
-		<property name="com.jaspersoft.studio.field.label" value="legaldocument_DATERECEIVED"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
-	</field>
-	<field name="ID" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="ID"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="documenttype"/>
-	</field>
-	<field name="NAME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="NAME"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="documenttype"/>
-	</field>
-	<variable name="ID1" class="java.lang.Integer" resetType="Group" resetGroup="DocumentTypeGroup" calculation="Count">
-		<variableExpression><![CDATA[$F{ID}]]></variableExpression>
-	</variable>
-	<variable name="legaldocument_ID1" class="java.lang.Integer" calculation="Count">
-		<variableExpression><![CDATA[$F{legaldocument_ID}]]></variableExpression>
-	</variable>
-	<group name="DocumentTypeGroup">
-		<groupExpression><![CDATA[$F{NAME}]]></groupExpression>
-		<groupHeader>
-			<band height="30">
-				<textField>
-					<reportElement x="0" y="10" width="200" height="20" uuid="2529f44f-abc2-4d69-9926-f686ee6b7b96"/>
-					<textElement>
-						<font size="12" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="39">
-				<textField>
-					<reportElement x="580" y="0" width="106" height="20" uuid="b14892ef-d490-4e31-bf50-d790bf87a366"/>
-					<textElement>
-						<font size="12" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$V{ID1}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="410" y="0" width="170" height="20" uuid="962b71de-8072-4191-ba75-05fa4153459e"/>
-					<textElement textAlignment="Right">
-						<font size="12" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Total delivered = ]]></text>
-				</staticText>
-			</band>
-		</groupFooter>
-	</group>
+	<field name="legaldocument_ID" class="java.lang.Long"/>
+	<field name="legaldocument_NUMBER" class="java.lang.String"/>
+	<field name="legaldocument_EXPECTEDDATEOFCOMPLETION" class="java.sql.Date"/>
+	<field name="legaldocument_DESCRIPTION" class="java.lang.String"/>
+	<field name="legaldocument_TURNAROUNDTIME" class="java.lang.Integer"/>
+	<field name="legaldocument_DATEOFCOMPLETION" class="java.sql.Date"/>
+	<field name="legaldocument_SUBMITTEDBY_ID" class="java.lang.Long"/>
+	<field name="legaldocument_GOAL" class="java.lang.String"/>
+	<field name="employee_ID" class="java.lang.Long"/>
+	<field name="employee_LASTNAME" class="java.lang.String"/>
+	<field name="legaldocument_TYPE_ID" class="java.lang.Long"/>
+	<field name="employee_FIRSTNAME" class="java.lang.String"/>
+	<field name="legaldocument_DATERECEIVED" class="java.sql.Date"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -605,15 +502,14 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="turnaroundTimeStyle" stretchType="RelativeToTallestObject" x="861" y="0" width="95" height="20" uuid="f23bdf48-dbb8-4e9e-8047-72d079af034d"/>
+			<textField isStretchWithOverflow="true" pattern="MMM dd, yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="861" y="0" width="95" height="20" uuid="f23bdf48-dbb8-4e9e-8047-72d079af034d"/>
 				<box leftPadding="5">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textFieldExpression><![CDATA[$F{legaldocument_TURNAROUNDTIME}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="particularsStyle" stretchType="RelativeToTallestObject" x="241" y="0" width="219" height="20" uuid="96e54174-9ef1-4d99-aae2-0128dd10d7d1"/>
@@ -627,22 +523,13 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 			</textField>
 		</band>
 	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch">
-			<textField>
-				<reportElement x="580" y="0" width="106" height="20" uuid="6df14c01-3a9c-4841-b4cf-aafd0cfdc4c6"/>
-				<textElement textAlignment="Left">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{legaldocument_ID1}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="410" y="0" width="170" height="20" uuid="a9f90173-b347-4284-8702-4f07280d0432"/>
-				<textElement textAlignment="Right">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total requests completed = ]]></text>
-			</staticText>
-		</band>
+		<band height="42" splitType="Stretch"/>
 	</summary>
 </jasperReport>
