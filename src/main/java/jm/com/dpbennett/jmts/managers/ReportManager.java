@@ -98,7 +98,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.jmts.utils.MainTabView;
+import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import net.sf.jasperreports.engine.JasperRunManager;
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -116,22 +118,25 @@ public class ReportManager implements Serializable {
     private Report report;
     private StreamedContent reportFile;
     private Integer longProcessProgress;
-    private Department reportingDepartment;
+    private Department reportingDepartment; // tk may be retired
     private String reportSearchText;
-    private List<Job> currentPeriodJobReportSearchResultList;
-    private List<Job> previousPeriodJobReportSearchResultList;
-    private DatePeriod previousDatePeriod;
-    private DatePeriodJobReport jobSubCategoryReport;
-    private DatePeriodJobReport sectorReport;
-    private DatePeriodJobReport jobQuantitiesAndServicesReport;
-    private SearchParameters reportSearchParameters;
+    private List<Job> currentPeriodJobReportSearchResultList; // tk may be retired
+    private List<Job> previousPeriodJobReportSearchResultList; // tk may be retired
+    private List<Report> foundReports;
+    private DatePeriod previousDatePeriod; // tk may be retired
+    private DatePeriodJobReport jobSubCategoryReport; // tk may be retired
+    private DatePeriodJobReport sectorReport; // tk may be retired
+    private DatePeriodJobReport jobQuantitiesAndServicesReport; // tk may be retired
+    private SearchParameters reportSearchParameters; // tk may be retired
     private Employee reportEmployee;
     // Monthly report date periods
-    private DatePeriod monthlyReportDatePeriod;
-    private DatePeriod monthlyReportDataDatePeriod;
-    private DatePeriod monthlyReportYearDatePeriod;
+    private DatePeriod monthlyReportDatePeriod; // tk may be retired
+    private DatePeriod monthlyReportDataDatePeriod; // tk may be retired
+    private DatePeriod monthlyReportYearDatePeriod; // tk may be retired
     private MainTabView mainTabView;
     private JobManager jobManager;
+    private Report selectedReport;
+    private Boolean isActiveReportsOnly;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -147,7 +152,71 @@ public class ReportManager implements Serializable {
         return jobManager;
     }
 
+    public Boolean getIsActiveReportsOnly() {
+        if (isActiveReportsOnly == null) {
+            isActiveReportsOnly = true;
+        }
+        return isActiveReportsOnly;
+    }
+
+    public void setIsActiveReportsOnly(Boolean isActiveReportsOnly) {
+        this.isActiveReportsOnly = isActiveReportsOnly;
+    }
+
+    public List<Report> getFoundReports() {
+        if (foundReports == null) {
+            foundReports = Report.findAllActiveReports(getEntityManager1());
+        }
+
+        return foundReports;
+    }
+
+    public void doReportSearch() {
+
+        if (getIsActiveReportsOnly()) {
+            foundReports = Report.findActiveReportsByName(getEntityManager1(), getReportSearchText());
+        } else {
+            foundReports = Report.findReportsByName(getEntityManager1(), getReportSearchText());
+        }
+
+    }
+
+    public void editReport() {
+        PrimeFacesUtils.openDialog(null, "reportTemplateDialog", true, true, true, 460, 700);
+    }
+
+    public Report getSelectedReport() {
+        if (selectedReport == null) {
+            selectedReport = new Report();
+        }
+
+        return selectedReport;
+    }
+
+    public void setSelectedReport(Report selectedReport) {
+        this.selectedReport = selectedReport;
+    }
+
+    public void saveSelectedReport() {
+
+        selectedReport.save(getEntityManager1());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
+
+    public void cancelReportEdit(ActionEvent actionEvent) {
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
+
+    public void createNewReport() {
+
+        selectedReport = new Report();
+
+        PrimeFacesUtils.openDialog(null, "reportTemplateDialog", true, true, true, 460, 700);
+    }
+
     private void init() {
+        this.reportSearchText = "";
         this.longProcessProgress = 0;
         this.columnsToExclude = "";
         // Accpac fields init        

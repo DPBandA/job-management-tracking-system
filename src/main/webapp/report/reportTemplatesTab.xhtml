@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left" >   
             <p:commandButton title="Add new report template"                                  
                              value="New"
-                             actionListener="#{systemManager.createNewDepartment}"
+                             actionListener="#{reportManager.createNewReport}"
                              update=":headerForm:growl3"
                              onstart="PF('longProcessDialogVar').show();"                              
                              oncomplete="PF('longProcessDialogVar').hide();"
@@ -38,81 +38,74 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:reportsTable"/>
 
             </p:commandButton> 
             <p:spacer width="20" />
-            <p:inputText id="departmentSearchText" 
-                         value="#{systemManager.departmentSearchText}"
+            <p:inputText id="reportSearchText" 
+                         value="#{reportManager.reportSearchText}"
                          style="width:150px" placeholder="Enter any part of name">
                 <p:ajax event="keyup"
                         global="false"
                         onstart="PF('longProcessDialogVar').show();" 
                         oncomplete="PF('longProcessDialogVar').hide();"
-                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
-                        listener="#{systemManager.doDepartmentSearch}"
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:reportsTable"
+                        listener="#{reportManager.doReportSearch}"
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right">
-            <p:outputLabel for="activeDepartmentsOnly" value="Active departments only: " />  
+            <p:outputLabel for="activeReportsOnly" value="Active reports only: " />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
-                                         id="activeDepartmentsOnly"
-                                         value="#{systemManager.isActiveDepartmentsOnly}" >
-                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
-                             listener="#{systemManager.doDepartmentSearch}"
+                                         id="activeReportsOnly"
+                                         value="#{reportManager.isActiveReportsOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:reportsTable"
+                             listener="#{reportManager.doReportSearch}"
                              event="change"                                      
                              process="@this"/>
                 </p:selectBooleanCheckbox>            
-                <p:tooltip for="activeDepartmentsOnly" value="Check to show active departments only" 
+                <p:tooltip for="activeReportsOnly" value="Check to show active reports only" 
                            showEffect="fade" hideEffect="fade" />
                 <p:spacer width="15" />                
             </h:panelGroup>
         </p:toolbarGroup>
     </p:toolbar>    
 
-    <p:dataTable id="departmentsTable"                                       
-                 var="department"                                        
+    <p:dataTable id="reportsTable"                                       
+                 var="report"                                        
                  paginator="true"
                  rows="15"
                  style="margin-top: 1px;"
-                 widgetVar="departmentsTableVar"
+                 widgetVar="reportsTableVar"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{systemManager.foundDepartments}">
+                 value="#{reportManager.foundReports}">
 
         <f:facet name="header">
-            Departments
+            Reports
         </f:facet>
-
-        <p:column>
-            <f:facet name="header">
-                <h:outputText value="Code"/>
-            </f:facet>
-            <h:outputText value="#{department.subGroupCode}" />
-        </p:column>
 
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Name"/>
             </f:facet>
-            <h:outputText value="#{department.name}" />
+            <h:outputText value="#{report.name}" />
         </p:column>                          
 
         <p:column style="width:32px">
-            <p:commandButton title="View or edit department"   
-                             actionListener="#{systemManager.editDepartment}"
+            <p:commandButton title="View or edit report"   
+                             actionListener="#{reportManager.editReport}"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
-                <f:setPropertyActionListener value="#{department}"                                                                    
-                                             target="#{systemManager.selectedDepartment}" />
+                <f:setPropertyActionListener value="#{report}"                                                                    
+                                             target="#{reportManager.selectedReport}" />
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
+                        update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:reportsTable"/>
 
             </p:commandButton>           
         </p:column>

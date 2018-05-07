@@ -43,15 +43,15 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-bottom: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedDepartment}"
+                                     actionListener="#{reportManager.saveSelectedReport}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide()"
                                      icon="ui-icon ui-icon-check"
-                                     update="departmentdialog_growl"
+                                     update="report_template_growl"
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{systemManager.cancelDepartmentEdit}"
+                                     actionListener="#{reportManager.cancelReportEdit}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            
@@ -60,115 +60,32 @@ Email: info@dpbennett.com.jm
 
             <p:panel style="margin-bottom: 1px;">
                 <h:panelGrid columns="2">
-                    <p:outputLabel for="departmentActive" value="Active:"/>               
-                    <p:selectBooleanCheckbox id="departmentActive"
+                    <p:outputLabel for="reportActive" value="Active:"/>               
+                    <p:selectBooleanCheckbox id="reportActive"
                                              style="vertical-align: middle"
-                                             value="#{systemManager.selectedDepartment.active}" />                       
-
-                    <h:outputText value="Code:" />
-                    <p:inputText value="#{systemManager.selectedDepartment.subGroupCode}"
-                                 id="departmentCode" /> 
+                                             value="#{reportManager.selectedReport.active}" />                       
 
                     <h:outputText value="Name:" style="font-weight: bold;" />
-                    <p:inputText value="#{systemManager.selectedDepartment.name}"
+                    <p:inputText value="#{reportManager.selectedReport.name}"
                                  style="width:300px"
-                                 id="departmentName" 
+                                 id="reportName" 
                                  validator="requiredFieldValidator" /> 
 
-                    <h:outputText value="Head:" style="font-weight: bold;" />
-                    <p:autoComplete var="departmentHead"
-                                    id="departmentHead"
-                                    dropdown="true"
-                                    scrollHeight="175"
-                                    maxlength="50"
-                                    value="#{systemManager.selectedDepartment.head}"
-                                    itemLabel="#{departmentHead.name}"
-                                    itemValue="#{departmentHead}"
-                                    converter="employeeConverter"
-                                    validator="requiredFieldValidator"
-                                    forceSelection="true"
-                                    completeMethod="#{App.completeEmployee}" >                       
-                    </p:autoComplete>       
-
-                    <h:outputText value="Acting/Deputy Head:" style="font-weight: bold;" />
-                    <h:panelGroup>
-                        <p:autoComplete var="departmentActingHead"
-                                        id="departmentActingHead"
-                                        dropdown="true"
-                                        scrollHeight="175"
-                                        maxlength="100"
-                                        value="#{systemManager.selectedDepartment.actingHead}"
-                                        itemLabel="#{departmentActingHead.name}"
-                                        itemValue="#{departmentActingHead}"
-                                        converter="employeeConverter"
-                                        validator="requiredFieldValidator"
-                                        forceSelection="true"
-                                        completeMethod="#{App.completeEmployee}" >                       
-                        </p:autoComplete>     
-                        <p:spacer height="0" width="5"/>
-                        <p:selectBooleanCheckbox id="actingHeadActive"
-                                                 style="vertical-align: middle"
-                                                 value="#{systemManager.selectedDepartment.actingHeadActive}" >                       
-                        </p:selectBooleanCheckbox>
-                        <p:spacer height="0" width="5"/>
-                        <p:tooltip for="actingHeadActive" value="Check to indicate that the selected acting head is active" showEffect="fade" hideEffect="fade" />
-                        <p:outputLabel for="actingHeadActive" value="Active" />    
-                    </h:panelGroup>
-
-                    <h:outputText value="Email:" />
-                    <p:inputText value="#{systemManager.selectedDepartment.internet.email1}"
-                                 style="width:300px"
-                                 id="departmentEmail" />  
                 </h:panelGrid>
             </p:panel>
-            <p:tabView >
-                <p:tab title="Job Privileges">
-                    <h:panelGrid columns="3" cellspacing="10">
-                        <p:selectBooleanCheckbox id="canEnterJob" 
-                                                 itemLabel="Enter any job"
-                                                 value="#{systemManager.selectedDepartment.privilege.canEnterJob}" />
-                           
-
-                        <p:selectBooleanCheckbox id="canEditJob"      
-                                                 itemLabel="Edit any job"
-                                                 value="#{systemManager.selectedDepartment.privilege.canEditJob}" />
-                           
-                        <p:selectBooleanCheckbox id="canEditInvoicingAndPayment"  
-                                                 itemLabel="Edit invoicing and payment"
-                                                 value="#{systemManager.selectedDepartment.privilege.canEditInvoicingAndPayment}" />
-
-                        <p:selectBooleanCheckbox id="canApplyTaxesToJobCosting"  
-                                                 itemLabel="Apply taxes to job costing"
-                                                 value="#{systemManager.selectedDepartment.privilege.canApplyTaxesToJobCosting}" />
-
-                    </h:panelGrid>
-                </p:tab>
-                <p:tab title="Organizational Privileges">
-                    <h:panelGrid columns="3" cellspacing="10">
-                        <p:selectBooleanCheckbox id="canAddClient" 
-                                                 itemLabel="Add client"
-                                                 value="#{systemManager.selectedDepartment.privilege.canAddClient}" />
-
-                        <p:selectBooleanCheckbox id="canDeleteClient" 
-                                                 itemLabel="Delete client"
-                                                 value="#{systemManager.selectedDepartment.privilege.canDeleteClient}" />
-                    </h:panelGrid>
-                </p:tab>                   
-
-            </p:tabView>
 
             <p:toolbar style="margin-top: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedDepartment}"
+                                     actionListener="#{reportManager.saveSelectedReport}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide()"
                                      icon="ui-icon ui-icon-check"
-                                     update="departmentdialog_growl"
+                                     update="report_template_growl"
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{systemManager.cancelDepartmentEdit}"
+                                     actionListener="#{reportManager.cancelReportEdit}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            

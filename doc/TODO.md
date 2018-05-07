@@ -5,6 +5,8 @@ Modules for next release: Job Management, Legal Office, Client Management
 ## Next release (April 24-25, 2018)
 - Impl reportTemplateDialog
 - Impl reportTemplatesTab
+- Impl del. system option.
+- Put adding doc type and classification in legal doc "New" menu.
 - Address "Legal/Task Module/Management" issue: 
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
@@ -30,8 +32,6 @@ Modules for next release: Job Management, Legal Office, Client Management
   and other footer information. 
   * Let Yuval do the update and create 3 templates one for each organization.
 - "--" departments are being created delete them and find reason why it is happening.
-- Setup http://bosapp/jmts and link the current app on boshrmapp to it using 
-  stealth url forwarding. Use the technique from zoneedit.
 - Send proposed features to NCRA based on inception report.
 - Fix job search slowness:
   * Setup GF3 and test MySQL/JPA slowness
@@ -109,4 +109,6 @@ Modules for next release: Job Management, Legal Office, Client Management
   and database. May have to create a cash payment from the deposit field fist.
 - Lock job costing after it is approved. Allow assigned department to edit?
 - In "Jobs entered by employee" change "sample" column to "product".
+- Revamp and include ComplianceManager.
+- Optionally impl Note class that can be associated with a Client or other objects.
 
