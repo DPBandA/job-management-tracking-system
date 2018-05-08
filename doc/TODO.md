@@ -3,11 +3,8 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Send email to Customer Service and select Finance persons re changes and offer 
-  training where necessary. Look for screen shots on home PC or take new screenshots.
 - Send email to NCRA re feedback on email sent re docs and setup of meeting to
   finalize additional requirements.
-- Send email to Yuval re JMTS Audit data.
 - Impl reportTemplateDialog
   * Add the additional fields as required.
 - Impl reportTemplatesTab
