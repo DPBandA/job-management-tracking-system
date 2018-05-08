@@ -3,6 +3,11 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
+- Send email to Customer Service and select Finance persons re changes and offer 
+  training where necessary. Look for screen shots on home PC or take new screenshots.
+- Send email to NCRA re feedback on email sent re docs and setup of meeting to
+  finalize additional requirements.
+- Send email to Yuval re JMTS Audit data.
 - Impl reportTemplateDialog
   * Add the additional fields as required.
 - Impl reportTemplatesTab
@@ -14,10 +19,7 @@ Modules for next release: Job Management, Legal Office, Client Management
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
     legal office reports.
-- Deploy latest update.
-- Deploy as /jmts and deactivate.
-- Send email re changes and offer training where necessary. Send special email to
-  select persons in Finance. Look for screen shots on home PC.
+- Deploy as /jmts and /jmtstest and deactivate.
 - Do presentation for OJ.
   * Mention need to do documentation before this could be done.
   * Note reports on areas of earnings as discussed with RA
@@ -27,7 +29,6 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Do JMTS Audit Data for OJ.
 
 ## Next release (May 24-25, 2018)
-- Send email to NCRA re feedback on email sent re docs.
 - Add "Parent earning jobs" and change "Parent jobs only" to "Parent jobs".
 - Find way to allow department heads to use "General" and other authorized 
   search types.
