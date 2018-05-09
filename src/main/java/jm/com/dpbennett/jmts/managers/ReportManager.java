@@ -63,6 +63,7 @@ import jm.com.dpbennett.business.entity.Preference;
 import jm.com.dpbennett.business.entity.Report;
 import jm.com.dpbennett.business.entity.ReportTableColumn;
 import jm.com.dpbennett.business.entity.Sector;
+import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReport;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
@@ -137,6 +138,7 @@ public class ReportManager implements Serializable {
     private JobManager jobManager;
     private Report selectedReport;
     private Boolean isActiveReportsOnly;
+    private String reportCategory;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -145,11 +147,27 @@ public class ReportManager implements Serializable {
         init();
     }
 
+    public String getReportCategory() {
+        return reportCategory;
+    }
+
+    public void setReportCategory(String reportCategory) {
+        this.reportCategory = reportCategory;
+    }
+
     public JobManager getJobManager() {
         if (jobManager == null) {
             jobManager = Application.findBean("jobManager");
         }
         return jobManager;
+    }
+
+    public List getReportCategories() {
+        return Report.getCategories();
+    }
+
+    public List getReportMimeTypes() {
+        return Report.getMimeTypes();
     }
 
     public Boolean getIsActiveReportsOnly() {
@@ -174,9 +192,9 @@ public class ReportManager implements Serializable {
     public void doReportSearch() {
 
         if (getIsActiveReportsOnly()) {
-            foundReports = Report.findActiveReportsByName(getEntityManager1(), getReportSearchText());
+            foundReports = Report.findActiveReports(getEntityManager1(), getReportSearchText());
         } else {
-            foundReports = Report.findReportsByName(getEntityManager1(), getReportSearchText());
+            foundReports = Report.findReports(getEntityManager1(), getReportSearchText());
         }
 
     }
@@ -219,6 +237,7 @@ public class ReportManager implements Serializable {
         this.reportSearchText = "";
         this.longProcessProgress = 0;
         this.columnsToExclude = "";
+        this.reportCategory = "";
         // Accpac fields init        
         report = new Report();
         // reporting vars init
@@ -1113,8 +1132,12 @@ public class ReportManager implements Serializable {
         updateJobReport();
     }
 
+    public void updateReport() {
+        System.out.println("updating report..."); // tk
+    }
+
     public void updateReportingDepartment() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -2252,10 +2275,16 @@ public class ReportManager implements Serializable {
                 report = getLatestJobReport(em);
                 String reportFileURL = getReport().getReportFile();
 
-                Connection con = BusinessEntityUtils.establishConnection(getReport().getDatabaseDriverClass(),
-                        getReport().getDatabaseURL(),
-                        getReport().getDatabaseUsername(),
-                        getReport().getDatabasePassword());
+//                Connection con = BusinessEntityUtils.establishConnection(getReport().getDatabaseDriverClass(),
+//                        getReport().getDatabaseURL(),
+//                        getReport().getDatabaseUsername(),
+//                        getReport().getDatabasePassword());
+                Connection con = BusinessEntityUtils.establishConnection(
+                        SystemOption.findSystemOptionByName(em, "com.mysql.jdbc.Driver").getOptionValue(),
+                        SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
+                        SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
+                        SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
+
                 if (con != null) {
                     StreamedContent streamContent;
 
@@ -2304,10 +2333,12 @@ public class ReportManager implements Serializable {
                 report = getLatestJobReport(em);
                 String reportFileURL = getReport().getReportFile();
 
-                Connection con = BusinessEntityUtils.establishConnection(getReport().getDatabaseDriverClass(),
-                        getReport().getDatabaseURL(),
-                        getReport().getDatabaseUsername(),
-                        getReport().getDatabasePassword());
+                Connection con = BusinessEntityUtils.establishConnection(
+                        SystemOption.findSystemOptionByName(em, "com.mysql.jdbc.Driver").getOptionValue(),
+                        SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
+                        SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
+                        SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
+
                 if (con != null) {
                     StreamedContent streamContent;
 
@@ -2359,10 +2390,12 @@ public class ReportManager implements Serializable {
             report = getLatestJobReport(em);
             String reportFileURL = getReport().getReportFile();
 
-            Connection con = BusinessEntityUtils.establishConnection(getReport().getDatabaseDriverClass(),
-                    getReport().getDatabaseURL(),
-                    getReport().getDatabaseUsername(),
-                    getReport().getDatabasePassword());
+            Connection con = BusinessEntityUtils.establishConnection(
+                    SystemOption.findSystemOptionByName(em, "com.mysql.jdbc.Driver").getOptionValue(),
+                    SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
+                    SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
+                    SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
+
             if (con != null) {
                 StreamedContent streamContent;
 

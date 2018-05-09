@@ -22,6 +22,7 @@ package jm.com.dpbennett.jmts.managers;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -345,6 +346,7 @@ public class LegalDocumentManager implements Serializable {
         legalDocument.setClassification(Classification.findClassificationByName(em, "--"));
         legalDocument.setDocumentForm("H");
         legalDocument.setNumber(LegalDocument.getLegalDocumentNumber(legalDocument, "ED"));
+        legalDocument.setDateReceived(new Date());
 
         return legalDocument;
     }

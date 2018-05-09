@@ -78,6 +78,13 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>                                           
         </p:column>   
 
+        <p:column headerText="Name">
+            <p:cellEditor>
+                <f:facet name="output"> <h:outputText value="#{systemOption.name}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{systemOption.name}" style="width:96%"/></f:facet>
+            </p:cellEditor>                                         
+        </p:column>   
+
         <p:column headerText="Value">
             <p:cellEditor>
                 <f:facet name="output"> <h:outputText value="#{systemOption.optionValue}" /></f:facet>

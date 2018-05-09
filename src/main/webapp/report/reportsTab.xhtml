@@ -28,9 +28,24 @@ Email: info@dpbennett.com.jm
 
     <p:panel header="Report/Query criteria" style="margin-bottom: 1px;margin-top: 1px;" >
         <h:panelGrid columns="2" id="reportPanelGrid" cellspacing="10">
+
+            <h:outputText value="Category:" />
+            <p:selectOneMenu value="#{reportManager.reportCategory}" 
+                             id="reportCategory" >
+
+                <p:ajax
+                    onstart="PF('longProcessDialogVar2').show();"
+                    oncomplete="PF('longProcessDialogVar2').hide();"
+                    listener="#{reportManager.updateReport}"
+                    update="report"
+                    process="@this" />
+
+                <f:selectItems value="#{reportManager.reportCategories}"/>
+
+            </p:selectOneMenu>
+
             <h:outputText value="Report:"/>    
             <h:panelGroup>
-                
                 <p:autoComplete var="report"      
                                 id="report"
                                 forceSelection="true"
@@ -43,13 +58,14 @@ Email: info@dpbennett.com.jm
                                 itemLabel="#{report.name}"
                                 converter="reportConverter"
                                 completeMethod="#{App.completeReport}" >
-                    
+
                     <p:ajax event="itemSelect"
                             listener="#{reportManager.refreshJobReport}"
                             onstart="PF('longProcessDialogVar2').show();"
                             oncomplete="PF('longProcessDialogVar2').hide();"
                             update="reportPanelGrid,datePeriodsPanelGrid,jobsReportTableTabView,export1,export2"
                             process="@this" />
+
                 </p:autoComplete>
                 <p:watermark value="-- select a report --" for="report" />
             </h:panelGroup>

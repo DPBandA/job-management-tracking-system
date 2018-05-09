@@ -909,9 +909,9 @@ public class SystemManager implements Serializable {
     public void doEmployeeSearch() {
 
         if (getIsActiveEmployeesOnly()) {
-            foundEmployees = Employee.findActiveEmployeesByName(getEntityManager(), getEmployeeSearchText());
+            foundEmployees = Employee.findActiveEmployees(getEntityManager(), getEmployeeSearchText());
         } else {
-            foundEmployees = Employee.findEmployeesByName(getEntityManager(), getEmployeeSearchText());
+            foundEmployees = Employee.findEmployees(getEntityManager(), getEmployeeSearchText());
         }
 
         // Add tab if it does not exist
@@ -934,6 +934,10 @@ public class SystemManager implements Serializable {
             getMainTabView().addTab(getEntityManager(), "System Administration", true);
         }
 
+    }
+
+    public void openSystemBrowser() {
+        getMainTabView().addTab(getEntityManager(), "System Administration", true);
     }
 
     public String getFoundUser() {

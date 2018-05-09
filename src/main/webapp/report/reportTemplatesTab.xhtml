@@ -91,7 +91,21 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Name"/>
             </f:facet>
             <h:outputText value="#{report.name}" />
-        </p:column>                          
+        </p:column>   
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Category"/>
+            </f:facet>
+            <h:outputText value="#{report.category}" />
+        </p:column> 
+        
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Description"/>
+            </f:facet>
+            <h:outputText value="#{report.description}" />
+        </p:column> 
 
         <p:column style="width:32px">
             <p:commandButton title="View or edit report"   

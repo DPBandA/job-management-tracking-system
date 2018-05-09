@@ -3,20 +3,15 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Send email to NCRA re feedback on email sent re docs and setup of meeting to
-  finalize additional requirements.
-- Impl reportTemplateDialog
-  * Add the additional fields as required.
-- Impl reportTemplatesTab
-- In report manager get the database connection params from system option 
-  and not the Report class.
-- Impl del. system option.
-- Put adding doc type and classification in legal doc "New" menu.
+- Widen legal document dialog so the edit buttons show in dark hive and other themes.
+- Deactivate current deployments and deploy /jmts and /jmtstest.
+- Reports Tab:
+  * Impl getting reports by category.
+  * Add report description.
 - Address "Legal/Task Module/Management" issue: 
   * "Merge" reporting tab with the general reporting feature. Impl the 
     "Report Templates" tab in sys admin and add the "Legal" category field for
     legal office reports.
-- Deploy as /jmts and /jmtstest and deactivate.
 - Do presentation for OJ.
   * Mention need to do documentation before this could be done.
   * Note reports on areas of earnings as discussed with RA
