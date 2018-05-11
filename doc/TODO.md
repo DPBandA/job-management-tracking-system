@@ -3,8 +3,6 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Change pic on service contract and control number. Remember to copy the new 
-  template to the jasper folder.
 - All reports except monthly report and analytical reports not working. Fix!
 - Widen legal document dialog so the edit buttons show in dark hive and other themes.
 - Deactivate current deployments and deploy /jmts and /jmtstest.
@@ -22,6 +20,8 @@ Modules for next release: Job Management, Legal Office, Client Management
   * Improved search based on search types.
   * Mention customization for each organization. ie logo, firewall etc.
 - Do JMTS Audit Data for OJ.
+- Change pic on service contract and control number. Remember to copy the new 
+  template to the jasper folder. Send request to Garfield.
 
 ## Next release (May 24-25, 2018)
 - Impl. preventing change once job is marked completed.
