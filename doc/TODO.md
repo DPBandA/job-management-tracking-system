@@ -3,6 +3,9 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
+- Change pic on service contract and control number. Remember to copy the new 
+  template to the jasper folder.
+- All reports except monthly report and analytical reports not working. Fix!
 - Widen legal document dialog so the edit buttons show in dark hive and other themes.
 - Deactivate current deployments and deploy /jmts and /jmtstest.
 - Reports Tab:
@@ -21,6 +24,7 @@ Modules for next release: Job Management, Legal Office, Client Management
 - Do JMTS Audit Data for OJ.
 
 ## Next release (May 24-25, 2018)
+- Impl. preventing change once job is marked completed.
 - Add "Parent earning jobs" and change "Parent jobs only" to "Parent jobs".
 - Find way to allow department heads to use "General" and other authorized 
   search types.
@@ -107,4 +111,5 @@ Modules for next release: Job Management, Legal Office, Client Management
 - In "Jobs entered by employee" change "sample" column to "product".
 - Revamp and include ComplianceManager.
 - Optionally impl Note class that can be associated with a Client or other objects.
+- Costing templates takes long to appear when dropdown is first selected.
 

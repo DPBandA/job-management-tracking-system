@@ -2280,7 +2280,7 @@ public class ReportManager implements Serializable {
 //                        getReport().getDatabaseUsername(),
 //                        getReport().getDatabasePassword());
                 Connection con = BusinessEntityUtils.establishConnection(
-                        SystemOption.findSystemOptionByName(em, "com.mysql.jdbc.Driver").getOptionValue(),
+                        SystemOption.findSystemOptionByName(em, "defaultDatabaseDriver").getOptionValue(),
                         SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
                         SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
                         SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
@@ -2334,7 +2334,7 @@ public class ReportManager implements Serializable {
                 String reportFileURL = getReport().getReportFile();
 
                 Connection con = BusinessEntityUtils.establishConnection(
-                        SystemOption.findSystemOptionByName(em, "com.mysql.jdbc.Driver").getOptionValue(),
+                        SystemOption.findSystemOptionByName(em, "defaultDatabaseDriver").getOptionValue(),
                         SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
                         SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
                         SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
@@ -2391,7 +2391,7 @@ public class ReportManager implements Serializable {
             String reportFileURL = getReport().getReportFile();
 
             Connection con = BusinessEntityUtils.establishConnection(
-                    SystemOption.findSystemOptionByName(em, "com.mysql.jdbc.Driver").getOptionValue(),
+                    SystemOption.findSystemOptionByName(em, "defaultDatabaseDriver").getOptionValue(),
                     SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
                     SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
                     SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());

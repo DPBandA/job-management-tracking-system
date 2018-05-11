@@ -97,7 +97,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     }
 
     public StreamedContent getServiceContractStreamContent() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
 
@@ -628,7 +628,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setWrapText(true);
             BusinessEntityUtils.setExcelCellValue(
                     wb, serviceContractSheet, "R9",
-                    getCurrentJob().getJobCostingAndPayment().getReceiptNumber(),
+                    getCurrentJob().getJobCostingAndPayment().getReceiptNumbers(),
                     "java.lang.String", dataCellStyle);
 
             // TOTAL PAID (J$)
@@ -672,15 +672,17 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
                     "Currency", dataCellStyle);
 
             // DATE PAID (date of last payment)
-            dataCellStyle = getDefaultCellStyle(wb);
-            dataCellStyle.setBorderBottom((short) 1);
-            dataCellStyle.setFont(defaultFont);
-            dataCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-            dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
-            BusinessEntityUtils.setExcelCellValue(
-                    wb, serviceContractSheet, "AH9",
-                    getCurrentJob().getJobStatusAndTracking().getDepositDate(),
-                    "java.util.Date", dataCellStyle);
+            if (getCurrentJob().getJobCostingAndPayment().getLastPaymentDate() != null) {
+                dataCellStyle = getDefaultCellStyle(wb);
+                dataCellStyle.setBorderBottom((short) 1);
+                dataCellStyle.setFont(defaultFont);
+                dataCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+                dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+                BusinessEntityUtils.setExcelCellValue(
+                        wb, serviceContractSheet, "AH9",
+                        getCurrentJob().getJobCostingAndPayment().getLastPaymentDate(),
+                        "java.util.Date", dataCellStyle);
+            }
 
             // BALANCE (amount due) 
             dataCellStyle = getDefaultCellStyle(wb);
@@ -703,8 +705,8 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
                         "java.lang.String", dataCellStyle);
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "AL10",
-                        getCurrentJob().getJobCostingAndPayment().getEstimatedCostIncludingTaxes()
-                        - getCurrentJob().getJobCostingAndPayment().getTotalPayment(),
+                        BusinessEntityUtils.roundTo2DecimalPlaces(getCurrentJob().getJobCostingAndPayment().getEstimatedCostIncludingTaxes())
+                        - BusinessEntityUtils.roundTo2DecimalPlaces(getCurrentJob().getJobCostingAndPayment().getTotalPayment()),
                         "Currency", dataCellStyle);
             }
 
@@ -717,10 +719,10 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
             dataCellStyle.setFont(defaultFont);
             dataCellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_TOP);
-            if (!getCurrentJob().getJobCostingAndPayment().getPaymentTerms().trim().equals("")) {
+            if (!getCurrentJob().getJobCostingAndPayment().getAllPaymentTerms().trim().equals("")) {
                 BusinessEntityUtils.setExcelCellValue(
                         wb, serviceContractSheet, "R12",
-                        getCurrentJob().getJobCostingAndPayment().getPaymentTerms(),
+                        getCurrentJob().getJobCostingAndPayment().getAllPaymentTerms(),
                         "java.lang.String", dataCellStyle);
             } else {
                 BusinessEntityUtils.setExcelCellValue(
