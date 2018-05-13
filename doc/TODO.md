@@ -3,8 +3,6 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Update one BSJ with all the require contacts and disable the others.
-- Widen legal document dialog so the edit buttons show in dark hive and other themes.
 - Implement the Reports module:
   * Impl accessing reports from class in addition to externally.
   * Impl access to module via the dashboard.
