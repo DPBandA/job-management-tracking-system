@@ -3,27 +3,25 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Change pic on service contract and control number. Remember to copy the new 
-  template to the jasper folder.
-- All reports except monthly report and analytical reports not working. Fix!
-- Widen legal document dialog so the edit buttons show in dark hive and other themes.
-- Deactivate current deployments and deploy /jmts and /jmtstest.
-- Reports Tab:
+- Implement the Reports module:
+  * Impl accessing reports from class in addition to externally.
+  * Impl access to module via the dashboard.
+  * Impl report dialog
+  * All reports except monthly report and analytical reports not working. Fix!    
   * Impl getting reports by category.
   * Add report description.
-- Address "Legal/Task Module/Management" issue: 
-  * "Merge" reporting tab with the general reporting feature. Impl the 
-    "Report Templates" tab in sys admin and add the "Legal" category field for
-    legal office reports.
-- Do presentation for OJ.
-  * Mention need to do documentation before this could be done.
-  * Note reports on areas of earnings as discussed with RA
-  * Note sample tracking as discussed with RA and Engineering.
-  * Improved search based on search types.
-  * Mention customization for each organization. ie logo, firewall etc.
-- Do JMTS Audit Data for OJ.
+  * Impl and add Legal reports.
+- JMTS Weekly update:
+  - Do presentation for OJ:
+    * Mention need to do documentation before this could be done.
+    * Note reports on areas of earnings as discussed with RA
+    * Note sample tracking as discussed with RA and Engineering.
+    * Improved search based on search types.
+    * Mention customization for each organization. ie logo, firewall etc.
+    * Do draft JMTS Audit Data for OJ.
 
 ## Next release (May 24-25, 2018)
+- Follow up with Garfield re service contract.
 - Impl. preventing change once job is marked completed.
 - Add "Parent earning jobs" and change "Parent jobs only" to "Parent jobs".
 - Find way to allow department heads to use "General" and other authorized 
