@@ -41,7 +41,6 @@ import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.business.entity.validator.AddressValidator;
 import jm.com.dpbennett.business.entity.validator.ContactValidator;
 import jm.com.dpbennett.jmts.Application;
-import jm.com.dpbennett.jmts.utils.MainTabView;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 
@@ -62,14 +61,22 @@ public class ClientManager implements Serializable {
     private Address selectedAddress;
     private String searchText;
     private List<Client> foundClients;
-    //private MainTabView mainTabView;
     private JobManager jobManager;
+    private Boolean edit;
 
     /**
      * Creates a new instance of ClientForm
      */
     public ClientManager() {
         init();
+    }
+
+    public Boolean getEdit() {
+        return edit;
+    }
+
+    public void setEdit(Boolean edit) {
+        this.edit = edit;
     }
 
     public JobManager getJobManager() {
@@ -115,6 +122,8 @@ public class ClientManager implements Serializable {
 
     public void setSelectedContact(Contact selectedContact) {
         this.selectedContact = selectedContact;
+        
+        setEdit(true);
     }
 
     public Address getSelectedAddress() {
@@ -123,6 +132,8 @@ public class ClientManager implements Serializable {
 
     public void setSelectedAddress(Address selectedAddress) {
         this.selectedAddress = selectedAddress;
+        
+        setEdit(true);
     }
 
     // tk to be removed
@@ -146,11 +157,11 @@ public class ClientManager implements Serializable {
     }
 
     public Boolean getIsNewContact() {
-        return getSelectedContact().getId() == null;
+        return getSelectedContact().getId() == null && !getEdit();
     }
 
     public Boolean getIsNewAddress() {
-        return getSelectedAddress().getId() == null;
+        return getSelectedAddress().getId() == null && !getEdit();
     }
 
     public Boolean getIsActiveClientsOnly() {
@@ -450,12 +461,15 @@ public class ClientManager implements Serializable {
             selectedContact = new Contact("", "", "Main");
             selectedContact.setInternet(new Internet());
         }
+        
+        setEdit(false);
 
         setIsDirty(false);
     }
 
     public void editCurrentContact() {
         selectedContact = getCurrentContact();
+        setEdit(true);
     }
 
     public void createNewAddress() {
@@ -474,11 +488,14 @@ public class ClientManager implements Serializable {
             selectedAddress = new Address("", "Billing");
         }
 
+        setEdit(false);
+
         setIsDirty(false);
     }
 
     public void editCurrentAddress() {
         selectedAddress = getCurrentAddress();
+        setEdit(true);
     }
 
     public List<Client> completeClient(String query) {

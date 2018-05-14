@@ -3,6 +3,10 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
+- Deploy jmts and jmtstest (@5:00p)
+- When objects in a table such as address, contact and cost component with null
+  id are edited, they are duplicated. Fix!
+  * Use editing field to indicate when object is being edited.
 - Implement the Reports module:
   * Impl accessing reports from class in addition to externally.
   * Impl access to module via the dashboard.
