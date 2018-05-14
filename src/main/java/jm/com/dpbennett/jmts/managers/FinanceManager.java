@@ -116,12 +116,21 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private DialogActionHandler dialogActionHandler;
     private Boolean enableOnlyPaymentEditing;
     private JobManager jobManager;
+    private Boolean edit;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public FinanceManager() {
         init();
+    }
+
+    public Boolean getEdit() {
+        return edit;
+    }
+
+    public void setEdit(Boolean edit) {
+        this.edit = edit;
     }
 
     public JobManager getJobManager() {
@@ -1443,6 +1452,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void editCostComponent(ActionEvent event) {
+        setEdit(true);
     }
 
     public void createNewCashPayment(ActionEvent event) {
@@ -1475,6 +1485,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void createNewCostComponent(ActionEvent event) {
         selectedCostComponent = new CostComponent();
+        setEdit(false);
     }
 
     public void cancelCashPaymentEdit() {
@@ -1510,9 +1521,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void okCostingComponent() {
-        if (selectedCostComponent.getId() == null) {
+        if (selectedCostComponent.getId() == null && !getEdit()) {
             getCurrentJob().getJobCostingAndPayment().getCostComponents().add(selectedCostComponent);
         }
+        setEdit(false);
         updateFinalCost();
         updateAmountDue();
 
