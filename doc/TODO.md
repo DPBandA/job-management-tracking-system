@@ -23,8 +23,11 @@ Modules for next release: Job Management, Legal Office, Client Management
     * Improved search based on search types.
     * Mention customization for each organization. ie logo, firewall etc.
     * Do draft JMTS Audit Data for OJ.
-
 ## Next release (May 24-25, 2018)
+- Check why null sector occurred (eg 50/2018/2655/26)resulting in a search for
+  the job that results in 0 results. May have to ensure that all fields on which
+  search is done is validated.
+- When job is job/costing is closed without saving, set "dirty" to false.
 - Setup dashboard and main tab view for all modules.
 - Follow up with Garfield re service contract.
 - Impl. preventing change once job is marked completed.
