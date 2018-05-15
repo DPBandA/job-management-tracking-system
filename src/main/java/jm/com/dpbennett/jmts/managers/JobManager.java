@@ -72,7 +72,6 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
 import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import static jm.com.dpbennett.jmts.Application.checkForLDAPUser;
 import jm.com.dpbennett.jmts.utils.DialogActionHandler;
 import jm.com.dpbennett.jmts.utils.Dashboard;
@@ -112,13 +111,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean showJobEntry;
     private List<Job> jobSearchResultList;
     private Integer loginAttempts;
-    //private SearchParameters currentSearchParameters;
     // Managers
     private ClientManager clientManager;
     private ReportManager reportManager;
     private FinanceManager financeManager;
     private JobSampleManager jobSampleManager;
     private ContractManager contractManager;
+    private LegalDocumentManager legalDocumentManager;
     //////////////////////////////////////////////////
     private DatePeriod dateSearchPeriod;
     private String dateSearchField;
@@ -146,6 +145,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private DialogActionHandler dialogActionHandler;
     private Dashboard dashboard;
     private MainTabView mainTabView;
+    //private String dashboardTabId;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -174,6 +174,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         financeManager = Application.findBean("financeManager");
         jobSampleManager = Application.findBean("jobSampleManager");
         contractManager = Application.findBean("contractManager");
+        legalDocumentManager = Application.findBean("legalDocumentManager");
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
         // Search fields init
@@ -268,7 +269,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             for (Object obj : getSearchTypes()) {
                 SelectItem item = (SelectItem) obj;
                 if (!item.getLabel().equals("General")
-                        && !item.getLabel().equals("Unapproved job costings") 
+                        && !item.getLabel().equals("Unapproved job costings")
                         && !item.getLabel().equals("Incomplete jobs")) {
                     newList.add(item);
                 }
@@ -812,8 +813,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void onDashboardTabChange(TabChangeEvent event) {
 
-        // Nothing to do yet
-        //String tabId = ((DashboardTab) event.getData()).getId();
+        getDashboard().setSelectedTabId(((Tab) event.getData()).getId());
     }
 
     public void updateDashboard(String tabId) {
@@ -1987,10 +1987,27 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             return contacts;
         } catch (Exception e) {
-
             System.out.println(e);
             return new ArrayList<>();
         }
+    }
+
+    public void doGeneralSearch() {
+
+        switch (getDashboard().getSelectedTabId()) {
+            case "Job Management":
+                doJobSearch();
+                break;
+            case "Document Management":
+                legalDocumentManager.doLegalDocumentSearch();
+                break;
+            case "Job Management3":
+                break;
+            default:
+                break;
+        }
+        
+        
     }
 
     public void doJobSearch() {
@@ -2016,6 +2033,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         getDateSearchPeriod().getStartDate(),
                         getDateSearchPeriod().getEndDate(), true);
             }
+
         } else {
             jobSearchResultList = new ArrayList<>();
         }
@@ -2024,7 +2042,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getSearchType().equals("Unapproved job costings")) {
             getUser().setJobTableViewPreference("Job Costings");
         }
-        
+
         openJobBrowser();
 
     }

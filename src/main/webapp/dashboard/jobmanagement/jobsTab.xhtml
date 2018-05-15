@@ -23,26 +23,40 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <p:toolbar style="margin-bottom: 1px;">
+
         <p:toolbarGroup align="left">
-            <p:commandButton
-                actionListener="#{jobManager.createNewJob}"
-                global="true"                                        
-                onstart="PF('longProcessDialogVar').show();" 
-                oncomplete="PF('longProcessDialogVar').hide();"
-                onerror="PF('connectionErrorDialog').show();"
-                value="New"       
-                update="headerForm:growl3"
-                title="Create new job"
-                icon="ui-icon-plusthick"
-                process="@this" >
+            <ui:remove>
+                <p:commandButton                
+                    actionListener="#{jobManager.createNewJob}"      
+                    onstart="PF('longProcessDialogVar').show();" 
+                    oncomplete="PF('longProcessDialogVar').hide();"
+                    onerror="PF('connectionErrorDialog').show();"
+                    value="New"       
+                    update="headerForm:growl3"
+                    title="Create new job"
+                    icon="ui-icon-plusthick"
+                    process="@this" >
 
-                <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
-                        listener="#{jobManager.jobDialogReturn}" />
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
 
-            </p:commandButton>
+                </p:commandButton>
+            </ui:remove>
+            <p:menuButton value="New" >  
+                <p:menuitem value="Job"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            oncomplete="PF('longProcessDialogVar').hide();"
+                            onerror="PF('connectionErrorDialog').show();"
+                            actionListener="#{jobManager.createNewJob}"     
+                            update="headerForm:growl3"
+                            title="Create new job"
+                            icon="ui-icon-plusthick"
+                            process="@this"/>
+            </p:menuButton>
 
         </p:toolbarGroup>
+
         <p:toolbarGroup align="right">
             <p:menuButton value="Tools" >  
                 <p:menuitem value="Job Browser"

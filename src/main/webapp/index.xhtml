@@ -164,6 +164,7 @@ Email: info@dpbennett.com.jm
                         process="@this"/> 
 
                     <p:defaultCommand target=":mainTabViewForm:doNothingButton" />
+
                 </h:form>
             </p:layoutUnit>
 
@@ -176,6 +177,20 @@ Email: info@dpbennett.com.jm
                 collapsed="#{jobManager.westLayoutUnitCollapsed}"
                 collapsible="true">   
                 <h:form id="dashboardForm" > 
+
+                    <p:commandButton
+                        id="doGeneralSearchButton"
+                        style="visibility: hidden;"
+                        global="false"                                        
+                        value=""                                       
+                        title="This is the default button that accepts the enter key press" 
+                        onstart="PF('longProcessDialogVar').show();"                                 
+                        oncomplete="PF('longProcessDialogVar').hide();"
+                        actionListener="#{jobManager.doGeneralSearch}"
+                        process="@form"/>                    
+
+                    <p:defaultCommand id="dashboardDefaultCommandButton" 
+                                      target="#{jobManager.dashboard.defaultCommandButtonId}" />
 
                     <p:accordionPanel id="dashboardAccordion" 
                                       value="#{jobManager.dashboard.tabs}" 

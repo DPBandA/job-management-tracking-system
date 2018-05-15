@@ -439,7 +439,7 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void doLegalDocumentSearch() {
-
+      
         EntityManager em = getEntityManager();
 
         if (searchText != null) {
