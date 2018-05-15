@@ -3,8 +3,6 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
-- Prevent enter key from activating the create new job button.
-- 
 - Deploy jmts and jmtstest (@5:00p)
 - When objects in a table such as address, contact and cost component with null
   id are edited, they are duplicated. Fix!
@@ -27,6 +25,7 @@ Modules for next release: Job Management, Legal Office, Client Management
     * Do draft JMTS Audit Data for OJ.
 
 ## Next release (May 24-25, 2018)
+- Setup dashboard and main tab view for all modules.
 - Follow up with Garfield re service contract.
 - Impl. preventing change once job is marked completed.
 - Add "Parent earning jobs" and change "Parent jobs only" to "Parent jobs".
