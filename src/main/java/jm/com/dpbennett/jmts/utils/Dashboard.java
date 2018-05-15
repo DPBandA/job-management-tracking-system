@@ -36,12 +36,33 @@ public class Dashboard implements Serializable {
     private List<Tab> tabs;
     private Boolean render;
     private Integer tabIndex;
+    private String defaultCommandButtonId;
+    private String selectedTabId;
 
     public Dashboard(JobManagerUser user) {
         this.user = user;
         tabs = new ArrayList<>();
         tabIndex = 0;
         render = false;
+        defaultCommandButtonId = "doGeneralSearchButton";
+    }
+
+    public String getSelectedTabId() {
+        return selectedTabId;
+    }
+
+    public void setSelectedTabId(String selectedTabId) {
+        this.selectedTabId = selectedTabId;
+    }
+    
+    
+
+    public String getDefaultCommandButtonId() {
+        return defaultCommandButtonId;
+    }
+
+    public void setDefaultCommandButtonId(String defaultCommandButtonId) {
+        this.defaultCommandButtonId = defaultCommandButtonId;
     }
 
     public void removeAllTabs() {
@@ -198,6 +219,9 @@ public class Dashboard implements Serializable {
             tabs.add(new Tab("Client Management",
                     "Client Management"));
         }
+        
+        // Set the first tab as the selected tab
+        setSelectedTabId(tabs.get(0).getId());
     }
 
     public void reset(JobManagerUser user) {

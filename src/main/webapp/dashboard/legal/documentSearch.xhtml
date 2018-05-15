@@ -24,30 +24,30 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <p:panel header="Document Search" >
+    <p:panel id="documentSearchPanel" header="Document Search" >
         <h:panelGrid columns="2" cellspacing="5">
             <h:outputText value="Search type: " />
             <p:selectOneMenu value="#{legalDocumentManager.searchType}" style="width: 90%;" >
-                
+
                 <p:ajax update="searchText"
                         global="false"
                         listener="#{legalDocumentManager.updateSearch}"
                         process="@this" />
-                
+
                 <f:selectItems value="#{App.legalDocumentSearchTypes}" />
-                
+
             </p:selectOneMenu>
 
             <h:outputText value="Date field: " />
             <p:selectOneMenu value="#{legalDocumentManager.dateSearchField}" style="width: 90%;" >
-                
+
                 <p:ajax update="searchText"
                         global="false"
                         listener="#{legalDocumentManager.updateSearch}"
                         process="@this" />
-                
+
                 <f:selectItems value="#{App.legalDocumentDateSearchFields}" />
-                
+
             </p:selectOneMenu>
 
             <h:outputText value="Date period: " />
@@ -86,9 +86,11 @@ Email: info@dpbennett.com.jm
         <p:toolbar>
             <p:toolbarGroup align="right" >
                 <p:inputText value="#{legalDocumentManager.searchText}"  
-                             style="width: 50%;"/>        
+                             style="width: 50%;" />
+
                 <p:spacer width="5" />
                 <p:commandButton value="Search"
+                                 id="legalDocumentSearchButton"
                                  onstart="PF('longProcessDialogVar').show();"
                                  actionListener="#{legalDocumentManager.doLegalDocumentSearch}"
                                  oncomplete="PF('longProcessDialogVar').hide();"

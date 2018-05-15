@@ -24,7 +24,8 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <p:panel header="Job Search" >
+    <p:panel id="jobSearchPanel" header="Job Search" >
+
         <h:panelGrid columns="2" cellspacing="5">
             <h:outputText value="Search type: " />
             <p:selectOneMenu value="#{jobManager.searchType}" 
@@ -32,9 +33,9 @@ Email: info@dpbennett.com.jm
                 <p:ajax                        
                     listener="#{jobManager.updateSearchType}"
                     process="@this" />
-                
+
                 <f:selectItems value="#{jobManager.authorizedSearchTypes}" />
-                
+
             </p:selectOneMenu>
 
             <h:outputText value="Date field: " />
@@ -43,21 +44,21 @@ Email: info@dpbennett.com.jm
                 <p:ajax                        
                     listener="#{jobManager.updateDateSearchField}"
                     process="@this" />
-                
+
                 <f:selectItems value="#{jobManager.dateSearchFields}" />
-                
+
             </p:selectOneMenu>
 
             <h:outputText value="Date period: " />               
             <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}" 
                              style="width: 90%;" >
-                
+
                 <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
                         update="startSearchDate,endSearchDate"
                         process="@this" />
-                
+
                 <f:selectItems value="#{App.datePeriods}"/>
-                
+
             </p:selectOneMenu>
             <h:outputText value="Start:"  />
             <p:calendar id="startSearchDate"
@@ -89,7 +90,8 @@ Email: info@dpbennett.com.jm
             <p:toolbarGroup align="right" >
                 <p:inputText value="#{jobManager.searchText}"  
                              style="width: 50%;"
-                             id="searchText"/>        
+                             id="searchText" />  
+                 
                 <p:spacer width="5" />
                 <p:commandButton value="Search"
                                  id="doSearch"

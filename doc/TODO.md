@@ -3,6 +3,8 @@
 Modules for next release: Job Management, Legal Office, Client Management
 
 ## Next release (April 24-25, 2018)
+- Prevent enter key from activating the create new job button.
+- 
 - Deploy jmts and jmtstest (@5:00p)
 - When objects in a table such as address, contact and cost component with null
   id are edited, they are duplicated. Fix!
@@ -35,6 +37,7 @@ Modules for next release: Job Management, Legal Office, Client Management
   * Let Yuval do the update and create 3 templates one for each organization.
 - "--" departments are being created delete them and find reason why it is happening.
 - Send proposed features to NCRA based on inception report.
+- Impl reset of LD Manager.
 - Fix job search slowness:
   * Setup GF3 and test MySQL/JPA slowness
   * Checkout if indices are required
