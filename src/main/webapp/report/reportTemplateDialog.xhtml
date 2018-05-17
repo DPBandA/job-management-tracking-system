@@ -61,7 +61,7 @@ Email: info@dpbennett.com.jm
 
             <p:panel style="margin-bottom: 1px;">
                 <h:panelGrid columns="2">
-                    <p:outputLabel for="reportActive" value="Active:"/>               
+                    <p:outputLabel for="reportActive" value="Active:" style="font-weight: bold;" />               
                     <p:selectBooleanCheckbox id="reportActive"
                                              style="vertical-align: middle"
                                              value="#{reportManager.selectedReport.active}" />                       
@@ -79,31 +79,40 @@ Email: info@dpbennett.com.jm
 
                     <h:outputText value="Name:" style="font-weight: bold;" />
                     <p:inputText value="#{reportManager.selectedReport.name}"
-                                 style="width: 200%;"
+                                 style="width: 175%;"
                                  id="reportName" 
                                  validator="requiredFieldValidator" /> 
 
-                    <h:outputText value="Report file template:" style="font-weight: bold;" />
-                    <p:inputText value="#{reportManager.selectedReport.reportFileTemplate}"
-                                 style="width: 250%;"
-                                 id="reportFileTemplate" 
-                                 validator="requiredFieldValidator" />
+                    <h:outputText value="Report template:" style="font-weight: bold;" />
+                    <h:panelGroup>
+                        <h:panelGrid columns="2">                            
+                            <p:inputText value="#{reportManager.selectedReport.reportFileTemplate}"
+                                         id="reportFileTemplate" 
+                                         validator="requiredFieldValidator" />
+                            <p:selectBooleanCheckbox itemLabel="packaged"
+                                                     title="Check if this report template is in a class package"
+                                                     value="#{reportManager.selectedReport.usePackagedReportFileTemplate}" />   
+                        </h:panelGrid>
+                    </h:panelGroup>
+                    
+                    <h:outputText value="Report template MIME type:" style="font-weight: bold;" />                   
+                    <p:selectOneMenu value="#{reportManager.selectedReport.reportFileMimeType}" 
+                                     id="reportFileMimeType" >
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                        <f:selectItems value="#{reportManager.reportMimeTypes}"/>
+
+                    </p:selectOneMenu>
 
                     <h:outputText value="Report output file:" style="font-weight: bold;" />
                     <p:inputText value="#{reportManager.selectedReport.reportFile}"
-                                 style="width: 250%;"
                                  id="reportFile" 
                                  validator="requiredFieldValidator" />
-
-                    <h:outputText value="Report file MIME type:" style="font-weight: bold;" />
-                    <ui:remove>
-                        <p:inputText value="#{reportManager.selectedReport.reportFileMimeType}"
-                                     style="width: 250%;"
-                                     id="reportFileMimeType" 
-                                     validator="requiredFieldValidator" />
-                    </ui:remove>
-                    <p:selectOneMenu value="#{reportManager.selectedReport.reportFileMimeType}" 
-                                     id="reportFileMimeType" >
+                    
+                    <h:outputText value="Report output MIME type:" style="font-weight: bold;" />                   
+                    <p:selectOneMenu value="#{reportManager.selectedReport.reportOutputFileMimeType}" 
+                                     id="reportOutputFileMimeType" >
 
                         <f:validator validatorId="requiredFieldValidator" />
 
@@ -117,7 +126,7 @@ Email: info@dpbennett.com.jm
                                       maxlength="1000"
                                       autoResize="false"
                                       rows="4"
-                                      style="width:250%;" >
+                                      style="width:175%;" >
 
                         <f:validator validatorId="requiredFieldValidator" />
 

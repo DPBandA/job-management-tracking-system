@@ -31,14 +31,17 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.currentJob.sector}" 
                         itemLabel="#{sector.name}"
                         itemValue="#{sector}"
-                        converter="sectorConverter"                        
+                        converter="sectorConverter"     
+                        validator="requiredFieldValidator"
                         forceSelection="true"
                         scrollHeight="250"
                         completeMethod="#{App.completeActiveSectors}" >
+            
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateSector}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
         </p:autoComplete>     
 
 
@@ -49,14 +52,17 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.currentJob.jobCategory}" 
                         itemLabel="#{jobCategory.name}"
                         itemValue="#{jobCategory}"
-                        converter="jobCategoryConverter"                        
+                        converter="jobCategoryConverter"  
+                        validator="requiredFieldValidator"
                         forceSelection="true"
                         scrollHeight="250"
                         completeMethod="#{App.completeActiveJobCategories}" >
+            
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobCategory}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
         </p:autoComplete>     
 
         <h:outputText value="Subcategory:" style="font-weight: bold" />
@@ -66,14 +72,17 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.currentJob.jobSubCategory}" 
                         itemLabel="#{jobSubCategory.name}"
                         itemValue="#{jobSubCategory}"
-                        converter="jobSubCategoryConverter"                        
+                        converter="jobSubCategoryConverter"     
+                        validator="requiredFieldValidator"
                         forceSelection="true"
                         scrollHeight="250"
                         completeMethod="#{App.completeActiveJobSubCategories}" >
+            
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobSubCategory}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
         </p:autoComplete>     
 
     </h:panelGrid>          
