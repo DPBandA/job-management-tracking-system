@@ -4,6 +4,7 @@ Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
 
 ## Next release (May 24-25, 2018)
+- Widen the legal doc dialog some more until it looks correct in chrome browser.
 - Revamps the Reports Tab:
   * Impl all existing reports from "package".
   * Impl access to module via the dashboard.
@@ -21,6 +22,8 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
     that these jobs are counted despite not have samples. 
 - When job is job/costing is closed without saving, set "dirty" to false.
 - Setup dashboard and main tab view for all modules.
+- Do Pre-shipment inspection form based on excel sheets in compliance folder.
+  * Create a table called PreshipmentInspection.
 - Follow up with Garfield re service contract.
 - Impl. preventing change once job is marked completed. This may already exist
   so verify if it works if so.
