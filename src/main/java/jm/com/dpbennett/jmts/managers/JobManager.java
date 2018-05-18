@@ -290,6 +290,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (currentJob.getIsDirty()) {
             PrimeFacesUtils.addMessage("Job was NOT saved", "The recently edited job was not saved", FacesMessage.SEVERITY_WARN);
             PrimeFaces.current().ajax().update("headerForm:growl3");
+            currentJob.setIsDirty(false);
         }
     }
 

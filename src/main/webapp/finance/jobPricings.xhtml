@@ -85,7 +85,7 @@ Email: info@dpbennett.com.jm
                                     global="false"                                    
                                     process="@this" />
                         </p:autoComplete>     
-                        <p:watermark for="currentUnitCostDepartment" value="-- select department --"/>   
+                        <p:watermark for="currentUnitCostDepartment" value="select department"/>   
                     </h:panelGroup>   
 
                     <h:outputText value="Department unit:" />
@@ -111,7 +111,7 @@ Email: info@dpbennett.com.jm
                                     global="false"                                    
                                     process="@this" />
                         </p:autoComplete>     
-                        <p:watermark for="currentUnitCostDepartmentUnit" value="-- select department unit--"/>   
+                        <p:watermark for="currentUnitCostDepartmentUnit" value="select department unit"/>   
                     </h:panelGroup>   
 
                     <h:outputText value="Laboratory:" />
@@ -137,7 +137,7 @@ Email: info@dpbennett.com.jm
                                     global="false"                                    
                                     process="@this" />
                         </p:autoComplete>     
-                        <p:watermark for="unitCostDepartmentLaboratory" value="-- select laboratory --"/>   
+                        <p:watermark for="unitCostDepartmentLaboratory" value="select laboratory"/>   
                     </h:panelGroup>   
 
                     <h:outputText value="Service:" style="font-weight: bold;" />
@@ -248,7 +248,7 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup>
                                 <p:inputText id="unitCostSearchText" 
                                              value="#{financeManager.searchText}" />
-                                <p:watermark value="-- enter search text --" for="unitCostSearchText" />
+                                <p:watermark value="enter search text" for="unitCostSearchText" />
                                 <p:spacer height="0" width="5"/>
                                 <p:commandButton value="Search"                                                 
                                                  onstart="PF('longProcessDialogVar').show();"

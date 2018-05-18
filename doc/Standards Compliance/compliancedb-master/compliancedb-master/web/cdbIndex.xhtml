@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Compliance Connect</title>
+        <style type="text/css">
+            .ui-widget {
+                font-size: 80%;
+            }
+            .jobNumberClass {
+                width: 100%;
+                color: orange;
+            }      
+            .hold {
+                color: red;
+                font-size: 1.2em;
+                background-image: none;
+                font-weight: bolder;
+            }
+            .active {
+                color: green;
+                font-size: 1.2em;
+                background-image: none;
+                font-weight: bolder;
+            }       
+            .overdue {
+                background-color: yellow;
+                background-image: none;
+                color: #000000;
+            }
+            .header {
+                background-color: gray;
+                background-image: none;
+                color: white;
+            }
+            .rdonly {
+                background-color: lightgrey;
+                background-image: none;
+                color: blue;
+            }
+        </style>
+        <script type="text/javascript" src="cdbJavascript.js" />
+    </h:head>
+    <h:body>
+        <ui:insert>
+            <ui:include src="cdbLongProcessDialog.xhtml"/>
+            <ui:include src="cdbLoginDialog.xhtml"/>
+            <ui:include src="clientForm.xhtml"/>           
+            <ui:include src="cdbProductDialogs.xhtml"/>           
+            <ui:include src="cdbComplianceSurveyDialog.xhtml"/>                
+            <ui:include src="cdbAlertDialogs.xhtml"/>
+        </ui:insert>
+        <p:layout id="ComplianceWeb" fullPage="true" widgetVar="layoutVar">
+            <p:layoutUnit position="north" header="ComplianceConnect" >
+                <ui:remove>
+                    <marquee style="color:red;font-weight: bold;" loop="-1" direction="right" scrollamount="5" width="100%">>>>>>>> ALERT PLEASE LOOK OUT FOR >>>>>></marquee>
+                    <br/>
+                    <marquee style="color:red;font-weight: bold;" loop="-1" scrollamount="5" width="100%">#{complianceManager.latestAlert}</marquee>
+                    <hr/>
+                </ui:remove>
+                <h:form id="headerForm">
+                    <table border="0" width="100%">
+                        <tr>
+                            <td>
+                                <img src="bsj_logo.jpg" width="190" height="86" alt="BSJ Logo"/>
+                            </td>
+
+                            <td align="left">
+                                <h:outputText value="ComplianceConnect"
+                                              style="color: gray; font-size: 14pt; font-weight: bold" />
+                            </td>
+
+                            <td align="right">
+                                <p:commandButton style="font-weight: bold"
+                                                 actionListener="#{complianceManager.logout}"
+                                                 oncomplete="loginDialog.show();"
+                                                 update="headerForm,:loginForm"
+                                                 icon="ui-icon-person"
+                                                 value="Logout: #{complianceManager.user.employee.firstName} #{complianceManager.user.employee.lastName}" />
+                            </td>
+
+                        </tr>
+                    </table>
+
+                </h:form>
+            </p:layoutUnit>
+
+
+            <p:layoutUnit position="center" >
+
+                <p:idleMonitor timeout="600000"
+                               onidle="logOut();"/>  
+
+
+                <h:form id="entryForm" >
+
+                    <p:remoteCommand name="keepAliveRequest" 
+                                     actionListener="#{complianceManager.handleKeepAlive}"
+                                     onerror="connectionErrorDialog.show();"
+                                     update="@this"
+                                     process="@this"/>
+
+                    <p:remoteCommand name="logOut" 
+                                     actionListener="#{complianceManager.logout()}"
+                                     onerror="connectionErrorDialog.show();"
+                                     oncomplete="window.location.reload();loginDialog.show();"
+                                     update=":headerForm,:loginForm"                                    
+                                     process="@this"/>
+
+                    <p:toolbar>
+                        <p:toolbarGroup align="left" >
+                            <h:panelGroup >                                
+                                <p:autoComplete value="#{complianceManager.searchText}"
+                                                id="searchText"                                                
+                                                completeMethod="#{complianceManager.completeSearchText}"/>
+                                <p:watermark value="-- enter search text --" for="searchText" />
+                                <p:spacer height="0" width="10"/>
+                                <p:commandButton value="Search"
+                                                 id="searchButton"
+                                                 onstart="longProcessDialogVar.show();"
+                                                 onerror="connectionErrorDialog.show();" 
+                                                 actionListener="#{complianceManager.doEntitySearch}"
+                                                 update="#{complianceManager.tablesToUpdateAfterSearch}"
+                                                 oncomplete="checkForConnectionLife(xhr,status,args);"
+                                                 icon="ui-icon-search"
+                                                 process="@form"/>
+                            </h:panelGroup>
+                            <p:spacer height="0" width="200"/>
+
+                        </p:toolbarGroup>
+
+                        <ui:remove>
+                            <p:toolbarGroup align="right" >
+
+                                <p:commandButton id="toolsButton" value="Tools" type="button"  icon="ui-icon-triangle-1-s" />
+                                <p:menu trigger="toolsButton" my="left top" at="left bottom">                                
+                                    <p:menuitem onstart="longProcessDialogVar.show();"
+                                                value="Reporting"
+                                                oncomplete="longProcessDialogVar.hide();"
+                                                process="@this"/>
+                                    <p:menuitem onstart="longProcessDialogVar.show();"
+                                                value="Queries"
+                                                oncomplete="longProcessDialogVar.hide();"
+                                                process="@this"/>                                 
+                                </p:menu>
+
+                                <p:menuButton value="Tools">                                
+                                    <p:menuitem onstart="longProcessDialogVar.show();"
+                                                value="Reporting"
+                                                oncomplete="longProcessDialogVar.hide();"
+                                                process="@this"/>
+                                    <p:menuitem onstart="longProcessDialogVar.show();"
+                                                value="Queries"
+                                                oncomplete="longProcessDialogVar.hide();"
+                                                process="@this"/>                                 
+                                </p:menuButton>
+                            </p:toolbarGroup>
+                        </ui:remove>
+                    </p:toolbar>
+
+                    <p:defaultCommand target="searchButton" />
+                </h:form>
+                <hr/>
+
+                <h:form id="mainTabViewForm">
+                    <p:tabView id="mainTabView" dynamic="true">
+                        <p:ajax event="tabChange"    
+                                onstart="longProcessDialogVar.show();"
+                                oncomplete="longProcessDialogVar.hide();"
+                                listener="#{complianceManager.onMainTabChange}"/>
+
+                        <p:tab title="Compliance Survey">
+                            <center><font color="#009900" size="4" face="TIMES NEW ROMAN">Compliance Surveys</font> </center>
+                            <hr align="CENTER/RIGHT" style="background-color: #000066" size="5" width="100%"/>
+
+                            <ui:insert>
+                                <ui:include src="cdbComplianceSurvey.xhtml"/>
+                            </ui:insert>
+
+                        </p:tab>
+
+                        <p:tab title="Reports">
+                            <h:panelGrid columns="3" >
+                                <h:outputText value="Report:"/>
+                                <h:selectOneMenu value="#{complianceManager.currentComplianceDailyReport.reportName}" >
+                                    <p:ajax
+                                        global="true"
+                                        process="@this" />
+                                    <f:selectItems value="#{complianceManager.reportNames}" />
+                                </h:selectOneMenu>                            
+                                <p:commandButton value="Get Report"                                                 
+                                                 ajax="false"
+                                                 style="width: 150px"
+                                                 update="longProgressDialogForm"
+                                                 onclick="longProcessDialogVar2.show();" >
+                                    <p:fileDownload value="#{complianceManager.complianceDailyReportPDFFile}" />
+                                </p:commandButton>
+                            </h:panelGrid>
+                            <hr/>
+                            <h:panelGrid columns="2">
+                                <h:panelGrid columns="2">
+                                    <h:outputText value="Team :" />
+                                    <p:inputText value="#{complianceManager.currentComplianceDailyReport.team}" >
+                                        <p:ajax
+                                            global="true"
+                                            process="@this" />
+                                    </p:inputText>
+
+                                    <h:outputText value="Date *:" />
+                                    <p:calendar pattern="yyyy-MM-dd" 
+                                                showOn="button"
+                                                timeOnly="false"
+                                                value="#{complianceManager.currentComplianceDailyReport.startOfPeriod}" >
+                                        <p:ajax event="dateSelect"
+                                                listener="#{complianceManager.updateDailyReportStartDate}" />
+                                        <p:ajax event="keyup"
+                                                listener="#{complianceManager.updateDailyReportStartDate}" />
+                                    </p:calendar>
+
+                                    <h:outputText value="Time of Arrival :"  />
+                                    <p:calendar pattern="hh:mm a" 
+                                                showOn="button"
+                                                timeOnly="true"
+                                                value="#{complianceManager.currentComplianceDailyReport.timeOfArrival}" >
+                                        <p:ajax event="dateSelect" />
+                                        <p:ajax event="keyup" />
+                                    </p:calendar>
+
+                                    <h:outputText value="Time of Departure :"  />
+                                    <p:calendar pattern="hh:mm a" 
+                                                showOn="button"
+                                                timeOnly="true"
+                                                value="#{complianceManager.currentComplianceDailyReport.timeOfDeparture}" >
+                                        <p:ajax event="dateSelect" />
+                                        <p:ajax event="keyup" />
+                                    </p:calendar>
+
+                                    <h:outputText value="Port of Entry/Location *:" style="vertical-align: top" />
+                                    <h:selectOneMenu value="#{complianceManager.currentComplianceDailyReport.location}" >
+                                        <p:ajax
+                                            global="true"
+                                            process="@this" />
+                                        <f:selectItems value="#{complianceManager.portsOfEntry}" />
+                                    </h:selectOneMenu>
+
+                                    <h:outputText value="Team Members :" />
+                                    <p:inputText value="#{complianceManager.currentComplianceDailyReport.teamMembers}" 
+                                                 style="width: 300px">
+                                        <p:ajax
+                                            global="true"
+                                            process="@this" />
+                                    </p:inputText>
+
+                                    <h:outputText value="Driver :" />
+                                    <p:inputText value="#{complianceManager.currentComplianceDailyReport.driver}">
+                                        <p:ajax
+                                            global="true"
+                                            process="@this" />
+                                    </p:inputText>
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="2">
+                                    <ui:remove>                                        
+                                        <h:outputText value="# of Visits:" />
+                                        <p:spinner value="#{complianceManager.numOfVisits}"
+                                                   disabled="true"
+                                                   min="1">  
+                                            <p:ajax process="@this" />  
+                                        </p:spinner> 
+
+                                        <h:outputText value="-" />
+                                        <h:outputText value="-" />
+
+                                        <h:outputText value="-" />
+                                        <h:outputText value="-" />
+
+                                        <h:outputText value="-" />
+                                        <h:outputText value="-" />
+
+                                        <h:outputText value="-" />
+                                        <h:outputText value="-" />
+
+                                        <h:outputText value="-" />
+                                        <h:outputText value="-" />
+
+                                        <h:outputText value="-" />
+                                        <h:outputText value="-" />
+                                    </ui:remove>
+                                </h:panelGrid>
+                            </h:panelGrid>       
+                        </p:tab>
+
+                    </p:tabView>
+                </h:form>
+            </p:layoutUnit>
+
+
+
+        </p:layout>
+
+    </h:body>
+</html>
+

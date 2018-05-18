@@ -4,7 +4,11 @@ Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
 
 ## Next release (May 24-25, 2018)
-- Widen the legal doc dialog some more until it looks correct in chrome browser.
+- Setup dashboard and main tab view for LegalMetrology and Certification modules:
+- Setup dashboard and main tab view for Compliance module:
+  * Replace update*() with single update**() method where possible.
+  * Track object dirtiness as with other objects in the system eg Address.
+  * reportManager.openReportsTab
 - Revamps the Reports Tab:
   * Impl all existing reports from "package".
   * Impl access to module via the dashboard.
@@ -21,7 +25,6 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
   * Check for reports/queries on jobs that do not have any samples. Check for example 
     that these jobs are counted despite not have samples. 
 - When job is job/costing is closed without saving, set "dirty" to false.
-- Setup dashboard and main tab view for all modules.
 - Do Pre-shipment inspection form based on excel sheets in compliance folder.
   * Create a table called PreshipmentInspection.
 - Follow up with Garfield re service contract.
@@ -95,4 +98,7 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
 - Display message if an object's dialog is closed but not saved.
 - Lock job costing after it is approved. Allow assigned department to edit?
 - Costing templates takes long to appear when dropdown is first selected. Fix!
+- Fully integrate the use of Activi to facilitate the "low-code" or "no-code"
+  paradigm.
+  
 
