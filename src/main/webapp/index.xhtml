@@ -140,6 +140,9 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
                                 <ui:include src="legal/documentBrowser.xhtml" />   
                             </h:panelGroup> 
+                            <h:panelGroup rendered="#{t.id == 'Survey Browser'}">                                
+                                <ui:include src="compliance/surveyBrowser.xhtml" />   
+                            </h:panelGroup>
                             <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
                                 <ui:include src="admin/financialAdminTab.xhtml" /> 
                             </h:panelGroup>

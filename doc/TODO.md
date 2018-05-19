@@ -4,11 +4,11 @@ Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
 
 ## Next release (May 24-25, 2018)
-- Setup dashboard and main tab view for LegalMetrology and Certification modules:
 - Setup dashboard and main tab view for Compliance module:
   * Replace update*() with single update**() method where possible.
   * Track object dirtiness as with other objects in the system eg Address.
   * reportManager.openReportsTab
+- Setup dashboard and main tab view for LegalMetrology and Certification modules:
 - Revamps the Reports Tab:
   * Impl all existing reports from "package".
   * Impl access to module via the dashboard.
@@ -88,6 +88,7 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
   Given all of them in Report table and delete the system options over time.
 - For all the "costing dates", determine what should be the true "Costing Date" or the 
   date that the costing is deemed to be completed.
+- Add "+Client" to JM dashboard "New" menu.
 - Merge the "edit/delete" buttons in contacts and address table in an "Actions"
   menu as is done for samples table. Impl paging for ech table.
 - Replace organizationName system option use with "Internal" Business class 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
@@ -40,10 +41,12 @@ import jm.com.dpbennett.business.entity.ShippingContainer;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.TabChangeEvent;
@@ -109,6 +112,14 @@ public class ComplianceManager implements Serializable {
                         new Date(), "Berth 11", " ");
         datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         datePeriod.initDatePeriod();
+    }
+    
+     public void surveyDialogReturn() {
+//        if (currentJob.getIsDirty()) {
+//            PrimeFacesUtils.addMessage("Job was NOT saved", "The recently edited job was not saved", FacesMessage.SEVERITY_WARN);
+//            PrimeFaces.current().ajax().update("headerForm:growl3");
+//            currentJob.setIsDirty(false);
+//        }
     }
 
     public void updateDatePeriodSearch() {
@@ -600,29 +611,29 @@ public class ComplianceManager implements Serializable {
     }
 
     public void createNewComplianceSurvey() {
-        RequestContext context = RequestContext.getCurrentInstance();
-        EntityManager em = getEntityManager1();
-
-        currentComplianceSurvey = new ComplianceSurvey();
-        currentComplianceSurvey.setSurveyType(" ");
-        // consignee and rep
-        currentComplianceSurvey.setConsignee(new Client("", false));
-        currentComplianceSurvey.setConsigneeRepresentative(new Contact(""));
-        // retail outlet and rep
-        currentComplianceSurvey.setRetailOutlet(new Client("", false));
-        currentComplianceSurvey.setRetailRepresentative(new Contact(""));
-        // broker and rep
-        currentComplianceSurvey.setBroker(new Client("", false));
-        currentComplianceSurvey.setBrokerRepresentative(new Contact(""));
-
-        currentComplianceSurvey.getEntryDocumentInspection().setCountryOfConsignment(" ");
-        currentComplianceSurvey.setDateOfSurvey(new Date());
-        if (userManagement.getUser() != null) {
-            currentComplianceSurvey.setInspector(userManagement.getUser().getEmployee());
-        }
-
-        isNewComplianceSurvey = true;
-        setDirty(false);
+//        RequestContext context = RequestContext.getCurrentInstance();
+//        EntityManager em = getEntityManager1();
+//
+//        currentComplianceSurvey = new ComplianceSurvey();
+//        currentComplianceSurvey.setSurveyType(" ");
+//        // consignee and rep
+//        currentComplianceSurvey.setConsignee(new Client("", false));
+//        currentComplianceSurvey.setConsigneeRepresentative(new Contact(""));
+//        // retail outlet and rep
+//        currentComplianceSurvey.setRetailOutlet(new Client("", false));
+//        currentComplianceSurvey.setRetailRepresentative(new Contact(""));
+//        // broker and rep
+//        currentComplianceSurvey.setBroker(new Client("", false));
+//        currentComplianceSurvey.setBrokerRepresentative(new Contact(""));
+//
+//        currentComplianceSurvey.getEntryDocumentInspection().setCountryOfConsignment(" ");
+//        currentComplianceSurvey.setDateOfSurvey(new Date());
+//        if (userManagement.getUser() != null) {
+//            currentComplianceSurvey.setInspector(userManagement.getUser().getEmployee());
+//        }
+//
+//        isNewComplianceSurvey = true;
+//        setDirty(false);
 
     }
 

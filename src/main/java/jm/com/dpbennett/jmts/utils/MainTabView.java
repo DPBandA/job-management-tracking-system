@@ -182,12 +182,16 @@ public class MainTabView implements Serializable {
         if (getUser().getModules().getFinancialAdminModule()) {
             tabs.add(new Tab("Financial Administration", "Financial Administration"));
         }
-//        if (getUser().getModules().getComplianceModule()) {
-//            tabs.add(new Tab("Clients", "Clients"));
-//        }
-//        if (getUser().getModules().getFoodsModule()) {
-//            tabs.add(new Tab("Reports", "Reports"));
-//        }
+        if (getUser().getModules().getComplianceModule()) {
+            tabs.add(new Tab("Survey Browser", "Survey Browser"));
+        }
+        if (getUser().getModules().getFoodsModule()) {
+            tabs.add(new Tab("Food Factory Browser", "Food Factory Browser"));
+        }
+        if (getUser().getModules().getCertificationModule()) {
+            tabs.add(new Tab("Company Browser", "Company Browser"));
+        }
+
     }
 
     public void reset(JobManagerUser user) {
