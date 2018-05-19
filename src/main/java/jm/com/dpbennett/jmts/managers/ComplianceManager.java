@@ -33,6 +33,7 @@ import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Distributor;
 import jm.com.dpbennett.business.entity.DocumentInspection;
 import jm.com.dpbennett.business.entity.Employee;
+import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Manufacturer;
 import jm.com.dpbennett.business.entity.ProductInspection;
 import jm.com.dpbennett.business.entity.SampleRequest;
@@ -41,6 +42,7 @@ import jm.com.dpbennett.business.entity.ShippingContainer;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -93,6 +95,7 @@ public class ComplianceManager implements Serializable {
     private DocumentInspection currentDocumentInspection;
     private List<DocumentInspection> documentInspections;
     private DatePeriod datePeriod;
+    private JobManager jobManager;
 
     /**
      * Creates a new instance of ComplianceManager
@@ -113,8 +116,31 @@ public class ComplianceManager implements Serializable {
         datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         datePeriod.initDatePeriod();
     }
-    
-     public void surveyDialogReturn() {
+
+    public void openComplianceSurvey() {
+        // tk set dirty false here
+
+        PrimeFacesUtils.openDialog(null, "/compliance/surveyDialog", true, true, true, true, 600, 700);
+    }
+
+    public void openSurveyBrowser() {
+        // Add the Job Browser tab is 
+        getJobManager().getMainTabView().addTab(getEntityManager1(), "Survey Browser", true);
+        getJobManager().getMainTabView().select("Survey Browser");
+    }
+
+    public JobManagerUser getUser() {
+        return getJobManager().getUser();
+    }
+
+    public JobManager getJobManager() {
+        if (jobManager == null) {
+            jobManager = Application.findBean("jobManager");
+        }
+        return jobManager;
+    }
+
+    public void surveyDialogReturn() {
 //        if (currentJob.getIsDirty()) {
 //            PrimeFacesUtils.addMessage("Job was NOT saved", "The recently edited job was not saved", FacesMessage.SEVERITY_WARN);
 //            PrimeFaces.current().ajax().update("headerForm:growl3");
@@ -147,7 +173,7 @@ public class ComplianceManager implements Serializable {
         ArrayList dateFields = new ArrayList();
 
         // add items
-        dateFields.add(new SelectItem("dateReceived", "Date received"));
+        dateFields.add(new SelectItem("dateOfSurvey", "Date of survey"));
 
         return dateFields;
     }
@@ -497,6 +523,11 @@ public class ComplianceManager implements Serializable {
 
         return contactsFound;
 
+    }
+    
+    // tk needed??
+    public void createNewMarketProduct() {
+        
     }
 
     public void editComplianceSurveyBroker() {
@@ -925,9 +956,17 @@ public class ComplianceManager implements Serializable {
         this.searchType = searchType;
     }
 
-    public void doEntitySearch() {
-        // tk impl 
-        System.out.println("impl ..");
+    public void doSurveySearch() {
+        complianceSurveys = ComplianceSurvey.findComplianceSurveysByDateSearchField(getEntityManager1(),
+                getUser(),
+                dateSearchField,
+                "General",
+                searchText,
+                getDatePeriod().getStartDate(),
+                getDatePeriod().getEndDate(),
+                false);
+
+        openSurveyBrowser();
     }
 
     public List<String> completeSearchText(String query) {
@@ -964,9 +1003,8 @@ public class ComplianceManager implements Serializable {
         }
     }
 
-    public void editForm() {
-// tk impl 
-        System.out.println("impl ..");
+    public void editComplianceSurvey() {
+        openComplianceSurvey();
     }
 
     public Boolean getComplianceSurveyIsValid() {

@@ -52,7 +52,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Survey Browser"
                             onstart="PF('longProcessDialogVar').show();" 
                             oncomplete="PF('longProcessDialogVar').hide();"
-                            
+                            actionListener="#{complianceManager.openSurveyBrowser}"   
                             process="@this"/>                   
                 <p:separator />
                 <p:menuitem value="Reports"

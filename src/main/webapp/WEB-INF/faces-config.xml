@@ -283,6 +283,13 @@
             <to-view-id>/report/reportTemplateDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>complianceSurveyDialog</from-outcome>
+            <to-view-id>/compliance/surveyDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.jmts.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>

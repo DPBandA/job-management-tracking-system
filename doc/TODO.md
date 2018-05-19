@@ -5,9 +5,11 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
 
 ## Next release (May 24-25, 2018)
 - Setup dashboard and main tab view for Compliance module:
+  * Impl search.
+  * Impl "ComplianceSurveyDialogForm" 
   * Replace update*() with single update**() method where possible.
   * Track object dirtiness as with other objects in the system eg Address.
-  * reportManager.openReportsTab
+  * Impl "new survey" and other functions in dashboard and maintab view.  
 - Setup dashboard and main tab view for LegalMetrology and Certification modules:
 - Revamps the Reports Tab:
   * Impl all existing reports from "package".
