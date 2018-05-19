@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="JobEntry" isExecutable="true">
+    <startEvent id="sid-6B3E1D1B-0A44-4E63-A27B-CA1C11651512" name="Start"/>
+    <serviceTask id="sid-A7565B93-FDFD-417C-8D31-E0E3D6EA8F71" name="Email assignee" activiti:type="mail">
+      <extensionElements>
+        <activiti:field name="to">
+          <activiti:string><![CDATA[dbennett@bsj.org.jm]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="from">
+          <activiti:string><![CDATA[jobmanager@bsj.org.jm]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:string><![CDATA[Job Assigned]]></activiti:string>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:string><![CDATA[Test]]></activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="sid-F8F67B4E-18AF-48F0-86D8-6A57A447BF63" sourceRef="sid-6B3E1D1B-0A44-4E63-A27B-CA1C11651512" targetRef="sid-A7565B93-FDFD-417C-8D31-E0E3D6EA8F71"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_JobEntry">
+    <bpmndi:BPMNPlane bpmnElement="JobEntry" id="BPMNPlane_JobEntry">
+      <bpmndi:BPMNShape bpmnElement="sid-6B3E1D1B-0A44-4E63-A27B-CA1C11651512" id="BPMNShape_sid-6B3E1D1B-0A44-4E63-A27B-CA1C11651512">
+        <omgdc:Bounds height="30.0" width="30.0" x="75.0" y="135.0"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="sid-A7565B93-FDFD-417C-8D31-E0E3D6EA8F71" id="BPMNShape_sid-A7565B93-FDFD-417C-8D31-E0E3D6EA8F71">
+        <omgdc:Bounds height="83.0" width="128.0" x="255.0" y="108.5"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-F8F67B4E-18AF-48F0-86D8-6A57A447BF63" id="BPMNEdge_sid-F8F67B4E-18AF-48F0-86D8-6A57A447BF63">
+        <omgdi:waypoint x="105.0" y="150.0"/>
+        <omgdi:waypoint x="255.0" y="150.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

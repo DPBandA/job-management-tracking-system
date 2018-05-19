@@ -4,6 +4,7 @@ Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
 
 ## Next release (May 24-25, 2018)
+- Get JobManger email account password from Robert. 
 - Setup dashboard and main tab view for Compliance module:
   * Impl search.
   * Impl "ComplianceSurveyDialogForm" 
@@ -103,5 +104,6 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
 - Costing templates takes long to appear when dropdown is first selected. Fix!
 - Fully integrate the use of Activi to facilitate the "low-code" or "no-code"
   paradigm.
+- Use BusinessEntities.postMail and retire use of "postMail" methods in JM
   
 
