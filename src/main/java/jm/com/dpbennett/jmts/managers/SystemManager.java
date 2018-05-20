@@ -939,6 +939,10 @@ public class SystemManager implements Serializable {
     public void openSystemBrowser() {
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
     }
+    
+    public void openFinancialAdministration() {
+        getMainTabView().addTab(getEntityManager(), "Financial Administration", true);
+    }
 
     public String getFoundUser() {
 
@@ -1430,11 +1434,20 @@ public class SystemManager implements Serializable {
     public void createNewSystemOption() {
 
         selectedSystemOption = new SystemOption();
-        selectedSystemOption.setCategory("FINANCE");
-
+        
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
         PrimeFaces.current().executeScript("PF('centerTabVar').select(5);");
 
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
+    }
+    
+    public void createNewFinancialSystemOption() {
+
+        selectedSystemOption = new SystemOption();
+        selectedSystemOption.setCategory("FINANCE");
+
+        getMainTabView().addTab(getEntityManager(), "Financial Administration", true);
+        
         PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
     }
 
