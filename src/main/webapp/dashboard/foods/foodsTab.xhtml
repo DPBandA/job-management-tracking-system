@@ -24,23 +24,45 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar style="margin-bottom: 1px;">
         <p:toolbarGroup align="left">
-            <p:commandButton
-                actionListener="#{clientManager.createNewClient}"                
-                disabled="#{!clientManager.user.privilege.canAddClient}"
-                global="true"                                        
-                onstart="PF('longProcessDialogVar').show();"                 
-                oncomplete="PF('longProcessDialogVar').hide();"
-                onerror="PF('connectionErrorDialog').show();"
-                value="New"       
-                update="headerForm:growl3"
-                title="Create new client"
-                icon="ui-icon-plus"
-                process="@this" >
+            <ui:remove>
+                <p:commandButton
+                    actionListener="#{clientManager.createNewClient}"                
+                    disabled="#{!clientManager.user.privilege.canAddClient}"
+                    global="true"                                        
+                    onstart="PF('longProcessDialogVar').show();"                 
+                    oncomplete="PF('longProcessDialogVar').hide();"
+                    onerror="PF('connectionErrorDialog').show();"
+                    value="New"       
+                    update="headerForm:growl3"
+                    title="Create new client"
+                    icon="ui-icon-plus"
+                    process="@this" >
 
-                <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:clientsTable" />
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView:clientsTable" />
 
-            </p:commandButton>
+                </p:commandButton>
+            </ui:remove>
+            <p:menuButton value="New">
+                <p:menuitem>                       
+                    <p:commandButton value="Client"
+                                     icon="ui-icon-plus" 
+                                     disabled="#{!clientManager.user.privilege.canAddClient}"
+                                     style="width: 300%;text-align: left;background: none;border: 0;"
+                                     onstart="PF('longProcessDialogVar').show();"   
+                                     update="headerForm:growl3"
+                                     oncomplete="PF('longProcessDialogVar').hide();" 
+                                     onerror="PF('connectionErrorDialog').show();"
+                                     actionListener="#{clientManager.createNewClient}" 
+                                     process="@this"                             
+                                     title="Create new client" >  
+
+                        <p:ajax event="dialogReturn" 
+                                update=":mainTabViewForm:mainTabView:clientsTable" />
+
+                    </p:commandButton>            
+                </p:menuitem>
+            </p:menuButton>
 
         </p:toolbarGroup>
         <p:toolbarGroup align="right">

@@ -210,7 +210,7 @@ Email: info@dpbennett.com.jm
                         <p:tab title="#{t.name}" > 
 
                             <h:panelGroup rendered="#{t.id == 'Job Management'}">
-                                <ui:include src="dashboard/jobmanagement/jobsTab.xhtml" />
+                                <ui:include src="dashboard/jobs/jobsTab.xhtml" />
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
@@ -226,7 +226,7 @@ Email: info@dpbennett.com.jm
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Foods Inspectorate'}">
-                                Foods Inspectorate
+                                <ui:include src="dashboard/foods/foodsTab.xhtml" />
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
