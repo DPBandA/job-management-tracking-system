@@ -110,5 +110,8 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
   paradigm.
 - Use BusinessEntities.postMail and retire use of "postMail" methods in JM
 - Change category names from all caps especially for system configuration.
+- Amount due still showing for old jobs with deposit.
+- Cancelling a cost component edit still shows the edited component in the table
+  Fix!
   
 

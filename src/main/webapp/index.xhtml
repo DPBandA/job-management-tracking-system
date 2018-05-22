@@ -134,9 +134,10 @@ Email: info@dpbennett.com.jm
 
 
                         <p:tab title="#{t.name}" closable="true"  >
+                            
                             <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                 <ui:include src="job/jobBrowser.xhtml" />   
-                            </h:panelGroup>       
+                            </h:panelGroup>                                
                             <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
                                 <ui:include src="legal/documentBrowser.xhtml" />   
                             </h:panelGroup> 
@@ -230,19 +231,19 @@ Email: info@dpbennett.com.jm
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
-                                Legal Metrology
+                                <ui:include src="dashboard/metrology/metrologyTab.xhtml" />
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Standards'}">
-                                Standards
+                                <ui:include src="dashboard/standards/standardsTab.xhtml" />
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Certification'}">
-                                Certification
+                                <ui:include src="dashboard/certification/certificationTab.xhtml" />
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Service Request'}">
-                                Service Request
+                                <ui:include src="dashboard/service/serviceTab.xhtml" />
                             </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'System Administration'}">
