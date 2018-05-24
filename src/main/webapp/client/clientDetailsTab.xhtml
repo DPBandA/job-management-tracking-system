@@ -23,6 +23,22 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"> 
     <h:panelGrid id="generalDetailsPanelGrid" columns="3" cellspacing="5" >
+        
+        <p:outputLabel for="clientActive" value="Active: " style="font-weight: bold;" />  
+        <h:panelGroup>
+            <p:selectBooleanCheckbox style="vertical-align: middle"
+                                     id="clientActive"
+                                     disabled="#{!clientManager.user.privilege.canBeJMTSAdministrator}"
+                                     value="#{clientManager.selectedClient.active}" >
+                <p:ajax listener="#{clientManager.updateClient}"
+                        event="change"                                      
+                        process="@this"/>
+            </p:selectBooleanCheckbox>            
+            <p:tooltip for="clientActive" value="Check to activate this client" 
+                       showEffect="fade" hideEffect="fade" />            
+        </h:panelGroup>
+        <h:outputText value="" />
+        
         <h:outputText value="Name:" style="font-weight: bold;" />       
         <p:inputText value="#{clientManager.selectedClient.name}"
                      style="width: 150%;"
@@ -48,22 +64,6 @@ Email: info@dpbennett.com.jm
                     listener="#{clientManager.updateClient}"
                     process="@this"/>
         </p:inputText>
-        <h:outputText value="" />
-
-
-        <p:outputLabel for="clientActive" value="Active: " />  
-        <h:panelGroup>
-            <p:selectBooleanCheckbox style="vertical-align: middle"
-                                     id="clientActive"
-                                     disabled="#{!clientManager.user.privilege.canBeJMTSAdministrator}"
-                                     value="#{clientManager.selectedClient.active}" >
-                <p:ajax listener="#{clientManager.updateClient}"
-                        event="change"                                      
-                        process="@this"/>
-            </p:selectBooleanCheckbox>            
-            <p:tooltip for="clientActive" value="Check to activate this client" 
-                       showEffect="fade" hideEffect="fade" />            
-        </h:panelGroup>
         <h:outputText value="" />
 
         <h:outputText id="currentBillingAddress" value="Most recent billing address: " 

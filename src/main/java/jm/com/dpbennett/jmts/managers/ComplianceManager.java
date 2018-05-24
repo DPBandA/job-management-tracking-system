@@ -565,6 +565,13 @@ public class ComplianceManager implements Serializable {
     public void updateJob() {
         setDirty(true);
     }
+    
+    public void updateSurvey() {
+        // tk        
+        System.out.println("Survey type: " + currentComplianceSurvey.getSurveyType());
+        //currentComplianceSurvey.save(getEntityManager1()); // tk
+        //setDirty(true);
+    }
 
     public void updateContainerNumber() {
         // create/save shipping containers if needed
@@ -631,9 +638,9 @@ public class ComplianceManager implements Serializable {
     }
 
     public ComplianceSurvey getCurrentComplianceSurvey() {
-        if (currentComplianceSurvey == null) {
-            createNewComplianceSurvey();
-        }
+        //if (currentComplianceSurvey == null) {
+        //    createNewComplianceSurvey();
+        //}
         return currentComplianceSurvey;
     }
 
@@ -684,9 +691,11 @@ public class ComplianceManager implements Serializable {
 
     }
 
-    public void saveComplianceSurvey() {
-        // tk impl save
-        System.out.println("impl save survey..");
+    public void saveComplianceSurvey(ActionEvent actionEvent) {        
+        // tk
+        System.out.println("saving survey with type: " + currentComplianceSurvey.getSurveyType());        
+        currentComplianceSurvey.save(getEntityManager1());
+        
     }
 
     public void saveDocumentInspection() {
@@ -695,7 +704,7 @@ public class ComplianceManager implements Serializable {
     }
 
     public void closeComplianceSurvey() {
-        promptToSaveIfRequired();
+        PrimeFacesUtils.closeDialog(null);
     }
 
     public void closeDocumentInspection() {
@@ -835,7 +844,7 @@ public class ComplianceManager implements Serializable {
     public List getSurveyTypes() {
         ArrayList types = new ArrayList();
 
-        types.add(new SelectItem(" ", " "));
+        types.add(new SelectItem("", ""));
         types.add(new SelectItem("Market Survey", "Market Survey"));
         types.add(new SelectItem("Product Survey", "Product Survey"));
 

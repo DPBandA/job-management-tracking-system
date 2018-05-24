@@ -4,13 +4,7 @@ Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
 
 ## Next release (May 24-25, 2018)
-- Impl all modules with at least basic "New" and "Tools" menus
-- Prevent non admin user to view/edit inactive clients.
-- Do invoice.
-- Add "domain" or something similar as a field in the Business class
-- Get JobManger email account password from Robert. 
 - Setup dashboard and main tab view for Compliance module:
-  * Impl search.
   * Impl "ComplianceSurveyDialogForm" 
   * Replace update*() with single update**() method where possible.
   * Track object dirtiness as with other objects in the system eg Address.

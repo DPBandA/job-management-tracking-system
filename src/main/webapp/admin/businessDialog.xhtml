@@ -70,6 +70,12 @@ Email: info@dpbennett.com.jm
                                  style="width:300px"
                                  id="businessName" 
                                  validator="requiredFieldValidator" /> 
+                    
+                    <h:outputText value="Domain:" style="font-weight: bold;" />
+                    <p:inputText value="#{systemManager.selectedBusiness.domainName}"
+                                 style="width:300px"
+                                 validator="requiredFieldValidator" 
+                                 id="domainName" />
 
                     <h:outputText value="Notes:" />
                     <h:panelGroup>                        
