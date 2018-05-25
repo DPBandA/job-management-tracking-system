@@ -5,10 +5,12 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
 
 ## Next release (May 24-25, 2018)
 - Setup dashboard and main tab view for Compliance module:
-  * Impl "ComplianceSurveyDialogForm" 
+  * Impl "ComplianceSurveyDialogForm"  
+    * Impl "dirty" and save() for each "subclass" and save only when dirty. 
   * Replace update*() with single update**() method where possible.
   * Track object dirtiness as with other objects in the system eg Address.
   * Impl "new survey" and other functions in dashboard and maintab view.  
+  * Impl "complianceSurveyToolsMenuButton" menu button
 - Setup dashboard and main tab view for LegalMetrology and Certification modules:
 - Revamps the Reports Tab:
   * Impl all existing reports from "package".
@@ -107,5 +109,7 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
 - Amount due still showing for old jobs with deposit.
 - Cancelling a cost component edit still shows the edited component in the table
   Fix!
+- Representatives should see jobs when they select “My  jobs” in “Job Search”.
+- Send email to reps if there are any.
   
 

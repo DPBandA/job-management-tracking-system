@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
@@ -23,6 +22,7 @@ import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.persistence.Transient;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.CompanyRegistration;
 import jm.com.dpbennett.business.entity.ComplianceDailyReport;
@@ -48,7 +48,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.primefaces.PrimeFaces;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.TabChangeEvent;
@@ -72,7 +71,6 @@ public class ComplianceManager implements Serializable {
     private SampleRequest currentSampleRequest;
     private CompanyRegistration currentCompanyRegistration;
     private UserManagement userManagement;
-    private Boolean dirty;
     private Boolean isNewProductInspection = false;
     private Boolean isNewComplianceSurvey = false;
     private Boolean isNewDocumentInspection = false;
@@ -103,7 +101,6 @@ public class ComplianceManager implements Serializable {
     public ComplianceManager() {
         complianceSurveys = new ArrayList<>();
         documentInspections = new ArrayList<>();
-        dirty = false;
         dateSearchField = "dateFirstReceived";
         searchText = "";
         searchType = "General";
@@ -116,7 +113,7 @@ public class ComplianceManager implements Serializable {
         datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         datePeriod.initDatePeriod();
     }
-
+   
     public void openComplianceSurvey() {
         // tk set dirty false here
 
@@ -279,7 +276,6 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setAuthSigForDetentionRequestPOE(null);
         }
 
-        setDirty(true);
     }
 
     public void updateInspectorSigForSampleRequestPOE() {
@@ -292,7 +288,6 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setInspectorSigForSampleRequestPOE(null);
         }
 
-        setDirty(true);
     }
 
     public void updatePreparedBySigForReleaseRequestPOE() {
@@ -307,7 +302,6 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setPreparedByEmployeeForReleaseRequestPOE(null);
         }
 
-        setDirty(true);
     }
 
     public void updateAuthSigForNoticeOfDentionDM() {
@@ -320,7 +314,6 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setAuthSigForNoticeOfDentionDM(null);
         }
 
-        setDirty(true);
     }
 
     public void updateApprovedBySigForReleaseRequestPOE() {
@@ -335,7 +328,6 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setApprovedByEmployeeForReleaseRequestPOE(null);
         }
 
-        setDirty(true);
     }
 
     public UserManagement getUserManagement() {
@@ -401,16 +393,6 @@ public class ComplianceManager implements Serializable {
         return entityManager1;
     }
 
-    // tk put in business entity utils?
-    public void closeEntityManager1() {
-        if (entityManager1 != null) {
-            if (entityManager1.isOpen()) {
-                entityManager1.close();
-            }
-            entityManager1 = null;
-        }
-    }
-
     public ProductInspection getCurrentProductInspection() {
         if (currentProductInspection == null) {
             currentProductInspection = new ProductInspection();
@@ -474,16 +456,14 @@ public class ComplianceManager implements Serializable {
         return contactsFound;
     }
 
-    // Consignee update
+    // Consignee update tk can remove this similar methods like it
     public void updateComplianceSurveyConsignee() {
 
         try {
             EntityManager em = getEntityManager1();
 
             updateComplianceSurveyConsignee(em);
-
-            closeEntityManager1();
-            setDirty(true);
+            
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -524,10 +504,10 @@ public class ComplianceManager implements Serializable {
         return contactsFound;
 
     }
-    
+
     // tk needed??
     public void createNewMarketProduct() {
-        
+
     }
 
     public void editComplianceSurveyBroker() {
@@ -558,18 +538,11 @@ public class ComplianceManager implements Serializable {
     public void editComplianceSurveyRetailOutlet() {
     }
 
-    public void setDirty(Boolean dirty) {
-        this.dirty = dirty;
+    public void updateJob() {
+        //setDirty(true);
     }
 
-    public void updateJob() {
-        setDirty(true);
-    }
-    
     public void updateSurvey() {
-        // tk        
-        System.out.println("Survey type: " + currentComplianceSurvey.getSurveyType());
-        //currentComplianceSurvey.save(getEntityManager1()); // tk
         //setDirty(true);
     }
 
@@ -595,7 +568,7 @@ public class ComplianceManager implements Serializable {
             }
         }
 
-        setDirty(true);
+        //setDirty(true);
     }
 
     public ShippingContainer getCurrentShippingContainerByNumber(List<ShippingContainer> shippingContainers, String number) {
@@ -615,7 +588,7 @@ public class ComplianceManager implements Serializable {
     public void updateDailyReportStartDate() {
         currentComplianceDailyReport.setEndOfPeriod(currentComplianceDailyReport.getStartOfPeriod());
         //endOfPeriod = startOfPeriod;
-        setDirty(true);
+        //setDirty(true);
     }
 
     public void updateCountryOfConsignment() {
@@ -626,7 +599,7 @@ public class ComplianceManager implements Serializable {
         if (!currentComplianceSurvey.getOtherCompanyTypes()) {
             currentComplianceSurvey.setCompanyTypes("");
         }
-        setDirty(true);
+        //setDirty(true);
     }
 
     public void createNewProductInspection() {
@@ -634,7 +607,7 @@ public class ComplianceManager implements Serializable {
         currentProductInspection.setQuantity(0);
         currentProductInspection.setSampleSize(0);
         isNewProductInspection = true;
-        setDirty(true);
+        //setDirty(true);
     }
 
     public ComplianceSurvey getCurrentComplianceSurvey() {
@@ -687,15 +660,15 @@ public class ComplianceManager implements Serializable {
             currentDocumentInspection.setInspector(userManagement.getUser().getEmployee());
         }
 
-        setDirty(false);
+        //setDirty(false);
 
     }
 
-    public void saveComplianceSurvey(ActionEvent actionEvent) {        
+    public void saveComplianceSurvey(ActionEvent actionEvent) {
         // tk
-        System.out.println("saving survey with type: " + currentComplianceSurvey.getSurveyType());        
+        System.out.println("saving survey with type: " + currentComplianceSurvey.getSurveyType());
         currentComplianceSurvey.save(getEntityManager1());
-        
+
     }
 
     public void saveDocumentInspection() {
@@ -1006,7 +979,7 @@ public class ComplianceManager implements Serializable {
             fout.close();
 
             getCurrentProductInspection().setImageURL(upLoadedFileName);
-            setDirty(true);
+            //setDirty(true);
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -1017,11 +990,11 @@ public class ComplianceManager implements Serializable {
     }
 
     public Boolean getComplianceSurveyIsValid() {
-        if (getCurrentComplianceSurvey().getId() != null) {
-            return true;
-        } else if (dirty) {
-            return true;
-        }
+//        if (getCurrentComplianceSurvey().getId() != null) {
+//            return true;
+//        } else if (dirty) {
+//            return true;
+//        }
 
         return false;
     }
@@ -1413,12 +1386,12 @@ public class ComplianceManager implements Serializable {
 
     // tk use of this may have to be retired.
     public void updateComplianceSurvey(EntityManager em) {
-        if (dirty) {
-            save();
-        }
-        if (currentComplianceSurvey.getId() != null) {
-            currentComplianceSurvey = ComplianceSurvey.findComplianceSurveyById(em, currentComplianceSurvey.getId());
-        }
+//        if (dirty) {
+//            save();
+//        }
+//        if (currentComplianceSurvey.getId() != null) {
+//            currentComplianceSurvey = ComplianceSurvey.findComplianceSurveyById(em, currentComplianceSurvey.getId());
+//        }
     }
 
     public StreamedContent getComplianceSurveyFormPDFFile(
@@ -1452,7 +1425,7 @@ public class ComplianceManager implements Serializable {
                             currentComplianceSurvey. // tk BSJ-D42- to be made option?
                                     setPortOfEntryDetentionNumber("BSJ-D42-" + year + "-"
                                             + BusinessEntityUtils.getFourDigitString(SequenceNumber.findNextSequentialNumberByNameAndByYear(em, sequentialNumberName, year)));
-                            setDirty(dirty);
+                            //setDirty(dirty);
                             updateComplianceSurvey(em);
                             em.getTransaction().commit();
 
@@ -1465,7 +1438,7 @@ public class ComplianceManager implements Serializable {
                             currentComplianceSurvey. // tk BSJ-D42- to be made option?
                                     setDomesticMarketDetentionNumber("BSJ-DM42-" + year + "-"
                                             + BusinessEntityUtils.getFourDigitString(SequenceNumber.findNextSequentialNumberByNameAndByYear(em, sequentialNumberName, year)));
-                            setDirty(dirty);
+                            //setDirty(dirty);
                             updateComplianceSurvey(em);
                             em.getTransaction().commit();
 
@@ -1619,7 +1592,7 @@ public class ComplianceManager implements Serializable {
                 "DOMESTIC_MARKET_DETENTION");
     }
 
-    public Boolean isDirty() {
-        return dirty;
+    public Boolean isDirty() { // tk delete
+        return false; //dirty;
     }
 }
