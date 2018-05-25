@@ -4,6 +4,7 @@ Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
 
 ## Next release (May 24-25, 2018)
+- Address the requests in Burton'n email.
 - Setup dashboard and main tab view for Compliance module:
   * Impl "ComplianceSurveyDialogForm"  
     * Impl "dirty" and save() for each "subclass" and save only when dirty. 
