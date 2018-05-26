@@ -12,6 +12,8 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
   * Track object dirtiness as with other objects in the system eg Address.
   * Impl "new survey" and other functions in dashboard and maintab view.  
   * Impl "complianceSurveyToolsMenuButton" menu button
+  * Fix up the toolbars so they look like the rest of JMTS.
+  * Update survey table when dialog is closed.
 - Setup dashboard and main tab view for LegalMetrology and Certification modules:
 - Revamps the Reports Tab:
   * Impl all existing reports from "package".

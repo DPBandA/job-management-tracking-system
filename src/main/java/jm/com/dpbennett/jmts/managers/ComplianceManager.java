@@ -62,7 +62,7 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @SessionScoped
 public class ComplianceManager implements Serializable {
-
+    
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     private EntityManager entityManager1;
@@ -113,30 +113,30 @@ public class ComplianceManager implements Serializable {
         datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         datePeriod.initDatePeriod();
     }
-   
+    
     public void openComplianceSurvey() {
         // tk set dirty false here
 
         PrimeFacesUtils.openDialog(null, "/compliance/surveyDialog", true, true, true, true, 600, 700);
     }
-
+    
     public void openSurveyBrowser() {
         // Add the Job Browser tab is 
         getJobManager().getMainTabView().addTab(getEntityManager1(), "Survey Browser", true);
         getJobManager().getMainTabView().select("Survey Browser");
     }
-
+    
     public JobManagerUser getUser() {
         return getJobManager().getUser();
     }
-
+    
     public JobManager getJobManager() {
         if (jobManager == null) {
             jobManager = Application.findBean("jobManager");
         }
         return jobManager;
     }
-
+    
     public void surveyDialogReturn() {
 //        if (currentJob.getIsDirty()) {
 //            PrimeFacesUtils.addMessage("Job was NOT saved", "The recently edited job was not saved", FacesMessage.SEVERITY_WARN);
@@ -144,68 +144,68 @@ public class ComplianceManager implements Serializable {
 //            currentJob.setIsDirty(false);
 //        }
     }
-
+    
     public void updateDatePeriodSearch() {
         getDatePeriod().initDatePeriod();
-
+        
     }
-
+    
     public DatePeriod getDatePeriod() {
         return datePeriod;
     }
-
+    
     public void setDatePeriod(DatePeriod datePeriod) {
         this.datePeriod = datePeriod;
     }
-
+    
     public List getComplianceSearchTypes() {
         ArrayList searchTypes = new ArrayList();
-
+        
         searchTypes.add(new SelectItem("General", "General"));
-
+        
         return searchTypes;
     }
-
+    
     public List getComplianceDateSearchFields() {
         ArrayList dateFields = new ArrayList();
 
         // add items
         dateFields.add(new SelectItem("dateOfSurvey", "Date of survey"));
-
+        
         return dateFields;
     }
-
+    
     public void updateSearch() {
         //tk
         System.out.println("impl..");
     }
-
+    
     public List<DocumentInspection> getDocumentInspections() {
         return documentInspections;
     }
-
+    
     public DocumentInspection getCurrentDocumentInspection() {
         if (currentDocumentInspection == null) {
             currentDocumentInspection = new DocumentInspection();
         }
         return currentDocumentInspection;
     }
-
+    
     public void setCurrentDocumentInspection(DocumentInspection currentDocumentInspection) {
         this.currentDocumentInspection = currentDocumentInspection;
     }
-
+    
     public ShippingContainer getCurrentShippingContainer() {
         if (currentShippingContainer == null) {
             currentShippingContainer = new ShippingContainer();
         }
         return currentShippingContainer;
     }
-
+    
     public void setCurrentShippingContainer(ShippingContainer currentShippingContainer) {
         this.currentShippingContainer = currentShippingContainer;
     }
-
+    
     public StreamedContent getAuthSigForDetentionRequestPOE() {
         if (currentComplianceSurvey.getAuthSigForDetentionRequestPOE().getId() != null) {
             if (currentComplianceSurvey.getAuthSigForDetentionRequestPOE().getSignatureImage() != null) {
@@ -217,7 +217,7 @@ public class ComplianceManager implements Serializable {
             return null;
         }
     }
-
+    
     public StreamedContent getInspectorSigForSampleRequestPOE() {
         if (currentComplianceSurvey.getInspectorSigForSampleRequestPOE().getId() != null) {
             if (currentComplianceSurvey.getInspectorSigForSampleRequestPOE().getSignatureImage() != null) {
@@ -229,7 +229,7 @@ public class ComplianceManager implements Serializable {
             return null;
         }
     }
-
+    
     public StreamedContent getPreparedBySigForReleaseRequestPOE() {
         if (currentComplianceSurvey.getPreparedBySigForReleaseRequestPOE().getId() != null) {
             if (currentComplianceSurvey.getPreparedBySigForReleaseRequestPOE().getSignatureImage() != null) {
@@ -241,7 +241,7 @@ public class ComplianceManager implements Serializable {
             return null;
         }
     }
-
+    
     public StreamedContent getAuthSigForNoticeOfDentionDM() {
         if (currentComplianceSurvey.getAuthSigForNoticeOfDentionDM().getId() != null) {
             if (currentComplianceSurvey.getAuthSigForNoticeOfDentionDM().getSignatureImage() != null) {
@@ -253,7 +253,7 @@ public class ComplianceManager implements Serializable {
             return null;
         }
     }
-
+    
     public StreamedContent getApprovedBySigForReleaseRequestPOE() {
         if (currentComplianceSurvey.getApprovedBySigForReleaseRequestPOE().getId() != null) {
             if (currentComplianceSurvey.getApprovedBySigForReleaseRequestPOE().getSignatureImage() != null) {
@@ -265,9 +265,9 @@ public class ComplianceManager implements Serializable {
             return null;
         }
     }
-
+    
     public void updateAuthDetentionRequestPOE() {
-
+        
         if (currentComplianceSurvey.getAuthSigForDetentionRequestPOE().getId() == null) {
             currentComplianceSurvey.setAuthSigDateForDetentionRequestPOE(new Date());
             currentComplianceSurvey.setAuthSigForDetentionRequestPOE(getUserManagement().getUser().getEmployee().getSignature());
@@ -275,11 +275,11 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setAuthSigDateForDetentionRequestPOE(null);
             currentComplianceSurvey.setAuthSigForDetentionRequestPOE(null);
         }
-
+        
     }
-
+    
     public void updateInspectorSigForSampleRequestPOE() {
-
+        
         if (currentComplianceSurvey.getInspectorSigForSampleRequestPOE().getId() == null) {
             currentComplianceSurvey.setInspectorSigDateForSampleRequestPOE(new Date());
             currentComplianceSurvey.setInspectorSigForSampleRequestPOE(getUserManagement().getUser().getEmployee().getSignature());
@@ -287,11 +287,11 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setInspectorSigDateForSampleRequestPOE(null);
             currentComplianceSurvey.setInspectorSigForSampleRequestPOE(null);
         }
-
+        
     }
-
+    
     public void updatePreparedBySigForReleaseRequestPOE() {
-
+        
         if (currentComplianceSurvey.getPreparedBySigForReleaseRequestPOE().getId() == null) {
             currentComplianceSurvey.setPreparedBySigDateForReleaseRequestPOE(new Date());
             currentComplianceSurvey.setPreparedBySigForReleaseRequestPOE(getUserManagement().getUser().getEmployee().getSignature());
@@ -301,11 +301,11 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setPreparedBySigForReleaseRequestPOE(null);
             currentComplianceSurvey.setPreparedByEmployeeForReleaseRequestPOE(null);
         }
-
+        
     }
-
+    
     public void updateAuthSigForNoticeOfDentionDM() {
-
+        
         if (currentComplianceSurvey.getAuthSigForNoticeOfDentionDM().getId() == null) {
             currentComplianceSurvey.setAuthSigDateForNoticeOfDentionDM(new Date());
             currentComplianceSurvey.setAuthSigForNoticeOfDentionDM(getUserManagement().getUser().getEmployee().getSignature());
@@ -313,11 +313,11 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setAuthSigDateForNoticeOfDentionDM(null);
             currentComplianceSurvey.setAuthSigForNoticeOfDentionDM(null);
         }
-
+        
     }
-
+    
     public void updateApprovedBySigForReleaseRequestPOE() {
-
+        
         if (currentComplianceSurvey.getApprovedBySigForReleaseRequestPOE().getId() == null) {
             currentComplianceSurvey.setApprovedBySigDateForReleaseRequestPOE(new Date());
             currentComplianceSurvey.setApprovedBySigForReleaseRequestPOE(getUserManagement().getUser().getEmployee().getSignature());
@@ -327,225 +327,232 @@ public class ComplianceManager implements Serializable {
             currentComplianceSurvey.setApprovedBySigForReleaseRequestPOE(null);
             currentComplianceSurvey.setApprovedByEmployeeForReleaseRequestPOE(null);
         }
-
+        
     }
-
+    
     public UserManagement getUserManagement() {
         return userManagement;
     }
-
+    
     public void setUserManagement(UserManagement userManagement) {
         this.userManagement = userManagement;
     }
-
+    
     public ComplianceDailyReport getCurrentComplianceDailyReport() {
         return currentComplianceDailyReport;
     }
-
+    
     public void setCurrentComplianceDailyReport(ComplianceDailyReport currentComplianceDailyReport) {
         this.currentComplianceDailyReport = currentComplianceDailyReport;
     }
-
+    
     public List<ComplianceSurvey> getComplianceSurveys() {
         return complianceSurveys;
     }
-
+    
     public String getDialogMessage() {
         return dialogMessage;
     }
-
+    
     public void setDialogMessage(String dialogMessage) {
         this.dialogMessage = dialogMessage;
     }
-
+    
     public String getDialogMessageHeader() {
         return dialogMessageHeader;
     }
-
+    
     public void setDialogMessageHeader(String dialogMessageHeader) {
         this.dialogMessageHeader = dialogMessageHeader;
     }
-
+    
     public String getDialogMessageSeverity() {
         return dialogMessageSeverity;
     }
-
+    
     public void setDialogMessageSeverity(String dialogMessageSeverity) {
         this.dialogMessageSeverity = dialogMessageSeverity;
     }
-
+    
     public CompanyRegistration getCurrentCompanyRegistration() {
         if (currentCompanyRegistration == null) {
             currentCompanyRegistration = new CompanyRegistration();
         }
         return currentCompanyRegistration;
     }
-
+    
     private EntityManagerFactory getEMF1() {
         return EMF1;
     }
 
     // tk put in business entity utils?
     public EntityManager getEntityManager1() {
-
+        
         entityManager1 = getEMF1().createEntityManager();
-
+        
         return entityManager1;
     }
-
+    
     public ProductInspection getCurrentProductInspection() {
         if (currentProductInspection == null) {
             currentProductInspection = new ProductInspection();
         }
         return currentProductInspection;
     }
-
+    
     public void setCurrentProductInspection(ProductInspection currentProductInspection) {
-
+        
         this.currentProductInspection = currentProductInspection;
     }
-
+    
     public List<String> completeManufacturerName(String query) {
         try {
             EntityManager em = getEntityManager1();
-
+            
             List<String> names = new ArrayList<String>();
             List<Manufacturer> manufacturers = Manufacturer.findManufacturersBySearchPattern(em, query);
             for (Manufacturer manufacturer : manufacturers) {
                 names.add(manufacturer.getName());
             }
-
+            
             return names;
-
+            
         } catch (Exception e) {
             System.out.println(e);
-
+            
             return new ArrayList<String>();
         }
     }
-
+    
     public List<String> completeDistributorName(String query) {
         try {
             EntityManager em = getEntityManager1();
-
+            
             List<String> names = new ArrayList<String>();
             List<Distributor> distributors = Distributor.findDistributorsBySearchPattern(em, query);
             for (Distributor distributor : distributors) {
                 names.add(distributor.getName());
             }
-
+            
             return names;
-
+            
         } catch (Exception e) {
             System.out.println(e);
-
+            
             return new ArrayList<String>();
         }
     }
-
+    
     public List<Contact> completeRetailOutletRepresentative(String query) {
         ArrayList<Contact> contactsFound = new ArrayList<Contact>();
-
+        
         for (Contact contact : currentComplianceSurvey.getRetailOutlet().getContacts()) {
             if (contact.getFirstName().toUpperCase().contains(query.trim().toUpperCase())
                     || contact.getLastName().toUpperCase().contains(query.trim().toUpperCase())) {
                 contactsFound.add(contact);
             }
         }
-
+        
         return contactsFound;
     }
 
     // Consignee update tk can remove this similar methods like it
     public void updateComplianceSurveyConsignee() {
-
+        
         try {
             EntityManager em = getEntityManager1();
-
+            
             updateComplianceSurveyConsignee(em);
             
         } catch (Exception e) {
             System.out.println(e);
         }
-
+        
     }
-
+    
     public void updateDocumentInspectionConsignee() {
-
+        
     }
-
+    
     public void updateComplianceSurveyConsignee(EntityManager em) {
-
+        
     }
-
+    
     public void updateComplianceSurveyConsigneeRepresentative() {
-
+        
     }
-
+    
     public void editComplianceSurveyConsignee() {
-
+        
     }
-
+    
     public void editDocumentInspectionConsignee() {
     }
-
+    
     public void updateComplianceSurveyBroker() {
     }
-
+    
     public void updateComplianceSurveyBroker(EntityManager em) {
     }
-
+    
     public void updateComplianceSurveyBrokerRepresentative() {
     }
-
+    
     public List<String> completeComplianceSurveyBrokerRepresentativeName(String query) {
         ArrayList<String> contactsFound = new ArrayList<String>();
-
+        
         return contactsFound;
-
+        
     }
 
     // tk needed??
     public void createNewMarketProduct() {
-
+        
     }
-
+    
     public void editComplianceSurveyBroker() {
     }
-
+    
     public void updateComplianceSurveyRetailOutlet() {
     }
-
+    
     public void updateProductManufacturerForProductInsp() {
     }
-
+    
     public void updateProductDistributorForProductInsp() {
     }
-
+    
     public void updateComplianceSurveyRetailOutlet(EntityManager em) {
     }
-
+    
     public void updateComplianceSurveyRetailOutletRepresentative() {
     }
 
     // tk replace this and others like it with clientManager.completeClient()
     public List<String> completeComplianceSurveyRetailOutletRepresentativeName(String query) {
         ArrayList<String> contactsFound = new ArrayList<String>();
-
+        
         return contactsFound;
     }
-
+    
     public void editComplianceSurveyRetailOutlet() {
     }
-
+    
+    // tk del if found not necessary
     public void updateJob() {
         //setDirty(true);
     }
-
+    
     public void updateSurvey() {
-        //setDirty(true);
+        getCurrentComplianceSurvey().setIsDirty(true);
     }
-
+    
+    public void updateEntryDocumentInspection() {
+        getCurrentComplianceSurvey().getEntryDocumentInspection().setIsDirty(true);
+        
+        updateSurvey();
+    }
+    
     public void updateContainerNumber() {
         // create/save shipping containers if needed
         // save current list of containers for later use       
@@ -553,9 +560,9 @@ public class ComplianceManager implements Serializable {
         for (ShippingContainer shippingContainer : getCurrentComplianceSurvey().getEntryDocumentInspection().getShippingContainers()) {
             currentShippingContainers.add(shippingContainer);
         }
-
+        
         getCurrentComplianceSurvey().getEntryDocumentInspection().getShippingContainers().clear();
-
+        
         List<String> numList = getCurrentComplianceSurvey().getEntryDocumentInspection().getContainerNumberList();
         for (String containerNum : numList) {
             if (!containerNum.trim().equals("")) {
@@ -570,38 +577,38 @@ public class ComplianceManager implements Serializable {
 
         //setDirty(true);
     }
-
+    
     public ShippingContainer getCurrentShippingContainerByNumber(List<ShippingContainer> shippingContainers, String number) {
         for (ShippingContainer shippingContainer : shippingContainers) {
             if (shippingContainer.getNumber().trim().equals(number.trim())) {
                 return shippingContainer;
             }
         }
-
+        
         return null;
     }
-
+    
     public void updateDateOfDetention() {
-
+        
     }
-
+    
     public void updateDailyReportStartDate() {
         currentComplianceDailyReport.setEndOfPeriod(currentComplianceDailyReport.getStartOfPeriod());
         //endOfPeriod = startOfPeriod;
         //setDirty(true);
     }
-
+    
     public void updateCountryOfConsignment() {
-
+        
     }
-
+    
     public void updateCompanyTypes() {
         if (!currentComplianceSurvey.getOtherCompanyTypes()) {
             currentComplianceSurvey.setCompanyTypes("");
         }
         //setDirty(true);
     }
-
+    
     public void createNewProductInspection() {
         currentProductInspection = new ProductInspection();
         currentProductInspection.setQuantity(0);
@@ -609,18 +616,18 @@ public class ComplianceManager implements Serializable {
         isNewProductInspection = true;
         //setDirty(true);
     }
-
+    
     public ComplianceSurvey getCurrentComplianceSurvey() {
         //if (currentComplianceSurvey == null) {
         //    createNewComplianceSurvey();
         //}
         return currentComplianceSurvey;
     }
-
+    
     public void setCurrentComplianceSurvey(ComplianceSurvey currentComplianceSurvey) {
         this.currentComplianceSurvey = currentComplianceSurvey;
     }
-
+    
     public void createNewComplianceSurvey() {
 //        RequestContext context = RequestContext.getCurrentInstance();
 //        EntityManager em = getEntityManager1();
@@ -647,12 +654,12 @@ public class ComplianceManager implements Serializable {
 //        setDirty(false);
 
     }
-
+    
     public void createNewDocumentInspection() {
         RequestContext context = RequestContext.getCurrentInstance();
-
+        
         currentDocumentInspection = new DocumentInspection();
-
+        
         currentDocumentInspection.setName(" ");
         currentComplianceSurvey.setConsignee(new Client("", false));
         currentDocumentInspection.setDateOfInspection(new Date());
@@ -661,34 +668,30 @@ public class ComplianceManager implements Serializable {
         }
 
         //setDirty(false);
-
     }
-
-    public void saveComplianceSurvey(ActionEvent actionEvent) {
-        // tk
-        System.out.println("saving survey with type: " + currentComplianceSurvey.getSurveyType());
-        currentComplianceSurvey.save(getEntityManager1());
-
+    
+    public void saveComplianceSurvey(ActionEvent actionEvent) {        
+        currentComplianceSurvey.save(getEntityManager1());        
     }
-
-    public void saveDocumentInspection() {
+    
+    public void saveEntryDocumentInspection() {
         // tk impl save
         System.out.println("impl save doc inspection");
     }
-
+    
     public void closeComplianceSurvey() {
         PrimeFacesUtils.closeDialog(null);
     }
-
+    
     public void closeDocumentInspection() {
         promptToSaveIfRequired();
     }
-
+    
     public void okProductInspection(ActionEvent actionEvent) {
         // tk impl save
         System.out.println("impl okProductInspection");
     }
-
+    
     public void removeProductInspection(ActionEvent event) {
         // tk edit
 //        if (activeTabTitle.equals("Compliance Survey")) {
@@ -699,43 +702,43 @@ public class ComplianceManager implements Serializable {
 //        setDirty(true);
 
     }
-
+    
     public String getLatestAlert() {
         return "*********** TOYS R US BABY STROLLER MODEL # 3213 **********";
     }
-
+    
     private void promptToSaveIfRequired() {
         // tk impl 
         System.out.println("impl promptToSaveIfRequired");
     }
-
+    
     public void save() {
         // tk impl 
         System.out.println("impl save()");
     }
-
+    
     public List getProductStatus() {
         ArrayList types = new ArrayList();
-
+        
         types.add(new SelectItem("-- select status --", "-- select status --"));
         types.add(new SelectItem("Satisfactory", "Satisfactory"));
         types.add(new SelectItem("Unsatisfactory", "Unsatisfactory"));
-
+        
         return types;
     }
-
+    
     public List getShippingContainerDetainPercentages() {
         ArrayList types = new ArrayList();
-
+        
         types.add(new SelectItem("0", "0"));
         types.add(new SelectItem("25", "25"));
         types.add(new SelectItem("50", "50"));
         types.add(new SelectItem("75", "75"));
         types.add(new SelectItem("100", "100"));
-
+        
         return types;
     }
-
+    
     public List getCountries() {
 
         // tk see how this is impl. elsewhere
@@ -743,28 +746,28 @@ public class ComplianceManager implements Serializable {
         ArrayList countriesList = new ArrayList();
         countriesList.add(new SelectItem(" ", " "));
         countriesList.add(new SelectItem("-- Not displayed --", "-- Not displayed --"));
-
+        
         List<Country> countries = Country.findAllCountries(em);
         for (Country country : countries) {
             countriesList.add(new SelectItem(country.getName(), country.getName()));
         }
-
+        
         return countriesList;
     }
 
     // tk put in db
     public List getReportNames() {
         ArrayList names = new ArrayList();
-
+        
         names.add(new SelectItem("Daily Report", "Daily Report"));
-
+        
         return names;
     }
 
     // tk put in db
     public List getPortsOfEntry() {
         ArrayList types = new ArrayList();
-
+        
         types.add(new SelectItem("--", "--"));
         types.add(new SelectItem("-- N/A --", "-- N/A --"));
         types.add(new SelectItem("Adolph Levy warehouse", "Adolph Levy warehouse"));
@@ -789,53 +792,53 @@ public class ComplianceManager implements Serializable {
         types.add(new SelectItem("Seaboard freight", "Seaboard freight"));
         types.add(new SelectItem("Universal Freight Handlers", "Universal Freight Handlers"));
         types.add(new SelectItem("Zero cold storage", "Zero cold storage"));
-
+        
         return types;
     }
-
+    
     public List getInspectionPoints() {
         ArrayList points = new ArrayList();
-
+        
         points.add(new SelectItem("-- N/A --", "-- N/A --"));
         points.add(new SelectItem("One Stop Shop", "One Stop Shop"));
         points.add(new SelectItem("Stripping Station", "Stripping Station"));
-
+        
         return points;
     }
-
+    
     public List getDocumentInspectionActions() {
         ArrayList points = new ArrayList();
-
+        
         points.add(new SelectItem("None", "None"));
         points.add(new SelectItem("Stamped 'To Be Inspected'", "Stamped 'To Be Inspected'"));
         points.add(new SelectItem("Stamped 'Document Seen'", "Stamped 'Document Seen'"));
-
+        
         return points;
     }
 
     // tk put in db
     public List getSurveyTypes() {
         ArrayList types = new ArrayList();
-
+        
         types.add(new SelectItem("", ""));
         types.add(new SelectItem("Market Survey", "Market Survey"));
         types.add(new SelectItem("Product Survey", "Product Survey"));
-
+        
         return types;
     }
 
     // tk put in db
     public List getSampleSources() {
         ArrayList types = new ArrayList();
-
+        
         types.add(new SelectItem("Domestic Market", "Domestic Market"));
         types.add(new SelectItem("Port of Entry", "Port of Entry"));
-
+        
         return types;
     }
-
+    
     public List<Employee> completeEmployee(String query) {
-
+        
         try {
             List<Employee> employees = Employee.findEmployeesByName(getEntityManager1(), query);
             if (employees != null) {
@@ -848,21 +851,21 @@ public class ComplianceManager implements Serializable {
             return new ArrayList<>();
         }
     }
-
+    
     public void updateComplianceSurveyInspector() {
         // tk impl 
         System.out.println("impl ...");
     }
-
+    
     public void updateDocumentInspectionInspector() {
         // tk impl 
         System.out.println("impl updateDocumentInspectionInspector");
     }
-
+    
     public void onMainTabChange(TabChangeEvent event) {
         activeTabTitle = event.getTab().getTitle();
     }
-
+    
     public String getSurveyFormComponentsToUpdate() {
         return ":marketProductSurveyDialogForm:retailOutlet,"
                 + ":marketProductSurveyDialogForm:inspector,"
@@ -873,71 +876,71 @@ public class ComplianceManager implements Serializable {
                 + ":marketProductSurveyDialogForm:container,"
                 + ":marketProductSurveyDialogForm:products";
     }
-
+    
     public String getDateSearchField() {
         return dateSearchField;
     }
-
+    
     public void setDateSearchField(String dateSearchField) {
         this.dateSearchField = dateSearchField;
     }
-
+    
     public String getDateSearchPeriod() {
         return dateSearchPeriod;
     }
-
+    
     public void setDateSearchPeriod(String dateSearchPeriod) {
         this.dateSearchPeriod = dateSearchPeriod;
     }
-
+    
     public Date getReportEndDate() {
         return reportEndDate;
     }
-
+    
     public void setReportEndDate(Date reportEndDate) {
         this.reportEndDate = reportEndDate;
     }
-
+    
     public String getReportPeriod() {
         return reportPeriod;
     }
-
+    
     public void setReportPeriod(String reportPeriod) {
         this.reportPeriod = reportPeriod;
     }
-
+    
     public String getReportSearchText() {
         return reportSearchText;
     }
-
+    
     public void setReportSearchText(String reportSearchText) {
         this.reportSearchText = reportSearchText;
     }
-
+    
     public Date getReportStartDate() {
         return reportStartDate;
     }
-
+    
     public void setReportStartDate(Date reportStartDate) {
         this.reportStartDate = reportStartDate;
     }
-
+    
     public String getSearchText() {
         return searchText;
     }
-
+    
     public void setSearchText(String searchText) {
         this.searchText = searchText;
     }
-
+    
     public String getSearchType() {
         return searchType;
     }
-
+    
     public void setSearchType(String searchType) {
         this.searchType = searchType;
     }
-
+    
     public void doSurveySearch() {
         complianceSurveys = ComplianceSurvey.findComplianceSurveysByDateSearchField(getEntityManager1(),
                 getUser(),
@@ -947,10 +950,10 @@ public class ComplianceManager implements Serializable {
                 getDatePeriod().getStartDate(),
                 getDatePeriod().getEndDate(),
                 false);
-
+        
         openSurveyBrowser();
     }
-
+    
     public List<String> completeSearchText(String query) {
         List<String> suggestions = new ArrayList<>();
 
@@ -959,10 +962,10 @@ public class ComplianceManager implements Serializable {
         if (searchType.equals("?")) {
             // add suggestion strings to the suggestions list
         }
-
+        
         return suggestions;
     }
-
+    
     public void handleProductPhotoFileUpload(FileUploadEvent event) {
         FileOutputStream fout;
         UploadedFile upLoadedFile = event.getFile();
@@ -970,25 +973,25 @@ public class ComplianceManager implements Serializable {
         String upLoadedFileName = userManagement.getUser().getId() + "_"
                 + new Date().getTime() + "_"
                 + upLoadedFile.getFileName();
-
+        
         String imageURL = baseURL + "\\" + upLoadedFileName;
-
+        
         try {
             fout = new FileOutputStream(imageURL);
             fout.write(upLoadedFile.getContents());
             fout.close();
-
+            
             getCurrentProductInspection().setImageURL(upLoadedFileName);
             //setDirty(true);
         } catch (IOException e) {
             System.out.println(e);
         }
     }
-
+    
     public void editComplianceSurvey() {
         openComplianceSurvey();
     }
-
+    
     public Boolean getComplianceSurveyIsValid() {
 //        if (getCurrentComplianceSurvey().getId() != null) {
 //            return true;
@@ -998,7 +1001,7 @@ public class ComplianceManager implements Serializable {
 
         return false;
     }
-
+    
     public Boolean getProductInspectionImageIsValid() {
         return !getCurrentProductInspection().getImageURL().isEmpty();
     }
@@ -1014,14 +1017,14 @@ public class ComplianceManager implements Serializable {
                 longProcessProgress = longProcessProgress + 1;
             }
         }
-
+        
         return longProcessProgress;
     }
-
+    
     public void onLongProcessComplete() {
         longProcessProgress = 0;
     }
-
+    
     public void setLongProcessProgress(Integer longProcessProgress) {
         this.longProcessProgress = longProcessProgress;
     }
@@ -1033,7 +1036,7 @@ public class ComplianceManager implements Serializable {
 
         // tk test gen report
         HashMap parameters = new HashMap();
-
+        
         Connection con = BusinessEntityUtils.establishConnection("com.mysql.jdbc.Driver",
                 "jdbc:mysql://boshrmapp:3306/jmtstest",
                 "root", // make system option
@@ -1044,41 +1047,41 @@ public class ComplianceManager implements Serializable {
             try {
                 parameters.put("formId", 178153L);
                 JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
-
+                
             } catch (JRException ex) {
                 System.out.println(ex);
             }
-
+            
         } else {
             System.out.println("not connected!");
         }
-
+        
         String baseURL = "C:\\glassfishv3\\images\\11153_1359128328029_print-file.png";
-
+        
         try {
-
+            
             FileInputStream stream = new FileInputStream(baseURL);
             streamedFile = new DefaultStreamedContent(stream, "image/png", "downloaded.png");
-
+            
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
-
+        
         return streamedFile;
     }
-
+    
     public static void main(String[] args) {
         String test = "";
-
+        
         String[] test2 = test.split("[,;:|/]");
         System.out.println("Len: " + test2.length);
         for (int i = 0; i < test2.length; i++) {
             System.out.println(test2[i]);
         }
     }
-
+    
     public StreamedContent getDetentionRequestFile() {
-
+        
         EntityManager em = getEntityManager1();
         HashMap parameters = new HashMap();
 //
@@ -1117,9 +1120,9 @@ public class ComplianceManager implements Serializable {
                 parameters,
                 "PORT_OF_ENTRY_DETENTION");
     }
-
+    
     public StreamedContent getReleaseRequestForPortOfEntryFile() {
-
+        
         EntityManager em = getEntityManager1();
         HashMap parameters = new HashMap();
 
@@ -1148,11 +1151,11 @@ public class ComplianceManager implements Serializable {
                 "release_request.pdf",
                 parameters,
                 "PORT_OF_ENTRY_DETENTION");
-
+        
     }
-
+    
     public StreamedContent getSampleRequestFile() {
-
+        
         EntityManager em = getEntityManager1();
         HashMap parameters = new HashMap();
 
@@ -1197,7 +1200,7 @@ public class ComplianceManager implements Serializable {
                 parameters,
                 "PORT_OF_ENTRY_DETENTION");
     }
-
+    
     public StreamedContent getNoticeOfReleaseFromDetentionFile() {
         EntityManager em = getEntityManager1();
         HashMap parameters = new HashMap();
@@ -1275,10 +1278,10 @@ public class ComplianceManager implements Serializable {
                 parameters,
                 "DOMESTIC_MARKET_DETENTION");
     }
-
+    
     public String getComplianceSurveyProductNames() {
         String names = "";
-
+        
         for (ProductInspection product : currentComplianceSurvey.getProductInspections()) {
             if (names.equals("")) {
                 names = product.getName();
@@ -1286,23 +1289,23 @@ public class ComplianceManager implements Serializable {
                 names = names + ", " + product.getName();
             }
         }
-
+        
         return names;
     }
-
+    
     public Boolean samplesTaken() {
         for (ProductInspection product : currentComplianceSurvey.getProductInspections()) {
             if (product.getSampledForLabelAssessment() || product.getSampledForTesting()) {
                 return true;
             }
         }
-
+        
         return false;
     }
-
+    
     public String getComplianceSurveyProductBrandNames() {
         String brandNames = "";
-
+        
         for (ProductInspection product : currentComplianceSurvey.getProductInspections()) {
             if (brandNames.equals("")) {
                 brandNames = product.getBrand();
@@ -1310,13 +1313,13 @@ public class ComplianceManager implements Serializable {
                 brandNames = brandNames + ", " + product.getBrand();
             }
         }
-
+        
         return brandNames;
     }
-
+    
     public String getComplianceSurveyProductBatchCodes() {
         String batchCodes = "";
-
+        
         for (ProductInspection product : currentComplianceSurvey.getProductInspections()) {
             if (batchCodes.equals("")) {
                 batchCodes = product.getBatchCode();
@@ -1324,25 +1327,25 @@ public class ComplianceManager implements Serializable {
                 batchCodes = batchCodes + ", " + product.getBatchCode();
             }
         }
-
+        
         return batchCodes;
     }
-
+    
     public String getComplianceSurveyProductTotalQuantity() {
         Integer totalQuantity = 0;
-
+        
         for (ProductInspection product : currentComplianceSurvey.getProductInspections()) {
             if (product.getQuantity() != null) {
                 totalQuantity = totalQuantity + product.getQuantity();
             }
         }
-
+        
         return totalQuantity.toString();
     }
-
+    
     public String getComplianceSurveySampledProductNamesQuantitiesAndUnits() {
         String namesQuantitiesAndUnits = "";
-
+        
         for (ProductInspection product : currentComplianceSurvey.getProductInspections()) {
             if (product.getSampledForTesting() || product.getSampledForLabelAssessment()) {
                 if (namesQuantitiesAndUnits.equals("")) {
@@ -1352,13 +1355,13 @@ public class ComplianceManager implements Serializable {
                 }
             }
         }
-
+        
         return namesQuantitiesAndUnits;
     }
-
+    
     public String getComplianceSurveyProductQuantitiesAndUnits() {
         String quantitiesAndUnits = "";
-
+        
         for (ProductInspection product : currentComplianceSurvey.getProductInspections()) {
 //            if (product.getQuantity() != null) {
             if (quantitiesAndUnits.equals("")) {
@@ -1368,19 +1371,19 @@ public class ComplianceManager implements Serializable {
             }
 //            }
         }
-
+        
         return quantitiesAndUnits;
     }
-
+    
     public String getComplianceSurveyProductTotalSampleSize() {
         Integer totalSampleSize = 0;
-
+        
         for (ProductInspection productInspection : currentComplianceSurvey.getProductInspections()) {
             if (productInspection.getNumProductsSampled() != null) {
                 totalSampleSize = totalSampleSize + productInspection.getNumProductsSampled();
             }
         }
-
+        
         return totalSampleSize.toString();
     }
 
@@ -1393,14 +1396,14 @@ public class ComplianceManager implements Serializable {
 //            currentComplianceSurvey = ComplianceSurvey.findComplianceSurveyById(em, currentComplianceSurvey.getId());
 //        }
     }
-
+    
     public StreamedContent getComplianceSurveyFormPDFFile(
             EntityManager em,
             String form,
             String fileName,
             HashMap parameters,
             String sequentialNumberName) {
-
+        
         if (currentComplianceSurvey.getId() != null) {
             try {
                 Connection con = BusinessEntityUtils.establishConnection(
@@ -1410,7 +1413,7 @@ public class ComplianceManager implements Serializable {
                         "bsj0001");  // tk make system option
                 if (con != null) {
                     StreamedContent streamContent;
-
+                    
                     String reportFileURL = SystemOption.findSystemOptionByName(em, form).getOptionValue();
 
                     // make sure is parameter is set for all forms
@@ -1428,7 +1431,7 @@ public class ComplianceManager implements Serializable {
                             //setDirty(dirty);
                             updateComplianceSurvey(em);
                             em.getTransaction().commit();
-
+                            
                         }
                         //parameters.put("referenceNumber", currentComplianceSurvey.getReferenceNumber());
                     } else if (sequentialNumberName.equals("DOMESTIC_MARKET_DETENTION")) {
@@ -1441,19 +1444,19 @@ public class ComplianceManager implements Serializable {
                             //setDirty(dirty);
                             updateComplianceSurvey(em);
                             em.getTransaction().commit();
-
+                            
                         }
                         //parameters.put("referenceNumber", currentComplianceSurvey.getReferenceNumber());
                     }
 
                     // generate report
                     JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
-
+                    
                     byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
-
+                    
                     streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes), "application/pdf", fileName);
                     setLongProcessProgress(100);
-
+                    
                     return streamContent;
                 } else {
                     return null;
@@ -1461,19 +1464,19 @@ public class ComplianceManager implements Serializable {
             } catch (Exception e) {
                 System.out.println(e);
                 setLongProcessProgress(100);
-
+                
                 return null;
             }
         } else {
             return null;
         }
     }
-
+    
     public StreamedContent getComplianceDailyReportPDFFile() {
-
+        
         EntityManager em = getEntityManager1();
         HashMap parameters = new HashMap();
-
+        
         try {
             Connection con = BusinessEntityUtils.establishConnection(
                     "com.mysql.jdbc.Driver",
@@ -1482,7 +1485,7 @@ public class ComplianceManager implements Serializable {
                     "bsj0001");  // tk make system option
             if (con != null) {
                 StreamedContent streamContent;
-
+                
                 String reportFileURL = SystemOption.findSystemOptionByName(em, "complianceDailyReport").getOptionValue();
 
                 // make sure is parameter is set for all forms
@@ -1500,25 +1503,25 @@ public class ComplianceManager implements Serializable {
 
                 // generate report
                 JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
-
+                
                 byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
-
+                
                 streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes), "application/pdf", "daily_report.pdf");
                 setLongProcessProgress(100);
-
+                
                 return streamContent;
             } else {
                 return null;
             }
-
+            
         } catch (Exception e) {
             System.out.println(e);
             setLongProcessProgress(100);
-
+            
             return null;
         }
     }
-
+    
     public StreamedContent getNoticeOfDetentionFile() {
         EntityManager em = getEntityManager1();
         HashMap parameters = new HashMap();
@@ -1591,7 +1594,7 @@ public class ComplianceManager implements Serializable {
                 parameters,
                 "DOMESTIC_MARKET_DETENTION");
     }
-
+    
     public Boolean isDirty() { // tk delete
         return false; //dirty;
     }

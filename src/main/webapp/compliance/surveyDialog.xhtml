@@ -37,9 +37,9 @@ Email: info@dpbennett.com.jm
     <h:body> 
         <ui:include src="../common/longProcessDialog.xhtml"/>
         <h:form id="complianceSurveyDialogForm" >       
-            
+
             <p:growl id="compliance_survey_growl" life="5000" showDetail="true"/>
-            
+
             <p:commandButton value="Save"
                              onstart="longProcessDialogVar.show();"
                              actionListener="#{complianceManager.saveComplianceSurvey}"                         
@@ -125,73 +125,76 @@ Email: info@dpbennett.com.jm
                                          id="entryDocumentNumber" 
                                          style="width: 300px">
                                 <p:ajax
-                                    listener="#{complianceManager.updateSurvey}"
+                                    listener="#{complianceManager.updateEntryDocumentInspection}"
                                     process="@this" />
                             </p:inputText>
                             <p:watermark value="-- N/A --" for="entryDocumentNumber"/>
                         </h:panelGroup>
 
-                        <h:outputText value="Entry Document Report Date:"  />
+                        <p:outputLabel value="Entry Document Report Date:"  />
                         <h:panelGroup>
-                            <p:calendar pattern="yyyy-MM-dd" 
+                            <p:calendar readonlyInput="true"
+                                        navigator="true" 
+                                        pattern="MMM dd, yyyy" 
                                         id="entryDocumentReportDate"
-                                        showOn="button"
-                                        timeOnly="false"
                                         value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.entryDocumentReportDate}" >
+
                                 <p:ajax event="dateSelect"
-                                        listener="#{complianceManager.updateJob}" />
+                                        listener="#{complianceManager.updateEntryDocumentInspection}" />
+
                                 <p:ajax event="keyup"
-                                        listener="#{complianceManager.updateJob}" />
+                                        listener="#{complianceManager.updateEntryDocumentInspection}" />
+
                             </p:calendar>
                             <p:watermark value="-- N/A --" for="entryDocumentReportDate"/>
                         </h:panelGroup>
 
-                        <h:outputText value="Country of consignment *:" />
-                        <h:selectOneMenu value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.countryOfConsignment}" >
-                            <p:ajax
-                                global="true"
-                                listener="#{complianceManager.updateCountryOfConsignment}"
-                                update=""
-                                process="@this" />
-                            <f:selectItems value="#{complianceManager.countries}" />
-                        </h:selectOneMenu>
+                        <p:outputLabel value="Country of consignment:" />
+                        <p:autoComplete value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.countryOfConsignment}" 
+                                        forceSelection="true"  
+                                        maxlength="40"
+                                        dropdown="true"
+                                        scrollHeight="200" 
+                                        completeMethod="#{App.completeCountry}" >
+                            <p:ajax event="itemSelect"                              
+                                    listener="#{complianceManager.updateEntryDocumentInspection}"
+                                    process="@this" />      
 
-                        <h:outputText value="Port of Entry:"/>
-                        <h:selectOneMenu value="#{complianceManager.currentComplianceSurvey.portOfEntry}" >
+                            <p:ajax event="change"                              
+                                    listener="#{complianceManager.updateEntryDocumentInspection}"
+                                    process="@this" />                               
+                        </p:autoComplete>
+
+                        <p:outputLabel value="Port of Entry:"/>
+                        <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.portOfEntry}" >
+
                             <p:ajax
-                                global="true"
-                                listener="#{complianceManager.updateJob}"
+                                listener="#{complianceManager.updateSurvey}"
                                 process="@this" />
+
                             <f:selectItems value="#{complianceManager.portsOfEntry}" />
-                        </h:selectOneMenu>                       
 
-                        <h:outputText value="Inspection Point: "/>
-                        <h:panelGroup> 
-                            <h:selectOneMenu value="#{complianceManager.currentComplianceSurvey.inspectionPoint}" >
-                                <p:ajax
-                                    global="true"
-                                    listener="#{complianceManager.updateJob}"
-                                    process="@this" />
-                                <f:selectItems value="#{complianceManager.inspectionPoints}" />
-                            </h:selectOneMenu>
-                            <h:outputText value="  Address: "/>
-                            <p:inputText style="width: 300px"
-                                         value="#{complianceManager.currentComplianceSurvey.inspectionAddress.name}" >
-                                <p:ajax
-                                    global="true"
-                                    listener="#{complianceManager.updateJob}"
-                                    process="@this" />
-                            </p:inputText>
-                        </h:panelGroup>
+                        </p:selectOneMenu>                       
 
-                        <h:outputText value="Container #(s):"/>
+                        <p:outputLabel value="Inspection Point:"/>
+                        <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.inspectionPoint}" >
+
+                            <p:ajax
+                                listener="#{complianceManager.updateSurvey}"
+                                process="@this" />
+
+                            <f:selectItems value="#{complianceManager.inspectionPoints}" />
+                        </p:selectOneMenu>     
+
+                        <p:outputLabel value="Container #(s):"/>
                         <p:inputText id="container"
                                      style="width: 300px"
                                      value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.containerNumbers}" >
+                           
                             <p:ajax
-                                global="true"
-                                listener="#{complianceManager.updateJob}"
+                                listener="#{complianceManager.updateEntryDocumentInspection}"
                                 process="@this" />
+                            
                         </p:inputText>
 
                         <h:outputText value="Consignee/contact person: " />
