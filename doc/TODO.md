@@ -1,13 +1,18 @@
 # Things to do
 
+Status Update Notes for May 28 - June 1, 2018
+- Add users, update databse, etc. under sys admin
+- Attend meeting with Engineering div. (June 1)
+
 Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
+Month 3 modules: Legal Metrology, Task Management, Service Request
+
 
 ## Next release (May 24-25, 2018)
-- Address the requests in Burton'n email.
 - Setup dashboard and main tab view for Compliance module:
   * Impl "ComplianceSurveyDialogForm"  
-    * Impl "dirty" and save() for each "subclass" and save only when dirty. 
+  * Impl "dirty" and save() for each "subclass" and save only when dirty. 
   * Replace update*() with single update**() method where possible.
   * Track object dirtiness as with other objects in the system eg Address.
   * Impl "new survey" and other functions in dashboard and maintab view.  
@@ -114,5 +119,17 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
   Fix!
 - Representatives should see jobs when they select “My  jobs” in “Job Search”.
 - Send email to reps if there are any.
+- Add multiple pages for addresses, contacts and samples.
+- Meet with S&T re:
+- As discussed in our meeting is it possible to have the option to enter samples
+as A1, A2, A3…etc? Currently, the system only allows us to enter them as A, B, C…etc. 
+This option will assist in calculating the number of samples for our Commercial Sterility jobs. 
+As it is, we are required to count them manually which is extremely time consuming
+- In the analytical report:
+1.	On the jobs report tab could you at the base of the sheet count “ # of late jobs” = 
+And “# of on-time jobs” = 
+“Average TAT” (date completed – date submitted) in days = 
+2.	On the employee report tab could an additional column be inserted for avg TAT for each line with the staff?
+
   
 

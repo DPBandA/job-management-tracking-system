@@ -106,7 +106,7 @@ Email: info@dpbennett.com.jm
                         oncomplete="longProcessDialogVar.hide();"/>
 
                 <p:tab title="General" >
-                    <h:panelGrid columns="2" id="generalPanelGrid">
+                    <h:panelGrid columns="2">
                         <p:outputLabel value="Survey Type:" style="font-weight: bold;" />
                         <p:selectOneMenu id="surveyType"
                                          validator="requiredFieldValidator"
@@ -149,15 +149,13 @@ Email: info@dpbennett.com.jm
                             <p:watermark value="-- N/A --" for="entryDocumentReportDate"/>
                         </h:panelGroup>
 
-                        <p:outputLabel value="Country of consignment:" style="font-weight: bold;" />
+                        <p:outputLabel value="Country of consignment:" />
                         <p:autoComplete value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.countryOfConsignment}" 
                                         forceSelection="true"  
                                         maxlength="40"
                                         dropdown="true"
                                         scrollHeight="200" 
-                                        validator="requiredFieldValidator"
                                         completeMethod="#{App.completeCountry}" >
-                            
                             <p:ajax event="itemSelect"                              
                                     listener="#{complianceManager.updateEntryDocumentInspection}"
                                     process="@this" />      
@@ -167,7 +165,7 @@ Email: info@dpbennett.com.jm
                                     process="@this" />                               
                         </p:autoComplete>
 
-                        <p:outputLabel value="Port of Entry:" style="font-weight: bold;" />
+                        <p:outputLabel value="Port of Entry:"/>
                         <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.portOfEntry}" >
 
                             <p:ajax
@@ -178,7 +176,7 @@ Email: info@dpbennett.com.jm
 
                         </p:selectOneMenu>                       
 
-                        <p:outputLabel value="Inspection Point:" style="font-weight: bold;" />
+                        <p:outputLabel value="Inspection Point:"/>
                         <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.inspectionPoint}" >
 
                             <p:ajax
@@ -199,7 +197,60 @@ Email: info@dpbennett.com.jm
 
                         </p:inputText>
 
-                        <p:outputLabel value="Consignee:" style="font-weight: bold;" />                        
+                        <h:outputText value="Consignee:" />
+                        <ui:remove>
+                            <h:panelGroup >
+                                <p:autoComplete id="consignee"
+                                                size="35"
+                                                maxResults="12"
+                                                var="consignee"
+                                                value="#{complianceManager.currentComplianceSurvey.consignee}"
+                                                itemLabel="#{consignee.name}"
+                                                itemValue="#{consignee}"
+                                                converter="clientConverter"
+                                                forceSelection="true"
+                                                completeMethod="#{App.completeClient}" >
+                                    <p:ajax event="itemSelect"
+                                            update=""
+                                            listener="#{complianceManager.updateComplianceSurveyConsignee}"
+                                            process="@this"/>
+
+                                    <p:ajax event="keyup"
+                                            update=""
+                                            listener="#{complianceManager.updateComplianceSurveyConsignee}"
+                                            process="@this"/>
+                                </p:autoComplete>
+                                <h:outputText value=" / "/>  
+                                <h:outputText value="consigneeRepresentative"/>
+                                <ui:remove>
+                                    <p:autoComplete id="consigneeRepresentative"
+                                                    size="35"
+                                                    maxResults="12"
+                                                    dropdown="true"
+                                                    var="contact"
+                                                    value="#{complianceManager.currentComplianceSurvey.consigneeRepresentative}"
+                                                    itemLabel="#{contact.name}"
+                                                    itemValue="#{contact}"
+                                                    forceSelection="true"
+                                                    converter="contactConverter"                                                                     
+                                                    completeMethod="#{complianceManager.completeComplianceSurveyConsigneeRepresentative}" >
+                                        <p:ajax event="itemSelect"                                
+                                                listener="#{complianceManager.updateComplianceSurveyConsigneeRepresentative}"
+                                                process="@this"/>
+                                        <p:ajax event="keyup"
+                                                listener="#{complianceManager.updateComplianceSurveyConsigneeRepresentative}"
+                                                process="@this"/>
+                                    </p:autoComplete>  
+                                </ui:remove>
+                                <p:spacer height="0" width="4"/>
+                                <p:commandButton icon="ui-icon-pencil"
+                                                 actionListener="#{complianceManager.editComplianceSurveyConsignee}"
+                                                 update=""
+                                                 oncomplete="clientFormDialog.show();longProcessDialogVar.hide();"   
+                                                 process="@this"
+                                                 title="Edit this Consignee's detail or add a new broker"/>
+                            </h:panelGroup>  
+                        </ui:remove>
                         <h:panelGroup>                
                             <p:autoComplete id="consignee"
                                             var="client"
@@ -216,7 +267,7 @@ Email: info@dpbennett.com.jm
                                             completeMethod="#{App.completeClient}" >
 
                                 <p:ajax event="itemSelect"
-                                        update="generalPanelGrid"
+                                        update="consigneeRepresentative"
                                         listener="#{complianceManager.updateCconsignee}"
                                         process="@this"/>
 
@@ -232,7 +283,7 @@ Email: info@dpbennett.com.jm
                                                      onstart="PF('longProcessDialogVar').show();"   
                                                      oncomplete="PF('longProcessDialogVar').hide();"                                  
                                                      actionListener="#{complianceManager.editConsignee}"  
-                                                     process="@this,consignee"                             
+                                                     process="@this,client"                             
                                                      title="View or edit this consignee's detail">  
 
                                         <p:ajax event="dialogReturn" 
@@ -244,49 +295,27 @@ Email: info@dpbennett.com.jm
 
                                 <p:menuitem >       
                                     <p:commandButton 
-                                        value="Add consignee"
+                                        value="Add new client"
                                         icon="ui-icon-plus" 
                                         style="width: 300%;text-align: left;background: none;border: 0;"
                                         onstart="PF('longProcessDialogVar').show();"    
                                         oncomplete="PF('longProcessDialogVar').hide();"                    
-                                        disabled="#{!complianceManager.user.privilege.canAddClient}"
-                                        actionListener="#{complianceManager.createNewConsignee}"                                            
+                                        disabled="#{!jobManager.user.privilege.canAddClient}"
+                                        actionListener="#{jobManager.createNewJobClient}"                                            
                                         process="@this"
-                                        title="Add a new consignee to the client database">
+                                        title="Add a new client to the client database">
 
                                         <p:ajax event="dialogReturn" 
-                                                listener="#{complianceManager.consigneeDialogReturn}"
-                                                update="consignee,consigneeRepresentative,consigneeActionsMenu" />
+                                                listener="#{jobManager.clientDialogReturn}"
+                                                update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
 
                                     </p:commandButton>
                                 </p:menuitem>
                             </p:menuButton>      
 
                         </h:panelGroup>
-                        
-                        <p:outputLabel value="Consignee representative:" style="font-weight: bold;" />
-                        <p:autoComplete id="consigneeRepresentative"
-                                        value="#{complianceManager.currentComplianceSurvey.consigneeRepresentative}"
-                                        dropdown="true"
-                                        forceSelection="true"
-                                        scrollHeight="200"
-                                        maxlength="40"
-                                        converter="clientContactConverter" 
-                                        validator="contactValidator"
-                                        var="contact"                        
-                                        itemValue="#{contact}"
-                                        itemLabel="#{contact.name}" 
-                                        completeMethod="#{complianceManager.completeConsigneetContact}">
 
-                            <f:attribute name="currentClientId" value="#{complianceManager.currentComplianceSurvey.consignee.id}" />
-
-                            <p:ajax event="itemSelect"
-                                    listener="#{complianceManager.updateSurvey}"  
-                                    process="@this" />   
-
-                        </p:autoComplete> 
-
-                        <h:outputText value="Broker/contact person: " style="font-weight: bold;" />
+                        <h:outputText value="Broker/contact person: " />
                         <h:panelGroup >
                             <h:outputText id="broker" value="Broker/contact person: " />
                             <ui:remove>
@@ -342,7 +371,7 @@ Email: info@dpbennett.com.jm
                                              title="Edit this broker's detail or add a new broker"/>
                         </h:panelGroup>                      
 
-                        <h:outputText value="Retail Outlet/contact person: " style="font-weight: bold;" />
+                        <h:outputText value="Retail Outlet/contact person: " />
                         <h:panelGroup >
                             <h:outputText id="retailOutlet" value="retailOutlet" />
                             <ui:remove>
@@ -398,7 +427,7 @@ Email: info@dpbennett.com.jm
                                              title="Edit this retail outlet's detail or add a new broker"/>
                         </h:panelGroup>     
 
-                        <h:outputText value="Inspector *:" style="font-weight: bold;" />
+                        <h:outputText value="Inspector *:" />
                         <p:autoComplete style="width: 75%;"
                                         id="inspector"
                                         readonly="true"
@@ -418,7 +447,7 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:autoComplete>
 
-                        <h:outputText value="Date/time checked *:"  style="font-weight: bold;" />
+                        <h:outputText value="Date/time checked *:"  />
                         <p:calendar id="dateAndTimeChecked"
                                     pattern="yyyy-MM-dd hh:mm a" 
                                     showOn="button"

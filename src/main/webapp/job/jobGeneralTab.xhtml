@@ -187,7 +187,7 @@ Email: info@dpbennett.com.jm
                         itemLabel="#{address.name}" 
                         completeMethod="#{jobManager.completeClientAddress}">
 
-            <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
+            <f:attribute name="currentClientId" value="#{jobManager.currentJob.client.id}" />
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
@@ -210,7 +210,7 @@ Email: info@dpbennett.com.jm
                         itemLabel="#{contact.name}" 
                         completeMethod="#{jobManager.completeClientContact}">
 
-            <f:attribute name="currentJobClientId" value="#{jobManager.currentJob.client.id}" />
+            <f:attribute name="currentClientId" value="#{jobManager.currentJob.client.id}" />
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
