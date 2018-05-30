@@ -6,7 +6,7 @@ Status Update Notes for May 28 - June 1, 2018
 
 Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
-Month 3 modules: Legal Metrology, Task Management, Service Request
+Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 
 ## Next release (May 24-25, 2018)
