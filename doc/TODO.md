@@ -3,6 +3,7 @@
 Status Update Notes for May 28 - June 1, 2018
 - Add users, update databse, etc. under sys admin
 - Attend meeting with Engineering div. (June 1)
+- Mention work on BPM 
 
 Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
