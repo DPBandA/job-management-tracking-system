@@ -8,8 +8,16 @@ Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
-
 ## Next release (May 24-25, 2018)
+- Make cost component a textarea component.
+- Check why seach is automatically done when text pasted while not for other.
+  Check if change event or keyup event is being used.
+- Comment out search menu items in tools for in system admin.
+- Respond to rohan emails.
+- Read ED report.
+- Complete Legal module:
+  * Add report template to
+  * Filter list of reports based on category.
 - Setup dashboard and main tab view for Compliance module:
   * Impl "ComplianceSurveyDialogForm"  
   * Impl "dirty" and save() for each "subclass" and save only when dirty. 
