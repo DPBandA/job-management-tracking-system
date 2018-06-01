@@ -10,6 +10,8 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
+- Send email to engineering heads re meeting decisions and actions to be taken.
+- Add http://boshrmapp:8080/jmts as a system config named appURL.
 - Make cost component a textarea component.
 - Check why seach is automatically done when text pasted while not for other.
   Check if change event or keyup event is being used.

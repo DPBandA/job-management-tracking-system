@@ -1781,7 +1781,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         String message = "";
         DateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
 
-        message = message + "Dear Colleague,<br><br>";
+        message = message + "Dear Job Assignee,<br><br>";
         message = message + "A job with the following details was assigned to your department via the <a href='http://boshrmapp:8080/jmts'>Job Management & Tracking System (JMTS)</a>:<br><br>";
         message = message + "<span style='font-weight:bold'>Job number: </span>" + job.getJobNumber() + "<br>";
         message = message + "<span style='font-weight:bold'>Client: </span>" + job.getClient().getName() + "<br>";
