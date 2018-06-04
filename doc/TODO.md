@@ -10,16 +10,10 @@ Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), 
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Send email to engineering heads re meeting decisions and actions to be taken.
-- Add http://boshrmapp:8080/jmts as a system config named appURL.
-- Make cost component a textarea component.
-- Check why seach is automatically done when text pasted while not for other.
-  Check if change event or keyup event is being used.
-- Comment out search menu items in tools for in system admin.
-- Respond to rohan emails.
-- Read ED report.
-- Complete Legal module:
-  * Add report template to
+- Do weekly update
+- Complete Legal Office module:
+  * Impl and add Legal reports. 
+  * Add report template for legal
   * Filter list of reports based on category.
 - Setup dashboard and main tab view for Compliance module:
   * Impl "ComplianceSurveyDialogForm"  
@@ -30,16 +24,13 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
   * Impl "complianceSurveyToolsMenuButton" menu button
   * Fix up the toolbars so they look like the rest of JMTS.
   * Update survey table when dialog is closed.
-- Setup dashboard and main tab view for LegalMetrology and Certification modules:
 - Revamps the Reports Tab:
   * Impl all existing reports from "package".
   * Impl access to module via the dashboard.
   * Impl report dialog
   * All reports except monthly report and analytical reports not working. Fix!    
   * Impl getting reports by category.
-  * Add report description.
-  * Impl and add Legal reports.
-  * Get rid of use of jasperreports folder for now.
+  * Add report description. 
   * The "Jobs entered by employee" report does not show the samples. 
     In "Jobs entered by employee" change "sample" column to "product".
   * Add description, 2 departments, 3 date periods etc. in class Report.
@@ -55,7 +46,6 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - Add "Parent earning jobs" and change "Parent jobs only" to "Parent jobs".
 - Find way to allow department heads to use "General" and other authorized 
   search types.
-- Impl reset() in LegalDocumentManager.
 - Fix job search slowness:
   * Select the exact fields that will be displayed in the respect "Job View" tables. 
     Do this for others such as the ones used in "completeObjects" methods in the
@@ -86,13 +76,7 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - NOTE: postMail() hard-coded values to be made system options.
 - Find way to deactivate old costing templates...Add "active" field to "JobCostingAndPayment"
   and provide interface to deactivate the old templates.
-- Implement entering sampling information as required by Micro B. and may be Chemistry.
-- Get client credit status showing same info as as shown by accpac.
-- Price list for all of documents/jobs. 
-- Setup jmts-processes as Activiti explorer for JMTS. Use jmts/jmtstest as the
-  databases.
-- Integrate with Activiti with BSJ mail server.
-- Integrate Activiti with BSJ LDAP (AD).
+- Price list for all of documents/jobs. Send RA email reminder.
 - Remove Department from user profile and use employee field to find the 
   the user's department when needed.
 - Sync opened job: Check if the currently opened job was saved since it was opened or last saved
@@ -100,8 +84,6 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
    Test with 2 users logged in with different browsers.
 - Show date of activity for user in user profiles table: Attach "tracking" feature 
   to the user profile for this.
-- Put "Reports" configuration in Sys Admin Configuration tab. 
-- Implement "Templates" tab with "Form", "Letter" and "Report" sub tabs.
 - Put methods such as approveJobCosting() in their associated class such as JCP 
   so they can be reused by web services developed independently of the JMTS by using
   the BEL.
@@ -121,17 +103,13 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - Display message if an object's dialog is closed but not saved.
 - Lock job costing after it is approved. Allow assigned department to edit?
 - Costing templates takes long to appear when dropdown is first selected. Fix!
-- Fully integrate the use of Activi to facilitate the "low-code" or "no-code"
-  paradigm.
 - Use BusinessEntities.postMail and retire use of "postMail" methods in JM
 - Change category names from all caps especially for system configuration.
-- Amount due still showing for old jobs with deposit.
+- Amount due still showing for old jobs with deposit. Fix!
 - Cancelling a cost component edit still shows the edited component in the table
   Fix!
 - Representatives should see jobs when they select “My  jobs” in “Job Search”.
-- Send email to reps if there are any.
 - Add multiple pages for addresses, contacts and samples.
-- Meet with S&T re:
 - As discussed in our meeting is it possible to have the option to enter samples
 as A1, A2, A3…etc? Currently, the system only allows us to enter them as A, B, C…etc. 
 This option will assist in calculating the number of samples for our Commercial Sterility jobs. 
@@ -141,6 +119,11 @@ As it is, we are required to count them manually which is extremely time consumi
 And “# of on-time jobs” = 
 “Average TAT” (date completed – date submitted) in days = 
 2.	On the employee report tab could an additional column be inserted for avg TAT for each line with the staff?
+- The current release allows the “deputy head” to have limited privileges. 
+A future release will allow directors, managers, team leaders and acting team leaders 
+to have the privileges you mentioned and more. The system will also allow other 
+persons in a department to be temporarily granted these privileges. 
+This release will be around early July.
 
   
 

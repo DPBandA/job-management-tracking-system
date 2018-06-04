@@ -782,20 +782,11 @@ public class SystemManager implements Serializable {
             foundDepartments = Department.findDepartmentsByName(getEntityManager(), getDepartmentSearchText());
         }
 
-        // Add tab if it does not exist
-        if (getMainTabView().findTab("System Administration") == null) {
-            getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        }
-
     }
 
     public void doBusinessSearch() {
         foundBusinesses = Business.findBusinessesByName(getEntityManager(), getBusinessSearchText());
 
-        // Add tab if it does not exist
-        if (getMainTabView().findTab("System Administration") == null) {
-            getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        }
     }
 
     public void doClassificationSearch() {
@@ -806,8 +797,6 @@ public class SystemManager implements Serializable {
             foundClassifications = Classification.findClassificationsByName(getEntityManager(), getClassificationSearchText());
         }
 
-        selectSystemAdminTab("dataListsTabViewVar", "Classifications", 4, 0);
-
     }
 
     public void doSectorSearch() {
@@ -817,8 +806,6 @@ public class SystemManager implements Serializable {
         } else {
             foundSectors = Sector.findSectorsByName(getEntityManager(), getSectorSearchText());
         }
-
-        selectSystemAdminTab("dataListsTabViewVar", "Sectors", 4, 3);
 
     }
 
@@ -837,8 +824,6 @@ public class SystemManager implements Serializable {
             foundJobCategories = JobCategory.findJobCategoriesByName(getEntityManager(), getJobCategorySearchText());
         }
 
-        selectSystemAdminTab("dataListsTabViewVar", "Job categories", 4, 1);
-
     }
 
     public void doJobSubcategorySearch() {
@@ -848,8 +833,6 @@ public class SystemManager implements Serializable {
         } else {
             foundJobSubcategories = JobSubCategory.findJobSubcategoriesByName(getEntityManager(), getJobSubcategorySearchText());
         }
-
-        selectSystemAdminTab("dataListsTabViewVar", "Job subcategories", 4, 2);
 
     }
 
@@ -881,8 +864,6 @@ public class SystemManager implements Serializable {
             foundSystemOptions = new ArrayList<>();
         }
 
-        selectSystemAdminTab("systemConfigurationTabViewVar", "Miscellaneous", 5, 1);
-
     }
 
     public void doLdapContextSearch() {
@@ -891,8 +872,6 @@ public class SystemManager implements Serializable {
         } else {
             foundLdapContexts = LdapContext.findLdapContexts(getEntityManager(), getLdapSearchText());
         }
-
-        selectSystemAdminTab("systemConfigurationTabViewVar", "LDAP", 5, 0);
 
     }
 
@@ -914,11 +893,6 @@ public class SystemManager implements Serializable {
             foundEmployees = Employee.findEmployees(getEntityManager(), getEmployeeSearchText());
         }
 
-        // Add tab if it does not exist
-        if (getMainTabView().findTab("System Administration") == null) {
-            getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        }
-
     }
 
     public void doUserSearch() {
@@ -927,11 +901,6 @@ public class SystemManager implements Serializable {
 
         if (foundUsers == null) {
             foundUsers = new ArrayList<>();
-        }
-
-        // Add tab if it does not exist
-        if (getMainTabView().findTab("System Administration") == null) {
-            getMainTabView().addTab(getEntityManager(), "System Administration", true);
         }
 
     }
@@ -994,9 +963,6 @@ public class SystemManager implements Serializable {
 
     public void createNewLdapContext() {
         selectedLdapContext = new LdapContext();
-
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(5);");
 
         PrimeFacesUtils.openDialog(null, "ldapDialog", true, true, true, 240, 450);
     }
@@ -1329,18 +1295,12 @@ public class SystemManager implements Serializable {
         selectedUser = new JobManagerUser();
         selectedUser.setEmployee(Employee.findDefaultEmployee(em, "--", "--", true));
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(0);");
-
         PrimeFacesUtils.openDialog(selectedUser, "userDialog", true, true, true, 430, 750);
     }
 
     public void createNewDepartment() {
 
         selectedDepartment = new Department();
-
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(2);");
 
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
     }
@@ -1349,26 +1309,17 @@ public class SystemManager implements Serializable {
 
         selectedBusiness = new Business();
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(3);");
-
         PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 700);
     }
 
     public void createNewClassification() {
         selectedClassification = new Classification();
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
-
         PrimeFacesUtils.openDialog(null, "classificationDialog", true, true, true, 325, 600);
     }
 
     public void createNewJobCategory() {
         selectedJobCategory = new JobCategory();
-
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
 
         PrimeFacesUtils.openDialog(null, "jobCategoryDialog", true, true, true, 300, 500);
     }
@@ -1380,9 +1331,6 @@ public class SystemManager implements Serializable {
     public void createNewJobSubCategory() {
         selectedJobSubcategory = new JobSubCategory();
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
-
         PrimeFacesUtils.openDialog(null, "jobSubcategoryDialog", true, true, true, 300, 500);
     }
 
@@ -1392,9 +1340,6 @@ public class SystemManager implements Serializable {
 
     public void createNewSector() {
         selectedSector = new Sector();
-
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(4);");
 
         PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 500);
     }
@@ -1425,19 +1370,13 @@ public class SystemManager implements Serializable {
 
         selectedEmployee = new Employee();
 
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(1);");
-
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
     }
 
     public void createNewSystemOption() {
 
         selectedSystemOption = new SystemOption();
-        
-        getMainTabView().addTab(getEntityManager(), "System Administration", true);
-        PrimeFaces.current().executeScript("PF('centerTabVar').select(5);");
-
+      
         PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
     }
     

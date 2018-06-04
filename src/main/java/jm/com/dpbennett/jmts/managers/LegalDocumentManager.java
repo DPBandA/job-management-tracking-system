@@ -78,10 +78,18 @@ public class LegalDocumentManager implements Serializable {
     private SystemManager systemManager;
 
     public LegalDocumentManager() {
+        init();
+    }
+
+    private void init() {
         searchType = "General";
         dateSearchField = "dateReceived";
         datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         datePeriod.initDatePeriod();
+    }
+
+    public void reset() {
+        init();
     }
 
     public List<Classification> completeClassification(String query) {
@@ -355,7 +363,7 @@ public class LegalDocumentManager implements Serializable {
         if (currentDocument == null) {
             currentDocument = createNewLegalDocument(getEntityManager(), getUser());
         }
-        
+
         return currentDocument;
     }
 
@@ -365,7 +373,7 @@ public class LegalDocumentManager implements Serializable {
 
     public void setCurrentDocument(LegalDocument currentDocument) {
         this.currentDocument = currentDocument;
-        
+
         this.currentDocument.setVisited(true);
     }
 
@@ -439,7 +447,7 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void doLegalDocumentSearch() {
-      
+
         EntityManager em = getEntityManager();
 
         if (searchText != null) {
