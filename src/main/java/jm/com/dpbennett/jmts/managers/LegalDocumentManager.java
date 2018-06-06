@@ -76,6 +76,7 @@ public class LegalDocumentManager implements Serializable {
     private JobManager jobManager;
     private ClientManager clientManager;
     private SystemManager systemManager;
+    private ReportManager reportManager;
 
     public LegalDocumentManager() {
         init();
@@ -86,6 +87,14 @@ public class LegalDocumentManager implements Serializable {
         dateSearchField = "dateReceived";
         datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         datePeriod.initDatePeriod();
+    }
+    
+     public void openReportsTab() {
+        getReportManager().setMainTabView(getJobManager().getMainTabView());
+        getReportManager().setReportCategory("Legal");
+        //reportManager.setCurrentJob(currentJob); // tk needed??
+        getJobManager().getMainTabView().addTab(getEntityManager(), "Reports", true);
+        getJobManager().getMainTabView().select("Reports");
     }
 
     public void reset() {
@@ -483,6 +492,14 @@ public class LegalDocumentManager implements Serializable {
         }
 
         return clientManager;
+    }
+    
+    public ReportManager getReportManager() {
+        if (reportManager == null) {
+            reportManager = Application.findBean("reportManager");
+        }
+
+        return reportManager;
     }
 
     private EntityManager getEntityManager() {

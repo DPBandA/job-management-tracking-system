@@ -408,21 +408,6 @@ public class Application {
         }
     }
 
-    public List<Report> completeReport(String query) {
-        EntityManager em;
-
-        try {
-            em = getEntityManager1();
-
-            List<Report> reports = Report.findActiveReportsByName(em, query);
-
-            return reports;
-
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
-    }
-
     public List<String> completeServiceName(String query) {
         List<String> serviceNames = new ArrayList<>();
 

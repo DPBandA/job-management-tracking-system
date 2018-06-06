@@ -2558,7 +2558,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void openReportsTab() {
         reportManager.setMainTabView(mainTabView);
-        reportManager.setCurrentJob(currentJob);
+        //reportManager.setCurrentJob(currentJob);
+        reportManager.setReportCategory("Job");
         mainTabView.addTab(getEntityManager1(), "Reports", true);
         mainTabView.select("Reports");
     }

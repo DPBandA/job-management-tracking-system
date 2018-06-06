@@ -1,42 +1,34 @@
 # Things to do
 
-Status Update Notes for May 28 - June 1, 2018
+Status Update Notes for June 4 - June 8, 2018
 - Add users, update databse, etc. under sys admin
-- Attend meeting with Engineering div. (June 1)
 - Mention work on BPM 
 
 Month 1 modules: Job Management, Legal Office, Client Management
-Month 2 modules: Standards Compliance, Certification (Legal Metrology instead), Foods Inspectorate
+Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Do weekly update
-- Complete Legal Office module:
-  * Impl and add Legal reports. 
-  * Add report template for legal
-  * Filter list of reports based on category.
-- Setup dashboard and main tab view for Compliance module:
-  * Impl "ComplianceSurveyDialogForm"  
-  * Impl "dirty" and save() for each "subclass" and save only when dirty. 
-  * Replace update*() with single update**() method where possible.
-  * Track object dirtiness as with other objects in the system eg Address.
-  * Impl "new survey" and other functions in dashboard and maintab view.  
-  * Impl "complianceSurveyToolsMenuButton" menu button
-  * Fix up the toolbars so they look like the rest of JMTS.
-  * Update survey table when dialog is closed.
-- Revamps the Reports Tab:
-  * Impl all existing reports from "package".
-  * Impl access to module via the dashboard.
-  * Impl report dialog
-  * All reports except monthly report and analytical reports not working. Fix!    
-  * Impl getting reports by category.
-  * Add report description. 
-  * The "Jobs entered by employee" report does not show the samples. 
-    In "Jobs entered by employee" change "sample" column to "product".
-  * Add description, 2 departments, 3 date periods etc. in class Report.
-  * For reports make company specific value parameters such as company name and logo.
-  * Check for reports/queries on jobs that do not have any samples. Check for example 
-    that these jobs are counted despite not have samples. 
+- Set the report category from the module it is accessed.
+- Add report description. 
+- Impl and add Legal reports. 
+- Add report template for legal
+- Impl "ComplianceSurveyDialogForm"  
+- Impl "dirty" and save() for each "subclass" and save only when dirty. 
+- Replace update*() with single update**() method where possible.
+- Impl "new compiance survey" and other functions in dashboard and maintab view.  
+- Impl "complianceSurveyToolsMenuButton" menu button
+- Fix up "compliance" toolbars so they look like the rest of JMTS.
+- Update survey table when dialog is closed.
+- Impl all existing reports from "package".
+- The "Jobs entered by employee" report does not show the samples. 
+- In "Jobs entered by employee" change "sample" column to "product".
+- Add description, 2 departments, 3 date periods etc. in class Report.
+- For reports make company specific value parameters such as company name and logo.
+- Check for reports/queries on jobs that do not have any samples. Check for example 
+  that these jobs are counted despite not have samples. 
+- Do report on showing incomplete jobs for a given period by department for which a cost 
+  estimate was given and full payment not made.
 - When job is job/costing is closed without saving, set "dirty" to false.
 - Do Pre-shipment inspection form based on excel sheets in compliance folder.
   * Create a table called PreshipmentInspection.

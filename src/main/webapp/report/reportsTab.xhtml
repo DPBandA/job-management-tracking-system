@@ -35,8 +35,8 @@ Email: info@dpbennett.com.jm
                 <p:ajax
                     onstart="PF('longProcessDialogVar2').show();"
                     oncomplete="PF('longProcessDialogVar2').hide();"
-                    listener="#{reportManager.updateReport}"
-                    update="report"
+                    listener="#{reportManager.updateReportCategory}"
+                    update="reportPanelGrid,datePeriodsPanelGrid,export1,export2"
                     process="@this" />
 
                 <f:selectItems value="#{reportManager.reportCategories}"/>
@@ -56,13 +56,13 @@ Email: info@dpbennett.com.jm
                                 itemValue="#{report}"
                                 itemLabel="#{report.name}"
                                 converter="reportConverter"
-                                completeMethod="#{App.completeReport}" >
+                                completeMethod="#{reportManager.completeReportByCategory}" >
 
                     <p:ajax event="itemSelect"
                             listener="#{reportManager.refreshJobReport}"
                             onstart="PF('longProcessDialogVar2').show();"
                             oncomplete="PF('longProcessDialogVar2').hide();"
-                            update="reportPanelGrid,datePeriodsPanelGrid,jobsReportTableTabView,export1,export2"
+                            update="reportPanelGrid,datePeriodsPanelGrid,export1,export2"
                             process="@this" />
 
                 </p:autoComplete>
@@ -89,7 +89,7 @@ Email: info@dpbennett.com.jm
                             global="false"
                             onstart="PF('longProcessDialogVar2').show();"
                             oncomplete="PF('longProcessDialogVar2').hide();"
-                            update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,reportingDepartment1"
+                            update="export1,export2,reportingDepartment1"
                             process="@this" />
                 </p:autoComplete>
                 <p:watermark value="-- select a department --" for="reportingDepartment1" />
@@ -111,11 +111,11 @@ Email: info@dpbennett.com.jm
                                 dropdown="true"
                                 completeMethod="#{App.completeEmployee}" >
                     <p:ajax event="itemSelect"
-                            update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,datePeriodsPanelGrid"
+                            update="export1,export2,datePeriodsPanelGrid"
                             listener="#{reportManager.updateReportEmployee}"
                             process="@this"/>
                     <p:ajax event="change"
-                            update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2,datePeriodsPanelGrid"
+                            update="export1,export2,datePeriodsPanelGrid"
                             listener="#{reportManager.updateReportEmployee}"
                             process="@this"/>
                 </p:autoComplete>    
@@ -144,7 +144,7 @@ Email: info@dpbennett.com.jm
                                 global="true"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
-                                update="currentPeriod,jobsReportTableTabView,export1,export2"
+                                update="currentPeriod,export1,export2"
                                 process="@this" />
                         <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
@@ -155,12 +155,12 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.handleCurrentPeriodStartDateSelect}"/>
                         <p:ajax event="keyup"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.handleCurrentPeriodStartDateSelect}"/>
@@ -172,12 +172,12 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.handleCurrentPeriodEndDateSelect}"/>
                         <p:ajax event="keyup"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.handleCurrentPeriodEndDateSelect}"/>
@@ -194,7 +194,7 @@ Email: info@dpbennett.com.jm
                                 global="true"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
-                                update="monthlyReportDatePeriods,jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 process="@this" />
                         <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
@@ -205,12 +205,12 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
@@ -222,12 +222,12 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
@@ -239,7 +239,7 @@ Email: info@dpbennett.com.jm
                                 global="true"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
-                                update="monthlyReportDatePeriods,jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 process="@this" />
                         <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
@@ -250,12 +250,12 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
@@ -267,12 +267,12 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
@@ -284,7 +284,7 @@ Email: info@dpbennett.com.jm
                                 global="true"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
-                                update="monthlyReportDatePeriods,jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 process="@this" />
                         <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
@@ -295,12 +295,12 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
@@ -312,12 +312,12 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
                         <p:ajax event="keyup"
-                                update=":mainTabViewForm:mainTabView:jobsReportTableTabView,export1,export2"
+                                update="export1,export2"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 listener="#{reportManager.changeMonthlyReportDatePeriods}"/>
@@ -329,68 +329,5 @@ Email: info@dpbennett.com.jm
         </h:panelGrid>
     </p:panel>
     <ui:include src="reportsTabToolbar2.xhtml"/>
-
-    <p:outputLabel id="jobsReportTableTabView" value="" />
-    <ui:remove>
-        <p:dataTable var="job"
-                     id="jobsReportTableTabView"
-                     paginator="true"                 
-                     rows="15"
-                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                     value="#{reportManager.currentPeriodJobReportSearchResultList}">
-
-            <f:facet name="header">
-                <h:outputText value="#{reportManager.report.name} (#{reportManager.numberOfCurrentPeriodJobsFound})"/>
-            </f:facet>
-            <p:column>
-                <f:facet name="header">
-                    <h:outputText value="Job #"/>
-                </f:facet>
-                <h:outputText value="#{job.jobNumber}" />
-            </p:column>
-            <p:column>
-                <f:facet name="header">
-                    <h:outputText value="Client"/>
-                </f:facet>
-                <h:outputText value="#{job.client.name}" />
-            </p:column>
-            <p:column>
-                <f:facet name="header">
-                    <h:outputText value="Subcategory"/>
-                </f:facet>
-                <h:outputText value="#{job.jobSubCategory.subCategory}" />
-            </p:column>
-            <p:column>
-                <f:facet name="header">
-                    <h:outputText value="Sector"/>
-                </f:facet>
-                <h:outputText value="#{job.sector.name}" />
-            </p:column>                      
-            <p:column style="min-width: 85px">
-                <f:facet name="header">
-                    <h:outputText value="Received"/>
-                </f:facet>
-                <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
-                    <f:convertDateTime pattern="MMM dd, yyyy"/>
-                </h:outputText>
-            </p:column>
-            <p:column style="min-width: 85px">
-                <f:facet name="header">
-                    <h:outputText value="Completed"/>
-                </f:facet>
-                <h:outputText value="#{job.jobStatusAndTracking.dateOfCompletion}">
-                    <f:convertDateTime pattern="MMM dd, yyyy"/>
-                </h:outputText>
-            </p:column>
-            <p:column>
-                <f:facet name="header">
-                    <h:outputText value="Cost($)"/>
-                </f:facet>
-                <h:outputText value="#{job.jobCostingAndPayment.finalCost}" />
-            </p:column>
-
-        </p:dataTable>
-    </ui:remove>
-
-
+    
 </html>

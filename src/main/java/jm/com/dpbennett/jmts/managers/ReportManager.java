@@ -114,7 +114,7 @@ public class ReportManager implements Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
-    private Job currentJob;
+    //private Job currentJob;
     private String columnsToExclude;
     private Report report;
     private StreamedContent reportFile;
@@ -145,6 +145,37 @@ public class ReportManager implements Serializable {
      */
     public ReportManager() {
         init();
+    }
+    
+    public List<Report> completeReport(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<Report> reports = Report.findActiveReportsByName(em, query);
+
+            return reports;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Report> completeReportByCategory(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<Report> reports = Report.findActiveReportsByCategoryAndName(em, 
+                    getReportCategory(), query);
+
+            return reports;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     public String getReportCategory() {
@@ -237,7 +268,7 @@ public class ReportManager implements Serializable {
         this.reportSearchText = "";
         this.longProcessProgress = 0;
         this.columnsToExclude = "";
-        this.reportCategory = "";
+        this.reportCategory = "Job";
         // Accpac fields init        
         report = new Report();
         // reporting vars init
@@ -276,7 +307,7 @@ public class ReportManager implements Serializable {
                 "year",
                 null,
                 null, false, false, true);
-        currentJob = null;
+        //currentJob = null;
     }
 
     public void reset() {
@@ -835,21 +866,21 @@ public class ReportManager implements Serializable {
 
     }
 
-    public Boolean getCurrentJobIsValid() {
-        if (getCurrentJob().getId() != null) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public Boolean getCanExportJobCosting() {
-        if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()
-                && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
-            return false;
-        }
-        return true;
-    }
+//    public Boolean getCurrentJobIsValid() {
+//        if (getCurrentJob().getId() != null) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
+//
+//    public Boolean getCanExportJobCosting() {
+//        if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()
+//                && getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+//            return false;
+//        }
+//        return true;
+//    }
 
     /**
      * Search for jobs using the current job report search parameters.
@@ -951,13 +982,13 @@ public class ReportManager implements Serializable {
         this.columnsToExclude = columnsToExclude;
     }
 
-    public Job getCurrentJob() {
-        return currentJob;
-    }
-
-    public void setCurrentJob(Job currentJob) {
-        this.currentJob = currentJob;
-    }
+//    public Job getCurrentJob() {
+//        return currentJob;
+//    }
+//
+//    public void setCurrentJob(Job currentJob) {
+//        this.currentJob = currentJob;
+//    }
 
     public void postProcessXLS(Object document) {
         Long jobId = null;
@@ -965,9 +996,9 @@ public class ReportManager implements Serializable {
 
         // NB: Save the current job id for later restoration
         // of the current job
-        if (currentJob != null) {
-            jobId = currentJob.getId();
-        }
+//        if (currentJob != null) {
+//            jobId = currentJob.getId();
+//        }
 
         HSSFWorkbook wb = (HSSFWorkbook) document;
         HSSFSheet sheet = wb.getSheetAt(0);
@@ -1062,12 +1093,12 @@ public class ReportManager implements Serializable {
         // NB: Data exporter sets the current job to null
         // so this ensures that it is not null before returning
         // to the client.
-        EntityManager em = getEntityManager1();
-        if (jobId != null) {
-            currentJob = em.find(Job.class, jobId);
-        } else {
-            currentJob = Job.create(em, getUser(), true);
-        }
+//        EntityManager em = getEntityManager1();
+//        if (jobId != null) {
+//            currentJob = em.find(Job.class, jobId);
+//        } else {
+//            currentJob = Job.create(em, getUser(), true);
+//        }
     }
 
     public void updateDepartmentReport() {
@@ -1142,7 +1173,11 @@ public class ReportManager implements Serializable {
     }
 
     public void updateReport() {
-        System.out.println("updating report..."); // tk
+        System.out.println("updating report...");
+    }
+    
+    public void updateReportCategory() {
+        setReport(new Report(""));
     }
 
     public void updateReportingDepartment() {
