@@ -9,7 +9,8 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Set the report category from the module it is accessed.
+- Set the report category from the module it is accessed. Do for JM and other modules
+  where reports feature is accessed.
 - Add report description. 
 - Impl and add Legal reports. 
 - Add report template for legal
@@ -116,6 +117,8 @@ A future release will allow directors, managers, team leaders and acting team le
 to have the privileges you mentioned and more. The system will also allow other 
 persons in a department to be temporarily granted these privileges. 
 This release will be around early July.
+- Please let the GCT default to 16.5% except for activities done by NCRA. 
+  Therefore if NCRA subcontracts a job to BSJ, the GCT would carried only for the BSJ job.
 
   
 

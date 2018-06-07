@@ -57,6 +57,7 @@ Email: info@dpbennett.com.jm
                 <p:separator />
                 <p:menuitem value="Reports"
                             onstart="PF('longProcessDialogVar').show();"  
+                            actionListener="#{complianceManager.openReportsTab}"
                             oncomplete="PF('longProcessDialogVar').hide();"
                             process="@this"/>
 

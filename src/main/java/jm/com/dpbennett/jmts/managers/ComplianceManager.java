@@ -22,8 +22,6 @@ import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import javax.persistence.Transient;
-import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.CompanyRegistration;
 import jm.com.dpbennett.business.entity.ComplianceDailyReport;
@@ -97,6 +95,7 @@ public class ComplianceManager implements Serializable {
     // Managers
     private ClientManager clientManager;
     private JobManager jobManager;
+    private ReportManager reportManager;
 
     /**
      * Creates a new instance of ComplianceManager
@@ -115,6 +114,18 @@ public class ComplianceManager implements Serializable {
                         new Date(), "Berth 11", " ");
         datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
         datePeriod.initDatePeriod();
+    }
+    
+    public ReportManager getReportManager() {
+        if (reportManager == null) {
+            reportManager = Application.findBean("reportManager");
+        }
+
+        return reportManager;
+    }
+    
+    public void openReportsTab() {
+        getReportManager().openReportsTab("Job");
     }
 
     public void updateCconsignee() {
