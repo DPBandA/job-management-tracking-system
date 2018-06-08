@@ -9,8 +9,8 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Impl Report class to work with multiple date periods, departments, employee
-  clients.
+- Update report template form to include multiple date periods, departments, employee
+  clients etc..
 - Impl and add Legal reports. 
 - Add report template for legal
 - Impl "ComplianceSurveyDialogForm"  

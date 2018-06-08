@@ -237,7 +237,7 @@ public class ReportManager implements Serializable {
     }
     
     public void editReport() {
-        PrimeFacesUtils.openDialog(null, "reportTemplateDialog", true, true, true, 460, 750);
+        PrimeFacesUtils.openDialog(null, "reportTemplateDialog", true, true, true, 500, 750);
     }
     
     public Report getSelectedReport() {
@@ -267,7 +267,7 @@ public class ReportManager implements Serializable {
         
         selectedReport = new Report();
         
-        PrimeFacesUtils.openDialog(null, "reportTemplateDialog", true, true, true, 460, 750);
+        editReport();
     }
     
     private void init() {

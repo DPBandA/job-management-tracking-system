@@ -59,83 +59,99 @@ Email: info@dpbennett.com.jm
                 </p:toolbarGroup>
             </p:toolbar>
 
-            <p:panel style="margin-bottom: 1px;">
-                <h:panelGrid columns="2">
-                    <p:outputLabel for="reportActive" value="Active:" style="font-weight: bold;" />               
-                    <p:selectBooleanCheckbox id="reportActive"
-                                             style="vertical-align: middle"
-                                             value="#{reportManager.selectedReport.active}" />                       
+            <p:tabView id="businessDepartments" 
+                       style="margin-bottom: 1px;margin-bottom: 1px;" >
+                <p:tab title="General" >                  
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="reportActive" value="Active:" style="font-weight: bold;" />               
+                        <p:selectBooleanCheckbox id="reportActive"
+                                                 style="vertical-align: middle"
+                                                 value="#{reportManager.selectedReport.active}" />                       
 
 
-                    <h:outputText value="Category:" style="font-weight: bold;" />
-                    <p:selectOneMenu value="#{reportManager.selectedReport.category}" 
-                                     id="reportCategory" >
+                        <h:outputText value="Category:" style="font-weight: bold;" />
+                        <p:selectOneMenu value="#{reportManager.selectedReport.category}" 
+                                         id="reportCategory" >
 
-                        <f:validator validatorId="requiredFieldValidator" />
+                            <f:validator validatorId="requiredFieldValidator" />
 
-                        <f:selectItems value="#{reportManager.reportCategories}"/>
+                            <f:selectItems value="#{reportManager.reportCategories}"/>
 
-                    </p:selectOneMenu>
+                        </p:selectOneMenu>
 
-                    <h:outputText value="Name:" style="font-weight: bold;" />
-                    <p:inputText value="#{reportManager.selectedReport.name}"
-                                 style="width: 175%;"
-                                 id="reportName" 
-                                 validator="requiredFieldValidator" /> 
+                        <h:outputText value="Name:" style="font-weight: bold;" />
+                        <p:inputText value="#{reportManager.selectedReport.name}"
+                                     style="width: 175%;"
+                                     id="reportName" 
+                                     validator="requiredFieldValidator" /> 
 
-                    <h:outputText value="Report template:" style="font-weight: bold;" />
-                    <h:panelGroup>
-                        <h:panelGrid columns="2">                            
-                            <p:inputText value="#{reportManager.selectedReport.reportFileTemplate}"
-                                         id="reportFileTemplate" 
-                                         validator="requiredFieldValidator" />
-                            <p:selectBooleanCheckbox itemLabel="packaged"
-                                                     title="Check if this report template is in a class package"
-                                                     value="#{reportManager.selectedReport.usePackagedReportFileTemplate}" />   
-                        </h:panelGrid>
-                    </h:panelGroup>
-                    
-                    <h:outputText value="Report template MIME type:" style="font-weight: bold;" />                   
-                    <p:selectOneMenu value="#{reportManager.selectedReport.reportFileMimeType}" 
-                                     id="reportFileMimeType" >
+                        <h:outputText value="Report template:" style="font-weight: bold;" />
+                        <h:panelGroup>
+                            <h:panelGrid columns="2">                            
+                                <p:inputText value="#{reportManager.selectedReport.reportFileTemplate}"
+                                             id="reportFileTemplate" 
+                                             validator="requiredFieldValidator" />
+                                <p:selectBooleanCheckbox itemLabel="packaged"
+                                                         title="Check if this report template is in a class package"
+                                                         value="#{reportManager.selectedReport.usePackagedReportFileTemplate}" />   
+                            </h:panelGrid>
+                        </h:panelGroup>
 
-                        <f:validator validatorId="requiredFieldValidator" />
+                        <h:outputText value="Report template MIME type:" style="font-weight: bold;" />                   
+                        <p:selectOneMenu value="#{reportManager.selectedReport.reportFileMimeType}" 
+                                         id="reportFileMimeType" >
 
-                        <f:selectItems value="#{reportManager.reportMimeTypes}"/>
+                            <f:validator validatorId="requiredFieldValidator" />
 
-                    </p:selectOneMenu>
+                            <f:selectItems value="#{reportManager.reportMimeTypes}"/>
 
-                    <h:outputText value="Report output file:" style="font-weight: bold;" />
-                    <p:inputText value="#{reportManager.selectedReport.reportFile}"
-                                 id="reportFile" 
-                                 validator="requiredFieldValidator" />
-                    
-                    <h:outputText value="Report output MIME type:" style="font-weight: bold;" />                   
-                    <p:selectOneMenu value="#{reportManager.selectedReport.reportOutputFileMimeType}" 
-                                     id="reportOutputFileMimeType" >
+                        </p:selectOneMenu>
 
-                        <f:validator validatorId="requiredFieldValidator" />
+                        <h:outputText value="Report output file:" style="font-weight: bold;" />
+                        <p:inputText value="#{reportManager.selectedReport.reportFile}"
+                                     id="reportFile" 
+                                     validator="requiredFieldValidator" />
 
-                        <f:selectItems value="#{reportManager.reportMimeTypes}"/>
+                        <h:outputText value="Report output MIME type:" style="font-weight: bold;" />                   
+                        <p:selectOneMenu value="#{reportManager.selectedReport.reportOutputFileMimeType}" 
+                                         id="reportOutputFileMimeType" >
 
-                    </p:selectOneMenu>
+                            <f:validator validatorId="requiredFieldValidator" />
 
-                    <h:outputText value="Description:" style="font-weight: bold;" />
-                    <p:inputTextarea  value="#{reportManager.selectedReport.description}"
-                                      id="reportDescription"
-                                      maxlength="1000"
-                                      autoResize="false"
-                                      rows="4"
-                                      style="width:175%;" >
+                            <f:selectItems value="#{reportManager.reportMimeTypes}"/>
 
-                        <f:validator validatorId="requiredFieldValidator" />
+                        </p:selectOneMenu>
 
-                    </p:inputTextarea>
+                        <h:outputText value="Description:" style="font-weight: bold;" />
+                        <p:inputTextarea  value="#{reportManager.selectedReport.description}"
+                                          id="reportDescription"
+                                          maxlength="1000"
+                                          autoResize="false"
+                                          rows="4"
+                                          style="width:175%;" >
 
-                </h:panelGrid>
-            </p:panel>
+                            <f:validator validatorId="requiredFieldValidator" />
 
-            <p:toolbar style="margin-top: 1px;">
+                        </p:inputTextarea>
+
+                    </h:panelGrid>
+                </p:tab >  
+                <p:tab  title="Parameters" >
+                    <p:panel header="Departments">
+
+                    </p:panel>
+                    <p:panel header="Employees">
+
+                    </p:panel>                   
+                    <p:panel header="Clients">
+
+                    </p:panel>
+                    <p:panel header="Date periods">
+
+                    </p:panel>
+                </p:tab>
+            </p:tabView>
+            <p:toolbar >
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      actionListener="#{reportManager.saveSelectedReport}"
