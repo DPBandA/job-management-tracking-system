@@ -9,9 +9,8 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Set the report category from the module it is accessed. Do for JM and other modules
-  where reports feature is accessed.
-- Add report description. 
+- Impl Report class to work with multiple date periods, departments, employee
+  clients.
 - Impl and add Legal reports. 
 - Add report template for legal
 - Impl "ComplianceSurveyDialogForm"  
