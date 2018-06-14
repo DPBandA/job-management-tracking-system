@@ -81,7 +81,7 @@ public class SystemManager implements Serializable {
     private Boolean endSearchDateDisabled;
     private Boolean privilegeValue;
     private Boolean searchTextVisible;
-    private Boolean isLoggedInUsersOnly;
+    private Boolean isActiveUsersOnly;
     private Boolean isActiveEmployeesOnly;
     private Boolean isActiveDepartmentsOnly;
     private Boolean isActiveClassificationsOnly;
@@ -491,15 +491,15 @@ public class SystemManager implements Serializable {
         this.isActiveDepartmentsOnly = isActiveDepartmentsOnly;
     }
 
-    public Boolean getIsLoggedInUsersOnly() {
-        if (isLoggedInUsersOnly == null) {
-            isLoggedInUsersOnly = false;
+    public Boolean getIsActiveUsersOnly() {
+        if (isActiveUsersOnly == null) {
+            isActiveUsersOnly = true;
         }
-        return isLoggedInUsersOnly;
+        return isActiveUsersOnly;
     }
 
-    public void setIsLoggedInUsersOnly(Boolean isLoggedInUsersOnly) {
-        this.isLoggedInUsersOnly = isLoggedInUsersOnly;
+    public void setIsActiveUsersOnly(Boolean isActiveUsersOnly) {
+        this.isActiveUsersOnly = isActiveUsersOnly;
     }
 
     public Boolean getIsActiveEmployeesOnly() {
@@ -753,7 +753,8 @@ public class SystemManager implements Serializable {
 
     public List<JobManagerUser> getFoundUsers() {
         if (foundUsers == null) {
-            foundUsers = JobManagerUser.findAllJobManagerUsers(getEntityManager());
+            foundUsers = JobManagerUser.findAllActiveJobManagerUsers(getEntityManager());
+            //foundUsers = JobManagerUser.findActiveJobManagerUsersByName(getEntityManager(), "");
         }
         return foundUsers;
     }
@@ -897,10 +898,10 @@ public class SystemManager implements Serializable {
 
     public void doUserSearch() {
 
-        foundUsers = JobManagerUser.findJobManagerUserByName(getEntityManager(), getUserSearchText());
-
-        if (foundUsers == null) {
-            foundUsers = new ArrayList<>();
+        if (getIsActiveUsersOnly()) {
+            foundUsers = JobManagerUser.findActiveJobManagerUsersByName(getEntityManager(), getUserSearchText());
+        } else {
+            foundUsers = JobManagerUser.findJobManagerUsersByName(getEntityManager(), getUserSearchText());
         }
 
     }
@@ -908,7 +909,7 @@ public class SystemManager implements Serializable {
     public void openSystemBrowser() {
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
     }
-    
+
     public void openFinancialAdministration() {
         getMainTabView().addTab(getEntityManager(), "Financial Administration", true);
     }
@@ -1376,17 +1377,17 @@ public class SystemManager implements Serializable {
     public void createNewSystemOption() {
 
         selectedSystemOption = new SystemOption();
-      
+
         PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
     }
-    
+
     public void createNewFinancialSystemOption() {
 
         selectedSystemOption = new SystemOption();
         selectedSystemOption.setCategory("FINANCE");
 
         getMainTabView().addTab(getEntityManager(), "Financial Administration", true);
-        
+
         PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
     }
 
@@ -1477,12 +1478,6 @@ public class SystemManager implements Serializable {
 
     public List<Department> getDepartments() {
         return Department.findAllDepartments(getEntityManager());
-    }
-
-    public List<JobManagerUser> getUsers() {
-        List<JobManagerUser> users = JobManagerUser.findAllJobManagerUsers(getEntityManager());
-
-        return users;
     }
 
     public List<DocumentType> getDocumentTypes() {

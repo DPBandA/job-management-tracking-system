@@ -9,6 +9,9 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
+- Impl adding, departments, employees and clients to report template.
+- Create date period dialog and impl adding/deleting date periods.
+- Add "required*" fields for all parameters.
 - Update report template form to include multiple date periods, departments, employee
   clients etc..
 - Impl and add Legal reports. 
@@ -38,13 +41,6 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - Add "Parent earning jobs" and change "Parent jobs only" to "Parent jobs".
 - Find way to allow department heads to use "General" and other authorized 
   search types.
-- Fix job search slowness:
-  * Select the exact fields that will be displayed in the respect "Job View" tables. 
-    Do this for others such as the ones used in "completeObjects" methods in the
-    autocomplete component.
-  * Try what's at https://zeroturnaround.com/rebellabs/how-to-use-jpa-correctly-to-avoid-complaints-of-a-slow-application/
-    and https://zeroturnaround.com/rebellabs/three-jpa-2-1-features-that-will-boost-your-applications-performance/
-  * Use database pagination with setFirstResult() and setMaxResults()??
 - Implement adding new employee in user dialog.
 - Revamp the privilege system. If a person only have the privilege to enter/edit own
 - Paste the text directly into a CODE_OF_CONDUCT file in your repository. 
@@ -118,6 +114,7 @@ persons in a department to be temporarily granted these privileges.
 This release will be around early July.
 - Please let the GCT default to 16.5% except for activities done by NCRA. 
   Therefore if NCRA subcontracts a job to BSJ, the GCT would carried only for the BSJ job.
+- Do draft proposal re 360/Elastic search for Orville and next contract.
 
   
 

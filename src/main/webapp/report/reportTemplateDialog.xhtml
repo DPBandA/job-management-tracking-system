@@ -137,17 +137,55 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid>
                 </p:tab >  
                 <p:tab  title="Parameters" >
-                    <p:panel header="Departments">
+                    <p:panel header="Department">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Department(s): " />       
+                            <p:autoComplete id="departments"
+                                            var="department"   
+                                            value="#{reportManager.selectedReport.departments}"
+                                            itemLabel="#{department.name}"
+                                            itemValue="#{department}"
+                                            converter="departmentConverter"
+                                            forceSelection="true"
+                                            dropdown="true"
+                                            scrollHeight="200"  
+                                            multiple="true"
+                                            completeMethod="#{App.completeDepartment}" >
 
+                                <p:ajax event="itemSelect"
+                                        update="departments"
+                                        process="@this" />
+
+                            </p:autoComplete>
+                        </h:panelGrid>
                     </p:panel>
-                    <p:panel header="Employees">
+                    <p:panel header="Employee">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Employee(s): " />       
+                            <p:autoComplete id="employees"
+                                            var="employee"   
+                                            value="#{reportManager.selectedReport.employees}"
+                                            itemLabel="#{employee.name}"
+                                            itemValue="#{employee}"
+                                            converter="employeeConverter"
+                                            forceSelection="true"
+                                            dropdown="true"
+                                            scrollHeight="200"  
+                                            multiple="true"
+                                            completeMethod="#{App.completeEmployee}" >
 
+                            </p:autoComplete>
+                        </h:panelGrid>
                     </p:panel>                   
-                    <p:panel header="Clients">
+                    <p:panel header="Client">
+                        <h:panelGrid columns="2">
 
+                        </h:panelGrid>
                     </p:panel>
-                    <p:panel header="Date periods">
+                    <p:panel header="Date period">
+                        <h:panelGrid columns="2">
 
+                        </h:panelGrid>
                     </p:panel>
                 </p:tab>
             </p:tabView>

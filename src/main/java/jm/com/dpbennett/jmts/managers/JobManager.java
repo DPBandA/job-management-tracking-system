@@ -120,7 +120,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private LegalDocumentManager legalDocumentManager;
     //////////////////////////////////////////////////
     private DatePeriod dateSearchPeriod;
-    private String dateSearchField;
+    //private String dateSearchField;
     private String searchType;
     private String searchText;
     private String dialogActionHandlerId;
@@ -179,8 +179,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         mainTabView = new MainTabView(getUser());
         // Search fields init
         searchType = "";
-        dateSearchField = "dateAndTimeEntered";
-        dateSearchPeriod = new DatePeriod("This month", "month", null, null, false, false, false);
+        //dateSearchField = "dateAndTimeEntered";
+        dateSearchPeriod = new DatePeriod("This month", "month",
+                "dateAndTimeEntered", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
     }
 
@@ -208,13 +209,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         //doSearch();
     }
 
-    public String getDateSearchField() {
-        return dateSearchField;
-    }
-
-    public void setDateSearchField(String dateSearchField) {
-        this.dateSearchField = dateSearchField;
-    }
+//    public String getDateSearchField() {
+//        return dateSearchField;
+//    }
+//
+//    public void setDateSearchField(String dateSearchField) {
+//        this.dateSearchField = dateSearchField;
+//    }
 
     public String getSearchType() {
         return searchType;
@@ -572,7 +573,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         try {
             // Find user and determin if authentication is required for this user
-            JobManagerUser jobManagerUser = JobManagerUser.findJobManagerUserByUsername(em, getUsername());
+            JobManagerUser jobManagerUser = JobManagerUser.findActiveJobManagerUserByUsername(em, getUsername());
             if (jobManagerUser != null) {
                 em.refresh(jobManagerUser);
                 if (!jobManagerUser.getAuthenticate()) {
@@ -2007,8 +2008,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             default:
                 break;
         }
-        
-        
+
     }
 
     public void doJobSearch() {
@@ -2017,7 +2017,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             EntityManager em = getEntityManager1();
             jobSearchResultList = Job.findJobsByDateSearchField(em,
                     getUser(),
-                    getDateSearchField(),
+                    //getDateSearchField(),
+                    getDateSearchPeriod().getDateField(),
                     "",
                     getSearchType(),
                     getSearchText(),
@@ -2027,7 +2028,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (jobSearchResultList.isEmpty()) { // Do search with sample search enabled
                 jobSearchResultList = Job.findJobsByDateSearchField(em,
                         getUser(),
-                        getDateSearchField(),
+                        //getDateSearchField(),
+                        getDateSearchPeriod().getDateField(),
                         "",
                         getSearchType(),
                         getSearchText(),

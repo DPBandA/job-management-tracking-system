@@ -112,7 +112,7 @@ public class ComplianceManager implements Serializable {
         currentComplianceDailyReport
                 = new ComplianceDailyReport("Report-" + new Date().toString(),
                         new Date(), "Berth 11", " ");
-        datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
+        datePeriod = new DatePeriod("This month", "month", null, null, null, null, false, false, false);
         datePeriod.initDatePeriod();
     }
     

@@ -85,7 +85,7 @@ public class LegalDocumentManager implements Serializable {
     private void init() {
         searchType = "General";
         dateSearchField = "dateReceived";
-        datePeriod = new DatePeriod("This month", "month", null, null, false, false, false);
+        datePeriod = new DatePeriod("This month", "month", null, null, null, null, false, false, false);
         datePeriod.initDatePeriod();
     }
 

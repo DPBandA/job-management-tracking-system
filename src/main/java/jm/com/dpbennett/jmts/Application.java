@@ -554,8 +554,10 @@ public class Application {
 
             constraints.setReturningAttributes(attrIDs);
 
-            NamingEnumeration answer = ctx.search("DC=bos,DC=local", "SAMAccountName=" // tk make DC=? option
-                    + username, constraints);
+            String name = SystemOption.findSystemOptionByName(em, "ldapContextName").getOptionValue();
+            NamingEnumeration answer = ctx.search(name, "SAMAccountName=" + username, constraints);
+            
+            
             if (!answer.hasMore()) { // assuming only one match
                 System.out.println("LDAP user not found!");
                 return Boolean.FALSE;

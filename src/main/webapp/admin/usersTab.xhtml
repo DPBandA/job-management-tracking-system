@@ -55,24 +55,23 @@ Email: info@dpbennett.com.jm
             </p:inputText>       
         </p:toolbarGroup>
 
-        <ui:remove>
-            <p:toolbarGroup align="right">
-                <p:outputLabel for="loggedInUsersOnly" value="Active users only: " />  
-                <h:panelGroup>
-                    <p:selectBooleanCheckbox style="vertical-align: middle"
-                                             id="loggedInUsersOnly"
-                                             value="#{systemManager.isLoggedInUsersOnly}" >
-                        <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
-                                 listener="#{systemManager.doUserSearch}"
-                                 event="change"                                      
-                                 process="@this"/>
-                    </p:selectBooleanCheckbox>            
-                    <p:tooltip for="loggedInUsersOnly" value="Check to show logged in users only" 
-                               showEffect="fade" hideEffect="fade" />
-                    <p:spacer width="15" />                
-                </h:panelGroup>
-            </p:toolbarGroup>
-        </ui:remove>
+        <p:toolbarGroup align="right">
+            <p:outputLabel for="activeUsersOnly" value="Active users only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="activeUsersOnly"
+                                         value="#{systemManager.isActiveUsersOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:usersTable"
+                             listener="#{systemManager.doUserSearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>            
+                <p:tooltip for="activeUsersOnly" value="Check to show active users only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+            </h:panelGroup>
+        </p:toolbarGroup>
+
     </p:toolbar>    
     <p:dataTable id="usersTable"                                       
                  var="user"                                        
@@ -102,7 +101,7 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Lastname"/>
             </f:facet>
             <h:outputText value="#{user.employeeLastname}"/>
-        </p:column>
+        </p:column>       
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Activity"/>
@@ -110,6 +109,15 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{user.loggedActivity}"
                           style="font-weight: bold;color: #{user.activity.startsWith('Logged in', 0) ? 'green': 'grey'}" />
         </p:column>  
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Active"/>
+            </f:facet>           
+            <p:selectBooleanCheckbox 
+                style="display: block;text-align: center;"
+                disabled="true"
+                value="#{user.active}" />
+        </p:column>
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Authenticate"/>

@@ -39,7 +39,7 @@ Email: info@dpbennett.com.jm
             </p:selectOneMenu>
 
             <h:outputText value="Date field: " />
-            <p:selectOneMenu value="#{jobManager.dateSearchField}" 
+            <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
                              style="width: 90%;" >
                 <p:ajax                        
                     listener="#{jobManager.updateDateSearchField}"
