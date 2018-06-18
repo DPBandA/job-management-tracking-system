@@ -166,13 +166,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         useAccPacCustomerList = false;
         dynamicTabView = true;
         renderSearchComponent = true;
-        jobSearchResultList = new ArrayList<>();
-        // Init Managers
-        reportManager = Application.findBean("reportManager");
-        financeManager = Application.findBean("financeManager");
-        jobSampleManager = Application.findBean("jobSampleManager");
-        contractManager = Application.findBean("contractManager");
-        legalDocumentManager = Application.findBean("legalDocumentManager");
+        jobSearchResultList = new ArrayList<>();       
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
         // Search fields init
@@ -180,6 +174,46 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         dateSearchPeriod = new DatePeriod("This month", "month",
                 "dateAndTimeEntered", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
+    }
+    
+    public LegalDocumentManager getLegalDocumentManager() {
+        if (legalDocumentManager == null) {
+            legalDocumentManager = Application.findBean("legalDocumentManager");
+        }
+
+        return legalDocumentManager;
+    }
+    
+    public ContractManager getContractManager() {
+        if (contractManager == null) {
+            contractManager = Application.findBean("contractManager");
+        }
+
+        return contractManager;
+    }
+    
+    public JobSampleManager getJobSampleManager() {
+        if (jobSampleManager == null) {
+            jobSampleManager = Application.findBean("jobSampleManager");
+        }
+
+        return jobSampleManager;
+    }
+    
+    public FinanceManager getFinanceManager() {
+        if (financeManager == null) {
+            financeManager = Application.findBean("financeManager");
+        }
+
+        return financeManager;
+    }
+    
+    public ReportManager getReportManager() {
+        if (reportManager == null) {
+            reportManager = Application.findBean("reportManager");
+        }
+
+        return reportManager;
     }
 
     public ClientManager getClientManager() {
@@ -313,10 +347,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Reset managers
         getClientManager().reset();
-        contractManager.reset();
-        financeManager.reset();
-        jobSampleManager.reset();
-        reportManager.reset();
+        getContractManager().reset();
+        getFinanceManager().reset();
+        getJobSampleManager().reset();
+        getReportManager().reset();
 
         // Unrender all tabs
         dashboard.removeAllTabs();
@@ -986,7 +1020,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (checkUserJobEntryPrivilege()) {
             createJob(em, false);
             //initManagers();
-            financeManager.setEnableOnlyPaymentEditing(false);
+            getFinanceManager().setEnableOnlyPaymentEditing(false);
             PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
         } else {
             // tk test this code with user that does not have the required privilege.
@@ -1002,7 +1036,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         try {
 
-            serviceContractStreamContent = contractManager.getServiceContractStreamContent();
+            serviceContractStreamContent = getContractManager().getServiceContractStreamContent();
 
             setLongProcessProgress(100);
         } catch (Exception e) {
@@ -1209,7 +1243,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
         if (currentJob.getId() != null) {
-            financeManager.updateAllTaxes(null);
+            getFinanceManager().updateAllTaxes(null);
         }
     }
 
@@ -1502,7 +1536,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 }
             }
 
-            financeManager.setAccPacCustomer(new AccPacCustomer(""));
+            getFinanceManager().setAccPacCustomer(new AccPacCustomer(""));
 
         } catch (Exception e) {
             System.out.println(e);
@@ -1600,7 +1634,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // tk...may not be necessary
         // Prevent overwriting samples that were edited by another user by 
         // loading the existing samples from the database.
-        if (!jobSampleManager.isSamplesDirty() && currentJob.getId() != null) {
+        if (!getJobSampleManager().isSamplesDirty() && currentJob.getId() != null) {
             Job savedJob = Job.findJobById(em, currentJob.getId());
             em.refresh(savedJob);
             currentJob.setJobSamples(savedJob.getJobSamples());
@@ -1939,7 +1973,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         if (currentJob.getId() != null) {
-            financeManager.updateAllTaxes(null);
+            getFinanceManager().updateAllTaxes(null);
         }
 
         setIsDirty(true);
@@ -2005,7 +2039,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 doJobSearch();
                 break;
             case "Document Management":
-                legalDocumentManager.doLegalDocumentSearch();
+                getLegalDocumentManager().doLegalDocumentSearch();
                 break;
             case "Job Management3":
                 break;
@@ -2117,7 +2151,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void setEditCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
         this.currentJob.setVisited(true);
-        financeManager.setEnableOnlyPaymentEditing(false);
+        getFinanceManager().setEnableOnlyPaymentEditing(false);
     }
 
     public void setEditJobCosting(Job currentJob) {
@@ -2143,7 +2177,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.currentJob = currentJob;
         this.currentJob.setVisited(true);
 
-        financeManager.setEnableOnlyPaymentEditing(true);
+        getFinanceManager().setEnableOnlyPaymentEditing(true);
     }
 
     @Override
@@ -2183,7 +2217,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
             if (currentJob.getId() != null) {
-                financeManager.updateAllTaxes(null);
+                getFinanceManager().updateAllTaxes(null);
             }
 
             setIsDirty(true);
@@ -2206,7 +2240,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
             if (currentJob.getId() != null) {
-                financeManager.updateAllTaxes(null);
+                getFinanceManager().updateAllTaxes(null);
             }
 
         } catch (Exception e) {
@@ -2219,9 +2253,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public void updateJobEntryTabClient() {
 
-        financeManager.getAccPacCustomer().setCustomerName(currentJob.getClient().getName());
+        getFinanceManager().getAccPacCustomer().setCustomerName(currentJob.getClient().getName());
         if (useAccPacCustomerList) {
-            financeManager.updateCreditStatus(null);
+            getFinanceManager().updateCreditStatus(null);
         }
 
         //currentJob.setBillingAddress(currentJob.getClient().getDefaultAddress());
@@ -2559,7 +2593,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openReportsTab() {
-        reportManager.openReportsTab("Job");
+        getReportManager().openReportsTab("Job");
     }
 
     public void approveSelectedJobCostings() {
@@ -2568,7 +2602,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             for (Job job : selectedJobs) {
                 if (!job.getJobCostingAndPayment().getCostingApproved()) {
-                    if (financeManager.canChangeJobCostingApprovalStatus(job)) {
+                    if (getFinanceManager().canChangeJobCostingApprovalStatus(job)) {
                         job.getJobCostingAndPayment().setCostingApproved(true);
                         job.getJobStatusAndTracking().setDateCostingApproved(new Date());
                         job.getJobCostingAndPayment().setIsDirty(true);
@@ -2598,7 +2632,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             for (Job job : selectedJobs) {
                 if (!job.getJobCostingAndPayment().getInvoiced()) {
-                    if (financeManager.canInvoiceJobCosting(job)) {
+                    if (getFinanceManager().canInvoiceJobCosting(job)) {
                         job.getJobCostingAndPayment().setInvoiced(true);
                         job.getJobCostingAndPayment().setIsDirty(true);
                     } else {

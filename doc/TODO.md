@@ -4,14 +4,14 @@ Status Update Notes for June 4 - June 8, 2018
 - Add users, update databse, etc. under sys admin
 - Mention work on BPM 
 
+- Junior Gordon, ext 3460.
+
 Month 1 modules: Job Management, Legal Office, Client Management
 Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- In JM impl "get methods" for the other managers instead of initializing them in the 
-  contructor.
-- In Report class add option to choose the field to use eg Id, name etc.
+- In Report class add option to choose the field to use eg Id, name etc?
 - Impl adding, departments, employees and clients to report template.
 - Create date period dialog and impl adding/deleting date periods.
 - Add "required*" fields for all parameters.

@@ -244,7 +244,7 @@ public class ReportManager implements Serializable {
     }
 
     public void editReport() {
-        PrimeFacesUtils.openDialog(null, "reportTemplateDialog", true, true, true, 500, 750);
+        PrimeFacesUtils.openDialog(null, "reportTemplateDialog", true, true, true, 600, 750);
     }
 
     public Report getSelectedReport() {
@@ -275,6 +275,10 @@ public class ReportManager implements Serializable {
         selectedReport = new Report();
 
         editReport();
+    }
+
+    public void createNewDatePeriod() {
+        System.out.println("create new date period..."); // tk
     }
 
     private void init() {
@@ -2386,6 +2390,11 @@ public class ReportManager implements Serializable {
      *
      * @param databaseDriverClass
      * @param databaseURL
+     * @param username
+     * @param password
+     * @param jasperReportFileName
+     * @param exportedReportType
+     * @param parameters
      * @return
      */
     public FileInputStream getJasperReportFileInputStream(

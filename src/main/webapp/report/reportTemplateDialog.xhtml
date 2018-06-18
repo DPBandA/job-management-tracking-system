@@ -184,6 +184,10 @@ Email: info@dpbennett.com.jm
                                             multiple="true"
                                             completeMethod="#{App.completeEmployee}" >
 
+                                <p:ajax event="itemSelect"
+                                        update="employees"
+                                        process="@this" />
+
                             </p:autoComplete>
                         </h:panelGrid>
                     </p:panel>                   
@@ -193,6 +197,25 @@ Email: info@dpbennett.com.jm
                             <p:selectBooleanCheckbox id="clientRequired"
                                                      style="vertical-align: middle"
                                                      value="#{reportManager.selectedReport.clientRequired}" />
+
+                            <h:outputText value="Default clients(s):" />       
+                            <p:autoComplete id="clients"
+                                            var="client"   
+                                            value="#{reportManager.selectedReport.clients}"
+                                            itemLabel="#{client.name}"
+                                            itemValue="#{client}"
+                                            converter="clientConverter"
+                                            forceSelection="true"
+                                            dropdown="false"
+                                            scrollHeight="200"  
+                                            multiple="true"
+                                            completeMethod="#{App.completeClient}" >
+
+                                <p:ajax event="itemSelect"
+                                        update="clients"
+                                        process="@this" />
+
+                            </p:autoComplete>
                         </h:panelGrid>
                     </p:panel>
                     <p:panel header="Date period">
@@ -202,6 +225,94 @@ Email: info@dpbennett.com.jm
                                                      style="vertical-align: middle"
                                                      value="#{reportManager.selectedReport.datePeriodRequired}" />
                         </h:panelGrid>
+
+                        <p:toolbar style="margin-bottom: 1px;">
+                            <p:toolbarGroup align="left">
+                                <p:commandButton value="New"
+                                                 icon="ui-icon-plus" 
+                                                 title="Add new date period"
+                                                 onstart="PF('longProcessDialogVar').show();" 
+                                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                                 actionListener="#{reportManager.createNewDatePeriod}" 
+                                                 process="@this" >
+
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar> 
+
+                        <p:dataTable id="datePeriodsTable"
+                                     var="datePeriod" 
+                                     value="#{reportManager.selectedReport.datePeriods}">
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Label"/>
+                                </f:facet>
+                                <h:outputText value="#{datePeriod.label}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Name"/>
+                                </f:facet>
+                                <h:outputText value="#{datePeriod.name}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Start"/>
+                                </f:facet>
+                                <h:outputText value="#{datePeriod.startDate}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="End"/>
+                                </f:facet>
+                                <h:outputText value="#{datePeriod.endDate}" />
+                            </p:column>
+
+                            <p:column style="width:32px">
+                                <p:commandButton title="View or edit date period"
+                                                 onstart="PF('longProcessDialogVar').show();" 
+                                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                                 process="@this"
+                                                 icon="ui-icon-pencil">
+
+                                    <f:setPropertyActionListener value="#{datePeriod}"
+                                                                 target="#{reportManager.selectedDatePeriod}" />
+
+                                </p:commandButton>
+                            </p:column>
+
+                            <p:column style="width:32px">
+                                <p:commandButton title="Delete contact"
+                                                 onstart="PF('longProcessDialogVar').show();" 
+                                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                                 global="true"
+                                                 icon="ui-icon-trash">
+
+                                    <f:setPropertyActionListener value="#{datePeriod}"
+                                                                 target="#{reportManager.selectedDatePeriod}" />
+
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:toolbar style="margin-top: 1px;">
+                            <p:toolbarGroup align="left">
+                                <p:commandButton value="New"
+                                                 icon="ui-icon-plus" 
+                                                 title="Add new date period"
+                                                 onstart="PF('longProcessDialogVar').show();" 
+                                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                                 actionListener="#{reportManager.createNewDatePeriod}" 
+                                                 process="@this" >
+
+                                </p:commandButton>
+                            </p:toolbarGroup>
+                        </p:toolbar> 
+
                     </p:panel>
                 </p:tab>
             </p:tabView>
