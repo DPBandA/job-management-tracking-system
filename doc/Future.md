@@ -415,6 +415,7 @@ and the results of the investigations.
 
 ## Client Management
 
+- Search for any part of client in Client Management search.
 - Add priv to add/del contact/address.
 - Creating a new contact using the edit but for "Most recent contact" does not seem to work when there are not contacts in the list. Check why this happens.
 - Make the default contact type general.

@@ -145,7 +145,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private DialogActionHandler dialogActionHandler;
     private Dashboard dashboard;
     private MainTabView mainTabView;
-    //private String dashboardTabId;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -169,7 +168,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         renderSearchComponent = true;
         jobSearchResultList = new ArrayList<>();
         // Init Managers
-        clientManager = Application.findBean("clientManager");
         reportManager = Application.findBean("reportManager");
         financeManager = Application.findBean("financeManager");
         jobSampleManager = Application.findBean("jobSampleManager");
@@ -179,10 +177,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         mainTabView = new MainTabView(getUser());
         // Search fields init
         searchType = "";
-        //dateSearchField = "dateAndTimeEntered";
         dateSearchPeriod = new DatePeriod("This month", "month",
                 "dateAndTimeEntered", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
+    }
+
+    public ClientManager getClientManager() {
+        if (clientManager == null) {
+            clientManager = Application.findBean("clientManager");
+        }
+
+        return clientManager;
     }
 
     public void handleStartSearchDateSelect(SelectEvent event) {
@@ -216,7 +221,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 //    public void setDateSearchField(String dateSearchField) {
 //        this.dateSearchField = dateSearchField;
 //    }
-
     public String getSearchType() {
         return searchType;
     }
@@ -282,8 +286,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void clientDialogReturn() {
-        if (clientManager.getSelectedClient().getId() != null) {
-            getCurrentJob().setClient(clientManager.getSelectedClient());
+        if (getClientManager().getSelectedClient().getId() != null) {
+            getCurrentJob().setClient(getClientManager().getSelectedClient());
         }
     }
 
@@ -308,7 +312,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         jobSearchResultList = new ArrayList<>();
 
         // Reset managers
-        clientManager.reset();
+        getClientManager().reset();
         contractManager.reset();
         financeManager.reset();
         jobSampleManager.reset();
@@ -2109,10 +2113,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.currentJob = currentJob;
     }
 
-    public void resetManagers() {
-        clientManager.reset();
-    }
-
     // tk rename to setTargetJob
     public void setEditCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
@@ -2245,15 +2245,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void createNewJobClient() {
-        clientManager.createNewClient(true);
-        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        getClientManager().createNewClient(true);
+        getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         PrimeFacesUtils.openDialog(null, "/client/clientDialog", true, true, true, 450, 700);
     }
 
     public void editJobClient() {
-        clientManager.setSelectedClient(getCurrentJob().getClient());
-        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        getClientManager().setSelectedClient(getCurrentJob().getClient());
+        getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
         PrimeFacesUtils.openDialog(null, "/client/clientDialog", true, true, true, 450, 700);
     }
@@ -2553,7 +2553,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openClientsTab() {
-        clientManager.setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
+        getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
         mainTabView.addTab(getEntityManager1(), "Clients", true);
         mainTabView.select("Clients");
     }
