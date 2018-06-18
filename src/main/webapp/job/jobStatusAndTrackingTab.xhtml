@@ -82,7 +82,7 @@ Email: info@dpbennett.com.jm
                                 global="false"
                                 update=":jobDialogForm:growl2,startDate,:jobDialogForm:jobDetailToolbar1,@this"
                                 process="@this"/>
-                        
+
                     </p:selectOneMenu>     
 
                     <h:outputText value="Start date: "/>
@@ -128,10 +128,12 @@ Email: info@dpbennett.com.jm
                                     converter="employeeConverter"
                                     forceSelection="true"
                                     completeMethod="#{App.completeEmployee}" >
+                        
                         <p:ajax event="itemSelect"
                                 listener="#{jobManager.updateJob}" 
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 process="@this"/>
+                        
                     </p:autoComplete>
 
                     <h:outputText value="on: "/>
@@ -166,18 +168,18 @@ Email: info@dpbennett.com.jm
                                  maxlength="250"
                                  disabled="#{!jobManager.samplesCollected}"
                                  value="#{jobManager.currentJob.jobStatusAndTracking.samplesCollectedBy}">
-                        
+
                         <p:ajax event="change"
                                 global="false"                                
                                 listener="#{jobManager.updateJob}"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 process="@this"/>
-                        
+
                         <f:validator validatorId="requiredFieldValidator" />
-                        
+
                         <f:attribute name="fieldRequired" 
                                      value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected != null}" />
-                        
+
                     </p:inputText>
                     <h:outputText value="on: "/>
                     <p:calendar id="dateSamplesCollected"
@@ -210,18 +212,18 @@ Email: info@dpbennett.com.jm
                                  style="width: 215px;"
                                  maxlength="250"
                                  value="#{jobManager.currentJob.jobStatusAndTracking.documentCollectedBy}" >
-                        
+
                         <p:ajax listener="#{jobManager.updateJob}"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 global="false"
                                 event="change"                               
                                 process="@this"/>
-                        
+
                         <f:validator validatorId="requiredFieldValidator" />
-                        
+
                         <f:attribute name="fieldRequired" 
                                      value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected != null}" />
-                        
+
                     </p:inputText>
                     <h:outputText value="on: "/>
                     <p:calendar id="dateDocsCollected"

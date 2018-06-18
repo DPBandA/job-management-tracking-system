@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
 
     <h:panelGrid columns="2" >
 
-        <p:outputLabel for="newClient" value="New client for department" />
+        <p:outputLabel for="newClient" value="New client for department:" />
         <h:panelGroup>
             <p:selectBooleanCheckbox id="newClient"
                                      value="#{jobManager.currentJob.newClient}" >
@@ -37,7 +37,6 @@ Email: info@dpbennett.com.jm
             </p:selectBooleanCheckbox>
             <p:tooltip for="newClient" value="Check if this is a new client for the department" showEffect="fade" hideEffect="fade" />
         </h:panelGroup>
-
 
         <h:outputText value="Report number(s): " />
         <h:panelGroup>
@@ -54,65 +53,53 @@ Email: info@dpbennett.com.jm
             <p:tooltip for="reportNumbers" value="Enter the report number(s) for this job" showEffect="fade" hideEffect="fade" />          
         </h:panelGroup>
 
+        <h:outputText value="No. of Tests:" />
+        <p:inputText id="numOfTests"                            
+                     maxlength="7"
+                     converterMessage="Please enter a valid number of tests."
+                     value="#{jobManager.currentJob.noOfTests}"  
+                     styleClass="number-field"
+                     style="width: 50px;" >                             
+            <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
+                    global="false"
+                    event="keyup"
+                    update="numOfTestsOrCalibrations,:jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            <f:convertNumber integerOnly="true"/>
+        </p:inputText>
+
+        <h:outputText value="No. of calibrations:" />
+        <p:inputText id="numOfCalibrations"                             
+                     maxlength="7"
+                     converterMessage="Please enter a valid number of calibrations."
+                     value="#{jobManager.currentJob.noOfCalibrations}"
+                     styleClass="number-field"
+                     style="width: 50px;" >
+            <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
+                    global="false"
+                    event="keyup"
+                    update="numOfTestsOrCalibrations,:jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            <f:convertNumber integerOnly="true"/>
+        </p:inputText>
+
+        <h:outputText value="No. tests/calibrations:" />
+        <p:inputText id="numOfTestsOrCalibrations"
+                     converter="javax.faces.Integer"
+                     disabled="true"
+                     maxlength="7"
+                     value="#{jobManager.currentJob.noOfTestsOrCalibrations}"
+                     styleClass="number-field"
+                     style="width: 50px;" >
+            <p:ajax listener="#{jobManager.updateJob}"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    global="false"
+                    event="change"                            
+                    process="@this"/>
+        </p:inputText>
+
     </h:panelGrid>
-    <hr/>
-    <p:panel id="jobResultsSummary" header="Results Summary" rendered="#{true}" >
-        <h:panelGrid columns="6" cellspacing="10">
-            <h:panelGroup>
-                <h:outputText value="No. of Tests " />
-                <p:inputText id="numOfTests"                            
-                             maxlength="7"
-                             converterMessage="Please enter a valid number of tests."
-                             value="#{jobManager.currentJob.noOfTests}"  
-                             styleClass="number-field"
-                             style="width: 50px;" >                             
-                    <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
-                            global="false"
-                            event="keyup"
-                            update="numOfTestsOrCalibrations,:jobDialogForm:jobDetailToolbar1"
-                            process="@this"/>
-                    <f:convertNumber integerOnly="true"/>
-                </p:inputText>
-            </h:panelGroup>
 
-            <h:panelGroup>
-                <h:outputText value="No. of calibrations " />
-                <p:inputText id="numOfCalibrations"                             
-                             maxlength="7"
-                             converterMessage="Please enter a valid number of calibrations."
-                             value="#{jobManager.currentJob.noOfCalibrations}"
-                             styleClass="number-field"
-                             style="width: 50px;" >
-                    <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
-                            global="false"
-                            event="keyup"
-                            update="numOfTestsOrCalibrations,:jobDialogForm:jobDetailToolbar1"
-                            process="@this"/>
-                    <f:convertNumber integerOnly="true"/>
-                </p:inputText>
-            </h:panelGroup>
-
-            <h:panelGroup>
-                <h:outputText value="No. tests/calibrations " />
-                <p:inputText id="numOfTestsOrCalibrations"
-                             converter="javax.faces.Integer"
-                             disabled="true"
-                             maxlength="7"
-                             value="#{jobManager.currentJob.noOfTestsOrCalibrations}"
-                             styleClass="number-field"
-                             style="width: 50px;" >
-                    <p:ajax listener="#{jobManager.updateJob}"
-                            update=":jobDialogForm:jobDetailToolbar1"
-                            global="false"
-                            event="change"                            
-                            process="@this"/>
-                </p:inputText>
-            </h:panelGroup>
-
-
-        </h:panelGrid>
-    </p:panel>
-    <hr/>
     <h:panelGrid columns="1">
         <h:outputText value="Comment: " />
         <p:inputTextarea

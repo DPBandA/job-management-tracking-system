@@ -139,7 +139,12 @@ Email: info@dpbennett.com.jm
                 <p:tab  title="Parameters" >
                     <p:panel header="Department">
                         <h:panelGrid columns="2">
-                            <h:outputText value="Department(s): " />       
+                            <p:outputLabel for="departmentRequired" value="Required:" style="font-weight: bold;" />               
+                            <p:selectBooleanCheckbox id="departmentRequired"
+                                                     style="vertical-align: middle"
+                                                     value="#{reportManager.selectedReport.departmentRequired}" /> 
+
+                            <h:outputText value="Default department(s):" />       
                             <p:autoComplete id="departments"
                                             var="department"   
                                             value="#{reportManager.selectedReport.departments}"
@@ -161,7 +166,12 @@ Email: info@dpbennett.com.jm
                     </p:panel>
                     <p:panel header="Employee">
                         <h:panelGrid columns="2">
-                            <h:outputText value="Employee(s): " />       
+                            <p:outputLabel for="employeeRequired" value="Required:" style="font-weight: bold;" />               
+                            <p:selectBooleanCheckbox id="employeeRequired"
+                                                     style="vertical-align: middle"
+                                                     value="#{reportManager.selectedReport.employeeRequired}" />
+
+                            <h:outputText value="Default employee(s):" />       
                             <p:autoComplete id="employees"
                                             var="employee"   
                                             value="#{reportManager.selectedReport.employees}"
@@ -179,12 +189,18 @@ Email: info@dpbennett.com.jm
                     </p:panel>                   
                     <p:panel header="Client">
                         <h:panelGrid columns="2">
-
+                            <p:outputLabel for="clientRequired" value="Required:" style="font-weight: bold;" />               
+                            <p:selectBooleanCheckbox id="clientRequired"
+                                                     style="vertical-align: middle"
+                                                     value="#{reportManager.selectedReport.clientRequired}" />
                         </h:panelGrid>
                     </p:panel>
                     <p:panel header="Date period">
                         <h:panelGrid columns="2">
-
+                            <p:outputLabel for="datePeriodRequired" value="Required:" style="font-weight: bold;" />               
+                            <p:selectBooleanCheckbox id="datePeriodRequired"
+                                                     style="vertical-align: middle"
+                                                     value="#{reportManager.selectedReport.datePeriodRequired}" />
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
