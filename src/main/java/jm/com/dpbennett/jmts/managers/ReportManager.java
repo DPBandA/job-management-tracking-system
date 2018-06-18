@@ -266,7 +266,13 @@ public class ReportManager implements Serializable {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
-    public void cancelReportEdit(ActionEvent actionEvent) {
+    public void saveSelectedDatePeriod() {
+
+        System.out.println("save selected date period...");
+
+    }
+
+    public void closeDialog(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
@@ -278,7 +284,12 @@ public class ReportManager implements Serializable {
     }
 
     public void createNewDatePeriod() {
-        System.out.println("create new date period..."); // tk
+
+        selectedDatePeriod = new DatePeriod("This month", "month",
+                "", null, null, null, false, false, false);
+        selectedDatePeriod.initDatePeriod();
+
+        PrimeFacesUtils.openDialog(null, "reportDatePeriodDialog", true, true, true, 0, 400);
     }
 
     private void init() {
@@ -359,13 +370,10 @@ public class ReportManager implements Serializable {
         servletOutputStream.close();
     }
 
-//    public void setMainTabView(MainTabView mainTabView) {
-//        this.mainTabView = mainTabView;
-//    }
-//
-//    public void closeReportsTab() {
-//        mainTabView.addTab(getEntityManager1(), "Reports", false);
-//    }
+    public void closeReportsTab() {
+        getJobManager().getMainTabView().addTab(getEntityManager1(), "Reports", false);
+    }
+
     public JobManagerUser getUser() {
         return getJobManager().getUser();
     }

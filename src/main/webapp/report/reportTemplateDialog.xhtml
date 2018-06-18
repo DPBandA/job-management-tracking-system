@@ -52,15 +52,14 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{reportManager.cancelReportEdit}"
+                                     actionListener="#{reportManager.closeDialog}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            
                 </p:toolbarGroup>
             </p:toolbar>
 
-            <p:tabView id="businessDepartments" 
-                       style="margin-bottom: 1px;margin-bottom: 1px;" >
+            <p:tabView style="margin-bottom: 1px;margin-bottom: 1px;" >
                 <p:tab title="General" >                  
                     <h:panelGrid columns="2">
                         <p:outputLabel for="reportActive" value="Active:" style="font-weight: bold;" />               
@@ -327,7 +326,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{reportManager.cancelReportEdit}"
+                                     actionListener="#{reportManager.closeDialog}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            

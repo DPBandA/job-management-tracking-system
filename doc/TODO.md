@@ -11,10 +11,9 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
+- Create date period dialog and impl adding/deleting date periods.
 - In Report class add option to choose the field to use eg Id, name etc?
 - Impl adding, departments, employees and clients to report template.
-- Create date period dialog and impl adding/deleting date periods.
-- Add "required*" fields for all parameters.
 - Update report template form to include multiple date periods, departments, employee
   clients etc..
 - Impl and add Legal reports. 

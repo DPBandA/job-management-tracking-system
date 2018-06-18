@@ -290,6 +290,13 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>reportDatePeriodDialog</from-outcome>
+            <to-view-id>/report/reportDatePeriodDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>complianceSurveyDialog</from-outcome>
             <to-view-id>/compliance/surveyDialog.xhtml</to-view-id>
         </navigation-case>
