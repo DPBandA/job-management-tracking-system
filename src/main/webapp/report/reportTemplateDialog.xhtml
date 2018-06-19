@@ -88,6 +88,7 @@ Email: info@dpbennett.com.jm
                         <h:panelGroup>
                             <h:panelGrid columns="2">                            
                                 <p:inputText value="#{reportManager.selectedReport.reportFileTemplate}"
+                                             style="margin-left: -3px;"
                                              id="reportFileTemplate" 
                                              validator="requiredFieldValidator" />
                                 <p:selectBooleanCheckbox itemLabel="packaged"
@@ -136,88 +137,7 @@ Email: info@dpbennett.com.jm
                     </h:panelGrid>
                 </p:tab >  
                 <p:tab  title="Parameters" >
-                    <p:panel header="Department">
-                        <h:panelGrid columns="2">
-                            <p:outputLabel for="departmentRequired" value="Required:" style="font-weight: bold;" />               
-                            <p:selectBooleanCheckbox id="departmentRequired"
-                                                     style="vertical-align: middle"
-                                                     value="#{reportManager.selectedReport.departmentRequired}" /> 
-
-                            <h:outputText value="Default department(s):" />       
-                            <p:autoComplete id="departments"
-                                            var="department"   
-                                            value="#{reportManager.selectedReport.departments}"
-                                            itemLabel="#{department.name}"
-                                            itemValue="#{department}"
-                                            converter="departmentConverter"
-                                            forceSelection="true"
-                                            dropdown="true"
-                                            scrollHeight="200"  
-                                            multiple="true"
-                                            completeMethod="#{App.completeDepartment}" >
-
-                                <p:ajax event="itemSelect"
-                                        update="departments"
-                                        process="@this" />
-
-                            </p:autoComplete>
-                        </h:panelGrid>
-                    </p:panel>
-                    <p:panel header="Employee">
-                        <h:panelGrid columns="2">
-                            <p:outputLabel for="employeeRequired" value="Required:" style="font-weight: bold;" />               
-                            <p:selectBooleanCheckbox id="employeeRequired"
-                                                     style="vertical-align: middle"
-                                                     value="#{reportManager.selectedReport.employeeRequired}" />
-
-                            <h:outputText value="Default employee(s):" />       
-                            <p:autoComplete id="employees"
-                                            var="employee"   
-                                            value="#{reportManager.selectedReport.employees}"
-                                            itemLabel="#{employee.name}"
-                                            itemValue="#{employee}"
-                                            converter="employeeConverter"
-                                            forceSelection="true"
-                                            dropdown="true"
-                                            scrollHeight="200"  
-                                            multiple="true"
-                                            completeMethod="#{App.completeEmployee}" >
-
-                                <p:ajax event="itemSelect"
-                                        update="employees"
-                                        process="@this" />
-
-                            </p:autoComplete>
-                        </h:panelGrid>
-                    </p:panel>                   
-                    <p:panel header="Client">
-                        <h:panelGrid columns="2">
-                            <p:outputLabel for="clientRequired" value="Required:" style="font-weight: bold;" />               
-                            <p:selectBooleanCheckbox id="clientRequired"
-                                                     style="vertical-align: middle"
-                                                     value="#{reportManager.selectedReport.clientRequired}" />
-
-                            <h:outputText value="Default clients(s):" />       
-                            <p:autoComplete id="clients"
-                                            var="client"   
-                                            value="#{reportManager.selectedReport.clients}"
-                                            itemLabel="#{client.name}"
-                                            itemValue="#{client}"
-                                            converter="clientConverter"
-                                            forceSelection="true"
-                                            dropdown="false"
-                                            scrollHeight="200"  
-                                            multiple="true"
-                                            completeMethod="#{App.completeClient}" >
-
-                                <p:ajax event="itemSelect"
-                                        update="clients"
-                                        process="@this" />
-
-                            </p:autoComplete>
-                        </h:panelGrid>
-                    </p:panel>
-                    <p:panel header="Date period">
+                    <p:panel header="Date period" style="margin-top: 1px;margin-bottom: 1px;">
                         <h:panelGrid columns="2">
                             <p:outputLabel for="datePeriodRequired" value="Required:" style="font-weight: bold;" />               
                             <p:selectBooleanCheckbox id="datePeriodRequired"
@@ -234,6 +154,9 @@ Email: info@dpbennett.com.jm
                                                  oncomplete="PF('longProcessDialogVar').hide();"
                                                  actionListener="#{reportManager.createNewDatePeriod}" 
                                                  process="@this" >
+
+                                    <p:ajax event="dialogReturn" 
+                                            update="datePeriodsTable"/>
 
                                 </p:commandButton>
                             </p:toolbarGroup>
@@ -275,21 +198,28 @@ Email: info@dpbennett.com.jm
                                 <p:commandButton title="View or edit date period"
                                                  onstart="PF('longProcessDialogVar').show();" 
                                                  oncomplete="PF('longProcessDialogVar').hide();"
+                                                 actionListener="#{reportManager.editDatePeriod}"
                                                  process="@this"
                                                  icon="ui-icon-pencil">
 
                                     <f:setPropertyActionListener value="#{datePeriod}"
                                                                  target="#{reportManager.selectedDatePeriod}" />
 
+                                    <p:ajax event="dialogReturn" 
+                                            update="datePeriodsTable"/>
+
                                 </p:commandButton>
                             </p:column>
 
                             <p:column style="width:32px">
-                                <p:commandButton title="Delete contact"
+                                <p:commandButton title="Delete date period"
                                                  onstart="PF('longProcessDialogVar').show();" 
                                                  oncomplete="PF('longProcessDialogVar').hide();"
                                                  global="true"
                                                  icon="ui-icon-trash">
+
+                                    <p:ajax event="dialogReturn" 
+                                            update="datePeriodsTable"/>
 
                                     <f:setPropertyActionListener value="#{datePeriod}"
                                                                  target="#{reportManager.selectedDatePeriod}" />
@@ -308,11 +238,98 @@ Email: info@dpbennett.com.jm
                                                  actionListener="#{reportManager.createNewDatePeriod}" 
                                                  process="@this" >
 
+                                    <p:ajax event="dialogReturn" 
+                                            update="datePeriodsTable"/>
+
                                 </p:commandButton>
                             </p:toolbarGroup>
                         </p:toolbar> 
 
                     </p:panel>
+
+                    <p:panel header="Department" style="margin-top: 1px;margin-bottom: 1px;">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="departmentRequired" value="Required:" style="font-weight: bold;" />               
+                            <p:selectBooleanCheckbox id="departmentRequired"
+                                                     style="vertical-align: middle"
+                                                     value="#{reportManager.selectedReport.departmentRequired}" /> 
+
+                            <h:outputText value="Default department(s):" />       
+                            <p:autoComplete id="departments"
+                                            var="department"   
+                                            value="#{reportManager.selectedReport.departments}"
+                                            itemLabel="#{department.name}"
+                                            itemValue="#{department}"
+                                            converter="departmentConverter"
+                                            forceSelection="true"
+                                            dropdown="true"
+                                            scrollHeight="200"  
+                                            multiple="true"
+                                            completeMethod="#{App.completeDepartment}" >
+
+                                <p:ajax event="itemSelect"
+                                        update="departments"
+                                        process="@this" />
+
+                            </p:autoComplete>
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:panel header="Employee" style="margin-top: 1px;margin-bottom: 1px;">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="employeeRequired" value="Required:" style="font-weight: bold;" />               
+                            <p:selectBooleanCheckbox id="employeeRequired"
+                                                     style="vertical-align: middle"
+                                                     value="#{reportManager.selectedReport.employeeRequired}" />
+
+                            <h:outputText value="Default employee(s):" />       
+                            <p:autoComplete id="employees"
+                                            var="employee"   
+                                            value="#{reportManager.selectedReport.employees}"
+                                            itemLabel="#{employee.name}"
+                                            itemValue="#{employee}"
+                                            converter="employeeConverter"
+                                            forceSelection="true"
+                                            dropdown="true"
+                                            scrollHeight="200"  
+                                            multiple="true"
+                                            completeMethod="#{App.completeEmployee}" >
+
+                                <p:ajax event="itemSelect"
+                                        update="employees"
+                                        process="@this" />
+
+                            </p:autoComplete>
+                        </h:panelGrid>
+                    </p:panel>    
+                    <ui:remove>
+                        <p:panel header="Client" style="margin-top: 1px;margin-bottom: 1px;">
+                            <h:panelGrid columns="2">
+                                <p:outputLabel for="clientRequired" value="Required:" style="font-weight: bold;" />               
+                                <p:selectBooleanCheckbox id="clientRequired"
+                                                         style="vertical-align: middle"
+                                                         value="#{reportManager.selectedReport.clientRequired}" />
+
+                                <h:outputText value="Default clients(s):" />       
+                                <p:autoComplete id="clients"
+                                                var="client"   
+                                                value="#{reportManager.selectedReport.clients}"
+                                                itemLabel="#{client.name}"
+                                                itemValue="#{client}"
+                                                converter="clientConverter"
+                                                forceSelection="true"
+                                                dropdown="false"
+                                                scrollHeight="200"  
+                                                multiple="true"
+                                                completeMethod="#{App.completeClient}" >
+
+                                    <p:ajax event="itemSelect"
+                                            update="clients"
+                                            process="@this" />
+
+                                </p:autoComplete>
+                            </h:panelGrid>
+                        </p:panel>
+                    </ui:remove>
                 </p:tab>
             </p:tabView>
             <p:toolbar >

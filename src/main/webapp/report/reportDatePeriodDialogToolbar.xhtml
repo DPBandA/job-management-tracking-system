@@ -20,7 +20,8 @@ Email: info@dpbennett.com.jm
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <p:toolbar>
         <p:toolbarGroup>
@@ -30,13 +31,13 @@ Email: info@dpbennett.com.jm
                              oncomplete="PF('longProcessDialogVar').hide()"
                              icon="ui-icon ui-icon-check"
                              update="report_date_period_growl"
-                             process="@form"/>
+                             process="@form"/>           
             <p:spacer width="5" />
             <p:commandButton value="Cancel"
-                             actionListener="#{reportManager.closeDialog}"
+                             actionListener="#{reportManager.cancelSelectedDatePeriod}"
                              oncomplete="PF('longProcessDialogVar').hide();"
                              immediate="true"
-                             icon="ui-icon ui-icon-close" />            
+                             icon="ui-icon ui-icon-close" /> 
         </p:toolbarGroup>
     </p:toolbar>
 

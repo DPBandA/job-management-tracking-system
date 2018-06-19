@@ -266,10 +266,16 @@ public class ReportManager implements Serializable {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
-    public void saveSelectedDatePeriod() {
-
-        System.out.println("save selected date period...");
-
+    public void saveSelectedDatePeriod(ActionEvent actionEvent) {
+        getSelectedDatePeriod().setIsDirty(true);
+        
+        closeDialog(actionEvent);
+    }
+    
+    public void cancelSelectedDatePeriod(ActionEvent actionEvent) {
+        getSelectedDatePeriod().setIsDirty(false);
+        
+        closeDialog(actionEvent);
     }
 
     public void closeDialog(ActionEvent actionEvent) {
@@ -289,7 +295,15 @@ public class ReportManager implements Serializable {
                 "", null, null, null, false, false, false);
         selectedDatePeriod.initDatePeriod();
 
+        selectedReport.getDatePeriods().add(selectedDatePeriod);
+
         PrimeFacesUtils.openDialog(null, "reportDatePeriodDialog", true, true, true, 0, 400);
+    }
+    
+    public void editDatePeriod() {
+        
+        PrimeFacesUtils.openDialog(null, "reportDatePeriodDialog", true, true, true, 0, 400);
+        
     }
 
     private void init() {
