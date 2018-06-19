@@ -266,7 +266,7 @@ public class ReportManager implements Serializable {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
-    public void saveSelectedDatePeriod(ActionEvent actionEvent) {
+    public void okSelectedDatePeriod(ActionEvent actionEvent) {
         getSelectedDatePeriod().setIsDirty(true);
         
         closeDialog(actionEvent);
