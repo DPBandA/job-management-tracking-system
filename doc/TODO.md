@@ -11,7 +11,7 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Create date period dialog and impl adding/deleting date periods.
+- Impl adding/deleting date periods as is done with addresses/contacts.
 - In Report class add option to choose the field to use eg Id, name etc?
 - Impl adding, departments, employees and clients to report template.
 - Update report template form to include multiple date periods, departments, employee
@@ -117,6 +117,8 @@ This release will be around early July.
 - Please let the GCT default to 16.5% except for activities done by NCRA. 
   Therefore if NCRA subcontracts a job to BSJ, the GCT would carried only for the BSJ job.
 - Do draft proposal re 360/Elastic search for Orville and next contract.
+- Impl getting system option by object type and Add system option to display 
+  "Handling keep alive session..." in debugging mode.
 
   
 

@@ -215,14 +215,12 @@ Email: info@dpbennett.com.jm
                                 <p:commandButton title="Delete date period"
                                                  onstart="PF('longProcessDialogVar').show();" 
                                                  oncomplete="PF('longProcessDialogVar').hide();"
-                                                 global="true"
+                                                 process="@this"
+                                                 update="datePeriodsTable"
                                                  icon="ui-icon-trash">
 
-                                    <p:ajax event="dialogReturn" 
-                                            update="datePeriodsTable"/>
-
                                     <f:setPropertyActionListener value="#{datePeriod}"
-                                                                 target="#{reportManager.selectedDatePeriod}" />
+                                                                 target="#{reportManager.datePeriodToDelete}" />
 
                                 </p:commandButton>
                             </p:column>

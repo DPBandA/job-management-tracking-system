@@ -137,6 +137,7 @@ public class ReportManager implements Serializable {
     private Boolean isActiveReportsOnly;
     private String reportCategory;
     private DatePeriod selectedDatePeriod;
+    private Boolean edit;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -145,12 +146,26 @@ public class ReportManager implements Serializable {
         init();
     }
 
+    public Boolean getEdit() {
+        return edit;
+    }
+
+    public void setEdit(Boolean edit) {
+        this.edit = edit;
+    }
+
     public DatePeriod getSelectedDatePeriod() {
         return selectedDatePeriod;
     }
 
     public void setSelectedDatePeriod(DatePeriod selectedDatePeriod) {
         this.selectedDatePeriod = selectedDatePeriod;
+    }
+
+    public void setDatePeriodToDelete(DatePeriod selectedDatePeriod) {
+        this.selectedDatePeriod = selectedDatePeriod;
+
+        deleteDatePeriod();
     }
 
     public void openReportsTab(String category) {
@@ -268,13 +283,17 @@ public class ReportManager implements Serializable {
 
     public void okSelectedDatePeriod(ActionEvent actionEvent) {
         getSelectedDatePeriod().setIsDirty(true);
-        
+
+        if (getIsNewDatePeriod()) {
+            selectedReport.getDatePeriods().add(selectedDatePeriod);
+        }
+
         closeDialog(actionEvent);
     }
-    
+
     public void cancelSelectedDatePeriod(ActionEvent actionEvent) {
         getSelectedDatePeriod().setIsDirty(false);
-        
+
         closeDialog(actionEvent);
     }
 
@@ -295,15 +314,39 @@ public class ReportManager implements Serializable {
                 "", null, null, null, false, false, false);
         selectedDatePeriod.initDatePeriod();
 
-        selectedReport.getDatePeriods().add(selectedDatePeriod);
+        setEdit(false);
 
         PrimeFacesUtils.openDialog(null, "reportDatePeriodDialog", true, true, true, 0, 400);
     }
-    
+
+    public Boolean getIsNewDatePeriod() {
+        return getSelectedDatePeriod().getId() == null && !getEdit();
+    }
+
     public void editDatePeriod() {
-        
+
+        setEdit(true);
+
         PrimeFacesUtils.openDialog(null, "reportDatePeriodDialog", true, true, true, 0, 400);
-        
+
+    }
+
+    public void deleteDatePeriod() {
+        EntityManager em = getEntityManager1();
+
+        if (selectedDatePeriod.getId() != null) {
+            DatePeriod datePeriod = DatePeriod.findById(em, selectedDatePeriod.getId());
+            if (datePeriod != null) {
+                selectedReport.getDatePeriods().remove(selectedDatePeriod);
+                selectedReport.save(em);
+                em.getTransaction().begin();
+                em.remove(datePeriod);
+                em.getTransaction().commit();
+            }
+        } else {
+            selectedReport.getDatePeriods().remove(selectedDatePeriod);
+        }
+
     }
 
     private void init() {

@@ -85,7 +85,6 @@ I am available to provide clarification if required.
 - Make growl message for no costing selection for approval and invoicing a warning serverity.
 - Put DocumentType dialog in SystemManager.
 - Use the method used for editing DocumentType for other objects where the type is copied into currentDocumentType before the dialog is opened. The object is saved when the dialog is "oked" and discarded when "cancelled".
-- Add system option to display "Handling keep alive session..." in debugging mode.
 - Add colon to form labels to be consistent.
 - Add general preference to hide/show dashboard. NB Add field to all databases.
 - Remove department from employee. Use the JMUser employee field to get the department whenever user's department is needed.
