@@ -56,33 +56,44 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{address.type}" />
         </p:column>
 
-        <p:column style="width:32px">
-            <p:commandButton title="View or edit address"
-                             update=":addressForm"
-                             oncomplete="PF('addressFormDialog').show();"
-                             global="true"
-                             process="@this"
-                             icon="ui-icon-pencil">
+        <p:column style="width:32px" >
+            <p:menuButton icon="ui-icon-pencil" title="Edit or delete this address">
+                <p:menuitem>                       
+                    <p:commandButton value="Edit"
+                                     icon="ui-icon-pencil" 
+                                     style="width: 300%;text-align: left;background: none;border: 0;"
+                                     update=":addressForm"
+                                     oncomplete="PF('addressFormDialog').show();" 
+                                     process="@this"                             
+                                     title="View or edit address detail">  
 
-                <p:resetInput target=":addressForm" />
+                        <p:resetInput target=":addressForm" />
 
-                <f:setPropertyActionListener value="#{address}"
-                                             target="#{clientManager.selectedAddress}" />
-            </p:commandButton>
-        </p:column>
+                        <f:setPropertyActionListener value="#{address}"
+                                                     target="#{clientManager.selectedAddress}" />
 
-        <p:column style="width:32px">
-            <p:commandButton title="Delete Address"
-                             oncomplete="PF('deleteAddressDialog').show();"
-                             global="true"
-                             icon="ui-icon-trash">
-                <f:setPropertyActionListener value="#{address}"
-                                             target="#{clientManager.selectedAddress}" />
-            </p:commandButton>
+                    </p:commandButton>            
+                </p:menuitem>
+
+                <p:menuitem >       
+                    <p:commandButton 
+                        value="Delete"
+                        icon="ui-icon-trash" 
+                        style="width: 300%;text-align: left;background: none;border: 0;"
+                        oncomplete="PF('deleteAddressDialog').show();"                                            
+                        process="@this"
+                        title="Delete this address">
+
+                        <f:setPropertyActionListener value="#{address}"
+                                                     target="#{clientManager.selectedAddress}" />
+
+                    </p:commandButton>
+                </p:menuitem>
+            </p:menuButton>    
         </p:column>
 
     </p:dataTable>
-     <p:toolbar style="margin-top: 1px;">
+    <p:toolbar style="margin-top: 1px;">
         <p:toolbarGroup align="left">
             <p:commandButton value="New"
                              icon="ui-icon-plus" 

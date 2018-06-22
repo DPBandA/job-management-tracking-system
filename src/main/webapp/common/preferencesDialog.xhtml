@@ -71,14 +71,17 @@ Email: info@dpbennett.com.jm
                                         title="#{jobManager.user.jobTableViewPreference}"                                      
                                         dropdown="true"                                       
                                         completeMethod="#{App.completePreferenceValue}" >
+                            
                             <p:ajax event="itemSelect"
                                     listener="#{jobManager.updatePreferedJobTableView}"
                                     global="false"                                    
                                     process="@this" />
+                            
                             <p:ajax event="change"
                                     listener="#{jobManager.updatePreferedJobTableView}"
                                     global="false"                                    
                                     process="@this" />
+                            
                         </p:autoComplete>                        
 
                     </h:panelGrid>

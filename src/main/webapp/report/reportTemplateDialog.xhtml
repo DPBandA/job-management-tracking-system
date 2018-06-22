@@ -194,35 +194,44 @@ Email: info@dpbennett.com.jm
                                 <h:outputText value="#{datePeriod.endDate}" />
                             </p:column>
 
-                            <p:column style="width:32px">
-                                <p:commandButton title="View or edit date period"
-                                                 onstart="PF('longProcessDialogVar').show();" 
-                                                 oncomplete="PF('longProcessDialogVar').hide();"
-                                                 actionListener="#{reportManager.editDatePeriod}"
-                                                 process="@this"
-                                                 icon="ui-icon-pencil">
+                            <p:column style="width:32px" >
+                                <p:menuButton icon="ui-icon-pencil" title="Edit or delete date period">
+                                    <p:menuitem>                       
+                                        <p:commandButton value="Edit"
+                                                         icon="ui-icon-pencil" 
+                                                         style="width: 300%;text-align: left;background: none;border: 0;"
+                                                         onstart="PF('longProcessDialogVar').show();"   
+                                                         oncomplete="PF('longProcessDialogVar').hide();"                                  
+                                                         actionListener="#{reportManager.editDatePeriod}"  
+                                                         process="@this"                             
+                                                         title="View or edit this date period's detail">  
 
-                                    <f:setPropertyActionListener value="#{datePeriod}"
-                                                                 target="#{reportManager.selectedDatePeriod}" />
+                                            <f:setPropertyActionListener value="#{datePeriod}"
+                                                                         target="#{reportManager.selectedDatePeriod}" />
 
-                                    <p:ajax event="dialogReturn" 
-                                            update="datePeriodsTable"/>
+                                            <p:ajax event="dialogReturn" 
+                                                    update="datePeriodsTable"/>
 
-                                </p:commandButton>
-                            </p:column>
+                                        </p:commandButton>            
+                                    </p:menuitem>
 
-                            <p:column style="width:32px">
-                                <p:commandButton title="Delete date period"
-                                                 onstart="PF('longProcessDialogVar').show();" 
-                                                 oncomplete="PF('longProcessDialogVar').hide();"
-                                                 process="@this"
-                                                 update="datePeriodsTable"
-                                                 icon="ui-icon-trash">
+                                    <p:menuitem >       
+                                        <p:commandButton 
+                                            value="Delete"
+                                            icon="ui-icon-trash" 
+                                            style="width: 300%;text-align: left;background: none;border: 0;"
+                                            onstart="PF('longProcessDialogVar').show();"    
+                                            oncomplete="PF('longProcessDialogVar').hide();"                                            
+                                            process="@this"
+                                            update="datePeriodsTable"
+                                            title="Delete this date period">
 
-                                    <f:setPropertyActionListener value="#{datePeriod}"
-                                                                 target="#{reportManager.datePeriodToDelete}" />
+                                            <f:setPropertyActionListener value="#{datePeriod}"
+                                                                         target="#{reportManager.datePeriodToDelete}" />
 
-                                </p:commandButton>
+                                        </p:commandButton>
+                                    </p:menuitem>
+                                </p:menuButton>    
                             </p:column>
                         </p:dataTable>
 
@@ -254,6 +263,25 @@ Email: info@dpbennett.com.jm
 
                             <h:outputText value="Default department(s):" />       
                             <p:autoComplete id="departments"
+                                            var="department"   
+                                            value="#{reportManager.selectedReport.departments}"
+                                            itemLabel="#{department.name}"
+                                            itemValue="#{department}"
+                                            converter="departmentConverter"
+                                            forceSelection="true"
+                                            dropdown="true"
+                                            scrollHeight="200"  
+                                            multiple="true"
+                                            completeMethod="#{App.completeDepartment}" >
+
+                                <p:ajax event="itemSelect"
+                                        update="departments"
+                                        process="@this" />
+
+                            </p:autoComplete>
+                            
+                            <h:outputText value="Department fields(s):" />       
+                            <p:autoComplete id="departmentFields"
                                             var="department"   
                                             value="#{reportManager.selectedReport.departments}"
                                             itemLabel="#{department.name}"

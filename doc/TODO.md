@@ -11,8 +11,7 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Impl adding/deleting date periods as is done with addresses/contacts.
-- In Report class add option to choose the field to use eg Id, name etc?
+- In Report class add option to choose the field to use id, name or both?
 - Impl adding, departments, employees and clients to report template.
 - Update report template form to include multiple date periods, departments, employee
   clients etc..
@@ -119,6 +118,8 @@ This release will be around early July.
 - Do draft proposal re 360/Elastic search for Orville and next contract.
 - Impl getting system option by object type and Add system option to display 
   "Handling keep alive session..." in debugging mode.
+- Should the person who "flags" the job as being completed be entered as the
+  person who completes the job?
 
   
 
