@@ -11,6 +11,7 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
+- Do an email with screen shots showing how to add subcontracted job costings.
 - In Report class add option to choose the field to use id, name or both?
 - Impl adding, departments, employees and clients to report template.
 - Update report template form to include multiple date periods, departments, employee
