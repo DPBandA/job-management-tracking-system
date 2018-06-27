@@ -6,8 +6,8 @@ Status Update Notes for June 4 - June 8, 2018
 
 - Junior Gordon, ext 3460.
 
-Month 1 modules: Job Management, Legal Office, Client Management
-Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
+Month 1 modules: Job Management, Legal Office, Client Management.
+Month 2 modules: Standards Compliance, Certification, Foods Inspectorate.
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
@@ -17,7 +17,7 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - Update report template form to include multiple date periods, departments, employee
   clients etc..
 - Impl and add Legal reports. 
-- Add report template for legal
+- Add report template for legal.
 - Impl "ComplianceSurveyDialogForm"  
 - Impl "dirty" and save() for each "subclass" and save only when dirty. 
 - Replace update*() with single update**() method where possible.
