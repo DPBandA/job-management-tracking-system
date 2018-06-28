@@ -5,15 +5,20 @@ Status Update Notes for June 4 - June 8, 2018
 - Mention work on BPM 
 
 - Junior Gordon, ext 3460.
+- Notebook pc id: 1071630001, pwd: 9556
+- Call/email Maya re subcontracted job costings.
 
 Month 1 modules: Job Management, Legal Office, Client Management.
 Month 2 modules: Standards Compliance, Certification, Foods Inspectorate.
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Do an email with screen shots showing how to add subcontracted job costings.
+- Add accountingId to client 
+  * Create "autocomplete" column in Job Costings table to select accpac 
+    customer and Id. 
 - In Report class add option to choose the field to use id, name or both?
-- Impl adding, departments, employees and clients to report template.
+- Impl finance report showing jobs that are supposed to have deposits but don't
+  "Jobs Requiring Deposits" as the report.
 - Update report template form to include multiple date periods, departments, employee
   clients etc..
 - Impl and add Legal reports. 
@@ -121,6 +126,8 @@ This release will be around early July.
   "Handling keep alive session..." in debugging mode.
 - Should the person who "flags" the job as being completed be entered as the
   person who completes the job?
+- Do screen shots showing how to add subcontracted job costings as part of 
+  training.
 
   
 
