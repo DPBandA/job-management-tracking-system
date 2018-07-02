@@ -13,6 +13,9 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate.
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
+- Job 56/2018/3362 completed May 30, 2018.
+- Job 56/2018/2165 completed May 30, 2018
+- When job is flagged as completed, the person and date are not inserted. Fix.
 - Add accountingId to client 
   * Create "autocomplete" column in Job Costings table to select accpac 
     customer and Id. 
