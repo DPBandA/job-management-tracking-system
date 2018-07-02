@@ -80,7 +80,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax listener="#{jobManager.updateWorkProgress}"
                                 global="false"
-                                update=":jobDialogForm:growl2,startDate,:jobDialogForm:jobDetailToolbar1,@this"
+                                update="personnelTaskTracking,:jobDialogForm:growl2,startDate,:jobDialogForm:jobDetailToolbar1,@this"
                                 process="@this"/>
 
                     </p:selectOneMenu>     
@@ -101,7 +101,7 @@ Email: info@dpbennett.com.jm
                 </h:panelGrid>
             </h:panelGroup>
             <hr/>
-            <h:panelGroup>
+            <h:panelGroup id="personnelTaskTracking">
                 <h:panelGrid columns="4">
                     <h:panelGroup >
                         <h:outputText value="&nbsp;&nbsp;"/>

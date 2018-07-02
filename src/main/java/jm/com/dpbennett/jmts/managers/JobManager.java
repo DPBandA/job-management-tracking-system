@@ -50,6 +50,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
+import jm.com.dpbennett.business.entity.AccPacDocument;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.BusinessOffice;
@@ -87,6 +88,7 @@ import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.Tab;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.CellEditEvent;
 
 /**
  *
@@ -145,12 +147,38 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private DialogActionHandler dialogActionHandler;
     private Dashboard dashboard;
     private MainTabView mainTabView;
+    private AccPacCustomer accPacCustomer;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public JobManager() {
         init();
+    }
+
+    public void updateAccPacCustomer(SelectEvent event) {
+        EntityManager em = getEntityManager2();
+
+        accPacCustomer = AccPacCustomer.findByName(em, accPacCustomer.getCustomerName().trim());
+    }
+
+    public AccPacCustomer getAccPacCustomer() {
+        if (accPacCustomer == null) {
+            accPacCustomer = new AccPacCustomer();
+        }
+        return accPacCustomer;
+    }
+
+    public void setAccPacCustomer(AccPacCustomer accPacCustomer) {
+        this.accPacCustomer = accPacCustomer;
+    }
+
+    public void onJobCostingCellEdit(CellEditEvent event) {
+        
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().setAccountingId(getAccPacCustomer().getId());
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().setAccountingId(getAccPacCustomer().getId());
     }
 
     private void init() {

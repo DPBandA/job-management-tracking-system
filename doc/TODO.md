@@ -6,19 +6,16 @@ Status Update Notes for June 4 - June 8, 2018
 
 - Junior Gordon, ext 3460.
 - Notebook pc id: 1071630001, pwd: 9556
-- Call/email Maya re subcontracted job costings.
 
 Month 1 modules: Job Management, Legal Office, Client Management.
 Month 2 modules: Standards Compliance, Certification, Foods Inspectorate.
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Job 56/2018/3362 completed May 30, 2018.
-- Job 56/2018/2165 completed May 30, 2018
-- When job is flagged as completed, the person and date are not inserted. Fix.
 - Add accountingId to client 
   * Create "autocomplete" column in Job Costings table to select accpac 
-    customer and Id. 
+    customer and Id as "accountingId". Show this col. only to Finance persons?
+  * Only Finance should export invoices.
 - In Report class add option to choose the field to use id, name or both?
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
@@ -98,6 +95,7 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - Impl sending alerts to all or specific persons. The messages would be displayed
   when the use just logs on or popup if the user is already logged on.
 - Prevent changing adding/editing cost components once costing is approved/invoiced.
+  * Programme so only the approver can edit after approval?
 - Display message if an object's dialog is closed but not saved.
 - Lock job costing after it is approved. Allow assigned department to edit?
 - Costing templates takes long to appear when dropdown is first selected. Fix!
