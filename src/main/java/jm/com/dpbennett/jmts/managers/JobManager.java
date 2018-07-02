@@ -178,7 +178,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         getJobSearchResultList().get(event.getRowIndex()).
                 getClient().setAccountingId(getAccPacCustomer().getId());
         getJobSearchResultList().get(event.getRowIndex()).
-                getClient().setAccountingId(getAccPacCustomer().getId());
+                getClient().setEditedBy(getUser().getEmployee());
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().save(getEntityManager1());
     }
 
     private void init() {

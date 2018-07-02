@@ -12,10 +12,8 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate.
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
-- Add accountingId to client 
-  * Create "autocomplete" column in Job Costings table to select accpac 
-    customer and Id as "accountingId". Show this col. only to Finance persons?
-  * Only Finance should export invoices.
+- Only Finance should export invoices.
+- Impl invoice export.
 - In Report class add option to choose the field to use id, name or both?
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
@@ -129,6 +127,8 @@ This release will be around early July.
   person who completes the job?
 - Do screen shots showing how to add subcontracted job costings as part of 
   training.
+- Note in doc that only if dept can edit invoice and payment then certain 
+  fields and columns will show.
 
   
 

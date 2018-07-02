@@ -62,7 +62,8 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.client.accountingId}" >
+        <p:column sortBy="#{job.client.accountingId}" 
+                  rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
             <f:facet name="header">
                 <h:outputText value="Client Id"/>
             </f:facet>
