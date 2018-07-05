@@ -1,7 +1,7 @@
 # Things to do
 
 Status Update Notes for June 4 - June 8, 2018
-- Add users, update databse, etc. under sys admin
+- Add users, update database, etc. under sys admin
 - Mention work on BPM 
 
 - Junior Gordon, ext 3460.
