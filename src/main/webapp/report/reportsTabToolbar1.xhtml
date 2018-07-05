@@ -34,10 +34,12 @@ Email: info@dpbennett.com.jm
                              style="width: 150px"
                              disabled="#{!reportManager.canExportCurrentPeriodJobReport}"
                              immediate="true"
-                             actionListener="#{reportManager.updateJobReport}"
+                             actionListener="#{reportManager.updateReport}"
                              update="longProgressDialogForm3"
                              onclick="longProcessDialogVar3.show();" >
+                
                 <p:fileDownload value="#{reportManager.reportFile}" />
+                
             </p:commandButton>
         </p:toolbarGroup>
     </p:toolbar>

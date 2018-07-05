@@ -50,6 +50,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
+import jm.com.dpbennett.business.entity.AccPacDocument;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.BusinessOffice;
@@ -87,6 +88,7 @@ import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.Tab;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.CellEditEvent;
 
 /**
  *
@@ -145,12 +147,40 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private DialogActionHandler dialogActionHandler;
     private Dashboard dashboard;
     private MainTabView mainTabView;
+    private AccPacCustomer accPacCustomer;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public JobManager() {
         init();
+    }
+
+    public void updateAccPacCustomer(SelectEvent event) {
+        EntityManager em = getEntityManager2();
+
+        accPacCustomer = AccPacCustomer.findByName(em, accPacCustomer.getCustomerName().trim());
+    }
+
+    public AccPacCustomer getAccPacCustomer() {
+        if (accPacCustomer == null) {
+            accPacCustomer = new AccPacCustomer();
+        }
+        return accPacCustomer;
+    }
+
+    public void setAccPacCustomer(AccPacCustomer accPacCustomer) {
+        this.accPacCustomer = accPacCustomer;
+    }
+
+    public void onJobCostingCellEdit(CellEditEvent event) {
+        
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().setAccountingId(getAccPacCustomer().getId());
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().setEditedBy(getUser().getEmployee());
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().save(getEntityManager1());
     }
 
     private void init() {
@@ -166,7 +196,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         useAccPacCustomerList = false;
         dynamicTabView = true;
         renderSearchComponent = true;
-        jobSearchResultList = new ArrayList<>();       
+        jobSearchResultList = new ArrayList<>();
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
         // Search fields init
@@ -175,7 +205,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 "dateAndTimeEntered", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
     }
-    
+
     public LegalDocumentManager getLegalDocumentManager() {
         if (legalDocumentManager == null) {
             legalDocumentManager = Application.findBean("legalDocumentManager");
@@ -183,7 +213,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return legalDocumentManager;
     }
-    
+
     public ContractManager getContractManager() {
         if (contractManager == null) {
             contractManager = Application.findBean("contractManager");
@@ -191,7 +221,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return contractManager;
     }
-    
+
     public JobSampleManager getJobSampleManager() {
         if (jobSampleManager == null) {
             jobSampleManager = Application.findBean("jobSampleManager");
@@ -199,7 +229,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return jobSampleManager;
     }
-    
+
     public FinanceManager getFinanceManager() {
         if (financeManager == null) {
             financeManager = Application.findBean("financeManager");
@@ -207,7 +237,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return financeManager;
     }
-    
+
     public ReportManager getReportManager() {
         if (reportManager == null) {
             reportManager = Application.findBean("reportManager");
@@ -2049,30 +2079,25 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     }
 
+    public List<Job> findJobs(Boolean includeSampleSearch) {
+        return Job.findJobsByDateSearchField(getEntityManager1(),
+                getUser(),
+                getDateSearchPeriod().getDateField(),
+                "",
+                getSearchType(),
+                getSearchText(),
+                getDateSearchPeriod().getStartDate(),
+                getDateSearchPeriod().getEndDate(),
+                includeSampleSearch);
+    }
+
     public void doJobSearch() {
 
         if (getUser().getId() != null) {
-            EntityManager em = getEntityManager1();
-            jobSearchResultList = Job.findJobsByDateSearchField(em,
-                    getUser(),
-                    //getDateSearchField(),
-                    getDateSearchPeriod().getDateField(),
-                    "",
-                    getSearchType(),
-                    getSearchText(),
-                    getDateSearchPeriod().getStartDate(),
-                    getDateSearchPeriod().getEndDate(), false);
+            jobSearchResultList = findJobs(false);
 
             if (jobSearchResultList.isEmpty()) { // Do search with sample search enabled
-                jobSearchResultList = Job.findJobsByDateSearchField(em,
-                        getUser(),
-                        //getDateSearchField(),
-                        getDateSearchPeriod().getDateField(),
-                        "",
-                        getSearchType(),
-                        getSearchText(),
-                        getDateSearchPeriod().getStartDate(),
-                        getDateSearchPeriod().getEndDate(), true);
+                jobSearchResultList = findJobs(true);
             }
 
         } else {

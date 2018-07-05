@@ -5,18 +5,22 @@ Status Update Notes for June 4 - June 8, 2018
 - Mention work on BPM 
 
 - Junior Gordon, ext 3460.
+- Notebook pc id: 1071630001, pwd: 9556
 
-Month 1 modules: Job Management, Legal Office, Client Management
-Month 2 modules: Standards Compliance, Certification, Foods Inspectorate
+Month 1 modules: Job Management, Legal Office, Client Management.
+Month 2 modules: Standards Compliance, Certification, Foods Inspectorate.
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
+- Only Finance should export invoices.
+- Impl invoice export.
 - In Report class add option to choose the field to use id, name or both?
-- Impl adding, departments, employees and clients to report template.
+- Impl finance report showing jobs that are supposed to have deposits but don't
+  "Jobs Requiring Deposits" as the report.
 - Update report template form to include multiple date periods, departments, employee
   clients etc..
 - Impl and add Legal reports. 
-- Add report template for legal
+- Add report template for legal.
 - Impl "ComplianceSurveyDialogForm"  
 - Impl "dirty" and save() for each "subclass" and save only when dirty. 
 - Replace update*() with single update**() method where possible.
@@ -89,6 +93,7 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - Impl sending alerts to all or specific persons. The messages would be displayed
   when the use just logs on or popup if the user is already logged on.
 - Prevent changing adding/editing cost components once costing is approved/invoiced.
+  * Programme so only the approver can edit after approval?
 - Display message if an object's dialog is closed but not saved.
 - Lock job costing after it is approved. Allow assigned department to edit?
 - Costing templates takes long to appear when dropdown is first selected. Fix!
@@ -120,6 +125,10 @@ This release will be around early July.
   "Handling keep alive session..." in debugging mode.
 - Should the person who "flags" the job as being completed be entered as the
   person who completes the job?
+- Do screen shots showing how to add subcontracted job costings as part of 
+  training.
+- Note in doc that only if dept can edit invoice and payment then certain 
+  fields and columns will show.
 
   
 

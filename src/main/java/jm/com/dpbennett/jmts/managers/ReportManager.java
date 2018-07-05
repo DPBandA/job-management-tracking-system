@@ -507,12 +507,12 @@ public class ReportManager implements Serializable {
 
     public void handleCurrentPeriodStartDateSelect(SelectEvent event) {
         reportSearchParameters.getDatePeriod().setStartDate((Date) event.getObject());
-        updateJobReport();
+        updateReport();
     }
 
     public void handleCurrentPeriodEndDateSelect(SelectEvent event) {
         reportSearchParameters.getDatePeriod().setEndDate((Date) event.getObject());
-        updateJobReport();
+        updateReport();
     }
 
     public void setReportSearchParameters(SearchParameters reportSearchParameters) {
@@ -942,7 +942,7 @@ public class ReportManager implements Serializable {
     }
 
     public void refreshJobReport() {
-        updateJobReport();
+        updateReport();
     }
 
     public void updateServiceContract() {
@@ -975,7 +975,7 @@ public class ReportManager implements Serializable {
 
     }
 
-    public void updateJobReport() {
+    public void updateReport() {
 
         EntityManager em = getEntityManager1();
 
@@ -1195,28 +1195,24 @@ public class ReportManager implements Serializable {
     }
 
     public void updateReportDateField() {
-        updateJobReport();
+        updateReport();
     }
 
     public void changeCurrentDateSearchPeriod() {
         reportSearchParameters.getDatePeriod().initDatePeriod();
-        updateJobReport();
+        updateReport();
     }
 
     public void changeMonthlyReportDatePeriods() {
         getMonthlyReportDatePeriod().initDatePeriod();
         getMonthlyReportDataDatePeriod().initDatePeriod();
         getMonthlyReportYearDatePeriod().initDatePeriod();
-        updateJobReport();
+        updateReport();
     }
 
     public void changePreviousDateSearchPeriod() {
         previousDatePeriod.initDatePeriod();
-        updateJobReport();
-    }
-
-    public void updateReport() {
-        System.out.println("updating report...");
+        updateReport();
     }
 
     public void updateReportCategory() {
@@ -1232,7 +1228,7 @@ public class ReportManager implements Serializable {
             Department department = Department.findDepartmentByName(em, getReportingDepartment().getName());
             if (department != null) {
                 reportingDepartment = department;
-                updateJobReport();
+                updateReport();
             }
 
         } catch (Exception e) {

@@ -78,7 +78,7 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right" >               
-            <p:menuButton value="Tools" >
+            <p:menuButton value="Tools">
 
                 <p:menuitem value="Client management"
                             onstart="PF('longProcessDialogVar').show();"                                                    
@@ -93,7 +93,17 @@ Email: info@dpbennett.com.jm
                             oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
                             onerror="PF('connectionErrorDialog').show();"
                             process="@this"/>                
+                <p:separator />
+                <p:menuitem value="Export Accpac Invoices"                            
+                            ajax="false"
+                            immediate="true"
+                            actionListener="#{reportManager.updateReport}"
+                            update="longProgressDialogForm3"
+                            onclick="longProcessDialogVar3.show();" >
 
+                    <p:fileDownload value="#{reportManager.reportFile}" />
+
+                </p:menuitem>
                 <p:separator />
                 <p:menuitem value="Reports"
                             onstart="PF('longProcessDialogVar').show();"                                                    

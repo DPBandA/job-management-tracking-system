@@ -28,6 +28,8 @@ Email: info@dpbennett.com.jm
                  var="job"
                  paginator="true"
                  rows="15"  
+                 editable="true" 
+                 editMode="cell"
                  rowStyleClass="#{job.rowStyle}"
                  selection="#{jobManager.selectedJobs}"
                  resizableColumns="false"                 
@@ -38,6 +40,8 @@ Email: info@dpbennett.com.jm
                 onstart="PF('longProcessDialogVar').show();" 
                 oncomplete="PF('longProcessDialogVar').hide();" />
 
+        <p:ajax event="cellEdit" listener="#{jobManager.onJobCostingCellEdit}" />
+
         <f:facet name="header">
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
@@ -46,7 +50,7 @@ Email: info@dpbennett.com.jm
 
         <p:column sortBy="#{job.jobNumber}" >
             <f:facet name="header">
-                <h:outputText value="Job number"/>
+                <h:outputText value="Job #"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
@@ -57,6 +61,31 @@ Email: info@dpbennett.com.jm
             </f:facet>
             <h:outputText value="#{job.client.name}" />
         </p:column>    
+
+        <p:column sortBy="#{job.client.accountingId}" 
+                  rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
+            <f:facet name="header">
+                <h:outputText value="Client Id"/>
+            </f:facet>
+
+            <p:cellEditor>
+                <f:facet name="output"> <h:outputText value="#{job.client.accountingId}" /></f:facet>
+                <f:facet name="input" >
+                    <p:autoComplete forceSelection="true"
+                                    id="accountingId"
+                                    size="10"                                        
+                                    scrollHeight="200" 
+                                    value="#{jobManager.accPacCustomer.customerName}"                           
+                                    completeMethod="#{App.completeAccPacClient}" >      
+
+                        <p:ajax event="itemSelect"
+                                listener="#{jobManager.updateAccPacCustomer}"
+                                update="accountingId" />
+
+                    </p:autoComplete>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
 
         <p:column sortBy="#{job.classification.name}" >
             <f:facet name="header">
