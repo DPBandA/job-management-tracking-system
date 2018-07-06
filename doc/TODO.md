@@ -14,7 +14,22 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 ## Next release (May 24-25, 2018)
 - Impl invoice export.
   * Impl generation of invoice #. Use IN{dept.}{year}{Job seq. #}/{subcon. dept code or 00}
-  * Impl long process dialog.
+  * Impl long process dialog or use onclick="PrimeFaces.monitorDownload(start, stop);
+    where: 
+    <p:dialog modal="true" widgetVar="statusDialog" header="Status" 
+       draggable="false" closable="false" resizable="false">
+        <p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+    </p:dialog>
+
+    <script type="text/javascript">
+    function start() {
+        PF('statusDialog').show();
+    } 
+    function stop() {
+        PF('statusDialog').hide();
+    }
+    </script>
+    
 - Impl selection of distribution ID.
 - In Report class add option to choose the field to use id, name or both?
 - Impl finance report showing jobs that are supposed to have deposits but don't
