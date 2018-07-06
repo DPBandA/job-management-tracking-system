@@ -20,6 +20,10 @@ Email: info@dpbennett.com.jm
 package jm.com.dpbennett.jmts.managers;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -71,6 +75,9 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 
@@ -123,6 +130,156 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
      */
     public FinanceManager() {
         init();
+    }
+    
+    
+
+    public StreamedContent getAccpacInvoicesFile() {
+
+        try {
+            ByteArrayInputStream stream;
+
+            stream = getAccpacInvoicesFileInputStream(
+                    new File(getClass().getClassLoader().
+                            getResource("/reports/" + 
+                                    SystemOption.findSystemOptionByName(getEntityManager1(), 
+                                            "AccpacInvoicesFileTemplateName").getOptionValue()).getFile()));
+
+            return new DefaultStreamedContent(stream, 
+                    "application/xlsx", 
+                    SystemOption.findSystemOptionByName(getEntityManager1(), "AccpacInvoicesFileTemplateName").getOptionValue());
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+        return null;
+    }
+    
+    public ByteArrayInputStream getAccpacInvoicesFileInputStream(
+            File file) {
+
+        try {
+            FileInputStream inp = new FileInputStream(file);
+            int row = 1;
+            int col = 0;
+            int cell = 0;
+
+            XSSFWorkbook wb = new XSSFWorkbook(inp);
+            XSSFCellStyle stringCellStyle = wb.createCellStyle();
+            XSSFCellStyle longCellStyle = wb.createCellStyle();
+            XSSFCellStyle integerCellStyle = wb.createCellStyle();
+            XSSFCellStyle doubleCellStyle = wb.createCellStyle();
+            XSSFCellStyle dateCellStyle = wb.createCellStyle();
+
+            // Output stream for modified Excel file
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            // Get sheets          
+            XSSFSheet invoices = wb.getSheet("Invoices");
+            XSSFSheet invoiceDetails = wb.getSheet("Invoice_Details");
+           
+            // Get report data
+//            List<Object[]> reportData = null; // tk
+//                    Job.getCompletedJobRecords(
+//                    getEntityManager1(),
+//                    BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getStartDate(), "'", "YMD", "-"),
+//                    BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getEndDate(), "'", "YMD", "-"),
+//                    departmentId);
+
+            // Fill in report data            
+//            for (Object[] rowData : reportData) {
+//                col = 0;
+                //  Employee/Assignee
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (String) rowData[7],
+//                        "java.lang.String", stringCellStyle);
+//                // No. samples
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (Long) rowData[9],
+//                        "java.lang.Long", longCellStyle);
+//                // No. tests/calibrations
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (Integer) rowData[10],
+//                        "java.lang.Integer", integerCellStyle);
+//                // No. tests
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (Integer) rowData[11],
+//                        "java.lang.Integer", integerCellStyle);
+//                // No. calibrations
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (Integer) rowData[12],
+//                        "java.lang.Integer", integerCellStyle);
+//                // Total cost
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (Double) rowData[8],
+//                        "java.lang.Double", doubleCellStyle);
+//                //  Completion date
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (Date) rowData[6],
+//                        "java.util.Date", dateCellStyle);
+//                //  Expected completion date
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (Date) rowData[13],
+//                        "java.util.Date", dateCellStyle);
+//                // Job numbers
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (String) rowData[14],
+//                        "java.lang.String", stringCellStyle);
+//                // Sample description
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (String) rowData[0],
+//                        "java.lang.String", stringCellStyle);
+//                // Client/Source
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (String) rowData[15],
+//                        "java.lang.String", stringCellStyle);
+//                //  Date submitted
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (Date) rowData[16],
+//                        "java.util.Date", dateCellStyle);
+//                // Sector
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (String) rowData[17],
+//                        "java.lang.String", stringCellStyle);
+//                // Turnaround time status
+//                if ((rowData[6] != null) && (rowData[13] != null)) {
+//                    BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                            ((Date) rowData[6]).getTime() > ((Date) rowData[13]).getTime()
+//                            ? "late" : "on-time",
+//                            "java.lang.String", stringCellStyle);
+//                } else {
+//                    BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                            "",
+//                            "java.lang.String", stringCellStyle);
+//                }
+//                // Classification
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (String) rowData[18],
+//                        "java.lang.String", stringCellStyle);
+//                // Category
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (String) rowData[19],
+//                        "java.lang.String", stringCellStyle);
+//                // subcategory
+//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
+//                        (String) rowData[20],
+//                        "java.lang.String", stringCellStyle);
+
+//                row++;
+//
+//            }
+
+            // Write modified Excel file and return it
+            wb.write(out);
+
+            return new ByteArrayInputStream(out.toByteArray());
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+
+        return null;
     }
 
     public Boolean getEdit() {
@@ -682,10 +839,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         if (getSelectedCashPayment().getId() == null) {
             updateFinalCost();
             updateAmountDue();
-           
+
             if (!getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Payment and Job NOT Saved!", "Payment and the job and the payment were NOT saved!", FacesMessage.SEVERITY_ERROR);
-            }           
+            }
         }
     }
 
@@ -1110,7 +1267,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void closelJobCostingDialog() {
-        //setJobCostingAndPaymentDirty(false);
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
@@ -1173,8 +1329,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean validateCurrentJobCosting() {
-
-        EntityManager em = getEntityManager1();
 
         try {
             // check for valid job
@@ -1541,7 +1695,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateAmountDue() {
-        //currentJob.getJobCostingAndPayment().setAmountDue(currentJob.getJobCostingAndPayment().calculateAmountDue());
         setJobCostingAndPaymentDirty(true);
     }
 
@@ -1926,7 +2079,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             if (jcp != null) {
                 getCurrentJob().getJobCostingAndPayment().getCostComponents().clear();
                 getCurrentJob().getJobCostingAndPayment().setCostComponents(copyCostComponents(jcp.getCostComponents()));
-                //currentJob.getJobCostingAndPayment().calculateAmountDue();
+
                 setJobCostingAndPaymentDirty(true);
             } else {
                 // Nothing yet
@@ -1988,23 +2141,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         return newCostComponents;
     }
 
-//    public void createSampleBasedJobCostings(JobCostingAndPayment jobCostingAndPayment) {
-//        if (currentJob.getJobCostingAndPayment().getAllSortedCostComponents().isEmpty()) {
-//            // Add all existing samples as cost oomponents            
-//            for (JobSample jobSample : currentJob.getJobSamples()) {
-//                jobCostingAndPayment.getAllSortedCostComponents().add(new CostComponent(jobSample.getDescription()));
-//            }
-//        } else if (currentJob.getJobSamples().size() > currentJob.getJobCostingAndPayment().getAllSortedCostComponents().size()) {
-//        }
-//    }
-//    public void createDefaultJobCostings(JobCostingAndPayment jobCostingAndPayment) {
-//
-//        if (currentJob.getJobCostingAndPayment().getCostComponents().isEmpty()) {
-//            jobCostingAndPayment.getCostComponents().add(new CostComponent("List of Assessments", Boolean.TRUE));
-//            jobCostingAndPayment.getCostComponents().add(new CostComponent(""));
-//        }
-//
-//    }
     public Date getCurrentDate() {
         return new Date();
     }
