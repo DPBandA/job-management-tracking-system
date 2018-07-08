@@ -103,7 +103,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
 
             em = getEntityManager1();
 
-            String filePath = SystemOption.findSystemOptionByName(em, "serviceContract").getOptionValue();
+            String filePath = (String) SystemOption.getOptionValueObject(em, "serviceContract");
             FileInputStream stream = createServiceContractExcelFileInputStream(em, getUser(), getCurrentJob().getId(), filePath);
 
             // tk remove?

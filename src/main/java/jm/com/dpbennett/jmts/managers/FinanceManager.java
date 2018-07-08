@@ -142,12 +142,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             stream = getAccpacInvoicesFileInputStream(
                     new File(getClass().getClassLoader().
                             getResource("/reports/" + 
-                                    SystemOption.findSystemOptionByName(getEntityManager1(), 
-                                            "AccpacInvoicesFileTemplateName").getOptionValue()).getFile()));
+                                    (String) SystemOption.getOptionValueObject(getEntityManager1(), 
+                                            "AccpacInvoicesFileTemplateName")).getFile()));
 
             return new DefaultStreamedContent(stream, 
                     "application/xlsx", 
-                    SystemOption.findSystemOptionByName(getEntityManager1(), "AccpacInvoicesFileTemplateName").getOptionValue());
+                    (String) SystemOption.getOptionValueObject(getEntityManager1(), "AccpacInvoicesFileTemplateName"));
 
         } catch (Exception ex) {
             System.out.println(ex);
@@ -643,7 +643,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         EntityManager em = getEntityManager1();
 
-        int days = Integer.parseInt(SystemOption.findSystemOptionByName(em, "maxDaysPassInvoiceDate").getOptionValue());
+        int days = Integer.parseInt((String) SystemOption.getOptionValueObject(em, "maxDaysPassInvoiceDate"));
 
         return days;
     }
@@ -716,16 +716,16 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             parameters.put("grandTotalCost", getCurrentJob().getJobCostingAndPayment().getTotalCost());
 
             Connection con = BusinessEntityUtils.establishConnection(
-                    SystemOption.findSystemOptionByName(em, "defaultDatabaseDriver").getOptionValue(),
-                    SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
-                    SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
-                    SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
 
             if (con != null) {
                 try {
                     StreamedContent streamContent;
                     // generate report
-                    JasperPrint print = JasperFillManager.fillReport(SystemOption.findSystemOptionByName(em, "jobCosting").getOptionValue(), parameters, con);
+                    JasperPrint print = JasperFillManager.fillReport((String) SystemOption.getOptionValueObject(em, "jobCosting"), parameters, con);
 
                     byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
 
@@ -2320,7 +2320,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             // Get and set default email using company domain
             EntityManager em = getEntityManager1();
 
-            String listAsString = SystemOption.findSystemOptionByName(em, "domainNames").getOptionValue();
+            String listAsString = (String) SystemOption.getOptionValueObject(em, "domainNames");
             String domainNames[] = listAsString.split(";");
 
             JobManagerUser user = JobManagerUser.findJobManagerUserByEmployeeId(em, employee.getId());
@@ -2345,7 +2345,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public Department getDepartmentBySystemOptionDeptId(String option) {
         EntityManager em = getEntityManager1();
 
-        Long id = Long.parseLong(SystemOption.findSystemOptionByName(em, option).getOptionValue());
+        Long id = (Long) SystemOption.getOptionValueObject(em, option);
 
         Department department = Department.findDepartmentById(em, id);
         em.refresh(department);
@@ -2358,17 +2358,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean getIsMemberOfAccountsDept() {
-        if (getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("accountsDepartmentId"))) {
-            return true;
-        }
-        return false;
+        return getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("accountsDepartmentId"));
     }
 
     public Boolean getIsMemberOfCustomerServiceDept() {
-        if (getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("customerServiceDeptId"))) {
-            return true;
-        }
-        return false;
+        return getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("customerServiceDeptId"));
     }
 
     public List<SelectItem> getGCTPercentages() { // tk put in a costing entity
@@ -2386,8 +2380,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             EntityManager em = getEntityManager1();
 
-            String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
-            String listAsString = SystemOption.findSystemOptionByName(em, "GCTPercentageList").getOptionValue();
+            String itemSep = (String) SystemOption.getOptionValueObject(em, "defaultListItemSeparationCharacter");
+            String listAsString = (String) SystemOption.getOptionValueObject(em, "GCTPercentageList");
             String percentage[] = listAsString.split(itemSep);
 
             for (String percent : percentage) {

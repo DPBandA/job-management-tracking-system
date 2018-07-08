@@ -2364,15 +2364,11 @@ public class ReportManager implements Serializable {
                 report = getLatestJobReport(em);
                 String reportFileURL = getReport().getReportFile();
 
-//                Connection con = BusinessEntityUtils.establishConnection(getReport().getDatabaseDriverClass(),
-//                        getReport().getDatabaseURL(),
-//                        getReport().getDatabaseUsername(),
-//                        getReport().getDatabasePassword());
                 Connection con = BusinessEntityUtils.establishConnection(
-                        SystemOption.findSystemOptionByName(em, "defaultDatabaseDriver").getOptionValue(),
-                        SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
-                        SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
-                        SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
+                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+                        (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
 
                 if (con != null) {
                     StreamedContent streamContent;
@@ -2423,10 +2419,10 @@ public class ReportManager implements Serializable {
                 String reportFileURL = getReport().getReportFile();
 
                 Connection con = BusinessEntityUtils.establishConnection(
-                        SystemOption.findSystemOptionByName(em, "defaultDatabaseDriver").getOptionValue(),
-                        SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
-                        SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
-                        SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
+                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+                        (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
 
                 if (con != null) {
                     StreamedContent streamContent;
@@ -2480,10 +2476,10 @@ public class ReportManager implements Serializable {
             String reportFileURL = getReport().getReportFile();
 
             Connection con = BusinessEntityUtils.establishConnection(
-                    SystemOption.findSystemOptionByName(em, "defaultDatabaseDriver").getOptionValue(),
-                    SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
-                    SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
-                    SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
 
             if (con != null) {
                 StreamedContent streamContent;

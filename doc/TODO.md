@@ -12,6 +12,12 @@ Month 2 modules: Standards Compliance, Certification, Foods Inspectorate.
 Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
+- Impl getting system option by object type 
+  * Fix String listAsString = (String) SystemOption.getOptionValueObject(em, "workProgressList");
+    getStringListAsSelectItems, getStringListAsSortableSelectItems and other code that uses String where List<String> is returned.
+  * Add comboboxes for valueType and category in the system option dialog.
+  * Check out Integer.parseInt and other code that do convertion of the option and change them
+- Add system option to display system option for "Handling keep alive session..." in debugging mode.
 - Impl invoice export.
   * Impl generation of invoice #. Use IN{dept.}{year}{Job seq. #}/{subcon. dept code or 00}
   * Impl long process dialog or use onclick="PrimeFaces.monitorDownload(start, stop);
@@ -138,14 +144,4 @@ This release will be around early July.
 - Please let the GCT default to 16.5% except for activities done by NCRA. 
   Therefore if NCRA subcontracts a job to BSJ, the GCT would carried only for the BSJ job.
 - Do draft proposal re 360/Elastic search for Orville and next contract.
-- Impl getting system option by object type and Add system option to display 
-  "Handling keep alive session..." in debugging mode.
-- Should the person who "flags" the job as being completed be entered as the
-  person who completes the job?
-- Do screen shots showing how to add subcontracted job costings as part of 
-  training.
-- Note in doc that only if dept can edit invoice and payment then certain 
-  fields and columns will show.
-
-  
 

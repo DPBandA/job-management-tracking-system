@@ -176,7 +176,7 @@ public class Application {
         ArrayList list = new ArrayList();
         EntityManager em = getEntityManager1();
 
-        String listAsString = SystemOption.findSystemOptionByName(em, "workProgressList").getOptionValue();
+        String listAsString = (String) SystemOption.getOptionValueObject(em, "workProgressList");
         String progressName[] = listAsString.split(";");
 
         for (String name : progressName) {
@@ -287,12 +287,15 @@ public class Application {
      */
     public List getMethodsOfDisposal() {
         ArrayList methods = new ArrayList();
-        SystemOption sysOption
-                = SystemOption.findSystemOptionByName(getEntityManager1(),
+        
+        // tk to be replaced by the user's organization
+        String sysOption
+                = (String) SystemOption.getOptionValueObject(getEntityManager1(),
                         "organizationName");
+        
         methods.add(new SelectItem("1", "Collected by the client within 30 days"));
         if (sysOption != null) {
-            methods.add(new SelectItem("2", "Disposed of by " + sysOption.getOptionValue()));
+            methods.add(new SelectItem("2", "Disposed of by " + sysOption));
         } else {
             methods.add(new SelectItem("2", "Disposed of by us"));
         }
@@ -554,7 +557,7 @@ public class Application {
 
             constraints.setReturningAttributes(attrIDs);
 
-            String name = SystemOption.findSystemOptionByName(em, "ldapContextName").getOptionValue();
+            String name = (String) SystemOption.getOptionValueObject(em, "ldapContextName");
             NamingEnumeration answer = ctx.search(name, "SAMAccountName=" + username, constraints);
             
             
@@ -730,9 +733,9 @@ public class Application {
             String systemOption/*, 
              String itemSeparator*/) {
         ArrayList list = new ArrayList();
-        String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
+        String itemSep = (String) SystemOption.getOptionValueObject(em, "defaultListItemSeparationCharacter");
 
-        String listAsString = SystemOption.findSystemOptionByName(em, systemOption).getOptionValue();
+        String listAsString = (String) SystemOption.getOptionValueObject(em, systemOption);
         String string[] = listAsString.split(itemSep);
 
         for (String name : string) {
@@ -745,9 +748,9 @@ public class Application {
     public static List<SortableSelectItem> getStringListAsSortableSelectItems(EntityManager em,
             String systemOption) {
         ArrayList list = new ArrayList();
-        String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
+        String itemSep = (String) SystemOption.getOptionValueObject(em, "defaultListItemSeparationCharacter");
 
-        String listAsString = SystemOption.findSystemOptionByName(em, systemOption).getOptionValue();
+        String listAsString = (String) SystemOption.getOptionValueObject(em, systemOption);
         String string[] = listAsString.split(itemSep);
 
         for (String name : string) {
@@ -786,9 +789,9 @@ public class Application {
     public static List<DataItem> getStringListAsSortableDataItems(EntityManager em,
             String systemOption) {
         ArrayList list = new ArrayList();
-        String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
+        String itemSep = (String) SystemOption.getOptionValueObject(em, "defaultListItemSeparationCharacter");
 
-        String listAsString = SystemOption.findSystemOptionByName(em, systemOption).getOptionValue();
+        String listAsString = (String) SystemOption.getOptionValueObject(em, systemOption);
         String string[] = listAsString.split(itemSep);
 
         for (String name : string) {

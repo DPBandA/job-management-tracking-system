@@ -413,17 +413,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getApplicationHeader() {
-        SystemOption option = SystemOption.findSystemOptionByName(getEntityManager1(),
+        String option = (String) SystemOption.getOptionValueObject(getEntityManager1(),
                 "applicationHeader");
 
-        return (option != null ? option.getOptionValue() : "Job Management & Tracking System");
+        return (!"".equals(option) ? option : "Job Management & Tracking System");
 
     }
 
     public String getApplicationSubheader() {
-        String subHeader = SystemOption.findSystemOptionByName(
+        String subHeader = (String) SystemOption.getOptionValueObject(
                 getEntityManager1(),
-                "applicationSubheader").getOptionValue();
+                "applicationSubheader");
 
         if (subHeader != null) {
             if (subHeader.trim().equals("None")) {
@@ -1490,6 +1490,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob.getJobStatusAndTracking().setDocumentCollected(false);
                 // overall job completion
                 currentJob.getJobStatusAndTracking().setDateOfCompletion(null);
+                currentJob.getJobStatusAndTracking().
+                        setCompletedBy(null);
                 // sample collection
                 currentJob.getJobStatusAndTracking().setSamplesCollectedBy(null);
                 currentJob.getJobStatusAndTracking().setDateSamplesCollected(null);
@@ -1508,6 +1510,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             } else {
                 currentJob.getJobStatusAndTracking().setCompleted(true);
                 currentJob.getJobStatusAndTracking().setDateOfCompletion(new Date());
+                currentJob.getJobStatusAndTracking().
+                        setCompletedBy(getUser().getEmployee());
             }
 
             setIsDirty(true);
@@ -2409,7 +2413,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (mailSession == null) {
             //Set the host smtp address
             Properties props = new Properties();
-            String mailServer = SystemOption.findSystemOptionByName(getEntityManager1(), "mail.smtp.host").getOptionValue();
+            String mailServer = (String) SystemOption.getOptionValueObject(getEntityManager1(), "mail.smtp.host");
             props.put("mail.smtp.host", mailServer);
 
             // create some properties and get the default Session
@@ -2421,8 +2425,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
 
         // set the from and to address
-        String email = SystemOption.findSystemOptionByName(em, "jobManagerEmailAddress").getOptionValue();
-        String name = SystemOption.findSystemOptionByName(em, "jobManagerEmailName").getOptionValue();
+        String email = (String) SystemOption.getOptionValueObject(em, "jobManagerEmailAddress");
+        String name = (String) SystemOption.getOptionValueObject(em, "jobManagerEmailName");
         InternetAddress addressFrom = new InternetAddress(email, name); // option job manager email addres
         msg.setFrom(addressFrom);
 
@@ -2430,8 +2434,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (user != null) {
             addressTo[0] = new InternetAddress(user.getUsername(), user.getEmployee().getFirstName() + " " + user.getEmployee().getLastName());
         } else {
-            String email1 = SystemOption.findSystemOptionByName(em, "administratorEmailAddress").getOptionValue();
-            String name1 = SystemOption.findSystemOptionByName(em, "administratorEmailName").getOptionValue();
+            String email1 = (String) SystemOption.getOptionValueObject(em, "administratorEmailAddress");
+            String name1 = (String) SystemOption.getOptionValueObject(em, "administratorEmailName");
             addressTo[0] = new InternetAddress(email1, name1);
         }
 
@@ -2458,8 +2462,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (mailSession == null) {
                 //Set the host smtp address
                 Properties props = new Properties();
-                String mailServer = SystemOption.findSystemOptionByName(em, "mail.smtp.host").getOptionValue();
-                String trust = SystemOption.findSystemOptionByName(em, "mail.smtp.ssl.trust").getOptionValue();
+                String mailServer = (String) SystemOption.getOptionValueObject(em, "mail.smtp.host");
+                String trust = (String) SystemOption.getOptionValueObject(em, "mail.smtp.ssl.trust");
                 props.put("mail.smtp.host", mailServer);
                 props.setProperty("mail.smtp.ssl.trust", trust);
 
@@ -2472,8 +2476,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
 
             // set the from and to address
-            String email = SystemOption.findSystemOptionByName(em, "jobManagerEmailAddress").getOptionValue();
-            String name = SystemOption.findSystemOptionByName(em, "jobManagerEmailName").getOptionValue();
+            String email = (String) SystemOption.getOptionValueObject(em, "jobManagerEmailAddress");
+            String name = (String) SystemOption.getOptionValueObject(em, "jobManagerEmailName");
             InternetAddress addressFrom = new InternetAddress(email, name);
             msg.setFrom(addressFrom);
 
