@@ -1,16 +1,12 @@
-# Things to do
+## Things to do
 
+Documentation:
+- Use Infrastructure Software Modules for Enterprises modules description to document 
+  the system refering to the JMTS/BEL classes that implement the various modules.
 Next Status Update Notes
 - Add users, update database, etc. under sys admin
 - Mention work on BPM 
 - Mention development and testing of infrastructure modules of the JMTS.
-
-- Junior Gordon, ext 3460.
-- Notebook pc id: 1071630001, pwd: 9556
-
-Month 1 modules: Job Management, Legal Office, Client Management.
-Month 2 modules: Standards Compliance, Certification, Foods Inspectorate.
-Month 3 modules: Legal Metrology, Task Management, Service Request.
 
 ## Next release (May 24-25, 2018)
 - Impl getting system option by object type 
