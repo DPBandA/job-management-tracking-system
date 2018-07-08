@@ -9,9 +9,8 @@ Next Status Update Notes
 - Mention development and testing of infrastructure modules of the JMTS.
 
 ## Next release (May 24-25, 2018)
-- Impl getting system option by object type 
-  * Fix String listAsString = (String) SystemOption.getOptionValueObject(em, "workProgressList");
-    getStringListAsSelectItems, getStringListAsSortableSelectItems and other code that uses String where List<String> is returned.
+- Impl getting system option by object type   
+  * Look at all SystemOption.getOptionValueObject( to see if they are used properly.
   * Add comboboxes for valueType and category in the system option dialog.
   * Check out Integer.parseInt and other code that do convertion of the option and change them
 - Add system option to display system option for "Handling keep alive session..." in debugging mode.

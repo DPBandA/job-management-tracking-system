@@ -172,14 +172,14 @@ public class Application {
         return forms;
     }
 
-    public List getWorkProgressList() {
+    // tk getStringListAsSelectItems
+    public List<SelectItem> getWorkProgressList() {
         ArrayList list = new ArrayList();
         EntityManager em = getEntityManager1();
 
-        String listAsString = (String) SystemOption.getOptionValueObject(em, "workProgressList");
-        String progressName[] = listAsString.split(";");
+        List<String> progressList = (List<String>) SystemOption.getOptionValueObject(em, "workProgressList");
 
-        for (String name : progressName) {
+        for (String name : progressList) {
             list.add(new SelectItem(name, name));
         }
 
@@ -287,12 +287,12 @@ public class Application {
      */
     public List getMethodsOfDisposal() {
         ArrayList methods = new ArrayList();
-        
+
         // tk to be replaced by the user's organization
         String sysOption
                 = (String) SystemOption.getOptionValueObject(getEntityManager1(),
                         "organizationName");
-        
+
         methods.add(new SelectItem("1", "Collected by the client within 30 days"));
         if (sysOption != null) {
             methods.add(new SelectItem("2", "Disposed of by " + sysOption));
@@ -559,8 +559,7 @@ public class Application {
 
             String name = (String) SystemOption.getOptionValueObject(em, "ldapContextName");
             NamingEnumeration answer = ctx.search(name, "SAMAccountName=" + username, constraints);
-            
-            
+
             if (!answer.hasMore()) { // assuming only one match
                 System.out.println("LDAP user not found!");
                 return Boolean.FALSE;
@@ -730,15 +729,13 @@ public class Application {
     }
 
     public static List<SelectItem> getStringListAsSelectItems(EntityManager em,
-            String systemOption/*, 
-             String itemSeparator*/) {
+            String systemOption) {
+
         ArrayList list = new ArrayList();
-        String itemSep = (String) SystemOption.getOptionValueObject(em, "defaultListItemSeparationCharacter");
 
-        String listAsString = (String) SystemOption.getOptionValueObject(em, systemOption);
-        String string[] = listAsString.split(itemSep);
+        List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
 
-        for (String name : string) {
+        for (String name : stringList) {
             list.add(new SelectItem(name, name));
         }
 
@@ -747,13 +744,12 @@ public class Application {
 
     public static List<SortableSelectItem> getStringListAsSortableSelectItems(EntityManager em,
             String systemOption) {
+
         ArrayList list = new ArrayList();
-        String itemSep = (String) SystemOption.getOptionValueObject(em, "defaultListItemSeparationCharacter");
 
-        String listAsString = (String) SystemOption.getOptionValueObject(em, systemOption);
-        String string[] = listAsString.split(itemSep);
+        List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
 
-        for (String name : string) {
+        for (String name : stringList) {
             list.add(new SortableSelectItem(name, name));
         }
 
