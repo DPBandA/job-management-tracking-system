@@ -1,7 +1,7 @@
 # Things to do
 
 Next Status Update Notes
-- Add users, update databse, etc. under sys admin
+- Add users, update database, etc. under sys admin
 - Mention work on BPM 
 - Mention development and testing of infrastructure modules of the JMTS.
 
