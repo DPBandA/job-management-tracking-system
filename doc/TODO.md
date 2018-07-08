@@ -1,8 +1,9 @@
 # Things to do
 
-Status Update Notes for June 4 - June 8, 2018
+Next Status Update Notes
 - Add users, update databse, etc. under sys admin
 - Mention work on BPM 
+- Mention development and testing of infrastructure modules of the JMTS.
 
 - Junior Gordon, ext 3460.
 - Notebook pc id: 1071630001, pwd: 9556
