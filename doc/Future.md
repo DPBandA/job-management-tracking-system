@@ -71,9 +71,11 @@ I am available to provide clarification if required.
 
 ## System Design and Implementation
 
-- Put number of recors found at tp of all search tables.
+- Impl List<Double> etc. and use them where needed such as with list of percentages.
+- Impl validation of option value type.
+- Put number of records found at tp of all search tables.
 - Make all dialogs external dialogs and messages. Start with address and contact dialogs.
-- Iml "login" in separate in login.xhtml file and make it the default page. Research best practices for implementing login screens.
+- Impl "login" in separate in login.xhtml file and make it the default page. Research best practices for implementing login screens.
 - Reload page when logo is pressed.
 - Job "Edited by" does not seem to be updated when job costing is edited and saved. Fix.
 - Get rid of individual business entity searches and implement "search panel" when the various search types. Implement business entity table that displays the search results.
@@ -414,6 +416,8 @@ and the results of the investigations.
 
 ## Client Management
 
+- Make address and contact dialogs external and implement adding contact/address 
+  via the client's action menu.
 - Search for any part of client in Client Management search.
 - Add priv to add/del contact/address.
 - Creating a new contact using the edit but for "Most recent contact" does not seem to work when there are not contacts in the list. Check why this happens.
@@ -450,6 +454,9 @@ use it
 
 ## Job Entry and Editing
 
+- Invalid billing address message appears even though a valid address is displayed
+  in the field. Check what could cause this and fix. This happened with 30/2018/4083.
+  Help solve by updating the jobs billing address with the recently edited client address/contact.
 - Do not allow saving of edited job once it is marked completed.
 - Do not flag job as completed until all group settings are selected.
 - Let the subcontracted department be null for parent job and change the job numbering
@@ -458,6 +465,9 @@ use it
 - Implement "Actions" menu in job tables that has "Edit", "Copy", "Subcontract". The privileges should be checked before doing so.
 - Validate the sample dialog info before closing it.
 - Check why GCT field shows yellow although it can be changed.
+- Job sample references seemingly get messed up when sample(s) is(are) deleted. Fix.
+- General information seem to get deleted when a sample is deleted especially 
+  before the job is saved. Fix.
 - When blank business office is selected and job saved the no message comes up. Fix!!
 - Automatically add the person sub contracting a job as the contact person
 - Add contact field to job. If not contact is assigned, assign the "main" contact to the job. Update service contract, job costing etc to reflect this.

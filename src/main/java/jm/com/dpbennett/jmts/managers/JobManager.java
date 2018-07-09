@@ -50,7 +50,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
-import jm.com.dpbennett.business.entity.AccPacDocument;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.BusinessOffice;
@@ -174,7 +173,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void onJobCostingCellEdit(CellEditEvent event) {
-        
+
         getJobSearchResultList().get(event.getRowIndex()).
                 getClient().setAccountingId(getAccPacCustomer().getId());
         getJobSearchResultList().get(event.getRowIndex()).
@@ -727,9 +726,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void handleKeepAlive() {
         getUser().setPollTime(new Date());
-        // NB: Time is based on the time zone set in the application server
-        // tk print if "debug is set to true
-        System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
+        
+        if ((Boolean) SystemOption.getOptionValueObject(getEntityManager1(), "debugMode")) {
+            System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
+        }
         if (getUser().getId() != null) {
             getUser().save(getEntityManager1());
         }

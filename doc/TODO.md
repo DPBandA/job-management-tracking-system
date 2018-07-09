@@ -9,10 +9,7 @@ Next Status Update Notes
 - Mention development and testing of infrastructure modules of the JMTS.
 
 ## Next release (May 24-25, 2018)
-- Impl getting system option by object type   
-  * Look at all SystemOption.getOptionValueObject( to see if they are used properly.
-  * Add comboboxes for valueType and category in the system option dialog.
-  * Check out Integer.parseInt and other code that do convertion of the option and change them
+- Search for System.out code and delete.
 - Add system option to display system option for "Handling keep alive session..." in debugging mode.
 - Impl invoice export.
   * Impl generation of invoice #. Use IN{dept.}{year}{Job seq. #}/{subcon. dept code or 00}
@@ -70,8 +67,6 @@ Next Status Update Notes
 - Paste the text directly into a CODE_OF_CONDUCT file in your repository. 
   NB: Keep the file in your project’s root directory so it’s easy to find, and link 
   to it from your README.
-- Make address and contact dialogs external and implement adding contact/address 
-  via the client's action menu.
 - Add a search types that find jobs that are: 
 (i) earning parent jobs 
 (ii) earning jobs

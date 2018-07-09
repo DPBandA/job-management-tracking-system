@@ -367,12 +367,12 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         EntityManager em = getEntityManager1();
 
         // check for max sample
-        int maxSamples = Integer.parseInt((String) SystemOption.getOptionValueObject(em, "maximumJobSamples"));
+        int maxSamples = (Integer) SystemOption.getOptionValueObject(em, "maximumJobSamples");
         if (getCurrentNumberOfJobSamples() == maxSamples) {
             PrimeFaces.current().ajax().addCallbackParam("maxJobSamplesReached", true);
         }
         // check for max sample groups
-        int maxGropus = Integer.parseInt((String) SystemOption.getOptionValueObject(em, "maximumJobSampleGroups"));
+        int maxGropus = (Integer) SystemOption.getOptionValueObject(em, "maximumJobSampleGroups");
         if (getCurrentJob().getJobSamples().size() == maxGropus) {
             PrimeFaces.current().ajax().addCallbackParam("maxJobSampleGroupsReached", true);
         }

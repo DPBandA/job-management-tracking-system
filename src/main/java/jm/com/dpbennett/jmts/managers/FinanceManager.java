@@ -2292,7 +2292,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 return true;
             }
         } catch (Exception e) {
-            System.out.println(e + ": getDisableSubContracting");
+            System.out.println(e);
         }
 
         return false;
@@ -2380,11 +2380,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             EntityManager em = getEntityManager1();
 
-            String itemSep = (String) SystemOption.getOptionValueObject(em, "defaultListItemSeparationCharacter");
-            String listAsString = (String) SystemOption.getOptionValueObject(em, "GCTPercentageList");
-            String percentage[] = listAsString.split(itemSep);
+            List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, "GCTPercentageList");
 
-            for (String percent : percentage) {
+            for (String percent : stringList) {
                 if (percent.contains(query)) {
                     percentages.add(Double.parseDouble(percent));
                 }

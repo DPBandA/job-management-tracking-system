@@ -244,8 +244,6 @@ public class ComplianceManager implements Serializable {
     }
 
     public void updateSearch() {
-        //tk
-        System.out.println("impl..");
     }
 
     public List<DocumentInspection> getDocumentInspections() {

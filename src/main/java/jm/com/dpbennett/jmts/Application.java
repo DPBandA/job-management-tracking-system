@@ -60,7 +60,6 @@ import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Manufacturer;
 import jm.com.dpbennett.business.entity.PetrolCompany;
 import jm.com.dpbennett.business.entity.Preference;
-import jm.com.dpbennett.business.entity.Report;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.Service;
 import jm.com.dpbennett.business.entity.SystemOption;
@@ -174,16 +173,9 @@ public class Application {
 
     // tk getStringListAsSelectItems
     public List<SelectItem> getWorkProgressList() {
-        ArrayList list = new ArrayList();
-        EntityManager em = getEntityManager1();
 
-        List<String> progressList = (List<String>) SystemOption.getOptionValueObject(em, "workProgressList");
-
-        for (String name : progressList) {
-            list.add(new SelectItem(name, name));
-        }
-
-        return list;
+        return Application.getStringListAsSelectItems(getEntityManager1(), 
+                "workProgressList");
 
     }
 
@@ -560,8 +552,8 @@ public class Application {
             String name = (String) SystemOption.getOptionValueObject(em, "ldapContextName");
             NamingEnumeration answer = ctx.search(name, "SAMAccountName=" + username, constraints);
 
-            if (!answer.hasMore()) { // assuming only one match
-                System.out.println("LDAP user not found!");
+            if (!answer.hasMore()) { // Assuming only one match
+                // LDAP user not found!
                 return Boolean.FALSE;
             }
         } catch (NamingException ex) {
@@ -785,12 +777,10 @@ public class Application {
     public static List<DataItem> getStringListAsSortableDataItems(EntityManager em,
             String systemOption) {
         ArrayList list = new ArrayList();
-        String itemSep = (String) SystemOption.getOptionValueObject(em, "defaultListItemSeparationCharacter");
 
-        String listAsString = (String) SystemOption.getOptionValueObject(em, systemOption);
-        String string[] = listAsString.split(itemSep);
+        List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
 
-        for (String name : string) {
+        for (String name : stringList) {
             list.add(new DataItem(name, name));
         }
 

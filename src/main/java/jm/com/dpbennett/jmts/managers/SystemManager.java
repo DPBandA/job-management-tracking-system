@@ -29,6 +29,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -140,6 +141,37 @@ public class SystemManager implements Serializable {
      */
     public SystemManager() {
         init();
+    }
+
+    public List getValueTypes() {
+        ArrayList valueTypes = new ArrayList();
+
+        valueTypes.add(new SelectItem("String", "String"));
+        valueTypes.add(new SelectItem("Boolean", "Boolean"));
+        valueTypes.add(new SelectItem("Integer", "Integer"));
+        valueTypes.add(new SelectItem("Long", "Long"));
+        valueTypes.add(new SelectItem("List<String>", "List<String>"));
+
+        return valueTypes;
+    }
+
+    public List getSystemOptionCategories() {
+        ArrayList categories = new ArrayList();
+
+        categories.add(new SelectItem("System", "System"));
+        categories.add(new SelectItem("Authentication", "Authentication"));
+        categories.add(new SelectItem("Database", "Database"));
+        categories.add(new SelectItem("Compliance", "Compliance"));
+        categories.add(new SelectItem("Document", "Document"));
+        categories.add(new SelectItem("Finance", "Finance"));
+        categories.add(new SelectItem("General", "General"));
+        categories.add(new SelectItem("GUI", "GUI"));
+        categories.add(new SelectItem("Job", "Job"));
+        categories.add(new SelectItem("Legal", "Legal"));
+        categories.add(new SelectItem("Metrology", "Metrology"));
+        categories.add(new SelectItem("Notification", "Notification"));
+
+        return categories;
     }
 
     private void init() {
@@ -1384,7 +1416,7 @@ public class SystemManager implements Serializable {
     public void createNewFinancialSystemOption() {
 
         selectedSystemOption = new SystemOption();
-        selectedSystemOption.setCategory("FINANCE");
+        selectedSystemOption.setCategory("Finance");
 
         getMainTabView().addTab(getEntityManager(), "Financial Administration", true);
 
