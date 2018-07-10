@@ -134,5 +134,9 @@ persons in a department to be temporarily granted these privileges.
 This release will be around early July.
 - Please let the GCT default to 16.5% except for activities done by NCRA. 
   Therefore if NCRA subcontracts a job to BSJ, the GCT would carried only for the BSJ job.
-- Do draft proposal re 360/Elastic search for Orville and next contract.
+- Update contact, address when client is edited to address the invalid address issue
+  experienced.
+- Do draft proposals re 360/Elastic search, business analysis, items on previous contract,
+  etc. for Orville and next contract.
+
 
