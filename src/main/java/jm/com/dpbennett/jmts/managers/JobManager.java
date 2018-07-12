@@ -1069,9 +1069,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             serviceContractStreamContent = getContractManager().getServiceContractStreamContent();
 
             setLongProcessProgress(100);
+            
         } catch (Exception e) {
             System.out.println(e);
-            setLongProcessProgress(100);
+            setLongProcessProgress(0);
         }
 
         return serviceContractStreamContent;

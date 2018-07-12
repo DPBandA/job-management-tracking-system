@@ -124,6 +124,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private Boolean enableOnlyPaymentEditing;
     private JobManager jobManager;
     private Boolean edit;
+    private String fileDownloadErrorMessage;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -131,23 +132,24 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public FinanceManager() {
         init();
     }
-    
-    
-
+   
     public StreamedContent getAccpacInvoicesFile() {
-
+      
         try {
             ByteArrayInputStream stream;
 
             stream = getAccpacInvoicesFileInputStream(
                     new File(getClass().getClassLoader().
-                            getResource("/reports/" + 
-                                    (String) SystemOption.getOptionValueObject(getEntityManager1(), 
+                            getResource("/reports/"
+                                    + (String) SystemOption.getOptionValueObject(getEntityManager1(),
                                             "AccpacInvoicesFileTemplateName")).getFile()));
 
-            return new DefaultStreamedContent(stream, 
-                    "application/xlsx", 
-                    (String) SystemOption.getOptionValueObject(getEntityManager1(), "AccpacInvoicesFileTemplateName"));
+            setLongProcessProgress(100);
+
+            return new DefaultStreamedContent(stream,
+                    "application/xlsx",
+                    "Invoices-" + BusinessEntityUtils.getDateInMediumDateAndTimeFormat(new Date()) + 
+                            "-" + fileDownloadErrorMessage + ".xlsx");
 
         } catch (Exception ex) {
             System.out.println(ex);
@@ -155,121 +157,78 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         return null;
     }
-    
+
     public ByteArrayInputStream getAccpacInvoicesFileInputStream(
             File file) {
 
         try {
-            FileInputStream inp = new FileInputStream(file);
+            FileInputStream inp = new FileInputStream(file);            
             int row = 1;
             int col = 0;
-            int cell = 0;
+            fileDownloadErrorMessage = "";
 
             XSSFWorkbook wb = new XSSFWorkbook(inp);
-            XSSFCellStyle stringCellStyle = wb.createCellStyle();
-            XSSFCellStyle longCellStyle = wb.createCellStyle();
-            XSSFCellStyle integerCellStyle = wb.createCellStyle();
-            XSSFCellStyle doubleCellStyle = wb.createCellStyle();
-            XSSFCellStyle dateCellStyle = wb.createCellStyle();
-
+            XSSFCellStyle cellStyle = wb.createCellStyle();
+          
             // Output stream for modified Excel file
             ByteArrayOutputStream out = new ByteArrayOutputStream();
 
             // Get sheets          
             XSSFSheet invoices = wb.getSheet("Invoices");
-            XSSFSheet invoiceDetails = wb.getSheet("Invoice_Details");
-           
+            //XSSFSheet invoiceDetails = wb.getSheet("Invoice_Details");
+
             // Get report data
-//            List<Object[]> reportData = null; // tk
-//                    Job.getCompletedJobRecords(
-//                    getEntityManager1(),
-//                    BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getStartDate(), "'", "YMD", "-"),
-//                    BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getEndDate(), "'", "YMD", "-"),
-//                    departmentId);
-
-            // Fill in report data            
-//            for (Object[] rowData : reportData) {
-//                col = 0;
-                //  Employee/Assignee
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (String) rowData[7],
-//                        "java.lang.String", stringCellStyle);
-//                // No. samples
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (Long) rowData[9],
-//                        "java.lang.Long", longCellStyle);
-//                // No. tests/calibrations
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (Integer) rowData[10],
-//                        "java.lang.Integer", integerCellStyle);
-//                // No. tests
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (Integer) rowData[11],
-//                        "java.lang.Integer", integerCellStyle);
-//                // No. calibrations
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (Integer) rowData[12],
-//                        "java.lang.Integer", integerCellStyle);
-//                // Total cost
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (Double) rowData[8],
-//                        "java.lang.Double", doubleCellStyle);
-//                //  Completion date
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (Date) rowData[6],
-//                        "java.util.Date", dateCellStyle);
-//                //  Expected completion date
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (Date) rowData[13],
-//                        "java.util.Date", dateCellStyle);
-//                // Job numbers
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (String) rowData[14],
-//                        "java.lang.String", stringCellStyle);
-//                // Sample description
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (String) rowData[0],
-//                        "java.lang.String", stringCellStyle);
-//                // Client/Source
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (String) rowData[15],
-//                        "java.lang.String", stringCellStyle);
-//                //  Date submitted
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (Date) rowData[16],
-//                        "java.util.Date", dateCellStyle);
-//                // Sector
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (String) rowData[17],
-//                        "java.lang.String", stringCellStyle);
-//                // Turnaround time status
-//                if ((rowData[6] != null) && (rowData[13] != null)) {
-//                    BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                            ((Date) rowData[6]).getTime() > ((Date) rowData[13]).getTime()
-//                            ? "late" : "on-time",
-//                            "java.lang.String", stringCellStyle);
-//                } else {
-//                    BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                            "",
-//                            "java.lang.String", stringCellStyle);
-//                }
-//                // Classification
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (String) rowData[18],
-//                        "java.lang.String", stringCellStyle);
-//                // Category
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (String) rowData[19],
-//                        "java.lang.String", stringCellStyle);
-//                // subcategory
-//                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
-//                        (String) rowData[20],
-//                        "java.lang.String", stringCellStyle);
-
-//                row++;
-//
-//            }
-
+            List<Job> reportData = getJobManager().getJobSearchResultList();
+            for (Job job : reportData) {                
+                col = 0;
+                
+                // Fill out the Invoices 
+                // CNTBTCH (batch number)
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                        10000,
+                        "java.lang.Integer", cellStyle);
+                
+                // CNTITEM (Item number)
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                        row,
+                        "java.lang.Integer", cellStyle);
+                
+                // IDCUST (Customer Id)
+                if (job.getClient().getAccountingId().isEmpty()) {
+                    fileDownloadErrorMessage = "Error - missing customer id(s)";
+                }
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                        job.getClient().getAccountingId(),
+                        "java.lang.String", cellStyle);
+                
+                // IDINVC (Invoice No./Id)
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                        "IN" + job.getYearReceived() + "" + job.getJobSequenceNumber(),
+                        "java.lang.String", cellStyle);
+                
+                // TEXTTRX
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                        1,
+                        "java.lang.Integer", cellStyle);
+                
+                // IDTRX
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                        12,
+                        "java.lang.Integer", cellStyle);
+                
+                // INVCDESC
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                        job.getInstructions(),
+                        "java.lang.String", cellStyle);
+                
+                // DATEINVC
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                        new Date(),
+                        "java.lang.Long", cellStyle);
+                
+                row++;
+            }
+        
             // Write modified Excel file and return it
             wb.write(out);
 

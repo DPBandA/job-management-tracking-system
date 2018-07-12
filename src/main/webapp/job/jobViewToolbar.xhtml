@@ -96,8 +96,8 @@ Email: info@dpbennett.com.jm
                 <p:separator rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"/>
                 <p:menuitem value="Export Accpac Invoices"                            
                             ajax="false"
-                            immediate="true"       
-                            onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog);"
+                            immediate="true" 
+                            onclick="longProcessDialogVar4.show();"
                             rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}" >
 
                     <p:fileDownload value="#{financeManager.accpacInvoicesFile}" />
