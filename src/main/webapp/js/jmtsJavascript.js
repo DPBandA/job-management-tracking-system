@@ -44,3 +44,11 @@ setTimeout("keepAlive()", timeout);
 function doLogin() {
     doLoginRequest();
 }
+
+function showStatusDialog() {
+    PF('longProcessDialogVar').show();
+}
+
+function hideStatusDialog() {
+    PF('longProcessDialogVar').hide();
+}

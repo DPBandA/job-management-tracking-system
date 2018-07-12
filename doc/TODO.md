@@ -9,10 +9,7 @@ Next Status Update Notes
 - Mention development and testing of infrastructure modules of the JMTS.
 
 ## Next release (May 24-25, 2018)
-- Search for System.out code and delete.
-- Add system option to display system option for "Handling keep alive session..." in debugging mode.
-- Impl invoice export.
-  * Impl generation of invoice #. Use IN{dept.}{year}{Job seq. #}/{subcon. dept code or 00}
+- Impl invoice export.  
   * Impl long process dialog or use onclick="PrimeFaces.monitorDownload(start, stop);
     where: 
     <p:dialog modal="true" widgetVar="statusDialog" header="Status" 
@@ -28,6 +25,7 @@ Next Status Update Notes
         PF('statusDialog').hide();
     }
     </script>
+  * Impl generation of invoice #. Use IN{dept.}{year}{Job seq. #}/{subcon. dept code or 00}
     
 - Impl selection of distribution ID.
 - In Report class add option to choose the field to use id, name or both?
@@ -134,8 +132,8 @@ persons in a department to be temporarily granted these privileges.
 This release will be around early July.
 - Please let the GCT default to 16.5% except for activities done by NCRA. 
   Therefore if NCRA subcontracts a job to BSJ, the GCT would carried only for the BSJ job.
-- Update contact, address when client is edited to address the invalid address issue
-  experienced.
+- Update contact and billing address when client is edited to address the invalid address issue
+  experienced. Use the ids to find the address/contact for doing the update.
 - Do draft proposals re 360/Elastic search, business analysis, items on previous contract,
   etc. for Orville and next contract.
 
