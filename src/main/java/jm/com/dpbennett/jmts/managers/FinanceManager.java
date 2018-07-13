@@ -168,7 +168,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             fileDownloadErrorMessage = "";
 
             XSSFWorkbook wb = new XSSFWorkbook(inp);
-            XSSFCellStyle cellStyle = wb.createCellStyle();
+            XSSFCellStyle stringCellStyle = wb.createCellStyle();
+            XSSFCellStyle longCellStyle = wb.createCellStyle();
+            XSSFCellStyle integerCellStyle = wb.createCellStyle();
+            XSSFCellStyle doubleCellStyle = wb.createCellStyle();
+            XSSFCellStyle dateCellStyle = wb.createCellStyle();
           
             // Output stream for modified Excel file
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -186,12 +190,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 // CNTBTCH (batch number)
                 BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
                         10000,
-                        "java.lang.Integer", cellStyle);
+                        "java.lang.Integer", integerCellStyle);
                 
                 // CNTITEM (Item number)
                 BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
                         row,
-                        "java.lang.Integer", cellStyle);
+                        "java.lang.Integer", integerCellStyle);
                 
                 // IDCUST (Customer Id)
                 if (job.getClient().getAccountingId().isEmpty()) {
@@ -199,32 +203,32 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 }
                 BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
                         job.getClient().getAccountingId(),
-                        "java.lang.String", cellStyle);
+                        "java.lang.String", stringCellStyle);
                 
                 // IDINVC (Invoice No./Id)
                 BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
                         "IN" + job.getYearReceived() + "" + job.getJobSequenceNumber(),
-                        "java.lang.String", cellStyle);
+                        "java.lang.String", stringCellStyle);
                 
                 // TEXTTRX
                 BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
                         1,
-                        "java.lang.Integer", cellStyle);
+                        "java.lang.Integer", integerCellStyle);
                 
                 // IDTRX
                 BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
                         12,
-                        "java.lang.Integer", cellStyle);
+                        "java.lang.Integer", integerCellStyle);
                 
                 // INVCDESC
                 BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
                         job.getInstructions(),
-                        "java.lang.String", cellStyle);
+                        "java.lang.String", stringCellStyle);
                 
                 // DATEINVC
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
-                        new Date(),
-                        "java.lang.Long", cellStyle);
+//                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+//                        new Date(),
+//                        "jBusinessEntityUtilsava.util.Date", dateCellStyle);
                 
                 row++;
             }
