@@ -226,9 +226,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                         "java.lang.String", stringCellStyle);
                 
                 // DATEINVC
-//                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
-//                        new Date(),
-//                        "jBusinessEntityUtilsava.util.Date", dateCellStyle);
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                        new Date(),
+                        "jBusinessEntityUtilsava.util.Date", dateCellStyle);
                 
                 row++;
             }
