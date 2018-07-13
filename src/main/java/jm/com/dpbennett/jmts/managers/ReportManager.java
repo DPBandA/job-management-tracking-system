@@ -100,6 +100,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import net.sf.jasperreports.engine.JasperRunManager;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 
@@ -1872,6 +1873,9 @@ public class ReportManager implements Serializable {
             XSSFCellStyle integerCellStyle = wb.createCellStyle();
             XSSFCellStyle doubleCellStyle = wb.createCellStyle();
             XSSFCellStyle dateCellStyle = wb.createCellStyle();
+             CreationHelper createHelper = wb.getCreationHelper();
+            dateCellStyle.setDataFormat(
+                    createHelper.createDataFormat().getFormat("m/d/yyyy"));
 
             // Output stream for modified Excel file
             ByteArrayOutputStream out = new ByteArrayOutputStream();

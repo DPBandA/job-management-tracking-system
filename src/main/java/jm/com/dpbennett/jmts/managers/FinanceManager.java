@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -75,6 +76,7 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -132,9 +134,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public FinanceManager() {
         init();
     }
-   
+
     public StreamedContent getAccpacInvoicesFile() {
-      
+
         try {
             ByteArrayInputStream stream;
 
@@ -148,8 +150,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             return new DefaultStreamedContent(stream,
                     "application/xlsx",
-                    "Invoices-" + BusinessEntityUtils.getDateInMediumDateAndTimeFormat(new Date()) + 
-                            "-" + fileDownloadErrorMessage + ".xlsx");
+                    "Invoices-" + BusinessEntityUtils.getDateInMediumDateAndTimeFormat(new Date())
+                    + "-" + fileDownloadErrorMessage + ".xlsx");
 
         } catch (Exception ex) {
             System.out.println(ex);
@@ -162,18 +164,20 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             File file) {
 
         try {
-            FileInputStream inp = new FileInputStream(file);            
+            FileInputStream inp = new FileInputStream(file);
             int row = 1;
             int col = 0;
             fileDownloadErrorMessage = "";
 
             XSSFWorkbook wb = new XSSFWorkbook(inp);
             XSSFCellStyle stringCellStyle = wb.createCellStyle();
-            XSSFCellStyle longCellStyle = wb.createCellStyle();
             XSSFCellStyle integerCellStyle = wb.createCellStyle();
             XSSFCellStyle doubleCellStyle = wb.createCellStyle();
             XSSFCellStyle dateCellStyle = wb.createCellStyle();
-          
+            CreationHelper createHelper = wb.getCreationHelper();
+            dateCellStyle.setDataFormat(
+                    createHelper.createDataFormat().getFormat("m/d/yyyy"));
+
             // Output stream for modified Excel file
             ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -183,56 +187,56 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             // Get report data
             List<Job> reportData = getJobManager().getJobSearchResultList();
-            for (Job job : reportData) {                
+            for (Job job : reportData) {
                 col = 0;
-                
+
                 // Fill out the Invoices 
                 // CNTBTCH (batch number)
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
                         10000,
                         "java.lang.Integer", integerCellStyle);
-                
+
                 // CNTITEM (Item number)
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
                         row,
                         "java.lang.Integer", integerCellStyle);
-                
+
                 // IDCUST (Customer Id)
                 if (job.getClient().getAccountingId().isEmpty()) {
                     fileDownloadErrorMessage = "Error - missing customer id(s)";
                 }
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
                         job.getClient().getAccountingId(),
                         "java.lang.String", stringCellStyle);
-                
+
                 // IDINVC (Invoice No./Id)
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
                         "IN" + job.getYearReceived() + "" + job.getJobSequenceNumber(),
                         "java.lang.String", stringCellStyle);
-                
+
                 // TEXTTRX
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
                         1,
                         "java.lang.Integer", integerCellStyle);
-                
+
                 // IDTRX
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
                         12,
                         "java.lang.Integer", integerCellStyle);
-                
+
                 // INVCDESC
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
                         job.getInstructions(),
                         "java.lang.String", stringCellStyle);
-                
+
                 // DATEINVC
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
                         new Date(),
-                        "jBusinessEntityUtilsava.util.Date", dateCellStyle);
-                
+                        "java.util.Date", dateCellStyle);
+
                 row++;
             }
-        
+
             // Write modified Excel file and return it
             wb.write(out);
 
