@@ -9,11 +9,10 @@ Next Status Update Notes
 - Mention development and testing of infrastructure modules of the JMTS.
 
 ## Next release (May 24-25, 2018)
-- Impl invoice export.  
-  * Fix insert date into cell.
-  * Use the job instructions as the invoice description and verify with Finance 
-    if this is ok.    
-  * Impl selection of distribution ID.
+- Impl invoice export.    
+  * Impl fill out of Invoice_Details sheet
+    - Impl fill out of multiple CNTLINE for each CNTITEM.
+    - Impl selection of distribution ID.
   * Export invoices for only selected jobs?
   * Flag job as invoiced after export?
 - In Report class add option to choose the field to use id, name or both?
@@ -124,5 +123,6 @@ This release will be around early July.
   experienced. Use the ids to find the address/contact for doing the update.
 - Do draft proposals re 360/Elastic search, business analysis, items on previous contract,
   etc. for Orville and next contract.
+- The name and description fields do not fit on form in dark hive.
 
 

@@ -165,8 +165,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         try {
             FileInputStream inp = new FileInputStream(file);
-            int row = 1;
-            int col = 0;
+            int invoiceRow = 1;
+            int invoiceDetailsRow = 1;
+            int invoiceCol;
+            int invoiceDetailsCol;
+            
             fileDownloadErrorMessage = "";
 
             XSSFWorkbook wb = new XSSFWorkbook(inp);
@@ -183,58 +186,69 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             // Get sheets          
             XSSFSheet invoices = wb.getSheet("Invoices");
-            //XSSFSheet invoiceDetails = wb.getSheet("Invoice_Details");
+            XSSFSheet invoiceDetails = wb.getSheet("Invoice_Details");
 
             // Get report data
             List<Job> reportData = getJobManager().getJobSearchResultList();
             for (Job job : reportData) {
-                col = 0;
+                invoiceCol = 0;
+                invoiceDetailsCol = 0;
 
                 // Fill out the Invoices 
                 // CNTBTCH (batch number)
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
-                        10000,
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        0,
                         "java.lang.Integer", integerCellStyle);
-
                 // CNTITEM (Item number)
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
-                        row,
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        invoiceRow,
                         "java.lang.Integer", integerCellStyle);
-
                 // IDCUST (Customer Id)
                 if (job.getClient().getAccountingId().isEmpty()) {
                     fileDownloadErrorMessage = "Error - missing customer id(s)";
                 }
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                         job.getClient().getAccountingId(),
                         "java.lang.String", stringCellStyle);
-
                 // IDINVC (Invoice No./Id)
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                         "IN" + job.getYearReceived() + "" + job.getJobSequenceNumber(),
                         "java.lang.String", stringCellStyle);
-
                 // TEXTTRX
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                         1,
                         "java.lang.Integer", integerCellStyle);
-
                 // IDTRX
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                         12,
                         "java.lang.Integer", integerCellStyle);
-
                 // INVCDESC
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                         job.getInstructions(),
                         "java.lang.String", stringCellStyle);
-
                 // DATEINVC
-                BusinessEntityUtils.setExcelCellValue(wb, invoices, row, col++,
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                         new Date(),
-                        "java.util.Date", dateCellStyle);
-
-                row++;
+                        "java.util.Date", dateCellStyle);                
+                // INVCTYPE
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        2,
+                        "java.lang.Integer", integerCellStyle);                
+                            
+                // Fill out invoice details
+                // CNTBTCH (batch number)
+                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow, 
+                        invoiceDetailsCol++,
+                        0,
+                        "java.lang.Integer", integerCellStyle);
+                // CNTITEM (Item number)
+                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow, 
+                        invoiceDetailsCol++,
+                        invoiceRow,
+                        "java.lang.Integer", integerCellStyle);
+                
+                invoiceDetailsRow++;
+                invoiceRow++;
             }
 
             // Write modified Excel file and return it
