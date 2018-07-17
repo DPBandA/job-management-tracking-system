@@ -9,13 +9,18 @@ Next Status Update Notes
 - Mention development and testing of infrastructure modules of the JMTS.
 
 ## Next release (May 24-25, 2018)
-- Impl invoice export.    
+- Impl invoice export.  
+  * In onJobCostingCellEdit save JCP and client only if these were table cells 
+    were edited. Also new Accounting codes are being saved. Fix!
   * Impl fill out of Invoice_Details sheet
     - Impl fill out of multiple CNTLINE for each CNTITEM.
-    - Impl selection of distribution ID.
+    - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
+      in Financial Admin. NB impl finding code by name and description.
   * Export invoices for only selected jobs?
   * Flag job as invoiced after export?
+  * Make sure to add AccountingCode table to all along with data.
 - In Report class add option to choose the field to use id, name or both?
+  Or just set bot id and name parameters.
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
 - Update report template form to include multiple date periods, departments, employee

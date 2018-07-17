@@ -19,6 +19,10 @@
     </application>     
              
     <converter>
+        <converter-id>accountingCodeConverter</converter-id>
+        <converter-class>jm.com.dpbennett.business.entity.converter.AccountingCodeConverter</converter-class>
+    </converter>
+    <converter>
         <converter-id>reportConverter</converter-id>
         <converter-class>jm.com.dpbennett.business.entity.converter.ReportConverter</converter-class>
     </converter>     
@@ -78,6 +82,10 @@
         <converter-id>businessConverter</converter-id>
         <converter-class>jm.com.dpbennett.business.entity.converter.BusinessConverter</converter-class>
     </converter> 
+    <validator>
+        <validator-id>accountingCodeValidator</validator-id>
+        <validator-class>jm.com.dpbennett.business.entity.validator.AccountingCodeValidator</validator-class>
+    </validator>  
     <validator>
         <validator-id>systemOptionValidator</validator-id>
         <validator-class>jm.com.dpbennett.business.entity.validator.SystemOptionValidator</validator-class>
@@ -250,6 +258,13 @@
         <navigation-case>
             <from-outcome>ldapDialog</from-outcome>
             <to-view-id>/admin/ldapDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>accountingCodeDialog</from-outcome>
+            <to-view-id>/admin/accountingCodeDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>

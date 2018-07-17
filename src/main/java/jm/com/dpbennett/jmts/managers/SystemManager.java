@@ -124,6 +124,7 @@ public class SystemManager implements Serializable {
     private List<JobSubCategory> foundJobSubcategories;
     private List<Business> foundBusinesses;
     private List<DocumentType> foundDocumentTypes;
+    private DualListModel<Department> departmentDualList;
     // Selected objects
     private DocumentType selectedDocumentType;
     private Department selectedDepartment;
@@ -134,8 +135,7 @@ public class SystemManager implements Serializable {
     private Sector selectedSector;
     private LdapContext selectedLdapContext;
     private Business selectedBusiness;
-    private DualListModel<Department> departmentDualList;
-
+    
     /**
      * Creates a new instance of SystemManager
      */

@@ -30,7 +30,6 @@ import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,6 +45,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.AccPacDocument;
+import jm.com.dpbennett.business.entity.AccountingCode;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Client;
@@ -76,6 +76,7 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
+import jm.com.dpbennett.jmts.utils.MainTabView;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -96,7 +97,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;
-    //private Job currentJob;
     private CashPayment selectedCashPayment;
     private StreamedContent jobCostingFile;
     private Integer longProcessProgress;
@@ -104,10 +104,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private List<AccPacDocument> filteredAccPacCustomerDocuments;
     private Boolean useAccPacCustomerList;
     private CostComponent selectedCostComponent;
+    private JobCostingAndPayment selectedJobCostingAndPayment;
     private String selectedJobCostingTemplate;
+    private AccountingCode selectedAccountingCode;
     private Department unitCostDepartment;
     private UnitCost currentUnitCost;
-    private String searchText;
+    private String accountingCodeSearchText;
     private List<UnitCost> unitCosts;
     private String dialogActionHandlerId;
     private List<Job> jobsWithCostings;
@@ -127,12 +129,122 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private JobManager jobManager;
     private Boolean edit;
     private String fileDownloadErrorMessage;
+    private List<AccountingCode> foundAccountingCodes;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public FinanceManager() {
         init();
+    }
+
+    public JobCostingAndPayment getSelectedJobCostingAndPayment() {
+        return selectedJobCostingAndPayment;
+    }
+
+    public void setSelectedJobCostingAndPayment(JobCostingAndPayment selectedJobCostingAndPayment) {
+        this.selectedJobCostingAndPayment = selectedJobCostingAndPayment;
+    }
+
+    public void onAccountingCodeCellEdit(CellEditEvent event) {
+        int index = event.getRowIndex();
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        try {
+            if (newValue != null && !newValue.equals(oldValue)) {
+                if (!newValue.toString().trim().equals("")) {
+                    AccountingCode code = getFoundAccountingCodes().get(index);
+                    code.save(getEntityManager1());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public List<AccountingCode> getFoundAccountingCodes() {
+        if (foundAccountingCodes == null) {
+            foundAccountingCodes = AccountingCode.findAllAccountingCodes(getEntityManager1());
+        }
+
+        return foundAccountingCodes;
+    }
+
+    public void setFoundAccountingCodes(List<AccountingCode> foundAccountingCodes) {
+        this.foundAccountingCodes = foundAccountingCodes;
+    }
+
+    public void doAccountingCodeSearch() {
+
+        foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
+                getAccountingCodeSearchText());
+
+        if (foundAccountingCodes == null) {
+            foundAccountingCodes = new ArrayList<>();
+        }
+    }
+
+    public List getAccountingCodeTypes() {
+        ArrayList valueTypes = new ArrayList();
+
+        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));
+        valueTypes.add(new SelectItem("General", "General"));
+
+        return valueTypes;
+    }
+
+    public void cancelDialogEdit(ActionEvent actionEvent) {
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
+
+    public void saveSelectedAccountingCode() {
+
+        selectedAccountingCode.save(getEntityManager1());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+
+    }
+
+    public void createNewAccountingCode() {
+
+        selectedAccountingCode = new AccountingCode();
+
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 330, 500);
+    }
+
+    public void editAccountingCode() {
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 330, 500);
+    }
+
+    public MainTabView getMainTabView() {
+
+        return getJobManager().getMainTabView();
+    }
+
+    public AccountingCode getSelectedAccountingCode() {
+        return selectedAccountingCode;
+    }
+
+    public void setSelectedAccountingCode(AccountingCode selectedAccountingCode) {
+        this.selectedAccountingCode = selectedAccountingCode;
+    }
+
+    public List<AccountingCode> completeAccountingCode(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<AccountingCode> accountingCodes
+                    = AccountingCode.findAccountingCodesByNameAndDescription(em, query);
+
+            return accountingCodes;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     public StreamedContent getAccpacInvoicesFile() {
@@ -169,7 +281,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             int invoiceDetailsRow = 1;
             int invoiceCol;
             int invoiceDetailsCol;
-            
+
             fileDownloadErrorMessage = "";
 
             XSSFWorkbook wb = new XSSFWorkbook(inp);
@@ -229,26 +341,32 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 // DATEINVC
                 BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                         new Date(),
-                        "java.util.Date", dateCellStyle);                
+                        "java.util.Date", dateCellStyle);
                 // INVCTYPE
                 BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                         2,
-                        "java.lang.Integer", integerCellStyle);                
-                            
+                        "java.lang.Integer", integerCellStyle);
+
                 // Fill out invoice details
                 // CNTBTCH (batch number)
-                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow,
                         invoiceDetailsCol++,
                         0,
                         "java.lang.Integer", integerCellStyle);
                 // CNTITEM (Item number)
-                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow, 
+                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow,
                         invoiceDetailsCol++,
                         invoiceRow,
                         "java.lang.Integer", integerCellStyle);
-                
+                // CNTLINE
+                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow,
+                        invoiceDetailsCol++,
+                        invoiceDetailsRow, // Cell value
+                        "java.lang.Integer", integerCellStyle);
+
                 invoiceDetailsRow++;
                 invoiceRow++;
+
             }
 
             // Write modified Excel file and return it
@@ -287,6 +405,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         selectedCostComponent = null;
         unitCostDepartment = null;
         jobCostDepartment = null;
+        accountingCodeSearchText = "";
     }
 
     public void reset() {
@@ -500,12 +619,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         return unitCosts;
     }
 
-    public String getSearchText() {
-        return searchText;
+    public String getAccountingCodeSearchText() {
+        return accountingCodeSearchText;
     }
 
-    public void setSearchText(String searchText) {
-        this.searchText = searchText;
+    public void setAccountingCodeSearchText(String accountingCodeSearchText) {
+        this.accountingCodeSearchText = accountingCodeSearchText;
     }
 
     public UnitCost getCurrentUnitCost() {
@@ -1955,12 +2074,19 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 if (accPacCustomer.getCustomerName() != null) {
                     updateCreditStatus(null);
                 }
+
             } catch (Exception e) {
                 System.out.println(e);
                 accPacCustomer = new AccPacCustomer();
                 accPacCustomer.setCustomerName("");
             }
         }
+    }
+
+    public void updateAccountingCode(SelectEvent event) {
+        selectedAccountingCode = (AccountingCode) event.getObject();
+        // tk
+        System.out.println("selected jcp: " + selectedAccountingCode.getName());
     }
 
     public Integer getNumberOfFilteredAccPacCustomerDocuments() {
@@ -2194,14 +2320,14 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     // tk delete if not needed
     public void doUnitCostSearch() {
 
-        unitCosts = UnitCost.findUnitCosts(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
+        unitCosts = UnitCost.findUnitCosts(getEntityManager1(), getUnitCostDepartment().getName(), getAccountingCodeSearchText());
         PrimeFaces.current().ajax().update("unitCostsTableForm");
     }
 
     // tk delete if not needed
     public void doJobCostSearch() {
 
-        jobsWithCostings = Job.findJobsWithJobCosting(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
+        jobsWithCostings = Job.findJobsWithJobCosting(getEntityManager1(), getUnitCostDepartment().getName(), getAccountingCodeSearchText());
         PrimeFaces.current().ajax().update("jobCostsTableForm");
     }
 

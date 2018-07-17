@@ -411,6 +411,9 @@ and the results of the investigations.
 
 ## Sample Management
 
+- Create field for "Product standard name" separate from "Product common name".
+  Make it an autocomplete field that is populated from the MarketProduct 
+  table(with product type field.)
 - Implement copy, delete etc. sample within the sample dialog?
 - Add feature to add picture to job sample record by using the camera attached to the system
 

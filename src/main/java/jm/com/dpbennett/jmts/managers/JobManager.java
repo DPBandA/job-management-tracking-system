@@ -159,6 +159,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         EntityManager em = getEntityManager2();
 
         accPacCustomer = AccPacCustomer.findByName(em, accPacCustomer.getCustomerName().trim());
+        if (accPacCustomer != null) {
+            if (accPacCustomer.getId() != null) {
+                accPacCustomer.setIsDirty(true);
+            }
+        }
     }
 
     public AccPacCustomer getAccPacCustomer() {
@@ -174,12 +179,23 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void onJobCostingCellEdit(CellEditEvent event) {
 
+        // Update and save client if edited
+        if (getAccPacCustomer().getIsDirty()) {
+            getJobSearchResultList().get(event.getRowIndex()).
+                    getClient().setAccountingId(getAccPacCustomer().getId());
+            getJobSearchResultList().get(event.getRowIndex()).
+                    getClient().setEditedBy(getUser().getEmployee());
+            getJobSearchResultList().get(event.getRowIndex()).
+                    getClient().save(getEntityManager1());
+            
+            accPacCustomer = new AccPacCustomer();
+        }
+
+        // Update and save job costing and payment if edited        
         getJobSearchResultList().get(event.getRowIndex()).
-                getClient().setAccountingId(getAccPacCustomer().getId());
+                getJobCostingAndPayment().setIsDirty(true);
         getJobSearchResultList().get(event.getRowIndex()).
-                getClient().setEditedBy(getUser().getEmployee());
-        getJobSearchResultList().get(event.getRowIndex()).
-                getClient().save(getEntityManager1());
+                getJobCostingAndPayment().save(getEntityManager1());
     }
 
     private void init() {
@@ -619,8 +635,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (loginAttempts == 2) {
             PrimeFaces.current().executeScript("PF('loginAttemptsDialog').show();");
             try {
-                // send email to system administrator
-                BusinessEntityUtils.postMail(null, null, "Failed user login", "Username: " + username + "\nDate/Time: " + new Date());
+                // Send email to system administrator alert if activated
+                if ((Boolean) SystemOption.getOptionValueObject(getEntityManager1(),
+                        "developerEmailAlertActivated")) {
+                    BusinessEntityUtils.postMail(null, null, "Failed user login", "Username: " + username + "\nDate/Time: " + new Date());
+                }
             } catch (Exception ex) {
                 Logger.getLogger(JobManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -726,7 +745,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void handleKeepAlive() {
         getUser().setPollTime(new Date());
-        
+
         if ((Boolean) SystemOption.getOptionValueObject(getEntityManager1(), "debugMode")) {
             System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
         }
@@ -1069,7 +1088,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             serviceContractStreamContent = getContractManager().getServiceContractStreamContent();
 
             setLongProcessProgress(100);
-            
+
         } catch (Exception e) {
             System.out.println(e);
             setLongProcessProgress(0);
