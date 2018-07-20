@@ -7,6 +7,7 @@ Next Status Update Notes
 - Add users, update database, etc. under sys admin
 - Mention work on BPM 
 - Mention development and testing of infrastructure modules of the JMTS.
+- Get copy of ISO/IEC 42010 for Software Architecture.
 
 ## Next release (May 24-25, 2018)
 - Impl invoice export.  
