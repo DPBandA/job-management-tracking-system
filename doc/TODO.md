@@ -45,6 +45,7 @@ Next Status Update Notes
 - Do report on showing incomplete jobs for a given period by department for which a cost 
   estimate was given and full payment not made.
 - When job is job/costing is closed without saving, set "dirty" to false.
+- Use the "Jamaican Catalogue DBS" Excel workbook as basis for standards database.
 - Do Pre-shipment inspection form based on excel sheets in compliance folder.
   * Create a table called PreshipmentInspection.
 - Follow up with Garfield re service contract.
@@ -130,5 +131,6 @@ This release will be around early July.
 - Do draft proposals re 360/Elastic search, business analysis, items on previous contract,
   etc. for Orville and next contract.
 - The name and description fields do not fit on form in dark hive.
+
 
 
