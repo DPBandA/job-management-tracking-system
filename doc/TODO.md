@@ -11,25 +11,28 @@ Next Status Update Notes
 - Get copy of ISO/IEC 42010 for Software Architecture.
 
 ## Next release (May 24-25, 2018)
-- Impl invoice export.  
-  * Is it one dist. code used for GCT?
-  * In onJobCostingCellEdit save JCP and client only if these were table cells 
-    were edited. Also new Accounting codes are being saved. Fix!
-  * Impl fill out of Invoice_Details sheet
-    - Impl fill out of multiple CNTLINE for each CNTITEM.
-    - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
-      in Financial Admin. NB impl finding code by name and description.
-  * Export invoices for only selected jobs?
-  * Flag job as invoiced after export?
-  * Make sure to add AccountingCode table to all along with data.
-- In Report class add option to choose the field to use id, name or both?
-  Or just set bot id and name parameters.
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
 - Update report template form to include multiple date periods, departments, employee
   clients etc..
 - Impl and add Legal reports. 
 - Add report template for legal.
+- Deactivate accpac invoice feature and deploy.
+- Impl invoice export.  
+  * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
+  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
+  * In onJobCostingCellEdit save JCP and client only if these were table cells 
+    were edited. Also new Accounting codes are being saved. Fix!
+  * Change "Service Contract" to "Services" and make "Service Contract" a "sub tab"
+  * Impl fill out of Invoice_Details sheet
+    - Impl fill out of multiple CNTLINE for each CNTITEM.
+    - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
+      in Financial Admin. NB impl finding code by name and description.
+  * Export invoices for only selected jobs?
+  * Flag job as invoiced after export?
+  * Make sure to add AccountingCode table to all along with data.  
+- In Report class add option to choose the field to use id, name or both?
+  Or just set bot id and name parameters.
 - Impl "ComplianceSurveyDialogForm"  
 - Impl "dirty" and save() for each "subclass" and save only when dirty. 
 - Replace update*() with single update**() method where possible.
