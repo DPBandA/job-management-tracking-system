@@ -743,7 +743,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         EntityManager em = getEntityManager1();
 
-        int days = Integer.parseInt((String) SystemOption.getOptionValueObject(em, "maxDaysPassInvoiceDate"));
+//        int days = Integer.parseInt((String) SystemOption.getOptionValueObject(em, "maxDaysPassInvoiceDate"));
+        int days = (Integer) SystemOption.getOptionValueObject(em, "maxDaysPassInvoiceDate");
+
 
         return days;
     }

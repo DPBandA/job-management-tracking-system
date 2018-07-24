@@ -1,6 +1,7 @@
 ## Things to do
 
 Documentation:
+- Communicate the objectives of the JMTS via the Architecture Document (AD)
 - Use Infrastructure Software Modules for Enterprises modules description to document 
   the system refering to the JMTS/BEL classes that implement the various modules.
 Next Status Update Notes
@@ -11,6 +12,7 @@ Next Status Update Notes
 
 ## Next release (May 24-25, 2018)
 - Impl invoice export.  
+  * Is it one dist. code used for GCT?
   * In onJobCostingCellEdit save JCP and client only if these were table cells 
     were edited. Also new Accounting codes are being saved. Fix!
   * Impl fill out of Invoice_Details sheet
@@ -46,6 +48,7 @@ Next Status Update Notes
   estimate was given and full payment not made.
 - When job is job/costing is closed without saving, set "dirty" to false.
 - Use the "Jamaican Catalogue DBS" Excel workbook as basis for standards database.
+  * Add DocumentTracking to DocumentStandard class.
 - Do Pre-shipment inspection form based on excel sheets in compliance folder.
   * Create a table called PreshipmentInspection.
 - Follow up with Garfield re service contract.
@@ -131,6 +134,9 @@ This release will be around early July.
 - Do draft proposals re 360/Elastic search, business analysis, items on previous contract,
   etc. for Orville and next contract.
 - The name and description fields do not fit on form in dark hive.
+- Add buttons to remoove/edit divisions/departments from an organization.
+- Check that maxDaysPassInvoiceDate is set to Integer before testing jmts live 
+  nd deploying.
 
 
 

@@ -174,6 +174,8 @@ dollar values that can be entered as system options.
 - Implement a system to alert users if they have the same job opened.
 - Alerts to be escalated where necessary if action is not taken in due time.
 - Use BPM process to send email to job reps.
+- The message that is displayed when an attempt is made to save a completed job
+  does not explain why the job cannot be saved. Fix!
 
 ## Reports, Queries and Views
 
