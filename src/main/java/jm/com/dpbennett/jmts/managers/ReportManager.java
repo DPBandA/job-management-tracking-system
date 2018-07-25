@@ -575,6 +575,9 @@ public class ReportManager implements Serializable {
                 byte[] fileBytes;
                 JasperPrint print = null;
 
+                // tk change to "startOfPeriod1" etc and employee1 etc.
+                // and use the Report parameters.
+                // fix report to show job enties without samples.
                 parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
                 parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
                 parameters.put("inspectorID", getReportEmployee().getId());

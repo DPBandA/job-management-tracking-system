@@ -421,6 +421,8 @@ and the results of the investigations.
 
 ## Client Management
 
+- When a blank a " -- none --" contact or address is edited it does not register
+  as edited. May have to disable "Edit" menu item when " -- none --" appears.
 - Make address and contact dialogs external and implement adding contact/address 
   via the client's action menu.
 - Search for any part of client in Client Management search.
