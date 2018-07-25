@@ -11,6 +11,10 @@ Next Status Update Notes
 - Get copy of ISO/IEC 42010 for Software Architecture.
 
 ## Next release (May 24-25, 2018)
+- Impl report exportation:
+  * Impl getReportStreamedContent(Report currentReport) and test with 
+    "Job entered by employee" report. Impl "Job entered by employee" report
+  * Put the functionality for getting the report file in the Report class.
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
 - Update report template form to include multiple date periods, departments, employee

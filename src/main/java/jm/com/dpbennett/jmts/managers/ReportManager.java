@@ -40,6 +40,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -116,7 +118,7 @@ public class ReportManager implements Serializable {
     private EntityManagerFactory EMF1;
     private String columnsToExclude;
     private Report report;
-    private StreamedContent reportFile;
+    private StreamedContent reportFile; // tk make local var in getReportFile()?
     private Integer longProcessProgress;
     private Department reportingDepartment; // tk may be retired
     private String reportSearchText;
@@ -555,44 +557,139 @@ public class ReportManager implements Serializable {
         this.reportSearchText = reportSearchText;
     }
 
-    public StreamedContent getReportFile() {
+    public StreamedContent getReportStreamedContent(Report currentReport) {
 
-        EntityManager em = null;
+        EntityManager em = getEntityManager1();
+        HashMap parameters = new HashMap();
 
         try {
-            em = getEntityManager1();
+
+            Connection con = BusinessEntityUtils.establishConnection(
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
+
+            if (con != null) {
+                StreamedContent streamContent = null;
+                byte[] fileBytes;
+                JasperPrint print = null;
+
+                parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
+                parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
+                parameters.put("inspectorID", getReportEmployee().getId());
+
+                // Generate report
+                if (report.getUsePackagedReportFileTemplate()) {
+                    try {
+                        FileInputStream fis = new FileInputStream(getClass().getClassLoader().
+                                getResource("/reports/" + getReport().getReportFileTemplate()).getFile());
+                        print = JasperFillManager.fillReport(
+                            fis,
+                            parameters,
+                            con);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(ReportManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    print = JasperFillManager.fillReport(
+                            currentReport.getReportFileTemplate(),
+                            parameters,
+                            con);
+                }
+
+                switch (currentReport.getReportOutputFileMimeType()) {
+                    case "application/pdf":
+                        fileBytes = JasperExportManager.exportReportToPdf(print);
+
+                        streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
+                                currentReport.getReportOutputFileMimeType(),
+                                currentReport.getReportFile());
+                        
+//                        if (report.getUsePackagedReportFileTemplate()) {
+//                            stream = analyticalServicesReportFileInputStream(
+//                                    new File(getClass().getClassLoader().
+//                                            getResource("/reports/" + getReport().getReportFileTemplate()).getFile()),
+//                                    reportingDepartment.getId());
+//                        } else {
+//                            stream = analyticalServicesReportFileInputStream(
+//                                    new File(getReport().getReportFileTemplate()),
+//                                    reportingDepartment.getId());
+//                        }
+
+                        break;
+                    case "application/xlsx":
+
+                        break;
+                    case "application/xls":
+                        break;
+                    default:
+                        fileBytes = JasperExportManager.exportReportToPdf(print);
+
+                        streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
+                                currentReport.getReportOutputFileMimeType(),
+                                currentReport.getReportFile());
+                        break;
+                }
+
+                setLongProcessProgress(100);
+
+                return streamContent;
+
+            } else {
+                return null;
+            }
+
+        } catch (JRException e) {
+            System.out.println(e);
+            setLongProcessProgress(100);
+
+            return null;
+        }
+
+    }
+
+    public StreamedContent getReportFile() {
+
+        EntityManager em = getEntityManager1();
+
+        try {
 
             report = em.find(Report.class, getReport().getId());
 
-            if (getReport().getReportFileMimeType().equals("application/jasper")) {
-                if (getReport().getName().equals("Jobs entered by employee")) {
-                    reportFile = getJobEnteredByReportPDFFile();
-                }
-                if (getReport().getName().equals("Jobs entered by department")) {
-                    reportFile = getJobEnteredByDepartmentReportPDFFile();
-                }
-                if (getReport().getName().equals("Jobs assigned to department")) {
-                    reportFile = getJobAssignedToDepartmentReportXLSFile();
-                }
-            } else if (getReport().getReportFileMimeType().equals("application/xlsx")) {
-                if (getReport().getName().equals("Jobs completed by department")) {
-                    reportFile = getCompletedByDepartmentReport(em);
-                }
-
-                if (getReport().getName().equals("Analytical Services Report")) {
-                    reportFile = getAnalyticalServicesReport(em);
-                }
-            } else if (getReport().getReportFileMimeType().equals("application/xls")) {
-                if (getReport().getName().equals("Monthly report")) {
-                    reportFile = getMonthlyReport3(em);
-                } else {
-                    reportFile = getExcelReportStreamContent();
-                }
+            switch (getReport().getReportFileMimeType()) {
+                case "application/jasper":
+                    if (getReport().getName().equals("Jobs entered by employee")) {
+                        // tk
+                        //reportFile = getJobEnteredByReportPDFFile();
+                        reportFile = getReportStreamedContent(getReport());
+                    }
+                    if (getReport().getName().equals("Jobs entered by department")) {
+                        reportFile = getJobEnteredByDepartmentReportPDFFile();
+                    }
+                    if (getReport().getName().equals("Jobs assigned to department")) {
+                        reportFile = getJobAssignedToDepartmentReportXLSFile();
+                    }
+                    break;
+                case "application/xlsx":
+                    if (getReport().getName().equals("Analytical Services Report")) {
+                        reportFile = getAnalyticalServicesReport(em);
+                    }
+                    break;
+                case "application/xls":
+                    if (getReport().getName().equals("Monthly report")) {
+                        reportFile = getMonthlyReport3(em);
+                    } else {
+                        reportFile = getExcelReportStreamContent();
+                    }
+                    break;
+                default:
+                    break;
             }
 
             setLongProcessProgress(100);
 
-        } catch (Exception e) {
+        } catch (URISyntaxException e) {
             System.out.println(e);
             setLongProcessProgress(100);
         }
@@ -1873,7 +1970,7 @@ public class ReportManager implements Serializable {
             XSSFCellStyle integerCellStyle = wb.createCellStyle();
             XSSFCellStyle doubleCellStyle = wb.createCellStyle();
             XSSFCellStyle dateCellStyle = wb.createCellStyle();
-             CreationHelper createHelper = wb.getCreationHelper();
+            CreationHelper createHelper = wb.getCreationHelper();
             dateCellStyle.setDataFormat(
                     createHelper.createDataFormat().getFormat("m/d/yyyy"));
 
@@ -2016,7 +2113,6 @@ public class ReportManager implements Serializable {
         return null;
     }
 
-    
     public ByteArrayInputStream createExcelMonthlyReportFileInputStream2(
             File reportFile,
             Long departmentId) {
