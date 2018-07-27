@@ -13,11 +13,14 @@ Next Status Update Notes
 ## Next release (May 24-25, 2018)
 ### Reports
 - Impl report exportation:
+  * The date period panel does not show when report is first selected.
+    Could be that the report is not fetched from the database initially.
   * Run init() before accessing date period
   * Impl getReportStreamedContent(Report currentReport) and test with 
     "Job entered by employee" report. Impl "Job entered by employee" report
      Test with employeeId1 = 192, datePeriod1 = "This month"
   * Put the functionality for getting the report file in the Report class.
+  * Allow in cell editing of date period fields??
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
 - Update report template form to include multiple date periods, departments, employee
