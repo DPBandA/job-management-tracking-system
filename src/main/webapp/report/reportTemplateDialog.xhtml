@@ -184,14 +184,15 @@ Email: info@dpbennett.com.jm
                                 <f:facet name="header">
                                     <h:outputText value="Start"/>
                                 </f:facet>
-                                <h:outputText value="#{datePeriod.startDate}" />
+                                <h:outputText value="#{datePeriod.formattedStartDate}" />
+
                             </p:column>
 
                             <p:column>
                                 <f:facet name="header">
                                     <h:outputText value="End"/>
                                 </f:facet>
-                                <h:outputText value="#{datePeriod.endDate}" />
+                                <h:outputText value="#{datePeriod.formattedEndDate}" />
                             </p:column>
 
                             <p:column style="width:32px" >
@@ -279,7 +280,7 @@ Email: info@dpbennett.com.jm
                                         process="@this" />
 
                             </p:autoComplete>
-                            
+
                             <h:outputText value="Department fields(s):" />       
                             <p:autoComplete id="departmentFields"
                                             var="department"   

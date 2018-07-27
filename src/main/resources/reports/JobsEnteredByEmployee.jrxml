@@ -5,16 +5,19 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="252"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="739"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<parameter name="startOFPeriod" class="java.util.Date"/>
-	<parameter name="endOFPeriod" class="java.util.Date"/>
-	<parameter name="inspectorID" class="java.lang.Long"/>
+	<parameter name="startOfPeriod1" class="java.util.Date"/>
+	<parameter name="endOfPeriod1" class="java.util.Date"/>
+	<parameter name="employeeId1" class="java.lang.Long"/>
 	<queryString>
 		<![CDATA[SELECT
-     DISTINCTROW GROUP_CONCAT(jobsample.`DESCRIPTION` SEPARATOR ', ') AS samples,
+     DISTINCTROW 
      GROUP_CONCAT(job.`JOBNUMBER` SEPARATOR ', ') AS jobNumbers,
      job.`ID` AS job_ID,
      job.`YEARRECEIVED` AS job_YEARRECEIVED,
@@ -78,7 +81,6 @@
      jobstatusandtracking.`COMPLETED` AS jobstatusandtracking_COMPLETED,
      jobstatusandtracking.`SAMPLESCOLLECTED` AS jobstatusandtracking_SAMPLESCOLLECTED,
      jobstatusandtracking.`DATESUBMITTED` AS jobstatusandtracking_DATESUBMITTED,
-
      jobstatusandtracking.`DATEDOCUMENTCOLLECTED` AS jobstatusandtracking_DATEDOCUMENTCOLLECTED,
      jobstatusandtracking.`WORKPROGRESS` AS jobstatusandtracking_WORKPROGRESS,
      jobstatusandtracking.`JOBEMAILFREQUENCY` AS jobstatusandtracking_JOBEMAILFREQUENCY,
@@ -101,199 +103,393 @@
      client.`ACTIVE` AS client_ACTIVE,
      client.`NOTES` AS client_NOTES,
      client.`INTERNAL` AS client_INTERNAL,
-     client.`INTERNET_ID` AS client_INTERNET_ID,
-     job_jobsample.`Job_ID` AS job_jobsample_Job_ID,
-     job_jobsample.`jobSamples_ID` AS job_jobsample_jobSamples_ID,
-     jobsample.`ID` AS jobsample_ID,
-     jobsample.`JOBID` AS jobsample_JOBID,
-     jobsample.`DATERECEIVED` AS jobsample_DATERECEIVED,
-     jobsample.`TYPE` AS jobsample_TYPE,
-     jobsample.`PRODUCTTYPE` AS jobsample_PRODUCTTYPE,
-     jobsample.`METHODOFDISPOSAL` AS jobsample_METHODOFDISPOSAL,
-     jobsample.`PRODUCTBRAND` AS jobsample_PRODUCTBRAND,
-     jobsample.`SAMPLEQUANTITY` AS jobsample_SAMPLEQUANTITY,
-     jobsample.`DESCRIPTION` AS jobsample_DESCRIPTION,
-     jobsample.`NAME` AS jobsample_NAME,
-     jobsample.`QUANTITY` AS jobsample_QUANTITY,
-     jobsample.`UNITOFMEASURE` AS jobsample_UNITOFMEASURE,
-     jobsample.`PRODUCTSERIALNUMBER` AS jobsample_PRODUCTSERIALNUMBER,
-     jobsample.`DATERETURNED` AS jobsample_DATERETURNED,
-     jobsample.`PRODUCTCODE` AS jobsample_PRODUCTCODE,
-     jobsample.`SAMPLESIZE` AS jobsample_SAMPLESIZE,
-     jobsample.`PRODUCTMODEL` AS jobsample_PRODUCTMODEL,
-     jobsample.`CODE` AS jobsample_CODE,
-     jobsample.`REFERENCEINDEX` AS jobsample_REFERENCEINDEX,
-     jobsample.`REFERENCE` AS jobsample_REFERENCE,
-     jobsample.`DATESAMPLED` AS jobsample_DATESAMPLED,
-     jobsample.`COMMENTS` AS jobsample_COMMENTS,
-     jobsample.`REGULATORYOFFICE_ID` AS jobsample_REGULATORYOFFICE_ID,
-     jobsample.`CLIENT_ID` AS jobsample_CLIENT_ID,
-     jobsample.`SAMPLEDBY_ID` AS jobsample_SAMPLEDBY_ID,
-     jobsample.`RECEIVEDBY_ID` AS jobsample_RECEIVEDBY_ID,
-     jobsample.`MANUFACTURER_ID` AS jobsample_MANUFACTURER_ID,
-     jobsample.`COUNTRYOFORIGIN` AS jobsample_COUNTRYOFORIGIN
-FROM
+     client.`INTERNET_ID` AS client_INTERNET_ID   
+ FROM
      `employee` employee LEFT OUTER JOIN `jobstatusandtracking` jobstatusandtracking ON employee.`ID` = jobstatusandtracking.`ENTEREDBY_ID`
      INNER JOIN `job` job ON jobstatusandtracking.`ID` = job.`JOBSTATUSANDTRACKING_ID`
      INNER JOIN `client` client ON job.`CLIENT_ID` = client.`ID`
-     INNER JOIN `job_jobsample` job_jobsample ON job.`ID` = job_jobsample.`Job_ID`
-     INNER JOIN `jobsample` jobsample ON job_jobsample.`jobSamples_ID` = jobsample.`ID`
 WHERE
-     (jobstatusandtracking.`DATEANDTIMEENTERED` >= $P{startOFPeriod}
- AND jobstatusandtracking.`DATEANDTIMEENTERED` <= $P{endOFPeriod})
- AND jobstatusandtracking.`ENTEREDBY_ID` = $P{inspectorID}
+     (jobstatusandtracking.`DATEANDTIMEENTERED` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`DATEANDTIMEENTERED` <= $P{endOfPeriod1})
+ AND jobstatusandtracking.`ENTEREDBY_ID` = $P{employeeId1}
 GROUP BY
      client.`ID`]]>
 	</queryString>
-	<field name="samples" class="java.lang.String"/>
-	<field name="jobNumbers" class="java.lang.String"/>
-	<field name="job_ID" class="java.lang.Long"/>
-	<field name="job_YEARRECEIVED" class="java.lang.Integer"/>
-	<field name="job_JOBDESCRIPTION" class="java.lang.String"/>
-	<field name="job_ESTIMATEDTURNAROUNDTIMEINDAYS" class="java.lang.Integer"/>
-	<field name="job_JOBSEQUENCENUMBER" class="java.lang.Long"/>
-	<field name="job_REPORTNUMBER" class="java.lang.String"/>
-	<field name="job_NOOFTESTSORCALIBRATIONS" class="java.lang.Integer"/>
-	<field name="job_NUMBEROFSAMPLES" class="java.lang.Long"/>
-	<field name="job_ISEARNINGJOB" class="java.lang.Boolean"/>
-	<field name="job_AUTOGENERATEJOBNUMBER" class="java.lang.Boolean"/>
-	<field name="job_JOBNUMBER" class="java.lang.String"/>
-	<field name="job_NEWCLIENT" class="java.lang.Boolean"/>
-	<field name="job_LOCKED" class="java.lang.Boolean"/>
-	<field name="job_COMMENT" class="java.lang.String"/>
-	<field name="job_ASSIGNEDTO_ID" class="java.lang.Long"/>
-	<field name="job_DEPARTMENT_ID" class="java.lang.Long"/>
-	<field name="job_JOBSTATUSANDTRACKING_ID" class="java.lang.Long"/>
-	<field name="job_JOBCATEGORY_ID" class="java.lang.Long"/>
-	<field name="job_CLASSIFICATION_ID" class="java.lang.Long"/>
-	<field name="job_SERVICECONTRACT_ID" class="java.lang.Long"/>
-	<field name="job_BUSINESSOFFICE_ID" class="java.lang.Long"/>
-	<field name="job_JOBSUBCATEGORY_ID" class="java.lang.Long"/>
-	<field name="job_SECTOR_ID" class="java.lang.Long"/>
-	<field name="job_SUBCONTRACTEDDEPARTMENT_ID" class="java.lang.Long"/>
-	<field name="job_JOBCOSTINGANDPAYMENT_ID" class="java.lang.Long"/>
-	<field name="job_CLIENT_ID" class="java.lang.Long"/>
-	<field name="employee_ID" class="java.lang.Long"/>
-	<field name="employee_MIDDLENAME" class="java.lang.String"/>
-	<field name="employee_NAMESUFFIX" class="java.lang.String"/>
-	<field name="employee_LASTNAME" class="java.lang.String"/>
-	<field name="employee_SEX" class="java.lang.String"/>
-	<field name="employee_NUMBER" class="java.lang.String"/>
-	<field name="employee_BILLINGRATE" class="java.lang.Double"/>
-	<field name="employee_USERNAME" class="java.lang.String"/>
-	<field name="employee_TITLE" class="java.lang.String"/>
-	<field name="employee_NAME" class="java.lang.String"/>
-	<field name="employee_ACTIVE" class="java.lang.Boolean"/>
-	<field name="employee_BIRTHDATE" class="java.sql.Date"/>
-	<field name="employee_FIRSTNAME" class="java.lang.String"/>
-	<field name="employee_NOTES" class="java.lang.String"/>
-	<field name="employee_DATEHIRED" class="java.sql.Date"/>
-	<field name="employee_INTERNET_ID" class="java.lang.Long"/>
-	<field name="employee_BUSINESSOFFICE_ID" class="java.lang.Long"/>
-	<field name="employee_DEPARTMENT_ID" class="java.lang.Long"/>
-	<field name="employee_EMPLOYMENTTYPE" class="java.lang.String"/>
-	<field name="employee_BUSINESS_ID" class="java.lang.Long"/>
-	<field name="employee_SIGNATURE_ID" class="java.lang.Long"/>
-	<field name="employee_POST" class="java.lang.String"/>
-	<field name="jobstatusandtracking_ID" class="java.lang.Long"/>
-	<field name="jobstatusandtracking_DATEANDTIMEENTERED" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_STATUSNOTE" class="java.lang.String"/>
-	<field name="jobstatusandtracking_DATETRANSFERED" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_EXPECTEDDATEOFCOMPLETION" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_DATESTATUSEDITED" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_DATESAMPLESCOLLECTED" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_DOCUMENTCOLLECTED" class="java.lang.Boolean"/>
-	<field name="jobstatusandtracking_SAMPLESCOLLECTEDBY" class="java.lang.String"/>
-	<field name="jobstatusandtracking_DOCUMENTCOLLECTEDBY" class="java.lang.String"/>
-	<field name="jobstatusandtracking_JOBTRANSFEREDTO" class="java.lang.String"/>
-	<field name="jobstatusandtracking_COMPLETED" class="java.lang.Boolean"/>
-	<field name="jobstatusandtracking_SAMPLESCOLLECTED" class="java.lang.Boolean"/>
-	<field name="jobstatusandtracking_DATESUBMITTED" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_DATEDOCUMENTCOLLECTED" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_WORKPROGRESS" class="java.lang.String"/>
-	<field name="jobstatusandtracking_JOBEMAILFREQUENCY" class="java.lang.Integer"/>
-	<field name="jobstatusandtracking_DATEPRODUCTORSAMPLERECEIVED" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_PRODUCTORSAMPLERECEIVEDBY" class="java.lang.String"/>
-	<field name="jobstatusandtracking_DATEJOBEMAILWASSENT" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_DATEOFCOMPLETION" class="java.sql.Date"/>
-	<field name="jobstatusandtracking_TRANSFERREDTO_ID" class="java.lang.Long"/>
-	<field name="jobstatusandtracking_ENTEREDBY_ID" class="java.lang.Long"/>
-	<field name="jobstatusandtracking_EDITEDBY_ID" class="java.lang.Long"/>
-	<field name="jobstatusandtracking_ALERTDATE" class="java.sql.Timestamp"/>
-	<field name="client_ID" class="java.lang.Long"/>
-	<field name="client_TAG" class="java.lang.Boolean"/>
-	<field name="client_TAXREGISTRATIONNUMBER" class="java.lang.String"/>
-	<field name="client_NUMBER" class="java.lang.String"/>
-	<field name="client_TYPE" class="java.lang.String"/>
-	<field name="client_DATELASTACCESSED" class="java.sql.Date"/>
-	<field name="client_DATEFIRSTRECEIVED" class="java.sql.Date"/>
-	<field name="client_NAME" class="java.lang.String"/>
-	<field name="client_ACTIVE" class="java.lang.Boolean"/>
-	<field name="client_NOTES" class="java.lang.String"/>
-	<field name="client_INTERNAL" class="java.lang.Boolean"/>
-	<field name="client_INTERNET_ID" class="java.lang.Long"/>
-	<field name="job_jobsample_Job_ID" class="java.lang.Long"/>
-	<field name="job_jobsample_jobSamples_ID" class="java.lang.Long"/>
-	<field name="jobsample_ID" class="java.lang.Long"/>
-	<field name="jobsample_JOBID" class="java.lang.Long"/>
-	<field name="jobsample_DATERECEIVED" class="java.sql.Date"/>
-	<field name="jobsample_TYPE" class="java.lang.String"/>
-	<field name="jobsample_PRODUCTTYPE" class="java.lang.String"/>
-	<field name="jobsample_METHODOFDISPOSAL" class="java.lang.Integer"/>
-	<field name="jobsample_PRODUCTBRAND" class="java.lang.String"/>
-	<field name="jobsample_SAMPLEQUANTITY" class="java.lang.Long"/>
-	<field name="jobsample_DESCRIPTION" class="java.lang.String"/>
-	<field name="jobsample_NAME" class="java.lang.String"/>
-	<field name="jobsample_QUANTITY" class="java.lang.Long"/>
-	<field name="jobsample_UNITOFMEASURE" class="java.lang.String"/>
-	<field name="jobsample_PRODUCTSERIALNUMBER" class="java.lang.String"/>
-	<field name="jobsample_DATERETURNED" class="java.sql.Date"/>
-	<field name="jobsample_PRODUCTCODE" class="java.lang.String"/>
-	<field name="jobsample_SAMPLESIZE" class="java.lang.String"/>
-	<field name="jobsample_PRODUCTMODEL" class="java.lang.String"/>
-	<field name="jobsample_CODE" class="java.lang.String"/>
-	<field name="jobsample_REFERENCEINDEX" class="java.lang.Long"/>
-	<field name="jobsample_REFERENCE" class="java.lang.String"/>
-	<field name="jobsample_DATESAMPLED" class="java.sql.Date"/>
-	<field name="jobsample_COMMENTS" class="java.lang.String"/>
-	<field name="jobsample_REGULATORYOFFICE_ID" class="java.lang.Long"/>
-	<field name="jobsample_CLIENT_ID" class="java.lang.Long"/>
-	<field name="jobsample_SAMPLEDBY_ID" class="java.lang.Long"/>
-	<field name="jobsample_RECEIVEDBY_ID" class="java.lang.Long"/>
-	<field name="jobsample_MANUFACTURER_ID" class="java.lang.Long"/>
-	<field name="jobsample_COUNTRYOFORIGIN" class="java.lang.String"/>
+	<field name="jobNumbers" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="jobNumbers"/>
+	</field>
+	<field name="job_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_YEARRECEIVED" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="job_YEARRECEIVED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_JOBDESCRIPTION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="job_JOBDESCRIPTION"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_ESTIMATEDTURNAROUNDTIMEINDAYS" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="job_ESTIMATEDTURNAROUNDTIMEINDAYS"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_JOBSEQUENCENUMBER" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_JOBSEQUENCENUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_REPORTNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="job_REPORTNUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_NOOFTESTSORCALIBRATIONS" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="job_NOOFTESTSORCALIBRATIONS"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_NUMBEROFSAMPLES" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_NUMBEROFSAMPLES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_ISEARNINGJOB" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="job_ISEARNINGJOB"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_AUTOGENERATEJOBNUMBER" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="job_AUTOGENERATEJOBNUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_JOBNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="job_JOBNUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_NEWCLIENT" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="job_NEWCLIENT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_LOCKED" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="job_LOCKED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_COMMENT" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="job_COMMENT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_ASSIGNEDTO_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_ASSIGNEDTO_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_DEPARTMENT_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_DEPARTMENT_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_JOBSTATUSANDTRACKING_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_JOBSTATUSANDTRACKING_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_JOBCATEGORY_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_JOBCATEGORY_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_CLASSIFICATION_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_CLASSIFICATION_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_SERVICECONTRACT_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_SERVICECONTRACT_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_BUSINESSOFFICE_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_BUSINESSOFFICE_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_JOBSUBCATEGORY_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_JOBSUBCATEGORY_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_SECTOR_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_SECTOR_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_SUBCONTRACTEDDEPARTMENT_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_SUBCONTRACTEDDEPARTMENT_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_JOBCOSTINGANDPAYMENT_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_JOBCOSTINGANDPAYMENT_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_CLIENT_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="job_CLIENT_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="employee_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="employee_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_MIDDLENAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_MIDDLENAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_NAMESUFFIX" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_NAMESUFFIX"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_LASTNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_LASTNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_SEX" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_SEX"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_NUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_NUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_BILLINGRATE" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="employee_BILLINGRATE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_USERNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_USERNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_TITLE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_TITLE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_ACTIVE" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="employee_ACTIVE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_BIRTHDATE" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="employee_BIRTHDATE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_FIRSTNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_FIRSTNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_NOTES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_NOTES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_DATEHIRED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="employee_DATEHIRED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_INTERNET_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="employee_INTERNET_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_BUSINESSOFFICE_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="employee_BUSINESSOFFICE_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_DEPARTMENT_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="employee_DEPARTMENT_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_EMPLOYMENTTYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_EMPLOYMENTTYPE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_BUSINESS_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="employee_BUSINESS_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_SIGNATURE_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="employee_SIGNATURE_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_POST" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="employee_POST"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="jobstatusandtracking_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATEANDTIMEENTERED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATEANDTIMEENTERED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_STATUSNOTE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_STATUSNOTE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATETRANSFERED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATETRANSFERED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_EXPECTEDDATEOFCOMPLETION" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_EXPECTEDDATEOFCOMPLETION"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATESTATUSEDITED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATESTATUSEDITED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATESAMPLESCOLLECTED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATESAMPLESCOLLECTED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DOCUMENTCOLLECTED" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DOCUMENTCOLLECTED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_SAMPLESCOLLECTEDBY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_SAMPLESCOLLECTEDBY"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DOCUMENTCOLLECTEDBY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DOCUMENTCOLLECTEDBY"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_JOBTRANSFEREDTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_JOBTRANSFEREDTO"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_COMPLETED" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_COMPLETED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_SAMPLESCOLLECTED" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_SAMPLESCOLLECTED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATESUBMITTED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATESUBMITTED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATEDOCUMENTCOLLECTED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATEDOCUMENTCOLLECTED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_WORKPROGRESS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_WORKPROGRESS"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_JOBEMAILFREQUENCY" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_JOBEMAILFREQUENCY"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATEPRODUCTORSAMPLERECEIVED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATEPRODUCTORSAMPLERECEIVED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_PRODUCTORSAMPLERECEIVEDBY" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_PRODUCTORSAMPLERECEIVEDBY"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATEJOBEMAILWASSENT" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATEJOBEMAILWASSENT"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATEOFCOMPLETION" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATEOFCOMPLETION"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_TRANSFERREDTO_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_TRANSFERREDTO_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_ENTEREDBY_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_ENTEREDBY_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_EDITEDBY_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_EDITEDBY_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_ALERTDATE" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_ALERTDATE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="client_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="client_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_TAG" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="client_TAG"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_TAXREGISTRATIONNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="client_TAXREGISTRATIONNUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_NUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="client_NUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="client_TYPE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_DATELASTACCESSED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="client_DATELASTACCESSED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_DATEFIRSTRECEIVED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="client_DATEFIRSTRECEIVED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="client_NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_ACTIVE" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="client_ACTIVE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_NOTES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="client_NOTES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_INTERNAL" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="client_INTERNAL"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_INTERNET_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="client_INTERNET_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="70" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="0" y="5" width="860" height="36" forecolor="#000000" uuid="34049110-7832-4684-9215-8eeae0100de4"/>
+				<reportElement x="0" y="5" width="860" height="36" forecolor="#000000" uuid="34049110-7832-4684-9215-8eeae0100de4"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="22" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Jobs Entered by Employee]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="162" y="41" width="178" height="29" uuid="7b20eb55-fc0b-4bdf-a309-d5d8832aa567"/>
+				<reportElement x="162" y="41" width="178" height="29" isRemoveLineWhenBlank="true" uuid="7b20eb55-fc0b-4bdf-a309-d5d8832aa567"/>
 				<textElement>
 					<font fontName="Arial" size="22"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{endOFPeriod}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="138" y="41" width="24" height="29" uuid="1b6f14d2-0b8b-49e8-9fd4-54d2c9a2ad28"/>
+				<reportElement x="138" y="41" width="24" height="29" isRemoveLineWhenBlank="true" uuid="1b6f14d2-0b8b-49e8-9fd4-54d2c9a2ad28"/>
 				<textElement>
 					<font fontName="Arial" size="22"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="0" y="41" width="138" height="29" uuid="e05af91a-98e1-45d2-be9f-b0ee4e9f491d"/>
+				<reportElement x="0" y="41" width="138" height="29" isRemoveLineWhenBlank="true" uuid="e05af91a-98e1-45d2-be9f-b0ee4e9f491d"/>
 				<textElement>
 					<font fontName="Arial" size="22"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startOFPeriod}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -304,7 +500,7 @@ GROUP BY
 		<band height="36" splitType="Stretch">
 			<staticText>
 				<reportElement style="Column header" x="0" y="19" width="138" height="15" uuid="0dcb4c8c-73d3-443a-a6b8-3989da54b766"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -315,7 +511,7 @@ GROUP BY
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="138" y="19" width="138" height="15" uuid="2b4b6876-6880-43ed-a775-4c94342a3e5b"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -326,47 +522,25 @@ GROUP BY
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="276" y="19" width="138" height="15" uuid="5ceb1f44-6f4f-4a06-bae6-786b7f0c7ddb"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<text><![CDATA[Insp. firstname]]></text>
+				<text><![CDATA[Employee firstname]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="Column header" x="414" y="19" width="138" height="15" uuid="4d92a13e-1359-4814-8331-78d7ca682f5e"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<text><![CDATA[Insp. lastname]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="552" y="19" width="138" height="15" uuid="a6ba2726-dc8e-499e-a320-f7eedac7a3f8"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<text><![CDATA[Date entered]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="690" y="19" width="470" height="15" uuid="ff47b525-26e4-4e00-8739-73031541a583"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<text><![CDATA[Samples]]></text>
+				<text><![CDATA[Employee lastname]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -374,7 +548,7 @@ GROUP BY
 		<band height="42" splitType="Stretch">
 			<textField>
 				<reportElement style="Detail" x="0" y="0" width="138" height="42" uuid="da727a3e-ed81-4952-981e-15565845cfe2"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -385,7 +559,7 @@ GROUP BY
 			</textField>
 			<textField>
 				<reportElement style="Detail" x="138" y="0" width="138" height="42" uuid="1635e7a2-4566-4b69-816f-770a2cbc161a"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -396,7 +570,7 @@ GROUP BY
 			</textField>
 			<textField>
 				<reportElement style="Detail" x="276" y="0" width="138" height="42" uuid="884003e6-7512-4404-932e-2a2d7c46d057"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -407,7 +581,7 @@ GROUP BY
 			</textField>
 			<textField>
 				<reportElement style="Detail" x="414" y="0" width="138" height="42" uuid="555fa4c6-3959-4085-a6f0-4a2e40f884ae"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -415,28 +589,6 @@ GROUP BY
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textFieldExpression><![CDATA[$F{employee_LASTNAME}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Detail" x="552" y="0" width="138" height="42" uuid="319d0f79-b19a-4469-99ec-fe7fdd237bf5"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATEANDTIMEENTERED}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement style="Detail" x="690" y="0" width="470" height="42" uuid="7dab58d4-da11-46f1-a5ac-2c4335c30cfc"/>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textFieldExpression><![CDATA[$F{samples}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

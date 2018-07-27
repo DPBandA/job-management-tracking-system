@@ -575,12 +575,29 @@ public class ReportManager implements Serializable {
                 byte[] fileBytes;
                 JasperPrint print = null;
 
-                // tk change to "startOfPeriod1" etc and employee1 etc.
-                // and use the Report parameters.
-                // fix report to show job enties without samples.
-                parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
-                parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
-                parameters.put("inspectorID", getReportEmployee().getId());
+                // Provide date parameters if required
+                if (currentReport.getDatePeriodRequired()) {
+                    for (int i = 0; i < currentReport.getDatePeriods().size(); i++) {
+                        parameters.put("startOfPeriod" + (i + 1),
+                                currentReport.getDatePeriods().get(i).initDatePeriod().getStartDate());
+                        parameters.put("endOfPeriod" + (i + 1),
+                                currentReport.getDatePeriods().get(i).initDatePeriod().getEndDate());
+                    }
+                }
+                // Provide employee parameters if required
+                if (currentReport.getEmployeeRequired()) {
+                    for (int i = 0; i < currentReport.getEmployees().size(); i++) {
+                        parameters.put("employeeId" + (i + 1),
+                                currentReport.getEmployees().get(i).getId());
+                    }
+                }
+                // Provide department parameters if required
+                if (currentReport.getDepartmentRequired()) {
+                    for (int i = 0; i < currentReport.getDepartments().size(); i++) {
+                        parameters.put("departmentId" + (i + 1),
+                                currentReport.getDepartments().get(i).getId());
+                    }
+                }
 
                 // Generate report
                 if (report.getUsePackagedReportFileTemplate()) {
@@ -588,9 +605,9 @@ public class ReportManager implements Serializable {
                         FileInputStream fis = new FileInputStream(getClass().getClassLoader().
                                 getResource("/reports/" + getReport().getReportFileTemplate()).getFile());
                         print = JasperFillManager.fillReport(
-                            fis,
-                            parameters,
-                            con);
+                                fis,
+                                parameters,
+                                con);
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(ReportManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -608,7 +625,7 @@ public class ReportManager implements Serializable {
                         streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
                                 currentReport.getReportOutputFileMimeType(),
                                 currentReport.getReportFile());
-                        
+
 //                        if (report.getUsePackagedReportFileTemplate()) {
 //                            stream = analyticalServicesReportFileInputStream(
 //                                    new File(getClass().getClassLoader().
@@ -619,7 +636,6 @@ public class ReportManager implements Serializable {
 //                                    new File(getReport().getReportFileTemplate()),
 //                                    reportingDepartment.getId());
 //                        }
-
                         break;
                     case "application/xlsx":
 

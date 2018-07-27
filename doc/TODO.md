@@ -11,9 +11,12 @@ Next Status Update Notes
 - Get copy of ISO/IEC 42010 for Software Architecture.
 
 ## Next release (May 24-25, 2018)
+### Reports
 - Impl report exportation:
+  * Run init() before accessing date period
   * Impl getReportStreamedContent(Report currentReport) and test with 
     "Job entered by employee" report. Impl "Job entered by employee" report
+     Test with employeeId1 = 192, datePeriod1 = "This month"
   * Put the functionality for getting the report file in the Report class.
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
@@ -22,6 +25,8 @@ Next Status Update Notes
 - Impl and add Legal reports. 
 - Add report template for legal.
 - Deactivate accpac invoice feature and deploy.
+
+### Accpac Invoicing
 - Impl invoice export.  
   * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
