@@ -175,7 +175,7 @@ Email: info@dpbennett.com.jm
 
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Name"/>
+                                    <h:outputText value="Period"/>
                                 </f:facet>
                                 <h:outputText value="#{datePeriod.name}" />
                             </p:column>
@@ -184,7 +184,7 @@ Email: info@dpbennett.com.jm
                                 <f:facet name="header">
                                     <h:outputText value="Start"/>
                                 </f:facet>
-                                <h:outputText value="#{datePeriod.formattedStartDate}" />
+                                <h:outputText value="#{datePeriod.initDatePeriod.formattedStartDate}" />
 
                             </p:column>
 
@@ -192,7 +192,7 @@ Email: info@dpbennett.com.jm
                                 <f:facet name="header">
                                     <h:outputText value="End"/>
                                 </f:facet>
-                                <h:outputText value="#{datePeriod.formattedEndDate}" />
+                                <h:outputText value="#{datePeriod.initDatePeriod.formattedEndDate}" />
                             </p:column>
 
                             <p:column style="width:32px" >

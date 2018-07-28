@@ -83,13 +83,36 @@ Email: info@dpbennett.com.jm
         </p:panel>
 
         <h:panelGroup id="parametersGroup" >
+            <p:panel id="departmentsPanel" header="Department(s)" 
+                     rendered="#{reportManager.selectedReport.departmentRequired}">
+
+                <p:autoComplete id="departments"
+                                var="department"   
+                                value="#{reportManager.selectedReport.departments}"
+                                itemLabel="#{department.name}"
+                                itemValue="#{department}"
+                                converter="departmentConverter"
+                                forceSelection="true"
+                                dropdown="true"
+                                scrollHeight="200"  
+                                multiple="true"
+                                completeMethod="#{App.completeDepartment}" >
+
+                    <p:ajax event="itemSelect"
+                            update="departments"
+                            process="@this" />
+
+                </p:autoComplete>
+
+            </p:panel>
+
             <p:panel id="datePeriodsPanel" header="Date period(s)" 
                      rendered="#{reportManager.selectedReport.datePeriodRequired}">
 
-                <p:dataTable id="datePeriodsTable"
+                <p:dataTable id="datePeriodsTable2"                             
                              var="datePeriod" 
                              value="#{reportManager.selectedReport.datePeriods}">
-
+                    <h:outputText value="#{datePeriod.formattedStartDate}" />
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Label"/>
@@ -99,7 +122,7 @@ Email: info@dpbennett.com.jm
 
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Name"/>
+                            <h:outputText value="Period"/>
                         </f:facet>
                         <h:outputText value="#{datePeriod.name}" />
                     </p:column>
@@ -108,7 +131,7 @@ Email: info@dpbennett.com.jm
                         <f:facet name="header">
                             <h:outputText value="Start"/>
                         </f:facet>
-                        <h:outputText value="#{datePeriod.formattedStartDate}" />
+                        <h:outputText value="#{datePeriod.initDatePeriod.formattedStartDate}" />
 
                     </p:column>
 
@@ -116,33 +139,11 @@ Email: info@dpbennett.com.jm
                         <f:facet name="header">
                             <h:outputText value="End"/>
                         </f:facet>
-                        <h:outputText value="#{datePeriod.formattedEndDate}" />
+                        <h:outputText value="#{datePeriod.initDatePeriod.formattedEndDate}" />
                     </p:column>
-
-                    <p:column style="width:32px" >
-                        <p:menuButton icon="ui-icon-pencil" title="Edit or delete date period">
-                            <p:menuitem>                       
-                                <p:commandButton value="Edit"
-                                                 icon="ui-icon-pencil" 
-                                                 style="width: 300%;text-align: left;background: none;border: 0;"
-                                                 onstart="PF('longProcessDialogVar').show();"   
-                                                 oncomplete="PF('longProcessDialogVar').hide();"                                  
-                                                 actionListener="#{reportManager.editDatePeriod}"  
-                                                 process="@this"                             
-                                                 title="View or edit this date period's detail">  
-
-                                    <f:setPropertyActionListener value="#{datePeriod}"
-                                                                 target="#{reportManager.selectedDatePeriod}" />
-
-                                    <p:ajax event="dialogReturn" 
-                                            update="datePeriodsTable"/>
-
-                                </p:commandButton>            
-                            </p:menuitem>
-
-                        </p:menuButton>    
-                    </p:column>
+                  
                 </p:dataTable>
+
             </p:panel>      
         </h:panelGroup>
 
