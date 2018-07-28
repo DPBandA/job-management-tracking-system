@@ -1787,13 +1787,16 @@ public class ReportManager implements Serializable {
             // Set department name and report period
             // Dept. name
             BusinessEntityUtils.setExcelCellValue(wb, jobReportSheet, 0, 0,
-                    getReportingDepartment().getName(),
+                    //getReportingDepartment().getName(),
+                    getSelectedReport().getDepartments().get(0).getName(),
                     "java.lang.String", null);
             BusinessEntityUtils.setExcelCellValue(wb, employeeReportSheet, 0, 0,
-                    getReportingDepartment().getName(),
+                    //getReportingDepartment().getName(),
+                    getSelectedReport().getDepartments().get(0).getName(),
                     "java.lang.String", null);
             BusinessEntityUtils.setExcelCellValue(wb, sectorReportSheet, 0, 0,
-                    getReportingDepartment().getName(),
+                    //getReportingDepartment().getName(),
+                    getSelectedReport().getDepartments().get(0).getName(),
                     "java.lang.String", null);
             // Period
             BusinessEntityUtils.setExcelCellValue(wb, jobReportSheet, 2, 0,
@@ -1817,7 +1820,7 @@ public class ReportManager implements Serializable {
 
             return new ByteArrayInputStream(out.toByteArray());
 
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             System.out.println(ex);
         }
 
@@ -2024,7 +2027,7 @@ public class ReportManager implements Serializable {
 
             return new ByteArrayInputStream(out.toByteArray());
 
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             System.out.println(ex);
         }
 
@@ -2155,7 +2158,7 @@ public class ReportManager implements Serializable {
     }
 
     public Report getLatestJobReport(EntityManager em) {
-        Report report = Report.findReportById(em, getReport().getId());
+        Report report = Report.findReportById(em, getSelectedReport().getId());
         em.refresh(report);
 
         return report;
@@ -2172,8 +2175,8 @@ public class ReportManager implements Serializable {
 
             if (getReportEmployee().getId() != null) {
 
-                report = getLatestJobReport(em);
-                String reportFileURL = getReport().getReportFile();
+                //report = getLatestJobReport(em);
+                String reportFileURL = getSelectedReport().getReportFile();
 
                 Connection con = BusinessEntityUtils.establishConnection(
                         (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
@@ -2215,6 +2218,7 @@ public class ReportManager implements Serializable {
 
     }
 
+    // tk to be replaced by getReportStreamedContent()
     public StreamedContent getJobEnteredByDepartmentReportPDFFile() {
 
         EntityManager em = getEntityManager1();
@@ -2222,12 +2226,14 @@ public class ReportManager implements Serializable {
 
         try {
 
-            reportingDepartment = Department.findDepartmentByName(em, getReportingDepartment().getName());
+            reportingDepartment = Department.findDepartmentByName(em, 
+                    getSelectedReport().getDepartments().get(0).getName()
+                    /*getReportingDepartment().getName()*/);
 
-            if (getReportingDepartment().getId() != null) {
+            if (getSelectedReport().getDepartments().get(0).getId() != null) {
 
-                report = getLatestJobReport(em);
-                String reportFileURL = getReport().getReportFile();
+                //report = getLatestJobReport(em);
+                String reportFileURL = getSelectedReport().getReportFile();
 
                 Connection con = BusinessEntityUtils.establishConnection(
                         (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
@@ -2238,9 +2244,12 @@ public class ReportManager implements Serializable {
                 if (con != null) {
                     StreamedContent streamContent;
 
+                    // tk use method used for 
                     parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
                     parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
-                    parameters.put("departmentID", getReportingDepartment().getId());
+                    
+                    parameters.put("departmentID", 
+                            getSelectedReport().getDepartments().get(0).getId());
 
                     // generate report
                     JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
@@ -2269,6 +2278,8 @@ public class ReportManager implements Serializable {
 
     }
 
+    // tk to be replaced by getReportStreamedContent()
+    // also to be replaced with jasper version
     public StreamedContent getJobAssignedToDepartmentReportXLSFile() {
 
         EntityManager em = getEntityManager1();
@@ -2276,15 +2287,16 @@ public class ReportManager implements Serializable {
 
         try {
 
-            reportingDepartment = Department.findDepartmentByName(em, getReportingDepartment().getName()); //getEmployeeByName(em, getReportEmployee().getName());
+//            reportingDepartment = Department.findDepartmentByName(em, 
+//                    getSelectedReport().getDepartments().get(0).getName());
 
             // Use user's department if none found
-            if (getReportingDepartment().getId() == null) {
+            if (getSelectedReport().getDepartments().get(0).getId() == null) {
                 reportingDepartment = getUser().getEmployee().getDepartment();
             }
 
-            report = getLatestJobReport(em);
-            String reportFileURL = getReport().getReportFile();
+            //report = getLatestJobReport(em);
+            String reportFileURL = getSelectedReport().getReportFile();
 
             Connection con = BusinessEntityUtils.establishConnection(
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
@@ -2297,8 +2309,8 @@ public class ReportManager implements Serializable {
 
                 parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
                 parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
-                parameters.put("departmentID", getReportingDepartment().getId());
-                parameters.put("departmentName", getReportingDepartment().getName());
+                parameters.put("departmentID", getSelectedReport().getDepartments().get(0).getId());
+                parameters.put("departmentName", getSelectedReport().getDepartments().get(0).getName());
                 // generate report
                 JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
 
