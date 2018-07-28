@@ -1,10 +1,11 @@
 ## Things to do
 
-Documentation:
+### Documentation
 - Communicate the objectives of the JMTS via the Architecture Document (AD)
 - Use Infrastructure Software Modules for Enterprises modules description to document 
   the system refering to the JMTS/BEL classes that implement the various modules.
-Next Status Update Notes
+
+### Next Status Update Notes
 - Add users, update database, etc. under sys admin
 - Mention work on BPM 
 - Mention development and testing of infrastructure modules of the JMTS.
@@ -21,6 +22,8 @@ Next Status Update Notes
      Test with employeeId1 = 192, datePeriod1 = "This month"
   * Put the functionality for getting the report file in the Report class.
   * Allow in cell editing of date period fields??
+  * Export "blank" report when "--" report is selected enable disable "Export"
+    buttons as as before.
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
 - Update report template form to include multiple date periods, departments, employee
