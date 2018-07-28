@@ -148,7 +148,7 @@ public class ReportManager implements Serializable {
     public ReportManager() {
         init();
     }
-
+   
     public Boolean getEdit() {
         return edit;
     }
@@ -916,7 +916,7 @@ public class ReportManager implements Serializable {
     }
 
     public void refreshJobReport() {
-        //updateReport();
+        //updateReport();        
     }
 
     public void updateServiceContract() {

@@ -37,7 +37,7 @@ Email: info@dpbennett.com.jm
                         onstart="PF('longProcessDialogVar2').show();"
                         oncomplete="PF('longProcessDialogVar2').hide();"
                         listener="#{reportManager.updateReportCategory}"
-                        update="reportDetailPanel,datePeriodsPanel,export1,export2"
+                        update="parametersGroup,reportDetailPanel,export1,export2"
                         process="@this" />
 
                     <f:selectItems value="#{reportManager.reportCategories}"/>
@@ -63,7 +63,7 @@ Email: info@dpbennett.com.jm
                                 listener="#{reportManager.refreshJobReport}"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
-                                update="reportDetailPanel,datePeriodsPanel,export1,export2"
+                                update="parametersGroup,reportDetailPanel,export1,export2"
                                 process="@this" />
 
                     </p:autoComplete>
@@ -77,70 +77,74 @@ Email: info@dpbennett.com.jm
                                   autoResize="false"
                                   readonly="true"
                                   rows="4"
-                                  style="width:175%;" />
+                                  style="width:175%;background: lightyellow;" />
 
             </h:panelGrid>
         </p:panel>
 
-        <p:panel id="datePeriodsPanel" header="Report period(s)" >
-            <p:dataTable id="datePeriodsTable"
-                         var="datePeriod" 
-                         value="#{reportManager.selectedReport.datePeriods}">
+        <h:panelGroup id="parametersGroup" >
+            <p:panel id="datePeriodsPanel" header="Date period(s)" 
+                     rendered="#{reportManager.selectedReport.datePeriodRequired}">
 
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Label"/>
-                    </f:facet>
-                    <h:outputText value="#{datePeriod.label}" />
-                </p:column>
+                <p:dataTable id="datePeriodsTable"
+                             var="datePeriod" 
+                             value="#{reportManager.selectedReport.datePeriods}">
 
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Name"/>
-                    </f:facet>
-                    <h:outputText value="#{datePeriod.name}" />
-                </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Label"/>
+                        </f:facet>
+                        <h:outputText value="#{datePeriod.label}" />
+                    </p:column>
 
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Start"/>
-                    </f:facet>
-                    <h:outputText value="#{datePeriod.formattedStartDate}" />
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Name"/>
+                        </f:facet>
+                        <h:outputText value="#{datePeriod.name}" />
+                    </p:column>
 
-                </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Start"/>
+                        </f:facet>
+                        <h:outputText value="#{datePeriod.formattedStartDate}" />
 
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="End"/>
-                    </f:facet>
-                    <h:outputText value="#{datePeriod.formattedEndDate}" />
-                </p:column>
+                    </p:column>
 
-                <p:column style="width:32px" >
-                    <p:menuButton icon="ui-icon-pencil" title="Edit or delete date period">
-                        <p:menuitem>                       
-                            <p:commandButton value="Edit"
-                                             icon="ui-icon-pencil" 
-                                             style="width: 300%;text-align: left;background: none;border: 0;"
-                                             onstart="PF('longProcessDialogVar').show();"   
-                                             oncomplete="PF('longProcessDialogVar').hide();"                                  
-                                             actionListener="#{reportManager.editDatePeriod}"  
-                                             process="@this"                             
-                                             title="View or edit this date period's detail">  
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="End"/>
+                        </f:facet>
+                        <h:outputText value="#{datePeriod.formattedEndDate}" />
+                    </p:column>
 
-                                <f:setPropertyActionListener value="#{datePeriod}"
-                                                             target="#{reportManager.selectedDatePeriod}" />
+                    <p:column style="width:32px" >
+                        <p:menuButton icon="ui-icon-pencil" title="Edit or delete date period">
+                            <p:menuitem>                       
+                                <p:commandButton value="Edit"
+                                                 icon="ui-icon-pencil" 
+                                                 style="width: 300%;text-align: left;background: none;border: 0;"
+                                                 onstart="PF('longProcessDialogVar').show();"   
+                                                 oncomplete="PF('longProcessDialogVar').hide();"                                  
+                                                 actionListener="#{reportManager.editDatePeriod}"  
+                                                 process="@this"                             
+                                                 title="View or edit this date period's detail">  
 
-                                <p:ajax event="dialogReturn" 
-                                        update="datePeriodsTable"/>
+                                    <f:setPropertyActionListener value="#{datePeriod}"
+                                                                 target="#{reportManager.selectedDatePeriod}" />
 
-                            </p:commandButton>            
-                        </p:menuitem>
+                                    <p:ajax event="dialogReturn" 
+                                            update="datePeriodsTable"/>
 
-                    </p:menuButton>    
-                </p:column>
-            </p:dataTable>
-        </p:panel>         
+                                </p:commandButton>            
+                            </p:menuitem>
+
+                        </p:menuButton>    
+                    </p:column>
+                </p:dataTable>
+            </p:panel>      
+        </h:panelGroup>
 
     </p:panel>
     <ui:include src="reportsTabToolbar2.xhtml"/>
