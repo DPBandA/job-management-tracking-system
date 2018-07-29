@@ -1,10 +1,5 @@
 ## Things to do
 
-### Documentation
-- Communicate the objectives of the JMTS via the Architecture Document (AD)
-- Use Infrastructure Software Modules for Enterprises modules description to document 
-  the system refering to the JMTS/BEL classes that implement the various modules.
-
 ### Next Status Update Notes
 - Add users, update database, etc. under sys admin
 - Mention work on BPM 
@@ -14,9 +9,11 @@
 ## Next release (May 24-25, 2018)
 ### Reports
 - Impl report exportation:
-  * The date period panel does not show when report is first selected.
-    Could be that the report is not fetched from the database initially.
-  * Run init() before accessing date period
+  * Impl get/setDatePeriod2/3
+  * Update analyticalServicesReportFileInputStream() to use selected report parameters
+  * Impl selecting report parameters. Use single item selection components for
+    selecting parameters such as employee and department. Continue with reporting
+    department 1.
   * Impl getReportStreamedContent(Report currentReport) and test with 
     "Job entered by employee" report. Impl "Job entered by employee" report
      Test with employeeId1 = 192, datePeriod1 = "This month"

@@ -104,7 +104,6 @@ import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import net.sf.jasperreports.engine.JasperRunManager;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.primefaces.PrimeFaces;
-import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -117,21 +116,16 @@ public class ReportManager implements Serializable {
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     private String columnsToExclude;
-    //private Report report;
-    private StreamedContent reportFile; // tk make local var in getReportFile()?
+    private StreamedContent reportFile;
     private Integer longProcessProgress;
-    private Department reportingDepartment; // tk may be retired
     private String reportSearchText;
     private List<Job> currentPeriodJobReportSearchResultList; // tk may be retired
-    private List<Job> previousPeriodJobReportSearchResultList; // tk may be retired
     private List<Report> foundReports;
     private DatePeriod previousDatePeriod; // tk may be retired
     private DatePeriodJobReport jobSubCategoryReport; // tk may be retired
     private DatePeriodJobReport sectorReport; // tk may be retired
     private DatePeriodJobReport jobQuantitiesAndServicesReport; // tk may be retired
-    private SearchParameters reportSearchParameters; // tk may be retired
-    private Employee reportEmployee; // tk will be retired
-    // Monthly report date periods
+    private SearchParameters reportSearchParameters; // tk may be retired  
     private DatePeriod monthlyReportDatePeriod; // tk may be retired
     private DatePeriod monthlyReportDataDatePeriod; // tk may be retired
     private DatePeriod monthlyReportYearDatePeriod; // tk may be retired
@@ -148,11 +142,48 @@ public class ReportManager implements Serializable {
     public ReportManager() {
         init();
     }
-    
+
+    public DatePeriod getReportingDatePeriod1() {
+        if (selectedReport.getDatePeriods().isEmpty()) {
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("This month", "month", null, null, null,
+                            null, false, false, true));
+        }
+        return selectedReport.getDatePeriods().get(0);
+    }
+
+    public void setReportingDatePeriod1(DatePeriod reportingDatePeriod1) {
+        selectedReport.getDatePeriods().set(0, reportingDatePeriod1);
+    }
+
+    public DatePeriod getReportingDatePeriod2() {
+        
+        if (selectedReport.getDatePeriods().isEmpty()) {   
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("Last month", "month", null, null, null,
+                            null, false, false, true));
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("This month", "month", null, null, null,
+                            null, false, false, true));
+        }
+        else if (selectedReport.getDatePeriods().size() == 1) {
+            
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("This month", "month", null, null, null,
+                            null, false, false, true));
+            
+        }
+        return selectedReport.getDatePeriods().get(1);
+    }
+
+    public void setReportingDatePeriod2(DatePeriod reportingDatePeriod2) {
+        selectedReport.getDatePeriods().set(1, reportingDatePeriod2);
+    }
+
     public Boolean getIsInvalidReport() {
         return (getSelectedReport().getId() == null);
     }
-   
+
     public Boolean getEdit() {
         return edit;
     }
@@ -261,7 +292,7 @@ public class ReportManager implements Serializable {
     public void setReportSearchText(String reportSearchText) {
         this.reportSearchText = reportSearchText;
     }
-    
+
     public void doReportSearch() {
 
         if (getIsActiveReportsOnly()) {
@@ -477,15 +508,26 @@ public class ReportManager implements Serializable {
         this.monthlyReportYearDatePeriod = monthlyReportYearDatePeriod;
     }
 
-    public Employee getReportEmployee() {
-        if (reportEmployee == null) {
-            reportEmployee = new Employee();
+    public Employee getReportEmployee1() {
+        if (selectedReport.getEmployees().isEmpty()) {
+            selectedReport.getEmployees().add(getUser().getEmployee());
         }
-        return reportEmployee;
+        return selectedReport.getEmployees().get(0);
     }
 
-    public void setReportEmployee(Employee reportEmployee) {
-        this.reportEmployee = reportEmployee;
+    public void setReportEmployee1(Employee reportEmployee1) {
+        selectedReport.getEmployees().set(0, reportEmployee1);
+    }
+
+    public Department getReportingDepartment1() {
+        if (selectedReport.getDepartments().isEmpty()) {
+            selectedReport.getDepartments().add(getUser().getEmployee().getDepartment());
+        }
+        return selectedReport.getDepartments().get(0);
+    }
+
+    public void setReportingDepartment1(Department reportingDepartment1) {
+        selectedReport.getDepartments().set(0, reportingDepartment1);
     }
 
     public SearchParameters getReportSearchParameters() {
@@ -500,7 +542,7 @@ public class ReportManager implements Serializable {
         return 0;
     }
 
-    public StreamedContent getReportStreamedContent(Report currentReport) {
+    public StreamedContent getReportStreamedContent() {
 
         EntityManager em = getEntityManager1();
         HashMap parameters = new HashMap();
@@ -519,26 +561,26 @@ public class ReportManager implements Serializable {
                 JasperPrint print = null;
 
                 // Provide date parameters if required
-                if (currentReport.getDatePeriodRequired()) {
-                    for (int i = 0; i < currentReport.getDatePeriods().size(); i++) {
+                if (selectedReport.getDatePeriodRequired()) {
+                    for (int i = 0; i < selectedReport.getDatePeriods().size(); i++) {
                         parameters.put("startOfPeriod" + (i + 1),
-                                currentReport.getDatePeriods().get(i).initDatePeriod().getStartDate());
+                                selectedReport.getDatePeriods().get(i).initDatePeriod().getStartDate());
                         parameters.put("endOfPeriod" + (i + 1),
-                                currentReport.getDatePeriods().get(i).initDatePeriod().getEndDate());
+                                selectedReport.getDatePeriods().get(i).initDatePeriod().getEndDate());
                     }
                 }
                 // Provide employee parameters if required
-                if (currentReport.getEmployeeRequired()) {
-                    for (int i = 0; i < currentReport.getEmployees().size(); i++) {
+                if (selectedReport.getEmployeeRequired()) {
+                    for (int i = 0; i < selectedReport.getEmployees().size(); i++) {
                         parameters.put("employeeId" + (i + 1),
-                                currentReport.getEmployees().get(i).getId());
+                                selectedReport.getEmployees().get(i).getId());
                     }
                 }
                 // Provide department parameters if required
-                if (currentReport.getDepartmentRequired()) {
-                    for (int i = 0; i < currentReport.getDepartments().size(); i++) {
+                if (selectedReport.getDepartmentRequired()) {
+                    for (int i = 0; i < selectedReport.getDepartments().size(); i++) {
                         parameters.put("departmentId" + (i + 1),
-                                currentReport.getDepartments().get(i).getId());
+                                selectedReport.getDepartments().get(i).getId());
                     }
                 }
 
@@ -556,18 +598,18 @@ public class ReportManager implements Serializable {
                     }
                 } else {
                     print = JasperFillManager.fillReport(
-                            currentReport.getReportFileTemplate(),
+                            selectedReport.getReportFileTemplate(),
                             parameters,
                             con);
                 }
 
-                switch (currentReport.getReportOutputFileMimeType()) {
+                switch (selectedReport.getReportOutputFileMimeType()) {
                     case "application/pdf":
                         fileBytes = JasperExportManager.exportReportToPdf(print);
 
                         streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
-                                currentReport.getReportOutputFileMimeType(),
-                                currentReport.getReportFile());
+                                selectedReport.getReportOutputFileMimeType(),
+                                selectedReport.getReportFile());
 
                         break;
                     case "application/xlsx":
@@ -579,8 +621,8 @@ public class ReportManager implements Serializable {
                         fileBytes = JasperExportManager.exportReportToPdf(print);
 
                         streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
-                                currentReport.getReportOutputFileMimeType(),
-                                currentReport.getReportFile());
+                                selectedReport.getReportOutputFileMimeType(),
+                                selectedReport.getReportFile());
                         break;
                 }
 
@@ -607,20 +649,16 @@ public class ReportManager implements Serializable {
 
         try {
 
-            //selectedReport = em.find(Report.class, getSelectedReport().getId());
-
             switch (getSelectedReport().getReportFileMimeType()) {
                 case "application/jasper":
                     if (getSelectedReport().getName().equals("Jobs entered by employee")) {
-                        // tk
-                        //reportFile = getJobEnteredByReportPDFFile();
-                        reportFile = getReportStreamedContent(getSelectedReport());
+                        reportFile = getReportStreamedContent();
                     }
                     if (getSelectedReport().getName().equals("Jobs entered by department")) {
-                        reportFile = getJobEnteredByDepartmentReportPDFFile();
+                        reportFile = getJobEnteredByDepartmentReportPDFFile(); // tk replace with getReportStreamedContent()
                     }
                     if (getSelectedReport().getName().equals("Jobs assigned to department")) {
-                        reportFile = getJobAssignedToDepartmentReportXLSFile();
+                        reportFile = getJobAssignedToDepartmentReportXLSFile(); // tk replace with getReportStreamedContent()
                     }
                     break;
                 case "application/xlsx":
@@ -676,14 +714,14 @@ public class ReportManager implements Serializable {
         try {
             DatePeriod datePeriods[] = BusinessEntityUtils.getMonthlyReportDatePeriods(reportSearchParameters.getDatePeriod());
 
-            List<JobSubCategory> subCategories = JobSubCategory.findAllJobSubCategoriesGroupedByEarningsByDepartment(em, reportingDepartment);
-            List<Sector> sectors = Sector.findAllSectorsByDeparment(em, reportingDepartment);
-            List<JobReportItem> jobReportItems = JobReportItem.findAllJobReportItemsByDeparment(em, reportingDepartment);
+            List<JobSubCategory> subCategories = JobSubCategory.findAllJobSubCategoriesGroupedByEarningsByDepartment(em, getReportingDepartment1());
+            List<Sector> sectors = Sector.findAllSectorsByDeparment(em, getReportingDepartment1());
+            List<JobReportItem> jobReportItems = JobReportItem.findAllJobReportItemsByDeparment(em, getReportingDepartment1());
 
             // reports
-            jobSubCategoryReport = new DatePeriodJobReport(reportingDepartment, subCategories, null, null, datePeriods);
-            sectorReport = new DatePeriodJobReport(reportingDepartment, null, sectors, null, datePeriods);
-            jobQuantitiesAndServicesReport = new DatePeriodJobReport(reportingDepartment, null, null, jobReportItems, datePeriods);
+            jobSubCategoryReport = new DatePeriodJobReport(getReportingDepartment1(), subCategories, null, null, datePeriods);
+            sectorReport = new DatePeriodJobReport(getReportingDepartment1(), null, sectors, null, datePeriods);
+            jobQuantitiesAndServicesReport = new DatePeriodJobReport(getReportingDepartment1(), null, null, jobReportItems, datePeriods);
 
             // populate SubCategoryReport/Sector/job report
             for (int i = 0; i < datePeriods.length; i++) {
@@ -716,9 +754,8 @@ public class ReportManager implements Serializable {
             }
 
             // generate report
-            FileInputStream stream = createExcelJobReportFileInputStream(
-                    this.getClass().getResource("MonthlyReport.xls"),
-                    getUser(), reportingDepartment, jobSubCategoryReport, sectorReport, jobQuantitiesAndServicesReport);
+            FileInputStream stream = createExcelJobReportFileInputStream(this.getClass().getResource("MonthlyReport.xls"),
+                    getUser(), getReportingDepartment1(), jobSubCategoryReport, sectorReport, jobQuantitiesAndServicesReport);
 
             return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
 
@@ -734,7 +771,7 @@ public class ReportManager implements Serializable {
         try {
             // Get byte stream for report file
             ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream(new File(getSelectedReport().getReportFileTemplate()),
-                    reportingDepartment.getId());
+                    getReportingDepartment1().getId());
 
             return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
 
@@ -750,7 +787,7 @@ public class ReportManager implements Serializable {
         try {
             // Get byte stream for report file
             ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream2(new File(getSelectedReport().getReportFileTemplate()),
-                    reportingDepartment.getId());
+                    getReportingDepartment1().getId());
 
             return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
 
@@ -766,7 +803,7 @@ public class ReportManager implements Serializable {
         try {
             // Get byte stream for report file
             ByteArrayInputStream stream = jobsCompletedByDepartmentFileInputStream(new File(getSelectedReport().getReportFileTemplate()),
-                    reportingDepartment.getId());
+                    getReportingDepartment1().getId());
 
             return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
 
@@ -779,19 +816,16 @@ public class ReportManager implements Serializable {
 
     public StreamedContent getAnalyticalServicesReport(EntityManager em) {
 
-        
         try {
             ByteArrayInputStream stream;
 
             if (getSelectedReport().getUsePackagedReportFileTemplate()) {
-                stream = analyticalServicesReportFileInputStream(
-                        new File(getClass().getClassLoader().
-                                getResource("/reports/" + getSelectedReport().getReportFileTemplate()).getFile()),
-                        reportingDepartment.getId());
+                stream = analyticalServicesReportFileInputStream(new File(getClass().getClassLoader().
+                        getResource("/reports/" + getSelectedReport().getReportFileTemplate()).getFile()),
+                        getReportingDepartment1().getId());
             } else {
-                stream = analyticalServicesReportFileInputStream(
-                        new File(getSelectedReport().getReportFileTemplate()),
-                        reportingDepartment.getId());
+                stream = analyticalServicesReportFileInputStream(new File(getSelectedReport().getReportFileTemplate()),
+                        getReportingDepartment1().getId());
             }
 
             return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
@@ -925,7 +959,6 @@ public class ReportManager implements Serializable {
     public void updateServiceContract() {
 
     }
-  
 
     public List<Report> getJobReports() {
         EntityManager em = getEntityManager1();
@@ -2174,9 +2207,8 @@ public class ReportManager implements Serializable {
 
         try {
 
-            reportEmployee = Employee.findEmployeeByName(em, getReportEmployee().getName());
-
-            if (getReportEmployee().getId() != null) {
+            //reportEmployee1 = Employee.findEmployeeByName(em, getReportEmployee1().getName());
+            if (getReportEmployee1().getId() != null) {
 
                 //report = getLatestJobReport(em);
                 String reportFileURL = getSelectedReport().getReportFile();
@@ -2192,7 +2224,7 @@ public class ReportManager implements Serializable {
 
                     parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
                     parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
-                    parameters.put("inspectorID", getReportEmployee().getId());
+                    parameters.put("inspectorID", getReportEmployee1().getId());
 
                     // generate report
                     JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
@@ -2229,10 +2261,9 @@ public class ReportManager implements Serializable {
 
         try {
 
-            reportingDepartment = Department.findDepartmentByName(em, 
-                    getSelectedReport().getDepartments().get(0).getName()
-                    /*getReportingDepartment().getName()*/);
-
+//            reportingDepartment1 = Department.findDepartmentByName(em,
+//                    getSelectedReport().getDepartments().get(0).getName()
+////            /*getReportingDepartment().getName()*/);
             if (getSelectedReport().getDepartments().get(0).getId() != null) {
 
                 //report = getLatestJobReport(em);
@@ -2250,8 +2281,8 @@ public class ReportManager implements Serializable {
                     // tk use method used for 
                     parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
                     parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
-                    
-                    parameters.put("departmentID", 
+
+                    parameters.put("departmentID",
                             getSelectedReport().getDepartments().get(0).getId());
 
                     // generate report
@@ -2290,14 +2321,12 @@ public class ReportManager implements Serializable {
 
         try {
 
-//            reportingDepartment = Department.findDepartmentByName(em, 
+//            reportingDepartment1 = Department.findDepartmentByName(em, 
 //                    getSelectedReport().getDepartments().get(0).getName());
-
             // Use user's department if none found
-            if (getSelectedReport().getDepartments().get(0).getId() == null) {
-                reportingDepartment = getUser().getEmployee().getDepartment();
-            }
-
+//            if (getSelectedReport().getDepartments().get(0).getId() == null) {
+//                reportingDepartment1 = getUser().getEmployee().getDepartment();
+//            }
             //report = getLatestJobReport(em);
             String reportFileURL = getSelectedReport().getReportFile();
 

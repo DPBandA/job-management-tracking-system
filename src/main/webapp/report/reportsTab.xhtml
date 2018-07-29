@@ -29,7 +29,7 @@ Email: info@dpbennett.com.jm
         <p:panel header="Report Detail" id="reportDetailPanel" >
             <h:panelGrid columns="2" cellspacing="10">
 
-                <h:outputText value="Category:" />
+                <h:outputLabel value="Category:" />
                 <p:selectOneMenu value="#{reportManager.reportCategory}" 
                                  id="reportCategory" >
 
@@ -44,7 +44,7 @@ Email: info@dpbennett.com.jm
 
                 </p:selectOneMenu>
 
-                <h:outputText value="Report:"/>    
+                <h:outputLabel value="Report:"/>    
                 <h:panelGroup>
                     <p:autoComplete var="report"      
                                     id="report"
@@ -70,7 +70,7 @@ Email: info@dpbennett.com.jm
                     <p:watermark value="select a report" for="report" />
                 </h:panelGroup>
 
-                <h:outputText value="Description:" />
+                <h:outputLabel value="Description:" />
                 <p:inputTextarea  value="#{reportManager.selectedReport.description}"
                                   id="reportDescription"
                                   maxlength="1000"
@@ -86,23 +86,25 @@ Email: info@dpbennett.com.jm
             <p:panel id="departmentsPanel" header="Department(s)" 
                      rendered="#{reportManager.selectedReport.departmentRequired}">
 
-                <p:autoComplete id="departments"
-                                var="department"   
-                                value="#{reportManager.selectedReport.departments}"
-                                itemLabel="#{department.name}"
-                                itemValue="#{department}"
-                                converter="departmentConverter"
-                                forceSelection="true"
-                                dropdown="true"
-                                scrollHeight="200"  
-                                multiple="true"
-                                completeMethod="#{App.completeDepartment}" >
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Department 1:" />
+                    <p:autoComplete id="departments"
+                                    var="department"   
+                                    value="#{reportManager.reportingDepartment1}"
+                                    itemLabel="#{department.name}"
+                                    itemValue="#{department}"
+                                    converter="departmentConverter"
+                                    forceSelection="true"
+                                    dropdown="true"
+                                    scrollHeight="200"  
+                                    completeMethod="#{App.completeDepartment}" >
 
-                    <p:ajax event="itemSelect"
-                            update="departments"
-                            process="@this" />
+                        <p:ajax event="itemSelect"
+                                update="departments"
+                                process="@this" />
 
-                </p:autoComplete>
+                    </p:autoComplete>
+                </h:panelGrid>
 
             </p:panel>
 
@@ -112,63 +114,64 @@ Email: info@dpbennett.com.jm
                 <p:dataTable id="datePeriodsTable"                             
                              var="datePeriod" 
                              value="#{reportManager.selectedReport.datePeriods}">
-                    <h:outputText value="#{datePeriod.formattedStartDate}" />
+                    <h:outputLabel value="#{datePeriod.formattedStartDate}" />
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Label"/>
+                            <h:outputLabel value="Label"/>
                         </f:facet>
                         <h:outputText value="#{datePeriod.label}" />
                     </p:column>
 
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Period"/>
+                            <h:outputLabel value="Period"/>
                         </f:facet>
                         <h:outputText value="#{datePeriod.name}" />
                     </p:column>
 
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="Start"/>
+                            <h:outputLabel value="Start"/>
                         </f:facet>
                         <h:outputText value="#{datePeriod.initDatePeriod.formattedStartDate}" />
-
                     </p:column>
 
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="End"/>
+                            <h:outputLabel value="End"/>
                         </f:facet>
                         <h:outputText value="#{datePeriod.initDatePeriod.formattedEndDate}" />
                     </p:column>
-                  
+
                 </p:dataTable>
 
             </p:panel>   
-            
+
             <p:panel id="employeesPanel" header="Employee(s)" 
                      rendered="#{reportManager.selectedReport.employeeRequired}">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Employee 1:" />
+                    <p:autoComplete var="employee"   
+                                    id="employees"
+                                    value="#{reportManager.reportEmployee1}"
+                                    itemLabel="#{employee.name}"
+                                    itemValue="#{employee}"
+                                    converter="employeeConverter"
+                                    forceSelection="true"
+                                    dropdown="true"
+                                    scrollHeight="200"  
+                                    multiple="false"
+                                    completeMethod="#{App.completeEmployee}" >
 
-                <p:autoComplete id="employees"
-                                var="employee"   
-                                value="#{reportManager.selectedReport.employees}"
-                                itemLabel="#{employee.name}"
-                                itemValue="#{employee}"
-                                converter="employeeConverter"
-                                forceSelection="true"
-                                dropdown="true"
-                                scrollHeight="200"  
-                                multiple="true"
-                                completeMethod="#{App.completeEmployee}" >
+                        <p:ajax event="itemSelect"
+                                update="employees"
+                                process="@this" />
 
-                    <p:ajax event="itemSelect"
-                            update="employees"
-                            process="@this" />
-
-                </p:autoComplete>
+                    </p:autoComplete>
+                </h:panelGrid>
 
             </p:panel>
-            
+
         </h:panelGroup>
 
     </p:panel>
