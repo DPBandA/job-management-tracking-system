@@ -281,24 +281,27 @@ Email: info@dpbennett.com.jm
 
                             </p:autoComplete>
 
-                            <h:outputText value="Department fields(s):" />       
-                            <p:autoComplete id="departmentFields"
-                                            var="department"   
-                                            value="#{reportManager.selectedReport.departments}"
-                                            itemLabel="#{department.name}"
-                                            itemValue="#{department}"
-                                            converter="departmentConverter"
-                                            forceSelection="true"
-                                            dropdown="true"
-                                            scrollHeight="200"  
-                                            multiple="true"
-                                            completeMethod="#{App.completeDepartment}" >
+                            <ui:remove>
+                                <h:outputText value="Department fields(s):" />       
+                                <p:autoComplete id="departmentFields"
+                                                var="department"   
+                                                value="#{reportManager.selectedReport.departments}"
+                                                itemLabel="#{department.name}"
+                                                itemValue="#{department}"
+                                                converter="departmentConverter"
+                                                forceSelection="true"
+                                                dropdown="true"
+                                                scrollHeight="200"  
+                                                multiple="true"
+                                                completeMethod="#{App.completeDepartment}" >
 
-                                <p:ajax event="itemSelect"
-                                        update="departments"
-                                        process="@this" />
+                                    <p:ajax event="itemSelect"
+                                            update="departments"
+                                            process="@this" />
 
-                            </p:autoComplete>
+                                </p:autoComplete>
+                            </ui:remove>
+
                         </h:panelGrid>
                     </p:panel>
                     <p:panel header="Employee" style="margin-top: 1px;margin-bottom: 1px;">

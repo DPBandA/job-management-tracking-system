@@ -109,7 +109,7 @@ Email: info@dpbennett.com.jm
             <p:panel id="datePeriodsPanel" header="Date period(s)" 
                      rendered="#{reportManager.selectedReport.datePeriodRequired}">
 
-                <p:dataTable id="datePeriodsTable2"                             
+                <p:dataTable id="datePeriodsTable"                             
                              var="datePeriod" 
                              value="#{reportManager.selectedReport.datePeriods}">
                     <h:outputText value="#{datePeriod.formattedStartDate}" />
@@ -144,7 +144,31 @@ Email: info@dpbennett.com.jm
                   
                 </p:dataTable>
 
-            </p:panel>      
+            </p:panel>   
+            
+            <p:panel id="employeesPanel" header="Employee(s)" 
+                     rendered="#{reportManager.selectedReport.employeeRequired}">
+
+                <p:autoComplete id="employees"
+                                var="employee"   
+                                value="#{reportManager.selectedReport.employees}"
+                                itemLabel="#{employee.name}"
+                                itemValue="#{employee}"
+                                converter="employeeConverter"
+                                forceSelection="true"
+                                dropdown="true"
+                                scrollHeight="200"  
+                                multiple="true"
+                                completeMethod="#{App.completeEmployee}" >
+
+                    <p:ajax event="itemSelect"
+                            update="employees"
+                            process="@this" />
+
+                </p:autoComplete>
+
+            </p:panel>
+            
         </h:panelGroup>
 
     </p:panel>

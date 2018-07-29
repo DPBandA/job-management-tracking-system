@@ -148,6 +148,10 @@ public class ReportManager implements Serializable {
     public ReportManager() {
         init();
     }
+    
+    public Boolean getIsInvalidReport() {
+        return (getSelectedReport().getId() == null);
+    }
    
     public Boolean getEdit() {
         return edit;
@@ -173,7 +177,6 @@ public class ReportManager implements Serializable {
 
     public void openReportsTab(String category) {
         setReportCategory(category);
-        setSelectedReport(Report.findDefaultReport(getEntityManager1(), "--"));
         getJobManager().getMainTabView().addTab(getEntityManager1(), "Reports", true);
         getJobManager().getMainTabView().select("Reports");
     }
@@ -604,7 +607,7 @@ public class ReportManager implements Serializable {
 
         try {
 
-            selectedReport = em.find(Report.class, getSelectedReport().getId());
+            //selectedReport = em.find(Report.class, getSelectedReport().getId());
 
             switch (getSelectedReport().getReportFileMimeType()) {
                 case "application/jasper":
