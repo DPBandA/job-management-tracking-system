@@ -158,6 +158,9 @@ This release will be around early July.
 - Check that maxDaysPassInvoiceDate is set to Integer before testing jmts live 
   nd deploying.
 - Impl creating parent job along with subcontract in 1 go.
+- Impl option to import all the cost components from a subcontract into a parent
+  job.
+- Put back feature to create subcontract from a subcontract??
 
 
 
