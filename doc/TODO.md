@@ -9,7 +9,6 @@
 ## Next release (May 24-25, 2018)
 ### Reports
 - Impl report exportation:
-  * Impl get/setDatePeriod2/3
   * Update analyticalServicesReportFileInputStream() to use selected report parameters
   * Impl selecting report parameters. Use single item selection components for
     selecting parameters such as employee and department. Continue with reporting
