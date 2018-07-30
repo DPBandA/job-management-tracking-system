@@ -6,6 +6,10 @@
 - Mention development and testing of infrastructure modules of the JMTS.
 - Get copy of ISO/IEC 42010 for Software Architecture.
 
+### Prepare for deliver training
+- Check live and test accounts of persons to be changed
+- Review and update training material
+
 ## Next release (May 24-25, 2018)
 ### Reports
 - Impl report exportation:
