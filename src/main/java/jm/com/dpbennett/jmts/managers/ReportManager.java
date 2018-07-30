@@ -157,27 +157,64 @@ public class ReportManager implements Serializable {
     }
 
     public DatePeriod getReportingDatePeriod2() {
-        
-        if (selectedReport.getDatePeriods().isEmpty()) {   
+
+        if (selectedReport.getDatePeriods().isEmpty()) {
             selectedReport.getDatePeriods().add(
-                    new DatePeriod("Last month", "month", null, null, null,
+                    new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
-        }
-        else if (selectedReport.getDatePeriods().size() == 1) {
-            
+        } else if (selectedReport.getDatePeriods().size() == 1) {
+
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
-            
+
         }
         return selectedReport.getDatePeriods().get(1);
     }
 
     public void setReportingDatePeriod2(DatePeriod reportingDatePeriod2) {
         selectedReport.getDatePeriods().set(1, reportingDatePeriod2);
+    }
+
+    public DatePeriod getReportingDatePeriod3() {
+
+        if (selectedReport.getDatePeriods().isEmpty()) {
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("This month", "month", null, null, null,
+                            null, false, false, true));
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("This month", "month", null, null, null,
+                            null, false, false, true));
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("This month", "month", null, null, null,
+                            null, false, false, true));
+        } else if (selectedReport.getDatePeriods().size() == 1) {
+
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("This month", "month", null, null, null,
+                            null, false, false, true));
+
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("This month", "month", null, null, null,
+                            null, false, false, true));
+
+        } else if (selectedReport.getDatePeriods().size() == 2) {
+
+            selectedReport.getDatePeriods().add(
+                    new DatePeriod("This month", "month", null, null, null,
+                            null, false, false, true));
+
+
+        }        
+        
+        return selectedReport.getDatePeriods().get(2);
+    }
+
+    public void setReportingDatePeriod3(DatePeriod reportingDatePeriod3) {
+        selectedReport.getDatePeriods().set(2, reportingDatePeriod3);
     }
 
     public Boolean getIsInvalidReport() {

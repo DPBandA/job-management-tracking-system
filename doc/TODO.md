@@ -29,7 +29,7 @@
 - Add report template for legal.
 - Deactivate accpac invoice feature and deploy.
 
-### Accpac Invoicing
+### Accpac Invoicing etc.
 - Impl invoice export.  
   * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
@@ -43,8 +43,10 @@
   * Export invoices for only selected jobs?
   * Flag job as invoiced after export?
   * Make sure to add AccountingCode table to all along with data.  
-- In Report class add option to choose the field to use id, name or both?
-  Or just set bot id and name parameters.
+- Fix up the client editing in the job detail dialog. May update or reset the 
+  address or contact when the client dialog returns.
+- For client credit status check, note client is a credit client if they are "TRADE"
+  and the credit limit is not 0.
 - Impl "ComplianceSurveyDialogForm"  
 - Impl "dirty" and save() for each "subclass" and save only when dirty. 
 - Replace update*() with single update**() method where possible.
@@ -152,6 +154,7 @@ This release will be around early July.
 - Add buttons to remoove/edit divisions/departments from an organization.
 - Check that maxDaysPassInvoiceDate is set to Integer before testing jmts live 
   nd deploying.
+- Impl creating parent job along with subcontract in 1 go.
 
 
 
