@@ -6,14 +6,17 @@
 - Mention development and testing of infrastructure modules of the JMTS.
 - Get copy of ISO/IEC 42010 for Software Architecture.
 
-### Prepare for deliver training
+### Prepare for deliver training (1 hr before start time)
 - Check live and test accounts of persons to be changed
 - Review and update training material
 
 ## Next release (May 24-25, 2018)
 ### Reports
 - Impl report exportation:
-  * Update analyticalServicesReportFileInputStream() to use selected report parameters
+  * Field labels for date period dialog does not not show for dark hive theme. Fix.
+  * Add dropdown for selecting date field.
+  * Update analyticalServicesReportFileInputStream() to use selected report parameters.
+    Use the selected date seach field in the method that does the search.
   * Impl selecting report parameters. Use single item selection components for
     selecting parameters such as employee and department. Continue with reporting
     department 1.
@@ -58,7 +61,6 @@
 - Fix up "compliance" toolbars so they look like the rest of JMTS.
 - Update survey table when dialog is closed.
 - Impl all existing reports from "package".
-- The "Jobs entered by employee" report does not show the samples. 
 - In "Jobs entered by employee" change "sample" column to "product".
 - Add description, 2 departments, 3 date periods etc. in class Report.
 - For reports make company specific value parameters such as company name and logo.

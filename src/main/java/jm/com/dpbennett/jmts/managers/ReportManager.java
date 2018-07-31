@@ -125,7 +125,7 @@ public class ReportManager implements Serializable {
     private DatePeriodJobReport jobSubCategoryReport; // tk may be retired
     private DatePeriodJobReport sectorReport; // tk may be retired
     private DatePeriodJobReport jobQuantitiesAndServicesReport; // tk may be retired
-    private SearchParameters reportSearchParameters; // tk may be retired  
+    //private SearchParameters reportSearchParameters; // tk may be retired  
     private DatePeriod monthlyReportDatePeriod; // tk may be retired
     private DatePeriod monthlyReportDataDatePeriod; // tk may be retired
     private DatePeriod monthlyReportYearDatePeriod; // tk may be retired
@@ -447,19 +447,19 @@ public class ReportManager implements Serializable {
         searchDateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
         searchDateFields.add(new SelectItem("dateAndTimeEntered", "Date entered"));
         previousDatePeriod = new DatePeriod("Last month", "month", null, null, null, null, false, false, true);
-        reportSearchParameters
-                = new SearchParameters(
-                        "Report Data Search",
-                        null,
-                        false,
-                        searchTypes,
-                        true,
-                        "dateSubmitted",
-                        true,
-                        searchDateFields,
-                        "General",
-                        new DatePeriod("This month", "month", null, null, null, null, false, false, true),
-                        "");
+//        reportSearchParameters
+//                = new SearchParameters(
+//                        "Report Data Search",
+//                        null,
+//                        false,
+//                        searchTypes,
+//                        true,
+//                        "dateSubmitted",
+//                        true,
+//                        searchDateFields,
+//                        "General",
+//                        new DatePeriod("This month", "month", null, null, null, null, false, false, true),
+//                        "");
 
         // Monthly report date periods
         monthlyReportDatePeriod = new DatePeriod("Last month", "month", null, null, null, null, false, false, true);
@@ -567,9 +567,9 @@ public class ReportManager implements Serializable {
         selectedReport.getDepartments().set(0, reportingDepartment1);
     }
 
-    public SearchParameters getReportSearchParameters() {
-        return reportSearchParameters;
-    }
+//    public SearchParameters getReportSearchParameters() {
+//        return reportSearchParameters;
+//    }
 
     public int getNumberOfCurrentPeriodJobsFound() {
         if (currentPeriodJobReportSearchResultList != null) {
@@ -1677,8 +1677,9 @@ public class ReportManager implements Serializable {
             XSSFSheet rawData = wb.getSheet("Raw Data");
 
             // Get report data            
-            List<Object[]> reportData = Job.getCompletedJobRecords(
+            List<Object[]> reportData = Job.getJobRecordsByTrackingDate(
                     getEntityManager1(),
+                    getSelectedDatePeriod().getDateField(),
                     BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getStartDate(), "'", "YMD", "-"),
                     BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getEndDate(), "'", "YMD", "-"),
                     departmentId);
@@ -1731,7 +1732,7 @@ public class ReportManager implements Serializable {
 
             return new ByteArrayInputStream(out.toByteArray());
 
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             System.out.println(ex);
         }
 
@@ -1768,10 +1769,11 @@ public class ReportManager implements Serializable {
             XSSFSheet sectorReportSheet = wb.getSheet("Sector Report");
 
             // Get report data
-            List<Object[]> reportData = Job.getCompletedJobRecords(
+            List<Object[]> reportData = Job.getJobRecordsByTrackingDate(
                     getEntityManager1(),
-                    BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getStartDate(), "'", "YMD", "-"),
-                    BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getEndDate(), "'", "YMD", "-"),
+                    getSelectedDatePeriod().getDateField(),
+                    BusinessEntityUtils.getDateString(getReportingDatePeriod1().getStartDate(), "'", "YMD", "-"),
+                    BusinessEntityUtils.getDateString(getReportingDatePeriod1().getEndDate(), "'", "YMD", "-"),
                     departmentId);
 
             // Fill in report data            
@@ -1873,19 +1875,19 @@ public class ReportManager implements Serializable {
                     "java.lang.String", null);
             // Period
             BusinessEntityUtils.setExcelCellValue(wb, jobReportSheet, 2, 0,
-                    BusinessEntityUtils.getDateInMediumDateFormat(reportSearchParameters.getDatePeriod().getStartDate())
+                    BusinessEntityUtils.getDateInMediumDateFormat(getReportingDatePeriod1().getStartDate())
                     + " - "
-                    + BusinessEntityUtils.getDateInMediumDateFormat(reportSearchParameters.getDatePeriod().getEndDate()),
+                    + BusinessEntityUtils.getDateInMediumDateFormat(getReportingDatePeriod1().getEndDate()),
                     "java.lang.String", null);
             BusinessEntityUtils.setExcelCellValue(wb, employeeReportSheet, 2, 0,
-                    BusinessEntityUtils.getDateInMediumDateFormat(reportSearchParameters.getDatePeriod().getStartDate())
+                    BusinessEntityUtils.getDateInMediumDateFormat(getReportingDatePeriod1().getStartDate())
                     + " - "
-                    + BusinessEntityUtils.getDateInMediumDateFormat(reportSearchParameters.getDatePeriod().getEndDate()),
+                    + BusinessEntityUtils.getDateInMediumDateFormat(getReportingDatePeriod1().getEndDate()),
                     "java.lang.String", null);
             BusinessEntityUtils.setExcelCellValue(wb, sectorReportSheet, 2, 0,
-                    BusinessEntityUtils.getDateInMediumDateFormat(reportSearchParameters.getDatePeriod().getStartDate())
+                    BusinessEntityUtils.getDateInMediumDateFormat(getReportingDatePeriod1().getStartDate())
                     + " - "
-                    + BusinessEntityUtils.getDateInMediumDateFormat(reportSearchParameters.getDatePeriod().getEndDate()),
+                    + BusinessEntityUtils.getDateInMediumDateFormat(getReportingDatePeriod1().getEndDate()),
                     "java.lang.String", null);
 
             // Write modified Excel file and return it
@@ -2408,5 +2410,9 @@ public class ReportManager implements Serializable {
             return null;
         }
 
+    }
+    
+    public ArrayList getDateSearchFields() {      
+        return DatePeriod.getDateSearchFields();
     }
 }
