@@ -796,7 +796,7 @@ public class ReportManager implements Serializable {
 
             return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
 
-        } catch (Exception ex) {
+        } catch (URISyntaxException ex) {
             System.out.println(ex);
         }
 

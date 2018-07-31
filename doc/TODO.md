@@ -162,7 +162,8 @@ This release will be around early July.
 - Impl creating parent job along with subcontract in 1 go.
 - Impl option to import all the cost components from a subcontract into a parent
   job.
-- Put back feature to create subcontract from a subcontract??
+- Put back feature to create subcontract from a subcontract?
+- Remove edit buttons from client dialog general tab.
 
 
 
