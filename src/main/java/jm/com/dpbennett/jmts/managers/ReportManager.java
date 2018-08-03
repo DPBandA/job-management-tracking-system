@@ -63,13 +63,11 @@ import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.JobSubCategory;
 import jm.com.dpbennett.business.entity.Preference;
 import jm.com.dpbennett.business.entity.Report;
-import jm.com.dpbennett.business.entity.ReportTableColumn;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReport;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
-import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import jm.com.dpbennett.jmts.Application;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
@@ -91,10 +89,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -121,14 +116,15 @@ public class ReportManager implements Serializable {
     private String reportSearchText;
     private List<Job> currentPeriodJobReportSearchResultList; // tk may be retired
     private List<Report> foundReports;
-    private DatePeriod previousDatePeriod; // tk may be retired
+    //private DatePeriod previousDatePeriod; // tk may be retired
     private DatePeriodJobReport jobSubCategoryReport; // tk may be retired
     private DatePeriodJobReport sectorReport; // tk may be retired
     private DatePeriodJobReport jobQuantitiesAndServicesReport; // tk may be retired
     //private SearchParameters reportSearchParameters; // tk may be retired  
-    private DatePeriod monthlyReportDatePeriod; // tk may be retired
-    private DatePeriod monthlyReportDataDatePeriod; // tk may be retired
-    private DatePeriod monthlyReportYearDatePeriod; // tk may be retired
+    //private DatePeriod monthlyReportDatePeriod; // tk may be retired
+    //private DatePeriod monthlyReportDataDatePeriod; // tk may be retired
+    //private DatePeriod monthlyReportYearDatePeriod; // tk may be retired
+    private DatePeriod defaultDatePeriod;
     private JobManager jobManager;
     private Report selectedReport;
     private Boolean isActiveReportsOnly;
@@ -143,13 +139,51 @@ public class ReportManager implements Serializable {
         init();
     }
 
+    public Boolean getIsMonthlyReport() {
+        return getSelectedReport().getName().equals("Monthly report");
+    }
+
+    public List<SelectItem> getDatePeriods() {
+        ArrayList<SelectItem> datePeriods = new ArrayList<>();
+
+        // add items
+//        if (getSelectedReport().getName().equals("Monthly report")) {
+        for (String name : DatePeriod.getDatePeriodNames()) {
+            // get only month date periods                
+            datePeriods.add(new SelectItem(name, name));
+        }
+//        } else {
+//            for (String name : DatePeriod.getDatePeriodNames()) {
+//                datePeriods.add(new SelectItem(name, name));
+//            }
+//        }
+
+        return datePeriods;
+    }
+
+    public void updateReportDatePeriods() {
+//        getMonthlyReportDatePeriod().initDatePeriod();
+//        getMonthlyReportDataDatePeriod().initDatePeriod();
+//        getMonthlyReportYearDatePeriod().initDatePeriod();
+    }
+
     public DatePeriod getReportingDatePeriod1() {
         if (selectedReport.getDatePeriods().isEmpty()) {
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
-                            null, false, false, true));
+                            null, false, false, true));            
         }
         return selectedReport.getDatePeriods().get(0);
+    }
+
+    // Special method to be removed later when the current method of generating
+    // monthly reports is done away with.
+    public DatePeriod getMonthlyReportDataDatePeriod() {
+        if (getReportingDatePeriod1().getEndDate() == null) {
+            getReportingDatePeriod1().setEndDate(new Date());
+        }
+
+        return getReportingDatePeriod1();
     }
 
     public void setReportingDatePeriod1(DatePeriod reportingDatePeriod1) {
@@ -165,13 +199,19 @@ public class ReportManager implements Serializable {
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
+            
+            selectedReport.getDatePeriods().get(1).setShow(false);
+            
         } else if (selectedReport.getDatePeriods().size() == 1) {
 
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
+            
+            selectedReport.getDatePeriods().get(1).setShow(false);
 
-        }
+        }        
+        
         return selectedReport.getDatePeriods().get(1);
     }
 
@@ -191,6 +231,9 @@ public class ReportManager implements Serializable {
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
+            
+            selectedReport.getDatePeriods().get(2).setShow(false);
+            
         } else if (selectedReport.getDatePeriods().size() == 1) {
 
             selectedReport.getDatePeriods().add(
@@ -200,16 +243,19 @@ public class ReportManager implements Serializable {
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
+            
+            selectedReport.getDatePeriods().get(2).setShow(false);
 
         } else if (selectedReport.getDatePeriods().size() == 2) {
 
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
+            
+            selectedReport.getDatePeriods().get(2).setShow(false);
 
+        }
 
-        }        
-        
         return selectedReport.getDatePeriods().get(2);
     }
 
@@ -446,7 +492,8 @@ public class ReportManager implements Serializable {
         searchDateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
         searchDateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
         searchDateFields.add(new SelectItem("dateAndTimeEntered", "Date entered"));
-        previousDatePeriod = new DatePeriod("Last month", "month", null, null, null, null, false, false, true);
+        // previousDatePeriod = new DatePeriod("Last month", "month", null, null, null, null, false, false, true);
+        defaultDatePeriod = new DatePeriod("This month", "month", null, null, null, null, false, false, true);
 //        reportSearchParameters
 //                = new SearchParameters(
 //                        "Report Data Search",
@@ -462,21 +509,21 @@ public class ReportManager implements Serializable {
 //                        "");
 
         // Monthly report date periods
-        monthlyReportDatePeriod = new DatePeriod("Last month", "month", null, null, null, null, false, false, true);
-        monthlyReportDataDatePeriod = new DatePeriod(
-                "Custom",
-                "any",
-                null,
-                null,
-                BusinessEntityUtils.createDate(2012, 3, 1), // tk make option
-                new Date(), false, false, true);
-        monthlyReportYearDatePeriod = new DatePeriod(
-                "This financial year to date",
-                "year",
-                null,
-                null,
-                null,
-                null, false, false, true);
+//        monthlyReportDatePeriod = new DatePeriod("Last month", "month", null, null, null, null, false, false, true);
+//        monthlyReportDataDatePeriod = new DatePeriod(
+//                "Custom",
+//                "any",
+//                null,
+//                null,
+//                BusinessEntityUtils.createDate(2012, 3, 1), // tk make option
+//                new Date(), false, false, true);
+//        monthlyReportYearDatePeriod = new DatePeriod(
+//                "This financial year to date",
+//                "year",
+//                null,
+//                null,
+//                null,
+//                null, false, false, true);
     }
 
     public void reset() {
@@ -521,30 +568,28 @@ public class ReportManager implements Serializable {
         return EMF1.createEntityManager();
     }
 
-    public DatePeriod getMonthlyReportDatePeriod() {
-        return monthlyReportDatePeriod;
-    }
-
-    public void setMonthlyReportDatePeriod(DatePeriod monthlyReportDatePeriod) {
-        this.monthlyReportDatePeriod = monthlyReportDatePeriod;
-    }
-
-    public DatePeriod getMonthlyReportDataDatePeriod() {
-        return monthlyReportDataDatePeriod;
-    }
-
-    public void setMonthlyReportDataDatePeriod(DatePeriod monthlyReportDataDatePeriod) {
-        this.monthlyReportDataDatePeriod = monthlyReportDataDatePeriod;
-    }
-
-    public DatePeriod getMonthlyReportYearDatePeriod() {
-        return monthlyReportYearDatePeriod;
-    }
-
-    public void setMonthlyReportYearDatePeriod(DatePeriod monthlyReportYearDatePeriod) {
-        this.monthlyReportYearDatePeriod = monthlyReportYearDatePeriod;
-    }
-
+//    public DatePeriod getMonthlyReportDatePeriod() {
+//        return monthlyReportDatePeriod;
+//    }
+//
+//    public void setMonthlyReportDatePeriod(DatePeriod monthlyReportDatePeriod) {
+//        this.monthlyReportDatePeriod = monthlyReportDatePeriod;
+//    }
+//
+//    public DatePeriod getMonthlyReportDataDatePeriod() {
+//        return monthlyReportDataDatePeriod;
+//    }
+//
+//    public void setMonthlyReportDataDatePeriod(DatePeriod monthlyReportDataDatePeriod) {
+//        this.monthlyReportDataDatePeriod = monthlyReportDataDatePeriod;
+//    }
+//
+//    public DatePeriod getMonthlyReportYearDatePeriod() {
+//        return monthlyReportYearDatePeriod;
+//    }
+//    public void setMonthlyReportYearDatePeriod(DatePeriod monthlyReportYearDatePeriod) {
+//        this.monthlyReportYearDatePeriod = monthlyReportYearDatePeriod;
+//    }
     public Employee getReportEmployee1() {
         if (selectedReport.getEmployees().isEmpty()) {
             selectedReport.getEmployees().add(getUser().getEmployee());
@@ -570,7 +615,6 @@ public class ReportManager implements Serializable {
 //    public SearchParameters getReportSearchParameters() {
 //        return reportSearchParameters;
 //    }
-
     public int getNumberOfCurrentPeriodJobsFound() {
         if (currentPeriodJobReportSearchResultList != null) {
             return currentPeriodJobReportSearchResultList.size();
@@ -706,8 +750,6 @@ public class ReportManager implements Serializable {
                 case "application/xls":
                     if (getSelectedReport().getName().equals("Monthly report")) {
                         reportFile = getMonthlyReport3(em);
-                    } else {
-                        reportFile = getExcelReportStreamContent();
                     }
                     break;
                 default:
@@ -716,7 +758,7 @@ public class ReportManager implements Serializable {
 
             setLongProcessProgress(100);
 
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             System.out.println(e);
             setLongProcessProgress(100);
         }
@@ -749,7 +791,10 @@ public class ReportManager implements Serializable {
     public StreamedContent getMonthlyReport(EntityManager em) {
 
         try {
-            DatePeriod datePeriods[] = BusinessEntityUtils.getMonthlyReportDatePeriods(reportSearchParameters.getDatePeriod());
+//            DatePeriod datePeriods[] = BusinessEntityUtils.getMonthlyReportDatePeriods(reportSearchParameters.getDatePeriod());
+            // new DatePeriod("This month", "month", null, null, null, null, false, false, true)
+            DatePeriod datePeriods[]
+                    = BusinessEntityUtils.getMonthlyReportDatePeriods(defaultDatePeriod);
 
             List<JobSubCategory> subCategories = JobSubCategory.findAllJobSubCategoriesGroupedByEarningsByDepartment(em, getReportingDepartment1());
             List<Sector> sectors = Sector.findAllSectorsByDeparment(em, getReportingDepartment1());
@@ -803,22 +848,21 @@ public class ReportManager implements Serializable {
         return null;
     }
 
-    public StreamedContent getMonthlyReport2(EntityManager em) {
-
-        try {
-            // Get byte stream for report file
-            ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream(new File(getSelectedReport().getReportFileTemplate()),
-                    getReportingDepartment1().getId());
-
-            return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
-
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-
-        return null;
-    }
-
+//    public StreamedContent getMonthlyReport2(EntityManager em) {
+//
+//        try {
+//            // Get byte stream for report file
+//            ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream(new File(getSelectedReport().getReportFileTemplate()),
+//                    getReportingDepartment1().getId());
+//
+//            return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
+//
+//        } catch (Exception ex) {
+//            System.out.println(ex);
+//        }
+//
+//        return null;
+//    }
     public StreamedContent getMonthlyReport3(EntityManager em) {
 
         try {
@@ -874,7 +918,8 @@ public class ReportManager implements Serializable {
         return null;
     }
 
-    public StreamedContent getExcelReportStreamContent() throws URISyntaxException {
+    /*
+    public StreamedContent getMonthlyReportStreamContent() throws URISyntaxException {
 
         try {
 
@@ -988,7 +1033,7 @@ public class ReportManager implements Serializable {
 
         return null;
     }
-
+     */
     public void refreshJobReport() {
         //updateReport();        
     }
@@ -1436,6 +1481,7 @@ public class ReportManager implements Serializable {
         return null;
     }
 
+    /*
     public ByteArrayInputStream createExcelMonthlyReportFileInputStream(
             File reportFile,
             Long departmentId) {
@@ -1651,7 +1697,7 @@ public class ReportManager implements Serializable {
 
         return null;
     }
-
+     */
     public ByteArrayInputStream jobsCompletedByDepartmentFileInputStream(
             File reportFile,
             Long departmentId) {
@@ -1680,8 +1726,8 @@ public class ReportManager implements Serializable {
             List<Object[]> reportData = Job.getJobRecordsByTrackingDate(
                     getEntityManager1(),
                     getSelectedDatePeriod().getDateField(),
-                    BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getStartDate(), "'", "YMD", "-"),
-                    BusinessEntityUtils.getDateString(reportSearchParameters.getDatePeriod().getEndDate(), "'", "YMD", "-"),
+                    BusinessEntityUtils.getDateString(defaultDatePeriod.getStartDate(), "'", "YMD", "-"),
+                    BusinessEntityUtils.getDateString(defaultDatePeriod.getEndDate(), "'", "YMD", "-"),
                     departmentId);
 
             // Fill in report data            
@@ -1939,16 +1985,18 @@ public class ReportManager implements Serializable {
             HSSFSheet rawData = wb.getSheet("Raw Data");
 
             // Get report data
+            // Set date to now first
+            getReportingDatePeriod1().setEndDate(new Date());
             List<Object[]> reportData = Job.getJobReportRecords(
                     getEntityManager1(),
-                    BusinessEntityUtils.getDateString(monthlyReportDataDatePeriod.getStartDate(), "'", "YMD", "-"),
-                    BusinessEntityUtils.getDateString(monthlyReportDataDatePeriod.getEndDate(), "'", "YMD", "-"),
+                    //                    BusinessEntityUtils.getDateString(monthlyReportDataDatePeriod.getStartDate(), "'", "YMD", "-"),
+                    //                    BusinessEntityUtils.getDateString(monthlyReportDataDatePeriod.getEndDate(), "'", "YMD", "-"),
+                    BusinessEntityUtils.getDateString(getMonthlyReportDataDatePeriod().getStartDate(), "'", "YMD", "-"),
+                    BusinessEntityUtils.getDateString(getMonthlyReportDataDatePeriod().getEndDate(), "'", "YMD", "-"),
                     departmentId);
 
-            // Fill in report data            
-            System.out.println("rowdata: " + reportData.size());
+            // Fill in report data   
             for (Object[] rowData : reportData) {
-                System.out.println("Inserting row: " + row);
                 // Job numbers
                 BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 0,
                         (String) rowData[6],
@@ -2071,31 +2119,31 @@ public class ReportManager implements Serializable {
                     "java.lang.String", stringCellStyle);
             //  Data starts at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 4,
-                    monthlyReportDataDatePeriod.getStartDate(),
+                    getMonthlyReportDataDatePeriod().getStartDate(),
                     "java.util.Date", dateCellStyle);
             //  Data ends at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 6,
-                    monthlyReportDataDatePeriod.getEndDate(),
+                    getMonthlyReportDataDatePeriod().getEndDate(),
                     "java.util.Date", dateCellStyle);
             //  Month starts at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 8,
-                    monthlyReportDatePeriod.getStartDate(),
+                    getReportingDatePeriod2().getStartDate(),
                     "java.util.Date", dateCellStyle);
             //  Month ends at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 10,
-                    monthlyReportDatePeriod.getEndDate(),
+                    getReportingDatePeriod2().getEndDate(),
                     "java.util.Date", dateCellStyle);
             // Year type
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 12,
-                    monthlyReportYearDatePeriod.getName(),
+                    getReportingDatePeriod3().getName(),
                     "java.lang.String", stringCellStyle);
             //  Year starts at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 15,
-                    monthlyReportYearDatePeriod.getStartDate(),
+                    getReportingDatePeriod3().getStartDate(),
                     "java.util.Date", dateCellStyle);
             //  Year ends at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 17,
-                    monthlyReportYearDatePeriod.getEndDate(),
+                    getReportingDatePeriod3().getEndDate(),
                     "java.util.Date", dateCellStyle);
 
             wb.write(out);
@@ -2261,8 +2309,8 @@ public class ReportManager implements Serializable {
                 if (con != null) {
                     StreamedContent streamContent;
 
-                    parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
-                    parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
+                    parameters.put("startOFPeriod", getReportingDatePeriod1().getStartDate());
+                    parameters.put("endOFPeriod", getReportingDatePeriod1().getEndDate());
                     parameters.put("inspectorID", getReportEmployee1().getId());
 
                     // generate report
@@ -2318,8 +2366,8 @@ public class ReportManager implements Serializable {
                     StreamedContent streamContent;
 
                     // tk use method used for 
-                    parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
-                    parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
+                    parameters.put("startOFPeriod", getReportingDatePeriod1().getStartDate());
+                    parameters.put("endOFPeriod", getReportingDatePeriod1().getEndDate());
 
                     parameters.put("departmentID",
                             getSelectedReport().getDepartments().get(0).getId());
@@ -2378,8 +2426,8 @@ public class ReportManager implements Serializable {
             if (con != null) {
                 StreamedContent streamContent;
 
-                parameters.put("startOFPeriod", reportSearchParameters.getDatePeriod().getStartDate());
-                parameters.put("endOFPeriod", reportSearchParameters.getDatePeriod().getEndDate());
+                parameters.put("startOFPeriod", getReportingDatePeriod1().getStartDate());
+                parameters.put("endOFPeriod", getReportingDatePeriod1().getEndDate());
                 parameters.put("departmentID", getSelectedReport().getDepartments().get(0).getId());
                 parameters.put("departmentName", getSelectedReport().getDepartments().get(0).getName());
                 // generate report
@@ -2411,8 +2459,8 @@ public class ReportManager implements Serializable {
         }
 
     }
-    
-    public ArrayList getDateSearchFields() {      
+
+    public ArrayList getDateSearchFields() {
         return DatePeriod.getDateSearchFields();
     }
 }

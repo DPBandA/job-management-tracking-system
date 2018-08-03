@@ -107,45 +107,301 @@ Email: info@dpbennett.com.jm
                 </h:panelGrid>
 
             </p:panel>
+            
+            <p:panel  id="generalReportDatePeriods" header="Date period(s)" 
+                      rendered="#{reportManager.selectedReport.datePeriodRequired and !reportManager.isMonthlyReport}" >
+                <h:panelGrid columns="6" > 
+                    <h:outputText value="#{reportManager.reportingDatePeriod1.initDatePeriod.label}" 
+                                  rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}"/>     
+                    <p:selectOneMenu value= "#{reportManager.reportingDatePeriod1.initDatePeriod.name}" 
+                                     rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}" >
+                        <p:ajax listener="#{reportManager.updateReportDatePeriods}"
+                                global="true"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                update="export1,export2"
+                                process="@this" />
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
+                    </p:selectOneMenu>
 
-            <p:panel id="datePeriodsPanel" header="Date period(s)" 
-                     rendered="#{reportManager.selectedReport.datePeriodRequired}">
+                    <h:outputText value="Start:" rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}" />
+                    <p:calendar value="#{reportManager.reportingDatePeriod1.initDatePeriod.startDate}"
+                                rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}"
+                                disabled="#{reportManager.reportingDatePeriod1.initDatePeriod.startDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
 
-                <p:dataTable id="datePeriodsTable"                             
-                             var="datePeriod" 
-                             value="#{reportManager.selectedReport.datePeriods}">
-                    <h:outputLabel value="#{datePeriod.formattedStartDate}" />
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputLabel value="Label"/>
-                        </f:facet>
-                        <h:outputText value="#{datePeriod.label}" />
-                    </p:column>
+                    <h:outputText value="End:" rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}" />
+                    <p:calendar value="#{reportManager.reportingDatePeriod1.initDatePeriod.endDate}"
+                                rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}"
+                                disabled="#{reportManager.reportingDatePeriod1.initDatePeriod.endDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
 
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputLabel value="Period"/>
-                        </f:facet>
-                        <h:outputText value="#{datePeriod.name}" />
-                    </p:column>
+                    <h:outputText value="#{reportManager.reportingDatePeriod2.initDatePeriod.label}" 
+                                  rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" />     
+                    <p:selectOneMenu value= "#{reportManager.reportingDatePeriod2.initDatePeriod.name}" 
+                                     rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" >
+                        <p:ajax listener="#{reportManager.updateReportDatePeriods}"
+                                global="true"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                update="export1,export2"
+                                process="@this" />
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
+                    </p:selectOneMenu>
 
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputLabel value="Start"/>
-                        </f:facet>
-                        <h:outputText value="#{datePeriod.initDatePeriod.formattedStartDate}" />
-                    </p:column>
+                    <h:outputText value="Start:" rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" />
+                    <p:calendar value="#{reportManager.reportingDatePeriod2.initDatePeriod.startDate}"
+                                rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}"
+                                disabled="#{reportManager.reportingDatePeriod2.initDatePeriod.startDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
 
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputLabel value="End"/>
-                        </f:facet>
-                        <h:outputText value="#{datePeriod.initDatePeriod.formattedEndDate}" />
-                    </p:column>
+                    <h:outputText value="End:" rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" />
+                    <p:calendar value="#{reportManager.reportingDatePeriod2.initDatePeriod.endDate}"
+                                rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}"
+                                disabled="#{reportManager.reportingDatePeriod2.initDatePeriod.endDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
 
-                </p:dataTable>
+                    <h:outputText value="#{reportManager.reportingDatePeriod3.initDatePeriod.label}" 
+                                  rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" />     
+                    <p:selectOneMenu value= "#{reportManager.reportingDatePeriod3.initDatePeriod.name}" 
+                                     rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" >
+                        <p:ajax listener="#{reportManager.updateReportDatePeriods}"
+                                global="true"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                update="export1,export2"
+                                process="@this" />
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
+                    </p:selectOneMenu>
 
-            </p:panel>   
+                    <h:outputText value="Start:" rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" />
+                    <p:calendar value="#{reportManager.reportingDatePeriod3.initDatePeriod.startDate}"
+                                rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}"
+                                disabled="#{reportManager.reportingDatePeriod3.initDatePeriod.startDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
+
+                    <h:outputText value="End:" rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" />
+                    <p:calendar value="#{reportManager.reportingDatePeriod3.initDatePeriod.endDate}"
+                                rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}"
+                                disabled="#{reportManager.reportingDatePeriod3.initDatePeriod.endDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
+                </h:panelGrid>     
+
+            </p:panel>
+
+            <p:panel  id="monthlyReportDatePeriods" header="Monthly report date period(s)" 
+                      rendered="#{reportManager.isMonthlyReport}" >
+                <h:panelGrid columns="6"  
+                             id="monthlyReportDatePeriod" > 
+                    <h:outputText value="Monthly report date period: " />     
+                    <p:selectOneMenu value= "#{reportManager.reportingDatePeriod2.initDatePeriod.name}">
+                        <p:ajax listener="#{reportManager.updateReportDatePeriods}"
+                                global="true"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                update="export1,export2"
+                                process="@this" />
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Start:" />
+                    <p:calendar value="#{reportManager.reportingDatePeriod2.initDatePeriod.startDate}"
+                                disabled="#{reportManager.reportingDatePeriod2.initDatePeriod.startDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
+
+                    <h:outputText value="End:"/>
+                    <p:calendar value="#{reportManager.reportingDatePeriod2.initDatePeriod.endDate}"
+                                disabled="#{reportManager.reportingDatePeriod2.initDatePeriod.endDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
+
+                    <h:outputText value="Year period: " />     
+                    <p:selectOneMenu value= "#{reportManager.reportingDatePeriod3.initDatePeriod.name}">
+                        <p:ajax listener="#{reportManager.updateReportDatePeriods}"
+                                global="true"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                update="export1,export2"
+                                process="@this" />
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Start:" />
+                    <p:calendar value="#{reportManager.reportingDatePeriod3.initDatePeriod.startDate}"
+                                disabled="#{reportManager.reportingDatePeriod3.initDatePeriod.startDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
+
+                    <h:outputText value="End:"/>
+                    <p:calendar value="#{reportManager.reportingDatePeriod3.initDatePeriod.endDate}"
+                                disabled="#{reportManager.reportingDatePeriod3.initDatePeriod.endDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
+
+                    <h:outputText value="Data period: " />     
+                    <p:selectOneMenu value= "#{reportManager.monthlyReportDataDatePeriod.name}">
+                        <p:ajax listener="#{reportManager.updateReportDatePeriods}"
+                                global="true"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                update="export1,export2"
+                                process="@this" />
+                        <f:selectItems value="#{reportManager.datePeriods}"/>
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Start:" />
+                    <p:calendar value="#{reportManager.monthlyReportDataDatePeriod.initDatePeriod.startDate}"
+                                disabled="#{reportManager.monthlyReportDataDatePeriod.initDatePeriod.startDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
+
+                    <h:outputText value="End:"/>
+                    <p:calendar value="#{reportManager.monthlyReportDataDatePeriod.initDatePeriod.endDate}"
+                                disabled="#{reportManager.monthlyReportDataDatePeriod.initDatePeriod.endDateDisabled}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                        <p:ajax event="keyup"
+                                update="export1,export2"
+                                onstart="PF('longProcessDialogVar2').show();"
+                                oncomplete="PF('longProcessDialogVar2').hide();"
+                                listener="#{reportManager.updateReportDatePeriods}"/>
+                    </p:calendar>
+                </h:panelGrid>     
+
+            </p:panel>
 
             <p:panel id="employeesPanel" header="Employee(s)" 
                      rendered="#{reportManager.selectedReport.employeeRequired}">

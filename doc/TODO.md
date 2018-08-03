@@ -13,8 +13,8 @@
 ## Next release (May 24-25, 2018)
 ### Reports
 - Impl report exportation:
-  * Field labels for date period dialog does not not show for dark hive theme. Fix.
-  * Add dropdown for selecting date field.
+  * Add dropdown for selecting date field and hide/show them there are in the 
+    collection field.
   * Update analyticalServicesReportFileInputStream() to use selected report parameters.
     Use the selected date seach field in the method that does the search.
   * Impl selecting report parameters. Use single item selection components for
@@ -164,6 +164,6 @@ This release will be around early July.
   job.
 - Put back feature to create subcontract from a subcontract?
 - Remove edit buttons from client dialog general tab.
-
+- Impl Status or JobStatus class and use 
 
 
