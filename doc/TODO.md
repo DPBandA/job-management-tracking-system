@@ -13,7 +13,7 @@
 ## Next release (May 24-25, 2018)
 ### Reports
 - Impl report exportation:
-  * Add dropdown for selecting date field and hide/show them there are in the 
+  * Add dropdown for selecting date field and hide/show them when they are in the 
     collection field.
   * Update analyticalServicesReportFileInputStream() to use selected report parameters.
     Use the selected date seach field in the method that does the search.
