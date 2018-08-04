@@ -110,6 +110,7 @@ public class SystemManager implements Serializable {
     private String ldapSearchText;
     private String businessSearchText;
     private String documentTypeSearchText;
+    private String openedJobsSearchText;
     // Found object lists
     private List<JobManagerUser> foundUsers;
     private List<Employee> foundEmployees;
@@ -141,6 +142,14 @@ public class SystemManager implements Serializable {
      */
     public SystemManager() {
         init();
+    }
+
+    public String getOpenedJobsSearchText() {
+        return openedJobsSearchText;
+    }
+
+    public void setOpenedJobsSearchText(String openedJobsSearchText) {
+        this.openedJobsSearchText = openedJobsSearchText;
     }
 
     public List getValueTypes() {
@@ -206,6 +215,7 @@ public class SystemManager implements Serializable {
         sectorSearchText = "";
         ldapSearchText = "";
         documentTypeSearchText = "";
+        openedJobsSearchText = "";
         // Active flags
         isActiveJobCategoriesOnly = true;
         isActiveJobSubcategoriesOnly = true;

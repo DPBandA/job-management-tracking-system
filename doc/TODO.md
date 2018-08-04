@@ -11,10 +11,14 @@
 - Review and update training material
 
 ## Next release (May 24-25, 2018)
+### Job Edit Synchronization
+- Create/maintain list of opened jobs in the Application class.
+- Add Opened Jobs tab in Sys Admin with search text box and refresh button
+
 ### Reports
 - Impl report exportation:
   * Add dropdown for selecting date field and hide/show them when they are in the 
-    collection field.
+    collection field. 
   * Update analyticalServicesReportFileInputStream() to use selected report parameters.
     Use the selected date seach field in the method that does the search.
   * Impl selecting report parameters. Use single item selection components for
@@ -166,4 +170,7 @@ This release will be around early July.
 - Remove edit buttons from client dialog general tab.
 - Impl Status or JobStatus class and use 
 
-
+### Updates based on training, testing and feedback
+- Allow creating subcontract from a subcontract.
+- Indicate somewhere in the job dialog when a subcontract is being created.
+- Fix sammple reference sequencing when a sample is deleted. Test with job 5740.
