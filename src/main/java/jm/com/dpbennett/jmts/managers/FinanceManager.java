@@ -1819,6 +1819,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             getCurrentJob().getJobCostingAndPayment().setCashPayments(jcp.getCashPayments());
 
+            
             PrimeFacesUtils.openDialog(null, "/finance/jobCostingDialog", true, true, true, 600, 850);
         } else {
             PrimeFacesUtils.addMessage("Job NOT Saved",
@@ -2298,6 +2299,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         PrimeFaces.current().dialog().closeDynamic(null);
 
+    }
+    
+    public void checkForSubcontracts(ActionEvent event) {
+
+        PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
     }
 
     public void openCashPaymentDeleteConfirmDialog(ActionEvent event) {

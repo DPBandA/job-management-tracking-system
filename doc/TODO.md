@@ -6,11 +6,12 @@
 - Mention development and testing of infrastructure modules of the JMTS.
 - Get copy of ISO/IEC 42010 for Software Architecture.
 
-### Prepare for deliver training (1 hr before start time)
-- Check live and test accounts of persons to be changed
-- Review and update training material
+### Updates based on training and feedback
+- Display prompt when there are completed subcontracted jobs when the Job Costing dialog
+  is opened:
+  * Impl "Existing Subcontracts" dialog...copy the "Delete Payment" dialog.
+- Fix sample sequencing when a sample is deleted.
 
-## Next release (May 24-25, 2018)
 ### Job Edit Synchronization
 - Create/maintain list of opened jobs in the Application class.
 - Add Opened Jobs tab in Sys Admin with search text box and refresh button

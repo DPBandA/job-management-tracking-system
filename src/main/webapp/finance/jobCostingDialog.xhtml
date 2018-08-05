@@ -33,18 +33,21 @@ Email: info@dpbennett.com.jm
         <title>Job Costing</title>
         <link rel="stylesheet" href="../css/main.css" /> 
     </h:head>
-    <h:body > 
+    <h:body> 
         <ui:include src="costingComponentDialog.xhtml"/>       
         <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>   
         <ui:include src="jobCostingTemplateNameDialog.xhtml"/>        
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>  
-        <h:form id="jobCostingDialogForm">  
+        <h:form id="jobCostingDialogForm" > 
+            <p:remoteCommand name="rc" autoRun="true" 
+                             actionListener="#{financeManager.checkForSubcontracts}" />
+            
             <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
 
             <ui:include src="jobCostingDialogToolbar.xhtml"/> 
 
-            <p:panel header="General Information" style="margin-top: 1px;">
+            <p:panel header="General Information" style="margin-top: 1px;" >
                 <h:panelGrid columns="3">
                     <h:outputText value="Department:" style="font-weight: bold; width: 30%" />
                     <p:spacer height="0" width="10"/>
