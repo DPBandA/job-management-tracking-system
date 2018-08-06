@@ -98,6 +98,7 @@ import org.primefaces.event.CellEditEvent;
 public class JobManager implements Serializable, BusinessEntityManagement,
         DialogActionHandler, UserManagement, MessageManagement {
 
+    private Application application;
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
@@ -155,6 +156,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         init();
     }
 
+    public Application getApplication() {
+        if (application == null) {
+            application = Application.findBean("App");
+        }
+        return application;
+    }
+
     public void updateAccPacCustomer(SelectEvent event) {
         EntityManager em = getEntityManager2();
 
@@ -187,7 +195,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     getClient().setEditedBy(getUser().getEmployee());
             getJobSearchResultList().get(event.getRowIndex()).
                     getClient().save(getEntityManager1());
-            
+
             accPacCustomer = new AccPacCustomer();
         }
 
@@ -321,7 +329,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return searchTypes;
     }
 
-    public ArrayList getDateSearchFields() {      
+    public ArrayList getDateSearchFields() {
         return DatePeriod.getDateSearchFields();
     }
 
@@ -365,6 +373,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             PrimeFacesUtils.addMessage("Job was NOT saved", "The recently edited job was not saved", FacesMessage.SEVERITY_WARN);
             PrimeFaces.current().ajax().update("headerForm:growl3");
             currentJob.setIsDirty(false);
+        }
+        
+        // tk 
+        System.out.println("removing current job");
+        if (getApplication().findOpenedJob(currentJob.getId()) != null) {
+            getApplication().removeOpenedJob(currentJob);
         }
     }
 
@@ -1972,7 +1986,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         currentJob.getJobStatusAndTracking().setEditStatus("");
         PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
-
+        
     }
 
     public void editJobCostingAndPayment() {
@@ -2175,22 +2189,31 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return jobSearchResultList;
     }
 
-    public Job getCurrentJob() {
+    public synchronized Job getCurrentJob() {
         if (currentJob == null) {
             resetCurrentJob();
         }
         return currentJob;
     }
 
-    public void setCurrentJob(Job currentJob) {
+    public synchronized void setCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
     }
 
     // tk rename to setTargetJob
     public void setEditCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
-        this.currentJob.setVisited(true);
+        this.currentJob.setVisited(true);        
         getFinanceManager().setEnableOnlyPaymentEditing(false);
+
+        // tk
+        if (getApplication().findOpenedJob(this.currentJob.getId()) == null) {
+            this.currentJob.setOpenedBy(getUser());
+            getApplication().addOpenedJob(this.currentJob);
+        } 
+        else {
+            
+        }
     }
 
     public void setEditJobCosting(Job currentJob) {

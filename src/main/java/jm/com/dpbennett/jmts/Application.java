@@ -23,10 +23,13 @@ import jm.com.dpbennett.business.entity.utils.DataItem;
 import jm.com.dpbennett.business.entity.utils.SortableSelectItem;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
 import javax.inject.Named;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
@@ -74,6 +77,7 @@ import jm.com.dpbennett.business.entity.utils.SearchParameters;
  */
 @Named(value = "App")
 @ApplicationScoped
+@Singleton
 public class Application {
     
     @PersistenceUnit(unitName = "JMTSPU")
@@ -88,6 +92,7 @@ public class Application {
      */
     public Application() {
         openedJobs = new ArrayList<>();
+              
         // init primefaces themes
         themes.put("Aristo", "aristo");
         themes.put("Black-Tie", "black-tie");
@@ -95,30 +100,36 @@ public class Application {
         themes.put("Dark Hive", "dark-hive");
     }
     
+    @Schedule(hour = "*", minute = "*", second = "*/30")
+    public void automaticTimer() {
+        // tk
+        System.out.println("# of opened job: " + getOpenedJobs() + " Time: " + new Date());
+    }
+
     public synchronized List<Job> getOpenedJobs() {
         return openedJobs;
     }
-    
+
     public synchronized void addOpenedJob(Job job) {
         getOpenedJobs().add(job);
     }
-    
+
     public synchronized void removeOpenedJob(Job job) {
         getOpenedJobs().remove(job);
     }
-    
+
     public synchronized Job findOpenedJob(Long jobId) {
         for (Job job : openedJobs) {
             if (Objects.equals(job.getId(), jobId)) {
                 return job;
             }
         }
-        
+
         return null;
     }
-    
+
     public List<String> completeDocumentTypeName(String query) {
-        
+
         try {
             List<DocumentType> types = DocumentType.findDocumentTypesByName(getEntityManager1(), query);
             List<String> suggestions = new ArrayList<>();
@@ -129,17 +140,17 @@ public class Application {
                     }
                 }
             }
-            
+
             return suggestions;
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
-    
+
     public List<String> completeDocumentTypeCode(String query) {
-        
+
         try {
             List<DocumentType> types = DocumentType.findDocumentTypesByCode(getEntityManager1(), query);
             List<String> suggestions = new ArrayList<>();
@@ -150,89 +161,89 @@ public class Application {
                     }
                 }
             }
-            
+
             return suggestions;
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
-    
+
     public List getClassificationCategories() {
         return Classification.getCategories();
     }
-    
+
     public List getDocumentStatuses() {
         ArrayList statuses = new ArrayList();
-        
+
         statuses.add(new SelectItem("--", "--"));
         statuses.add(new SelectItem("Clarification required", "Clarification required"));
         statuses.add(new SelectItem("Completed", "Completed"));
         statuses.add(new SelectItem("On target", "On target"));
         statuses.add(new SelectItem("Transferred to Ministry", "Transferred to Ministry"));
-        
+
         return statuses;
     }
-    
+
     public List getPriorityLevels() {
         ArrayList levels = new ArrayList();
-        
+
         levels.add(new SelectItem("--", "--"));
         levels.add(new SelectItem("High", "High"));
         levels.add(new SelectItem("Medium", "Medium"));
         levels.add(new SelectItem("Low", "Low"));
         levels.add(new SelectItem("Emergency", "Emergency"));
-        
+
         return levels;
     }
-    
+
     public List getDocumentForms() {
         ArrayList forms = new ArrayList();
-        
+
         forms.add(new SelectItem("E", "Electronic"));
         forms.add(new SelectItem("H", "Hard copy"));
         forms.add(new SelectItem("V", "Verbal"));
-        
+
         return forms;
     }
 
     // tk getStringListAsSelectItems
     public List<SelectItem> getWorkProgressList() {
-        
+
         return Application.getStringListAsSelectItems(getEntityManager1(),
                 "workProgressList");
-        
+
     }
-    
+
     public List getCostCodeList() {
         return CostComponent.getCostCodeList();
     }
-    
+
     public Map<String, String> getThemes() {
         return themes;
     }
-    
+
     public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
-    
+
     public EntityManager getEntityManager2() {
         return EMF2.createEntityManager();
     }
-    
+
     public List getDateSearchFields() {
         ArrayList dateFields = new ArrayList();
-        
+
         dateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
         dateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
         dateFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
         dateFields.add(new SelectItem("dateSamplesCollected", "Date sample(s) collected"));
         dateFields.add(new SelectItem("dateDocumentCollected", "Date document(s) collected"));
-        
+
         return dateFields;
     }
-    
+
     public List getLegalDocumentDateSearchFields() {
         ArrayList dateFields = new ArrayList();
 
@@ -240,37 +251,37 @@ public class Application {
         dateFields.add(new SelectItem("dateOfCompletion", "Date delivered"));
         dateFields.add(new SelectItem("dateReceived", "Date received"));
         dateFields.add(new SelectItem("expectedDateOfCompletion", "Agreed delivery date"));
-        
+
         return dateFields;
     }
-    
+
     public List getContactTypes() {
-        
+
         return Application.getStringListAsSelectItems(getEntityManager1(), "personalContactTypes");
-        
+
     }
-    
+
     public List<SelectItem> getJamaicaParishes() {
-        
+
         return Application.getStringListAsSelectItems(getEntityManager1(), "jamaicaParishes");
-        
+
     }
-    
+
     public List getSearchTypes() {
         ArrayList searchTypes = new ArrayList();
-        
+
         searchTypes.add(new SelectItem("General", "General"));
         searchTypes.add(new SelectItem("My jobs", "My jobs"));
         searchTypes.add(new SelectItem("My department's jobs", "My department's jobs"));
-        
+
         return searchTypes;
     }
-    
+
     public List getLegalDocumentSearchTypes() {
         ArrayList searchTypes = new ArrayList();
-        
+
         searchTypes.add(new SelectItem("General", "General"));
-        
+
         return searchTypes;
     }
 
@@ -280,7 +291,7 @@ public class Application {
      * @return
      */
     public List getDiscountTypes() {
-        
+
         return JobCostingAndPayment.getDiscountTypes();
     }
 
@@ -310,7 +321,7 @@ public class Application {
         String sysOption
                 = (String) SystemOption.getOptionValueObject(getEntityManager1(),
                         "organizationName");
-        
+
         methods.add(new SelectItem("1", "Collected by the client within 30 days"));
         if (sysOption != null) {
             methods.add(new SelectItem("2", "Disposed of by " + sysOption));
@@ -318,7 +329,7 @@ public class Application {
             methods.add(new SelectItem("2", "Disposed of by us"));
         }
         methods.add(new SelectItem("3", "To be determined"));
-        
+
         return methods;
     }
 
@@ -327,149 +338,149 @@ public class Application {
      */
     public List getJobSampleTypes() {
         ArrayList dateFields = new ArrayList();
-        
+
         dateFields.add(new SelectItem("1", "Food"));
         dateFields.add(new SelectItem("2", "Electrical"));
         dateFields.add(new SelectItem("3", "Mechanical"));
-        
+
         return dateFields;
     }
-    
+
     public List<SelectItem> getDatePeriods() {
         ArrayList<SelectItem> datePeriods = new ArrayList<>();
-        
+
         for (String name : DatePeriod.getDatePeriodNames()) {
             datePeriods.add(new SelectItem(name, name));
         }
-        
+
         return datePeriods;
     }
-    
+
     public List<String> completeDatePeriods(String query) {
-        
+
         return DatePeriod.getDatePeriodNames();
     }
-    
+
     public String getLogonUser() {
         String userName = System.getProperty("user.name");
-        
+
         return userName;
     }
 
     // tk to be obtained from database
     public List<SelectItem> getTestMeasures() {
-        
+
         return Application.getStringListAsSelectItems(getEntityManager1(), "petrolTestMeasures");
-        
+
     }
-    
+
     public List<SelectItem> getEquipmentWorkingStatus() {
         return Application.getStringListAsSelectItems(getEntityManager1(), "equipmentWorkingStatusList");
     }
-    
+
     public Boolean findJobSample(List<JobSample> samples, String reference) {
         for (JobSample jobSample : samples) {
             if (jobSample.getReference().equals(reference)) {
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     @SuppressWarnings("unchecked")
     public static <T> T findBean(String beanName) {
         FacesContext context = FacesContext.getCurrentInstance();
         return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
     }
-    
+
     public List<BusinessOffice> completeBusinessOffice(String query) {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             List<BusinessOffice> offices = BusinessOffice.findActiveBusinessOfficesByName(em, query);
-            
+
             return offices;
         } catch (Exception e) {
-            
+
             System.out.println(e);
             return new ArrayList<>();
         }
     }
-    
+
     public List<Department> completeDepartment(String query) {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             List<Department> departments = Department.findActiveDepartmentsByName(em, query);
-            
+
             return departments;
-            
+
         } catch (Exception e) {
             return new ArrayList<>();
         }
     }
-    
+
     public List<DocumentType> completeDocumentType(String query) {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             List<DocumentType> documentTypes = DocumentType.findDocumentTypesByName(em, query);
-            
+
             return documentTypes;
-            
+
         } catch (Exception e) {
             return new ArrayList<>();
         }
     }
-    
+
     public List<String> completeServiceName(String query) {
         List<String> serviceNames = new ArrayList<>();
-        
+
         try {
             List<Service> services = Service.findServicesByName(getEntityManager1(), query);
             for (Service service : services) {
                 serviceNames.add(service.getName());
             }
-            
+
             return serviceNames;
-            
+
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
-    
+
     public List<Service> completeService(String query) {
-        
+
         try {
             return Service.findServicesByName(getEntityManager1(), query);
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
-    
+
     public List<Manufacturer> completeManufacturer(String query) {
         return Manufacturer.findManufacturersBySearchPattern(getEntityManager1(), query);
     }
-    
+
     public List<Employee> completeEmployee(String query) {
         EntityManager em;
-        
+
         try {
-            
+
             em = getEntityManager1();
             List<Employee> employees = Employee.findActiveEmployeesByName(em, query);
-            
+
             if (employees != null) {
                 return employees;
             } else {
@@ -480,14 +491,14 @@ public class Application {
             return new ArrayList<>();
         }
     }
-    
+
     public List<Client> completeClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
-            
+
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
@@ -496,14 +507,14 @@ public class Application {
     public List<String> completeClientName(String query) {
         try {
             return Client.findActiveClientNames(getEntityManager1(), query);
-            
+
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
-    
+
     private Employee getEmployeeByName(EntityManager em, String name) {
         String names[] = name.split(",");
         if (names.length == 2) {
@@ -514,10 +525,10 @@ public class Application {
             return null;
         }
     }
-    
+
     public static String getSearchResultsTableHeader(SearchParameters searchParameters, List searchResultsList) {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
-        
+
         if (searchParameters != null) {
             if (searchParameters.getDatePeriod().getStartDate() != null
                     && searchParameters.getDatePeriod().getEndDate() != null) {
@@ -531,10 +542,10 @@ public class Application {
             return "Search Results";
         }
     }
-    
+
     public static String getSearchResultsTableHeader(DatePeriod datePeriod, List searchResultsList) {
         SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
-        
+
         if (datePeriod.getStartDate() != null
                 && datePeriod.getEndDate() != null) {
             return "Period: " + formatter.format(datePeriod.getStartDate()) + " to "
@@ -543,18 +554,18 @@ public class Application {
         } else {
             return "Search Results";
         }
-        
+
     }
-    
+
     public static String getSearchResultsTableHeader(List searchResultsList) {
         return "Search Results (found: " + searchResultsList.size() + ")";
     }
-    
+
     public List<Country> getCountries() {
         EntityManager em = getEntityManager1();
-        
+
         List<Country> countries = Country.findAllCountries(em);
-        
+
         return countries;
     }
 
@@ -567,17 +578,17 @@ public class Application {
      * @return
      */
     public static Boolean checkForLDAPUser(EntityManager em, String username, javax.naming.ldap.LdapContext ctx) {
-        
+
         try {
             SearchControls constraints = new SearchControls();
             constraints.setSearchScope(SearchControls.SUBTREE_SCOPE);
             String[] attrIDs = {"displayName"};
-            
+
             constraints.setReturningAttributes(attrIDs);
-            
+
             String name = (String) SystemOption.getOptionValueObject(em, "ldapContextName");
             NamingEnumeration answer = ctx.search(name, "SAMAccountName=" + username, constraints);
-            
+
             if (!answer.hasMore()) { // Assuming only one match
                 // LDAP user not found!
                 return Boolean.FALSE;
@@ -586,13 +597,13 @@ public class Application {
             System.out.println(ex);
             return Boolean.FALSE;
         }
-        
+
         return Boolean.TRUE;
     }
-    
+
     public static JobManagerUser createNewUser(EntityManager em) {
         JobManagerUser user = new JobManagerUser();
-        
+
         user.setUsername("");
         // init employee
         user.setEmployee(getDefaultEmployee(em, "--", "--"));
@@ -601,10 +612,10 @@ public class Application {
         user.getPrivilege().setCanEditOwnJob(Boolean.TRUE);
         user.getPrivilege().setCanEditDepartmentJob(Boolean.TRUE);
         user.getPrivilege().setCanEnterJob(Boolean.TRUE);
-        
+
         return user;
     }
-    
+
     public static Employee getDefaultEmployee(EntityManager em, String firstName, String lastName) {
         Employee employee = Employee.findEmployeeByName(em, firstName, lastName);
 
@@ -620,13 +631,13 @@ public class Application {
             BusinessEntityUtils.saveBusinessEntity(em, employee);
             em.getTransaction().commit();
         }
-        
+
         return employee;
     }
-    
+
     public static BusinessOffice getDefaultBusinessOffice(EntityManager em, String name) {
         BusinessOffice office = BusinessOffice.findBusinessOfficeByName(em, name);
-        
+
         if (office == null) {
             em.getTransaction().begin();
             office = new BusinessOffice();
@@ -634,30 +645,30 @@ public class Application {
             BusinessEntityUtils.saveBusinessEntity(em, office);
             em.getTransaction().commit();
         }
-        
+
         return office;
     }
-    
+
     public static Department getDefaultDepartment(EntityManager em,
             String name) {
         Department department = Department.findDepartmentByName(em, name);
-        
+
         if (department == null) {
             department = new Department();
-            
+
             em.getTransaction().begin();
             department.setName(name);
             BusinessEntityUtils.saveBusinessEntity(em, department);
             em.getTransaction().commit();
         }
-        
+
         return department;
     }
-    
+
     public static Manufacturer getDefaultManufacturer(EntityManager em,
             String name) {
         Manufacturer manufacturer = Manufacturer.findManufacturerByName(em, name);
-        
+
         if (manufacturer == null) {
             manufacturer = new Manufacturer();
             em.getTransaction().begin();
@@ -665,7 +676,7 @@ public class Application {
             BusinessEntityUtils.saveBusinessEntity(em, manufacturer);
             em.getTransaction().commit();
         }
-        
+
         return manufacturer;
     }
 
@@ -679,7 +690,7 @@ public class Application {
     public static Distributor getDefaultDistributor(EntityManager em,
             String name) {
         Distributor distributor = Distributor.findDistributorByName(em, name);
-        
+
         if (distributor == null) {
             distributor = new Distributor();
             em.getTransaction().begin();
@@ -687,28 +698,28 @@ public class Application {
             BusinessEntityUtils.saveBusinessEntity(em, distributor);
             em.getTransaction().commit();
         }
-        
+
         return distributor;
     }
-    
+
     public static PetrolCompany getDefaultPetrolCompany(EntityManager em,
             String name) {
         PetrolCompany petrolCompany = PetrolCompany.findPetrolCompanyByName(em, name);
-        
+
         if (petrolCompany == null) {
             petrolCompany = new PetrolCompany();
-            
+
             em.getTransaction().begin();
             petrolCompany.setName(name);
             BusinessEntityUtils.saveBusinessEntity(em, petrolCompany);
             em.getTransaction().commit();
         }
-        
+
         return petrolCompany;
     }
-    
+
     public static Contact getDefaultContact(EntityManager em, String firstName, String lastName) {
-        
+
         Contact contact = Contact.findContactByName(em, firstName, lastName);
 
         // create employee if it does not exist
@@ -721,12 +732,12 @@ public class Application {
             BusinessEntityUtils.saveBusinessEntity(em, contact);
             em.getTransaction().commit();
         }
-        
+
         return contact;
     }
-    
+
     public static Manufacturer getValidManufacturer(EntityManager em, String name) {
-        
+
         if ((name == null) || (name.equals(""))) {
             return null;
         } else if (!BusinessEntityUtils.validateName(name)) {
@@ -738,207 +749,207 @@ public class Application {
                 currentManufacturer = new Manufacturer();
                 // replace double quotes with two single quotes to avoid query issues
                 currentManufacturer.setName(name.replaceAll("\"", "''"));
-                
+
                 return currentManufacturer;
             } else { // create and return new manufacturer
                 return currentManufacturer;
             }
         }
     }
-    
+
     public static List<SelectItem> getStringListAsSelectItems(EntityManager em,
             String systemOption) {
-        
+
         ArrayList list = new ArrayList();
-        
+
         List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
-        
+
         for (String name : stringList) {
             list.add(new SelectItem(name, name));
         }
-        
+
         return list;
     }
-    
+
     public static List<SortableSelectItem> getStringListAsSortableSelectItems(EntityManager em,
             String systemOption) {
-        
+
         ArrayList list = new ArrayList();
-        
+
         List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
-        
+
         for (String name : stringList) {
             list.add(new SortableSelectItem(name, name));
         }
-        
+
         return list;
     }
-    
+
     public static void main(String[] args) {
         if (BusinessEntityUtils.setupDatabaseConnection("JMTSTestBOSHRMAPPMySQLPU")) { // EntitiesPU, SonyPCEntityLibraryPU, JMTSTestBOSHRMAPPMySQLPU
             EntityManager em = BusinessEntityUtils.getEMF().createEntityManager();
-            
+
             try {
                 BusinessEntityUtils.postMail(null, null, "test", "test");
-                
+
             } catch (Exception e) {
                 System.out.println(e);
             }
-            
+
         }
     }
-    
+
     public synchronized static void saveBusinessEntity(EntityManager em, BusinessEntity entity) {
         try {
-            
+
             em.getTransaction().begin();
             BusinessEntityUtils.saveBusinessEntity(em, entity);
             em.getTransaction().commit();
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    
+
     public static List<DataItem> getStringListAsSortableDataItems(EntityManager em,
             String systemOption) {
         ArrayList list = new ArrayList();
-        
+
         List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
-        
+
         for (String name : stringList) {
             list.add(new DataItem(name, name));
         }
-        
+
         return list;
     }
-    
+
     public List<Classification> completeClassification(String query) {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             List<Classification> classifications = Classification.findActiveClassificationsByName(em, query);
-            
+
             return classifications;
         } catch (Exception e) {
-            
+
             System.out.println(e);
             return new ArrayList<>();
         }
     }
-    
+
     public List<Classification> completeJobClassification(String query) {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             List<Classification> classifications = Classification.findActiveClassificationsByNameAndCategory(em, query, "Job");
-            
+
             return classifications;
         } catch (Exception e) {
-            
+
             System.out.println(e);
             return new ArrayList<>();
         }
     }
-    
+
     public ArrayList<String> completeCountry(String query) {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             ArrayList<Country> countries = new ArrayList<>(Country.findCountriesByName(em, query));
             ArrayList<String> countriesList = (ArrayList<String>) (ArrayList<?>) countries;
-            
+
             return countriesList;
         } catch (Exception e) {
             System.out.println(e);
             return new ArrayList<>();
         }
     }
-    
+
     public List<AccPacCustomer> completeAccPacClient(String query) {
         EntityManager em2;
-        
+
         try {
             em2 = getEntityManager2();
-            
+
             return AccPacCustomer.findAccPacCustomersByName(em2, query);
         } catch (Exception e) {
-            
+
             System.out.println(e);
             return new ArrayList<>();
         }
     }
-    
+
     public List<String> completePreferenceValue(String query) {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             List<String> preferenceValues = Preference.findAllPreferenceValues(em, query);
-            
+
             return preferenceValues;
-            
+
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
-    
+
     public List<String> getJobTableViews() {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             List<String> preferenceValues = Preference.findAllPreferenceValues(em, "");
-            
+
             return preferenceValues;
-            
+
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
-    
+
     public List<DepartmentUnit> completeDepartmentUnit(String query) {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             List<DepartmentUnit> departmentUnits = DepartmentUnit.findDepartmentUnitsByName(em, query);
-            
+
             return departmentUnits;
-            
+
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
-    
+
     public List<Laboratory> completeLaboratory(String query) {
         EntityManager em;
-        
+
         try {
             em = getEntityManager1();
-            
+
             List<Laboratory> laboratories = Laboratory.findLaboratoriesByName(em, query);
-            
+
             return laboratories;
-            
+
         } catch (Exception e) {
             System.out.println(e);
-            
+
             return new ArrayList<>();
         }
     }
@@ -951,9 +962,9 @@ public class Application {
      */
     public List<Sector> completeActiveSectors(String query) {
         EntityManager em = getEntityManager1();
-        
+
         List<Sector> sectors = Sector.findAllActiveSectors(em);
-        
+
         return sectors;
     }
 
@@ -965,17 +976,17 @@ public class Application {
      */
     public List<JobCategory> completeActiveJobCategories(String query) {
         EntityManager em = getEntityManager1();
-        
+
         List<JobCategory> categories = JobCategory.findAllActiveJobCategories(em);
-        
+
         return categories;
     }
-    
+
     public List<JobSubCategory> completeActiveJobSubCategories(String query) {
         EntityManager em = getEntityManager1();
-        
+
         List<JobSubCategory> subCategories = JobSubCategory.findAllActiveJobSubCategories(em);
-        
+
         return subCategories;
     }
 }

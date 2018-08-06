@@ -14,7 +14,11 @@
 
 ### Job Edit Synchronization
 - Create/maintain list of opened jobs in the Application class.
+  * Set opened date when open job and when keepalive runs..
 - Add Opened Jobs tab in Sys Admin with search text box and refresh button
+- Do sync for all job view tables.
+- Ensure access to currentJob is synchronized since it can be accessed by "keepalive"
+  other code at the same time
 
 ### Reports
 - Impl report exportation:
