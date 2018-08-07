@@ -376,10 +376,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
         
         // tk 
-        System.out.println("removing current job");
-        if (getApplication().findOpenedJob(currentJob.getId()) != null) {
-            getApplication().removeOpenedJob(currentJob);
-        }
+//        System.out.println("removing current job");
+//        if (getApplication().findOpenedJob(currentJob.getId()) != null) {
+//            getApplication().removeOpenedJob(currentJob);
+//        }
     }
 
     public void reset() {
@@ -2189,14 +2189,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return jobSearchResultList;
     }
 
-    public synchronized Job getCurrentJob() {
+    public /*synchronized*/ Job getCurrentJob() {
         if (currentJob == null) {
             resetCurrentJob();
         }
         return currentJob;
     }
 
-    public synchronized void setCurrentJob(Job currentJob) {
+    public /*synchronized*/ void setCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
     }
 
@@ -2207,13 +2207,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         getFinanceManager().setEnableOnlyPaymentEditing(false);
 
         // tk
-        if (getApplication().findOpenedJob(this.currentJob.getId()) == null) {
-            this.currentJob.setOpenedBy(getUser());
-            getApplication().addOpenedJob(this.currentJob);
-        } 
-        else {
-            
-        }
+//        if (getApplication().findOpenedJob(this.currentJob.getId()) == null) {
+//            this.currentJob.setOpenedBy(getUser());
+//            getApplication().addOpenedJob(this.currentJob);
+//        } 
+//        else {
+//            
+//        }
     }
 
     public void setEditJobCosting(Job currentJob) {

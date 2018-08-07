@@ -60,7 +60,7 @@ Email: info@dpbennett.com.jm
             </p:toolbar>
 
             <p:tabView style="margin-bottom: 1px;margin-bottom: 1px;" >
-                <p:tab title="General" >                  
+                <p:tab title="General" >   
                     <h:panelGrid columns="2">
                         <p:outputLabel for="reportActive" value="Active:" style="font-weight: bold;" />               
                         <p:selectBooleanCheckbox id="reportActive"
@@ -80,15 +80,15 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Name:" style="font-weight: bold;" />
                         <p:inputText value="#{reportManager.selectedReport.name}"
-                                     style="width: 175%;"
+                                     style="width: 300px;"
                                      id="reportName" 
                                      validator="requiredFieldValidator" /> 
 
-                        <h:outputText value="Report template:" style="font-weight: bold;" />
+                        <h:outputText value="Report template:" style="font-weight: bold;" />                            
                         <h:panelGroup>
                             <h:panelGrid columns="2">                            
                                 <p:inputText value="#{reportManager.selectedReport.reportFileTemplate}"
-                                             style="margin-left: -3px;"
+                                             style="margin-left: -3px;width: 300px;"
                                              id="reportFileTemplate" 
                                              validator="requiredFieldValidator" />
                                 <p:selectBooleanCheckbox itemLabel="packaged"
@@ -109,11 +109,12 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Report output file:" style="font-weight: bold;" />
                         <p:inputText value="#{reportManager.selectedReport.reportFile}"
+                                     style="width: 300px;"
                                      id="reportFile" 
                                      validator="requiredFieldValidator" />
 
                         <h:outputText value="Report output MIME type:" style="font-weight: bold;" />                   
-                        <p:selectOneMenu value="#{reportManager.selectedReport.reportOutputFileMimeType}" 
+                        <p:selectOneMenu value="#{reportManager.selectedReport.reportOutputFileMimeType}"                                         
                                          id="reportOutputFileMimeType" >
 
                             <f:validator validatorId="requiredFieldValidator" />
@@ -128,7 +129,7 @@ Email: info@dpbennett.com.jm
                                           maxlength="1000"
                                           autoResize="false"
                                           rows="4"
-                                          style="width:175%;" >
+                                          style="width:300px;" >
 
                             <f:validator validatorId="requiredFieldValidator" />
 

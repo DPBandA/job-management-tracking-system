@@ -100,11 +100,11 @@ public class Application {
         themes.put("Dark Hive", "dark-hive");
     }
     
-    @Schedule(hour = "*", minute = "*", second = "*/30")
-    public void automaticTimer() {
-        // tk
-        System.out.println("# of opened job: " + getOpenedJobs() + " Time: " + new Date());
-    }
+//    @Schedule(hour = "*", minute = "*", second = "*/30")
+//    public void automaticTimer() {
+//        // tk
+//        System.out.println("# of opened job: " + getOpenedJobs() + " Time: " + new Date());
+//    }
 
     public synchronized List<Job> getOpenedJobs() {
         return openedJobs;

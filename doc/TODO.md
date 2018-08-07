@@ -1,5 +1,28 @@
 ## Things to do
 
+### Reports
+- Impl report exportation:
+  * The exported file is not correct sometimes. Fix!
+  * Add dropdown for selecting date field and hide/show them when they are in the 
+    collection field. 
+  * Update analyticalServicesReportFileInputStream() to use selected report parameters.
+    Use the selected date seach field in the method that does the search.
+  * Impl selecting report parameters. Use single item selection components for
+    selecting parameters such as employee and department. Continue with reporting
+    department 1.
+  * Impl getReportStreamedContent(Report currentReport) and test with 
+    "Job entered by employee" report. Impl "Job entered by employee" report
+     Test with employeeId1 = 192, datePeriod1 = "This month"
+  * Put the functionality for getting the report file in the Report class?
+  * Export "blank" report when "--" report is selected enable disable "Export"
+    buttons as as before.
+- Impl finance report showing jobs that are supposed to have deposits but don't
+  "Jobs Requiring Deposits" as the report.
+- Impl and add Legal reports. 
+- Add report template for legal.
+- Deactivate accpac invoice features and deploy.
+- Note the required order of the dates for the monthly report when deploying
+
 ### Next Status Update Notes
 - Add users, update database, etc. under sys admin
 - Mention work on BPM 
@@ -19,30 +42,6 @@
 - Do sync for all job view tables.
 - Ensure access to currentJob is synchronized since it can be accessed by "keepalive"
   other code at the same time
-
-### Reports
-- Impl report exportation:
-  * Add dropdown for selecting date field and hide/show them when they are in the 
-    collection field. 
-  * Update analyticalServicesReportFileInputStream() to use selected report parameters.
-    Use the selected date seach field in the method that does the search.
-  * Impl selecting report parameters. Use single item selection components for
-    selecting parameters such as employee and department. Continue with reporting
-    department 1.
-  * Impl getReportStreamedContent(Report currentReport) and test with 
-    "Job entered by employee" report. Impl "Job entered by employee" report
-     Test with employeeId1 = 192, datePeriod1 = "This month"
-  * Put the functionality for getting the report file in the Report class.
-  * Allow in cell editing of date period fields??
-  * Export "blank" report when "--" report is selected enable disable "Export"
-    buttons as as before.
-- Impl finance report showing jobs that are supposed to have deposits but don't
-  "Jobs Requiring Deposits" as the report.
-- Update report template form to include multiple date periods, departments, employee
-  clients etc..
-- Impl and add Legal reports. 
-- Add report template for legal.
-- Deactivate accpac invoice feature and deploy.
 
 ### Accpac Invoicing etc.
 - Impl invoice export.  

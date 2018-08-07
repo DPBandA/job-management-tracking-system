@@ -116,14 +116,9 @@ public class ReportManager implements Serializable {
     private String reportSearchText;
     private List<Job> currentPeriodJobReportSearchResultList; // tk may be retired
     private List<Report> foundReports;
-    //private DatePeriod previousDatePeriod; // tk may be retired
     private DatePeriodJobReport jobSubCategoryReport; // tk may be retired
     private DatePeriodJobReport sectorReport; // tk may be retired
-    private DatePeriodJobReport jobQuantitiesAndServicesReport; // tk may be retired
-    //private SearchParameters reportSearchParameters; // tk may be retired  
-    //private DatePeriod monthlyReportDatePeriod; // tk may be retired
-    //private DatePeriod monthlyReportDataDatePeriod; // tk may be retired
-    //private DatePeriod monthlyReportYearDatePeriod; // tk may be retired
+    private DatePeriodJobReport jobQuantitiesAndServicesReport; // tk may be retired   
     private DatePeriod defaultDatePeriod;
     private JobManager jobManager;
     private Report selectedReport;
@@ -146,25 +141,11 @@ public class ReportManager implements Serializable {
     public List<SelectItem> getDatePeriods() {
         ArrayList<SelectItem> datePeriods = new ArrayList<>();
 
-        // add items
-//        if (getSelectedReport().getName().equals("Monthly report")) {
         for (String name : DatePeriod.getDatePeriodNames()) {
-            // get only month date periods                
             datePeriods.add(new SelectItem(name, name));
         }
-//        } else {
-//            for (String name : DatePeriod.getDatePeriodNames()) {
-//                datePeriods.add(new SelectItem(name, name));
-//            }
-//        }
 
         return datePeriods;
-    }
-
-    public void updateReportDatePeriods() {
-//        getMonthlyReportDatePeriod().initDatePeriod();
-//        getMonthlyReportDataDatePeriod().initDatePeriod();
-//        getMonthlyReportYearDatePeriod().initDatePeriod();
     }
 
     public DatePeriod getReportingDatePeriod1() {
@@ -173,6 +154,15 @@ public class ReportManager implements Serializable {
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));            
         }
+        
+        // Ensure that no date period if null
+        if (selectedReport.getDatePeriods().get(0).getStartDate() == null) {
+            selectedReport.getDatePeriods().get(0).setStartDate(new Date());
+        }
+        if (selectedReport.getDatePeriods().get(0).getEndDate() == null) {
+            selectedReport.getDatePeriods().get(0).setEndDate(new Date());
+        }
+        
         return selectedReport.getDatePeriods().get(0);
     }
 
@@ -210,7 +200,15 @@ public class ReportManager implements Serializable {
             
             selectedReport.getDatePeriods().get(1).setShow(false);
 
-        }        
+        }  
+        
+        // Ensure that no date period if null
+        if (selectedReport.getDatePeriods().get(1).getStartDate() == null) {
+            selectedReport.getDatePeriods().get(1).setStartDate(new Date());
+        }
+        if (selectedReport.getDatePeriods().get(1).getEndDate() == null) {
+            selectedReport.getDatePeriods().get(1).setEndDate(new Date());
+        }
         
         return selectedReport.getDatePeriods().get(1);
     }
@@ -254,6 +252,14 @@ public class ReportManager implements Serializable {
             
             selectedReport.getDatePeriods().get(2).setShow(false);
 
+        }
+        
+        // Ensure that no date period if null
+        if (selectedReport.getDatePeriods().get(2).getStartDate() == null) {
+            selectedReport.getDatePeriods().get(2).setStartDate(new Date());
+        }
+        if (selectedReport.getDatePeriods().get(2).getEndDate() == null) {
+            selectedReport.getDatePeriods().get(2).setEndDate(new Date());
         }
 
         return selectedReport.getDatePeriods().get(2);
@@ -482,48 +488,7 @@ public class ReportManager implements Serializable {
         this.longProcessProgress = 0;
         this.columnsToExclude = "";
         this.reportCategory = "Job";
-        //report = new Report();
-        // reporting vars init
-        ArrayList searchTypes = new ArrayList();
-        ArrayList searchDateFields = new ArrayList();
-        // Add search types
-        searchTypes.add(new SelectItem("General", "General"));
-        // Add search fields
-        searchDateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
-        searchDateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
-        searchDateFields.add(new SelectItem("dateAndTimeEntered", "Date entered"));
-        // previousDatePeriod = new DatePeriod("Last month", "month", null, null, null, null, false, false, true);
         defaultDatePeriod = new DatePeriod("This month", "month", null, null, null, null, false, false, true);
-//        reportSearchParameters
-//                = new SearchParameters(
-//                        "Report Data Search",
-//                        null,
-//                        false,
-//                        searchTypes,
-//                        true,
-//                        "dateSubmitted",
-//                        true,
-//                        searchDateFields,
-//                        "General",
-//                        new DatePeriod("This month", "month", null, null, null, null, false, false, true),
-//                        "");
-
-        // Monthly report date periods
-//        monthlyReportDatePeriod = new DatePeriod("Last month", "month", null, null, null, null, false, false, true);
-//        monthlyReportDataDatePeriod = new DatePeriod(
-//                "Custom",
-//                "any",
-//                null,
-//                null,
-//                BusinessEntityUtils.createDate(2012, 3, 1), // tk make option
-//                new Date(), false, false, true);
-//        monthlyReportYearDatePeriod = new DatePeriod(
-//                "This financial year to date",
-//                "year",
-//                null,
-//                null,
-//                null,
-//                null, false, false, true);
     }
 
     public void reset() {
@@ -568,28 +533,6 @@ public class ReportManager implements Serializable {
         return EMF1.createEntityManager();
     }
 
-//    public DatePeriod getMonthlyReportDatePeriod() {
-//        return monthlyReportDatePeriod;
-//    }
-//
-//    public void setMonthlyReportDatePeriod(DatePeriod monthlyReportDatePeriod) {
-//        this.monthlyReportDatePeriod = monthlyReportDatePeriod;
-//    }
-//
-//    public DatePeriod getMonthlyReportDataDatePeriod() {
-//        return monthlyReportDataDatePeriod;
-//    }
-//
-//    public void setMonthlyReportDataDatePeriod(DatePeriod monthlyReportDataDatePeriod) {
-//        this.monthlyReportDataDatePeriod = monthlyReportDataDatePeriod;
-//    }
-//
-//    public DatePeriod getMonthlyReportYearDatePeriod() {
-//        return monthlyReportYearDatePeriod;
-//    }
-//    public void setMonthlyReportYearDatePeriod(DatePeriod monthlyReportYearDatePeriod) {
-//        this.monthlyReportYearDatePeriod = monthlyReportYearDatePeriod;
-//    }
     public Employee getReportEmployee1() {
         if (selectedReport.getEmployees().isEmpty()) {
             selectedReport.getEmployees().add(getUser().getEmployee());
@@ -612,9 +555,6 @@ public class ReportManager implements Serializable {
         selectedReport.getDepartments().set(0, reportingDepartment1);
     }
 
-//    public SearchParameters getReportSearchParameters() {
-//        return reportSearchParameters;
-//    }
     public int getNumberOfCurrentPeriodJobsFound() {
         if (currentPeriodJobReportSearchResultList != null) {
             return currentPeriodJobReportSearchResultList.size();
@@ -735,12 +675,12 @@ public class ReportManager implements Serializable {
                     if (getSelectedReport().getName().equals("Jobs entered by employee")) {
                         reportFile = getReportStreamedContent();
                     }
-                    if (getSelectedReport().getName().equals("Jobs entered by department")) {
-                        reportFile = getJobEnteredByDepartmentReportPDFFile(); // tk replace with getReportStreamedContent()
-                    }
-                    if (getSelectedReport().getName().equals("Jobs assigned to department")) {
-                        reportFile = getJobAssignedToDepartmentReportXLSFile(); // tk replace with getReportStreamedContent()
-                    }
+//                    if (getSelectedReport().getName().equals("Jobs entered by department")) {
+//                        reportFile = getJobEnteredByDepartmentReportPDFFile(); // tk replace with getReportStreamedContent()
+//                    }
+//                    if (getSelectedReport().getName().equals("Jobs assigned to department")) {
+//                        reportFile = getJobAssignedToDepartmentReportXLSFile(); // tk replace with getReportStreamedContent()
+//                    }
                     break;
                 case "application/xlsx":
                     if (getSelectedReport().getName().equals("Analytical Services Report")) {
@@ -791,8 +731,7 @@ public class ReportManager implements Serializable {
     public StreamedContent getMonthlyReport(EntityManager em) {
 
         try {
-//            DatePeriod datePeriods[] = BusinessEntityUtils.getMonthlyReportDatePeriods(reportSearchParameters.getDatePeriod());
-            // new DatePeriod("This month", "month", null, null, null, null, false, false, true)
+
             DatePeriod datePeriods[]
                     = BusinessEntityUtils.getMonthlyReportDatePeriods(defaultDatePeriod);
 
@@ -848,21 +787,6 @@ public class ReportManager implements Serializable {
         return null;
     }
 
-//    public StreamedContent getMonthlyReport2(EntityManager em) {
-//
-//        try {
-//            // Get byte stream for report file
-//            ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream(new File(getSelectedReport().getReportFileTemplate()),
-//                    getReportingDepartment1().getId());
-//
-//            return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
-//
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//        }
-//
-//        return null;
-//    }
     public StreamedContent getMonthlyReport3(EntityManager em) {
 
         try {
@@ -916,126 +840,6 @@ public class ReportManager implements Serializable {
         }
 
         return null;
-    }
-
-    /*
-    public StreamedContent getMonthlyReportStreamContent() throws URISyntaxException {
-
-        try {
-
-            URL url = this.getClass().getResource(getSelectedReport().getReportFileTemplate());
-            File file = new File(url.toURI());
-            FileInputStream inp = new FileInputStream(file);
-            short startingRow;
-
-            // create workbook from input file
-            POIFSFileSystem fileSystem = new POIFSFileSystem((FileInputStream) inp);
-            HSSFWorkbook wb = new HSSFWorkbook(fileSystem);
-
-            // ensure that crucial sheets are updated automatically
-            HSSFSheet reportSheet = wb.getSheet("Report");
-            reportSheet.setActive(true);
-
-            // create temp file for output
-            FileOutputStream out = new FileOutputStream(getSelectedReport().getReportFile() + getUser().getId());
-
-            HSSFSheet jobSheet = wb.getSheet("Statistics");
-            if (jobSheet == null) {
-                jobSheet = wb.createSheet("Statistics");
-            }
-
-            wb.setSheetOrder("Statistics", 0);
-            wb.setActiveSheet(0);
-
-            // set starting for inserting headers and data
-            startingRow = (short) (jobSheet.getLastRowNum());
-
-            // Create header font
-            HSSFFont headerFont = wb.createFont();
-            headerFont.setFontHeightInPoints((short) 14);
-
-            headerFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-
-            if (!getSelectedReport().getReportColumns().isEmpty()) {
-                HSSFRow headerRow = jobSheet.createRow(startingRow++);
-                // Setup header style
-                HSSFCellStyle headerCellStyle = wb.createCellStyle();
-                headerCellStyle.setFont(headerFont);
-                headerCellStyle.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
-                headerCellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-                headerCellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-                for (int i = 0; i < getSelectedReport().getReportColumns().size(); i++) {
-                    headerRow.createCell(i);
-                    // Set header style
-                    headerRow.getCell(i).setCellStyle(headerCellStyle);
-                    // Set as first sheet
-                }
-                // merge header cells
-                jobSheet.addMergedRegion(new CellRangeAddress(
-                        jobSheet.getLastRowNum(), //first row
-                        jobSheet.getLastRowNum(), //last row
-                        0, //first column
-                        getSelectedReport().getReportColumns().size() - 1 //last column
-                ));
-                // Set header title
-                headerRow.getCell(0).setCellValue(new HSSFRichTextString(getSelectedReport().getName()));
-
-                // Setup column headers
-                // Create column header font
-                HSSFFont columnHeaderFont = wb.createFont();
-                columnHeaderFont.setFontHeightInPoints((short) 12);
-                columnHeaderFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-                HSSFRow columnHeaderRow = jobSheet.createRow(startingRow++);
-                // Setup header style
-                HSSFCellStyle headerColumnCellStyle = wb.createCellStyle();
-                headerColumnCellStyle.setFont(columnHeaderFont);
-                headerColumnCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                for (int i = 0; i < getSelectedReport().getReportColumns().size(); i++) {
-                    columnHeaderRow.createCell(i).setCellValue(new HSSFRichTextString(getSelectedReport().getReportColumns().get(i).getName().trim()));
-                    columnHeaderRow.getCell(i).setCellStyle(headerColumnCellStyle);
-                }
-
-                // Insert jobs data
-                // Data font
-                HSSFFont dataFont = wb.createFont();
-                dataFont.setFontHeightInPoints((short) 12);
-                short row = startingRow;
-                HSSFCellStyle dataCellStyle = wb.createCellStyle();
-                dataCellStyle.setFont(dataFont);
-                headerColumnCellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-                for (Job job : currentPeriodJobReportSearchResultList) {
-                    HSSFRow dataRow = jobSheet.createRow(row);
-                    for (int i = 0; i < getSelectedReport().getReportColumns().size(); i++) {
-
-                        try {
-                            ReportTableColumn col = getSelectedReport().getReportColumns().get(i);
-                            BusinessEntityUtils.setExcelCellValue(wb, dataRow.createCell(i), job, col.getEntityClassMethodName());
-                        } catch (Exception ex) {
-                            System.out.println(ex);
-                        }
-
-                        jobSheet.autoSizeColumn((short) i);
-                    }
-                    ++row;
-                }
-            }
-
-            // write and save file for later use
-            wb.write(out);
-            out.close();
-
-            FileInputStream stream = new FileInputStream(getSelectedReport().getReportFile() + getUser().getId());
-            return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
-
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
-
-        return null;
-    }
-     */
-    public void refreshJobReport() {
-        //updateReport();        
     }
 
     public void updateServiceContract() {
@@ -1162,10 +966,6 @@ public class ReportManager implements Serializable {
     }
 
     public void updateDepartmentReport() {
-    }
-
-    private EntityManagerFactory getEMF1() {
-        return EMF1;
     }
 
     public List<Job> getCurrentPeriodJobReportSearchResultList() {
@@ -1480,224 +1280,7 @@ public class ReportManager implements Serializable {
 
         return null;
     }
-
-    /*
-    public ByteArrayInputStream createExcelMonthlyReportFileInputStream(
-            File reportFile,
-            Long departmentId) {
-
-        try {
-            FileInputStream inp = new FileInputStream(reportFile);
-            int row = 2;
-
-            XSSFWorkbook wb = new XSSFWorkbook(inp);
-
-            XSSFCellStyle stringCellStyle = wb.createCellStyle();
-            XSSFCellStyle longCellStyle = wb.createCellStyle();
-            XSSFCellStyle integerCellStyle = wb.createCellStyle();
-            XSSFCellStyle doubleCellStyle = wb.createCellStyle();
-            XSSFCellStyle dateCellStyle = wb.createCellStyle();
-
-            // Output stream for modified Excel file
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            // Get sheets
-            XSSFSheet graphsAndCharts = wb.getSheet("Graphs & Charts");
-            XSSFSheet valuations = wb.getSheet("Valuations");
-            XSSFSheet talliesAndRatesA = wb.getSheet("Tallies & Rates (A)");
-            XSSFSheet talliesAndRatesB = wb.getSheet("Tallies & Rates (B)");
-            XSSFSheet rawData = wb.getSheet("Raw Data");
-
-            // Get report data
-            List<Object[]> reportData = Job.getJobReportRecords(
-                    getEntityManager1(),
-                    BusinessEntityUtils.getDateString(monthlyReportDataDatePeriod.getStartDate(), "'", "YMD", "-"),
-                    BusinessEntityUtils.getDateString(monthlyReportDataDatePeriod.getEndDate(), "'", "YMD", "-"),
-                    departmentId);
-
-            // Fill in report data            
-            System.out.println("rowdata: " + reportData.size());
-            for (Object[] rowData : reportData) {
-                System.out.println("Inserting row: " + row);
-                // Job numbers
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 0,
-                        (String) rowData[6],
-                        "java.lang.String", stringCellStyle);
-                // Client
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 1,
-                        (String) rowData[8],
-                        "java.lang.String", stringCellStyle);
-                // Business office
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 2,
-                        (String) rowData[11],
-                        "java.lang.String", stringCellStyle);
-                // Work progress
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 3,
-                        (String) rowData[12],
-                        "java.lang.String", stringCellStyle);
-                // Classification
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 7,
-                        (String) rowData[13],
-                        "java.lang.String", stringCellStyle);
-                // Category
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 8,
-                        (String) rowData[14],
-                        "java.lang.String", stringCellStyle);
-                // Section (Subcategory
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 9,
-                        (String) rowData[15],
-                        "java.lang.String", stringCellStyle);
-                // Section (Subcategory
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 10,
-                        (String) rowData[16],
-                        "java.lang.String", stringCellStyle);
-                // Assigned department
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 14,
-                        (String) rowData[9],
-                        "java.lang.String", stringCellStyle);
-                // Assigned department
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 15,
-                        (String) rowData[10],
-                        "java.lang.String", stringCellStyle);
-                // No. samples
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 16,
-                        (Long) rowData[5],
-                        "java.lang.Long", longCellStyle);
-                // No. test
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 18,
-                        (Integer) rowData[4],
-                        "java.lang.Integer", integerCellStyle);
-                // Total deposit
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 31,
-                        (Double) rowData[26],
-                        "java.lang.Double", doubleCellStyle);
-                // Amount due
-                if ((rowData[27] != null) && (rowData[26] != null)) {
-                    BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 32,
-                            (Double) rowData[27] - (Double) rowData[26],
-                            "java.lang.Double", doubleCellStyle);
-                }
-                // Estimated cost
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 33,
-                        (Double) rowData[28],
-                        "java.lang.Double", doubleCellStyle);
-                // Final cost
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 34,
-                        (Double) rowData[27],
-                        "java.lang.Double", doubleCellStyle);
-                //  Job entry date
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 36,
-                        (Date) rowData[20],
-                        "java.util.Date", dateCellStyle);
-                //  Submission date 
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 37,
-                        (Date) rowData[29],
-                        "java.util.Date", dateCellStyle);
-                //  Expected date completion
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 38,
-                        (Date) rowData[17],
-                        "java.util.Date", dateCellStyle);
-                //  Completion date
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 39,
-                        (Date) rowData[19],
-                        "java.util.Date", dateCellStyle);
-                //  Assignee
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 41,
-                        (String) rowData[21] + " " + (String) rowData[22],
-                        "java.lang.String", stringCellStyle);
-                //  Entered by firstname
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 42,
-                        (String) rowData[24],
-                        "java.lang.String", stringCellStyle);
-                //  Entered by lastname
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 43,
-                        (String) rowData[25],
-                        "java.lang.String", stringCellStyle);
-                //  List of samples
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 44,
-                        (String) rowData[0],
-                        "java.lang.String", stringCellStyle);
-                //  List of sample brands
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 45,
-                        (String) rowData[1],
-                        "java.lang.String", stringCellStyle);
-                //  List of sample brands
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 46,
-                        (String) rowData[2],
-                        "java.lang.String", stringCellStyle);
-                //  List of sample brands
-                BusinessEntityUtils.setExcelCellValue(wb, rawData, row, 47,
-                        (String) rowData[30],
-                        "java.lang.String", stringCellStyle);
-                row++;
-
-            }
-
-            // Insert data at top of sheet
-            //  Department name
-            Department department = Department.findDepartmentById(getEntityManager1(), departmentId);
-            BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 1,
-                    department.getName(),
-                    "java.lang.String", stringCellStyle);
-            //  Data starts at:
-            BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 4,
-                    monthlyReportDataDatePeriod.getStartDate(),
-                    "java.util.Date", dateCellStyle);
-            //  Data ends at:
-            BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 6,
-                    monthlyReportDataDatePeriod.getEndDate(),
-                    "java.util.Date", dateCellStyle);
-            //  Month starts at:
-            BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 8,
-                    monthlyReportDatePeriod.getStartDate(),
-                    "java.util.Date", dateCellStyle);
-            //  Month ends at:
-            BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 10,
-                    monthlyReportDatePeriod.getEndDate(),
-                    "java.util.Date", dateCellStyle);
-            // Year type
-            BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 12,
-                    monthlyReportYearDatePeriod.getName(),
-                    "java.lang.String", stringCellStyle);
-            //  Year starts at:
-            BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 15,
-                    monthlyReportYearDatePeriod.getStartDate(),
-                    "java.util.Date", dateCellStyle);
-            //  Year ends at:
-            BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 17,
-                    monthlyReportYearDatePeriod.getEndDate(),
-                    "java.util.Date", dateCellStyle);
-
-            // Update calculations in relevant sheets
-            FormulaEvaluator evaluator = wb.getCreationHelper().createFormulaEvaluator();
-
-            for (Row r : talliesAndRatesA) {
-                for (Cell c : r) {
-                    if (c.getCellType() == Cell.CELL_TYPE_FORMULA) {
-                        evaluator.evaluateFormulaCell(c);
-                    }
-                }
-            }
-
-            for (Row r : valuations) {
-                for (Cell c : r) {
-                    if (c.getCellType() == Cell.CELL_TYPE_FORMULA) {
-                        evaluator.evaluateFormulaCell(c);
-                    }
-                }
-            }
-
-            // Write modified Excel file and return it
-            wb.write(out);
-
-            return new ByteArrayInputStream(out.toByteArray());
-
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-
-        return null;
-    }
-     */
+   
     public ByteArrayInputStream jobsCompletedByDepartmentFileInputStream(
             File reportFile,
             Long departmentId) {
@@ -1817,7 +1400,7 @@ public class ReportManager implements Serializable {
             // Get report data
             List<Object[]> reportData = Job.getJobRecordsByTrackingDate(
                     getEntityManager1(),
-                    getSelectedDatePeriod().getDateField(),
+                    getReportingDatePeriod1().getDateField(),
                     BusinessEntityUtils.getDateString(getReportingDatePeriod1().getStartDate(), "'", "YMD", "-"),
                     BusinessEntityUtils.getDateString(getReportingDatePeriod1().getEndDate(), "'", "YMD", "-"),
                     departmentId);
@@ -2348,12 +1931,8 @@ public class ReportManager implements Serializable {
 
         try {
 
-//            reportingDepartment1 = Department.findDepartmentByName(em,
-//                    getSelectedReport().getDepartments().get(0).getName()
-////            /*getReportingDepartment().getName()*/);
             if (getSelectedReport().getDepartments().get(0).getId() != null) {
 
-                //report = getLatestJobReport(em);
                 String reportFileURL = getSelectedReport().getReportFile();
 
                 Connection con = BusinessEntityUtils.establishConnection(
@@ -2408,13 +1987,6 @@ public class ReportManager implements Serializable {
 
         try {
 
-//            reportingDepartment1 = Department.findDepartmentByName(em, 
-//                    getSelectedReport().getDepartments().get(0).getName());
-            // Use user's department if none found
-//            if (getSelectedReport().getDepartments().get(0).getId() == null) {
-//                reportingDepartment1 = getUser().getEmployee().getDepartment();
-//            }
-            //report = getLatestJobReport(em);
             String reportFileURL = getSelectedReport().getReportFile();
 
             Connection con = BusinessEntityUtils.establishConnection(
