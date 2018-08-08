@@ -2,7 +2,7 @@
 
 ### Reports
 - Impl report exportation:
-  * The exported file is not correct sometimes. Fix!
+  * Resolved jobs by and assigned by department report.
   * Add dropdown for selecting date field and hide/show them when they are in the 
     collection field. 
   * Update analyticalServicesReportFileInputStream() to use selected report parameters.

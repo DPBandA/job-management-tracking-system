@@ -62,65 +62,68 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.client.accountingId}" 
-                  rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
-            <f:facet name="header">
-                <h:outputText value="Client Id"/>
-            </f:facet>
-
-            <p:cellEditor>
-                <f:facet name="output"> 
-                    <h:outputText value="#{job.client.accountingId}" />
+        <ui:remove>
+            <p:column sortBy="#{job.client.accountingId}" 
+                      rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
+                <f:facet name="header">
+                    <h:outputText value="Client Id"/>
                 </f:facet>
-                <f:facet name="input" >
-                    <p:autoComplete forceSelection="true"
-                                    id="accountingId"
-                                    size="10"                                        
-                                    scrollHeight="200" 
-                                    value="#{jobManager.accPacCustomer.customerName}"                           
-                                    completeMethod="#{App.completeAccPacClient}" >      
 
-                        <p:ajax event="itemSelect"
-                                listener="#{jobManager.updateAccPacCustomer}"
-                                update="accountingId" />
+                <p:cellEditor>
+                    <f:facet name="output"> 
+                        <h:outputText value="#{job.client.accountingId}" />
+                    </f:facet>
+                    <f:facet name="input" >
+                        <p:autoComplete forceSelection="true"
+                                        id="accountingId"
+                                        size="10"                                        
+                                        scrollHeight="200" 
+                                        value="#{jobManager.accPacCustomer.customerName}"                           
+                                        completeMethod="#{App.completeAccPacClient}" >      
 
-                    </p:autoComplete>
+                            <p:ajax event="itemSelect"
+                                    listener="#{jobManager.updateAccPacCustomer}"
+                                    update="accountingId" />
+
+                        </p:autoComplete>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column sortBy="#{job.jobCostingAndPayment.accountingCode}" 
+                      rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
+                <f:facet name="header">
+                    <h:outputText value="Dist'n Id"/>
                 </f:facet>
-            </p:cellEditor>
-        </p:column>
+                <p:cellEditor>
+                    <f:facet name="output"> 
+                        <h:outputText value="#{job.jobCostingAndPayment.accountingCode.name}" />
+                    </f:facet>
+                    <f:facet name="input" >
+                        <p:autoComplete id="accountingCode" 
+                                        var="accountingCode"
+                                        forceSelection="true"      
+                                        dropdown="true"
+                                        scrollHeight="100" 
+                                        size="6"
+                                        maxlength="40"
+                                        value="#{job.jobCostingAndPayment.accountingCode}"
+                                        title="#{job.jobCostingAndPayment.accountingCode}"
+                                        itemValue="#{accountingCode}"
+                                        itemLabel="#{accountingCode.name} - #{accountingCode.description}"
+                                        converter="accountingCodeConverter"
+                                        completeMethod="#{financeManager.completeAccountingCode}" >  
 
-        <p:column sortBy="#{job.jobCostingAndPayment.accountingCode}" 
-                  rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
-            <f:facet name="header">
-                <h:outputText value="Dist'n Id"/>
-            </f:facet>
-            <p:cellEditor>
-                <f:facet name="output"> 
-                    <h:outputText value="#{job.jobCostingAndPayment.accountingCode.name}" />
-                </f:facet>
-                <f:facet name="input" >
-                    <p:autoComplete id="accountingCode" 
-                                    var="accountingCode"
-                                    forceSelection="true"      
-                                    dropdown="true"
-                                    scrollHeight="100" 
-                                    size="6"
-                                    maxlength="40"
-                                    value="#{job.jobCostingAndPayment.accountingCode}"
-                                    title="#{job.jobCostingAndPayment.accountingCode}"
-                                    itemValue="#{accountingCode}"
-                                    itemLabel="#{accountingCode.name} - #{accountingCode.description}"
-                                    converter="accountingCodeConverter"
-                                    completeMethod="#{financeManager.completeAccountingCode}" >  
-                        
-                        <p:ajax event="itemSelect"
-                                listener="#{financeManager.updateAccountingCode}" />
-                        
-                    </p:autoComplete>     
-                </f:facet>
-            </p:cellEditor>
+                            <p:ajax event="itemSelect"
+                                    listener="#{financeManager.updateAccountingCode}" />
 
-        </p:column>
+                        </p:autoComplete>     
+                    </f:facet>
+                </p:cellEditor>
+
+            </p:column>
+
+        </ui:remove>
 
         <p:column sortBy="#{job.classification.name}" >
             <f:facet name="header">
