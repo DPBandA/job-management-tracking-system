@@ -111,7 +111,7 @@ public class ReportManager implements Serializable {
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     private String columnsToExclude;
-    private StreamedContent reportFile;
+    //private StreamedContent reportFile;
     private Integer longProcessProgress;
     private String reportSearchText;
     private List<Job> currentPeriodJobReportSearchResultList; // tk may be retired
@@ -152,9 +152,9 @@ public class ReportManager implements Serializable {
         if (selectedReport.getDatePeriods().isEmpty()) {
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
-                            null, false, false, true));            
+                            null, false, false, true));
         }
-        
+
         // Ensure that no date period if null
         if (selectedReport.getDatePeriods().get(0).getStartDate() == null) {
             selectedReport.getDatePeriods().get(0).setStartDate(new Date());
@@ -162,7 +162,7 @@ public class ReportManager implements Serializable {
         if (selectedReport.getDatePeriods().get(0).getEndDate() == null) {
             selectedReport.getDatePeriods().get(0).setEndDate(new Date());
         }
-        
+
         return selectedReport.getDatePeriods().get(0);
     }
 
@@ -189,19 +189,19 @@ public class ReportManager implements Serializable {
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
-            
+
             selectedReport.getDatePeriods().get(1).setShow(false);
-            
+
         } else if (selectedReport.getDatePeriods().size() == 1) {
 
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
-            
+
             selectedReport.getDatePeriods().get(1).setShow(false);
 
-        }  
-        
+        }
+
         // Ensure that no date period if null
         if (selectedReport.getDatePeriods().get(1).getStartDate() == null) {
             selectedReport.getDatePeriods().get(1).setStartDate(new Date());
@@ -209,7 +209,7 @@ public class ReportManager implements Serializable {
         if (selectedReport.getDatePeriods().get(1).getEndDate() == null) {
             selectedReport.getDatePeriods().get(1).setEndDate(new Date());
         }
-        
+
         return selectedReport.getDatePeriods().get(1);
     }
 
@@ -229,9 +229,9 @@ public class ReportManager implements Serializable {
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
-            
+
             selectedReport.getDatePeriods().get(2).setShow(false);
-            
+
         } else if (selectedReport.getDatePeriods().size() == 1) {
 
             selectedReport.getDatePeriods().add(
@@ -241,7 +241,7 @@ public class ReportManager implements Serializable {
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
-            
+
             selectedReport.getDatePeriods().get(2).setShow(false);
 
         } else if (selectedReport.getDatePeriods().size() == 2) {
@@ -249,11 +249,11 @@ public class ReportManager implements Serializable {
             selectedReport.getDatePeriods().add(
                     new DatePeriod("This month", "month", null, null, null,
                             null, false, false, true));
-            
+
             selectedReport.getDatePeriods().get(2).setShow(false);
 
         }
-        
+
         // Ensure that no date period if null
         if (selectedReport.getDatePeriods().get(2).getStartDate() == null) {
             selectedReport.getDatePeriods().get(2).setStartDate(new Date());
@@ -602,6 +602,8 @@ public class ReportManager implements Serializable {
                     for (int i = 0; i < selectedReport.getDepartments().size(); i++) {
                         parameters.put("departmentId" + (i + 1),
                                 selectedReport.getDepartments().get(i).getId());
+                        parameters.put("departmentName" + (i + 1),
+                                selectedReport.getDepartments().get(i).getName());
                     }
                 }
 
@@ -609,7 +611,8 @@ public class ReportManager implements Serializable {
                 if (getSelectedReport().getUsePackagedReportFileTemplate()) {
                     try {
                         FileInputStream fis = new FileInputStream(getClass().getClassLoader().
-                                getResource("/reports/" + getSelectedReport().getReportFileTemplate()).getFile());
+                                getResource("/reports/" + selectedReport.getReportFileTemplate()).getFile());
+                        
                         print = JasperFillManager.fillReport(
                                 fis,
                                 parameters,
@@ -617,6 +620,7 @@ public class ReportManager implements Serializable {
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(ReportManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    
                 } else {
                     print = JasperFillManager.fillReport(
                             selectedReport.getReportFileTemplate(),
@@ -626,6 +630,7 @@ public class ReportManager implements Serializable {
 
                 switch (selectedReport.getReportOutputFileMimeType()) {
                     case "application/pdf":
+                        
                         fileBytes = JasperExportManager.exportReportToPdf(print);
 
                         streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
@@ -633,11 +638,27 @@ public class ReportManager implements Serializable {
                                 selectedReport.getReportFile());
 
                         break;
+                        
                     case "application/xlsx":
+                    case "application/xls":
+                        
+                        JRXlsExporter exporterXLS = new JRXlsExporter();
+                        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                        exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, print);
+                        exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, outStream);
+                        exporterXLS.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+                        exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+                        exporterXLS.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+                        exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+                        exporterXLS.exportReport();
+
+                        streamContent = new DefaultStreamedContent(new 
+                             ByteArrayInputStream(outStream.toByteArray()), 
+                                selectedReport.getReportOutputFileMimeType(),
+                                selectedReport.getReportFile());
 
                         break;
-                    case "application/xls":
-                        break;
+                        
                     default:
                         fileBytes = JasperExportManager.exportReportToPdf(print);
 
@@ -645,6 +666,7 @@ public class ReportManager implements Serializable {
                                 selectedReport.getReportOutputFileMimeType(),
                                 selectedReport.getReportFile());
                         break;
+                        
                 }
 
                 setLongProcessProgress(100);
@@ -667,20 +689,13 @@ public class ReportManager implements Serializable {
     public StreamedContent getReportFile() {
 
         EntityManager em = getEntityManager1();
+        StreamedContent reportFile = null; //tk
 
         try {
 
             switch (getSelectedReport().getReportFileMimeType()) {
                 case "application/jasper":
-                    if (getSelectedReport().getName().equals("Jobs entered by employee")) {
-                        reportFile = getReportStreamedContent();
-                    }
-//                    if (getSelectedReport().getName().equals("Jobs entered by department")) {
-//                        reportFile = getJobEnteredByDepartmentReportPDFFile(); // tk replace with getReportStreamedContent()
-//                    }
-//                    if (getSelectedReport().getName().equals("Jobs assigned to department")) {
-//                        reportFile = getJobAssignedToDepartmentReportXLSFile(); // tk replace with getReportStreamedContent()
-//                    }
+                    reportFile = getReportStreamedContent();
                     break;
                 case "application/xlsx":
                     if (getSelectedReport().getName().equals("Analytical Services Report")) {
@@ -977,6 +992,10 @@ public class ReportManager implements Serializable {
 
     public void updateReportCategory() {
         setSelectedReport(new Report(""));
+    }
+    
+     public void updateReport() {
+        
     }
 
     public Long saveDepartmentReport(EntityManager em, DepartmentReport departmentReport) {
@@ -1280,7 +1299,7 @@ public class ReportManager implements Serializable {
 
         return null;
     }
-   
+
     public ByteArrayInputStream jobsCompletedByDepartmentFileInputStream(
             File reportFile,
             Long departmentId) {
@@ -1924,113 +1943,113 @@ public class ReportManager implements Serializable {
     }
 
     // tk to be replaced by getReportStreamedContent()
-    public StreamedContent getJobEnteredByDepartmentReportPDFFile() {
-
-        EntityManager em = getEntityManager1();
-        HashMap parameters = new HashMap();
-
-        try {
-
-            if (getSelectedReport().getDepartments().get(0).getId() != null) {
-
-                String reportFileURL = getSelectedReport().getReportFile();
-
-                Connection con = BusinessEntityUtils.establishConnection(
-                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
-                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
-                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
-                        (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
-
-                if (con != null) {
-                    StreamedContent streamContent;
-
-                    // tk use method used for 
-                    parameters.put("startOFPeriod", getReportingDatePeriod1().getStartDate());
-                    parameters.put("endOFPeriod", getReportingDatePeriod1().getEndDate());
-
-                    parameters.put("departmentID",
-                            getSelectedReport().getDepartments().get(0).getId());
-
-                    // generate report
-                    JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
-
-                    byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
-
-                    streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes), "application/pdf", "department_jobs_entered.pdf");
-                    setLongProcessProgress(100);
-
-                    return streamContent;
-                } else {
-                    return null;
-                }
-            } else {
-                // tk replace message dialog with growl message
-                //displayCommonMessageDialog(null, "The name of a department is required for this report", "Department Required", "info");
-                return null;
-            }
-
-        } catch (JRException e) {
-            System.out.println(e);
-            setLongProcessProgress(100);
-
-            return null;
-        }
-
-    }
+//    public StreamedContent getJobEnteredByDepartmentReportPDFFile() {
+//
+//        EntityManager em = getEntityManager1();
+//        HashMap parameters = new HashMap();
+//
+//        try {
+//
+//            if (getSelectedReport().getDepartments().get(0).getId() != null) {
+//
+//                String reportFileURL = getSelectedReport().getReportFile();
+//
+//                Connection con = BusinessEntityUtils.establishConnection(
+//                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+//                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+//                        (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+//                        (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
+//
+//                if (con != null) {
+//                    StreamedContent streamContent;
+//
+//                    // tk use method used for 
+//                    parameters.put("startOFPeriod", getReportingDatePeriod1().getStartDate());
+//                    parameters.put("endOFPeriod", getReportingDatePeriod1().getEndDate());
+//
+//                    parameters.put("departmentID",
+//                            getSelectedReport().getDepartments().get(0).getId());
+//
+//                    // generate report
+//                    JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
+//
+//                    byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
+//
+//                    streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes), "application/pdf", "department_jobs_entered.pdf");
+//                    setLongProcessProgress(100);
+//
+//                    return streamContent;
+//                } else {
+//                    return null;
+//                }
+//            } else {
+//                // tk replace message dialog with growl message
+//                //displayCommonMessageDialog(null, "The name of a department is required for this report", "Department Required", "info");
+//                return null;
+//            }
+//
+//        } catch (JRException e) {
+//            System.out.println(e);
+//            setLongProcessProgress(100);
+//
+//            return null;
+//        }
+//
+//    }
 
     // tk to be replaced by getReportStreamedContent()
     // also to be replaced with jasper version
-    public StreamedContent getJobAssignedToDepartmentReportXLSFile() {
-
-        EntityManager em = getEntityManager1();
-        HashMap parameters = new HashMap();
-
-        try {
-
-            String reportFileURL = getSelectedReport().getReportFile();
-
-            Connection con = BusinessEntityUtils.establishConnection(
-                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
-                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
-                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
-                    (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
-
-            if (con != null) {
-                StreamedContent streamContent;
-
-                parameters.put("startOFPeriod", getReportingDatePeriod1().getStartDate());
-                parameters.put("endOFPeriod", getReportingDatePeriod1().getEndDate());
-                parameters.put("departmentID", getSelectedReport().getDepartments().get(0).getId());
-                parameters.put("departmentName", getSelectedReport().getDepartments().get(0).getName());
-                // generate report
-                JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
-
-                JRXlsExporter exporterXLS = new JRXlsExporter();
-                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, print);
-                exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, outStream);
-                exporterXLS.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-                exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
-                exporterXLS.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
-                exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-                exporterXLS.exportReport();
-
-                streamContent = new DefaultStreamedContent(new ByteArrayInputStream(outStream.toByteArray()), "application/xls", "department_jobs_assigned.xls");
-                setLongProcessProgress(100);
-
-                return streamContent;
-            } else {
-                return null;
-            }
-
-        } catch (JRException e) {
-            System.out.println(e);
-            setLongProcessProgress(100);
-
-            return null;
-        }
-
-    }
+//    public StreamedContent getJobAssignedToDepartmentReportXLSFile() {
+//
+//        EntityManager em = getEntityManager1();
+//        HashMap parameters = new HashMap();
+//
+//        try {
+//
+//            String reportFileURL = getSelectedReport().getReportFile();
+//
+//            Connection con = BusinessEntityUtils.establishConnection(
+//                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+//                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+//                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+//                    (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
+//
+//            if (con != null) {
+//                StreamedContent streamContent;
+//
+//                parameters.put("startOFPeriod", getReportingDatePeriod1().getStartDate());
+//                parameters.put("endOFPeriod", getReportingDatePeriod1().getEndDate());
+//                parameters.put("departmentID", getSelectedReport().getDepartments().get(0).getId());
+//                parameters.put("departmentName", getSelectedReport().getDepartments().get(0).getName());
+//                // generate report
+//                JasperPrint print = JasperFillManager.fillReport(reportFileURL, parameters, con);
+//
+//                JRXlsExporter exporterXLS = new JRXlsExporter();
+//                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+//                exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, print);
+//                exporterXLS.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, outStream);
+//                exporterXLS.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+//                exporterXLS.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.TRUE);
+//                exporterXLS.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
+//                exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+//                exporterXLS.exportReport();
+//
+//                streamContent = new DefaultStreamedContent(new ByteArrayInputStream(outStream.toByteArray()), "application/xls", "department_jobs_assigned.xls");
+//                setLongProcessProgress(100);
+//
+//                return streamContent;
+//            } else {
+//                return null;
+//            }
+//
+//        } catch (JRException e) {
+//            System.out.println(e);
+//            setLongProcessProgress(100);
+//
+//            return null;
+//        }
+//
+//    }
 
     public ArrayList getDateSearchFields() {
         return DatePeriod.getDateSearchFields();

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JobAssignedToDepartmentInPeriod" pageWidth="10000" pageHeight="842" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="9960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="91614f20-57d8-46cc-9862-2ea4d5a20352">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL JMTS Live"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<parameter name="startOFPeriod" class="java.util.Date"/>
-	<parameter name="endOFPeriod" class="java.util.Date"/>
-	<parameter name="inspectorID" class="java.lang.Long" isForPrompting="false"/>
-	<parameter name="departmentID" class="java.lang.Long">
+	<parameter name="startOfPeriod1" class="java.util.Date"/>
+	<parameter name="endOfPeriod1" class="java.util.Date"/>
+	<parameter name="departmentId1" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[24L]]></defaultValueExpression>
 	</parameter>
-	<parameter name="departmentName" class="java.lang.String">
+	<parameter name="departmentName1" class="java.lang.String">
 		<defaultValueExpression><![CDATA["Chemistry"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -139,16 +140,16 @@ FROM
      RIGHT OUTER JOIN `jobsample` jobsample ON job_jobsample.`jobSamples_ID` = jobsample.`ID`
      INNER JOIN `employee` employee_A ON jobstatusandtracking.`ENTEREDBY_ID` = employee_A.`ID`
 WHERE
-     ((jobstatusandtracking.`DATESUBMITTED` >= $P{startOFPeriod}
- AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOFPeriod})
-  OR (jobstatusandtracking.`DATEOFCOMPLETION` >= $P{startOFPeriod}
- AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{endOFPeriod})
-  OR (jobstatusandtracking.`EXPECTEDDATEOFCOMPLETION` >= $P{startOFPeriod}
- AND jobstatusandtracking.`EXPECTEDDATEOFCOMPLETION` <= $P{endOFPeriod})
-  OR (jobstatusandtracking.`DATEANDTIMEENTERED` >= $P{startOFPeriod}
- AND jobstatusandtracking.`DATEANDTIMEENTERED` <= $P{endOFPeriod}))
- AND (department.`ID` = $P{departmentID}
-  OR department_A.`ID` = $P{departmentID})
+     ((jobstatusandtracking.`DATESUBMITTED` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOfPeriod1})
+  OR (jobstatusandtracking.`DATEOFCOMPLETION` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{endOfPeriod1})
+  OR (jobstatusandtracking.`EXPECTEDDATEOFCOMPLETION` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`EXPECTEDDATEOFCOMPLETION` <= $P{endOfPeriod1})
+  OR (jobstatusandtracking.`DATEANDTIMEENTERED` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`DATEANDTIMEENTERED` <= $P{endOfPeriod1}))
+ AND (department.`ID` = $P{departmentId1}
+  OR department_A.`ID` = $P{departmentId1})
 GROUP BY
      job.`ID`
 ORDER BY
@@ -951,7 +952,7 @@ ORDER BY
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startOFPeriod}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Column header" x="915" y="-15" width="262" height="15" uuid="97cf85be-49ed-4c4f-9cec-fe22bda020cd"/>
@@ -967,7 +968,7 @@ ORDER BY
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{endOFPeriod}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="Column header" x="0" y="-15" width="262" height="15" uuid="8b421f9b-3b92-4c68-a027-4cd7d1cc18a9"/>
@@ -983,7 +984,7 @@ ORDER BY
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{departmentName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{departmentName1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>

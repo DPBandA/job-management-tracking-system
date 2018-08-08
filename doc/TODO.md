@@ -2,7 +2,9 @@
 
 ### Reports
 - Impl report exportation:
-  * Resolved jobs by and assigned by department report.
+  * The output file name does not change when new report is selected. Fix
+  * Impl exporting to excel.
+  * Date period fields not updated when new period is selected. Fix.
   * Add dropdown for selecting date field and hide/show them when they are in the 
     collection field. 
   * Update analyticalServicesReportFileInputStream() to use selected report parameters.
