@@ -2,7 +2,7 @@
 
 ### Reports
 - Impl report exportation:
-  * The output file name does not change when new report is selected. Fix
+  * Create local entity manager for reports
   * Impl exporting to excel.
   * Date period fields not updated when new period is selected. Fix.
   * Add dropdown for selecting date field and hide/show them when they are in the 
@@ -180,3 +180,4 @@ This release will be around early July.
 - Allow creating subcontract from a subcontract.
 - Indicate somewhere in the job dialog when a subcontract is being created.
 - Fix sammple reference sequencing when a sample is deleted. Test with job 5740.
+- Widen credit status dialog.
