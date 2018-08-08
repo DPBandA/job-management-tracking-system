@@ -3,6 +3,8 @@
 ### Reports
 - Impl report exportation:
   * Create local entity manager for reports
+  * Use date periods 1,2,3 fro monthly report. Compare results with existing report
+    in live system.
   * Impl exporting to excel.
   * Date period fields not updated when new period is selected. Fix.
   * Add dropdown for selecting date field and hide/show them when they are in the 

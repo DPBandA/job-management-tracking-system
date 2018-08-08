@@ -30,12 +30,11 @@ import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
@@ -44,17 +43,16 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
-import jm.com.dpbennett.business.entity.DepartmentReport;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.JobReportItem;
 import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.JobSubCategory;
-import jm.com.dpbennett.business.entity.Preference;
 import jm.com.dpbennett.business.entity.Report;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.SystemOption;
@@ -63,13 +61,9 @@ import jm.com.dpbennett.business.entity.utils.DatePeriodJobReport;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
 import jm.com.dpbennett.jmts.Application;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -117,6 +111,28 @@ public class ReportManager implements Serializable {
      */
     public ReportManager() {
         init();
+    }
+
+    private EntityManager getLocalEntityManager() {
+        Map props = new HashMap();
+        props.put("javax.persistence.jdbc.driver",
+                (String) SystemOption.getOptionValueObject(getEntityManager1(),
+                        "defaultDatabaseDriver"));
+        props.put("javax.persistence.jdbc.url",
+                (String) SystemOption.getOptionValueObject(getEntityManager1(),
+                        "defaultDatabaseURL"));
+        props.put("javax.persistence.jdbc.user",
+                (String) SystemOption.getOptionValueObject(getEntityManager1(),
+                        "defaultDatabaseUsername"));
+        props.put("javax.persistence.jdbc.password",
+                (String) SystemOption.getOptionValueObject(getEntityManager1(),
+                        "defaultDatabasePassword"));
+
+        EntityManagerFactory emf = Persistence
+                .createEntityManagerFactory("PU", props);
+
+        return emf.createEntityManager();
+
     }
 
     public List<SelectItem> getDatePeriods() {
@@ -559,7 +575,7 @@ public class ReportManager implements Serializable {
                     try {
                         FileInputStream fis = new FileInputStream(getClass().getClassLoader().
                                 getResource("/reports/" + selectedReport.getReportFileTemplate()).getFile());
-                        
+
                         print = JasperFillManager.fillReport(
                                 fis,
                                 parameters,
@@ -567,7 +583,7 @@ public class ReportManager implements Serializable {
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(ReportManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                 } else {
                     print = JasperFillManager.fillReport(
                             selectedReport.getReportFileTemplate(),
@@ -577,7 +593,7 @@ public class ReportManager implements Serializable {
 
                 switch (selectedReport.getReportOutputFileMimeType()) {
                     case "application/pdf":
-                        
+
                         fileBytes = JasperExportManager.exportReportToPdf(print);
 
                         streamContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
@@ -585,10 +601,10 @@ public class ReportManager implements Serializable {
                                 selectedReport.getReportFile());
 
                         break;
-                        
+
                     case "application/xlsx":
                     case "application/xls":
-                        
+
                         JRXlsExporter exporterXLS = new JRXlsExporter();
                         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
                         exporterXLS.setParameter(JRXlsExporterParameter.JASPER_PRINT, print);
@@ -599,13 +615,12 @@ public class ReportManager implements Serializable {
                         exporterXLS.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
                         exporterXLS.exportReport();
 
-                        streamContent = new DefaultStreamedContent(new 
-                             ByteArrayInputStream(outStream.toByteArray()), 
+                        streamContent = new DefaultStreamedContent(new ByteArrayInputStream(outStream.toByteArray()),
                                 selectedReport.getReportOutputFileMimeType(),
                                 selectedReport.getReportFile());
 
                         break;
-                        
+
                     default:
                         fileBytes = JasperExportManager.exportReportToPdf(print);
 
@@ -613,7 +628,7 @@ public class ReportManager implements Serializable {
                                 selectedReport.getReportOutputFileMimeType(),
                                 selectedReport.getReportFile());
                         break;
-                        
+
                 }
 
                 setLongProcessProgress(100);
@@ -635,7 +650,7 @@ public class ReportManager implements Serializable {
 
     public StreamedContent getReportFile() {
 
-        EntityManager em = getEntityManager1();
+        //EntityManager em = getEntityManager1();
         StreamedContent reportFile = null;
 
         try {
@@ -646,12 +661,13 @@ public class ReportManager implements Serializable {
                     break;
                 case "application/xlsx":
                     if (getSelectedReport().getName().equals("Analytical Services Report")) {
-                        reportFile = getAnalyticalServicesReport(em);
+                        reportFile = getAnalyticalServicesReport(getLocalEntityManager());
                     }
                     break;
                 case "application/xls":
                     if (getSelectedReport().getName().equals("Monthly report")) {
-                        reportFile = getMonthlyReport3(em);
+                        //reportFile = getMonthlyReport3(em);
+                        reportFile = getMonthlyReport3(getLocalEntityManager());
                     }
                     break;
                 default:
@@ -753,7 +769,8 @@ public class ReportManager implements Serializable {
 
         try {
             // Get byte stream for report file
-            ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream2(new File(getSelectedReport().getReportFileTemplate()),
+            ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream2(
+                    em, new File(getSelectedReport().getReportFileTemplate()),
                     getReportingDepartment1().getId());
 
             return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
@@ -765,33 +782,17 @@ public class ReportManager implements Serializable {
         return null;
     }
 
-//    public StreamedContent getCompletedByDepartmentReport(EntityManager em) {
-//
-//        try {
-//            // Get byte stream for report file
-//            ByteArrayInputStream stream = jobsCompletedByDepartmentFileInputStream(new File(getSelectedReport().getReportFileTemplate()),
-//                    getReportingDepartment1().getId());
-//
-//            return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
-//
-//        } catch (Exception ex) {
-//            System.out.println(ex);
-//        }
-//
-//        return null;
-//    }
-
     public StreamedContent getAnalyticalServicesReport(EntityManager em) {
 
         try {
             ByteArrayInputStream stream;
 
             if (getSelectedReport().getUsePackagedReportFileTemplate()) {
-                stream = analyticalServicesReportFileInputStream(new File(getClass().getClassLoader().
+                stream = analyticalServicesReportFileInputStream(em, new File(getClass().getClassLoader().
                         getResource("/reports/" + getSelectedReport().getReportFileTemplate()).getFile()),
                         getReportingDepartment1().getId());
             } else {
-                stream = analyticalServicesReportFileInputStream(new File(getSelectedReport().getReportFileTemplate()),
+                stream = analyticalServicesReportFileInputStream(em, new File(getSelectedReport().getReportFileTemplate()),
                         getReportingDepartment1().getId());
             }
 
@@ -823,16 +824,16 @@ public class ReportManager implements Serializable {
     public void setColumnsToExclude(String columnsToExclude) {
         this.columnsToExclude = columnsToExclude;
     }
-  
+
     public void updateDepartmentReport() {
     }
 
     public void updateReportCategory() {
         setSelectedReport(new Report(""));
     }
-    
-     public void updateReport() {
-        
+
+    public void updateReport() {
+
     }
 
     public List<DatePeriodJobReportColumnData> jobSubCategogyGroupReportByDatePeriod(
@@ -1123,6 +1124,7 @@ public class ReportManager implements Serializable {
     }
 
     public ByteArrayInputStream analyticalServicesReportFileInputStream(
+            EntityManager em,
             File reportFile,
             Long departmentId) {
 
@@ -1153,7 +1155,7 @@ public class ReportManager implements Serializable {
 
             // Get report data
             List<Object[]> reportData = Job.getJobRecordsByTrackingDate(
-                    getEntityManager1(),
+                    em,
                     getReportingDatePeriod1().getDateField(),
                     BusinessEntityUtils.getDateString(getReportingDatePeriod1().getStartDate(), "'", "YMD", "-"),
                     BusinessEntityUtils.getDateString(getReportingDatePeriod1().getEndDate(), "'", "YMD", "-"),
@@ -1233,7 +1235,7 @@ public class ReportManager implements Serializable {
                 BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
                         (String) rowData[19],
                         "java.lang.String", stringCellStyle);
-                // subcategory
+                // Subcategory
                 BusinessEntityUtils.setExcelCellValue(wb, rawData, row, col++,
                         (String) rowData[20],
                         "java.lang.String", stringCellStyle);
@@ -1245,15 +1247,12 @@ public class ReportManager implements Serializable {
             // Set department name and report period
             // Dept. name
             BusinessEntityUtils.setExcelCellValue(wb, jobReportSheet, 0, 0,
-                    //getReportingDepartment().getName(),
                     getSelectedReport().getDepartments().get(0).getName(),
                     "java.lang.String", null);
             BusinessEntityUtils.setExcelCellValue(wb, employeeReportSheet, 0, 0,
-                    //getReportingDepartment().getName(),
                     getSelectedReport().getDepartments().get(0).getName(),
                     "java.lang.String", null);
             BusinessEntityUtils.setExcelCellValue(wb, sectorReportSheet, 0, 0,
-                    //getReportingDepartment().getName(),
                     getSelectedReport().getDepartments().get(0).getName(),
                     "java.lang.String", null);
             // Period
@@ -1286,6 +1285,7 @@ public class ReportManager implements Serializable {
     }
 
     public ByteArrayInputStream createExcelMonthlyReportFileInputStream2(
+            EntityManager em,
             File reportFile,
             Long departmentId) {
 
@@ -1325,11 +1325,9 @@ public class ReportManager implements Serializable {
             // Set date to now first
             getReportingDatePeriod1().setEndDate(new Date());
             List<Object[]> reportData = Job.getJobReportRecords(
-                    getEntityManager1(),
-                    //                    BusinessEntityUtils.getDateString(monthlyReportDataDatePeriod.getStartDate(), "'", "YMD", "-"),
-                    //                    BusinessEntityUtils.getDateString(monthlyReportDataDatePeriod.getEndDate(), "'", "YMD", "-"),
-                    BusinessEntityUtils.getDateString(getMonthlyReportDataDatePeriod().getStartDate(), "'", "YMD", "-"),
-                    BusinessEntityUtils.getDateString(getMonthlyReportDataDatePeriod().getEndDate(), "'", "YMD", "-"),
+                    em,
+                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getStartDate(), "'", "YMD", "-"),
+                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getEndDate(), "'", "YMD", "-"),
                     departmentId);
 
             // Fill in report data   
@@ -1450,7 +1448,7 @@ public class ReportManager implements Serializable {
 
             // Insert data at top of sheet
             //  Department name
-            Department department = Department.findDepartmentById(getEntityManager1(), departmentId);
+            Department department = Department.findDepartmentById(em, departmentId);
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 1,
                     department.getName(),
                     "java.lang.String", stringCellStyle);
@@ -1464,23 +1462,23 @@ public class ReportManager implements Serializable {
                     "java.util.Date", dateCellStyle);
             //  Month starts at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 8,
-                    getReportingDatePeriod2().getStartDate(),
+                    getReportingDatePeriod1().getStartDate(),
                     "java.util.Date", dateCellStyle);
             //  Month ends at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 10,
-                    getReportingDatePeriod2().getEndDate(),
+                    getReportingDatePeriod1().getEndDate(),
                     "java.util.Date", dateCellStyle);
             // Year type
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 12,
-                    getReportingDatePeriod3().getName(),
+                    getReportingDatePeriod2().getName(),
                     "java.lang.String", stringCellStyle);
             //  Year starts at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 15,
-                    getReportingDatePeriod3().getStartDate(),
+                    getReportingDatePeriod2().getStartDate(),
                     "java.util.Date", dateCellStyle);
             //  Year ends at:
             BusinessEntityUtils.setExcelCellValue(wb, rawData, 0, 17,
-                    getReportingDatePeriod3().getEndDate(),
+                    getReportingDatePeriod2().getEndDate(),
                     "java.util.Date", dateCellStyle);
 
             wb.write(out);
@@ -1563,7 +1561,7 @@ public class ReportManager implements Serializable {
         BusinessEntityUtils.saveBusinessEntity(em, jobReportItem);
         em.getTransaction().commit();
     }
-    
+
     public ArrayList getDateSearchFields() {
         return DatePeriod.getDateSearchFields();
     }
