@@ -101,6 +101,7 @@ public class ReportManager implements Serializable {
     private DatePeriod defaultDatePeriod;
     private JobManager jobManager;
     private Report selectedReport;
+    private Report currentReport;
     private Boolean isActiveReportsOnly;
     private String reportCategory;
     private DatePeriod selectedDatePeriod;
@@ -405,9 +406,21 @@ public class ReportManager implements Serializable {
         this.selectedReport = selectedReport;
     }
 
-    public void saveSelectedReport() {
+    public Report getCurrentReport() {
+        if (currentReport == null) {
+            currentReport = new Report();
+        }
 
-        selectedReport.save(getEntityManager1());
+        return currentReport;
+    }
+
+    public void setCurrentReport(Report currentReport) {
+        this.currentReport = currentReport;
+    }
+
+    public void saveCurrentReport() {
+
+        currentReport.save(getEntityManager1());
 
         PrimeFaces.current().dialog().closeDynamic(null);
     }
@@ -468,14 +481,14 @@ public class ReportManager implements Serializable {
         if (selectedDatePeriod.getId() != null) {
             DatePeriod datePeriod = DatePeriod.findById(em, selectedDatePeriod.getId());
             if (datePeriod != null) {
-                selectedReport.getDatePeriods().remove(selectedDatePeriod);
-                selectedReport.save(em);
+                currentReport.getDatePeriods().remove(selectedDatePeriod);
+                currentReport.save(em);
                 em.getTransaction().begin();
                 em.remove(datePeriod);
                 em.getTransaction().commit();
             }
         } else {
-            selectedReport.getDatePeriods().remove(selectedDatePeriod);
+            currentReport.getDatePeriods().remove(selectedDatePeriod);
         }
 
     }
@@ -666,8 +679,7 @@ public class ReportManager implements Serializable {
                     break;
                 case "application/xls":
                     if (getSelectedReport().getName().equals("Monthly report")) {
-                        //reportFile = getMonthlyReport3(em);
-                        reportFile = getMonthlyReport3(getLocalEntityManager());
+                        reportFile = getMonthlyReport(getLocalEntityManager());
                     }
                     break;
                 default:
@@ -707,65 +719,6 @@ public class ReportManager implements Serializable {
     }
 
     public StreamedContent getMonthlyReport(EntityManager em) {
-
-        try {
-
-            DatePeriod datePeriods[]
-                    = BusinessEntityUtils.getMonthlyReportDatePeriods(defaultDatePeriod);
-
-            List<JobSubCategory> subCategories = JobSubCategory.findAllJobSubCategoriesGroupedByEarningsByDepartment(em, getReportingDepartment1());
-            List<Sector> sectors = Sector.findAllSectorsByDeparment(em, getReportingDepartment1());
-            List<JobReportItem> jobReportItems = JobReportItem.findAllJobReportItemsByDeparment(em, getReportingDepartment1());
-
-            // reports
-            jobSubCategoryReport = new DatePeriodJobReport(getReportingDepartment1(), subCategories, null, null, datePeriods);
-            sectorReport = new DatePeriodJobReport(getReportingDepartment1(), null, sectors, null, datePeriods);
-            jobQuantitiesAndServicesReport = new DatePeriodJobReport(getReportingDepartment1(), null, null, jobReportItems, datePeriods);
-
-            // populate SubCategoryReport/Sector/job report
-            for (int i = 0; i < datePeriods.length; i++) {
-                // job subcat report
-                List<DatePeriodJobReportColumnData> data = jobSubCategogyGroupReportByDatePeriod(em,
-                        "dateOfCompletion",
-                        jobSubCategoryReport.getReportingDepartment().getName(),
-                        datePeriods[i].getStartDate(),
-                        datePeriods[i].getEndDate());
-                jobSubCategoryReport.updateSubCategoriesReportColumnData(datePeriods[i].getName(), data);
-            }
-
-            for (int i = 0; i < datePeriods.length; i++) {
-                // sector report
-                List<DatePeriodJobReportColumnData> data = sectorReportByDatePeriod(em,
-                        "dateOfCompletion",
-                        sectorReport.getReportingDepartment().getName(),
-                        datePeriods[i].getStartDate(),
-                        datePeriods[i].getEndDate());
-                sectorReport.updateSectorsReportColumnData(datePeriods[i].getName(), data);
-            }
-
-            for (int i = 0; i < datePeriods.length; i++) {
-                // job report
-                List<DatePeriodJobReportColumnData> data = jobReportByDatePeriod(em,
-                        jobQuantitiesAndServicesReport.getReportingDepartment().getName(),
-                        datePeriods[i].getStartDate(),
-                        datePeriods[i].getEndDate());
-                jobQuantitiesAndServicesReport.setReportColumnData(datePeriods[i].getName(), data);
-            }
-
-            // generate report
-            FileInputStream stream = createExcelJobReportFileInputStream(this.getClass().getResource("MonthlyReport.xls"),
-                    getUser(), getReportingDepartment1(), jobSubCategoryReport, sectorReport, jobQuantitiesAndServicesReport);
-
-            return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
-
-        } catch (URISyntaxException ex) {
-            System.out.println(ex);
-        }
-
-        return null;
-    }
-
-    public StreamedContent getMonthlyReport3(EntityManager em) {
 
         try {
             // Get byte stream for report file

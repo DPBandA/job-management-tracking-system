@@ -2,13 +2,6 @@
 
 ### Reports
 - Impl report exportation:
-  * Create local entity manager for reports
-  * Use date periods 1,2,3 fro monthly report. Compare results with existing report
-    in live system.
-  * Impl exporting to excel.
-  * Date period fields not updated when new period is selected. Fix.
-  * Add dropdown for selecting date field and hide/show them when they are in the 
-    collection field. 
   * Update analyticalServicesReportFileInputStream() to use selected report parameters.
     Use the selected date seach field in the method that does the search.
   * Impl selecting report parameters. Use single item selection components for
@@ -26,6 +19,8 @@
 - Add report template for legal.
 - Deactivate accpac invoice features and deploy.
 - Note the required order of the dates for the monthly report when deploying
+- Deal with the multiple row entries all reports especially those used by 
+  Customer Service. See if "DISTINCT" solves the problem.
 
 ### Next Status Update Notes
 - Add users, update database, etc. under sys admin

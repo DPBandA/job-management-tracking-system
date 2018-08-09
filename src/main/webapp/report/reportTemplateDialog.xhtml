@@ -44,7 +44,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-bottom: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{reportManager.saveSelectedReport}"
+                                     actionListener="#{reportManager.saveCurrentReport}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide()"
                                      icon="ui-icon ui-icon-check"
@@ -65,11 +65,11 @@ Email: info@dpbennett.com.jm
                         <p:outputLabel for="reportActive" value="Active:" style="font-weight: bold;" />               
                         <p:selectBooleanCheckbox id="reportActive"
                                                  style="vertical-align: middle"
-                                                 value="#{reportManager.selectedReport.active}" />                       
+                                                 value="#{reportManager.currentReport.active}" />                       
 
 
                         <h:outputText value="Category:" style="font-weight: bold;" />
-                        <p:selectOneMenu value="#{reportManager.selectedReport.category}" 
+                        <p:selectOneMenu value="#{reportManager.currentReport.category}" 
                                          id="reportCategory" >
 
                             <f:validator validatorId="requiredFieldValidator" />
@@ -79,7 +79,7 @@ Email: info@dpbennett.com.jm
                         </p:selectOneMenu>
 
                         <h:outputText value="Name:" style="font-weight: bold;" />
-                        <p:inputText value="#{reportManager.selectedReport.name}"
+                        <p:inputText value="#{reportManager.currentReport.name}"
                                      style="width: 300px;"
                                      id="reportName" 
                                      validator="requiredFieldValidator" /> 
@@ -87,18 +87,18 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="Report template:" style="font-weight: bold;" />                            
                         <h:panelGroup>
                             <h:panelGrid columns="2">                            
-                                <p:inputText value="#{reportManager.selectedReport.reportFileTemplate}"
+                                <p:inputText value="#{reportManager.currentReport.reportFileTemplate}"
                                              style="margin-left: -3px;width: 300px;"
                                              id="reportFileTemplate" 
                                              validator="requiredFieldValidator" />
                                 <p:selectBooleanCheckbox itemLabel="packaged"
                                                          title="Check if this report template is in a class package"
-                                                         value="#{reportManager.selectedReport.usePackagedReportFileTemplate}" />   
+                                                         value="#{reportManager.currentReport.usePackagedReportFileTemplate}" />   
                             </h:panelGrid>
                         </h:panelGroup>
 
                         <h:outputText value="Report template MIME type:" style="font-weight: bold;" />                   
-                        <p:selectOneMenu value="#{reportManager.selectedReport.reportFileMimeType}" 
+                        <p:selectOneMenu value="#{reportManager.currentReport.reportFileMimeType}" 
                                          id="reportFileMimeType" >
 
                             <f:validator validatorId="requiredFieldValidator" />
@@ -108,13 +108,13 @@ Email: info@dpbennett.com.jm
                         </p:selectOneMenu>
 
                         <h:outputText value="Report output file:" style="font-weight: bold;" />
-                        <p:inputText value="#{reportManager.selectedReport.reportFile}"
+                        <p:inputText value="#{reportManager.currentReport.reportFile}"
                                      style="width: 300px;"
                                      id="reportFile" 
                                      validator="requiredFieldValidator" />
 
                         <h:outputText value="Report output MIME type:" style="font-weight: bold;" />                   
-                        <p:selectOneMenu value="#{reportManager.selectedReport.reportOutputFileMimeType}"                                         
+                        <p:selectOneMenu value="#{reportManager.currentReport.reportOutputFileMimeType}"                                         
                                          id="reportOutputFileMimeType" >
 
                             <f:validator validatorId="requiredFieldValidator" />
@@ -124,7 +124,7 @@ Email: info@dpbennett.com.jm
                         </p:selectOneMenu>
 
                         <h:outputText value="Description:" style="font-weight: bold;" />
-                        <p:inputTextarea  value="#{reportManager.selectedReport.description}"
+                        <p:inputTextarea  value="#{reportManager.currentReport.description}"
                                           id="reportDescription"
                                           maxlength="1000"
                                           autoResize="false"
@@ -143,7 +143,7 @@ Email: info@dpbennett.com.jm
                             <p:outputLabel for="datePeriodRequired" value="Required:" style="font-weight: bold;" />               
                             <p:selectBooleanCheckbox id="datePeriodRequired"
                                                      style="vertical-align: middle"
-                                                     value="#{reportManager.selectedReport.datePeriodRequired}" />
+                                                     value="#{reportManager.currentReport.datePeriodRequired}" />
                         </h:panelGrid>
 
                         <p:toolbar style="margin-bottom: 1px;">
@@ -165,7 +165,7 @@ Email: info@dpbennett.com.jm
 
                         <p:dataTable id="datePeriodsTable"
                                      var="datePeriod" 
-                                     value="#{reportManager.selectedReport.datePeriods}">
+                                     value="#{reportManager.currentReport.datePeriods}">
 
                             <p:column>
                                 <f:facet name="header">
@@ -261,12 +261,12 @@ Email: info@dpbennett.com.jm
                             <p:outputLabel for="departmentRequired" value="Required:" style="font-weight: bold;" />               
                             <p:selectBooleanCheckbox id="departmentRequired"
                                                      style="vertical-align: middle"
-                                                     value="#{reportManager.selectedReport.departmentRequired}" /> 
+                                                     value="#{reportManager.currentReport.departmentRequired}" /> 
 
                             <h:outputText value="Default department(s):" />       
                             <p:autoComplete id="departments"
                                             var="department"   
-                                            value="#{reportManager.selectedReport.departments}"
+                                            value="#{reportManager.currentReport.departments}"
                                             itemLabel="#{department.name}"
                                             itemValue="#{department}"
                                             converter="departmentConverter"
@@ -286,7 +286,7 @@ Email: info@dpbennett.com.jm
                                 <h:outputText value="Department fields(s):" />       
                                 <p:autoComplete id="departmentFields"
                                                 var="department"   
-                                                value="#{reportManager.selectedReport.departments}"
+                                                value="#{reportManager.currentReport.departments}"
                                                 itemLabel="#{department.name}"
                                                 itemValue="#{department}"
                                                 converter="departmentConverter"
@@ -310,12 +310,12 @@ Email: info@dpbennett.com.jm
                             <p:outputLabel for="employeeRequired" value="Required:" style="font-weight: bold;" />               
                             <p:selectBooleanCheckbox id="employeeRequired"
                                                      style="vertical-align: middle"
-                                                     value="#{reportManager.selectedReport.employeeRequired}" />
+                                                     value="#{reportManager.currentReport.employeeRequired}" />
 
                             <h:outputText value="Default employee(s):" />       
                             <p:autoComplete id="employees"
                                             var="employee"   
-                                            value="#{reportManager.selectedReport.employees}"
+                                            value="#{reportManager.currentReport.employees}"
                                             itemLabel="#{employee.name}"
                                             itemValue="#{employee}"
                                             converter="employeeConverter"
@@ -338,12 +338,12 @@ Email: info@dpbennett.com.jm
                                 <p:outputLabel for="clientRequired" value="Required:" style="font-weight: bold;" />               
                                 <p:selectBooleanCheckbox id="clientRequired"
                                                          style="vertical-align: middle"
-                                                         value="#{reportManager.selectedReport.clientRequired}" />
+                                                         value="#{reportManager.currentReport.clientRequired}" />
 
                                 <h:outputText value="Default clients(s):" />       
                                 <p:autoComplete id="clients"
                                                 var="client"   
-                                                value="#{reportManager.selectedReport.clients}"
+                                                value="#{reportManager.currentReport.clients}"
                                                 itemLabel="#{client.name}"
                                                 itemValue="#{client}"
                                                 converter="clientConverter"
@@ -366,7 +366,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar >
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{reportManager.saveSelectedReport}"
+                                     actionListener="#{reportManager.saveCurrentReport}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide()"
                                      icon="ui-icon ui-icon-check"

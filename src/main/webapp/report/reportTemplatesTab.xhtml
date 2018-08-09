@@ -117,7 +117,7 @@ Email: info@dpbennett.com.jm
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
                 <f:setPropertyActionListener value="#{report}"                                                                    
-                                             target="#{reportManager.selectedReport}" />
+                                             target="#{reportManager.currentReport}" />
                 <p:ajax event="dialogReturn" 
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:reportsTable"/>
 

@@ -120,7 +120,7 @@ Email: info@dpbennett.com.jm
                                 global="true"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 process="@this" />
                         <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
@@ -132,15 +132,13 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                         <p:ajax event="keyup"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                     </p:calendar>
 
                     <h:outputText value="End:" rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}" />
@@ -150,28 +148,28 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                         <p:ajax event="keyup"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                     </p:calendar>
 
                     <h:outputText value="#{reportManager.reportingDatePeriod2.initDatePeriod.label}" 
                                   rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" />     
                     <p:selectOneMenu value= "#{reportManager.reportingDatePeriod2.initDatePeriod.name}" 
                                      rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" >
-                        <p:ajax listener="#{reportManager.updateReportDatePeriods}"
-                                global="true"
+                        
+                        <p:ajax global="true"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 process="@this" />
+                        
                         <f:selectItems value="#{reportManager.datePeriods}"/>
+                        
                     </p:selectOneMenu>
 
                     <h:outputText value="Start:" rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" />
@@ -181,15 +179,13 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                         <p:ajax event="keyup"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                     </p:calendar>
 
                     <h:outputText value="End:" rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" />
@@ -199,28 +195,28 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                         <p:ajax event="keyup"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                     </p:calendar>
 
                     <h:outputText value="#{reportManager.reportingDatePeriod3.initDatePeriod.label}" 
                                   rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" />     
                     <p:selectOneMenu value= "#{reportManager.reportingDatePeriod3.initDatePeriod.name}" 
                                      rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" >
-                        <p:ajax listener="#{reportManager.updateReportDatePeriods}"
-                                global="true"
+                        
+                        <p:ajax global="true"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 process="@this" />
+                        
                         <f:selectItems value="#{reportManager.datePeriods}"/>
+                        
                     </p:selectOneMenu>
 
                     <h:outputText value="Start:" rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" />
@@ -230,15 +226,13 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                         <p:ajax event="keyup"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                     </p:calendar>
 
                     <h:outputText value="End:" rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" />
@@ -248,15 +242,13 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                         <p:ajax event="keyup"
-                                update="export1,export2"
+                                update="export1,export2,generalReportDatePeriods"
                                 onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                listener="#{reportManager.updateReportDatePeriods}"/>
+                                oncomplete="PF('longProcessDialogVar2').hide();" />
                     </p:calendar>
                 </h:panelGrid>     
 
