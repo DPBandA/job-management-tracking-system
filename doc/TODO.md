@@ -1,24 +1,12 @@
 ## Things to do
 
 ### Reports
-- Impl report exportation:
-  * Update analyticalServicesReportFileInputStream() to use selected report parameters.
-    Use the selected date seach field in the method that does the search.
-  * Impl selecting report parameters. Use single item selection components for
-    selecting parameters such as employee and department. Continue with reporting
-    department 1.
-  * Impl getReportStreamedContent(Report currentReport) and test with 
-    "Job entered by employee" report. Impl "Job entered by employee" report
-     Test with employeeId1 = 192, datePeriod1 = "This month"
-  * Put the functionality for getting the report file in the Report class?
-  * Export "blank" report when "--" report is selected enable disable "Export"
-    buttons as as before.
+- Add all the relevant packaged reports in the "reports" resource folder delete
+  the ones that are no longer needed.
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
 - Impl and add Legal reports. 
 - Add report template for legal.
-- Deactivate accpac invoice features and deploy.
-- Note the required order of the dates for the monthly report when deploying
 - Deal with the multiple row entries all reports especially those used by 
   Customer Service. See if "DISTINCT" solves the problem.
 

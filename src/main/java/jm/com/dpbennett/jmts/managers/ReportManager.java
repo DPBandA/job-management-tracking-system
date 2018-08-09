@@ -663,7 +663,6 @@ public class ReportManager implements Serializable {
 
     public StreamedContent getReportFile() {
 
-        //EntityManager em = getEntityManager1();
         StreamedContent reportFile = null;
 
         try {
