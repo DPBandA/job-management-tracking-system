@@ -78,6 +78,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.primefaces.PrimeFaces;
 
@@ -539,14 +541,57 @@ public class ReportManager implements Serializable {
         selectedReport.getDepartments().set(0, reportingDepartment1);
     }
 
+    public JasperPrint getJasperPrint(Connection con,
+            HashMap parameters) {
+        JasperPrint jasperPrint = null;
+        FileInputStream fis;
+
+        switch (selectedReport.getReportOutputFileMimeType()) {
+            case "application/jasper":
+                //                    print = JasperFillManager.fillReport(
+//                            selectedReport.getReportFileTemplate(),
+//                            parameters,
+//                            con);
+                
+                break;
+
+            case "application/jrxml":
+                try {
+                    fis = new FileInputStream(getClass().getClassLoader().
+                            getResource("/reports/" + selectedReport.getReportFileTemplate()).getFile());
+
+//                        print = JasperFillManager.fillReport(
+//                                fis,
+//                                parameters,
+//                                con);
+                    JasperReport jasperReport = JasperCompileManager
+                            .compileReport(fis);
+
+                    jasperPrint = JasperFillManager.fillReport(
+                            jasperReport,
+                            parameters,
+                            con);
+                } catch (FileNotFoundException | JRException e) {
+                    System.out.println(e);
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return jasperPrint;
+    }
+
     public StreamedContent getReportStreamedContent() {
 
         EntityManager em = getEntityManager1();
         HashMap parameters = new HashMap();
+        Connection con;
 
         try {
 
-            Connection con = BusinessEntityUtils.establishConnection(
+            con = BusinessEntityUtils.establishConnection(
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
@@ -589,17 +634,25 @@ public class ReportManager implements Serializable {
                         FileInputStream fis = new FileInputStream(getClass().getClassLoader().
                                 getResource("/reports/" + selectedReport.getReportFileTemplate()).getFile());
 
+                        JasperReport jasperReport = JasperCompileManager
+                                .compileReport(fis);
+
                         print = JasperFillManager.fillReport(
-                                fis,
+                                jasperReport,
                                 parameters,
                                 con);
+
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(ReportManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 } else {
+                    JasperReport jasperReport = JasperCompileManager
+                            .compileReport(selectedReport.getReportFileTemplate());
+
+
                     print = JasperFillManager.fillReport(
-                            selectedReport.getReportFileTemplate(),
+                            jasperReport,
                             parameters,
                             con);
                 }
@@ -669,6 +722,7 @@ public class ReportManager implements Serializable {
 
             switch (getSelectedReport().getReportFileMimeType()) {
                 case "application/jasper":
+                case "application/jrxml":
                     reportFile = getReportStreamedContent();
                     break;
                 case "application/xlsx":

@@ -1,6 +1,8 @@
 ## Things to do
 
 ### Reports
+- Check if jrxml file can be used instead of the jasper file thus avoiding
+  to compile the report to jasper. Implement method to work with both types.
 - Add all the relevant packaged reports in the "reports" resource folder delete
   the ones that are no longer needed.
 - Impl finance report showing jobs that are supposed to have deposits but don't
