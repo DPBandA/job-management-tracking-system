@@ -45,6 +45,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
+import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.Employee;
@@ -536,6 +537,13 @@ public class ReportManager implements Serializable {
         }
         return selectedReport.getDepartments().get(0);
     }
+    
+    public Client getReportingClient1() {
+        if (selectedReport.getClients().isEmpty()) {
+            selectedReport.getClients().add(new Client(""));
+        }
+        return selectedReport.getClients().get(0);
+    }
 
     public void setReportingDepartment1(Department reportingDepartment1) {
         selectedReport.getDepartments().set(0, reportingDepartment1);
@@ -546,33 +554,63 @@ public class ReportManager implements Serializable {
         JasperPrint jasperPrint = null;
         FileInputStream fis;
 
-        switch (selectedReport.getReportOutputFileMimeType()) {
+        switch (selectedReport.getReportFileMimeType()) {
             case "application/jasper":
-                //                    print = JasperFillManager.fillReport(
-//                            selectedReport.getReportFileTemplate(),
-//                            parameters,
-//                            con);
-                
+                if (getSelectedReport().getUsePackagedReportFileTemplate()) {
+                    try {
+                        fis = new FileInputStream(getClass().getClassLoader().
+                                getResource("/reports/" + selectedReport.getReportFileTemplate()).getFile());
+
+                        jasperPrint = JasperFillManager.fillReport(
+                                fis,
+                                parameters,
+                                con);
+                    } catch (FileNotFoundException | JRException e) {
+                        System.out.println(e);
+                    }
+
+                    
+                } else {
+                    try {
+                        jasperPrint = JasperFillManager.fillReport(
+                                selectedReport.getReportFileTemplate(),
+                                parameters,
+                                con);
+                    } catch (JRException e) {
+                        System.out.println(e);
+                    }
+                }
+
                 break;
 
             case "application/jrxml":
-                try {
-                    fis = new FileInputStream(getClass().getClassLoader().
-                            getResource("/reports/" + selectedReport.getReportFileTemplate()).getFile());
+                if (getSelectedReport().getUsePackagedReportFileTemplate()) {
+                    try {
+                        fis = new FileInputStream(getClass().getClassLoader().
+                                getResource("/reports/" + selectedReport.getReportFileTemplate()).getFile());
 
-//                        print = JasperFillManager.fillReport(
-//                                fis,
-//                                parameters,
-//                                con);
-                    JasperReport jasperReport = JasperCompileManager
-                            .compileReport(fis);
+                        JasperReport jasperReport = JasperCompileManager
+                                .compileReport(fis);
 
-                    jasperPrint = JasperFillManager.fillReport(
-                            jasperReport,
-                            parameters,
-                            con);
-                } catch (FileNotFoundException | JRException e) {
-                    System.out.println(e);
+                        jasperPrint = JasperFillManager.fillReport(
+                                jasperReport,
+                                parameters,
+                                con);
+                    } catch (FileNotFoundException | JRException e) {
+                        System.out.println(e);
+                    }
+                } else {
+                    try {
+                        JasperReport jasperReport = JasperCompileManager
+                                .compileReport(selectedReport.getReportFileTemplate());
+
+                        jasperPrint = JasperFillManager.fillReport(
+                                jasperReport,
+                                parameters,
+                                con);
+                    } catch (JRException e) {
+                        System.out.println(e);
+                    }
                 }
                 break;
 
@@ -588,6 +626,7 @@ public class ReportManager implements Serializable {
         EntityManager em = getEntityManager1();
         HashMap parameters = new HashMap();
         Connection con;
+        JasperPrint print;
 
         try {
 
@@ -600,8 +639,7 @@ public class ReportManager implements Serializable {
             if (con != null) {
                 StreamedContent streamContent;
                 byte[] fileBytes;
-                JasperPrint print = null;
-
+                
                 // Provide date parameters if required
                 if (selectedReport.getDatePeriodRequired()) {
                     for (int i = 0; i < selectedReport.getDatePeriods().size(); i++) {
@@ -627,35 +665,8 @@ public class ReportManager implements Serializable {
                                 selectedReport.getDepartments().get(i).getName());
                     }
                 }
-
-                // Generate report
-                if (getSelectedReport().getUsePackagedReportFileTemplate()) {
-                    try {
-                        FileInputStream fis = new FileInputStream(getClass().getClassLoader().
-                                getResource("/reports/" + selectedReport.getReportFileTemplate()).getFile());
-
-                        JasperReport jasperReport = JasperCompileManager
-                                .compileReport(fis);
-
-                        print = JasperFillManager.fillReport(
-                                jasperReport,
-                                parameters,
-                                con);
-
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(ReportManager.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                } else {
-                    JasperReport jasperReport = JasperCompileManager
-                            .compileReport(selectedReport.getReportFileTemplate());
-
-
-                    print = JasperFillManager.fillReport(
-                            jasperReport,
-                            parameters,
-                            con);
-                }
+                
+                print = getJasperPrint(con, parameters);
 
                 switch (selectedReport.getReportOutputFileMimeType()) {
                     case "application/pdf":

@@ -78,7 +78,7 @@ Email: info@dpbennett.com.jm
                                   readonly="true"
                                   rows="4"
                                   style="width:175%;background: lightyellow;" />                
-               
+
             </h:panelGrid>
         </p:panel>
 
@@ -117,11 +117,11 @@ Email: info@dpbennett.com.jm
                     <p:selectOneMenu value= "#{reportManager.reportingDatePeriod1.initDatePeriod.name}" 
                                      rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}" >
                         <p:ajax 
-                                global="true"
-                                onstart="PF('longProcessDialogVar2').show();"
-                                oncomplete="PF('longProcessDialogVar2').hide();"
-                                update="export1,export2,generalReportDatePeriods"
-                                process="@this" />
+                            global="true"
+                            onstart="PF('longProcessDialogVar2').show();"
+                            oncomplete="PF('longProcessDialogVar2').hide();"
+                            update="export1,export2,generalReportDatePeriods"
+                            process="@this" />
                         <f:selectItems value="#{reportManager.datePeriods}"/>
                     </p:selectOneMenu>
 
@@ -161,15 +161,15 @@ Email: info@dpbennett.com.jm
                                   rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" />     
                     <p:selectOneMenu value= "#{reportManager.reportingDatePeriod2.initDatePeriod.name}" 
                                      rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" >
-                        
+
                         <p:ajax global="true"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 update="export1,export2,generalReportDatePeriods"
                                 process="@this" />
-                        
+
                         <f:selectItems value="#{reportManager.datePeriods}"/>
-                        
+
                     </p:selectOneMenu>
 
                     <h:outputText value="Start:" rendered="#{reportManager.reportingDatePeriod2.initDatePeriod.show}" />
@@ -208,15 +208,15 @@ Email: info@dpbennett.com.jm
                                   rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" />     
                     <p:selectOneMenu value= "#{reportManager.reportingDatePeriod3.initDatePeriod.name}" 
                                      rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" >
-                        
+
                         <p:ajax global="true"
                                 onstart="PF('longProcessDialogVar2').show();"
                                 oncomplete="PF('longProcessDialogVar2').hide();"
                                 update="export1,export2,generalReportDatePeriods"
                                 process="@this" />
-                        
+
                         <f:selectItems value="#{reportManager.datePeriods}"/>
-                        
+
                     </p:selectOneMenu>
 
                     <h:outputText value="Start:" rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" />
@@ -272,6 +272,32 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="itemSelect"
                                 update="employees"
+                                process="@this" />
+
+                    </p:autoComplete>
+                </h:panelGrid>
+
+            </p:panel>
+
+            <p:panel id="clientsPanel" header="Clients(s)" 
+                     rendered="#{reportManager.selectedReport.clientRequired}">
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Client 1:" />
+                    <p:autoComplete id="clients"
+                                    var="client"   
+                                    value="#{reportManager.reportingClient1}"
+                                    itemLabel="#{client.name}"
+                                    itemValue="#{client}"
+                                    converter="clientConverter"
+                                    forceSelection="true"
+                                    dropdown="true"
+                                    size="40"
+                                    scrollHeight="200"  
+                                    completeMethod="#{App.completeClient}" >
+
+                        <p:ajax event="itemSelect"
+                                update="clients"
                                 process="@this" />
 
                     </p:autoComplete>

@@ -332,35 +332,35 @@ Email: info@dpbennett.com.jm
                             </p:autoComplete>
                         </h:panelGrid>
                     </p:panel>    
-                    <ui:remove>
-                        <p:panel header="Client" style="margin-top: 1px;margin-bottom: 1px;">
-                            <h:panelGrid columns="2">
-                                <p:outputLabel for="clientRequired" value="Required:" style="font-weight: bold;" />               
-                                <p:selectBooleanCheckbox id="clientRequired"
-                                                         style="vertical-align: middle"
-                                                         value="#{reportManager.currentReport.clientRequired}" />
 
-                                <h:outputText value="Default clients(s):" />       
-                                <p:autoComplete id="clients"
-                                                var="client"   
-                                                value="#{reportManager.currentReport.clients}"
-                                                itemLabel="#{client.name}"
-                                                itemValue="#{client}"
-                                                converter="clientConverter"
-                                                forceSelection="true"
-                                                dropdown="false"
-                                                scrollHeight="200"  
-                                                multiple="true"
-                                                completeMethod="#{App.completeClient}" >
+                    <p:panel header="Client" style="margin-top: 1px;margin-bottom: 1px;">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="clientRequired" value="Required:" style="font-weight: bold;" />               
+                            <p:selectBooleanCheckbox id="clientRequired"
+                                                     style="vertical-align: middle"
+                                                     value="#{reportManager.currentReport.clientRequired}" />
 
-                                    <p:ajax event="itemSelect"
-                                            update="clients"
-                                            process="@this" />
+                            <h:outputText value="Default clients(s):" />       
+                            <p:autoComplete id="clients"
+                                            var="client"   
+                                            value="#{reportManager.currentReport.clients}"
+                                            itemLabel="#{client.name}"
+                                            itemValue="#{client}"
+                                            converter="clientConverter"
+                                            forceSelection="true"
+                                            dropdown="false"
+                                            scrollHeight="200"  
+                                            multiple="true"
+                                            completeMethod="#{App.completeClient}" >
 
-                                </p:autoComplete>
-                            </h:panelGrid>
-                        </p:panel>
-                    </ui:remove>
+                                <p:ajax event="itemSelect"
+                                        update="clients"
+                                        process="@this" />
+
+                            </p:autoComplete>
+                        </h:panelGrid>
+                    </p:panel>
+
                 </p:tab>
             </p:tabView>
             <p:toolbar >
