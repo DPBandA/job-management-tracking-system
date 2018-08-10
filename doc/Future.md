@@ -63,6 +63,7 @@ I am available to provide clarification if required.
 
 ## Task Management
 
+- Add collection of tasks to a job.
 - Create Task class and allow entry of requests from internal and external clients as tasks. Get ideas from the Legal Office system.
 - Enter a default turnaround time or allow entry of specific TAT.
 - Alerts when tasks are due or soon due. Multiple alerts can be sent when required action is not taken such as when the task is not marked completed after x days.
@@ -71,6 +72,12 @@ I am available to provide clarification if required.
 
 ## System Design and Implementation
 
+- Add privileges to add/edit products and services.
+- Add Service collection to Job class and synch the selection of the services
+  in the Service Contract with the services collection. Add tab to system admin
+  for this.
+- Add tab for Products to sys admin and use the product names in the autocomplete
+  for the job sample common name.
 - Impl List<Double> etc. and use them where needed such as with list of percentages.
 - Impl validation of option value type.
 - Put number of records found at tp of all search tables.

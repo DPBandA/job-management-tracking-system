@@ -432,7 +432,7 @@ public class ReportManager implements Serializable {
         getSelectedDatePeriod().setIsDirty(true);
 
         if (getIsNewDatePeriod()) {
-            selectedReport.getDatePeriods().add(selectedDatePeriod);
+            currentReport.getDatePeriods().add(selectedDatePeriod);
         }
 
         closeDialog(actionEvent);

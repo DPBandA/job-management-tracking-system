@@ -11,6 +11,7 @@
 - Add report template for legal.
 - Deal with the multiple row entries all reports especially those used by 
   Customer Service. See if "DISTINCT" solves the problem.
+- Make sure that for Legal Office the Legal report category is automatically selected.
 
 ### Next Status Update Notes
 - Add users, update database, etc. under sys admin
@@ -18,20 +19,28 @@
 - Mention development and testing of infrastructure modules of the JMTS.
 - Get copy of ISO/IEC 42010 for Software Architecture.
 
-### Updates based on training and feedback
+### Updates based on training, testing and feedback
+- Allow creating subcontract from a subcontract.
+- Indicate somewhere in the job dialog when a subcontract is being created.
+- Fix sammple reference sequencing when a sample is deleted. Test with job 5740.
+- Widen credit status dialog and cost component dialog for better display 
+  in dark hive theme.
 - Display prompt when there are completed subcontracted jobs when the Job Costing dialog
   is opened:
   * Impl "Existing Subcontracts" dialog...copy the "Delete Payment" dialog.
-- Fix sample sequencing when a sample is deleted.
-
-### Job Edit Synchronization
-- Create/maintain list of opened jobs in the Application class.
-  * Set opened date when open job and when keepalive runs..
-- Add Opened Jobs tab in Sys Admin with search text box and refresh button
-- Do sync for all job view tables.
-- Ensure access to currentJob is synchronized since it can be accessed by "keepalive"
-  other code at the same time
-
+- Fix sample sequencing when a sample is deleted. Note that sample does not 
+  change initially when the # of samples is reduced.
+  * Do sample sorted by id and not reference taking into account null ids as is
+    done for the DatePeriod class. Do not use the string version of the id as is
+    done for date period. Compare the value instead. Look for all classes that
+    use the string version and change them.
+  * The wrong sample seem to get edited after one is deleted. Fix!
+- Cordinate the editing of a client and what happens when the dialog returns
+  to the job dialog.
+- Alerts should be sent to person who entered job, job assignee, representative(s)
+  department head where appropriate eg send alert to parent job assignee and the
+  person who entered the job when child job is approved.
+  
 ### Accpac Invoicing etc.
 - Impl invoice export.  
   * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
@@ -163,8 +172,11 @@ This release will be around early July.
 - Remove edit buttons from client dialog general tab.
 - Impl Status or JobStatus class and use 
 
-### Updates based on training, testing and feedback
-- Allow creating subcontract from a subcontract.
-- Indicate somewhere in the job dialog when a subcontract is being created.
-- Fix sammple reference sequencing when a sample is deleted. Test with job 5740.
-- Widen credit status dialog.
+### Job Edit Synchronization
+- Create/maintain list of opened jobs in the Application class.
+  * Set opened date when open job and when keepalive runs..
+- Add Opened Jobs tab in Sys Admin with search text box and refresh button
+- Do sync for all job view tables.
+- Ensure access to currentJob is synchronized since it can be accessed by "keepalive"
+  other code at the same time
+
