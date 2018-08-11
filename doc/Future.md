@@ -186,6 +186,8 @@ dollar values that can be entered as system options.
 
 ## Reports, Queries and Views
 
+- Modify all reports to take the name of the organization that generates the
+  report.
 - Use "Special Result Types" and "Handling Multiple Result Types" to create
   "smaller" query results return lists and deal with the "slowness" when doing
   job searches. 

@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
 
     <ui:include src="reportsTabToolbar1.xhtml"/>
     <p:panel header="Report criteria" style="margin-bottom: 1px;margin-top: 1px;" >
-        <p:panel header="Report Detail" id="reportDetailPanel" >
+        <p:panel header="Report Detail" id="reportDetailPanel" style="margin-bottom: 1px;">
             <h:panelGrid columns="2" cellspacing="10">
 
                 <h:outputLabel value="Category:" />
@@ -84,6 +84,7 @@ Email: info@dpbennett.com.jm
 
         <h:panelGroup id="parametersGroup" >
             <p:panel id="departmentsPanel" header="Department(s)" 
+                     style="margin-bottom: 1px;"
                      rendered="#{reportManager.selectedReport.departmentRequired}">
 
                 <h:panelGrid columns="2">
@@ -109,7 +110,61 @@ Email: info@dpbennett.com.jm
 
             </p:panel>
 
+            <p:panel id="employeesPanel" header="Employee(s)" 
+                     style="margin-bottom: 1px;"
+                     rendered="#{reportManager.selectedReport.employeeRequired}">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Employee 1:" />
+                    <p:autoComplete var="employee"   
+                                    id="employees"
+                                    value="#{reportManager.reportEmployee1}"
+                                    itemLabel="#{employee.name}"
+                                    itemValue="#{employee}"
+                                    converter="employeeConverter"
+                                    forceSelection="true"
+                                    dropdown="true"
+                                    scrollHeight="200"  
+                                    multiple="false"
+                                    completeMethod="#{App.completeEmployee}" >
+
+                        <p:ajax event="itemSelect"
+                                update="employees"
+                                process="@this" />
+
+                    </p:autoComplete>
+                </h:panelGrid>
+
+            </p:panel>
+
+            <p:panel id="clientsPanel" header="Clients(s)" 
+                     style="margin-bottom: 1px;"
+                     rendered="#{reportManager.selectedReport.clientRequired}">
+
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Client 1:" />
+                    <p:autoComplete id="clients"
+                                    var="client"   
+                                    value="#{reportManager.reportingClient1}"
+                                    itemLabel="#{client.name}"
+                                    itemValue="#{client}"
+                                    converter="clientConverter"
+                                    forceSelection="true"
+                                    dropdown="true"
+                                    size="40"
+                                    scrollHeight="200"  
+                                    completeMethod="#{App.completeClient}" >
+
+                        <p:ajax event="itemSelect"
+                                update="clients"
+                                process="@this" />
+
+                    </p:autoComplete>
+                </h:panelGrid>
+
+            </p:panel>
+            
             <p:panel  id="generalReportDatePeriods" header="Date period(s)" 
+                      style="margin-bottom: 1px;"
                       rendered="#{reportManager.selectedReport.datePeriodRequired}" >
                 <h:panelGrid columns="6" > 
                     <h:outputText value="#{reportManager.reportingDatePeriod1.initDatePeriod.label}" 
@@ -251,57 +306,6 @@ Email: info@dpbennett.com.jm
                                 oncomplete="PF('longProcessDialogVar2').hide();" />
                     </p:calendar>
                 </h:panelGrid>     
-
-            </p:panel>
-
-            <p:panel id="employeesPanel" header="Employee(s)" 
-                     rendered="#{reportManager.selectedReport.employeeRequired}">
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="Employee 1:" />
-                    <p:autoComplete var="employee"   
-                                    id="employees"
-                                    value="#{reportManager.reportEmployee1}"
-                                    itemLabel="#{employee.name}"
-                                    itemValue="#{employee}"
-                                    converter="employeeConverter"
-                                    forceSelection="true"
-                                    dropdown="true"
-                                    scrollHeight="200"  
-                                    multiple="false"
-                                    completeMethod="#{App.completeEmployee}" >
-
-                        <p:ajax event="itemSelect"
-                                update="employees"
-                                process="@this" />
-
-                    </p:autoComplete>
-                </h:panelGrid>
-
-            </p:panel>
-
-            <p:panel id="clientsPanel" header="Clients(s)" 
-                     rendered="#{reportManager.selectedReport.clientRequired}">
-
-                <h:panelGrid columns="2">
-                    <h:outputLabel value="Client 1:" />
-                    <p:autoComplete id="clients"
-                                    var="client"   
-                                    value="#{reportManager.reportingClient1}"
-                                    itemLabel="#{client.name}"
-                                    itemValue="#{client}"
-                                    converter="clientConverter"
-                                    forceSelection="true"
-                                    dropdown="true"
-                                    size="40"
-                                    scrollHeight="200"  
-                                    completeMethod="#{App.completeClient}" >
-
-                        <p:ajax event="itemSelect"
-                                update="clients"
-                                process="@this" />
-
-                    </p:autoComplete>
-                </h:panelGrid>
 
             </p:panel>
 

@@ -1,8 +1,7 @@
 ## Things to do
 
 ### Reports
-- New date periods not being added and new reports not displaying in table.
-  Could be due to the change from selectedReport to currentReport. Fix!
+- Add code to add client parameters.
 - Add all the relevant packaged reports in the "reports" resource folder delete
   the ones that are no longer needed.
 - Impl finance report showing jobs that are supposed to have deposits but don't

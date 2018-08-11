@@ -52,6 +52,11 @@
 			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/Client Served In Period.jrxml</location>
 		</link>
 		<link>
+			<name>ClientList.jrxml</name>
+			<type>1</type>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ClientList.jrxml</location>
+		</link>
+		<link>
 			<name>Clients Grouped by Department.jrxml</name>
 			<type>1</type>
 			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/Clients Grouped by Department.jrxml</location>
@@ -60,6 +65,31 @@
 			<name>Clients served in period.jrxml</name>
 			<type>1</type>
 			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/Clients served in period.jrxml</location>
+		</link>
+		<link>
+			<name>ClientsList.jasper</name>
+			<type>1</type>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ClientsList.jasper</location>
+		</link>
+		<link>
+			<name>ClientsList.jrxml</name>
+			<type>1</type>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ClientsList.jrxml</location>
+		</link>
+		<link>
+			<name>ClientsServed.jasper</name>
+			<type>1</type>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ClientsServed.jasper</location>
+		</link>
+		<link>
+			<name>ClientsServed.jrxml</name>
+			<type>1</type>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ClientsServed.jrxml</location>
+		</link>
+		<link>
+			<name>JobEnteredByReport.jasper</name>
+			<type>1</type>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/JobEnteredByReport.jasper</location>
 		</link>
 		<link>
 			<name>JobEnteredByReport.jrxml</name>
@@ -85,6 +115,16 @@
 			<name>JobsEnteredByDepartment_1.jrxml</name>
 			<type>1</type>
 			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/JobsEnteredByDepartment.jrxml</location>
+		</link>
+		<link>
+			<name>JobsEnteredByEmployee.jasper</name>
+			<type>1</type>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/JobsEnteredByEmployee.jasper</location>
+		</link>
+		<link>
+			<name>JobsEnteredByEmployee.jrxml</name>
+			<type>1</type>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/JobsEnteredByEmployee.jrxml</location>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -1,3 +1,7 @@
 /.metadata/
 /JobsEnteredByDepartment.jasper
 /JobsAssignedToDepartment.jasper
+/ClientsList.jasper
+/ClientsServed.jasper
+/JobEnteredByReport.jasper
+/JobsEnteredByEmployee.jasper

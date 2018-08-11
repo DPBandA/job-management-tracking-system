@@ -450,7 +450,7 @@ public class ReportManager implements Serializable {
 
     public void createNewReport() {
 
-        selectedReport = new Report();
+        currentReport = new Report();
 
         editReport();
     }
@@ -537,7 +537,7 @@ public class ReportManager implements Serializable {
         }
         return selectedReport.getDepartments().get(0);
     }
-    
+
     public Client getReportingClient1() {
         if (selectedReport.getClients().isEmpty()) {
             selectedReport.getClients().add(new Client(""));
@@ -569,7 +569,6 @@ public class ReportManager implements Serializable {
                         System.out.println(e);
                     }
 
-                    
                 } else {
                     try {
                         jasperPrint = JasperFillManager.fillReport(
@@ -639,7 +638,7 @@ public class ReportManager implements Serializable {
             if (con != null) {
                 StreamedContent streamContent;
                 byte[] fileBytes;
-                
+
                 // Provide date parameters if required
                 if (selectedReport.getDatePeriodRequired()) {
                     for (int i = 0; i < selectedReport.getDatePeriods().size(); i++) {
@@ -665,7 +664,8 @@ public class ReportManager implements Serializable {
                                 selectedReport.getDepartments().get(i).getName());
                     }
                 }
-                
+                // Provide department parameters if required
+
                 print = getJasperPrint(con, parameters);
 
                 switch (selectedReport.getReportOutputFileMimeType()) {
@@ -784,11 +784,24 @@ public class ReportManager implements Serializable {
 
     public StreamedContent getMonthlyReport(EntityManager em) {
 
+        ByteArrayInputStream stream;
+
         try {
+
             // Get byte stream for report file
-            ByteArrayInputStream stream = createExcelMonthlyReportFileInputStream2(
-                    em, new File(getSelectedReport().getReportFileTemplate()),
-                    getReportingDepartment1().getId());
+            if (getSelectedReport().getUsePackagedReportFileTemplate()) {
+//                stream = analyticalServicesReportFileInputStream(em, new File(getClass().getClassLoader().
+//                        getResource("/reports/" + getSelectedReport().getReportFileTemplate()).getFile()),
+//                        getReportingDepartment1().getId());
+                stream = createExcelMonthlyReportFileInputStream(
+                        em, new File(getClass().getClassLoader().
+                                getResource("/reports/" + getSelectedReport().getReportFileTemplate()).getFile()),
+                        getReportingDepartment1().getId());
+            } else {
+                stream = createExcelMonthlyReportFileInputStream(
+                        em, new File(getSelectedReport().getReportFileTemplate()),
+                        getReportingDepartment1().getId());
+            }
 
             return new DefaultStreamedContent(stream, getSelectedReport().getReportFileMimeType(), getSelectedReport().getReportFile());
 
@@ -1301,7 +1314,7 @@ public class ReportManager implements Serializable {
         return null;
     }
 
-    public ByteArrayInputStream createExcelMonthlyReportFileInputStream2(
+    public ByteArrayInputStream createExcelMonthlyReportFileInputStream(
             EntityManager em,
             File reportFile,
             Long departmentId) {
