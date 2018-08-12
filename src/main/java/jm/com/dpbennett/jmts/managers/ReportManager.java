@@ -664,7 +664,7 @@ public class ReportManager implements Serializable {
                                 selectedReport.getDepartments().get(i).getName());
                     }
                 }
-                // Provide department parameters if required
+                // Provide client parameters if required
 
                 print = getJasperPrint(con, parameters);
 

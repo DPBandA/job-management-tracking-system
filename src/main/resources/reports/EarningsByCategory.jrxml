@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Earnings by Category" language="groovy" pageWidth="800" pageHeight="1200" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="2968f87d-e793-471b-a0e2-11b9ce11246e">
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Earnings by Category" pageWidth="800" pageHeight="1200" columnWidth="760" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="2968f87d-e793-471b-a0e2-11b9ce11246e">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL JMTS Live"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -23,7 +25,7 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="Crosstab Data Text" hAlign="Center"/>
+	<style name="Crosstab Data Text" hTextAlign="Center" hImageAlign="Center"/>
 	<subDataset name="Date Period Earnings Dataset" uuid="317148a0-66be-4aaf-8ceb-6d7dc8cdc3b3">
 		<parameter name="datePeriodStart1" class="java.util.Date" isForPrompting="false">
 			<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2014-04-01")]]></defaultValueExpression>
@@ -142,29 +144,29 @@ ORDER BY
 		<field name="department_A_SUBGROUPCODE" class="java.lang.String"/>
 		<field name="jobstatusandtracking_DATEOFCOMPLETION" class="java.sql.Date"/>
 	</subDataset>
-	<parameter name="datePeriodStart1" class="java.util.Date" isForPrompting="false">
+	<parameter name="startOfPeriod1" class="java.util.Date" isForPrompting="false">
 		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2014-04-01")]]></defaultValueExpression>
 	</parameter>
-	<parameter name="datePeriodEnd1" class="java.util.Date" isForPrompting="false">
+	<parameter name="endOfPeriod1" class="java.util.Date" isForPrompting="false">
 		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2015-03-31")]]></defaultValueExpression>
 	</parameter>
-	<parameter name="datePeriodStart2" class="java.util.Date" isForPrompting="false">
+	<parameter name="startOfPeriod2" class="java.util.Date" isForPrompting="false">
 		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2015-04-01")]]></defaultValueExpression>
 	</parameter>
-	<parameter name="datePeriodEnd2" class="java.util.Date" isForPrompting="false">
+	<parameter name="endOfPeriod2" class="java.util.Date" isForPrompting="false">
 		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2016-03-31")]]></defaultValueExpression>
 	</parameter>
-	<parameter name="datePeriodStart3" class="java.util.Date" isForPrompting="false">
+	<parameter name="startOfPeriod3" class="java.util.Date" isForPrompting="false">
 		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2016-04-01")]]></defaultValueExpression>
 	</parameter>
-	<parameter name="datePeriodEnd3" class="java.util.Date" isForPrompting="false">
+	<parameter name="endOfPeriod3" class="java.util.Date" isForPrompting="false">
 		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2017-03-31")]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      CASE WHEN jobsubcategory.`SubCategory` LIKE '--'THEN 'Uncategorized'ELSE jobsubcategory.`SubCategory` END AS jobsubcategory_SubCategory,
      GROUP_CONCAT(job.`JOBNUMBER` SEPARATOR ', ') AS 'Job_Numbers',
-     CASE WHEN(jobstatusandtracking.`DATEOFCOMPLETION` >=$P{datePeriodStart1}AND jobstatusandtracking.`DATEOFCOMPLETION` <=$P{datePeriodEnd1})THEN 'Date Period 1'WHEN(jobstatusandtracking.`DATEOFCOMPLETION` >=$P{datePeriodStart2}AND jobstatusandtracking.`DATEOFCOMPLETION` <=$P{datePeriodEnd2})THEN 'Date Period 2'WHEN(jobstatusandtracking.`DATEOFCOMPLETION` >=$P{datePeriodStart3}AND jobstatusandtracking.`DATEOFCOMPLETION` <=$P{datePeriodEnd3})THEN 'Date Period 3'END AS Date_Period,
+     CASE WHEN(jobstatusandtracking.`DATEOFCOMPLETION` >=$P{startOfPeriod1}AND jobstatusandtracking.`DATEOFCOMPLETION` <=$P{endOfPeriod1})THEN 'Date Period 1'WHEN(jobstatusandtracking.`DATEOFCOMPLETION` >=$P{startOfPeriod2}AND jobstatusandtracking.`DATEOFCOMPLETION` <=$P{endOfPeriod2})THEN 'Date Period 2'WHEN(jobstatusandtracking.`DATEOFCOMPLETION` >=$P{startOfPeriod3}AND jobstatusandtracking.`DATEOFCOMPLETION` <=$P{endOfPeriod3})THEN 'Date Period 3'END AS Date_Period,
      SUM(jobcostingandpayment.`FINALCOST`) AS Earnings,
      department.`SUBGROUPCODE` AS department_SUBGROUPCODE,
      department.`NAME` AS department_NAME,
@@ -176,12 +178,12 @@ FROM
      INNER JOIN `jobcostingandpayment` jobcostingandpayment ON job.`JOBCOSTINGANDPAYMENT_ID` = jobcostingandpayment.`ID`
      INNER JOIN `department` department_A ON job.`SUBCONTRACTEDDEPARTMENT_ID` = department_A.`ID`
 WHERE
- ((jobstatusandtracking.`DATEOFCOMPLETION` >= $P{datePeriodStart1}
- AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{datePeriodEnd1})
-  OR (jobstatusandtracking.`DATEOFCOMPLETION` >= $P{datePeriodStart2}
- AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{datePeriodEnd2})
-  OR (jobstatusandtracking.`DATEOFCOMPLETION` >= $P{datePeriodStart3}
- AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{datePeriodEnd3}))
+ ((jobstatusandtracking.`DATEOFCOMPLETION` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{endOfPeriod1})
+  OR (jobstatusandtracking.`DATEOFCOMPLETION` >= $P{startOfPeriod2}
+ AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{endOfPeriod2})
+  OR (jobstatusandtracking.`DATEOFCOMPLETION` >= $P{startOfPeriod3}
+ AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{endOfPeriod3}))
  AND jobsubcategory.`IsEarning` = 1
  AND jobsubcategory.`active` = 1
  AND (department_A.`SUBGROUPCODE` = 0 OR department_A.`SUBGROUPCODE` IS NULL)
@@ -245,21 +247,21 @@ ORDER BY
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{datePeriodStart1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMM dd, yyyy">
 				<reportElement x="102" y="129" width="106" height="20" forecolor="#003366" uuid="cec39623-6095-42cf-8f97-d812d2723b4d"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{datePeriodStart2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{startOfPeriod2}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMM dd, yyyy">
 				<reportElement x="102" y="159" width="106" height="20" forecolor="#003366" uuid="bbe729b9-4a34-4abe-8eb7-7fe40081200b"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{datePeriodStart3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{startOfPeriod3}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="208" y="99" width="40" height="20" forecolor="#003366" uuid="166b02bb-1985-458f-9cd9-01fc97729241"/>
@@ -273,14 +275,14 @@ ORDER BY
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{datePeriodEnd1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMM dd, yyyy">
 				<reportElement x="248" y="129" width="112" height="20" forecolor="#003366" uuid="b7b9be0f-7da1-4e34-9cd8-59153ef86048"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{datePeriodEnd2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{endOfPeriod2}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="208" y="129" width="40" height="20" forecolor="#003366" uuid="264121fa-3af6-489c-886f-fae6a211344e"/>
@@ -294,7 +296,7 @@ ORDER BY
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{datePeriodEnd3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{endOfPeriod3}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="208" y="159" width="40" height="20" forecolor="#003366" uuid="bdb72d5e-16d5-40d8-a42d-19b63ebbcf8a"/>
@@ -325,22 +327,22 @@ ORDER BY
 					<dataset>
 						<datasetRun subDataset="Date Period Earnings Dataset" uuid="4e7824cc-d530-417d-862d-fef498e8448e">
 							<datasetParameter name="datePeriodStart1">
-								<datasetParameterExpression><![CDATA[$P{datePeriodStart1}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{startOfPeriod1}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodEnd1">
-								<datasetParameterExpression><![CDATA[$P{datePeriodEnd1}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{endOfPeriod1}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodStart2">
-								<datasetParameterExpression><![CDATA[$P{datePeriodStart2}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{startOfPeriod2}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodEnd2">
-								<datasetParameterExpression><![CDATA[$P{datePeriodEnd2}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{endOfPeriod2}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodStart3">
-								<datasetParameterExpression><![CDATA[$P{datePeriodStart3}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{startOfPeriod3}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodEnd3">
-								<datasetParameterExpression><![CDATA[$P{datePeriodEnd3}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{endOfPeriod3}]]></datasetParameterExpression>
 							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
@@ -510,22 +512,22 @@ ORDER BY
 					<dataset>
 						<datasetRun subDataset="Category Earnings Dataset" uuid="bb6f2705-8f7e-43d9-9456-bb55bc343862">
 							<datasetParameter name="datePeriodStart1">
-								<datasetParameterExpression><![CDATA[$P{datePeriodStart1}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{startOfPeriod1}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodEnd1">
-								<datasetParameterExpression><![CDATA[$P{datePeriodEnd1}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{endOfPeriod1}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodStart2">
-								<datasetParameterExpression><![CDATA[$P{datePeriodStart2}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{startOfPeriod2}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodEnd2">
-								<datasetParameterExpression><![CDATA[$P{datePeriodEnd2}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{endOfPeriod2}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodStart3">
-								<datasetParameterExpression><![CDATA[$P{datePeriodStart3}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{startOfPeriod3}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="datePeriodEnd3">
-								<datasetParameterExpression><![CDATA[$P{datePeriodEnd3}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$P{endOfPeriod3}]]></datasetParameterExpression>
 							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>

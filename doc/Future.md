@@ -213,7 +213,8 @@ dollar values that can be entered as system options.
 - For jasper reports fill in parameters such as images from configuration values 
   stored in the database.
 - Fix job search slowness:
-  * 
+- Upgrade the jasper report libraries via maven to be compatible with the latest
+  jasper soft studio. 
 
 ## Standards Compliance Module
 

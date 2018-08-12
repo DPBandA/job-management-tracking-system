@@ -22,51 +22,6 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>AnalyticalServicesReportRawData.jrxml</name>
-			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/AnalyticalServicesReportRawData.jrxml</location>
-		</link>
-		<link>
-			<name>BSJ Inspection Report.jrxml</name>
-			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/BSJ Inspection Report.jrxml</location>
-		</link>
-		<link>
-			<name>CAC Jobs Report.jrxml</name>
-			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/CAC Jobs Report.jrxml</location>
-		</link>
-		<link>
-			<name>ChemAndMicroBDepartmentJobs.jrxml</name>
-			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ChemAndMicroBDepartmentJobs.jrxml</location>
-		</link>
-		<link>
-			<name>Client List.jrxml</name>
-			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/Client List.jrxml</location>
-		</link>
-		<link>
-			<name>Client Served In Period.jrxml</name>
-			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/Client Served In Period.jrxml</location>
-		</link>
-		<link>
-			<name>ClientList.jrxml</name>
-			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ClientList.jrxml</location>
-		</link>
-		<link>
-			<name>Clients Grouped by Department.jrxml</name>
-			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/Clients Grouped by Department.jrxml</location>
-		</link>
-		<link>
-			<name>Clients served in period.jrxml</name>
-			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/Clients served in period.jrxml</location>
-		</link>
-		<link>
 			<name>ClientsList.jasper</name>
 			<type>1</type>
 			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ClientsList.jasper</location>
@@ -82,9 +37,14 @@
 			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ClientsServed.jasper</location>
 		</link>
 		<link>
-			<name>ClientsServed.jrxml</name>
+			<name>EarningsByCategory.jasper</name>
 			<type>1</type>
-			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/ClientsServed.jrxml</location>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/EarningsByCategory.jasper</location>
+		</link>
+		<link>
+			<name>EarningsByCategory.jrxml</name>
+			<type>1</type>
+			<location>C:/Users/dbennett/Documents/Projects/jmts/src/main/resources/reports/EarningsByCategory.jrxml</location>
 		</link>
 		<link>
 			<name>JobEnteredByReport.jasper</name>
