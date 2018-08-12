@@ -1,5 +1,10 @@
 ## Things to do
 
+### Notes
+- JMTS is trying to meet the needs of 3 diverse organizations...
+(1) standards, metrology & testing (BSJ) (2) compliance & regulatory (NCRA) 
+and (3) Certification (NCBJ)
+
 ### Reports
 - Add code to add client parameters.
 - Add all the relevant packaged reports in the "reports" resource folder delete
