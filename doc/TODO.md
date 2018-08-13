@@ -7,19 +7,17 @@ and (3) Certification (NCBJ)
 - Need for business analysis and process documentation for the 3 orgs. 
 
 ### Reports
-- Add code to add client parameters.
-- Add all the relevant packaged reports in the "reports" resource folder delete
-  the ones that are no longer needed.
-- Impl finance report showing jobs that are supposed to have deposits but don't
-  "Jobs Requiring Deposits" as the report.
-- Impl and add Legal reports. 
+- Impl and add Legal report template(s). 
 - Add report template for legal.
-- Deal with the multiple row entries all reports especially those used by 
-  Customer Service. See if "DISTINCT" solves the problem.
 - Make sure that for Legal Office the Legal report category is automatically selected.
+- Do training doc, list of requested changes and arrange training via email.
 
 ### Accpac Invoicing & Credit Status Reporting
 - Impl reporting client as credit client only if the credit limit is greater than 0.
+- Impl HR module with HumanResourceManager class:
+  * Add HR tab
+  * Create divisions and groups tabs
+  * All all human resource tab to HR tab
 - Impl invoice export.  
   * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
@@ -33,6 +31,13 @@ and (3) Certification (NCBJ)
   * Export invoices for only selected jobs?
   * Flag job as invoiced after export?
   * Make sure to add AccountingCode table to all along with data.  
+
+### Reports continued
+- Impl finance report showing jobs that are supposed to have deposits but don't
+  "Jobs Requiring Deposits" as the report.
+- Deal with the multiple row entries all reports especially those used by 
+  Customer Service. See if "DISTINCT" solves the problem.
+- Impl finding report by name and description?
 
 ### Updates based on training, testing and feedback
 - Allow creating subcontract from a subcontract.
