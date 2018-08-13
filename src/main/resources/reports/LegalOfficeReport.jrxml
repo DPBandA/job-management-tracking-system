@@ -39,6 +39,7 @@ ODYyN2YyMzs=]]>
 			<style mode="Opaque" forecolor="#000000" backcolor="#FF0000" fill="Solid" rotation="None" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false"/>
 		</conditionalStyle>
 	</style>
+	<style name="reportTitleStyle" hTextAlign="Center" fontSize="16" isBold="true"/>
 	<parameter name="reportTitle" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Legal Office Monthly Report for the period 1 to 31 January 2018 - Request by Category"]]></defaultValueExpression>
 	</parameter>
@@ -174,15 +175,15 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 	<title>
 		<band height="200" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="0" y="0" width="968" height="20" backcolor="#FFFF33" uuid="801cd672-2dfa-4c19-85d2-8de04e1b4243"/>
+				<reportElement key="" style="reportTitleStyle" mode="Opaque" x="0" y="-10" width="968" height="30" backcolor="#FFFF33" uuid="801cd672-2dfa-4c19-85d2-8de04e1b4243"/>
 				<box bottomPadding="0">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="SansSerif" size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
 			</textField>

@@ -638,6 +638,9 @@ public class ReportManager implements Serializable {
             if (con != null) {
                 StreamedContent streamContent;
                 byte[] fileBytes;
+                
+                // Provide reoprt parameters
+                parameters.put("reportTitle", selectedReport.getName());
 
                 // Provide date parameters if required
                 if (selectedReport.getDatePeriodRequired()) {
