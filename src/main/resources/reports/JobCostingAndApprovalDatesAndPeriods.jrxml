@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costing and Approval Dates and Periods" pageWidth="2048" pageHeight="595" orientation="Landscape" columnWidth="2008" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -13,10 +15,10 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="startOFPeriod" class="java.util.Date">
+	<parameter name="startOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="endOFPeriod" class="java.util.Date">
+	<parameter name="endOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -51,8 +53,8 @@ FROM
      INNER JOIN `client` client ON job.`CLIENT_ID` = client.`ID`
      INNER JOIN `jobsubcategory` jobsubcategory ON job.`JOBSUBCATEGORY_ID` = jobsubcategory.`ID`
 WHERE
-     jobstatusandtracking.`DATESUBMITTED` >= $P{startOFPeriod}
- AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOFPeriod}
+     jobstatusandtracking.`DATESUBMITTED` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOfPeriod1}
  AND jobsubcategory.`IsEarning` = 1
  AND jobstatusandtracking.`WORKPROGRESS` = 'Completed'
  AND client.`ACTIVE` = 1
@@ -86,21 +88,35 @@ GROUP BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="54" splitType="Stretch">
+		<band height="70" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="30" width="826" height="24" uuid="e7b3e603-6a90-490d-b930-2d05c7f366a6"/>
+				<reportElement mode="Opaque" x="0" y="5" width="826" height="36" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
 				<textElement textAlignment="Left" markup="none">
-					<font size="16" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Job Costing and Approval Dates and Periods (Mar 1, 2016 to Apr 30, 2017)]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="5" width="826" height="24" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
-				<textElement textAlignment="Left" markup="none">
-					<font size="18" isBold="true"/>
+					<font size="26" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Bureau of Standards Jamaica]]></text>
 			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement x="0" y="41" width="138" height="29" uuid="28e170c0-3a2f-4fc1-8286-56d5206caf1d"/>
+				<textElement>
+					<font fontName="Arial" size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="138" y="41" width="24" height="29" uuid="db897ea0-298c-4557-a1bd-3ba82fc68326"/>
+				<textElement>
+					<font fontName="Arial" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement x="162" y="41" width="178" height="29" uuid="14e35e48-cc2f-404f-a176-9d25c491f95d"/>
+				<textElement>
+					<font fontName="Arial" size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

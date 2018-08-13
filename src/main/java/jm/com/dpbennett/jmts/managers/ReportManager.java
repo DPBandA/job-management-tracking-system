@@ -665,6 +665,14 @@ public class ReportManager implements Serializable {
                     }
                 }
                 // Provide client parameters if required
+                if (selectedReport.getClientRequired()) {
+                    for (int i = 0; i < selectedReport.getClients().size(); i++) {
+                        parameters.put("clientId" + (i + 1),
+                                selectedReport.getClients().get(i).getId());
+                        parameters.put("clientName" + (i + 1),
+                                selectedReport.getClients().get(i).getName());
+                    }
+                }
 
                 print = getJasperPrint(con, parameters);
 

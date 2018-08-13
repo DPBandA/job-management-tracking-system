@@ -1,9 +1,10 @@
 ## Things to do
 
-### Notes
+### Notes for reporting
 - JMTS is trying to meet the needs of 3 diverse organizations...
 (1) standards, metrology & testing (BSJ) (2) compliance & regulatory (NCRA) 
 and (3) Certification (NCBJ)
+- Need for business analysis and process documentation for the 3 orgs. 
 
 ### Reports
 - Add code to add client parameters.
@@ -17,11 +18,21 @@ and (3) Certification (NCBJ)
   Customer Service. See if "DISTINCT" solves the problem.
 - Make sure that for Legal Office the Legal report category is automatically selected.
 
-### Next Status Update Notes
-- Add users, update database, etc. under sys admin
-- Mention work on BPM 
-- Mention development and testing of infrastructure modules of the JMTS.
-- Get copy of ISO/IEC 42010 for Software Architecture.
+### Accpac Invoicing & Credit Status Reporting
+- Impl reporting client as credit client only if the credit limit is greater than 0.
+- Impl invoice export.  
+  * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
+  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
+  * In onJobCostingCellEdit save JCP and client only if these were table cells 
+    were edited. Also new Accounting codes are being saved. Fix!
+  * Change "Service Contract" to "Services" and make "Service Contract" a "sub tab"
+  * Impl fill out of Invoice_Details sheet
+    - Impl fill out of multiple CNTLINE for each CNTITEM.
+    - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
+      in Financial Admin. NB impl finding code by name and description.
+  * Export invoices for only selected jobs?
+  * Flag job as invoiced after export?
+  * Make sure to add AccountingCode table to all along with data.  
 
 ### Updates based on training, testing and feedback
 - Allow creating subcontract from a subcontract.
@@ -45,20 +56,7 @@ and (3) Certification (NCBJ)
   department head where appropriate eg send alert to parent job assignee and the
   person who entered the job when child job is approved.
   
-### Accpac Invoicing etc.
-- Impl invoice export.  
-  * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
-  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
-  * In onJobCostingCellEdit save JCP and client only if these were table cells 
-    were edited. Also new Accounting codes are being saved. Fix!
-  * Change "Service Contract" to "Services" and make "Service Contract" a "sub tab"
-  * Impl fill out of Invoice_Details sheet
-    - Impl fill out of multiple CNTLINE for each CNTITEM.
-    - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
-      in Financial Admin. NB impl finding code by name and description.
-  * Export invoices for only selected jobs?
-  * Flag job as invoiced after export?
-  * Make sure to add AccountingCode table to all along with data.  
+### General
 - Fix up the client editing in the job detail dialog. May update or reset the 
   address or contact when the client dialog returns.
 - For client credit status check, note client is a credit client if they are "TRADE"

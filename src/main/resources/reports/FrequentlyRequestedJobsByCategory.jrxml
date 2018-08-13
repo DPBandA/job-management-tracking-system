@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Frequently Requested Jobs by Category" pageWidth="2048" pageHeight="595" orientation="Landscape" columnWidth="2008" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="201"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="792"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -13,15 +17,27 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="startOFPeriod" class="java.util.Date">
+	<parameter name="startOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="endOFPeriod" class="java.util.Date">
+	<parameter name="endOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-     CASE WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=1 THEN 'January'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=2 THEN 'February'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=3 THEN 'March'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=4 THEN 'April'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=5 THEN 'May'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=6 THEN 'June'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=7 THEN 'July'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=8 THEN 'August'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=9 THEN 'September'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=10 THEN 'October'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=11 THEN 'November'WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=12 THEN 'December'END AS Month,
+     CASE WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=1 THEN 'January' 
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=2 THEN 'February'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=3 THEN 'March'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=4 THEN 'April'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=5 THEN 'May'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=6 THEN 'June'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=7 THEN 'July'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=8 THEN 'August'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=9 THEN 'September'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=10 THEN 'October'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=11 THEN 'November'
+               WHEN MONTH(jobstatusandtracking.`DATEOFCOMPLETION`)=12 THEN 'December'
+               END AS Month,
      SUM(jobcostingandpayment.`FINALCOST`) AS Cost,
      COUNT(job.`ID`) AS NumOfJobs,
      jobstatusandtracking.`DATEOFCOMPLETION` AS jobstatusandtracking_DATEOFCOMPLETION,
@@ -39,8 +55,8 @@ FROM
      INNER JOIN `department` department ON job.`DEPARTMENT_ID` = department.`ID`
      INNER JOIN `department` department_A ON job.`SUBCONTRACTEDDEPARTMENT_ID` = department_A.`ID`
 WHERE
-     jobstatusandtracking.`DATEOFCOMPLETION` >= $P{startOFPeriod}
- AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{endOFPeriod}
+     jobstatusandtracking.`DATEOFCOMPLETION` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`DATEOFCOMPLETION` <= $P{endOfPeriod1}
  AND jobsubcategory.`IsEarning` = 1
  AND jobstatusandtracking.`WORKPROGRESS` = 'Completed'
  AND (department_A.`NAME` = '--'
@@ -70,21 +86,35 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="54" splitType="Stretch">
+		<band height="70" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="30" width="781" height="24" uuid="e7b3e603-6a90-490d-b930-2d05c7f366a6"/>
+				<reportElement mode="Opaque" x="1" y="5" width="826" height="36" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
 				<textElement textAlignment="Left" markup="none">
-					<font size="16" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Frequently Requested Jobs by Category (Mar 1, 2016 to Apr 30, 2017)]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="1" y="5" width="826" height="24" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
-				<textElement textAlignment="Left" markup="none">
-					<font size="18" isBold="true"/>
+					<font fontName="SansSerif" size="26" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Bureau of Standards Jamaica]]></text>
 			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement x="0" y="41" width="138" height="29" uuid="4395d2c8-482b-49f5-954a-b79435fb58ac"/>
+				<textElement>
+					<font fontName="Arial" size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="138" y="41" width="24" height="29" uuid="45c619fa-38c2-4f7b-b010-861437d0e024"/>
+				<textElement>
+					<font fontName="Arial" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement x="162" y="41" width="178" height="29" uuid="5e3b36bb-db46-48e0-9853-9b69fff41f4b"/>
+				<textElement>
+					<font fontName="Arial" size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
