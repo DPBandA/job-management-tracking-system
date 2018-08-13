@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Legal Office Monthly Report" pageWidth="1008" pageHeight="612" orientation="Landscape" columnWidth="968" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="3ff111b8-3d9a-4c47-b35c-44d4874dbfa2">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -9,8 +9,7 @@
 		<![CDATA[bGVnYWxkb2N1bWVudCBBUyAsMTYwLDE1LGIxNWRjOTQ5LTMxZGMtNGFjMi05NGIxLTllYjk1MGZk
 ZGEwOTtlbXBsb3llZSAsMTUsMTA2LDBmOTVhYzdlLTJkNWQtNDQyYS05ZTY0LWNkYWIzMzZlM2Y3
 NTtqbXRzLmRvY3VtZW50dHlwZSAsMzk5LDkyLGM0NjZjMWI2LTFhMTItNDdmZC05ZTkwLWE3MGEw
-ODYyN2YyMzs=
-]]>
+ODYyN2YyMzs=]]>
 	</property>
 	<style name="particularsStyle" mode="Transparent" fill="Solid" hTextAlign="Left" hImageAlign="Left" vTextAlign="Top" vImageAlign="Top" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
 		<conditionalStyle>
@@ -43,8 +42,8 @@ ODYyN2YyMzs=
 	<parameter name="reportTitle" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Legal Office Monthly Report for the period 1 to 31 January 2018 - Request by Category"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="startPeriod1" class="java.util.Date"/>
-	<parameter name="startPeriod2" class="java.util.Date"/>
+	<parameter name="startOfPeriod1" class="java.util.Date"/>
+	<parameter name="endOfPeriod1" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[SELECT legaldocument.`ID` AS legaldocument_ID,
 	legaldocument.`NUMBER` AS legaldocument_NUMBER,
@@ -67,8 +66,8 @@ FROM employee employee
 	INNER JOIN jmts.documenttype ON 
 	 jmts.documenttype.`ID` = legaldocument.`TYPE_ID` 
 WHERE 
-	 legaldocument.`DATERECEIVED` >= $P{startPeriod1} 
-	 AND legaldocument.`DATERECEIVED` <= $P{startPeriod2} 
+	 legaldocument.`DATERECEIVED` >= $P{startOfPeriod1} 
+	 AND legaldocument.`DATERECEIVED` <= $P{endOfPeriod1} 
 ORDER BY legaldocument.`TYPE_ID` DESC]]>
 	</queryString>
 	<field name="legaldocument_ID" class="java.lang.Long">
