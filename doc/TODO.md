@@ -34,7 +34,8 @@ and (3) Certification (NCBJ)
   * Make sure to add AccountingCode table to all along with data.  
 
 ### Reports continued
-- jasper fonts, 4.7.0, 6.0.0
+- Remove the jasper-fonts from the hrm server and restart it to make use of the
+  jasper fonts deployed with JMTS
 - Add default report category to JobManagerUser.
 - Including other existing reports where necessary
 - Impl finance report showing jobs that are supposed to have deposits but don't

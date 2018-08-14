@@ -746,7 +746,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 //        int days = Integer.parseInt((String) SystemOption.getOptionValueObject(em, "maxDaysPassInvoiceDate"));
         int days = (Integer) SystemOption.getOptionValueObject(em, "maxDaysPassInvoiceDate");
 
-
         return days;
     }
 
@@ -1819,7 +1818,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             getCurrentJob().getJobCostingAndPayment().setCashPayments(jcp.getCashPayments());
 
-            
             PrimeFacesUtils.openDialog(null, "/finance/jobCostingDialog", true, true, true, 600, 850);
         } else {
             PrimeFacesUtils.addMessage("Job NOT Saved",
@@ -2164,7 +2162,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getCustomerType() {
-        if (accPacCustomer.getIDACCTSET().equals("TRADE")) {
+        if (accPacCustomer.getIDACCTSET().equals("TRADE")
+                && accPacCustomer.getCreditLimit().doubleValue() > 0.0) {
             return "CREDIT";
         } else {
             return "REGULAR";
@@ -2300,7 +2299,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         PrimeFaces.current().dialog().closeDynamic(null);
 
     }
-    
+
     public void checkForSubcontracts(ActionEvent event) {
 
         PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
