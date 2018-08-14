@@ -65,6 +65,7 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.dateSearchPeriod.startDate}"                    
                         size="17"
                         navigator="true"
+                        validator="requiredFieldValidator"
                         disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
                         pattern="MMM dd, yyyy" >
                 <p:ajax event="dateSelect"                            
@@ -78,6 +79,7 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.dateSearchPeriod.endDate}"
                         size="17"
                         navigator="true"
+                        validator="requiredFieldValidator"
                         disabled="#{jobManager.dateSearchPeriod.endDateDisabled}"
                         pattern="MMM dd, yyyy" >
                 <p:ajax event="dateSelect"                           

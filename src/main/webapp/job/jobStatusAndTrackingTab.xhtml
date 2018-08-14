@@ -118,13 +118,13 @@ Email: info@dpbennett.com.jm
 
                     <p:autoComplete id="completedBy"
                                     disabled="#{!jobManager.completed}"
-                                    var="assignedTo"
+                                    var="completedBy"
                                     maxlength="250"
                                     readonly="true"
-                                    value="#{jobManager.currentJob.assignedTo}"
-                                    title="#{jobManager.currentJob.assignedTo}"
-                                    itemLabel="#{assignedTo.name}"
-                                    itemValue="#{assignedTo}"
+                                    value="#{jobManager.currentJob.jobStatusAndTracking.completedBy}"
+                                    title="#{jobManager.currentJob.jobStatusAndTracking.completedBy}"
+                                    itemLabel="#{completedBy.name}"
+                                    itemValue="#{completedBy}"
                                     converter="employeeConverter"
                                     forceSelection="true"
                                     completeMethod="#{App.completeEmployee}" >

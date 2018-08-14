@@ -244,8 +244,6 @@ public class ComplianceManager implements Serializable {
     }
 
     public void updateSearch() {
-        //tk
-        System.out.println("impl..");
     }
 
     public List<DocumentInspection> getDocumentInspections() {
@@ -1482,7 +1480,7 @@ public class ComplianceManager implements Serializable {
                 if (con != null) {
                     StreamedContent streamContent;
 
-                    String reportFileURL = SystemOption.findSystemOptionByName(em, form).getOptionValue();
+                    String reportFileURL = (String) SystemOption.getOptionValueObject(em, form);
 
                     // make sure is parameter is set for all forms
                     parameters.put("formId", currentComplianceSurvey.getId().longValue());
@@ -1554,7 +1552,7 @@ public class ComplianceManager implements Serializable {
             if (con != null) {
                 StreamedContent streamContent;
 
-                String reportFileURL = SystemOption.findSystemOptionByName(em, "complianceDailyReport").getOptionValue();
+                String reportFileURL = (String) SystemOption.getOptionValueObject(em, "complianceDailyReport");
 
                 // make sure is parameter is set for all forms
                 parameters.put("team", currentComplianceDailyReport.getTeam());

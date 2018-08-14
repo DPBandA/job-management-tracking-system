@@ -50,7 +50,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
-import jm.com.dpbennett.business.entity.AccPacDocument;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.BusinessOffice;
@@ -99,6 +98,7 @@ import org.primefaces.event.CellEditEvent;
 public class JobManager implements Serializable, BusinessEntityManagement,
         DialogActionHandler, UserManagement, MessageManagement {
 
+    private Application application;
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
@@ -156,10 +156,22 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         init();
     }
 
+    public Application getApplication() {
+        if (application == null) {
+            application = Application.findBean("App");
+        }
+        return application;
+    }
+
     public void updateAccPacCustomer(SelectEvent event) {
         EntityManager em = getEntityManager2();
 
         accPacCustomer = AccPacCustomer.findByName(em, accPacCustomer.getCustomerName().trim());
+        if (accPacCustomer != null) {
+            if (accPacCustomer.getId() != null) {
+                accPacCustomer.setIsDirty(true);
+            }
+        }
     }
 
     public AccPacCustomer getAccPacCustomer() {
@@ -174,13 +186,24 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void onJobCostingCellEdit(CellEditEvent event) {
-        
+
+        // Update and save client if edited
+        if (getAccPacCustomer().getIsDirty()) {
+            getJobSearchResultList().get(event.getRowIndex()).
+                    getClient().setAccountingId(getAccPacCustomer().getId());
+            getJobSearchResultList().get(event.getRowIndex()).
+                    getClient().setEditedBy(getUser().getEmployee());
+            getJobSearchResultList().get(event.getRowIndex()).
+                    getClient().save(getEntityManager1());
+
+            accPacCustomer = new AccPacCustomer();
+        }
+
+        // Update and save job costing and payment if edited        
         getJobSearchResultList().get(event.getRowIndex()).
-                getClient().setAccountingId(getAccPacCustomer().getId());
+                getJobCostingAndPayment().setIsDirty(true);
         getJobSearchResultList().get(event.getRowIndex()).
-                getClient().setEditedBy(getUser().getEmployee());
-        getJobSearchResultList().get(event.getRowIndex()).
-                getClient().save(getEntityManager1());
+                getJobCostingAndPayment().save(getEntityManager1());
     }
 
     private void init() {
@@ -307,17 +330,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public ArrayList getDateSearchFields() {
-        ArrayList dateSearchFields = new ArrayList();
-
-        dateSearchFields.add(new SelectItem("dateAndTimeEntered", "Date entered"));
-        dateSearchFields.add(new SelectItem("dateSubmitted", "Date submitted"));
-        dateSearchFields.add(new SelectItem("dateCostingApproved", "Date costing approved"));
-        dateSearchFields.add(new SelectItem("dateOfCompletion", "Date completed"));
-        dateSearchFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
-        dateSearchFields.add(new SelectItem("dateSamplesCollected", "Date sample(s) collected"));
-        dateSearchFields.add(new SelectItem("dateDocumentCollected", "Date document(s) collected"));
-
-        return dateSearchFields;
+        return DatePeriod.getDateSearchFields();
     }
 
     public ArrayList getAuthorizedSearchTypes() {
@@ -361,6 +374,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             PrimeFaces.current().ajax().update("headerForm:growl3");
             currentJob.setIsDirty(false);
         }
+        
+        // tk 
+//        System.out.println("removing current job");
+//        if (getApplication().findOpenedJob(currentJob.getId()) != null) {
+//            getApplication().removeOpenedJob(currentJob);
+//        }
     }
 
     public void reset() {
@@ -413,17 +432,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getApplicationHeader() {
-        SystemOption option = SystemOption.findSystemOptionByName(getEntityManager1(),
+        String option = (String) SystemOption.getOptionValueObject(getEntityManager1(),
                 "applicationHeader");
 
-        return (option != null ? option.getOptionValue() : "Job Management & Tracking System");
+        return (!"".equals(option) ? option : "Job Management & Tracking System");
 
     }
 
     public String getApplicationSubheader() {
-        String subHeader = SystemOption.findSystemOptionByName(
+        String subHeader = (String) SystemOption.getOptionValueObject(
                 getEntityManager1(),
-                "applicationSubheader").getOptionValue();
+                "applicationSubheader");
 
         if (subHeader != null) {
             if (subHeader.trim().equals("None")) {
@@ -620,8 +639,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (loginAttempts == 2) {
             PrimeFaces.current().executeScript("PF('loginAttemptsDialog').show();");
             try {
-                // send email to system administrator
-                BusinessEntityUtils.postMail(null, null, "Failed user login", "Username: " + username + "\nDate/Time: " + new Date());
+                // Send email to system administrator alert if activated
+                if ((Boolean) SystemOption.getOptionValueObject(getEntityManager1(),
+                        "developerEmailAlertActivated")) {
+                    BusinessEntityUtils.postMail(null, null, "Failed user login", "Username: " + username + "\nDate/Time: " + new Date());
+                }
             } catch (Exception ex) {
                 Logger.getLogger(JobManager.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -727,9 +749,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void handleKeepAlive() {
         getUser().setPollTime(new Date());
-        // NB: Time is based on the time zone set in the application server
-        // tk print if "debug is set to true
-        System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
+
+        if ((Boolean) SystemOption.getOptionValueObject(getEntityManager1(), "debugMode")) {
+            System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
+        }
         if (getUser().getId() != null) {
             getUser().save(getEntityManager1());
         }
@@ -1069,9 +1092,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             serviceContractStreamContent = getContractManager().getServiceContractStreamContent();
 
             setLongProcessProgress(100);
+
         } catch (Exception e) {
             System.out.println(e);
-            setLongProcessProgress(100);
+            setLongProcessProgress(0);
         }
 
         return serviceContractStreamContent;
@@ -1490,6 +1514,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob.getJobStatusAndTracking().setDocumentCollected(false);
                 // overall job completion
                 currentJob.getJobStatusAndTracking().setDateOfCompletion(null);
+                currentJob.getJobStatusAndTracking().
+                        setCompletedBy(null);
                 // sample collection
                 currentJob.getJobStatusAndTracking().setSamplesCollectedBy(null);
                 currentJob.getJobStatusAndTracking().setDateSamplesCollected(null);
@@ -1508,6 +1534,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             } else {
                 currentJob.getJobStatusAndTracking().setCompleted(true);
                 currentJob.getJobStatusAndTracking().setDateOfCompletion(new Date());
+                currentJob.getJobStatusAndTracking().
+                        setCompletedBy(getUser().getEmployee());
             }
 
             setIsDirty(true);
@@ -1958,7 +1986,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         currentJob.getJobStatusAndTracking().setEditStatus("");
         PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
-
+        
     }
 
     public void editJobCostingAndPayment() {
@@ -2161,22 +2189,31 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return jobSearchResultList;
     }
 
-    public Job getCurrentJob() {
+    public /*synchronized*/ Job getCurrentJob() {
         if (currentJob == null) {
             resetCurrentJob();
         }
         return currentJob;
     }
 
-    public void setCurrentJob(Job currentJob) {
+    public /*synchronized*/ void setCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
     }
 
     // tk rename to setTargetJob
     public void setEditCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
-        this.currentJob.setVisited(true);
+        this.currentJob.setVisited(true);        
         getFinanceManager().setEnableOnlyPaymentEditing(false);
+
+        // tk
+//        if (getApplication().findOpenedJob(this.currentJob.getId()) == null) {
+//            this.currentJob.setOpenedBy(getUser());
+//            getApplication().addOpenedJob(this.currentJob);
+//        } 
+//        else {
+//            
+//        }
     }
 
     public void setEditJobCosting(Job currentJob) {
@@ -2409,7 +2446,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (mailSession == null) {
             //Set the host smtp address
             Properties props = new Properties();
-            String mailServer = SystemOption.findSystemOptionByName(getEntityManager1(), "mail.smtp.host").getOptionValue();
+            String mailServer = (String) SystemOption.getOptionValueObject(getEntityManager1(), "mail.smtp.host");
             props.put("mail.smtp.host", mailServer);
 
             // create some properties and get the default Session
@@ -2421,8 +2458,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
 
         // set the from and to address
-        String email = SystemOption.findSystemOptionByName(em, "jobManagerEmailAddress").getOptionValue();
-        String name = SystemOption.findSystemOptionByName(em, "jobManagerEmailName").getOptionValue();
+        String email = (String) SystemOption.getOptionValueObject(em, "jobManagerEmailAddress");
+        String name = (String) SystemOption.getOptionValueObject(em, "jobManagerEmailName");
         InternetAddress addressFrom = new InternetAddress(email, name); // option job manager email addres
         msg.setFrom(addressFrom);
 
@@ -2430,8 +2467,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (user != null) {
             addressTo[0] = new InternetAddress(user.getUsername(), user.getEmployee().getFirstName() + " " + user.getEmployee().getLastName());
         } else {
-            String email1 = SystemOption.findSystemOptionByName(em, "administratorEmailAddress").getOptionValue();
-            String name1 = SystemOption.findSystemOptionByName(em, "administratorEmailName").getOptionValue();
+            String email1 = (String) SystemOption.getOptionValueObject(em, "administratorEmailAddress");
+            String name1 = (String) SystemOption.getOptionValueObject(em, "administratorEmailName");
             addressTo[0] = new InternetAddress(email1, name1);
         }
 
@@ -2458,8 +2495,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             if (mailSession == null) {
                 //Set the host smtp address
                 Properties props = new Properties();
-                String mailServer = SystemOption.findSystemOptionByName(em, "mail.smtp.host").getOptionValue();
-                String trust = SystemOption.findSystemOptionByName(em, "mail.smtp.ssl.trust").getOptionValue();
+                String mailServer = (String) SystemOption.getOptionValueObject(em, "mail.smtp.host");
+                String trust = (String) SystemOption.getOptionValueObject(em, "mail.smtp.ssl.trust");
                 props.put("mail.smtp.host", mailServer);
                 props.setProperty("mail.smtp.ssl.trust", trust);
 
@@ -2472,8 +2509,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
 
             // set the from and to address
-            String email = SystemOption.findSystemOptionByName(em, "jobManagerEmailAddress").getOptionValue();
-            String name = SystemOption.findSystemOptionByName(em, "jobManagerEmailName").getOptionValue();
+            String email = (String) SystemOption.getOptionValueObject(em, "jobManagerEmailAddress");
+            String name = (String) SystemOption.getOptionValueObject(em, "jobManagerEmailName");
             InternetAddress addressFrom = new InternetAddress(email, name);
             msg.setFrom(addressFrom);
 

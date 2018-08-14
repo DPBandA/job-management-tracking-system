@@ -63,6 +63,7 @@ I am available to provide clarification if required.
 
 ## Task Management
 
+- Add collection of tasks to a job.
 - Create Task class and allow entry of requests from internal and external clients as tasks. Get ideas from the Legal Office system.
 - Enter a default turnaround time or allow entry of specific TAT.
 - Alerts when tasks are due or soon due. Multiple alerts can be sent when required action is not taken such as when the task is not marked completed after x days.
@@ -71,9 +72,17 @@ I am available to provide clarification if required.
 
 ## System Design and Implementation
 
-- Put number of recors found at tp of all search tables.
+- Add privileges to add/edit products and services.
+- Add Service collection to Job class and synch the selection of the services
+  in the Service Contract with the services collection. Add tab to system admin
+  for this.
+- Add tab for Products to sys admin and use the product names in the autocomplete
+  for the job sample common name.
+- Impl List<Double> etc. and use them where needed such as with list of percentages.
+- Impl validation of option value type.
+- Put number of records found at tp of all search tables.
 - Make all dialogs external dialogs and messages. Start with address and contact dialogs.
-- Iml "login" in separate in login.xhtml file and make it the default page. Research best practices for implementing login screens.
+- Impl "login" in separate in login.xhtml file and make it the default page. Research best practices for implementing login screens.
 - Reload page when logo is pressed.
 - Job "Edited by" does not seem to be updated when job costing is edited and saved. Fix.
 - Get rid of individual business entity searches and implement "search panel" when the various search types. Implement business entity table that displays the search results.
@@ -172,9 +181,13 @@ dollar values that can be entered as system options.
 - Implement a system to alert users if they have the same job opened.
 - Alerts to be escalated where necessary if action is not taken in due time.
 - Use BPM process to send email to job reps.
+- The message that is displayed when an attempt is made to save a completed job
+  does not explain why the job cannot be saved. Fix!
 
 ## Reports, Queries and Views
 
+- Modify all reports to take the name of the organization that generates the
+  report.
 - Use "Special Result Types" and "Handling Multiple Result Types" to create
   "smaller" query results return lists and deal with the "slowness" when doing
   job searches. 
@@ -200,7 +213,8 @@ dollar values that can be entered as system options.
 - For jasper reports fill in parameters such as images from configuration values 
   stored in the database.
 - Fix job search slowness:
-  * 
+- Upgrade the jasper report libraries via maven to be compatible with the latest
+  jasper soft studio. 
 
 ## Standards Compliance Module
 
@@ -409,11 +423,18 @@ and the results of the investigations.
 
 ## Sample Management
 
+- Create field for "Product standard name" separate from "Product common name".
+  Make it an autocomplete field that is populated from the MarketProduct 
+  table(with product type field.)
 - Implement copy, delete etc. sample within the sample dialog?
 - Add feature to add picture to job sample record by using the camera attached to the system
 
 ## Client Management
 
+- When a blank a " -- none --" contact or address is edited it does not register
+  as edited. May have to disable "Edit" menu item when " -- none --" appears.
+- Make address and contact dialogs external and implement adding contact/address 
+  via the client's action menu.
 - Search for any part of client in Client Management search.
 - Add priv to add/del contact/address.
 - Creating a new contact using the edit but for "Most recent contact" does not seem to work when there are not contacts in the list. Check why this happens.
@@ -450,6 +471,9 @@ use it
 
 ## Job Entry and Editing
 
+- Invalid billing address message appears even though a valid address is displayed
+  in the field. Check what could cause this and fix. This happened with 30/2018/4083.
+  Help solve by updating the jobs billing address with the recently edited client address/contact.
 - Do not allow saving of edited job once it is marked completed.
 - Do not flag job as completed until all group settings are selected.
 - Let the subcontracted department be null for parent job and change the job numbering
@@ -458,6 +482,9 @@ use it
 - Implement "Actions" menu in job tables that has "Edit", "Copy", "Subcontract". The privileges should be checked before doing so.
 - Validate the sample dialog info before closing it.
 - Check why GCT field shows yellow although it can be changed.
+- Job sample references seemingly get messed up when sample(s) is(are) deleted. Fix.
+- General information seem to get deleted when a sample is deleted especially 
+  before the job is saved. Fix.
 - When blank business office is selected and job saved the no message comes up. Fix!!
 - Automatically add the person sub contracting a job as the contact person
 - Add contact field to job. If not contact is assigned, assign the "main" contact to the job. Update service contract, job costing etc to reflect this.

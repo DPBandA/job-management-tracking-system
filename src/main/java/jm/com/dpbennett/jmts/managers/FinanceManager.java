@@ -20,6 +20,10 @@ Email: info@dpbennett.com.jm
 package jm.com.dpbennett.jmts.managers;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -41,6 +45,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.AccPacDocument;
+import jm.com.dpbennett.business.entity.AccountingCode;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Client;
@@ -71,6 +76,11 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
+import jm.com.dpbennett.jmts.utils.MainTabView;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 
@@ -87,7 +97,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;
-    //private Job currentJob;
     private CashPayment selectedCashPayment;
     private StreamedContent jobCostingFile;
     private Integer longProcessProgress;
@@ -95,10 +104,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private List<AccPacDocument> filteredAccPacCustomerDocuments;
     private Boolean useAccPacCustomerList;
     private CostComponent selectedCostComponent;
+    private JobCostingAndPayment selectedJobCostingAndPayment;
     private String selectedJobCostingTemplate;
+    private AccountingCode selectedAccountingCode;
     private Department unitCostDepartment;
     private UnitCost currentUnitCost;
-    private String searchText;
+    private String accountingCodeSearchText;
     private List<UnitCost> unitCosts;
     private String dialogActionHandlerId;
     private List<Job> jobsWithCostings;
@@ -117,12 +128,257 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private Boolean enableOnlyPaymentEditing;
     private JobManager jobManager;
     private Boolean edit;
+    private String fileDownloadErrorMessage;
+    private List<AccountingCode> foundAccountingCodes;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public FinanceManager() {
         init();
+    }
+
+    public JobCostingAndPayment getSelectedJobCostingAndPayment() {
+        return selectedJobCostingAndPayment;
+    }
+
+    public void setSelectedJobCostingAndPayment(JobCostingAndPayment selectedJobCostingAndPayment) {
+        this.selectedJobCostingAndPayment = selectedJobCostingAndPayment;
+    }
+
+    public void onAccountingCodeCellEdit(CellEditEvent event) {
+        int index = event.getRowIndex();
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        try {
+            if (newValue != null && !newValue.equals(oldValue)) {
+                if (!newValue.toString().trim().equals("")) {
+                    AccountingCode code = getFoundAccountingCodes().get(index);
+                    code.save(getEntityManager1());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public List<AccountingCode> getFoundAccountingCodes() {
+        if (foundAccountingCodes == null) {
+            foundAccountingCodes = AccountingCode.findAllAccountingCodes(getEntityManager1());
+        }
+
+        return foundAccountingCodes;
+    }
+
+    public void setFoundAccountingCodes(List<AccountingCode> foundAccountingCodes) {
+        this.foundAccountingCodes = foundAccountingCodes;
+    }
+
+    public void doAccountingCodeSearch() {
+
+        foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
+                getAccountingCodeSearchText());
+
+        if (foundAccountingCodes == null) {
+            foundAccountingCodes = new ArrayList<>();
+        }
+    }
+
+    public List getAccountingCodeTypes() {
+        ArrayList valueTypes = new ArrayList();
+
+        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));
+        valueTypes.add(new SelectItem("General", "General"));
+
+        return valueTypes;
+    }
+
+    public void cancelDialogEdit(ActionEvent actionEvent) {
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
+
+    public void saveSelectedAccountingCode() {
+
+        selectedAccountingCode.save(getEntityManager1());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+
+    }
+
+    public void createNewAccountingCode() {
+
+        selectedAccountingCode = new AccountingCode();
+
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 330, 500);
+    }
+
+    public void editAccountingCode() {
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 330, 500);
+    }
+
+    public MainTabView getMainTabView() {
+
+        return getJobManager().getMainTabView();
+    }
+
+    public AccountingCode getSelectedAccountingCode() {
+        return selectedAccountingCode;
+    }
+
+    public void setSelectedAccountingCode(AccountingCode selectedAccountingCode) {
+        this.selectedAccountingCode = selectedAccountingCode;
+    }
+
+    public List<AccountingCode> completeAccountingCode(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<AccountingCode> accountingCodes
+                    = AccountingCode.findAccountingCodesByNameAndDescription(em, query);
+
+            return accountingCodes;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public StreamedContent getAccpacInvoicesFile() {
+
+        try {
+            ByteArrayInputStream stream;
+
+            stream = getAccpacInvoicesFileInputStream(
+                    new File(getClass().getClassLoader().
+                            getResource("/reports/"
+                                    + (String) SystemOption.getOptionValueObject(getEntityManager1(),
+                                            "AccpacInvoicesFileTemplateName")).getFile()));
+
+            setLongProcessProgress(100);
+
+            return new DefaultStreamedContent(stream,
+                    "application/xlsx",
+                    "Invoices-" + BusinessEntityUtils.getDateInMediumDateAndTimeFormat(new Date())
+                    + "-" + fileDownloadErrorMessage + ".xlsx");
+
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+        return null;
+    }
+
+    public ByteArrayInputStream getAccpacInvoicesFileInputStream(
+            File file) {
+
+        try {
+            FileInputStream inp = new FileInputStream(file);
+            int invoiceRow = 1;
+            int invoiceDetailsRow = 1;
+            int invoiceCol;
+            int invoiceDetailsCol;
+
+            fileDownloadErrorMessage = "";
+
+            XSSFWorkbook wb = new XSSFWorkbook(inp);
+            XSSFCellStyle stringCellStyle = wb.createCellStyle();
+            XSSFCellStyle integerCellStyle = wb.createCellStyle();
+            XSSFCellStyle doubleCellStyle = wb.createCellStyle();
+            XSSFCellStyle dateCellStyle = wb.createCellStyle();
+            CreationHelper createHelper = wb.getCreationHelper();
+            dateCellStyle.setDataFormat(
+                    createHelper.createDataFormat().getFormat("m/d/yyyy"));
+
+            // Output stream for modified Excel file
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+            // Get sheets          
+            XSSFSheet invoices = wb.getSheet("Invoices");
+            XSSFSheet invoiceDetails = wb.getSheet("Invoice_Details");
+
+            // Get report data
+            List<Job> reportData = getJobManager().getJobSearchResultList();
+            for (Job job : reportData) {
+                invoiceCol = 0;
+                invoiceDetailsCol = 0;
+
+                // Fill out the Invoices 
+                // CNTBTCH (batch number)
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        0,
+                        "java.lang.Integer", integerCellStyle);
+                // CNTITEM (Item number)
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        invoiceRow,
+                        "java.lang.Integer", integerCellStyle);
+                // IDCUST (Customer Id)
+                if (job.getClient().getAccountingId().isEmpty()) {
+                    fileDownloadErrorMessage = "Error - missing customer id(s)";
+                }
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        job.getClient().getAccountingId(),
+                        "java.lang.String", stringCellStyle);
+                // IDINVC (Invoice No./Id)
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        "IN" + job.getYearReceived() + "" + job.getJobSequenceNumber(),
+                        "java.lang.String", stringCellStyle);
+                // TEXTTRX
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        1,
+                        "java.lang.Integer", integerCellStyle);
+                // IDTRX
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        12,
+                        "java.lang.Integer", integerCellStyle);
+                // INVCDESC
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        job.getInstructions(),
+                        "java.lang.String", stringCellStyle);
+                // DATEINVC
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        new Date(),
+                        "java.util.Date", dateCellStyle);
+                // INVCTYPE
+                BusinessEntityUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                        2,
+                        "java.lang.Integer", integerCellStyle);
+
+                // Fill out invoice details
+                // CNTBTCH (batch number)
+                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow,
+                        invoiceDetailsCol++,
+                        0,
+                        "java.lang.Integer", integerCellStyle);
+                // CNTITEM (Item number)
+                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow,
+                        invoiceDetailsCol++,
+                        invoiceRow,
+                        "java.lang.Integer", integerCellStyle);
+                // CNTLINE
+                BusinessEntityUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow,
+                        invoiceDetailsCol++,
+                        invoiceDetailsRow, // Cell value
+                        "java.lang.Integer", integerCellStyle);
+
+                invoiceDetailsRow++;
+                invoiceRow++;
+
+            }
+
+            // Write modified Excel file and return it
+            wb.write(out);
+
+            return new ByteArrayInputStream(out.toByteArray());
+
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+
+        return null;
     }
 
     public Boolean getEdit() {
@@ -149,6 +405,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         selectedCostComponent = null;
         unitCostDepartment = null;
         jobCostDepartment = null;
+        accountingCodeSearchText = "";
     }
 
     public void reset() {
@@ -362,12 +619,12 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         return unitCosts;
     }
 
-    public String getSearchText() {
-        return searchText;
+    public String getAccountingCodeSearchText() {
+        return accountingCodeSearchText;
     }
 
-    public void setSearchText(String searchText) {
-        this.searchText = searchText;
+    public void setAccountingCodeSearchText(String accountingCodeSearchText) {
+        this.accountingCodeSearchText = accountingCodeSearchText;
     }
 
     public UnitCost getCurrentUnitCost() {
@@ -486,7 +743,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         EntityManager em = getEntityManager1();
 
-        int days = Integer.parseInt(SystemOption.findSystemOptionByName(em, "maxDaysPassInvoiceDate").getOptionValue());
+//        int days = Integer.parseInt((String) SystemOption.getOptionValueObject(em, "maxDaysPassInvoiceDate"));
+        int days = (Integer) SystemOption.getOptionValueObject(em, "maxDaysPassInvoiceDate");
 
         return days;
     }
@@ -559,16 +817,16 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             parameters.put("grandTotalCost", getCurrentJob().getJobCostingAndPayment().getTotalCost());
 
             Connection con = BusinessEntityUtils.establishConnection(
-                    SystemOption.findSystemOptionByName(em, "defaultDatabaseDriver").getOptionValue(),
-                    SystemOption.findSystemOptionByName(em, "defaultDatabaseURL").getOptionValue(),
-                    SystemOption.findSystemOptionByName(em, "defaultDatabaseUsername").getOptionValue(),
-                    SystemOption.findSystemOptionByName(em, "defaultDatabasePassword").getOptionValue());
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
 
             if (con != null) {
                 try {
                     StreamedContent streamContent;
                     // generate report
-                    JasperPrint print = JasperFillManager.fillReport(SystemOption.findSystemOptionByName(em, "jobCosting").getOptionValue(), parameters, con);
+                    JasperPrint print = JasperFillManager.fillReport((String) SystemOption.getOptionValueObject(em, "jobCosting"), parameters, con);
 
                     byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
 
@@ -682,10 +940,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         if (getSelectedCashPayment().getId() == null) {
             updateFinalCost();
             updateAmountDue();
-           
+
             if (!getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                 PrimeFacesUtils.addMessage("Payment and Job NOT Saved!", "Payment and the job and the payment were NOT saved!", FacesMessage.SEVERITY_ERROR);
-            }           
+            }
         }
     }
 
@@ -1110,7 +1368,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void closelJobCostingDialog() {
-        //setJobCostingAndPaymentDirty(false);
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
@@ -1173,8 +1430,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean validateCurrentJobCosting() {
-
-        EntityManager em = getEntityManager1();
 
         try {
             // check for valid job
@@ -1541,7 +1796,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateAmountDue() {
-        //currentJob.getJobCostingAndPayment().setAmountDue(currentJob.getJobCostingAndPayment().calculateAmountDue());
         setJobCostingAndPaymentDirty(true);
     }
 
@@ -1821,12 +2075,19 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 if (accPacCustomer.getCustomerName() != null) {
                     updateCreditStatus(null);
                 }
+
             } catch (Exception e) {
                 System.out.println(e);
                 accPacCustomer = new AccPacCustomer();
                 accPacCustomer.setCustomerName("");
             }
         }
+    }
+
+    public void updateAccountingCode(SelectEvent event) {
+        selectedAccountingCode = (AccountingCode) event.getObject();
+        // tk
+        System.out.println("selected jcp: " + selectedAccountingCode.getName());
     }
 
     public Integer getNumberOfFilteredAccPacCustomerDocuments() {
@@ -1901,7 +2162,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getCustomerType() {
-        if (accPacCustomer.getIDACCTSET().equals("TRADE")) {
+        if (accPacCustomer.getIDACCTSET().equals("TRADE")
+                && accPacCustomer.getCreditLimit().doubleValue() > 0.0) {
             return "CREDIT";
         } else {
             return "REGULAR";
@@ -1926,7 +2188,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             if (jcp != null) {
                 getCurrentJob().getJobCostingAndPayment().getCostComponents().clear();
                 getCurrentJob().getJobCostingAndPayment().setCostComponents(copyCostComponents(jcp.getCostComponents()));
-                //currentJob.getJobCostingAndPayment().calculateAmountDue();
+
                 setJobCostingAndPaymentDirty(true);
             } else {
                 // Nothing yet
@@ -1988,23 +2250,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         return newCostComponents;
     }
 
-//    public void createSampleBasedJobCostings(JobCostingAndPayment jobCostingAndPayment) {
-//        if (currentJob.getJobCostingAndPayment().getAllSortedCostComponents().isEmpty()) {
-//            // Add all existing samples as cost oomponents            
-//            for (JobSample jobSample : currentJob.getJobSamples()) {
-//                jobCostingAndPayment.getAllSortedCostComponents().add(new CostComponent(jobSample.getDescription()));
-//            }
-//        } else if (currentJob.getJobSamples().size() > currentJob.getJobCostingAndPayment().getAllSortedCostComponents().size()) {
-//        }
-//    }
-//    public void createDefaultJobCostings(JobCostingAndPayment jobCostingAndPayment) {
-//
-//        if (currentJob.getJobCostingAndPayment().getCostComponents().isEmpty()) {
-//            jobCostingAndPayment.getCostComponents().add(new CostComponent("List of Assessments", Boolean.TRUE));
-//            jobCostingAndPayment.getCostComponents().add(new CostComponent(""));
-//        }
-//
-//    }
     public Date getCurrentDate() {
         return new Date();
     }
@@ -2055,6 +2300,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     }
 
+    public void checkForSubcontracts(ActionEvent event) {
+
+        PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
+    }
+
     public void openCashPaymentDeleteConfirmDialog(ActionEvent event) {
 
         PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
@@ -2077,14 +2327,14 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     // tk delete if not needed
     public void doUnitCostSearch() {
 
-        unitCosts = UnitCost.findUnitCosts(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
+        unitCosts = UnitCost.findUnitCosts(getEntityManager1(), getUnitCostDepartment().getName(), getAccountingCodeSearchText());
         PrimeFaces.current().ajax().update("unitCostsTableForm");
     }
 
     // tk delete if not needed
     public void doJobCostSearch() {
 
-        jobsWithCostings = Job.findJobsWithJobCosting(getEntityManager1(), getUnitCostDepartment().getName(), getSearchText());
+        jobsWithCostings = Job.findJobsWithJobCosting(getEntityManager1(), getUnitCostDepartment().getName(), getAccountingCodeSearchText());
         PrimeFaces.current().ajax().update("jobCostsTableForm");
     }
 
@@ -2156,7 +2406,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 return true;
             }
         } catch (Exception e) {
-            System.out.println(e + ": getDisableSubContracting");
+            System.out.println(e);
         }
 
         return false;
@@ -2184,7 +2434,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
             // Get and set default email using company domain
             EntityManager em = getEntityManager1();
 
-            String listAsString = SystemOption.findSystemOptionByName(em, "domainNames").getOptionValue();
+            String listAsString = (String) SystemOption.getOptionValueObject(em, "domainNames");
             String domainNames[] = listAsString.split(";");
 
             JobManagerUser user = JobManagerUser.findJobManagerUserByEmployeeId(em, employee.getId());
@@ -2209,7 +2459,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public Department getDepartmentBySystemOptionDeptId(String option) {
         EntityManager em = getEntityManager1();
 
-        Long id = Long.parseLong(SystemOption.findSystemOptionByName(em, option).getOptionValue());
+        Long id = (Long) SystemOption.getOptionValueObject(em, option);
 
         Department department = Department.findDepartmentById(em, id);
         em.refresh(department);
@@ -2222,17 +2472,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean getIsMemberOfAccountsDept() {
-        if (getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("accountsDepartmentId"))) {
-            return true;
-        }
-        return false;
+        return getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("accountsDepartmentId"));
     }
 
     public Boolean getIsMemberOfCustomerServiceDept() {
-        if (getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("customerServiceDeptId"))) {
-            return true;
-        }
-        return false;
+        return getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("customerServiceDeptId"));
     }
 
     public List<SelectItem> getGCTPercentages() { // tk put in a costing entity
@@ -2250,11 +2494,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             EntityManager em = getEntityManager1();
 
-            String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
-            String listAsString = SystemOption.findSystemOptionByName(em, "GCTPercentageList").getOptionValue();
-            String percentage[] = listAsString.split(itemSep);
+            List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, "GCTPercentageList");
 
-            for (String percent : percentage) {
+            for (String percent : stringList) {
                 if (percent.contains(query)) {
                     percentages.add(Double.parseDouble(percent));
                 }

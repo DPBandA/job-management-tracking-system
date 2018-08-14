@@ -32,9 +32,8 @@ Email: info@dpbennett.com.jm
                              id="export1"
                              ajax="false"
                              style="width: 150px"
-                             disabled="#{!reportManager.canExportCurrentPeriodJobReport}"
                              immediate="true"
-                             actionListener="#{reportManager.updateReport}"
+                             disabled="#{reportManager.isInvalidReport}"
                              update="longProgressDialogForm3"
                              onclick="longProcessDialogVar3.show();" >
                 

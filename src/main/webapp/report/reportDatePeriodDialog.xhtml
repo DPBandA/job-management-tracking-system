@@ -43,48 +43,56 @@ Email: info@dpbennett.com.jm
 
 
             <ui:include src="reportDatePeriodDialogToolbar.xhtml"/>
-            <h:panelGrid columns="2" cellspacing="5"
-                         style="margin-bottom: 1px;margin-top: 1px;">
+            <p:panel>
+                <h:panelGrid columns="2" cellspacing="5"
+                             style="margin-bottom: 1px;margin-top: 1px;">
 
-                <h:outputLabel value="Label:" style="font-weight: bold;" />
-                <p:inputText value="#{reportManager.selectedDatePeriod.label}"
-                             validator="requiredFieldValidator" />
+                    <h:outputLabel value="Label:" style="font-weight: bold;" />
+                    <p:inputText value="#{reportManager.selectedDatePeriod.label}"
+                                 validator="requiredFieldValidator" />
 
-                <h:outputLabel value="Period:" style="font-weight: bold;" />               
-                <p:selectOneMenu value= "#{reportManager.selectedDatePeriod.name}" >
+                    <h:outputLabel value="Period:" style="font-weight: bold;" />               
+                    <p:selectOneMenu value= "#{reportManager.selectedDatePeriod.name}" >
 
-                    <p:ajax listener="#{reportManager.selectedDatePeriod.initDatePeriod}"
-                            update="startDate,endDate"
-                            process="@this" />
+                        <p:ajax listener="#{reportManager.selectedDatePeriod.initDatePeriod}"
+                                update="startDate,endDate"
+                                process="@this" />
 
-                    <f:selectItems value="#{App.datePeriods}"/>
+                        <f:selectItems value="#{App.datePeriods}"/>
 
-                </p:selectOneMenu>
-                
-                <h:outputLabel value="Field:" style="font-weight: bold;" />
-                <p:inputText value="#{reportManager.selectedDatePeriod.dateField}"
-                             validator="requiredFieldValidator" />
-                
-                <h:outputLabel value="Start:" style="font-weight: bold;" />
-                <p:calendar id="startDate"
-                            value="#{reportManager.selectedDatePeriod.startDate}"                    
-                            size="17"
-                            navigator="true"
-                            validator="requiredFieldValidator"
-                            disabled="#{reportManager.selectedDatePeriod.startDateDisabled}"
-                            pattern="MMM dd, yyyy" >
-                </p:calendar>
+                    </p:selectOneMenu>
 
-                <h:outputLabel value="End:" style="font-weight: bold;" />
-                <p:calendar id="endDate"
-                            value="#{reportManager.selectedDatePeriod.endDate}"
-                            size="17"
-                            navigator="true"
-                            validator="requiredFieldValidator"
-                            disabled="#{reportManager.selectedDatePeriod.endDateDisabled}"
-                            pattern="MMM dd, yyyy" >
-                </p:calendar>   
-            </h:panelGrid>
+                    <ui:remove>
+                        <h:outputLabel value="Field:" style="font-weight: bold;" />
+                        <p:inputText value="#{reportManager.selectedDatePeriod.dateField}"
+                                     validator="requiredFieldValidator" />
+                    </ui:remove>
+                    <h:outputLabel value="Field:" style="font-weight: bold;" />
+                    <p:selectOneMenu value="#{reportManager.selectedDatePeriod.dateField}" >
+                       
+                        <f:selectItems value="#{reportManager.dateSearchFields}" />
+
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="Start:" style="font-weight: bold;" />
+                    <p:calendar id="startDate"
+                                value="#{reportManager.selectedDatePeriod.startDate}"                    
+                                size="17"
+                                navigator="true" 
+                                disabled="#{reportManager.selectedDatePeriod.startDateDisabled}"
+                                pattern="MMM dd, yyyy" >
+                    </p:calendar>
+
+                    <h:outputLabel value="End:" style="font-weight: bold;" />
+                    <p:calendar id="endDate"
+                                value="#{reportManager.selectedDatePeriod.endDate}"
+                                size="17"
+                                navigator="true"
+                                disabled="#{reportManager.selectedDatePeriod.endDateDisabled}"
+                                pattern="MMM dd, yyyy" >
+                    </p:calendar>   
+                </h:panelGrid>
+            </p:panel>
             <ui:include src="reportDatePeriodDialogToolbar.xhtml"/>
 
 

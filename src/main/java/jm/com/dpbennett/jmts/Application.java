@@ -23,9 +23,13 @@ import jm.com.dpbennett.business.entity.utils.DataItem;
 import jm.com.dpbennett.business.entity.utils.SortableSelectItem;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TreeMap;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
 import javax.inject.Named;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
@@ -51,6 +55,7 @@ import jm.com.dpbennett.business.entity.DepartmentUnit;
 import jm.com.dpbennett.business.entity.Distributor;
 import jm.com.dpbennett.business.entity.DocumentType;
 import jm.com.dpbennett.business.entity.Employee;
+import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCategory;
 import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
@@ -60,7 +65,6 @@ import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Manufacturer;
 import jm.com.dpbennett.business.entity.PetrolCompany;
 import jm.com.dpbennett.business.entity.Preference;
-import jm.com.dpbennett.business.entity.Report;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.Service;
 import jm.com.dpbennett.business.entity.SystemOption;
@@ -73,23 +77,55 @@ import jm.com.dpbennett.business.entity.utils.SearchParameters;
  */
 @Named(value = "App")
 @ApplicationScoped
+@Singleton
 public class Application {
-
+    
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;
     private final Map<String, String> themes = new TreeMap<>();
+    private final List<Job> openedJobs;
 
     /**
      * Creates a new instance of Application
      */
     public Application() {
+        openedJobs = new ArrayList<>();
+              
         // init primefaces themes
         themes.put("Aristo", "aristo");
         themes.put("Black-Tie", "black-tie");
         themes.put("Redmond", "redmond");
         themes.put("Dark Hive", "dark-hive");
+    }
+    
+//    @Schedule(hour = "*", minute = "*", second = "*/30")
+//    public void automaticTimer() {
+//        // tk
+//        System.out.println("# of opened job: " + getOpenedJobs() + " Time: " + new Date());
+//    }
+
+    public synchronized List<Job> getOpenedJobs() {
+        return openedJobs;
+    }
+
+    public synchronized void addOpenedJob(Job job) {
+        getOpenedJobs().add(job);
+    }
+
+    public synchronized void removeOpenedJob(Job job) {
+        getOpenedJobs().remove(job);
+    }
+
+    public synchronized Job findOpenedJob(Long jobId) {
+        for (Job job : openedJobs) {
+            if (Objects.equals(job.getId(), jobId)) {
+                return job;
+            }
+        }
+
+        return null;
     }
 
     public List<String> completeDocumentTypeName(String query) {
@@ -172,18 +208,11 @@ public class Application {
         return forms;
     }
 
-    public List getWorkProgressList() {
-        ArrayList list = new ArrayList();
-        EntityManager em = getEntityManager1();
+    // tk getStringListAsSelectItems
+    public List<SelectItem> getWorkProgressList() {
 
-        String listAsString = SystemOption.findSystemOptionByName(em, "workProgressList").getOptionValue();
-        String progressName[] = listAsString.split(";");
-
-        for (String name : progressName) {
-            list.add(new SelectItem(name, name));
-        }
-
-        return list;
+        return Application.getStringListAsSelectItems(getEntityManager1(),
+                "workProgressList");
 
     }
 
@@ -287,12 +316,15 @@ public class Application {
      */
     public List getMethodsOfDisposal() {
         ArrayList methods = new ArrayList();
-        SystemOption sysOption
-                = SystemOption.findSystemOptionByName(getEntityManager1(),
+
+        // tk to be replaced by the user's organization
+        String sysOption
+                = (String) SystemOption.getOptionValueObject(getEntityManager1(),
                         "organizationName");
+
         methods.add(new SelectItem("1", "Collected by the client within 30 days"));
         if (sysOption != null) {
-            methods.add(new SelectItem("2", "Disposed of by " + sysOption.getOptionValue()));
+            methods.add(new SelectItem("2", "Disposed of by " + sysOption));
         } else {
             methods.add(new SelectItem("2", "Disposed of by us"));
         }
@@ -554,12 +586,11 @@ public class Application {
 
             constraints.setReturningAttributes(attrIDs);
 
-            String name = SystemOption.findSystemOptionByName(em, "ldapContextName").getOptionValue();
+            String name = (String) SystemOption.getOptionValueObject(em, "ldapContextName");
             NamingEnumeration answer = ctx.search(name, "SAMAccountName=" + username, constraints);
-            
-            
-            if (!answer.hasMore()) { // assuming only one match
-                System.out.println("LDAP user not found!");
+
+            if (!answer.hasMore()) { // Assuming only one match
+                // LDAP user not found!
                 return Boolean.FALSE;
             }
         } catch (NamingException ex) {
@@ -727,15 +758,13 @@ public class Application {
     }
 
     public static List<SelectItem> getStringListAsSelectItems(EntityManager em,
-            String systemOption/*, 
-             String itemSeparator*/) {
+            String systemOption) {
+
         ArrayList list = new ArrayList();
-        String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
 
-        String listAsString = SystemOption.findSystemOptionByName(em, systemOption).getOptionValue();
-        String string[] = listAsString.split(itemSep);
+        List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
 
-        for (String name : string) {
+        for (String name : stringList) {
             list.add(new SelectItem(name, name));
         }
 
@@ -744,13 +773,12 @@ public class Application {
 
     public static List<SortableSelectItem> getStringListAsSortableSelectItems(EntityManager em,
             String systemOption) {
+
         ArrayList list = new ArrayList();
-        String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
 
-        String listAsString = SystemOption.findSystemOptionByName(em, systemOption).getOptionValue();
-        String string[] = listAsString.split(itemSep);
+        List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
 
-        for (String name : string) {
+        for (String name : stringList) {
             list.add(new SortableSelectItem(name, name));
         }
 
@@ -786,12 +814,10 @@ public class Application {
     public static List<DataItem> getStringListAsSortableDataItems(EntityManager em,
             String systemOption) {
         ArrayList list = new ArrayList();
-        String itemSep = SystemOption.findSystemOptionByName(em, "defaultListItemSeparationCharacter").getOptionValue();
 
-        String listAsString = SystemOption.findSystemOptionByName(em, systemOption).getOptionValue();
-        String string[] = listAsString.split(itemSep);
+        List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
 
-        for (String name : string) {
+        for (String name : stringList) {
             list.add(new DataItem(name, name));
         }
 

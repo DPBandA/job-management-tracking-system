@@ -1,26 +1,74 @@
-# Things to do
+## Things to do
 
-Status Update Notes for June 4 - June 8, 2018
-- Add users, update database, etc. under sys admin
-- Mention work on BPM 
+### Notes for reporting
+- JMTS is trying to meet the needs of 3 diverse organizations...
+(1) standards, metrology & testing (BSJ) (2) compliance & regulatory (NCRA) 
+and (3) Certification (NCBJ)
+- Need for business analysis and process documentation for the 3 orgs. 
+================================================================================
 
-- Junior Gordon, ext 3460.
-- Notebook pc id: 1071630001, pwd: 9556
+### Accpac Invoicing & Credit Status Reporting
+- Impl HR module with HumanResourceManager class:
+  * Add HR tab
+  * Create divisions and groups tabs
+  * All all human resource tab to HR tab
+- Impl invoice export.  
+  * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
+  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
+  * In onJobCostingCellEdit save JCP and client only if these were table cells 
+    were edited. Also new Accounting codes are being saved. Fix!
+  * Change "Service Contract" to "Services" and make "Service Contract" a "sub tab"
+  * Impl fill out of Invoice_Details sheet
+    - Impl fill out of multiple CNTLINE for each CNTITEM.
+    - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
+      in Financial Admin. NB impl finding code by name and description.
+  * Export invoices for only selected jobs?
+  * Flag job as invoiced after export?
+  * Make sure to add AccountingCode table to all along with data.  
 
-Month 1 modules: Job Management, Legal Office, Client Management.
-Month 2 modules: Standards Compliance, Certification, Foods Inspectorate.
-Month 3 modules: Legal Metrology, Task Management, Service Request.
-
-## Next release (May 24-25, 2018)
-- Only Finance should export invoices.
-- Impl invoice export.
-- In Report class add option to choose the field to use id, name or both?
+### Reports continued
+- Remove the jasper-fonts from the hrm server and restart it to make use of the
+  jasper fonts deployed with JMTS
+- Add default report category to JobManagerUser.
+- Including other existing reports where necessary
 - Impl finance report showing jobs that are supposed to have deposits but don't
   "Jobs Requiring Deposits" as the report.
-- Update report template form to include multiple date periods, departments, employee
-  clients etc..
-- Impl and add Legal reports. 
-- Add report template for legal.
+- Deal with the multiple row entries all reports especially those used by 
+  Customer Service. See if "DISTINCT" solves the problem.
+- Impl finding report by name and description?
+- Try again to centre report title.
+- Check and fix up font for "Frequently Requested Jobs by Category" and may be 
+  other reports.
+- Do training doc for Legal Office, list of requested changes and arrange training via email.
+  Request additional reports?
+
+### Updates based on training, testing and feedback
+- Allow creating subcontract from a subcontract.
+- Indicate somewhere in the job dialog when a subcontract is being created.
+- Fix sammple reference sequencing when a sample is deleted. Test with job 5740.
+- Widen credit status dialog and cost component dialog for better display 
+  in dark hive theme.
+- Display prompt when there are completed subcontracted jobs when the Job Costing dialog
+  is opened:
+  * Impl "Existing Subcontracts" dialog...copy the "Delete Payment" dialog.
+- Fix sample sequencing when a sample is deleted. Note that sample does not 
+  change initially when the # of samples is reduced.
+  * Do sample sorted by id and not reference taking into account null ids as is
+    done for the DatePeriod class. Do not use the string version of the id as is
+    done for date period. Compare the value instead. Look for all classes that
+    use the string version and change them.
+  * The wrong sample seem to get edited after one is deleted. Fix!
+- Cordinate the editing of a client and what happens when the dialog returns
+  to the job dialog.
+- Alerts should be sent to person who entered job, job assignee, representative(s)
+  department head where appropriate eg send alert to parent job assignee and the
+  person who entered the job when child job is approved.
+  
+### General
+- Fix up the client editing in the job detail dialog. May update or reset the 
+  address or contact when the client dialog returns.
+- For client credit status check, note client is a credit client if they are "TRADE"
+  and the credit limit is not 0.
 - Impl "ComplianceSurveyDialogForm"  
 - Impl "dirty" and save() for each "subclass" and save only when dirty. 
 - Replace update*() with single update**() method where possible.
@@ -29,7 +77,6 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - Fix up "compliance" toolbars so they look like the rest of JMTS.
 - Update survey table when dialog is closed.
 - Impl all existing reports from "package".
-- The "Jobs entered by employee" report does not show the samples. 
 - In "Jobs entered by employee" change "sample" column to "product".
 - Add description, 2 departments, 3 date periods etc. in class Report.
 - For reports make company specific value parameters such as company name and logo.
@@ -38,6 +85,8 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - Do report on showing incomplete jobs for a given period by department for which a cost 
   estimate was given and full payment not made.
 - When job is job/costing is closed without saving, set "dirty" to false.
+- Use the "Jamaican Catalogue DBS" Excel workbook as basis for standards database.
+  * Add DocumentTracking to DocumentStandard class.
 - Do Pre-shipment inspection form based on excel sheets in compliance folder.
   * Create a table called PreshipmentInspection.
 - Follow up with Garfield re service contract.
@@ -51,8 +100,6 @@ Month 3 modules: Legal Metrology, Task Management, Service Request.
 - Paste the text directly into a CODE_OF_CONDUCT file in your repository. 
   NB: Keep the file in your project’s root directory so it’s easy to find, and link 
   to it from your README.
-- Make address and contact dialogs external and implement adding contact/address 
-  via the client's action menu.
 - Add a search types that find jobs that are: 
 (i) earning parent jobs 
 (ii) earning jobs
@@ -120,15 +167,26 @@ persons in a department to be temporarily granted these privileges.
 This release will be around early July.
 - Please let the GCT default to 16.5% except for activities done by NCRA. 
   Therefore if NCRA subcontracts a job to BSJ, the GCT would carried only for the BSJ job.
-- Do draft proposal re 360/Elastic search for Orville and next contract.
-- Impl getting system option by object type and Add system option to display 
-  "Handling keep alive session..." in debugging mode.
-- Should the person who "flags" the job as being completed be entered as the
-  person who completes the job?
-- Do screen shots showing how to add subcontracted job costings as part of 
-  training.
-- Note in doc that only if dept can edit invoice and payment then certain 
-  fields and columns will show.
+- Update contact and billing address when client is edited to address the invalid address issue
+  experienced. Use the ids to find the address/contact for doing the update.
+- Do draft proposals re 360/Elastic search, business analysis, items on previous contract,
+  etc. for Orville and next contract.
+- The name and description fields do not fit on form in dark hive.
+- Add buttons to remoove/edit divisions/departments from an organization.
+- Check that maxDaysPassInvoiceDate is set to Integer before testing jmts live 
+  nd deploying.
+- Impl creating parent job along with subcontract in 1 go.
+- Impl option to import all the cost components from a subcontract into a parent
+  job.
+- Put back feature to create subcontract from a subcontract?
+- Remove edit buttons from client dialog general tab.
+- Impl Status or JobStatus class and use 
 
-  
+### Job Edit Synchronization
+- Create/maintain list of opened jobs in the Application class.
+  * Set opened date when open job and when keepalive runs..
+- Add Opened Jobs tab in Sys Admin with search text box and refresh button
+- Do sync for all job view tables.
+- Ensure access to currentJob is synchronized since it can be accessed by "keepalive"
+  other code at the same time
 

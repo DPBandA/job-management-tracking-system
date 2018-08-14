@@ -74,19 +74,36 @@ Email: info@dpbennett.com.jm
                         <f:validator validatorId="systemOptionValidator" />
                     </p:inputText>
 
-                    <h:outputText value="Value Type:" style="font-weight: bold;" />
-                    <p:inputText value="#{systemManager.selectedSystemOption.optionValueType}"
-                                 id="systemOptionValueType"
-                                 style="width:300px" >
-                        <f:validator validatorId="systemOptionValidator" />
-                    </p:inputText> 
+                    <h:outputText value="Value Type:" style="font-weight: bold;" />                    
+                    <p:selectOneMenu id="systemOptionValueType"     
+                                     style="width: 300px;"
+                                     value="#{systemManager.selectedSystemOption.optionValueType}">
+
+                        <f:selectItems  value="#{systemManager.valueTypes}"
+                                        var="type"                            
+                                        itemValue="#{type}"
+                                        itemLabel="#{type}"/>
+
+                    </p:selectOneMenu>
 
                     <h:outputText value="Category:" style="font-weight: bold;" />
-                    <p:inputText value="#{systemManager.selectedSystemOption.category}"
-                                 id="systemOptionCategory"
-                                 style="width:300px" >
-                        <f:validator validatorId="systemOptionValidator" />
-                    </p:inputText>
+                    <ui:remove>
+                        <p:inputText value="#{systemManager.selectedSystemOption.category}"
+                                     id="systemOptionCategory"
+                                     style="width:300px" >
+                            <f:validator validatorId="systemOptionValidator" />
+                        </p:inputText>
+                    </ui:remove>
+                    <p:selectOneMenu id="systemOptionCategory"     
+                                     style="width: 300px;"
+                                     value="#{systemManager.selectedSystemOption.category}">
+
+                        <f:selectItems  value="#{systemManager.systemOptionCategories}"
+                                        var="category"                            
+                                        itemValue="#{category}"
+                                        itemLabel="#{category}"/>
+
+                    </p:selectOneMenu>
 
                     <h:outputText value="Description:" style="width: 50%;font-weight: bold;" />
                     <p:inputTextarea  value="#{systemManager.selectedSystemOption.comments}"

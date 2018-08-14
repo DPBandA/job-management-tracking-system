@@ -58,8 +58,16 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Name:" style="font-weight: bold" />
             <h:outputText value="#{financeManager.accPacCustomerName}" style="font-weight: bold" />
 
-            <h:outputText value="Customer credit type:" style="font-weight: bold" />
+            <h:outputText value="Credit type:" style="font-weight: bold" />
             <h:outputText value="#{financeManager.customerType}" style="font-weight: bold" />
+            
+            <h:outputText value="Credit limit ($):" style="font-weight: bold" />
+            <h:outputText value="#{financeManager.accPacCustomer.creditLimit}" 
+                          style="font-weight: bold" >
+                
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />            
+                
+            </h:outputText>
 
             <h:outputText value="Account status:" 
                           title="Account may be on hold if there are outstanding invoices that are #{financeManager.maxDaysPassInvoiceDate} or more days pass their due date."

@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"> 
 
     <p:toolbar style="margin-bottom: 1px;" >
-        <p:toolbarGroup align="left" >   
+        <p:toolbarGroup align="left" >  
             <p:commandButton value="Approve"  
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
                              title="Approve the selected job costing(s)"
@@ -93,15 +93,14 @@ Email: info@dpbennett.com.jm
                             oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
                             onerror="PF('connectionErrorDialog').show();"
                             process="@this"/>                
-                <p:separator />
+                <p:separator rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"/>
                 <p:menuitem value="Export Accpac Invoices"                            
                             ajax="false"
-                            immediate="true"
-                            actionListener="#{reportManager.updateReport}"
-                            update="longProgressDialogForm3"
-                            onclick="longProcessDialogVar3.show();" >
+                            immediate="true" 
+                            onclick="longProcessDialogVar4.show();"
+                            rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}" >
 
-                    <p:fileDownload value="#{reportManager.reportFile}" />
+                    <p:fileDownload value="#{financeManager.accpacInvoicesFile}" />
 
                 </p:menuitem>
                 <p:separator />

@@ -21,9 +21,10 @@ Email: info@dpbennett.com.jm
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"> 
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
     <h:panelGrid id="generalDetailsPanelGrid" columns="3" cellspacing="5" >
-        
+
         <p:outputLabel for="clientActive" value="Active: " style="font-weight: bold;" />  
         <h:panelGroup>
             <p:selectBooleanCheckbox style="vertical-align: middle"
@@ -38,7 +39,7 @@ Email: info@dpbennett.com.jm
                        showEffect="fade" hideEffect="fade" />            
         </h:panelGroup>
         <h:outputText value="" />
-        
+
         <h:outputText value="Name:" style="font-weight: bold;" />       
         <p:inputText value="#{clientManager.selectedClient.name}"
                      style="width: 150%;"
@@ -72,36 +73,39 @@ Email: info@dpbennett.com.jm
             <h:outputText id="addressLine1" value="#{clientManager.currentAddress.addressLine1FriendlyDisplay}"/>  
             <p:watermark for="addressLine1" value="-- none --" />
         </h:panelGroup>
-        <p:menuButton icon="ui-icon-pencil" title="Add or edit address">
-            <p:menuitem>                       
-                <p:commandButton value="Edit"
-                                 style="width: 300%;text-align: left;background: none;border: 0;"
-                                 icon="ui-icon-pencil"
-                                 title="Edit address"
-                                 update=":addressForm"
-                                 oncomplete="PF('addressFormDialog').show();"
-                                 actionListener="#{clientManager.editCurrentAddress}" 
-                                 process="@this" >
+        <h:outputText value="" />
+        <ui:remove>
+            <p:menuButton icon="ui-icon-pencil" title="Add or edit address">
+                <p:menuitem>                       
+                    <p:commandButton value="Edit"
+                                     style="width: 300%;text-align: left;background: none;border: 0;"
+                                     icon="ui-icon-pencil"
+                                     title="Edit address"
+                                     update=":addressForm"
+                                     oncomplete="PF('addressFormDialog').show();"
+                                     actionListener="#{clientManager.editCurrentAddress}" 
+                                     process="@this" >
 
-                    <p:resetInput target=":addressForm" />
+                        <p:resetInput target=":addressForm" />
 
-                </p:commandButton>          
-            </p:menuitem>
-            <p:menuitem>                       
-                <p:commandButton value="New"
-                                 style="width: 300%;text-align: left;background: none;border: 0;"
-                                 icon="ui-icon-plus" 
-                                 title="Add new address"
-                                 update=":addressForm"
-                                 oncomplete="PF('addressFormDialog').show();"
-                                 actionListener="#{clientManager.createNewAddress}" 
-                                 process="@this" >
+                    </p:commandButton>          
+                </p:menuitem>
+                <p:menuitem>                       
+                    <p:commandButton value="New"
+                                     style="width: 300%;text-align: left;background: none;border: 0;"
+                                     icon="ui-icon-plus" 
+                                     title="Add new address"
+                                     update=":addressForm"
+                                     oncomplete="PF('addressFormDialog').show();"
+                                     actionListener="#{clientManager.createNewAddress}" 
+                                     process="@this" >
 
-                    <p:resetInput target=":addressForm" />
+                        <p:resetInput target=":addressForm" />
 
-                </p:commandButton>          
-            </p:menuitem>
-        </p:menuButton>    
+                    </p:commandButton>          
+                </p:menuitem>
+            </p:menuButton>  
+        </ui:remove>
 
         <h:outputText value="" />
         <h:outputText value="#{clientManager.currentAddress.addressLine2}" />
@@ -117,37 +121,39 @@ Email: info@dpbennett.com.jm
 
         <h:outputText id="currentContact" value="Most recent contact: " style="font-weight: bold"/>    
         <h:outputText value="#{clientManager.currentContact.friendlyName}" />
-        <p:menuButton icon="ui-icon-pencil" title="Add or edit contact">
-            <p:menuitem>                       
-                <p:commandButton value="Edit"
-                                 style="width: 300%;text-align: left;background: none;border: 0;"
-                                 icon="ui-icon-pencil"
-                                 title="Edit contact"
-                                 update=":contactForm"
-                                 oncomplete="PF('contactFormDialog').show();"
-                                 actionListener="#{clientManager.editCurrentContact}" 
-                                 process="@this" >
+        <h:outputText value="" />
+        <ui:remove>
+            <p:menuButton icon="ui-icon-pencil" title="Add or edit contact">
+                <p:menuitem>                       
+                    <p:commandButton value="Edit"
+                                     style="width: 300%;text-align: left;background: none;border: 0;"
+                                     icon="ui-icon-pencil"
+                                     title="Edit contact"
+                                     update=":contactForm"
+                                     oncomplete="PF('contactFormDialog').show();"
+                                     actionListener="#{clientManager.editCurrentContact}" 
+                                     process="@this" >
 
-                    <p:resetInput target=":contactForm" />
+                        <p:resetInput target=":contactForm" />
 
-                </p:commandButton>       
-            </p:menuitem>
-            <p:menuitem>                       
-                <p:commandButton value="New"
-                                 style="width: 300%;text-align: left;background: none;border: 0;"
-                                 icon="ui-icon-plus" 
-                                 title="Add new contact"
-                                 update=":contactForm"
-                                 oncomplete="PF('contactFormDialog').show();"
-                                 actionListener="#{clientManager.createNewContact}" 
-                                 process="@this" >
+                    </p:commandButton>       
+                </p:menuitem>
+                <p:menuitem>                       
+                    <p:commandButton value="New"
+                                     style="width: 300%;text-align: left;background: none;border: 0;"
+                                     icon="ui-icon-plus" 
+                                     title="Add new contact"
+                                     update=":contactForm"
+                                     oncomplete="PF('contactFormDialog').show();"
+                                     actionListener="#{clientManager.createNewContact}" 
+                                     process="@this" >
 
-                    <p:resetInput target=":contactForm" />
+                        <p:resetInput target=":contactForm" />
 
-                </p:commandButton>       
-            </p:menuitem>
-        </p:menuButton>      
-
+                    </p:commandButton>       
+                </p:menuitem>
+            </p:menuButton>      
+        </ui:remove>
     </h:panelGrid>                    
 
 </html>

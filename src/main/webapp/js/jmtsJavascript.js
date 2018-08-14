@@ -44,3 +44,4 @@ setTimeout("keepAlive()", timeout);
 function doLogin() {
     doLoginRequest();
 }
+
