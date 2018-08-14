@@ -7,14 +7,7 @@ and (3) Certification (NCBJ)
 - Need for business analysis and process documentation for the 3 orgs. 
 ================================================================================
 
-### Reports
-- Build and deploy test version. Make sure test database is used but use live
-  database for reports.
-- Do training doc, list of requested changes and arrange training via email.
-  Request additional reports?
-
 ### Accpac Invoicing & Credit Status Reporting
-- Impl reporting client as credit client only if the credit limit is greater than 0.
 - Impl HR module with HumanResourceManager class:
   * Add HR tab
   * Create divisions and groups tabs
@@ -46,6 +39,8 @@ and (3) Certification (NCBJ)
 - Try again to centre report title.
 - Check and fix up font for "Frequently Requested Jobs by Category" and may be 
   other reports.
+- Do training doc for Legal Office, list of requested changes and arrange training via email.
+  Request additional reports?
 
 ### Updates based on training, testing and feedback
 - Allow creating subcontract from a subcontract.
