@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left" >   
             <p:commandButton title="Add new organization"                                  
                              value="New"
-                             actionListener="#{systemManager.createNewBusiness}"
+                             actionListener="#{humanResourceManager.createNewBusiness}"
                              update=":headerForm:growl3"
                              onstart="PF('longProcessDialogVar').show();"   
                              oncomplete="PF('longProcessDialogVar').hide();"
@@ -38,19 +38,19 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"/>
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:businessesTable"/>
 
             </p:commandButton> 
             <p:spacer width="20" />
             <p:inputText id="businessSearchText" 
-                         value="#{systemManager.businessSearchText}"
+                         value="#{humanResourceManager.businessSearchText}"
                          style="width:150px" placeholder="Enter any part of name">
                 <p:ajax event="keyup"
                         global="false"
                         onstart="PF('longProcessDialogVar').show();" 
                         oncomplete="PF('longProcessDialogVar').hide();"
-                        update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"
-                        listener="#{systemManager.doBusinessSearch}"
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:businessesTable"
+                        listener="#{humanResourceManager.doBusinessSearch}"
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
@@ -61,9 +61,9 @@ Email: info@dpbennett.com.jm
                 <h:panelGroup>
                     <p:selectBooleanCheckbox style="vertical-align: middle"
                                              id="activeBusinessesOnly"
-                                             value="#{systemManager.isActiveBusinessesOnly}" >
-                        <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"
-                                 listener="#{systemManager.doBusinessSearch}"
+                                             value="#{humanResourceManager.isActiveBusinessesOnly}" >
+                        <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:businessesTable"
+                                 listener="#{humanResourceManager.doBusinessSearch}"
                                  event="change"                                      
                                  process="@this"/>
                     </p:selectBooleanCheckbox>            
@@ -82,7 +82,7 @@ Email: info@dpbennett.com.jm
                  style="margin-bottom: 1px;margin-top: 1px;"
                  widgetVar="businessesTableVar"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{systemManager.foundBusinesses}">
+                 value="#{humanResourceManager.foundBusinesses}">
 
         <f:facet name="header">
             Organizations
@@ -120,7 +120,7 @@ Email: info@dpbennett.com.jm
 
         <p:column style="width:32px">
             <p:commandButton title="View or edit organization"   
-                             actionListener="#{systemManager.editBusiness}"
+                             actionListener="#{humanResourceManager.editBusiness}"
                              onstart="PF('longProcessDialogVar').show();"  
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
@@ -128,9 +128,9 @@ Email: info@dpbennett.com.jm
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
                 <f:setPropertyActionListener value="#{business}"                                                                    
-                                             target="#{systemManager.selectedBusiness}" />
+                                             target="#{humanResourceManager.selectedBusiness}" />
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"/>
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:businessesTable"/>
 
             </p:commandButton>           
         </p:column>

@@ -43,7 +43,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-bottom: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedDepartment}"
+                                     actionListener="#{humanResourceManager.saveSelectedDepartment}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide()"
                                      icon="ui-icon ui-icon-check"
@@ -51,7 +51,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{systemManager.cancelDepartmentEdit}"
+                                     actionListener="#{humanResourceManager.cancelDepartmentEdit}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            
@@ -64,14 +64,14 @@ Email: info@dpbennett.com.jm
                                    style="font-weight: bold;" />               
                     <p:selectBooleanCheckbox id="departmentActive"
                                              style="vertical-align: middle"
-                                             value="#{systemManager.selectedDepartment.active}" />                       
+                                             value="#{humanResourceManager.selectedDepartment.active}" />                       
 
                     <h:outputText value="Code:" />
-                    <p:inputText value="#{systemManager.selectedDepartment.subGroupCode}"
+                    <p:inputText value="#{humanResourceManager.selectedDepartment.subGroupCode}"
                                  id="departmentCode" /> 
 
                     <h:outputText value="Name:" style="font-weight: bold;" />
-                    <p:inputText value="#{systemManager.selectedDepartment.name}"
+                    <p:inputText value="#{humanResourceManager.selectedDepartment.name}"
                                  style="width:300px"
                                  id="departmentName" 
                                  validator="requiredFieldValidator" /> 
@@ -82,7 +82,7 @@ Email: info@dpbennett.com.jm
                                     dropdown="true"
                                     scrollHeight="175"
                                     maxlength="50"
-                                    value="#{systemManager.selectedDepartment.head}"
+                                    value="#{humanResourceManager.selectedDepartment.head}"
                                     itemLabel="#{departmentHead.name}"
                                     itemValue="#{departmentHead}"
                                     converter="employeeConverter"
@@ -98,7 +98,7 @@ Email: info@dpbennett.com.jm
                                         dropdown="true"
                                         scrollHeight="175"
                                         maxlength="100"
-                                        value="#{systemManager.selectedDepartment.actingHead}"
+                                        value="#{humanResourceManager.selectedDepartment.actingHead}"
                                         itemLabel="#{departmentActingHead.name}"
                                         itemValue="#{departmentActingHead}"
                                         converter="employeeConverter"
@@ -109,7 +109,7 @@ Email: info@dpbennett.com.jm
                         <p:spacer height="0" width="5"/>
                         <p:selectBooleanCheckbox id="actingHeadActive"
                                                  style="vertical-align: middle"
-                                                 value="#{systemManager.selectedDepartment.actingHeadActive}" >                       
+                                                 value="#{humanResourceManager.selectedDepartment.actingHeadActive}" >                       
                         </p:selectBooleanCheckbox>
                         <p:spacer height="0" width="5"/>
                         <p:tooltip for="actingHeadActive" value="Check to indicate that the selected acting head is active" showEffect="fade" hideEffect="fade" />
@@ -117,7 +117,7 @@ Email: info@dpbennett.com.jm
                     </h:panelGroup>
 
                     <h:outputText value="Email:" />
-                    <p:inputText value="#{systemManager.selectedDepartment.internet.email1}"
+                    <p:inputText value="#{humanResourceManager.selectedDepartment.internet.email1}"
                                  style="width:300px"
                                  id="departmentEmail" />  
                 </h:panelGrid>
@@ -127,20 +127,20 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="3" cellspacing="10">
                         <p:selectBooleanCheckbox id="canEnterJob" 
                                                  itemLabel="Enter any job"
-                                                 value="#{systemManager.selectedDepartment.privilege.canEnterJob}" />
+                                                 value="#{humanResourceManager.selectedDepartment.privilege.canEnterJob}" />
                            
 
                         <p:selectBooleanCheckbox id="canEditJob"      
                                                  itemLabel="Edit any job"
-                                                 value="#{systemManager.selectedDepartment.privilege.canEditJob}" />
+                                                 value="#{humanResourceManager.selectedDepartment.privilege.canEditJob}" />
                            
                         <p:selectBooleanCheckbox id="canEditInvoicingAndPayment"  
                                                  itemLabel="Edit invoicing and payment"
-                                                 value="#{systemManager.selectedDepartment.privilege.canEditInvoicingAndPayment}" />
+                                                 value="#{humanResourceManager.selectedDepartment.privilege.canEditInvoicingAndPayment}" />
 
                         <p:selectBooleanCheckbox id="canApplyTaxesToJobCosting"  
                                                  itemLabel="Apply taxes to job costing"
-                                                 value="#{systemManager.selectedDepartment.privilege.canApplyTaxesToJobCosting}" />
+                                                 value="#{humanResourceManager.selectedDepartment.privilege.canApplyTaxesToJobCosting}" />
 
                     </h:panelGrid>
                 </p:tab>
@@ -148,11 +148,11 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="3" cellspacing="10">
                         <p:selectBooleanCheckbox id="canAddClient" 
                                                  itemLabel="Add client"
-                                                 value="#{systemManager.selectedDepartment.privilege.canAddClient}" />
+                                                 value="#{humanResourceManager.selectedDepartment.privilege.canAddClient}" />
 
                         <p:selectBooleanCheckbox id="canDeleteClient" 
                                                  itemLabel="Delete client"
-                                                 value="#{systemManager.selectedDepartment.privilege.canDeleteClient}" />
+                                                 value="#{humanResourceManager.selectedDepartment.privilege.canDeleteClient}" />
                     </h:panelGrid>
                 </p:tab>                   
 
@@ -161,7 +161,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-top: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedDepartment}"
+                                     actionListener="#{humanResourceManager.saveSelectedDepartment}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide()"
                                      icon="ui-icon ui-icon-check"
@@ -169,7 +169,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{systemManager.cancelDepartmentEdit}"
+                                     actionListener="#{humanResourceManager.cancelDepartmentEdit}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            

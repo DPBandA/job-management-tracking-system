@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-bottom: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedBusiness}"
+                                     actionListener="#{humanResourceManager.saveSelectedBusiness}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
@@ -55,7 +55,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{systemManager.cancelBusinessEdit}"
+                                     actionListener="#{humanResourceManager.cancelBusinessEdit}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            
@@ -66,13 +66,13 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="2">               
 
                     <h:outputText value="Name:" style="font-weight: bold;" />
-                    <p:inputText value="#{systemManager.selectedBusiness.name}"
+                    <p:inputText value="#{humanResourceManager.selectedBusiness.name}"
                                  style="width:300px"
                                  id="businessName" 
                                  validator="requiredFieldValidator" /> 
                     
                     <h:outputText value="Domain:" style="font-weight: bold;" />
-                    <p:inputText value="#{systemManager.selectedBusiness.domainName}"
+                    <p:inputText value="#{humanResourceManager.selectedBusiness.domainName}"
                                  style="width:300px"
                                  validator="requiredFieldValidator" 
                                  id="domainName" />
@@ -80,7 +80,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Notes:" />
                     <h:panelGroup>                        
                         <p:inputTextarea
-                            value="#{systemManager.selectedBusiness.notes}"
+                            value="#{humanResourceManager.selectedBusiness.notes}"
                             maxlength="250"
                             counter="notes"
                             counterTemplate="{0} characters remaining."
@@ -115,7 +115,7 @@ Email: info@dpbennett.com.jm
                                  rows="15"
                                  var="department"
                                  style="margin-bottom: 1px;margin-top: 1px;"
-                                 value="#{systemManager.selectedBusiness.departments}">
+                                 value="#{humanResourceManager.selectedBusiness.departments}">
 
                         <p:column>
                             <f:facet name="header">
@@ -185,7 +185,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-top: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedBusiness}"
+                                     actionListener="#{humanResourceManager.saveSelectedBusiness}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide()"
                                      icon="ui-icon ui-icon-check"
@@ -193,7 +193,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{systemManager.cancelBusinessEdit}"
+                                     actionListener="#{humanResourceManager.cancelBusinessEdit}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"

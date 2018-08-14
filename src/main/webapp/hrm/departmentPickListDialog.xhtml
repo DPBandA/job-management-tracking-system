@@ -33,7 +33,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.okDepartmentPickList}"
+                                     actionListener="#{humanResourceManager.okDepartmentPickList}"
                                      update=":businessDialogForm:businessDepartments:departmentsTable"
                                      onstart="PF('longProcessDialogVar').show();" 
                                      oncomplete="PF('longProcessDialogVar').hide();PF('departmentPickListDialog').hide();"
@@ -49,7 +49,7 @@ Email: info@dpbennett.com.jm
             </p:toolbar>            
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
 
-                <p:pickList value="#{systemManager.departmentDualList}" 
+                <p:pickList value="#{humanResourceManager.departmentDualList}" 
                             var="department"
                             itemLabel="#{department.name}" 
                             itemValue="#{department}" 
@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.okDepartmentPickList}"
+                                     actionListener="#{humanResourceManager.okDepartmentPickList}"
                                      update=":businessDialogForm:businessDepartments:departmentsTable"
                                      onstart="PF('longProcessDialogVar').show();" 
                                      oncomplete="PF('longProcessDialogVar').hide();PF('departmentPickListDialog').hide();"
