@@ -43,7 +43,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedEmployee}"
+                                     actionListener="#{humanResourceManager.saveSelectedEmployee}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
@@ -52,7 +52,7 @@ Email: info@dpbennett.com.jm
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"  
                                      immediate="true"
-                                     actionListener="#{systemManager.cancelEmployeeEdit}"
+                                     actionListener="#{humanResourceManager.cancelEmployeeEdit}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" />  
 
@@ -64,25 +64,25 @@ Email: info@dpbennett.com.jm
                     <p:outputLabel for="employeeActive" value="Active:" style="font-weight: bold;" />                                  
                     <p:selectBooleanCheckbox id="employeeActive"
                                              style="vertical-align: middle"
-                                             value="#{systemManager.selectedEmployee.active}" />    
+                                             value="#{humanResourceManager.selectedEmployee.active}" />    
 
                     <h:outputText value="Title:" />
-                    <p:selectOneMenu value="#{systemManager.selectedEmployee.title}" >
-                        <f:selectItems value="#{systemManager.personalTitles}" />
+                    <p:selectOneMenu value="#{humanResourceManager.selectedEmployee.title}" >
+                        <f:selectItems value="#{humanResourceManager.personalTitles}" />
                     </p:selectOneMenu>
 
                     <h:outputLabel value="Firstname:" for="firstName" style="font-weight: bold;"/>
-                    <p:inputText value="#{systemManager.selectedEmployee.firstName}"
+                    <p:inputText value="#{humanResourceManager.selectedEmployee.firstName}"
                                  id="firstName" 
                                  validator="requiredFieldValidator" />
 
                     <h:outputLabel value="LastName:" for="lastName" style="font-weight: bold;"/>
-                    <p:inputText value="#{systemManager.selectedEmployee.lastName}"
+                    <p:inputText value="#{humanResourceManager.selectedEmployee.lastName}"
                                  id="lastName"                                  
                                  validator="requiredFieldValidator" />
 
                     <h:outputLabel value="Email:" for="employeeEmail"/>
-                    <p:inputText value="#{systemManager.selectedEmployee.internet.email1}"
+                    <p:inputText value="#{humanResourceManager.selectedEmployee.internet.email1}"
                                  id="employeeEmail" validatorMessage="Please enter a valid name" />
 
                     <ui:remove>
@@ -90,7 +90,7 @@ Email: info@dpbennett.com.jm
                         <p:autoComplete dropdown="true"
                                         id="businessOffice"
                                         var="businessOffice"
-                                        value="#{systemManager.selectedEmployee.businessOffice}"
+                                        value="#{humanResourceManager.selectedEmployee.businessOffice}"
                                         itemLabel="#{businessOffice.name}"
                                         itemValue="#{businessOffice}"                                     
                                         validator="requiredFieldValidator"
@@ -108,8 +108,8 @@ Email: info@dpbennett.com.jm
                                     size="40"
                                     maxlength="250"
                                     scrollHeight="200"
-                                    value="#{systemManager.selectedEmployee.department}"
-                                    title="#{systemManager.selectedEmployee.department}"
+                                    value="#{humanResourceManager.selectedEmployee.department}"
+                                    title="#{humanResourceManager.selectedEmployee.department}"
                                     itemValue="#{department}"
                                     itemLabel="#{department.truncatedName}"                                     
                                     validator="requiredFieldValidator"
@@ -123,7 +123,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{systemManager.saveSelectedEmployee}"
+                                     actionListener="#{humanResourceManager.saveSelectedEmployee}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
@@ -132,7 +132,7 @@ Email: info@dpbennett.com.jm
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"  
                                      immediate="true"
-                                     actionListener="#{systemManager.cancelEmployeeEdit}"
+                                     actionListener="#{humanResourceManager.cancelEmployeeEdit}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" />  
 

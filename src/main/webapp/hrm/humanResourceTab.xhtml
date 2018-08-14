@@ -24,42 +24,24 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <p:tabView id="centerTabView"   
-               widgetVar="centerTabVar"
+    <p:tabView id="humanResourceTabView"   
+               widgetVar="humanResourceTabVar"
                scrollable="false"
                dynamic="true">
 
-        <p:tab id="UsersTab" title="Users">
-            <ui:include src="usersTab.xhtml"/>  
+        <p:tab id="employeesTab" title="Employees">                  
+            <ui:include src="employeesTab.xhtml"/>    
         </p:tab>
 
-        <p:tab id="HumanResourceTab" title="Human Resource">
-            <ui:include src="../hrm/humanResourceTab.xhtml"/>  
-        </p:tab>
-
-        <ui:remove>            
-            <p:tab id="employeesTab" title="Employees">                  
-                <ui:include src="employeesTab.xhtml"/>    
-            </p:tab>
-
+        <ui:remove>
             <p:tab id="departmentsTab" title="Departments">
                 <ui:include src="departmentsTab.xhtml"/>  
             </p:tab>
 
             <p:tab id="organizationsTab" title="Organizations">
                 <ui:include src="organizationsTab.xhtml"/>  
-            </p:tab>
+            </p:tab>      
         </ui:remove>
-
-        <p:tab id="dataListsTab" title="Business Entities">                                    
-            <ui:include src="businessEntitiesTab.xhtml"/>                          
-        </p:tab>
-
-        <p:tab id="systemOptionsTab" 
-               title="Configuration" 
-               rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}">
-            <ui:include src="systemOptionsTab.xhtml"/>   
-        </p:tab>
 
     </p:tabView>
 

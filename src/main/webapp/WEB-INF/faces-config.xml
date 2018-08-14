@@ -159,14 +159,14 @@
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>employeeDialog</from-outcome>
-            <to-view-id>/admin/employeeDialog.xhtml</to-view-id>
+            <to-view-id>/hrm/employeeDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>  
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>departmentDialog</from-outcome>
-            <to-view-id>/admin/departmentDialog.xhtml</to-view-id>
+            <to-view-id>/hrm/departmentDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>        
     <navigation-rule>
@@ -285,7 +285,7 @@
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>businessDialog</from-outcome>
-            <to-view-id>/admin/businessDialog.xhtml</to-view-id>
+            <to-view-id>/hrm/businessDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>      
     <navigation-rule>

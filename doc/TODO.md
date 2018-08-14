@@ -11,7 +11,8 @@ and (3) Certification (NCBJ)
 - Impl HR module with HumanResourceManager class:
   * Add HR tab
   * Create divisions and groups tabs
-  * All all human resource tab to HR tab
+  * Add all human resource tab to HR tab
+  * Remove all human resource manager fields and methods from SystemManager.
 - Impl invoice export.  
   * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
