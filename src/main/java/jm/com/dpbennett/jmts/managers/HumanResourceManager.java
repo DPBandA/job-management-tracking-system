@@ -23,39 +23,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.Business;
 import jm.com.dpbennett.business.entity.BusinessOffice;
-import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Department;
-import jm.com.dpbennett.business.entity.DocumentReport;
-import jm.com.dpbennett.business.entity.DocumentStandard;
-import jm.com.dpbennett.business.entity.DocumentType;
 import jm.com.dpbennett.business.entity.Employee;
-import jm.com.dpbennett.business.entity.JobCategory;
 import jm.com.dpbennett.business.entity.JobManagerUser;
-import jm.com.dpbennett.business.entity.JobSubCategory;
-import jm.com.dpbennett.business.entity.LdapContext;
-import jm.com.dpbennett.business.entity.Sector;
-import jm.com.dpbennett.business.entity.SystemOption;
+import jm.com.dpbennett.business.entity.Subgroup;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.MainTabView;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.Tab;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DualListModel;
 
 /**
@@ -69,7 +56,6 @@ public class HumanResourceManager implements Serializable {
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF;
     private JobManager jobManager;
-    private Employee selectedEmployee;
     private Employee foundEmployee;
     private int activeTabIndex;
     private int activeNavigationTabIndex;
@@ -80,63 +66,32 @@ public class HumanResourceManager implements Serializable {
     private String searchType;
     private Boolean startSearchDateDisabled;
     private Boolean endSearchDateDisabled;
-    private Boolean privilegeValue;
     private Boolean searchTextVisible;
     private Boolean isActiveUsersOnly;
     private Boolean isActiveEmployeesOnly;
     private Boolean isActiveDepartmentsOnly;
-    //private Boolean isActiveClassificationsOnly;
-    //private Boolean isActiveJobCategoriesOnly;
-    //private Boolean isActiveJobSubcategoriesOnly;
-    //private Boolean isActiveSectorsOnly;
-    //private Boolean isActiveLdapsOnly;
     private Boolean isActiveBusinessesOnly;
-    //private Boolean isActiveDocumentTypesOnly;
+    private Boolean isActiveSubgroupsOnly;
     private Date startDate;
     private Date endDate;
-    //private JobManagerUser selectedUser;
-    //private JobManagerUser foundUser;
     // Search text
     private String searchText;
-    //private String userSearchText;
     private String employeeSearchText;
     private String departmentSearchText;
-    //private String generalSearchText;
-    //private String systemOptionSearchText;
-    //private String classificationSearchText;
-    //private String jobCategorySearchText;
-    //private String jobSubcategorySearchText;
-    //private String sectorSearchText;
-    //private String ldapSearchText;
     private String businessSearchText;
-    //private String documentTypeSearchText;
-    //private String openedJobsSearchText;
+    private String subgroupSearchText;
     // Found object lists
-    //private List<JobManagerUser> foundUsers;
     private List<Employee> foundEmployees;
     private List<Department> foundDepartments;
-    //private List<SystemOption> foundSystemOptions;
-    //private List<SystemOption> foundFinancialSystemOptions;
-    //private List<LdapContext> foundLdapContexts;
-    //private List<Classification> foundClassifications;
-    //private List<JobCategory> foundJobCategories;
-    //private List<Sector> foundSectors;
-    //private List<DocumentStandard> foundDocumentStandards;
-    //private List<JobSubCategory> foundJobSubcategories;
     private List<Business> foundBusinesses;
-    //private List<DocumentType> foundDocumentTypes;
+    private List<Subgroup> foundSubgroups;
     private DualListModel<Department> departmentDualList;
     // Selected objects
-    //private DocumentType selectedDocumentType;
+    private Employee selectedEmployee;
     private Department selectedDepartment;
-    //private SystemOption selectedSystemOption;
-    //private Classification selectedClassification;
-    //private JobCategory selectedJobCategory;
-    //private JobSubCategory selectedJobSubcategory;
-    //private Sector selectedSector;
-    //private LdapContext selectedLdapContext;
+    private Subgroup selectedSubgroup;
     private Business selectedBusiness;
-    
+
     /**
      * Creates a new instance of SystemManager
      */
@@ -160,7 +115,7 @@ public class HumanResourceManager implements Serializable {
         departmentSearchText = "";
         // Active flags
     }
-    
+
     public JobManager getJobManager() {
         if (jobManager == null) {
             jobManager = Application.findBean("jobManager");
@@ -173,8 +128,6 @@ public class HumanResourceManager implements Serializable {
 
         return jm.getMainTabView();
     }
-    
-    
 
     public DualListModel<Department> getDepartmentDualList() {
 
@@ -192,10 +145,23 @@ public class HumanResourceManager implements Serializable {
         this.departmentDualList = departmentDualList;
     }
 
+    public String getSubgroupSearchText() {
+        if (subgroupSearchText == null) {
+            subgroupSearchText = "";
+        }
+
+        return subgroupSearchText;
+    }
+
+    public void setSubgroupSearchText(String subgroupSearchText) {
+        this.subgroupSearchText = subgroupSearchText;
+    }
+
     public String getBusinessSearchText() {
         if (businessSearchText == null) {
             businessSearchText = "";
         }
+
         return businessSearchText;
     }
 
@@ -222,13 +188,21 @@ public class HumanResourceManager implements Serializable {
         return isActiveDepartmentsOnly;
     }
 
+    public Boolean getIsActiveSubgroupsOnly() {
+        return isActiveSubgroupsOnly;
+    }
+
+    public void setIsActiveSubgroupsOnly(Boolean isActiveSubgroupsOnly) {
+        this.isActiveSubgroupsOnly = isActiveSubgroupsOnly;
+    }
+    
     public Boolean getIsActiveBusinessesOnly() {
         return isActiveBusinessesOnly;
     }
 
     public void setIsActiveBusinessesOnly(Boolean isActiveBusinessesOnly) {
         this.isActiveBusinessesOnly = isActiveBusinessesOnly;
-    }
+    }   
 
     public void setIsActiveDepartmentsOnly(Boolean isActiveDepartmentsOnly) {
         this.isActiveDepartmentsOnly = isActiveDepartmentsOnly;
@@ -267,11 +241,30 @@ public class HumanResourceManager implements Serializable {
         this.selectedDepartment = selectedDepartment;
     }
 
+    public Subgroup getSelectedSubgroup() {
+        if (selectedSubgroup == null) {
+            selectedSubgroup = new Subgroup();
+        }
+
+        return selectedSubgroup;
+    }
+
+    public void setSelectedSubgroup(Subgroup selectedSubgroup) {
+        this.selectedSubgroup = selectedSubgroup;
+    }
+
     public List<Department> getFoundDepartments() {
         if (foundDepartments == null) {
             foundDepartments = Department.findAllActiveDepartments(getEntityManager());
         }
         return foundDepartments;
+    }
+
+    public List<Subgroup> getFoundSubgroups() {
+        if (foundSubgroups == null) {
+            foundSubgroups = Subgroup.findAllActive(getEntityManager());
+        }
+        return foundSubgroups;
     }
 
     public List<Business> getFoundBusinesses() {
@@ -317,10 +310,13 @@ public class HumanResourceManager implements Serializable {
         }
 
     }
+    
+    public void doSubgroupSearch() {
+        foundSubgroups = Subgroup.findAllByName(getEntityManager(), getSubgroupSearchText());
+    }
 
     public void doBusinessSearch() {
         foundBusinesses = Business.findBusinessesByName(getEntityManager(), getBusinessSearchText());
-
     }
 
     public void doEmployeeSearch() {
@@ -478,7 +474,7 @@ public class HumanResourceManager implements Serializable {
             return new ArrayList<>();
         }
     }
-    
+
     public void updateFoundEmployee(SelectEvent event) {
 
         Employee employee = Employee.findEmployeeByName(getEntityManager(),
@@ -502,6 +498,13 @@ public class HumanResourceManager implements Serializable {
         selectedBusiness = new Business();
 
         PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 700);
+    }
+
+    public void createNewSubgroup() {
+
+        selectedSubgroup = new Subgroup();
+
+        PrimeFacesUtils.openDialog(null, "subgroupDialog", true, true, true, 600, 700);
     }
 
     public void createNewEmployee() {
