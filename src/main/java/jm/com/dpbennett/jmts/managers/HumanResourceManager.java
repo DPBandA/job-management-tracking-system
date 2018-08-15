@@ -277,6 +277,7 @@ public class HumanResourceManager implements Serializable {
 
     public void okDepartmentPickList() {
 
+        // tk do depending on selected business or subgroup
         getSelectedBusiness().setDepartments(departmentDualList.getTarget());
 
     }
@@ -356,6 +357,10 @@ public class HumanResourceManager implements Serializable {
     public void editDepartment() {
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
     }
+    
+    public void editSubgroup() {
+        PrimeFacesUtils.openDialog(null, "subgroupDialog", true, true, true, 600, 700);
+    }
 
     public void editBusiness() {
         PrimeFacesUtils.openDialog(null, "businessDialog", true, true, true, 600, 700);
@@ -402,7 +407,7 @@ public class HumanResourceManager implements Serializable {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
-    public void cancelBusinessEdit(ActionEvent actionEvent) {
+    public void cancelDialog(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
@@ -416,6 +421,13 @@ public class HumanResourceManager implements Serializable {
     public void saveSelectedBusiness() {
 
         selectedBusiness.save(getEntityManager());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
+    
+    public void saveSelectedSubgroup() {
+
+        selectedSubgroup.save(getEntityManager());
 
         PrimeFaces.current().dialog().closeDynamic(null);
     }

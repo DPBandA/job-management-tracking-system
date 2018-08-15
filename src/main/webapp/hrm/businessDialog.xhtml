@@ -38,7 +38,6 @@ Email: info@dpbennett.com.jm
         
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>   
-        <ui:include src="departmentPickListDialog.xhtml"/>
 
         <h:form id="businessDialogForm">     
 
@@ -55,7 +54,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{humanResourceManager.cancelBusinessEdit}"
+                                     actionListener="#{humanResourceManager.cancelDialog}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            
@@ -193,7 +192,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{humanResourceManager.cancelBusinessEdit}"
+                                     actionListener="#{humanResourceManager.cancelDialog}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
