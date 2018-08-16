@@ -54,7 +54,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{humanResourceManager.cancelDialog}"
+                                     actionListener="#{humanResourceManager.closeDialog}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"
                                      icon="ui-icon ui-icon-close" />            
@@ -95,16 +95,20 @@ Email: info@dpbennett.com.jm
                 <p:tab title="Departments">
                     <p:toolbar>
                         <p:toolbarGroup align="left" >   
-                            <p:commandButton title="Add department(s)"                                  
-                                             value="Add"
-
-                                             update=":businessDialogForm:businessdialog_growl,departmentsTable"
-                                             onstart="PF('longProcessDialogVar').show();PF('departmentPickListDialog').show();"
+                            <p:commandButton title="Edit department list"                                  
+                                             value="Edit"
+                                             actionListener="#{humanResourceManager.addBusinessDepartments}"
+                                             update=":businessDialogForm:businessdialog_growl"
+                                             onstart="PF('longProcessDialogVar').show();"
                                              oncomplete="PF('longProcessDialogVar').hide();"
                                              onerror="PF('connectionErrorDialog').show();"
                                              global="true"
                                              process="@this"
-                                             icon="ui-icon ui-icon-plus">
+                                             icon="ui-icon ui-icon-pencil">
+                                
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{humanResourceManager.addBusinessDepartmentsDialogReturn}"
+                                        update="departmentsTable"/>
 
                             </p:commandButton>                           
                         </p:toolbarGroup>                    
@@ -161,22 +165,6 @@ Email: info@dpbennett.com.jm
                         </ui:remove>
 
                     </p:dataTable>
-                    <p:toolbar>
-                        <p:toolbarGroup align="left" >   
-                            <p:commandButton title="Add department(s)"                                  
-                                             value="Add"
-
-                                             update=":businessDialogForm:businessdialog_growl,departmentsTable"
-                                             onstart="PF('longProcessDialogVar').show();PF('departmentPickListDialog').show();"
-                                             oncomplete="PF('longProcessDialogVar').hide();"
-                                             onerror="PF('connectionErrorDialog').show();"
-                                             global="true"
-                                             process="@this"
-                                             icon="ui-icon ui-icon-plus">
-
-                            </p:commandButton>                           
-                        </p:toolbarGroup>                    
-                    </p:toolbar> 
                 </p:tab>                           
 
             </p:tabView>
@@ -192,7 +180,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{humanResourceManager.cancelDialog}"
+                                     actionListener="#{humanResourceManager.closeDialog}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      immediate="true"

@@ -168,7 +168,14 @@
             <from-outcome>departmentDialog</from-outcome>
             <to-view-id>/hrm/departmentDialog.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>        
+    </navigation-rule>    
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>departmentPickListDialog</from-outcome>
+            <to-view-id>/hrm/departmentPickListDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

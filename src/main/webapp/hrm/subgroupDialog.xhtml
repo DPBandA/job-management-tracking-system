@@ -35,45 +35,35 @@ Email: info@dpbennett.com.jm
         <link rel="stylesheet" href="../css/main.css" />  
     </h:head>
     <h:body >  
-        
+
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>   
-        
+
         <h:form id="subgroupDialogForm">     
 
             <p:growl id="subgroupdialog_growl" life="5000" showDetail="true"/>
 
-            <p:toolbar style="margin-bottom: 1px;">
-                <p:toolbarGroup>
-                    <p:commandButton value="Ok"
-                                     actionListener="#{humanResourceManager.saveSelectedSubgroup}"
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon ui-icon-check"
-                                     update="subgroupdialog_growl"
-                                     process="@form"/>
-                    <p:spacer width="5" />
-                    <p:commandButton value="Cancel"
-                                     actionListener="#{humanResourceManager.cancelDialog}"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     immediate="true"
-                                     icon="ui-icon ui-icon-close" />            
-                </p:toolbarGroup>
-            </p:toolbar>
+            <ui:include src="subgroupDialogToolbar.xhtml"/>
 
-            <p:panel style="margin-bottom: 1px;">
-                <h:panelGrid columns="2">               
+            <p:panel style="margin-bottom: 1px;margin-top: 1px;">
+                <h:panelGrid columns="2">  
+                    <p:outputLabel for="subgroupActive" value="Active:"
+                                   style="font-weight: bold;" />               
+                    <p:selectBooleanCheckbox id="subgroupActive"
+                                             style="vertical-align: middle"
+                                             value="#{humanResourceManager.selectedSubgroup.active}" />
+
 
                     <h:outputText value="Name:" style="font-weight: bold;" />
                     <p:inputText value="#{humanResourceManager.selectedSubgroup.name}"
                                  style="width:300px"
                                  validator="requiredFieldValidator" /> 
-                    
+
                     <h:outputText value="Code:" style="font-weight: bold;" />
                     <p:inputText value="#{humanResourceManager.selectedSubgroup.code}"
                                  style="width:300px"
                                  validator="requiredFieldValidator" />
-               
+
                     <h:outputText value="Notes:" />
                     <h:panelGroup>                        
                         <p:inputTextarea
@@ -93,15 +83,20 @@ Email: info@dpbennett.com.jm
                 <p:tab title="Departments">
                     <p:toolbar>
                         <p:toolbarGroup align="left" >   
-                            <p:commandButton title="Add department(s)"                                  
-                                             value="Add"
-                                             update=":subgroupDialogForm:subgroupdialog_growl,departmentsTable"
-                                             onstart="PF('longProcessDialogVar').show();PF('departmentPickListDialog').show();"
+                            <p:commandButton title="Edit department list"                                  
+                                             value="Edit"
+                                             actionListener="#{humanResourceManager.addSubgroupDepartments}"
+                                             update=":subgroupDialogForm:subgroupdialog_growl"
+                                             onstart="PF('longProcessDialogVar').show();"
                                              oncomplete="PF('longProcessDialogVar').hide();"
                                              onerror="PF('connectionErrorDialog').show();"
                                              global="true"
                                              process="@this"
-                                             icon="ui-icon ui-icon-plus">
+                                             icon="ui-icon ui-icon-pencil">
+
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{humanResourceManager.addSubgroupDepartmentsDialogReturn}"
+                                        update="departmentsTable"/>
 
                             </p:commandButton>                           
                         </p:toolbarGroup>                    
@@ -158,42 +153,13 @@ Email: info@dpbennett.com.jm
                         </ui:remove>
 
                     </p:dataTable>
-                    <p:toolbar>
-                        <p:toolbarGroup align="left" >   
-                            <p:commandButton title="Add department(s)"                                  
-                                             value="Add"
-                                             update=":subgroupDialogForm:subgroupdialog_growl,departmentsTable"
-                                             onstart="PF('longProcessDialogVar').show();PF('departmentPickListDialog').show();"
-                                             oncomplete="PF('longProcessDialogVar').hide();"
-                                             onerror="PF('connectionErrorDialog').show();"
-                                             global="true"
-                                             process="@this"
-                                             icon="ui-icon ui-icon-plus">
-                            </p:commandButton>                           
-                        </p:toolbarGroup>                    
-                    </p:toolbar> 
+
                 </p:tab>                           
 
             </p:tabView>
 
-            <p:toolbar style="margin-top: 1px;">
-                <p:toolbarGroup>
-                    <p:commandButton value="Ok"
-                                     actionListener="#{humanResourceManager.saveSelectedSubgroup}"
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide()"
-                                     icon="ui-icon ui-icon-check"
-                                     update="subgroupdialog_growl"
-                                     process="@form"/>
-                    <p:spacer width="5" />
-                    <p:commandButton value="Cancel"
-                                     actionListener="#{humanResourceManager.cancelDialog}"
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     immediate="true"
-                                     icon="ui-icon ui-icon-close" />            
-                </p:toolbarGroup>
-            </p:toolbar> 
+            <ui:include src="subgroupDialogToolbar.xhtml"/>
+
         </h:form> 
     </h:body>
 </html>

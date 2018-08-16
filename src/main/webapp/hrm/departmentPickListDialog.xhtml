@@ -40,23 +40,9 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/commonDialogs.xhtml"/> 
 
         <h:form id="departmentPickListDialogForm">           
-            <p:toolbar>
-                <p:toolbarGroup>
-                    <p:commandButton value="Ok"
-                                     actionListener="#{humanResourceManager.okDepartmentPickList}"
-                                     update=":businessDialogForm:businessDepartments:departmentsTable"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     oncomplete="PF('longProcessDialogVar').hide();PF('departmentPickListDialog').hide();"
-                                     icon="ui-icon ui-icon-check"
-                                     process="@form"/>
-                    <p:spacer width="5" />
-                    <p:commandButton value="Cancel" 
-                                     immediate="true"
-                                     onstart="PF('longProcessDialogVar').show();"                              
-                                     oncomplete="PF('departmentPickListDialog').hide();PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon-close"/>
-                </p:toolbarGroup>
-            </p:toolbar>            
+
+            <ui:include src="departmentPickListDialogToolbar.xhtml"/>
+
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
 
                 <p:pickList value="#{humanResourceManager.departmentDualList}" 
@@ -65,24 +51,9 @@ Email: info@dpbennett.com.jm
                             itemValue="#{department}" 
                             converter="departmentConverter" />
 
-            </p:panel>            
-            <p:toolbar>
-                <p:toolbarGroup>
-                    <p:commandButton value="Ok"
-                                     actionListener="#{humanResourceManager.okDepartmentPickList}"
-                                     update=":businessDialogForm:businessDepartments:departmentsTable"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     oncomplete="PF('longProcessDialogVar').hide();PF('departmentPickListDialog').hide();"
-                                     icon="ui-icon ui-icon-check"
-                                     process="@form"/>
-                    <p:spacer width="5" />
-                    <p:commandButton value="Cancel" 
-                                     immediate="true"
-                                     onstart="PF('longProcessDialogVar').show();"                              
-                                     oncomplete="PF('departmentPickListDialog').hide();PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon-close"/>
-                </p:toolbarGroup>
-            </p:toolbar>  
+            </p:panel>      
+
+            <ui:include src="departmentPickListDialogToolbar.xhtml"/>  
             <p/>       
         </h:form>    
     </h:body>

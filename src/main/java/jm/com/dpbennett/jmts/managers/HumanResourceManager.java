@@ -33,6 +33,7 @@ import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.Business;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Department;
+import jm.com.dpbennett.business.entity.Division;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Subgroup;
@@ -90,6 +91,7 @@ public class HumanResourceManager implements Serializable {
     private Employee selectedEmployee;
     private Department selectedDepartment;
     private Subgroup selectedSubgroup;
+    private Division selectedDivision;
     private Business selectedBusiness;
 
     /**
@@ -129,14 +131,18 @@ public class HumanResourceManager implements Serializable {
         return jm.getMainTabView();
     }
 
+//    public DualListModel<Department> getDepartmentDualList() {
+//
+//        List<Department> source = Department.findAllActiveDepartments(getEntityManager());
+//        List<Department> target = selectedBusiness.getDepartments();
+//
+//        source.removeAll(target);
+//
+//        departmentDualList = new DualListModel<>(source, target);
+//
+//        return departmentDualList;
+//    }
     public DualListModel<Department> getDepartmentDualList() {
-
-        List<Department> source = Department.findAllActiveDepartments(getEntityManager());
-        List<Department> target = selectedBusiness.getDepartments();
-
-        source.removeAll(target);
-
-        departmentDualList = new DualListModel<>(source, target);
 
         return departmentDualList;
     }
@@ -195,14 +201,14 @@ public class HumanResourceManager implements Serializable {
     public void setIsActiveSubgroupsOnly(Boolean isActiveSubgroupsOnly) {
         this.isActiveSubgroupsOnly = isActiveSubgroupsOnly;
     }
-    
+
     public Boolean getIsActiveBusinessesOnly() {
         return isActiveBusinessesOnly;
     }
 
     public void setIsActiveBusinessesOnly(Boolean isActiveBusinessesOnly) {
         this.isActiveBusinessesOnly = isActiveBusinessesOnly;
-    }   
+    }
 
     public void setIsActiveDepartmentsOnly(Boolean isActiveDepartmentsOnly) {
         this.isActiveDepartmentsOnly = isActiveDepartmentsOnly;
@@ -249,6 +255,14 @@ public class HumanResourceManager implements Serializable {
         return selectedSubgroup;
     }
 
+    public Division getSelectedDivision() {
+        return selectedDivision;
+    }
+
+    public void setSelectedDivision(Division selectedDivision) {
+        this.selectedDivision = selectedDivision;
+    }
+    
     public void setSelectedSubgroup(Subgroup selectedSubgroup) {
         this.selectedSubgroup = selectedSubgroup;
     }
@@ -276,8 +290,17 @@ public class HumanResourceManager implements Serializable {
     }
 
     public void okDepartmentPickList() {
+        closeDialog(null);
+    }
 
-        // tk do depending on selected business or subgroup
+    public void addSubgroupDepartmentsDialogReturn() {
+
+        getSelectedSubgroup().setDepartments(departmentDualList.getTarget());
+
+    }
+
+    public void addBusinessDepartmentsDialogReturn() {
+
         getSelectedBusiness().setDepartments(departmentDualList.getTarget());
 
     }
@@ -311,7 +334,7 @@ public class HumanResourceManager implements Serializable {
         }
 
     }
-    
+
     public void doSubgroupSearch() {
         foundSubgroups = Subgroup.findAllByName(getEntityManager(), getSubgroupSearchText());
     }
@@ -357,7 +380,7 @@ public class HumanResourceManager implements Serializable {
     public void editDepartment() {
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
     }
-    
+
     public void editSubgroup() {
         PrimeFacesUtils.openDialog(null, "subgroupDialog", true, true, true, 600, 700);
     }
@@ -398,7 +421,7 @@ public class HumanResourceManager implements Serializable {
         this.activeNavigationTabIndex = activeNavigationTabIndex;
     }
 
-    // tk replace cancel* with cancelDialog
+    // tk replace cancel* with closeDialog
     public void cancelEmployeeEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
@@ -407,7 +430,7 @@ public class HumanResourceManager implements Serializable {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
-    public void cancelDialog(ActionEvent actionEvent) {
+    public void closeDialog(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
@@ -424,7 +447,7 @@ public class HumanResourceManager implements Serializable {
 
         PrimeFaces.current().dialog().closeDynamic(null);
     }
-    
+
     public void saveSelectedSubgroup() {
 
         selectedSubgroup.save(getEntityManager());
@@ -503,6 +526,32 @@ public class HumanResourceManager implements Serializable {
         selectedDepartment = new Department();
 
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
+    }
+
+    public void openDepartmentPickListDialog() {
+        PrimeFacesUtils.openDialog(null, "departmentPickListDialog", true, true, true, 320, 500);
+    }
+
+    public void addSubgroupDepartments() {
+        List<Department> source = Department.findAllActiveDepartments(getEntityManager());
+        List<Department> target = selectedSubgroup.getDepartments();
+
+        source.removeAll(target);
+
+        departmentDualList = new DualListModel<>(source, target);
+
+        openDepartmentPickListDialog();
+    }
+
+    public void addBusinessDepartments() {
+        List<Department> source = Department.findAllActiveDepartments(getEntityManager());
+        List<Department> target = selectedBusiness.getDepartments();
+
+        source.removeAll(target);
+
+        departmentDualList = new DualListModel<>(source, target);
+
+        openDepartmentPickListDialog();
     }
 
     public void createNewBusiness() {
