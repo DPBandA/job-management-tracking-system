@@ -21,7 +21,6 @@
     <class>jm.com.dpbennett.business.entity.Department</class>
     <class>jm.com.dpbennett.business.entity.DepartmentReport</class>
     <class>jm.com.dpbennett.business.entity.Distributor</class>
-    <class>jm.com.dpbennett.business.entity.Division</class>
     <class>jm.com.dpbennett.business.entity.DocumentReport</class>
     <class>jm.com.dpbennett.business.entity.DocumentSequenceNumber</class>
     <class>jm.com.dpbennett.business.entity.DocumentType</class>
@@ -67,7 +66,6 @@
     <class>jm.com.dpbennett.business.entity.Seal</class>
     <class>jm.com.dpbennett.business.entity.Sector</class>
     <class>jm.com.dpbennett.business.entity.ServiceContract</class>
-    <class>jm.com.dpbennett.business.entity.StandardsOrganization</class>
     <class>jm.com.dpbennett.business.entity.Sticker</class>
     <class>jm.com.dpbennett.business.entity.SystemOption</class>
     <class>jm.com.dpbennett.business.entity.TestMeasure</class>

@@ -93,6 +93,7 @@ Email: info@dpbennett.com.jm
                             oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
                             onerror="PF('connectionErrorDialog').show();"
                             process="@this"/>                
+
                 <p:separator rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"/>
                 <p:menuitem value="Export Accpac Invoices"                            
                             ajax="false"
