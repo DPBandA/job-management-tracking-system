@@ -81,11 +81,13 @@ public class HumanResourceManager implements Serializable {
     private String departmentSearchText;
     private String businessSearchText;
     private String subgroupSearchText;
+    private String divisionSearchText;
     // Found object lists
     private List<Employee> foundEmployees;
     private List<Department> foundDepartments;
     private List<Business> foundBusinesses;
     private List<Subgroup> foundSubgroups;
+    private List<Division> foundDivisions;
     private DualListModel<Department> departmentDualList;
     // Selected objects
     private Employee selectedEmployee;
@@ -115,7 +117,9 @@ public class HumanResourceManager implements Serializable {
         searchText = "";
         employeeSearchText = "";
         departmentSearchText = "";
-        // Active flags
+        subgroupSearchText = "";
+        divisionSearchText = "";
+        businessSearchText = "";
     }
 
     public JobManager getJobManager() {
@@ -131,17 +135,14 @@ public class HumanResourceManager implements Serializable {
         return jm.getMainTabView();
     }
 
-//    public DualListModel<Department> getDepartmentDualList() {
-//
-//        List<Department> source = Department.findAllActiveDepartments(getEntityManager());
-//        List<Department> target = selectedBusiness.getDepartments();
-//
-//        source.removeAll(target);
-//
-//        departmentDualList = new DualListModel<>(source, target);
-//
-//        return departmentDualList;
-//    }
+    public String getDivisionSearchText() {
+        return divisionSearchText;
+    }
+
+    public void setDivisionSearchText(String divisionSearchText) {
+        this.divisionSearchText = divisionSearchText;
+    }
+
     public DualListModel<Department> getDepartmentDualList() {
 
         return departmentDualList;
@@ -152,9 +153,6 @@ public class HumanResourceManager implements Serializable {
     }
 
     public String getSubgroupSearchText() {
-        if (subgroupSearchText == null) {
-            subgroupSearchText = "";
-        }
 
         return subgroupSearchText;
     }
@@ -262,7 +260,7 @@ public class HumanResourceManager implements Serializable {
     public void setSelectedDivision(Division selectedDivision) {
         this.selectedDivision = selectedDivision;
     }
-    
+
     public void setSelectedSubgroup(Subgroup selectedSubgroup) {
         this.selectedSubgroup = selectedSubgroup;
     }
@@ -296,6 +294,12 @@ public class HumanResourceManager implements Serializable {
     public void addSubgroupDepartmentsDialogReturn() {
 
         getSelectedSubgroup().setDepartments(departmentDualList.getTarget());
+
+    }
+
+    public void addDivisionDepartmentsDialogReturn() {
+
+        getSelectedDivision().setDepartments(departmentDualList.getTarget());
 
     }
 
@@ -337,6 +341,10 @@ public class HumanResourceManager implements Serializable {
 
     public void doSubgroupSearch() {
         foundSubgroups = Subgroup.findAllByName(getEntityManager(), getSubgroupSearchText());
+    }
+    
+    public void doDivisionSearch() {
+        foundDivisions = Division.findAllByName(getEntityManager(), getDivisionSearchText());
     }
 
     public void doBusinessSearch() {
@@ -455,6 +463,13 @@ public class HumanResourceManager implements Serializable {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
+    public void saveSelectedDivision() {
+
+        selectedDivision.save(getEntityManager());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
+
     public void saveSelectedEmployee(ActionEvent actionEvent) {
 
         selectedEmployee.save(getEntityManager());
@@ -543,6 +558,17 @@ public class HumanResourceManager implements Serializable {
         openDepartmentPickListDialog();
     }
 
+    public void addDivisionDepartments() {
+        List<Department> source = Department.findAllActiveDepartments(getEntityManager());
+        List<Department> target = selectedDivision.getDepartments();
+
+        source.removeAll(target);
+
+        departmentDualList = new DualListModel<>(source, target);
+
+        openDepartmentPickListDialog();
+    }
+
     public void addBusinessDepartments() {
         List<Department> source = Department.findAllActiveDepartments(getEntityManager());
         List<Department> target = selectedBusiness.getDepartments();
@@ -573,6 +599,13 @@ public class HumanResourceManager implements Serializable {
         selectedEmployee = new Employee();
 
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
+    }
+
+    public void createNewDivision() {
+
+        selectedDivision = new Division();
+
+        PrimeFacesUtils.openDialog(null, "divisionDialog", true, true, true, 600, 700);
     }
 
     public void fetchDepartment(ActionEvent action) {

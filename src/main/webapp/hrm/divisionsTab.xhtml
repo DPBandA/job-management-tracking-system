@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left" >   
             <p:commandButton title="Add new division"                                  
                              value="New"
-                             actionListener="#{humanResourceManager.createNewSubgroup}"
+                             actionListener="#{humanResourceManager.createNewDivision}"
                              update=":headerForm:growl3"
                              onstart="PF('longProcessDialogVar').show();"   
                              oncomplete="PF('longProcessDialogVar').hide();"
@@ -42,15 +42,15 @@ Email: info@dpbennett.com.jm
 
             </p:commandButton> 
             <p:spacer width="20" />
-            <p:inputText id="subgroupSearchText" 
-                         value="#{humanResourceManager.subgroupSearchText}"
+            <p:inputText id="divisionSearchText" 
+                         value="#{humanResourceManager.divisionSearchText}"
                          style="width:150px" placeholder="Enter any part of name">
                 <p:ajax event="keyup"
                         global="false"
                         onstart="PF('longProcessDialogVar').show();" 
                         oncomplete="PF('longProcessDialogVar').hide();"
                         update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"
-                        listener="#{humanResourceManager.doSubgroupSearch}"
+                        listener="#{humanResourceManager.doDivisionSearch}"
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>

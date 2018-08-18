@@ -35,8 +35,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
@@ -98,10 +96,10 @@ public class ReportManager implements Serializable {
     private Integer longProcessProgress;
     private String reportSearchText;
     private List<Report> foundReports;
-    private DatePeriodJobReport jobSubCategoryReport; // tk may be retired
-    private DatePeriodJobReport sectorReport; // tk may be retired
-    private DatePeriodJobReport jobQuantitiesAndServicesReport; // tk may be retired   
-    private DatePeriod defaultDatePeriod;
+//    private DatePeriodJobReport jobSubCategoryReport; // tk may be retired
+//    private DatePeriodJobReport sectorReport; // tk may be retired
+//    private DatePeriodJobReport jobQuantitiesAndServicesReport; // tk may be retired   
+//    private DatePeriod defaultDatePeriod;
     private JobManager jobManager;
     private Report selectedReport;
     private Report currentReport;
@@ -501,7 +499,7 @@ public class ReportManager implements Serializable {
         this.longProcessProgress = 0;
         this.columnsToExclude = "";
         this.reportCategory = "Job";
-        defaultDatePeriod = new DatePeriod("This month", "month", null, null, null, null, false, false, true);
+//        defaultDatePeriod = new DatePeriod("This month", "month", null, null, null, null, false, false, true);
     }
 
     public void reset() {

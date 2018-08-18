@@ -94,6 +94,7 @@
     <class>jm.com.dpbennett.business.entity.Modules</class>
     <class>jm.com.dpbennett.business.entity.AccountingCode</class>
     <class>jm.com.dpbennett.business.entity.Subgroup</class>
+    <class>jm.com.dpbennett.business.entity.Division</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>

@@ -305,6 +305,13 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>divisionDialog</from-outcome>
+            <to-view-id>/hrm/divisionDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>jobDialog</from-outcome>
             <to-view-id>/job/jobDialog.xhtml</to-view-id>
         </navigation-case>
