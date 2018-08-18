@@ -1,6 +1,5 @@
-Impl HR module with HumanResourceManager class:
-- Continue updating divisionTab.xhtml
-- Add fields to Division class and update all databases
-- Create divisions and divisional groups tabs.
+Impl HR module with HumanResourceManager clas
+- Add subgroups tab to division.
 - Create labs and units within departments.
-
+- In departments tab in division dialog, list the departments that are in subgroups
+  in addition to those that fall directly under the division.

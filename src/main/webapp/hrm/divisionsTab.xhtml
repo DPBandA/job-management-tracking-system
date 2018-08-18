@@ -57,17 +57,17 @@ Email: info@dpbennett.com.jm
 
         <ui:remove>
             <p:toolbarGroup align="right">
-                <p:outputLabel for="activeSubgroupsOnly" value="Active subgroups only: " />  
+                <p:outputLabel for="activeDivisionsOnly" value="Active divisions only: " />  
                 <h:panelGroup>
                     <p:selectBooleanCheckbox style="vertical-align: middle"
-                                             id="activeSubgroupsOnly"
-                                             value="#{humanResourceManager.isActiveSubgroupsOnly}" >
+                                             id="activeDivisionsOnly"
+                                             value="#{humanResourceManager.isActiveDivisionsOnly}" >
                         <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"
-                                 listener="#{humanResourceManager.doSubgroupSearch}"
+                                 listener="#{humanResourceManager.doDivisionSearch}"
                                  event="change"                                      
                                  process="@this"/>
                     </p:selectBooleanCheckbox>            
-                    <p:tooltip for="activeSubgroupsOnly" value="Check to show active subgroups only" 
+                    <p:tooltip for="activeDivisionsOnly" value="Check to show active divisions only" 
                                showEffect="fade" hideEffect="fade" />
                     <p:spacer width="15" />                
                 </h:panelGroup>
@@ -77,30 +77,30 @@ Email: info@dpbennett.com.jm
     </p:toolbar>    
 
     <p:dataTable id="divisionsTable"                                       
-                 var="subgroup"                                        
+                 var="division"                                        
                  paginator="true"
                  rows="15"
                  style="margin-bottom: 1px;margin-top: 1px;"
-                 widgetVar="subgroupsTableVar"
+                 widgetVar="divisionsTableVar"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{humanResourceManager.foundSubgroups}">
+                 value="#{humanResourceManager.foundDivisions}">
 
         <f:facet name="header">
-            Subgroups
+            Divisions
         </f:facet>
 
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Name"/>
             </f:facet>
-            <h:outputText value="#{subgroup.name}" />
+            <h:outputText value="#{division.name}" />
         </p:column>   
 
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Notes"/>
             </f:facet>
-            <h:outputText value="#{subgroup.notes}" />
+            <h:outputText value="#{division.notes}" />
         </p:column>
 
         <ui:remove>
@@ -108,21 +108,21 @@ Email: info@dpbennett.com.jm
                 <f:facet name="header">
                     <h:outputText value="Departments"/>
                 </f:facet>
-                <h:outputText value="#{subgroup.departmentList}" />
+                <h:outputText value="#{division.departmentList}" />
             </p:column>  
         </ui:remove>
 
         <p:column style="width:32px">
             <p:commandButton title="View or edit subgroup"   
-                             actionListener="#{humanResourceManager.editSubgroup}"
+                             actionListener="#{humanResourceManager.editDivision}"
                              onstart="PF('longProcessDialogVar').show();"  
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
-                <f:setPropertyActionListener value="#{subgroup}"                                                                    
-                                             target="#{humanResourceManager.selectedSubgroup}" />
+                <f:setPropertyActionListener value="#{division}"                                                                    
+                                             target="#{humanResourceManager.selectedDivision}" />
                 <p:ajax event="dialogReturn" 
                         update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"/>
 
