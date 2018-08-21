@@ -346,12 +346,12 @@ Email: info@dpbennett.com.jm
                                             value="#{reportManager.currentReport.clients}"
                                             itemLabel="#{client.name}"
                                             itemValue="#{client}"
-                                            converter="clientConverter"
+                                            converter="activeClientConverter"
                                             forceSelection="true"
                                             dropdown="false"
                                             scrollHeight="200"  
                                             multiple="true"
-                                            completeMethod="#{App.completeClient}" >
+                                            completeMethod="#{App.completeActiveClient}" >
 
                                 <p:ajax event="itemSelect"
                                         update="clients"

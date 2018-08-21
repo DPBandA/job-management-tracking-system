@@ -492,7 +492,7 @@ public class Application {
         }
     }
 
-    public List<Client> completeClient(String query) {
+    public List<Client> completeActiveClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
 

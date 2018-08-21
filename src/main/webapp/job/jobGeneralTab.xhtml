@@ -118,10 +118,10 @@ Email: info@dpbennett.com.jm
                             dropdown="false"
                             scrollHeight="200" 
                             value="#{jobManager.currentJob.client}"   
-                            converter="clientConverter"
+                            converter="activeClientConverter"
                             validator="jobClientValidator"
                             forceSelection="true"
-                            completeMethod="#{App.completeClient}" >
+                            completeMethod="#{App.completeActiveClient}" >
 
                 <p:ajax event="itemSelect"
                         update="jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"

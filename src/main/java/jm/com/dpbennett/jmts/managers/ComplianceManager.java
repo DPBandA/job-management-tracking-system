@@ -594,7 +594,7 @@ public class ComplianceManager implements Serializable {
     public void updateComplianceSurveyRetailOutletRepresentative() {
     }
 
-    // tk replace this and others like it with clientManager.completeClient()
+    // tk replace this and others like it with clientManager.completeActiveClient()
     public List<String> completeComplianceSurveyRetailOutletRepresentativeName(String query) {
         ArrayList<String> contactsFound = new ArrayList<String>();
 

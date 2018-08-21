@@ -112,8 +112,8 @@ Email: info@dpbennett.com.jm
                                                 itemValue="#{client}"
                                                 title="#{client.name}"
                                                 forceSelection="true"
-                                                converter="clientConverter"
-                                                completeMethod="#{App.completeClient}" >
+                                                converter="activeClientConverter"
+                                                completeMethod="#{App.completeActiveClient}" >
 
                                     <p:ajax event="itemSelect"   
                                             update="clientActionsMenu"

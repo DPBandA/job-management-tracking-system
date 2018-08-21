@@ -35,7 +35,7 @@
         <converter-class>jm.com.dpbennett.business.entity.converter.DocumentTypeConverter</converter-class>
     </converter>                               
     <converter>
-        <converter-id>clientConverter</converter-id>
+        <converter-id>activeClientConverter</converter-id>
         <converter-class>jm.com.dpbennett.business.entity.converter.ActiveClientConverter</converter-class>
     </converter>   
     <converter>
