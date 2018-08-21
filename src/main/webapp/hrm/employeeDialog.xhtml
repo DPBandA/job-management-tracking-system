@@ -113,8 +113,8 @@ Email: info@dpbennett.com.jm
                                     itemValue="#{department}"
                                     itemLabel="#{department.truncatedName}"                                     
                                     validator="requiredFieldValidator"
-                                    converter="departmentConverter"
-                                    completeMethod="#{App.completeDepartment}" >                
+                                    converter="activeDepartmentConverter"
+                                    completeMethod="#{App.completeActiveDepartment}" >                
                     </p:autoComplete>                    
 
                 </h:panelGrid>

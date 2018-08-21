@@ -94,12 +94,12 @@ Email: info@dpbennett.com.jm
                                     value="#{reportManager.reportingDepartment1}"
                                     itemLabel="#{department.name}"
                                     itemValue="#{department}"
-                                    converter="departmentConverter"
+                                    converter="activeDepartmentConverter"
                                     forceSelection="true"
                                     dropdown="true"
                                     size="40"
                                     scrollHeight="200"  
-                                    completeMethod="#{App.completeDepartment}" >
+                                    completeMethod="#{App.completeActiveDepartment}" >
 
                         <p:ajax event="itemSelect"
                                 update="departments"

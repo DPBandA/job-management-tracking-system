@@ -27,8 +27,8 @@
         <converter-class>jm.com.dpbennett.business.entity.converter.ReportConverter</converter-class>
     </converter>     
     <converter>
-        <converter-id>departmentConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.DepartmentConverter</converter-class>
+        <converter-id>activeDepartmentConverter</converter-id>
+        <converter-class>jm.com.dpbennett.business.entity.converter.ActiveDepartmentConverter</converter-class>
     </converter>     
     <converter>
         <converter-id>documentTypeConverter</converter-id>

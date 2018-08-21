@@ -410,7 +410,7 @@ public class Application {
         }
     }
 
-    public List<Department> completeDepartment(String query) {
+    public List<Department> completeActiveDepartment(String query) {
         EntityManager em;
 
         try {

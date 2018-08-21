@@ -53,8 +53,8 @@ Email: info@dpbennett.com.jm
                                                 title="#{financeManager.jobCostDepartment}"
                                                 itemValue="#{department}"
                                                 itemLabel="#{department.name}" 
-                                                converter="departmentConverter"
-                                                completeMethod="#{App.completeDepartment}" >
+                                                converter="activeDepartmentConverter"
+                                                completeMethod="#{App.completeActiveDepartment}" >
                                     <p:ajax event="itemSelect"
                                             listener="#{financeManager.updateJobCostDepartment}"   
                                             update=":jobCostsTableForm"

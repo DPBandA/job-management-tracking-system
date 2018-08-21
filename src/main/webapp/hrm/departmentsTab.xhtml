@@ -86,20 +86,20 @@ Email: info@dpbennett.com.jm
             Departments
         </f:facet>
 
+         <p:column>
+            <f:facet name="header">
+                <h:outputText value="Name"/>
+            </f:facet>
+            <h:outputText value="#{department.name}" />
+        </p:column>
+        
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Code"/>
             </f:facet>
             <h:outputText value="#{department.subGroupCode}" />
         </p:column>
-
-        <p:column>
-            <f:facet name="header">
-                <h:outputText value="Name"/>
-            </f:facet>
-            <h:outputText value="#{department.name}" />
-        </p:column>                          
-
+        
         <p:column style="width:32px">
             <p:commandButton title="View or edit department"   
                              actionListener="#{humanResourceManager.editDepartment}"

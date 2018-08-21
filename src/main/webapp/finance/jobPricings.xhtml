@@ -74,8 +74,8 @@ Email: info@dpbennett.com.jm
                             title="#{financeManager.currentUnitCost.department}"
                             itemValue="#{department}"
                             itemLabel="#{department.name}"
-                            converter="departmentConverter"
-                            completeMethod="#{App.completeDepartment}" >
+                            converter="activeDepartmentConverter"
+                            completeMethod="#{App.completeActiveDepartment}" >
                             <p:ajax event="itemSelect"
                                     listener="#{financeManager.updateCurrentUnitCostDepartment}"
                                     global="false"                                    
@@ -229,8 +229,8 @@ Email: info@dpbennett.com.jm
                                                 title="#{financeManager.unitCostDepartment}"
                                                 itemValue="#{department}"
                                                 itemLabel="#{department.name}" 
-                                                converter="departmentConverter"
-                                                completeMethod="#{App.completeDepartment}" >
+                                                converter="activeDepartmentConverter"
+                                                completeMethod="#{App.completeActiveDepartment}" >
                                     <p:ajax event="itemSelect"
                                             listener="#{financeManager.updateUnitCostDepartment}"   
                                             update=":unitCostsTableForm"

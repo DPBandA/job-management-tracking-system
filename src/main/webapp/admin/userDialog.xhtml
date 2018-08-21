@@ -98,9 +98,9 @@ Email: info@dpbennett.com.jm
                                         title="#{systemManager.selectedUser.department}"
                                         itemLabel="#{department.name}"
                                         itemValue="#{department}"
-                                        converter="departmentConverter"
+                                        converter="activeDepartmentConverter"
                                         forceSelection="true"
-                                        completeMethod="#{App.completeDepartment}" >                       
+                                        completeMethod="#{App.completeActiveDepartment}" >                       
                         </p:autoComplete>   
                     </ui:remove>
 

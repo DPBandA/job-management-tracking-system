@@ -269,12 +269,12 @@ Email: info@dpbennett.com.jm
                                             value="#{reportManager.currentReport.departments}"
                                             itemLabel="#{department.name}"
                                             itemValue="#{department}"
-                                            converter="departmentConverter"
+                                            converter="activeDepartmentConverter"
                                             forceSelection="true"
                                             dropdown="true"
                                             scrollHeight="200"  
                                             multiple="true"
-                                            completeMethod="#{App.completeDepartment}" >
+                                            completeMethod="#{App.completeActiveDepartment}" >
 
                                 <p:ajax event="itemSelect"
                                         update="departments"
@@ -289,12 +289,12 @@ Email: info@dpbennett.com.jm
                                                 value="#{reportManager.currentReport.departments}"
                                                 itemLabel="#{department.name}"
                                                 itemValue="#{department}"
-                                                converter="departmentConverter"
+                                                converter="activeDepartmentConverter"
                                                 forceSelection="true"
                                                 dropdown="true"
                                                 scrollHeight="200"  
                                                 multiple="true"
-                                                completeMethod="#{App.completeDepartment}" >
+                                                completeMethod="#{App.completeActiveDepartment}" >
 
                                     <p:ajax event="itemSelect"
                                             update="departments"

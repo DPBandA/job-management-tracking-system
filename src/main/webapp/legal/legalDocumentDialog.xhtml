@@ -95,9 +95,9 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.requestingDepartment}"
                                         itemValue="#{department}"
                                         itemLabel="#{department.name}"
-                                        converter="departmentConverter"
+                                        converter="activeDepartmentConverter"
                                         validator="businessEntityValidator"
-                                        completeMethod="#{App.completeDepartment}" >            
+                                        completeMethod="#{App.completeActiveDepartment}" >            
 
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     event="itemSelect"
@@ -405,9 +405,9 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.responsibleDepartment}"
                                         itemValue="#{department}"
                                         itemLabel="#{department.name}"
-                                        converter="departmentConverter"
+                                        converter="activeDepartmentConverter"
                                         validator="businessEntityValidator"
-                                        completeMethod="#{App.completeDepartment}" >            
+                                        completeMethod="#{App.completeActiveDepartment}" >            
 
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     event="itemSelect"

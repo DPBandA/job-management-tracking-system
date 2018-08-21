@@ -5,12 +5,6 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
-	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[bGVnYWxkb2N1bWVudCBBUyAsMTYwLDE1LGIxNWRjOTQ5LTMxZGMtNGFjMi05NGIxLTllYjk1MGZk
-ZGEwOTtlbXBsb3llZSAsMTUsMTA2LDBmOTVhYzdlLTJkNWQtNDQyYS05ZTY0LWNkYWIzMzZlM2Y3
-NTtqbXRzLmRvY3VtZW50dHlwZSAsMzk5LDkyLGM0NjZjMWI2LTFhMTItNDdmZC05ZTkwLWE3MGEw
-ODYyN2YyMzs=]]>
-	</property>
 	<style name="particularsStyle" mode="Transparent" fill="Solid" hTextAlign="Left" hImageAlign="Left" vTextAlign="Top" vImageAlign="Top" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{legaldocument_GOAL}.toString().trim().equals("# 1")]]></conditionExpression>

@@ -95,6 +95,13 @@ Email: info@dpbennett.com.jm
             </f:facet>
             <h:outputText value="#{division.name}" />
         </p:column>   
+        
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Code"/>
+            </f:facet>
+            <h:outputText value="#{division.code}" />
+        </p:column>
 
         <p:column>
             <f:facet name="header">
@@ -113,7 +120,7 @@ Email: info@dpbennett.com.jm
         </ui:remove>
 
         <p:column style="width:32px">
-            <p:commandButton title="View or edit subgroup"   
+            <p:commandButton title="View or edit division"   
                              actionListener="#{humanResourceManager.editDivision}"
                              onstart="PF('longProcessDialogVar').show();"  
                              oncomplete="PF('longProcessDialogVar').hide();"
