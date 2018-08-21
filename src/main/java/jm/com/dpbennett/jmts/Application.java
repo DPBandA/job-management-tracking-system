@@ -473,7 +473,7 @@ public class Application {
         return Manufacturer.findManufacturersBySearchPattern(getEntityManager1(), query);
     }
 
-    public List<Employee> completeEmployee(String query) {
+    public List<Employee> completeActiveEmployee(String query) {
         EntityManager em;
 
         try {

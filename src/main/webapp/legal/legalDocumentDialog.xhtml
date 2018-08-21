@@ -176,7 +176,7 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.submittedBy}"
                                         itemLabel="#{submittedBy.name}"
                                         itemValue="#{submittedBy}"
-                                        converter="employeeConverter"
+                                        converter="activeEmployeeConverter"
                                         validator="businessEntityValidator"
                                         forceSelection="true"         
                                         dropdown="true"
@@ -425,7 +425,7 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.responsibleOfficer}"
                                         itemLabel="#{officerResponsible.name}"
                                         itemValue="#{officerResponsible}"
-                                        converter="employeeConverter"
+                                        converter="activeEmployeeConverter"
                                         validator="businessEntityValidator"
                                         forceSelection="true"
                                         completeMethod="#{App.completeEmployee}" >

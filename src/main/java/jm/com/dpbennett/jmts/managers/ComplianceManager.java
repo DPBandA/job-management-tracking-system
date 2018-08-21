@@ -903,20 +903,20 @@ public class ComplianceManager implements Serializable {
         return types;
     }
 
-    public List<Employee> completeEmployee(String query) {
-
-        try {
-            List<Employee> employees = Employee.findEmployeesByName(getEntityManager1(), query);
-            if (employees != null) {
-                return employees;
-            } else {
-                return new ArrayList<>();
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            return new ArrayList<>();
-        }
-    }
+//    public List<Employee> completeEmployee(String query) {
+//
+//        try {
+//            List<Employee> employees = Employee.findEmployeesByName(getEntityManager1(), query);
+//            if (employees != null) {
+//                return employees;
+//            } else {
+//                return new ArrayList<>();
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e);
+//            return new ArrayList<>();
+//        }
+//    }
 
     public void updateComplianceSurveyInspector() {
         // tk impl 

@@ -82,9 +82,9 @@ Email: info@dpbennett.com.jm
                                     title="#{systemManager.selectedUser.employee}"
                                     itemLabel="#{employee.name}"
                                     itemValue="#{employee}"
-                                    converter="employeeConverter"
+                                    converter="activeEmployeeConverter"
                                     forceSelection="true"
-                                    completeMethod="#{App.completeEmployee}" >                       
+                                    completeMethod="#{App.completeActiveEmployee}" >                       
                     </p:autoComplete>   
 
                     <ui:remove>

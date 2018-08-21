@@ -407,9 +407,9 @@ Email: info@dpbennett.com.jm
                                         title="#{complianceManager.currentComplianceSurvey.inspector}"
                                         itemLabel="#{inspector.name}"
                                         itemValue="#{inspector}"
-                                        converter="employeeConverter"
+                                        converter="activeEmployeeConverter"
                                         forceSelection="true"   
-                                        completeMethod="#{complianceManager.completeEmployee}" >
+                                        completeMethod="#{App.completeActiveEmployee}" >
                             <p:ajax event="itemSelect"
                                     listener="#{complianceManager.updateComplianceSurveyInspector}"
                                     process="@this"/>

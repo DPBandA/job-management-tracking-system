@@ -301,12 +301,12 @@ Email: info@dpbennett.com.jm
                         title="#{jobManager.currentJob.assignedTo}"
                         itemLabel="#{assignedTo.name}"
                         itemValue="#{assignedTo}"
-                        converter="employeeConverter"
+                        converter="activeEmployeeConverter"
                         validator="businessEntityValidator"
                         forceSelection="true"
                         dropdown="true"
                         scrollHeight="200" 
-                        completeMethod="#{App.completeEmployee}" >
+                        completeMethod="#{App.completeActiveEmployee}" >
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"
@@ -320,12 +320,12 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.currentJob.representatives}"
                         itemLabel="#{representative.name}"
                         itemValue="#{representative}"
-                        converter="employeeConverter"
+                        converter="activeEmployeeConverter"
                         forceSelection="true"
                         dropdown="true"
                         scrollHeight="200"                         
                         multiple="true"
-                        completeMethod="#{App.completeEmployee}" >
+                        completeMethod="#{App.completeActiveEmployee}" >
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"

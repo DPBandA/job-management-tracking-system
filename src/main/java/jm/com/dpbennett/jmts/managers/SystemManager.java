@@ -1043,26 +1043,26 @@ public class SystemManager implements Serializable {
         return BusinessEntityUtils.getSexes();
     }
 
-    public List<String> completeEmployee(String query) {
-
-        try {
-            List<Employee> employees = Employee.findEmployeesByName(getEntityManager(), query);
-            List<String> suggestions = new ArrayList<>();
-            if (employees != null) {
-                if (!employees.isEmpty()) {
-                    for (Employee employee : employees) {
-                        suggestions.add(employee.toString());
-                    }
-                }
-            }
-
-            return suggestions;
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
+//    public List<String> completeEmployee(String query) {
+//
+//        try {
+//            List<Employee> employees = Employee.findEmployeesByName(getEntityManager(), query);
+//            List<String> suggestions = new ArrayList<>();
+//            if (employees != null) {
+//                if (!employees.isEmpty()) {
+//                    for (Employee employee : employees) {
+//                        suggestions.add(employee.toString());
+//                    }
+//                }
+//            }
+//
+//            return suggestions;
+//        } catch (Exception e) {
+//            System.out.println(e);
+//
+//            return new ArrayList<>();
+//        }
+//    }
 
     public List<String> completeUser(String query) {
 

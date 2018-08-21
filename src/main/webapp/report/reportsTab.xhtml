@@ -120,12 +120,12 @@ Email: info@dpbennett.com.jm
                                     value="#{reportManager.reportEmployee1}"
                                     itemLabel="#{employee.name}"
                                     itemValue="#{employee}"
-                                    converter="employeeConverter"
+                                    converter="activeEmployeeConverter"
                                     forceSelection="true"
                                     dropdown="true"
                                     scrollHeight="200"  
                                     multiple="false"
-                                    completeMethod="#{App.completeEmployee}" >
+                                    completeMethod="#{App.completeActiveEmployee}" >
 
                         <p:ajax event="itemSelect"
                                 update="employees"

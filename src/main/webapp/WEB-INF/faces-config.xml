@@ -55,8 +55,8 @@
         <converter-class>jm.com.dpbennett.business.entity.converter.CountryConverter</converter-class>
     </converter>   
     <converter>
-        <converter-id>employeeConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.EmployeeConverter</converter-class>
+        <converter-id>activeEmployeeConverter</converter-id>
+        <converter-class>jm.com.dpbennett.business.entity.converter.ActiveEmployeeConverter</converter-class>
     </converter> 
     <converter>
         <converter-id>jobCategoryConverter</converter-id>

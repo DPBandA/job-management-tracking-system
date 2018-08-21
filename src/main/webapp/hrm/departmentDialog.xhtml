@@ -85,10 +85,10 @@ Email: info@dpbennett.com.jm
                                     value="#{humanResourceManager.selectedDepartment.head}"
                                     itemLabel="#{departmentHead.name}"
                                     itemValue="#{departmentHead}"
-                                    converter="employeeConverter"
+                                    converter="activeEmployeeConverter"
                                     validator="requiredFieldValidator"
                                     forceSelection="true"
-                                    completeMethod="#{App.completeEmployee}" >                       
+                                    completeMethod="#{App.completeActiveEmployee}" >                       
                     </p:autoComplete>       
 
                     <h:outputText value="Acting/Deputy Head:" style="font-weight: bold;" />
@@ -101,10 +101,10 @@ Email: info@dpbennett.com.jm
                                         value="#{humanResourceManager.selectedDepartment.actingHead}"
                                         itemLabel="#{departmentActingHead.name}"
                                         itemValue="#{departmentActingHead}"
-                                        converter="employeeConverter"
+                                        converter="activeEmployeeConverter"
                                         validator="requiredFieldValidator"
                                         forceSelection="true"
-                                        completeMethod="#{App.completeEmployee}" >                       
+                                        completeMethod="#{App.completeActiveEmployee}" >                       
                         </p:autoComplete>     
                         <p:spacer height="0" width="5"/>
                         <p:selectBooleanCheckbox id="actingHeadActive"

@@ -1,6 +1,7 @@
 Impl HR module with HumanResourceManager clas
-- Create active* convertters and check that system only finds and uses only active employees, department, 
-  divisions, subgroup etc. when necessary.
+- Create active* converters and check that system only finds and uses only 
+  active divisions, subgroup etc. when necessary.
+  Update all modules and web pages that use these methods.
 - Put code column in division and subgroup tables.
 - Add subgroups tab to division.
 - Create labs and units within departments.
