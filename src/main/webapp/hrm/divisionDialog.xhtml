@@ -81,7 +81,78 @@ Email: info@dpbennett.com.jm
             </p:panel>
             <p:tabView id="divisionDepartments">
                 <p:tab title="Subgroups">
-                    
+                    <p:toolbar>
+                        <p:toolbarGroup align="left" >   
+                            <p:commandButton title="Edit subgroup list"                                  
+                                             value="Edit"
+                                             actionListener="#{humanResourceManager.addDivisionSubgroups}"
+                                             update=":divisionDialogForm:divisiondialog_growl"
+                                             onstart="PF('longProcessDialogVar').show();"
+                                             oncomplete="PF('longProcessDialogVar').hide();"
+                                             onerror="PF('connectionErrorDialog').show();"
+                                             global="true"
+                                             process="@this"
+                                             icon="ui-icon ui-icon-pencil">
+
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{humanResourceManager.addDivisionSubgroupsDialogReturn}"
+                                        update="subgroupsTable"/>
+
+                            </p:commandButton>                           
+                        </p:toolbarGroup>                    
+                    </p:toolbar>    
+                    <p:dataTable id="subgroupsTable"
+                                 paginator="true"
+                                 rows="15"
+                                 var="subgroup"
+                                 style="margin-bottom: 1px;margin-top: 1px;"
+                                 value="#{humanResourceManager.selectedDivision.subgroups}">
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Name" />
+                            </f:facet>
+                            <h:outputText value="#{subgroup.name}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Head" />
+                            </f:facet>
+                            <h:outputText value="#{subgroup.head}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Code" />
+                            </f:facet>
+                            <h:outputText value="#{subgroup.code}" />
+                        </p:column>
+
+                        <ui:remove>
+                            <p:column style="width:32px">
+                                <p:menuButton id="toolsButton" value="Actions">
+
+                                    <p:menuitem >                       
+                                        <p:commandButton   
+                                            value="Remove"
+                                            style="width: 300%;text-align: left;background: none;border: 0;"
+                                            onstart="PF('longProcessDialogVar').show();"
+                                            icon="ui-icon-trash"
+                                            process="@this">
+
+                                            <f:setPropertyActionListener value="#{subgroup}"
+                                                                         target="#{humanResourceManager.selectedSubgroup}" />
+
+
+                                        </p:commandButton>
+                                    </p:menuitem>                   
+
+                                </p:menuButton>                   
+                            </p:column>
+                        </ui:remove>
+
+                    </p:dataTable>
                 </p:tab>
                 <p:tab title="Departments">
                     <p:toolbar>

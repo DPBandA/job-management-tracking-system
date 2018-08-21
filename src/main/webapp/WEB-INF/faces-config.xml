@@ -17,7 +17,10 @@
             org.primefaces.application.DialogViewHandler
         </view-handler>
     </application>     
-             
+    <converter>
+        <converter-id>activeSubgroupConverter</converter-id>
+        <converter-class>jm.com.dpbennett.business.entity.converter.ActiveSubgroupConverter</converter-class>
+    </converter>
     <converter>
         <converter-id>accountingCodeConverter</converter-id>
         <converter-class>jm.com.dpbennett.business.entity.converter.AccountingCodeConverter</converter-class>
@@ -176,6 +179,13 @@
             <to-view-id>/hrm/departmentPickListDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>    
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>subgroupPickListDialog</from-outcome>
+            <to-view-id>/hrm/subgroupPickListDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

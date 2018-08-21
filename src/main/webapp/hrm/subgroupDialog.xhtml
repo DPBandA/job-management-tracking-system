@@ -58,6 +58,21 @@ Email: info@dpbennett.com.jm
                     <p:inputText value="#{humanResourceManager.selectedSubgroup.name}"
                                  style="width:300px"
                                  validator="requiredFieldValidator" /> 
+                    
+                    <h:outputText value="Head:" style="font-weight: bold;" />
+                    <p:autoComplete var="subgroupHead"
+                                    id="subgroupHead"
+                                    dropdown="true"
+                                    scrollHeight="175"
+                                    maxlength="50"
+                                    value="#{humanResourceManager.selectedSubgroup.head}"
+                                    itemLabel="#{subgroupHead.name}"
+                                    itemValue="#{subgroupHead}"
+                                    converter="activeEmployeeConverter"
+                                    validator="requiredFieldValidator"
+                                    forceSelection="true"
+                                    completeMethod="#{App.completeActiveEmployee}" >                       
+                    </p:autoComplete>  
 
                     <h:outputText value="Code:" style="font-weight: bold;" />
                     <p:inputText value="#{humanResourceManager.selectedSubgroup.code}"
