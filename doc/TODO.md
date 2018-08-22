@@ -1,5 +1,5 @@
 Impl HR module with HumanResourceManager clas
-- Create labs and units within departments (move to dropbox TODO.md)
+- Reload HR entities before opening dialogs. Start with employee.
 - In departments tab in division dialog, list the departments that are in subgroups
   in addition to those that fall directly under the division.
 - Deploy and subgroup and division records.
