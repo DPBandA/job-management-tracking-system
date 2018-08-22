@@ -127,9 +127,11 @@ Email: info@dpbennett.com.jm
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
+                
                 <f:setPropertyActionListener value="#{employee}"                                                                    
                                              target="#{humanResourceManager.selectedEmployee}" />
                 <p:ajax event="dialogReturn" 
+                        listener="#{humanResourceManager.doEmployeeSearch}"
                         update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:employeesTable"/>
 
             </p:commandButton>           

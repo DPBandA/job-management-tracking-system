@@ -1,5 +1,7 @@
 Impl HR module with HumanResourceManager clas
 - Reload HR entities before opening dialogs. Start with employee.
+  * Load from database using setSelected* in <f:setPropertyActionListener>
+    and redo search in the "dialogReturn" method.
 - In departments tab in division dialog, list the departments that are in subgroups
   in addition to those that fall directly under the division.
 - Deploy and subgroup and division records.

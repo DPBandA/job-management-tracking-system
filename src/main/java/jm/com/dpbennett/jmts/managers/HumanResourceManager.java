@@ -169,7 +169,7 @@ public class HumanResourceManager implements Serializable {
     public DualListModel<Department> getDepartmentDualList() {
         return departmentDualList;
     }
-    
+
     public void setDepartmentDualList(DualListModel<Department> departmentDualList) {
         this.departmentDualList = departmentDualList;
     }
@@ -329,7 +329,7 @@ public class HumanResourceManager implements Serializable {
     }
 
     public void addDivisionSubgroupsDialogReturn() {
-       
+
         getSelectedDivision().setSubgroups(subgroupDualList.getTarget());
 
     }
@@ -434,19 +434,14 @@ public class HumanResourceManager implements Serializable {
     public void editEmployee() {
         // tkk
         System.out.println("editEmployee()");
-        
+
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
     }
 
     public Employee getSelectedEmployee() {
-        //tk
-        System.out.println("getSelectedEmployee()");
-        
+
         if (selectedEmployee == null) {
             selectedEmployee = Employee.findDefaultEmployee(getEntityManager(), "--", "--", true);
-        }
-        else { //tk
-            selectedEmployee = Employee.findEmployeeById(getEntityManager(), selectedEmployee.getId());
         }
 
         return selectedEmployee;
@@ -454,6 +449,11 @@ public class HumanResourceManager implements Serializable {
 
     public void setSelectedEmployee(Employee selectedEmployee) {
         this.selectedEmployee = selectedEmployee;
+
+        System.out.println("setSelectedEmployee()");
+        //tk
+        this.selectedEmployee = Employee.findEmployeeById(getEntityManager(), selectedEmployee.getId());
+
     }
 
     public Boolean getSearchTextVisible() {
@@ -610,17 +610,17 @@ public class HumanResourceManager implements Serializable {
         openDepartmentPickListDialog();
     }
 
-    public void addDivisionSubgroups() {      
+    public void addDivisionSubgroups() {
         List<Subgroup> source = Subgroup.findAllActive(getEntityManager());
         List<Subgroup> target = selectedDivision.getSubgroups();
-        
+
         source.removeAll(target);
-        
+
         subgroupDualList = new DualListModel<>(source, target);
-        
+
         openSubgroupPickListDialog();
     }
-    
+
     public void openSubgroupPickListDialog() {
         PrimeFacesUtils.openDialog(null, "subgroupPickListDialog", true, true, true, 320, 500);
     }
