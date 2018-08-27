@@ -83,6 +83,7 @@ import org.primefaces.event.TabCloseEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
+import jm.com.dpbennett.business.entity.utils.ReturnMessage;
 import jm.com.dpbennett.jmts.utils.PrimeFacesUtils;
 import jm.com.dpbennett.jmts.Application;
 import jm.com.dpbennett.jmts.utils.Tab;
@@ -374,7 +375,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             PrimeFaces.current().ajax().update("headerForm:growl3");
             currentJob.setIsDirty(false);
         }
-        
+
         // tk 
 //        System.out.println("removing current job");
 //        if (getApplication().findOpenedJob(currentJob.getId()) != null) {
@@ -1688,98 +1689,121 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void saveCurrentJob() {
         EntityManager em = getEntityManager1();
+        ReturnMessage returnMessage;
 
         // tk...may not be necessary
         // Prevent overwriting samples that were edited by another user by 
         // loading the existing samples from the database.
+        // NB Remove this code when the "Job sync" feature is added
         if (!getJobSampleManager().isSamplesDirty() && currentJob.getId() != null) {
             Job savedJob = Job.findJobById(em, currentJob.getId());
             em.refresh(savedJob);
             currentJob.setJobSamples(savedJob.getJobSamples());
         }
+        // end tk
 
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
-                PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                PrimeFacesUtils.addMessage("Job NOT Saved!",
+                        "Job was NOT saved. Please contact the System Administrator!",
+                        FacesMessage.SEVERITY_ERROR);
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
         } else if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
 
         } else if (isCurrentJobNew() && getUser().getPrivilege().getCanEnterJob()) {
             // User can enter any new job...saving
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterDepartmentJob()
                 && getUser().getEmployee().isMemberOf(Department.findDepartmentAssignedToJob(currentJob, em))) {
             // User can enter new jobs for your department...saving
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
         } else if (isCurrentJobNew()
                 && getUser().getPrivilege().getCanEnterOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             // User can enter new jobs for yourself...saving
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+            
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
         } else if (getIsDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
             // User can edit any job...saving
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+            
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
         } else if (getIsDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditDepartmentJob()
@@ -1787,57 +1811,69 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 || getUser().getEmployee().isMemberOf(currentJob.getDepartment()))) {
 
             // User can edit jobs for your department...saving
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+            
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
         } else if (getIsDirty() && !isCurrentJobNew()
                 && getUser().getPrivilege().getCanEditOwnJob()
                 && isCurrentJobJobAssignedToUser()) {
             // User can edit own jobs...saving
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+            
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
         } else if (currentJob.getIsToBeCopied()) {
             // Saving cause copy is being created
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+            
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
         } else if (currentJob.getIsToBeSubcontracted()) {
             // Saving cause subcontract is being created
-            if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+            
+            if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                // tk setup this up properly without hardcoded values
+                
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
-                        + "\nDate/time: " + new Date());
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail());
             }
         } else if (!getIsDirty()) {
             // Job not dirty so it will not be saved.
@@ -1986,7 +2022,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         currentJob.getJobStatusAndTracking().setEditStatus("");
         PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 850);
-        
+
     }
 
     public void editJobCostingAndPayment() {
@@ -2203,7 +2239,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     // tk rename to setTargetJob
     public void setEditCurrentJob(Job currentJob) {
         this.currentJob = currentJob;
-        this.currentJob.setVisited(true);        
+        this.currentJob.setVisited(true);
         getFinanceManager().setEnableOnlyPaymentEditing(false);
 
         // tk

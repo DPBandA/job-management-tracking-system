@@ -432,9 +432,7 @@ public class HumanResourceManager implements Serializable {
     }
 
     public void editEmployee() {
-        // tkk
-        System.out.println("editEmployee()");
-
+       
         PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
     }
 
@@ -450,8 +448,6 @@ public class HumanResourceManager implements Serializable {
     public void setSelectedEmployee(Employee selectedEmployee) {
         this.selectedEmployee = selectedEmployee;
 
-        System.out.println("setSelectedEmployee()");
-        //tk
         this.selectedEmployee = Employee.findEmployeeById(getEntityManager(), selectedEmployee.getId());
 
     }
