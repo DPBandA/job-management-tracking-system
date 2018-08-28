@@ -89,9 +89,9 @@ Email: info@dpbennett.com.jm
                                             value="#{legalDocumentManager.currentDocument.requestingDepartment}"
                                             itemValue="#{department}"
                                             itemLabel="#{department.name}"
-                                            converter="departmentConverter"
+                                            converter="activeDepartmentConverter"
                                             validator="businessEntityValidator"
-                                            completeMethod="#{App.completeDepartment}" >            
+                                            completeMethod="#{App.completeActiveDepartment}" >            
 
                                 <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                         event="itemSelect"
@@ -112,8 +112,8 @@ Email: info@dpbennett.com.jm
                                                 itemValue="#{client}"
                                                 title="#{client.name}"
                                                 forceSelection="true"
-                                                converter="clientConverter"
-                                                completeMethod="#{App.completeClient}" >
+                                                converter="activeClientConverter"
+                                                completeMethod="#{App.completeActiveClient}" >
 
                                     <p:ajax event="itemSelect"   
                                             update="clientActionsMenu"
@@ -170,11 +170,11 @@ Email: info@dpbennett.com.jm
                                             value="#{legalDocumentManager.currentDocument.submittedBy}"
                                             itemLabel="#{submittedBy.name}"
                                             itemValue="#{submittedBy}"
-                                            converter="employeeConverter"
+                                            converter="activeEmployeeConverter"
                                             validator="businessEntityValidator"
                                             forceSelection="true"         
                                             dropdown="true"
-                                            completeMethod="#{App.completeEmployee}" >
+                                            completeMethod="#{App.completeActiveEmployee}" >
                                 <p:ajax event="itemSelect"
                                         listener="#{legalDocumentManager.updateDocument}"
                                         process="@this"/>
@@ -382,7 +382,7 @@ Email: info@dpbennett.com.jm
                                             itemLabel="#{department.name}"
                                             converter="departmentConverter"
                                             validator="businessEntityValidator"
-                                            completeMethod="#{App.completeDepartment}" >            
+                                            completeMethod="#{App.completeActiveDepartment}" >            
 
                                 <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                         event="itemSelect"
@@ -400,10 +400,10 @@ Email: info@dpbennett.com.jm
                                             value="#{legalDocumentManager.currentDocument.responsibleOfficer}"
                                             itemLabel="#{officerResponsible.name}"
                                             itemValue="#{officerResponsible}"
-                                            converter="employeeConverter"
+                                            converter="activeEmployeeConverter"
                                             validator="businessEntityValidator"
                                             forceSelection="true"
-                                            completeMethod="#{App.completeEmployee}" >
+                                            completeMethod="#{App.completeActiveEmployee}" >
 
                                 <p:ajax event="itemSelect"
                                         listener="#{legalDocumentManager.updateDocument}"
@@ -438,7 +438,7 @@ Email: info@dpbennett.com.jm
                             </p:calendar>
 
                             <h:outputText value="Set turnaround time (days):" />
-                            <p:inputText value="#{legalDocumentManager.currentDocument.turnAroundTime}"
+                            <p:inputText value="#{legalDocumentManager.currentDocument.turnaroundTime}"
                                          converterMessage="Invalid Turnaround Time (TAT)" 
                                          validator="turnaroundTimeValidator" >
 
@@ -451,7 +451,7 @@ Email: info@dpbennett.com.jm
                             </p:inputText>
 
                             <h:outputText value="Actual turnaround time (days):" />
-                            <p:inputText value="#{legalDocumentManager.currentDocument.currentDocumentTurnaroundTime}"
+                            <p:inputText value="#{legalDocumentManager.currentDocument.actualTurnaroundTime}"
                                          id="actualTurnaroundTime"
                                          style="background-color: lightgray"
                                          readonly="true" >
@@ -563,7 +563,7 @@ Email: info@dpbennett.com.jm
                         <f:facet name="header">
                             <h:outputText value="Turnaround"/>
                         </f:facet>
-                        <h:outputText value="#{document.currentDocumentTurnaroundTime}"/>
+                        <h:outputText value="#{document.turnaroundTime}"/>
                     </p:column>
                     <p:column style="width:32px" exportable="false">
                         <p:commandButton title="View/Edit"

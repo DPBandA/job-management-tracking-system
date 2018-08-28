@@ -90,11 +90,11 @@ Email: info@dpbennett.com.jm
                                         title="#{jobSampleManager.selectedJobSample.sampledBy}"
                                         itemLabel="#{sampledBy.name}"
                                         itemValue="#{sampledBy}"
-                                        converter="employeeConverter"
+                                        converter="activeEmployeeConverter"
                                         forceSelection="true"
                                         dropdown="true"
                                         scrollHeight="200" 
-                                        completeMethod="#{App.completeEmployee}" >
+                                        completeMethod="#{App.completeActiveEmployee}" >
                             <p:ajax event="itemSelect"                                    
                                     listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"

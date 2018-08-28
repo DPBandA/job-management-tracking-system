@@ -118,10 +118,10 @@ Email: info@dpbennett.com.jm
                             dropdown="false"
                             scrollHeight="200" 
                             value="#{jobManager.currentJob.client}"   
-                            converter="clientConverter"
+                            converter="activeClientConverter"
                             validator="jobClientValidator"
                             forceSelection="true"
-                            completeMethod="#{App.completeClient}" >
+                            completeMethod="#{App.completeActiveClient}" >
 
                 <p:ajax event="itemSelect"
                         update="jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
@@ -249,9 +249,9 @@ Email: info@dpbennett.com.jm
                         title="#{jobManager.currentJob.department}"
                         itemValue="#{department}"
                         itemLabel="#{department.name}"
-                        converter="departmentConverter"
+                        converter="activeDepartmentConverter"
                         validator="businessEntityValidator"
-                        completeMethod="#{App.completeDepartment}" >            
+                        completeMethod="#{App.completeActiveDepartment}" >            
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
@@ -273,13 +273,13 @@ Email: info@dpbennett.com.jm
                         maxlength="40"
                         itemValue="#{department}"
                         itemLabel="#{department.name}"
-                        converter="departmentConverter"
+                        converter="activeDepartmentConverter"
                         validator="subcontractedDepartmentValidator"
                         dropdown="true"
                         scrollHeight="200"                           
                         value="#{jobManager.currentJob.subContractedDepartment}"
                         title="#{jobManager.currentJob.subContractedDepartment}"
-                        completeMethod="#{App.completeDepartment}" >
+                        completeMethod="#{App.completeActiveDepartment}" >
 
             <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
             <f:attribute name="isSubContract" value="#{jobManager.currentJob.isSubContract}" />
@@ -301,12 +301,12 @@ Email: info@dpbennett.com.jm
                         title="#{jobManager.currentJob.assignedTo}"
                         itemLabel="#{assignedTo.name}"
                         itemValue="#{assignedTo}"
-                        converter="employeeConverter"
+                        converter="activeEmployeeConverter"
                         validator="businessEntityValidator"
                         forceSelection="true"
                         dropdown="true"
                         scrollHeight="200" 
-                        completeMethod="#{App.completeEmployee}" >
+                        completeMethod="#{App.completeActiveEmployee}" >
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"
@@ -320,12 +320,12 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.currentJob.representatives}"
                         itemLabel="#{representative.name}"
                         itemValue="#{representative}"
-                        converter="employeeConverter"
+                        converter="activeEmployeeConverter"
                         forceSelection="true"
                         dropdown="true"
                         scrollHeight="200"                         
                         multiple="true"
-                        completeMethod="#{App.completeEmployee}" >
+                        completeMethod="#{App.completeActiveEmployee}" >
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"

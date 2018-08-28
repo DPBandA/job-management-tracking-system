@@ -410,7 +410,7 @@ public class Application {
         }
     }
 
-    public List<Department> completeDepartment(String query) {
+    public List<Department> completeActiveDepartment(String query) {
         EntityManager em;
 
         try {
@@ -473,7 +473,7 @@ public class Application {
         return Manufacturer.findManufacturersBySearchPattern(getEntityManager1(), query);
     }
 
-    public List<Employee> completeEmployee(String query) {
+    public List<Employee> completeActiveEmployee(String query) {
         EntityManager em;
 
         try {
@@ -492,7 +492,7 @@ public class Application {
         }
     }
 
-    public List<Client> completeClient(String query) {
+    public List<Client> completeActiveClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
 

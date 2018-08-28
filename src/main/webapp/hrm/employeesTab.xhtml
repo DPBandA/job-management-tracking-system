@@ -24,13 +24,13 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <p:focus for="userSearchText"/>
+    <p:focus for="employeeSearchText"/>
 
     <p:toolbar>
         <p:toolbarGroup align="left" >   
             <p:commandButton title="Add new employee"                                  
                              value="New"
-                             actionListener="#{systemManager.createNewEmployee}"
+                             actionListener="#{humanResourceManager.createNewEmployee}"
                              onstart="PF('longProcessDialogVar').show();"                              
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
@@ -38,21 +38,23 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus" >
 
                 <p:ajax event="dialogReturn"
-                        update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"/>
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:employeesTable"/>
 
             </p:commandButton>
+                     
             <p:spacer width="20" />
             <p:inputText id="employeeSearchText" 
-                         value="#{systemManager.employeeSearchText}"
+                         value="#{humanResourceManager.employeeSearchText}"
                          style="width:150px"
                          placeholder="Enter search text">
                 <p:ajax event="keyup"
                         onstart="PF('longProcessDialogVar').show();" 
                         oncomplete="PF('longProcessDialogVar').hide();"
-                        update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"
-                        listener="#{systemManager.doEmployeeSearch}"
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:employeesTable"
+                        listener="#{humanResourceManager.doEmployeeSearch}"
                         process="@this"/>
             </p:inputText>
+            
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right">
@@ -60,9 +62,9 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
                                          id="activeEmployeesOnly"
-                                         value="#{systemManager.isActiveEmployeesOnly}" >
-                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"
-                             listener="#{systemManager.doEmployeeSearch}"
+                                         value="#{humanResourceManager.isActiveEmployeesOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:employeesTable"
+                             listener="#{humanResourceManager.doEmployeeSearch}"
                              event="change"                                      
                              process="@this"/>
                 </p:selectBooleanCheckbox>            
@@ -80,7 +82,7 @@ Email: info@dpbennett.com.jm
                  style="margin-top: 1px;"
                  widgetVar="employeesTableVar"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{systemManager.foundEmployees}">
+                 value="#{humanResourceManager.foundEmployees}">
 
         <f:facet name="header">
             Employees
@@ -118,17 +120,19 @@ Email: info@dpbennett.com.jm
 
         <p:column style="width:32px">
             <p:commandButton title="View or edit employee"   
-                             actionListener="#{systemManager.editEmployee}"
+                             actionListener="#{humanResourceManager.editEmployee}"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
+                
                 <f:setPropertyActionListener value="#{employee}"                                                                    
-                                             target="#{systemManager.selectedEmployee}" />
+                                             target="#{humanResourceManager.selectedEmployee}" />
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:centerTabView:employeesTable"/>
+                        listener="#{humanResourceManager.doEmployeeSearch}"
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:employeesTable"/>
 
             </p:commandButton>           
         </p:column>

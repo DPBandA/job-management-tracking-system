@@ -2301,8 +2301,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public void checkForSubcontracts(ActionEvent event) {
-
-        PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
+        //PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
     }
 
     public void openCashPaymentDeleteConfirmDialog(ActionEvent event) {

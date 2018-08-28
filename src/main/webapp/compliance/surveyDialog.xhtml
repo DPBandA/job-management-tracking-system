@@ -210,10 +210,10 @@ Email: info@dpbennett.com.jm
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentComplianceSurvey.consignee}"   
-                                            converter="clientConverter"
+                                            converter="activeClientConverter"
                                             validator="generalClientValidator"
                                             forceSelection="true"
-                                            completeMethod="#{App.completeClient}" >
+                                            completeMethod="#{App.completeActiveClient}" >
 
                                 <p:ajax event="itemSelect"
                                         update="generalPanelGrid"
@@ -297,9 +297,9 @@ Email: info@dpbennett.com.jm
                                                 value="#{complianceManager.currentComplianceSurvey.broker}"
                                                 itemLabel="#{broker.name}"
                                                 itemValue="#{broker}"
-                                                converter="clientConverter"
+                                                converter="activeClientConverter"
                                                 forceSelection="true"
-                                                completeMethod="#{complianceManager.completeClient}" >
+                                                completeMethod="#{App.completeActiveClient}" >
                                     <p:ajax event="itemSelect"
                                             update="brokerRepresentative"
                                             listener="#{complianceManager.updateComplianceSurveyBroker}"
@@ -353,9 +353,9 @@ Email: info@dpbennett.com.jm
                                                 value="#{complianceManager.currentComplianceSurvey.retailOutlet}"
                                                 itemLabel="#{retailOutlet.name}"
                                                 itemValue="#{retailOutlet}"
-                                                converter="clientConverter"
+                                                converter="activeClientConverter"
                                                 forceSelection="true"
-                                                completeMethod="#{complianceManager.completeClient}" >
+                                                completeMethod="#{App.completeActiveClient}" >
                                     <p:ajax event="itemSelect"
                                             update="retailOutletRepresentative"
                                             listener="#{complianceManager.updateComplianceSurveyRetailOutlet}"
@@ -407,9 +407,9 @@ Email: info@dpbennett.com.jm
                                         title="#{complianceManager.currentComplianceSurvey.inspector}"
                                         itemLabel="#{inspector.name}"
                                         itemValue="#{inspector}"
-                                        converter="employeeConverter"
+                                        converter="activeEmployeeConverter"
                                         forceSelection="true"   
-                                        completeMethod="#{complianceManager.completeEmployee}" >
+                                        completeMethod="#{App.completeActiveEmployee}" >
                             <p:ajax event="itemSelect"
                                     listener="#{complianceManager.updateComplianceSurveyInspector}"
                                     process="@this"/>

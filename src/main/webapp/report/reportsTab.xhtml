@@ -94,12 +94,12 @@ Email: info@dpbennett.com.jm
                                     value="#{reportManager.reportingDepartment1}"
                                     itemLabel="#{department.name}"
                                     itemValue="#{department}"
-                                    converter="departmentConverter"
+                                    converter="activeDepartmentConverter"
                                     forceSelection="true"
                                     dropdown="true"
                                     size="40"
                                     scrollHeight="200"  
-                                    completeMethod="#{App.completeDepartment}" >
+                                    completeMethod="#{App.completeActiveDepartment}" >
 
                         <p:ajax event="itemSelect"
                                 update="departments"
@@ -120,12 +120,12 @@ Email: info@dpbennett.com.jm
                                     value="#{reportManager.reportEmployee1}"
                                     itemLabel="#{employee.name}"
                                     itemValue="#{employee}"
-                                    converter="employeeConverter"
+                                    converter="activeEmployeeConverter"
                                     forceSelection="true"
                                     dropdown="true"
                                     scrollHeight="200"  
                                     multiple="false"
-                                    completeMethod="#{App.completeEmployee}" >
+                                    completeMethod="#{App.completeActiveEmployee}" >
 
                         <p:ajax event="itemSelect"
                                 update="employees"
@@ -147,12 +147,12 @@ Email: info@dpbennett.com.jm
                                     value="#{reportManager.reportingClient1}"
                                     itemLabel="#{client.name}"
                                     itemValue="#{client}"
-                                    converter="clientConverter"
+                                    converter="activeClientConverter"
                                     forceSelection="true"
                                     dropdown="true"
                                     size="40"
                                     scrollHeight="200"  
-                                    completeMethod="#{App.completeClient}" >
+                                    completeMethod="#{App.completeActiveClient}" >
 
                         <p:ajax event="itemSelect"
                                 update="clients"

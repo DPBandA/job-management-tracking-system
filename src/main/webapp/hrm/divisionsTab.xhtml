@@ -26,9 +26,9 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar>
         <p:toolbarGroup align="left" >   
-            <p:commandButton title="Add new organization"                                  
+            <p:commandButton title="Add new division"                                  
                              value="New"
-                             actionListener="#{systemManager.createNewBusiness}"
+                             actionListener="#{humanResourceManager.createNewDivision}"
                              update=":headerForm:growl3"
                              onstart="PF('longProcessDialogVar').show();"   
                              oncomplete="PF('longProcessDialogVar').hide();"
@@ -38,75 +38,76 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"/>
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"/>
 
             </p:commandButton> 
             <p:spacer width="20" />
-            <p:inputText id="businessSearchText" 
-                         value="#{systemManager.businessSearchText}"
+            <p:inputText id="divisionSearchText" 
+                         value="#{humanResourceManager.divisionSearchText}"
                          style="width:150px" placeholder="Enter any part of name">
                 <p:ajax event="keyup"
                         global="false"
                         onstart="PF('longProcessDialogVar').show();" 
                         oncomplete="PF('longProcessDialogVar').hide();"
-                        update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"
-                        listener="#{systemManager.doBusinessSearch}"
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"
+                        listener="#{humanResourceManager.doDivisionSearch}"
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
 
         <ui:remove>
             <p:toolbarGroup align="right">
-                <p:outputLabel for="activeBusinessesOnly" value="Active organizations only: " />  
+                <p:outputLabel for="activeDivisionsOnly" value="Active divisions only: " />  
                 <h:panelGroup>
                     <p:selectBooleanCheckbox style="vertical-align: middle"
-                                             id="activeBusinessesOnly"
-                                             value="#{systemManager.isActiveBusinessesOnly}" >
-                        <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"
-                                 listener="#{systemManager.doBusinessSearch}"
+                                             id="activeDivisionsOnly"
+                                             value="#{humanResourceManager.isActiveDivisionsOnly}" >
+                        <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"
+                                 listener="#{humanResourceManager.doDivisionSearch}"
                                  event="change"                                      
                                  process="@this"/>
                     </p:selectBooleanCheckbox>            
-                    <p:tooltip for="activeBusinessesOnly" value="Check to show active businesses only" 
+                    <p:tooltip for="activeDivisionsOnly" value="Check to show active divisions only" 
                                showEffect="fade" hideEffect="fade" />
                     <p:spacer width="15" />                
                 </h:panelGroup>
             </p:toolbarGroup>
         </ui:remove>
+        
     </p:toolbar>    
 
-    <p:dataTable id="businessesTable"                                       
-                 var="business"                                        
+    <p:dataTable id="divisionsTable"                                       
+                 var="division"                                        
                  paginator="true"
                  rows="15"
                  style="margin-bottom: 1px;margin-top: 1px;"
-                 widgetVar="businessesTableVar"
+                 widgetVar="divisionsTableVar"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{systemManager.foundBusinesses}">
+                 value="#{humanResourceManager.foundDivisions}">
 
         <f:facet name="header">
-            Organizations
+            Divisions
         </f:facet>
 
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Name"/>
             </f:facet>
-            <h:outputText value="#{business.name}" />
+            <h:outputText value="#{division.name}" />
         </p:column>   
         
         <p:column>
             <f:facet name="header">
-                <h:outputText value="Domain"/>
+                <h:outputText value="Code"/>
             </f:facet>
-            <h:outputText value="#{business.domainName}" />
-        </p:column> 
+            <h:outputText value="#{division.code}" />
+        </p:column>
 
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Notes"/>
             </f:facet>
-            <h:outputText value="#{business.notes}" />
+            <h:outputText value="#{division.notes}" />
         </p:column>
 
         <ui:remove>
@@ -114,28 +115,29 @@ Email: info@dpbennett.com.jm
                 <f:facet name="header">
                     <h:outputText value="Departments"/>
                 </f:facet>
-                <h:outputText value="#{business.departmentList}" />
+                <h:outputText value="#{division.departmentList}" />
             </p:column>  
         </ui:remove>
 
         <p:column style="width:32px">
-            <p:commandButton title="View or edit organization"   
-                             actionListener="#{systemManager.editBusiness}"
+            <p:commandButton title="View or edit division"   
+                             actionListener="#{humanResourceManager.editDivision}"
                              onstart="PF('longProcessDialogVar').show();"  
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
-                <f:setPropertyActionListener value="#{business}"                                                                    
-                                             target="#{systemManager.selectedBusiness}" />
+                <f:setPropertyActionListener value="#{division}"                                                                    
+                                             target="#{humanResourceManager.selectedDivision}" />
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:centerTabView:businessesTable"/>
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"/>
 
             </p:commandButton>           
         </p:column>
 
     </p:dataTable>
+
 </html>
 
 

@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left" >   
             <p:commandButton title="Add new department"                                  
                              value="New"
-                             actionListener="#{systemManager.createNewDepartment}"
+                             actionListener="#{humanResourceManager.createNewDepartment}"
                              update=":headerForm:growl3"
                              onstart="PF('longProcessDialogVar').show();"                              
                              oncomplete="PF('longProcessDialogVar').hide();"
@@ -38,19 +38,19 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:departmentsTable"/>
 
             </p:commandButton> 
             <p:spacer width="20" />
             <p:inputText id="departmentSearchText" 
-                         value="#{systemManager.departmentSearchText}"
+                         value="#{humanResourceManager.departmentSearchText}"
                          style="width:150px" placeholder="Enter any part of name">
                 <p:ajax event="keyup"
                         global="false"
                         onstart="PF('longProcessDialogVar').show();" 
                         oncomplete="PF('longProcessDialogVar').hide();"
-                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
-                        listener="#{systemManager.doDepartmentSearch}"
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:departmentsTable"
+                        listener="#{humanResourceManager.doDepartmentSearch}"
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
@@ -60,9 +60,9 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
                                          id="activeDepartmentsOnly"
-                                         value="#{systemManager.isActiveDepartmentsOnly}" >
-                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"
-                             listener="#{systemManager.doDepartmentSearch}"
+                                         value="#{humanResourceManager.isActiveDepartmentsOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:departmentsTable"
+                             listener="#{humanResourceManager.doDepartmentSearch}"
                              event="change"                                      
                              process="@this"/>
                 </p:selectBooleanCheckbox>            
@@ -80,29 +80,29 @@ Email: info@dpbennett.com.jm
                  style="margin-top: 1px;"
                  widgetVar="departmentsTableVar"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{systemManager.foundDepartments}">
+                 value="#{humanResourceManager.foundDepartments}">
 
         <f:facet name="header">
             Departments
         </f:facet>
 
+         <p:column>
+            <f:facet name="header">
+                <h:outputText value="Name"/>
+            </f:facet>
+            <h:outputText value="#{department.name}" />
+        </p:column>
+        
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Code"/>
             </f:facet>
             <h:outputText value="#{department.subGroupCode}" />
         </p:column>
-
-        <p:column>
-            <f:facet name="header">
-                <h:outputText value="Name"/>
-            </f:facet>
-            <h:outputText value="#{department.name}" />
-        </p:column>                          
-
+        
         <p:column style="width:32px">
             <p:commandButton title="View or edit department"   
-                             actionListener="#{systemManager.editDepartment}"
+                             actionListener="#{humanResourceManager.editDepartment}"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
@@ -110,9 +110,9 @@ Email: info@dpbennett.com.jm
                              process="@this"
                              icon="ui-icon ui-icon-pencil">
                 <f:setPropertyActionListener value="#{department}"                                                                    
-                                             target="#{systemManager.selectedDepartment}" />
+                                             target="#{humanResourceManager.selectedDepartment}" />
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:centerTabView:departmentsTable"/>
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:departmentsTable"/>
 
             </p:commandButton>           
         </p:column>
