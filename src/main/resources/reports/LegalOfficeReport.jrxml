@@ -5,6 +5,9 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="319"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="681"/>
 	<style name="particularsStyle" mode="Transparent" fill="Solid" hTextAlign="Left" hImageAlign="Left" vTextAlign="Top" vImageAlign="Top" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{legaldocument_GOAL}.toString().trim().equals("# 1")]]></conditionExpression>
@@ -45,6 +48,7 @@
 	legaldocument.`EXPECTEDDATEOFCOMPLETION` AS legaldocument_EXPECTEDDATEOFCOMPLETION,
 	legaldocument.`DESCRIPTION` AS legaldocument_DESCRIPTION,
 	legaldocument.`TURNAROUNDTIME` AS legaldocument_TURNAROUNDTIME,
+	legaldocument.`ACTUALTURNAROUNDTIME` AS legaldocument_ACTUALTURNAROUNDTIME,
 	legaldocument.`DATEOFCOMPLETION` AS legaldocument_DATEOFCOMPLETION,
 	legaldocument.`SUBMITTEDBY_ID` AS legaldocument_SUBMITTEDBY_ID,
 	legaldocument.`GOAL` AS legaldocument_GOAL,
@@ -83,6 +87,10 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 	</field>
 	<field name="legaldocument_TURNAROUNDTIME" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.label" value="legaldocument_TURNAROUNDTIME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
+	</field>
+	<field name="legaldocument_ACTUALTURNAROUNDTIME" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="legaldocument_ACTUALTURNAROUNDTIME"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="legaldocument"/>
 	</field>
 	<field name="legaldocument_DATEOFCOMPLETION" class="java.sql.Date">
@@ -472,7 +480,7 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Agreed Delivery]]></text>
+				<text><![CDATA[Date Received]]></text>
 			</staticText>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="606" y="0" width="80" height="50" backcolor="#FFFF00" uuid="dfb83792-5652-48bc-90ac-b25003a30de5"/>
@@ -485,7 +493,7 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Date Received]]></text>
+				<text><![CDATA[Agreed Delivery]]></text>
 			</staticText>
 			<staticText>
 				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="686" y="0" width="80" height="50" backcolor="#FFFF00" uuid="1f93c5e9-0201-448a-9da3-b09e04374ba8"/>
@@ -568,7 +576,7 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textFieldExpression><![CDATA[$F{legaldocument_EXPECTEDDATEOFCOMPLETION}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{legaldocument_DATERECEIVED}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="MMM dd, yyyy" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="606" y="0" width="80" height="20" uuid="ac4e7ec6-d634-4950-b103-b5d7efc6aa82"/>
@@ -578,7 +586,7 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textFieldExpression><![CDATA[$F{legaldocument_DATERECEIVED}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{legaldocument_EXPECTEDDATEOFCOMPLETION}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="MMM dd, yyyy" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="686" y="0" width="80" height="20" uuid="8a9cdac7-01cc-49f9-92a7-b8e861dc5332"/>
@@ -590,7 +598,7 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 				</box>
 				<textFieldExpression><![CDATA[$F{legaldocument_DATEOFCOMPLETION}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="MMM dd, yyyy" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="766" y="0" width="95" height="20" uuid="39d50f70-5964-46d6-8c34-2698335a5c55"/>
 				<box leftPadding="5">
 					<topPen lineWidth="1.0"/>
@@ -598,6 +606,7 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
+				<textFieldExpression><![CDATA[$F{legaldocument_TURNAROUNDTIME}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="turnaroundTimeStyle" stretchType="RelativeToTallestObject" x="861" y="0" width="95" height="20" uuid="f23bdf48-dbb8-4e9e-8047-72d079af034d"/>
@@ -607,7 +616,7 @@ ORDER BY legaldocument.`TYPE_ID` DESC]]>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textFieldExpression><![CDATA[$F{legaldocument_TURNAROUNDTIME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{legaldocument_ACTUALTURNAROUNDTIME}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement style="particularsStyle" stretchType="RelativeToTallestObject" x="241" y="0" width="219" height="20" uuid="96e54174-9ef1-4d99-aae2-0128dd10d7d1"/>

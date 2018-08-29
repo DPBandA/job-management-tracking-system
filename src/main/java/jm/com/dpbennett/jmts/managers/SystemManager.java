@@ -809,7 +809,7 @@ public class SystemManager implements Serializable {
     }
 
     public void editSystemOption() {
-        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 430, 500);
     }
 
     public void editClassification() {
@@ -1152,7 +1152,7 @@ public class SystemManager implements Serializable {
 
         selectedSystemOption = new SystemOption();
 
-        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 430, 500);
     }
 
     public void createNewFinancialSystemOption() {
@@ -1162,7 +1162,7 @@ public class SystemManager implements Serializable {
 
         getMainTabView().addTab(getEntityManager(), "Financial Administration", true);
 
-        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 330, 500);
+        PrimeFacesUtils.openDialog(null, "systemOptionDialog", true, true, true, 430, 500);
     }
 
     public void fetchDepartment(ActionEvent action) {

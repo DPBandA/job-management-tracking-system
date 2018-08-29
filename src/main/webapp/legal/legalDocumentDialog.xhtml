@@ -180,7 +180,7 @@ Email: info@dpbennett.com.jm
                                         validator="businessEntityValidator"
                                         forceSelection="true"         
                                         dropdown="true"
-                                        completeMethod="#{App.completeEmployee}" >
+                                        completeMethod="#{App.completeActiveEmployee}" >
                             <p:ajax event="itemSelect"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
@@ -349,7 +349,7 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="Nature of request:" />
                         <p:inputTextarea value="#{legalDocumentManager.currentDocument.workPerformedOnDocument}"
                                          id="workPerformedOnDocument"
-                                         rows="3"
+                                         rows="2"
                                          autoResize="false"
                                          style="width: 300px">
 
@@ -359,35 +359,41 @@ Email: info@dpbennett.com.jm
 
                         </p:inputTextarea>
 
-                        <h:outputText value="Strategic Goal:" />
-                        <ui:remove>
-                            <p:inputTextarea value="#{legalDocumentManager.currentDocument.goal}"
-                                             id="strategicGoal"
-                                             rows="3"
-                                             autoResize="false"
-                                             style="width: 300px">
-
-                                <p:ajax event="change"
-                                        listener="#{legalDocumentManager.updateDocument}"
-                                        process="@this"/>
-
-                            </p:inputTextarea>
-                        </ui:remove>
-                        <p:autoComplete id="strategicGoal"
-                                        value="#{legalDocumentManager.currentDocument.goal}"
+                        <h:outputText value="Strategic priority" />                      
+                        <p:autoComplete id="strategicPriority"
+                                        value="#{legalDocumentManager.currentDocument.strategicPriority}"
                                         dropdown="true"
                                         forceSelection="false" 
-                                        completeMethod="#{legalDocumentManager.completeGoal}">
+                                        completeMethod="#{legalDocumentManager.completeStrategicPriority}">
 
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this" />
-                            
+
                             <p:ajax event="itemSelect"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this" />
 
                         </p:autoComplete> 
+
+                        <ui:remove>
+                            <h:outputText value="Strategic Goal:" />                      
+                            <p:autoComplete id="strategicGoal"
+                                            value="#{legalDocumentManager.currentDocument.goal}"
+                                            dropdown="true"
+                                            forceSelection="false" 
+                                            completeMethod="#{legalDocumentManager.completeGoal}">
+
+                                <p:ajax event="change"
+                                        listener="#{legalDocumentManager.updateDocument}"
+                                        process="@this" />
+
+                                <p:ajax event="itemSelect"
+                                        listener="#{legalDocumentManager.updateDocument}"
+                                        process="@this" />
+
+                            </p:autoComplete> 
+                        </ui:remove>
 
 
                     </h:panelGrid>
@@ -428,7 +434,7 @@ Email: info@dpbennett.com.jm
                                         converter="activeEmployeeConverter"
                                         validator="businessEntityValidator"
                                         forceSelection="true"
-                                        completeMethod="#{App.completeEmployee}" >
+                                        completeMethod="#{App.completeActiveEmployee}" >
 
                             <p:ajax event="itemSelect"
                                     listener="#{legalDocumentManager.updateDocument}"
