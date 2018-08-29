@@ -96,10 +96,6 @@ public class ReportManager implements Serializable {
     private Integer longProcessProgress;
     private String reportSearchText;
     private List<Report> foundReports;
-//    private DatePeriodJobReport jobSubCategoryReport; // tk may be retired
-//    private DatePeriodJobReport sectorReport; // tk may be retired
-//    private DatePeriodJobReport jobQuantitiesAndServicesReport; // tk may be retired   
-//    private DatePeriod defaultDatePeriod;
     private JobManager jobManager;
     private Report selectedReport;
     private Report currentReport;
@@ -115,6 +111,10 @@ public class ReportManager implements Serializable {
         init();
     }
 
+    /**
+     * 
+     * @return 
+     */
     private EntityManager getLocalEntityManager() {
         Map props = new HashMap();
         props.put("javax.persistence.jdbc.driver",
@@ -137,6 +137,10 @@ public class ReportManager implements Serializable {
 
     }
 
+    /**
+     * 
+     * @return 
+     */
     public List<SelectItem> getDatePeriods() {
         ArrayList<SelectItem> datePeriods = new ArrayList<>();
 
@@ -147,6 +151,10 @@ public class ReportManager implements Serializable {
         return datePeriods;
     }
 
+    /**
+     * 
+     * @return 
+     */
     public DatePeriod getReportingDatePeriod1() {
         if (selectedReport.getDatePeriods().isEmpty()) {
             selectedReport.getDatePeriods().add(
@@ -164,9 +172,12 @@ public class ReportManager implements Serializable {
 
         return selectedReport.getDatePeriods().get(0);
     }
-
-    // Special method to be removed later when the current method of generating
-    // monthly reports is done away with.
+     
+    /**
+     * Special method to be removed later when the current method of generating
+     * monthly reports is done away with.
+     * @return 
+     */
     public DatePeriod getMonthlyReportDataDatePeriod() {
         if (getReportingDatePeriod1().getEndDate() == null) {
             getReportingDatePeriod1().setEndDate(new Date());
@@ -175,10 +186,18 @@ public class ReportManager implements Serializable {
         return getReportingDatePeriod1();
     }
 
+    /**
+     * 
+     * @param reportingDatePeriod1 
+     */
     public void setReportingDatePeriod1(DatePeriod reportingDatePeriod1) {
         selectedReport.getDatePeriods().set(0, reportingDatePeriod1);
     }
 
+    /**
+     * 
+     * @return 
+     */
     public DatePeriod getReportingDatePeriod2() {
 
         if (selectedReport.getDatePeriods().isEmpty()) {
@@ -499,7 +518,6 @@ public class ReportManager implements Serializable {
         this.longProcessProgress = 0;
         this.columnsToExclude = "";
         this.reportCategory = "Job";
-//        defaultDatePeriod = new DatePeriod("This month", "month", null, null, null, null, false, false, true);
     }
 
     public void reset() {
@@ -1531,6 +1549,11 @@ public class ReportManager implements Serializable {
         return null;
     }
 
+    /**
+     * 
+     * @param wb
+     * @return 
+     */
     HSSFCellStyle getDefaultCellStyle(HSSFWorkbook wb) {
         HSSFCellStyle cellStyle = wb.createCellStyle();
         Font font = wb.createFont();
@@ -1543,6 +1566,11 @@ public class ReportManager implements Serializable {
         return cellStyle;
     }
 
+    /**
+     * 
+     * @param wb
+     * @return 
+     */
     Font getWingdingsFont(HSSFWorkbook wb) {
         Font font = wb.createFont();
         font.setFontHeightInPoints((short) 14);
@@ -1551,6 +1579,13 @@ public class ReportManager implements Serializable {
         return font;
     }
 
+    /**
+     * 
+     * @param wb
+     * @param fontName
+     * @param fontsize
+     * @return 
+     */
     Font getFont(HSSFWorkbook wb, String fontName, short fontsize) {
         Font font = wb.createFont();
         font.setFontHeightInPoints(fontsize);
@@ -1559,6 +1594,12 @@ public class ReportManager implements Serializable {
         return font;
     }
 
+    /**
+     * 
+     * @param samples
+     * @param method
+     * @return 
+     */
     public Boolean checkForSampleDisposalMethod(List<JobSample> samples, Integer method) {
         for (JobSample jobSample : samples) {
             if (jobSample.getMethodOfDisposal().compareTo(method) == 0) {
@@ -1568,6 +1609,12 @@ public class ReportManager implements Serializable {
         return false;
     }
 
+    /**
+     * 
+     * @param em
+     * @param department
+     * @param jobSubCategory 
+     */
     public void associateDepartmentWithJobSubCategory(
             EntityManager em,
             Department department,
@@ -1577,8 +1624,15 @@ public class ReportManager implements Serializable {
         jobSubCategory.getDepartments().add(department);
         BusinessEntityUtils.saveBusinessEntity(em, jobSubCategory);
         em.getTransaction().commit();
+        
     }
 
+    /**
+     * 
+     * @param em
+     * @param department
+     * @param sector 
+     */
     public void associateDepartmentWithSector(
             EntityManager em,
             Department department,
@@ -1590,6 +1644,12 @@ public class ReportManager implements Serializable {
         em.getTransaction().commit();
     }
 
+    /**
+     * 
+     * @param em
+     * @param department
+     * @param jobReportItem 
+     */
     public void associateDepartmentWithJobReportItem(
             EntityManager em,
             Department department,
@@ -1601,6 +1661,10 @@ public class ReportManager implements Serializable {
         em.getTransaction().commit();
     }
 
+    /**
+     * 
+     * @return 
+     */
     public ArrayList getDateSearchFields() {
         return DatePeriod.getDateSearchFields();
     }

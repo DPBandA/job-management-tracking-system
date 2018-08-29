@@ -433,7 +433,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getApplicationHeader() {
-        String option = (String) SystemOption.getOptionValueObject(getEntityManager1(),
+        String option = (String)SystemOption.getOptionValueObject(getEntityManager1(),
                 "applicationHeader");
 
         return (!"".equals(option) ? option : "Job Management & Tracking System");

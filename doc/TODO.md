@@ -1,4 +1,5 @@
-# Prepare for Legal Office training
+# Urgent
+- Check why -- employees appears in autocomplete in job dialog.
 
 # Impl HR module with HumanResourceManager clas
 - Reload entities before opening dialogs. Start with employee.
@@ -20,4 +21,5 @@ A valid job number should not be generated when this occurs.
 - Do update Legal Office report with set and actual turnaround times.
 - When doc type is first edited it is not reflected in the doc type form field.
   Replicate this issue and fix!
-- Not able to select employees in jmtstest. Check why.
+- Check out Server Performance Tuner in GF4/5 to see if this help the speed of 
+  searches etc.
