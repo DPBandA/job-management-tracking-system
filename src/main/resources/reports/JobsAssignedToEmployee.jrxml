@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JobEnteredByInspector" pageWidth="1200" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="1160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="91614f20-57d8-46cc-9862-2ea4d5a20352">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -268,28 +269,28 @@ GROUP BY
 	<title>
 		<band height="70" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="34049110-7832-4684-9215-8eeae0100de4" style="Title" x="0" y="5" width="860" height="36" forecolor="#000000"/>
+				<reportElement x="0" y="5" width="860" height="36" forecolor="#000000" uuid="34049110-7832-4684-9215-8eeae0100de4"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="26" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Jobs Assigned to Employee]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement uuid="7b20eb55-fc0b-4bdf-a309-d5d8832aa567" x="162" y="41" width="178" height="29"/>
+				<reportElement x="162" y="41" width="178" height="29" uuid="7b20eb55-fc0b-4bdf-a309-d5d8832aa567"/>
 				<textElement>
 					<font fontName="Arial" size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{endOFPeriod}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="1b6f14d2-0b8b-49e8-9fd4-54d2c9a2ad28" x="138" y="41" width="24" height="29"/>
+				<reportElement x="138" y="41" width="24" height="29" uuid="1b6f14d2-0b8b-49e8-9fd4-54d2c9a2ad28"/>
 				<textElement>
 					<font fontName="Arial" size="22"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement uuid="e05af91a-98e1-45d2-be9f-b0ee4e9f491d" x="0" y="41" width="138" height="29"/>
+				<reportElement x="0" y="41" width="138" height="29" uuid="e05af91a-98e1-45d2-be9f-b0ee4e9f491d"/>
 				<textElement>
 					<font fontName="Arial" size="22"/>
 				</textElement>
@@ -303,7 +304,7 @@ GROUP BY
 	<columnHeader>
 		<band height="36" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="0dcb4c8c-73d3-443a-a6b8-3989da54b766" style="Column header" x="107" y="21" width="138" height="15"/>
+				<reportElement style="Column header" x="107" y="21" width="138" height="15" uuid="0dcb4c8c-73d3-443a-a6b8-3989da54b766"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -311,11 +312,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Client]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="2b4b6876-6880-43ed-a775-4c94342a3e5b" style="Column header" x="245" y="21" width="138" height="15"/>
+				<reportElement style="Column header" x="245" y="21" width="138" height="15" uuid="2b4b6876-6880-43ed-a775-4c94342a3e5b"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -323,11 +323,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Job numbers]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5ceb1f44-6f4f-4a06-bae6-786b7f0c7ddb" style="Column header" x="383" y="21" width="138" height="15"/>
+				<reportElement style="Column header" x="383" y="21" width="138" height="15" uuid="5ceb1f44-6f4f-4a06-bae6-786b7f0c7ddb"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -335,11 +334,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Assignee firstname]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="4d92a13e-1359-4814-8331-78d7ca682f5e" style="Column header" x="521" y="21" width="138" height="15"/>
+				<reportElement style="Column header" x="521" y="21" width="138" height="15" uuid="4d92a13e-1359-4814-8331-78d7ca682f5e"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -347,11 +345,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Assignee lastname]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a6ba2726-dc8e-499e-a320-f7eedac7a3f8" style="Column header" x="659" y="21" width="185" height="15"/>
+				<reportElement style="Column header" x="659" y="21" width="185" height="15" uuid="a6ba2726-dc8e-499e-a320-f7eedac7a3f8"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -359,11 +356,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Date assigned/submitted]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="ff47b525-26e4-4e00-8739-73031541a583" style="Column header" x="844" y="21" width="316" height="15"/>
+				<reportElement style="Column header" x="844" y="21" width="316" height="15" uuid="ff47b525-26e4-4e00-8739-73031541a583"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -371,11 +367,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Samples]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="a69ac1e4-c088-4d2d-bae4-a5fe2b1c5372" style="Column header" x="0" y="21" width="107" height="15"/>
+				<reportElement style="Column header" x="0" y="21" width="107" height="15" uuid="a69ac1e4-c088-4d2d-bae4-a5fe2b1c5372"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -383,7 +378,6 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Item No.]]></text>
 			</staticText>
 		</band>
@@ -391,7 +385,7 @@ GROUP BY
 	<detail>
 		<band height="42" splitType="Stretch">
 			<textField>
-				<reportElement uuid="da727a3e-ed81-4952-981e-15565845cfe2" style="Detail" x="107" y="0" width="138" height="42"/>
+				<reportElement style="Detail" x="107" y="0" width="138" height="42" uuid="da727a3e-ed81-4952-981e-15565845cfe2"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -399,11 +393,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="1635e7a2-4566-4b69-816f-770a2cbc161a" style="Detail" x="245" y="0" width="138" height="42"/>
+				<reportElement style="Detail" x="245" y="0" width="138" height="42" uuid="1635e7a2-4566-4b69-816f-770a2cbc161a"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -411,11 +404,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{jobNumbers}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="884003e6-7512-4404-932e-2a2d7c46d057" style="Detail" x="383" y="0" width="138" height="42"/>
+				<reportElement style="Detail" x="383" y="0" width="138" height="42" uuid="884003e6-7512-4404-932e-2a2d7c46d057"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -423,11 +415,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{employee_FIRSTNAME}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="555fa4c6-3959-4085-a6f0-4a2e40f884ae" style="Detail" x="521" y="0" width="138" height="42"/>
+				<reportElement style="Detail" x="521" y="0" width="138" height="42" uuid="555fa4c6-3959-4085-a6f0-4a2e40f884ae"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -435,11 +426,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{employee_LASTNAME}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement uuid="319d0f79-b19a-4469-99ec-fe7fdd237bf5" style="Detail" x="659" y="0" width="185" height="42"/>
+				<reportElement style="Detail" x="659" y="0" width="185" height="42" uuid="319d0f79-b19a-4469-99ec-fe7fdd237bf5"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -447,11 +437,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATESUBMITTED}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="7dab58d4-da11-46f1-a5ac-2c4335c30cfc" style="Detail" x="844" y="0" width="316" height="42"/>
+				<reportElement style="Detail" x="844" y="0" width="316" height="42" uuid="7dab58d4-da11-46f1-a5ac-2c4335c30cfc"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -459,11 +448,10 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{samples}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="0432afd6-67f8-4025-859f-c5c0ad0612fa" style="Detail" x="0" y="0" width="107" height="42"/>
+				<reportElement style="Detail" x="0" y="0" width="107" height="42" uuid="0432afd6-67f8-4025-859f-c5c0ad0612fa"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -471,7 +459,6 @@ GROUP BY
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$V{itemNo}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -479,7 +466,7 @@ GROUP BY
 	<columnFooter>
 		<band height="45" splitType="Stretch">
 			<line>
-				<reportElement uuid="47d9c740-0c76-4f6f-9927-92e3bfd0fe3c" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="47d9c740-0c76-4f6f-9927-92e3bfd0fe3c"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
@@ -489,21 +476,21 @@ GROUP BY
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement uuid="af72b5f1-5563-4f3b-84f7-5473a0b388ce" style="Column header" x="433" y="0" width="80" height="20"/>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="af72b5f1-5563-4f3b-84f7-5473a0b388ce"/>
 				<textElement textAlignment="Right">
 					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement uuid="a0e0a050-cc64-4945-82d1-97cd3f2b8f22" style="Column header" x="513" y="0" width="40" height="20"/>
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="a0e0a050-cc64-4945-82d1-97cd3f2b8f22"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement uuid="5d2175c9-498c-4403-8179-ac21d6761c03" style="Column header" x="0" y="0" width="197" height="20"/>
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="5d2175c9-498c-4403-8179-ac21d6761c03"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>

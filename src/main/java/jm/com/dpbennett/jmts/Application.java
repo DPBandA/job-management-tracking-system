@@ -79,7 +79,7 @@ import jm.com.dpbennett.business.entity.utils.SearchParameters;
 @ApplicationScoped
 @Singleton
 public class Application {
-    
+
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
@@ -92,20 +92,35 @@ public class Application {
      */
     public Application() {
         openedJobs = new ArrayList<>();
-              
+
         // init primefaces themes
         themes.put("Aristo", "aristo");
         themes.put("Black-Tie", "black-tie");
         themes.put("Redmond", "redmond");
         themes.put("Dark Hive", "dark-hive");
     }
-    
+
+    public List<String> completeStrategicPriority(String query) {
+        
+        List<String> priorities = (List<String>) SystemOption.
+                getOptionValueObject(getEntityManager1(), "StrategicPriorities");
+        List<String> matchedPriority = new ArrayList<>();
+
+        for (String priority : priorities) {
+            if (priority.contains(query)) {
+                matchedPriority.add(priority);
+            }
+        }
+
+        return matchedPriority;
+
+    }
+
 //    @Schedule(hour = "*", minute = "*", second = "*/30")
 //    public void automaticTimer() {
 //        // tk
 //        System.out.println("# of opened job: " + getOpenedJobs() + " Time: " + new Date());
 //    }
-
     public synchronized List<Job> getOpenedJobs() {
         return openedJobs;
     }

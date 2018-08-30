@@ -511,6 +511,9 @@ public class HumanResourceManager implements Serializable {
 
     public void saveSelectedEmployee(ActionEvent actionEvent) {
 
+        // Ensure that the employee's fullname is updated
+        selectedEmployee.getName();
+        
         selectedEmployee.save(getEntityManager());
 
         PrimeFaces.current().dialog().closeDynamic(null);

@@ -580,18 +580,4 @@ public class LegalDocumentManager implements Serializable {
 
     }
     
-    public List<String> completeStrategicPriority(String query) {
-        // tk put in sys options
-        String priorities[] = {"1", "2", "3"};
-        List<String> matchedPriority = new ArrayList<>();
-
-        for (String priority : priorities) {
-            if (priority.contains(query)) {
-                matchedPriority.add(priority);
-            }
-        }
-
-        return matchedPriority;
-
-    }
 }

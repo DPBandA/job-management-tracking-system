@@ -364,7 +364,7 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.strategicPriority}"
                                         dropdown="true"
                                         forceSelection="false" 
-                                        completeMethod="#{legalDocumentManager.completeStrategicPriority}">
+                                        completeMethod="#{App.completeStrategicPriority}">
 
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
@@ -375,26 +375,6 @@ Email: info@dpbennett.com.jm
                                     process="@this" />
 
                         </p:autoComplete> 
-
-                        <ui:remove>
-                            <h:outputText value="Strategic Goal:" />                      
-                            <p:autoComplete id="strategicGoal"
-                                            value="#{legalDocumentManager.currentDocument.goal}"
-                                            dropdown="true"
-                                            forceSelection="false" 
-                                            completeMethod="#{legalDocumentManager.completeGoal}">
-
-                                <p:ajax event="change"
-                                        listener="#{legalDocumentManager.updateDocument}"
-                                        process="@this" />
-
-                                <p:ajax event="itemSelect"
-                                        listener="#{legalDocumentManager.updateDocument}"
-                                        process="@this" />
-
-                            </p:autoComplete> 
-                        </ui:remove>
-
 
                     </h:panelGrid>
                 </p:tab>

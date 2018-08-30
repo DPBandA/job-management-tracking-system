@@ -54,8 +54,6 @@ public class Dashboard implements Serializable {
     public void setSelectedTabId(String selectedTabId) {
         this.selectedTabId = selectedTabId;
     }
-    
-    
 
     public String getDefaultCommandButtonId() {
         return defaultCommandButtonId;
@@ -188,12 +186,6 @@ public class Dashboard implements Serializable {
         if (getUser().getModules().getJobManagementAndTrackingModule()) {
             tabs.add(new Tab("Job Management", "Job Management"));
         }
-        if (getUser().getModules().getAdminModule()) {
-            tabs.add(new Tab("System Administration", "System Administration"));
-        }
-        if (getUser().getModules().getFinancialAdminModule()) {
-            tabs.add(new Tab("Financial Administration", "Financial Administration"));
-        }
         if (getUser().getModules().getComplianceModule()) {
             tabs.add(new Tab("Standards Compliance", "Standards Compliance"));
         }
@@ -219,7 +211,13 @@ public class Dashboard implements Serializable {
             tabs.add(new Tab("Client Management",
                     "Client Management"));
         }
-        
+        if (getUser().getModules().getAdminModule()) {
+            tabs.add(new Tab("System Administration", "System Administration"));
+        }
+        if (getUser().getModules().getFinancialAdminModule()) {
+            tabs.add(new Tab("Financial Administration", "Financial Administration"));
+        }
+
         // Set the first tab as the selected tab
         setSelectedTabId(tabs.get(0).getId());
     }
