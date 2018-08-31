@@ -2238,6 +2238,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     // tk rename to setTargetJob
     public void setEditCurrentJob(Job currentJob) {
+        // tk
+//        System.out.println("editing current job id: " + currentJob.getId());
+//        this.currentJob = Job.findJobById(getEntityManager1(), 
+//                currentJob.getId());
+        
         this.currentJob = currentJob;
         this.currentJob.setVisited(true);
         getFinanceManager().setEnableOnlyPaymentEditing(false);
