@@ -138,7 +138,9 @@ public class LegalDocumentManager implements Serializable {
 
     public void documentTypeDialogReturn() {
         if (getSystemManager().getSelectedDocumentType().getId() != null) {
-            getCurrentDocument().setType(getSystemManager().getSelectedDocumentType());
+            getCurrentDocument().setType(getSystemManager().getSelectedDocumentType());     
+            // tk
+            //getCurrentDocument().getType().setName(getSystemManager().getSelectedDocumentType().getName());
             updateDocument();
         }
     }
@@ -216,7 +218,8 @@ public class LegalDocumentManager implements Serializable {
 
     public void editDocumentType(ActionEvent actionEvent) {
 
-        getSystemManager().setSelectedDocumentType(getCurrentDocument().getType());
+        getSystemManager().setSelectedDocumentType(getCurrentDocument().getType());    
+        getCurrentDocument().setType(null); //tk
         getSystemManager().openDocumentTypeDialog("/admin/documentTypeDialog");
     }
 

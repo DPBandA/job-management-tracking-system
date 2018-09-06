@@ -1,20 +1,16 @@
-# Urgent
-- Add STRATEGICPRIORITY to legaldocument table in all databases and 
-  * StrategicPriority1-3 and StrategicPriorities system option list.
-- Check how and why persons can close subcontracted jobs not assigned to their department.
-- The "Earnings by Category" report is not showing the end date of date period 3 correctly.
-- Re-look at the error reporting sequence when saving a job.
 
 # Legal Office
+- Set default employee to "--,--" and dont' make particulars mandatory to solve
+  the issue of doc type not being updated when edited for new documents.
+- Impl opening the saved document from the database.
 - The "visited" row feature not working for legal document. Fix.
   * It's because re-search is done after saving.
-- When doc type is first edited it is not reflected in the doc type form field.
-  Replicate this issue and fix! Solve by impl "dialogReturn" for the Document Type
-  dialog and set the document type.
 - Hide "For job earnings:" in classification dialog except for "Job" category.
 - Do update Legal Office report with set and actual turnaround times. 
   Update "turnaround times" when doc is being saved?
 - Switch to LegalOfficeReport2 in system admin.
+- Impl "show.hide" date search field in report template so that reports can be
+  generated based on date search field.
 
 # Impl HR module with HumanResourceManager class
 - Reload entities before opening dialogs. Start with employee.

@@ -205,7 +205,7 @@ Email: info@dpbennett.com.jm
 
                                 <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                         event="itemSelect"
-                                        update="documentType,currentDocumentNumber"
+                                        update="currentDocumentNumber"
                                         process="@this" />
 
                             </p:autoComplete>
@@ -223,6 +223,7 @@ Email: info@dpbennett.com.jm
 
                                         <p:ajax event="dialogReturn" 
                                                 listener="#{legalDocumentManager.documentTypeDialogReturn}"
+                                                process="@this"
                                                 update="documentType,currentDocumentNumber" />
 
                                     </p:commandButton>
@@ -240,6 +241,7 @@ Email: info@dpbennett.com.jm
 
                                         <p:ajax event="dialogReturn" 
                                                 listener="#{legalDocumentManager.documentTypeDialogReturn}"
+                                                process="@this"
                                                 update="documentType,currentDocumentNumber" />
 
                                     </p:commandButton>
@@ -338,7 +340,9 @@ Email: info@dpbennett.com.jm
                                          autoResize="false"
                                          style="width: 300px">
 
-                            <f:validator validatorId="requiredFieldValidator" />
+                            <ui:remove>
+                                <f:validator validatorId="requiredFieldValidator" />
+                            </ui:remove>
 
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"

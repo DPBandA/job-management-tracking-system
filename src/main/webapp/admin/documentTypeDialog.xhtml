@@ -38,28 +38,32 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>  
         <h:form id="documentTypeDialogForm">    
-            
+
             <p:growl id="documenttype_growl" life="5000" showDetail="true"/>
-            
+
             <ui:include src="documentTypeDialogToolbar.xhtml" /> 
 
             <p:panel style="margin-bottom: 1px;margin-top: 1px;">
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Document type: " for="newDocumentType" style="font-weight: bold;"/>
-                    <p:autoComplete id="newDocumentType"
-                                    value="#{systemManager.selectedDocumentType.name}"
-                                    title="#{systemManager.selectedDocumentType.name}"                                    
-                                    validator="requiredFieldValidator" 
-                                    completeMethod="#{App.completeDocumentTypeName}" >                                              
-                    </p:autoComplete>
+                    <p:inputText id="newDocumentType"
+                                 value="#{systemManager.selectedDocumentType.name}"                                 
+                                 validator="requiredFieldValidator" >       
+
+                        <p:ajax event="change"                                                       
+                                process="@this"/>
+
+                    </p:inputText>
 
                     <h:outputLabel value="Document code: " for="newDocumentCode" style="font-weight: bold;"/>
-                    <p:autoComplete id="newDocumentCode"
-                                    value="#{systemManager.selectedDocumentType.code}"
-                                    title="#{systemManager.selectedDocumentType.code}"                                    
-                                    validator="requiredFieldValidator" 
-                                    completeMethod="#{App.completeDocumentTypeCode}" >
-                    </p:autoComplete>
+                    <p:inputText id="newDocumentCode"
+                                 value="#{systemManager.selectedDocumentType.code}"                                 
+                                 validator="requiredFieldValidator" >
+
+                        <p:ajax event="change"                                                       
+                                process="@this"/>
+
+                    </p:inputText>
                 </h:panelGrid>
             </p:panel>
 
