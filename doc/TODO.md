@@ -3,13 +3,11 @@
   * StrategicPriority1-3 and StrategicPriorities system option list.
 - Check how and why persons can close subcontracted jobs not assigned to their department.
 - The "Earnings by Category" report is not showing the end date of date period 3 correctly.
+- Re-look at the error reporting sequence when saving a job.
 
 # Legal Office
 - The "visited" row feature not working for legal document. Fix.
   * It's because re-search is done after saving.
-- Change strategic goal to priority in report
-- Newly entered document type appears in "Document #" field but not in the
-"Document type" field. Fix!
 - When doc type is first edited it is not reflected in the doc type form field.
   Replicate this issue and fix! Solve by impl "dialogReturn" for the Document Type
   dialog and set the document type.
@@ -18,7 +16,7 @@
   Update "turnaround times" when doc is being saved?
 - Switch to LegalOfficeReport2 in system admin.
 
-# Impl HR module with HumanResourceManager clas
+# Impl HR module with HumanResourceManager class
 - Reload entities before opening dialogs. Start with employee.
   * Load from database using setSelected* in <f:setPropertyActionListener>
     and redo search in the "dialogReturn" method.
