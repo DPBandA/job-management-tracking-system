@@ -43,7 +43,7 @@
 	<parameter name="startOfPeriod1" class="java.util.Date"/>
 	<parameter name="endOfPeriod1" class="java.util.Date"/>
 	<parameter name="dateField1" class="java.lang.String">
-		<defaultValueExpression><![CDATA["legaldocument.`DATERECEIVED`"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["dateReceived"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT legaldocument.`ID` AS legaldocument_ID,
@@ -69,8 +69,8 @@ FROM employee employee
 	INNER JOIN jmts.documenttype ON 
 	 jmts.documenttype.`ID` = legaldocument.`TYPE_ID` 
 WHERE 
-	 DATERECEIVED >= $P{startOfPeriod1} 
-	 AND DATERECEIVED <= $P{endOfPeriod1} 
+	  $P!{dateField1} >= $P{startOfPeriod1} 
+	 AND $P!{dateField1} <= $P{endOfPeriod1} 
 ORDER BY legaldocument.`TYPE_ID` DESC]]>
 	</queryString>
 	<field name="legaldocument_ID" class="java.lang.Long">

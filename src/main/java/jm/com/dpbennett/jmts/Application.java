@@ -101,7 +101,7 @@ public class Application {
     }
 
     public List<String> completeStrategicPriority(String query) {
-        
+
         List<String> priorities = (List<String>) SystemOption.
                 getOptionValueObject(getEntityManager1(), "StrategicPriorities");
         List<String> matchedPriority = new ArrayList<>();
@@ -248,26 +248,20 @@ public class Application {
     }
 
     public List getDateSearchFields() {
-        ArrayList dateFields = new ArrayList();
+//        ArrayList dateFields = new ArrayList();
+//
+//        dateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
+//        dateFields.add(new SelectItem("dateReceived", "Date received"));
+//        dateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
+//        dateFields.add(new SelectItem("dateOfCompletion", "Date delivered"));
+//        dateFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
+//        dateFields.add(new SelectItem("expectedDateOfCompletion", "Agreed delivery date"));
+//        dateFields.add(new SelectItem("dateSamplesCollected", "Date sample(s) collected"));
+//        dateFields.add(new SelectItem("dateDocumentCollected", "Date document(s) collected"));
+//
+//        return dateFields;
 
-        dateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
-        dateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
-        dateFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
-        dateFields.add(new SelectItem("dateSamplesCollected", "Date sample(s) collected"));
-        dateFields.add(new SelectItem("dateDocumentCollected", "Date document(s) collected"));
-
-        return dateFields;
-    }
-
-    public List getLegalDocumentDateSearchFields() {
-        ArrayList dateFields = new ArrayList();
-
-        // add items
-        dateFields.add(new SelectItem("dateOfCompletion", "Date delivered"));
-        dateFields.add(new SelectItem("dateReceived", "Date received"));
-        dateFields.add(new SelectItem("expectedDateOfCompletion", "Agreed delivery date"));
-
-        return dateFields;
+          return  DatePeriod.getDateSearchFields();
     }
 
     public List getContactTypes() {

@@ -28,6 +28,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -80,6 +81,17 @@ public class LegalDocumentManager implements Serializable {
 
     public LegalDocumentManager() {
         init();
+    }
+    
+     public List getLegalDocumentDateSearchFields() {
+        ArrayList dateFields = new ArrayList();
+
+        // add items
+        dateFields.add(new SelectItem("dateOfCompletion", "Date delivered"));
+        dateFields.add(new SelectItem("dateReceived", "Date received"));
+        dateFields.add(new SelectItem("expectedDateOfCompletion", "Agreed delivery date"));
+
+        return dateFields;
     }
 
     private void init() {

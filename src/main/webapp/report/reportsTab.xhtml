@@ -168,13 +168,21 @@ Email: info@dpbennett.com.jm
                       rendered="#{reportManager.selectedReport.datePeriodRequired}" >
                 <h:panelGrid columns="6" > 
 
-                    
+
                     <h:outputText value="Date field 1: " 
                                   rendered="#{reportManager.selectedReport.showDateField}"/>
                     <p:selectOneMenu value="#{reportManager.reportingDatePeriod1.dateField}" 
                                      rendered="#{reportManager.selectedReport.showDateField}">
 
-                        <f:selectItems value="#{App.legalDocumentDateSearchFields}" />
+
+                        <p:ajax 
+                            global="true"
+                            onstart="PF('longProcessDialogVar2').show();"
+                            oncomplete="PF('longProcessDialogVar2').hide();"
+                            update="export1,export2,generalReportDatePeriods"
+                            process="@this" />
+
+                        <f:selectItems value="#{reportManager.dateSearchFields}" />
 
                     </p:selectOneMenu>
                     <h:outputText value=" "  rendered="#{reportManager.selectedReport.showDateField}" />
