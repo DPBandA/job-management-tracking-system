@@ -248,20 +248,7 @@ public class Application {
     }
 
     public List getDateSearchFields() {
-//        ArrayList dateFields = new ArrayList();
-//
-//        dateFields.add(new SelectItem("dateSubmitted", "Date submitted"));
-//        dateFields.add(new SelectItem("dateReceived", "Date received"));
-//        dateFields.add(new SelectItem("dateOfCompletion", "Date completed"));
-//        dateFields.add(new SelectItem("dateOfCompletion", "Date delivered"));
-//        dateFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
-//        dateFields.add(new SelectItem("expectedDateOfCompletion", "Agreed delivery date"));
-//        dateFields.add(new SelectItem("dateSamplesCollected", "Date sample(s) collected"));
-//        dateFields.add(new SelectItem("dateDocumentCollected", "Date document(s) collected"));
-//
-//        return dateFields;
-
-          return  DatePeriod.getDateSearchFields();
+         return  DatePeriod.getDateSearchFields("All");
     }
 
     public List getContactTypes() {

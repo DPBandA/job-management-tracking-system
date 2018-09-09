@@ -2,6 +2,7 @@
 # Legal Office
 - Impl "show/hide" date search field in report template so that reports can be
   generated based on date search field. Add to all databases.
+  * Add SHOWDATEFIELD to all databases.
 - Impl opening the saved document from the database.
 - The "visited" row feature not working for legal document. Fix.
   * It's because re-search is done after saving.
