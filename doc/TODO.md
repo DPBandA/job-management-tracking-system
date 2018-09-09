@@ -12,6 +12,12 @@
 - Impl "show.hide" date search field in report template so that reports can be
   generated based on date search field.
 
+# Proposals/Proforma Invoice
+- Do proforma for JMTS Migration to Virtual Server. Include issues being experienced
+  in the email wrt GF running out of memory
+- Do proposal for update of JMTS Standards module to include the standards development
+  process involving the TCs website.
+
 # Impl HR module with HumanResourceManager class
 - Reload entities before opening dialogs. Start with employee.
   * Load from database using setSelected* in <f:setPropertyActionListener>
