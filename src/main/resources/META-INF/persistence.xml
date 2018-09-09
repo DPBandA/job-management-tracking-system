@@ -59,7 +59,6 @@
     <class>jm.com.dpbennett.business.entity.ProductTest</class>
     <class>jm.com.dpbennett.business.entity.Registration</class>
     <class>jm.com.dpbennett.business.entity.Report</class>
-    <class>jm.com.dpbennett.business.entity.ReportTableColumn</class>
     <class>jm.com.dpbennett.business.entity.SampleRequest</class>
     <class>jm.com.dpbennett.business.entity.Scale</class>
     <class>jm.com.dpbennett.business.entity.ScaleCompany</class>
@@ -95,6 +94,7 @@
     <class>jm.com.dpbennett.business.entity.AccountingCode</class>
     <class>jm.com.dpbennett.business.entity.Subgroup</class>
     <class>jm.com.dpbennett.business.entity.Division</class>
+    <class>jm.com.dpbennett.business.entity.ReportTableColumn</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>

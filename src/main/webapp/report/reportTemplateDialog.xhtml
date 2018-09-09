@@ -139,11 +139,17 @@ Email: info@dpbennett.com.jm
                 </p:tab >  
                 <p:tab  title="Parameters" >
                     <p:panel header="Date period" style="margin-top: 1px;margin-bottom: 1px;">
-                        <h:panelGrid columns="2">
+                        <h:panelGrid columns="4" cellpadding="5">
+                            
                             <p:outputLabel for="datePeriodRequired" value="Required:" style="font-weight: bold;" />               
                             <p:selectBooleanCheckbox id="datePeriodRequired"
                                                      style="vertical-align: middle"
                                                      value="#{reportManager.currentReport.datePeriodRequired}" />
+                            
+                            <p:outputLabel for="showDateField" value="Show date field:" style="font-weight: bold;" />               
+                            <p:selectBooleanCheckbox id="showDateField"
+                                                     style="vertical-align: middle"
+                                                     value="#{reportManager.currentReport.showDateField}" />
                         </h:panelGrid>
 
                         <p:toolbar style="margin-bottom: 1px;">

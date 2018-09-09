@@ -7,6 +7,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="319"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="681"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="particularsStyle" mode="Transparent" fill="Solid" hTextAlign="Left" hImageAlign="Left" vTextAlign="Top" vImageAlign="Top" markup="none" fontSize="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$F{legaldocument_STRATEGICPRIORITY}.toString().trim().equals("# 1")]]></conditionExpression>
@@ -41,6 +42,9 @@
 	</parameter>
 	<parameter name="startOfPeriod1" class="java.util.Date"/>
 	<parameter name="endOfPeriod1" class="java.util.Date"/>
+	<parameter name="dateField1" class="java.lang.String">
+		<defaultValueExpression><![CDATA["legaldocument.`DATERECEIVED`"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT legaldocument.`ID` AS legaldocument_ID,
 	legaldocument.`NUMBER` AS legaldocument_NUMBER,
@@ -65,8 +69,8 @@ FROM employee employee
 	INNER JOIN jmts.documenttype ON 
 	 jmts.documenttype.`ID` = legaldocument.`TYPE_ID` 
 WHERE 
-	 legaldocument.`DATERECEIVED` >= $P{startOfPeriod1} 
-	 AND legaldocument.`DATERECEIVED` <= $P{endOfPeriod1} 
+	 DATERECEIVED >= $P{startOfPeriod1} 
+	 AND DATERECEIVED <= $P{endOfPeriod1} 
 ORDER BY legaldocument.`TYPE_ID` DESC]]>
 	</queryString>
 	<field name="legaldocument_ID" class="java.lang.Long">

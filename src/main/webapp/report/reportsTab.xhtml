@@ -162,11 +162,26 @@ Email: info@dpbennett.com.jm
                 </h:panelGrid>
 
             </p:panel>
-            
+
             <p:panel  id="generalReportDatePeriods" header="Date period(s)" 
                       style="margin-bottom: 1px;"
                       rendered="#{reportManager.selectedReport.datePeriodRequired}" >
                 <h:panelGrid columns="6" > 
+
+                    
+                    <h:outputText value="Date field 1: " 
+                                  rendered="#{reportManager.selectedReport.showDateField}"/>
+                    <p:selectOneMenu value="#{reportManager.reportingDatePeriod1.dateField}" 
+                                     rendered="#{reportManager.selectedReport.showDateField}">
+
+                        <f:selectItems value="#{App.legalDocumentDateSearchFields}" />
+
+                    </p:selectOneMenu>
+                    <h:outputText value=" "  rendered="#{reportManager.selectedReport.showDateField}" />
+                    <h:outputText value=" "  rendered="#{reportManager.selectedReport.showDateField}" />
+                    <h:outputText value=" "  rendered="#{reportManager.selectedReport.showDateField}" />
+                    <h:outputText value=" "  rendered="#{reportManager.selectedReport.showDateField}" />
+
                     <h:outputText value="#{reportManager.reportingDatePeriod1.initDatePeriod.label}" 
                                   rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}"/>     
                     <p:selectOneMenu value= "#{reportManager.reportingDatePeriod1.initDatePeriod.name}" 
@@ -177,7 +192,9 @@ Email: info@dpbennett.com.jm
                             oncomplete="PF('longProcessDialogVar2').hide();"
                             update="export1,export2,generalReportDatePeriods"
                             process="@this" />
+
                         <f:selectItems value="#{reportManager.datePeriods}"/>
+
                     </p:selectOneMenu>
 
                     <h:outputText value="Start:" rendered="#{reportManager.reportingDatePeriod1.initDatePeriod.show}" />
@@ -273,6 +290,7 @@ Email: info@dpbennett.com.jm
                         <f:selectItems value="#{reportManager.datePeriods}"/>
 
                     </p:selectOneMenu>
+
 
                     <h:outputText value="Start:" rendered="#{reportManager.reportingDatePeriod3.initDatePeriod.show}" />
                     <p:calendar value="#{reportManager.reportingDatePeriod3.initDatePeriod.startDate}"
