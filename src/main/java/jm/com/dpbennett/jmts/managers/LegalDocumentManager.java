@@ -358,6 +358,7 @@ public class LegalDocumentManager implements Serializable {
         }
 
         legalDocument.setRequestingDepartment(Department.findDefaultDepartment(em, "--"));
+        legalDocument.setSubmittedBy(Employee.findDefaultEmployee(getEntityManager(), "--", "--", true));
         legalDocument.setType(DocumentType.findDocumentTypeByName(em, "--"));
         legalDocument.setClassification(Classification.findClassificationByName(em, "--"));
         legalDocument.setDocumentForm("H");

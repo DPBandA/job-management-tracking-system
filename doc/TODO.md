@@ -1,5 +1,6 @@
 
 # Legal Office
+- Impl finding and setrtting default document type when creating new doc.
 - Set default employee to "--,--" and dont' make particulars mandatory to solve
   the issue of doc type not being updated when edited for new documents.
 - Impl opening the saved document from the database.
@@ -9,7 +10,7 @@
 - Do update Legal Office report with set and actual turnaround times. 
   Update "turnaround times" when doc is being saved?
 - Switch to LegalOfficeReport2 in system admin.
-- Impl "show.hide" date search field in report template so that reports can be
+- Impl "show/hide" date search field in report template so that reports can be
   generated based on date search field.
 
 # Proposals/Proforma Invoice
