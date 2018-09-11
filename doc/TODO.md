@@ -1,9 +1,6 @@
-
 # Legal Office
-- Impl "show/hide" date search field in report template so that reports can be
-  generated based on date search field. Add to all databases.
-  * Add SHOWDATEFIELD to all databases.
-- Impl opening the saved document from the database.
+- Impl opening the saved document from the database. Refesh the edited document
+  in the table and show as visited.
 - The "visited" row feature not working for legal document. Fix.
   * It's because re-search is done after saving.
 - Hide "For job earnings:" in classification dialog except for "Job" category.
@@ -42,3 +39,5 @@ A valid job number should not be generated when this occurs.
   work.
 - Allow tracking information to added to the job even after it is marked completed
   * Impl tacking feature for this.
+- Use docs at https://drive.google.com/open?id=1Jjx2UPQ4GO4MQK9MRduEd0V9X0UdoUJ4
+   
