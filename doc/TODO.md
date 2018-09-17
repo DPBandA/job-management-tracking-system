@@ -1,3 +1,8 @@
+# Urgent
+- Division dialog throws table (jmts.division_subgroup) does not exit error. Fix!
+  Create all subgroup related tables before creating division related tables.
+
+
 # Legal Office
 - Impl opening the saved document from the database. Refesh the edited document
   in the table and show as visited.
