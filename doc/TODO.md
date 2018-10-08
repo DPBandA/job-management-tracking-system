@@ -45,4 +45,7 @@ A valid job number should not be generated when this occurs.
 - Allow tracking information to added to the job even after it is marked completed
   * Impl tacking feature for this.
 - Use docs at https://drive.google.com/open?id=1Jjx2UPQ4GO4MQK9MRduEd0V9X0UdoUJ4
+
+# Accpac
+- https://smist08.wordpress.com/2013/01/01/the-sage-300-erp-java-api/
    
