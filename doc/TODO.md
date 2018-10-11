@@ -1,5 +1,7 @@
 # Urgent
 - Pull business-entity and make use of new ReturnMessage
+- Check that all dialogs display well in the dark hive theme. May have to wrap 
+  the dialog content in a <p:panel>
 - Division dialog throws table (jmts.division_subgroup) does not exit error. Fix!
   Create all subgroup related tables before creating division related tables.
 - Switch around Last month: and Year period: in the monthly report spreadsheet.
