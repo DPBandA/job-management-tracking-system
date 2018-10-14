@@ -1,4 +1,5 @@
 # Urgent
+- Delete the relevant resources and overlay the waccar and hrms apps.
 - Pull business-entity and make use of new ReturnMessage
 - Check that all dialogs display well in the dark hive theme. May have to wrap 
   the dialog content in a <p:panel>
