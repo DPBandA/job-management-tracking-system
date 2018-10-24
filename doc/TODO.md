@@ -1,4 +1,5 @@
 # Urgent
+- Setup local GF5 for development.
 - Delete the relevant resources and overlay the waccar and hrms apps.
 - Pull business-entity and make use of new ReturnMessage
 - Check that all dialogs display well in the dark hive theme. May have to wrap 
@@ -7,6 +8,7 @@
   Create all subgroup related tables before creating division related tables.
 - Switch around Last month: and Year period: in the monthly report spreadsheet.
 - Add this financial year to the list of date periods.
+- Impl new service contract and agreement.
 
 # Legal Office
 - Impl opening the saved document from the database. Refesh the edited document
