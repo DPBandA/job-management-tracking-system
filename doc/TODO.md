@@ -1,4 +1,5 @@
 # Urgent
+- Change reference to converter and validators from bel to wal.
 - Setup local GF5 for development.
 - Delete the relevant resources and overlay the waccar and hrms apps.
 - Pull business-entity and make use of new ReturnMessage
