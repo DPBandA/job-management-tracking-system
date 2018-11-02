@@ -1,20 +1,11 @@
 # Urgent
-- Get backup of jmts database on thumb drive.
-- Change reference to converter and validators from bel to wal.
-- Setup local GF5 for development.
-- Delete the relevant resources and overlay the waccar and hrms apps.
-- Pull business-entity and make use of new ReturnMessage
-- Check that all dialogs display well in the dark hive theme. May have to wrap 
-  the dialog content in a <p:panel>
-- Division dialog throws table (jmts.division_subgroup) does not exit error. Fix!
-  Create all subgroup related tables before creating division related tables.
 - Switch around Last month: and Year period: in the monthly report spreadsheet.
 - Add this financial year to the list of date periods.
 - Impl new service contract and agreement.
 - Do client report 
 
 # Legal Office
-- Impl opening the saved document from the database. Refesh the edited document
+- Impl opening the saved document from the database. Refresh the edited document
   in the table and show as visited.
 - The "visited" row feature not working for legal document. Fix.
   * It's because re-search is done after saving.
@@ -68,6 +59,7 @@ separate projects using maven overlays.
 - See if all passwords can be encrypted in system options.
 
 # Accpac
+- Add all depts, subgroups and divisions to jmts live.
 - https://smist08.wordpress.com/2013/01/01/the-sage-300-erp-java-api/
    
 # HRM

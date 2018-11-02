@@ -19,123 +19,123 @@
     </application>     
     <converter>
         <converter-id>activeSubgroupConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.ActiveSubgroupConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.ActiveSubgroupConverter</converter-class>
     </converter>
     <converter>
         <converter-id>accountingCodeConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.AccountingCodeConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.AccountingCodeConverter</converter-class>
     </converter>
     <converter>
         <converter-id>reportConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.ReportConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.ReportConverter</converter-class>
     </converter>     
     <converter>
         <converter-id>activeDepartmentConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.ActiveDepartmentConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.ActiveDepartmentConverter</converter-class>
     </converter>     
     <converter>
         <converter-id>documentTypeConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.DocumentTypeConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.DocumentTypeConverter</converter-class>
     </converter>                               
     <converter>
         <converter-id>activeClientConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.ActiveClientConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.ActiveClientConverter</converter-class>
     </converter>   
     <converter>
         <converter-id>clientAddressConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.ClientAddressConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.ClientAddressConverter</converter-class>
     </converter>   
     <converter>
         <converter-id>businessOfficeConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.BusinessOfficeConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.BusinessOfficeConverter</converter-class>
     </converter>   
     <converter>
         <converter-id>classificationConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.ClassificationConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.ClassificationConverter</converter-class>
     </converter>   
     <converter>
         <converter-id>countryConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.CountryConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.CountryConverter</converter-class>
     </converter>   
     <converter>
         <converter-id>activeEmployeeConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.ActiveEmployeeConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.ActiveEmployeeConverter</converter-class>
     </converter> 
     <converter>
         <converter-id>jobCategoryConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.JobCategoryConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.JobCategoryConverter</converter-class>
     </converter> 
     <converter>
         <converter-id>jobSubCategoryConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.JobSubCategoryConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.JobSubCategoryConverter</converter-class>
     </converter> 
     <converter>
         <converter-id>sectorConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.SectorConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.SectorConverter</converter-class>
     </converter> 
     <converter>
         <converter-id>serviceConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.ServiceConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.ServiceConverter</converter-class>
     </converter> 
     <converter>
         <converter-id>clientContactConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.ClientContactConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.ClientContactConverter</converter-class>
     </converter> 
     <converter>
         <converter-id>businessConverter</converter-id>
-        <converter-class>jm.com.dpbennett.business.entity.converter.BusinessConverter</converter-class>
+        <converter-class>jm.com.dpbennett.wal.converter.BusinessConverter</converter-class>
     </converter> 
     <validator>
         <validator-id>accountingCodeValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.AccountingCodeValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.AccountingCodeValidator</validator-class>
     </validator>  
     <validator>
         <validator-id>systemOptionValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.SystemOptionValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.SystemOptionValidator</validator-class>
     </validator>   
     <validator>
         <validator-id>clientValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.ClientValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.ClientValidator</validator-class>
     </validator>
     <validator>
         <validator-id>jobClientValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.JobClientValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.JobClientValidator</validator-class>
     </validator>
     <validator>
         <validator-id>generalClientValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.GeneralClientValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.GeneralClientValidator</validator-class>
     </validator>
     <validator>
         <validator-id>requiredFieldValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.RequiredFieldValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.RequiredFieldValidator</validator-class>
     </validator>
     <validator>
         <validator-id>businessEntityValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.BusinessEntityValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.BusinessEntityValidator</validator-class>
     </validator>
     <validator>
         <validator-id>jobNumberValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.JobNumberValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.JobNumberValidator</validator-class>
     </validator>
     <validator>
         <validator-id>subcontractedDepartmentValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.SubcontractedDepartmentValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.SubcontractedDepartmentValidator</validator-class>
     </validator>
     <validator>
         <validator-id>addressValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.AddressValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.AddressValidator</validator-class>
     </validator>
     <validator>
         <validator-id>turnaroundTimeValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.TurnaroundTimeValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.TurnaroundTimeValidator</validator-class>
     </validator>
     <validator>
         <validator-id>addressLineValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.AddressLineValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.AddressLineValidator</validator-class>
     </validator>
     <validator>
         <validator-id>contactValidator</validator-id>
-        <validator-class>jm.com.dpbennett.business.entity.validator.ContactValidator</validator-class>
+        <validator-class>jm.com.dpbennett.wal.validator.ContactValidator</validator-class>
     </validator>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
