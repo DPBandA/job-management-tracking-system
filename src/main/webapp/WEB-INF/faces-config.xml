@@ -351,12 +351,14 @@
         <phase-listener id="nocache">jm.com.dpbennett.wal.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>
     
+    
     <!--
     <managed-bean>
-        <managed-bean-name>clientManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.business.entity.management.ClientManager</managed-bean-class>
+        <managed-bean-name>systemManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.SystemManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>    
-    -->
+    </managed-bean>  
+    -->  
+    
    
 </faces-config>

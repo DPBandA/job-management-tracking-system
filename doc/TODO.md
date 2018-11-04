@@ -1,8 +1,15 @@
 # Urgent
+- Connection pool com.mysql.jdbc.jdbc2.optional.MysqlDataSource.
+- Change from @ManagedBean to @Named and test 
+  * Check why beans dont work when changed from @ManagedBean to @Named. 
+    Try GF5 and see if it works.
+- Add SHOWDATEFIELD to report table.
+- Test and use gf3 and javaee 6 then upgrade to gf5 and javee 8 over time.
 - Switch around Last month: and Year period: in the monthly report spreadsheet.
 - Add this financial year to the list of date periods.
 - Impl new service contract and agreement.
 - Do client report 
+- Impl GeneralManager based on JobManager and let all managers inherit from it.
 
 # Legal Office
 - Impl opening the saved document from the database. Refresh the edited document
@@ -14,13 +21,8 @@
   Update "turnaround times" when doc is being saved?
 - Switch to LegalOfficeReport2 in system admin.
 
-# Proposals/Proforma Invoice
-- Do proforma for JMTS Migration to Virtual Server. Include issues being experienced
-  in the email wrt GF running out of memory
-- Do proposal for update of JMTS Standards module to include the standards development
-  process involving the TCs website.
-
 # Impl HR module with HumanResourceManager class
+- Create 
 - Reload entities before opening dialogs. Start with employee.
   * Load from database using setSelected* in <f:setPropertyActionListener>
     and redo search in the "dialogReturn" method.
