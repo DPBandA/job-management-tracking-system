@@ -11,6 +11,28 @@
 - Do client report 
 - Impl GeneralManager based on JobManager and let all managers inherit from it.
 
+# Accpac Invoicing & Credit Status Reporting
+- Impl HR module with HumanResourceManager class:
+  * Add fields to Division class and update all databases
+  * Create divisions and divisional groups tabs.
+  * Create labs and units within departments.
+- Impl invoice export. 
+  * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
+  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
+  * In onJobCostingCellEdit save JCP and client only if these were table cells 
+    were edited. Also new Accounting codes are being saved. Fix!
+  * Change "Service Contract" to "Services" and make "Service Contract" a "sub tab"
+  * Impl fill out of Invoice_Details sheet
+    - Impl fill out of multiple CNTLINE for each CNTITEM.
+    - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
+      in Financial Admin. NB impl finding code by name and description.
+  * Export invoices for only selected jobs?
+  * Flag job as invoiced after export?
+  * Make sure to add AccountingCode table to all along with data. 
+
+# Purchasing
+- Create GeneralManager based on JobManager and let PurchasingManager extend it.
+
 # Legal Office
 - Impl opening the saved document from the database. Refresh the edited document
   in the table and show as visited.
