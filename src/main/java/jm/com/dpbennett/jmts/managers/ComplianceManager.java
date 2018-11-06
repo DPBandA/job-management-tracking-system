@@ -40,7 +40,7 @@ import jm.com.dpbennett.business.entity.ShippingContainer;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.wal.Application;
+import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -117,7 +117,7 @@ public class ComplianceManager implements Serializable {
     
     public ReportManager getReportManager() {
         if (reportManager == null) {
-            reportManager = Application.findBean("reportManager");
+            reportManager = JMTSApplication.findBean("reportManager");
         }
 
         return reportManager;
@@ -192,14 +192,14 @@ public class ComplianceManager implements Serializable {
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = Application.findBean("jobManager");
+            jobManager = JMTSApplication.findBean("jobManager");
         }
         return jobManager;
     }
 
     public ClientManager getClientManager() {
         if (clientManager == null) {
-            clientManager = Application.findBean("clientManager");
+            clientManager = JMTSApplication.findBean("clientManager");
         }
         return clientManager;
     }

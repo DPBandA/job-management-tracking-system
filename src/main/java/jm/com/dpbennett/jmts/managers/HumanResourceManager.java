@@ -41,7 +41,7 @@ import jm.com.dpbennett.business.entity.Subgroup;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.jmts.managers.JobManager;
-import jm.com.dpbennett.wal.Application;
+import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
@@ -140,13 +140,13 @@ public class HumanResourceManager implements Serializable {
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = Application.findBean("jobManager");
+            jobManager = JMTSApplication.findBean("jobManager");
         }
         return jobManager;
     }
 
     public MainTabView getMainTabView() {
-        JobManager jm = Application.findBean("jobManager");
+        JobManager jm = JMTSApplication.findBean("jobManager");
 
         return jm.getMainTabView();
     }

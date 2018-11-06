@@ -73,7 +73,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.wal.Application;
+import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.DialogActionHandler;
 import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
@@ -393,7 +393,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = Application.findBean("jobManager");
+            jobManager = JMTSApplication.findBean("jobManager");
         }
         return jobManager;
     }
@@ -2482,7 +2482,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public List<SelectItem> getGCTPercentages() { // tk put in a costing entity
         ArrayList percentages = new ArrayList();
 
-        percentages.addAll(Application.getStringListAsSelectItems(getEntityManager1(), "GCTPercentageList"));
+        percentages.addAll(JMTSApplication.getStringListAsSelectItems(getEntityManager1(), "GCTPercentageList"));
 
         return percentages;
     }

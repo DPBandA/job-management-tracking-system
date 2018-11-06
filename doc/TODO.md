@@ -1,12 +1,6 @@
 # Urgent
-- Add SHOWDATEFIELD to report table.
-- Test and use gf3 and javaee 6 then upgrade to gf5 and javee 8 over time.
-- Switch around Last month: and Year period: in the monthly report spreadsheet.
-- Add this financial year to the list of date periods.
 - Impl new service contract and agreement.
-- Do client report 
-- Impl GeneralManager based on JobManager and let all managers inherit from it.
-- Create parent/child jobs report for Finance.
+- Do client report template and upload.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl HR module with HumanResourceManager class:
@@ -28,7 +22,7 @@
   * Make sure to add AccountingCode table to all along with data. 
 
 # Purchasing
-- Create GeneralManager based on JobManager and let PurchasingManager extend it.
+- Impl PurchaseRequisition and PurchaseOrder classes.
 
 # Legal Office
 - Impl opening the saved document from the database. Refresh the edited document
@@ -70,7 +64,7 @@ A valid job number should not be generated when this occurs.
 - Impl using only one EMF which is used by all session beans when an entity 
   manager is needed.
 - Send error email for only job save related exceptions. Not messages pertaining
-  to prvileges. Send emails to desbenn@gmail.com
+  to privileges. Send emails to desbenn@gmail.com
 - Remove major modules such as helpdesk, hrm, crm and stds dev and create as
 separate projects using maven overlays.
 - Add option to auto generate sample reference as is done with job number.

@@ -42,7 +42,7 @@ import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.LegalDocument;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.wal.Application;
+import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -344,7 +344,7 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public MainTabView getMainTabView() {
-        JobManager jm = Application.findBean("jobManager");
+        JobManager jm = JMTSApplication.findBean("jobManager");
 
         return jm.getMainTabView();
     }
@@ -493,21 +493,21 @@ public class LegalDocumentManager implements Serializable {
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = Application.findBean("jobManager");
+            jobManager = JMTSApplication.findBean("jobManager");
         }
         return jobManager;
     }
 
     public SystemManager getSystemManager() {
         if (systemManager == null) {
-            systemManager = Application.findBean("systemManager");
+            systemManager = JMTSApplication.findBean("systemManager");
         }
         return systemManager;
     }
 
     public ClientManager getClientManager() {
         if (clientManager == null) {
-            clientManager = Application.findBean("clientManager");
+            clientManager = JMTSApplication.findBean("clientManager");
         }
 
         return clientManager;
@@ -515,7 +515,7 @@ public class LegalDocumentManager implements Serializable {
 
     public ReportManager getReportManager() {
         if (reportManager == null) {
-            reportManager = Application.findBean("reportManager");
+            reportManager = JMTSApplication.findBean("reportManager");
         }
 
         return reportManager;

@@ -38,7 +38,7 @@ import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.wal.Application;
+import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import org.primefaces.PrimeFaces;
 
@@ -72,7 +72,7 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = Application.findBean("jobManager");
+            jobManager = JMTSApplication.findBean("jobManager");
         }
         return jobManager;
     }

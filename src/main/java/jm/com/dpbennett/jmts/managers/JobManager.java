@@ -79,8 +79,8 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.ReturnMessage;
-import jm.com.dpbennett.wal.Application;
-import static jm.com.dpbennett.wal.Application.checkForLDAPUser;
+import jm.com.dpbennett.jmts.JMTSApplication;
+import static jm.com.dpbennett.jmts.JMTSApplication.checkForLDAPUser;
 import jm.com.dpbennett.wal.utils.Dashboard;
 import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.DialogActionHandler;
@@ -101,7 +101,7 @@ import org.primefaces.event.CellEditEvent;
 public class JobManager implements Serializable, BusinessEntityManagement,
         DialogActionHandler, UserManagement, MessageManagement {
 
-    private Application application;
+    private JMTSApplication application;
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
@@ -116,7 +116,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean showJobEntry;
     private List<Job> jobSearchResultList;
     private Integer loginAttempts;
-    // Managers
+    // Managers/Management
     private ClientManager clientManager;
     private ReportManager reportManager;
     private FinanceManager financeManager;
@@ -163,9 +163,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * 
      * @return 
      */
-    public Application getApplication() {
+    public JMTSApplication getApplication() {
         if (application == null) {
-            application = Application.findBean("App");
+            application = JMTSApplication.findBean("App");
         }
         return application;
     }
@@ -267,7 +267,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public LegalDocumentManager getLegalDocumentManager() {
         if (legalDocumentManager == null) {
-            legalDocumentManager = Application.findBean("legalDocumentManager");
+            legalDocumentManager = JMTSApplication.findBean("legalDocumentManager");
         }
 
         return legalDocumentManager;
@@ -280,7 +280,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public ContractManager getContractManager() {
         if (contractManager == null) {
-            contractManager = Application.findBean("contractManager");
+            contractManager = JMTSApplication.findBean("contractManager");
         }
 
         return contractManager;
@@ -293,7 +293,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public JobSampleManager getJobSampleManager() {
         if (jobSampleManager == null) {
-            jobSampleManager = Application.findBean("jobSampleManager");
+            jobSampleManager = JMTSApplication.findBean("jobSampleManager");
         }
 
         return jobSampleManager;
@@ -306,7 +306,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public FinanceManager getFinanceManager() {
         if (financeManager == null) {
-            financeManager = Application.findBean("financeManager");
+            financeManager = JMTSApplication.findBean("financeManager");
         }
 
         return financeManager;
@@ -319,7 +319,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public ReportManager getReportManager() {
         if (reportManager == null) {
-            reportManager = Application.findBean("reportManager");
+            reportManager = JMTSApplication.findBean("reportManager");
         }
 
         return reportManager;
@@ -332,12 +332,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public ClientManager getClientManager() {
         if (clientManager == null) {
-            clientManager = Application.findBean("clientManager");
+            clientManager = JMTSApplication.findBean("clientManager");
         }
 
         return clientManager;
     }
     
+    /**
+     * Gets the date search period for jobs.
+     * 
+     * @return 
+     */
     public DatePeriod getDateSearchPeriod() {
         return dateSearchPeriod;
     }
@@ -1690,7 +1695,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getSearchResultsTableHeader() {
-        return Application.getSearchResultsTableHeader(getDateSearchPeriod(), getJobSearchResultList());
+        return JMTSApplication.getSearchResultsTableHeader(getDateSearchPeriod(), getJobSearchResultList());
     }
 
     public void cancelJobEdit(ActionEvent actionEvent) {

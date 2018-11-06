@@ -37,22 +37,22 @@ import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.validator.AddressValidator;
 import jm.com.dpbennett.wal.validator.ContactValidator;
-import jm.com.dpbennett.wal.Application;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 
 /**
  *
- * @author dbennett
+ * @author Desmond Bennett
  */
 @Named
 @SessionScoped
 public class ClientManager implements Serializable {
 
-    @PersistenceUnit(unitName = "JMTSPU") // tk to be put in resource bundle
+    @PersistenceUnit(unitName = "JMTSPU") 
     private EntityManagerFactory entityManagerFactory;
     private Boolean isClientNameAndIdEditable;
     private Boolean isActiveClientsOnly;
@@ -81,7 +81,7 @@ public class ClientManager implements Serializable {
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = Application.findBean("jobManager");
+            jobManager = JMTSApplication.findBean("jobManager");
         }
         return jobManager;
     }
@@ -145,7 +145,7 @@ public class ClientManager implements Serializable {
 //        }
 //    }
     public void onClientCellEdit(CellEditEvent event) {
-        Application.saveBusinessEntity(getEntityManager(), getFoundClients().get(event.getRowIndex()));
+        JMTSApplication.saveBusinessEntity(getEntityManager(), getFoundClients().get(event.getRowIndex()));
     }
 
     public EntityManagerFactory getEntityManagerFactory() {

@@ -1,21 +1,13 @@
 ## Things to do
 
-### Notes for reporting
-- JMTS is trying to meet the needs of 3 diverse organizations...
-(1) standards, metrology & testing (BSJ) (2) compliance & regulatory (NCRA) 
-and (3) Certification (NCBJ)
-- Need for business analysis and process documentation for the 3 orgs. 
-================================================================================
-
 ### Inter-billing upload to Accpac
 - See email attachment from Simone
 
 ### Documentation
-- Start writing final JMTS consultancy report
-- Do system specification
 - Update JMTS user manual
 
 ### Reports continued
+- Create parent/child jobs report for Ministry of Finance based on request.
 - Remove the jasper-fonts from the hrm server and restart it to make use of the
   jasper fonts deployed with JMTS
 - Add default report category to JobManagerUser.
@@ -58,6 +50,8 @@ and (3) Certification (NCBJ)
 - Ensure that a job is not marked completed until the child job costing is included?
   
 ### General
+- Create Management classes from Manager classes so that the business logic
+  can be used by other classes as is done with ClientManager/ClientManagement classes.
 - Fix up the client editing in the job detail dialog. May update or reset the 
   address or contact when the client dialog returns.
 - For client credit status check, note client is a credit client if they are "TRADE"

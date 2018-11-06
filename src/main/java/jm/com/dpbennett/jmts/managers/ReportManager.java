@@ -58,7 +58,7 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.wal.utils.DatePeriodJobReport;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
-import jm.com.dpbennett.wal.Application;
+import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.ReportUtils;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
@@ -164,7 +164,7 @@ public class ReportManager implements Serializable {
                             null, false, false, true));
         }
 
-        // Ensure that no date period if null
+        // Ensure that no date period is null
         if (selectedReport.getDatePeriods().get(0).getStartDate() == null) {
             selectedReport.getDatePeriods().get(0).setStartDate(new Date());
         }
@@ -274,7 +274,7 @@ public class ReportManager implements Serializable {
 
         }
 
-        // Ensure that no date period if null
+        // Ensure that no date period is null
         if (selectedReport.getDatePeriods().get(2).getStartDate() == null) {
             selectedReport.getDatePeriods().get(2).setStartDate(new Date());
         }
@@ -362,7 +362,7 @@ public class ReportManager implements Serializable {
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = Application.findBean("jobManager");
+            jobManager = JMTSApplication.findBean("jobManager");
         }
         return jobManager;
     }
@@ -1384,11 +1384,13 @@ public class ReportManager implements Serializable {
 
             // Get report data
             // Set date to now first
-            getReportingDatePeriod1().setEndDate(new Date());
+            //getReportingDatePeriod1().setEndDate(new Date());
             List<Object[]> reportData = Job.getJobReportRecords(
                     em,
-                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getStartDate(), "'", "YMD", "-"),
-                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getEndDate(), "'", "YMD", "-"),
+                     BusinessEntityUtils.getDateString(getReportingDatePeriod1().getStartDate(), "'", "YMD", "-"),
+                    BusinessEntityUtils.getDateString(getReportingDatePeriod1().getEndDate(), "'", "YMD", "-"),
+//                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getStartDate(), "'", "YMD", "-"),
+//                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getEndDate(), "'", "YMD", "-"),
                     departmentId);
 
             // Fill in report data   
@@ -1523,23 +1525,23 @@ public class ReportManager implements Serializable {
                     "java.util.Date", dateCellStyle);
             //  Month starts at:
             ReportUtils.setExcelCellValue(wb, rawData, 0, 8,
-                    getReportingDatePeriod1().getStartDate(),
+                    getReportingDatePeriod2().getStartDate(),
                     "java.util.Date", dateCellStyle);
             //  Month ends at:
             ReportUtils.setExcelCellValue(wb, rawData, 0, 10,
-                    getReportingDatePeriod1().getEndDate(),
+                    getReportingDatePeriod2().getEndDate(),
                     "java.util.Date", dateCellStyle);
             // Year type
             ReportUtils.setExcelCellValue(wb, rawData, 0, 12,
-                    getReportingDatePeriod2().getName(),
+                    getReportingDatePeriod3().getName(),
                     "java.lang.String", stringCellStyle);
             //  Year starts at:
             ReportUtils.setExcelCellValue(wb, rawData, 0, 15,
-                    getReportingDatePeriod2().getStartDate(),
+                    getReportingDatePeriod3().getStartDate(),
                     "java.util.Date", dateCellStyle);
             //  Year ends at:
             ReportUtils.setExcelCellValue(wb, rawData, 0, 17,
-                    getReportingDatePeriod2().getEndDate(),
+                    getReportingDatePeriod3().getEndDate(),
                     "java.util.Date", dateCellStyle);
 
             wb.write(out);

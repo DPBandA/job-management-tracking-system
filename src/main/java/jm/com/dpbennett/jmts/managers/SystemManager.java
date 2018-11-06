@@ -48,7 +48,7 @@ import jm.com.dpbennett.business.entity.LdapContext;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.wal.Application;
+import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
@@ -232,7 +232,7 @@ public class SystemManager implements Serializable {
     }
 
     public MainTabView getMainTabView() {
-        JobManager jm = Application.findBean("jobManager");
+        JobManager jm = JMTSApplication.findBean("jobManager");
 
         return jm.getMainTabView();
     }
@@ -602,23 +602,23 @@ public class SystemManager implements Serializable {
     }
 
     public void onClassificationCellEdit(CellEditEvent event) {
-        Application.saveBusinessEntity(getEntityManager(), getFoundClassifications().get(event.getRowIndex()));
+        JMTSApplication.saveBusinessEntity(getEntityManager(), getFoundClassifications().get(event.getRowIndex()));
     }
 
     public void onJobCategoryCellEdit(CellEditEvent event) {
-        Application.saveBusinessEntity(getEntityManager(), getFoundJobCategories().get(event.getRowIndex()));
+        JMTSApplication.saveBusinessEntity(getEntityManager(), getFoundJobCategories().get(event.getRowIndex()));
     }
 
     public void onJobSubCategoryCellEdit(CellEditEvent event) {
-        Application.saveBusinessEntity(getEntityManager(), getFoundJobSubcategories().get(event.getRowIndex()));
+        JMTSApplication.saveBusinessEntity(getEntityManager(), getFoundJobSubcategories().get(event.getRowIndex()));
     }
 
     public void onSectorCellEdit(CellEditEvent event) {
-        Application.saveBusinessEntity(getEntityManager(), getFoundSectors().get(event.getRowIndex()));
+        JMTSApplication.saveBusinessEntity(getEntityManager(), getFoundSectors().get(event.getRowIndex()));
     }
 
     public void onDocumentStandardCellEdit(CellEditEvent event) {
-        Application.saveBusinessEntity(getEntityManager(), getFoundDocumentStandards().get(event.getRowIndex()));
+        JMTSApplication.saveBusinessEntity(getEntityManager(), getFoundDocumentStandards().get(event.getRowIndex()));
     }
 
     public List<LdapContext> getFoundLdapContexts() {
