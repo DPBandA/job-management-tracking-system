@@ -158,6 +158,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         init();
     }
 
+    /**
+     * Gets the ApplicationScoped object that is associated with this webapp.
+     * 
+     * @return 
+     */
     public Application getApplication() {
         if (application == null) {
             application = Application.findBean("App");
@@ -165,6 +170,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return application;
     }
 
+    /**
+     * Finds and Accpac customer by name and updates the Accpac customer field.
+     * 
+     * @param event 
+     */
     public void updateAccPacCustomer(SelectEvent event) {
         EntityManager em = getEntityManager2();
 
@@ -176,6 +186,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
+    /**
+     * Gets the Accpac customer field.
+     * 
+     * @return 
+     */
     public AccPacCustomer getAccPacCustomer() {
         if (accPacCustomer == null) {
             accPacCustomer = new AccPacCustomer();
@@ -183,10 +198,20 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return accPacCustomer;
     }
 
+    /**
+     * Sets the Accpac customer field.
+     * 
+     * @param accPacCustomer
+     */
     public void setAccPacCustomer(AccPacCustomer accPacCustomer) {
         this.accPacCustomer = accPacCustomer;
     }
 
+    /**
+     * Handles the editing of cells in the Job Costing table.
+     * 
+     * @param event 
+     */
     public void onJobCostingCellEdit(CellEditEvent event) {
 
         // Update and save client if edited
@@ -208,6 +233,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getJobCostingAndPayment().save(getEntityManager1());
     }
 
+    /**
+     * Handles the initialization of the JobManager session bean.
+     * 
+     */
     private void init() {
         password = "";
         username = "";
@@ -231,6 +260,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         dateSearchPeriod.initDatePeriod();
     }
 
+    /**
+     * Get LegalDocumentManager SessionScoped bean.
+     * 
+     * @return 
+     */
     public LegalDocumentManager getLegalDocumentManager() {
         if (legalDocumentManager == null) {
             legalDocumentManager = Application.findBean("legalDocumentManager");
@@ -239,6 +273,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return legalDocumentManager;
     }
 
+    /**
+     * Get ContractManager SessionScoped bean.
+     * 
+     * @return 
+     */
     public ContractManager getContractManager() {
         if (contractManager == null) {
             contractManager = Application.findBean("contractManager");
@@ -247,6 +286,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return contractManager;
     }
 
+    /**
+     * Get JobSampleManager SessionScoped bean.
+     * 
+     * @return 
+     */
     public JobSampleManager getJobSampleManager() {
         if (jobSampleManager == null) {
             jobSampleManager = Application.findBean("jobSampleManager");
@@ -255,6 +299,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return jobSampleManager;
     }
 
+    /**
+     * Get FinanceManager SessionScoped bean.
+     * 
+     * @return 
+     */
     public FinanceManager getFinanceManager() {
         if (financeManager == null) {
             financeManager = Application.findBean("financeManager");
@@ -263,6 +312,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return financeManager;
     }
 
+    /**
+     * Get ReportManager SessionScoped bean.
+     * 
+     * @return 
+     */
     public ReportManager getReportManager() {
         if (reportManager == null) {
             reportManager = Application.findBean("reportManager");
@@ -271,6 +325,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return reportManager;
     }
 
+    /**
+     * Get ClientManager SessionScoped bean.
+     * 
+     * @return 
+     */
     public ClientManager getClientManager() {
         if (clientManager == null) {
             clientManager = Application.findBean("clientManager");
@@ -278,15 +337,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return clientManager;
     }
-
-    public void handleStartSearchDateSelect(SelectEvent event) {
-
-    }
-
-    public void handleEndSearchDateSelect(SelectEvent event) {
-
-    }
-
+    
     public DatePeriod getDateSearchPeriod() {
         return dateSearchPeriod;
     }
@@ -295,21 +346,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.dateSearchPeriod = dateSearchPeriod;
     }
 
-    public void updateSearchType() {
-        //doSearch();
-    }
-
     public void updateDateSearchField() {
         //doSearch();
     }
 
-//    public String getDateSearchField() {
-//        return dateSearchField;
-//    }
-//
-//    public void setDateSearchField(String dateSearchField) {
-//        this.dateSearchField = dateSearchField;
-//    }
     public String getSearchType() {
         return searchType;
     }
@@ -769,11 +809,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean renderUserMenu() {
-        if (getUser().getId() == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return getUser().getId() != null;
     }
 
     @Override
@@ -987,11 +1023,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getUser() != null) {
             if (currentJob.getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
                 return true;
-            } else if (currentJob.getSubContractedDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
-                return true;
-            } else {
-                return false;
-            }
+            } else return currentJob.getSubContractedDepartment().getId().longValue() == 
+                    getUser().getEmployee().getDepartment().getId().longValue();
         } else {
             return false;
         }
@@ -1126,11 +1159,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public Boolean getCurrentJobIsValid() {
-        if (getCurrentJob().getId() != null && !getCurrentJob().getIsDirty()) {
-            return true;
-        }
-
-        return false;
+        return getCurrentJob().getId() != null && !getCurrentJob().getIsDirty();
     }
 
     public List<Preference> getJobTableViewPreferences() {
@@ -1159,11 +1188,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // allow department entry only if business office is null
         if (currentJob != null) {
             if (currentJob.getBusinessOffice() != null) {
-                if (currentJob.getBusinessOffice().getCode().trim().equals("")) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !currentJob.getBusinessOffice().getCode().trim().equals("");
             } else {
                 return false;
             }
@@ -2629,11 +2654,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         try {
             if (getCurrentJob().getIsSubContract() || getCurrentJob().getIsToBeCopied()) {
                 return false;
-            } else if (getCurrentJob().getId() != null) {
-                return false;
-            } else {
-                return true;
-            }
+            } else return getCurrentJob().getId() == null;
         } catch (Exception e) {
             System.out.println(e + ": getDisableSubContracting");
         }

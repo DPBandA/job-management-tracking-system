@@ -30,10 +30,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Search type: " />
             <p:selectOneMenu value="#{jobManager.searchType}" 
                              style="width: 90%;">
-                <p:ajax                        
-                    listener="#{jobManager.updateSearchType}"
-                    process="@this" />
-
+                
                 <f:selectItems value="#{jobManager.authorizedSearchTypes}" />
 
             </p:selectOneMenu>
@@ -67,13 +64,8 @@ Email: info@dpbennett.com.jm
                         navigator="true"
                         validator="requiredFieldValidator"
                         disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
-                        pattern="MMM dd, yyyy" >
-                <p:ajax event="dateSelect"                            
-                        listener="#{jobManager.handleStartSearchDateSelect}" />
-                <p:ajax event="keyup"                            
-                        listener="#{jobManager.handleStartSearchDateSelect}" />
-            </p:calendar>
-
+                        pattern="MMM dd, yyyy" />
+           
             <h:outputText value="End:" />
             <p:calendar id="endSearchDate"
                         value="#{jobManager.dateSearchPeriod.endDate}"
@@ -81,12 +73,8 @@ Email: info@dpbennett.com.jm
                         navigator="true"
                         validator="requiredFieldValidator"
                         disabled="#{jobManager.dateSearchPeriod.endDateDisabled}"
-                        pattern="MMM dd, yyyy" >
-                <p:ajax event="dateSelect"                           
-                        listener="#{jobManager.handleEndSearchDateSelect}"/>
-                <p:ajax event="keyup"                           
-                        listener="#{jobManager.handleEndSearchDateSelect}"/>
-            </p:calendar>   
+                        pattern="MMM dd, yyyy" />
+                 
         </h:panelGrid>   
         <p:toolbar>
             <p:toolbarGroup align="right" >

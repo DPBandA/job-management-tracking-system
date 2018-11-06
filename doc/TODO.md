@@ -1,8 +1,4 @@
 # Urgent
-- Connection pool com.mysql.jdbc.jdbc2.optional.MysqlDataSource.
-- Change from @ManagedBean to @Named and test 
-  * Check why beans dont work when changed from @ManagedBean to @Named. 
-    Try GF5 and see if it works.
 - Add SHOWDATEFIELD to report table.
 - Test and use gf3 and javaee 6 then upgrade to gf5 and javee 8 over time.
 - Switch around Last month: and Year period: in the monthly report spreadsheet.
@@ -10,6 +6,7 @@
 - Impl new service contract and agreement.
 - Do client report 
 - Impl GeneralManager based on JobManager and let all managers inherit from it.
+- Create parent/child jobs report for Finance.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl HR module with HumanResourceManager class:
