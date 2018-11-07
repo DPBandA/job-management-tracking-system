@@ -19,6 +19,8 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
+import jm.com.dpbennett.wal.managers.ReportManager;
+import jm.com.dpbennett.wal.managers.ClientManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,7 +44,7 @@ import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.LegalDocument;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.jmts.JMTSApplication;
+import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -344,7 +346,7 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public MainTabView getMainTabView() {
-        JobManager jm = JMTSApplication.findBean("jobManager");
+        JobManager jm = BeanUtils.findBean("jobManager");
 
         return jm.getMainTabView();
     }
@@ -493,21 +495,21 @@ public class LegalDocumentManager implements Serializable {
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = JMTSApplication.findBean("jobManager");
+            jobManager = BeanUtils.findBean("jobManager");
         }
         return jobManager;
     }
 
     public SystemManager getSystemManager() {
         if (systemManager == null) {
-            systemManager = JMTSApplication.findBean("systemManager");
+            systemManager = BeanUtils.findBean("systemManager");
         }
         return systemManager;
     }
 
     public ClientManager getClientManager() {
         if (clientManager == null) {
-            clientManager = JMTSApplication.findBean("clientManager");
+            clientManager = BeanUtils.findBean("clientManager");
         }
 
         return clientManager;
@@ -515,7 +517,7 @@ public class LegalDocumentManager implements Serializable {
 
     public ReportManager getReportManager() {
         if (reportManager == null) {
-            reportManager = JMTSApplication.findBean("reportManager");
+            reportManager = BeanUtils.findBean("reportManager");
         }
 
         return reportManager;

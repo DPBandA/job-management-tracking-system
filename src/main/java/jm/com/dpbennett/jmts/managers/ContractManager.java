@@ -49,6 +49,7 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.jmts.JMTSApplication;
+import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.ReportUtils;
 
 /**
@@ -73,7 +74,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = JMTSApplication.findBean("jobManager");
+            jobManager = BeanUtils.findBean("jobManager");
         }
         return jobManager;
     }

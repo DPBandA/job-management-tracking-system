@@ -4,6 +4,8 @@
  */
 package jm.com.dpbennett.jmts.managers;
 
+import jm.com.dpbennett.wal.managers.ReportManager;
+import jm.com.dpbennett.wal.managers.ClientManager;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -41,6 +43,7 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.jmts.JMTSApplication;
+import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -117,7 +120,7 @@ public class ComplianceManager implements Serializable {
     
     public ReportManager getReportManager() {
         if (reportManager == null) {
-            reportManager = JMTSApplication.findBean("reportManager");
+            reportManager = BeanUtils.findBean("reportManager");
         }
 
         return reportManager;
@@ -192,14 +195,14 @@ public class ComplianceManager implements Serializable {
 
     public JobManager getJobManager() {
         if (jobManager == null) {
-            jobManager = JMTSApplication.findBean("jobManager");
+            jobManager = BeanUtils.findBean("jobManager");
         }
         return jobManager;
     }
 
     public ClientManager getClientManager() {
         if (clientManager == null) {
-            clientManager = JMTSApplication.findBean("clientManager");
+            clientManager = BeanUtils.findBean("clientManager");
         }
         return clientManager;
     }

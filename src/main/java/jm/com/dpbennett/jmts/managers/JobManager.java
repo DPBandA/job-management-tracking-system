@@ -19,6 +19,9 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
+import jm.com.dpbennett.wal.managers.ReportManager;
+import jm.com.dpbennett.wal.managers.HumanResourceManager;
+import jm.com.dpbennett.wal.managers.ClientManager;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -81,6 +84,7 @@ import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.ReturnMessage;
 import jm.com.dpbennett.jmts.JMTSApplication;
 import static jm.com.dpbennett.jmts.JMTSApplication.checkForLDAPUser;
+import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.Dashboard;
 import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.DialogActionHandler;
@@ -123,6 +127,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private JobSampleManager jobSampleManager;
     private ContractManager contractManager;
     private LegalDocumentManager legalDocumentManager;
+    private HumanResourceManager humanResourceManager;
+    // Misc
     private DatePeriod dateSearchPeriod;
     private String searchType;
     private String searchText;
@@ -165,7 +171,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public JMTSApplication getApplication() {
         if (application == null) {
-            application = JMTSApplication.findBean("App");
+            application = BeanUtils.findBean("App");
         }
         return application;
     }
@@ -257,7 +263,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchType = "";
         dateSearchPeriod = new DatePeriod("This month", "month",
                 "dateAndTimeEntered", null, null, null, false, false, false);
-        dateSearchPeriod.initDatePeriod();
+        dateSearchPeriod.initDatePeriod();        
     }
 
     /**
@@ -267,7 +273,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public LegalDocumentManager getLegalDocumentManager() {
         if (legalDocumentManager == null) {
-            legalDocumentManager = JMTSApplication.findBean("legalDocumentManager");
+            legalDocumentManager = BeanUtils.findBean("legalDocumentManager");
         }
 
         return legalDocumentManager;
@@ -280,7 +286,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public ContractManager getContractManager() {
         if (contractManager == null) {
-            contractManager = JMTSApplication.findBean("contractManager");
+            contractManager = BeanUtils.findBean("contractManager");
         }
 
         return contractManager;
@@ -293,7 +299,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public JobSampleManager getJobSampleManager() {
         if (jobSampleManager == null) {
-            jobSampleManager = JMTSApplication.findBean("jobSampleManager");
+            jobSampleManager = BeanUtils.findBean("jobSampleManager");
         }
 
         return jobSampleManager;
@@ -306,7 +312,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public FinanceManager getFinanceManager() {
         if (financeManager == null) {
-            financeManager = JMTSApplication.findBean("financeManager");
+            financeManager = BeanUtils.findBean("financeManager");
         }
 
         return financeManager;
@@ -319,7 +325,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public ReportManager getReportManager() {
         if (reportManager == null) {
-            reportManager = JMTSApplication.findBean("reportManager");
+            reportManager = BeanUtils.findBean("reportManager");
+            reportManager.setUser(user);
+            reportManager.setMainTabView(mainTabView);
         }
 
         return reportManager;
@@ -332,7 +340,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public ClientManager getClientManager() {
         if (clientManager == null) {
-            clientManager = JMTSApplication.findBean("clientManager");
+            clientManager = BeanUtils.findBean("clientManager");
+            clientManager.setUser(user);
+            clientManager.setMainTabView(mainTabView);
         }
 
         return clientManager;
@@ -756,8 +766,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
                 dashboard.reset(user);
                 mainTabView.reset(user);
-
-//            } else {
+                
+                // Initialize the Human Resource Manager
+                humanResourceManager = BeanUtils.findBean("humanResourceManager");
+                humanResourceManager.setUser(getUser());
+                humanResourceManager.setMainTabView(getMainTabView());
+             
                 logonMessage = "Login error occured! Please try again or contact the System Administrator";
                 username = "";
                 password = "";

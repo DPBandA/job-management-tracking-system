@@ -389,11 +389,7 @@ public class JMTSApplication implements Serializable {
         return false;
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> T findBean(String beanName) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
-    }
+    
 
     public List<BusinessOffice> completeBusinessOffice(String query) {
         EntityManager em;
@@ -829,17 +825,7 @@ public class JMTSApplication implements Serializable {
         }
     }
 
-    public synchronized static void saveBusinessEntity(EntityManager em, BusinessEntity entity) {
-        try {
-
-            em.getTransaction().begin();
-            BusinessEntityUtils.saveBusinessEntity(em, entity);
-            em.getTransaction().commit();
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+    
 
     public static List<DataItem> getStringListAsSortableDataItems(EntityManager em,
             String systemOption) {
