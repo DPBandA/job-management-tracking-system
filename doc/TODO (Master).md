@@ -1,12 +1,26 @@
 ## Things to do
 
+### Inventory
+- Get more details then start app development.
+
+### Fixed Assets
+- Get fixed assets used in tests/calibrations.
+- Get more details then start app development.
+
+### Learning Management System (LMS)
+- Impl training schedule
+- Get more details then start app development.
+
 ### Inter-billing upload to Accpac
 - See email attachment from Simone
+
+### Customer Relationship Management (CRM)
+- Get HBS Access database for importation into JMTS.
 
 ### Documentation
 - Update JMTS user manual
 
-### Reports continued
+### Reports
 - Create parent/child jobs report for Ministry of Finance based on request.
 - Remove the jasper-fonts from the hrm server and restart it to make use of the
   jasper fonts deployed with JMTS
@@ -23,6 +37,7 @@
 - Do training doc for Legal Office, list of requested changes and arrange training via email.
   Request additional reports?
 - Add test and calibration values to monthly report.
+- Reports on recalibration date for equipment.
 
 ### Updates based on training, testing and feedback
 - The delete payment dialog text does not show in dark hive. Fix!

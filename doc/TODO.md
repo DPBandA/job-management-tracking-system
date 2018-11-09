@@ -1,6 +1,3 @@
-# Urgent
-- Impl new service contract and agreement.
-- Do client report template and upload.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl HR module with HumanResourceManager class:
@@ -20,6 +17,12 @@
   * Export invoices for only selected jobs?
   * Flag job as invoiced after export?
   * Make sure to add AccountingCode table to all along with data. 
+
+# Reports & Forms
+- Do client report template and upload.
+- Impl new service contract and agreement.
+- Do report for jobs not approved and incomplete up to 2017.
+
 
 # Purchasing
 - Impl PurchaseRequisition and PurchaseOrder classes.
@@ -72,6 +75,10 @@ separate projects using maven overlays.
 - Check why admain2 is not used when admain is not available.
 - Impl login with admin user and encrypted password.
 - See if all passwords can be encrypted in system options.
+- Receipt # not showing on some job costings. Impl the "Sing User Job Access" for
+  to solve this which may be as result of one user overwriting the edits of 
+  another.
+- Impl UpdateAction as is done in PR class to determine alerts to send.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.
