@@ -39,7 +39,7 @@ Email: info@dpbennett.com.jm
             PF('longProcessDialogVar').hide();
             mainTabViewVar.select(0);" >
 
-        <ui:include src="common/commonDialogs.xhtml" />                       
+        <ui:include src="common/commonDialogs.xhtml" />   
         <ui:include src="common/loginDialog.xhtml"/>
         <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>               
         <ui:include src="job/jobAlertDialogs.xhtml"/>
@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="common/generalAlertDialogs.xhtml"/>
         <ui:include src="common/longProcessDialog.xhtml"/>   
         <ui:include src="common/preferencesDialog.xhtml"/>   
-        
+
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
             <p:ajax event="toggle" listener="#{jobManager.handleLayoutUnitToggle}" />
 
@@ -104,6 +104,17 @@ Email: info@dpbennett.com.jm
                                      update="headerForm"
                                      process="@this"/>
 
+
+                    <p:remoteCommand name="auth" autoRun="true" 
+                                     actionListener="#{jobManager.setupAuthentication}" />
+
+
+                    <p:remoteCommand name="keepAliveRequest"
+                                     actionListener="#{jobManager.handleKeepAlive}"
+                                     onerror="PF('connectionErrorDialog').show();"
+                                     update="@this"
+                                     process="@this"/>
+
                 </h:form>
             </p:layoutUnit>
 
@@ -133,7 +144,7 @@ Email: info@dpbennett.com.jm
 
 
                         <p:tab title="#{t.name}" closable="true"  >
-                            
+
                             <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                 <ui:include src="job/jobBrowser.xhtml" />   
                             </h:panelGroup>                                

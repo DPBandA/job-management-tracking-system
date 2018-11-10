@@ -79,6 +79,8 @@ separate projects using maven overlays.
   to solve this which may be as result of one user overwriting the edits of 
   another.
 - Impl UpdateAction as is done in PR class to determine alerts to send.
+- In Authentication impl notification when login attempts reaches a certain amount
+  eg. 2.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

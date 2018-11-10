@@ -199,7 +199,7 @@
             <from-outcome>clientDialog</from-outcome>
             <to-view-id>/client/clientDialog.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>          
+    </navigation-rule>     
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
@@ -355,6 +355,12 @@
         <managed-bean-name>humanResourceManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.wal.managers.HumanResourceManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>  
+    </managed-bean> 
+    
+    <managed-bean>
+        <managed-bean-name>authentication</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.wal.Authentication</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean> 
    
 </faces-config>

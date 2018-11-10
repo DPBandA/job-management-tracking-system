@@ -31,8 +31,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
@@ -46,7 +44,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.naming.ldap.InitialLdapContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -72,7 +69,6 @@ import jm.com.dpbennett.business.entity.ServiceContract;
 import jm.com.dpbennett.business.entity.ServiceRequest;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
-import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.event.CloseEvent;
 import org.primefaces.event.SelectEvent;
@@ -82,8 +78,8 @@ import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.ReturnMessage;
+import jm.com.dpbennett.wal.Authentication;
 import jm.com.dpbennett.jmts.JMTSApplication;
-import static jm.com.dpbennett.jmts.JMTSApplication.checkForLDAPUser;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.Dashboard;
 import jm.com.dpbennett.wal.utils.DateUtils;
@@ -103,7 +99,7 @@ import org.primefaces.event.CellEditEvent;
 @Named
 @SessionScoped
 public class JobManager implements Serializable, BusinessEntityManagement,
-        DialogActionHandler, UserManagement, MessageManagement {
+        DialogActionHandler, MessageManagement, Authentication.LoginListener {
 
     private JMTSApplication application;
     @PersistenceUnit(unitName = "JMTSPU")
@@ -119,7 +115,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean useAccPacCustomerList;
     private Boolean showJobEntry;
     private List<Job> jobSearchResultList;
-    private Integer loginAttempts;
     // Managers/Management
     private ClientManager clientManager;
     private ReportManager reportManager;
@@ -136,12 +131,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private String jobsTabTitle;
     private Job[] selectedJobs;
     // Authentication
+    private Authentication authentication;
     private JobManagerUser user;
-    private Boolean userLoggedIn;
-    private Boolean showLogin;
-    private String username;
-    private String password;
-    private String logonMessage;
     private Boolean westLayoutUnitCollapsed;
     private String invalidFormFieldMessage;
     // tk rid of dialog* and handler and use growl?
@@ -166,8 +157,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Gets the ApplicationScoped object that is associated with this webapp.
-     * 
-     * @return 
+     *
+     * @return
      */
     public JMTSApplication getApplication() {
         if (application == null) {
@@ -178,8 +169,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Finds and Accpac customer by name and updates the Accpac customer field.
-     * 
-     * @param event 
+     *
+     * @param event
      */
     public void updateAccPacCustomer(SelectEvent event) {
         EntityManager em = getEntityManager2();
@@ -194,8 +185,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Gets the Accpac customer field.
-     * 
-     * @return 
+     *
+     * @return
      */
     public AccPacCustomer getAccPacCustomer() {
         if (accPacCustomer == null) {
@@ -206,7 +197,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Sets the Accpac customer field.
-     * 
+     *
      * @param accPacCustomer
      */
     public void setAccPacCustomer(AccPacCustomer accPacCustomer) {
@@ -215,8 +206,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Handles the editing of cells in the Job Costing table.
-     * 
-     * @param event 
+     *
+     * @param event
      */
     public void onJobCostingCellEdit(CellEditEvent event) {
 
@@ -241,16 +232,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Handles the initialization of the JobManager session bean.
-     * 
+     *
      */
     private void init() {
-        password = "";
-        username = "";
-        showLogin = true;
-        userLoggedIn = false;
         westLayoutUnitCollapsed = true;
-        logonMessage = "Please provide your login details below:";
-        loginAttempts = 0;
         showJobEntry = false;
         longProcessProgress = 0;
         useAccPacCustomerList = false;
@@ -263,13 +248,26 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchType = "";
         dateSearchPeriod = new DatePeriod("This month", "month",
                 "dateAndTimeEntered", null, null, null, false, false, false);
-        dateSearchPeriod.initDatePeriod();        
+        dateSearchPeriod.initDatePeriod();
+    }
+
+    /**
+     * Gets the SessionScoped bean that deals with user authentication.
+     *
+     * @return
+     */
+    public Authentication getAuthentication() {
+        if (authentication == null) {
+            authentication = BeanUtils.findBean("authentication");
+        }
+
+        return authentication;
     }
 
     /**
      * Get LegalDocumentManager SessionScoped bean.
-     * 
-     * @return 
+     *
+     * @return
      */
     public LegalDocumentManager getLegalDocumentManager() {
         if (legalDocumentManager == null) {
@@ -281,8 +279,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Get ContractManager SessionScoped bean.
-     * 
-     * @return 
+     *
+     * @return
      */
     public ContractManager getContractManager() {
         if (contractManager == null) {
@@ -294,8 +292,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Get JobSampleManager SessionScoped bean.
-     * 
-     * @return 
+     *
+     * @return
      */
     public JobSampleManager getJobSampleManager() {
         if (jobSampleManager == null) {
@@ -307,8 +305,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Get FinanceManager SessionScoped bean.
-     * 
-     * @return 
+     *
+     * @return
      */
     public FinanceManager getFinanceManager() {
         if (financeManager == null) {
@@ -320,8 +318,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Get ReportManager SessionScoped bean.
-     * 
-     * @return 
+     *
+     * @return
      */
     public ReportManager getReportManager() {
         if (reportManager == null) {
@@ -335,8 +333,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     /**
      * Get ClientManager SessionScoped bean.
-     * 
-     * @return 
+     *
+     * @return
      */
     public ClientManager getClientManager() {
         if (clientManager == null) {
@@ -347,11 +345,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return clientManager;
     }
-    
+
     /**
      * Gets the date search period for jobs.
-     * 
-     * @return 
+     *
+     * @return
      */
     public DatePeriod getDateSearchPeriod() {
         return dateSearchPeriod;
@@ -441,11 +439,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void reset() {
 
-        userLoggedIn = false;
-        showLogin = true;
-        password = "";
-        username = "";
-        logonMessage = "Please provide your login details below:";
         user = new JobManagerUser();
         westLayoutUnitCollapsed = true;
         renderSearchComponent = true;
@@ -468,8 +461,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Return to default theme
         PrimeFaces.current().executeScript(
-                "PF('loginDialog').show();"
-                + "PF('longProcessDialogVar').hide();"
+                "PF('longProcessDialogVar').hide();"
                 + "PrimeFaces.changeTheme('"
                 + getUser().getUserInterfaceThemeName() + "');"
                 + "PF('layoutVar').toggle('west');");
@@ -489,13 +481,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getApplicationHeader() {
-        String option = (String)SystemOption.getOptionValueObject(getEntityManager1(),
+        String option = (String) SystemOption.getOptionValueObject(getEntityManager1(),
                 "applicationHeader");
 
         return (!"".equals(option) ? option : "Job Management & Tracking System");
 
     }
-        
+
     public String getApplicationSubheader() {
         String subHeader = (String) SystemOption.getOptionValueObject(
                 getEntityManager1(),
@@ -548,13 +540,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.dialogRenderNoButton = dialogRenderNoButton;
     }
 
-    public Integer getLoginAttempts() {
-        return loginAttempts;
-    }
-
-    public void setLoginAttempts(Integer loginAttempts) {
-        this.loginAttempts = loginAttempts;
-    }
 
     public String getDialogMessage() {
         return dialogMessage;
@@ -588,74 +573,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.westLayoutUnitCollapsed = westLayoutUnitCollapsed;
     }
 
-    @Override
-    public String getLogonMessage() {
-        return logonMessage;
-    }
-
-    @Override
-    public void setLogonMessage(String logonMessage) {
-        this.logonMessage = logonMessage;
-    }
-
-    @Override
-    public Boolean getUserLoggedIn() {
-        return userLoggedIn;
-    }
-
-    @Override
-    public void setUserLoggedIn(Boolean userLoggedIn) {
-        this.userLoggedIn = userLoggedIn;
-    }
-
-    @Override
-    public Boolean getShowLogin() {
-        return showLogin;
-    }
-
-    @Override
-    public void setShowLogin(Boolean showLogin) {
-        this.showLogin = showLogin;
-    }
-
-    @Override
-    public String getUsername() {
-//        if (username == null) {
-//            username = SystemOption.findSystemOptionByName(getEntityManager1(),
-//                    "defaultUsername").getOptionValue();
-//        }
-        return username;
-    }
-
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public String getPassword() {
-//        if (password == null) {
-//            password = SystemOption.findSystemOptionByName(getEntityManager1(),
-//                    "defaultPassword").getOptionValue();
-//        }
-        return password;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
 
-    @Override
     public void setUser(JobManagerUser user) {
         this.user = user;
     }
 
-    @Override
     public JobManagerUser getUser() {
         if (user == null) {
             return new JobManagerUser();
@@ -690,103 +615,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return user;
     }
 
-    public void checkLoginAttemps() {
-
-        ++loginAttempts;
-        if (loginAttempts == 2) {
-            PrimeFaces.current().executeScript("PF('loginAttemptsDialog').show();");
-            try {
-                // Send email to system administrator alert if activated
-                if ((Boolean) SystemOption.getOptionValueObject(getEntityManager1(),
-                        "developerEmailAlertActivated")) {
-                    Utils.postMail(null, null, "Failed user login", "Username: " + username + "\nDate/Time: " + new Date());
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(JobManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else if (loginAttempts > 2) {// tk # attempts to be made option
-            PrimeFaces.current().executeScript("PF('loginAttemptsDialog').show();");
-        }
-
-        username = "";
-        password = "";
-    }
-
-    public void login() {
-
-        EntityManager em = getEntityManager1();
-
-        setUserLoggedIn(false);
-
-        try {
-            // Find user and determin if authentication is required for this user
-            JobManagerUser jobManagerUser = JobManagerUser.findActiveJobManagerUserByUsername(em, getUsername());
-            
-            if (jobManagerUser != null) {
-                em.refresh(jobManagerUser);
-                if (!jobManagerUser.getAuthenticate()) {
-                    System.out.println("User will NOT be authenticated.");
-                    PrimeFacesUtils.addMessage("NOT Authenticated!",
-                            "Authentication is not activated. Please contact your System Administrator",
-                            FacesMessage.SEVERITY_WARN);
-                    setUser(jobManagerUser);
-                    setUserLoggedIn(true);
-                } else if (validateAndAssociateUser(em, getUsername(), getPassword())) {
-                    System.out.println("User will be authenticated.");
-                    setUser(jobManagerUser);
-                    setUserLoggedIn(true);
-                } else {
-                    checkLoginAttemps();
-                    logonMessage = "Please enter a valid username.";
-                }
-            } else {
-                logonMessage = "Please enter a registered username.";
-                username = "";
-                password = "";
-            }
-            // wrap up
-            if (getUserLoggedIn()) {
-                user.logActivity("Logged in", getEntityManager1());
-                setShowLogin(false);
-                username = "";
-                password = "";
-                loginAttempts = 0;
-
-                user.save(getEntityManager1());
-
-                if (westLayoutUnitCollapsed) {
-                    westLayoutUnitCollapsed = false;
-                    PrimeFaces.current().executeScript("PF('layoutVar').toggle('west');");
-                }
-
-                PrimeFaces.current().executeScript("PF('loginDialog').hide();");
-
-                PrimeFaces.current().executeScript("PrimeFaces.changeTheme('"
-                        + getUser().getUserInterfaceThemeName() + "');");
-
-                dashboard.reset(user);
-                mainTabView.reset(user);
-                
-                // Initialize the Human Resource Manager
-                humanResourceManager = BeanUtils.findBean("humanResourceManager");
-                humanResourceManager.setUser(getUser());
-                humanResourceManager.setMainTabView(getMainTabView());
-             
-                logonMessage = "Login error occured! Please try again or contact the System Administrator";
-                username = "";
-                password = "";
-            }
-
-            em.close();
-
-            updateAllForms();
-        } catch (Exception e) {
-            System.out.println(e);
-            logonMessage = "Login error occured! Please try again or contact the System Administrator";
-            checkLoginAttemps();
-        }
-    }
-
     public Dashboard getDashboard() {
         return dashboard;
     }
@@ -799,14 +627,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         PrimeFaces.current().ajax().update("dashboardForm");
         PrimeFaces.current().ajax().update("mainTabViewForm");
         PrimeFaces.current().ajax().update("headerForm");
-        PrimeFaces.current().ajax().update("loginForm");
     }
 
     public void logout() {
-
         user.logActivity("Logged out", getEntityManager1());
-
         reset();
+        getAuthentication().reset(this);
     }
 
     public void handleKeepAlive() {
@@ -903,50 +729,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    /**
-     * Validate a user and associate the user with an employee if possible.
-     *
-     * @param em
-     * @param username
-     * @param password
-     * @return
-     */
-    @Override
-    public Boolean validateAndAssociateUser(EntityManager em, String username, String password) {
-        Boolean userValidated = false;
-        InitialLdapContext ctx;
-
-        try {
-            List<jm.com.dpbennett.business.entity.LdapContext> ctxs = jm.com.dpbennett.business.entity.LdapContext.findAllActiveLdapContexts(em);
-
-            for (jm.com.dpbennett.business.entity.LdapContext ldapContext : ctxs) {
-                ctx = ldapContext.getInitialLDAPContext(username, password);
-
-                if (checkForLDAPUser(em, username, ctx)) {
-                    // user exists in LDAP                    
-                    userValidated = true;
-                    break;
-                }
-            }
-
-            // get the user if one exists
-            if (userValidated) {
-
-                System.out.println("User validated.");
-
-                return true;
-
-            } else {
-                System.out.println("User NOT validated!");
-                return false;
-            }
-
-        } catch (Exception e) {
-            System.err.println("Problem connecting to directory: " + e);
-        }
-
-        return false;
-    }
 
     public void prepareToCloseJobDetail() {
         PrimeFacesUtils.closeDialog(null);
@@ -1042,8 +824,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getUser() != null) {
             if (currentJob.getDepartment().getId().longValue() == getUser().getEmployee().getDepartment().getId().longValue()) {
                 return true;
-            } else return currentJob.getSubContractedDepartment().getId().longValue() == 
-                    getUser().getEmployee().getDepartment().getId().longValue();
+            } else {
+                return currentJob.getSubContractedDepartment().getId().longValue()
+                        == getUser().getEmployee().getDepartment().getId().longValue();
+            }
         } else {
             return false;
         }
@@ -1241,20 +1025,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         currentJob.getJobStatusAndTracking().setExpectedDateOfCompletion(date);
     }
 
-//    public Date getDateSamplesCollected() {
-//        if (currentJob != null) {
-//            if (currentJob.getJobStatusAndTracking().getDateSamplesCollected() != null) {
-//                return currentJob.getJobStatusAndTracking().getDateSamplesCollected();
-//            } else {
-//                return null;
-//            }
-//        } else {
-//            return null;
-//        }
-//    }
-//    public void setDateSamplesCollected(Date date) {
-//        currentJob.getJobStatusAndTracking().setDateSamplesCollected(date);
-//    }
     public Date getDateDocumentCollected() {
         if (currentJob != null) {
             if (currentJob.getJobStatusAndTracking().getDateDocumentCollected() != null) {
@@ -1747,7 +1517,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 //            currentJob.setJobSamples(savedJob.getJobSamples());
 //        }
         // end tk
-
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
@@ -1759,7 +1528,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 PrimeFacesUtils.addMessage("Job NOT Saved!",
                         "Job was NOT saved. Please contact the System Administrator!",
                         FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -1775,7 +1544,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -1792,7 +1561,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -1810,7 +1579,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -1822,13 +1591,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 && isCurrentJobJobAssignedToUser()) {
             // User can enter new jobs for yourself...saving
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
-            
+
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -1838,13 +1607,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         } else if (getIsDirty() && !isCurrentJobNew() && getUser().getPrivilege().getCanEditJob()) {
             // User can edit any job...saving
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
-            
+
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -1857,14 +1626,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 || getUser().getEmployee().isMemberOf(currentJob.getDepartment()))) {
 
             // User can edit jobs for your department...saving
-             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
-            
+            returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
+
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -1876,13 +1645,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 && isCurrentJobJobAssignedToUser()) {
             // User can edit own jobs...saving
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
-            
+
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -1892,13 +1661,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         } else if (currentJob.getIsToBeCopied()) {
             // Saving cause copy is being created
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
-            
+
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -1908,13 +1677,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         } else if (currentJob.getIsToBeSubcontracted()) {
             // Saving cause subcontract is being created
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
-            
+
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
                 currentJob.getJobStatusAndTracking().setEditStatus("");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
-                
+
                 sendErrorEmail("An error occurred while saving a job!",
                         "Job number: " + currentJob.getJobNumber()
                         + "\nJMTS User: " + getUser().getUsername()
@@ -2170,6 +1939,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
+    public void setupAuthentication() {
+
+        if (!getAuthentication().getUserLoggedIn()) {
+            getAuthentication().reset(this);
+        }
+    }
+
     public void doGeneralSearch() {
 
         switch (getDashboard().getSelectedTabId()) {
@@ -2286,7 +2062,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 //        System.out.println("editing current job id: " + currentJob.getId());
 //        this.currentJob = Job.findJobById(getEntityManager1(), 
 //                currentJob.getId());
-        
+
         this.currentJob = currentJob;
         this.currentJob.setVisited(true);
         getFinanceManager().setEnableOnlyPaymentEditing(false);
@@ -2673,7 +2449,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         try {
             if (getCurrentJob().getIsSubContract() || getCurrentJob().getIsToBeCopied()) {
                 return false;
-            } else return getCurrentJob().getId() == null;
+            } else {
+                return getCurrentJob().getId() == null;
+            }
         } catch (Exception e) {
             System.out.println(e + ": getDisableSubContracting");
         }
@@ -2795,6 +2573,35 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     "No job costing was selected",
                     FacesMessage.SEVERITY_INFO);
         }
+    }
+
+    @Override
+    public void completeLogin() {
+
+        setUser(getAuthentication().getUser());
+        getUser().logActivity("Logged in", getEntityManager1());
+
+        getUser().save(getEntityManager1());
+
+        if (westLayoutUnitCollapsed) {
+            westLayoutUnitCollapsed = false;
+            PrimeFaces.current().executeScript("PF('layoutVar').toggle('west');");
+        }
+
+        PrimeFaces.current().executeScript("PF('loginDialog').hide();");
+        
+        PrimeFaces.current().executeScript("PrimeFaces.changeTheme('"
+                + getUser().getUserInterfaceThemeName() + "');");
+
+        dashboard.reset(user);
+        mainTabView.reset(user);
+
+        // Initialize the Human Resource Manager
+        humanResourceManager = BeanUtils.findBean("humanResourceManager");
+        humanResourceManager.setUser(getUser());
+        humanResourceManager.setMainTabView(getMainTabView());
+
+        updateAllForms();
     }
 
 }
