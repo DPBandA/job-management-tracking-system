@@ -4,8 +4,6 @@
  */
 package jm.com.dpbennett.jmts.managers;
 
-import jm.com.dpbennett.wal.managers.ReportManager;
-import jm.com.dpbennett.wal.managers.ClientManager;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -100,7 +98,7 @@ public class ComplianceManager implements Serializable {
     private ReportManager reportManager;
 
     /**
-     * Creates a new instance of ComplianceManager
+     * Creates a new instance of ComplianceManager.
      */
     public ComplianceManager() {
         complianceSurveys = new ArrayList<>();

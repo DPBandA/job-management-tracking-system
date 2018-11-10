@@ -353,7 +353,7 @@
     
     <managed-bean>
         <managed-bean-name>humanResourceManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.wal.managers.HumanResourceManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.HumanResourceManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean> 
     

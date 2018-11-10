@@ -19,9 +19,6 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
-import jm.com.dpbennett.wal.managers.ReportManager;
-import jm.com.dpbennett.wal.managers.HumanResourceManager;
-import jm.com.dpbennett.wal.managers.ClientManager;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -322,11 +319,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * @return
      */
     public ReportManager getReportManager() {
-        if (reportManager == null) {
-            reportManager = BeanUtils.findBean("reportManager");
-            reportManager.setUser(user);
-            reportManager.setMainTabView(mainTabView);
-        }
+//        if (reportManager == null) {
+//            reportManager = BeanUtils.findBean("reportManager");
+//            reportManager.setUser(user);
+//            reportManager.setMainTabView(mainTabView);
+//        }
 
         return reportManager;
     }
@@ -337,11 +334,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * @return
      */
     public ClientManager getClientManager() {
-        if (clientManager == null) {
-            clientManager = BeanUtils.findBean("clientManager");
-            clientManager.setUser(user);
-            clientManager.setMainTabView(mainTabView);
-        }
+//        if (clientManager == null) {
+//            clientManager = BeanUtils.findBean("clientManager");
+//            clientManager.setUser(user);
+//            clientManager.setMainTabView(mainTabView);
+//        }
 
         return clientManager;
     }
@@ -540,7 +537,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.dialogRenderNoButton = dialogRenderNoButton;
     }
 
-
     public String getDialogMessage() {
         return dialogMessage;
     }
@@ -728,7 +724,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             dialogActionHandler.handleDialogCancelButtonClick();
         }
     }
-
 
     public void prepareToCloseJobDetail() {
         PrimeFacesUtils.closeDialog(null);
@@ -2589,17 +2584,25 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
 
         PrimeFaces.current().executeScript("PF('loginDialog').hide();");
-        
+
         PrimeFaces.current().executeScript("PrimeFaces.changeTheme('"
                 + getUser().getUserInterfaceThemeName() + "');");
 
         dashboard.reset(user);
         mainTabView.reset(user);
 
-        // Initialize the Human Resource Manager
+        // Initialize Managers
         humanResourceManager = BeanUtils.findBean("humanResourceManager");
         humanResourceManager.setUser(getUser());
         humanResourceManager.setMainTabView(getMainTabView());
+
+        clientManager = BeanUtils.findBean("clientManager");
+        clientManager.setUser(user);
+        clientManager.setMainTabView(mainTabView);
+
+        reportManager = BeanUtils.findBean("reportManager");
+        reportManager.setUser(user);
+        reportManager.setMainTabView(mainTabView);
 
         updateAllForms();
     }

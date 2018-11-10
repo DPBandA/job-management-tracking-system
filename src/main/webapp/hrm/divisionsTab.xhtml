@@ -1,0 +1,143 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets" > 
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new division"                                  
+                             value="New"
+                             actionListener="#{humanResourceManager.createNewDivision}"
+                             update=":headerForm:growl3"
+                             onstart="PF('longProcessDialogVar').show();"   
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus">
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"/>
+
+            </p:commandButton> 
+            <p:spacer width="20" />
+            <p:inputText id="divisionSearchText" 
+                         value="#{humanResourceManager.divisionSearchText}"
+                         style="width:150px" placeholder="Enter any part of name">
+                <p:ajax event="keyup"
+                        global="false"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"
+                        listener="#{humanResourceManager.doDivisionSearch}"
+                        process="@this"/>
+            </p:inputText>
+        </p:toolbarGroup>
+
+        <ui:remove>
+            <p:toolbarGroup align="right">
+                <p:outputLabel for="activeDivisionsOnly" value="Active divisions only: " />  
+                <h:panelGroup>
+                    <p:selectBooleanCheckbox style="vertical-align: middle"
+                                             id="activeDivisionsOnly"
+                                             value="#{humanResourceManager.isActiveDivisionsOnly}" >
+                        <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"
+                                 listener="#{humanResourceManager.doDivisionSearch}"
+                                 event="change"                                      
+                                 process="@this"/>
+                    </p:selectBooleanCheckbox>            
+                    <p:tooltip for="activeDivisionsOnly" value="Check to show active divisions only" 
+                               showEffect="fade" hideEffect="fade" />
+                    <p:spacer width="15" />                
+                </h:panelGroup>
+            </p:toolbarGroup>
+        </ui:remove>
+        
+    </p:toolbar>    
+
+    <p:dataTable id="divisionsTable"                                       
+                 var="division"                                        
+                 paginator="true"
+                 rows="15"
+                 style="margin-bottom: 1px;margin-top: 1px;"
+                 widgetVar="divisionsTableVar"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{humanResourceManager.foundDivisions}">
+
+        <f:facet name="header">
+            Divisions
+        </f:facet>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Name"/>
+            </f:facet>
+            <h:outputText value="#{division.name}" />
+        </p:column>   
+        
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Code"/>
+            </f:facet>
+            <h:outputText value="#{division.code}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Notes"/>
+            </f:facet>
+            <h:outputText value="#{division.notes}" />
+        </p:column>
+
+        <ui:remove>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Departments"/>
+                </f:facet>
+                <h:outputText value="#{division.departmentList}" />
+            </p:column>  
+        </ui:remove>
+
+        <p:column style="width:32px">
+            <p:commandButton title="View or edit division"   
+                             actionListener="#{humanResourceManager.editDivision}"
+                             onstart="PF('longProcessDialogVar').show();"  
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                <f:setPropertyActionListener value="#{division}"                                                                    
+                                             target="#{humanResourceManager.selectedDivision}" />
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"/>
+
+            </p:commandButton>           
+        </p:column>
+
+    </p:dataTable>
+
+</html>
+
+

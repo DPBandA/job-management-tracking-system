@@ -1,4 +1,46 @@
 
+# Purchasing
+- Create EmployeePosition class with, salary, description, minApprovalLimit and
+  maxApprovalLimit etc.
+  * Impl assigning multiple JobPosition to employee class.
+  * Impl EmployeePosition dialog in hrm.
+  * Impl HRM as standalone app and test out employee and position dialogs.
+  * Position names: Team Leader, Divisional Manager, Divisional Director, 
+    Finance Manager, Executive Director, Senior Engineer, Analyst, 
+    Network Administrator, System Administrator etc
+- Design and include the dashboard and main tabs 
+- Explore asynchronous for long service tasks by using activiti:async="true"
+  in the service task.
+- Remove "Module Access" from preference dialog.
+- Populate PurchaseOrder with PR if possible. 
+- Impl automatic generation of PR #. Initialize with the latest number used.
+- Ensure that the requisition date is the that orginator signed the PR.
+- Create Supplier class. Supplier/Suggested Supplier are the same in PR.
+- The date the PR is completed should be the PO date.
+- Impl email messaging to the originator and other PR stakeholders.
+- The content of the PO should be generated from the PR. The PO should be a field
+  in the PR.
+- PO/PR should remain in "draft" stage until all issues are sorted out.
+- Get approval limits from Finance.
+- The orinator's department should be uneditable by the orginator unless they are
+  the dept. head or system admin.
+- Download jasper reports on thumb drive.
+- Get GF3 tutorial.
+
+## Deployment
+- Add UNIT and DESCRIPTION to CostComponent database.
+
+## Optional/Future
+- Deploy and configure activiti in gf3 on local PC for testing .
+- Design and include the purchasing process.
+- Pull cost codes from Accpac.
+- The "on hand now" field to the PR should link to inventory.
+- Link to Accpac and do budget allocation.Canceling a PR/PO should reverse 
+  Accpac budget allocation.
+- Create report to show Accpac budget allocations.
+- Get suppliers from Accpac.
+- Impl supplier evaluation.
+
 # Accpac Invoicing & Credit Status Reporting
 - Impl HR module with HumanResourceManager class:
   * Add fields to Division class and update all databases
@@ -22,7 +64,6 @@
 - Do client report template and upload.
 - Impl new service contract and agreement.
 - Do report for jobs not approved and incomplete up to 2017.
-
 
 # Purchasing
 - Impl PurchaseRequisition and PurchaseOrder classes.
@@ -81,10 +122,21 @@ separate projects using maven overlays.
 - Impl UpdateAction as is done in PR class to determine alerts to send.
 - In Authentication impl notification when login attempts reaches a certain amount
   eg. 2.
+- Get rid of "shadow" when  mouse over menu item in edit client menu and others.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.
 - https://smist08.wordpress.com/2013/01/01/the-sage-300-erp-java-api/
+
+# CRM
+- Meet with BSJ re features and requirements
+- See docs in downloads folder
    
 # HRM
+- Fundamentals of Human Resource Management, pg 19
 - Look up Java API for PeopleSoft HRM app.
+
+# LMS
+- See docs in download folder
+- Course Presenter App/Games
+

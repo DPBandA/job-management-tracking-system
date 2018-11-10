@@ -1,0 +1,144 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <p:focus for="employeeSearchText"/>
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new employee"                                  
+                             value="New"
+                             actionListener="#{humanResourceManager.createNewEmployee}"
+                             onstart="PF('longProcessDialogVar').show();"                              
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus" >
+
+                <p:ajax event="dialogReturn"
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:employeesTable"/>
+
+            </p:commandButton>
+                     
+            <p:spacer width="20" />
+            <p:inputText id="employeeSearchText" 
+                         value="#{humanResourceManager.employeeSearchText}"
+                         style="width:150px"
+                         placeholder="Enter search text">
+                <p:ajax event="keyup"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:employeesTable"
+                        listener="#{humanResourceManager.doEmployeeSearch}"
+                        process="@this"/>
+            </p:inputText>
+            
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right">
+            <p:outputLabel for="activeEmployeesOnly" value="Active employees only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="activeEmployeesOnly"
+                                         value="#{humanResourceManager.isActiveEmployeesOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:employeesTable"
+                             listener="#{humanResourceManager.doEmployeeSearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>            
+                <p:tooltip for="activeEmployeesOnly" value="Check to show active employees only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+            </h:panelGroup>
+        </p:toolbarGroup>
+    </p:toolbar>    
+
+    <p:dataTable id="employeesTable"                                       
+                 var="employee"                                        
+                 paginator="true"
+                 rows="15"
+                 style="margin-top: 1px;"
+                 widgetVar="employeesTableVar"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{humanResourceManager.foundEmployees}">
+
+        <f:facet name="header">
+            Employees
+        </f:facet>
+
+        <ui:remove>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Rec. ID"/>
+                </f:facet>
+                <h:outputText value="#{employee.id}" />
+            </p:column>
+        </ui:remove>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Firstname"/>
+            </f:facet>
+            <h:outputText value="#{employee.firstName}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Lastname"/>
+            </f:facet>
+            <h:outputText value="#{employee.lastName}" />
+        </p:column>
+
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Department"/>
+            </f:facet>
+            <h:outputText value="#{employee.department.name}" />
+        </p:column>       
+
+        <p:column style="width:32px">
+            <p:commandButton title="View or edit employee"   
+                             actionListener="#{humanResourceManager.editEmployee}"
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+                
+                <f:setPropertyActionListener value="#{employee}"                                                                    
+                                             target="#{humanResourceManager.selectedEmployee}" />
+                <p:ajax event="dialogReturn" 
+                        listener="#{humanResourceManager.doEmployeeSearch}"
+                        update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:employeesTable"/>
+
+            </p:commandButton>           
+        </p:column>
+
+
+    </p:dataTable>
+</html>
+
+
