@@ -2,6 +2,8 @@
 # Purchasing
 - Create EmployeePosition class with, salary, description, minApprovalLimit and
   maxApprovalLimit etc.
+  * Create jmts.employee_employeeposition
+  * Impl employeePositionDialog*.xhtml.
   * Impl assigning multiple JobPosition to employee class.
   * Impl EmployeePosition dialog in hrm.
   * Impl HRM as standalone app and test out employee and position dialogs.
@@ -29,6 +31,7 @@
 
 ## Deployment
 - Add UNIT and DESCRIPTION to CostComponent database.
+- Create jmts.employee_employeeposition table.
 
 ## Optional/Future
 - Deploy and configure activiti in gf3 on local PC for testing .

@@ -81,24 +81,24 @@ Email: info@dpbennett.com.jm
                                  id="lastName"                                  
                                  validator="requiredFieldValidator" />
 
+                    <h:outputText value="Positions(s): " />       
+                    <p:autoComplete id="positions"
+                                    var="position"   
+                                    value="#{humanResourceManager.selectedEmployee.positions}"
+                                    itemLabel="#{position.title}"
+                                    itemValue="#{position}"
+                                    converter="activeEmployeePositionConverter"
+                                    validator="businessEntityValidator"
+                                    forceSelection="true"
+                                    dropdown="true"
+                                    scrollHeight="200"                         
+                                    multiple="true"
+                                    completeMethod="#{App.completeActiveEmployeePosition}" />
+
+
                     <h:outputLabel value="Email:" for="employeeEmail"/>
                     <p:inputText value="#{humanResourceManager.selectedEmployee.internet.email1}"
                                  id="employeeEmail" validatorMessage="Please enter a valid name" />
-
-                    <ui:remove>
-                        <h:outputText value="Business office:" style="font-weight: bold;" />
-                        <p:autoComplete dropdown="true"
-                                        id="businessOffice"
-                                        var="businessOffice"
-                                        value="#{humanResourceManager.selectedEmployee.businessOffice}"
-                                        itemLabel="#{businessOffice.name}"
-                                        itemValue="#{businessOffice}"                                     
-                                        validator="requiredFieldValidator"
-                                        converter="businessOfficeConverter"
-                                        forceSelection="true"
-                                        completeMethod="#{App.completeBusinessOffice}" >                  
-                        </p:autoComplete>
-                    </ui:remove>
 
                     <h:outputText value="Department:" style="font-weight: bold;" />
                     <p:autoComplete var="department"

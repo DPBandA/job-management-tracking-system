@@ -51,6 +51,7 @@ import jm.com.dpbennett.business.entity.DepartmentUnit;
 import jm.com.dpbennett.business.entity.Distributor;
 import jm.com.dpbennett.business.entity.DocumentType;
 import jm.com.dpbennett.business.entity.Employee;
+import jm.com.dpbennett.business.entity.EmployeePosition;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCategory;
 import jm.com.dpbennett.business.entity.JobManagerUser;
@@ -480,6 +481,26 @@ public class JMTSApplication implements Serializable {
 
             if (employees != null) {
                 return employees;
+            } else {
+                return new ArrayList<>();
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<EmployeePosition> completeActiveEmployeePosition(String query) {
+        EntityManager em;
+
+        try {
+
+            em = getEntityManager1();
+            List<EmployeePosition> employeePositions = 
+                    EmployeePosition.findActiveEmployeePositionsByTitle(em, query);
+
+            if (employeePositions != null) {
+                return employeePositions;
             } else {
                 return new ArrayList<>();
             }

@@ -35,6 +35,7 @@ import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.Division;
 import jm.com.dpbennett.business.entity.Employee;
+import jm.com.dpbennett.business.entity.EmployeePosition;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Subgroup;
 import jm.com.dpbennett.wal.utils.Utils;
@@ -92,6 +93,7 @@ public class HumanResourceManager implements Serializable {
     private DualListModel<Subgroup> subgroupDualList;
     // Selected objects
     private Employee selectedEmployee;
+    private EmployeePosition selectedEmployeePosition;
     private Department selectedDepartment;
     private Subgroup selectedSubgroup;
     private Division selectedDivision;
@@ -127,7 +129,15 @@ public class HumanResourceManager implements Serializable {
         isActiveSubgroupsOnly = true;
         isActiveDivisionsOnly = true;
     }
-        
+
+    public EmployeePosition getSelectedEmployeePosition() {
+        return selectedEmployeePosition;
+    }
+
+    public void setSelectedEmployeePosition(EmployeePosition selectedEmployeePosition) {
+        this.selectedEmployeePosition = selectedEmployeePosition;
+    }
+            
     public String getApplicationHeader() {
         return  "Human Resource & Management System";
     }
