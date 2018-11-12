@@ -10,6 +10,7 @@
   * Position names: Team Leader, Divisional Manager, Divisional Director, 
     Finance Manager, Executive Director, Senior Engineer, Analyst, 
     Network Administrator, System Administrator etc
+  * See github for fixing sql_mode=only_full_group_by.
 - Design and include the dashboard and main tabs 
 - Explore asynchronous for long service tasks by using activiti:async="true"
   in the service task.
@@ -126,6 +127,7 @@ separate projects using maven overlays.
 - In Authentication impl notification when login attempts reaches a certain amount
   eg. 2.
 - Get rid of "shadow" when  mouse over menu item in edit client menu and others.
+- Get rid of excess "--" employee.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

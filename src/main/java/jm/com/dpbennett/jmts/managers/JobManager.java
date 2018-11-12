@@ -85,6 +85,7 @@ import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.JobDataModel;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
+import jm.com.dpbennett.wal.utils.TabPanel;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.tabview.Tab;
 import org.primefaces.event.CellEditEvent;
@@ -741,7 +742,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void onDashboardTabChange(TabChangeEvent event) {
 
-        getDashboard().setSelectedTabId(((Tab) event.getData()).getId());
+//        getDashboard().setSelectedTabId(((Tab) event.getData()).getId());
+        getDashboard().setSelectedTabId(((TabPanel) event.getData()).getId());
     }
 
     public void updateDashboard(String tabId) {

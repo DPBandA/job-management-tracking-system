@@ -22,14 +22,12 @@ package jm.com.dpbennett.jmts;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
 import javax.ejb.Singleton;
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.naming.NamingEnumeration;
@@ -39,7 +37,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
-import jm.com.dpbennett.business.entity.BusinessEntity;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
 import jm.com.dpbennett.business.entity.Client;
@@ -64,18 +61,13 @@ import jm.com.dpbennett.business.entity.Preference;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.Service;
 import jm.com.dpbennett.business.entity.SystemOption;
-import jm.com.dpbennett.business.entity.fileutils.PropertiesFile;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
-import jm.com.dpbennett.business.entity.utils.Security;
 import jm.com.dpbennett.wal.utils.DataItem;
 import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.ReportUtils;
 import jm.com.dpbennett.wal.utils.SortableSelectItem;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngineConfiguration;
-import org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 
 /**
  *
@@ -802,51 +794,6 @@ public class JMTSApplication implements Serializable {
 
         return list;
     }
-
-    public static void main(String[] args) {
-        try {
-
-            PropertiesFile propertiesFile = new PropertiesFile("LabelPrint.properties");
-            propertiesFile.load();
-            HashMap prop = new HashMap();
-
-            ProcessEngineConfiguration cfg = new StandaloneProcessEngineConfiguration()
-                    .setJdbcUrl(propertiesFile.getProperty("ConnectionURL"))
-                    .setJdbcUsername(propertiesFile.getProperty("ConnectionUserName"))
-                    .setJdbcPassword(Security.decrypt(propertiesFile.
-                            getProperty("ConnectionPassword")))
-                    .setJdbcDriver(propertiesFile.getProperty("ConnectionDriverName"))
-                    .setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_FALSE);
-
-            ProcessEngine processEngine = cfg.buildProcessEngine();
-            String pName = processEngine.getName();
-            String ver = ProcessEngine.VERSION;
-            System.out.println("ProcessEngine [" + pName + "] Version: [" + ver + "]");
-//
-//            prop.put("javax.persistence.jdbc.user",
-//                    propertiesFile.getProperty("ConnectionUserName"));
-//            prop.put("javax.persistence.jdbc.password",
-//                    Security.decrypt(propertiesFile.getProperty("ConnectionPassword")));
-//            prop.put("javax.persistence.jdbc.url",
-//                    propertiesFile.getProperty("ConnectionURL"));
-//            prop.put("javax.persistence.jdbc.driver",
-//                    propertiesFile.getProperty("ConnectionDriverName"));
-
-//            if (setupDatabaseConnection("PU", prop)) {
-//                EntityManager em = EMF.createEntityManager();
-//                List<BusinessEntity> list
-//                        = EnergyConsumptionAndEfficiency.findAllByProductType(em, "Refrigerator");
-//                System.out.println("List: " + list);
-//                EnergyConsumptionAndEfficiency ecaf
-//                        = EnergyConsumptionAndEfficiency.findById(em, Long.parseLong("1"));
-//                System.out.println("ecaf: " + ecaf);
-//            }
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
-
-    
 
     public static List<DataItem> getStringListAsSortableDataItems(EntityManager em,
             String systemOption) {
