@@ -26,14 +26,14 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left">
             
             <p:commandButton value="Ok"
-                             actionListener="#{systemManager.saveSelectedDocumentType}"
-                             update="documenttype_growl"
+                             actionListener="#{humanResourceManager.saveSelectedEmployeePosition}"
+                             update="employeeposition_growl"
                              icon="ui-icon ui-icon-check"
-                             process="@this"/>
+                             process="@form"/>
             <p:spacer width="10" />
             <p:commandButton value="Cancel"
                              process="@this"
-                             actionListener="#{systemManager.cancelDocumentTypeEdit}"
+                             actionListener="#{humanResourceManager.closeDialog}"
                              icon="ui-icon ui-icon-close" /> 
 
         </p:toolbarGroup>

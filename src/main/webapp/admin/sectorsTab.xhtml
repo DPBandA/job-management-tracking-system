@@ -38,6 +38,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus" >
 
                 <p:ajax event="dialogReturn" 
+                        listener="#{systemManager.doSectorSearch}"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:SectorsTable" />
 
             </p:commandButton>     

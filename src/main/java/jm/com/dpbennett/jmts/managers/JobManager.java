@@ -720,18 +720,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
-        String tabId = ((Tab) event.getData()).getId();
+        String tabId = ((TabPanel) event.getData()).getId();
         mainTabView.addTab(getEntityManager1(), tabId, false);
     }
 
     public void onMainViewTabChange(TabChangeEvent event) {
-        // Nothing to do yet
-        // String tabId = ((MainTab) event.getData()).getId();      
     }
 
     public void onDashboardTabChange(TabChangeEvent event) {
-
-//        getDashboard().setSelectedTabId(((Tab) event.getData()).getId());
         getDashboard().setSelectedTabId(((TabPanel) event.getData()).getId());
     }
 

@@ -144,6 +144,13 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>employeePositionDialog</from-outcome>
+            <to-view-id>/hrm/employeePositionDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>jobPricings</from-outcome>
             <to-view-id>/jobPricings.xhtml</to-view-id>
         </navigation-case>
@@ -354,15 +361,7 @@
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.wal.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>
-    
-    <!--
-    <managed-bean>
-        <managed-bean-name>humanResourceManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.HumanResourceManager</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean> 
-    -->
-    
+     
     <managed-bean>
         <managed-bean-name>authentication</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.wal.Authentication</managed-bean-class>

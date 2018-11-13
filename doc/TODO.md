@@ -1,30 +1,6 @@
-# Reports & Forms
-- Do client report template and upload.
-- Impl new service contract and agreement.
-- Do report for jobs not approved and incomplete up to 2017.
-
-# Deployment
-- Setup OGS gf3.
-  * 172.16.11.134
-  * ?bsj0001!
-  * Accpac: url - jdbc:jtds:sqlserver://finance/bsjdat/dbo, pwd 
-    user - jmts, pwd - bsj0001
-- Switch use admain2 by default.
-- Add UNIT and DESCRIPTION (1024) to CostComponent database.
-- Create jmts.employee_employeeposition table.
 
 # Purchasing
-- Create EmployeePosition class with, salary, description, minApprovalLimit and
-  maxApprovalLimit etc.
-  * Create jmts.employee_employeeposition
-  * Impl employeePositionDialog*.xhtml.
-  * Impl assigning multiple JobPosition to employee class.
-  * Impl EmployeePosition dialog in hrm.
-  * Impl HRM as standalone app and test out employee and position dialogs.
-  * Position names: Team Leader, Divisional Manager, Divisional Director, 
-    Finance Manager, Executive Director, Senior Engineer, Analyst, 
-    Network Administrator, System Administrator etc
-  * See github for fixing sql_mode=only_full_group_by.
+- See github for fixing sql_mode=only_full_group_by.
 - Design and include the dashboard and main tabs 
 - Explore asynchronous for long service tasks by using activiti:async="true"
   in the service task.
@@ -41,8 +17,17 @@
 - Get approval limits from Finance.
 - The orinator's department should be uneditable by the orginator unless they are
   the dept. head or system admin.
-- Download jasper reports on thumb drive.
-- Get GF3 tutorial.
+
+# DBA
+- Position names: Team Leader, Divisional Manager, Divisional Director, 
+    Finance Manager, Executive Director, Senior Engineer, Analyst, 
+    Network Administrator, System Administrator etc.
+- Update HRM tables with info from chart of accounts.
+
+# Reports & Forms
+- Do client report template and upload.
+- Impl new service contract and agreement.
+- Do report for jobs not approved and incomplete up to 2017.
 
 # Optional/Future
 - Deploy and configure activiti in gf3 on local PC for testing .
@@ -133,6 +118,9 @@ separate projects using maven overlays.
   eg. 2.
 - Get rid of "shadow" when  mouse over menu item in edit client menu and others.
 - Get rid of excess "--" employee.
+- Display growl when user is not authenticated.
+- Use dialogReturn through the system update the respective tables when dialogs
+  are closed.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

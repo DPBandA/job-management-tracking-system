@@ -70,6 +70,7 @@ public class HumanResourceManager implements Serializable {
     private Boolean searchTextVisible;
     private Boolean isActiveUsersOnly;
     private Boolean isActiveEmployeesOnly;
+    private Boolean isActiveEmployeePositionsOnly;
     private Boolean isActiveDepartmentsOnly;
     private Boolean isActiveBusinessesOnly;
     private Boolean isActiveSubgroupsOnly;
@@ -79,12 +80,14 @@ public class HumanResourceManager implements Serializable {
     // Search text
     private String searchText;
     private String employeeSearchText;
+    private String employeePositionSearchText;
     private String departmentSearchText;
     private String businessSearchText;
     private String subgroupSearchText;
     private String divisionSearchText;
     // Found object lists
     private List<Employee> foundEmployees;
+    private List<EmployeePosition> foundEmployeePositions;
     private List<Department> foundDepartments;
     private List<Business> foundBusinesses;
     private List<Subgroup> foundSubgroups;
@@ -117,6 +120,7 @@ public class HumanResourceManager implements Serializable {
         // Search texts
         searchText = "";
         employeeSearchText = "";
+        employeePositionSearchText = "";
         departmentSearchText = "";
         subgroupSearchText = "";
         divisionSearchText = "";
@@ -124,22 +128,60 @@ public class HumanResourceManager implements Serializable {
         // Active objects
         isActiveUsersOnly = true;
         isActiveEmployeesOnly = true;
+        isActiveEmployeePositionsOnly = true;
         isActiveDepartmentsOnly = true;
         isActiveBusinessesOnly = true;
         isActiveSubgroupsOnly = true;
         isActiveDivisionsOnly = true;
     }
+    
+    public void saveSelectedDocumentType() {
+
+        selectedEmployeePosition.save(getEntityManager());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
+
+    public Boolean getIsActiveEmployeePositionsOnly() {
+        return isActiveEmployeePositionsOnly;
+    }
+
+    public void setIsActiveEmployeePositionsOnly(Boolean isActiveEmployeePositionsOnly) {
+        this.isActiveEmployeePositionsOnly = isActiveEmployeePositionsOnly;
+    }
+
+    public List<EmployeePosition> getFoundEmployeePositions() {
+        if (foundEmployeePositions == null) {
+            foundEmployeePositions = EmployeePosition.findAllActiveEmployeePositions(getEntityManager());
+        }
+        return foundEmployeePositions;
+    }
+
+    public void setFoundEmployeePositions(List<EmployeePosition> foundEmployeePositions) {
+        this.foundEmployeePositions = foundEmployeePositions;
+    }
+
+    public String getEmployeePositionSearchText() {
+        return employeePositionSearchText;
+    }
+
+    public void setEmployeePositionSearchText(String employeePositionSearchText) {
+        this.employeePositionSearchText = employeePositionSearchText;
+    }
 
     public EmployeePosition getSelectedEmployeePosition() {
+        if (selectedEmployeePosition == null) {
+            selectedEmployeePosition = new EmployeePosition();
+        }
         return selectedEmployeePosition;
     }
 
     public void setSelectedEmployeePosition(EmployeePosition selectedEmployeePosition) {
         this.selectedEmployeePosition = selectedEmployeePosition;
     }
-            
+
     public String getApplicationHeader() {
-        return  "Human Resource & Management System";
+        return "Human Resource & Management System";
     }
 
     public void setUser(JobManagerUser user) {
@@ -147,14 +189,14 @@ public class HumanResourceManager implements Serializable {
     }
 
     public MainTabView getMainTabView() {
-        
+
         return mainTabView;
     }
 
     public void setMainTabView(MainTabView mainTabView) {
         this.mainTabView = mainTabView;
     }
-    
+
     public List<Division> getFoundDivisions() {
         if (foundDivisions == null) {
             foundDivisions = Division.findAllActive(getEntityManager());
@@ -381,6 +423,16 @@ public class HumanResourceManager implements Serializable {
         }
 
     }
+    
+    public void doEmployeePositionSearch() {
+
+        if (getIsActiveEmployeePositionsOnly()) {
+            foundEmployeePositions = EmployeePosition.findActiveEmployeePositionsByTitle(getEntityManager(), getEmployeePositionSearchText());
+        } else {
+            foundEmployeePositions = EmployeePosition.findEmployeePositionsByTitle(getEntityManager(), getEmployeePositionSearchText());
+        }
+
+    }
 
     public void doSubgroupSearch() {
         foundSubgroups = Subgroup.findAllByName(getEntityManager(), getSubgroupSearchText());
@@ -408,27 +460,12 @@ public class HumanResourceManager implements Serializable {
         getMainTabView().addTab(getEntityManager(), "System Administration", true);
     }
 
-//    public String getFoundEmployee() {
-//        if (foundEmployee == null) {
-//            foundEmployee = new Employee();
-//            foundEmployee.setFirstName("");
-//            foundEmployee.setLastName("");
-//        }
-//
-//        return foundEmployee.toString();
-//    }
-//
-//    public void setFoundEmployee(String name) {
-//        if (name != null) {
-//            String names[] = name.split(",");
-//            if (names.length == 2) {
-//                foundEmployee.setFirstName(names[1].trim());
-//                foundEmployee.setLastName(names[0].trim());
-//            }
-//        }
-//    }
     public void editDepartment() {
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
+    }
+    
+    public void editEmployeePosition() {
+        PrimeFacesUtils.openDialog(null, "employeePositionDialog", true, true, true, 0, 700);
     }
 
     public void editSubgroup() {
@@ -444,8 +481,8 @@ public class HumanResourceManager implements Serializable {
     }
 
     public void editEmployee() {
-       
-        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
+
+        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 325, 700);
     }
 
     public Employee getSelectedEmployee() {
@@ -480,15 +517,7 @@ public class HumanResourceManager implements Serializable {
         this.activeNavigationTabIndex = activeNavigationTabIndex;
     }
 
-    // tk replace cancel* with closeDialog
-    public void cancelEmployeeEdit(ActionEvent actionEvent) {
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
-    public void cancelDepartmentEdit(ActionEvent actionEvent) {
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
+    
     public void closeDialog(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
@@ -525,8 +554,16 @@ public class HumanResourceManager implements Serializable {
 
         // Ensure that the employee's fullname is updated
         selectedEmployee.getName();
-        
+
         selectedEmployee.save(getEntityManager());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+
+    }
+    
+    public void saveSelectedEmployeePosition(ActionEvent actionEvent) {
+
+        selectedEmployeePosition.save(getEntityManager());
 
         PrimeFaces.current().dialog().closeDynamic(null);
 
@@ -558,41 +595,18 @@ public class HumanResourceManager implements Serializable {
         return Utils.getSexes();
     }
 
-//    public List<String> completeEmployee(String query) {
-//        
-//        try {
-//            List<Employee> employees = Employee.findEmployeesByName(getEntityManager(), query);
-//            List<String> suggestions = new ArrayList<>();
-//            if (employees != null) {
-//                if (!employees.isEmpty()) {
-//                    for (Employee employee : employees) {
-//                        suggestions.add(employee.toString());
-//                    }
-//                }
-//            }
-//            
-//            return suggestions;
-//        } catch (Exception e) {
-//            System.out.println(e);
-//            
-//            return new ArrayList<>();
-//        }
-//    }
-//    public void updateFoundEmployee(SelectEvent event) {
-//
-//        Employee employee = Employee.findEmployeeByName(getEntityManager(),
-//                foundEmployee.getFirstName().trim(),
-//                foundEmployee.getLastName().trim());
-//        if (employee != null) {
-//            foundEmployee = employee;
-//            selectedEmployee = employee;
-//        }
-//    }
     public void createNewDepartment() {
 
         selectedDepartment = new Department();
 
         PrimeFacesUtils.openDialog(null, "departmentDialog", true, true, true, 460, 700);
+    }
+
+    public void createNewEmployeePosition() {
+
+        selectedEmployeePosition = new EmployeePosition();
+
+        PrimeFacesUtils.openDialog(null, "employeePositionDialog", true, true, true, 0, 700);
     }
 
     public void openDepartmentPickListDialog() {
@@ -665,7 +679,7 @@ public class HumanResourceManager implements Serializable {
 
         selectedEmployee = new Employee();
 
-        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
+        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 325, 700);
     }
 
     public void createNewDivision() {

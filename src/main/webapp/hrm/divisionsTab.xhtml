@@ -38,6 +38,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
+                        listener="#{humanResourceManager.doDivisionSearch}"
                         update=":mainTabViewForm:mainTabView:centerTabView:humanResourceTabView:divisionsTable"/>
 
             </p:commandButton> 
