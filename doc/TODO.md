@@ -1,3 +1,17 @@
+# Reports & Forms
+- Do client report template and upload.
+- Impl new service contract and agreement.
+- Do report for jobs not approved and incomplete up to 2017.
+
+# Deployment
+- Setup OGS gf3.
+  * 172.16.11.134
+  * ?bsj0001!
+  * Accpac: url - jdbc:jtds:sqlserver://finance/bsjdat/dbo, pwd 
+    user - jmts, pwd - bsj0001
+- Switch use admain2 by default.
+- Add UNIT and DESCRIPTION (1024) to CostComponent database.
+- Create jmts.employee_employeeposition table.
 
 # Purchasing
 - Create EmployeePosition class with, salary, description, minApprovalLimit and
@@ -30,11 +44,7 @@
 - Download jasper reports on thumb drive.
 - Get GF3 tutorial.
 
-## Deployment
-- Add UNIT and DESCRIPTION to CostComponent database.
-- Create jmts.employee_employeeposition table.
-
-## Optional/Future
+# Optional/Future
 - Deploy and configure activiti in gf3 on local PC for testing .
 - Design and include the purchasing process.
 - Pull cost codes from Accpac.
@@ -63,11 +73,6 @@
   * Export invoices for only selected jobs?
   * Flag job as invoiced after export?
   * Make sure to add AccountingCode table to all along with data. 
-
-# Reports & Forms
-- Do client report template and upload.
-- Impl new service contract and agreement.
-- Do report for jobs not approved and incomplete up to 2017.
 
 # Purchasing
 - Impl PurchaseRequisition and PurchaseOrder classes.

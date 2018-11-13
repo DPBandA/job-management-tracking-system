@@ -81,19 +81,21 @@ Email: info@dpbennett.com.jm
                                  id="lastName"                                  
                                  validator="requiredFieldValidator" />
 
-                    <h:outputText value="Positions(s): " />       
-                    <p:autoComplete id="positions"
-                                    var="position"   
-                                    value="#{humanResourceManager.selectedEmployee.positions}"
-                                    itemLabel="#{position.title}"
-                                    itemValue="#{position}"
-                                    converter="activeEmployeePositionConverter"
-                                    validator="businessEntityValidator"
-                                    forceSelection="true"
-                                    dropdown="true"
-                                    scrollHeight="200"                         
-                                    multiple="true"
-                                    completeMethod="#{App.completeActiveEmployeePosition}" />
+                    <ui:remove>
+                        <h:outputText value="Positions(s): " />       
+                        <p:autoComplete id="positions"
+                                        var="position"   
+                                        value="#{humanResourceManager.selectedEmployee.positions}"
+                                        itemLabel="#{position.title}"
+                                        itemValue="#{position}"
+                                        converter="activeEmployeePositionConverter"
+                                        validator="businessEntityValidator"
+                                        forceSelection="true"
+                                        dropdown="true"
+                                        scrollHeight="200"                         
+                                        multiple="true"
+                                        completeMethod="#{App.completeActiveEmployeePosition}" />
+                    </ui:remove>
 
 
                     <h:outputLabel value="Email:" for="employeeEmail"/>

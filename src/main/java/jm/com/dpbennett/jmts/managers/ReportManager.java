@@ -58,7 +58,6 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.wal.utils.DatePeriodJobReport;
 import jm.com.dpbennett.business.entity.utils.DatePeriodJobReportColumnData;
-import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.ReportUtils;
@@ -99,9 +98,8 @@ public class ReportManager implements Serializable {
     private Integer longProcessProgress;
     private String reportSearchText;
     private List<Report> foundReports;
-    //private JobManager jobManager;
     private MainTabView mainTabView;
-     private JobManagerUser user;
+    private JobManagerUser user;
     private Report selectedReport;
     private Report currentReport;
     private Boolean isActiveReportsOnly;
@@ -127,10 +125,11 @@ public class ReportManager implements Serializable {
     public void setUser(JobManagerUser user) {
         this.user = user;
     }
-    
+
     /**
+     * Gets local entity manager.
      * 
-     * @return 
+     * @return
      */
     private EntityManager getLocalEntityManager() {
         Map props = new HashMap();
@@ -155,8 +154,8 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public List<SelectItem> getDatePeriods() {
         ArrayList<SelectItem> datePeriods = new ArrayList<>();
@@ -169,8 +168,8 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public DatePeriod getReportingDatePeriod1() {
         if (selectedReport.getDatePeriods().isEmpty()) {
@@ -189,11 +188,12 @@ public class ReportManager implements Serializable {
 
         return selectedReport.getDatePeriods().get(0);
     }
-     
+
     /**
      * Special method to be removed later when the current method of generating
      * monthly reports is done away with.
-     * @return 
+     *
+     * @return
      */
     public DatePeriod getMonthlyReportDataDatePeriod() {
         if (getReportingDatePeriod1().getEndDate() == null) {
@@ -204,16 +204,16 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
-     * @param reportingDatePeriod1 
+     *
+     * @param reportingDatePeriod1
      */
     public void setReportingDatePeriod1(DatePeriod reportingDatePeriod1) {
         selectedReport.getDatePeriods().set(0, reportingDatePeriod1);
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public DatePeriod getReportingDatePeriod2() {
 
@@ -374,13 +374,6 @@ public class ReportManager implements Serializable {
     public void setReportCategory(String reportCategory) {
         this.reportCategory = reportCategory;
     }
-
-//    public JobManager getJobManager() {
-//        if (jobManager == null) {
-//            jobManager = BeanUtils.findBean("jobManager");
-//        }
-//        return jobManager;
-//    }
 
     public List getReportCategories() {
         return ReportUtils.getCategories();
@@ -671,8 +664,8 @@ public class ReportManager implements Serializable {
             if (con != null) {
                 StreamedContent streamContent;
                 byte[] fileBytes;
-                
-                // Provide reoprt parameters
+
+                // Provide reoprt parameters4
                 parameters.put("reportTitle", selectedReport.getName());
 
                 // Provide date parameters if required
@@ -1402,10 +1395,10 @@ public class ReportManager implements Serializable {
             //getReportingDatePeriod1().setEndDate(new Date());
             List<Object[]> reportData = Job.getJobReportRecords(
                     em,
-                     BusinessEntityUtils.getDateString(getReportingDatePeriod1().getStartDate(), "'", "YMD", "-"),
+                    BusinessEntityUtils.getDateString(getReportingDatePeriod1().getStartDate(), "'", "YMD", "-"),
                     BusinessEntityUtils.getDateString(getReportingDatePeriod1().getEndDate(), "'", "YMD", "-"),
-//                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getStartDate(), "'", "YMD", "-"),
-//                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getEndDate(), "'", "YMD", "-"),
+                    //                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getStartDate(), "'", "YMD", "-"),
+                    //                    BusinessEntityUtils.getDateString(getReportingDatePeriod3().getEndDate(), "'", "YMD", "-"),
                     departmentId);
 
             // Fill in report data   
@@ -1571,9 +1564,9 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param wb
-     * @return 
+     * @return
      */
     HSSFCellStyle getDefaultCellStyle(HSSFWorkbook wb) {
         HSSFCellStyle cellStyle = wb.createCellStyle();
@@ -1588,9 +1581,9 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param wb
-     * @return 
+     * @return
      */
     Font getWingdingsFont(HSSFWorkbook wb) {
         Font font = wb.createFont();
@@ -1601,11 +1594,11 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param wb
      * @param fontName
      * @param fontsize
-     * @return 
+     * @return
      */
     Font getFont(HSSFWorkbook wb, String fontName, short fontsize) {
         Font font = wb.createFont();
@@ -1616,10 +1609,10 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param samples
      * @param method
-     * @return 
+     * @return
      */
     public Boolean checkForSampleDisposalMethod(List<JobSample> samples, Integer method) {
         for (JobSample jobSample : samples) {
@@ -1631,10 +1624,10 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param em
      * @param department
-     * @param jobSubCategory 
+     * @param jobSubCategory
      */
     public void associateDepartmentWithJobSubCategory(
             EntityManager em,
@@ -1645,14 +1638,14 @@ public class ReportManager implements Serializable {
         jobSubCategory.getDepartments().add(department);
         BusinessEntityUtils.saveBusinessEntity(em, jobSubCategory);
         em.getTransaction().commit();
-        
+
     }
 
     /**
-     * 
+     *
      * @param em
      * @param department
-     * @param sector 
+     * @param sector
      */
     public void associateDepartmentWithSector(
             EntityManager em,
@@ -1666,10 +1659,10 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param em
      * @param department
-     * @param jobReportItem 
+     * @param jobReportItem
      */
     public void associateDepartmentWithJobReportItem(
             EntityManager em,
@@ -1683,8 +1676,8 @@ public class ReportManager implements Serializable {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public ArrayList getDateSearchFields() {
         return DateUtils.getDateSearchFields(getSelectedReport().getCategory());
