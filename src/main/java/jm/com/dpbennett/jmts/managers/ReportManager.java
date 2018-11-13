@@ -114,6 +114,11 @@ public class ReportManager implements Serializable {
         init();
     }
 
+    /**
+     * Gets the main user interface Tab View.
+     * 
+     * @return 
+     */
     public MainTabView getMainTabView() {
         return mainTabView;
     }

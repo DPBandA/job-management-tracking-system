@@ -133,7 +133,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private JobManagerUser user;
     private Boolean westLayoutUnitCollapsed;
     private String invalidFormFieldMessage;
-    // tk rid of dialog* and handler and use growl?
     private String dialogMessage;
     private String dialogMessageHeader;
     private String dialogMessageSeverity;
@@ -315,31 +314,21 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * Get ReportManager SessionScoped bean.
+     * Gets the ReportManager SessionScoped bean.
      *
      * @return
      */
     public ReportManager getReportManager() {
-//        if (reportManager == null) {
-//            reportManager = BeanUtils.findBean("reportManager");
-//            reportManager.setUser(user);
-//            reportManager.setMainTabView(mainTabView);
-//        }
 
         return reportManager;
     }
 
     /**
-     * Get ClientManager SessionScoped bean.
+     * Gets the ClientManager SessionScoped bean.
      *
      * @return
      */
     public ClientManager getClientManager() {
-//        if (clientManager == null) {
-//            clientManager = BeanUtils.findBean("clientManager");
-//            clientManager.setUser(user);
-//            clientManager.setMainTabView(mainTabView);
-//        }
 
         return clientManager;
     }
