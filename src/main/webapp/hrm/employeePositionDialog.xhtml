@@ -79,7 +79,7 @@ Email: info@dpbennett.com.jm
 
                     </p:inputText>
 
-                    <h:outputText value="Salary ($): "/>                   
+                    <h:outputLabel value="Salary ($): "/>                   
                     <p:inputText value="#{humanResourceManager.selectedEmployeePosition.salary}"
                                  converterMessage="Please enter a valid salary value."
                                  styleClass="number-field"
@@ -91,7 +91,19 @@ Email: info@dpbennett.com.jm
                         
                     </p:inputText>    
                     
-                    <h:outputText value="Lower approval limit ($): "/>                   
+                    <h:outputLabel value="Man-hour rate ($): "/>                   
+                    <p:inputText value="#{humanResourceManager.selectedEmployeePosition.manHourRate}"
+                                 converterMessage="Please enter a valid man-hour rate."
+                                 styleClass="number-field"
+                                 maxlength="15" >
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        
+                        <p:ajax event="change"                                                       
+                                process="@this"/>
+                        
+                    </p:inputText> 
+                    
+                    <h:outputLabel value="Lower approv. limit ($): " />                   
                     <p:inputText value="#{humanResourceManager.selectedEmployeePosition.lowerApprovalLevel}"
                                  converterMessage="Please enter a valid lower approval limit."
                                  styleClass="number-field"
@@ -103,7 +115,7 @@ Email: info@dpbennett.com.jm
                         
                     </p:inputText>
                     
-                    <h:outputText value="Upper approval limit ($): "/>                   
+                    <h:outputLabel value="Upper approv. limit ($): "/>                   
                     <p:inputText value="#{humanResourceManager.selectedEmployeePosition.upperApprovalLevel}"
                                  converterMessage="Please enter a valid upper approval limit."
                                  styleClass="number-field"

@@ -1,22 +1,23 @@
 
 # Purchasing
-- See github for fixing sql_mode=only_full_group_by.
+- Impl supplier tab and dialogs in Finance Admin.
 - Design and include the dashboard and main tabs 
-- Explore asynchronous for long service tasks by using activiti:async="true"
-  in the service task.
-- Remove "Module Access" from preference dialog.
 - Populate PurchaseOrder with PR if possible. 
 - Impl automatic generation of PR #. Initialize with the latest number used.
 - Ensure that the requisition date is the that orginator signed the PR.
-- Create Supplier class. Supplier/Suggested Supplier are the same in PR.
 - The date the PR is completed should be the PO date.
 - Impl email messaging to the originator and other PR stakeholders.
 - The content of the PO should be generated from the PR. The PO should be a field
   in the PR.
 - PO/PR should remain in "draft" stage until all issues are sorted out.
-- Get approval limits from Finance.
+- Enter the approval limits in test and production databases.
 - The orinator's department should be uneditable by the orginator unless they are
   the dept. head or system admin.
+- Impl giving privileges to specific tabs in sys admin such as hrm.
+- Add a separate tab in user account dialog for sys admin.
+- Put financial admin under sys admin.
+- Do not show financial admin in main tab by default even when selected in preferences.
+
 
 # DBA
 - Position names: Team Leader, Divisional Manager, Divisional Director, 
@@ -121,6 +122,10 @@ separate projects using maven overlays.
 - Display growl when user is not authenticated.
 - Use dialogReturn through the system update the respective tables when dialogs
   are closed.
+- Backup all affected projects and and change jmuser to user or userprofile.
+  Eventually rename the jmuser table to user or userprofile.
+- Set all dialog heights to 0 so the actual height is automatically set
+  when the dialog is open.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

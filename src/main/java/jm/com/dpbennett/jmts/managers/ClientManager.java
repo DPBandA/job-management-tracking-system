@@ -52,7 +52,7 @@ import org.primefaces.event.CellEditEvent;
 @SessionScoped
 public class ClientManager implements Serializable {
 
-    @PersistenceUnit(unitName = "JMTSPU") 
+    @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory entityManagerFactory;
     private Boolean isClientNameAndIdEditable;
     private Boolean isActiveClientsOnly;
@@ -61,8 +61,8 @@ public class ClientManager implements Serializable {
     private Address selectedAddress;
     private String searchText;
     private List<Client> foundClients;
-     private MainTabView mainTabView;
-     private JobManagerUser user;
+    private MainTabView mainTabView;
+    private JobManagerUser user;
     private Boolean edit;
 
     /**
@@ -91,15 +91,6 @@ public class ClientManager implements Serializable {
     public void setMainTabView(MainTabView mainTabView) {
         this.mainTabView = mainTabView;
     }
-    
-    
-
-//    public JobManager getJobManager() {
-//        if (jobManager == null) {
-//            jobManager = BeanUtils.findBean("jobManager");
-//        }
-//        return jobManager;
-//    }
 
     public void openClientsTab() {
         setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
@@ -137,7 +128,7 @@ public class ClientManager implements Serializable {
 
     public void setSelectedContact(Contact selectedContact) {
         this.selectedContact = selectedContact;
-        
+
         setEdit(true);
     }
 
@@ -147,12 +138,12 @@ public class ClientManager implements Serializable {
 
     public void setSelectedAddress(Address selectedAddress) {
         this.selectedAddress = selectedAddress;
-        
+
         setEdit(true);
     }
 
     public void onClientCellEdit(CellEditEvent event) {
-        BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager(), 
+        BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager(),
                 getFoundClients().get(event.getRowIndex()));
     }
 
@@ -286,7 +277,7 @@ public class ClientManager implements Serializable {
 
     public void editSelectedClient() {
 
-        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 0, 700);
     }
 
     public void updateClient() {
@@ -469,7 +460,7 @@ public class ClientManager implements Serializable {
             selectedContact = new Contact("", "", "Main");
             selectedContact.setInternet(new Internet());
         }
-        
+
         setEdit(false);
 
         setIsDirty(false);

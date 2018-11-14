@@ -26,6 +26,9 @@ Email: info@dpbennett.com.jm
 
     <p:tabView id="financialAdminTabView"  
                dynamic="true">
+        <p:tab title="Suppliers">
+            <ui:include src="suppliersTab.xhtml"/> 
+        </p:tab>
         <p:tab title="Accounting Codes">
             <p:toolbar>
                 <p:toolbarGroup align="left" >   
@@ -38,7 +41,6 @@ Email: info@dpbennett.com.jm
                                      global="true"
                                      process="@this"
                                      icon="ui-icon ui-icon-plus" >
-
 
                         <p:ajax event="dialogReturn" 
                                 listener="#{financeManager.doAccountingCodeSearch}"

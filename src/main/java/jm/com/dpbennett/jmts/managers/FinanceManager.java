@@ -60,6 +60,7 @@ import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Preference;
+import jm.com.dpbennett.business.entity.Supplier;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.UnitCost;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
@@ -110,6 +111,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private JobCostingAndPayment selectedJobCostingAndPayment;
     private String selectedJobCostingTemplate;
     private AccountingCode selectedAccountingCode;
+    private Supplier selectedSupplier;
     private Department unitCostDepartment;
     private UnitCost currentUnitCost;
     private String accountingCodeSearchText;
@@ -133,12 +135,102 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private Boolean edit;
     private String fileDownloadErrorMessage;
     private List<AccountingCode> foundAccountingCodes;
+    private Boolean isSupplierNameAndIdEditable;
+    private String supplierSearchText;
+    private Boolean isActiveSuppliersOnly;
+    private List<Supplier> foundSuppliers;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public FinanceManager() {
         init();
+    }   
+    
+    public void onSupplierCellEdit(CellEditEvent event) {
+        BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager1(),
+                getFoundSuppliers().get(event.getRowIndex()));
+    }
+    
+    public int getNumOfSuppliersFound() {
+        return getFoundSuppliers().size();
+    }
+    
+    public void editSelectedSupplier() {
+
+        PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 0, 700);
+    }
+
+    public Boolean getIsActiveSuppliersOnly() {
+        if (isActiveSuppliersOnly == null) {
+            isActiveSuppliersOnly = true;
+        }
+        return isActiveSuppliersOnly;
+    }
+
+    public List<Supplier> getFoundSuppliers() {
+        return foundSuppliers;
+    }
+
+    public void setFoundSuppliers(List<Supplier> foundSuppliers) {
+        this.foundSuppliers = foundSuppliers;
+    }
+    
+    public void setIsActiveSuppliersOnly(Boolean isActiveSuppliersOnly) {
+        this.isActiveSuppliersOnly = isActiveSuppliersOnly;
+    }
+
+    public void doSupplierSearch() {
+        if (supplierSearchText.trim().length() > 1) {
+            if (getIsActiveSuppliersOnly()) {
+                foundSuppliers = Supplier.findActiveSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
+            } else {
+                foundSuppliers = Supplier.findSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
+            }
+        } else {
+            foundSuppliers = new ArrayList<>();
+        }
+    }
+
+    public String getSupplierSearchText() {
+        return supplierSearchText;
+    }
+
+    public void setSupplierSearchText(String supplierSearchText) {
+        this.supplierSearchText = supplierSearchText;
+    }
+
+    public Boolean getIsSupplierNameAndIdEditable() {
+        return isSupplierNameAndIdEditable;
+    }
+
+    public void setIsSupplierNameAndIdEditable(Boolean isSupplierNameAndIdEditable) {
+        this.isSupplierNameAndIdEditable = isSupplierNameAndIdEditable;
+    }
+
+    public Supplier getSelectedSupplier() {
+        if (selectedSupplier == null) {
+            return new Supplier("");
+        }
+        return selectedSupplier;
+    }
+
+    public void setSelectedSupplier(Supplier selectedSupplier) {
+        this.selectedSupplier = selectedSupplier;
+    }
+
+//    // tk delete if not needed
+//    public void createNewSupplier(Boolean active) {
+//        selectedSupplier = new Supplier("", active);
+//    }
+
+    public void createNewSupplier() {
+        //createNewSupplier(true);
+        selectedSupplier = new Supplier("", true);
+
+        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
+
+        PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 0, 700);
     }
 
     public JobCostingAndPayment getSelectedJobCostingAndPayment() {
@@ -214,11 +306,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         selectedAccountingCode = new AccountingCode();
 
-        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 330, 500);
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
     }
 
     public void editAccountingCode() {
-        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 330, 500);
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
     }
 
     public MainTabView getMainTabView() {
@@ -400,7 +492,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     private void init() {
-        this.longProcessProgress = 0;
+        longProcessProgress = 0;
         accPacCustomer = new AccPacCustomer(null);
         filteredAccPacCustomerDocuments = new ArrayList<>();
         useAccPacCustomerList = false;
@@ -409,6 +501,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         unitCostDepartment = null;
         jobCostDepartment = null;
         accountingCodeSearchText = "";
+        isSupplierNameAndIdEditable = false; // tk put as transient in Client
+        supplierSearchText = "";
+        foundSuppliers = new ArrayList<>();
     }
 
     public void reset() {
@@ -745,7 +840,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public Integer getMaxDaysPassInvoiceDate() {
 
         EntityManager em = getEntityManager1();
-        
+
         int days = (Integer) SystemOption.getOptionValueObject(em, "maxDaysPassInvoiceDate");
 
         return days;
