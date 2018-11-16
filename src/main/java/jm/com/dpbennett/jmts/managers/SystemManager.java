@@ -257,6 +257,7 @@ public class SystemManager implements Serializable {
             case "canApproveJobCosting":
             // Organizational Privileges    
             case "canAddClient":
+            case "canAddSupplier":
             case "canDeleteClient":
             case "canAddEmployee":
             case "canDeleteEmployee":

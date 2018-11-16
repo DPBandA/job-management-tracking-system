@@ -18,6 +18,10 @@
         </view-handler>
     </application>    
     <converter>
+        <converter-id>activeSupplierConverter</converter-id>
+        <converter-class>jm.com.dpbennett.wal.converter.ActiveSupplierConverter</converter-class>
+    </converter>
+    <converter>
         <converter-id>activeEmployeePositionConverter</converter-id>
         <converter-class>jm.com.dpbennett.wal.converter.ActiveEmployeePositionConverter</converter-class>
     </converter> 
@@ -102,6 +106,10 @@
         <validator-class>jm.com.dpbennett.wal.validator.ClientValidator</validator-class>
     </validator>
     <validator>
+        <validator-id>supplierValidator</validator-id>
+        <validator-class>jm.com.dpbennett.wal.validator.SupplierValidator</validator-class>
+    </validator>
+    <validator>
         <validator-id>jobClientValidator</validator-id>
         <validator-class>jm.com.dpbennett.wal.validator.JobClientValidator</validator-class>
     </validator>
@@ -141,6 +149,13 @@
         <validator-id>contactValidator</validator-id>
         <validator-class>jm.com.dpbennett.wal.validator.ContactValidator</validator-class>
     </validator>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>purchreqDialog</from-outcome>
+            <to-view-id>/finance/purchreqDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

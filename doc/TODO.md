@@ -1,6 +1,9 @@
 
 # Purchasing
-- Impl supplier tab and dialogs in Finance Admin.
+- Impl purchreqDialog.xhtml.
+  * Continue with purchreqGeneralTab.xhtml.
+  * Impl creating new PR that makes use of the logged in user. Department,
+    originator, date etc should be read only
 - Design and include the dashboard and main tabs 
 - Populate PurchaseOrder with PR if possible. 
 - Impl automatic generation of PR #. Initialize with the latest number used.
@@ -17,7 +20,11 @@
 - Add a separate tab in user account dialog for sys admin.
 - Put financial admin under sys admin.
 - Do not show financial admin in main tab by default even when selected in preferences.
+- Set the department of the purchasing officer that completes the PR as the 
+  purchasing department of the PR.
 
+# Database Update and Deployment
+- Add MANHOURRATE to all employeeposition tables.
 
 # DBA
 - Position names: Team Leader, Divisional Manager, Divisional Director, 
@@ -126,6 +133,16 @@ separate projects using maven overlays.
   Eventually rename the jmuser table to user or userprofile.
 - Set all dialog heights to 0 so the actual height is automatically set
   when the dialog is open.
+- Remove TRN and add iden. type and iden. to client dialog. If iden type is TRN
+  set the TRN field in the Client class.
+- Add list of id type as autocomplete to supplier and client dialogs.
+- Make Parish/State/Province autocomplete in address dialog.
+- Impl searching or any part of client or supplier as is done with job entry.
+- Use finance related methods in FinancialApplication and not JMTSApplication.
+- Clean up unused or unneeded out of JMTSApplication. Some of this code is already
+  in managers/WAL or can be put in them.
+- Create Application class and put in WAL. Other application classes such as
+  JMTSApplication can be put in it.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

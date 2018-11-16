@@ -82,16 +82,20 @@
     width: 100%;
     box-shadow: 5px;
 }   
-
+.pr-number {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 3px;
+    width: 100%;
+    box-shadow: 5px;
+} 
 .read-only-inputfield .ui-inputfield {
     background-color: lightyellow !important;
 }
-
 .read-only-right-inputfield .ui-inputfield {
     background-color: lightyellow !important;
     text-align: right;
 }
-
 .right-inputfield .ui-inputfield {
     text-align: right;
 }

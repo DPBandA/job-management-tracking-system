@@ -277,7 +277,7 @@ public class ClientManager implements Serializable {
 
     public void editSelectedClient() {
 
-        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 0, 700);
+        PrimeFacesUtils.openDialog(null, "clientDialog", true, true, true, 450, 700);
     }
 
     public void updateClient() {
