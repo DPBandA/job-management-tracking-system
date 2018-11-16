@@ -30,7 +30,6 @@ import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -48,7 +47,6 @@ import jm.com.dpbennett.business.entity.LdapContext;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
@@ -259,6 +257,7 @@ public class SystemManager implements Serializable {
             case "canApproveJobCosting":
             // Organizational Privileges    
             case "canAddClient":
+            case "canAddSupplier":
             case "canDeleteClient":
             case "canAddEmployee":
             case "canDeleteEmployee":
@@ -843,7 +842,7 @@ public class SystemManager implements Serializable {
     }
 
     public void editEmployee() {
-        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 300, 600);
+        PrimeFacesUtils.openDialog(null, "employeeDialog", true, true, true, 325, 700);
     }
 
     public void editUser() {
@@ -883,14 +882,6 @@ public class SystemManager implements Serializable {
     }
 
     public void cancelUserEdit(ActionEvent actionEvent) {
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
-    public void cancelEmployeeEdit(ActionEvent actionEvent) {
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
-    public void cancelDepartmentEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
@@ -989,12 +980,12 @@ public class SystemManager implements Serializable {
 
     }
 
-    public void updateSelectedUserDepartment() {
-
-        if (selectedUser.getDepartment().getId() != null) {
-            selectedUser.setDepartment(Department.findDepartmentById(getEntityManager(), selectedUser.getDepartment().getId()));
-        }
-    }
+//    public void updateSelectedUserDepartment() {
+//
+//        if (selectedUser.getDepartment().getId() != null) {
+//            selectedUser.setDepartment(Department.findDepartmentById(getEntityManager(), selectedUser.getDepartment().getId()));
+//        }
+//    }
 
     public void updateSelectedUserEmployee() {
         if (selectedUser.getEmployee() != null) {
@@ -1004,7 +995,7 @@ public class SystemManager implements Serializable {
                 Employee employee = Employee.findDefaultEmployee(getEntityManager(), "--", "--", true);
                 if (selectedUser.getEmployee() != null) {
                     selectedUser.setEmployee(employee);
-                    selectedUser.setDepartment(Department.findDefaultDepartment(getEntityManager(), "--"));
+                    //selectedUser.setDepartment(Department.findDefaultDepartment(getEntityManager(), "--"));
                 }
             }
         } else {

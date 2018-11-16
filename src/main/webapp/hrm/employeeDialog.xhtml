@@ -52,7 +52,7 @@ Email: info@dpbennett.com.jm
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"  
                                      immediate="true"
-                                     actionListener="#{humanResourceManager.cancelEmployeeEdit}"
+                                     actionListener="#{humanResourceManager.closeDialog}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" />  
 
@@ -81,21 +81,18 @@ Email: info@dpbennett.com.jm
                                  id="lastName"                                  
                                  validator="requiredFieldValidator" />
 
-                    <ui:remove>
-                        <h:outputText value="Positions(s): " />       
-                        <p:autoComplete id="positions"
-                                        var="position"   
-                                        value="#{humanResourceManager.selectedEmployee.positions}"
-                                        itemLabel="#{position.title}"
-                                        itemValue="#{position}"
-                                        converter="activeEmployeePositionConverter"
-                                        validator="businessEntityValidator"
-                                        forceSelection="true"
-                                        dropdown="true"
-                                        scrollHeight="200"                         
-                                        multiple="true"
-                                        completeMethod="#{App.completeActiveEmployeePosition}" />
-                    </ui:remove>
+                    <h:outputText value="Positions(s): " />       
+                    <p:autoComplete id="positions"
+                                    var="position"   
+                                    value="#{humanResourceManager.selectedEmployee.positions}"
+                                    itemLabel="#{position.title}"
+                                    itemValue="#{position}"
+                                    converter="activeEmployeePositionConverter"
+                                    forceSelection="true"
+                                    dropdown="true"
+                                    scrollHeight="200"                         
+                                    multiple="true"
+                                    completeMethod="#{App.completeActiveEmployeePosition}" />
 
 
                     <h:outputLabel value="Email:" for="employeeEmail"/>
@@ -134,7 +131,7 @@ Email: info@dpbennett.com.jm
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"  
                                      immediate="true"
-                                     actionListener="#{humanResourceManager.cancelEmployeeEdit}"
+                                     actionListener="#{humanResourceManager.closeDialog}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" />  
 

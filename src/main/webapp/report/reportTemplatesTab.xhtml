@@ -38,6 +38,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
+                        listener="#{reportManager.doReportSearch}"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:reportsTable"/>
 
             </p:commandButton> 

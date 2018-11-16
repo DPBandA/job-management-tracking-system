@@ -26,108 +26,101 @@ Email: info@dpbennett.com.jm
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <p:toolbar>
-        <p:toolbarGroup align="left" >   
-            <ui:remove>
-                <p:commandButton value="Close"
-                                 actionListener="#{clientManager.closeClientsTab}"
-                                 icon="ui-icon ui-icon-close" />
-                <p:spacer width="10" />
-            </ui:remove>
+        <p:toolbarGroup align="left" >               
             <p:commandButton 
                 value="New"
                 icon="ui-icon-plus" 
-                onstart="PF('longProcessDialogVar').show();"
-                oncomplete="longProcessDialogVar.hide();"
-                disabled="#{!clientManager.user.privilege.canAddClient}"
-                actionListener="#{clientManager.createNewClient}"                                            
+                onstart="PF('longProcessDialogVar4').show();"
+                oncomplete="longProcessDialogVar4.hide();"
+                actionListener="#{financeManager.createNewSupplier}"                                            
                 process="@this"
-                title="Add a new client to the client database" >
+                title="Add a new supplier" >
 
                 <p:ajax event="dialogReturn" 
-                        listener="#{clientManager.doClientSearch}"
-                        update=":mainTabViewForm:mainTabView:clientsTable"/>
+                        listener="#{financeManager.doSupplierSearch}"
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"/>
 
             </p:commandButton>
             <p:spacer width="20" />
-            <p:inputText id="clientSearchText" 
+            <p:inputText id="supplierSearchText" 
                          placeholder="Enter search text"
                          style="width:200px" 
-                         value="#{clientManager.searchText}" >
+                         value="#{financeManager.supplierSearchText}" >
 
                 <p:ajax event="keyup"                            
                         global="false"
-                        update=":mainTabViewForm:mainTabView:clientsTable"
-                        listener="#{clientManager.doClientSearch}"
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"
+                        listener="#{financeManager.doSupplierSearch}"
                         process="@this"/>
 
             </p:inputText>
         </p:toolbarGroup>
 
-        <p:toolbarGroup align="right" rendered="#{clientManager.user.privilege.canBeJMTSAdministrator}" >
-            <h:outputText value="Active clients only: " />  
+        <p:toolbarGroup align="right" rendered="#{financeManager.user.privilege.canBeJMTSAdministrator}" >
+            <h:outputLabel value="Active suppliers only: " for="activeSuppliersOnly" />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
-                                         id="activeClientsOnly"
-                                         value="#{clientManager.isActiveClientsOnly}" >
-                    <p:ajax  update=":mainTabViewForm:mainTabView:clientsTable"
-                             listener="#{clientManager.doClientSearch}"
+                                         id="activeSuppliersOnly"
+                                         value="#{financeManager.isActiveSuppliersOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"
+                             listener="#{financeManager.doSupplierSearch}"
                              event="change"                                      
                              process="@this"/>
                 </p:selectBooleanCheckbox>            
-                <p:tooltip for="activeClientsOnly" value="Check to search for activate clients only" 
+                <p:tooltip for="activeSuppliersOnly" value="Check to search for activate suppliers only" 
                            showEffect="fade" hideEffect="fade" />
                 <p:spacer width="15" />                
             </h:panelGroup>
         </p:toolbarGroup>
     </p:toolbar>
 
-    <p:dataTable id="clientsTable"
-                 var="client"
+    <p:dataTable id="suppliersTable"
+                 var="supplier"
                  style="margin-bottom: 1px;margin-top: 1px;"
                  editable="true" 
                  editMode="cell"
                  paginator="true"                                 
                  rows="15"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{clientManager.foundClients}">                        
+                 value="#{financeManager.foundSuppliers}">                        
 
-        <p:ajax event="cellEdit" listener="#{clientManager.onClientCellEdit}" />
+        <p:ajax event="cellEdit" listener="#{financeManager.onSupplierCellEdit}" />
 
         <f:facet name="header">
-            <h:outputText value="Search Results (found: #{clientManager.numClientFound})" />
+            <h:outputText value="Search Results (found: #{financeManager.numOfSuppliersFound})" />
         </f:facet>
 
-        <p:column sortBy="#{client.name}">
+        <p:column sortBy="#{supplier.name}">
             <f:facet name="header">
                 <h:outputText value="Name"/>
             </f:facet>
-            <h:outputText value="#{client.name}" />
+            <h:outputText value="#{supplier.name}" />
         </p:column>
 
-        <p:column sortBy="#{client.editedBy}">
+        <p:column sortBy="#{supplier.editedBy}">
             <f:facet name="header">
                 <h:outputText value="Last edited by"/>
             </f:facet>
-            <h:outputText value="#{client.editedBy}" />
+            <h:outputText value="#{supplier.editedBy}" />
         </p:column>
 
-        <p:column sortBy="#{client.dateEdited}">
+        <p:column sortBy="#{supplier.dateEdited}">
             <f:facet name="header">
                 <h:outputText value="Date last edited"/>
             </f:facet>
-            <h:outputText value="#{client.dateEdited}">
+            <h:outputText value="#{supplier.dateEdited}">
                 <f:convertDateTime pattern="MMM dd, yyyy"/>
             </h:outputText>
         </p:column>
 
         <p:column headerText="Active?" 
-                  rendered="#{clientManager.user.privilege.canAddClient}">                                                                         
+                  rendered="#{financeManager.user.privilege.canAddSupplier}">                                                                         
             <p:cellEditor>                
                 <f:facet name="output">
-                    <h:outputText value="#{client.isActive}" />
+                    <h:outputText value="#{supplier.isActive}" />
                 </f:facet>
                 <f:facet name="input">
-                    <p:selectOneMenu value="#{client.isActive}" style="width:96%">
+                    <p:selectOneMenu value="#{supplier.isActive}" style="width:96%">
                         <f:selectItem itemLabel="Yes" itemValue="Yes"/>
                         <f:selectItem itemLabel="No" itemValue="No"/>
                     </p:selectOneMenu>
@@ -137,42 +130,35 @@ Email: info@dpbennett.com.jm
 
         <p:column style="width:32px">
             <p:commandButton icon="ui-icon-pencil"
-                             onstart="PF('longProcessDialogVar').show();"                               
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             actionListener="#{clientManager.editSelectedClient}"
+                             onstart="PF('longProcessDialogVar4').show();"                               
+                             oncomplete="PF('longProcessDialogVar4').hide();"
+                             actionListener="#{financeManager.editSelectedSupplier}"
                              process="@this"
-                             title="View or edit this client's detail">
+                             title="View or edit this supplier's detail">
 
-                <f:setPropertyActionListener value="#{client}" 
-                                             target="#{clientManager.selectedClient}" />
+                <f:setPropertyActionListener value="#{supplier}" 
+                                             target="#{financeManager.selectedSupplier}" />
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:clientsTable"/>
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"/>
 
             </p:commandButton>
         </p:column>
     </p:dataTable>
 
     <p:toolbar>
-        <p:toolbarGroup align="left" >   
-            <ui:remove>
-            <p:commandButton value="Close"
-                             actionListener="#{clientManager.closeClientsTab}"
-                             icon="ui-icon ui-icon-close" />
-            <p:spacer width="10" />
-            </ui:remove>
+        <p:toolbarGroup align="left" >              
             <p:commandButton 
                 value="New"
                 icon="ui-icon-plus" 
-                onstart="PF('longProcessDialogVar').show();"
-                oncomplete="longProcessDialogVar.hide();"
-                disabled="#{!clientManager.user.privilege.canAddClient}"
-                actionListener="#{clientManager.createNewClient}"                                            
+                onstart="PF('longProcessDialogVar4').show();"
+                oncomplete="longProcessDialogVar4.hide();"
+                actionListener="#{financeManager.createNewSupplier}"                                            
                 process="@this"
-                title="Add a new client to the client database" >
+                title="Add a new supplier" >
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:clientsTable"/>
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"/>
 
             </p:commandButton>
 

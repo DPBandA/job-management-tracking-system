@@ -37,6 +37,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn" 
+                        listener="#{systemManager.doJobCategorySearch}"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:JobCategoriesTable" />
 
             </p:commandButton>  

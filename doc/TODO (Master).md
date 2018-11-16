@@ -126,6 +126,8 @@
    Test with 2 users logged in with different browsers.
 - Show date of activity for user in user profiles table: Attach "tracking" feature 
   to the user profile for this.
+- Impl system so it is not dependent on "--" department for job number 
+  saving subcontracted job etc.
 - Put methods such as approveJobCosting() in their associated class such as JCP 
   so they can be reused by web services developed independently of the JMTS by using
   the BEL.

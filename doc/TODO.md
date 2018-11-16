@@ -1,48 +1,46 @@
-# Reports & Forms
-- Do client report template and upload.
-- Impl new service contract and agreement.
-- Do report for jobs not approved and incomplete up to 2017.
-
-# Deployment
-- Setup OGS gf3.
-  * 172.16.11.134
-  * ?bsj0001!
-  * Accpac: url - jdbc:jtds:sqlserver://finance/bsjdat/dbo, pwd 
-    user - jmts, pwd - bsj0001
-- Switch use admain2 by default.
-- Add UNIT and DESCRIPTION (1024) to CostComponent database.
-- Create jmts.employee_employeeposition table.
 
 # Purchasing
-- Create EmployeePosition class with, salary, description, minApprovalLimit and
-  maxApprovalLimit etc.
-  * Create jmts.employee_employeeposition
-  * Impl employeePositionDialog*.xhtml.
-  * Impl assigning multiple JobPosition to employee class.
-  * Impl EmployeePosition dialog in hrm.
-  * Impl HRM as standalone app and test out employee and position dialogs.
-  * Position names: Team Leader, Divisional Manager, Divisional Director, 
-    Finance Manager, Executive Director, Senior Engineer, Analyst, 
-    Network Administrator, System Administrator etc
-  * See github for fixing sql_mode=only_full_group_by.
+- Impl purchreqDialog.xhtml.
+  * impl status and tracking tab and other fields as necessary.
+  * Impl checkbox auto number feature exactly as in jobgeneral tab.
+  * Continue with purchreqGeneralTab.xhtml.
+  * Impl creating new PR that makes use of the logged in user. Department,
+    originator, date etc should be read only
+  * Create PR and PO forms.
 - Design and include the dashboard and main tabs 
-- Explore asynchronous for long service tasks by using activiti:async="true"
-  in the service task.
-- Remove "Module Access" from preference dialog.
 - Populate PurchaseOrder with PR if possible. 
 - Impl automatic generation of PR #. Initialize with the latest number used.
 - Ensure that the requisition date is the that orginator signed the PR.
-- Create Supplier class. Supplier/Suggested Supplier are the same in PR.
 - The date the PR is completed should be the PO date.
 - Impl email messaging to the originator and other PR stakeholders.
 - The content of the PO should be generated from the PR. The PO should be a field
   in the PR.
 - PO/PR should remain in "draft" stage until all issues are sorted out.
-- Get approval limits from Finance.
+- Enter the approval limits in test and production databases.
 - The orinator's department should be uneditable by the orginator unless they are
   the dept. head or system admin.
-- Download jasper reports on thumb drive.
-- Get GF3 tutorial.
+- Impl giving privileges to specific tabs in sys admin such as hrm.
+- Add a separate tab in user account dialog for sys admin.
+- Put financial admin under sys admin.
+- Do not show financial admin in main tab by default even when selected in preferences.
+- Set the department of the purchasing officer that completes the PR as the 
+  purchasing department of the PR.
+- Now that department is removed from JMUser, check that not code is broken.
+
+# Database Update and Deployment
+- Add MANHOURRATE to all employeeposition tables.
+- Add CANADDSUPPLIER to privileges table.
+
+# DBA
+- Position names: Team Leader, Divisional Manager, Divisional Director, 
+    Finance Manager, Executive Director, Senior Engineer, Analyst, 
+    Network Administrator, System Administrator etc.
+- Update HRM tables with info from chart of accounts.
+
+# Reports & Forms
+- Do other client report template and upload.
+- Impl new service contract and agreement.
+- Do report for jobs not approved and incomplete up to 2017.
 
 # Optional/Future
 - Deploy and configure activiti in gf3 on local PC for testing .
@@ -133,6 +131,23 @@ separate projects using maven overlays.
   eg. 2.
 - Get rid of "shadow" when  mouse over menu item in edit client menu and others.
 - Get rid of excess "--" employee.
+- Display growl when user is not authenticated.
+- Use dialogReturn through the system update the respective tables when dialogs
+  are closed.
+- Backup all affected projects and and change jmuser to user or userprofile.
+  Eventually rename the jmuser table to user or userprofile.
+- Set all dialog heights to 0 so the actual height is automatically set
+  when the dialog is open.
+- Remove TRN and add iden. type and iden. to client dialog. If iden type is TRN
+  set the TRN field in the Client class.
+- Add list of id type as autocomplete to supplier and client dialogs.
+- Make Parish/State/Province autocomplete in address dialog.
+- Impl searching or any part of client or supplier as is done with job entry.
+- Use finance related methods in FinancialApplication and not JMTSApplication.
+- Clean up unused or unneeded out of JMTSApplication. Some of this code is already
+  in managers/WAL or can be put in them.
+- Create Application class and put in WAL. Other application classes such as
+  JMTSApplication can be put in it.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

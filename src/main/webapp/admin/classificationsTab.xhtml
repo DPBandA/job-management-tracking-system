@@ -37,6 +37,7 @@ Email: info@dpbennett.com.jm
                              icon="ui-icon ui-icon-plus">
 
                 <p:ajax event="dialogReturn"  
+                        listener="#{systemManager.doClassificationSearch}"
                         update=":mainTabViewForm:mainTabView:centerTabView:dataListsTabView:ClassificationsTable" />
 
             </p:commandButton>

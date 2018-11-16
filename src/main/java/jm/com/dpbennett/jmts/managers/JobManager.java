@@ -133,7 +133,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private JobManagerUser user;
     private Boolean westLayoutUnitCollapsed;
     private String invalidFormFieldMessage;
-    // tk rid of dialog* and handler and use growl?
     private String dialogMessage;
     private String dialogMessageHeader;
     private String dialogMessageSeverity;
@@ -315,31 +314,21 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * Get ReportManager SessionScoped bean.
+     * Gets the ReportManager SessionScoped bean.
      *
      * @return
      */
     public ReportManager getReportManager() {
-//        if (reportManager == null) {
-//            reportManager = BeanUtils.findBean("reportManager");
-//            reportManager.setUser(user);
-//            reportManager.setMainTabView(mainTabView);
-//        }
 
         return reportManager;
     }
 
     /**
-     * Get ClientManager SessionScoped bean.
+     * Gets the ClientManager SessionScoped bean.
      *
      * @return
      */
     public ClientManager getClientManager() {
-//        if (clientManager == null) {
-//            clientManager = BeanUtils.findBean("clientManager");
-//            clientManager.setUser(user);
-//            clientManager.setMainTabView(mainTabView);
-//        }
 
         return clientManager;
     }
@@ -731,18 +720,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void onMainViewTabClose(TabCloseEvent event) {
-        String tabId = ((Tab) event.getData()).getId();
+        String tabId = ((TabPanel) event.getData()).getId();
         mainTabView.addTab(getEntityManager1(), tabId, false);
     }
 
     public void onMainViewTabChange(TabChangeEvent event) {
-        // Nothing to do yet
-        // String tabId = ((MainTab) event.getData()).getId();      
     }
 
     public void onDashboardTabChange(TabChangeEvent event) {
-
-//        getDashboard().setSelectedTabId(((Tab) event.getData()).getId());
         getDashboard().setSelectedTabId(((TabPanel) event.getData()).getId());
     }
 
@@ -1703,7 +1688,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return getUser().getPrivilege().getCanEnterJob()
                 || getUser().getPrivilege().getCanEnterDepartmentJob()
-                || getUser().getDepartment().getPrivilege().getCanEnterJob()
+         //       || getUser().getDepartment().getPrivilege().getCanEnterJob()
                 || getUser().getPrivilege().getCanEnterOwnJob();
     }
 

@@ -19,24 +19,29 @@ Email: info@dpbennett.com.jm
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:growl id="purchreq_growl" life="5000" showDetail="true" />
 
-    <p:toolbar>
-        <p:toolbarGroup align="left">
-            
-            <p:commandButton value="Ok"
-                             actionListener="#{humanResourceManager.saveSelectedEmployeePosition}"
-                             update="employeeposition_growl"
-                             icon="ui-icon ui-icon-check"
-                             process="@form"/>
-            <p:spacer width="10" />
-            <p:commandButton value="Cancel"
-                             process="@this"
-                             actionListener="#{humanResourceManager.closeDialog}"
-                             icon="ui-icon ui-icon-close" /> 
+    <ui:include src="purchreqDetailTopToolbar.xhtml"/>
 
-        </p:toolbarGroup>
-    </p:toolbar>
+    <p:tabView id="purchreqFormTabView"
+               style="margin-top: 1px;margin-bottom: 1px;"               
+               widgetVar="purchreqFormTabVar" >
 
+        <p:tab title="General" >
+            <ui:include src="purchreqGeneralTab.xhtml"/>
+        </p:tab>     
+
+        <ui:remove>
+            <p:tab title="Status &amp; Tracking" >
+                <ui:include src="purchreqStatusAndTrackingTab.xhtml" />
+            </p:tab>               
+        </ui:remove>
+
+    </p:tabView>
+
+    <ui:include src="purchreqDetailBottomToolbar.xhtml"/>
+
+    <p/>       
 </html>

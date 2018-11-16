@@ -18,6 +18,10 @@
         </view-handler>
     </application>    
     <converter>
+        <converter-id>activeSupplierConverter</converter-id>
+        <converter-class>jm.com.dpbennett.wal.converter.ActiveSupplierConverter</converter-class>
+    </converter>
+    <converter>
         <converter-id>activeEmployeePositionConverter</converter-id>
         <converter-class>jm.com.dpbennett.wal.converter.ActiveEmployeePositionConverter</converter-class>
     </converter> 
@@ -102,6 +106,10 @@
         <validator-class>jm.com.dpbennett.wal.validator.ClientValidator</validator-class>
     </validator>
     <validator>
+        <validator-id>supplierValidator</validator-id>
+        <validator-class>jm.com.dpbennett.wal.validator.SupplierValidator</validator-class>
+    </validator>
+    <validator>
         <validator-id>jobClientValidator</validator-id>
         <validator-class>jm.com.dpbennett.wal.validator.JobClientValidator</validator-class>
     </validator>
@@ -141,6 +149,20 @@
         <validator-id>contactValidator</validator-id>
         <validator-class>jm.com.dpbennett.wal.validator.ContactValidator</validator-class>
     </validator>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>purchreqDialog</from-outcome>
+            <to-view-id>/finance/purchreqDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>employeePositionDialog</from-outcome>
+            <to-view-id>/hrm/employeePositionDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
@@ -204,6 +226,13 @@
             <to-view-id>/client/clientDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>     
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>supplierDialog</from-outcome>
+            <to-view-id>/finance/supplierDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
@@ -285,7 +314,7 @@
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>accountingCodeDialog</from-outcome>
-            <to-view-id>/admin/accountingCodeDialog.xhtml</to-view-id>
+            <to-view-id>/finance/accountingCodeDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -354,15 +383,7 @@
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.wal.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>
-    
-    <!--
-    <managed-bean>
-        <managed-bean-name>humanResourceManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.HumanResourceManager</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean> 
-    -->
-    
+     
     <managed-bean>
         <managed-bean-name>authentication</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.wal.Authentication</managed-bean-class>

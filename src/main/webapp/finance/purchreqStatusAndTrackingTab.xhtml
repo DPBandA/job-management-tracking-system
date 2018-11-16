@@ -1,0 +1,265 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <p:panel id="jobStatusAndTracking" header="Job Status" > 
+        <h:panelGrid columns="1" >
+            <h:panelGroup>
+                <h:panelGrid columns="2">
+                    <h:outputText value="Entered by: "/>
+                    <p:inputText readonly="true"
+                                 maxlength="250"
+                                 style="background-color: lightgrey"
+                                 value="#{jobManager.currentJob.jobStatusAndTracking.enteredBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.enteredBy.lastName}"
+                                 title="#{jobManager.currentJob.jobStatusAndTracking.enteredBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.enteredBy.lastName}"/>
+
+                    <h:outputText value="Last edited by: "/>
+                    <p:inputText readonly="true"
+                                 maxlength="250"
+                                 style="background-color: lightgrey"
+                                 value="#{jobManager.currentJob.jobStatusAndTracking.editedBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.editedBy.lastName}"
+                                 title="#{jobManager.currentJob.jobStatusAndTracking.editedBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.editedBy.lastName}"/>
+
+                    <h:outputText value="Expected start date: "/>
+                    <p:calendar pattern="MMM dd, yyyy"
+                                navigator="true"        
+                                readonlyInput="true"
+                                value="#{jobManager.currentJob.jobStatusAndTracking.expectedStartDate}" >
+                        <p:ajax event="dateSelect"      
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"/>
+                        <p:ajax event="change"      
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"/>
+                    </p:calendar>
+
+                    <h:outputText value="Expected date of completion: "/>
+                    <p:calendar pattern="MMM dd, yyyy"
+                                navigator="true"          
+                                readonlyInput="true"
+                                value="#{jobManager.expectedDateOfCompletion}" >
+                        <p:ajax event="dateSelect"   
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateDateExpectedCompletionDate}"/>
+                        <p:ajax event="change"  
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateDateExpectedCompletionDate}"/>
+                    </p:calendar>
+
+                    <h:outputLabel value="Work progress: " 
+                                   style="font-weight: bold;"
+                                   for="workProgress"/>
+                    <p:selectOneMenu id="workProgress"     
+                                     style="width: 200px;"
+                                     value="#{jobManager.currentJob.jobStatusAndTracking.workProgress}">
+
+                        <f:selectItems  value="#{App.workProgressList}"
+                                        var="progress"                            
+                                        itemValue="#{progress}"
+                                        itemLabel="#{progress}"/>
+
+                        <p:ajax listener="#{jobManager.updateWorkProgress}"
+                                global="false"
+                                update="personnelTaskTracking,:jobDialogForm:growl2,startDate,:jobDialogForm:jobDetailToolbar1,@this"
+                                process="@this"/>
+
+                    </p:selectOneMenu>     
+
+                    <h:outputText value="Start date: "/>
+                    <p:calendar id="startDate" 
+                                pattern="MMM dd, yyyy"
+                                navigator="true"       
+                                readonlyInput="true"                                
+                                value="#{jobManager.currentJob.jobStatusAndTracking.startDate}" >
+                        <p:ajax event="dateSelect"     
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"/>
+                        <p:ajax event="change"       
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"/>
+                    </p:calendar>
+                </h:panelGrid>
+            </h:panelGroup>
+            <hr/>
+            <h:panelGroup id="personnelTaskTracking">
+                <h:panelGrid columns="4">
+                    <h:panelGroup >
+                        <h:outputText value="&nbsp;&nbsp;"/>
+                        <p:selectBooleanCheckbox id="jobCompleted"
+                                                 disabled="true"
+                                                 itemLabel="Job completed by: "
+                                                 value="#{jobManager.completed}" >
+                            <p:ajax listener="#{jobManager.updateJobCompleted}"
+                                    update=":jobDialogForm:jobDetailToolbar1"
+                                    global="false"                                    
+                                    process="@this" />
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
+
+                    <p:autoComplete id="completedBy"
+                                    disabled="#{!jobManager.completed}"
+                                    var="completedBy"
+                                    maxlength="250"
+                                    readonly="true"
+                                    value="#{jobManager.currentJob.jobStatusAndTracking.completedBy}"
+                                    title="#{jobManager.currentJob.jobStatusAndTracking.completedBy}"
+                                    itemLabel="#{completedBy.name}"
+                                    itemValue="#{completedBy}"
+                                    converter="activeEmployeeConverter"
+                                    forceSelection="true"
+                                    completeMethod="#{App.completeActiveEmployee}" >
+                        
+                        <p:ajax event="itemSelect"
+                                listener="#{jobManager.updateJob}" 
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this"/>
+                        
+                    </p:autoComplete>
+
+                    <h:outputText value="on: "/>
+                    <p:calendar id="dateJobCompleted"
+                                disabled="#{!jobManager.completed}"
+                                pattern="MMM dd, yyyy"
+                                navigator="true"          
+                                readonlyInput="true"
+                                value="#{jobManager.jobCompletionDate}" >
+                        <p:ajax event="dateSelect"  
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateDateJobCompleted}"/>
+                        <p:ajax event="change"        
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateDateJobCompleted}"/>
+                    </p:calendar>
+
+                    <h:panelGroup>
+                        <h:outputText value="&nbsp;&nbsp;"/>
+                        <p:selectBooleanCheckbox id="samplesCollected"
+                                                 itemLabel="Sample(s) collected by: "
+                                                 disabled="#{!jobManager.jobSaved}"
+                                                 value="#{jobManager.samplesCollected}">
+                            <p:ajax listener="#{jobManager.updateSamplesCollectedBy}"
+                                    update="jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1"
+                                    global="false"                                    
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
+                    <p:inputText id="samplesCollectedBy"
+                                 style="width: 215px;"
+                                 maxlength="250"
+                                 disabled="#{!jobManager.samplesCollected}"
+                                 value="#{jobManager.currentJob.jobStatusAndTracking.samplesCollectedBy}">
+
+                        <p:ajax event="change"
+                                global="false"                                
+                                listener="#{jobManager.updateJob}"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this"/>
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                        <f:attribute name="fieldRequired" 
+                                     value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected != null}" />
+
+                    </p:inputText>
+                    <h:outputText value="on: "/>
+                    <p:calendar id="dateSamplesCollected"
+                                disabled="#{!jobManager.samplesCollected}"
+                                pattern="MMM dd, yyyy"
+                                navigator="true"
+                                readonlyInput="true"
+                                value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected}" >
+                        <p:ajax event="dateSelect"      
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"/>
+                        <p:ajax event="change"    
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"/>
+                    </p:calendar>
+                    <h:panelGroup>
+                        <h:outputText value="&nbsp;&nbsp;"/>
+                        <p:selectBooleanCheckbox id="docsCollected"
+                                                 disabled="#{!jobManager.jobSaved}"
+                                                 itemLabel="Document(s) collected by: "
+                                                 value="#{jobManager.documentCollected}">
+                            <p:ajax listener="#{jobManager.updateDocumentsCollectedBy}"
+                                    global="false"    
+                                    update="jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
+                    <p:inputText id="docsCollectedBy"
+                                 disabled="#{!jobManager.documentCollected}"
+                                 style="width: 215px;"
+                                 maxlength="250"
+                                 value="#{jobManager.currentJob.jobStatusAndTracking.documentCollectedBy}" >
+
+                        <p:ajax listener="#{jobManager.updateJob}"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                global="false"
+                                event="change"                               
+                                process="@this"/>
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                        <f:attribute name="fieldRequired" 
+                                     value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected != null}" />
+
+                    </p:inputText>
+                    <h:outputText value="on: "/>
+                    <p:calendar id="dateDocsCollected"
+                                disabled="#{!jobManager.documentCollected}"
+                                pattern="MMM dd, yyyy"
+                                navigator="true"
+                                readonlyInput="true"
+                                value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected}" >
+                        <p:ajax event="dateSelect"    
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"/>
+                        <p:ajax event="change"      
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"/>
+                    </p:calendar>
+                </h:panelGrid>
+            </h:panelGroup>
+        </h:panelGrid>
+    </p:panel>
+    <p:panel id="jobStatusNote" header="Status Note" rendered="#{true}" >
+        <p:inputTextarea
+            value="#{jobManager.currentJob.jobStatusAndTracking.statusNote}"
+            rows="2"
+            counter="jobStatusNoteCharsRemaining"
+            counterTemplate="{0} characters remaining."
+            maxlength="1000"
+            style="width: 500px;">
+            <p:ajax event="change"
+                    global="false"                    
+                    listener="#{jobManager.updateJob}"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+        </p:inputTextarea>
+        <br/>
+        <h:outputText id="jobStatusNoteCharsRemaining" /> 
+    </p:panel>
+
+
+</html>

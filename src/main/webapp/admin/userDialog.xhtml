@@ -260,7 +260,18 @@ Email: info@dpbennett.com.jm
                                     event="change"
                                     process="@this"/>
 
-                        </p:selectBooleanCheckbox>                       
+                        </p:selectBooleanCheckbox>    
+                        
+                        <p:selectBooleanCheckbox id="canAddSupplier" 
+                                                 itemLabel="Add supplier"
+                                                 value="#{systemManager.selectedUser.privilege.canAddSupplier}" >
+
+                            <p:ajax listener="#{systemManager.updatePrivileges}"   
+                                    event="change"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
+                        
                     </h:panelGrid>
                 </p:tab>
 
