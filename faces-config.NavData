@@ -15,11 +15,11 @@
         <Node id="admin/jobSubcategoryDialog.xhtml" x="900" y="1500" zoom="true"/>
         <Node id="admin/miscellaneousTab.xhtml" x="1150" y="1050" zoom="true"/>
         <Node id="jobPricings.xhtml" x="3400" y="300" zoom="true"/>
-        <Node id="job/jobSamplesTab.xhtml" x="650" y="450" zoom="true"/>
         <Node id="hrm/departmentPickListDialog.xhtml" x="3400" y="150" zoom="true"/>
+        <Node id="job/jobSamplesTab.xhtml" x="650" y="450" zoom="true"/>
         <Node id="index.xhtml" x="1650" y="300" zoom="true"/>
-        <Node id="dashboard/compliance/complianceTab.xhtml" x="400" y="150" zoom="true"/>
         <Node id="finance/cashPaymentDeleteConfirmDialog.xhtml" x="2400" y="450" zoom="true"/>
+        <Node id="dashboard/compliance/complianceTab.xhtml" x="400" y="150" zoom="true"/>
         <Node id="dashboard/jobs/jobSearch.xhtml" x="900" y="450" zoom="true"/>
         <Node id="admin/jobSubcategoriesTab.xhtml" x="1400" y="1350" zoom="true"/>
         <Node id="job/jobDetailBottomToolbar.xhtml" x="1150" y="600" zoom="true"/>
@@ -30,12 +30,12 @@
         <Node id="admin/generalAdminTab.xhtml" x="650" y="1500" zoom="true"/>
         <Node id="legal/documentBrowserToolbar.xhtml" x="1400" y="300" zoom="true"/>
         <Node id="job/cashierViewTable.xhtml" x="1650" y="750" zoom="true"/>
-        <Node id="job/jobCostingAndPaymentTab.xhtml" x="2650" y="450" zoom="true"/>
         <Node id="job/sample/jobSampleDeleteConfirmDialog.xhtml" x="900" y="750" zoom="true"/>
+        <Node id="job/jobCostingAndPaymentTab.xhtml" x="2650" y="450" zoom="true"/>
         <Node id="job/cashierTab.xhtml" x="150" y="1650" zoom="true"/>
         <Node id="finance/costingComponentDeleteConfirmDialog.xhtml" x="1150" y="1200" zoom="true"/>
-        <Node id="hrm/subgroupDialog.xhtml" x="2650" y="150" zoom="true"/>
         <Node id="job/jobDetailTopToolbar.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="hrm/subgroupDialog.xhtml" x="2650" y="150" zoom="true"/>
         <Node id="admin/systemOptionDialog.xhtml" x="2150" y="300" zoom="true"/>
         <Node id="hrm/departmentDialog.xhtml" x="2400" y="750" zoom="true"/>
         <Node id="finance/jobCostingDialogToolbar.xhtml" x="1900" y="150" zoom="true"/>
@@ -60,20 +60,20 @@
         <Node id="admin/jobCategoriesTab.xhtml" x="650" y="1800" zoom="true"/>
         <Node id="compliance/surveyBrowser.xhtml" x="150" y="150" zoom="true"/>
         <Node id="dashboard/certification/certificationTab.xhtml" x="2150" y="450" zoom="true"/>
+        <Node id="job/jobGeneralTab.xhtml" x="400" y="1650" zoom="true"/>
         <Node id="admin/legalDocumentDialog.xhtml" x="1900" y="300" zoom="true"/>
         <Node id="finance/jobCostings.xhtml" x="400" y="750" zoom="true"/>
-        <Node id="job/jobGeneralTab.xhtml" x="400" y="1650" zoom="true"/>
-        <Node id="admin/sectorsTab.xhtml" x="1650" y="600" zoom="true"/>
         <Node id="legal/typeGroupDialogToolbar.xhtml" x="2650" y="750" zoom="true"/>
+        <Node id="admin/sectorsTab.xhtml" x="1650" y="600" zoom="true"/>
         <Node id="dashboard/metrology/metrologyTab.xhtml" x="150" y="1200" zoom="true"/>
-        <Node id="admin/openedJobsTab.xhtml" x="150" y="600" zoom="true"/>
         <Node id="report/reportDatePeriodDialog.xhtml" x="150" y="1050" zoom="true"/>
+        <Node id="admin/openedJobsTab.xhtml" x="150" y="600" zoom="true"/>
         <Node id="admin/documentTypeDialogToolbar.xhtml" x="400" y="1050" zoom="true"/>
         <Node id="admin/accountingCodeDialog.xhtml" x="1650" y="150" zoom="true"/>
         <Node id="hrm/employeeDialog.xhtml" x="650" y="150" zoom="true"/>
         <Node id="dashboard/admin/generalAdminTab.xhtml" x="2400" y="150" zoom="true"/>
-        <Node id="dashboard/compliance/generalSearch.xhtml" x="650" y="1050" zoom="true"/>
         <Node id="admin/businessEntitiesTab.xhtml" x="1150" y="150" zoom="true"/>
+        <Node id="dashboard/compliance/generalSearch.xhtml" x="650" y="1050" zoom="true"/>
         <Node id="admin/ldapTab.xhtml" x="900" y="1050" zoom="true"/>
         <Node id="dashboard/legal/documentsTab.xhtml" x="2900" y="300" zoom="true"/>
         <Node id="finance/cashPaymentDialog.xhtml" x="400" y="1200" zoom="true"/>
@@ -90,8 +90,8 @@
         <Node id="job/jobStatusAndTrackingTab.xhtml" x="2400" y="600" zoom="true"/>
         <Node id="dashboard/legal/documentSearch.xhtml" x="400" y="450" zoom="true"/>
         <Node id="job/jobCostingsTab.xhtml" x="150" y="300" zoom="true"/>
-        <Node id="admin/sectorDialog.xhtml" x="1900" y="450" zoom="true"/>
         <Node id="admin/documentTypesTab.xhtml" x="1650" y="900" zoom="true"/>
+        <Node id="admin/sectorDialog.xhtml" x="1900" y="450" zoom="true"/>
         <Node id="admin/usersTab.xhtml" x="650" y="1350" zoom="true"/>
         <Node id="job/jobAlertDialogs.xhtml" x="150" y="750" zoom="true"/>
         <Node id="accpac/accPacClientInformationDialog.xhtml" x="400" y="900" zoom="true"/>
