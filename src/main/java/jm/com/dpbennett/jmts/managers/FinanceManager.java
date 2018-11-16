@@ -147,8 +147,10 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private List<AccountingCode> foundAccountingCodes;
     private Boolean isSupplierNameAndIdEditable;
     private String supplierSearchText;
+    private String purchaseReqSearchText;
     private Boolean isActiveSuppliersOnly;
     private List<Supplier> foundSuppliers;
+    private List<PurchaseRequisition> foundPurchaseReqs;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -156,13 +158,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public FinanceManager() {
         init();
     }
-    
+
     public void updateSupplier() {
 
         setIsDirty(true);
     }
-    
-     public Boolean getIsSupplierNameValid() {
+
+    public Boolean getIsSupplierNameValid() {
         return BusinessEntityUtils.validateName(selectedPurchaseRequisition.getSupplier().getName());
     }
 
@@ -375,25 +377,34 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 getFoundSuppliers().get(event.getRowIndex()));
     }
 
+    public void onPurchaseReqCellEdit(CellEditEvent event) {
+        BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager1(),
+                getFoundPurchaseReqs().get(event.getRowIndex()));
+    }
+
     public int getNumOfSuppliersFound() {
         return getFoundSuppliers().size();
     }
     
+    public int getNumOfPurchaseReqsFound() {
+        return getFoundPurchaseReqs().size();
+    }
+
     public void editPurhaseReqSuppier() {
         setSelectedSupplier(getSelectedPurchaseRequisition().getSupplier());
         setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
 
         editSelectedSupplier();
     }
-    
+
     public void supplierDialogReturn() {
         if (getSelectedSupplier().getId() != null) {
             getSelectedPurchaseRequisition().setSupplier(getSelectedSupplier());
-            
+
             setIsDirty(true);
         }
     }
-    
+
     public void createNewPurhaseReqSupplier() {
         createNewSupplier();
         setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
@@ -404,6 +415,11 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public void editSelectedSupplier() {
 
         PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
+    }
+    
+    public void editSelectedPurchaseReq() {
+
+        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 700, 700);
     }
 
     public Boolean getIsActiveSuppliersOnly() {
@@ -419,6 +435,14 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     public void setFoundSuppliers(List<Supplier> foundSuppliers) {
         this.foundSuppliers = foundSuppliers;
+    }
+
+    public List<PurchaseRequisition> getFoundPurchaseReqs() {
+        return foundPurchaseReqs;
+    }
+
+    public void setFoundPurchaseReqs(List<PurchaseRequisition> foundPurchaseReqs) {
+        this.foundPurchaseReqs = foundPurchaseReqs;
     }
 
     public void setIsActiveSuppliersOnly(Boolean isActiveSuppliersOnly) {
@@ -437,12 +461,24 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         }
     }
 
+    public void doPurchaseReqSearch() {
+        System.out.println("PR search to be done using search parameters from dashboard.");
+    }
+
     public String getSupplierSearchText() {
         return supplierSearchText;
     }
 
     public void setSupplierSearchText(String supplierSearchText) {
         this.supplierSearchText = supplierSearchText;
+    }
+
+    public String getPurchaseReqSearchText() {
+        return purchaseReqSearchText;
+    }
+
+    public void setPurchaseReqSearchText(String purchaseReqSearchText) {
+        this.purchaseReqSearchText = purchaseReqSearchText;
     }
 
     public Boolean getIsSupplierNameAndIdEditable() {
@@ -484,6 +520,17 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
 
         PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
+    }
+
+    public void createNewPurchaseReq() {
+        selectedPurchaseRequisition = new PurchaseRequisition();
+        selectedPurchaseRequisition.setSupplier(new Supplier("", true));
+        selectedPurchaseRequisition.
+                setOriginatingDepartment(getUser().getEmployee().getDepartment());
+        selectedPurchaseRequisition.setOriginator(getUser().getEmployee());
+        selectedPurchaseRequisition.setRequisitionDate(new Date());
+        
+        editSelectedPurchaseReq();
     }
 
     public Boolean getIsNewSupplier() {
@@ -815,8 +862,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     private void init() {
         longProcessProgress = 0;
-        accPacCustomer = new AccPacCustomer(null);
-        filteredAccPacCustomerDocuments = new ArrayList<>();
+        accPacCustomer = new AccPacCustomer(null);        
         useAccPacCustomerList = false;
         selectedCashPayment = null;
         selectedCostComponent = null;
@@ -825,7 +871,9 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         accountingCodeSearchText = "";
         isSupplierNameAndIdEditable = false; // tk put as transient in Client
         supplierSearchText = "";
+        filteredAccPacCustomerDocuments = new ArrayList<>();
         foundSuppliers = new ArrayList<>();
+        foundPurchaseReqs = new ArrayList<>();
     }
 
     public void reset() {

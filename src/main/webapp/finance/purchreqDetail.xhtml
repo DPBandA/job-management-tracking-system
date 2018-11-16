@@ -22,9 +22,9 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:growl id="purchreq_growl" life="5000" showDetail="true" />
-    
+
     <ui:include src="purchreqDetailTopToolbar.xhtml"/>
-   
+
     <p:tabView id="purchreqFormTabView"
                style="margin-top: 1px;margin-bottom: 1px;"               
                widgetVar="purchreqFormTabVar" >
@@ -33,9 +33,11 @@ Email: info@dpbennett.com.jm
             <ui:include src="purchreqGeneralTab.xhtml"/>
         </p:tab>     
 
-        <p:tab title="Status &amp; Tracking" >
-            <ui:include src="purchreqStatusAndTrackingTab.xhtml" />
-        </p:tab>               
+        <ui:remove>
+            <p:tab title="Status &amp; Tracking" >
+                <ui:include src="purchreqStatusAndTrackingTab.xhtml" />
+            </p:tab>               
+        </ui:remove>
 
     </p:tabView>
 

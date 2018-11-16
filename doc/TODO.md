@@ -1,6 +1,10 @@
 
 # Purchasing
+- Impl purchreqsTab.xhtml.
 - Impl purchreqDialog.xhtml.
+  * Set yellow background class style for readonly fields.
+  * impl status and tracking tab and other fields as necessary.
+  * Impl checkbox auto number feature exactly as in jobgeneral tab.
   * Continue with purchreqGeneralTab.xhtml.
   * Impl creating new PR that makes use of the logged in user. Department,
     originator, date etc should be read only
@@ -22,6 +26,7 @@
 - Do not show financial admin in main tab by default even when selected in preferences.
 - Set the department of the purchasing officer that completes the PR as the 
   purchasing department of the PR.
+- Now that department is removed from JMUser, check that not code is broken.
 
 # Database Update and Deployment
 - Add MANHOURRATE to all employeeposition tables.

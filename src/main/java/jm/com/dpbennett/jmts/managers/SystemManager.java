@@ -980,12 +980,12 @@ public class SystemManager implements Serializable {
 
     }
 
-    public void updateSelectedUserDepartment() {
-
-        if (selectedUser.getDepartment().getId() != null) {
-            selectedUser.setDepartment(Department.findDepartmentById(getEntityManager(), selectedUser.getDepartment().getId()));
-        }
-    }
+//    public void updateSelectedUserDepartment() {
+//
+//        if (selectedUser.getDepartment().getId() != null) {
+//            selectedUser.setDepartment(Department.findDepartmentById(getEntityManager(), selectedUser.getDepartment().getId()));
+//        }
+//    }
 
     public void updateSelectedUserEmployee() {
         if (selectedUser.getEmployee() != null) {
@@ -995,7 +995,7 @@ public class SystemManager implements Serializable {
                 Employee employee = Employee.findDefaultEmployee(getEntityManager(), "--", "--", true);
                 if (selectedUser.getEmployee() != null) {
                     selectedUser.setEmployee(employee);
-                    selectedUser.setDepartment(Department.findDefaultDepartment(getEntityManager(), "--"));
+                    //selectedUser.setDepartment(Department.findDefaultDepartment(getEntityManager(), "--"));
                 }
             }
         } else {

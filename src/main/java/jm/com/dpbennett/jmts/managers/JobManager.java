@@ -1688,7 +1688,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return getUser().getPrivilege().getCanEnterJob()
                 || getUser().getPrivilege().getCanEnterDepartmentJob()
-                || getUser().getDepartment().getPrivilege().getCanEnterJob()
+         //       || getUser().getDepartment().getPrivilege().getCanEnterJob()
                 || getUser().getPrivilege().getCanEnterOwnJob();
     }
 
