@@ -1,7 +1,7 @@
 
 # Purchasing
 - Impl purchreqDialog.xhtml.
-  * impl status and tracking tab and other fields as necessary.
+  * Impl status and tracking tab and other fields as necessary.
   * Impl checkbox auto number feature exactly as in jobgeneral tab.
   * Continue with purchreqGeneralTab.xhtml.
   * Impl creating new PR that makes use of the logged in user. Department,

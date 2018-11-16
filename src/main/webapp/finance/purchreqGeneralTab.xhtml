@@ -24,189 +24,218 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <h:panelGrid id="generalTabPanel" columns="2">
-        <h:outputLabel value="No.: " style="font-weight: bold;font-size: 14px;" />
-        <h:panelGroup>
-            <h:panelGroup id="prNumberGroup">
+    <p:panel style="margin-bottom: 1px;border: 0;" >
+        <h:panelGrid id="generalTabPanel" columns="2">
+            <h:outputLabel value="No.: " style="font-weight: bold;font-size: 14px;" />
+            <h:panelGroup>
+                <h:panelGroup id="prNumberGroup">
 
-                <h:outputText id="prNumber" 
-                              rendered="#{financeManager.selectedPurchaseRequisition.autoGenerateNumber}"
-                              value="#{financeManager.selectedPurchaseRequisition.number}" 
-                              styleClass="pr-number"/>
+                    <h:outputText id="prNumber" 
+                                  rendered="#{financeManager.selectedPurchaseRequisition.autoGenerateNumber}"
+                                  value="#{financeManager.selectedPurchaseRequisition.number}" 
+                                  styleClass="pr-number"/>
 
-                <p:inputText id="prNumberEdit"
-                             rendered="#{!financeManager.selectedPurchaseRequisition.number}"
-                             size="35"
-                             maxlength="40"                                                                    
-                             title="#{financeManager.selectedPurchaseRequisition.number}"
-                             value="#{financeManager.selectedPurchaseRequisition.number}">
+                    <p:inputText id="prNumberEdit"
+                                 rendered="#{!financeManager.selectedPurchaseRequisition.number}"
+                                 size="35"
+                                 maxlength="40"                                                                    
+                                 title="#{financeManager.selectedPurchaseRequisition.number}"
+                                 value="#{financeManager.selectedPurchaseRequisition.number}">
 
-                    <p:ajax event="change"                            
-                            update=":purchreqDialogForm:purchreqDetailToolbar1"
-                            listener="#{financeManager.updatePurchaseReq}"
+                        <p:ajax event="change"                            
+                                update=":purchreqDialogForm:purchreqDetailToolbar1"
+                                listener="#{financeManager.updatePurchaseReq}"
+                                process="@this"/>
+
+                    </p:inputText>
+                </h:panelGroup>
+                <p:spacer height="0" width="5"/>
+                <p:selectBooleanCheckbox id="autoGenerate" 
+                                         itemLabel="auto"
+                                         style="vertical-align: middle"
+                                         rendered="#{financeManager.user.privilege.canBeJMTSAdministrator}"
+                                         value="#{financeManager.selectedPurchaseRequisition.number}" >
+                    <p:ajax listener="#{financeManager.updateNumber}" 
+                            event="change"
+                            update="prNumberGroup,:purchreqDialogForm:purchreqDetailToolbar1"
+                            global="false"                        
+                            process="@this"/>
+                </p:selectBooleanCheckbox>            
+                <p:tooltip for="autoGenerate" value="Check to auto-generate number" showEffect="fade" hideEffect="fade" />
+
+            </h:panelGroup>
+
+            <h:outputText value="Supplier: " style="font-weight: bold" />
+            <h:panelGroup>                
+                <p:autoComplete id="supplier"
+                                var="supplier"
+                                itemLabel="#{supplier.truncatedName}"
+                                itemValue="#{supplier}"
+                                size="35" 
+                                maxlength="40"                             
+                                dropdown="false"
+                                scrollHeight="200" 
+                                value="#{financeManager.selectedPurchaseRequisition.supplier}"   
+                                converter="activeSupplierConverter"
+                                validator="supplierValidator"
+                                forceSelection="true"
+                                completeMethod="#{FinApp.completeActiveSupplier}" >
+
+                    <p:ajax event="itemSelect"
+                            update="purchreqFormTabView:generalTabPanel,:purchreqDialogForm:purchreqDetailToolbar1"
+                            listener="#{financeManager.updateSupplier}"
                             process="@this"/>
 
-                </p:inputText>
+                </p:autoComplete>     
+
+                <p:menuButton id="supplierActionsMenu" icon="ui-icon-pencil" title="Add or edit supplier">
+                    <p:menuitem>                       
+                        <p:commandButton value="Edit supplier"
+                                         id="editSupplier"
+                                         icon="ui-icon-pencil" 
+                                         disabled="${!financeManager.isSupplierNameValid}"
+                                         style="width: 300%;text-align: left;background: none;border: 0;"
+                                         onstart="PF('longProcessDialogVar4').show();"   
+                                         oncomplete="PF('longProcessDialogVar4').hide();"                                  
+                                         actionListener="#{financeManager.editPurhaseReqSuppier}"  
+                                         process="@this,supplier"                             
+                                         title="View or edit this suppliers's detail">  
+
+                            <p:ajax event="dialogReturn" 
+                                    listener="#{financeManager.supplierDialogReturn}"
+                                    update="supplier,supplierActionsMenu,:purchreqDialogForm:purchreqDetailToolbar1" />
+
+                        </p:commandButton>            
+                    </p:menuitem>
+
+                    <p:menuitem >       
+                        <p:commandButton 
+                            value="Add new supplier"
+                            icon="ui-icon-plus" 
+                            style="width: 300%;text-align: left;background: none;border: 0;"
+                            onstart="PF('longProcessDialogVar4').show();"    
+                            oncomplete="PF('longProcessDialogVar4').hide();"                    
+                            disabled="#{!financeManager.user.privilege.canAddSupplier}"
+                            actionListener="#{financeManager.createNewPurhaseReqSupplier}"                                            
+                            process="@this"
+                            title="Add a new supplier">
+
+                            <p:ajax event="dialogReturn" 
+                                    listener="#{financeManager.supplierDialogReturn}"
+                                    update="supplier,supplierActionsMenu,:purchreqDialogForm:purchreqDetailToolbar1" />
+
+                        </p:commandButton>
+                    </p:menuitem>
+                </p:menuButton>      
+
             </h:panelGroup>
-            <p:spacer height="0" width="5"/>
-            <p:selectBooleanCheckbox id="autoGenerate" 
-                                     itemLabel="auto"
-                                     style="vertical-align: middle"
-                                     rendered="#{financeManager.user.privilege.canBeJMTSAdministrator}"
-                                     value="#{financeManager.selectedPurchaseRequisition.number}" >
-                <p:ajax listener="#{financeManager.updateNumber}" 
-                        event="change"
-                        update="prNumberGroup,:purchreqDialogForm:purchreqDetailToolbar1"
-                        global="false"                        
-                        process="@this"/>
-            </p:selectBooleanCheckbox>            
-            <p:tooltip for="autoGenerate" value="Check to auto-generate number" showEffect="fade" hideEffect="fade" />
 
-        </h:panelGroup>
+            <h:outputText value="Date: " style="font-weight: bold" />
+            <p:calendar id="requisitionDate"
+                        value="#{financeManager.selectedPurchaseRequisition.requisitionDate}" 
+                        readonlyInput="true"                    
+                        navigator="true" 
+                        pattern="MMM dd, yyyy" >
 
-        <h:outputText value="Supplier: " style="font-weight: bold" />
-        <h:panelGroup>                
-            <p:autoComplete id="supplier"
-                            var="supplier"
-                            itemLabel="#{supplier.truncatedName}"
-                            itemValue="#{supplier}"
-                            size="35" 
-                            maxlength="40"                             
+                <p:ajax event="dateSelect"
+                        update=":purchreqDialogForm:purchreqDetailToolbar1"
+                        listener="#{financeManager.updatePurchaseReq}" />
+
+                <p:ajax event="keyup"
+                        update=":purchreqDialogForm:purchreqDetailToolbar1"
+                        listener="#{financeManager.updatePurchaseReq}" />
+
+            </p:calendar>
+
+            <h:outputText value="Department: " style="font-weight: bold" />
+            <p:autoComplete id="originatingDepartment"                          
+                            readonly="true"
+                            styleClass="read-only-inputfield"
+                            var="department"
+                            forceSelection="false"      
                             dropdown="false"
                             scrollHeight="200" 
-                            value="#{financeManager.selectedPurchaseRequisition.supplier}"   
-                            converter="activeSupplierConverter"
-                            validator="supplierValidator"
-                            forceSelection="true"
-                            completeMethod="#{FinApp.completeActiveSupplier}" >
+                            size="35"
+                            maxlength="40"
+                            value="#{financeManager.selectedPurchaseRequisition.originatingDepartment}"
+                            itemValue="#{department}"
+                            itemLabel="#{department.name}"
+                            converter="activeDepartmentConverter"
+                            validator="businessEntityValidator"
+                            completeMethod="#{App.completeActiveDepartment}" /> 
 
-                <p:ajax event="itemSelect"
-                        update="purchreqFormTabView:generalTabPanel,:purchreqDialogForm:purchreqDetailToolbar1"
-                        listener="#{financeManager.updateSupplier}"
+            <h:outputText value="Originator: " style="font-weight: bold" />       
+            <p:autoComplete id="originator"
+                            readonly="true"
+                            styleClass="read-only-inputfield"
+                            var="originator"                            
+                            maxlength="40" 
+                            value="#{financeManager.selectedPurchaseRequisition.originator}"
+                            itemLabel="#{originator.name}"
+                            itemValue="#{originator}"
+                            converter="activeEmployeeConverter"
+                            validator="businessEntityValidator"
+                            forceSelection="true"
+                            dropdown="false"
+                            scrollHeight="200" 
+                            completeMethod="#{App.completeActiveEmployee}" />
+
+            <h:outputText value="Purchasing department: " style="font-weight: bold" />
+            <p:autoComplete id="purchasingDepartment"                          
+                            readonly="true"
+                            styleClass="read-only-inputfield"
+                            var="purchasingDepartment"
+                            forceSelection="false"      
+                            dropdown="false"
+                            scrollHeight="200" 
+                            size="35"
+                            maxlength="40"
+                            value="#{financeManager.selectedPurchaseRequisition.purchasingDepartment}"
+                            itemValue="#{purchasingDepartment}"
+                            itemLabel="#{purchasingDepartment.name}"
+                            converter="activeDepartmentConverter"
+                            validator="businessEntityValidator"
+                            completeMethod="#{App.completeActiveDepartment}" /> 
+
+            <h:outputText value="Procurement officer: " style="font-weight: bold" />       
+            <p:autoComplete id="officer"
+                            readonly="true"
+                            styleClass="read-only-inputfield"
+                            var="officer"                            
+                            maxlength="40" 
+                            value="#{financeManager.selectedPurchaseRequisition.procurementOfficer}"
+                            itemLabel="#{officer.name}"
+                            itemValue="#{officer}"
+                            converter="activeEmployeeConverter"
+                            validator="businessEntityValidator"
+                            forceSelection="true"
+                            dropdown="false"
+                            scrollHeight="200" 
+                            completeMethod="#{App.completeActiveEmployee}" />
+
+            <h:outputText value="Purpose/Description: " style="font-weight: bold;vertical-align: top;" />       
+            <p:inputTextarea
+                id="description"
+                value="#{financeManager.selectedPurchaseRequisition.description}"
+                rows="2"
+                counter="descriptionCharsRemaining"
+                counterTemplate="{0} characters remaining."
+                autoResize="false"
+                maxlength="1000" 
+                validator="requiredFieldValidator"
+                styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
+                style="width: 100%;">
+
+                <p:ajax event="change"
+                        update=":purchreqDialogForm:purchreqDetailToolbar1"
+                        listener="#{financeManager.updatePurchaseReq}"
                         process="@this"/>
 
-            </p:autoComplete>     
-
-            <p:menuButton id="supplierActionsMenu" icon="ui-icon-pencil" title="Add or edit supplier">
-                <p:menuitem>                       
-                    <p:commandButton value="Edit supplier"
-                                     id="editSupplier"
-                                     icon="ui-icon-pencil" 
-                                     disabled="${!financeManager.isSupplierNameValid}"
-                                     style="width: 300%;text-align: left;background: none;border: 0;"
-                                     onstart="PF('longProcessDialogVar4').show();"   
-                                     oncomplete="PF('longProcessDialogVar4').hide();"                                  
-                                     actionListener="#{financeManager.editPurhaseReqSuppier}"  
-                                     process="@this,supplier"                             
-                                     title="View or edit this suppliers's detail">  
-
-                        <p:ajax event="dialogReturn" 
-                                listener="#{financeManager.supplierDialogReturn}"
-                                update="supplier,supplierActionsMenu,:purchreqDialogForm:purchreqDetailToolbar1" />
-
-                    </p:commandButton>            
-                </p:menuitem>
-
-                <p:menuitem >       
-                    <p:commandButton 
-                        value="Add new supplier"
-                        icon="ui-icon-plus" 
-                        style="width: 300%;text-align: left;background: none;border: 0;"
-                        onstart="PF('longProcessDialogVar4').show();"    
-                        oncomplete="PF('longProcessDialogVar4').hide();"                    
-                        disabled="#{!financeManager.user.privilege.canAddSupplier}"
-                        actionListener="#{financeManager.createNewPurhaseReqSupplier}"                                            
-                        process="@this"
-                        title="Add a new supplier">
-
-                        <p:ajax event="dialogReturn" 
-                                listener="#{financeManager.supplierDialogReturn}"
-                                update="supplier,supplierActionsMenu,:purchreqDialogForm:purchreqDetailToolbar1" />
-
-                    </p:commandButton>
-                </p:menuitem>
-            </p:menuButton>      
-
-        </h:panelGroup>
-
-        <h:outputText value="Date: " style="font-weight: bold" />
-        <p:calendar id="requisitionDate"
-                    value="#{financeManager.selectedPurchaseRequisition.requisitionDate}" 
-                    readonlyInput="true"                    
-                    navigator="true" 
-                    pattern="MMM dd, yyyy" >
-            
-            <p:ajax event="dateSelect"
-                    update=":purchreqDialogForm:purchreqDetailToolbar1"
-                    listener="#{financeManager.updatePurchaseReq}" />
-
-            <p:ajax event="keyup"
-                    update=":purchreqDialogForm:purchreqDetailToolbar1"
-                    listener="#{financeManager.updatePurchaseReq}" />
-
-        </p:calendar>
-
-        <h:outputText value="Department.: " style="font-weight: bold" />
-        <p:autoComplete id="originatingDepartment"                          
-                        readonly="true"
-                        styleClass="read-only-inputfield"
-                        var="department"
-                        forceSelection="false"      
-                        dropdown="false"
-                        scrollHeight="200" 
-                        size="35"
-                        maxlength="40"
-                        value="#{financeManager.selectedPurchaseRequisition.originatingDepartment}"
-                        itemValue="#{department}"
-                        itemLabel="#{department.name}"
-                        converter="activeDepartmentConverter"
-                        validator="businessEntityValidator"
-                        completeMethod="#{App.completeActiveDepartment}" >            
-
-        </p:autoComplete>     
-
-        <h:outputText value="Originator: " style="font-weight: bold" />       
-        <p:autoComplete id="originator"
-                        readonly="true"
-                        styleClass="read-only-inputfield"
-                        var="originator"                            
-                        maxlength="40" 
-                        value="#{financeManager.selectedPurchaseRequisition.originator}"
-                        itemLabel="#{originator.name}"
-                        itemValue="#{originator}"
-                        converter="activeEmployeeConverter"
-                        validator="businessEntityValidator"
-                        forceSelection="true"
-                        dropdown="false"
-                        scrollHeight="200" 
-                        completeMethod="#{App.completeActiveEmployee}" >
-
-        </p:autoComplete>  
-
-        <h:outputText value="Description: " style="font-weight: bold;vertical-align: top;" />       
-        <p:inputTextarea
-            id="description"
-            value="#{financeManager.selectedPurchaseRequisition.description}"
-            rows="2"
-            counter="descriptionCharsRemaining"
-            counterTemplate="{0} characters remaining."
-            autoResize="false"
-            maxlength="1000" 
-            validator="requiredFieldValidator"
-            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-            style="width: 500px;">
-
-            <p:ajax event="change"
-                    update=":purchreqDialogForm:purchreqDetailToolbar1"
-                    listener="#{financeManager.updatePurchaseReq}"
-                    process="@this"/>
-
-        </p:inputTextarea> 
-        <h:outputText value="&nbsp;&nbsp;" />
-        <h:outputText id="descriptionCharsRemaining" /> 
-
-    </h:panelGrid>
-
+            </p:inputTextarea> 
+            <h:outputText value="&nbsp;&nbsp;" />
+            <h:outputText id="descriptionCharsRemaining" /> 
+        </h:panelGrid>
+    </p:panel>
 </html>
 
 
