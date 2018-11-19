@@ -219,57 +219,50 @@ Email: info@dpbennett.com.jm
                                 listener="#{jobManager.onDashboardTabChange}" />
 
                         <p:tab title="#{t.name}" > 
-                            <p:repeat value="#{dataListView.cars1}" var="car">
-                                <h:panelGroup rendered="#{t.id == 'Job Management'}">
-                                    <ui:include src="dashboard/jobs/jobsTab.xhtml" />
-                                </h:panelGroup>
-                            </p:repeat>
 
-                            <ui:remove>
-                                <h:panelGroup rendered="#{t.id == 'Job Management'}">
-                                    <ui:include src="dashboard/jobs/jobsTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Job Management'}">
+                                <ui:include src="dashboard/jobs/jobsTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
-                                    <ui:include src="dashboard/compliance/complianceTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
+                                <ui:include src="dashboard/compliance/complianceTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'Document Management'}">                               
-                                    <ui:include src="dashboard/legal/documentsTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Document Management'}">                               
+                                <ui:include src="dashboard/legal/documentsTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'Client Management'}">
-                                    <ui:include src="dashboard/client/clientsTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Client Management'}">
+                                <ui:include src="dashboard/client/clientsTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'Foods Inspectorate'}">
-                                    <ui:include src="dashboard/foods/foodsTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Foods Inspectorate'}">
+                                <ui:include src="dashboard/foods/foodsTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
-                                    <ui:include src="dashboard/metrology/metrologyTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
+                                <ui:include src="dashboard/metrology/metrologyTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'Standards'}">
-                                    <ui:include src="dashboard/standards/standardsTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Standards'}">
+                                <ui:include src="dashboard/standards/standardsTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'Certification'}">
-                                    <ui:include src="dashboard/certification/certificationTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Certification'}">
+                                <ui:include src="dashboard/certification/certificationTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'Service Request'}">
-                                    <ui:include src="dashboard/service/serviceTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Service Request'}">
+                                <ui:include src="dashboard/service/serviceTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'System Administration'}">
-                                    <ui:include src="dashboard/admin/generalAdminTab.xhtml" />
-                                </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'System Administration'}">
+                                <ui:include src="dashboard/admin/generalAdminTab.xhtml" />
+                            </h:panelGroup>
 
-                                <h:panelGroup rendered="#{t.id == 'Financial Administration'}">
-                                    <ui:include src="dashboard/finance/financialAdminTab.xhtml" />
-                                </h:panelGroup>
-                            </ui:remove>
+                            <h:panelGroup rendered="#{t.id == 'Financial Administration'}">
+                                <ui:include src="dashboard/finance/financialAdminTab.xhtml" />
+                            </h:panelGroup>
 
                         </p:tab>   
 

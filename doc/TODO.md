@@ -1,7 +1,5 @@
 # Accpac Invoicing & Credit Status Reporting
 
-- Check if p:repeat can be used to add tabs to dashboard and main tab. If not 
-  see if some other JSF repeat construct can be used.
 - Take the complete* methods out of application scope classes and put them in their
   respective managers. Eg put completeEmployee in HRM.
 - Impl HR module with HumanResourceManager class:
@@ -154,6 +152,7 @@ separate projects using maven overlays.
   in managers/WAL or can be put in them.
 - Create Application class and put in WAL. Other application classes such as
   JMTSApplication can be put in it.
+- Do Dashboard and MainTab tab init in JobManager and not in the contructors.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.
