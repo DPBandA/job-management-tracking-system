@@ -1,5 +1,29 @@
+# Accpac Invoicing & Credit Status Reporting
+
+- Check if p:repeat can be used to add tabs to dashboard and main tab. If not 
+  see if some other JSF repeat construct can be used.
+- Take the complete* methods out of application scope classes and put them in their
+  respective managers. Eg put completeEmployee in HRM.
+- Impl HR module with HumanResourceManager class:
+  * Add fields to Division class and update all databases
+  * Create divisions and divisional groups tabs.
+  * Create labs and units within departments.
+- Impl invoice export. 
+  * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
+  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
+  * In onJobCostingCellEdit save JCP and client only if these were table cells 
+    were edited. Also new Accounting codes are being saved. Fix!
+  * Change "Service Contract" to "Services" and make "Service Contract" a "sub tab"
+  * Impl fill out of Invoice_Details sheet
+    - Impl fill out of multiple CNTLINE for each CNTITEM.
+    - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
+      in Financial Admin. NB impl finding code by name and description.
+  * Export invoices for only selected jobs?
+  * Flag job as invoiced after export?
+  * Make sure to add AccountingCode table to all along with data.
 
 # Purchasing
+
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
   * Impl checkbox auto number feature exactly as in jobgeneral tab.
@@ -28,8 +52,9 @@
 - Now that department is removed from JMUser, check that not code is broken.
 
 # Database Update and Deployment
-- Add MANHOURRATE to all employeeposition tables.
 - Add CANADDSUPPLIER to privileges table.
+- Test using the database on BOSAPP from BOSHRMAPP to see the response in
+  doing database searches and opening the job form.
 
 # DBA
 - Position names: Team Leader, Divisional Manager, Divisional Director, 
@@ -52,25 +77,6 @@
 - Create report to show Accpac budget allocations.
 - Get suppliers from Accpac.
 - Impl supplier evaluation.
-
-# Accpac Invoicing & Credit Status Reporting
-- Impl HR module with HumanResourceManager class:
-  * Add fields to Division class and update all databases
-  * Create divisions and divisional groups tabs.
-  * Create labs and units within departments.
-- Impl invoice export. 
-  * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
-  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
-  * In onJobCostingCellEdit save JCP and client only if these were table cells 
-    were edited. Also new Accounting codes are being saved. Fix!
-  * Change "Service Contract" to "Services" and make "Service Contract" a "sub tab"
-  * Impl fill out of Invoice_Details sheet
-    - Impl fill out of multiple CNTLINE for each CNTITEM.
-    - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
-      in Financial Admin. NB impl finding code by name and description.
-  * Export invoices for only selected jobs?
-  * Flag job as invoiced after export?
-  * Make sure to add AccountingCode table to all along with data. 
 
 # Purchasing
 - Impl PurchaseRequisition and PurchaseOrder classes.

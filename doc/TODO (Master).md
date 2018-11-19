@@ -187,6 +187,7 @@ This release will be around early July.
 - Impl Status or JobStatus class and use 
 - Anybody can mark change the work status of a job even if they don't belong to the department to
   which the job is assigned. Fix!
+- Add Tax, Payroll and Deduction classes to BEL.
 
 ### Job Edit Synchronization
 - Create/maintain list of opened jobs in the Application class.
