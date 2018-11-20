@@ -1,5 +1,10 @@
 # Accpac Invoicing & Credit Status Reporting
 
+- Organize the privileges in Privilege class
+- Implement Payroll class to have a Pay collection field, date, creator, etc. 
+  The Pay class should have employee, salary, net salary, date, taxes etc.
+- For session scope beans that are needed by job manager declare them in faces 
+  config and remove annotations. Remove use of named beans where possibl
 - Take the complete* methods out of application scope classes and put them in their
   respective managers. Eg put completeEmployee in HRM.
 - Impl HR module with HumanResourceManager class:
