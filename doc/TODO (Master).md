@@ -39,6 +39,11 @@
 - Add test and calibration values to monthly report.
 - Reports on recalibration date for equipment.
 
+### HRM
+- Add list of Services to the Department class.
+- Create and add Contractor to BEL/HRM? 
+- To Organization/Business class add Divisions, Subgroups, Departments, Clients
+
 ### Updates based on training, testing and feedback
 - The delete payment dialog text does not show in dark hive. Fix!
 - Reload entities from database before loading in dialogs.

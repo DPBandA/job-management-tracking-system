@@ -1,6 +1,4 @@
 # Accpac Invoicing & Credit Status Reporting
-
-- Organize the privileges in Privilege class
 - Implement Payroll class to have a Pay collection field, date, creator, etc. 
   The Pay class should have employee, salary, net salary, date, taxes etc.
 - For session scope beans that are needed by job manager declare them in faces 
@@ -27,6 +25,7 @@
 
 # Purchasing
 
+- Do PR and PO forms.
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
   * Impl checkbox auto number feature exactly as in jobgeneral tab.
@@ -94,7 +93,7 @@
   Update "turnaround times" when doc is being saved?
 - Switch to LegalOfficeReport2 in system admin.
 
-# Impl HR module with HumanResourceManager class
+# HRM
 - Create 
 - Reload entities before opening dialogs. Start with employee.
   * Load from database using setSelected* in <f:setPropertyActionListener>
@@ -106,6 +105,15 @@
 - When error occurs while saving job occurs and email is sent, a job number is 
 still generated. This happened for job 6153 which was later saved to 6154. 
 A valid job number should not be generated when this occurs.
+- Deal with apparent creation of multiple 
+"QEMS-OSH (Quality &amp; Environmental Management Systems - Occupational Health &amp; Safety)"
+department which seems to be due to the "&" character or "&amp;". Try to delete the
+in active ones.
+- Impl searching for department on the code field.
+- Add head to division dialog.
+- Impl Labs and Department units.
+- Instead of Notes put head in Dept, Subgroup and Division tables.
+- In the relevant dialogs, layout fields as Code, Name, Head.
 
 # General
 - Upgrade to using Java EE 7/8 and GF 5 on boshrmapp and bosapp ASAP.
