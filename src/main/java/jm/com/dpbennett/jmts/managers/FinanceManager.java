@@ -99,8 +99,6 @@ import org.primefaces.component.selectonemenu.SelectOneMenu;
  *
  * @author Desmond Bennett
  */
-@Named
-@SessionScoped
 public class FinanceManager implements Serializable, BusinessEntityManagement,
         DialogActionHandler, MessageManagement {
 

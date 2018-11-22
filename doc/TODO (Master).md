@@ -68,8 +68,14 @@
   department head where appropriate eg send alert to parent job assignee and the
   person who entered the job when child job is approved.
 - Ensure that a job is not marked completed until the child job costing is included?
+
+### Payroll
+- Implement Payroll class to have a Pay collection field, date, creator, etc. 
+  The Pay class should have employee, salary, net salary, date, taxes etc.
   
 ### General
+- Add business type to the organization dialog. Types could include Regulatory,
+  Learning Institution etc.
 - Create Management classes from Manager classes so that the business logic
   can be used by other classes as is done with ClientManager/ClientManagement classes.
 - Fix up the client editing in the job detail dialog. May update or reset the 

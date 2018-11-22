@@ -1,8 +1,7 @@
 # Accpac Invoicing & Credit Status Reporting
-- Implement Payroll class to have a Pay collection field, date, creator, etc. 
-  The Pay class should have employee, salary, net salary, date, taxes etc.
+
 - For session scope beans that are needed by job manager declare them in faces 
-  config and remove annotations. Remove use of named beans where possibl
+  config and remove annotations. Remove use of named beans where possible.
 - Take the complete* methods out of application scope classes and put them in their
   respective managers. Eg put completeEmployee in HRM.
 - Impl HR module with HumanResourceManager class:
@@ -92,6 +91,7 @@
 - Do update Legal Office report with set and actual turnaround times. 
   Update "turnaround times" when doc is being saved?
 - Switch to LegalOfficeReport2 in system admin.
+- Search results do not seem to be sorted. Fix.
 
 # HRM
 - Create 
@@ -116,6 +116,7 @@ in active ones.
 - In the relevant dialogs, layout fields as Code, Name, Head.
 
 # General
+- Misc config search results not sorted. Fix!
 - Upgrade to using Java EE 7/8 and GF 5 on boshrmapp and bosapp ASAP.
 - Set address type to billing for new addresses.
 - Check out Server Performance Tuner in GF4/5 to see if this help the speed of 

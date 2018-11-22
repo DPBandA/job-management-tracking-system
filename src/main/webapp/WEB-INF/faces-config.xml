@@ -388,6 +388,60 @@
         <managed-bean-name>authentication</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.wal.Authentication</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean> 
-   
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>clientManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.ClientManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>humanResourceManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.HumanResourceManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>reportManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.ReportManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>financeManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.FinanceManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+  
+    <managed-bean>
+        <managed-bean-name>financeManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.FinanceManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>jobManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.JobManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>jobSampleManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.JobSampleManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>legalDocumentManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.LegalDocumentManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>systemManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.SystemManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
 </faces-config>

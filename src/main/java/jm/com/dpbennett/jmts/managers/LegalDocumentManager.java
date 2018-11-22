@@ -42,6 +42,8 @@ import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.LegalDocument;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.wal.managers.ClientManager;
+import jm.com.dpbennett.wal.managers.ReportManager;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
@@ -60,8 +62,6 @@ import org.primefaces.event.SelectEvent;
  *
  * @author Desmond Bennett
  */
-@ManagedBean
-@SessionScoped
 public class LegalDocumentManager implements Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")

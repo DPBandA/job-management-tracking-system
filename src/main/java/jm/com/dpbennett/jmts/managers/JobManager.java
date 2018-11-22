@@ -19,6 +19,9 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
+import jm.com.dpbennett.wal.managers.ReportManager;
+import jm.com.dpbennett.wal.managers.HumanResourceManager;
+import jm.com.dpbennett.wal.managers.ClientManager;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -87,15 +90,12 @@ import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import jm.com.dpbennett.wal.utils.TabPanel;
 import org.primefaces.PrimeFaces;
-import org.primefaces.component.tabview.Tab;
 import org.primefaces.event.CellEditEvent;
 
 /**
  *
  * @author Desmond Bennett
  */
-@Named
-@SessionScoped
 public class JobManager implements Serializable, BusinessEntityManagement,
         DialogActionHandler, MessageManagement, Authentication.LoginListener {
 
@@ -1688,7 +1688,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return getUser().getPrivilege().getCanEnterJob()
                 || getUser().getPrivilege().getCanEnterDepartmentJob()
-         //       || getUser().getDepartment().getPrivilege().getCanEnterJob()
+                //       || getUser().getDepartment().getPrivilege().getCanEnterJob()
                 || getUser().getPrivilege().getCanEnterOwnJob();
     }
 

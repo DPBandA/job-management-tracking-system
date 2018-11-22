@@ -23,11 +23,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -38,7 +36,6 @@ import jm.com.dpbennett.business.entity.JobSample;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import org.primefaces.PrimeFaces;
@@ -47,8 +44,6 @@ import org.primefaces.PrimeFaces;
  *
  * @author Desmond Bennett
  */
-@Named
-@SessionScoped
 public class JobSampleManager implements Serializable, BusinessEntityManagement {
 
     @PersistenceUnit(unitName = "JMTSPU")

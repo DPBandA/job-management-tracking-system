@@ -61,9 +61,6 @@ import org.primefaces.event.TabChangeEvent;
  *
  * @author Desmond Bennett
  */
-@ManagedBean
-//@Named
-@SessionScoped
 public class SystemManager implements Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")

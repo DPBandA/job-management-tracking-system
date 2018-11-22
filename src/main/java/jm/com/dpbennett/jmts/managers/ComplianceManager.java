@@ -4,6 +4,8 @@
  */
 package jm.com.dpbennett.jmts.managers;
 
+import jm.com.dpbennett.wal.managers.ReportManager;
+import jm.com.dpbennett.wal.managers.ClientManager;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,7 +42,6 @@ import jm.com.dpbennett.business.entity.ShippingContainer;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.UserManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import net.sf.jasperreports.engine.JRException;
