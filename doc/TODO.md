@@ -114,6 +114,7 @@ in active ones.
 - Impl Labs and Department units.
 - Instead of Notes put head in Dept, Subgroup and Division tables.
 - In the relevant dialogs, layout fields as Code, Name, Head.
+- Add payCycle to EmployeePosition class. Should be in Payroll class too?
 
 # General
 - Misc config search results not sorted. Fix!
