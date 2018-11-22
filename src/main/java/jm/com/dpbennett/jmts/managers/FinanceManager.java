@@ -2946,7 +2946,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public List<SelectItem> getGCTPercentages() { // tk put in a costing entity
         ArrayList percentages = new ArrayList();
 
-        percentages.addAll(JMTSApplication.getStringListAsSelectItems(getEntityManager1(), "GCTPercentageList"));
+        percentages.addAll(SystemManager.getStringListAsSelectItems(getEntityManager1(), "GCTPercentageList"));
 
         return percentages;
     }

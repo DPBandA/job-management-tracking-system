@@ -25,14 +25,11 @@ import java.util.List;
 import javax.ejb.Singleton;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Supplier;
-import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 
 /**

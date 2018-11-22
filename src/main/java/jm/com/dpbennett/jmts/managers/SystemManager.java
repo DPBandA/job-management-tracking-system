@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -47,6 +45,7 @@ import jm.com.dpbennett.business.entity.LdapContext;
 import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+//import static jm.com.dpbennett.jmts.JMTSApplication.getStringListAsSelectItems;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
@@ -119,12 +118,57 @@ public class SystemManager implements Serializable {
     private JobSubCategory selectedJobSubcategory;
     private Sector selectedSector;
     private LdapContext selectedLdapContext;
-    
+
     /**
      * Creates a new instance of SystemManager
      */
     public SystemManager() {
         init();
+    }
+    
+     // tk Put in LegalMetrologyManager
+    public List<SelectItem> getTestMeasures() {
+
+        return getStringListAsSelectItems(getEntityManager(), "petrolTestMeasures");
+    }
+
+    public List<SelectItem> getEquipmentWorkingStatus() {
+        
+        return getStringListAsSelectItems(getEntityManager(), "equipmentWorkingStatusList");
+    }
+
+    public List<SelectItem> getWorkProgressList() {
+
+        return getStringListAsSelectItems(getEntityManager(),
+                "workProgressList");
+    }
+
+    public List getContactTypes() {
+
+        return getStringListAsSelectItems(getEntityManager(), "personalContactTypes");
+    }
+    
+    public List<SelectItem> getJamaicaParishes() {
+
+        return getStringListAsSelectItems(getEntityManager(), "jamaicaParishes");
+    }
+
+    public static List<SelectItem> getStringListAsSelectItems(EntityManager em,
+            String systemOption) {
+
+        ArrayList list = new ArrayList();
+
+        List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
+
+        for (String name : stringList) {
+            list.add(new SelectItem(name, name));
+        }
+
+        return list;
+    }
+
+    public List getClassificationCategories() {
+        return getCategories();
     }
 
     public String getOpenedJobsSearchText() {
@@ -133,6 +177,17 @@ public class SystemManager implements Serializable {
 
     public void setOpenedJobsSearchText(String openedJobsSearchText) {
         this.openedJobsSearchText = openedJobsSearchText;
+    }
+
+    public static List getCategories() {
+        ArrayList categories = new ArrayList();
+
+        categories.add(new SelectItem("", ""));
+        categories.add(new SelectItem("Client", "Client"));
+        categories.add(new SelectItem("Job", "Job"));
+        categories.add(new SelectItem("Legal", "Legal"));
+
+        return categories;
     }
 
     public List getValueTypes() {
@@ -983,7 +1038,6 @@ public class SystemManager implements Serializable {
 //            selectedUser.setDepartment(Department.findDepartmentById(getEntityManager(), selectedUser.getDepartment().getId()));
 //        }
 //    }
-
     public void updateSelectedUserEmployee() {
         if (selectedUser.getEmployee() != null) {
             if (selectedUser.getEmployee().getId() != null) {
@@ -1055,7 +1109,6 @@ public class SystemManager implements Serializable {
 //            return new ArrayList<>();
 //        }
 //    }
-
     public List<String> completeUser(String query) {
 
         try {

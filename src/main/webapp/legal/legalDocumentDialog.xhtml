@@ -82,7 +82,7 @@ Email: info@dpbennett.com.jm
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     process="@this" />
 
-                            <f:selectItems value="#{App.priorityLevels}"/>
+                            <f:selectItems value="#{legalDocumentManager.priorityLevels}"/>
                         </p:selectOneMenu>
 
                         <h:outputText value="Requesting department:" style="font-weight: bold;" />                       
@@ -315,7 +315,7 @@ Email: info@dpbennett.com.jm
                                     update="currentDocumentNumber"
                                     process="@this" />
 
-                            <f:selectItems value="#{App.documentForms}" />
+                            <f:selectItems value="#{legalDocumentManager.documentForms}" />
 
                         </p:selectOneMenu>
 
@@ -368,7 +368,7 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.strategicPriority}"
                                         dropdown="true"
                                         forceSelection="false" 
-                                        completeMethod="#{App.completeStrategicPriority}">
+                                        completeMethod="#{legalDocumentManager.completeStrategicPriority}">
 
                             <p:ajax event="change"
                                     listener="#{legalDocumentManager.updateDocument}"
@@ -486,7 +486,7 @@ Email: info@dpbennett.com.jm
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     process="@this" />
 
-                            <f:selectItems value="#{App.documentStatuses}"/>
+                            <f:selectItems value="#{legalDocumentManager.documentStatuses}"/>
 
                         </p:selectOneMenu>
 

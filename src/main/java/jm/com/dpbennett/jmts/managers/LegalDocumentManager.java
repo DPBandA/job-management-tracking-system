@@ -25,8 +25,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
@@ -41,6 +39,7 @@ import jm.com.dpbennett.business.entity.DocumentType;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.LegalDocument;
+import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.wal.managers.ClientManager;
 import jm.com.dpbennett.wal.managers.ReportManager;
@@ -81,6 +80,56 @@ public class LegalDocumentManager implements Serializable {
 
     public LegalDocumentManager() {
         init();
+    }
+    
+    public List getDocumentForms() {
+        ArrayList forms = new ArrayList();
+
+        forms.add(new SelectItem("E", "Electronic"));
+        forms.add(new SelectItem("H", "Hard copy"));
+        forms.add(new SelectItem("V", "Verbal"));
+
+        return forms;
+    }
+
+    public List getPriorityLevels() {
+        ArrayList levels = new ArrayList();
+
+        levels.add(new SelectItem("--", "--"));
+        levels.add(new SelectItem("High", "High"));
+        levels.add(new SelectItem("Medium", "Medium"));
+        levels.add(new SelectItem("Low", "Low"));
+        levels.add(new SelectItem("Emergency", "Emergency"));
+
+        return levels;
+    }
+
+    public List getDocumentStatuses() {
+        ArrayList statuses = new ArrayList();
+
+        statuses.add(new SelectItem("--", "--"));
+        statuses.add(new SelectItem("Clarification required", "Clarification required"));
+        statuses.add(new SelectItem("Completed", "Completed"));
+        statuses.add(new SelectItem("On target", "On target"));
+        statuses.add(new SelectItem("Transferred to Ministry", "Transferred to Ministry"));
+
+        return statuses;
+    }
+
+    public List<String> completeStrategicPriority(String query) {
+
+        List<String> priorities = (List<String>) SystemOption.
+                getOptionValueObject(getEntityManager(), "StrategicPriorities");
+        List<String> matchedPriority = new ArrayList<>();
+
+        for (String priority : priorities) {
+            if (priority.contains(query)) {
+                matchedPriority.add(priority);
+            }
+        }
+
+        return matchedPriority;
+
     }
 
     public List getLegalDocumentDateSearchFields() {
@@ -393,12 +442,9 @@ public class LegalDocumentManager implements Serializable {
     }
 
     public void setCurrentDocument(LegalDocument currentDocument) {
-        //this.currentDocument = currentDocument;
 
-        // tk
-        this.currentDocument = LegalDocument.findLegalDocumentById(getEntityManager(), 
+        this.currentDocument = LegalDocument.findLegalDocumentById(getEntityManager(),
                 currentDocument.getId());
-        System.out.println(" Doc id: " + getCurrentDocument().getId());
 
         this.currentDocument.setVisited(true);
     }

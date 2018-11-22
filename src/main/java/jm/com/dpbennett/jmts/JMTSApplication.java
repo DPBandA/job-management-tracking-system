@@ -66,7 +66,6 @@ import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import jm.com.dpbennett.wal.utils.DataItem;
 import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
-import jm.com.dpbennett.wal.utils.ReportUtils;
 import jm.com.dpbennett.wal.utils.SortableSelectItem;
 
 /**
@@ -98,27 +97,6 @@ public class JMTSApplication implements Serializable {
         themes.put("Dark Hive", "dark-hive");
     }
 
-    public List<String> completeStrategicPriority(String query) {
-
-        List<String> priorities = (List<String>) SystemOption.
-                getOptionValueObject(getEntityManager1(), "StrategicPriorities");
-        List<String> matchedPriority = new ArrayList<>();
-
-        for (String priority : priorities) {
-            if (priority.contains(query)) {
-                matchedPriority.add(priority);
-            }
-        }
-
-        return matchedPriority;
-
-    }
-
-//    @Schedule(hour = "*", minute = "*", second = "*/30")
-//    public void automaticTimer() {
-//        // tk
-//        System.out.println("# of opened job: " + getOpenedJobs() + " Time: " + new Date());
-//    }
     public synchronized List<Job> getOpenedJobs() {
         return openedJobs;
     }
@@ -141,94 +119,6 @@ public class JMTSApplication implements Serializable {
         return null;
     }
 
-    public List<String> completeDocumentTypeName(String query) {
-
-        try {
-            List<DocumentType> types = DocumentType.findDocumentTypesByName(getEntityManager1(), query);
-            List<String> suggestions = new ArrayList<>();
-            if (types != null) {
-                if (!types.isEmpty()) {
-                    for (DocumentType type : types) {
-                        suggestions.add(type.getName());
-                    }
-                }
-            }
-
-            return suggestions;
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public List<String> completeDocumentTypeCode(String query) {
-
-        try {
-            List<DocumentType> types = DocumentType.findDocumentTypesByCode(getEntityManager1(), query);
-            List<String> suggestions = new ArrayList<>();
-            if (types != null) {
-                if (!types.isEmpty()) {
-                    for (DocumentType type : types) {
-                        suggestions.add(type.getCode());
-                    }
-                }
-            }
-
-            return suggestions;
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public List getClassificationCategories() {
-        return ReportUtils.getCategories(); //Classification.getCategories();
-    }
-
-    public List getDocumentStatuses() {
-        ArrayList statuses = new ArrayList();
-
-        statuses.add(new SelectItem("--", "--"));
-        statuses.add(new SelectItem("Clarification required", "Clarification required"));
-        statuses.add(new SelectItem("Completed", "Completed"));
-        statuses.add(new SelectItem("On target", "On target"));
-        statuses.add(new SelectItem("Transferred to Ministry", "Transferred to Ministry"));
-
-        return statuses;
-    }
-
-    public List getPriorityLevels() {
-        ArrayList levels = new ArrayList();
-
-        levels.add(new SelectItem("--", "--"));
-        levels.add(new SelectItem("High", "High"));
-        levels.add(new SelectItem("Medium", "Medium"));
-        levels.add(new SelectItem("Low", "Low"));
-        levels.add(new SelectItem("Emergency", "Emergency"));
-
-        return levels;
-    }
-
-    public List getDocumentForms() {
-        ArrayList forms = new ArrayList();
-
-        forms.add(new SelectItem("E", "Electronic"));
-        forms.add(new SelectItem("H", "Hard copy"));
-        forms.add(new SelectItem("V", "Verbal"));
-
-        return forms;
-    }
-
-    // tk getStringListAsSelectItems
-    public List<SelectItem> getWorkProgressList() {
-
-        return JMTSApplication.getStringListAsSelectItems(getEntityManager1(),
-                "workProgressList");
-
-    }
-
     public List getCostCodeList() {
         return FinancialUtils.getCostCodeList();
     }
@@ -247,18 +137,6 @@ public class JMTSApplication implements Serializable {
 
     public List getDateSearchFields() {
          return  DateUtils.getDateSearchFields("All");
-    }
-
-    public List getContactTypes() {
-
-        return JMTSApplication.getStringListAsSelectItems(getEntityManager1(), "personalContactTypes");
-
-    }
-
-    public List<SelectItem> getJamaicaParishes() {
-
-        return JMTSApplication.getStringListAsSelectItems(getEntityManager1(), "jamaicaParishes");
-
     }
 
     public List getSearchTypes() {
@@ -361,17 +239,6 @@ public class JMTSApplication implements Serializable {
         return userName;
     }
 
-    // tk to be obtained from database
-    public List<SelectItem> getTestMeasures() {
-
-        return JMTSApplication.getStringListAsSelectItems(getEntityManager1(), "petrolTestMeasures");
-
-    }
-
-    public List<SelectItem> getEquipmentWorkingStatus() {
-        return JMTSApplication.getStringListAsSelectItems(getEntityManager1(), "equipmentWorkingStatusList");
-    }
-
     public Boolean findJobSample(List<JobSample> samples, String reference) {
         for (JobSample jobSample : samples) {
             if (jobSample.getReference().equals(reference)) {
@@ -381,8 +248,6 @@ public class JMTSApplication implements Serializable {
 
         return false;
     }
-
-    
 
     public List<BusinessOffice> completeBusinessOffice(String query) {
         EntityManager em;
@@ -767,19 +632,19 @@ public class JMTSApplication implements Serializable {
         }
     }
 
-    public static List<SelectItem> getStringListAsSelectItems(EntityManager em,
-            String systemOption) {
-
-        ArrayList list = new ArrayList();
-
-        List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
-
-        for (String name : stringList) {
-            list.add(new SelectItem(name, name));
-        }
-
-        return list;
-    }
+//    public static List<SelectItem> getStringListAsSelectItems(EntityManager em,
+//            String systemOption) {
+//
+//        ArrayList list = new ArrayList();
+//
+//        List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, systemOption);
+//
+//        for (String name : stringList) {
+//            list.add(new SelectItem(name, name));
+//        }
+//
+//        return list;
+//    }
 
     public static List<SortableSelectItem> getStringListAsSortableSelectItems(EntityManager em,
             String systemOption) {

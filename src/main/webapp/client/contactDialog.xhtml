@@ -60,8 +60,9 @@ Email: info@dpbennett.com.jm
                             global="true"
                             listener="#{clientManager.updateContact}"
                             process="@this" />
-                        <f:selectItem itemLabel="Main" itemValue="Main" />
-                        <f:selectItem itemLabel="General" itemValue="General" />
+                        
+                        <f:selectItems value="#{systemManager.contactTypes}" />
+                        
                     </p:selectOneMenu>
 
                     <h:outputText value="Title:" />
