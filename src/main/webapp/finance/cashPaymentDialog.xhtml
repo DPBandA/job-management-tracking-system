@@ -68,7 +68,7 @@ Email: info@dpbennett.com.jm
                             global="true"                        
                             listener="#{financeManager.updateCashPayment}"
                             process="@this" />
-                        <f:selectItems value="#{App.paymentTypes}" />
+                        <f:selectItems value="#{financeManager.paymentTypes}" />
                     </p:selectOneMenu>   
 
                     <h:outputText value="Purpose of payment:" style="font-weight: bold;" />    
@@ -79,7 +79,7 @@ Email: info@dpbennett.com.jm
                             global="true"                        
                             listener="#{financeManager.updateCashPayment}"
                             process="@this" />
-                        <f:selectItems value="#{App.paymentPurposes}" />
+                        <f:selectItems value="#{financeManager.paymentPurposes}" />
                     </p:selectOneMenu>   
 
                     <h:outputText value="Payment date:" style="font-weight: bold" />

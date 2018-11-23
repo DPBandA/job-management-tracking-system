@@ -82,6 +82,14 @@ public class LegalDocumentManager implements Serializable {
         init();
     }
     
+     public List getLegalDocumentSearchTypes() {
+        ArrayList searchTypes = new ArrayList();
+
+        searchTypes.add(new SelectItem("General", "General"));
+
+        return searchTypes;
+    }
+    
     public List getDocumentForms() {
         ArrayList forms = new ArrayList();
 

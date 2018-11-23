@@ -55,7 +55,7 @@ Email: info@dpbennett.com.jm
                 <p:ajax update="complianceStartSearchDate,complianceEndSearchDate"
                         listener="#{complianceManager.updateDatePeriodSearch}"
                         process="@this" />
-                <f:selectItems value="#{App.datePeriods}" />
+                <f:selectItems value="#{systemManager.datePeriods}" />
             </p:selectOneMenu >
 
             <h:outputText value="Start date:"/>

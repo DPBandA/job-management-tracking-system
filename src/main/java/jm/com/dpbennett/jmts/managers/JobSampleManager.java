@@ -26,6 +26,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -64,6 +65,29 @@ public class JobSampleManager implements Serializable, BusinessEntityManagement 
         selectedJobSample = new JobSample();
         jobSampleDialogTabViewActiveIndex = 0;
         selectedJobSampleBackup = null;
+    }
+
+    /*
+     * NB: Methods to be put in database and not hard coded.
+     */
+    public List getMethodsOfDisposal() {
+        ArrayList methods = new ArrayList();
+
+        // tk to be replaced by the user's organization
+        // TK validate reason for doing this.
+        String sysOption
+                = (String) SystemOption.getOptionValueObject(getEntityManager1(),
+                        "organizationName");
+
+        methods.add(new SelectItem("1", "Collected by the client within 30 days"));
+        if (sysOption != null) {
+            methods.add(new SelectItem("2", "Disposed of by " + sysOption));
+        } else {
+            methods.add(new SelectItem("2", "Disposed of by us"));
+        }
+        methods.add(new SelectItem("3", "To be determined"));
+
+        return methods;
     }
 
     public JobManager getJobManager() {

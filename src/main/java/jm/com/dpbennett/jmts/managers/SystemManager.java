@@ -33,6 +33,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
+import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.DocumentReport;
 import jm.com.dpbennett.business.entity.DocumentStandard;
@@ -47,6 +48,7 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 //import static jm.com.dpbennett.jmts.JMTSApplication.getStringListAsSelectItems;
 import jm.com.dpbennett.wal.utils.BeanUtils;
+import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
@@ -125,15 +127,29 @@ public class SystemManager implements Serializable {
     public SystemManager() {
         init();
     }
-    
-     // tk Put in LegalMetrologyManager
+
+    public List<SelectItem> getDatePeriods() {
+        ArrayList<SelectItem> datePeriods = new ArrayList<>();
+
+        for (String name : DatePeriod.getDatePeriodNames()) {
+            datePeriods.add(new SelectItem(name, name));
+        }
+
+        return datePeriods;
+    }
+
+    public List getDateSearchFields() {
+        return DateUtils.getDateSearchFields("All");
+    }
+
+    // tk Put in LegalMetrologyManager
     public List<SelectItem> getTestMeasures() {
 
         return getStringListAsSelectItems(getEntityManager(), "petrolTestMeasures");
     }
 
     public List<SelectItem> getEquipmentWorkingStatus() {
-        
+
         return getStringListAsSelectItems(getEntityManager(), "equipmentWorkingStatusList");
     }
 
@@ -147,7 +163,7 @@ public class SystemManager implements Serializable {
 
         return getStringListAsSelectItems(getEntityManager(), "personalContactTypes");
     }
-    
+
     public List<SelectItem> getJamaicaParishes() {
 
         return getStringListAsSelectItems(getEntityManager(), "jamaicaParishes");

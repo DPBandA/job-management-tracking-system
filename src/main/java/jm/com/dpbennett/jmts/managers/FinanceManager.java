@@ -82,6 +82,7 @@ import jm.com.dpbennett.business.entity.utils.ReturnMessage;
 import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.DialogActionHandler;
+import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.ReportUtils;
@@ -155,6 +156,14 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
      */
     public FinanceManager() {
         init();
+    }
+    
+    public List getPaymentTypes() {
+        return FinancialUtils.getPaymentTypes();
+    }
+    
+    public List getPaymentPurposes() {
+        return FinancialUtils.getPaymentPurposes();
     }
 
     public void updateSupplier() {

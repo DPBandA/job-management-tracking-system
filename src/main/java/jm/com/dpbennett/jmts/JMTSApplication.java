@@ -64,7 +64,6 @@ import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.SearchParameters;
 import jm.com.dpbennett.wal.utils.DataItem;
-import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.SortableSelectItem;
 
@@ -134,120 +133,7 @@ public class JMTSApplication implements Serializable {
     public EntityManager getEntityManager2() {
         return EMF2.createEntityManager();
     }
-
-    public List getDateSearchFields() {
-         return  DateUtils.getDateSearchFields("All");
-    }
-
-    public List getSearchTypes() {
-        ArrayList searchTypes = new ArrayList();
-
-        searchTypes.add(new SelectItem("General", "General"));
-        searchTypes.add(new SelectItem("My jobs", "My jobs"));
-        searchTypes.add(new SelectItem("My department's jobs", "My department's jobs"));
-
-        return searchTypes;
-    }
-
-    public List getLegalDocumentSearchTypes() {
-        ArrayList searchTypes = new ArrayList();
-
-        searchTypes.add(new SelectItem("General", "General"));
-
-        return searchTypes;
-    }
-
-    /**
-     * Returns the discount type that can be applied to a payment/amount
-     *
-     * @return
-     */
-    public List getDiscountTypes() {
-
-        return FinancialUtils.getDiscountTypes();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List getPaymentTypes() {
-        return FinancialUtils.getPaymentTypes();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List getPaymentPurposes() {
-        return FinancialUtils.getPaymentPurposes();
-    }
-
-    /*
-     * NB: Methods to be put in database and not hard coded.
-     */
-    public List getMethodsOfDisposal() {
-        ArrayList methods = new ArrayList();
-
-        // tk to be replaced by the user's organization
-        String sysOption
-                = (String) SystemOption.getOptionValueObject(getEntityManager1(),
-                        "organizationName");
-
-        methods.add(new SelectItem("1", "Collected by the client within 30 days"));
-        if (sysOption != null) {
-            methods.add(new SelectItem("2", "Disposed of by " + sysOption));
-        } else {
-            methods.add(new SelectItem("2", "Disposed of by us"));
-        }
-        methods.add(new SelectItem("3", "To be determined"));
-
-        return methods;
-    }
-
-    /*
-     * NB: Methods to be put in database and not hard coded
-     */
-    public List getJobSampleTypes() {
-        ArrayList dateFields = new ArrayList();
-
-        dateFields.add(new SelectItem("1", "Food"));
-        dateFields.add(new SelectItem("2", "Electrical"));
-        dateFields.add(new SelectItem("3", "Mechanical"));
-
-        return dateFields;
-    }
-
-    public List<SelectItem> getDatePeriods() {
-        ArrayList<SelectItem> datePeriods = new ArrayList<>();
-
-        for (String name : DatePeriod.getDatePeriodNames()) {
-            datePeriods.add(new SelectItem(name, name));
-        }
-
-        return datePeriods;
-    }
-
-    public List<String> completeDatePeriods(String query) {
-
-        return DatePeriod.getDatePeriodNames();
-    }
-
-    public String getLogonUser() {
-        String userName = System.getProperty("user.name");
-
-        return userName;
-    }
-
-    public Boolean findJobSample(List<JobSample> samples, String reference) {
-        for (JobSample jobSample : samples) {
-            if (jobSample.getReference().equals(reference)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+    ////////////////////////////////////////////////////////////////////////////
 
     public List<BusinessOffice> completeBusinessOffice(String query) {
         EntityManager em;
@@ -346,15 +232,15 @@ public class JMTSApplication implements Serializable {
             return new ArrayList<>();
         }
     }
-    
+
     public List<EmployeePosition> completeActiveEmployeePosition(String query) {
         EntityManager em;
 
         try {
 
             em = getEntityManager1();
-            List<EmployeePosition> employeePositions = 
-                    EmployeePosition.findActiveEmployeePositionsByTitle(em, query);
+            List<EmployeePosition> employeePositions
+                    = EmployeePosition.findActiveEmployeePositionsByTitle(em, query);
 
             if (employeePositions != null) {
                 return employeePositions;
@@ -645,7 +531,6 @@ public class JMTSApplication implements Serializable {
 //
 //        return list;
 //    }
-
     public static List<SortableSelectItem> getStringListAsSortableSelectItems(EntityManager em,
             String systemOption) {
 

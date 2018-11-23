@@ -273,7 +273,7 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="Method of disposal: " style="font-weight: bold;" />
                         <p:selectOneMenu value="#{jobSampleManager.selectedJobSample.methodOfDisposal}" 
                                          id="methodOfDisposal">
-                            <f:selectItems value="#{App.methodsOfDisposal}" />
+                            <f:selectItems value="#{jobSampleManager.methodsOfDisposal}" />
                             <p:ajax listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     global="false"

@@ -58,14 +58,14 @@ Email: info@dpbennett.com.jm
                                 update="startDate,endDate"
                                 process="@this" />
 
-                        <f:selectItems value="#{App.datePeriods}"/>
+                        <f:selectItems value="#{systemManager.datePeriods}"/>
 
                     </p:selectOneMenu>
 
                     <h:outputLabel value="Field:" style="font-weight: bold;" />
                     <p:selectOneMenu value="#{reportManager.selectedDatePeriod.dateField}" >
                        
-                        <f:selectItems value="#{App.dateSearchFields}" />
+                        <f:selectItems value="#{systemManager.dateSearchFields}" />
 
                     </p:selectOneMenu>
 
