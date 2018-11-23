@@ -90,7 +90,7 @@ public class JMTSApplication implements Serializable {
     public JMTSApplication() {
         openedJobs = new ArrayList<>();
 
-        // init primefaces themes
+        // // tk Put in psrent Application class. Init primefaces themes
         themes.put("Aristo", "aristo");
         themes.put("Black-Tie", "black-tie");
         themes.put("Redmond", "redmond");
