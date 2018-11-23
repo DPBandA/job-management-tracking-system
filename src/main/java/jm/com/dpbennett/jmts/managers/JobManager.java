@@ -88,6 +88,7 @@ import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.JobDataModel;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
+import jm.com.dpbennett.wal.utils.ReportUtils;
 import jm.com.dpbennett.wal.utils.TabPanel;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
@@ -162,6 +163,24 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             application = BeanUtils.findBean("App");
         }
         return application;
+    }
+    
+    
+
+    public List<Classification> completeJobClassification(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<Classification> classifications = Classification.findActiveClassificationsByNameAndCategory(em, query, "Job");
+
+            return classifications;
+        } catch (Exception e) {
+
+            System.out.println(e);
+            return new ArrayList<>();
+        }
     }
 
     /**
@@ -1461,7 +1480,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public String getSearchResultsTableHeader() {
-        return JMTSApplication.getSearchResultsTableHeader(getDateSearchPeriod(), getJobSearchResultList());
+        return ReportUtils.getSearchResultsTableHeader(getDateSearchPeriod(), getJobSearchResultList());
     }
 
     public void cancelJobEdit(ActionEvent actionEvent) {

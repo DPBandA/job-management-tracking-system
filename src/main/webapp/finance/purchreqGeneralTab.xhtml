@@ -79,7 +79,7 @@ Email: info@dpbennett.com.jm
                                 converter="activeSupplierConverter"
                                 validator="supplierValidator"
                                 forceSelection="true"
-                                completeMethod="#{FinApp.completeActiveSupplier}" >
+                                completeMethod="#{financeManager.completeActiveSupplier}" >
 
                     <p:ajax event="itemSelect"
                             update="purchreqFormTabView:generalTabPanel,:purchreqDialogForm:purchreqDetailToolbar1"
@@ -162,7 +162,7 @@ Email: info@dpbennett.com.jm
                             itemLabel="#{department.name}"
                             converter="activeDepartmentConverter"
                             validator="businessEntityValidator"
-                            completeMethod="#{App.completeActiveDepartment}" /> 
+                            completeMethod="#{humanResourceManager.completeActiveDepartment}" /> 
 
             <h:outputText value="Originator: " style="font-weight: bold" />       
             <p:autoComplete id="originator"
@@ -178,7 +178,7 @@ Email: info@dpbennett.com.jm
                             forceSelection="true"
                             dropdown="false"
                             scrollHeight="200" 
-                            completeMethod="#{App.completeActiveEmployee}" />
+                            completeMethod="#{humanResourceManager.completeActiveEmployee}" />
 
             <h:outputText value="Purchasing department: " style="font-weight: bold" />
             <p:autoComplete id="purchasingDepartment"                          
@@ -195,7 +195,7 @@ Email: info@dpbennett.com.jm
                             itemLabel="#{purchasingDepartment.name}"
                             converter="activeDepartmentConverter"
                             validator="businessEntityValidator"
-                            completeMethod="#{App.completeActiveDepartment}" /> 
+                            completeMethod="#{humanResourceManager.completeActiveDepartment}" /> 
 
             <h:outputText value="Procurement officer: " style="font-weight: bold" />       
             <p:autoComplete id="officer"
@@ -211,7 +211,7 @@ Email: info@dpbennett.com.jm
                             forceSelection="true"
                             dropdown="false"
                             scrollHeight="200" 
-                            completeMethod="#{App.completeActiveEmployee}" />
+                            completeMethod="#{humanResourceManager.completeActiveEmployee}" />
 
             <h:outputText value="Purpose/Description: " style="font-weight: bold;vertical-align: top;" />       
             <p:inputTextarea

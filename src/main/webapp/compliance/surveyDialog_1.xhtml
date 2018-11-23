@@ -155,7 +155,7 @@ Email: info@dpbennett.com.jm
                                         maxlength="40"
                                         dropdown="true"
                                         scrollHeight="200" 
-                                        completeMethod="#{App.completeCountry}" >
+                                        completeMethod="#{systemManager.completeCountry}" >
                             <p:ajax event="itemSelect"                              
                                     listener="#{complianceManager.updateEntryDocumentInspection}"
                                     process="@this" />      
@@ -209,7 +209,7 @@ Email: info@dpbennett.com.jm
                                                 itemValue="#{consignee}"
                                                 converter="activeClientConverter"
                                                 forceSelection="true"
-                                                completeMethod="#{App.completeActiveClient}" >
+                                                completeMethod="#{clientManager.completeActiveClient}" >
                                     <p:ajax event="itemSelect"
                                             update=""
                                             listener="#{complianceManager.updateComplianceSurveyConsignee}"
@@ -264,7 +264,7 @@ Email: info@dpbennett.com.jm
                                             converter="activeClientConverter"
                                             validator="generalClientValidator"
                                             forceSelection="true"
-                                            completeMethod="#{App.completeActiveClient}" >
+                                            completeMethod="#{clientManager.completeActiveClient}" >
 
                                 <p:ajax event="itemSelect"
                                         update="consigneeRepresentative"
@@ -438,7 +438,7 @@ Email: info@dpbennett.com.jm
                                         itemValue="#{inspector}"
                                         converter="activeEmployeeConverter"
                                         forceSelection="true"   
-                                        completeMethod="#{App.completeActiveEmployee}" >
+                                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
                             <p:ajax event="itemSelect"
                                     listener="#{complianceManager.updateComplianceSurveyInspector}"
                                     process="@this"/>

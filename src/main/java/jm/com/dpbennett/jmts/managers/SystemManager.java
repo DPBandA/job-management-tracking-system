@@ -33,6 +33,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.BusinessOffice;
 import jm.com.dpbennett.business.entity.Classification;
+import jm.com.dpbennett.business.entity.Country;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.DocumentReport;
@@ -44,9 +45,9 @@ import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.JobSubCategory;
 import jm.com.dpbennett.business.entity.LdapContext;
 import jm.com.dpbennett.business.entity.Sector;
+import jm.com.dpbennett.business.entity.Service;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-//import static jm.com.dpbennett.jmts.JMTSApplication.getStringListAsSelectItems;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.Utils;
@@ -126,6 +127,49 @@ public class SystemManager implements Serializable {
      */
     public SystemManager() {
         init();
+    }
+    
+     public ArrayList<String> completeCountry(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager();
+
+            ArrayList<Country> countries = new ArrayList<>(Country.findCountriesByName(em, query));
+            ArrayList<String> countriesList = (ArrayList<String>) (ArrayList<?>) countries;
+
+            return countriesList;
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+ 
+    public List<Service> completeService(String query) {
+
+        try {
+            return Service.findServicesByName(getEntityManager(), query);
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<BusinessOffice> completeBusinessOffice(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager();
+
+            List<BusinessOffice> offices = BusinessOffice.findActiveBusinessOfficesByName(em, query);
+
+            return offices;
+        } catch (Exception e) {
+
+            System.out.println(e);
+            return new ArrayList<>();
+        }
     }
 
     public List<SelectItem> getDatePeriods() {

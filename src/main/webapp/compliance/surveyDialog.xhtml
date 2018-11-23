@@ -156,7 +156,7 @@ Email: info@dpbennett.com.jm
                                         dropdown="true"
                                         scrollHeight="200" 
                                         validator="requiredFieldValidator"
-                                        completeMethod="#{App.completeCountry}" >
+                                        completeMethod="#{systemManager.completeCountry}" >
                             
                             <p:ajax event="itemSelect"                              
                                     listener="#{complianceManager.updateEntryDocumentInspection}"
@@ -213,7 +213,7 @@ Email: info@dpbennett.com.jm
                                             converter="activeClientConverter"
                                             validator="generalClientValidator"
                                             forceSelection="true"
-                                            completeMethod="#{App.completeActiveClient}" >
+                                            completeMethod="#{clientManager.completeActiveClient}" >
 
                                 <p:ajax event="itemSelect"
                                         update="generalPanelGrid"
@@ -299,7 +299,7 @@ Email: info@dpbennett.com.jm
                                                 itemValue="#{broker}"
                                                 converter="activeClientConverter"
                                                 forceSelection="true"
-                                                completeMethod="#{App.completeActiveClient}" >
+                                                completeMethod="#{clientManager.completeActiveClient}" >
                                     <p:ajax event="itemSelect"
                                             update="brokerRepresentative"
                                             listener="#{complianceManager.updateComplianceSurveyBroker}"
@@ -355,7 +355,7 @@ Email: info@dpbennett.com.jm
                                                 itemValue="#{retailOutlet}"
                                                 converter="activeClientConverter"
                                                 forceSelection="true"
-                                                completeMethod="#{App.completeActiveClient}" >
+                                                completeMethod="#{clientManager.completeActiveClient}" >
                                     <p:ajax event="itemSelect"
                                             update="retailOutletRepresentative"
                                             listener="#{complianceManager.updateComplianceSurveyRetailOutlet}"
@@ -409,7 +409,7 @@ Email: info@dpbennett.com.jm
                                         itemValue="#{inspector}"
                                         converter="activeEmployeeConverter"
                                         forceSelection="true"   
-                                        completeMethod="#{App.completeActiveEmployee}" >
+                                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
                             <p:ajax event="itemSelect"
                                     listener="#{complianceManager.updateComplianceSurveyInspector}"
                                     process="@this"/>

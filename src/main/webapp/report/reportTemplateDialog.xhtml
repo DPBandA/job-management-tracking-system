@@ -280,7 +280,7 @@ Email: info@dpbennett.com.jm
                                             dropdown="true"
                                             scrollHeight="200"  
                                             multiple="true"
-                                            completeMethod="#{App.completeActiveDepartment}" >
+                                            completeMethod="#{humanResourceManager.completeActiveDepartment}" >
 
                                 <p:ajax event="itemSelect"
                                         update="departments"
@@ -300,7 +300,7 @@ Email: info@dpbennett.com.jm
                                                 dropdown="true"
                                                 scrollHeight="200"  
                                                 multiple="true"
-                                                completeMethod="#{App.completeActiveDepartment}" >
+                                                completeMethod="#{humanResourceManager.completeActiveDepartment}" >
 
                                     <p:ajax event="itemSelect"
                                             update="departments"
@@ -329,7 +329,7 @@ Email: info@dpbennett.com.jm
                                             dropdown="true"
                                             scrollHeight="200"  
                                             multiple="true"
-                                            completeMethod="#{App.completeActiveEmployee}" >
+                                            completeMethod="#{humanResourceManager.completeActiveEmployee}" >
 
                                 <p:ajax event="itemSelect"
                                         update="employees"
@@ -357,7 +357,7 @@ Email: info@dpbennett.com.jm
                                             dropdown="false"
                                             scrollHeight="200"  
                                             multiple="true"
-                                            completeMethod="#{App.completeActiveClient}" >
+                                            completeMethod="#{clientManager.completeActiveClient}" >
 
                                 <p:ajax event="itemSelect"
                                         update="clients"

@@ -92,7 +92,7 @@ Email: info@dpbennett.com.jm
                                     dropdown="true"
                                     scrollHeight="200"                         
                                     multiple="true"
-                                    completeMethod="#{App.completeActiveEmployeePosition}" />
+                                    completeMethod="#{humanResourceManager.completeActiveEmployeePosition}" />
 
 
                     <h:outputLabel value="Email:" for="employeeEmail"/>
@@ -113,7 +113,7 @@ Email: info@dpbennett.com.jm
                                     itemLabel="#{department.truncatedName}"                                     
                                     validator="requiredFieldValidator"
                                     converter="activeDepartmentConverter"
-                                    completeMethod="#{App.completeActiveDepartment}" >                
+                                    completeMethod="#{humanResourceManager.completeActiveDepartment}" >                
                     </p:autoComplete>                    
 
                 </h:panelGrid>

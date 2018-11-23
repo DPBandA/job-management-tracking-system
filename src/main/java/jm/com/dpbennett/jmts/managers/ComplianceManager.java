@@ -116,7 +116,11 @@ public class ComplianceManager implements Serializable {
         datePeriod = new DatePeriod("This month", "month", null, null, null, null, false, false, false);
         datePeriod.initDatePeriod();
     }
-    
+
+    public List<Manufacturer> completeManufacturer(String query) {
+        return Manufacturer.findManufacturersBySearchPattern(getEntityManager1(), query);
+    }
+
     public ReportManager getReportManager() {
         if (reportManager == null) {
             reportManager = BeanUtils.findBean("reportManager");
@@ -124,7 +128,7 @@ public class ComplianceManager implements Serializable {
 
         return reportManager;
     }
-    
+
     public void openReportsTab() {
         getReportManager().openReportsTab("Job");
     }
@@ -597,7 +601,7 @@ public class ComplianceManager implements Serializable {
 
     // tk replace this and others like it with clientManager.completeActiveClient()
     public List<String> completeComplianceSurveyRetailOutletRepresentativeName(String query) {
-        ArrayList<String> contactsFound = new ArrayList<String>();
+        ArrayList<String> contactsFound = new ArrayList<>();
 
         return contactsFound;
     }
@@ -918,7 +922,6 @@ public class ComplianceManager implements Serializable {
 //            return new ArrayList<>();
 //        }
 //    }
-
     public void updateComplianceSurveyInspector() {
         // tk impl 
         System.out.println("impl ...");

@@ -158,14 +158,39 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
         init();
     }
     
+    public List<Supplier> completeActiveSupplier(String query) {
+        try {
+            return Supplier.findActiveSuppliersByAnyPartOfName(getEntityManager1(), query);
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+    
+    /**
+     * Returns the discount type that can be applied to a payment/amount
+     *
+     * @return
+     */
+    public List getDiscountTypes() {
+
+        return FinancialUtils.getDiscountTypes();
+    }
+    
+    public List getCostCodeList() {
+        return FinancialUtils.getCostCodeList();
+    }
+
     public List getPaymentTypes() {
         return FinancialUtils.getPaymentTypes();
     }
-    
+
     public List getPaymentPurposes() {
         return FinancialUtils.getPaymentPurposes();
     }
-
+  
     public void updateSupplier() {
 
         setIsDirty(true);
@@ -392,7 +417,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     public int getNumOfSuppliersFound() {
         return getFoundSuppliers().size();
     }
-    
+
     public int getNumOfPurchaseReqsFound() {
         return getFoundPurchaseReqs().size();
     }
@@ -423,7 +448,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
     }
-    
+
     public void editSelectedPurchaseReq() {
 
         PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 700, 700);
@@ -536,7 +561,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
                 setOriginatingDepartment(getUser().getEmployee().getDepartment());
         selectedPurchaseRequisition.setOriginator(getUser().getEmployee());
         selectedPurchaseRequisition.setRequisitionDate(new Date());
-        
+
         editSelectedPurchaseReq();
     }
 
@@ -869,7 +894,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
     private void init() {
         longProcessProgress = 0;
-        accPacCustomer = new AccPacCustomer(null);        
+        accPacCustomer = new AccPacCustomer(null);
         useAccPacCustomerList = false;
         selectedCashPayment = null;
         selectedCostComponent = null;
@@ -2342,7 +2367,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public List<String> completeAccPacClientName(String query) {
-        EntityManager em2 = null;
+        EntityManager em2;
 
         try {
 
@@ -2359,6 +2384,20 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
             System.out.println(e);
 
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<AccPacCustomer> completeAccPacClient(String query) {
+        EntityManager em2;
+
+        try {
+            em2 = getEntityManager2();
+
+            return AccPacCustomer.findAccPacCustomersByName(em2, query);
+        } catch (Exception e) {
+
+            System.out.println(e);
             return new ArrayList<>();
         }
     }

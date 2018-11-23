@@ -127,7 +127,7 @@ Email: info@dpbennett.com.jm
                                     itemValue="#{completedBy}"
                                     converter="activeEmployeeConverter"
                                     forceSelection="true"
-                                    completeMethod="#{App.completeActiveEmployee}" >
+                                    completeMethod="#{humanResourceManager.completeActiveEmployee}" >
                         
                         <p:ajax event="itemSelect"
                                 listener="#{jobManager.updateJob}" 

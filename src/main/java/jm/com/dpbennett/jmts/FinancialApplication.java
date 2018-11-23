@@ -20,17 +20,12 @@ Email: info@dpbennett.com.jm
 package jm.com.dpbennett.jmts;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.ejb.Singleton;
 import javax.enterprise.context.ApplicationScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import jm.com.dpbennett.business.entity.Supplier;
-import jm.com.dpbennett.wal.utils.FinancialUtils;
 
 /**
  *
@@ -52,21 +47,6 @@ public class FinancialApplication implements Serializable {
     public FinancialApplication() {
         
     }
-    
-    public List<Supplier> completeActiveSupplier(String query) {
-        try {
-            return Supplier.findActiveSuppliersByAnyPartOfName(getEntityManager1(), query);
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public List getCostCodeList() {
-        return FinancialUtils.getCostCodeList();
-    }
 
     public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
@@ -76,37 +56,4 @@ public class FinancialApplication implements Serializable {
         return EMF2.createEntityManager();
     }
 
-    /**
-     * Returns the discount type that can be applied to a payment/amount
-     *
-     * @return
-     */
-    public List getDiscountTypes() {
-
-        return FinancialUtils.getDiscountTypes();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List getPaymentTypes() {
-        return FinancialUtils.getPaymentTypes();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List getPaymentPurposes() {
-        return FinancialUtils.getPaymentPurposes();
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T> T findBean(String beanName) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        return (T) context.getApplication().evaluateExpressionGet(context, "#{" + beanName + "}", Object.class);
-    }
-
-    
 }

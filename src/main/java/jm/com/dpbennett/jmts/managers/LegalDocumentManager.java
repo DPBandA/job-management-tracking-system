@@ -81,15 +81,30 @@ public class LegalDocumentManager implements Serializable {
     public LegalDocumentManager() {
         init();
     }
-    
-     public List getLegalDocumentSearchTypes() {
+
+    public List getLegalDocumentSearchTypes() {
         ArrayList searchTypes = new ArrayList();
 
         searchTypes.add(new SelectItem("General", "General"));
 
         return searchTypes;
     }
-    
+
+    public List<DocumentType> completeLegalDocumentType(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager();
+
+            List<DocumentType> documentTypes = DocumentType.findDocumentTypesByName(em, query);
+
+            return documentTypes;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
     public List getDocumentForms() {
         ArrayList forms = new ArrayList();
 

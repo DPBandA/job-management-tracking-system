@@ -84,25 +84,8 @@ Email: info@dpbennett.com.jm
                                     itemValue="#{employee}"
                                     converter="activeEmployeeConverter"
                                     forceSelection="true"
-                                    completeMethod="#{App.completeActiveEmployee}" >                       
+                                    completeMethod="#{humanResourceManager.completeActiveEmployee}" >                       
                     </p:autoComplete>   
-
-                    <ui:remove>
-                        <h:outputText value="Department" style="font-weight: bold;" />               
-                        <p:autoComplete var="department"
-                                        scrollHeight="175"
-                                        dropdown="true"
-                                        size="30"
-                                        maxlength="250"
-                                        value="#{systemManager.selectedUser.department}"
-                                        title="#{systemManager.selectedUser.department}"
-                                        itemLabel="#{department.name}"
-                                        itemValue="#{department}"
-                                        converter="activeDepartmentConverter"
-                                        forceSelection="true"
-                                        completeMethod="#{App.completeActiveDepartment}" >                       
-                        </p:autoComplete>   
-                    </ui:remove>
 
                 </h:panelGrid>
             </p:panel>
