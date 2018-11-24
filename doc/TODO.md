@@ -1,13 +1,8 @@
 # Accpac Invoicing & Credit Status Reporting
 
-- For session scope beans that are needed by job manager declare them in faces 
-  config and remove annotations. Remove use of named beans where possible.
-- Take the complete* methods out of application scope classes and put them in their
-  respective managers. Eg put completeEmployee in HRM.
-- Impl HR module with HumanResourceManager class:
-  * Add fields to Division class and update all databases
-  * Create divisions and divisional groups tabs.
-  * Create labs and units within departments.
+- In the job dialog change the Service Contract tab to "Services". Create a tab
+  called "Service Contract" under the "Services" tab and move the contents of
+  "Additional Service" to it.
 - Impl invoice export. 
   * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
@@ -21,6 +16,7 @@
   * Export invoices for only selected jobs?
   * Flag job as invoiced after export?
   * Make sure to add AccountingCode table to all along with data.
+- In job dialog make the tabview dynamic and see what difference it makes.
 
 # Purchasing
 
@@ -56,12 +52,11 @@
 - Add CANADDSUPPLIER to privileges table.
 - Test using the database on BOSAPP from BOSHRMAPP to see the response in
   doing database searches and opening the job form.
-
-# DBA
 - Position names: Team Leader, Divisional Manager, Divisional Director, 
     Finance Manager, Executive Director, Senior Engineer, Analyst, 
     Network Administrator, System Administrator etc.
 - Update HRM tables with info from chart of accounts.
+- Switch to GF3 before deployment.
 
 # Reports & Forms
 - Do other client report template and upload.
@@ -168,6 +163,8 @@ separate projects using maven overlays.
 - Create Application class and put in WAL. Other application classes such as
   JMTSApplication can be put in it.
 - Do Dashboard and MainTab tab init in JobManager and not in the contructors.
+- Put the sync methods in the Application class from which all application scope
+   classes would inherit. openedJobs would become openedObjects etc.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

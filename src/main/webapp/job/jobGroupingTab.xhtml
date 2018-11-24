@@ -35,7 +35,7 @@ Email: info@dpbennett.com.jm
                         validator="requiredFieldValidator"
                         forceSelection="true"
                         scrollHeight="250"
-                        completeMethod="#{App.completeActiveSectors}" >
+                        completeMethod="#{jobManager.completeActiveSectors}" >
             
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateSector}"
@@ -56,7 +56,7 @@ Email: info@dpbennett.com.jm
                         validator="requiredFieldValidator"
                         forceSelection="true"
                         scrollHeight="250"
-                        completeMethod="#{App.completeActiveJobCategories}" >
+                        completeMethod="#{jobManager.completeActiveJobCategories}" >
             
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobCategory}"
@@ -76,7 +76,7 @@ Email: info@dpbennett.com.jm
                         validator="requiredFieldValidator"
                         forceSelection="true"
                         scrollHeight="250"
-                        completeMethod="#{App.completeActiveJobSubCategories}" >
+                        completeMethod="#{jobManager.completeActiveJobSubCategories}" >
             
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobSubCategory}"

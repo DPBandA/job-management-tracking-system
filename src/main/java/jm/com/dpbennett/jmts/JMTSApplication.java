@@ -31,15 +31,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import jm.com.dpbennett.business.entity.AccPacCustomer;
-import jm.com.dpbennett.business.entity.Country;
-import jm.com.dpbennett.business.entity.DepartmentUnit;
 import jm.com.dpbennett.business.entity.Job;
-import jm.com.dpbennett.business.entity.JobCategory;
 import jm.com.dpbennett.business.entity.JobSubCategory;
-import jm.com.dpbennett.business.entity.Laboratory;
-import jm.com.dpbennett.business.entity.Preference;
-import jm.com.dpbennett.business.entity.Sector;
 
 /**
  *
@@ -88,7 +81,7 @@ public class JMTSApplication implements Serializable {
                 return job;
             }
         }
-
+        
         return null;
     }
 
@@ -104,111 +97,4 @@ public class JMTSApplication implements Serializable {
         return EMF2.createEntityManager();
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-   
-    
-
-    public List<String> completePreferenceValue(String query) {
-        EntityManager em;
-
-        try {
-            em = getEntityManager1();
-
-            List<String> preferenceValues = Preference.findAllPreferenceValues(em, query);
-
-            return preferenceValues;
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public List<String> getJobTableViews() {
-        EntityManager em;
-
-        try {
-            em = getEntityManager1();
-
-            List<String> preferenceValues = Preference.findAllPreferenceValues(em, "");
-
-            return preferenceValues;
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public List<DepartmentUnit> completeDepartmentUnit(String query) {
-        EntityManager em;
-
-        try {
-            em = getEntityManager1();
-
-            List<DepartmentUnit> departmentUnits = DepartmentUnit.findDepartmentUnitsByName(em, query);
-
-            return departmentUnits;
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    public List<Laboratory> completeLaboratory(String query) {
-        EntityManager em;
-
-        try {
-            em = getEntityManager1();
-
-            List<Laboratory> laboratories = Laboratory.findLaboratoriesByName(em, query);
-
-            return laboratories;
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-
-    /**
-     * NB: query parameter currently not used to filter sectors.
-     *
-     * @param query
-     * @return
-     */
-    public List<Sector> completeActiveSectors(String query) {
-        EntityManager em = getEntityManager1();
-
-        List<Sector> sectors = Sector.findAllActiveSectors(em);
-
-        return sectors;
-    }
-
-    /**
-     * NB: query not used to filter
-     *
-     * @param query
-     * @return
-     */
-    public List<JobCategory> completeActiveJobCategories(String query) {
-        EntityManager em = getEntityManager1();
-
-        List<JobCategory> categories = JobCategory.findAllActiveJobCategories(em);
-
-        return categories;
-    }
-
-    public List<JobSubCategory> completeActiveJobSubCategories(String query) {
-        EntityManager em = getEntityManager1();
-
-        List<JobSubCategory> subCategories = JobSubCategory.findAllActiveJobSubCategories(em);
-
-        return subCategories;
-    }
 }

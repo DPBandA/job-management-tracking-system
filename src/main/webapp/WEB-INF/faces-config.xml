@@ -410,16 +410,10 @@
     
     <managed-bean>
         <managed-bean-name>financeManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.FinanceManager</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-  
-    <managed-bean>
-        <managed-bean-name>financeManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.FinanceManager</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.JobFinanceManager</managed-bean-class>
     
+        <managed-bean-scope>session</managed-bean-scope></managed-bean>
+      
     <managed-bean>
         <managed-bean-name>jobManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.managers.JobManager</managed-bean-class>
@@ -441,6 +435,12 @@
     <managed-bean>
         <managed-bean-name>systemManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.managers.SystemManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>jobContractManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.JobContractManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     

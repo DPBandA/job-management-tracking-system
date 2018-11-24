@@ -63,11 +63,11 @@ Email: info@dpbennett.com.jm
                     <p:outputLabel value="Active" for="activeUser" style="font-weight: bold;" /> 
                     <p:selectBooleanCheckbox id="activeUser" 
                                              value="#{systemManager.selectedUser.active}" />
-                    
+
                     <p:outputLabel value="Authenticate" for="authenticateUser" style="font-weight: bold;" /> 
                     <p:selectBooleanCheckbox id="authenticateUser" 
                                              value="#{systemManager.selectedUser.authenticate}" />
-                    
+
                     <h:outputText value="Username" style="font-weight: bold;"/>  
                     <p:inputText id="user"
                                  validator="requiredFieldValidator"
@@ -244,7 +244,7 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
 
                         </p:selectBooleanCheckbox>    
-                        
+
                         <p:selectBooleanCheckbox id="canAddSupplier" 
                                                  itemLabel="Add supplier"
                                                  value="#{systemManager.selectedUser.privilege.canAddSupplier}" >
@@ -254,20 +254,22 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
 
                         </p:selectBooleanCheckbox>
-                        
+
                     </h:panelGrid>
                 </p:tab>
 
                 <p:tab title="Module Access">
                     <h:panelGrid columns="3" cellspacing="10">
 
-                        <p:selectBooleanCheckbox id="canAccessComplianceUnit" 
-                                                 itemLabel="Standards Compliance"
-                                                 value="#{systemManager.selectedUser.privilege.canAccessComplianceUnit}" >
-                            <p:ajax listener="#{systemManager.updateModuleAccess}"
-                                    global="false"
-                                    process="@this"/>
-                        </p:selectBooleanCheckbox>
+                        <ui:remove>
+                            <p:selectBooleanCheckbox id="canAccessComplianceUnit" 
+                                                     itemLabel="Standards Compliance"
+                                                     value="#{systemManager.selectedUser.privilege.canAccessComplianceUnit}" >
+                                <p:ajax listener="#{systemManager.updateModuleAccess}"
+                                        global="false"
+                                        process="@this"/>
+                            </p:selectBooleanCheckbox>
+                        </ui:remove>
 
                         <p:selectBooleanCheckbox id="canAccessCertificationUnit" 
                                                  itemLabel="Certification"

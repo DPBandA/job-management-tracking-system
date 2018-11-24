@@ -68,6 +68,7 @@
   department head where appropriate eg send alert to parent job assignee and the
   person who entered the job when child job is approved.
 - Ensure that a job is not marked completed until the child job costing is included?
+- Remember to  create labs and units within departments.
 
 ### Payroll
 - Implement Payroll class to have a Pay collection field, date, creator, etc. 

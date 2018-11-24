@@ -34,12 +34,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -79,14 +77,13 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.ReturnMessage;
-import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.DialogActionHandler;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
-import jm.com.dpbennett.wal.utils.ReportUtils;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
+import jm.com.dpbennett.wal.utils.ReportUtils;
 import jm.com.dpbennett.wal.validator.AddressValidator;
 import jm.com.dpbennett.wal.validator.ContactValidator;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -100,7 +97,7 @@ import org.primefaces.component.selectonemenu.SelectOneMenu;
  *
  * @author Desmond Bennett
  */
-public class FinanceManager implements Serializable, BusinessEntityManagement,
+public class JobFinanceManager implements Serializable, BusinessEntityManagement,
         DialogActionHandler, MessageManagement {
 
     @PersistenceUnit(unitName = "JMTSPU")
@@ -150,11 +147,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     private Boolean isActiveSuppliersOnly;
     private List<Supplier> foundSuppliers;
     private List<PurchaseRequisition> foundPurchaseReqs;
+    private MainTabView mainTabView;
+    private JobManagerUser user;
 
     /**
      * Creates a new instance of JobManagerBean
      */
-    public FinanceManager() {
+    public JobFinanceManager() {
         init();
     }
     
@@ -715,9 +714,14 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public MainTabView getMainTabView() {
-
-        return getJobManager().getMainTabView();
+        
+        return mainTabView;
     }
+
+    public void setMainTabView(MainTabView mainTabView) {
+        this.mainTabView = mainTabView;
+    }
+    
 
     public AccountingCode getSelectedAccountingCode() {
         return selectedAccountingCode;
@@ -767,7 +771,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         return null;
     }
-
+    
     public ByteArrayInputStream getAccpacInvoicesFileInputStream(
             File file) {
 
@@ -876,7 +880,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
 
         return null;
     }
-
+ 
     public Boolean getEdit() {
         return edit;
     }
@@ -988,9 +992,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement,
     }
 
     public JobManagerUser getUser() {
-        return getJobManager().getUser();
+        return user;
     }
 
+    public void setUser(JobManagerUser user) {
+        this.user = user;
+    }
+    
     @Override
     public String getInvalidFormFieldMessage() {
         return invalidFormFieldMessage;

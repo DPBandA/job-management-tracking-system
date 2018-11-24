@@ -101,7 +101,7 @@ Email: info@dpbennett.com.jm
                             itemValue="#{departmentUnit}"
                             itemLabel="#{departmentUnit.name}"
                             converter="departmentUnitConverter"
-                            completeMethod="#{App.completeDepartmentUnit}" >
+                            completeMethod="#{humanResourceManager.completeDepartmentUnit}" >
                             <p:ajax event="itemSelect"
                                     listener="#{financeManager.updateCurrentUnitCostDepartmentUnit}"
                                     global="false"                                    
@@ -127,7 +127,7 @@ Email: info@dpbennett.com.jm
                             itemValue="#{laboratory}"
                             itemLabel="#{laboratory.name}"
                             converter="laboratoryConverter"
-                            completeMethod="#{App.completeLaboratory}" >
+                            completeMethod="#{humanResourceManager.completeLaboratory}" >
                             <p:ajax event="itemSelect"
                                     listener="#{financeManager.updateCurrentUnitCostDepartmentLab}"
                                     global="false"                                    

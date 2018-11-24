@@ -31,13 +31,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -117,9 +115,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     // Managers/Management
     private ClientManager clientManager;
     private ReportManager reportManager;
-    private FinanceManager financeManager;
+    private JobFinanceManager financeManager;
     private JobSampleManager jobSampleManager;
-    private ContractManager contractManager;
+    private JobContractManager contractManager;
     private LegalDocumentManager legalDocumentManager;
     private HumanResourceManager humanResourceManager;
     // Misc
@@ -163,9 +161,77 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             application = BeanUtils.findBean("App");
         }
         return application;
+    }   
+    
+    public List<JobSubCategory> completeActiveJobSubCategories(String query) {
+        EntityManager em = getEntityManager1();
+
+        List<JobSubCategory> subCategories = JobSubCategory.findAllActiveJobSubCategories(em);
+
+        return subCategories;
     }
     
+    /**
+     * NB: query not used to filter
+     *
+     * @param query
+     * @return
+     */
+    public List<JobCategory> completeActiveJobCategories(String query) {
+        EntityManager em = getEntityManager1();
+
+        List<JobCategory> categories = JobCategory.findAllActiveJobCategories(em);
+
+        return categories;
+    }
     
+    /**
+     * NB: query parameter currently not used to filter sectors.
+     *
+     * @param query
+     * @return
+     */
+    public List<Sector> completeActiveSectors(String query) {
+        EntityManager em = getEntityManager1();
+
+        List<Sector> sectors = Sector.findAllActiveSectors(em);
+
+        return sectors;
+    }
+    
+    public List<String> completePreferenceValue(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<String> preferenceValues = Preference.findAllPreferenceValues(em, query);
+
+            return preferenceValues;
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<String> getJobTableViews() {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<String> preferenceValues = Preference.findAllPreferenceValues(em, "");
+
+            return preferenceValues;
+
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
+    }
 
     public List<Classification> completeJobClassification(String query) {
         EntityManager em;
@@ -294,11 +360,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * Get ContractManager SessionScoped bean.
+     * Get JobContractManager SessionScoped bean.
      *
      * @return
      */
-    public ContractManager getContractManager() {
+    public JobContractManager getContractManager() {
         if (contractManager == null) {
             contractManager = BeanUtils.findBean("contractManager");
         }
@@ -320,11 +386,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * Get FinanceManager SessionScoped bean.
+     * Get JobFinanceManager SessionScoped bean.
      *
      * @return
      */
-    public FinanceManager getFinanceManager() {
+    public JobFinanceManager getFinanceManager() {
         if (financeManager == null) {
             financeManager = BeanUtils.findBean("financeManager");
         }
@@ -2609,6 +2675,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         reportManager = BeanUtils.findBean("reportManager");
         reportManager.setUser(user);
         reportManager.setMainTabView(mainTabView);
+        
+        financeManager = BeanUtils.findBean("financeManager");
+        financeManager.setUser(user);
+        financeManager.setMainTabView(mainTabView);
 
         updateAllForms();
     }

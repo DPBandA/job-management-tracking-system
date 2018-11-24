@@ -23,9 +23,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -56,10 +53,7 @@ import jm.com.dpbennett.wal.utils.ReportUtils;
  *
  * @author Desmond Bennett
  */
-//@Named
-@ManagedBean(eager = true)
-@SessionScoped
-public class ContractManager implements Serializable, BusinessEntityManagement {
+public class JobContractManager implements Serializable, BusinessEntityManagement {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
@@ -69,7 +63,7 @@ public class ContractManager implements Serializable, BusinessEntityManagement {
     /**
      * Creates a new instance of JobManagerBean
      */
-    public ContractManager() {
+    public JobContractManager() {
         init();
     }
 
