@@ -84,6 +84,7 @@ public class SystemManager implements Serializable {
     private Boolean isActiveJobCategoriesOnly;
     private Boolean isActiveJobSubcategoriesOnly;
     private Boolean isActiveSectorsOnly;
+    private Boolean isActiveServicesOnly;
     private Boolean isActiveLdapsOnly;
     private Boolean isActiveDocumentTypesOnly;
     private Date startDate;
@@ -99,6 +100,7 @@ public class SystemManager implements Serializable {
     private String jobCategorySearchText;
     private String jobSubcategorySearchText;
     private String sectorSearchText;
+    private String serviceSearchText;
     private String ldapSearchText;
     private String documentTypeSearchText;
     private String openedJobsSearchText;
@@ -110,6 +112,7 @@ public class SystemManager implements Serializable {
     private List<Classification> foundClassifications;
     private List<JobCategory> foundJobCategories;
     private List<Sector> foundSectors;
+    private List<Service> foundServices;
     private List<DocumentStandard> foundDocumentStandards;
     private List<JobSubCategory> foundJobSubcategories;
     private List<DocumentType> foundDocumentTypes;
@@ -121,6 +124,7 @@ public class SystemManager implements Serializable {
     private JobSubCategory selectedJobSubcategory;
     private Sector selectedSector;
     private LdapContext selectedLdapContext;
+    private Service selectedService;
 
     /**
      * Creates a new instance of SystemManager
@@ -128,8 +132,16 @@ public class SystemManager implements Serializable {
     public SystemManager() {
         init();
     }
-    
-     public ArrayList<String> completeCountry(String query) {
+
+    public String getServiceSearchText() {
+        return serviceSearchText;
+    }
+
+    public void setServiceSearchText(String serviceSearchText) {
+        this.serviceSearchText = serviceSearchText;
+    }
+
+    public ArrayList<String> completeCountry(String query) {
         EntityManager em;
 
         try {
@@ -144,7 +156,7 @@ public class SystemManager implements Serializable {
             return new ArrayList<>();
         }
     }
- 
+
     public List<Service> completeService(String query) {
 
         try {
@@ -155,7 +167,7 @@ public class SystemManager implements Serializable {
             return new ArrayList<>();
         }
     }
-    
+
     public List<BusinessOffice> completeBusinessOffice(String query) {
         EntityManager em;
 
@@ -316,6 +328,15 @@ public class SystemManager implements Serializable {
         isActiveSectorsOnly = true;
         isActiveLdapsOnly = true;
         isActiveDocumentTypesOnly = true;
+        isActiveServicesOnly = true;
+    }
+
+    public Boolean getIsActiveServicesOnly() {
+        return isActiveServicesOnly;
+    }
+
+    public void setIsActiveServicesOnly(Boolean isActiveServicesOnly) {
+        this.isActiveServicesOnly = isActiveServicesOnly;
     }
 
     public Boolean getIsActiveDocumentTypesOnly() {
@@ -503,6 +524,14 @@ public class SystemManager implements Serializable {
         this.selectedSector = selectedSector;
     }
 
+    public Service getSelectedService() {
+        return selectedService;
+    }
+
+    public void setSelectedService(Service selectedService) {
+        this.selectedService = selectedService;
+    }
+
     public List<JobSubCategory> getFoundJobSubcategories() {
         if (foundJobSubcategories == null) {
             foundJobSubcategories = JobSubCategory.findAllActiveJobSubCategories(getEntityManager());
@@ -623,6 +652,18 @@ public class SystemManager implements Serializable {
         this.foundSectors = foundSectors;
     }
 
+    public List<Service> getFoundServices() {
+        if (foundServices == null) {
+            System.out.println("impl finding services.."); //
+            //foundServices = Sector.findAllActiveSectors(getEntityManager());
+        }
+        return foundServices;
+    }
+
+    public void setFoundServices(List<Service> foundServices) {
+        this.foundServices = foundServices;
+    }
+    
     public List<DocumentStandard> getFoundDocumentStandards() {
         if (foundDocumentStandards == null) {
             foundDocumentStandards = DocumentStandard.findAllDocumentStandards(getEntityManager());
@@ -728,6 +769,10 @@ public class SystemManager implements Serializable {
     public void onSectorCellEdit(CellEditEvent event) {
         BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager(), getFoundSectors().get(event.getRowIndex()));
     }
+    
+    public void onServiceCellEdit(CellEditEvent event) {
+        BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager(), getFoundServices().get(event.getRowIndex()));
+    }
 
     public void onDocumentStandardCellEdit(CellEditEvent event) {
         BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager(), getFoundDocumentStandards().get(event.getRowIndex()));
@@ -811,6 +856,10 @@ public class SystemManager implements Serializable {
             foundSectors = Sector.findSectorsByName(getEntityManager(), getSectorSearchText());
         }
 
+    }
+
+    public void doServiceSearch() {
+        System.out.println("Impl service search...");
     }
 
     public void doDocumentTypeSearch() {
@@ -1020,6 +1069,10 @@ public class SystemManager implements Serializable {
     public void cancelSectorEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
+    
+    public void cancelDialogEdit(ActionEvent actionEvent) {
+        PrimeFaces.current().dialog().closeDynamic(null);
+    }
 
     public void cancelJobCategoryEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
@@ -1071,6 +1124,14 @@ public class SystemManager implements Serializable {
     public void saveSelectedSector() {
 
         selectedSector.save(getEntityManager());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+
+    }
+    
+    public void saveSelectedService() {
+
+        selectedService.save(getEntityManager());
 
         PrimeFaces.current().dialog().closeDynamic(null);
 
@@ -1228,7 +1289,13 @@ public class SystemManager implements Serializable {
     public void createNewSector() {
         selectedSector = new Sector();
 
-        PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 500);
+        PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 600);
+    }
+
+    public void createNewService() {
+        selectedService = new Service();
+
+        PrimeFacesUtils.openDialog(null, "serviceDialog", true, true, true, 0, 600);
     }
 
     public void createNewDocumentType() {
@@ -1243,6 +1310,10 @@ public class SystemManager implements Serializable {
 
     public void editSector() {
         PrimeFacesUtils.openDialog(null, "sectorDialog", true, true, true, 275, 600);
+    }
+    
+    public void editService() {
+        PrimeFacesUtils.openDialog(null, "serviceDialog", true, true, true, 0, 600);
     }
 
     public void editDocumentType() {

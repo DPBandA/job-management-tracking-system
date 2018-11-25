@@ -70,6 +70,10 @@
 - Ensure that a job is not marked completed until the child job costing is included?
 - Remember to  create labs and units within departments.
 
+### Accounting & Finance
+- Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
+- Create deduction class. Add name, type, threshold, thresholdType, percentage fields.
+
 ### Payroll
 - Implement Payroll class to have a Pay collection field, date, creator, etc. 
   The Pay class should have employee, salary, net salary, date, taxes etc.
@@ -200,6 +204,8 @@ This release will be around early July.
 - Anybody can mark change the work status of a job even if they don't belong to the department to
   which the job is assigned. Fix!
 - Add Tax, Payroll and Deduction classes to BEL.
+- To reuse MainTabView and Dashboard put the id of the components in the constructor
+  and tab initialization outside of the constructor.
 
 ### Job Edit Synchronization
 - Create/maintain list of opened jobs in the Application class.

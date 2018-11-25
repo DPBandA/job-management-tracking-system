@@ -1,8 +1,12 @@
 # Accpac Invoicing & Credit Status Reporting
-
 - In the job dialog change the Service Contract tab to "Services". Create a tab
   called "Service Contract" under the "Services" tab and move the contents of
-  "Additional Service" to it.
+  "Additional Service" to it. Impl searching for services in services tab...sector
+   class as basis.
+- Impl services tab and dialog in SysAdmin.
+- In the "additional services" tab add list in otherRequestedServices field
+  in job services contract. Remove "other" checkboxes. For intended market remove 
+  checkbox and allow adding countries as other markets.
 - Impl invoice export. 
   * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
@@ -20,6 +24,8 @@
 
 # Purchasing
 
+- Create FinancialManager class and put the code in SystemManager code in it,
+  Put the related resources in the "finance" folder.
 - Do PR and PO forms.
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
@@ -50,6 +56,7 @@
 
 # Database Update and Deployment
 - Add CANADDSUPPLIER to privileges table.
+- Add ACTIVE, INTERNAL, CATEGORY, DESCRIPTION fields to service table.
 - Test using the database on BOSAPP from BOSHRMAPP to see the response in
   doing database searches and opening the job form.
 - Position names: Team Leader, Divisional Manager, Divisional Director, 
