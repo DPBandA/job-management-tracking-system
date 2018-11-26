@@ -226,3 +226,8 @@ This release will be around early July.
 - Ensure access to currentJob is synchronized since it can be accessed by "keepalive"
   other code at the same time
 
+
+### Farming
+- Create Livestock class to represent fish and other farm animals. Create Broodstock as 
+subclass of Livestock.
+

@@ -1,7 +1,7 @@
 # Accpac Invoicing & Credit Status Reporting
 
-- Change financeManager bean name to jobFinanceManager and put the related 
-  xhtml files in the job/finance folder.
+- Move files from from /job folder to /job/finance /job/sample folders.
+- Create financeManager bean by copying jobFinanceManager and link it to files in /finance folder.
 - Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
   table.
 - Impl  getting dist. code of the from 1310-21-24-21 
@@ -23,7 +23,7 @@
   * Make sure to add AccountingCode table to all along with data.
 - In job dialog make the tabview dynamic and see what difference it makes.
 - Add sys option that determines if the accpac invoices spreadsheet is to be
-  exportted.
+  exported.
 
 # Purchasing
 

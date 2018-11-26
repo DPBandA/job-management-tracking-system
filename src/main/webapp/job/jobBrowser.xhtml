@@ -29,11 +29,11 @@ Email: info@dpbennett.com.jm
     </h:panelGroup>
 
     <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Job Costings'}">   
-        <ui:include src="jobCostingsTable.xhtml"/>
+        <ui:include src="finance/jobCostingsTable.xhtml"/>
     </h:panelGroup>
 
     <h:panelGroup rendered="#{jobManager.user.jobTableViewPreference == 'Cashier View'}"> 
-        <ui:include src="cashierViewTable.xhtml"/>
+        <ui:include src="finance/cashierViewTable.xhtml"/>
     </h:panelGroup>
 
 </html>

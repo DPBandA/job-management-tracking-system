@@ -2325,7 +2325,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
             getCurrentJob().getJobCostingAndPayment().setCashPayments(jcp.getCashPayments());
 
-            PrimeFacesUtils.openDialog(null, "/finance/jobCostingDialog", true, true, true, 600, 850);
+            PrimeFacesUtils.openDialog(null, "/job/finance/jobCostingDialog", true, true, true, 600, 850);
         } else {
             PrimeFacesUtils.addMessage("Job NOT Saved",
                     "Job must be saved before the job costing can be viewed or edited",

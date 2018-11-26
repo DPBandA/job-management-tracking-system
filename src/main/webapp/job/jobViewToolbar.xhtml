@@ -36,7 +36,7 @@ Email: info@dpbennett.com.jm
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
             <p:commandButton value="Invoice"    
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
-                             title="Invoice the selected job costing(s)"
+                             title="Generate invoice(s) for the selected job costing(s)"
                              actionListener="#{jobManager.invoiceSelectedJobCostings}"
                              update=":headerForm:growl3,jobCostingsTable"
                              onstart="PF('longProcessDialogVar2').show();" 
