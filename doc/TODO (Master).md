@@ -6,6 +6,7 @@
 ### Fixed Assets
 - Get fixed assets used in tests/calibrations.
 - Get more details then start app development.
+- Let other assets extend the Asset class.
 
 ### Learning Management System (LMS)
 - Impl training schedule
@@ -16,6 +17,10 @@
 
 ### Customer Relationship Management (CRM)
 - Get HBS Access database for importation into JMTS.
+- Add identification and identificationType to Client class.
+- Create MarketingCampaign class to capture telemarketing and other types of 
+  marketing campaigns. Add Telemarketing (check spelling) as one type of marketing campaign.
+- Add menu buttons in client dialog general tab to add/edit most recent address or contact.
 
 ### Documentation
 - Update JMTS user manual
@@ -79,6 +84,9 @@
   The Pay class should have employee, salary, net salary, date, taxes etc.
   
 ### General
+- In the "additional services" tab add list in otherRequestedServices field
+  in job services contract. Remove "other" checkboxes. For intended market remove 
+  checkbox and allow adding countries as other markets.
 - In the job dialog change the Service Contract tab to "Services". Create a tab
   called "Service Contract" under the "Services" tab and move the contents of
   "Additional Service" to it.

@@ -45,7 +45,7 @@ Email: info@dpbennett.com.jm
                       closable="false" 
                       widgetVar="unitCostDialog"
                       header="Price Detail" >
-                <p:commandButton actionListener="#{financeManager.saveUnitCost}"                            
+                <p:commandButton actionListener="#{jobFinanceManager.saveUnitCost}"                            
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  value="Save"                                     
@@ -54,7 +54,7 @@ Email: info@dpbennett.com.jm
                                  process="@this"/>
                 <p:spacer height="0" width="10"/>
                 <p:commandButton value="Close"
-                                 actionListener="#{financeManager.closeUnitCostDialog}"
+                                 actionListener="#{jobFinanceManager.closeUnitCostDialog}"
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  async="true"                                                                
@@ -70,18 +70,18 @@ Email: info@dpbennett.com.jm
                             forceSelection="true" 
                             size="40"
                             maxlength="250"
-                            value="#{financeManager.currentUnitCost.department}"
-                            title="#{financeManager.currentUnitCost.department}"
+                            value="#{jobFinanceManager.currentUnitCost.department}"
+                            title="#{jobFinanceManager.currentUnitCost.department}"
                             itemValue="#{department}"
                             itemLabel="#{department.name}"
                             converter="activeDepartmentConverter"
                             completeMethod="#{humanResourceManager.completeActiveDepartment}" >
                             <p:ajax event="itemSelect"
-                                    listener="#{financeManager.updateCurrentUnitCostDepartment}"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartment}"
                                     global="false"                                    
                                     process="@this"/>
                             <p:ajax event="change"
-                                    listener="#{financeManager.updateCurrentUnitCostDepartment}"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartment}"
                                     global="false"                                    
                                     process="@this" />
                         </p:autoComplete>     
@@ -96,18 +96,18 @@ Email: info@dpbennett.com.jm
                             forceSelection="true" 
                             size="40"
                             maxlength="250"
-                            value="#{financeManager.currentUnitCost.departmentUnit}"
-                            title="#{financeManager.currentUnitCost.departmentUnit}"
+                            value="#{jobFinanceManager.currentUnitCost.departmentUnit}"
+                            title="#{jobFinanceManager.currentUnitCost.departmentUnit}"
                             itemValue="#{departmentUnit}"
                             itemLabel="#{departmentUnit.name}"
                             converter="departmentUnitConverter"
                             completeMethod="#{humanResourceManager.completeDepartmentUnit}" >
                             <p:ajax event="itemSelect"
-                                    listener="#{financeManager.updateCurrentUnitCostDepartmentUnit}"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartmentUnit}"
                                     global="false"                                    
                                     process="@this" />
                             <p:ajax event="change"
-                                    listener="#{financeManager.updateCurrentUnitCostDepartmentUnit}"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartmentUnit}"
                                     global="false"                                    
                                     process="@this" />
                         </p:autoComplete>     
@@ -122,18 +122,18 @@ Email: info@dpbennett.com.jm
                             forceSelection="true" 
                             size="40"
                             maxlength="250"
-                            value="#{financeManager.currentUnitCost.laboratory}"
-                            title="#{financeManager.currentUnitCost.laboratory}"
+                            value="#{jobFinanceManager.currentUnitCost.laboratory}"
+                            title="#{jobFinanceManager.currentUnitCost.laboratory}"
                             itemValue="#{laboratory}"
                             itemLabel="#{laboratory.name}"
                             converter="laboratoryConverter"
                             completeMethod="#{humanResourceManager.completeLaboratory}" >
                             <p:ajax event="itemSelect"
-                                    listener="#{financeManager.updateCurrentUnitCostDepartmentLab}"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartmentLab}"
                                     global="false"                                    
                                     process="@this" />
                             <p:ajax event="change"
-                                    listener="#{financeManager.updateCurrentUnitCostDepartmentLab}"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartmentLab}"
                                     global="false"                                    
                                     process="@this" />
                         </p:autoComplete>     
@@ -143,59 +143,59 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Service:" style="font-weight: bold;" />
                     <h:panelGroup >
                         <p:inputText style="width: 300px"
-                                     value="#{financeManager.currentUnitCost.service}" >
+                                     value="#{jobFinanceManager.currentUnitCost.service}" >
                             <p:ajax
                                 global="true"
-                                listener="#{financeManager.update}"                               
+                                listener="#{jobFinanceManager.update}"                               
                                 process="@this" />
                         </p:inputText>                       
                     </h:panelGroup>  
 
                     <h:outputText value="Cost:" style="font-weight: bold;" />                    
                     <p:inputText style="width: 100px"
-                                 value="#{financeManager.currentUnitCost.cost}" >
+                                 value="#{jobFinanceManager.currentUnitCost.cost}" >
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         <p:ajax
                             global="true"
-                            listener="#{financeManager.update}"                               
+                            listener="#{jobFinanceManager.update}"                               
                             process="@this" />
                     </p:inputText>
 
                     <h:outputText value="Unit:" />
                     <h:panelGroup >
                         <p:inputText style="width: 300px"
-                                     value="#{financeManager.currentUnitCost.unit}" >
+                                     value="#{jobFinanceManager.currentUnitCost.unit}" >
                             <p:ajax
                                 global="true"
-                                listener="#{financeManager.update}"                               
+                                listener="#{jobFinanceManager.update}"                               
                                 process="@this" />
                         </p:inputText>                       
                     </h:panelGroup>  
 
                     <h:outputText value="Effective date:" style="font-weight: bold;" />
                     <p:calendar id="effectiveDate"
-                                value="#{financeManager.currentUnitCost.effectiveDate}"
+                                value="#{jobFinanceManager.currentUnitCost.effectiveDate}"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"                                
-                                listener="#{financeManager.update}" />
+                                listener="#{jobFinanceManager.update}" />
                         <p:ajax event="keyup"                                
-                                listener="#{financeManager.update}" />
+                                listener="#{jobFinanceManager.update}" />
                     </p:calendar>
 
                     <h:outputText value="Description: " style="vertical-align: top" />
-                    <p:inputTextarea value="#{financeManager.currentUnitCost.description}"
+                    <p:inputTextarea value="#{jobFinanceManager.currentUnitCost.description}"
                                      style="width: 300px"
                                      rows="1"
                                      maxlength="1000"
                                      autoResize="false">
                         <p:ajax event="change"
-                                listener="#{financeManager.update}"
+                                listener="#{jobFinanceManager.update}"
                                 process="@this"/>
                     </p:inputTextarea>     
                 </h:panelGrid>
                 <hr/>
-                <p:commandButton actionListener="#{financeManager.saveUnitCost}"                            
+                <p:commandButton actionListener="#{jobFinanceManager.saveUnitCost}"                            
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  value="Save"                                     
@@ -204,7 +204,7 @@ Email: info@dpbennett.com.jm
                                  process="@this"/>
                 <p:spacer height="0" width="10"/>
                 <p:commandButton value="Close"
-                                 actionListener="#{financeManager.closeUnitCostDialog}"
+                                 actionListener="#{jobFinanceManager.closeUnitCostDialog}"
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  async="true"                                                                
@@ -225,19 +225,19 @@ Email: info@dpbennett.com.jm
                                                 dropdown="false"
                                                 size="30"
                                                 maxlength="250"
-                                                value="#{financeManager.unitCostDepartment}"
-                                                title="#{financeManager.unitCostDepartment}"
+                                                value="#{jobFinanceManager.unitCostDepartment}"
+                                                title="#{jobFinanceManager.unitCostDepartment}"
                                                 itemValue="#{department}"
                                                 itemLabel="#{department.name}" 
                                                 converter="activeDepartmentConverter"
                                                 completeMethod="#{humanResourceManager.completeActiveDepartment}" >
                                     <p:ajax event="itemSelect"
-                                            listener="#{financeManager.updateUnitCostDepartment}"   
+                                            listener="#{jobFinanceManager.updateUnitCostDepartment}"   
                                             update=":unitCostsTableForm"
                                             global="false"                                            
                                             process="@this" />
                                     <p:ajax event="change"                                            
-                                            listener="#{financeManager.updateUnitCostDepartment}"
+                                            listener="#{jobFinanceManager.updateUnitCostDepartment}"
                                             update=":unitCostsTableForm"
                                             global="false"                                           
                                             process="@this" />
@@ -247,14 +247,14 @@ Email: info@dpbennett.com.jm
                             <p:spacer height="0" width="25"/>
                             <h:panelGroup>
                                 <p:inputText id="unitCostSearchText" 
-                                             value="#{financeManager.accountingCodeSearchText}" />
+                                             value="#{jobFinanceManager.accountingCodeSearchText}" />
                                 <p:watermark value="enter search text" for="unitCostSearchText" />
                                 <p:spacer height="0" width="5"/>
                                 <p:commandButton value="Search"                                                 
                                                  onstart="PF('longProcessDialogVar').show();"
                                                  oncomplete="PF('longProcessDialogVar').hide();"
                                                  onerror="PF('connectionErrorDialog').show();" 
-                                                 actionListener="#{financeManager.doUnitCostSearch}"
+                                                 actionListener="#{jobFinanceManager.doUnitCostSearch}"
                                                  icon="ui-icon-search"
                                                  process="@this,unitCostDepartment,unitCostSearchText"/>
                             </h:panelGroup>
@@ -263,7 +263,7 @@ Email: info@dpbennett.com.jm
                                              onstart="PF('longProcessDialogVar').show();"
                                              oncomplete="PF('longProcessDialogVar').hide();"
                                              onerror="PF('connectionErrorDialog').show();" 
-                                             actionListener="#{financeManager.createNewUnitCost}"
+                                             actionListener="#{jobFinanceManager.createNewUnitCost}"
                                              icon="ui-icon-plus"
                                              process="@this"/>
 
@@ -281,7 +281,7 @@ Email: info@dpbennett.com.jm
                                  rendered="true"
                                  rows="15"
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 value="#{financeManager.unitCosts}">
+                                 value="#{jobFinanceManager.unitCosts}">
                         <ui:remove>
                             <f:facet name="header">
                                 <h:outputText value="Price List" />
@@ -320,13 +320,13 @@ Email: info@dpbennett.com.jm
                             <p:commandButton title="View or edit unit cost"
                                              onstart="PF('longProcessDialogVar').show();"
                                              onerror="PF('connectionErrorDialog').show();"
-                                             actionListener="#{financeManager.editUnitCost}"
+                                             actionListener="#{jobFinanceManager.editUnitCost}"
                                              update=":unitCostForm"
                                              oncomplete="PF('unitCostDialog').show();"
                                              global="true"
                                              icon="ui-icon-pencil">
                                 <f:setPropertyActionListener value="#{unitCost}" 
-                                                             target="#{financeManager.currentUnitCost}" />
+                                                             target="#{jobFinanceManager.currentUnitCost}" />
                             </p:commandButton>
                         </p:column>
                     </p:dataTable>

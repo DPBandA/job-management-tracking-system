@@ -32,11 +32,11 @@ Email: info@dpbennett.com.jm
                             id="accPacClientName"
                             size="40"                            
                             scrollHeight="200" 
-                            title="#{financeManager.accPacCustomer.customerName}"
-                            value="#{financeManager.accPacCustomer.customerName}"                           
-                            completeMethod="#{financeManager.completeAccPacClient}" >
+                            title="#{jobFinanceManager.accPacCustomer.customerName}"
+                            value="#{jobFinanceManager.accPacCustomer.customerName}"                           
+                            completeMethod="#{jobFinanceManager.completeAccPacClient}" >
                 <p:ajax event="itemSelect"
-                        listener="#{financeManager.updateCreditStatus}"
+                        listener="#{jobFinanceManager.updateCreditStatus}"
                         update="creditStatusSummary,invoiceTable" />
             </p:autoComplete>
         </h:panelGroup>
@@ -53,16 +53,16 @@ Email: info@dpbennett.com.jm
     <p:panel id="creditStatusSummary" header="Summary">
         <h:panelGrid columns="2">            
             <h:outputText value="ID:" style="font-weight: bold" />
-            <h:outputText value="#{financeManager.accPacCustomerID}" style="font-weight: bold" />
+            <h:outputText value="#{jobFinanceManager.accPacCustomerID}" style="font-weight: bold" />
 
             <h:outputText value="Name:" style="font-weight: bold" />
-            <h:outputText value="#{financeManager.accPacCustomerName}" style="font-weight: bold" />
+            <h:outputText value="#{jobFinanceManager.accPacCustomerName}" style="font-weight: bold" />
 
             <h:outputText value="Credit type:" style="font-weight: bold" />
-            <h:outputText value="#{financeManager.customerType}" style="font-weight: bold" />
+            <h:outputText value="#{jobFinanceManager.customerType}" style="font-weight: bold" />
             
             <h:outputText value="Credit limit ($):" style="font-weight: bold" />
-            <h:outputText value="#{financeManager.accPacCustomer.creditLimit}" 
+            <h:outputText value="#{jobFinanceManager.accPacCustomer.creditLimit}" 
                           style="font-weight: bold" >
                 
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />            
@@ -70,33 +70,33 @@ Email: info@dpbennett.com.jm
             </h:outputText>
 
             <h:outputText value="Account status:" 
-                          title="Account may be on hold if there are outstanding invoices that are #{financeManager.maxDaysPassInvoiceDate} or more days pass their due date."
-                          rendered="#{financeManager.filteredDocumentAvailable}"
-                          styleClass="#{financeManager.accountStatus}" />
-            <h:outputText value="#{financeManager.accPacCustomerAccountStatus}"
-                          title="Account may be on hold if there are outstanding invoices that are #{financeManager.maxDaysPassInvoiceDate} or more days pass their due date."
-                          rendered="#{financeManager.filteredDocumentAvailable}"
-                          styleClass="#{financeManager.accountStatus}" />
+                          title="Account may be on hold if there are outstanding invoices that are #{jobFinanceManager.maxDaysPassInvoiceDate} or more days pass their due date."
+                          rendered="#{jobFinanceManager.filteredDocumentAvailable}"
+                          styleClass="#{jobFinanceManager.accountStatus}" />
+            <h:outputText value="#{jobFinanceManager.accPacCustomerAccountStatus}"
+                          title="Account may be on hold if there are outstanding invoices that are #{jobFinanceManager.maxDaysPassInvoiceDate} or more days pass their due date."
+                          rendered="#{jobFinanceManager.filteredDocumentAvailable}"
+                          styleClass="#{jobFinanceManager.accountStatus}" />
 
-            <h:outputText value="Amount over #{financeManager.maxDaysPassInvoiceDate} days due:"
-                          styleClass="#{financeManager.totalInvoicesAmountOverMaxInvDays gt 0 ? 'hold' : 'active'}" />
-            <h:outputText value="#{financeManager.totalInvoicesAmountOverMaxInvDays}"
-                          styleClass="#{financeManager.totalInvoicesAmountOverMaxInvDays gt 0 ? 'hold' : 'active'}">
+            <h:outputText value="Amount over #{jobFinanceManager.maxDaysPassInvoiceDate} days due:"
+                          styleClass="#{jobFinanceManager.totalInvoicesAmountOverMaxInvDays gt 0 ? 'hold' : 'active'}" />
+            <h:outputText value="#{jobFinanceManager.totalInvoicesAmountOverMaxInvDays}"
+                          styleClass="#{jobFinanceManager.totalInvoicesAmountOverMaxInvDays gt 0 ? 'hold' : 'active'}">
                 <f:convertNumber type="currency"/>
             </h:outputText>
 
-            <h:outputText value="Amount outstanding:" styleClass="#{financeManager.totalInvoicesAmount gt 0 ? 'hold' : 'active'}" />
-            <h:outputText value="#{financeManager.totalInvoicesAmount}" styleClass="#{financeManager.totalInvoicesAmount gt 0 ? 'hold' : 'active'}" >
+            <h:outputText value="Amount outstanding:" styleClass="#{jobFinanceManager.totalInvoicesAmount gt 0 ? 'hold' : 'active'}" />
+            <h:outputText value="#{jobFinanceManager.totalInvoicesAmount}" styleClass="#{jobFinanceManager.totalInvoicesAmount gt 0 ? 'hold' : 'active'}" >
                 <f:convertNumber type="currency"/>
             </h:outputText>
 
             <ui:remove>
                 <h:outputText value="Credit limit:" style="font-weight: bold" />
-                <p:inputText value="#{financeManager.accPacCustomer.creditLimit}" readonly="true">
+                <p:inputText value="#{jobFinanceManager.accPacCustomer.creditLimit}" readonly="true">
                     <f:convertNumber type="currency"/>
                 </p:inputText>
                 <h:outputText value="Credit limit exceeded by:" style="font-weight: bold" />
-                <p:inputText value="#{financeManager.accPacCustomer.balanceDueCreditLimitDifference}" readonly="true">
+                <p:inputText value="#{jobFinanceManager.accPacCustomer.balanceDueCreditLimitDifference}" readonly="true">
                     <f:convertNumber type="currency"/>
                 </p:inputText>
             </ui:remove>
@@ -107,8 +107,8 @@ Email: info@dpbennett.com.jm
             <h:outputLabel for="showPrepayments"  style="font-weight: bold;" value="Show prepayments: " />
             <p:selectBooleanCheckbox id="showPrepayments"
                                      style="vertical-align: middle"                                     
-                                     value="#{financeManager.showPrepayments}" >
-                <p:ajax listener="#{financeManager.updateCreditStatus}"
+                                     value="#{jobFinanceManager.showPrepayments}" >
+                <p:ajax listener="#{jobFinanceManager.updateCreditStatus}"
                         update="invoiceTable,creditStatusSummary"
                         global="true"                       
                         process="@this"/>
@@ -120,9 +120,9 @@ Email: info@dpbennett.com.jm
                      rows="15"
                      rowStyleClass="#{invoice.daysOverdue gt 45 ? 'overdue' : null}"
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} page {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                     value="#{financeManager.filteredAccPacCustomerDocuments}">
+                     value="#{jobFinanceManager.filteredAccPacCustomerDocuments}">
             <f:facet name="header">
-                <h:outputText value="Invoices and/or Prepayments (#{financeManager.numberOfFilteredAccPacCustomerDocuments})"/>
+                <h:outputText value="Invoices and/or Prepayments (#{jobFinanceManager.numberOfFilteredAccPacCustomerDocuments})"/>
             </f:facet>
 
             <p:columnGroup type="header">
@@ -184,7 +184,7 @@ Email: info@dpbennett.com.jm
         </p:dataTable>    
 
         <h:outputText value="NB: Invoices highlighted in yellow are 45 days pass their invoice date."
-                      rendered="#{financeManager.filteredDocumentAvailable}"
+                      rendered="#{jobFinanceManager.filteredDocumentAvailable}"
                       style="color: red;font-weight: bold;"/>
     </p:panel>
 </html>

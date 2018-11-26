@@ -86,7 +86,7 @@ Email: info@dpbennett.com.jm
                             oncomplete="PF('longProcessDialogVar').hide();"
                             process="@this"/>
 
-                <p:menuitem actionListener="#{financeManager.updateAccPacClient}"
+                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"
                             onstart="PF('longProcessDialogVar').show();"                                                    
                             value="Client credit status"
                             update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
@@ -94,16 +94,6 @@ Email: info@dpbennett.com.jm
                             onerror="PF('connectionErrorDialog').show();"
                             process="@this"/>                
 
-                <p:separator rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}"/>
-                <p:menuitem value="Export Accpac Invoices"                            
-                            ajax="false"
-                            immediate="true" 
-                            onclick="longProcessDialogVar4.show();"
-                            rendered="#{financeManager.user.employee.department.privilege.canEditInvoicingAndPayment}" >
-
-                    <p:fileDownload value="#{financeManager.accpacInvoicesFile}" />
-
-                </p:menuitem>
                 <p:separator />
                 <p:menuitem value="Reports"
                             onstart="PF('longProcessDialogVar').show();"                                                    

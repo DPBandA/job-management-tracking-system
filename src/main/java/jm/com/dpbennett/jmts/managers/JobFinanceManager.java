@@ -2230,7 +2230,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 selectedCashPayment.setPaymentPurpose("Deposit");
             }
 
-            PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDialog", true, true, true, 350, 500);
+            PrimeFacesUtils.openDialog(null, "/job/finance/cashPaymentDialog", true, true, true, 350, 500);
         } else {
             PrimeFacesUtils.addMessage("Job NOT Saved",
                     "Job must be saved before a new payment can be added",
@@ -2241,7 +2241,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     public void editCashPayment(ActionEvent event) {
 
-        PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDialog", true, true, true, 350, 500);
+        PrimeFacesUtils.openDialog(null, "/job/finance/cashPaymentDialog", true, true, true, 350, 500);
 
     }
 
@@ -2822,12 +2822,12 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void checkForSubcontracts(ActionEvent event) {
-        //PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
+        //PrimeFacesUtils.openDialog(null, "/job/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
     }
 
     public void openCashPaymentDeleteConfirmDialog(ActionEvent event) {
 
-        PrimeFacesUtils.openDialog(null, "/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
+        PrimeFacesUtils.openDialog(null, "/job/finance/cashPaymentDeleteConfirmDialog", true, true, true, 110, 375);
     }
 
     public void closeJCashPaymentDeleteConfirmDialog() {

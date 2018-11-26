@@ -27,27 +27,25 @@ Email: info@dpbennett.com.jm
 
     <p:tabView id="jobFormTabView"
                style="margin-top: 1px;margin-bottom: 1px;"    
-               effect="fade"
-               effectDuration="fast"
-               dynamic="false"
+               dynamic="true"
                widgetVar="jobFormTabVar" >
 
-        <ui:remove>
-            <p:ajax event="tabChange" 
-                    onstart="PF('longProcessDialogVar').show()"
-                    oncomplete="PF('longProcessDialogVar').hide()"
-                    process="@this" />  
-        </ui:remove>
 
-        <p:tab title="General" rendered="#{!financeManager.enableOnlyPaymentEditing}">
+        <p:ajax event="tabChange" 
+                onstart="PF('longProcessDialogVar').show()"
+                oncomplete="PF('longProcessDialogVar').hide()"
+                process="@this" />  
+
+
+        <p:tab title="General" rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}">
             <ui:include src="jobGeneralTab.xhtml"/>
         </p:tab>     
 
-        <p:tab title="Services" rendered="#{!financeManager.enableOnlyPaymentEditing}">
+        <p:tab title="Services" rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}">
             <ui:include src="jobServicesTab.xhtml"/>
         </p:tab>
 
-        <p:tab title="Samples" rendered="#{!financeManager.enableOnlyPaymentEditing}">
+        <p:tab title="Samples" rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}">
             <ui:include src="jobSamplesTab.xhtml"/>
         </p:tab>
 
@@ -55,15 +53,15 @@ Email: info@dpbennett.com.jm
             <ui:include src="jobCostingAndPaymentTab.xhtml"/>
         </p:tab>    
 
-        <p:tab title="Grouping" rendered="#{!financeManager.enableOnlyPaymentEditing}">
+        <p:tab title="Grouping" rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}">
             <ui:include src="jobGroupingTab.xhtml" />
         </p:tab>
 
-        <p:tab title="Status &amp; Tracking"  rendered="#{!financeManager.enableOnlyPaymentEditing}">
+        <p:tab title="Status &amp; Tracking"  rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}">
             <ui:include src="jobStatusAndTrackingTab.xhtml" />
         </p:tab>               
 
-        <p:tab title="Reporting" rendered="#{!financeManager.enableOnlyPaymentEditing}">
+        <p:tab title="Reporting" rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}">
             <ui:include src="reportingTab.xhtml"/>
         </p:tab>
 

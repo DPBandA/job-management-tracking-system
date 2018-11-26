@@ -319,6 +319,7 @@ public class SystemManager implements Serializable {
         jobSubcategorySearchText = "";
         classificationSearchText = "";
         sectorSearchText = "";
+        serviceSearchText = "";
         ldapSearchText = "";
         documentTypeSearchText = "";
         openedJobsSearchText = "";
@@ -653,9 +654,8 @@ public class SystemManager implements Serializable {
     }
 
     public List<Service> getFoundServices() {
-        if (foundServices == null) {
-            System.out.println("impl finding services.."); //
-            //foundServices = Sector.findAllActiveSectors(getEntityManager());
+        if (foundServices == null) {            
+            foundServices = Service.findAllActive(getEntityManager());
         }
         return foundServices;
     }
@@ -859,7 +859,11 @@ public class SystemManager implements Serializable {
     }
 
     public void doServiceSearch() {
-        System.out.println("Impl service search...");
+        if (getIsActiveServicesOnly()) {
+            foundServices = Service.findAllActiveByName(getEntityManager(), getServiceSearchText());
+        } else {
+            foundServices = Service.findAllByName(getEntityManager(), getServiceSearchText());
+        }
     }
 
     public void doDocumentTypeSearch() {

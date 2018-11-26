@@ -31,10 +31,10 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
         <meta http-equiv="pragma" content="no-cache" />
         <title>Payment Detail</title>
-        <link rel="stylesheet" href="../css/main.css" /> 
+        <link rel="stylesheet" href="../../css/main.css" /> 
     </h:head>
     <h:body onload="PF('longProcessDialogVar').hide();">        
-        <ui:include src="../common/longProcessDialog.xhtml"/>  
+        <ui:include src="/common/longProcessDialog.xhtml"/>  
         <h:form id="cashPaymentDialogForm" >    
             <p:growl id="cash_payment_dialog_growl" 
                      life="5000" 
@@ -44,14 +44,14 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-bottom: 1px;">
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{financeManager.okCashPayment}"
+                                     actionListener="#{jobFinanceManager.okCashPayment}"
                                      icon="ui-icon-check"
                                      update="cash_payment_dialog_growl"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
                                      immediate="true"
-                                     actionListener="#{financeManager.cancelCashPaymentEdit}"
+                                     actionListener="#{jobFinanceManager.cancelCashPaymentEdit}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close"
@@ -63,47 +63,47 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Type:" style="font-weight: bold;" />    
                     <p:selectOneMenu 
                         id="type"      
-                        value="#{financeManager.selectedCashPayment.type}">
+                        value="#{jobFinanceManager.selectedCashPayment.type}">
                         <p:ajax
                             global="true"                        
-                            listener="#{financeManager.updateCashPayment}"
+                            listener="#{jobFinanceManager.updateCashPayment}"
                             process="@this" />
-                        <f:selectItems value="#{financeManager.paymentTypes}" />
+                        <f:selectItems value="#{jobFinanceManager.paymentTypes}" />
                     </p:selectOneMenu>   
 
                     <h:outputText value="Purpose of payment:" style="font-weight: bold;" />    
                     <p:selectOneMenu 
                         id="paymentPurpose"      
-                        value="#{financeManager.selectedCashPayment.paymentPurpose}">
+                        value="#{jobFinanceManager.selectedCashPayment.paymentPurpose}">
                         <p:ajax
                             global="true"                        
-                            listener="#{financeManager.updateCashPayment}"
+                            listener="#{jobFinanceManager.updateCashPayment}"
                             process="@this" />
-                        <f:selectItems value="#{financeManager.paymentPurposes}" />
+                        <f:selectItems value="#{jobFinanceManager.paymentPurposes}" />
                     </p:selectOneMenu>   
 
                     <h:outputText value="Payment date:" style="font-weight: bold" />
                     <p:calendar id="paymentDate"
-                                value="#{financeManager.selectedCashPayment.dateOfPayment}" 
+                                value="#{jobFinanceManager.selectedCashPayment.dateOfPayment}" 
                                 readonlyInput="true"
                                 navigator="true" 
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"
-                                listener="#{financeManager.updateCashPayment}" />
+                                listener="#{jobFinanceManager.updateCashPayment}" />
 
                     </p:calendar>
 
                     <h:outputText value="Receipt #:" />
-                    <p:inputText value="#{financeManager.selectedCashPayment.receiptNumber}" 
+                    <p:inputText value="#{jobFinanceManager.selectedCashPayment.receiptNumber}" 
                                  maxlength="40" >
-                        <p:ajax listener="#{financeManager.updateCashPayment}"
+                        <p:ajax listener="#{jobFinanceManager.updateCashPayment}"
                                 event="change"
                                 global="false"                            
                                 process="@this"/>
                     </p:inputText>               
 
                     <h:outputText value="Amount ($):" style="font-weight: bold;" />
-                    <p:inputText value="#{financeManager.selectedCashPayment.payment}"  
+                    <p:inputText value="#{jobFinanceManager.selectedCashPayment.payment}"  
                                  id="paymentAmount"
                                  styleClass="number-field"
                                  validator="requiredFieldValidator"
@@ -114,19 +114,19 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="change"
                                 global="false"                            
-                                listener="#{financeManager.updateCashPayment}"
+                                listener="#{jobFinanceManager.updateCashPayment}"
                                 process="@this"/>
                     </p:inputText> 
 
                     <h:outputText value="Terms:" />
                     <p:inputTextarea
-                        value="#{financeManager.selectedCashPayment.paymentTerms}"
+                        value="#{jobFinanceManager.selectedCashPayment.paymentTerms}"
                         style="width: 250px;"
                         maxlength="250"
                         rows="2">
                         <p:ajax event="change"
                                 global="false"
-                                listener="#{financeManager.updateCashPayment}"
+                                listener="#{jobFinanceManager.updateCashPayment}"
                                 process="@this"/>
                     </p:inputTextarea>                
                 </h:panelGrid>
@@ -134,14 +134,14 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-top: 1px;">
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{financeManager.okCashPayment}"
+                                     actionListener="#{jobFinanceManager.okCashPayment}"
                                      icon="ui-icon-check"
                                      update="cash_payment_dialog_growl"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
                                      immediate="true"
-                                     actionListener="#{financeManager.cancelCashPaymentEdit}"
+                                     actionListener="#{jobFinanceManager.cancelCashPaymentEdit}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close"

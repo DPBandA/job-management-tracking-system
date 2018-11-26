@@ -36,7 +36,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{financeManager.okContact}"
+                                     actionListener="#{jobFinanceManager.okContact}"
                                      icon="ui-icon-check"                                
                                      update=":supplierForm:supplier_growl,:supplierForm:supplierFormTabView:contactsTable,:supplierForm:supplierFormTabView:generalDetailsPanelGrid"
                                      process="@form"/>
@@ -51,100 +51,100 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="2" style="width: 85%">
 
                     <h:outputText value="Type:" style="font-weight: bold" />
-                    <p:selectOneMenu value="#{financeManager.selectedContact.type}"
+                    <p:selectOneMenu value="#{jobFinanceManager.selectedContact.type}"
                                      id="contactType" 
                                      maxlength="50"
                                      validator="contactValidator">
                         <p:ajax
                             event="change"
                             global="true"
-                            listener="#{financeManager.updateContact}"
+                            listener="#{jobFinanceManager.updateContact}"
                             process="@this" />
                         <f:selectItem itemLabel="Main" itemValue="Main" />
                         <f:selectItem itemLabel="General" itemValue="General" />
                     </p:selectOneMenu>
 
                     <h:outputText value="Title:" />
-                    <p:inputText value="#{financeManager.selectedContact.title}"
+                    <p:inputText value="#{jobFinanceManager.selectedContact.title}"
                                  maxlength="50"
                                  style="width: 100%" >
                         <p:ajax event="change"
                                 global="true"                                    
-                                listener="#{financeManager.updateContact}"
+                                listener="#{jobFinanceManager.updateContact}"
                                 process="@this"/>
                     </p:inputText>               
 
                     <h:outputText value="Firstname:" style="font-weight: bold" />
-                    <p:inputText value="#{financeManager.selectedContact.firstName}"
+                    <p:inputText value="#{jobFinanceManager.selectedContact.firstName}"
                                  id="contactFirstname"
                                  maxlength="50"
                                  validator="contactValidator"
                                  style="width: 100%" >
                         <p:ajax event="change"
                                 global="true"                                    
-                                listener="#{financeManager.updateContact}"
+                                listener="#{jobFinanceManager.updateContact}"
                                 process="@this"/>
                     </p:inputText>
 
                     <h:outputText value="Lastname:" style="font-weight: bold" />
-                    <p:inputText value="#{financeManager.selectedContact.lastName}"
+                    <p:inputText value="#{jobFinanceManager.selectedContact.lastName}"
                                  id="contactLastname"
                                  maxlength="50"
                                  validator="contactValidator"
                                  style="width: 100%" >
                         <p:ajax event="change"
                                 global="true"                                    
-                                listener="#{financeManager.updateContact}"
+                                listener="#{jobFinanceManager.updateContact}"
                                 process="@this"/>
                     </p:inputText>
 
                     <h:outputText value="Position:" />
-                    <p:inputText value="#{financeManager.selectedContact.position}"
+                    <p:inputText value="#{jobFinanceManager.selectedContact.position}"
                                  maxlength="50"
                                  style="width: 100%" >
                         <p:ajax event="change"
                                 global="true"                                    
-                                listener="#{financeManager.updateContact}"
+                                listener="#{jobFinanceManager.updateContact}"
                                 process="@this"/>
                     </p:inputText>
 
                     <h:outputText value="Phone:" />
-                    <p:inputText value="#{financeManager.selectedContact.mainPhoneNumber.localNumber}"
+                    <p:inputText value="#{jobFinanceManager.selectedContact.mainPhoneNumber.localNumber}"
                                  maxlength="50"
                                  style="width: 100%" >
                         <p:ajax event="change"
                                 global="true"                                    
-                                listener="#{financeManager.updateContact}"
+                                listener="#{jobFinanceManager.updateContact}"
                                 process="@this"/>
                     </p:inputText>
 
                     <h:outputText value="Email:" />
-                    <p:inputText value="#{financeManager.selectedContact.internet.email1}"
+                    <p:inputText value="#{jobFinanceManager.selectedContact.internet.email1}"
                                  maxlength="50"
                                  style="width: 100%" >                
                         <p:ajax event="change"
                                 global="true"                                    
-                                listener="#{financeManager.updateContact}"
+                                listener="#{jobFinanceManager.updateContact}"
                                 process="@this"/>
                     </p:inputText>
 
                     <h:outputText value="Website:" />
-                    <p:inputText value="#{financeManager.selectedContact.internet.website1}"
+                    <p:inputText value="#{jobFinanceManager.selectedContact.internet.website1}"
                                  maxlength="50"
                                  style="width: 100%" >
                         <p:ajax event="change"
                                 global="true"                                    
-                                listener="#{financeManager.updateContact}"
+                                listener="#{jobFinanceManager.updateContact}"
                                 process="@this"/>
                     </p:inputText>
 
                     <h:outputText value="Fax:" />
-                    <p:inputText value="#{financeManager.selectedContact.mainFaxNumber.localNumber}"
+                    <p:inputText value="#{jobFinanceManager.selectedContact.mainFaxNumber.localNumber}"
                                  maxlength="50"
                                  style="width: 100%">
                         <p:ajax event="change"
                                 global="true"                                    
-                                listener="#{financeManager.updateContact}"
+                                listener="#{jobFinanceManager.updateContact}"
                                 process="@this"/>
                     </p:inputText>
 
@@ -153,7 +153,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{financeManager.okContact}"
+                                     actionListener="#{jobFinanceManager.okContact}"
                                      icon="ui-icon-check"                                
                                      update=":supplierForm:supplier_growl,:supplierForm:supplierFormTabView:contactsTable,:supplierForm:supplierFormTabView:generalDetailsPanelGrid"
                                      process="@form"/>

@@ -32,12 +32,12 @@ Email: info@dpbennett.com.jm
                 icon="ui-icon-plus" 
                 onstart="PF('longProcessDialogVar4').show();"
                 oncomplete="longProcessDialogVar4.hide();"
-                actionListener="#{financeManager.createNewPurchaseReq}"                                            
+                actionListener="#{jobFinanceManager.createNewPurchaseReq}"                                            
                 process="@this"
                 title="Add a new purchase requisition" >
 
                 <p:ajax event="dialogReturn" 
-                        listener="#{financeManager.doPurchaseReqSearch}"
+                        listener="#{jobFinanceManager.doPurchaseReqSearch}"
                         update=":mainTabViewForm:mainTabView:financialAdminTabView:purchasereqsTable"/>
 
             </p:commandButton>
@@ -45,12 +45,12 @@ Email: info@dpbennett.com.jm
             <p:inputText id="purchaseReqSearchText" 
                          placeholder="Enter search text"
                          style="width:200px" 
-                         value="#{financeManager.purchaseReqSearchText}" >
+                         value="#{jobFinanceManager.purchaseReqSearchText}" >
 
                 <p:ajax event="keyup"                            
                         global="false"
                         update=":mainTabViewForm:mainTabView:financialAdminTabView:purchasereqsTable"
-                        listener="#{financeManager.doPurchaseReqSearch}"
+                        listener="#{jobFinanceManager.doPurchaseReqSearch}"
                         process="@this"/>
 
             </p:inputText>
@@ -66,12 +66,12 @@ Email: info@dpbennett.com.jm
                  paginator="true"                                 
                  rows="15"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{financeManager.foundPurchaseReqs}">                        
+                 value="#{jobFinanceManager.foundPurchaseReqs}">                        
 
-        <p:ajax event="cellEdit" listener="#{financeManager.onPurchaseReqCellEdit}" />
+        <p:ajax event="cellEdit" listener="#{jobFinanceManager.onPurchaseReqCellEdit}" />
 
         <f:facet name="header">
-            <h:outputText value="Search Results (found: #{financeManager.numOfPurchaseReqsFound})" />
+            <h:outputText value="Search Results (found: #{jobFinanceManager.numOfPurchaseReqsFound})" />
         </f:facet>
 
         <p:column sortBy="#{pr.number}">
@@ -108,12 +108,12 @@ Email: info@dpbennett.com.jm
             <p:commandButton icon="ui-icon-pencil"
                              onstart="PF('longProcessDialogVar4').show();"                               
                              oncomplete="PF('longProcessDialogVar4').hide();"
-                             actionListener="#{financeManager.editSelectedPurchaseReq}"
+                             actionListener="#{jobFinanceManager.editSelectedPurchaseReq}"
                              process="@this"
                              title="View or edit this PR's detail">
 
                 <f:setPropertyActionListener value="#{pr}" 
-                                             target="#{financeManager.selectedPurchaseRequisition}" />
+                                             target="#{jobFinanceManager.selectedPurchaseRequisition}" />
 
                 <p:ajax event="dialogReturn" 
                         update=":mainTabViewForm:mainTabView:financialAdminTabView:purchasereqsTable"/>
@@ -129,12 +129,12 @@ Email: info@dpbennett.com.jm
                 icon="ui-icon-plus" 
                 onstart="PF('longProcessDialogVar4').show();"
                 oncomplete="longProcessDialogVar4.hide();"
-                actionListener="#{financeManager.createNewPurchaseReq}"                                            
+                actionListener="#{jobFinanceManager.createNewPurchaseReq}"                                            
                 process="@this"
                 title="Add a new purchase requisition" >
 
                 <p:ajax event="dialogReturn" 
-                        listener="#{financeManager.doPurchaseReqSearch}"
+                        listener="#{jobFinanceManager.doPurchaseReqSearch}"
                         update=":mainTabViewForm:mainTabView:financialAdminTabView:purchasereqsTable"/>
 
             </p:commandButton>

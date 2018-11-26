@@ -328,14 +328,14 @@
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>cashPaymentDialog</from-outcome>
-            <to-view-id>/finance/cashPaymentDialog.xhtml</to-view-id>
+            <to-view-id>/job/finance/cashPaymentDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>cashPaymentDeleteConfirmDialog</from-outcome>
-            <to-view-id>/finance/cashPaymentDeleteConfirmDialog.xhtml</to-view-id>
+            <to-view-id>/job/finance/cashPaymentDeleteConfirmDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -416,7 +416,7 @@
     </managed-bean>
     
     <managed-bean>
-        <managed-bean-name>financeManager</managed-bean-name>
+        <managed-bean-name>jobFinanceManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.managers.JobFinanceManager</managed-bean-class>
     
         <managed-bean-scope>session</managed-bean-scope></managed-bean>

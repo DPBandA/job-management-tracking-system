@@ -41,7 +41,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/commonDialogs.xhtml"/>  
         <h:form id="jobCostingDialogForm" > 
             <p:remoteCommand name="rc" autoRun="true" 
-                             actionListener="#{financeManager.checkForSubcontracts}" />
+                             actionListener="#{jobFinanceManager.checkForSubcontracts}" />
             
             <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
 
@@ -51,23 +51,23 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="3">
                     <h:outputText value="Department:" style="font-weight: bold; width: 30%" />
                     <p:spacer height="0" width="10"/>
-                    <h:outputText value="#{financeManager.currentJob.departmentAssignedToJob.name}" style="width: 60%" />
+                    <h:outputText value="#{jobFinanceManager.currentJob.departmentAssignedToJob.name}" style="width: 60%" />
 
                     <h:outputText value="Job number:" style="font-weight: bold;" />
                     <p:spacer height="0" width="10"/>
-                    <h:outputText value="#{financeManager.currentJob.jobNumber}" />
+                    <h:outputText value="#{jobFinanceManager.currentJob.jobNumber}" />
 
                     <h:outputText value="Client" style="font-weight: bold;" />
                     <p:spacer height="0" width="10"/>
-                    <h:outputText value="#{financeManager.currentJob.client.name}" />
+                    <h:outputText value="#{jobFinanceManager.currentJob.client.name}" />
 
                     <h:outputText value="Purchase order #:" />
                     <p:spacer height="0" width="10"/>
-                    <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}" />
+                    <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}" />
 
                     <h:outputText value="Report number(s):" />
                     <p:spacer height="0" width="10"/>
-                    <h:outputText value="#{financeManager.currentJob.reportNumber}" />                   
+                    <h:outputText value="#{jobFinanceManager.currentJob.reportNumber}" />                   
 
                     <h:outputText value="Costing date:" />
                     <p:spacer height="0" width="10"/>
@@ -76,28 +76,28 @@ Email: info@dpbennett.com.jm
                                 readonlyInput="true"
                                 showOn="none"                                                                    
                                 id="costingDate"
-                                value="#{financeManager.currentJob.jobStatusAndTracking.dateCostingCompleted}"
+                                value="#{jobFinanceManager.currentJob.jobStatusAndTracking.dateCostingCompleted}"
                                 styleClass="read-only-inputfield"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"                                 
-                                listener="#{financeManager.updateJobCostingDate}"/>
+                                listener="#{jobFinanceManager.updateJobCostingDate}"/>
                         <p:ajax event="keyup"                                 
-                                listener="#{financeManager.updateJobCostingDate}"/>
+                                listener="#{jobFinanceManager.updateJobCostingDate}"/>
                     </p:calendar>                    
 
                     <h:outputText value="Job description:"  style="font-weight: bold" />
                     <p:spacer height="0" width="10"/>
-                    <p:inputTextarea value="#{financeManager.currentJob.jobDescription}" 
+                    <p:inputTextarea value="#{jobFinanceManager.currentJob.jobDescription}" 
                                      id="jobDescription"
-                                     disabled="#{financeManager.isJobCompleted}" 
+                                     disabled="#{jobFinanceManager.isJobCompleted}" 
                                      rows="2" 
                                      style="width: 300px" >
 
                         <p:ajax event="change"  
                                 global="false"
                                 process="@this"                               
-                                listener="#{financeManager.updateJobDescription}"/>
+                                listener="#{jobFinanceManager.updateJobDescription}"/>
 
                         <f:validator validatorId="requiredFieldValidator" />
 
@@ -114,15 +114,15 @@ Email: info@dpbennett.com.jm
                             <h:outputLabel value="Select template: "
                                            title="Select an existing costing template"/>
                             <p:autoComplete dropdown="true"
-                                            value="#{financeManager.selectedJobCostingTemplate}"
+                                            value="#{jobFinanceManager.selectedJobCostingTemplate}"
                                             title="Choose an existing costing template name"                                                                                    
                                             scrollHeight="200" 
-                                            disabled="#{financeManager.isJobCompleted}" 
+                                            disabled="#{jobFinanceManager.isJobCompleted}" 
                                             forceSelection="true"
-                                            completeMethod="#{financeManager.completeJobCostingAndPaymentName}">
+                                            completeMethod="#{jobFinanceManager.completeJobCostingAndPaymentName}">
                                 <p:ajax event="itemSelect"                                    
                                         update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                        listener="#{financeManager.updateCostingComponents}"
+                                        listener="#{jobFinanceManager.updateCostingComponents}"
                                         process="@this"/>                      
                             </p:autoComplete>
                         </h:panelGroup>    
@@ -133,12 +133,12 @@ Email: info@dpbennett.com.jm
                                            for="jobCostingsTemplateName" 
                                            value="Template name: " />
                             <p:inputText id="jobCostingsTemplateName"
-                                         value="#{financeManager.currentJob.jobCostingAndPayment.name}"
-                                         disabled="#{financeManager.isJobCompleted}" 
+                                         value="#{jobFinanceManager.currentJob.jobCostingAndPayment.name}"
+                                         disabled="#{jobFinanceManager.isJobCompleted}" 
                                          style="width: 150px;">
                                 <p:ajax event="change"
                                         global="false"
-                                        listener="#{financeManager.updateJobCostingAndPayment}"
+                                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"
                                         process="@this"/>
                             </p:inputText>
                             <p:watermark value="enter template name" for="jobCostingsTemplateName" />
@@ -151,8 +151,8 @@ Email: info@dpbennett.com.jm
                     <p:toolbarGroup>
                         <p:commandButton title="Add new cost component"
                                          value="New"
-                                         actionListener="#{financeManager.createNewCostComponent}"
-                                         disabled="#{financeManager.isJobCompleted}"
+                                         actionListener="#{jobFinanceManager.createNewCostComponent}"
+                                         disabled="#{jobFinanceManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
                                          onstart="PF('longProcessDialogVar').show();"
                                          oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
@@ -161,7 +161,7 @@ Email: info@dpbennett.com.jm
                         </p:commandButton>
                         
                             <p:spacer width="10" />
-                            <h:outputText value="#{financeManager.subcontractsMessage}" 
+                            <h:outputText value="#{jobFinanceManager.subcontractsMessage}" 
                                           style="color: gold;font-weight: bold;" />
                         
                     </p:toolbarGroup>                    
@@ -170,7 +170,7 @@ Email: info@dpbennett.com.jm
                 <p:dataTable  var="costComponent"
                               id="i#{jobCosting.id}"
                               rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
-                              value="#{financeManager.currentJob.jobCostingAndPayment.allSortedCostComponents}">
+                              value="#{jobFinanceManager.currentJob.jobCostingAndPayment.allSortedCostComponents}">
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Component" />
@@ -242,7 +242,7 @@ Email: info@dpbennett.com.jm
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                         </h:outputText>
                         <f:facet name="footer">
-                            <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.finalCost}" 
+                            <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.finalCost}" 
                                           styleClass="datatable-number-field" >
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                             </h:outputText>
@@ -258,22 +258,22 @@ Email: info@dpbennett.com.jm
 
                     <p:column style="width:32px" >
                         <p:menuButton id="toolsButton" 
-                                      disabled="#{financeManager.isJobCompleted}" 
+                                      disabled="#{jobFinanceManager.isJobCompleted}" 
                                       title="Edit or delete cost component"
                                       icon="ui-icon-pencil" >
                             <p:menuitem>                       
                                 <p:commandButton   
                                     value="Edit"
                                     style="width: 300%;text-align: left;background: none;border: 0;"
-                                    actionListener="#{financeManager.editCostComponent}"
-                                    disabled="#{!costComponent.isEditable or financeManager.isJobCompleted}"
+                                    actionListener="#{jobFinanceManager.editCostComponent}"
+                                    disabled="#{!costComponent.isEditable or jobFinanceManager.isJobCompleted}"
                                     update=":costingComponentDialogForm"
                                     oncomplete="PF('costingComponentDialog').show();"
                                     icon="ui-icon ui-icon-pencil"
                                     process="@this" >
 
                                     <f:setPropertyActionListener value="#{costComponent}"
-                                                                 target="#{financeManager.selectedCostComponent}" />
+                                                                 target="#{jobFinanceManager.selectedCostComponent}" />
 
                                 </p:commandButton>                       
                             </p:menuitem>
@@ -282,13 +282,13 @@ Email: info@dpbennett.com.jm
                                 <p:commandButton   
                                     value="Delete"
                                     style="width: 300%;text-align: left;background: none;border: 0;"
-                                    disabled="#{financeManager.isJobCompleted}"
+                                    disabled="#{jobFinanceManager.isJobCompleted}"
                                     onclick="costComponentDeleteConfirm.show();"
                                     icon="ui-icon-trash"
                                     process="@this">
 
                                     <f:setPropertyActionListener value="#{costComponent}"
-                                                                 target="#{financeManager.selectedCostComponent}" />
+                                                                 target="#{jobFinanceManager.selectedCostComponent}" />
 
                                 </p:commandButton>
                             </p:menuitem>                   
@@ -301,8 +301,8 @@ Email: info@dpbennett.com.jm
                     <p:toolbarGroup>
                         <p:commandButton title="Add new cost component"
                                          value="New"
-                                         actionListener="#{financeManager.createNewCostComponent}"
-                                         disabled="#{financeManager.isJobCompleted}"
+                                         actionListener="#{jobFinanceManager.createNewCostComponent}"
+                                         disabled="#{jobFinanceManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
                                          onstart="PF('longProcessDialogVar').show();"
                                          oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
@@ -317,7 +317,7 @@ Email: info@dpbennett.com.jm
                     
                     <h:outputText value="Total paid ($):" />
                     <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.totalPayment}" 
+                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalPayment}" 
                                  readonly="true"
                                  maxlength="15"
                                  styleClass="read-only-number-field">
@@ -325,14 +325,14 @@ Email: info@dpbennett.com.jm
                         <p:ajax event="change"
                                 global="false"
                                 update=":jobCostingDialogForm:amountDue"
-                                listener="#{financeManager.updateAmountDue}"
+                                listener="#{jobFinanceManager.updateAmountDue}"
                                 process="@this"/>
                     </p:inputText>
 
                     <ui:remove>                    
                         <h:outputText value="Discount ($):" />
                         <p:spacer height="0" width="10"/>
-                        <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.discount}" 
+                        <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.discount}" 
                                      maxlength="15"
                                      styleClass="read-only-number-field" >
 
@@ -341,32 +341,32 @@ Email: info@dpbennett.com.jm
                             <p:ajax event="change"
                                     global="false"
                                     update=":jobCostingDialogForm:amountDue"
-                                    listener="#{financeManager.updateAmountDue}"
+                                    listener="#{jobFinanceManager.updateAmountDue}"
                                     process="@this"/>
                         </p:inputText>
                     </ui:remove>
 
                     <h:outputText value="Job cost ($):" />
                     <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.finalCost}" 
+                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.finalCost}" 
                                  styleClass="read-only-number-field"
                                  maxlength="15"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
 
-                    <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.totalTaxLabel}"  />
+                    <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalTaxLabel}"  />
                     <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.totalTax}" 
+                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalTax}" 
                                  maxlength="15"
                                  styleClass="read-only-number-field"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
 
-                    <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}" />
+                    <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}" />
                     <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{financeManager.currentJob.jobCostingAndPayment.totalCost}" 
+                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalCost}" 
                                  styleClass="read-only-number-field"
                                  maxlength="15"
                                  readonly="true">
@@ -376,7 +376,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Amount due ($):" />
                     <p:spacer height="0" width="10"/>
                     <p:inputText id="amountDue"
-                                 value="#{financeManager.currentJob.jobCostingAndPayment.amountDue}"
+                                 value="#{jobFinanceManager.currentJob.jobCostingAndPayment.amountDue}"
                                  styleClass="read-only-number-field"
                                  maxlength="15"
                                  readonly="true">

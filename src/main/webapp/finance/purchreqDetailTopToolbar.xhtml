@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
     
     <p:toolbar id="purchreqDetailToolbar1">
         <p:toolbarGroup align="left" >  
-            <p:commandButton actionListener="#{financeManager.saveSelectedPurchaseRequisition}"                            
+            <p:commandButton actionListener="#{jobFinanceManager.saveSelectedPurchaseRequisition}"                            
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
             <p:spacer height="0" width="10"/>
 
             <p:commandButton value="Close"     
-                             actionListener="#{financeManager.closeDialog}"
+                             actionListener="#{jobFinanceManager.closeDialog}"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();" 
                              onerror="PF('connectionErrorDialog').show();"
@@ -48,7 +48,7 @@ Email: info@dpbennett.com.jm
 
             <p:spacer width="20" />
 
-            <h:outputText value="#{financeManager.selectedPurchaseRequisition.editStatus}" />
+            <h:outputText value="#{jobFinanceManager.selectedPurchaseRequisition.editStatus}" />
 
         </p:toolbarGroup>
 
@@ -59,21 +59,21 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Purchase Requisition"
                             ajax="false" 
                             immediate="true"
-                            disabled="#{!financeManager.isSelectedPurchaseReqIsValid}"                   
+                            disabled="#{!jobFinanceManager.isSelectedPurchaseReqIsValid}"                   
                             update="longProgressDialogForm4"
                             onclick="PF('longProcessDialogVar4').show();" >
                     
-                    <p:fileDownload value="#{financeManager.purchaseReqFile}" />
+                    <p:fileDownload value="#{jobFinanceManager.purchaseReqFile}" />
                     
                 </p:menuitem>
                 <p:menuitem value="Purchase Order"
                             ajax="false" 
                             immediate="true"
-                            disabled="#{!financeManager.isSelectedPurchaseReqIsValid}"                   
+                            disabled="#{!jobFinanceManager.isSelectedPurchaseReqIsValid}"                   
                             update="longProgressDialogForm4"
                             onclick="PF('longProcessDialogVar4').show();" >
                     
-                    <p:fileDownload value="#{financeManager.purchaseOrderFile}" />
+                    <p:fileDownload value="#{jobFinanceManager.purchaseOrderFile}" />
                     
                 </p:menuitem>
             </p:menuButton>

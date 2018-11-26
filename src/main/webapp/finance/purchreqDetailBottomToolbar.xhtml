@@ -23,7 +23,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:toolbar id="purchreqDetailToolbar2">
         <p:toolbarGroup align="left" >  
-            <p:commandButton actionListener="#{financeManager.saveSelectedPurchaseRequisition}"                            
+            <p:commandButton actionListener="#{jobFinanceManager.saveSelectedPurchaseRequisition}"                            
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
@@ -36,7 +36,7 @@ Email: info@dpbennett.com.jm
             <p:spacer height="0" width="10"/>
             
             <p:commandButton value="Close"     
-                             actionListener="#{financeManager.closeDialog}"
+                             actionListener="#{jobFinanceManager.closeDialog}"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();" 
                              onerror="PF('connectionErrorDialog').show();"

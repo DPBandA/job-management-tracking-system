@@ -28,8 +28,8 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup>
             <p:commandButton title="Add new cost component"
                              value="New"
-                             actionListener="#{financeManager.createNewCostComponent}"
-                             disabled="#{financeManager.isJobCompleted}"
+                             actionListener="#{jobFinanceManager.createNewCostComponent}"
+                             disabled="#{jobFinanceManager.isJobCompleted}"
                              update=":costingComponentDialogForm"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
             </p:commandButton>
 
             <p:spacer width="10" />
-            <h:outputText value="#{financeManager.subcontractsMessage}" 
+            <h:outputText value="#{jobFinanceManager.subcontractsMessage}" 
                           style="color: gold;font-weight: bold;" />
 
         </p:toolbarGroup>                    
@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
     <p:dataTable  var="costComponent"
                   id="i#{jobCosting.id}"
                   rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
-                  value="#{financeManager.currentJob.jobCostingAndPayment.allSortedCostComponents}">
+                  value="#{jobFinanceManager.currentJob.jobCostingAndPayment.allSortedCostComponents}">
         <p:column>
             <f:facet name="header">
                 <h:outputText value="Component" />
@@ -119,7 +119,7 @@ Email: info@dpbennett.com.jm
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
             </h:outputText>
             <f:facet name="footer">
-                <h:outputText value="#{financeManager.currentJob.jobCostingAndPayment.finalCost}" 
+                <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.finalCost}" 
                               styleClass="datatable-number-field" >
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 </h:outputText>
@@ -135,22 +135,22 @@ Email: info@dpbennett.com.jm
 
         <p:column style="width:32px" >
             <p:menuButton id="toolsButton" 
-                          disabled="#{financeManager.isJobCompleted}" 
+                          disabled="#{jobFinanceManager.isJobCompleted}" 
                           title="Edit or delete cost component"
                           icon="ui-icon-pencil" >
                 <p:menuitem>                       
                     <p:commandButton   
                         value="Edit"
                         style="width: 300%;text-align: left;background: none;border: 0;"
-                        actionListener="#{financeManager.editCostComponent}"
-                        disabled="#{!costComponent.isEditable or financeManager.isJobCompleted}"
+                        actionListener="#{jobFinanceManager.editCostComponent}"
+                        disabled="#{!costComponent.isEditable or jobFinanceManager.isJobCompleted}"
                         update=":costingComponentDialogForm"
                         oncomplete="PF('costingComponentDialog').show();"
                         icon="ui-icon ui-icon-pencil"
                         process="@this" >
 
                         <f:setPropertyActionListener value="#{costComponent}"
-                                                     target="#{financeManager.selectedCostComponent}" />
+                                                     target="#{jobFinanceManager.selectedCostComponent}" />
 
                     </p:commandButton>                       
                 </p:menuitem>
@@ -159,13 +159,13 @@ Email: info@dpbennett.com.jm
                     <p:commandButton   
                         value="Delete"
                         style="width: 300%;text-align: left;background: none;border: 0;"
-                        disabled="#{financeManager.isJobCompleted}"
+                        disabled="#{jobFinanceManager.isJobCompleted}"
                         onclick="costComponentDeleteConfirm.show();"
                         icon="ui-icon-trash"
                         process="@this">
 
                         <f:setPropertyActionListener value="#{costComponent}"
-                                                     target="#{financeManager.selectedCostComponent}" />
+                                                     target="#{jobFinanceManager.selectedCostComponent}" />
 
                     </p:commandButton>
                 </p:menuitem>                   
@@ -178,8 +178,8 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup>
             <p:commandButton title="Add new cost component"
                              value="New"
-                             actionListener="#{financeManager.createNewCostComponent}"
-                             disabled="#{financeManager.isJobCompleted}"
+                             actionListener="#{jobFinanceManager.createNewCostComponent}"
+                             disabled="#{jobFinanceManager.isJobCompleted}"
                              update=":costingComponentDialogForm"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"

@@ -49,19 +49,19 @@ Email: info@dpbennett.com.jm
                                                 dropdown="false"
                                                 size="30"
                                                 maxlength="250"
-                                                value="#{financeManager.jobCostDepartment}"
-                                                title="#{financeManager.jobCostDepartment}"
+                                                value="#{jobFinanceManager.jobCostDepartment}"
+                                                title="#{jobFinanceManager.jobCostDepartment}"
                                                 itemValue="#{department}"
                                                 itemLabel="#{department.name}" 
                                                 converter="activeDepartmentConverter"
                                                 completeMethod="#{humanResourceManager.completeActiveDepartment}" >
                                     <p:ajax event="itemSelect"
-                                            listener="#{financeManager.updateJobCostDepartment}"   
+                                            listener="#{jobFinanceManager.updateJobCostDepartment}"   
                                             update=":jobCostsTableForm"
                                             global="false"                                            
                                             process="@this" />
                                     <p:ajax event="change"                                            
-                                            listener="#{financeManager.updateJobCostDepartment}"
+                                            listener="#{jobFinanceManager.updateJobCostDepartment}"
                                             update=":jobCostsTableForm"
                                             global="false"                                           
                                             process="@this" />
@@ -71,14 +71,14 @@ Email: info@dpbennett.com.jm
                             <p:spacer height="0" width="25"/>
                             <h:panelGroup>
                                 <p:inputText id="jobCostSearchText" 
-                                             value="#{financeManager.accountingCodeSearchText}" />
+                                             value="#{jobFinanceManager.accountingCodeSearchText}" />
                                 <p:watermark value="enter search text" for="jobCostSearchText" />
                                 <p:spacer height="0" width="5"/>
                                 <p:commandButton value="Search"                                                 
                                                  onstart="PF('longProcessDialogVar').show();"
                                                  oncomplete="PF('longProcessDialogVar').hide();"
                                                  onerror="PF('connectionErrorDialog').show();" 
-                                                 actionListener="#{financeManager.doJobCostSearch}"
+                                                 actionListener="#{jobFinanceManager.doJobCostSearch}"
                                                  icon="ui-icon-search"
                                                  process="@this,jobCostDepartment,jobCostSearchText"/>
                             </h:panelGroup>                    
@@ -99,9 +99,9 @@ Email: info@dpbennett.com.jm
                                  editMode="cell"
                                  rows="15"
                                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                                 value="#{financeManager.jobsWithCostings}">
+                                 value="#{jobFinanceManager.jobsWithCostings}">
 
-                        <p:ajax event="cellEdit" listener="#{financeManager.onJobCostingsTableCellEdit}" />  
+                        <p:ajax event="cellEdit" listener="#{jobFinanceManager.onJobCostingsTableCellEdit}" />  
 
                         <p:column>
                             <f:facet name="header">
@@ -152,13 +152,13 @@ Email: info@dpbennett.com.jm
                                 <p:commandButton title="View or edit unit cost"
                                                  onstart="PF('longProcessDialogVar').show();"
                                                  onerror="PF('connectionErrorDialog').show();"
-                                                 actionListener="#{financeManager.editUnitCost}"
+                                                 actionListener="#{jobFinanceManager.editUnitCost}"
                                                  update=":unitCostForm"
                                                  oncomplete="PF('unitCostDialog').show();"
                                                  global="true"
                                                  icon="ui-icon-pencil">
                                     <f:setPropertyActionListener value="#{unitCost}" 
-                                                                 target="#{financeManager.currentUnitCost}" />
+                                                                 target="#{jobFinanceManager.currentUnitCost}" />
                                 </p:commandButton>
                             </p:column>
                         </ui:remove>

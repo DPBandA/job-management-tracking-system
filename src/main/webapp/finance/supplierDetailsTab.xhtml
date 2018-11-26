@@ -29,9 +29,9 @@ Email: info@dpbennett.com.jm
         <h:panelGroup>
             <p:selectBooleanCheckbox style="vertical-align: middle"
                                      id="supplierActive"
-                                     disabled="#{!financeManager.user.privilege.canBeJMTSAdministrator}"
-                                     value="#{financeManager.selectedSupplier.active}" >
-                <p:ajax listener="#{financeManager.updateSupplier}"
+                                     disabled="#{!jobFinanceManager.user.privilege.canBeJMTSAdministrator}"
+                                     value="#{jobFinanceManager.selectedSupplier.active}" >
+                <p:ajax listener="#{jobFinanceManager.updateSupplier}"
                         event="change"                                      
                         process="@this"/>
             </p:selectBooleanCheckbox>            
@@ -41,39 +41,39 @@ Email: info@dpbennett.com.jm
         <h:outputText value="" />
 
         <h:outputText value="Name:" style="font-weight: bold;" />       
-        <p:inputText value="#{financeManager.selectedSupplier.name}"
+        <p:inputText value="#{jobFinanceManager.selectedSupplier.name}"
                      style="width: 150%;"
                      id="supplierName"
-                     disabled="#{!financeManager.isSupplierNameAndIdEditable}"
+                     disabled="#{!jobFinanceManager.isSupplierNameAndIdEditable}"
                      validator="supplierValidator">
             
             <p:ajax event="change"
                     global="true"      
                     update="supplierName"
-                    listener="#{financeManager.updateSupplierName}"
+                    listener="#{jobFinanceManager.updateSupplierName}"
                     process="@this"/>
             
         </p:inputText>     
         <h:outputText value="" />
 
         <h:outputText value="Identification type:" />        
-        <p:inputText value="#{financeManager.selectedSupplier.identificationType}"
+        <p:inputText value="#{jobFinanceManager.selectedSupplier.identificationType}"
                      id="identificationType"
-                     disabled="#{!financeManager.isSupplierNameAndIdEditable}" >
+                     disabled="#{!jobFinanceManager.isSupplierNameAndIdEditable}" >
             <p:ajax event="change"                    
                     global="true"                   
-                    listener="#{financeManager.updateSupplier}"
+                    listener="#{jobFinanceManager.updateSupplier}"
                     process="@this"/>
         </p:inputText>
         <h:outputText value="" />
         
         <h:outputText value="Identification:" />        
-        <p:inputText value="#{financeManager.selectedSupplier.identification}"
+        <p:inputText value="#{jobFinanceManager.selectedSupplier.identification}"
                      id="identification"
-                     disabled="#{!financeManager.isSupplierNameAndIdEditable}" >
+                     disabled="#{!jobFinanceManager.isSupplierNameAndIdEditable}" >
             <p:ajax event="change"                    
                     global="true"                   
-                    listener="#{financeManager.updateSupplier}"
+                    listener="#{jobFinanceManager.updateSupplier}"
                     process="@this"/>
         </p:inputText>
         <h:outputText value="" />
@@ -81,7 +81,7 @@ Email: info@dpbennett.com.jm
         <h:outputText id="currentBillingAddress" value="Most recent billing address: " 
                       style="font-weight: bold;"/> 
         <h:panelGroup>
-            <h:outputText id="addressLine1" value="#{financeManager.currentAddress.addressLine1FriendlyDisplay}"/>  
+            <h:outputText id="addressLine1" value="#{jobFinanceManager.currentAddress.addressLine1FriendlyDisplay}"/>  
             <p:watermark for="addressLine1" value="-- none --" />
         </h:panelGroup>
         <h:outputText value="" />
@@ -94,7 +94,7 @@ Email: info@dpbennett.com.jm
                                      title="Edit address"
                                      update=":addressForm"
                                      oncomplete="PF('addressFormDialog').show();"
-                                     actionListener="#{financeManager.editCurrentAddress}" 
+                                     actionListener="#{jobFinanceManager.editCurrentAddress}" 
                                      process="@this" >
 
                         <p:resetInput target=":addressForm" />
@@ -108,7 +108,7 @@ Email: info@dpbennett.com.jm
                                      title="Add new address"
                                      update=":addressForm"
                                      oncomplete="PF('addressFormDialog').show();"
-                                     actionListener="#{financeManager.createNewAddress}" 
+                                     actionListener="#{jobFinanceManager.createNewAddress}" 
                                      process="@this" >
 
                         <p:resetInput target=":addressForm" />
@@ -119,19 +119,19 @@ Email: info@dpbennett.com.jm
         </ui:remove>
 
         <h:outputText value="" />
-        <h:outputText value="#{financeManager.currentAddress.addressLine2}" />
+        <h:outputText value="#{jobFinanceManager.currentAddress.addressLine2}" />
         <h:outputText value="" />
 
         <h:outputText value="" />
-        <h:outputText value="#{financeManager.currentAddress.city}" />
+        <h:outputText value="#{jobFinanceManager.currentAddress.city}" />
         <h:outputText value="" />
 
         <h:outputText value="" />
-        <h:outputText value="#{financeManager.currentAddress.stateOrProvince}" />
+        <h:outputText value="#{jobFinanceManager.currentAddress.stateOrProvince}" />
         <h:outputText value="" />
 
         <h:outputText id="currentContact" value="Most recent contact: " style="font-weight: bold"/>    
-        <h:outputText value="#{financeManager.currentContact.friendlyName}" />
+        <h:outputText value="#{jobFinanceManager.currentContact.friendlyName}" />
         <h:outputText value="" />        
     </h:panelGrid>                    
 

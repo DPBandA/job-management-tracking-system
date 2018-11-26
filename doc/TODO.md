@@ -1,24 +1,29 @@
 # Accpac Invoicing & Credit Status Reporting
 
-- Impl searching for services in services tab...sector class as basis.
-- Impl services tab and dialog in SysAdmin.
-- In the "additional services" tab add list in otherRequestedServices field
-  in job services contract. Remove "other" checkboxes. For intended market remove 
-  checkbox and allow adding countries as other markets.
+- Change financeManager bean name to jobFinanceManager and put the related 
+  xhtml files in the job/finance folder.
+- Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
+  table.
+- Impl  getting dist. code of the from 1310-21-24-21 
+   for eg. - dept code first and div code last
+- Impl searching for job costings that have been approved but not invoiced so
+  they can be invoiced.
 - Impl invoice export. 
-  * Note code is of the from 1310-21-24-21 for eg. - dept code first and div code last
-  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
-  * In onJobCostingCellEdit save JCP and client only if these were table cells 
+- Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
+  NB: How to determine the test/cal code eg 1310 for test.
+- In onJobCostingCellEdit save JCP and client only if these were table cells 
     were edited. Also new Accounting codes are being saved. Fix!
-  * Change "Service Contract" to "Services" and make "Service Contract" a "sub tab"
-  * Impl fill out of Invoice_Details sheet
+- Impl fill out of Invoice_Details sheet
     - Impl fill out of multiple CNTLINE for each CNTITEM.
     - Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
       in Financial Admin. NB impl finding code by name and description.
-  * Export invoices for only selected jobs?
-  * Flag job as invoiced after export?
+- Export invoices for only selected jobs.
+   Check that each selection can be exported eg the client code is valid. 
+- Flag job as invoiced after export?
   * Make sure to add AccountingCode table to all along with data.
 - In job dialog make the tabview dynamic and see what difference it makes.
+- Add sys option that determines if the accpac invoices spreadsheet is to be
+  exportted.
 
 # Purchasing
 

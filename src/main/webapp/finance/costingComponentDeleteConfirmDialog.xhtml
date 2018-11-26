@@ -30,7 +30,7 @@ Email: info@dpbennett.com.jm
                          widgetVar="costComponentDeleteConfirm"
                          width="400">
             <p:commandButton value="Yes"      
-                             actionListener="#{financeManager.deleteCostComponent}"
+                             actionListener="#{jobFinanceManager.deleteCostComponent}"
                              update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('costComponentDeleteConfirm').hide();PF('longProcessDialogVar').hide();"
