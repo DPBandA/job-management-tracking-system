@@ -1,8 +1,6 @@
 # Accpac Invoicing & Credit Status Reporting
-- In the job dialog change the Service Contract tab to "Services". Create a tab
-  called "Service Contract" under the "Services" tab and move the contents of
-  "Additional Service" to it. Impl searching for services in services tab...sector
-   class as basis.
+
+- Impl searching for services in services tab...sector class as basis.
 - Impl services tab and dialog in SysAdmin.
 - In the "additional services" tab add list in otherRequestedServices field
   in job services contract. Remove "other" checkboxes. For intended market remove 

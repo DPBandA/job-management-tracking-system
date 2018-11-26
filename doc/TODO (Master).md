@@ -79,6 +79,9 @@
   The Pay class should have employee, salary, net salary, date, taxes etc.
   
 ### General
+- In the job dialog change the Service Contract tab to "Services". Create a tab
+  called "Service Contract" under the "Services" tab and move the contents of
+  "Additional Service" to it.
 - Add business type to the organization dialog. Types could include Regulatory,
   Learning Institution etc.
 - Create Management classes from Manager classes so that the business logic
