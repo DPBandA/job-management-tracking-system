@@ -160,7 +160,7 @@ public class SystemManager implements Serializable {
     public List<Service> completeService(String query) {
 
         try {
-            return Service.findServicesByName(getEntityManager(), query);
+            return Service.findAllByName(getEntityManager(), query);
         } catch (Exception e) {
             System.out.println(e);
 
