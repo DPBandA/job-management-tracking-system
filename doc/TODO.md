@@ -1,7 +1,5 @@
 # Accpac Invoicing & Credit Status Reporting
 
-- Move files from from /job folder to /job/finance /job/sample folders.
-- Create financeManager bean by copying jobFinanceManager and link it to files in /finance folder.
 - Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
   table.
 - Impl  getting dist. code of the from 1310-21-24-21 
@@ -27,7 +25,16 @@
 
 # Purchasing
 
-- Create FinancialManager class and put the code in SystemManager code in it,
+- Move all purchasing related files to the finance/purch folder. Create PurchasingManager 
+  from FinanceManager and init user and MainTabview for PurchasingManager when 
+  FinanceManager is init.
+- Impl methods specific to various objects such as cancelSupplier edit.
+- Create financeManager bean by copying jobFinanceManager and link it to files in /finance folder.
+- Remove FinanceManager methods from JobFinanceManager.
+- Create Financial Services app and make Purhasing a module. May have to delete
+  the Purchasing app from github.
+- Take Purchase Requisitions out off financial Administration.
+- Create PurchasingManager class and put the code in SystemManager code in it,
   Put the related resources in the "finance" folder.
 - Do PR and PO forms.
 - Impl purchreqDialog.xhtml.
@@ -175,6 +182,7 @@ separate projects using maven overlays.
 - Do Dashboard and MainTab tab init in JobManager and not in the contructors.
 - Put the sync methods in the Application class from which all application scope
    classes would inherit. openedJobs would become openedObjects etc.
+- Go through each manager and remove code that is not needed in that manager.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

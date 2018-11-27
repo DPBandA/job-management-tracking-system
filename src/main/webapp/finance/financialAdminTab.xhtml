@@ -26,18 +26,21 @@ Email: info@dpbennett.com.jm
 
     <p:tabView id="financialAdminTabView"  
                dynamic="true">
-        <p:tab title="Purchase Requisitions">
-            <ui:include src="purchreqsTab.xhtml"/> 
-        </p:tab>
+
+        <ui:remove>
+            <p:tab title="Purchase Requisitions">
+                <ui:include src="purchreqsTab.xhtml"/> 
+            </p:tab>
+        </ui:remove>
         <p:tab title="Suppliers">
-            <ui:include src="suppliersTab.xhtml"/> 
+            <ui:include src="purch/suppliersTab.xhtml"/> 
         </p:tab>
         <p:tab title="Accounting Codes">
             <p:toolbar>
                 <p:toolbarGroup align="left" >   
                     <p:commandButton title="Add new accounting code"                                  
                                      value="New"
-                                     actionListener="#{jobFinanceManager.createNewAccountingCode}"                                                     
+                                     actionListener="#{financeManager.createNewAccountingCode}"                                                     
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      onerror="PF('connectionErrorDialog').show();"
@@ -46,20 +49,20 @@ Email: info@dpbennett.com.jm
                                      icon="ui-icon ui-icon-plus" >
 
                         <p:ajax event="dialogReturn" 
-                                listener="#{jobFinanceManager.doAccountingCodeSearch}"
+                                listener="#{financeManager.doAccountingCodeSearch}"
                                 update=":mainTabViewForm:mainTabView:financialAdminTabView:accountingCodesTable"/>
 
 
                     </p:commandButton>
                     <p:spacer width="20" />
-                    <p:inputText value="#{jobFinanceManager.accountingCodeSearchText}"                                             
+                    <p:inputText value="#{financeManager.accountingCodeSearchText}"                                             
                                  style="width:250px" placeholder="Enter any part of code description">
                         <p:ajax event="keyup"
                                 global="false"
                                 onstart="PF('longProcessDialogVar').show();" 
                                 oncomplete="PF('longProcessDialogVar').hide();"
                                 update=":mainTabViewForm:mainTabView:financialAdminTabView:accountingCodesTable"
-                                listener="#{jobFinanceManager.doAccountingCodeSearch}"
+                                listener="#{financeManager.doAccountingCodeSearch}"
                                 process="@this"/>
                     </p:inputText>
                 </p:toolbarGroup>
@@ -73,9 +76,9 @@ Email: info@dpbennett.com.jm
                          widgetVar="accountingCodeTableVar"
                          style="margin-top: 1px;"
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         value="#{jobFinanceManager.foundAccountingCodes}">
+                         value="#{financeManager.foundAccountingCodes}">
 
-                <p:ajax event="cellEdit" listener="#{jobFinanceManager.onAccountingCodeCellEdit}" />
+                <p:ajax event="cellEdit" listener="#{financeManager.onAccountingCodeCellEdit}" />
 
                 <f:facet name="header">
                     Accounting Codes
@@ -105,7 +108,7 @@ Email: info@dpbennett.com.jm
 
                 <p:column style="width:32px">
                     <p:commandButton title="View or edit accounting code"   
-                                     actionListener="#{jobFinanceManager.editAccountingCode}"
+                                     actionListener="#{financeManager.editAccountingCode}"
                                      onstart="PF('longProcessDialogVar').show();"  
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      onerror="PF('connectionErrorDialog').show();"
@@ -114,10 +117,10 @@ Email: info@dpbennett.com.jm
                                      icon="ui-icon ui-icon-pencil">
 
                         <f:setPropertyActionListener value="#{accountingCode}"                                                                    
-                                                     target="#{jobFinanceManager.selectedAccountingCode}" />
+                                                     target="#{financeManager.selectedAccountingCode}" />
 
                         <p:ajax event="dialogReturn" 
-                                listener="#{jobFinanceManager.doAccountingCodeSearch}"
+                                listener="#{financeManager.doAccountingCodeSearch}"
                                 update=":mainTabViewForm:mainTabView:financialAdminTabView:accountingCodesTable"/>
 
                     </p:commandButton>           

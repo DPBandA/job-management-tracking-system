@@ -31,20 +31,20 @@ Email: info@dpbennett.com.jm
                 <h:panelGroup id="prNumberGroup">
 
                     <h:outputText id="prNumber" 
-                                  rendered="#{jobFinanceManager.selectedPurchaseRequisition.autoGenerateNumber}"
-                                  value="#{jobFinanceManager.selectedPurchaseRequisition.number}" 
+                                  rendered="#{purchasingManager.selectedPurchaseRequisition.autoGenerateNumber}"
+                                  value="#{purchasingManager.selectedPurchaseRequisition.number}" 
                                   styleClass="pr-number"/>
 
                     <p:inputText id="prNumberEdit"
-                                 rendered="#{!jobFinanceManager.selectedPurchaseRequisition.number}"
+                                 rendered="#{!purchasingManager.selectedPurchaseRequisition.number}"
                                  size="35"
                                  maxlength="40"                                                                    
-                                 title="#{jobFinanceManager.selectedPurchaseRequisition.number}"
-                                 value="#{jobFinanceManager.selectedPurchaseRequisition.number}">
+                                 title="#{purchasingManager.selectedPurchaseRequisition.number}"
+                                 value="#{purchasingManager.selectedPurchaseRequisition.number}">
 
                         <p:ajax event="change"                            
                                 update=":purchreqDialogForm:purchreqDetailToolbar1"
-                                listener="#{jobFinanceManager.updatePurchaseReq}"
+                                listener="#{purchasingManager.updatePurchaseReq}"
                                 process="@this"/>
 
                     </p:inputText>
@@ -53,9 +53,9 @@ Email: info@dpbennett.com.jm
                 <p:selectBooleanCheckbox id="autoGenerate" 
                                          itemLabel="auto"
                                          style="vertical-align: middle"
-                                         rendered="#{jobFinanceManager.user.privilege.canBeJMTSAdministrator}"
-                                         value="#{jobFinanceManager.selectedPurchaseRequisition.number}" >
-                    <p:ajax listener="#{jobFinanceManager.updateNumber}" 
+                                         rendered="#{purchasingManager.user.privilege.canBeJMTSAdministrator}"
+                                         value="#{purchasingManager.selectedPurchaseRequisition.number}" >
+                    <p:ajax listener="#{purchasingManager.updatePurchaseReqNumber}" 
                             event="change"
                             update="prNumberGroup,:purchreqDialogForm:purchreqDetailToolbar1"
                             global="false"                        
@@ -75,15 +75,15 @@ Email: info@dpbennett.com.jm
                                 maxlength="40"                             
                                 dropdown="false"
                                 scrollHeight="200" 
-                                value="#{jobFinanceManager.selectedPurchaseRequisition.supplier}"   
+                                value="#{purchasingManager.selectedPurchaseRequisition.supplier}"   
                                 converter="activeSupplierConverter"
                                 validator="supplierValidator"
                                 forceSelection="true"
-                                completeMethod="#{jobFinanceManager.completeActiveSupplier}" >
+                                completeMethod="#{purchasingManager.completeActiveSupplier}" >
 
                     <p:ajax event="itemSelect"
                             update="purchreqFormTabView:generalTabPanel,:purchreqDialogForm:purchreqDetailToolbar1"
-                            listener="#{jobFinanceManager.updateSupplier}"
+                            listener="#{purchasingManager.updateSupplier}"
                             process="@this"/>
 
                 </p:autoComplete>     
@@ -93,16 +93,16 @@ Email: info@dpbennett.com.jm
                         <p:commandButton value="Edit supplier"
                                          id="editSupplier"
                                          icon="ui-icon-pencil" 
-                                         disabled="${!jobFinanceManager.isSupplierNameValid}"
+                                         disabled="${!purchasingManager.isSupplierNameValid}"
                                          style="width: 300%;text-align: left;background: none;border: 0;"
                                          onstart="PF('longProcessDialogVar4').show();"   
                                          oncomplete="PF('longProcessDialogVar4').hide();"                                  
-                                         actionListener="#{jobFinanceManager.editPurhaseReqSuppier}"  
+                                         actionListener="#{purchasingManager.editPurhaseReqSuppier}"  
                                          process="@this,supplier"                             
                                          title="View or edit this suppliers's detail">  
 
                             <p:ajax event="dialogReturn" 
-                                    listener="#{jobFinanceManager.supplierDialogReturn}"
+                                    listener="#{purchasingManager.supplierDialogReturn}"
                                     update="supplier,supplierActionsMenu,:purchreqDialogForm:purchreqDetailToolbar1" />
 
                         </p:commandButton>            
@@ -115,13 +115,13 @@ Email: info@dpbennett.com.jm
                             style="width: 300%;text-align: left;background: none;border: 0;"
                             onstart="PF('longProcessDialogVar4').show();"    
                             oncomplete="PF('longProcessDialogVar4').hide();"                    
-                            disabled="#{!jobFinanceManager.user.privilege.canAddSupplier}"
-                            actionListener="#{jobFinanceManager.createNewPurhaseReqSupplier}"                                            
+                            disabled="#{!purchasingManager.user.privilege.canAddSupplier}"
+                            actionListener="#{purchasingManager.createNewPurhaseReqSupplier}"                                            
                             process="@this"
                             title="Add a new supplier">
 
                             <p:ajax event="dialogReturn" 
-                                    listener="#{jobFinanceManager.supplierDialogReturn}"
+                                    listener="#{purchasingManager.supplierDialogReturn}"
                                     update="supplier,supplierActionsMenu,:purchreqDialogForm:purchreqDetailToolbar1" />
 
                         </p:commandButton>
@@ -132,18 +132,18 @@ Email: info@dpbennett.com.jm
 
             <h:outputText value="Date: " style="font-weight: bold" />
             <p:calendar id="requisitionDate"
-                        value="#{jobFinanceManager.selectedPurchaseRequisition.requisitionDate}" 
+                        value="#{purchasingManager.selectedPurchaseRequisition.requisitionDate}" 
                         readonlyInput="true"                    
                         navigator="true" 
                         pattern="MMM dd, yyyy" >
 
                 <p:ajax event="dateSelect"
                         update=":purchreqDialogForm:purchreqDetailToolbar1"
-                        listener="#{jobFinanceManager.updatePurchaseReq}" />
+                        listener="#{purchasingManager.updatePurchaseReq}" />
 
                 <p:ajax event="keyup"
                         update=":purchreqDialogForm:purchreqDetailToolbar1"
-                        listener="#{jobFinanceManager.updatePurchaseReq}" />
+                        listener="#{purchasingManager.updatePurchaseReq}" />
 
             </p:calendar>
 
@@ -157,7 +157,7 @@ Email: info@dpbennett.com.jm
                             scrollHeight="200" 
                             size="35"
                             maxlength="40"
-                            value="#{jobFinanceManager.selectedPurchaseRequisition.originatingDepartment}"
+                            value="#{purchasingManager.selectedPurchaseRequisition.originatingDepartment}"
                             itemValue="#{department}"
                             itemLabel="#{department.name}"
                             converter="activeDepartmentConverter"
@@ -170,7 +170,7 @@ Email: info@dpbennett.com.jm
                             styleClass="read-only-inputfield"
                             var="originator"                            
                             maxlength="40" 
-                            value="#{jobFinanceManager.selectedPurchaseRequisition.originator}"
+                            value="#{purchasingManager.selectedPurchaseRequisition.originator}"
                             itemLabel="#{originator.name}"
                             itemValue="#{originator}"
                             converter="activeEmployeeConverter"
@@ -190,7 +190,7 @@ Email: info@dpbennett.com.jm
                             scrollHeight="200" 
                             size="35"
                             maxlength="40"
-                            value="#{jobFinanceManager.selectedPurchaseRequisition.purchasingDepartment}"
+                            value="#{purchasingManager.selectedPurchaseRequisition.purchasingDepartment}"
                             itemValue="#{purchasingDepartment}"
                             itemLabel="#{purchasingDepartment.name}"
                             converter="activeDepartmentConverter"
@@ -203,7 +203,7 @@ Email: info@dpbennett.com.jm
                             styleClass="read-only-inputfield"
                             var="officer"                            
                             maxlength="40" 
-                            value="#{jobFinanceManager.selectedPurchaseRequisition.procurementOfficer}"
+                            value="#{purchasingManager.selectedPurchaseRequisition.procurementOfficer}"
                             itemLabel="#{officer.name}"
                             itemValue="#{officer}"
                             converter="activeEmployeeConverter"
@@ -216,7 +216,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Purpose/Description: " style="font-weight: bold;vertical-align: top;" />       
             <p:inputTextarea
                 id="description"
-                value="#{jobFinanceManager.selectedPurchaseRequisition.description}"
+                value="#{purchasingManager.selectedPurchaseRequisition.description}"
                 rows="2"
                 counter="descriptionCharsRemaining"
                 counterTemplate="{0} characters remaining."
@@ -228,7 +228,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="change"
                         update=":purchreqDialogForm:purchreqDetailToolbar1"
-                        listener="#{jobFinanceManager.updatePurchaseReq}"
+                        listener="#{purchasingManager.updatePurchaseReq}"
                         process="@this"/>
 
             </p:inputTextarea> 

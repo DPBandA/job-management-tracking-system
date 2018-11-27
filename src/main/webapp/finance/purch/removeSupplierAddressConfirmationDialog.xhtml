@@ -30,7 +30,7 @@ Email: info@dpbennett.com.jm
                          widgetVar="deleteAddressDialog"
                          width="400">
             <p:commandButton value="Yes"
-                             actionListener="#{jobFinanceManager.removeAddress}"
+                             actionListener="#{purchasingManager.removeSupplierAddress}"
                              onstart="PF('longProcessDialogVar').show();"
                              update=":supplierForm:supplierFormTabView:addressesTable,:supplierForm:supplierFormTabView:generalDetailsPanelGrid"
                              oncomplete="PF('deleteAddressDialog').hide();PF('longProcessDialogVar').hide();"

@@ -31,15 +31,15 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
         <meta http-equiv="pragma" content="no-cache" />
         <title>Supplier Detail</title>
-        <link rel="stylesheet" href="../css/main.css" /> 
+        <link rel="stylesheet" href="../../css/main.css" /> 
     </h:head>
     <h:body >  
         <ui:include src="supplierAddressDialog.xhtml"/>       
         <ui:include src="supplierContactDialog.xhtml"/>    
         <ui:include src="removeSupplierContactConfirmationDialog.xhtml"/>
         <ui:include src="removeSupplierAddressConfirmationDialog.xhtml"/>        
-        <ui:include src="../common/longProcessDialog.xhtml"/>  
-        <ui:include src="../common/commonDialogs.xhtml"/>  
+        <ui:include src="/common/longProcessDialog.xhtml"/>  
+        <ui:include src="/common/commonDialogs.xhtml"/>  
         <h:form id="supplierForm" >
             <p:growl id="supplier_growl" life="5000" showDetail="true"/>
 
@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      onstart="PF('longProcessDialogVar').show();"
-                                     actionListener="#{jobFinanceManager.okSupplier}"
+                                     actionListener="#{purchasingManager.okSupplier}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      update="supplier_growl"                             
                                      icon="ui-icon-check"/>
@@ -55,7 +55,7 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Cancel"
                                      immediate="true" 
                                      onstart="PF('longProcessDialogVar').show();"
-                                     actionListener="#{jobFinanceManager.cancelEdit}"
+                                     actionListener="#{purchasingManager.cancelEdit}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" />
                 </p:toolbarGroup>
@@ -85,7 +85,7 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      onstart="PF('longProcessDialogVar').show();"
-                                     actionListener="#{jobFinanceManager.okSupplier}"
+                                     actionListener="#{purchasingManager.okSupplier}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      update="supplier_growl"                             
                                      icon="ui-icon-check"/>
@@ -93,7 +93,7 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Cancel"
                                      immediate="true" 
                                      onstart="PF('longProcessDialogVar').show();"
-                                     actionListener="#{jobFinanceManager.cancelEdit}"
+                                     actionListener="#{purchasingManager.cancelEdit}"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" />
                 </p:toolbarGroup>

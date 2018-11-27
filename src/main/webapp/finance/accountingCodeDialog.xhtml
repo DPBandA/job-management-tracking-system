@@ -43,7 +43,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{jobFinanceManager.saveSelectedAccountingCode}"
+                                     actionListener="#{financeManager.saveSelectedAccountingCode}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
@@ -51,7 +51,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{jobFinanceManager.cancelDialogEdit}" 
+                                     actionListener="#{financeManager.cancelDialogEdit}" 
                                      immediate="true" 
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" /> 
@@ -61,7 +61,7 @@ Email: info@dpbennett.com.jm
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
                 <h:panelGrid columns="2">                
                     <h:outputText value="Name:" style="font-weight: bold;" />
-                    <p:inputText value="#{jobFinanceManager.selectedAccountingCode.name}"    
+                    <p:inputText value="#{financeManager.selectedAccountingCode.name}"    
                                  id="accountingCodeName"
                                  style="width:300px" >
 
@@ -72,9 +72,9 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Type:" style="font-weight: bold;" />                    
                     <p:selectOneMenu id="accountingCodeType"     
                                      style="width: 300px;"
-                                     value="#{jobFinanceManager.selectedAccountingCode.type}">
+                                     value="#{financeManager.selectedAccountingCode.type}">
 
-                        <f:selectItems  value="#{jobFinanceManager.accountingCodeTypes}"
+                        <f:selectItems  value="#{financeManager.accountingCodeTypes}"
                                         var="type"                            
                                         itemValue="#{type}"
                                         itemLabel="#{type}"/>
@@ -82,7 +82,7 @@ Email: info@dpbennett.com.jm
                     </p:selectOneMenu>
 
                     <h:outputText value="Description:" style="width: 50%;font-weight: bold;" />
-                    <p:inputTextarea  value="#{jobFinanceManager.selectedAccountingCode.description}"
+                    <p:inputTextarea  value="#{financeManager.selectedAccountingCode.description}"
                                       id="accountingCodeDescription"
                                       maxlength="1000"
                                       rows="4"
@@ -99,7 +99,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{jobFinanceManager.saveSelectedAccountingCode}"
+                                     actionListener="#{financeManager.saveSelectedAccountingCode}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
@@ -107,7 +107,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"
-                                     actionListener="#{jobFinanceManager.cancelDialogEdit}" 
+                                     actionListener="#{financeManager.cancelDialogEdit}" 
                                      immediate="true" 
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-close" /> 

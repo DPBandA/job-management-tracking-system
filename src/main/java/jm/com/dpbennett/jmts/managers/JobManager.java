@@ -112,10 +112,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean useAccPacCustomerList;
     private Boolean showJobEntry;
     private List<Job> jobSearchResultList;
-    // Managers/Management
+    // Managers
     private ClientManager clientManager;
     private ReportManager reportManager;
     private JobFinanceManager jobFinanceManager;
+    private FinanceManager financeManager;
+    private PurchasingManager purchasingManager;
     private JobSampleManager jobSampleManager;
     private JobContractManager contractManager;
     private LegalDocumentManager legalDocumentManager;
@@ -398,6 +400,27 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return jobFinanceManager;
     }
 
+    public PurchasingManager getPurchasingManager() {
+        if (purchasingManager == null) {
+            purchasingManager = BeanUtils.findBean("purchasingManager");
+        }
+        
+        return purchasingManager;
+    }
+
+    /**
+     * Get FinanceManager SessionScoped bean.
+     * 
+     * @return 
+     */
+    public FinanceManager getFinanceManager() {
+        if (financeManager == null) {
+            financeManager = BeanUtils.findBean("financeManager");
+        }
+        
+        return financeManager;
+    }
+
     /**
      * Gets the ReportManager SessionScoped bean.
      *
@@ -520,6 +543,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         getClientManager().reset();
         getContractManager().reset();
         getJobFinanceManager().reset();
+        getFinanceManager().reset();
+        getPurchasingManager().reset();
         getJobSampleManager().reset();
         getReportManager().reset();
 
@@ -1901,7 +1926,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void editJob() {
-        currentJob.getJobStatusAndTracking().setEditStatus("");
+        getCurrentJob().getJobStatusAndTracking().setEditStatus("");
         PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 875);
     }
 
@@ -2679,6 +2704,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         jobFinanceManager = BeanUtils.findBean("jobFinanceManager");
         jobFinanceManager.setUser(user);
         jobFinanceManager.setMainTabView(mainTabView);
+        
+        financeManager = BeanUtils.findBean("financeManager");
+        financeManager.setUser(user);
+        financeManager.setMainTabView(mainTabView);
+        
+        // tk Init PurchasingManager in the FinanceManager in the future.
+        purchasingManager = BeanUtils.findBean("purchasingManager");
+        purchasingManager.setUser(user);
+        purchasingManager.setMainTabView(mainTabView);
 
         updateAllForms();
     }

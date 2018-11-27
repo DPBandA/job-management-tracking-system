@@ -2019,7 +2019,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
             Long id = BusinessEntityUtils.saveBusinessEntity(em, currentUnitCost);
             if (id == null) {
-                PrimeFaces.current().executeScript("PF('undefinedErrorDialog').show();");
+                
                 sendErrorEmail("An error occured while saving this unit cost",
                         "Unit cost save error occured");
                 return;
@@ -2029,7 +2029,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             setIsDirty(false);
 
         } catch (Exception e) {
-            PrimeFaces.current().executeScript("PF('undefinedErrorDialog').show();");
+            
             System.out.println(e);
             // send error message to developer's email
             sendErrorEmail("An exception occurred while saving a unit cost!",

@@ -153,7 +153,7 @@
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>purchreqDialog</from-outcome>
-            <to-view-id>/finance/purchreqDialog.xhtml</to-view-id>
+            <to-view-id>/finance/purch/purchreqDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -230,7 +230,7 @@
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>supplierDialog</from-outcome>
-            <to-view-id>/finance/supplierDialog.xhtml</to-view-id>
+            <to-view-id>/finance/purch/supplierDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
@@ -418,9 +418,21 @@
     <managed-bean>
         <managed-bean-name>jobFinanceManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.managers.JobFinanceManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     
-        <managed-bean-scope>session</managed-bean-scope></managed-bean>
-      
+    <managed-bean>
+        <managed-bean-name>financeManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.FinanceManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>purchasingManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.PurchasingManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
     <managed-bean>
         <managed-bean-name>jobManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.managers.JobManager</managed-bean-class>
