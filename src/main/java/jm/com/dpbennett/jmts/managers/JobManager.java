@@ -119,7 +119,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private FinanceManager financeManager;
     private PurchasingManager purchasingManager;
     private JobSampleManager jobSampleManager;
-    private JobContractManager contractManager;
+    private JobContractManager jobContractManager;
     private LegalDocumentManager legalDocumentManager;
     private HumanResourceManager humanResourceManager;
     // Misc
@@ -366,12 +366,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      *
      * @return
      */
-    public JobContractManager getContractManager() {
-        if (contractManager == null) {
-            contractManager = BeanUtils.findBean("contractManager");
+    public JobContractManager getJobContractManager() {
+        if (jobContractManager == null) {
+            jobContractManager = BeanUtils.findBean("jobContractManager");
         }
 
-        return contractManager;
+        return jobContractManager;
     }
 
     /**
@@ -541,7 +541,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Reset managers
         getClientManager().reset();
-        getContractManager().reset();
+        getJobContractManager().reset();
         getJobFinanceManager().reset();
         getFinanceManager().reset();
         getPurchasingManager().reset();
@@ -1020,7 +1020,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         try {
 
-            serviceContractStreamContent = getContractManager().getServiceContractStreamContent();
+            serviceContractStreamContent = getJobContractManager().getServiceContractStreamContent();
 
             setLongProcessProgress(100);
 

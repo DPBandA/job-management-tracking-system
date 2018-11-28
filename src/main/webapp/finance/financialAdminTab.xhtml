@@ -83,6 +83,28 @@ Email: info@dpbennett.com.jm
                 <f:facet name="header">
                     Accounting Codes
                 </f:facet>
+                
+                <p:column headerText="Name">
+                    <p:cellEditor>
+                        <f:facet name="output"> 
+                            <h:outputText value="#{accountingCode.name}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{accountingCode.name}" style="width:96%"/>
+                        </f:facet>
+                    </p:cellEditor>                                         
+                </p:column>   
+                
+                <p:column headerText="Code">
+                    <p:cellEditor>
+                        <f:facet name="output"> 
+                            <h:outputText value="#{accountingCode.code}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{accountingCode.code}" style="width:96%"/>
+                        </f:facet>
+                    </p:cellEditor>                                         
+                </p:column>
 
                 <p:column headerText="Description">
                     <p:cellEditor>
@@ -93,17 +115,6 @@ Email: info@dpbennett.com.jm
                             <p:inputText value="#{accountingCode.description}" style="width:96%"/>
                         </f:facet>
                     </p:cellEditor>                                           
-                </p:column>   
-
-                <p:column headerText="Name">
-                    <p:cellEditor>
-                        <f:facet name="output"> 
-                            <h:outputText value="#{accountingCode.name}" />
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{accountingCode.name}" style="width:96%"/>
-                        </f:facet>
-                    </p:cellEditor>                                         
                 </p:column>   
 
                 <p:column style="width:32px">

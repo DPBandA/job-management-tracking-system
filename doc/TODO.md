@@ -1,9 +1,13 @@
 # Accpac Invoicing & Credit Status Reporting
 
+- Add CODE, ABBREVIATION to all accountingcode tables and class.
+- Impl getting dist. codes for cost components.
+- Impl exporting Excel file using "Invoice" button. The records must be
+  must be checked to see if they can be exported first eg the client id is valid.
 - Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
   table.
 - Impl  getting dist. code of the from 1310-21-24-21 
-   for eg. - dept code first and div code last
+   for eg. - dept code first, subgroup second and div code last
 - Impl searching for job costings that have been approved but not invoiced so
   they can be invoiced.
 - Impl invoice export. 
@@ -22,6 +26,7 @@
 - In job dialog make the tabview dynamic and see what difference it makes.
 - Add sys option that determines if the accpac invoices spreadsheet is to be
   exported.
+- Put the name of the approver on the job costing.
 
 # Purchasing
 
@@ -65,6 +70,8 @@
 - Now that department is removed from JMUser, check that not code is broken.
 
 # Database Update and Deployment
+
+- Add CODE, ABBREVIATION to accountingcode table. 
 - Add CANADDSUPPLIER to privileges table.
 - Add ACTIVE, INTERNAL, CATEGORY, DESCRIPTION fields to service table.
 - Test using the database on BOSAPP from BOSHRMAPP to see the response in
@@ -196,7 +203,4 @@ separate projects using maven overlays.
 - Fundamentals of Human Resource Management, pg 19
 - Look up Java API for PeopleSoft HRM app.
 
-# LMS
-- See docs in download folder
-- Course Presenter App/Games
 

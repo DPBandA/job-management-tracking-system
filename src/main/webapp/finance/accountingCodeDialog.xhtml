@@ -68,6 +68,24 @@ Email: info@dpbennett.com.jm
                         <f:validator validatorId="accountingCodeValidator" />
 
                     </p:inputText> 
+                    
+                    <h:outputText value="Code:" style="font-weight: bold;" />
+                    <p:inputText value="#{financeManager.selectedAccountingCode.code}"    
+                                 id="accountingCode"
+                                 style="width:300px" >
+
+                        <f:validator validatorId="accountingCodeValidator" />
+
+                    </p:inputText> 
+                    
+                    <h:outputText value="Abbrev.:" style="font-weight: bold;" />
+                    <p:inputText value="#{financeManager.selectedAccountingCode.abbreviation}"    
+                                 id="accountingCodeAbbrev"
+                                 style="width:300px" >
+
+                        <f:validator validatorId="accountingCodeValidator" />
+
+                    </p:inputText>
 
                     <h:outputText value="Type:" style="font-weight: bold;" />                    
                     <p:selectOneMenu id="accountingCodeType"     

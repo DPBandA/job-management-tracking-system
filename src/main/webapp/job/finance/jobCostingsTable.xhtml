@@ -89,37 +89,11 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.accountingCode}" 
-                  rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
+        <p:column rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}" >
             <f:facet name="header">
                 <h:outputText value="Dist'n Codes"/>
             </f:facet>
-            <p:cellEditor>
-                <f:facet name="output"> 
-                    <h:outputText value="#{job.jobCostingAndPayment.accountingCode.name}" />
-                </f:facet>
-                <f:facet name="input" >
-                    <p:autoComplete id="accountingCode" 
-                                    var="accountingCode"
-                                    forceSelection="true"      
-                                    dropdown="true"
-                                    scrollHeight="100" 
-                                    size="6"
-                                    maxlength="40"
-                                    value="#{job.jobCostingAndPayment.accountingCode}"
-                                    title="#{job.jobCostingAndPayment.accountingCode}"
-                                    itemValue="#{accountingCode}"
-                                    itemLabel="#{accountingCode.name} - #{accountingCode.description}"
-                                    converter="accountingCodeConverter"
-                                    completeMethod="#{jobFinanceManager.completeAccountingCode}" >  
-
-                        <p:ajax event="itemSelect"
-                                listener="#{jobFinanceManager.updateAccountingCode}" />
-
-                    </p:autoComplete>     
-                </f:facet>
-            </p:cellEditor>
-
+            <h:outputText value="#{job.jobCostingAndPayment.accountingCodes}" />
         </p:column>
 
         <p:column sortBy="#{job.classification.name}" >

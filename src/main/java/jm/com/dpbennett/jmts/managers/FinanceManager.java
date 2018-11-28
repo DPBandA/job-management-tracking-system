@@ -593,6 +593,7 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
     public List getAccountingCodeTypes() {
         ArrayList valueTypes = new ArrayList();
 
+        valueTypes.add(new SelectItem("Revenue Account", "Revenue Account"));
         valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));
         valueTypes.add(new SelectItem("General", "General"));
 

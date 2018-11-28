@@ -9,8 +9,11 @@
 - Let other assets extend the Asset class.
 
 ### Learning Management System (LMS)
+- See docs in download folder
 - Impl training schedule
 - Get more details then start app development.
+- Get link to infoserve LMS from ITU.
+- Get training evalution forms  (3 levels).
 
 ### Inter-billing upload to Accpac
 - See email attachment from Simone
@@ -21,6 +24,8 @@
 - Create MarketingCampaign class to capture telemarketing and other types of 
   marketing campaigns. Add Telemarketing (check spelling) as one type of marketing campaign.
 - Add menu buttons in client dialog general tab to add/edit most recent address or contact.
+- Where does the marketing process start?
+- How should knowledge management be incorporated?
 
 ### Documentation
 - Update JMTS user manual
@@ -217,6 +222,7 @@ This release will be around early July.
 - Add Tax, Payroll and Deduction classes to BEL.
 - To reuse MainTabView and Dashboard put the id of the components in the constructor
   and tab initialization outside of the constructor.
+- Doing cell edit in table does not validate the object before saving. Fix!!
 
 ### Job Edit Synchronization
 - Create/maintain list of opened jobs in the Application class.
@@ -225,7 +231,6 @@ This release will be around early July.
 - Do sync for all job view tables.
 - Ensure access to currentJob is synchronized since it can be accessed by "keepalive"
   other code at the same time
-
 
 ### Farming
 - Create Livestock class to represent fish and other farm animals. Create Broodstock as 
