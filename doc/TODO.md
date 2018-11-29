@@ -44,7 +44,7 @@
 - Do PR and PO forms.
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
-  * Impl checkbox auto number feature exactly as in jobgeneral tab.
+  * Impl checkbox auto number feature exactly as in jobGeneral tab.
   * Continue with purchreqGeneralTab.xhtml.
   * Impl creating new PR that makes use of the logged in user. Department,
     originator, date etc should be read only
@@ -70,7 +70,6 @@
 - Now that department is removed from JMUser, check that not code is broken.
 
 # Database Update and Deployment
-
 - Add CODE, ABBREVIATION to accountingcode table. 
 - Add CANADDSUPPLIER to privileges table.
 - Add ACTIVE, INTERNAL, CATEGORY, DESCRIPTION fields to service table.

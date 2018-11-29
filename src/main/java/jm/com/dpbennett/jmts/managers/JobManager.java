@@ -334,6 +334,55 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 "dateAndTimeEntered", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
     }
+    
+    private void initMainTabView() {
+        
+        mainTabView.reset(user);
+
+        if (getUser().getModules().getJobManagementAndTrackingModule()) {
+            mainTabView.getTabs().add(new TabPanel("Job Browser", "Job Browser"));
+        }
+        if (getUser().getModules().getLegalOfficeModule()) {
+            mainTabView.getTabs().add(new TabPanel("Document Browser", "Document Browser"));
+        }
+        if (getUser().getModules().getAdminModule()) {
+            mainTabView.getTabs().add(new TabPanel("System Administration", "System Administration"));
+        }
+        if (getUser().getModules().getFinancialAdminModule()) {
+            mainTabView.getTabs().add(new TabPanel("Financial Administration", "Financial Administration"));
+        }
+        if (getUser().getModules().getComplianceModule()) {
+            mainTabView.getTabs().add(new TabPanel("Survey Browser", "Survey Browser")); 
+        }
+        
+    }
+    
+    private void initDashboard() {
+        
+        dashboard.reset(user);
+
+        if (getUser().getModules().getJobManagementAndTrackingModule()) {
+            dashboard.getTabs().add(new TabPanel("Job Management",
+                    "Job Management"));
+        }   
+        if (getUser().getModules().getLegalOfficeModule()) {
+            dashboard.getTabs().add(new TabPanel("Document Management", "Document Management"));
+        }
+        if (getUser().getModules().getCrmModule()) {
+            dashboard.getTabs().add(new TabPanel("Client Management",
+                    "Client Management"));
+        }
+        if (getUser().getModules().getAdminModule()) {
+            
+            dashboard.getTabs().add(new TabPanel("System Administration", "System Administration"));
+        }
+        if (getUser().getModules().getFinancialAdminModule()) {
+            dashboard.getTabs().add(new TabPanel("Financial Administration", "Financial Administration"));
+        }
+
+        // Set the first tab as the selected tab
+        dashboard.setSelectedTabId(dashboard.getTabs().get(0).getId());
+    }
 
     /**
      * Gets the SessionScoped bean that deals with user authentication.
@@ -2685,8 +2734,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         PrimeFaces.current().executeScript("PrimeFaces.changeTheme('"
                 + getUser().getUserInterfaceThemeName() + "');");
 
-        dashboard.reset(user);
-        mainTabView.reset(user);
+        initDashboard();
+        initMainTabView();
 
         // Initialize Managers
         humanResourceManager = BeanUtils.findBean("humanResourceManager");
