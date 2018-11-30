@@ -30,7 +30,7 @@
 
 # Purchasing
 
-- Take PR code out of FinanceManager.
+- Take Supplier code out of PurchasingManager.
 - Link supplier xhtml files to financeManager not purchasingManager. 
 - Impl methods specific to various objects such as cancelSupplier edit.
 - Create financeManager bean by copying jobFinanceManager and link it to files in /finance folder.
@@ -196,6 +196,8 @@ separate projects using maven overlays.
 # CRM
 - Meet with BSJ re features and requirements
 - See docs in downloads folder
+- Put isNameAndIdEditable as transient in Client class and get rid of 
+  use of isNameAndIdEditable.
    
 # HRM
 - Fundamentals of Human Resource Management, pg 19
