@@ -30,9 +30,8 @@
 
 # Purchasing
 
-- Move all purchasing related files to the finance/purch folder. Create PurchasingManager 
-  from FinanceManager and init user and MainTabview for PurchasingManager when 
-  FinanceManager is init.
+- Take PR code out of FinanceManager.
+- Link supplier xhtml files to financeManager not purchasingManager. 
 - Impl methods specific to various objects such as cancelSupplier edit.
 - Create financeManager bean by copying jobFinanceManager and link it to files in /finance folder.
 - Remove FinanceManager methods from JobFinanceManager.

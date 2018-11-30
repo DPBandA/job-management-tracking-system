@@ -423,13 +423,13 @@
     
     <managed-bean>
         <managed-bean-name>financeManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.FinanceManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.FinanceManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
     <managed-bean>
         <managed-bean-name>purchasingManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.PurchasingManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.PurchasingManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
@@ -447,13 +447,13 @@
     
     <managed-bean>
         <managed-bean-name>legalDocumentManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.LegalDocumentManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.LegalDocumentManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
     <managed-bean>
         <managed-bean-name>systemManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.SystemManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.SystemManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
