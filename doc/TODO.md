@@ -84,6 +84,7 @@
 - Do other client report template and upload.
 - Impl new service contract and agreement.
 - Do report for jobs not approved and incomplete up to 2017.
+- Do not allow export of job costing from until it is approved
 
 # Optional/Future
 - Deploy and configure activiti in gf3 on local PC for testing .
