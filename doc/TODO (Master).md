@@ -80,11 +80,10 @@
 - Ensure that a job is not marked completed until the child job costing is included?
 - Remember to  create labs and units within departments.
 
-### Accounting & Finance
+### Financial Services App (Fixed assets, Accounting, Payroll etc)
 - Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
 - Create deduction class. Add name, type, threshold, thresholdType, percentage fields.
-
-### Payroll
+- Make Purchasing a module Financial Services . Delete the Purchasing app from github for now?
 - Implement Payroll class to have a Pay collection field, date, creator, etc. 
   The Pay class should have employee, salary, net salary, date, taxes etc.
   

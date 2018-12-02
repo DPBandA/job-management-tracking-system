@@ -57,7 +57,6 @@ import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Preference;
-import jm.com.dpbennett.business.entity.Supplier;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.UnitCost;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
@@ -135,18 +134,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public JobFinanceManager() {
         init();
     }
-    
-    public List<Supplier> completeActiveSupplier(String query) {
-        try {
-            return Supplier.findActiveSuppliersByAnyPartOfName(getEntityManager1(), query);
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-    
+      
     /**
      * Returns the discount type that can be applied to a payment/amount
      *

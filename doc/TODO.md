@@ -30,16 +30,6 @@
 
 # Purchasing
 
-- Take Supplier code out of PurchasingManager.
-- Link supplier xhtml files to financeManager not purchasingManager. 
-- Impl methods specific to various objects such as cancelSupplier edit.
-- Create financeManager bean by copying jobFinanceManager and link it to files in /finance folder.
-- Remove FinanceManager methods from JobFinanceManager.
-- Create Financial Services app and make Purhasing a module. May have to delete
-  the Purchasing app from github.
-- Take Purchase Requisitions out off financial Administration.
-- Create PurchasingManager class and put the code in SystemManager code in it,
-  Put the related resources in the "finance" folder.
 - Do PR and PO forms.
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
@@ -47,6 +37,7 @@
   * Continue with purchreqGeneralTab.xhtml.
   * Impl creating new PR that makes use of the logged in user. Department,
     originator, date etc should be read only
+  * Impl saving PR
   * Create PR and PO forms.
 - Design and include the dashboard and main tabs 
 - Populate PurchaseOrder with PR if possible. 
