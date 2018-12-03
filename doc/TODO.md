@@ -30,7 +30,6 @@
 
 # Purchasing
 
-- Do PR and PO forms.
 - Take suppliers out of system admin and them available like client.
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
@@ -59,6 +58,7 @@
 - Set the department of the purchasing officer that completes the PR as the 
   purchasing department of the PR.
 - Now that department is removed from JMUser, check that not code is broken.
+- Do PO form.
 
 # Database Update and Deployment
 - Add CODE, ABBREVIATION to accountingcode table. 
