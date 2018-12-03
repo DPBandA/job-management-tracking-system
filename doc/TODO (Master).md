@@ -50,7 +50,9 @@
 - Reports on recalibration date for equipment.
 
 ### HRM
-- Add list of Services to the Department class.
+- Take HRM out of system admin.
+- Create HRM unit privilege flag. It it is null set its value to the sysadmin 
+  flag.
 - Create and add Contractor to BEL/HRM? 
 - To Organization/Business class add Divisions, Subgroups, Departments, Clients
 
@@ -86,6 +88,8 @@
 - Make Purchasing a module Financial Services . Delete the Purchasing app from github for now?
 - Implement Payroll class to have a Pay collection field, date, creator, etc. 
   The Pay class should have employee, salary, net salary, date, taxes etc.
+- Use phone scanner app to scan front and back cover of books and documents.
+  Throw away as many documents as possible.
   
 ### General
 - In the "additional services" tab add list in otherRequestedServices field

@@ -31,6 +31,7 @@
 # Purchasing
 
 - Do PR and PO forms.
+- Take suppliers out of system admin and them available like client.
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
   * Impl checkbox auto number feature exactly as in jobGeneral tab.
