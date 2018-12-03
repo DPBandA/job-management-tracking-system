@@ -30,7 +30,7 @@
 
 # Purchasing
 
-- Take suppliers out of system admin and them available like client.
+- Find code and re-implement accounting code search etc.
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
   * Impl checkbox auto number feature exactly as in jobGeneral tab.

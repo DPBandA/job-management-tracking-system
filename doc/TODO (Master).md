@@ -92,6 +92,8 @@
   Throw away as many documents as possible.
   
 ### General
+- Remove the busy wait icon from th job dialog tab change and see if this makes 
+  any difference on 172.10.0.18/jmts.
 - In the "additional services" tab add list in otherRequestedServices field
   in job services contract. Remove "other" checkboxes. For intended market remove 
   checkbox and allow adding countries as other markets.

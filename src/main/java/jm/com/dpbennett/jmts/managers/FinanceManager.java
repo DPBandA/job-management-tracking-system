@@ -26,9 +26,11 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import jm.com.dpbennett.business.entity.AccountingCode;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.Internet;
@@ -54,12 +56,15 @@ public class FinanceManager implements Serializable {
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;
     private Integer longProcessProgress;
+    private AccountingCode selectedAccountingCode;
     private Supplier selectedSupplier;
     private Contact selectedSupplierContact;
     private Address selectedSupplierAddress;
-    private Boolean edit;    
+    private Boolean edit;
     private String supplierSearchText;
+    private String accountingCodeSearchText;
     private Boolean isActiveSuppliersOnly;
+    private List<AccountingCode> foundAccountingCodes;
     private List<Supplier> foundSuppliers;
     private MainTabView mainTabView;
     private JobManagerUser user;
@@ -69,6 +74,91 @@ public class FinanceManager implements Serializable {
      */
     public FinanceManager() {
         init();
+    } 
+    
+    public void saveSelectedAccountingCode() {
+
+        selectedAccountingCode.save(getEntityManager1());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+
+    }
+    
+    public List getAccountingCodeTypes() {
+        ArrayList valueTypes = new ArrayList();
+
+        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));
+        valueTypes.add(new SelectItem("Revenue Account", "Revenue Account"));
+        valueTypes.add(new SelectItem("General", "General"));
+
+        return valueTypes;
+    }
+    
+    public void editAccountingCode() {
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
+    }
+    
+    public void onAccountingCodeCellEdit(CellEditEvent event) {
+        int index = event.getRowIndex();
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        try {
+            if (newValue != null && !newValue.equals(oldValue)) {
+                if (!newValue.toString().trim().equals("")) {
+                    AccountingCode code = getFoundAccountingCodes().get(index);
+                    code.save(getEntityManager1());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public String getAccountingCodeSearchText() {
+        return accountingCodeSearchText;
+    }
+
+    public void setAccountingCodeSearchText(String accountingCodeSearchText) {
+        this.accountingCodeSearchText = accountingCodeSearchText;
+    }
+    
+    public List<AccountingCode> getFoundAccountingCodes() {
+        if (foundAccountingCodes == null) {
+            foundAccountingCodes = AccountingCode.findAllAccountingCodes(getEntityManager1());
+        }
+
+        return foundAccountingCodes;
+    }
+
+    public void setFoundAccountingCodes(List<AccountingCode> foundAccountingCodes) {
+        this.foundAccountingCodes = foundAccountingCodes;
+    }
+
+    public void doAccountingCodeSearch() {
+
+        foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
+                getAccountingCodeSearchText());
+
+        if (foundAccountingCodes == null) {
+            foundAccountingCodes = new ArrayList<>();
+        }
+    }
+
+    public void createNewAccountingCode() {
+
+        selectedAccountingCode = new AccountingCode();
+
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
+    }
+
+    public AccountingCode getSelectedAccountingCode() {
+        return selectedAccountingCode;
+    }
+
+    public void setSelectedAccountingCode(AccountingCode selectedAccountingCode) {
+        this.selectedAccountingCode = selectedAccountingCode;
     }
 
     public List<Supplier> completeActiveSupplier(String query) {
@@ -97,7 +187,7 @@ public class FinanceManager implements Serializable {
     public Contact getSelectedSupplierContact() {
         return selectedSupplierContact;
     }
-    
+
     public void setSelectedSupplierContact(Contact selectedSupplierContact) {
         this.selectedSupplierContact = selectedSupplierContact;
 
@@ -233,7 +323,7 @@ public class FinanceManager implements Serializable {
     }
 
     public void editSelectedSupplier() {
-        
+
         getSelectedSupplier().setIsNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
 
         PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
@@ -285,7 +375,6 @@ public class FinanceManager implements Serializable {
 //    public void setIsSupplierNameAndIdEditable(Boolean isSupplierNameAndIdEditable) {
 //        this.isSupplierNameAndIdEditable = isSupplierNameAndIdEditable;
 //    }
-
     public Supplier getSelectedSupplier() {
         if (selectedSupplier == null) {
             return new Supplier("");
@@ -311,9 +400,9 @@ public class FinanceManager implements Serializable {
     }
 
     public void createNewSupplier() {
-        selectedSupplier = new Supplier("", true);        
+        selectedSupplier = new Supplier("", true);
     }
-   
+
     public Boolean getIsNewSupplier() {
         return getSelectedSupplier().getId() == null;
     }
@@ -399,13 +488,14 @@ public class FinanceManager implements Serializable {
     public Boolean getEdit() {
         return edit;
     }
-    
+
     public void setEdit(Boolean edit) {
         this.edit = edit;
     }
 
     private void init() {
         longProcessProgress = 0;
+        accountingCodeSearchText = "";
         supplierSearchText = "";
         foundSuppliers = new ArrayList<>();
     }
