@@ -75,6 +75,12 @@ public class FinanceManager implements Serializable {
     public FinanceManager() {
         init();
     } 
+        
+    public void openSuppliersTab() {
+        
+        mainTabView.addTab(getEntityManager1(), "Suppliers", true);
+        mainTabView.select("Suppliers");
+    }
     
     public void saveSelectedAccountingCode() {
 

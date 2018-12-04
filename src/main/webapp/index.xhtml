@@ -161,6 +161,12 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Clients'}" >
                                 <ui:include src="client/clientsTab.xhtml" />                                                                
                             </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
+                                <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
+                                <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
+                            </h:panelGroup>
                             <h:panelGroup rendered="#{t.id == 'Reports'}" >
                                 <ui:include src="report/reportsTab.xhtml" />                                                                
                             </h:panelGroup>

@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="dialogReturn" 
                         listener="#{purchasingManager.doPurchaseReqSearch}"
-                        update=":mainTabViewForm:mainTabView:financialAdminTabView:purchasereqsTable"/>
+                        update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
             </p:commandButton>
             <p:spacer width="20" />
@@ -49,7 +49,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="keyup"                            
                         global="false"
-                        update=":mainTabViewForm:mainTabView:financialAdminTabView:purchasereqsTable"
+                        update=":mainTabViewForm:mainTabView:purchasereqsTable"
                         listener="#{purchasingManager.doPurchaseReqSearch}"
                         process="@this"/>
 
@@ -116,7 +116,7 @@ Email: info@dpbennett.com.jm
                                              target="#{purchasingManager.selectedPurchaseRequisition}" />
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:financialAdminTabView:purchasereqsTable"/>
+                        update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
             </p:commandButton>
         </p:column>
@@ -135,7 +135,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="dialogReturn" 
                         listener="#{purchasingManager.doPurchaseReqSearch}"
-                        update=":mainTabViewForm:mainTabView:financialAdminTabView:purchasereqsTable"/>
+                        update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
             </p:commandButton>
 

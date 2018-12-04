@@ -1,3 +1,7 @@
+# Note
+
+- Some privilege flags control the access of modules.
+
 # Accpac Invoicing & Credit Status Reporting
 
 - Add CODE, ABBREVIATION to all accountingcode tables and class.
@@ -28,9 +32,11 @@
   exported.
 - Put the name of the approver on the job costing.
 
-# Purchasing
+# Purchasing (Financial Admin)
 
-- Find code and re-implement accounting code search etc.
+- Use openTab() and closeTab() where needed.
+- Open the purchase req tab by default
+- Impl creating new suppliers and browsing the suppliers in the dashboard.
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
   * Impl checkbox auto number feature exactly as in jobGeneral tab.
@@ -39,6 +45,7 @@
     originator, date etc should be read only
   * Impl saving PR
   * Create PR and PO forms.
+- Move openFinancialAdministration() to financialManager.
 - Design and include the dashboard and main tabs 
 - Populate PurchaseOrder with PR if possible. 
 - Impl automatic generation of PR #. Initialize with the latest number used.
@@ -60,7 +67,8 @@
 - Now that department is removed from JMUser, check that not code is broken.
 - Do PO form.
 
-# Database Update and Deployment
+# All Database Update and Deployment
+- Add canAddAccountingCode to privilege table.
 - Add CODE, ABBREVIATION to accountingcode table. 
 - Add CANADDSUPPLIER to privileges table.
 - Add ACTIVE, INTERNAL, CATEGORY, DESCRIPTION fields to service table.

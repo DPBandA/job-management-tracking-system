@@ -351,7 +351,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getUser().getModules().getAdminModule()) {
             mainTabView.getTabs().add(new TabPanel("System Administration", "System Administration"));
         }
-        if (getUser().getModules().getFinancialAdminModule()) {
+        if (getUser().getModules().getFinancialAdminModule()) {            
             mainTabView.getTabs().add(new TabPanel("Financial Administration", "Financial Administration"));
         }
 
@@ -880,7 +880,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void onMainViewTabClose(TabCloseEvent event) {
         String tabId = ((TabPanel) event.getData()).getId();
-        mainTabView.addTab(getEntityManager1(), tabId, false);
+        
+        mainTabView.closeTab(tabId);
     }
 
     public void onMainViewTabChange(TabChangeEvent event) {
@@ -912,20 +913,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void editPreferences() {
     }
 
-    public void openJobBrowser() {
-        // Add the Job Browser tab is 
-        mainTabView.addTab(getEntityManager1(), "Job Browser", true);
-        mainTabView.select("Job Browser");
+    public void openJobBrowser() {       
+        mainTabView.openTab("Job Browser");
     }
 
-    public void openSystemAdministrationTab() {
-        mainTabView.addTab(getEntityManager1(), "System Administration", true);
-        mainTabView.select("System Administration");
+    public void openSystemAdministrationTab() {       
+        mainTabView.openTab("System Administration");
     }
 
-    public void openFinancialAdministrationTab() {
-        mainTabView.addTab(getEntityManager1(), "Financial Administration", true);
-        mainTabView.select("Financial Administration");
+    public void openFinancialAdministrationTab() {       
+         mainTabView.openTab("Financial Administration");
     }
 
     public String getJobsTabTitle() {
@@ -2649,9 +2646,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openClientsTab() {
+        // tk remove this and do as is done for supplier
         getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-        mainTabView.addTab(getEntityManager1(), "Clients", true);
-        mainTabView.select("Clients");
+    
+        mainTabView.openTab("Clients");
     }
 
     public void openReportsTab() {

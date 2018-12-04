@@ -32,6 +32,7 @@ import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
+import jm.com.dpbennett.business.entity.SystemOption;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.StreamedContent;
@@ -68,6 +69,10 @@ public class PurchasingManager implements Serializable {
      */
     public PurchasingManager() {
         init();
+    }
+       
+    public void openPurchaseReqsTab() {                      
+        mainTabView.openTab("Purchase Requisitions");
     }
     
      /**
@@ -199,7 +204,7 @@ public class PurchasingManager implements Serializable {
 
     public void editSelectedPurchaseReq() {
 
-        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 700, 700);
+        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 600, 700);
     }
 
     public List<PurchaseRequisition> getFoundPurchaseReqs() {
@@ -230,6 +235,8 @@ public class PurchasingManager implements Serializable {
                 setOriginatingDepartment(getUser().getEmployee().getDepartment());
         selectedPurchaseRequisition.setOriginator(getUser().getEmployee());
         selectedPurchaseRequisition.setRequisitionDate(new Date());
+        
+        openPurchaseReqsTab();
 
         editSelectedPurchaseReq();
     }

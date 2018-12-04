@@ -1,0 +1,111 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new option"                                  
+                             value="New"
+                             actionListener="#{systemManager.createNewFinancialSystemOption}"                                                     
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus" >
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{systemManager.doFinancialSystemOptionSearch}"
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:financialSystemOptionsTable"/>
+
+            </p:commandButton>
+            <p:spacer width="20" />
+            <p:inputText value="#{systemManager.systemOptionSearchText}"                                             
+                         style="width:250px" placeholder="Enter any part of option description">
+                <p:ajax event="keyup"
+                        global="false"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:financialSystemOptionsTable"
+                        listener="#{systemManager.doFinancialSystemOptionSearch}"
+                        process="@this"/>
+            </p:inputText>
+        </p:toolbarGroup>
+    </p:toolbar>    
+    <p:dataTable id="financialSystemOptionsTable"                                       
+                 var="systemOption"     
+                 editable="true" 
+                 editMode="cell"
+                 paginator="true"
+                 rows="15"
+                 widgetVar="systemOptionsTableVar"
+                 style="margin-top: 1px;"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{systemManager.foundFinancialSystemOptions}">
+
+        <p:ajax event="cellEdit" listener="#{systemManager.onFinancialSystemOptionCellEdit}" />
+
+        <f:facet name="header">
+            Financial Options
+        </f:facet>
+
+        <p:column headerText="Description">
+            <p:cellEditor>
+                <f:facet name="output"> <h:outputText value="#{systemOption.comments}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{systemOption.comments}" style="width:96%"/></f:facet>
+            </p:cellEditor>                                           
+        </p:column>   
+
+        <p:column headerText="Value">
+            <p:cellEditor>
+                <f:facet name="output"> <h:outputText value="#{systemOption.optionValue}" /></f:facet>
+                <f:facet name="input"><p:inputText value="#{systemOption.optionValue}" style="width:96%"/></f:facet>
+            </p:cellEditor>                                         
+        </p:column>   
+
+        <p:column style="width:32px">
+            <p:commandButton title="View or edit system option"   
+                             actionListener="#{systemManager.editSystemOption}"
+                             onstart="PF('longProcessDialogVar').show();"  
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+
+                <f:setPropertyActionListener value="#{systemOption}"                                                                    
+                                             target="#{systemManager.selectedSystemOption}" />
+
+                <p:ajax event="dialogReturn"
+                        listener="#{systemManager.doFinancialSystemOptionSearch}"
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:financialSystemOptionsTable"/>
+
+            </p:commandButton>           
+        </p:column>
+    </p:dataTable> 
+
+</html>
+
