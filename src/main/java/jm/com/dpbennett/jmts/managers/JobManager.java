@@ -343,16 +343,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         mainTabView.reset(user);
 
         if (getUser().getModules().getJobManagementAndTrackingModule()) {
-            mainTabView.getTabs().add(new TabPanel("Job Browser", "Job Browser"));
+            mainTabView.openTab("Job Browser");
         }
         if (getUser().getModules().getLegalOfficeModule()) {
-            mainTabView.getTabs().add(new TabPanel("Document Browser", "Document Browser"));
+            mainTabView.openTab("Document Browser");
         }
         if (getUser().getModules().getAdminModule()) {
-            mainTabView.getTabs().add(new TabPanel("System Administration", "System Administration"));
+            mainTabView.openTab("System Administration");
         }
-        if (getUser().getModules().getFinancialAdminModule()) {            
-            mainTabView.getTabs().add(new TabPanel("Financial Administration", "Financial Administration"));
+        if (getUser().getModules().getFinancialAdminModule()) {
+            // tk The option to choose which tab to add will be implemented in the future.
+            mainTabView.openTab("Purchase Requisitions");
         }
 
     }
@@ -880,7 +881,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void onMainViewTabClose(TabCloseEvent event) {
         String tabId = ((TabPanel) event.getData()).getId();
-        
+
         mainTabView.closeTab(tabId);
     }
 
@@ -913,16 +914,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void editPreferences() {
     }
 
-    public void openJobBrowser() {       
+    public void openJobBrowser() {
         mainTabView.openTab("Job Browser");
     }
 
-    public void openSystemAdministrationTab() {       
+    public void openSystemAdministrationTab() {
         mainTabView.openTab("System Administration");
     }
 
-    public void openFinancialAdministrationTab() {       
-         mainTabView.openTab("Financial Administration");
+    public void openFinancialAdministrationTab() {
+        mainTabView.openTab("Financial Administration");
     }
 
     public String getJobsTabTitle() {
@@ -2648,7 +2649,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void openClientsTab() {
         // tk remove this and do as is done for supplier
         getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-    
+
         mainTabView.openTab("Clients");
     }
 
@@ -2743,7 +2744,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         systemManager = BeanUtils.findBean("systemManager");
         systemManager.setUser(getUser());
         systemManager.setMainTabView(getMainTabView());
-        
+
         legalDocumentManager = BeanUtils.findBean("legalDocumentManager");
         legalDocumentManager.setUser(getUser());
         legalDocumentManager.setMainTabView(getMainTabView());

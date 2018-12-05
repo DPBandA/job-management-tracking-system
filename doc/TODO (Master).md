@@ -95,7 +95,8 @@
 - Remember to  create labs and units within departments.
 
 ## General
-- Remove the busy wait icon from th job dialog tab change and see if this makes 
+- Impl open and close tab methods as is done for MainTabView.
+- Remove the busy wait icon from the job dialog tab change and see if this makes 
   any difference on 172.10.0.18/jmts.
 - In the "additional services" tab add list in otherRequestedServices field
   in job services contract. Remove "other" checkboxes. For intended market remove 
@@ -112,6 +113,7 @@
 - For client credit status check, note client is a credit client if they are "TRADE"
   and the credit limit is not 0.
 - Impl "ComplianceSurveyDialogForm" 
+- Add option to select the main tab view to open when first logged in.
 - Impl "dirty" and save() for each "subclass" and save only when dirty. 
 - Replace update*() with single update**() method where possible.
 - Impl "new compiance survey" and other functions in dashboard and maintab view. 

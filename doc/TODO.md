@@ -34,8 +34,6 @@
 
 # Purchasing (Financial Admin)
 
-- Use openTab() and closeTab() where needed.
-- Open the purchase req tab by default
 - Impl creating new suppliers and browsing the suppliers in the dashboard.
 - Impl purchreqDialog.xhtml.
   * Impl status and tracking tab and other fields as necessary.
