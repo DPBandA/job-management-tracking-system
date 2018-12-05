@@ -32,7 +32,6 @@ import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
-import jm.com.dpbennett.business.entity.SystemOption;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.StreamedContent;
@@ -70,12 +69,25 @@ public class PurchasingManager implements Serializable {
     public PurchasingManager() {
         init();
     }
-       
-    public void openPurchaseReqsTab() {                      
+
+    public void deleteCostComponent() {
+        deleteCostComponentByName(selectedCostComponent.getName());
+    }
+
+    public void okCostingComponent() {
+        if (selectedCostComponent.getId() == null && !getEdit()) {
+            getSelectedPurchaseRequisition().getCostComponents().add(selectedCostComponent);
+        }
+        setEdit(false);
+
+        PrimeFaces.current().executeScript("PF('purchreqCostingCompDialog').hide();");
+    }
+
+    public void openPurchaseReqsTab() {
         mainTabView.openTab("Purchase Requisitions");
     }
-    
-     /**
+
+    /**
      * Get FinanceManager SessionScoped bean.
      *
      * @return
@@ -189,9 +201,9 @@ public class PurchasingManager implements Serializable {
         getFinanceManager().editSelectedSupplier();
     }
 
-    public void supplierDialogReturn() {
-        if ( getFinanceManager().getSelectedSupplier().getId() != null) {
-            getSelectedPurchaseRequisition().setSupplier( getFinanceManager().getSelectedSupplier());
+    public void purchaseReqSupplierDialogReturn() {
+        if (getFinanceManager().getSelectedSupplier().getId() != null) {
+            getSelectedPurchaseRequisition().setSupplier(getFinanceManager().getSelectedSupplier());
 
         }
     }
@@ -200,7 +212,7 @@ public class PurchasingManager implements Serializable {
         getFinanceManager().createNewSupplier();
 
         getFinanceManager().editSelectedSupplier();
-    }   
+    }
 
     public void editSelectedPurchaseReq() {
 
@@ -214,7 +226,6 @@ public class PurchasingManager implements Serializable {
     public void setFoundPurchaseReqs(List<PurchaseRequisition> foundPurchaseReqs) {
         this.foundPurchaseReqs = foundPurchaseReqs;
     }
-
 
     public void doPurchaseReqSearch() {
         System.out.println("PR search to be done using search parameters from dashboard.");
@@ -235,7 +246,7 @@ public class PurchasingManager implements Serializable {
                 setOriginatingDepartment(getUser().getEmployee().getDepartment());
         selectedPurchaseRequisition.setOriginator(getUser().getEmployee());
         selectedPurchaseRequisition.setRequisitionDate(new Date());
-        
+
         openPurchaseReqsTab();
 
         editSelectedPurchaseReq();
@@ -347,13 +358,6 @@ public class PurchasingManager implements Serializable {
                 selectedCostComponent.setIsFixedCost(false);
                 selectedCostComponent.setIsHeading(false);
                 break;
-            case "SUBCONTRACT":
-                selectedCostComponent.setIsFixedCost(true);
-                selectedCostComponent.setIsHeading(false);
-                selectedCostComponent.setHours(0.0);
-                selectedCostComponent.setHoursOrQuantity(0.0);
-                selectedCostComponent.setRate(0.0);
-                break;
             default:
                 selectedCostComponent.setIsFixedCost(false);
                 selectedCostComponent.setIsHeading(false);
@@ -368,11 +372,13 @@ public class PurchasingManager implements Serializable {
         if (selectedCostComponent != null) {
             if (null == selectedCostComponent.getCode()) {
                 return true;
-            } else switch (selectedCostComponent.getCode()) {
-                case "--":
-                    return true;
-                default:
-                    return false;
+            } else {
+                switch (selectedCostComponent.getCode()) {
+                    case "--":
+                        return true;
+                    default:
+                        return false;
+                }
             }
         } else {
             return true;
@@ -394,19 +400,19 @@ public class PurchasingManager implements Serializable {
         deleteCostComponentByName(selectedCostComponent.getName());
     }
 
-    // Remove this and other code out of JobManager? Put in JobCostingAndPayment or Job?
     public void deleteCostComponentByName(String componentName) {
 
-        //List<CostComponent> components = getCurrentJob().getJobCostingAndPayment().getAllSortedCostComponents();
+        List<CostComponent> components = getSelectedPurchaseRequisition().getAllSortedCostComponents();
         int index = 0;
-        //for (CostComponent costComponent : components) {
-        //  if (costComponent.getName().equals(componentName)) {
-        //components.remove(index);
-        //setJobCostingAndPaymentDirty(true);
+        for (CostComponent costComponent : components) {
+            if (costComponent.getName().equals(componentName)) {
+                components.remove(index);
+                getSelectedPurchaseRequisition().setIsDirty(true);
 
-        //       break;
-        //}
-        //    ++index;
+                break;
+            }
+            ++index;
+        }
     }
 
     public void editCostComponent(ActionEvent event) {
@@ -420,15 +426,6 @@ public class PurchasingManager implements Serializable {
 
     public void cancelCostComponentEdit() {
         selectedCostComponent.setIsDirty(false);
-    }
-
-    public void okCostingComponent() {
-        if (selectedCostComponent.getId() == null && !getEdit()) {
-            //getCurrentJob().getJobCostingAndPayment().getCostComponents().add(selectedCostComponent);
-        }
-        setEdit(false);
-
-        PrimeFaces.current().executeScript("PF('costingComponentDialog').hide();");
     }
 
     private EntityManagerFactory getEMF2() {

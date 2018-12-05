@@ -38,9 +38,15 @@ Email: info@dpbennett.com.jm
                     <p:inputText id="prNumberEdit"
                                  rendered="#{!purchasingManager.selectedPurchaseRequisition.number}"
                                  size="35"
-                                 maxlength="40"                                                                    
+                                 maxlength="40"      
+                                 validator=""
                                  title="#{purchasingManager.selectedPurchaseRequisition.number}"
                                  value="#{purchasingManager.selectedPurchaseRequisition.number}">
+                        
+                        <f:attribute name="selectedPurchaseReqId" 
+                                     value="#{purchasingManager.selectedPurchaseRequisition.id}" />
+                        <f:attribute name="autoGeneratePRNumber" 
+                                     value="#{purchasingManager.selectedPurchaseRequisition.autoGenerateNumber}" />
 
                         <p:ajax event="change"                            
                                 update=":purchreqDialogForm:purchreqDetailToolbar1"
@@ -79,11 +85,11 @@ Email: info@dpbennett.com.jm
                                 converter="activeSupplierConverter"
                                 validator="supplierValidator"
                                 forceSelection="true"
-                                completeMethod="#{purchasingManager.completeActiveSupplier}" >
+                                completeMethod="#{financeManager.completeActiveSupplier}" >
 
                     <p:ajax event="itemSelect"
                             update="purchreqFormTabView:generalTabPanel,:purchreqDialogForm:purchreqDetailToolbar1"
-                            listener="#{purchasingManager.updateSupplier}"
+                            listener="#{purchasingManager.updatePurchaseReq}"
                             process="@this"/>
 
                 </p:autoComplete>     
@@ -102,7 +108,7 @@ Email: info@dpbennett.com.jm
                                          title="View or edit this suppliers's detail">  
 
                             <p:ajax event="dialogReturn" 
-                                    listener="#{purchasingManager.supplierDialogReturn}"
+                                    listener="#{purchasingManager.purchaseReqSupplierDialogReturn}"
                                     update="supplier,supplierActionsMenu,:purchreqDialogForm:purchreqDetailToolbar1" />
 
                         </p:commandButton>            
@@ -121,7 +127,7 @@ Email: info@dpbennett.com.jm
                             title="Add a new supplier">
 
                             <p:ajax event="dialogReturn" 
-                                    listener="#{purchasingManager.supplierDialogReturn}"
+                                    listener="#{purchasingManager.purchaseReqSupplierDialogReturn}"
                                     update="supplier,supplierActionsMenu,:purchreqDialogForm:purchreqDetailToolbar1" />
 
                         </p:commandButton>

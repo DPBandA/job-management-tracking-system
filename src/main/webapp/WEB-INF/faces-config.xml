@@ -130,6 +130,10 @@
         <validator-class>jm.com.dpbennett.wal.validator.JobNumberValidator</validator-class>
     </validator>
     <validator>
+        <validator-id>purchaseReqNumberValidator</validator-id>
+        <validator-class>jm.com.dpbennett.wal.validator.PurchaseReqNumberValidator</validator-class>
+    </validator>
+    <validator>
         <validator-id>subcontractedDepartmentValidator</validator-id>
         <validator-class>jm.com.dpbennett.wal.validator.SubcontractedDepartmentValidator</validator-class>
     </validator>

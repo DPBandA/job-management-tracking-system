@@ -29,9 +29,9 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new cost component"
                              value="New"
                              actionListener="#{purchasingManager.createNewCostComponent}"
-                             update=":costingComponentDialogForm"
+                             update=":purchreqCostingCompDialogForm"
                              onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
+                             oncomplete="PF('purchreqCostingCompDialog').show();PF('longProcessDialogVar').hide();"
                              icon="ui-icon-plus"
                              process="@this">
             </p:commandButton>
@@ -40,7 +40,7 @@ Email: info@dpbennett.com.jm
     </p:toolbar>
 
     <p:dataTable  var="costComponent"
-                  id="i#{jobCosting.id}"
+                  id="costComponentTable"
                   rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
                   value="#{purchasingManager.selectedPurchaseRequisition.allSortedCostComponents}">
         <p:column>
@@ -135,8 +135,8 @@ Email: info@dpbennett.com.jm
                         style="width: 300%;text-align: left;background: none;border: 0;"
                         actionListener="#{purchasingManager.editCostComponent}"
                         disabled="#{!costComponent.isEditable}"
-                        update=":costingComponentDialogForm"
-                        oncomplete="PF('costingComponentDialog').show();"
+                        update=":purchreqCostingCompDialogForm"
+                        oncomplete="PF('purchreqCostingCompDialog').show();"
                         icon="ui-icon ui-icon-pencil"
                         process="@this" >
 
@@ -150,7 +150,7 @@ Email: info@dpbennett.com.jm
                     <p:commandButton   
                         value="Delete"
                         style="width: 300%;text-align: left;background: none;border: 0;"
-                        onclick="costComponentDeleteConfirm.show();"
+                        onclick="purchreqCostCompDeleteConfirmDialog.show();"
                         icon="ui-icon-trash"
                         process="@this">
 
@@ -169,12 +169,13 @@ Email: info@dpbennett.com.jm
             <p:commandButton title="Add new cost component"
                              value="New"
                              actionListener="#{purchasingManager.createNewCostComponent}"
-                             update=":costingComponentDialogForm"
+                             update=":purchreqCostingCompDialogForm"
                              onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
+                             oncomplete="PF('purchreqCostingCompDialog').show();PF('longProcessDialogVar').hide();"
                              icon="ui-icon-plus"
                              process="@this">
             </p:commandButton>
+
         </p:toolbarGroup>
     </p:toolbar>    
 

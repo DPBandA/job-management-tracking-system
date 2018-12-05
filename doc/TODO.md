@@ -34,15 +34,16 @@
 
 # Purchasing (Financial Admin)
 
-- Impl creating new suppliers and browsing the suppliers in the dashboard.
-- Impl purchreqDialog.xhtml.
-  * Impl status and tracking tab and other fields as necessary.
-  * Impl checkbox auto number feature exactly as in jobGeneral tab.
-  * Continue with purchreqGeneralTab.xhtml.
-  * Impl creating new PR that makes use of the logged in user. Department,
-    originator, date etc should be read only
-  * Impl saving PR
-  * Create PR and PO forms.
+- Impl generating PR # and the related fields in the General tab in the PR
+  dialog. Use same process in job manager to generate PR #.
+- Impl "Goods and services" tab. Add cost component does not appear in the table.
+- Impl status and tracking tab and other fields as necessary.
+- Impl checkbox auto number feature exactly as in jobGeneral tab.
+- Continue with purchreqGeneralTab.xhtml.
+- Impl creating new PR that makes use of the logged in user. Department,
+  originator, date etc should be read only.
+- Impl saving PR
+- Create PR and PO forms.
 - Move openFinancialAdministration() to financialManager.
 - Design and include the dashboard and main tabs 
 - Populate PurchaseOrder with PR if possible. 
