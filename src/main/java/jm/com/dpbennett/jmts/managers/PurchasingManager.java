@@ -146,14 +146,12 @@ public class PurchasingManager implements Serializable {
         getSelectedPurchaseRequisition().setIsDirty(true);
     }
 
-    public void updatePurchaseReqNumber() {
+    public void updateAutoGeneratePRNumber() {
 
-        // tk impl auto number generation
-        if (selectedPurchaseRequisition.getAutoGenerateNumber()) {
-            //selectedPurchaseRequisition.setNumber();
+        if (getSelectedPurchaseRequisition().getAutoGenerateNumber()) {
+            getSelectedPurchaseRequisition().generateNumber();
         }
-
-        selectedPurchaseRequisition.setIsDirty(true);
+        getSelectedPurchaseRequisition().setIsDirty(true);
 
     }
 
@@ -246,6 +244,7 @@ public class PurchasingManager implements Serializable {
                 setOriginatingDepartment(getUser().getEmployee().getDepartment());
         selectedPurchaseRequisition.setOriginator(getUser().getEmployee());
         selectedPurchaseRequisition.setRequisitionDate(new Date());
+        selectedPurchaseRequisition.generateNumber();
 
         openPurchaseReqsTab();
 

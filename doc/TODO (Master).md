@@ -234,13 +234,15 @@ This release will be around early July.
   and tab initialization outside of the constructor.
 - Doing cell edit in table does not validate the object before saving. Fix!!
 
-## Job Edit Synchronization
+## Job Edit & Synchronization
 - Create/maintain list of opened jobs in the Application class.
   * Set opened date when open job and when keepalive runs..
 - Add Opened Jobs tab in Sys Admin with search text box and refresh button
 - Do sync for all job view tables.
 - Ensure access to currentJob is synchronized since it can be accessed by "keepalive"
-  other code at the same time
+  other code at the same time.
+- Fix up job number generation to do it the way it is done in PR without the use
+  of static method.
 
 ## Farming
 - Create Livestock class to represent fish and other farm animals. Create Broodstock as 

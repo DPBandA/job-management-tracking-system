@@ -36,10 +36,10 @@ Email: info@dpbennett.com.jm
                                   styleClass="pr-number"/>
 
                     <p:inputText id="prNumberEdit"
-                                 rendered="#{!purchasingManager.selectedPurchaseRequisition.number}"
+                                 rendered="#{!purchasingManager.selectedPurchaseRequisition.autoGenerateNumber}"
                                  size="35"
                                  maxlength="40"      
-                                 validator=""
+                                 validator="purchaseReqNumberValidator"
                                  title="#{purchasingManager.selectedPurchaseRequisition.number}"
                                  value="#{purchasingManager.selectedPurchaseRequisition.number}">
                         
@@ -60,12 +60,14 @@ Email: info@dpbennett.com.jm
                                          itemLabel="auto"
                                          style="vertical-align: middle"
                                          rendered="#{purchasingManager.user.privilege.canBeJMTSAdministrator}"
-                                         value="#{purchasingManager.selectedPurchaseRequisition.number}" >
-                    <p:ajax listener="#{purchasingManager.updatePurchaseReqNumber}" 
+                                         value="#{purchasingManager.selectedPurchaseRequisition.autoGenerateNumber}" >
+                    
+                    <p:ajax listener="#{purchasingManager.updateAutoGeneratePRNumber}" 
                             event="change"
                             update="prNumberGroup,:purchreqDialogForm:purchreqDetailToolbar1"
                             global="false"                        
                             process="@this"/>
+                    
                 </p:selectBooleanCheckbox>            
                 <p:tooltip for="autoGenerate" value="Check to auto-generate number" showEffect="fade" hideEffect="fade" />
 
