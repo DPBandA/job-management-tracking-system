@@ -35,7 +35,7 @@
 # Purchasing (Financial Admin)
 
 - Impl generating PR # and the related fields in the General tab in the PR
-  dialog. Use same process in job manager to generate PR #.
+  dialog. Use same process in job manager/job sequence number to generate PR #.
 - Impl "Goods and services" tab. Add cost component does not appear in the table.
 - Impl status and tracking tab and other fields as necessary.
 - Impl checkbox auto number feature exactly as in jobGeneral tab.
