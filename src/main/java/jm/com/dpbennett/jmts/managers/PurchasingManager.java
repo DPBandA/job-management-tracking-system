@@ -76,6 +76,7 @@ public class PurchasingManager implements Serializable {
 
     public void okCostingComponent() {
         if (selectedCostComponent.getId() == null && !getEdit()) {
+            System.out.println("adding cost comp."); // tk
             getSelectedPurchaseRequisition().getCostComponents().add(selectedCostComponent);
         }
         setEdit(false);
