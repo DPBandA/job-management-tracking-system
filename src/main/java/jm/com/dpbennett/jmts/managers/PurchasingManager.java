@@ -23,12 +23,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.CostComponent;
+import jm.com.dpbennett.business.entity.Department;
+import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
@@ -41,6 +44,7 @@ import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
+import jm.com.dpbennett.wal.utils.Utils;
 import org.primefaces.PrimeFaces;
 
 /**
@@ -68,6 +72,120 @@ public class PurchasingManager implements Serializable {
      */
     public PurchasingManager() {
         init();
+    }
+    
+    public Boolean checkWorkProgressReadinessToBeChanged() {
+        EntityManager em = getEntityManager1();
+
+        // Find the currently stored job and check it's work status
+        if (getSelectedPurchaseRequisition().getId() != null) {
+            PurchaseRequisition savedPurchaseRequisition = 
+                    PurchaseRequisition.findById(em, getSelectedPurchaseRequisition().getId());
+
+            // Do not allow flagging PR as completed unless it is approved and the 
+            // person is a procurement officer. 
+            if (!getSelectedPurchaseRequisition().isApproved()
+                    && !getUser().getEmployee().isProcurementOfficer()
+                    && getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
+
+                PrimeFacesUtils.addMessage("Work Progress Cannot Be As Marked Completed",
+                        "You are not a procurement officer or this purchase requisition needs to be approved before it can marked as completed.",
+                        FacesMessage.SEVERITY_WARN);
+
+                return false;
+            }
+
+            if (getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")
+                    && !getUser().getPrivilege().getCanBeFinancialAdministrator()) {
+
+                // Reset PR to its saved work progress
+                getSelectedPurchaseRequisition().
+                        setWorkProgress(savedPurchaseRequisition.getWorkProgress());
+
+                PrimeFacesUtils.addMessage("Work Progress Cannot Be Changed",
+                        "\"This purchase requisition is marked as completed and cannot be changed. You may contact a financial administrator for assistance.",
+                        FacesMessage.SEVERITY_WARN);
+
+                return false;
+            } else if (savedJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")
+                    && (getUser().getPrivilege().getCanBeJMTSAdministrator()
+                    || getUser().isUserDepartmentSupervisor(getCurrentJob(), em))) {
+                // System admin can change work status even if it's completed.
+                return true;
+            } else if (!savedJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")
+                    && getCurrentJob().getJobStatusAndTracking().getWorkProgress().equals("Completed")
+                    && !getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+
+                // Reset current job to its saved work progress
+                getCurrentJob().getJobStatusAndTracking().
+                        setWorkProgress(savedJob.getJobStatusAndTracking().getWorkProgress());
+
+                PrimeFacesUtils.addMessage("Job Work Progress Cannot Be As Marked Completed",
+                        "The job costing needs to be prepared before this job can marked as completed.",
+                        FacesMessage.SEVERITY_WARN);
+
+                return false;
+
+            }
+        } else {
+
+            PrimeFacesUtils.addMessage("Job Work Progress Cannot be Changed",
+                    "This job's work progress cannot be changed until the job is saved.",
+                    FacesMessage.SEVERITY_WARN);
+            return false;
+        }
+
+        return true;
+    }
+    
+    public void updateWorkProgress() {
+
+        if (checkWorkProgressReadinessToBeChanged()) {
+            if (!currentJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")) {
+                currentJob.getJobStatusAndTracking().setCompleted(false);
+                currentJob.getJobStatusAndTracking().setSamplesCollected(false);
+                currentJob.getJobStatusAndTracking().setDocumentCollected(false);
+                // overall job completion
+                currentJob.getJobStatusAndTracking().setDateOfCompletion(null);
+                currentJob.getJobStatusAndTracking().
+                        setCompletedBy(null);
+                // sample collection
+                currentJob.getJobStatusAndTracking().setSamplesCollectedBy(null);
+                currentJob.getJobStatusAndTracking().setDateSamplesCollected(null);
+                // document collection
+                currentJob.getJobStatusAndTracking().setDocumentCollectedBy(null);
+                currentJob.getJobStatusAndTracking().setDateDocumentCollected(null);
+
+                // Update start date
+                if (currentJob.getJobStatusAndTracking().getWorkProgress().equals("Ongoing")
+                        && currentJob.getJobStatusAndTracking().getStartDate() == null) {
+                    currentJob.getJobStatusAndTracking().setStartDate(new Date());
+                } else if (currentJob.getJobStatusAndTracking().getWorkProgress().equals("Not started")) {
+                    currentJob.getJobStatusAndTracking().setStartDate(null);
+                }
+
+            } else {
+                currentJob.getJobStatusAndTracking().setCompleted(true);
+                currentJob.getJobStatusAndTracking().setDateOfCompletion(new Date());
+                currentJob.getJobStatusAndTracking().
+                        setCompletedBy(getUser().getEmployee());
+            }
+
+            setIsDirty(true);
+        } else {
+            if (getCurrentJob().getId() != null) {
+                // Reset work progress to the currently saved state
+                Job job = Job.findJobById(getEntityManager1(), getCurrentJob().getId());
+                if (job != null) {
+                    getCurrentJob().getJobStatusAndTracking().setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
+                } else {
+                    getCurrentJob().getJobStatusAndTracking().setWorkProgress("Not started");
+                }
+            } else {
+                getCurrentJob().getJobStatusAndTracking().setWorkProgress("Not started");
+            }
+        }
+
     }
 
     public void deleteCostComponent() {
@@ -177,12 +295,35 @@ public class PurchasingManager implements Serializable {
     }
 
     public void saveSelectedPurchaseRequisition() {
-        EntityManager em = getEntityManager1();
+        
         ReturnMessage returnMessage;
 
-        // tk
-        System.out.println("Saving PR to be impl...");
+        returnMessage = getSelectedPurchaseRequisition().prepareAndSave(getEntityManager1(), getUser());
 
+        if (returnMessage.isSuccess()) {
+            PrimeFacesUtils.addMessage("Saved!", "Purchase requisition was saved", FacesMessage.SEVERITY_INFO);
+            getSelectedPurchaseRequisition().setEditStatus("");
+        } else {
+            PrimeFacesUtils.addMessage("Purchase requisition NOT Saved!",
+                    "Purchase requisition was NOT saved. Please contact the System Administrator!",
+                    FacesMessage.SEVERITY_ERROR);
+
+            sendErrorEmail("An error occurred while saving a purchase requisition!",
+                    "Purchase requisition number: " + getSelectedPurchaseRequisition().getNumber()
+                    + "\nJMTS User: " + getUser().getUsername()
+                    + "\nDate/time: " + new Date()
+                    + "\nDetail: " + returnMessage.getDetail());
+        }
+
+    }
+    
+    public void sendErrorEmail(String subject, String message) {
+        try {
+            // Send error message to developer's email            
+            Utils.postMail(null, null, subject, message);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     public void onPurchaseReqCellEdit(CellEditEvent event) {

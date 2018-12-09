@@ -34,39 +34,27 @@
 
 # Purchasing (Financial Admin)
 
-- Impl generating PR # and the related fields in the General tab in the PR
-  dialog. Use same process in job manager/job sequence number to generate PR #.
-- Impl "Goods and services" tab. Add cost component does not appear in the table.
-- Impl status and tracking tab and other fields as necessary.
-- Impl checkbox auto number feature exactly as in jobGeneral tab.
-- Continue with purchreqGeneralTab.xhtml.
-- Impl creating new PR that makes use of the logged in user. Department,
-  originator, date etc should be read only.
-- Impl saving PR
-- Create PR and PO forms.
+- Impl workProgress in PR class. Impl list in PR class.
+- Impl approver dates and approvers table in general tab.
+- Implement setting purchasing department abnd procurement officer when 
+  work progress is set as "Completed"
+- Impl PurchaseRequisition.isApproved() that determines if a PR was approved.
+  For now, check that at least 2 approvers are in the approval list.
+- Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Move openFinancialAdministration() to financialManager.
-- Design and include the dashboard and main tabs 
+- Add "Procurement" menu and menu items for "Suppliers" and "Purchase Requisitions" 
+  JM module "New" and "Tools" menus.
 - Populate PurchaseOrder with PR if possible. 
-- Impl automatic generation of PR #. Initialize with the latest number used.
+- Initialize with the latest number used.
 - Ensure that the requisition date is the that orginator signed the PR.
 - The date the PR is completed should be the PO date.
 - Impl email messaging to the originator and other PR stakeholders.
-- The content of the PO should be generated from the PR. The PO should be a field
-  in the PR.
-- PO/PR should remain in "draft" stage until all issues are sorted out.
 - Enter the approval limits in test and production databases.
-- The orinator's department should be uneditable by the orginator unless they are
-  the dept. head or system admin.
-- Impl giving privileges to specific tabs in sys admin such as hrm.
-- Add a separate tab in user account dialog for sys admin.
-- Put financial admin under sys admin.
-- Do not show financial admin in main tab by default even when selected in preferences.
 - Set the department of the purchasing officer that completes the PR as the 
   purchasing department of the PR.
-- Now that department is removed from JMUser, check that not code is broken.
-- Do PO form.
 
 # All Database Update and Deployment
+- Add WORKPROGRESS to purchaserequisition table.
 - Add canAddAccountingCode to privilege table.
 - Add CODE, ABBREVIATION to accountingcode table. 
 - Add CANADDSUPPLIER to privileges table.
@@ -150,6 +138,7 @@ in active ones.
   * Impl tacking feature for this.
 - Impl using only one EMF which is used by all session beans when an entity 
   manager is needed.
+- Now that department is removed from JMUser, check that no code is broken.
 - Send error email for only job save related exceptions. Not messages pertaining
   to privileges. Send emails to desbenn@gmail.com
 - Remove major modules such as helpdesk, hrm, crm and stds dev and create as
@@ -188,6 +177,8 @@ separate projects using maven overlays.
 - Put the sync methods in the Application class from which all application scope
    classes would inherit. openedJobs would become openedObjects etc.
 - Go through each manager and remove code that is not needed in that manager.
+- Add a separate tab in user account dialog for sys admin.
+- Impl giving privileges to specific tabs in sys admin such as hrm.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

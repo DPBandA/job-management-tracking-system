@@ -26,6 +26,58 @@ Email: info@dpbennett.com.jm
         <h:panelGrid columns="1" >
             <h:panelGroup>
                 <h:panelGrid columns="2">
+                    
+                    <h:outputLabel value="Work progress: " 
+                                   style="font-weight: bold;"
+                                   for="workProgress"/>
+                    <p:selectOneMenu id="workProgress"     
+                                     style="width: 200px;"
+                                     value="#{purchasingManager.selectedPurchaseRequisition.workProgress}">
+
+                        <f:selectItems  value="#{systemManager.workProgressList}"
+                                        var="progress"                            
+                                        itemValue="#{progress}"
+                                        itemLabel="#{progress}"/>
+
+                        <p:ajax listener="#{jobManager.updateWorkProgress}"
+                                global="false"
+                                update="purchasingDepartment,:purchreqDialogForm:purchreq_growl,officer,:purchreqDialogForm:purchreqDetailToolbar1,@this"
+                                process="@this"/>
+
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Purchasing department: " style="font-weight: bold" />
+                    <p:autoComplete id="purchasingDepartment"                          
+                                    readonly="true"
+                                    styleClass="read-only-inputfield"
+                                    var="purchasingDepartment"
+                                    forceSelection="false"      
+                                    dropdown="false"
+                                    scrollHeight="200" 
+                                    size="35"
+                                    maxlength="40"
+                                    value="#{purchasingManager.selectedPurchaseRequisition.purchasingDepartment}"
+                                    itemValue="#{purchasingDepartment}"
+                                    itemLabel="#{purchasingDepartment.name}"
+                                    converter="activeDepartmentConverter"
+                                    validator="businessEntityValidator"
+                                    completeMethod="#{humanResourceManager.completeActiveDepartment}" /> 
+
+                    <h:outputText value="Procurement officer: " style="font-weight: bold" />       
+                    <p:autoComplete id="officer"
+                                    readonly="true"
+                                    styleClass="read-only-inputfield"
+                                    var="officer"                            
+                                    maxlength="40" 
+                                    value="#{purchasingManager.selectedPurchaseRequisition.procurementOfficer}"
+                                    itemLabel="#{officer.name}"
+                                    itemValue="#{officer}"
+                                    converter="activeEmployeeConverter"
+                                    validator="businessEntityValidator"
+                                    forceSelection="true"
+                                    dropdown="false"
+                                    scrollHeight="200" 
+                                    completeMethod="#{humanResourceManager.completeActiveEmployee}" />
 
                     <h:outputText value="Last edited by: "/>
                     <p:inputText readonly="true"

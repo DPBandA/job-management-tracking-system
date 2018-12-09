@@ -1645,17 +1645,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void saveCurrentJob() {
         EntityManager em = getEntityManager1();
         ReturnMessage returnMessage;
-
-        // tk...may not be necessary
-        // Prevent overwriting samples that were edited by another user by 
-        // loading the existing samples from the database.
-        // NB Remove this code when the "Job sync" feature is added
-//        if (!getJobSampleManager().isSamplesDirty() && currentJob.getId() != null) {
-//            Job savedJob = Job.findJobById(em, currentJob.getId());
-//            em.refresh(savedJob);
-//            currentJob.setJobSamples(savedJob.getJobSamples());
-//        }
-        // end tk
+      
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());

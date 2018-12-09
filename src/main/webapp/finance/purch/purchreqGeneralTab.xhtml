@@ -155,7 +155,7 @@ Email: info@dpbennett.com.jm
 
             </p:calendar>
 
-            <h:outputText value="Department: " style="font-weight: bold" />
+            <h:outputText value="Originating department: " style="font-weight: bold" />
             <p:autoComplete id="originatingDepartment"                          
                             readonly="true"
                             styleClass="read-only-inputfield"
@@ -188,49 +188,16 @@ Email: info@dpbennett.com.jm
                             scrollHeight="200" 
                             completeMethod="#{humanResourceManager.completeActiveEmployee}" />
 
-            <h:outputText value="Purchasing department: " style="font-weight: bold" />
-            <p:autoComplete id="purchasingDepartment"                          
-                            readonly="true"
-                            styleClass="read-only-inputfield"
-                            var="purchasingDepartment"
-                            forceSelection="false"      
-                            dropdown="false"
-                            scrollHeight="200" 
-                            size="35"
-                            maxlength="40"
-                            value="#{purchasingManager.selectedPurchaseRequisition.purchasingDepartment}"
-                            itemValue="#{purchasingDepartment}"
-                            itemLabel="#{purchasingDepartment.name}"
-                            converter="activeDepartmentConverter"
-                            validator="businessEntityValidator"
-                            completeMethod="#{humanResourceManager.completeActiveDepartment}" /> 
-
-            <h:outputText value="Procurement officer: " style="font-weight: bold" />       
-            <p:autoComplete id="officer"
-                            readonly="true"
-                            styleClass="read-only-inputfield"
-                            var="officer"                            
-                            maxlength="40" 
-                            value="#{purchasingManager.selectedPurchaseRequisition.procurementOfficer}"
-                            itemLabel="#{officer.name}"
-                            itemValue="#{officer}"
-                            converter="activeEmployeeConverter"
-                            validator="businessEntityValidator"
-                            forceSelection="true"
-                            dropdown="false"
-                            scrollHeight="200" 
-                            completeMethod="#{humanResourceManager.completeActiveEmployee}" />
-
             <h:outputText value="Description: " style="font-weight: bold;vertical-align: top;" />       
             <p:inputTextarea
                 id="description"
                 value="#{purchasingManager.selectedPurchaseRequisition.description}"
-                rows="2"
+                rows="4"
                 counter="descriptionCharsRemaining"
                 counterTemplate="{0} characters remaining."
                 autoResize="false"
                 maxlength="1000"  
-                style="width: 100%;">
+                style="width: 150%;">
                 
                 <f:validator validatorId="requiredFieldValidator" />
 
