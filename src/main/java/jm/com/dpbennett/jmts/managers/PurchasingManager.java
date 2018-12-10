@@ -26,12 +26,14 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.CostComponent;
-import jm.com.dpbennett.business.entity.Department;
-import jm.com.dpbennett.business.entity.Job;
+import jm.com.dpbennett.business.entity.DatePeriod;
+import jm.com.dpbennett.business.entity.Employee;
+import jm.com.dpbennett.business.entity.EmployeePosition;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
@@ -60,12 +62,15 @@ public class PurchasingManager implements Serializable {
     private Integer longProcessProgress;
     private CostComponent selectedCostComponent;
     private PurchaseRequisition selectedPurchaseRequisition;
+    private Employee selectedApprover;
     private Boolean edit;
     private String purchaseReqSearchText;
     private List<PurchaseRequisition> foundPurchaseReqs;
     private MainTabView mainTabView;
     private JobManagerUser user;
     private FinanceManager financeManager;
+    private String searchType;
+    private DatePeriod dateSearchPeriod;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -74,13 +79,69 @@ public class PurchasingManager implements Serializable {
         init();
     }
     
-    public Boolean checkWorkProgressReadinessToBeChanged() {
+    public static ArrayList getDateSearchFields() {
+        ArrayList dateSearchFields = new ArrayList();
+
+        dateSearchFields.add(new SelectItem("dateAndTimeEntered", "Date entered"));
+        dateSearchFields.add(new SelectItem("dateReceived", "Date received"));
+        dateSearchFields.add(new SelectItem("dateSubmitted", "Date submitted"));
+        dateSearchFields.add(new SelectItem("dateCostingApproved", "Date costing approved"));
+        dateSearchFields.add(new SelectItem("dateOfCompletion", "Date completed"));
+        dateSearchFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
+        dateSearchFields.add(new SelectItem("dateSamplesCollected", "Date sample(s) collected"));
+        dateSearchFields.add(new SelectItem("dateDocumentCollected", "Date document(s) collected"));
+
+        return dateSearchFields;
+    }
+
+    public void updateDateSearchField() {
+        //doSearch();
+    }
+
+    public DatePeriod getDateSearchPeriod() {
+        return dateSearchPeriod;
+    }
+
+    public void setDateSearchPeriod(DatePeriod dateSearchPeriod) {
+        this.dateSearchPeriod = dateSearchPeriod;
+    }
+
+    public Date getPRApprovalDate(List<EmployeePosition> positions) {
+        for (EmployeePosition position : positions) {
+            switch (position.getTitle()) {
+                case "Team Leader":
+                    return getSelectedPurchaseRequisition().getTeamLeaderApprovalDate();
+                case "Divisional Manager":
+                    return getSelectedPurchaseRequisition().getDivisionalManagerApprovalDate();
+                case "Divisional Director":
+                    return getSelectedPurchaseRequisition().getDivisionalDirectorApprovalDate();
+                case "Finance Manager":
+                    return getSelectedPurchaseRequisition().getFinanceManagerApprovalDate();
+                case "Executive Director":
+                    getSelectedPurchaseRequisition().getExecutiveDirectorApprovalDate();
+                default:
+                    break;
+            }
+        }
+
+        return null;
+    }
+
+    public Employee getSelectedApprover() {
+        return selectedApprover;
+    }
+
+    public void setSelectedApprover(Employee selectedApprover) {
+        this.selectedApprover = selectedApprover;
+    }
+
+    public Boolean checkPRWorkProgressReadinessToBeChanged() {
         EntityManager em = getEntityManager1();
 
-        // Find the currently stored job and check it's work status
+        // Find the currently stored PR and check it's work status
         if (getSelectedPurchaseRequisition().getId() != null) {
-            PurchaseRequisition savedPurchaseRequisition = 
-                    PurchaseRequisition.findById(em, getSelectedPurchaseRequisition().getId());
+            PurchaseRequisition savedPurchaseRequisition
+                    = PurchaseRequisition.findById(em, getSelectedPurchaseRequisition().getId());
 
             // Do not allow flagging PR as completed unless it is approved and the 
             // person is a procurement officer. 
@@ -107,21 +168,20 @@ public class PurchasingManager implements Serializable {
                         FacesMessage.SEVERITY_WARN);
 
                 return false;
-            } else if (savedJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")
-                    && (getUser().getPrivilege().getCanBeJMTSAdministrator()
-                    || getUser().isUserDepartmentSupervisor(getCurrentJob(), em))) {
+            } else if (getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")
+                    && getUser().getPrivilege().getCanBeFinancialAdministrator()) {
                 // System admin can change work status even if it's completed.
                 return true;
-            } else if (!savedJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")
-                    && getCurrentJob().getJobStatusAndTracking().getWorkProgress().equals("Completed")
-                    && !getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
+            } else if (!savedPurchaseRequisition.getWorkProgress().equals("Completed")
+                    && getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")
+                    && !getSelectedPurchaseRequisition().isApproved()) {
 
-                // Reset current job to its saved work progress
-                getCurrentJob().getJobStatusAndTracking().
-                        setWorkProgress(savedJob.getJobStatusAndTracking().getWorkProgress());
+                // Reset PR to its saved work progress
+                getSelectedPurchaseRequisition().
+                        setWorkProgress(savedPurchaseRequisition.getWorkProgress());
 
-                PrimeFacesUtils.addMessage("Job Work Progress Cannot Be As Marked Completed",
-                        "The job costing needs to be prepared before this job can marked as completed.",
+                PrimeFacesUtils.addMessage("Purchase Requisition Work Progress Cannot Be As Marked Completed",
+                        "The purchase requisition needs to be approved before it can be marked as completed.",
                         FacesMessage.SEVERITY_WARN);
 
                 return false;
@@ -129,60 +189,47 @@ public class PurchasingManager implements Serializable {
             }
         } else {
 
-            PrimeFacesUtils.addMessage("Job Work Progress Cannot be Changed",
-                    "This job's work progress cannot be changed until the job is saved.",
+            PrimeFacesUtils.addMessage("Purchase Requisition Work Progress Cannot be Changed",
+                    "This purchase requisition's work progress cannot be changed until it is saved.",
                     FacesMessage.SEVERITY_WARN);
             return false;
         }
 
         return true;
     }
-    
+
     public void updateWorkProgress() {
 
-        if (checkWorkProgressReadinessToBeChanged()) {
-            if (!currentJob.getJobStatusAndTracking().getWorkProgress().equals("Completed")) {
-                currentJob.getJobStatusAndTracking().setCompleted(false);
-                currentJob.getJobStatusAndTracking().setSamplesCollected(false);
-                currentJob.getJobStatusAndTracking().setDocumentCollected(false);
-                // overall job completion
-                currentJob.getJobStatusAndTracking().setDateOfCompletion(null);
-                currentJob.getJobStatusAndTracking().
-                        setCompletedBy(null);
-                // sample collection
-                currentJob.getJobStatusAndTracking().setSamplesCollectedBy(null);
-                currentJob.getJobStatusAndTracking().setDateSamplesCollected(null);
-                // document collection
-                currentJob.getJobStatusAndTracking().setDocumentCollectedBy(null);
-                currentJob.getJobStatusAndTracking().setDateDocumentCollected(null);
+        if (checkPRWorkProgressReadinessToBeChanged()) {
+            if (!getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
 
-                // Update start date
-                if (currentJob.getJobStatusAndTracking().getWorkProgress().equals("Ongoing")
-                        && currentJob.getJobStatusAndTracking().getStartDate() == null) {
-                    currentJob.getJobStatusAndTracking().setStartDate(new Date());
-                } else if (currentJob.getJobStatusAndTracking().getWorkProgress().equals("Not started")) {
-                    currentJob.getJobStatusAndTracking().setStartDate(null);
-                }
+                getSelectedPurchaseRequisition().setDateOfCompletion(null);
 
-            } else {
-                currentJob.getJobStatusAndTracking().setCompleted(true);
-                currentJob.getJobStatusAndTracking().setDateOfCompletion(new Date());
-                currentJob.getJobStatusAndTracking().
-                        setCompletedBy(getUser().getEmployee());
+            } else if (getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
+
+                getSelectedPurchaseRequisition().setDateOfCompletion(new Date());
+
+                // Set the procurement officer and their department
+                getSelectedPurchaseRequisition().
+                        setProcurementOfficer(getUser().getEmployee());
+
+                getSelectedPurchaseRequisition().
+                        setPurchasingDepartment(getUser().getEmployee().getDepartment());
             }
 
-            setIsDirty(true);
+            getSelectedPurchaseRequisition().setIsDirty(true);
         } else {
-            if (getCurrentJob().getId() != null) {
+            if (getSelectedPurchaseRequisition().getId() != null) {
                 // Reset work progress to the currently saved state
-                Job job = Job.findJobById(getEntityManager1(), getCurrentJob().getId());
-                if (job != null) {
-                    getCurrentJob().getJobStatusAndTracking().setWorkProgress(job.getJobStatusAndTracking().getWorkProgress());
+                PurchaseRequisition foundPR = PurchaseRequisition.findById(getEntityManager1(),
+                        getSelectedPurchaseRequisition().getId());
+                if (foundPR != null) {
+                    getSelectedPurchaseRequisition().setWorkProgress(foundPR.getWorkProgress());
                 } else {
-                    getCurrentJob().getJobStatusAndTracking().setWorkProgress("Not started");
+                    getSelectedPurchaseRequisition().setWorkProgress("Ongoing");
                 }
             } else {
-                getCurrentJob().getJobStatusAndTracking().setWorkProgress("Not started");
+                getSelectedPurchaseRequisition().setWorkProgress("Ongoing");
             }
         }
 
@@ -194,7 +241,6 @@ public class PurchasingManager implements Serializable {
 
     public void okCostingComponent() {
         if (selectedCostComponent.getId() == null && !getEdit()) {
-            System.out.println("adding cost comp."); // tk
             getSelectedPurchaseRequisition().getCostComponents().add(selectedCostComponent);
         }
         setEdit(false);
@@ -295,7 +341,7 @@ public class PurchasingManager implements Serializable {
     }
 
     public void saveSelectedPurchaseRequisition() {
-        
+
         ReturnMessage returnMessage;
 
         returnMessage = getSelectedPurchaseRequisition().prepareAndSave(getEntityManager1(), getUser());
@@ -316,7 +362,7 @@ public class PurchasingManager implements Serializable {
         }
 
     }
-    
+
     public void sendErrorEmail(String subject, String message) {
         try {
             // Send error message to developer's email            
@@ -565,6 +611,44 @@ public class PurchasingManager implements Serializable {
         setEdit(false);
     }
 
+    public void approveSelectedPurchaseRequisition(ActionEvent event) {
+
+        if (!getSelectedPurchaseRequisition().getOriginator().
+                equals(getUser().getEmployee())) {
+
+            getSelectedPurchaseRequisition().getApprovers().add(getUser().getEmployee());
+            setPRApprovalDate(getUser().getEmployee().getPositions());
+        } else {
+            PrimeFacesUtils.addMessage("Originator Cannot Approve",
+                    "The originator cannot approve this purchase requisition.",
+                    FacesMessage.SEVERITY_INFO);
+        }
+    }
+
+    private void setPRApprovalDate(List<EmployeePosition> positions) {
+        for (EmployeePosition position : positions) {
+            switch (position.getTitle()) {
+                case "Team Leader":
+                    getSelectedPurchaseRequisition().setTeamLeaderApprovalDate(new Date());
+                    return;
+                case "Divisional Manager":
+                    getSelectedPurchaseRequisition().setDivisionalManagerApprovalDate(new Date());
+                    return;
+                case "Divisional Director":
+                    getSelectedPurchaseRequisition().setDivisionalDirectorApprovalDate(new Date());
+                    return;
+                case "Finance Manager":
+                    getSelectedPurchaseRequisition().setFinanceManagerApprovalDate(new Date());
+                    return;
+                case "Executive Director":
+                    getSelectedPurchaseRequisition().setExecutiveDirectorApprovalDate(new Date());
+                    return;
+                default:
+                    return;
+            }
+        }
+    }
+
     public void cancelCostComponentEdit() {
         selectedCostComponent.setIsDirty(false);
     }
@@ -582,6 +666,23 @@ public class PurchasingManager implements Serializable {
         }
 
         return newCostComponents;
+    }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
+    }
+
+    public ArrayList getSearchTypes() {
+        ArrayList searchTypes = new ArrayList();
+
+        searchTypes.add(new SelectItem("Purchase requisistions", "Purchase requisistions"));
+        searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
+
+        return searchTypes;
     }
 
 }

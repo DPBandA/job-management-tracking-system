@@ -31,11 +31,18 @@
 - Add sys option that determines if the accpac invoices spreadsheet is to be
   exported.
 - Put the name of the approver on the job costing.
+- NB: Test as various users with various employee positions. 
 
 # Purchasing (Financial Admin)
 
-- Impl workProgress in PR class. Impl list in PR class.
+- Impl searching for PR and supplier using dashboard. Use code for legal document.
+  * Impl getting date search fields based on search type.
 - Impl approver dates and approvers table in general tab.
+  * Do not allow the originator to approve.
+  * Impl approver deletion confirmation dialog.
+  * Allow approval from only one person of a specific position.
+  * Impl getting list of titles without the square brackets.
+- Show growl if PR is closed without saving.
 - Implement setting purchasing department abnd procurement officer when 
   work progress is set as "Completed"
 - Impl PurchaseRequisition.isApproved() that determines if a PR was approved.
