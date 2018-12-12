@@ -125,7 +125,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private LegalDocumentManager legalDocumentManager;
     private HumanResourceManager humanResourceManager;
     private SystemManager systemManager;
-    // Misc
     private DatePeriod dateSearchPeriod;
     private String searchType;
     private String searchText;
@@ -331,7 +330,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         jobSearchResultList = new ArrayList<>();
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
-        // Search fields init
         searchType = "";
         dateSearchPeriod = new DatePeriod("This month", "month",
                 "dateAndTimeEntered", null, null, null, false, false, false);
@@ -342,18 +340,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         mainTabView.reset(user);
 
-        if (getUser().getModules().getJobManagementAndTrackingModule()) {
-            mainTabView.openTab("Job Browser");
-        }
-        if (getUser().getModules().getLegalOfficeModule()) {
-            mainTabView.openTab("Document Browser");
-        }
         if (getUser().getModules().getAdminModule()) {
             mainTabView.openTab("System Administration");
         }
         if (getUser().getModules().getFinancialAdminModule()) {
             // tk The option to choose which tab to add will be implemented in the future.
             mainTabView.openTab("Purchase Requisitions");
+        }
+        if (getUser().getModules().getLegalOfficeModule()) {
+            mainTabView.openTab("Document Browser");
+        }
+        if (getUser().getModules().getJobManagementAndTrackingModule()) {
+            mainTabView.openTab("Job Browser");
         }
 
     }
@@ -1645,7 +1643,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void saveCurrentJob() {
         EntityManager em = getEntityManager1();
         ReturnMessage returnMessage;
-      
+
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());

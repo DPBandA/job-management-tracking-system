@@ -33,11 +33,13 @@ import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccountingCode;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Contact;
+import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Supplier;
 import org.primefaces.event.CellEditEvent;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
@@ -61,6 +63,7 @@ public class FinanceManager implements Serializable {
     private Contact selectedSupplierContact;
     private Address selectedSupplierAddress;
     private Boolean edit;
+    private String searchText;
     private String supplierSearchText;
     private String accountingCodeSearchText;
     private Boolean isActiveSuppliersOnly;
@@ -68,18 +71,94 @@ public class FinanceManager implements Serializable {
     private List<Supplier> foundSuppliers;
     private MainTabView mainTabView;
     private JobManagerUser user;
+    private PurchasingManager purchasingManager;
+    private String searchType;
+    private DatePeriod dateSearchPeriod;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public FinanceManager() {
         init();
-    } 
-        
+    }
+
+    public ArrayList getDateSearchFields() {
+        ArrayList dateSearchFields = new ArrayList();
+
+        switch (searchType) {
+            case "Suppliers":
+                dateSearchFields.add(new SelectItem("s.dateEntered", "Date entered"));
+                dateSearchFields.add(new SelectItem("s.dateEdited", "Date edited"));
+                break;
+            case "Purchase requisitions":
+                dateSearchFields.add(new SelectItem("pr.dateEdited", "Date edited"));
+                dateSearchFields.add(new SelectItem("pr.requisitionDate", "Requisition date"));
+                dateSearchFields.add(new SelectItem("pr.dateOfCompletion", "Date completed"));
+                dateSearchFields.add(new SelectItem("pr.expectedDateOfCompletion", "Exp'ted date of completion"));
+                dateSearchFields.add(new SelectItem("pr.dateRequired", "Date required"));
+                dateSearchFields.add(new SelectItem("pr.purchaseOrderDate", "Purchase order date"));
+                dateSearchFields.add(new SelectItem("pr.teamLeaderApprovalDate", "Team Leader approval date"));
+                dateSearchFields.add(new SelectItem("pr.divisionalManagerApprovalDate", "Divisional Manager approval date"));
+                dateSearchFields.add(new SelectItem("pr.divisionalDirectorApprovalDate", "Divisional Director approval date"));
+                dateSearchFields.add(new SelectItem("pr.financeManagerApprovalDate", "Finance Manager approval date"));
+                dateSearchFields.add(new SelectItem("pr.executiveDirectorApprovalDate", "Executive Director approval date"));
+                break;
+            default:
+                break;
+        }
+
+        return dateSearchFields;
+    }
+    
+    public void updateDateSearchField() {
+        //doSearch();
+    }
+
+    public ArrayList getSearchTypes() {
+        ArrayList searchTypes = new ArrayList();
+
+        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
+        searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
+
+        return searchTypes;
+    }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
+    }
+
+    public DatePeriod getDateSearchPeriod() {
+        return dateSearchPeriod;
+    }
+
+    public void setDateSearchPeriod(DatePeriod dateSearchPeriod) {
+        this.dateSearchPeriod = dateSearchPeriod;
+    }
+
+    public PurchasingManager getPurchasingManager() {
+        if (purchasingManager == null) {
+            purchasingManager = BeanUtils.findBean("purchasingManager");
+        }
+
+        return purchasingManager;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
+    }
+
     public void openSuppliersTab() {
         mainTabView.openTab("Suppliers");
     }
-    
+
     public void saveSelectedAccountingCode() {
 
         selectedAccountingCode.save(getEntityManager1());
@@ -87,7 +166,7 @@ public class FinanceManager implements Serializable {
         PrimeFaces.current().dialog().closeDynamic(null);
 
     }
-    
+
     public List getAccountingCodeTypes() {
         ArrayList valueTypes = new ArrayList();
 
@@ -97,11 +176,11 @@ public class FinanceManager implements Serializable {
 
         return valueTypes;
     }
-    
+
     public void editAccountingCode() {
         PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
     }
-    
+
     public void onAccountingCodeCellEdit(CellEditEvent event) {
         int index = event.getRowIndex();
         Object oldValue = event.getOldValue();
@@ -127,7 +206,7 @@ public class FinanceManager implements Serializable {
     public void setAccountingCodeSearchText(String accountingCodeSearchText) {
         this.accountingCodeSearchText = accountingCodeSearchText;
     }
-    
+
     public List<AccountingCode> getFoundAccountingCodes() {
         if (foundAccountingCodes == null) {
             foundAccountingCodes = AccountingCode.findAllAccountingCodes(getEntityManager1());
@@ -363,6 +442,30 @@ public class FinanceManager implements Serializable {
             foundSuppliers = new ArrayList<>();
         }
     }
+    
+    public void doSearch() {
+        
+        System.out.println("Impl search based on seach type..."); // tk
+
+//        if (getUser().getId() != null) {
+//            jobSearchResultList = findJobs(false);
+//
+//            if (jobSearchResultList.isEmpty()) { // Do search with sample search enabled
+//                jobSearchResultList = findJobs(true);
+//            }
+//
+//        } else {
+//            jobSearchResultList = new ArrayList<>();
+//        }
+//
+//        // Set "Job View" based on search type
+//        if (getSearchType().equals("Unapproved job costings")) {
+//            getUser().setJobTableViewPreference("Job Costings");
+//        }
+//
+//        openJobBrowser();
+
+    }
 
     public String getSupplierSearchText() {
         return supplierSearchText;
@@ -405,9 +508,9 @@ public class FinanceManager implements Serializable {
 
     public void createNewSupplier() {
         selectedSupplier = new Supplier("", true);
-        
+
         editSelectedSupplier();
-        
+
         openSuppliersTab();
     }
 
@@ -506,6 +609,10 @@ public class FinanceManager implements Serializable {
         accountingCodeSearchText = "";
         supplierSearchText = "";
         foundSuppliers = new ArrayList<>();
+        searchType = "Purchase requisitions";
+        dateSearchPeriod = new DatePeriod("This month", "month",
+                "pr.dateEntered", null, null, null, false, false, false);
+        dateSearchPeriod.initDatePeriod();
     }
 
     public void reset() {

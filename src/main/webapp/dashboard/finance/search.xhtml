@@ -24,69 +24,70 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <p:panel id="searchPanel" header="Search" >
+    <p:panel header="Search" >
 
         <h:panelGrid columns="2" cellspacing="5">
             <h:outputText value="Search type: " />
-            <p:selectOneMenu value="#{purchasingManager.searchType}" 
+            <p:selectOneMenu value="#{financeManager.searchType}" 
                              style="width: 90%;">
-                
-                <f:selectItems value="#{purchasingManager.searchTypes}" />
+
+                <f:selectItems value="#{financeManager.searchTypes}" />
+
+                <p:ajax update="finDateField" process="@this" />
 
             </p:selectOneMenu>
 
             <h:outputText value="Date field: " />
-            <p:selectOneMenu value="#{purchasingManager.dateSearchPeriod.dateField}" 
+            <p:selectOneMenu value="#{financeManager.dateSearchPeriod.dateField}" 
+                             id="finDateField"
                              style="width: 90%;" >
                 <p:ajax                        
-                    listener="#{purchasingManager.updateDateSearchField}"
+                    listener="#{financeManager.updateDateSearchField}"
                     process="@this" />
 
-                <f:selectItems value="#{purchasingManager.dateSearchFields}" />
+                <f:selectItems value="#{financeManager.dateSearchFields}" />
 
             </p:selectOneMenu>
 
             <h:outputText value="Date period: " />               
-            <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}" 
+            <p:selectOneMenu value= "#{financeManager.dateSearchPeriod.name}" 
                              style="width: 90%;" >
 
-                <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
-                        update="startSearchDate,endSearchDate"
+                <p:ajax listener="#{financeManager.dateSearchPeriod.initDatePeriod}"
+                        update="finStartSearchDate,finEndSearchDate"
                         process="@this" />
 
                 <f:selectItems value="#{systemManager.datePeriods}"/>
 
             </p:selectOneMenu>
             <h:outputText value="Start:"  />
-            <p:calendar id="startSearchDate"
-                        value="#{jobManager.dateSearchPeriod.startDate}"                    
+            <p:calendar id="finStartSearchDate"
+                        value="#{financeManager.dateSearchPeriod.startDate}"                    
                         size="17"
                         navigator="true"
                         validator="requiredFieldValidator"
-                        disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
+                        disabled="#{financeManager.dateSearchPeriod.startDateDisabled}"
                         pattern="MMM dd, yyyy" />
-           
+
             <h:outputText value="End:" />
-            <p:calendar id="endSearchDate"
-                        value="#{jobManager.dateSearchPeriod.endDate}"
+            <p:calendar id="finEndSearchDate"
+                        value="#{financeManager.dateSearchPeriod.endDate}"
                         size="17"
                         navigator="true"
                         validator="requiredFieldValidator"
-                        disabled="#{jobManager.dateSearchPeriod.endDateDisabled}"
+                        disabled="#{financeManager.dateSearchPeriod.endDateDisabled}"
                         pattern="MMM dd, yyyy" />
-                 
+
         </h:panelGrid>   
         <p:toolbar>
             <p:toolbarGroup align="right" >
-                <p:inputText value="#{jobManager.searchText}"  
-                             style="width: 50%;"
-                             id="searchText" />  
-                 
+                <p:inputText value="#{financeManager.searchText}"  
+                             style="width: 50%;" />  
+
                 <p:spacer width="5" />
                 <p:commandButton value="Search"
-                                 id="doSearch"
                                  onstart="PF('longProcessDialogVar').show();"
-                                 actionListener="#{jobManager.doJobSearch}"
+                                 actionListener="#{financeManager.doSearch}"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  onerror="PF('connectionErrorDialog').show();"
                                  update=":headerForm:growl3"

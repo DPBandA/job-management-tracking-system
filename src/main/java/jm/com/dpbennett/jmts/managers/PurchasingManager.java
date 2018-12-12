@@ -78,33 +78,6 @@ public class PurchasingManager implements Serializable {
     public PurchasingManager() {
         init();
     }
-    
-    public ArrayList getDateSearchFields() {
-        ArrayList dateSearchFields = new ArrayList();
-
-        switch(searchType) {
-            case "Suppliers":
-                break;
-            case "Purchase requisitions":
-                break;
-            default:
-                break;
-        }
-        dateSearchFields.add(new SelectItem("s.dateEntered", "Date entered"));
-        dateSearchFields.add(new SelectItem("s.dateEdited", "Date edited"));
-        dateSearchFields.add(new SelectItem("pr.requisitionDate", "Requisition date"));
-        dateSearchFields.add(new SelectItem("pr.dateOfCompletion", "Date completed"));
-        dateSearchFields.add(new SelectItem("pr.expectedDateOfCompletion", "Exp'ted date of completion"));
-        dateSearchFields.add(new SelectItem("pr.dateRequired", "Date required"));
-        dateSearchFields.add(new SelectItem("pr.purchaseOrderDate", "Purchase order date"));
-        dateSearchFields.add(new SelectItem("pr.teamLeaderApprovalDate", "Team Leader approval date"));
-        dateSearchFields.add(new SelectItem("pr.divisionalManagerApprovalDate", "Divisional Manager approval date"));
-        dateSearchFields.add(new SelectItem("pr.divisionalDirectorApprovalDate", "Divisional Director approval date"));
-        dateSearchFields.add(new SelectItem("pr.financeManagerApprovalDate", "Finance Manager approval date"));
-        dateSearchFields.add(new SelectItem("pr.executiveDirectorApprovalDate", "Executive Director approval date"));
-
-        return dateSearchFields;
-    }
 
     public void updateDateSearchField() {
         //doSearch();
@@ -476,6 +449,10 @@ public class PurchasingManager implements Serializable {
         longProcessProgress = 0;
         selectedCostComponent = null;
         foundPurchaseReqs = new ArrayList<>();
+        searchType = "";
+        dateSearchPeriod = new DatePeriod("This month", "month",
+                "pr.dateEntered", null, null, null, false, false, false);
+        dateSearchPeriod.initDatePeriod();
     }
 
     public void reset() {
@@ -688,13 +665,6 @@ public class PurchasingManager implements Serializable {
         this.searchType = searchType;
     }
 
-    public ArrayList getSearchTypes() {
-        ArrayList searchTypes = new ArrayList();
-
-        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
-        searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
-
-        return searchTypes;
-    }
+    
 
 }
