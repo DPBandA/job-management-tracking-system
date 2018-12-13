@@ -26,7 +26,6 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -35,6 +34,7 @@ import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.EmployeePosition;
 import jm.com.dpbennett.business.entity.JobManagerUser;
+import jm.com.dpbennett.business.entity.LegalDocument;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
 import org.primefaces.event.CellEditEvent;
@@ -399,7 +399,19 @@ public class PurchasingManager implements Serializable {
     }
 
     public void doPurchaseReqSearch() {
-        System.out.println("PR search to be done using search parameters from dashboard.");
+         EntityManager em = getEntityManager1();
+
+//        if (!getPurchaseReqSearchText().isEmpty()) {
+//            foundPurchaseReqs = LegalDocument.findLegalDocumentsByDateSearchField(em,
+//                    dateSearchField, searchType, searchText.trim(),
+//                    getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
+//        } else { // get all documents based on common test ie "" for now
+//            documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
+//                    dateSearchField, searchType, "",
+//                    getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
+//        }
+
+        openPurchaseReqsTab();
     }
 
     public String getPurchaseReqSearchText() {
@@ -453,6 +465,7 @@ public class PurchasingManager implements Serializable {
         dateSearchPeriod = new DatePeriod("This month", "month",
                 "pr.dateEntered", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
+        purchaseReqSearchText = "";
     }
 
     public void reset() {

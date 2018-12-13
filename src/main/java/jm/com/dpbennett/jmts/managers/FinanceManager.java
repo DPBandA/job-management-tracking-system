@@ -87,21 +87,21 @@ public class FinanceManager implements Serializable {
 
         switch (searchType) {
             case "Suppliers":
-                dateSearchFields.add(new SelectItem("s.dateEntered", "Date entered"));
-                dateSearchFields.add(new SelectItem("s.dateEdited", "Date edited"));
+                dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
+                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
                 break;
-            case "Purchase requisitions":
-                dateSearchFields.add(new SelectItem("pr.dateEdited", "Date edited"));
-                dateSearchFields.add(new SelectItem("pr.requisitionDate", "Requisition date"));
-                dateSearchFields.add(new SelectItem("pr.dateOfCompletion", "Date completed"));
-                dateSearchFields.add(new SelectItem("pr.expectedDateOfCompletion", "Exp'ted date of completion"));
-                dateSearchFields.add(new SelectItem("pr.dateRequired", "Date required"));
-                dateSearchFields.add(new SelectItem("pr.purchaseOrderDate", "Purchase order date"));
-                dateSearchFields.add(new SelectItem("pr.teamLeaderApprovalDate", "Team Leader approval date"));
-                dateSearchFields.add(new SelectItem("pr.divisionalManagerApprovalDate", "Divisional Manager approval date"));
-                dateSearchFields.add(new SelectItem("pr.divisionalDirectorApprovalDate", "Divisional Director approval date"));
-                dateSearchFields.add(new SelectItem("pr.financeManagerApprovalDate", "Finance Manager approval date"));
-                dateSearchFields.add(new SelectItem("pr.executiveDirectorApprovalDate", "Executive Director approval date"));
+            case "Purchase requisitions":                
+                dateSearchFields.add(new SelectItem("requisitionDate", "Requisition date"));
+                dateSearchFields.add(new SelectItem("dateOfCompletion", "Date completed"));
+                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+                dateSearchFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
+                dateSearchFields.add(new SelectItem("dateRequired", "Date required"));
+                dateSearchFields.add(new SelectItem("purchaseOrderDate", "Purchase order date"));
+                dateSearchFields.add(new SelectItem("teamLeaderApprovalDate", "Team Leader approval date"));
+                dateSearchFields.add(new SelectItem("divisionalManagerApprovalDate", "Divisional Manager approval date"));
+                dateSearchFields.add(new SelectItem("divisionalDirectorApprovalDate", "Divisional Director approval date"));
+                dateSearchFields.add(new SelectItem("financeManagerApprovalDate", "Finance Manager approval date"));
+                dateSearchFields.add(new SelectItem("executiveDirectorApprovalDate", "Executive Director approval date"));
                 break;
             default:
                 break;
@@ -610,8 +610,8 @@ public class FinanceManager implements Serializable {
         supplierSearchText = "";
         foundSuppliers = new ArrayList<>();
         searchType = "Purchase requisitions";
-        dateSearchPeriod = new DatePeriod("This month", "month",
-                "pr.dateEntered", null, null, null, false, false, false);
+        dateSearchPeriod = new DatePeriod("This year", "year",
+                "requisitionDate", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
     }
 
