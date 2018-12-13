@@ -31,10 +31,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.DatePeriod;
+import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.EmployeePosition;
 import jm.com.dpbennett.business.entity.JobManagerUser;
-import jm.com.dpbennett.business.entity.LegalDocument;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
 import org.primefaces.event.CellEditEvent;
@@ -399,17 +399,27 @@ public class PurchasingManager implements Serializable {
     }
 
     public void doPurchaseReqSearch() {
-         EntityManager em = getEntityManager1();
 
-//        if (!getPurchaseReqSearchText().isEmpty()) {
-//            foundPurchaseReqs = LegalDocument.findLegalDocumentsByDateSearchField(em,
-//                    dateSearchField, searchType, searchText.trim(),
-//                    getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
-//        } else { // get all documents based on common test ie "" for now
-//            documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
-//                    dateSearchField, searchType, "",
-//                    getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
-//        }
+        doPurchaseReqSearch(dateSearchPeriod, searchType, purchaseReqSearchText);
+    }
+
+    public void doPurchaseReqSearch(DatePeriod datePeriod,
+            String searchType, String searchText) {
+        EntityManager em = getEntityManager1();
+
+        if (!searchText.isEmpty()) {
+            foundPurchaseReqs = PurchaseRequisition.findByDateSearchField(em,
+                    datePeriod.getDateField(), searchType, searchText.trim(),
+                    datePeriod.getStartDate(), datePeriod.getEndDate());
+        } else {
+            foundPurchaseReqs = PurchaseRequisition.findByDateSearchField(em,
+                    datePeriod.getDateField(), searchType, "",
+                    datePeriod.getStartDate(), datePeriod.getEndDate());
+        }
+        
+        //tk
+        System.out.println("PRs found: " + foundPurchaseReqs);
+                
 
         openPurchaseReqsTab();
     }
@@ -424,6 +434,10 @@ public class PurchasingManager implements Serializable {
 
     public void createNewPurchaseReq() {
         selectedPurchaseRequisition = new PurchaseRequisition();
+        selectedPurchaseRequisition.setPurchasingDepartment(Department.findDefaultDepartment(getEntityManager1(), 
+                "--"));
+        selectedPurchaseRequisition.setProcurementOfficer(Employee.findDefaultEmployee(getEntityManager1(), 
+                "--", "--", false));
         selectedPurchaseRequisition.setSupplier(new Supplier("", true));
         selectedPurchaseRequisition.
                 setOriginatingDepartment(getUser().getEmployee().getDepartment());
@@ -677,7 +691,5 @@ public class PurchasingManager implements Serializable {
     public void setSearchType(String searchType) {
         this.searchType = searchType;
     }
-
-    
 
 }

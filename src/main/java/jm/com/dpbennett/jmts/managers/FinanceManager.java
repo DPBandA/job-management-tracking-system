@@ -446,6 +446,16 @@ public class FinanceManager implements Serializable {
     public void doSearch() {
         
         System.out.println("Impl search based on seach type..."); // tk
+        switch(searchType) {
+            case "Purchase requisitions":
+                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod, searchType, searchText);
+                break;
+            case "Suppliers"    :
+                System.out.println("Impl supplier search..");
+                break;
+            default:
+                break;
+        }
 
 //        if (getUser().getId() != null) {
 //            jobSearchResultList = findJobs(false);

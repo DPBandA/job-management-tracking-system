@@ -2723,12 +2723,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         initDashboard();
         initMainTabView();
-        initManager();
+        initManagers();
 
         updateAllForms();
     }
 
-    private void initManager() {
+    private void initManagers() {
         systemManager = BeanUtils.findBean("systemManager");
         systemManager.setUser(getUser());
         systemManager.setMainTabView(getMainTabView());

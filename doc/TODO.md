@@ -36,9 +36,11 @@
 # Purchasing (Financial Admin)
 
 - Impl searching for PR and supplier using dashboard. 
-  * Impl search for PRs. Use PurchasingManger and code for legal document.
-  * Impl getting date search fields based on search type. Update getDateSearchFields().
+  * Impl search for Suppliers. 
   * Widen the search fields.
+  * Put date period, start and end dates in PR tab toolbar.
+  * By default restrict searcher's department unless the person belongs to 
+    Purchasing department??
 - Impl approver dates and approvers table in general tab.
   * Do not allow the originator to approve.
   * Impl approver deletion confirmation dialog.
