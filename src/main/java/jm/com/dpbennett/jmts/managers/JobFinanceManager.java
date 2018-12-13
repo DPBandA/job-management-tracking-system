@@ -19,6 +19,7 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
+import jm.com.dpbennett.wal.managers.SystemManager;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -32,7 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
@@ -43,26 +43,20 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.AccPacDocument;
-import jm.com.dpbennett.business.entity.AccountingCode;
-import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Client;
-import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.CostCode;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.DepartmentUnit;
 import jm.com.dpbennett.business.entity.Employee;
-import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCosting;
 import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Preference;
-import jm.com.dpbennett.business.entity.PurchaseRequisition;
-import jm.com.dpbennett.business.entity.Supplier;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.UnitCost;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
@@ -76,7 +70,6 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.business.entity.utils.ReturnMessage;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.DialogActionHandler;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
@@ -84,8 +77,6 @@ import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import jm.com.dpbennett.wal.utils.ReportUtils;
-import jm.com.dpbennett.wal.validator.AddressValidator;
-import jm.com.dpbennett.wal.validator.ContactValidator;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -112,15 +103,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private Boolean useAccPacCustomerList;
     private CostComponent selectedCostComponent;
     private JobCostingAndPayment selectedJobCostingAndPayment;
-    private String selectedJobCostingTemplate;
-    private AccountingCode selectedAccountingCode;
-    private Supplier selectedSupplier;
-    private PurchaseRequisition selectedPurchaseRequisition;
-    private Contact selectedContact;
-    private Address selectedAddress;
+    private String selectedJobCostingTemplate;        
     private Department unitCostDepartment;
     private UnitCost currentUnitCost;
-    private String accountingCodeSearchText;
     private List<UnitCost> unitCosts;
     private String dialogActionHandlerId;
     private List<Job> jobsWithCostings;
@@ -139,14 +124,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private Boolean enableOnlyPaymentEditing;
     private JobManager jobManager;
     private Boolean edit;
-    private String fileDownloadErrorMessage;
-    private List<AccountingCode> foundAccountingCodes;
-    private Boolean isSupplierNameAndIdEditable;
-    private String supplierSearchText;
-    private String purchaseReqSearchText;
-    private Boolean isActiveSuppliersOnly;
-    private List<Supplier> foundSuppliers;
-    private List<PurchaseRequisition> foundPurchaseReqs;
+    private String fileDownloadErrorMessage;    
     private MainTabView mainTabView;
     private JobManagerUser user;
 
@@ -156,18 +134,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public JobFinanceManager() {
         init();
     }
-    
-    public List<Supplier> completeActiveSupplier(String query) {
-        try {
-            return Supplier.findActiveSuppliersByAnyPartOfName(getEntityManager1(), query);
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
-    
+      
     /**
      * Returns the discount type that can be applied to a payment/amount
      *
@@ -190,449 +157,10 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return FinancialUtils.getPaymentPurposes();
     }
   
-    public void updateSupplier() {
-
-        setIsDirty(true);
-    }
-
-    public Boolean getIsSupplierNameValid() {
-        return BusinessEntityUtils.validateName(selectedPurchaseRequisition.getSupplier().getName());
-    }
-
-    public StreamedContent getPurchaseReqFile() {
-        StreamedContent streamContent = null;
-
-        try {
-
-            // tk impl get PR form
-            //streamContent = getContractManager().getServiceContractStreamContent();
-            setLongProcessProgress(100);
-
-        } catch (Exception e) {
-            System.out.println(e);
-            setLongProcessProgress(0);
-        }
-
-        return streamContent;
-    }
-
-    public StreamedContent getPurchaseOrderFile() {
-        StreamedContent streamContent = null;
-
-        try {
-
-            // tk impl get PO form
-            //streamContent = getContractManager().getServiceContractStreamContent();
-            setLongProcessProgress(100);
-
-        } catch (Exception e) {
-            System.out.println(e);
-            setLongProcessProgress(0);
-        }
-
-        return streamContent;
-    }
-
-    public void updatePurchaseReq(AjaxBehaviorEvent event) {
-        setIsDirty(true);
-    }
-
-    public void updateNumber() {
-
-        // tk impl auto number generation
-        if (selectedPurchaseRequisition.getAutoGenerateNumber()) {
-            //selectedPurchaseRequisition.setNumber();
-        }
-        setIsDirty(true);
-
-    }
-
     public void closeDialog() {
         PrimeFacesUtils.closeDialog(null);
     }
-
-    public Boolean getIsSelectedPurchaseReqIsValid() {
-        return getSelectedPurchaseRequisition().getId() != null
-                && !getSelectedPurchaseRequisition().getIsDirty();
-    }
-
-    public PurchaseRequisition getSelectedPurchaseRequisition() {
-        if (selectedPurchaseRequisition == null) {
-            selectedPurchaseRequisition = new PurchaseRequisition();
-        }
-        return selectedPurchaseRequisition;
-    }
-
-    public void setSelectedPurchaseRequisition(PurchaseRequisition selectedPurchaseRequisition) {
-        this.selectedPurchaseRequisition = selectedPurchaseRequisition;
-    }
-
-    public void saveSelectedPurchaseRequisition() {
-        EntityManager em = getEntityManager1();
-        ReturnMessage returnMessage;
-
-        // tk
-        System.out.println("Saving PR...");
-
-    }
-
-    public Contact getSelectedContact() {
-        return selectedContact;
-    }
-
-    public void setSelectedContact(Contact selectedContact) {
-        this.selectedContact = selectedContact;
-
-        setEdit(true);
-    }
-
-    public Address getSelectedAddress() {
-        return selectedAddress;
-    }
-
-    public void setSelectedAddress(Address selectedAddress) {
-        this.selectedAddress = selectedAddress;
-
-        setEdit(true);
-    }
-
-    public void removeAddress() {
-        getSelectedSupplier().getAddresses().remove(selectedAddress);
-        setIsDirty(true);
-        selectedAddress = null;
-    }
-
-    public void removeContact() {
-        getSelectedSupplier().getContacts().remove(selectedContact);
-        setIsDirty(true);
-        selectedContact = null;
-    }
-
-    public Boolean getIsNewAddress() {
-        return getSelectedAddress().getId() == null && !getEdit();
-    }
-
-    public void okAddress() {
-
-        selectedAddress = selectedAddress.prepare();
-
-        if (getIsNewAddress()) {
-            getSelectedSupplier().getAddresses().add(selectedAddress);
-        }
-
-        PrimeFaces.current().executeScript("PF('addressFormDialog').hide();");
-
-    }
-
-    public void updateAddress() {
-        setIsDirty(true);
-    }
-
-    public List<Address> getAddressesModel() {
-        return getSelectedSupplier().getAddresses();
-    }
-
-    public List<Contact> getContactsModel() {
-        return getSelectedSupplier().getContacts();
-    }
-
-    public void createNewAddress() {
-        selectedAddress = null;
-
-        // Find an existing invalid or blank address and use it as the neww address
-        for (Address address : getSelectedSupplier().getAddresses()) {
-            if (address.getAddressLine1().trim().isEmpty()) {
-                selectedAddress = address;
-                break;
-            }
-        }
-
-        // No existing blank or invalid address found so creating new one.
-        if (selectedAddress == null) {
-            selectedAddress = new Address("", "Billing");
-        }
-
-        setEdit(false);
-
-        setIsDirty(false);
-    }
-
-    public Boolean getIsNewContact() {
-        return getSelectedContact().getId() == null && !getEdit();
-    }
-
-    public void okContact() {
-
-        selectedContact = selectedContact.prepare();
-
-        if (getIsNewContact()) {
-            getSelectedSupplier().getContacts().add(selectedContact);
-        }
-
-        PrimeFaces.current().executeScript("PF('contactFormDialog').hide();");
-
-    }
-
-    public void updateContact() {
-        setIsDirty(true);
-    }
-
-    public void createNewContact() {
-        selectedContact = null;
-
-        for (Contact contact : getSelectedSupplier().getContacts()) {
-            if (contact.getFirstName().trim().isEmpty()) {
-                selectedContact = contact;
-                break;
-            }
-        }
-
-        if (selectedContact == null) {
-            selectedContact = new Contact("", "", "Main");
-            selectedContact.setInternet(new Internet());
-        }
-
-        setEdit(false);
-
-        setIsDirty(false);
-    }
-
-    public void updateSupplierName(AjaxBehaviorEvent event) {
-        selectedSupplier.setName(selectedSupplier.getName().trim());
-
-        setIsDirty(true);
-    }
-
-    public void onSupplierCellEdit(CellEditEvent event) {
-        BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager1(),
-                getFoundSuppliers().get(event.getRowIndex()));
-    }
-
-    public void onPurchaseReqCellEdit(CellEditEvent event) {
-        BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager1(),
-                getFoundPurchaseReqs().get(event.getRowIndex()));
-    }
-
-    public int getNumOfSuppliersFound() {
-        return getFoundSuppliers().size();
-    }
-
-    public int getNumOfPurchaseReqsFound() {
-        return getFoundPurchaseReqs().size();
-    }
-
-    public void editPurhaseReqSuppier() {
-        setSelectedSupplier(getSelectedPurchaseRequisition().getSupplier());
-        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
-
-        editSelectedSupplier();
-    }
-
-    public void supplierDialogReturn() {
-        if (getSelectedSupplier().getId() != null) {
-            getSelectedPurchaseRequisition().setSupplier(getSelectedSupplier());
-
-            setIsDirty(true);
-        }
-    }
-
-    public void createNewPurhaseReqSupplier() {
-        createNewSupplier();
-        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
-
-        editSelectedSupplier();
-    }
-
-    public void editSelectedSupplier() {
-
-        PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
-    }
-
-    public void editSelectedPurchaseReq() {
-
-        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 700, 700);
-    }
-
-    public Boolean getIsActiveSuppliersOnly() {
-        if (isActiveSuppliersOnly == null) {
-            isActiveSuppliersOnly = true;
-        }
-        return isActiveSuppliersOnly;
-    }
-
-    public List<Supplier> getFoundSuppliers() {
-        return foundSuppliers;
-    }
-
-    public void setFoundSuppliers(List<Supplier> foundSuppliers) {
-        this.foundSuppliers = foundSuppliers;
-    }
-
-    public List<PurchaseRequisition> getFoundPurchaseReqs() {
-        return foundPurchaseReqs;
-    }
-
-    public void setFoundPurchaseReqs(List<PurchaseRequisition> foundPurchaseReqs) {
-        this.foundPurchaseReqs = foundPurchaseReqs;
-    }
-
-    public void setIsActiveSuppliersOnly(Boolean isActiveSuppliersOnly) {
-        this.isActiveSuppliersOnly = isActiveSuppliersOnly;
-    }
-
-    public void doSupplierSearch() {
-        if (supplierSearchText.trim().length() > 1) {
-            if (getIsActiveSuppliersOnly()) {
-                foundSuppliers = Supplier.findActiveSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
-            } else {
-                foundSuppliers = Supplier.findSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
-            }
-        } else {
-            foundSuppliers = new ArrayList<>();
-        }
-    }
-
-    public void doPurchaseReqSearch() {
-        System.out.println("PR search to be done using search parameters from dashboard.");
-    }
-
-    public String getSupplierSearchText() {
-        return supplierSearchText;
-    }
-
-    public void setSupplierSearchText(String supplierSearchText) {
-        this.supplierSearchText = supplierSearchText;
-    }
-
-    public String getPurchaseReqSearchText() {
-        return purchaseReqSearchText;
-    }
-
-    public void setPurchaseReqSearchText(String purchaseReqSearchText) {
-        this.purchaseReqSearchText = purchaseReqSearchText;
-    }
-
-    public Boolean getIsSupplierNameAndIdEditable() {
-        return isSupplierNameAndIdEditable;
-    }
-
-    public void setIsSupplierNameAndIdEditable(Boolean isSupplierNameAndIdEditable) {
-        this.isSupplierNameAndIdEditable = isSupplierNameAndIdEditable;
-    }
-
-    public Supplier getSelectedSupplier() {
-        if (selectedSupplier == null) {
-            return new Supplier("");
-        }
-        return selectedSupplier;
-    }
-
-    public void setSelectedSupplier(Supplier selectedSupplier) {
-        this.selectedSupplier = selectedSupplier;
-    }
-
-    public Address getCurrentAddress() {
-        return getSelectedSupplier().getDefaultAddress();
-    }
-
-    public Contact getCurrentContact() {
-        return getSelectedSupplier().getDefaultContact();
-    }
-
-    public void editCurrentAddress() {
-        selectedAddress = getCurrentAddress();
-        setEdit(true);
-    }
-
-    public void createNewSupplier() {
-
-        selectedSupplier = new Supplier("", true);
-
-        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
-
-        PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
-    }
-
-    public void createNewPurchaseReq() {
-        selectedPurchaseRequisition = new PurchaseRequisition();
-        selectedPurchaseRequisition.setSupplier(new Supplier("", true));
-        selectedPurchaseRequisition.
-                setOriginatingDepartment(getUser().getEmployee().getDepartment());
-        selectedPurchaseRequisition.setOriginator(getUser().getEmployee());
-        selectedPurchaseRequisition.setRequisitionDate(new Date());
-
-        editSelectedPurchaseReq();
-    }
-
-    public Boolean getIsNewSupplier() {
-        return getSelectedSupplier().getId() == null;
-    }
-
-    public void cancelEdit(ActionEvent actionEvent) {
-
-        setIsDirty(false);
-
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
-    public void okSupplier() {
-        Boolean hasValidAddress = false;
-        Boolean hasValidContact = false;
-
-        try {
-
-            // Validate 
-            // Check for a valid address
-            for (Address address : selectedSupplier.getAddresses()) {
-                hasValidAddress = hasValidAddress || AddressValidator.validate(address);
-            }
-            if (!hasValidAddress) {
-                PrimeFacesUtils.addMessage("Address Required",
-                        "A valid address was not entered for this supplier",
-                        FacesMessage.SEVERITY_ERROR);
-
-                return;
-            }
-
-            // Check for a valid contact
-            for (Contact contact : selectedSupplier.getContacts()) {
-                hasValidContact = hasValidContact || ContactValidator.validate(contact);
-            }
-            if (!hasValidContact) {
-                PrimeFacesUtils.addMessage("Contact Required",
-                        "A valid contact was not entered for this supplier",
-                        FacesMessage.SEVERITY_ERROR);
-
-                return;
-            }
-
-            // Update tracking
-            if (getIsNewSupplier()) {
-                getSelectedSupplier().setDateEntered(new Date());
-                getSelectedSupplier().setDateEdited(new Date());
-                if (getUser() != null) {
-                    selectedSupplier.setEnteredBy(getUser().getEmployee());
-                    selectedSupplier.setEditedBy(getUser().getEmployee());
-                }
-            }
-
-            // Do save
-            if (getIsDirty()) {
-                getSelectedSupplier().setDateEdited(new Date());
-                if (getUser() != null) {
-                    selectedSupplier.setEditedBy(getUser().getEmployee());
-                }
-                selectedSupplier.save(getEntityManager1());
-                setIsDirty(false);
-            }
-
-            PrimeFaces.current().dialog().closeDynamic(null);
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
+    
     public JobCostingAndPayment getSelectedJobCostingAndPayment() {
         return selectedJobCostingAndPayment;
     }
@@ -641,76 +169,8 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         this.selectedJobCostingAndPayment = selectedJobCostingAndPayment;
     }
 
-    public void onAccountingCodeCellEdit(CellEditEvent event) {
-        int index = event.getRowIndex();
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-
-        try {
-            if (newValue != null && !newValue.equals(oldValue)) {
-                if (!newValue.toString().trim().equals("")) {
-                    AccountingCode code = getFoundAccountingCodes().get(index);
-                    code.save(getEntityManager1());
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
-
-    public List<AccountingCode> getFoundAccountingCodes() {
-        if (foundAccountingCodes == null) {
-            foundAccountingCodes = AccountingCode.findAllAccountingCodes(getEntityManager1());
-        }
-
-        return foundAccountingCodes;
-    }
-
-    public void setFoundAccountingCodes(List<AccountingCode> foundAccountingCodes) {
-        this.foundAccountingCodes = foundAccountingCodes;
-    }
-
-    public void doAccountingCodeSearch() {
-
-        foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
-                getAccountingCodeSearchText());
-
-        if (foundAccountingCodes == null) {
-            foundAccountingCodes = new ArrayList<>();
-        }
-    }
-
-    public List getAccountingCodeTypes() {
-        ArrayList valueTypes = new ArrayList();
-
-        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));
-        valueTypes.add(new SelectItem("General", "General"));
-
-        return valueTypes;
-    }
-
     public void cancelDialogEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
-    public void saveSelectedAccountingCode() {
-
-        selectedAccountingCode.save(getEntityManager1());
-
-        PrimeFaces.current().dialog().closeDynamic(null);
-
-    }
-
-    public void createNewAccountingCode() {
-
-        selectedAccountingCode = new AccountingCode();
-
-        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
-    }
-
-    public void editAccountingCode() {
-        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
     }
 
     public MainTabView getMainTabView() {
@@ -720,31 +180,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     public void setMainTabView(MainTabView mainTabView) {
         this.mainTabView = mainTabView;
-    }
-    
-
-    public AccountingCode getSelectedAccountingCode() {
-        return selectedAccountingCode;
-    }
-
-    public void setSelectedAccountingCode(AccountingCode selectedAccountingCode) {
-        this.selectedAccountingCode = selectedAccountingCode;
-    }
-
-    public List<AccountingCode> completeAccountingCode(String query) {
-        EntityManager em;
-
-        try {
-            em = getEntityManager1();
-
-            List<AccountingCode> accountingCodes
-                    = AccountingCode.findAccountingCodesByNameAndDescription(em, query);
-
-            return accountingCodes;
-
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
     }
 
     public StreamedContent getAccpacInvoicesFile() {
@@ -904,12 +339,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         selectedCostComponent = null;
         unitCostDepartment = null;
         jobCostDepartment = null;
-        accountingCodeSearchText = "";
-        isSupplierNameAndIdEditable = false; // tk put as transient in Client
-        supplierSearchText = "";
         filteredAccPacCustomerDocuments = new ArrayList<>();
-        foundSuppliers = new ArrayList<>();
-        foundPurchaseReqs = new ArrayList<>();
     }
 
     public void reset() {
@@ -1125,14 +555,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
 
         return unitCosts;
-    }
-
-    public String getAccountingCodeSearchText() {
-        return accountingCodeSearchText;
-    }
-
-    public void setAccountingCodeSearchText(String accountingCodeSearchText) {
-        this.accountingCodeSearchText = accountingCodeSearchText;
     }
 
     public UnitCost getCurrentUnitCost() {
@@ -1357,7 +779,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public StreamedContent getJobCostingFile() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -1456,14 +878,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     public EntityManager getEntityManager2() {
         return getEMF2().createEntityManager();
-    }
-
-    public void updateJobCategory() {
-        setIsDirty(true);
-    }
-
-    public void updateJobSubCategory() {
-        setIsDirty(true);
     }
 
     public void updateJobCostingAndPayment() {
@@ -1708,7 +1122,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void completeJobCosting() {
-        EntityManager em = getEntityManager1();
 
         if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()) {
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(!getCurrentJob().getJobCostingAndPayment().getCostingCompleted());
@@ -1789,7 +1202,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             return false;
 
         }
-
     }
 
     public void updatePreferences() {
@@ -1836,12 +1248,13 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     public Boolean getAllowCostEdit() {
         if (selectedCostComponent != null) {
-            if (selectedCostComponent.getCode() == null) {
+            if (null == selectedCostComponent.getCode()) {
                 return true;
-            } else if (selectedCostComponent.getCode().equals("--")) {
-                return true;
-            } else {
-                return false;
+            } else switch (selectedCostComponent.getCode()) {
+                case "--":
+                    return true;
+                default:
+                    return false;
             }
         } else {
             return true;
@@ -1943,12 +1356,10 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             if (getCurrentJob().getId() == null) {
                 return false;
             }
-
             // check for job report # and description
             if ((getCurrentJob().getReportNumber() == null) || (getCurrentJob().getReportNumber().trim().equals(""))) {
                 return false;
             }
-
             if (getCurrentJob().getJobDescription().trim().equals("")) {
                 return false;
             }
@@ -2357,7 +1768,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public List<JobCostingAndPayment> completeJobCostingAndPaymentName(String query) {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -2469,7 +1880,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void updateCurrentUnitCostDepartment() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -2487,7 +1898,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void updateCurrentUnitCostDepartmentUnit() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -2505,7 +1916,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void updateCurrentUnitCostDepartmentLab() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -2525,7 +1936,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void updateUnitCostDepartment() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -2533,7 +1944,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 Department department = Department.findDepartmentByName(em, unitCostDepartment.getName());
                 if (department != null) {
                     unitCostDepartment = department;
-                    doUnitCostSearch();
+                    //doUnitCostSearch();
                 }
             }
 
@@ -2543,7 +1954,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void updateJobCostDepartment() {
-        EntityManager em = null;
+        EntityManager em;
 
         try {
             em = getEntityManager1();
@@ -2551,7 +1962,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 Department department = Department.findDepartmentByName(em, jobCostDepartment.getName());
                 if (department != null) {
                     jobCostDepartment = department;
-                    doUnitCostSearch();
+                    //doUnitCostSearch();
                 }
             }
 
@@ -2605,12 +2016,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
     }
 
-    public void updateAccountingCode(SelectEvent event) {
-        selectedAccountingCode = (AccountingCode) event.getObject();
-        // tk
-        System.out.println("selected jcp: " + selectedAccountingCode.getName());
-    }
-
     public Integer getNumberOfFilteredAccPacCustomerDocuments() {
         if (filteredAccPacCustomerDocuments != null) {
             return filteredAccPacCustomerDocuments.size();
@@ -2621,11 +2026,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     public Boolean getFilteredDocumentAvailable() {
         if (filteredAccPacCustomerDocuments != null) {
-            if (filteredAccPacCustomerDocuments.isEmpty()) {
-                return false;
-            } else {
-                return true;
-            }
+            return !filteredAccPacCustomerDocuments.isEmpty();
         } else {
             return false;
         }
@@ -2724,9 +2125,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
         if (!getCurrentJob().getJobCostingAndPayment().getCostComponents().isEmpty()) {
             em.getTransaction().begin();
-            for (Iterator<CostComponent> iter = getCurrentJob().getJobCostingAndPayment().getCostComponents().iterator(); iter.hasNext();) {
-                CostComponent costComponent = iter.next();
-
+            for (CostComponent costComponent : getCurrentJob().getJobCostingAndPayment().getCostComponents()) {
                 if (costComponent.getId() != null) {
                     costComponent = em.find(CostComponent.class, costComponent.getId());
                     em.remove(costComponent);
@@ -2771,9 +2170,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return newCostComponents;
     }
 
-    public Date getCurrentDate() {
-        return new Date();
-    }
+//    public Date getCurrentDate() {
+//        return new Date();
+//    }
 
     public Long saveCashPayment(EntityManager em, CashPayment cashPayment) {
         return BusinessEntityUtils.saveBusinessEntity(em, cashPayment);
@@ -2844,18 +2243,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         PrimeFacesUtils.openDialog(null, "jobCostings", true, true, true, 600, 800);
     }
 
-    // tk delete if not needed
-    public void doUnitCostSearch() {
-
-        unitCosts = UnitCost.findUnitCosts(getEntityManager1(), getUnitCostDepartment().getName(), getAccountingCodeSearchText());
-        PrimeFaces.current().ajax().update("unitCostsTableForm");
-    }
-
-    // tk delete if not needed
+   
     public void doJobCostSearch() {
-
-        jobsWithCostings = Job.findJobsWithJobCosting(getEntityManager1(), getUnitCostDepartment().getName(), getAccountingCodeSearchText());
-        PrimeFaces.current().ajax().update("jobCostsTableForm");
+        System.out.println("To be implemented");
     }
 
     public void createNewUnitCost() {
@@ -2920,11 +2310,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         try {
             if (getCurrentJob().getIsSubContract() || getCurrentJob().getIsToBeCopied()) {
                 return false;
-            } else if (getCurrentJob().getId() != null) {
-                return false;
-            } else {
-                return true;
-            }
+            } else return getCurrentJob().getId() == null;
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -2957,11 +2343,11 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             String listAsString = (String) SystemOption.getOptionValueObject(em, "domainNames");
             String domainNames[] = listAsString.split(";");
 
-            JobManagerUser user = JobManagerUser.findJobManagerUserByEmployeeId(em, employee.getId());
+            JobManagerUser user1 = JobManagerUser.findJobManagerUserByEmployeeId(em, employee.getId());
 
             // Build email address
-            if (user != null) {
-                address = user.getUsername();
+            if (user1 != null) {
+                address = user1.getUsername();
                 if (domainNames.length > 0) {
                     address = address + "@" + domainNames[0];
                 }

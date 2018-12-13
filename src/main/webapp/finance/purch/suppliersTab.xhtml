@@ -32,38 +32,38 @@ Email: info@dpbennett.com.jm
                 icon="ui-icon-plus" 
                 onstart="PF('longProcessDialogVar4').show();"
                 oncomplete="longProcessDialogVar4.hide();"
-                actionListener="#{purchasingManager.createNewSupplier}"                                            
+                actionListener="#{financeManager.createNewSupplier}"                                            
                 process="@this"
                 title="Add a new supplier" >
 
                 <p:ajax event="dialogReturn" 
-                        listener="#{purchasingManager.doSupplierSearch}"
-                        update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"/>
+                        listener="#{financeManager.doSupplierSearch}"
+                        update=":mainTabViewForm:mainTabView:suppliersTable"/>
 
             </p:commandButton>
             <p:spacer width="20" />
             <p:inputText id="supplierSearchText" 
                          placeholder="Enter search text"
                          style="width:200px" 
-                         value="#{purchasingManager.supplierSearchText}" >
+                         value="#{financeManager.supplierSearchText}" >
 
                 <p:ajax event="keyup"                            
                         global="false"
-                        update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"
-                        listener="#{purchasingManager.doSupplierSearch}"
+                        update=":mainTabViewForm:mainTabView:suppliersTable"
+                        listener="#{financeManager.doSupplierSearch}"
                         process="@this"/>
 
             </p:inputText>
         </p:toolbarGroup>
 
-        <p:toolbarGroup align="right" rendered="#{purchasingManager.user.privilege.canBeJMTSAdministrator}" >
+        <p:toolbarGroup align="right" rendered="#{financeManager.user.privilege.canBeJMTSAdministrator}" >
             <h:outputLabel value="Active suppliers only: " for="activeSuppliersOnly" />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
                                          id="activeSuppliersOnly"
-                                         value="#{purchasingManager.isActiveSuppliersOnly}" >
-                    <p:ajax  update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"
-                             listener="#{purchasingManager.doSupplierSearch}"
+                                         value="#{financeManager.isActiveSuppliersOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:suppliersTable"
+                             listener="#{financeManager.doSupplierSearch}"
                              event="change"                                      
                              process="@this"/>
                 </p:selectBooleanCheckbox>            
@@ -82,12 +82,12 @@ Email: info@dpbennett.com.jm
                  paginator="true"                                 
                  rows="15"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                 value="#{purchasingManager.foundSuppliers}">                        
+                 value="#{financeManager.foundSuppliers}">                        
 
-        <p:ajax event="cellEdit" listener="#{purchasingManager.onSupplierCellEdit}" />
+        <p:ajax event="cellEdit" listener="#{financeManager.onSupplierCellEdit}" />
 
         <f:facet name="header">
-            <h:outputText value="Search Results (found: #{purchasingManager.numOfSuppliersFound})" />
+            <h:outputText value="Search Results (found: #{financeManager.numOfSuppliersFound})" />
         </f:facet>
 
         <p:column sortBy="#{supplier.name}">
@@ -114,7 +114,7 @@ Email: info@dpbennett.com.jm
         </p:column>
 
         <p:column headerText="Active?" 
-                  rendered="#{purchasingManager.user.privilege.canAddSupplier}">                                                                         
+                  rendered="#{financeManager.user.privilege.canAddSupplier}">                                                                         
             <p:cellEditor>                
                 <f:facet name="output">
                     <h:outputText value="#{supplier.isActive}" />
@@ -132,15 +132,15 @@ Email: info@dpbennett.com.jm
             <p:commandButton icon="ui-icon-pencil"
                              onstart="PF('longProcessDialogVar4').show();"                               
                              oncomplete="PF('longProcessDialogVar4').hide();"
-                             actionListener="#{purchasingManager.editSelectedSupplier}"
+                             actionListener="#{financeManager.editSelectedSupplier}"
                              process="@this"
                              title="View or edit this supplier's detail">
 
                 <f:setPropertyActionListener value="#{supplier}" 
-                                             target="#{purchasingManager.selectedSupplier}" />
+                                             target="#{financeManager.selectedSupplier}" />
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"/>
+                        update=":mainTabViewForm:mainTabView:suppliersTable"/>
 
             </p:commandButton>
         </p:column>
@@ -153,12 +153,12 @@ Email: info@dpbennett.com.jm
                 icon="ui-icon-plus" 
                 onstart="PF('longProcessDialogVar4').show();"
                 oncomplete="longProcessDialogVar4.hide();"
-                actionListener="#{purchasingManager.createNewSupplier}"                                            
+                actionListener="#{financeManager.createNewSupplier}"                                            
                 process="@this"
                 title="Add a new supplier" >
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView:financialAdminTabView:suppliersTable"/>
+                        update=":mainTabViewForm:mainTabView:suppliersTable"/>
 
             </p:commandButton>
 

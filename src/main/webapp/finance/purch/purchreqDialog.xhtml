@@ -33,8 +33,10 @@ Email: info@dpbennett.com.jm
         <title>Purchase Requisition</title>
         <link rel="stylesheet" href="../../css/main.css" /> 
     </h:head>
-    <h:body> 
-        <h:form id="purchreqDialogForm" >        
+    <h:body>         
+        <ui:include src="purchreqCostCompDialog.xhtml"/>       
+        <ui:include src="purchreqCostCompDeleteConfirmDialog.xhtml"/>         
+        <h:form id="purchreqDialogForm" >                
             <ui:include src="purchreqDetail.xhtml"/>
             <ui:include src="/common/longProcessDialog.xhtml"/>            
         </h:form>

@@ -20,8 +20,6 @@ Email: info@dpbennett.com.jm
 package jm.com.dpbennett.jmts.managers;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,54 +33,47 @@ import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccountingCode;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Contact;
-import jm.com.dpbennett.business.entity.CostComponent;
+import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Internet;
-import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobManagerUser;
-import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
 import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.SelectEvent;
-import org.primefaces.model.StreamedContent;
-import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.business.entity.utils.ReturnMessage;
+import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import jm.com.dpbennett.wal.validator.AddressValidator;
 import jm.com.dpbennett.wal.validator.ContactValidator;
 import org.primefaces.PrimeFaces;
-import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 /**
  *
  * @author Desmond Bennett
  */
-public class FinanceManager implements Serializable, BusinessEntityManagement {
+public class FinanceManager implements Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
     @PersistenceUnit(unitName = "AccPacPU")
     private EntityManagerFactory EMF2;
     private Integer longProcessProgress;
-    private CostComponent selectedCostComponent;
     private AccountingCode selectedAccountingCode;
     private Supplier selectedSupplier;
-    private PurchaseRequisition selectedPurchaseRequisition;
-    private Contact selectedContact;
-    private Address selectedAddress;
-    private String accountingCodeSearchText;
+    private Contact selectedSupplierContact;
+    private Address selectedSupplierAddress;
     private Boolean edit;
-    private List<AccountingCode> foundAccountingCodes;
-    private Boolean isSupplierNameAndIdEditable;
+    private String searchText;
     private String supplierSearchText;
-    private String purchaseReqSearchText;
+    private String accountingCodeSearchText;
     private Boolean isActiveSuppliersOnly;
+    private List<AccountingCode> foundAccountingCodes;
     private List<Supplier> foundSuppliers;
-    private List<PurchaseRequisition> foundPurchaseReqs;
     private MainTabView mainTabView;
     private JobManagerUser user;
+    private PurchasingManager purchasingManager;
+    private String searchType;
+    private DatePeriod dateSearchPeriod;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -90,7 +81,169 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
     public FinanceManager() {
         init();
     }
+
+    public ArrayList getDateSearchFields() {
+        ArrayList dateSearchFields = new ArrayList();
+
+        switch (searchType) {
+            case "Suppliers":
+                dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
+                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+                break;
+            case "Purchase requisitions":                
+                dateSearchFields.add(new SelectItem("requisitionDate", "Requisition date"));
+                dateSearchFields.add(new SelectItem("dateOfCompletion", "Date completed"));
+                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+                dateSearchFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
+                dateSearchFields.add(new SelectItem("dateRequired", "Date required"));
+                dateSearchFields.add(new SelectItem("purchaseOrderDate", "Purchase order date"));
+                dateSearchFields.add(new SelectItem("teamLeaderApprovalDate", "Team Leader approval date"));
+                dateSearchFields.add(new SelectItem("divisionalManagerApprovalDate", "Divisional Manager approval date"));
+                dateSearchFields.add(new SelectItem("divisionalDirectorApprovalDate", "Divisional Director approval date"));
+                dateSearchFields.add(new SelectItem("financeManagerApprovalDate", "Finance Manager approval date"));
+                dateSearchFields.add(new SelectItem("executiveDirectorApprovalDate", "Executive Director approval date"));
+                break;
+            default:
+                break;
+        }
+
+        return dateSearchFields;
+    }
     
+    public void updateDateSearchField() {
+        //doSearch();
+    }
+
+    public ArrayList getSearchTypes() {
+        ArrayList searchTypes = new ArrayList();
+
+        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
+        searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
+
+        return searchTypes;
+    }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
+    }
+
+    public DatePeriod getDateSearchPeriod() {
+        return dateSearchPeriod;
+    }
+
+    public void setDateSearchPeriod(DatePeriod dateSearchPeriod) {
+        this.dateSearchPeriod = dateSearchPeriod;
+    }
+
+    public PurchasingManager getPurchasingManager() {
+        if (purchasingManager == null) {
+            purchasingManager = BeanUtils.findBean("purchasingManager");
+        }
+
+        return purchasingManager;
+    }
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
+    }
+
+    public void openSuppliersTab() {
+        mainTabView.openTab("Suppliers");
+    }
+
+    public void saveSelectedAccountingCode() {
+
+        selectedAccountingCode.save(getEntityManager1());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+
+    }
+
+    public List getAccountingCodeTypes() {
+        ArrayList valueTypes = new ArrayList();
+
+        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));
+        valueTypes.add(new SelectItem("Revenue Account", "Revenue Account"));
+        valueTypes.add(new SelectItem("General", "General"));
+
+        return valueTypes;
+    }
+
+    public void editAccountingCode() {
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
+    }
+
+    public void onAccountingCodeCellEdit(CellEditEvent event) {
+        int index = event.getRowIndex();
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        try {
+            if (newValue != null && !newValue.equals(oldValue)) {
+                if (!newValue.toString().trim().equals("")) {
+                    AccountingCode code = getFoundAccountingCodes().get(index);
+                    code.save(getEntityManager1());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public String getAccountingCodeSearchText() {
+        return accountingCodeSearchText;
+    }
+
+    public void setAccountingCodeSearchText(String accountingCodeSearchText) {
+        this.accountingCodeSearchText = accountingCodeSearchText;
+    }
+
+    public List<AccountingCode> getFoundAccountingCodes() {
+        if (foundAccountingCodes == null) {
+            foundAccountingCodes = AccountingCode.findAllAccountingCodes(getEntityManager1());
+        }
+
+        return foundAccountingCodes;
+    }
+
+    public void setFoundAccountingCodes(List<AccountingCode> foundAccountingCodes) {
+        this.foundAccountingCodes = foundAccountingCodes;
+    }
+
+    public void doAccountingCodeSearch() {
+
+        foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
+                getAccountingCodeSearchText());
+
+        if (foundAccountingCodes == null) {
+            foundAccountingCodes = new ArrayList<>();
+        }
+    }
+
+    public void createNewAccountingCode() {
+
+        selectedAccountingCode = new AccountingCode();
+
+        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
+    }
+
+    public AccountingCode getSelectedAccountingCode() {
+        return selectedAccountingCode;
+    }
+
+    public void setSelectedAccountingCode(AccountingCode selectedAccountingCode) {
+        this.selectedAccountingCode = selectedAccountingCode;
+    }
+
     public List<Supplier> completeActiveSupplier(String query) {
         try {
             return Supplier.findActiveSuppliersByAnyPartOfName(getEntityManager1(), query);
@@ -101,223 +254,146 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
             return new ArrayList<>();
         }
     }
-    
+
     public List getCostCodeList() {
         return FinancialUtils.getCostCodeList();
     }
 
-    
     public void updateSupplier() {
-
-        setIsDirty(true);
-    }
-
-    public Boolean getIsSupplierNameValid() {
-        return BusinessEntityUtils.validateName(selectedPurchaseRequisition.getSupplier().getName());
-    }
-
-    public StreamedContent getPurchaseReqFile() {
-        StreamedContent streamContent = null;
-
-        try {
-
-            // tk impl get PR form
-            //streamContent = getContractManager().getServiceContractStreamContent();
-            setLongProcessProgress(100);
-
-        } catch (Exception e) {
-            System.out.println(e);
-            setLongProcessProgress(0);
-        }
-
-        return streamContent;
-    }
-
-    public StreamedContent getPurchaseOrderFile() {
-        StreamedContent streamContent = null;
-
-        try {
-
-            // tk impl get PO form
-            //streamContent = getContractManager().getServiceContractStreamContent();
-            setLongProcessProgress(100);
-
-        } catch (Exception e) {
-            System.out.println(e);
-            setLongProcessProgress(0);
-        }
-
-        return streamContent;
-    }
-
-    public void updatePurchaseReq(AjaxBehaviorEvent event) {
-        setIsDirty(true);
-    }
-
-    public void updateNumber() {
-
-        // tk impl auto number generation
-        if (selectedPurchaseRequisition.getAutoGenerateNumber()) {
-            //selectedPurchaseRequisition.setNumber();
-        }
-        setIsDirty(true);
-
+        getSelectedSupplier().setIsDirty(true);
     }
 
     public void closeDialog() {
         PrimeFacesUtils.closeDialog(null);
     }
 
-    public Boolean getIsSelectedPurchaseReqIsValid() {
-        return getSelectedPurchaseRequisition().getId() != null
-                && !getSelectedPurchaseRequisition().getIsDirty();
+    public Contact getSelectedSupplierContact() {
+        return selectedSupplierContact;
     }
 
-    public PurchaseRequisition getSelectedPurchaseRequisition() {
-        if (selectedPurchaseRequisition == null) {
-            selectedPurchaseRequisition = new PurchaseRequisition();
-        }
-        return selectedPurchaseRequisition;
-    }
-
-    public void setSelectedPurchaseRequisition(PurchaseRequisition selectedPurchaseRequisition) {
-        this.selectedPurchaseRequisition = selectedPurchaseRequisition;
-    }
-
-    public void saveSelectedPurchaseRequisition() {
-        EntityManager em = getEntityManager1();
-        ReturnMessage returnMessage;
-
-        // tk
-        System.out.println("Saving PR...");
-
-    }
-
-    public Contact getSelectedContact() {
-        return selectedContact;
-    }
-
-    public void setSelectedContact(Contact selectedContact) {
-        this.selectedContact = selectedContact;
+    public void setSelectedSupplierContact(Contact selectedSupplierContact) {
+        this.selectedSupplierContact = selectedSupplierContact;
 
         setEdit(true);
     }
 
-    public Address getSelectedAddress() {
-        return selectedAddress;
+    public Address getSelectedSupplierAddress() {
+        return selectedSupplierAddress;
     }
 
-    public void setSelectedAddress(Address selectedAddress) {
-        this.selectedAddress = selectedAddress;
+    public void setSelectedSupplierAddress(Address selectedSupplierAddress) {
+        this.selectedSupplierAddress = selectedSupplierAddress;
 
         setEdit(true);
     }
 
-    public void removeAddress() {
-        getSelectedSupplier().getAddresses().remove(selectedAddress);
-        setIsDirty(true);
-        selectedAddress = null;
+    public void removeSupplierAddress() {
+        getSelectedSupplier().getAddresses().remove(selectedSupplierAddress);
+        getSelectedSupplier().setIsDirty(true);
+        selectedSupplierAddress = null;
     }
 
-    public void removeContact() {
-        getSelectedSupplier().getContacts().remove(selectedContact);
-        setIsDirty(true);
-        selectedContact = null;
+    public void removeSupplierContact() {
+        getSelectedSupplier().getContacts().remove(selectedSupplierContact);
+        getSelectedSupplier().setIsDirty(true);
+        selectedSupplierContact = null;
     }
 
-    public Boolean getIsNewAddress() {
-        return getSelectedAddress().getId() == null && !getEdit();
+    public Boolean getIsNewSupplierAddress() {
+        return getSelectedSupplierAddress().getId() == null && !getEdit();
     }
 
-    public void okAddress() {
+    public void okSupplierAddress() {
 
-        selectedAddress = selectedAddress.prepare();
+        selectedSupplierAddress = selectedSupplierAddress.prepare();
 
-        if (getIsNewAddress()) {
-            getSelectedSupplier().getAddresses().add(selectedAddress);
+        if (getIsNewSupplierAddress()) {
+            getSelectedSupplier().getAddresses().add(selectedSupplierAddress);
         }
 
         PrimeFaces.current().executeScript("PF('addressFormDialog').hide();");
 
     }
 
-    public void updateAddress() {
-        setIsDirty(true);
+    public void updateSupplierAddress() {
+        getSelectedSupplierAddress().setIsDirty(true);
+        getSelectedSupplier().setIsDirty(true);
     }
 
-    public List<Address> getAddressesModel() {
+    public List<Address> getSupplierAddressesModel() {
         return getSelectedSupplier().getAddresses();
     }
 
-    public List<Contact> getContactsModel() {
+    public List<Contact> getSupplierContactsModel() {
         return getSelectedSupplier().getContacts();
     }
 
-    public void createNewAddress() {
-        selectedAddress = null;
+    public void createNewSupplierAddress() {
+        selectedSupplierAddress = null;
 
         // Find an existing invalid or blank address and use it as the neww address
         for (Address address : getSelectedSupplier().getAddresses()) {
             if (address.getAddressLine1().trim().isEmpty()) {
-                selectedAddress = address;
+                selectedSupplierAddress = address;
                 break;
             }
         }
 
         // No existing blank or invalid address found so creating new one.
-        if (selectedAddress == null) {
-            selectedAddress = new Address("", "Billing");
+        if (selectedSupplierAddress == null) {
+            selectedSupplierAddress = new Address("", "Billing");
         }
 
         setEdit(false);
 
-        setIsDirty(false);
+        getSelectedSupplier().setIsDirty(false);
     }
 
-    public Boolean getIsNewContact() {
-        return getSelectedContact().getId() == null && !getEdit();
+    public Boolean getIsNewSupplierContact() {
+        return getSelectedSupplierContact().getId() == null && !getEdit();
     }
 
     public void okContact() {
 
-        selectedContact = selectedContact.prepare();
+        selectedSupplierContact = selectedSupplierContact.prepare();
 
-        if (getIsNewContact()) {
-            getSelectedSupplier().getContacts().add(selectedContact);
+        if (getIsNewSupplierContact()) {
+            getSelectedSupplier().getContacts().add(selectedSupplierContact);
         }
 
         PrimeFaces.current().executeScript("PF('contactFormDialog').hide();");
 
     }
 
-    public void updateContact() {
-        setIsDirty(true);
+    public void updateSupplierContact() {
+        getSelectedSupplierContact().setIsDirty(true);
+        getSelectedSupplier().setIsDirty(true);
     }
 
-    public void createNewContact() {
-        selectedContact = null;
+    public void createNewSupplierContact() {
+        selectedSupplierContact = null;
 
         for (Contact contact : getSelectedSupplier().getContacts()) {
             if (contact.getFirstName().trim().isEmpty()) {
-                selectedContact = contact;
+                selectedSupplierContact = contact;
                 break;
             }
         }
 
-        if (selectedContact == null) {
-            selectedContact = new Contact("", "", "Main");
-            selectedContact.setInternet(new Internet());
+        if (selectedSupplierContact == null) {
+            selectedSupplierContact = new Contact("", "", "Main");
+            selectedSupplierContact.setInternet(new Internet());
         }
 
         setEdit(false);
 
-        setIsDirty(false);
+        getSelectedSupplier().setIsDirty(false);
     }
 
     public void updateSupplierName(AjaxBehaviorEvent event) {
         selectedSupplier.setName(selectedSupplier.getName().trim());
 
-        setIsDirty(true);
+        getSelectedSupplier().setIsDirty(true);
     }
 
     public void onSupplierCellEdit(CellEditEvent event) {
@@ -325,49 +401,15 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
                 getFoundSuppliers().get(event.getRowIndex()));
     }
 
-    public void onPurchaseReqCellEdit(CellEditEvent event) {
-        BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager1(),
-                getFoundPurchaseReqs().get(event.getRowIndex()));
-    }
-
     public int getNumOfSuppliersFound() {
         return getFoundSuppliers().size();
     }
 
-    public int getNumOfPurchaseReqsFound() {
-        return getFoundPurchaseReqs().size();
-    }
-
-    public void editPurhaseReqSuppier() {
-        setSelectedSupplier(getSelectedPurchaseRequisition().getSupplier());
-        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
-
-        editSelectedSupplier();
-    }
-
-    public void supplierDialogReturn() {
-        if (getSelectedSupplier().getId() != null) {
-            getSelectedPurchaseRequisition().setSupplier(getSelectedSupplier());
-
-            setIsDirty(true);
-        }
-    }
-
-    public void createNewPurhaseReqSupplier() {
-        createNewSupplier();
-        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
-
-        editSelectedSupplier();
-    }
-
     public void editSelectedSupplier() {
 
+        getSelectedSupplier().setIsNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
+
         PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
-    }
-
-    public void editSelectedPurchaseReq() {
-
-        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 700, 700);
     }
 
     public Boolean getIsActiveSuppliersOnly() {
@@ -385,14 +427,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
         this.foundSuppliers = foundSuppliers;
     }
 
-    public List<PurchaseRequisition> getFoundPurchaseReqs() {
-        return foundPurchaseReqs;
-    }
-
-    public void setFoundPurchaseReqs(List<PurchaseRequisition> foundPurchaseReqs) {
-        this.foundPurchaseReqs = foundPurchaseReqs;
-    }
-
     public void setIsActiveSuppliersOnly(Boolean isActiveSuppliersOnly) {
         this.isActiveSuppliersOnly = isActiveSuppliersOnly;
     }
@@ -408,9 +442,29 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
             foundSuppliers = new ArrayList<>();
         }
     }
+    
+    public void doSearch() {
+        
+        System.out.println("Impl search based on seach type..."); // tk
 
-    public void doPurchaseReqSearch() {
-        System.out.println("PR search to be done using search parameters from dashboard.");
+//        if (getUser().getId() != null) {
+//            jobSearchResultList = findJobs(false);
+//
+//            if (jobSearchResultList.isEmpty()) { // Do search with sample search enabled
+//                jobSearchResultList = findJobs(true);
+//            }
+//
+//        } else {
+//            jobSearchResultList = new ArrayList<>();
+//        }
+//
+//        // Set "Job View" based on search type
+//        if (getSearchType().equals("Unapproved job costings")) {
+//            getUser().setJobTableViewPreference("Job Costings");
+//        }
+//
+//        openJobBrowser();
+
     }
 
     public String getSupplierSearchText() {
@@ -421,22 +475,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
         this.supplierSearchText = supplierSearchText;
     }
 
-    public String getPurchaseReqSearchText() {
-        return purchaseReqSearchText;
-    }
-
-    public void setPurchaseReqSearchText(String purchaseReqSearchText) {
-        this.purchaseReqSearchText = purchaseReqSearchText;
-    }
-
-    public Boolean getIsSupplierNameAndIdEditable() {
-        return isSupplierNameAndIdEditable;
-    }
-
-    public void setIsSupplierNameAndIdEditable(Boolean isSupplierNameAndIdEditable) {
-        this.isSupplierNameAndIdEditable = isSupplierNameAndIdEditable;
-    }
-
+//    public Boolean getIsSupplierNameAndIdEditable() {
+//        return isSupplierNameAndIdEditable;
+//    }
+//
+//    public void setIsSupplierNameAndIdEditable(Boolean isSupplierNameAndIdEditable) {
+//        this.isSupplierNameAndIdEditable = isSupplierNameAndIdEditable;
+//    }
     public Supplier getSelectedSupplier() {
         if (selectedSupplier == null) {
             return new Supplier("");
@@ -448,46 +493,34 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
         this.selectedSupplier = selectedSupplier;
     }
 
-    public Address getCurrentAddress() {
+    public Address getSupplierCurrentAddress() {
         return getSelectedSupplier().getDefaultAddress();
     }
 
-    public Contact getCurrentContact() {
+    public Contact getSupplierCurrentContact() {
         return getSelectedSupplier().getDefaultContact();
     }
 
-    public void editCurrentAddress() {
-        selectedAddress = getCurrentAddress();
+    public void editSupplierCurrentAddress() {
+        selectedSupplierAddress = getSupplierCurrentAddress();
         setEdit(true);
     }
 
     public void createNewSupplier() {
-
         selectedSupplier = new Supplier("", true);
 
-        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
+        editSelectedSupplier();
 
-        PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
-    }
-
-    public void createNewPurchaseReq() {
-        selectedPurchaseRequisition = new PurchaseRequisition();
-        selectedPurchaseRequisition.setSupplier(new Supplier("", true));
-        selectedPurchaseRequisition.
-                setOriginatingDepartment(getUser().getEmployee().getDepartment());
-        selectedPurchaseRequisition.setOriginator(getUser().getEmployee());
-        selectedPurchaseRequisition.setRequisitionDate(new Date());
-
-        editSelectedPurchaseReq();
+        openSuppliersTab();
     }
 
     public Boolean getIsNewSupplier() {
         return getSelectedSupplier().getId() == null;
     }
 
-    public void cancelEdit(ActionEvent actionEvent) {
+    public void cancelSupplierEdit(ActionEvent actionEvent) {
 
-        setIsDirty(false);
+        getSelectedSupplier().setIsDirty(false);
 
         PrimeFaces.current().dialog().closeDynamic(null);
     }
@@ -534,13 +567,13 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
             }
 
             // Do save
-            if (getIsDirty()) {
+            if (getSelectedSupplier().getIsDirty()) {
                 getSelectedSupplier().setDateEdited(new Date());
                 if (getUser() != null) {
                     selectedSupplier.setEditedBy(getUser().getEmployee());
                 }
                 selectedSupplier.save(getEntityManager1());
-                setIsDirty(false);
+                getSelectedSupplier().setIsDirty(false);
             }
 
             PrimeFaces.current().dialog().closeDynamic(null);
@@ -550,111 +583,17 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
         }
     }
 
-    public void onAccountingCodeCellEdit(CellEditEvent event) {
-        int index = event.getRowIndex();
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-
-        try {
-            if (newValue != null && !newValue.equals(oldValue)) {
-                if (!newValue.toString().trim().equals("")) {
-                    AccountingCode code = getFoundAccountingCodes().get(index);
-                    code.save(getEntityManager1());
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-    }
-
-    public List<AccountingCode> getFoundAccountingCodes() {
-        if (foundAccountingCodes == null) {
-            foundAccountingCodes = AccountingCode.findAllAccountingCodes(getEntityManager1());
-        }
-
-        return foundAccountingCodes;
-    }
-
-    public void setFoundAccountingCodes(List<AccountingCode> foundAccountingCodes) {
-        this.foundAccountingCodes = foundAccountingCodes;
-    }
-
-    public void doAccountingCodeSearch() {
-
-        foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
-                getAccountingCodeSearchText());
-
-        if (foundAccountingCodes == null) {
-            foundAccountingCodes = new ArrayList<>();
-        }
-    }
-
-    public List getAccountingCodeTypes() {
-        ArrayList valueTypes = new ArrayList();
-
-        valueTypes.add(new SelectItem("Revenue Account", "Revenue Account"));
-        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));
-        valueTypes.add(new SelectItem("General", "General"));
-
-        return valueTypes;
-    }
-
     public void cancelDialogEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
-    public void saveSelectedAccountingCode() {
-
-        selectedAccountingCode.save(getEntityManager1());
-
-        PrimeFaces.current().dialog().closeDynamic(null);
-
-    }    
-   
-    public void createNewAccountingCode() {
-
-        selectedAccountingCode = new AccountingCode();
-
-        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
-    }
-
-    public void editAccountingCode() {
-        PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
-    }
-
     public MainTabView getMainTabView() {
-        
+
         return mainTabView;
     }
 
     public void setMainTabView(MainTabView mainTabView) {
         this.mainTabView = mainTabView;
-    }
-    
-
-    public AccountingCode getSelectedAccountingCode() {
-        return selectedAccountingCode;
-    }
-
-    public void setSelectedAccountingCode(AccountingCode selectedAccountingCode) {
-        this.selectedAccountingCode = selectedAccountingCode;
-    }
-
-    public List<AccountingCode> completeAccountingCode(String query) {
-        EntityManager em;
-
-        try {
-            em = getEntityManager1();
-
-            List<AccountingCode> accountingCodes
-                    = AccountingCode.findAccountingCodesByNameAndDescription(em, query);
-
-            return accountingCodes;
-
-        } catch (Exception e) {
-            return new ArrayList<>();
-        }
     }
 
     public Boolean getEdit() {
@@ -667,18 +606,19 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
 
     private void init() {
         longProcessProgress = 0;
-        selectedCostComponent = null;
         accountingCodeSearchText = "";
-        isSupplierNameAndIdEditable = false; // tk put as transient in Client
         supplierSearchText = "";
         foundSuppliers = new ArrayList<>();
-        foundPurchaseReqs = new ArrayList<>();
+        searchType = "Purchase requisitions";
+        dateSearchPeriod = new DatePeriod("This year", "year",
+                "requisitionDate", null, null, null, false, false, false);
+        dateSearchPeriod.initDatePeriod();
     }
 
     public void reset() {
         init();
     }
-    
+
     public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
@@ -689,26 +629,6 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
 
     public void setUser(JobManagerUser user) {
         this.user = user;
-    }
-  
-    public String getAccountingCodeSearchText() {
-        return accountingCodeSearchText;
-    }
-
-    public void setAccountingCodeSearchText(String accountingCodeSearchText) {
-        this.accountingCodeSearchText = accountingCodeSearchText;
-    }
-
-    public void onCostComponentSelect(SelectEvent event) {
-        selectedCostComponent = (CostComponent) event.getObject();
-    }
-
-    public CostComponent getSelectedCostComponent() {
-        return selectedCostComponent;
-    }
-
-    public void setSelectedCostComponent(CostComponent selectedCostComponent) {
-        this.selectedCostComponent = selectedCostComponent;
     }
 
     public Integer getLongProcessProgress() {
@@ -733,200 +653,8 @@ public class FinanceManager implements Serializable, BusinessEntityManagement {
         this.longProcessProgress = longProcessProgress;
     }
 
-   
     public EntityManager getEntityManager2() {
         return EMF2.createEntityManager();
-    }
-
-    public void updateCostComponent() {
-        getSelectedCostComponent().setIsDirty(true);
-    }
-
-    public void updateSubcontract(AjaxBehaviorEvent event) {
-        if (!((SelectOneMenu) event.getComponent()).getValue().toString().equals("null")) {
-            Long subcontractId = new Long(((SelectOneMenu) event.getComponent()).getValue().toString());
-            Job subcontract = Job.findJobById(getEntityManager1(), subcontractId);
-
-            selectedCostComponent.setCost(subcontract.getJobCostingAndPayment().getFinalCost());
-            selectedCostComponent.setName("Subcontract (" + subcontract.getJobNumber() + ")");
-
-            updateCostComponent();
-        }
-    }
-
-    public void update() {
-        setIsDirty(true);
-    }
-
-    public void updateCostCode() {
-        switch (selectedCostComponent.getCode()) {
-            case "FIXED":
-                selectedCostComponent.setIsFixedCost(true);
-                selectedCostComponent.setIsHeading(false);
-                selectedCostComponent.setHours(0.0);
-                selectedCostComponent.setHoursOrQuantity(0.0);
-                selectedCostComponent.setRate(0.0);
-                break;
-            case "HEADING":
-                selectedCostComponent.setIsFixedCost(false);
-                selectedCostComponent.setIsHeading(true);
-                selectedCostComponent.setHours(0.0);
-                selectedCostComponent.setHoursOrQuantity(0.0);
-                selectedCostComponent.setRate(0.0);
-                selectedCostComponent.setCost(0.0);
-                break;
-            case "VARIABLE":
-                selectedCostComponent.setIsFixedCost(false);
-                selectedCostComponent.setIsHeading(false);
-                break;
-            case "SUBCONTRACT":
-                selectedCostComponent.setIsFixedCost(true);
-                selectedCostComponent.setIsHeading(false);
-                selectedCostComponent.setHours(0.0);
-                selectedCostComponent.setHoursOrQuantity(0.0);
-                selectedCostComponent.setRate(0.0);
-                break;
-            default:
-                selectedCostComponent.setIsFixedCost(false);
-                selectedCostComponent.setIsHeading(false);
-                break;
-        }
-
-        updateCostComponent();
-
-    }
-
-    public Boolean getAllowCostEdit() {
-        if (selectedCostComponent != null) {
-            if (selectedCostComponent.getCode() == null) {
-                return true;
-            } else if (selectedCostComponent.getCode().equals("--")) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return true;
-        }
-    }
-
-    public void updateIsCostComponentHeading() {
-
-    }
-
-    public void updateIsCostComponentFixedCost() {
-
-        if (getSelectedCostComponent().getIsFixedCost()) {
-
-        }
-    }
-
-    public void updateNewClient() {
-        setIsDirty(true);
-    }
-
-   
-
-    public String getUpdatedJobEmailMessage(Job job) {
-        String message = "";
-        DateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
-
-        message = message + "Dear Colleague,<br><br>";
-        message = message + "A job with the following details was updated by someone outside of your department via the <a href='http://boshrmapp:8080/jmts'>Job Management & Tracking System (JMTS)</a>:<br><br>";
-        message = message + "<span style='font-weight:bold'>Job number: </span>" + job.getJobNumber() + "<br>";
-        message = message + "<span style='font-weight:bold'>Client: </span>" + job.getClient().getName() + "<br>";
-        if (!job.getSubContractedDepartment().getName().equals("--")) {
-            message = message + "<span style='font-weight:bold'>Department: </span>" + job.getSubContractedDepartment().getName() + "<br>";
-        } else {
-            message = message + "<span style='font-weight:bold'>Department: </span>" + job.getDepartment().getName() + "<br>";
-        }
-        message = message + "<span style='font-weight:bold'>Date submitted: </span>" + formatter.format(job.getJobStatusAndTracking().getDateSubmitted()) + "<br>";
-        message = message + "<span style='font-weight:bold'>Current assignee: </span>" + BusinessEntityUtils.getPersonFullName(job.getAssignedTo(), Boolean.FALSE) + "<br>";
-        message = message + "<span style='font-weight:bold'>Updated by: </span>" + BusinessEntityUtils.getPersonFullName(job.getJobStatusAndTracking().getEditedBy(), Boolean.FALSE) + "<br>";
-        message = message + "<span style='font-weight:bold'>Task/Sample descriptions: </span>" + job.getJobSampleDescriptions() + "<br><br>";
-        message = message + "You are being informed of this update so that you may take the requisite action.<br><br>";
-        message = message + "This email was automatically generated and sent by the <a href='http://boshrmapp:8080/jmts'>JMTS</a>. Please DO NOT reply.<br><br>";
-        message = message + "Signed<br>";
-        message = message + "Job Manager";
-
-        return message;
-    }
-
-   
-
-    public void deleteCostComponent() {
-        deleteCostComponentByName(selectedCostComponent.getName());
-    }
-
-    // Remove this and other code out of JobManager? Put in JobCostingAndPayment or Job?
-    public void deleteCostComponentByName(String componentName) {
-
-        //List<CostComponent> components = getCurrentJob().getJobCostingAndPayment().getAllSortedCostComponents();
-        int index = 0;
-        //for (CostComponent costComponent : components) {
-          //  if (costComponent.getName().equals(componentName)) {
-                //components.remove(index);
-                //setJobCostingAndPaymentDirty(true);
-
-         //       break;
-            }
-        //    ++index;
-        //}
-
-    @Override
-    public void setIsDirty(Boolean isDirty) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Boolean getIsDirty() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-
-    public void editCostComponent(ActionEvent event) {
-        setEdit(true);
-    }
-
-    public void createNewCostComponent(ActionEvent event) {
-        selectedCostComponent = new CostComponent();
-        setEdit(false);
-    }
-
-    public void cancelCostComponentEdit() {
-        selectedCostComponent.setIsDirty(false);
-    }
-
-    public void okCostingComponent() {
-        if (selectedCostComponent.getId() == null && !getEdit()) {
-            //getCurrentJob().getJobCostingAndPayment().getCostComponents().add(selectedCostComponent);
-        }
-        setEdit(false);
-
-        PrimeFaces.current().executeScript("PF('costingComponentDialog').hide();");
-    }
-
-    private EntityManagerFactory getEMF2() {
-        return EMF2;
-    }
-
-
-    public void updateAccountingCode(SelectEvent event) {
-        selectedAccountingCode = (AccountingCode) event.getObject();
-        // tk
-        System.out.println("selected jcp: " + selectedAccountingCode.getName());
-    }
-
-    public List<CostComponent> copyCostComponents(List<CostComponent> srcCostComponents) {
-        ArrayList<CostComponent> newCostComponents = new ArrayList<>();
-
-        for (CostComponent costComponent : srcCostComponents) {
-            CostComponent newCostComponent = new CostComponent(costComponent);
-            newCostComponents.add(newCostComponent);
-        }
-
-        return newCostComponents;
     }
 
 }

@@ -20,8 +20,6 @@ Email: info@dpbennett.com.jm
 package jm.com.dpbennett.jmts.managers;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,13 +29,12 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import jm.com.dpbennett.business.entity.AccountingCode;
-import jm.com.dpbennett.business.entity.Address;
-import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.CostComponent;
-import jm.com.dpbennett.business.entity.Internet;
-import jm.com.dpbennett.business.entity.Job;
+import jm.com.dpbennett.business.entity.DatePeriod;
+import jm.com.dpbennett.business.entity.Employee;
+import jm.com.dpbennett.business.entity.EmployeePosition;
 import jm.com.dpbennett.business.entity.JobManagerUser;
+import jm.com.dpbennett.business.entity.LegalDocument;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
 import org.primefaces.event.CellEditEvent;
@@ -45,19 +42,18 @@ import org.primefaces.event.SelectEvent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.ReturnMessage;
+import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
-import jm.com.dpbennett.wal.validator.AddressValidator;
-import jm.com.dpbennett.wal.validator.ContactValidator;
+import jm.com.dpbennett.wal.utils.Utils;
 import org.primefaces.PrimeFaces;
-import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 /**
  *
  * @author Desmond Bennett
  */
-public class PurchasingManager implements Serializable/*, BusinessEntityManagement*/ {
+public class PurchasingManager implements Serializable {
 
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF1;
@@ -65,20 +61,16 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
     private EntityManagerFactory EMF2;
     private Integer longProcessProgress;
     private CostComponent selectedCostComponent;
-    private AccountingCode selectedAccountingCode;
-    private Supplier selectedSupplier;
     private PurchaseRequisition selectedPurchaseRequisition;
-    private Contact selectedSupplierContact;
-    private Address selectedSupplierAddress;
+    private Employee selectedApprover;
     private Boolean edit;
-    private Boolean isSupplierNameAndIdEditable;
-    private String supplierSearchText;
     private String purchaseReqSearchText;
-    private Boolean isActiveSuppliersOnly;
-    private List<Supplier> foundSuppliers;
     private List<PurchaseRequisition> foundPurchaseReqs;
     private MainTabView mainTabView;
     private JobManagerUser user;
+    private FinanceManager financeManager;
+    private String searchType;
+    private DatePeriod dateSearchPeriod;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -87,23 +79,179 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
         init();
     }
 
-    public List<Supplier> completeActiveSupplier(String query) {
-        try {
-            return Supplier.findActiveSuppliersByAnyPartOfName(getEntityManager1(), query);
+    public void updateDateSearchField() {
+        //doSearch();
+    }
 
-        } catch (Exception e) {
-            System.out.println(e);
+    public DatePeriod getDateSearchPeriod() {
+        return dateSearchPeriod;
+    }
 
-            return new ArrayList<>();
+    public void setDateSearchPeriod(DatePeriod dateSearchPeriod) {
+        this.dateSearchPeriod = dateSearchPeriod;
+    }
+
+    public Date getPRApprovalDate(List<EmployeePosition> positions) {
+        for (EmployeePosition position : positions) {
+            switch (position.getTitle()) {
+                case "Team Leader":
+                    return getSelectedPurchaseRequisition().getTeamLeaderApprovalDate();
+                case "Divisional Manager":
+                    return getSelectedPurchaseRequisition().getDivisionalManagerApprovalDate();
+                case "Divisional Director":
+                    return getSelectedPurchaseRequisition().getDivisionalDirectorApprovalDate();
+                case "Finance Manager":
+                    return getSelectedPurchaseRequisition().getFinanceManagerApprovalDate();
+                case "Executive Director":
+                    getSelectedPurchaseRequisition().getExecutiveDirectorApprovalDate();
+                default:
+                    break;
+            }
         }
+
+        return null;
+    }
+
+    public Employee getSelectedApprover() {
+        return selectedApprover;
+    }
+
+    public void setSelectedApprover(Employee selectedApprover) {
+        this.selectedApprover = selectedApprover;
+    }
+
+    public Boolean checkPRWorkProgressReadinessToBeChanged() {
+        EntityManager em = getEntityManager1();
+
+        // Find the currently stored PR and check it's work status
+        if (getSelectedPurchaseRequisition().getId() != null) {
+            PurchaseRequisition savedPurchaseRequisition
+                    = PurchaseRequisition.findById(em, getSelectedPurchaseRequisition().getId());
+
+            // Do not allow flagging PR as completed unless it is approved and the 
+            // person is a procurement officer. 
+            if (!getSelectedPurchaseRequisition().isApproved()
+                    && !getUser().getEmployee().isProcurementOfficer()
+                    && getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
+
+                PrimeFacesUtils.addMessage("Work Progress Cannot Be As Marked Completed",
+                        "You are not a procurement officer or this purchase requisition needs to be approved before it can marked as completed.",
+                        FacesMessage.SEVERITY_WARN);
+
+                return false;
+            }
+
+            if (getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")
+                    && !getUser().getPrivilege().getCanBeFinancialAdministrator()) {
+
+                // Reset PR to its saved work progress
+                getSelectedPurchaseRequisition().
+                        setWorkProgress(savedPurchaseRequisition.getWorkProgress());
+
+                PrimeFacesUtils.addMessage("Work Progress Cannot Be Changed",
+                        "\"This purchase requisition is marked as completed and cannot be changed. You may contact a financial administrator for assistance.",
+                        FacesMessage.SEVERITY_WARN);
+
+                return false;
+            } else if (getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")
+                    && getUser().getPrivilege().getCanBeFinancialAdministrator()) {
+                // System admin can change work status even if it's completed.
+                return true;
+            } else if (!savedPurchaseRequisition.getWorkProgress().equals("Completed")
+                    && getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")
+                    && !getSelectedPurchaseRequisition().isApproved()) {
+
+                // Reset PR to its saved work progress
+                getSelectedPurchaseRequisition().
+                        setWorkProgress(savedPurchaseRequisition.getWorkProgress());
+
+                PrimeFacesUtils.addMessage("Purchase Requisition Work Progress Cannot Be As Marked Completed",
+                        "The purchase requisition needs to be approved before it can be marked as completed.",
+                        FacesMessage.SEVERITY_WARN);
+
+                return false;
+
+            }
+        } else {
+
+            PrimeFacesUtils.addMessage("Purchase Requisition Work Progress Cannot be Changed",
+                    "This purchase requisition's work progress cannot be changed until it is saved.",
+                    FacesMessage.SEVERITY_WARN);
+            return false;
+        }
+
+        return true;
+    }
+
+    public void updateWorkProgress() {
+
+        if (checkPRWorkProgressReadinessToBeChanged()) {
+            if (!getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
+
+                getSelectedPurchaseRequisition().setDateOfCompletion(null);
+
+            } else if (getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
+
+                getSelectedPurchaseRequisition().setDateOfCompletion(new Date());
+
+                // Set the procurement officer and their department
+                getSelectedPurchaseRequisition().
+                        setProcurementOfficer(getUser().getEmployee());
+
+                getSelectedPurchaseRequisition().
+                        setPurchasingDepartment(getUser().getEmployee().getDepartment());
+            }
+
+            getSelectedPurchaseRequisition().setIsDirty(true);
+        } else {
+            if (getSelectedPurchaseRequisition().getId() != null) {
+                // Reset work progress to the currently saved state
+                PurchaseRequisition foundPR = PurchaseRequisition.findById(getEntityManager1(),
+                        getSelectedPurchaseRequisition().getId());
+                if (foundPR != null) {
+                    getSelectedPurchaseRequisition().setWorkProgress(foundPR.getWorkProgress());
+                } else {
+                    getSelectedPurchaseRequisition().setWorkProgress("Ongoing");
+                }
+            } else {
+                getSelectedPurchaseRequisition().setWorkProgress("Ongoing");
+            }
+        }
+
+    }
+
+    public void deleteCostComponent() {
+        deleteCostComponentByName(selectedCostComponent.getName());
+    }
+
+    public void okCostingComponent() {
+        if (selectedCostComponent.getId() == null && !getEdit()) {
+            getSelectedPurchaseRequisition().getCostComponents().add(selectedCostComponent);
+        }
+        setEdit(false);
+
+        PrimeFaces.current().executeScript("PF('purchreqCostingCompDialog').hide();");
+    }
+
+    public void openPurchaseReqsTab() {
+        mainTabView.openTab("Purchase Requisitions");
+    }
+
+    /**
+     * Get FinanceManager SessionScoped bean.
+     *
+     * @return
+     */
+    public FinanceManager getFinanceManager() {
+        if (financeManager == null) {
+            financeManager = BeanUtils.findBean("financeManager");
+        }
+
+        return financeManager;
     }
 
     public List getCostCodeList() {
         return FinancialUtils.getCostCodeList();
-    }
-
-    public void updateSupplier() {
-        getSelectedSupplier().setIsDirty(true);
     }
 
     public Boolean getIsSupplierNameValid() {
@@ -148,14 +296,12 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
         getSelectedPurchaseRequisition().setIsDirty(true);
     }
 
-    public void updatePurchaseReqNumber() {
+    public void updateAutoGeneratePRNumber() {
 
-        // tk impl auto number generation
-        if (selectedPurchaseRequisition.getAutoGenerateNumber()) {
-            //selectedPurchaseRequisition.setNumber();
+        if (getSelectedPurchaseRequisition().getAutoGenerateNumber()) {
+            getSelectedPurchaseRequisition().generateNumber();
         }
-
-        selectedPurchaseRequisition.setIsDirty(true);
+        getSelectedPurchaseRequisition().setIsDirty(true);
 
     }
 
@@ -180,146 +326,35 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
     }
 
     public void saveSelectedPurchaseRequisition() {
-        EntityManager em = getEntityManager1();
+
         ReturnMessage returnMessage;
 
-        // tk
-        System.out.println("Saving PR to be impl...");
+        returnMessage = getSelectedPurchaseRequisition().prepareAndSave(getEntityManager1(), getUser());
 
-    }
+        if (returnMessage.isSuccess()) {
+            PrimeFacesUtils.addMessage("Saved!", "Purchase requisition was saved", FacesMessage.SEVERITY_INFO);
+            getSelectedPurchaseRequisition().setEditStatus("");
+        } else {
+            PrimeFacesUtils.addMessage("Purchase requisition NOT Saved!",
+                    "Purchase requisition was NOT saved. Please contact the System Administrator!",
+                    FacesMessage.SEVERITY_ERROR);
 
-    public Contact getSelectedSupplierContact() {
-        return selectedSupplierContact;
-    }
-
-    public void setSelectedSupplierContact(Contact selectedSupplierContact) {
-        this.selectedSupplierContact = selectedSupplierContact;
-
-        setEdit(true);
-    }
-
-    public Address getSelectedSupplierAddress() {
-        return selectedSupplierAddress;
-    }
-
-    public void setSelectedSupplierAddress(Address selectedSupplierAddress) {
-        this.selectedSupplierAddress = selectedSupplierAddress;
-
-        setEdit(true);
-    }
-
-    public void removeSupplierAddress() {
-        getSelectedSupplier().getAddresses().remove(selectedSupplierAddress);
-        getSelectedSupplier().setIsDirty(true);
-        selectedSupplierAddress = null;
-    }
-
-    public void removeSupplierContact() {
-        getSelectedSupplier().getContacts().remove(selectedSupplierContact);
-        getSelectedSupplier().setIsDirty(true);
-        selectedSupplierContact = null;
-    }
-
-    public Boolean getIsNewSupplierAddress() {
-        return getSelectedSupplierAddress().getId() == null && !getEdit();
-    }
-
-    public void okSupplierAddress() {
-
-        selectedSupplierAddress = selectedSupplierAddress.prepare();
-
-        if (getIsNewSupplierAddress()) {
-            getSelectedSupplier().getAddresses().add(selectedSupplierAddress);
+            sendErrorEmail("An error occurred while saving a purchase requisition!",
+                    "Purchase requisition number: " + getSelectedPurchaseRequisition().getNumber()
+                    + "\nJMTS User: " + getUser().getUsername()
+                    + "\nDate/time: " + new Date()
+                    + "\nDetail: " + returnMessage.getDetail());
         }
 
-        PrimeFaces.current().executeScript("PF('addressFormDialog').hide();");
-
     }
 
-    public void updateSupplierAddress() {
-        getSelectedSupplierAddress().setIsDirty(true);
-        getSelectedSupplier().setIsDirty(true);
-    }
-
-    public List<Address> getSupplierAddressesModel() {
-        return getSelectedSupplier().getAddresses();
-    }
-
-    public List<Contact> getSupplierContactsModel() {
-        return getSelectedSupplier().getContacts();
-    }
-
-    public void createNewSupplierAddress() {
-        selectedSupplierAddress = null;
-
-        // Find an existing invalid or blank address and use it as the neww address
-        for (Address address : getSelectedSupplier().getAddresses()) {
-            if (address.getAddressLine1().trim().isEmpty()) {
-                selectedSupplierAddress = address;
-                break;
-            }
+    public void sendErrorEmail(String subject, String message) {
+        try {
+            // Send error message to developer's email            
+            Utils.postMail(null, null, subject, message);
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
-
-        // No existing blank or invalid address found so creating new one.
-        if (selectedSupplierAddress == null) {
-            selectedSupplierAddress = new Address("", "Billing");
-        }
-
-        setEdit(false);
-
-        getSelectedSupplier().setIsDirty(false);
-    }
-
-    public Boolean getIsNewSupplierContact() {
-        return getSelectedSupplierContact().getId() == null && !getEdit();
-    }
-
-    public void okContact() {
-
-        selectedSupplierContact = selectedSupplierContact.prepare();
-
-        if (getIsNewSupplierContact()) {
-            getSelectedSupplier().getContacts().add(selectedSupplierContact);
-        }
-
-        PrimeFaces.current().executeScript("PF('contactFormDialog').hide();");
-
-    }
-
-    public void updateSupplierContact() {
-        getSelectedSupplierContact().setIsDirty(true);
-        getSelectedSupplier().setIsDirty(true);
-    }
-
-    public void createNewSupplierContact() {
-        selectedSupplierContact = null;
-
-        for (Contact contact : getSelectedSupplier().getContacts()) {
-            if (contact.getFirstName().trim().isEmpty()) {
-                selectedSupplierContact = contact;
-                break;
-            }
-        }
-
-        if (selectedSupplierContact == null) {
-            selectedSupplierContact = new Contact("", "", "Main");
-            selectedSupplierContact.setInternet(new Internet());
-        }
-
-        setEdit(false);
-
-        getSelectedSupplier().setIsDirty(false);
-    }
-
-    public void updateSupplierName(AjaxBehaviorEvent event) {
-        selectedSupplier.setName(selectedSupplier.getName().trim());
-
-        getSelectedSupplier().setIsDirty(true);
-    }
-
-    public void onSupplierCellEdit(CellEditEvent event) {
-        BusinessEntityUtils.saveBusinessEntityInTransaction(getEntityManager1(),
-                getFoundSuppliers().get(event.getRowIndex()));
     }
 
     public void onPurchaseReqCellEdit(CellEditEvent event) {
@@ -327,58 +362,32 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
                 getFoundPurchaseReqs().get(event.getRowIndex()));
     }
 
-    public int getNumOfSuppliersFound() {
-        return getFoundSuppliers().size();
-    }
-
     public int getNumOfPurchaseReqsFound() {
         return getFoundPurchaseReqs().size();
     }
 
     public void editPurhaseReqSuppier() {
-        setSelectedSupplier(getSelectedPurchaseRequisition().getSupplier());
-        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
+        getFinanceManager().setSelectedSupplier(getSelectedPurchaseRequisition().getSupplier());
 
-        editSelectedSupplier();
+        getFinanceManager().editSelectedSupplier();
     }
 
-    public void supplierDialogReturn() {
-        if (getSelectedSupplier().getId() != null) {
-            getSelectedPurchaseRequisition().setSupplier(getSelectedSupplier());
+    public void purchaseReqSupplierDialogReturn() {
+        if (getFinanceManager().getSelectedSupplier().getId() != null) {
+            getSelectedPurchaseRequisition().setSupplier(getFinanceManager().getSelectedSupplier());
 
         }
     }
 
     public void createNewPurhaseReqSupplier() {
-        createNewSupplier();
-        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
+        getFinanceManager().createNewSupplier();
 
-        editSelectedSupplier();
-    }
-
-    public void editSelectedSupplier() {
-
-        PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
+        getFinanceManager().editSelectedSupplier();
     }
 
     public void editSelectedPurchaseReq() {
 
-        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 700, 700);
-    }
-
-    public Boolean getIsActiveSuppliersOnly() {
-        if (isActiveSuppliersOnly == null) {
-            isActiveSuppliersOnly = true;
-        }
-        return isActiveSuppliersOnly;
-    }
-
-    public List<Supplier> getFoundSuppliers() {
-        return foundSuppliers;
-    }
-
-    public void setFoundSuppliers(List<Supplier> foundSuppliers) {
-        this.foundSuppliers = foundSuppliers;
+        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 600, 700);
     }
 
     public List<PurchaseRequisition> getFoundPurchaseReqs() {
@@ -389,32 +398,20 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
         this.foundPurchaseReqs = foundPurchaseReqs;
     }
 
-    public void setIsActiveSuppliersOnly(Boolean isActiveSuppliersOnly) {
-        this.isActiveSuppliersOnly = isActiveSuppliersOnly;
-    }
-
-    public void doSupplierSearch() {
-        if (supplierSearchText.trim().length() > 1) {
-            if (getIsActiveSuppliersOnly()) {
-                foundSuppliers = Supplier.findActiveSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
-            } else {
-                foundSuppliers = Supplier.findSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
-            }
-        } else {
-            foundSuppliers = new ArrayList<>();
-        }
-    }
-
     public void doPurchaseReqSearch() {
-        System.out.println("PR search to be done using search parameters from dashboard.");
-    }
+         EntityManager em = getEntityManager1();
 
-    public String getSupplierSearchText() {
-        return supplierSearchText;
-    }
+//        if (!getPurchaseReqSearchText().isEmpty()) {
+//            foundPurchaseReqs = LegalDocument.findLegalDocumentsByDateSearchField(em,
+//                    dateSearchField, searchType, searchText.trim(),
+//                    getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
+//        } else { // get all documents based on common test ie "" for now
+//            documentSearchResultList = LegalDocument.findLegalDocumentsByDateSearchField(em,
+//                    dateSearchField, searchType, "",
+//                    getDatePeriod().getStartDate(), getDatePeriod().getEndDate());
+//        }
 
-    public void setSupplierSearchText(String supplierSearchText) {
-        this.supplierSearchText = supplierSearchText;
+        openPurchaseReqsTab();
     }
 
     public String getPurchaseReqSearchText() {
@@ -425,47 +422,6 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
         this.purchaseReqSearchText = purchaseReqSearchText;
     }
 
-    public Boolean getIsSupplierNameAndIdEditable() {
-        return isSupplierNameAndIdEditable;
-    }
-
-    public void setIsSupplierNameAndIdEditable(Boolean isSupplierNameAndIdEditable) {
-        this.isSupplierNameAndIdEditable = isSupplierNameAndIdEditable;
-    }
-
-    public Supplier getSelectedSupplier() {
-        if (selectedSupplier == null) {
-            return new Supplier("");
-        }
-        return selectedSupplier;
-    }
-
-    public void setSelectedSupplier(Supplier selectedSupplier) {
-        this.selectedSupplier = selectedSupplier;
-    }
-
-    public Address getSupplierCurrentAddress() {
-        return getSelectedSupplier().getDefaultAddress();
-    }
-
-    public Contact getSupplierCurrentContact() {
-        return getSelectedSupplier().getDefaultContact();
-    }
-
-    public void editSupplierCurrentAddress() {
-        selectedSupplierAddress = getSupplierCurrentAddress();
-        setEdit(true);
-    }
-
-    public void createNewSupplier() {
-
-        selectedSupplier = new Supplier("", true);
-
-        setIsSupplierNameAndIdEditable(getUser().getPrivilege().getCanAddSupplier());
-
-        PrimeFacesUtils.openDialog(null, "supplierDialog", true, true, true, 450, 700);
-    }
-
     public void createNewPurchaseReq() {
         selectedPurchaseRequisition = new PurchaseRequisition();
         selectedPurchaseRequisition.setSupplier(new Supplier("", true));
@@ -473,89 +429,15 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
                 setOriginatingDepartment(getUser().getEmployee().getDepartment());
         selectedPurchaseRequisition.setOriginator(getUser().getEmployee());
         selectedPurchaseRequisition.setRequisitionDate(new Date());
+        selectedPurchaseRequisition.generateNumber();
+
+        openPurchaseReqsTab();
 
         editSelectedPurchaseReq();
     }
 
-    public Boolean getIsNewSupplier() {
-        return getSelectedSupplier().getId() == null;
-    }
-
-    public void cancelEdit(ActionEvent actionEvent) {
-
-        getSelectedSupplier().setIsDirty(false);
-
-        PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
-    public void okSupplier() {
-        Boolean hasValidAddress = false;
-        Boolean hasValidContact = false;
-
-        try {
-
-            // Validate 
-            // Check for a valid address
-            for (Address address : selectedSupplier.getAddresses()) {
-                hasValidAddress = hasValidAddress || AddressValidator.validate(address);
-            }
-            if (!hasValidAddress) {
-                PrimeFacesUtils.addMessage("Address Required",
-                        "A valid address was not entered for this supplier",
-                        FacesMessage.SEVERITY_ERROR);
-
-                return;
-            }
-
-            // Check for a valid contact
-            for (Contact contact : selectedSupplier.getContacts()) {
-                hasValidContact = hasValidContact || ContactValidator.validate(contact);
-            }
-            if (!hasValidContact) {
-                PrimeFacesUtils.addMessage("Contact Required",
-                        "A valid contact was not entered for this supplier",
-                        FacesMessage.SEVERITY_ERROR);
-
-                return;
-            }
-
-            // Update tracking
-            if (getIsNewSupplier()) {
-                getSelectedSupplier().setDateEntered(new Date());
-                getSelectedSupplier().setDateEdited(new Date());
-                if (getUser() != null) {
-                    selectedSupplier.setEnteredBy(getUser().getEmployee());
-                    selectedSupplier.setEditedBy(getUser().getEmployee());
-                }
-            }
-
-            // Do save
-            if (getSelectedSupplier().getIsDirty()) {
-                getSelectedSupplier().setDateEdited(new Date());
-                if (getUser() != null) {
-                    selectedSupplier.setEditedBy(getUser().getEmployee());
-                }
-                selectedSupplier.save(getEntityManager1());
-                getSelectedSupplier().setIsDirty(false);
-            }
-
-            PrimeFaces.current().dialog().closeDynamic(null);
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
-
     public void cancelDialogEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
-    }
-
-    public void saveSelectedAccountingCode() {
-
-        selectedAccountingCode.save(getEntityManager1());
-
-        PrimeFaces.current().dialog().closeDynamic(null);
-
     }
 
     public MainTabView getMainTabView() {
@@ -578,10 +460,12 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
     private void init() {
         longProcessProgress = 0;
         selectedCostComponent = null;
-        isSupplierNameAndIdEditable = false; // tk put as transient in Client
-        supplierSearchText = "";
-        foundSuppliers = new ArrayList<>();
         foundPurchaseReqs = new ArrayList<>();
+        searchType = "";
+        dateSearchPeriod = new DatePeriod("This month", "month",
+                "pr.dateEntered", null, null, null, false, false, false);
+        dateSearchPeriod.initDatePeriod();
+        purchaseReqSearchText = "";
     }
 
     public void reset() {
@@ -663,13 +547,6 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
                 selectedCostComponent.setIsFixedCost(false);
                 selectedCostComponent.setIsHeading(false);
                 break;
-            case "SUBCONTRACT":
-                selectedCostComponent.setIsFixedCost(true);
-                selectedCostComponent.setIsHeading(false);
-                selectedCostComponent.setHours(0.0);
-                selectedCostComponent.setHoursOrQuantity(0.0);
-                selectedCostComponent.setRate(0.0);
-                break;
             default:
                 selectedCostComponent.setIsFixedCost(false);
                 selectedCostComponent.setIsHeading(false);
@@ -682,12 +559,15 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
 
     public Boolean getAllowCostEdit() {
         if (selectedCostComponent != null) {
-            if (selectedCostComponent.getCode() == null) {
-                return true;
-            } else if (selectedCostComponent.getCode().equals("--")) {
+            if (null == selectedCostComponent.getCode()) {
                 return true;
             } else {
-                return false;
+                switch (selectedCostComponent.getCode()) {
+                    case "--":
+                        return true;
+                    default:
+                        return false;
+                }
             }
         } else {
             return true;
@@ -709,19 +589,19 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
         deleteCostComponentByName(selectedCostComponent.getName());
     }
 
-    // Remove this and other code out of JobManager? Put in JobCostingAndPayment or Job?
     public void deleteCostComponentByName(String componentName) {
 
-        //List<CostComponent> components = getCurrentJob().getJobCostingAndPayment().getAllSortedCostComponents();
+        List<CostComponent> components = getSelectedPurchaseRequisition().getAllSortedCostComponents();
         int index = 0;
-        //for (CostComponent costComponent : components) {
-        //  if (costComponent.getName().equals(componentName)) {
-        //components.remove(index);
-        //setJobCostingAndPaymentDirty(true);
+        for (CostComponent costComponent : components) {
+            if (costComponent.getName().equals(componentName)) {
+                components.remove(index);
+                getSelectedPurchaseRequisition().setIsDirty(true);
 
-        //       break;
-        //}
-        //    ++index;
+                break;
+            }
+            ++index;
+        }
     }
 
     public void editCostComponent(ActionEvent event) {
@@ -733,27 +613,50 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
         setEdit(false);
     }
 
+    public void approveSelectedPurchaseRequisition(ActionEvent event) {
+
+        if (!getSelectedPurchaseRequisition().getOriginator().
+                equals(getUser().getEmployee())) {
+
+            getSelectedPurchaseRequisition().getApprovers().add(getUser().getEmployee());
+            setPRApprovalDate(getUser().getEmployee().getPositions());
+        } else {
+            PrimeFacesUtils.addMessage("Originator Cannot Approve",
+                    "The originator cannot approve this purchase requisition.",
+                    FacesMessage.SEVERITY_INFO);
+        }
+    }
+
+    private void setPRApprovalDate(List<EmployeePosition> positions) {
+        for (EmployeePosition position : positions) {
+            switch (position.getTitle()) {
+                case "Team Leader":
+                    getSelectedPurchaseRequisition().setTeamLeaderApprovalDate(new Date());
+                    return;
+                case "Divisional Manager":
+                    getSelectedPurchaseRequisition().setDivisionalManagerApprovalDate(new Date());
+                    return;
+                case "Divisional Director":
+                    getSelectedPurchaseRequisition().setDivisionalDirectorApprovalDate(new Date());
+                    return;
+                case "Finance Manager":
+                    getSelectedPurchaseRequisition().setFinanceManagerApprovalDate(new Date());
+                    return;
+                case "Executive Director":
+                    getSelectedPurchaseRequisition().setExecutiveDirectorApprovalDate(new Date());
+                    return;
+                default:
+                    return;
+            }
+        }
+    }
+
     public void cancelCostComponentEdit() {
         selectedCostComponent.setIsDirty(false);
     }
 
-    public void okCostingComponent() {
-        if (selectedCostComponent.getId() == null && !getEdit()) {
-            //getCurrentJob().getJobCostingAndPayment().getCostComponents().add(selectedCostComponent);
-        }
-        setEdit(false);
-
-        PrimeFaces.current().executeScript("PF('costingComponentDialog').hide();");
-    }
-
     private EntityManagerFactory getEMF2() {
         return EMF2;
-    }
-
-    public void updateAccountingCode(SelectEvent event) {
-        selectedAccountingCode = (AccountingCode) event.getObject();
-        // tk
-        System.out.println("selected jcp: " + selectedAccountingCode.getName());
     }
 
     public List<CostComponent> copyCostComponents(List<CostComponent> srcCostComponents) {
@@ -766,5 +669,15 @@ public class PurchasingManager implements Serializable/*, BusinessEntityManageme
 
         return newCostComponents;
     }
+
+    public String getSearchType() {
+        return searchType;
+    }
+
+    public void setSearchType(String searchType) {
+        this.searchType = searchType;
+    }
+
+    
 
 }

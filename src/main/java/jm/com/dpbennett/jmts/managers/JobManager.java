@@ -19,6 +19,7 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
+import jm.com.dpbennett.wal.managers.LegalDocumentManager;
 import jm.com.dpbennett.wal.managers.ReportManager;
 import jm.com.dpbennett.wal.managers.HumanResourceManager;
 import jm.com.dpbennett.wal.managers.ClientManager;
@@ -78,6 +79,7 @@ import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.ReturnMessage;
 import jm.com.dpbennett.wal.Authentication;
 import jm.com.dpbennett.jmts.JMTSApplication;
+import jm.com.dpbennett.wal.managers.SystemManager;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.Dashboard;
 import jm.com.dpbennett.wal.utils.DateUtils;
@@ -122,7 +124,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private JobContractManager jobContractManager;
     private LegalDocumentManager legalDocumentManager;
     private HumanResourceManager humanResourceManager;
-    // Misc
+    private SystemManager systemManager;
     private DatePeriod dateSearchPeriod;
     private String searchType;
     private String searchText;
@@ -163,8 +165,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             application = BeanUtils.findBean("App");
         }
         return application;
-    }   
-    
+    }
+
     public List<JobSubCategory> completeActiveJobSubCategories(String query) {
         EntityManager em = getEntityManager1();
 
@@ -172,7 +174,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return subCategories;
     }
-    
+
     /**
      * NB: query not used to filter
      *
@@ -186,7 +188,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return categories;
     }
-    
+
     /**
      * NB: query parameter currently not used to filter sectors.
      *
@@ -200,7 +202,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         return sectors;
     }
-    
+
     public List<String> completePreferenceValue(String query) {
         EntityManager em;
 
@@ -217,7 +219,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             return new ArrayList<>();
         }
     }
-    
+
     public List<String> getJobTableViews() {
         EntityManager em;
 
@@ -328,11 +330,57 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         jobSearchResultList = new ArrayList<>();
         dashboard = new Dashboard(getUser());
         mainTabView = new MainTabView(getUser());
-        // Search fields init
         searchType = "";
         dateSearchPeriod = new DatePeriod("This month", "month",
                 "dateAndTimeEntered", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
+    }
+
+    private void initMainTabView() {
+
+        mainTabView.reset(user);
+
+        if (getUser().getModules().getAdminModule()) {
+            mainTabView.openTab("System Administration");
+        }
+        if (getUser().getModules().getFinancialAdminModule()) {
+            // tk The option to choose which tab to add will be implemented in the future.
+            mainTabView.openTab("Purchase Requisitions");
+        }
+        if (getUser().getModules().getLegalOfficeModule()) {
+            mainTabView.openTab("Document Browser");
+        }
+        if (getUser().getModules().getJobManagementAndTrackingModule()) {
+            mainTabView.openTab("Job Browser");
+        }
+
+    }
+
+    private void initDashboard() {
+
+        dashboard.reset(user);
+
+        if (getUser().getModules().getJobManagementAndTrackingModule()) {
+            dashboard.getTabs().add(new TabPanel("Job Management",
+                    "Job Management"));
+        }
+        if (getUser().getModules().getLegalOfficeModule()) {
+            dashboard.getTabs().add(new TabPanel("Document Management", "Document Management"));
+        }
+        if (getUser().getModules().getCrmModule()) {
+            dashboard.getTabs().add(new TabPanel("Client Management",
+                    "Client Management"));
+        }
+        if (getUser().getModules().getAdminModule()) {
+
+            dashboard.getTabs().add(new TabPanel("System Administration", "System Administration"));
+        }
+        if (getUser().getModules().getFinancialAdminModule()) {
+            dashboard.getTabs().add(new TabPanel("Financial Administration", "Financial Administration"));
+        }
+
+        // Set the first tab as the selected tab
+        dashboard.setSelectedTabId(dashboard.getTabs().get(0).getId());
     }
 
     /**
@@ -404,20 +452,20 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (purchasingManager == null) {
             purchasingManager = BeanUtils.findBean("purchasingManager");
         }
-        
+
         return purchasingManager;
     }
 
     /**
      * Get FinanceManager SessionScoped bean.
-     * 
-     * @return 
+     *
+     * @return
      */
     public FinanceManager getFinanceManager() {
         if (financeManager == null) {
             financeManager = BeanUtils.findBean("financeManager");
         }
-        
+
         return financeManager;
     }
 
@@ -831,7 +879,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void onMainViewTabClose(TabCloseEvent event) {
         String tabId = ((TabPanel) event.getData()).getId();
-        mainTabView.addTab(getEntityManager1(), tabId, false);
+
+        mainTabView.closeTab(tabId);
     }
 
     public void onMainViewTabChange(TabChangeEvent event) {
@@ -864,19 +913,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openJobBrowser() {
-        // Add the Job Browser tab is 
-        mainTabView.addTab(getEntityManager1(), "Job Browser", true);
-        mainTabView.select("Job Browser");
+        mainTabView.openTab("Job Browser");
     }
 
     public void openSystemAdministrationTab() {
-        mainTabView.addTab(getEntityManager1(), "System Administration", true);
-        mainTabView.select("System Administration");
+        mainTabView.openTab("System Administration");
     }
 
     public void openFinancialAdministrationTab() {
-        mainTabView.addTab(getEntityManager1(), "Financial Administration", true);
-        mainTabView.select("Financial Administration");
+        mainTabView.openTab("Financial Administration");
     }
 
     public String getJobsTabTitle() {
@@ -1599,16 +1644,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         EntityManager em = getEntityManager1();
         ReturnMessage returnMessage;
 
-        // tk...may not be necessary
-        // Prevent overwriting samples that were edited by another user by 
-        // loading the existing samples from the database.
-        // NB Remove this code when the "Job sync" feature is added
-//        if (!getJobSampleManager().isSamplesDirty() && currentJob.getId() != null) {
-//            Job savedJob = Job.findJobById(em, currentJob.getId());
-//            em.refresh(savedJob);
-//            currentJob.setJobSamples(savedJob.getJobSamples());
-//        }
-        // end tk
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
@@ -2600,9 +2635,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openClientsTab() {
+        // tk remove this and do as is done for supplier
         getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
-        mainTabView.addTab(getEntityManager1(), "Clients", true);
-        mainTabView.select("Clients");
+
+        mainTabView.openTab("Clients");
     }
 
     public void openReportsTab() {
@@ -2685,10 +2721,22 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         PrimeFaces.current().executeScript("PrimeFaces.changeTheme('"
                 + getUser().getUserInterfaceThemeName() + "');");
 
-        dashboard.reset(user);
-        mainTabView.reset(user);
+        initDashboard();
+        initMainTabView();
+        initManager();
 
-        // Initialize Managers
+        updateAllForms();
+    }
+
+    private void initManager() {
+        systemManager = BeanUtils.findBean("systemManager");
+        systemManager.setUser(getUser());
+        systemManager.setMainTabView(getMainTabView());
+
+        legalDocumentManager = BeanUtils.findBean("legalDocumentManager");
+        legalDocumentManager.setUser(getUser());
+        legalDocumentManager.setMainTabView(getMainTabView());
+
         humanResourceManager = BeanUtils.findBean("humanResourceManager");
         humanResourceManager.setUser(getUser());
         humanResourceManager.setMainTabView(getMainTabView());
@@ -2700,21 +2748,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         reportManager = BeanUtils.findBean("reportManager");
         reportManager.setUser(user);
         reportManager.setMainTabView(mainTabView);
-        
+
         jobFinanceManager = BeanUtils.findBean("jobFinanceManager");
         jobFinanceManager.setUser(user);
         jobFinanceManager.setMainTabView(mainTabView);
-        
+
         financeManager = BeanUtils.findBean("financeManager");
         financeManager.setUser(user);
         financeManager.setMainTabView(mainTabView);
-        
-        // tk Init PurchasingManager in the FinanceManager in the future.
+
         purchasingManager = BeanUtils.findBean("purchasingManager");
         purchasingManager.setUser(user);
         purchasingManager.setMainTabView(mainTabView);
-
-        updateAllForms();
     }
 
 }

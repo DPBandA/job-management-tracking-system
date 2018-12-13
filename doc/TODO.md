@@ -1,3 +1,7 @@
+# Note
+
+- Some privilege flags control the access of modules.
+
 # Accpac Invoicing & Credit Status Reporting
 
 - Add CODE, ABBREVIATION to all accountingcode tables and class.
@@ -27,50 +31,40 @@
 - Add sys option that determines if the accpac invoices spreadsheet is to be
   exported.
 - Put the name of the approver on the job costing.
+- NB: Test as various users with various employee positions. 
 
-# Purchasing
+# Purchasing (Financial Admin)
 
-- Move all purchasing related files to the finance/purch folder. Create PurchasingManager 
-  from FinanceManager and init user and MainTabview for PurchasingManager when 
-  FinanceManager is init.
-- Impl methods specific to various objects such as cancelSupplier edit.
-- Create financeManager bean by copying jobFinanceManager and link it to files in /finance folder.
-- Remove FinanceManager methods from JobFinanceManager.
-- Create Financial Services app and make Purhasing a module. May have to delete
-  the Purchasing app from github.
-- Take Purchase Requisitions out off financial Administration.
-- Create PurchasingManager class and put the code in SystemManager code in it,
-  Put the related resources in the "finance" folder.
-- Do PR and PO forms.
-- Impl purchreqDialog.xhtml.
-  * Impl status and tracking tab and other fields as necessary.
-  * Impl checkbox auto number feature exactly as in jobgeneral tab.
-  * Continue with purchreqGeneralTab.xhtml.
-  * Impl creating new PR that makes use of the logged in user. Department,
-    originator, date etc should be read only
-  * Create PR and PO forms.
-- Design and include the dashboard and main tabs 
+- Impl searching for PR and supplier using dashboard. 
+  * Impl search for PRs. Use PurchasingManger and code for legal document.
+  * Impl getting date search fields based on search type. Update getDateSearchFields().
+  * Widen the search fields.
+- Impl approver dates and approvers table in general tab.
+  * Do not allow the originator to approve.
+  * Impl approver deletion confirmation dialog.
+  * Allow approval from only one person of a specific position.
+  * Impl getting list of titles without the square brackets.
+- Show growl if PR is closed without saving.
+- Implement setting purchasing department abnd procurement officer when 
+  work progress is set as "Completed"
+- Impl PurchaseRequisition.isApproved() that determines if a PR was approved.
+  For now, check that at least 2 approvers are in the approval list.
+- Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
+- Move openFinancialAdministration() to financialManager.
+- Add "Procurement" menu and menu items for "Suppliers" and "Purchase Requisitions" 
+  JM module "New" and "Tools" menus.
 - Populate PurchaseOrder with PR if possible. 
-- Impl automatic generation of PR #. Initialize with the latest number used.
+- Initialize with the latest number used.
 - Ensure that the requisition date is the that orginator signed the PR.
 - The date the PR is completed should be the PO date.
 - Impl email messaging to the originator and other PR stakeholders.
-- The content of the PO should be generated from the PR. The PO should be a field
-  in the PR.
-- PO/PR should remain in "draft" stage until all issues are sorted out.
 - Enter the approval limits in test and production databases.
-- The orinator's department should be uneditable by the orginator unless they are
-  the dept. head or system admin.
-- Impl giving privileges to specific tabs in sys admin such as hrm.
-- Add a separate tab in user account dialog for sys admin.
-- Put financial admin under sys admin.
-- Do not show financial admin in main tab by default even when selected in preferences.
 - Set the department of the purchasing officer that completes the PR as the 
   purchasing department of the PR.
-- Now that department is removed from JMUser, check that not code is broken.
 
-# Database Update and Deployment
-
+# All Database Update and Deployment
+- Add WORKPROGRESS to purchaserequisition table.
+- Add canAddAccountingCode to privilege table.
 - Add CODE, ABBREVIATION to accountingcode table. 
 - Add CANADDSUPPLIER to privileges table.
 - Add ACTIVE, INTERNAL, CATEGORY, DESCRIPTION fields to service table.
@@ -86,6 +80,7 @@
 - Do other client report template and upload.
 - Impl new service contract and agreement.
 - Do report for jobs not approved and incomplete up to 2017.
+- Do not allow export of job costing from until it is approved
 
 # Optional/Future
 - Deploy and configure activiti in gf3 on local PC for testing .
@@ -152,6 +147,7 @@ in active ones.
   * Impl tacking feature for this.
 - Impl using only one EMF which is used by all session beans when an entity 
   manager is needed.
+- Now that department is removed from JMUser, check that no code is broken.
 - Send error email for only job save related exceptions. Not messages pertaining
   to privileges. Send emails to desbenn@gmail.com
 - Remove major modules such as helpdesk, hrm, crm and stds dev and create as
@@ -190,6 +186,8 @@ separate projects using maven overlays.
 - Put the sync methods in the Application class from which all application scope
    classes would inherit. openedJobs would become openedObjects etc.
 - Go through each manager and remove code that is not needed in that manager.
+- Add a separate tab in user account dialog for sys admin.
+- Impl giving privileges to specific tabs in sys admin such as hrm.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.
@@ -198,6 +196,8 @@ separate projects using maven overlays.
 # CRM
 - Meet with BSJ re features and requirements
 - See docs in downloads folder
+- Put isNameAndIdEditable as transient in Client class and get rid of 
+  use of isNameAndIdEditable.
    
 # HRM
 - Fundamentals of Human Resource Management, pg 19

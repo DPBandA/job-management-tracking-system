@@ -130,6 +130,10 @@
         <validator-class>jm.com.dpbennett.wal.validator.JobNumberValidator</validator-class>
     </validator>
     <validator>
+        <validator-id>purchaseReqNumberValidator</validator-id>
+        <validator-class>jm.com.dpbennett.wal.validator.PurchaseReqNumberValidator</validator-class>
+    </validator>
+    <validator>
         <validator-id>subcontractedDepartmentValidator</validator-id>
         <validator-class>jm.com.dpbennett.wal.validator.SubcontractedDepartmentValidator</validator-class>
     </validator>
@@ -447,13 +451,13 @@
     
     <managed-bean>
         <managed-bean-name>legalDocumentManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.LegalDocumentManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.LegalDocumentManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
     <managed-bean>
         <managed-bean-name>systemManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.SystemManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.SystemManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     

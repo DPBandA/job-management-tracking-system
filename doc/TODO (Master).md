@@ -1,4 +1,15 @@
-## Things to do
+# Things to do
+
+## Financial Administration
+- Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
+- Create deduction class. Add name, type, threshold, thresholdType, percentage fields.
+- Make Purchasing a module Financial Services . Delete the Purchasing app from github for now?
+- Implement Payroll class to have a Pay collection field, date, creator, etc. 
+  The Pay class should have employee, salary, net salary, date, taxes etc.
+- Use phone scanner app to scan front and back cover of books and documents.
+  Throw away as many documents as possible.
+- Open the purchase req tab by default for now but allow user to choose which tab
+  to open by default for financial admin module.
 
 ### Inventory
 - Get more details then start app development.
@@ -18,7 +29,7 @@
 ### Inter-billing upload to Accpac
 - See email attachment from Simone
 
-### Customer Relationship Management (CRM)
+## Customer Relationship Management (CRM)
 - Get HBS Access database for importation into JMTS.
 - Add identification and identificationType to Client class.
 - Create MarketingCampaign class to capture telemarketing and other types of 
@@ -26,11 +37,12 @@
 - Add menu buttons in client dialog general tab to add/edit most recent address or contact.
 - Where does the marketing process start?
 - How should knowledge management be incorporated?
+- Add dialog return to "Client Management" menu item.
 
-### Documentation
+## Documentation
 - Update JMTS user manual
 
-### Reports
+## Reports
 - Create parent/child jobs report for Ministry of Finance based on request.
 - Remove the jasper-fonts from the hrm server and restart it to make use of the
   jasper fonts deployed with JMTS
@@ -49,12 +61,14 @@
 - Add test and calibration values to monthly report.
 - Reports on recalibration date for equipment.
 
-### HRM
-- Add list of Services to the Department class.
+## HRM
+- Take HRM out of system admin.
+- Create HRM unit privilege flag. It it is null set its value to the sysadmin 
+  flag.
 - Create and add Contractor to BEL/HRM? 
 - To Organization/Business class add Divisions, Subgroups, Departments, Clients
 
-### Updates based on training, testing and feedback
+## Updates based on training, testing and feedback
 - The delete payment dialog text does not show in dark hive. Fix!
 - Reload entities from database before loading in dialogs.
 - Allow creating subcontract from a subcontract.
@@ -80,15 +94,10 @@
 - Ensure that a job is not marked completed until the child job costing is included?
 - Remember to  create labs and units within departments.
 
-### Accounting & Finance
-- Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
-- Create deduction class. Add name, type, threshold, thresholdType, percentage fields.
-
-### Payroll
-- Implement Payroll class to have a Pay collection field, date, creator, etc. 
-  The Pay class should have employee, salary, net salary, date, taxes etc.
-  
-### General
+## General
+- Impl open and close tab methods as is done for MainTabView.
+- Remove the busy wait icon from the job dialog tab change and see if this makes 
+  any difference on 172.10.0.18/jmts.
 - In the "additional services" tab add list in otherRequestedServices field
   in job services contract. Remove "other" checkboxes. For intended market remove 
   checkbox and allow adding countries as other markets.
@@ -104,6 +113,7 @@
 - For client credit status check, note client is a credit client if they are "TRADE"
   and the credit limit is not 0.
 - Impl "ComplianceSurveyDialogForm" 
+- Add option to select the main tab view to open when first logged in.
 - Impl "dirty" and save() for each "subclass" and save only when dirty. 
 - Replace update*() with single update**() method where possible.
 - Impl "new compiance survey" and other functions in dashboard and maintab view. 
@@ -224,15 +234,17 @@ This release will be around early July.
   and tab initialization outside of the constructor.
 - Doing cell edit in table does not validate the object before saving. Fix!!
 
-### Job Edit Synchronization
+## Job Edit & Synchronization
 - Create/maintain list of opened jobs in the Application class.
   * Set opened date when open job and when keepalive runs..
 - Add Opened Jobs tab in Sys Admin with search text box and refresh button
 - Do sync for all job view tables.
 - Ensure access to currentJob is synchronized since it can be accessed by "keepalive"
-  other code at the same time
+  other code at the same time.
+- Fix up job number generation to do it the way it is done in PR without the use
+  of static method.
 
-### Farming
+## Farming
 - Create Livestock class to represent fish and other farm animals. Create Broodstock as 
 subclass of Livestock.
 
