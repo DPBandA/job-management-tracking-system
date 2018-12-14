@@ -36,11 +36,10 @@
 # Purchasing (Financial Admin)
 
 - Impl searching for PR and supplier using dashboard. 
-  * Impl search for Suppliers. 
-  * Widen the search fields.
-  * Put date period, start and end dates in PR tab toolbar.
-  * By default restrict searcher's department unless the person belongs to 
-    Purchasing department??
+  * By default restrict search user's department unless the user is searching from 
+    Fin Admin in the dashboard. Indicate somewhere in the tab that the search is
+    restricted where applicable.
+  * Hide PR date search fields if the user has Fin Admin access?
 - Impl approver dates and approvers table in general tab.
   * Do not allow the originator to approve.
   * Impl approver deletion confirmation dialog.

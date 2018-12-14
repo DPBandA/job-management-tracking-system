@@ -87,10 +87,10 @@ public class FinanceManager implements Serializable {
 
         switch (searchType) {
             case "Suppliers":
-                dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
-                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+//                dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
+//                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
                 break;
-            case "Purchase requisitions":                
+            case "Purchase requisitions":
                 dateSearchFields.add(new SelectItem("requisitionDate", "Requisition date"));
                 dateSearchFields.add(new SelectItem("dateOfCompletion", "Date completed"));
                 dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
@@ -109,7 +109,7 @@ public class FinanceManager implements Serializable {
 
         return dateSearchFields;
     }
-    
+
     public void updateDateSearchField() {
         //doSearch();
     }
@@ -432,48 +432,35 @@ public class FinanceManager implements Serializable {
     }
 
     public void doSupplierSearch() {
-        if (supplierSearchText.trim().length() > 1) {
+        doSupplierSearch(supplierSearchText);
+    }
+    
+    public void doSupplierSearch(String searchText) {
+        if (searchText.trim().length() > 1) {
             if (getIsActiveSuppliersOnly()) {
-                foundSuppliers = Supplier.findActiveSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
+                foundSuppliers = Supplier.findActiveSuppliersByFirstPartOfName(getEntityManager1(), searchText);
             } else {
-                foundSuppliers = Supplier.findSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
+                foundSuppliers = Supplier.findSuppliersByFirstPartOfName(getEntityManager1(), searchText);
             }
         } else {
             foundSuppliers = new ArrayList<>();
         }
     }
-    
+
     public void doSearch() {
-        
-        System.out.println("Impl search based on seach type..."); // tk
-        switch(searchType) {
+
+        switch (searchType) {
             case "Purchase requisitions":
-                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod, searchType, searchText);
+                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod, searchType, searchText, null);
+                getPurchasingManager().openPurchaseReqsTab();
                 break;
-            case "Suppliers"    :
-                System.out.println("Impl supplier search..");
+            case "Suppliers":
+                doSupplierSearch(searchText);
+                openSuppliersTab();
                 break;
             default:
                 break;
         }
-
-//        if (getUser().getId() != null) {
-//            jobSearchResultList = findJobs(false);
-//
-//            if (jobSearchResultList.isEmpty()) { // Do search with sample search enabled
-//                jobSearchResultList = findJobs(true);
-//            }
-//
-//        } else {
-//            jobSearchResultList = new ArrayList<>();
-//        }
-//
-//        // Set "Job View" based on search type
-//        if (getSearchType().equals("Unapproved job costings")) {
-//            getUser().setJobTableViewPreference("Job Costings");
-//        }
-//
-//        openJobBrowser();
 
     }
 
@@ -485,13 +472,6 @@ public class FinanceManager implements Serializable {
         this.supplierSearchText = supplierSearchText;
     }
 
-//    public Boolean getIsSupplierNameAndIdEditable() {
-//        return isSupplierNameAndIdEditable;
-//    }
-//
-//    public void setIsSupplierNameAndIdEditable(Boolean isSupplierNameAndIdEditable) {
-//        this.isSupplierNameAndIdEditable = isSupplierNameAndIdEditable;
-//    }
     public Supplier getSelectedSupplier() {
         if (selectedSupplier == null) {
             return new Supplier("");

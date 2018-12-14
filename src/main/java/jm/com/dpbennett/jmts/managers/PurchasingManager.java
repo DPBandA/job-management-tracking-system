@@ -391,6 +391,9 @@ public class PurchasingManager implements Serializable {
     }
 
     public List<PurchaseRequisition> getFoundPurchaseReqs() {
+        if (foundPurchaseReqs == null) {
+            foundPurchaseReqs = new ArrayList<>();
+        }
         return foundPurchaseReqs;
     }
 
@@ -400,28 +403,25 @@ public class PurchasingManager implements Serializable {
 
     public void doPurchaseReqSearch() {
 
-        doPurchaseReqSearch(dateSearchPeriod, searchType, purchaseReqSearchText);
+        doPurchaseReqSearch(dateSearchPeriod, searchType, purchaseReqSearchText,
+        getUser().getEmployee().getDepartment().getId());
     }
 
     public void doPurchaseReqSearch(DatePeriod datePeriod,
-            String searchType, String searchText) {
+            String searchType, String searchText, Long departmentId) {
+        
         EntityManager em = getEntityManager1();
 
         if (!searchText.isEmpty()) {
             foundPurchaseReqs = PurchaseRequisition.findByDateSearchField(em,
                     datePeriod.getDateField(), searchType, searchText.trim(),
-                    datePeriod.getStartDate(), datePeriod.getEndDate());
+                    datePeriod.getStartDate(), datePeriod.getEndDate(), departmentId);
         } else {
             foundPurchaseReqs = PurchaseRequisition.findByDateSearchField(em,
                     datePeriod.getDateField(), searchType, "",
-                    datePeriod.getStartDate(), datePeriod.getEndDate());
+                    datePeriod.getStartDate(), datePeriod.getEndDate(), departmentId);
         }
-        
-        //tk
-        System.out.println("PRs found: " + foundPurchaseReqs);
-                
 
-        openPurchaseReqsTab();
     }
 
     public String getPurchaseReqSearchText() {
@@ -434,9 +434,9 @@ public class PurchasingManager implements Serializable {
 
     public void createNewPurchaseReq() {
         selectedPurchaseRequisition = new PurchaseRequisition();
-        selectedPurchaseRequisition.setPurchasingDepartment(Department.findDefaultDepartment(getEntityManager1(), 
+        selectedPurchaseRequisition.setPurchasingDepartment(Department.findDefaultDepartment(getEntityManager1(),
                 "--"));
-        selectedPurchaseRequisition.setProcurementOfficer(Employee.findDefaultEmployee(getEntityManager1(), 
+        selectedPurchaseRequisition.setProcurementOfficer(Employee.findDefaultEmployee(getEntityManager1(),
                 "--", "--", false));
         selectedPurchaseRequisition.setSupplier(new Supplier("", true));
         selectedPurchaseRequisition.
@@ -475,9 +475,9 @@ public class PurchasingManager implements Serializable {
         longProcessProgress = 0;
         selectedCostComponent = null;
         foundPurchaseReqs = new ArrayList<>();
-        searchType = "";
-        dateSearchPeriod = new DatePeriod("This month", "month",
-                "pr.dateEntered", null, null, null, false, false, false);
+        searchType = "Purchase requisitions";
+       dateSearchPeriod = new DatePeriod("This year", "year",
+                "requisitionDate", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
         purchaseReqSearchText = "";
     }
