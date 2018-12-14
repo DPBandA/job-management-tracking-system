@@ -365,6 +365,16 @@ public class PurchasingManager implements Serializable {
     public int getNumOfPurchaseReqsFound() {
         return getFoundPurchaseReqs().size();
     }
+    
+    public String getPurchaseReqsTableHeader() {
+        if (getUser().getPrivilege().getCanBeFinancialAdministrator()) {
+           return "Search Results (found: " + getNumOfPurchaseReqsFound() + ")";
+        }
+        else {
+           return "Search Results (found: " + getNumOfPurchaseReqsFound() + " for " 
+                   + getUser().getEmployee().getDepartment() + ")"; 
+        }
+    }
 
     public void editPurhaseReqSuppier() {
         getFinanceManager().setSelectedSupplier(getSelectedPurchaseRequisition().getSupplier());

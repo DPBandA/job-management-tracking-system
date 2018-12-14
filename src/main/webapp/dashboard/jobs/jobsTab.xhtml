@@ -72,6 +72,15 @@ Email: info@dpbennett.com.jm
                             actionListener="#{jobManager.openReportsTab}"
                             oncomplete="PF('longProcessDialogVar').hide();"
                             process="@this"/>
+                <p:separator />
+                <p:menuitem value="Purchase Requisitions"
+                            style="text-align: left;background: none;border: 0;"
+                            title="Open purchase requisition tab"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            actionListener="#{purchasingManager.openPurchaseReqsTab}" 
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this" />
+
 
             </p:menuButton>         
         </p:toolbarGroup>

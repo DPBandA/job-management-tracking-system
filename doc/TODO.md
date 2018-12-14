@@ -36,10 +36,9 @@
 # Purchasing (Financial Admin)
 
 - Impl searching for PR and supplier using dashboard. 
-  * By default restrict search user's department unless the user is searching from 
-    Fin Admin in the dashboard. Indicate somewhere in the tab that the search is
-    restricted where applicable.
-  * Hide PR date search fields if the user has Fin Admin access?
+  * Add "Procurement" menu and menu items for "Suppliers" and "Purchase Requisitions" 
+    JM module "New" and "Tools" menus.
+  * Redo search when a date search field is changed in the PR ta.
 - Impl approver dates and approvers table in general tab.
   * Do not allow the originator to approve.
   * Impl approver deletion confirmation dialog.
@@ -52,8 +51,6 @@
   For now, check that at least 2 approvers are in the approval list.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Move openFinancialAdministration() to financialManager.
-- Add "Procurement" menu and menu items for "Suppliers" and "Purchase Requisitions" 
-  JM module "New" and "Tools" menus.
 - Populate PurchaseOrder with PR if possible. 
 - Initialize with the latest number used.
 - Ensure that the requisition date is the that orginator signed the PR.
