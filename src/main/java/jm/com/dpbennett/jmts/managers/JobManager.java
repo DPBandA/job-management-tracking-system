@@ -1048,15 +1048,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         if (checkUserJobEntryPrivilege()) {
             createJob(em, false);
-            //initManagers();
             getJobFinanceManager().setEnableOnlyPaymentEditing(false);
             PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 875);
+            openJobBrowser();
         } else {
             // tk test this code with user that does not have the required privilege.
             PrimeFacesUtils.addMessage("Job NOT Created",
                     "You do not have the prvilege to create jobs. Please contact your System Administrator",
                     FacesMessage.SEVERITY_ERROR);
         }
+        
+        
 
     }
 
