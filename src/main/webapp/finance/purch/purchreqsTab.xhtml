@@ -60,7 +60,8 @@ Email: info@dpbennett.com.jm
                              rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
                              id="finDateField" >
                 <p:ajax                        
-                    listener="#{purchasingManager.updateDateSearchField}"
+                    update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                    listener="#{purchasingManager.doPurchaseReqSearch}"
                     process="@this" />
 
                 <f:selectItems value="#{financeManager.dateSearchFields}" />
@@ -73,7 +74,18 @@ Email: info@dpbennett.com.jm
                         navigator="true"
                         rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
                         validator="requiredFieldValidator"
-                        pattern="MMM dd, yyyy" />
+                        pattern="MMM dd, yyyy" >
+
+                <p:ajax event="dateSelect"
+                        update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                        listener="#{purchasingManager.doPurchaseReqSearch}" />
+
+                <p:ajax event="keyup"
+                        update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                        listener="#{purchasingManager.doPurchaseReqSearch}" />
+
+
+            </p:calendar>
             <h:outputText value=" to " rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"/>
             <p:calendar id="finEndSearchDate"
                         value="#{purchasingManager.dateSearchPeriod.endDate}"                    
@@ -81,7 +93,17 @@ Email: info@dpbennett.com.jm
                         navigator="true"
                         rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
                         validator="requiredFieldValidator"
-                        pattern="MMM dd, yyyy" />
+                        pattern="MMM dd, yyyy" >
+
+                <p:ajax event="dateSelect"
+                        update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                        listener="#{purchasingManager.doPurchaseReqSearch}" />
+
+                <p:ajax event="keyup"
+                        update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                        listener="#{purchasingManager.doPurchaseReqSearch}" />
+
+            </p:calendar>
         </p:toolbarGroup>
 
     </p:toolbar>

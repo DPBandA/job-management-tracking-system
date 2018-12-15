@@ -35,15 +35,9 @@
 
 # Purchasing (Financial Admin)
 
-- Impl searching for PR and supplier using dashboard. 
-  * Add "Procurement" menu and menu items for "Suppliers" and "Purchase Requisitions" 
-    JM module "New" and "Tools" menus.
-  * Redo search when a date search field is changed in the PR tab.
 - Impl approver dates and approvers table in general tab.
-  * Do not allow the originator to approve.
   * Impl approver deletion confirmation dialog.
-  * Allow approval from only one person of a specific position.
-  * Impl getting list of titles without the square brackets.
+  * Allow approval from only one person of a specific position.  
 - Show growl if PR is closed without saving.
 - Implement setting purchasing department abnd procurement officer when 
   work progress is set as "Completed"

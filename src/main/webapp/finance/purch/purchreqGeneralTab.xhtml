@@ -240,7 +240,7 @@ Email: info@dpbennett.com.jm
                 <f:facet name="header">
                     <h:outputText value="Title(s)" />
                 </f:facet>
-                <h:outputText value="#{approver.positions}" />                    
+                <h:outputText value="#{approver.allPositions}" />                    
             </p:column>
 
             <p:column >
@@ -250,27 +250,18 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="#{purchasingManager.getPRApprovalDate(approver.positions)}" />                    
             </p:column>
 
-            <p:column style="width:32px" >
-                <p:menuButton id="toolsButton" 
-                              title="Delete approver"
-                              icon="ui-icon-pencil" >
+            <p:column style="width:32px" >                                   
+                <p:commandButton   
+                    onclick="purchreqCostCompDeleteConfirmDialog.show();"
+                    disabled="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
+                    title="Delete this approval"
+                    icon="ui-icon-trash"
+                    process="@this">
 
-                    <p:menuitem >                       
-                        <p:commandButton   
-                            value="Delete"
-                            style="width: 300%;text-align: left;background: none;border: 0;"
-                            onclick="purchreqCostCompDeleteConfirmDialog.show();"
-                            disabled=""
-                            icon="ui-icon-trash"
-                            process="@this">
+                    <f:setPropertyActionListener value="#{approver}"
+                                                 target="#{purchasingManager.selectedApprover}" />
 
-                            <f:setPropertyActionListener value="#{approver}"
-                                                         target="#{purchasingManager.selectedApprover}" />
-
-                        </p:commandButton>
-                    </p:menuitem>                   
-
-                </p:menuButton>                   
+                </p:commandButton>
             </p:column>      
 
         </p:dataTable>

@@ -43,6 +43,7 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.ReturnMessage;
 import jm.com.dpbennett.wal.utils.BeanUtils;
+import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
@@ -91,25 +92,30 @@ public class PurchasingManager implements Serializable {
         this.dateSearchPeriod = dateSearchPeriod;
     }
 
-    public Date getPRApprovalDate(List<EmployeePosition> positions) {
+    public String getPRApprovalDate(List<EmployeePosition> positions) {
         for (EmployeePosition position : positions) {
             switch (position.getTitle()) {
                 case "Team Leader":
-                    return getSelectedPurchaseRequisition().getTeamLeaderApprovalDate();
+                    return BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getTeamLeaderApprovalDate());
                 case "Divisional Manager":
-                    return getSelectedPurchaseRequisition().getDivisionalManagerApprovalDate();
+                    return BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getDivisionalManagerApprovalDate());
                 case "Divisional Director":
-                    return getSelectedPurchaseRequisition().getDivisionalDirectorApprovalDate();
+                    return BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getDivisionalDirectorApprovalDate());
                 case "Finance Manager":
-                    return getSelectedPurchaseRequisition().getFinanceManagerApprovalDate();
+                    return BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getFinanceManagerApprovalDate());
                 case "Executive Director":
-                    getSelectedPurchaseRequisition().getExecutiveDirectorApprovalDate();
+                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getExecutiveDirectorApprovalDate());
                 default:
                     break;
             }
         }
 
-        return null;
+        return "";
     }
 
     public Employee getSelectedApprover() {
