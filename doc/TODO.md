@@ -34,10 +34,11 @@
 - NB: Test as various users with various employee positions. 
 
 # Purchasing (Financial Admin)
-
 - Impl approver dates and approvers table in general tab.
-  * Impl approver deletion confirmation dialog.
-  * Allow approval from only one person of a specific position.  
+    * Allow approval from only one person of a specific position and with the 
+      required approval limit.  
+- Add date last edited in status and tracking.
+- Impl table update when cost component is deleted.
 - Show growl if PR is closed without saving.
 - Implement setting purchasing department abnd procurement officer when 
   work progress is set as "Completed"
@@ -53,6 +54,9 @@
 - Enter the approval limits in test and production databases.
 - Set the department of the purchasing officer that completes the PR as the 
   purchasing department of the PR.
+- Restrict editing of PR to the orginating department, fin admin or procurement officer.
+- Format currency in Employee position table and put $ in table columns. Make sure
+  text fields accept "," in the figure eg. 70,000.00
 
 # All Database Update and Deployment
 - Add WORKPROGRESS to purchaserequisition table.
@@ -123,6 +127,8 @@ in active ones.
 - Add payCycle to EmployeePosition class. Should be in Payroll class too?
 
 # General
+- Set all search results list in all managers to null when logout to prevent the next logged
+  user from accessing that list.
 - Misc config search results not sorted. Fix!
 - Upgrade to using Java EE 7/8 and GF 5 on boshrmapp and bosapp ASAP.
 - Set address type to billing for new addresses.

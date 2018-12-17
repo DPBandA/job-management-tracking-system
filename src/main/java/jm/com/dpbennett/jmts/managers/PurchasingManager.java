@@ -43,7 +43,6 @@ import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.business.entity.utils.ReturnMessage;
 import jm.com.dpbennett.wal.utils.BeanUtils;
-import jm.com.dpbennett.wal.utils.DateUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
@@ -230,6 +229,26 @@ public class PurchasingManager implements Serializable {
         deleteCostComponentByName(selectedCostComponent.getName());
     }
 
+    public void deleteSelectedPRApprover() {
+        deleteApproverByName(selectedApprover.getName());
+    }
+
+    public void deleteApproverByName(String approverName) {
+
+        List<Employee> employees = getSelectedPurchaseRequisition().getApprovers();
+        int index = 0;
+        for (Employee employee : employees) {
+            if (employee.getName().equals(approverName)) {
+                employees.remove(index);
+
+                getSelectedPurchaseRequisition().setIsDirty(true);
+
+                break;
+            }
+            ++index;
+        }
+    }
+
     public void okCostingComponent() {
         if (selectedCostComponent.getId() == null && !getEdit()) {
             getSelectedPurchaseRequisition().getCostComponents().add(selectedCostComponent);
@@ -371,14 +390,13 @@ public class PurchasingManager implements Serializable {
     public int getNumOfPurchaseReqsFound() {
         return getFoundPurchaseReqs().size();
     }
-    
+
     public String getPurchaseReqsTableHeader() {
         if (getUser().getPrivilege().getCanBeFinancialAdministrator()) {
-           return "Search Results (found: " + getNumOfPurchaseReqsFound() + ")";
-        }
-        else {
-           return "Search Results (found: " + getNumOfPurchaseReqsFound() + " for " 
-                   + getUser().getEmployee().getDepartment() + ")"; 
+            return "Search Results (found: " + getNumOfPurchaseReqsFound() + ")";
+        } else {
+            return "Search Results (found: " + getNumOfPurchaseReqsFound() + " for "
+                    + getUser().getEmployee().getDepartment() + ")";
         }
     }
 
@@ -408,7 +426,7 @@ public class PurchasingManager implements Serializable {
 
     public List<PurchaseRequisition> getFoundPurchaseReqs() {
         if (foundPurchaseReqs == null) {
-            foundPurchaseReqs = new ArrayList<>();
+            doPurchaseReqSearch();
         }
         return foundPurchaseReqs;
     }
@@ -419,13 +437,19 @@ public class PurchasingManager implements Serializable {
 
     public void doPurchaseReqSearch() {
 
-        doPurchaseReqSearch(dateSearchPeriod, searchType, purchaseReqSearchText,
-        getUser().getEmployee().getDepartment().getId());
+        if (getUser().getPrivilege().getCanBeFinancialAdministrator()) {
+            doPurchaseReqSearch(dateSearchPeriod, searchType, purchaseReqSearchText,
+                    null);
+        }
+        else {
+            doPurchaseReqSearch(dateSearchPeriod, searchType, purchaseReqSearchText,
+                    getUser().getEmployee().getDepartment().getId());
+        }
     }
 
     public void doPurchaseReqSearch(DatePeriod datePeriod,
             String searchType, String searchText, Long departmentId) {
-        
+
         EntityManager em = getEntityManager1();
 
         if (!searchText.isEmpty()) {
@@ -490,12 +514,12 @@ public class PurchasingManager implements Serializable {
     private void init() {
         longProcessProgress = 0;
         selectedCostComponent = null;
-        foundPurchaseReqs = new ArrayList<>();
         searchType = "Purchase requisitions";
-       dateSearchPeriod = new DatePeriod("This year", "year",
+        dateSearchPeriod = new DatePeriod("This year", "year",
                 "requisitionDate", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
         purchaseReqSearchText = "";
+        foundPurchaseReqs = null;
     }
 
     public void reset() {
