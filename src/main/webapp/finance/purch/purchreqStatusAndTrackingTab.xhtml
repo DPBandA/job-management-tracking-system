@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
         <h:panelGrid columns="1" >
             <h:panelGroup>
                 <h:panelGrid columns="2">
-                    
+
                     <h:outputLabel value="Work progress: " 
                                    style="font-weight: bold;"
                                    for="workProgress"/>
@@ -84,6 +84,14 @@ Email: info@dpbennett.com.jm
                                  maxlength="250"
                                  style="background-color: lightgrey"
                                  value="#{purchasingManager.selectedPurchaseRequisition.editedBy.firstName} #{purchasingManager.selectedPurchaseRequisition.editedBy.lastName}" />
+
+                    <h:outputText value="Date edited: " />
+                    <p:calendar value="#{purchasingManager.selectedPurchaseRequisition.dateEdited}"  
+                                inputStyleClass="read-only-calendar"
+                                readonly="true"
+                                readonlyInput="true"
+                                showOn="none"   
+                                pattern="MMM dd, yyyy" /> 
 
                     <h:outputText value="Expected date of completion: "/>
                     <p:calendar pattern="MMM dd, yyyy"

@@ -34,11 +34,7 @@
 - NB: Test as various users with various employee positions. 
 
 # Purchasing (Financial Admin)
-- Impl approver dates and approvers table in general tab.
-    * Allow approval from only one person of a specific position and with the 
-      required approval limit.  
-- Add date last edited in status and tracking.
-- Impl table update when cost component is deleted.
+- Show {edited} in toolbar as is done with job dialog.
 - Show growl if PR is closed without saving.
 - Implement setting purchasing department abnd procurement officer when 
   work progress is set as "Completed"

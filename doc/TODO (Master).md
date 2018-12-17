@@ -10,6 +10,8 @@
   Throw away as many documents as possible.
 - Open the purchase req tab by default for now but allow user to choose which tab
   to open by default for financial admin module.
+- Add as system option the positions that are allowed to approve a PR. Check 
+  that an approver has one of these positions before allowing them to approve.
 
 ### Inventory
 - Get more details then start app development.

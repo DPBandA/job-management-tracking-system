@@ -29,6 +29,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import jm.com.dpbennett.business.entity.BusinessEntity;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
@@ -240,7 +241,7 @@ public class PurchasingManager implements Serializable {
         for (Employee employee : employees) {
             if (employee.getName().equals(approverName)) {
                 employees.remove(index);
-
+                removePRApprovalDate(employee.getPositions());
                 getSelectedPurchaseRequisition().setIsDirty(true);
 
                 break;
@@ -440,8 +441,7 @@ public class PurchasingManager implements Serializable {
         if (getUser().getPrivilege().getCanBeFinancialAdministrator()) {
             doPurchaseReqSearch(dateSearchPeriod, searchType, purchaseReqSearchText,
                     null);
-        }
-        else {
+        } else {
             doPurchaseReqSearch(dateSearchPeriod, searchType, purchaseReqSearchText,
                     getUser().getEmployee().getDepartment().getId());
         }
@@ -669,16 +669,52 @@ public class PurchasingManager implements Serializable {
 
     public void approveSelectedPurchaseRequisition(ActionEvent event) {
 
-        if (!getSelectedPurchaseRequisition().getOriginator().
+        // Check if the approver is already in the list of approvers
+        if (BusinessEntityUtils.isBusinessEntityList(
+                getSelectedPurchaseRequisition().getApprovers(),
+                getUser().getEmployee().getId())) {
+
+            PrimeFacesUtils.addMessage("Already Approved",
+                    "You already approved this purchase requisition.",
+                    FacesMessage.SEVERITY_INFO);
+
+            return;
+
+        }
+
+        // Do not allow originator to approve
+        if (getSelectedPurchaseRequisition().getOriginator().
                 equals(getUser().getEmployee())) {
 
+            PrimeFacesUtils.addMessage("Cannot Approve",
+                    "The originator cannot approve this purchase requisition.",
+                    FacesMessage.SEVERITY_WARN);
+
+            return;
+
+        }
+
+        // Check if total cost is within the approver's limit
+        if (isPRCostWithinApprovalLimit(getUser().getEmployee().getPositions())) {
             getSelectedPurchaseRequisition().getApprovers().add(getUser().getEmployee());
             setPRApprovalDate(getUser().getEmployee().getPositions());
         } else {
-            PrimeFacesUtils.addMessage("Originator Cannot Approve",
-                    "The originator cannot approve this purchase requisition.",
-                    FacesMessage.SEVERITY_INFO);
+            
+            PrimeFacesUtils.addMessage("Cannot Approve",
+                    "You cannot approve this purchase requisition because the Total Cost is greater than your approval limit.",
+                    FacesMessage.SEVERITY_WARN);
+
         }
+    }
+
+    private Boolean isPRCostWithinApprovalLimit(List<EmployeePosition> positions) {
+        for (EmployeePosition position : positions) {
+            if (position.getUpperApprovalLevel() >= getSelectedPurchaseRequisition().getTotalCost()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void setPRApprovalDate(List<EmployeePosition> positions) {
@@ -701,6 +737,30 @@ public class PurchasingManager implements Serializable {
                     return;
                 default:
                     return;
+            }
+        }
+    }
+    
+    private void removePRApprovalDate(List<EmployeePosition> positions) {
+        for (EmployeePosition position : positions) {
+            switch (position.getTitle()) {
+                case "Team Leader":
+                    getSelectedPurchaseRequisition().setTeamLeaderApprovalDate(null);
+                    break;
+                case "Divisional Manager":
+                    getSelectedPurchaseRequisition().setDivisionalManagerApprovalDate(null);
+                    break;
+                case "Divisional Director":
+                    getSelectedPurchaseRequisition().setDivisionalDirectorApprovalDate(null);
+                    break;
+                case "Finance Manager":
+                    getSelectedPurchaseRequisition().setFinanceManagerApprovalDate(null);
+                    break;
+                case "Executive Director":
+                    getSelectedPurchaseRequisition().setExecutiveDirectorApprovalDate(null);
+                    break;
+                default:
+                    break;
             }
         }
     }
