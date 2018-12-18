@@ -32,6 +32,7 @@
   exported.
 - Put the name of the approver on the job costing.
 - NB: Test as various users with various employee positions. 
+- Add user preference to export invoioices when "Invoice" button is pressed?
 
 # Purchasing (Financial Admin)
 - Show {edited} in toolbar as is done with job dialog.
