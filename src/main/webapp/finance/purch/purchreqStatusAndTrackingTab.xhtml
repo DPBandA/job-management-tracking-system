@@ -62,7 +62,7 @@ Email: info@dpbennett.com.jm
                                     converter="activeDepartmentConverter"
                                     validator="businessEntityValidator"
                                     completeMethod="#{humanResourceManager.completeActiveDepartment}" /> 
-
+                     
                     <h:outputText value="Procurement officer: " style="font-weight: bold" />       
                     <p:autoComplete id="officer"
                                     readonly="true"
@@ -98,10 +98,15 @@ Email: info@dpbennett.com.jm
                                 navigator="true"          
                                 readonlyInput="true"
                                 value="#{purchasingManager.selectedPurchaseRequisition.expectedDateOfCompletion}" >
+                        
                         <p:ajax event="dateSelect"   
+                                update=":purchreqDialogForm:purchreqDetailToolbar1"
                                 listener="#{purchasingManager.updatePurchaseReq}"/>
+                        
                         <p:ajax event="change"  
+                                update=":purchreqDialogForm:purchreqDetailToolbar1"
                                 listener="#{purchasingManager.updatePurchaseReq}"/>
+                        
                     </p:calendar>                   
 
                 </h:panelGrid>
@@ -116,10 +121,13 @@ Email: info@dpbennett.com.jm
             counterTemplate="{0} characters remaining."
             maxlength="1000"
             style="width: 500px;">
+            
             <p:ajax event="change"
-                    global="false"                    
+                    global="false"        
+                    update=":purchreqDialogForm:purchreqDetailToolbar1"
                     listener="#{purchasingManager.updatePurchaseReq}"
                     process="@this"/>
+            
         </p:inputTextarea>
         <br/>
         <h:outputText id="statusNoteCharsRemaining" /> 

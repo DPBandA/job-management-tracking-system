@@ -29,7 +29,6 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import jm.com.dpbennett.business.entity.BusinessEntity;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
@@ -208,7 +207,8 @@ public class PurchasingManager implements Serializable {
                         setPurchasingDepartment(getUser().getEmployee().getDepartment());
             }
 
-            getSelectedPurchaseRequisition().setIsDirty(true);
+            updatePurchaseReq(null);
+            
         } else {
             if (getSelectedPurchaseRequisition().getId() != null) {
                 // Reset work progress to the currently saved state
@@ -255,6 +255,10 @@ public class PurchasingManager implements Serializable {
             getSelectedPurchaseRequisition().getCostComponents().add(selectedCostComponent);
         }
         setEdit(false);
+        
+        if (getSelectedCostComponent().getIsDirty()) {
+            updatePurchaseReq(null);
+        }
 
         PrimeFaces.current().executeScript("PF('purchreqCostingCompDialog').hide();");
     }
@@ -320,6 +324,7 @@ public class PurchasingManager implements Serializable {
 
     public void updatePurchaseReq(AjaxBehaviorEvent event) {
         getSelectedPurchaseRequisition().setIsDirty(true);
+        getSelectedPurchaseRequisition().setEditStatus("(edited)");
     }
 
     public void updateAutoGeneratePRNumber() {
@@ -327,8 +332,8 @@ public class PurchasingManager implements Serializable {
         if (getSelectedPurchaseRequisition().getAutoGenerateNumber()) {
             getSelectedPurchaseRequisition().generateNumber();
         }
-        getSelectedPurchaseRequisition().setIsDirty(true);
 
+        updatePurchaseReq(null);
     }
 
     public void closeDialog() {
@@ -698,8 +703,10 @@ public class PurchasingManager implements Serializable {
         if (isPRCostWithinApprovalLimit(getUser().getEmployee().getPositions())) {
             getSelectedPurchaseRequisition().getApprovers().add(getUser().getEmployee());
             setPRApprovalDate(getUser().getEmployee().getPositions());
-        } else {
             
+            updatePurchaseReq(null);
+        } else {
+
             PrimeFacesUtils.addMessage("Cannot Approve",
                     "You cannot approve this purchase requisition because the Total Cost is greater than your approval limit.",
                     FacesMessage.SEVERITY_WARN);
@@ -740,7 +747,7 @@ public class PurchasingManager implements Serializable {
             }
         }
     }
-    
+
     private void removePRApprovalDate(List<EmployeePosition> positions) {
         for (EmployeePosition position : positions) {
             switch (position.getTitle()) {

@@ -217,7 +217,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton title="Approve this purchase requisition"
                                  value="Approve"
                                  actionListener="#{purchasingManager.approveSelectedPurchaseRequisition}"
-                                 update="approvalsPanel,:purchreqDialogForm:purchreq_growl"
+                                 update=":purchreqDialogForm:purchreqDetailToolbar1,approvalsPanel,:purchreqDialogForm:purchreq_growl"
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  process="@this">
@@ -270,7 +270,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton title="Approve this purchase requisition"
                                  value="Approve"
                                  actionListener="#{purchasingManager.approveSelectedPurchaseRequisition}"
-                                 update="approvalsPanel,:purchreqDialogForm:purchreq_growl"
+                                 update=":purchreqDialogForm:purchreqDetailToolbar1,approvalsPanel,:purchreqDialogForm:purchreq_growl"
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  process="@this">

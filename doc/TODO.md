@@ -35,7 +35,6 @@
 - Add user preference to export invoioices when "Invoice" button is pressed?
 
 # Purchasing (Financial Admin)
-- Show {edited} in toolbar as is done with job dialog.
 - Show growl if PR is closed without saving.
 - Implement setting purchasing department abnd procurement officer when 
   work progress is set as "Completed"
@@ -183,6 +182,8 @@ separate projects using maven overlays.
 - Go through each manager and remove code that is not needed in that manager.
 - Add a separate tab in user account dialog for sys admin.
 - Impl giving privileges to specific tabs in sys admin such as hrm.
+- Use uneditable greyed input text to display uneditable date field instead of 
+  calendar component since a calendar component can't be grey out.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

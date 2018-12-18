@@ -34,7 +34,7 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      actionListener="#{purchasingManager.okCostingComponent}"
-                                     update=":purchreqDialogForm:purchreqFormTabView:costComponentTable,:purchreqDialogForm:purchreq_growl"
+                                     update=":purchreqDialogForm:purchreqDetailToolbar1,:purchreqDialogForm:purchreqFormTabView:costComponentTable,:purchreqDialogForm:purchreq_growl"
                                      onstart="PF('longProcessDialogVar').show();" 
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
@@ -64,6 +64,7 @@ Email: info@dpbennett.com.jm
                         <p:ajax listener="#{purchasingManager.updateCostCode}"
                                 update="costingComponentPanelGrid"
                                 process="@this"/>
+                        
                     </p:selectOneMenu>    
 
                     <h:outputLabel value="Component:" style="font-weight: bold" />
@@ -157,7 +158,7 @@ Email: info@dpbennett.com.jm
                     <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      actionListener="#{purchasingManager.okCostingComponent}"
-                                     update=":purchreqDialogForm:purchreqFormTabView:costComponentTable,:purchreqDialogForm:purchreq_growl"
+                                     update=":purchreqDialogForm:purchreqDetailToolbar1,:purchreqDialogForm:purchreqFormTabView:costComponentTable,:purchreqDialogForm:purchreq_growl"
                                      onstart="PF('longProcessDialogVar').show();" 
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
