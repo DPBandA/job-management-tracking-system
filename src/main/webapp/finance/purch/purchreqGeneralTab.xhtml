@@ -139,21 +139,9 @@ Email: info@dpbennett.com.jm
             </h:panelGroup>
 
             <h:outputText value="Date: " style="font-weight: bold" />
-            <p:calendar id="requisitionDate"
-                        value="#{purchasingManager.selectedPurchaseRequisition.requisitionDate}" 
-                        readonlyInput="true"                    
-                        navigator="true" 
-                        pattern="MMM dd, yyyy" >
-
-                <p:ajax event="dateSelect"
-                        update=":purchreqDialogForm:purchreqDetailToolbar1"
-                        listener="#{purchasingManager.updatePurchaseReq}" />
-
-                <p:ajax event="keyup"
-                        update=":purchreqDialogForm:purchreqDetailToolbar1"
-                        listener="#{purchasingManager.updatePurchaseReq}" />
-
-            </p:calendar>
+            <p:inputText readonly="true"
+                         style="background-color: lightyellow;"
+                         value="#{purchasingManager.selectedPurchaseRequisition.requisitionDateStr}" />           
 
             <h:outputText value="Originating department: " style="font-weight: bold" />
             <p:autoComplete id="originatingDepartment"                          

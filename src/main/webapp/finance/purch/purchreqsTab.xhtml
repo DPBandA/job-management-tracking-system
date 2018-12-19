@@ -37,7 +37,7 @@ Email: info@dpbennett.com.jm
                 title="Add a new purchase requisition" >
 
                 <p:ajax event="dialogReturn" 
-                        listener="#{purchasingManager.doPurchaseReqSearch}"
+                        listener="#{purchasingManager.purchaseReqDialogReturn}"
                         update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
             </p:commandButton>
@@ -146,6 +146,13 @@ Email: info@dpbennett.com.jm
                 <f:convertDateTime pattern="MMM dd, yyyy"/>
             </h:outputText>
         </p:column>
+        
+        <p:column sortBy="#{pr.totalCost}">
+            <f:facet name="header">
+                <h:outputText value="Total cost ($)"/>
+            </f:facet>
+            <h:outputText value="#{pr.totalCost}" />                
+        </p:column>
 
         <p:column sortBy="#{pr.description}">
             <f:facet name="header">
@@ -166,6 +173,7 @@ Email: info@dpbennett.com.jm
                                              target="#{purchasingManager.selectedPurchaseRequisition}" />
 
                 <p:ajax event="dialogReturn" 
+                        listener="#{purchasingManager.purchaseReqDialogReturn}"
                         update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
             </p:commandButton>
@@ -184,7 +192,7 @@ Email: info@dpbennett.com.jm
                 title="Add a new purchase requisition" >
 
                 <p:ajax event="dialogReturn" 
-                        listener="#{purchasingManager.doPurchaseReqSearch}"
+                        listener="#{purchasingManager.purchaseReqDialogReturn}"
                         update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
             </p:commandButton>

@@ -35,9 +35,13 @@
 - Add user preference to export invoioices when "Invoice" button is pressed?
 
 # Purchasing (Financial Admin)
-- Show growl if PR is closed without saving.
-- Implement setting purchasing department abnd procurement officer when 
-  work progress is set as "Completed"
+- Impl getting all the dates in PR class as medium date string. 
+  Add completion date as yellow back ground read only text to tracking tab.
+- Add other dates to tracking tab. Add the appropriate background color as required.
+- Implement setting purchasing department, procurement officer and completion 
+  date when work progress is set as "Completed" by a  procurement officer.
+- If work progress is set to anything other that completed make sure 
+  procurement officer, department and date completed are reset
 - Impl PurchaseRequisition.isApproved() that determines if a PR was approved.
   For now, check that at least 2 approvers are in the approval list.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
@@ -53,6 +57,7 @@
 - Restrict editing of PR to the orginating department, fin admin or procurement officer.
 - Format currency in Employee position table and put $ in table columns. Make sure
   text fields accept "," in the figure eg. 70,000.00
+- Add "Reports" menu item to the fin admin dashboard.
 
 # All Database Update and Deployment
 - Add WORKPROGRESS to purchaserequisition table.

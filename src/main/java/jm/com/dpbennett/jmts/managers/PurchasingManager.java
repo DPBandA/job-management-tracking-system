@@ -130,53 +130,29 @@ public class PurchasingManager implements Serializable {
 
         // Find the currently stored PR and check it's work status
         if (getSelectedPurchaseRequisition().getId() != null) {
-            PurchaseRequisition savedPurchaseRequisition
-                    = PurchaseRequisition.findById(em, getSelectedPurchaseRequisition().getId());
-
-            // Do not allow flagging PR as completed unless it is approved and the 
-            // person is a procurement officer. 
-            if (!getSelectedPurchaseRequisition().isApproved()
-                    && !getUser().getEmployee().isProcurementOfficer()
+            
+            // Procurement officer is required to approve PRs
+            if ( !getUser().getEmployee().isProcurementOfficer()
                     && getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
 
-                PrimeFacesUtils.addMessage("Work Progress Cannot Be As Marked Completed",
-                        "You are not a procurement officer or this purchase requisition needs to be approved before it can marked as completed.",
+                PrimeFacesUtils.addMessage("Procurement Officer Required",
+                        "You are not a procurement officer so you cannot mark this purchase requisition as completed.",
                         FacesMessage.SEVERITY_WARN);
 
                 return false;
             }
+            
+            // Do not allow flagging PR as completed unless it is approved             
+            if (!getSelectedPurchaseRequisition().isApproved(2) // tk required num. to be made system option
+                    && getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
 
-            if (getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")
-                    && !getUser().getPrivilege().getCanBeFinancialAdministrator()) {
-
-                // Reset PR to its saved work progress
-                getSelectedPurchaseRequisition().
-                        setWorkProgress(savedPurchaseRequisition.getWorkProgress());
-
-                PrimeFacesUtils.addMessage("Work Progress Cannot Be Changed",
-                        "\"This purchase requisition is marked as completed and cannot be changed. You may contact a financial administrator for assistance.",
+                PrimeFacesUtils.addMessage("Purchase Requisition Not Approved",
+                        "This purchase requisition is NOT approved so it cannot be marked as completed.",
                         FacesMessage.SEVERITY_WARN);
 
                 return false;
-            } else if (getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")
-                    && getUser().getPrivilege().getCanBeFinancialAdministrator()) {
-                // System admin can change work status even if it's completed.
-                return true;
-            } else if (!savedPurchaseRequisition.getWorkProgress().equals("Completed")
-                    && getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")
-                    && !getSelectedPurchaseRequisition().isApproved()) {
-
-                // Reset PR to its saved work progress
-                getSelectedPurchaseRequisition().
-                        setWorkProgress(savedPurchaseRequisition.getWorkProgress());
-
-                PrimeFacesUtils.addMessage("Purchase Requisition Work Progress Cannot Be As Marked Completed",
-                        "The purchase requisition needs to be approved before it can be marked as completed.",
-                        FacesMessage.SEVERITY_WARN);
-
-                return false;
-
             }
+            
         } else {
 
             PrimeFacesUtils.addMessage("Purchase Requisition Work Progress Cannot be Changed",
@@ -208,7 +184,7 @@ public class PurchasingManager implements Serializable {
             }
 
             updatePurchaseReq(null);
-            
+
         } else {
             if (getSelectedPurchaseRequisition().getId() != null) {
                 // Reset work progress to the currently saved state
@@ -255,7 +231,7 @@ public class PurchasingManager implements Serializable {
             getSelectedPurchaseRequisition().getCostComponents().add(selectedCostComponent);
         }
         setEdit(false);
-        
+
         if (getSelectedCostComponent().getIsDirty()) {
             updatePurchaseReq(null);
         }
@@ -419,6 +395,19 @@ public class PurchasingManager implements Serializable {
         }
     }
 
+    public void purchaseReqDialogReturn() {
+        if (getSelectedPurchaseRequisition().getIsDirty()) {
+            PrimeFacesUtils.addMessage("Purchase requisition NOT saved", 
+                    "The recently edited purchase requisition was not saved", 
+                    FacesMessage.SEVERITY_WARN);
+            PrimeFaces.current().ajax().update("headerForm:growl3");
+            getSelectedPurchaseRequisition().setIsDirty(false);
+        }
+        
+        doPurchaseReqSearch();
+
+    }
+
     public void createNewPurhaseReqSupplier() {
         getFinanceManager().createNewSupplier();
 
@@ -427,7 +416,7 @@ public class PurchasingManager implements Serializable {
 
     public void editSelectedPurchaseReq() {
 
-        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 600, 700);
+        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 625, 700);
     }
 
     public List<PurchaseRequisition> getFoundPurchaseReqs() {
@@ -703,7 +692,7 @@ public class PurchasingManager implements Serializable {
         if (isPRCostWithinApprovalLimit(getUser().getEmployee().getPositions())) {
             getSelectedPurchaseRequisition().getApprovers().add(getUser().getEmployee());
             setPRApprovalDate(getUser().getEmployee().getPositions());
-            
+
             updatePurchaseReq(null);
         } else {
 
@@ -743,7 +732,7 @@ public class PurchasingManager implements Serializable {
                     getSelectedPurchaseRequisition().setExecutiveDirectorApprovalDate(new Date());
                     return;
                 default:
-                    return;
+                    break;
             }
         }
     }

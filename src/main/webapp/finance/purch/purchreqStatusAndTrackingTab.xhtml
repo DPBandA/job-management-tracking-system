@@ -86,12 +86,10 @@ Email: info@dpbennett.com.jm
                                  value="#{purchasingManager.selectedPurchaseRequisition.editedBy.firstName} #{purchasingManager.selectedPurchaseRequisition.editedBy.lastName}" />
 
                     <h:outputText value="Date edited: " />
-                    <p:calendar value="#{purchasingManager.selectedPurchaseRequisition.dateEdited}"  
-                                inputStyleClass="read-only-calendar"
-                                readonly="true"
-                                readonlyInput="true"
-                                showOn="none"   
-                                pattern="MMM dd, yyyy" /> 
+                    <p:inputText readonly="true"
+                         style="background-color: lightgray;"
+                         value="#{purchasingManager.selectedPurchaseRequisition.dateEditedStr}" />  
+                   
 
                     <h:outputText value="Expected date of completion: "/>
                     <p:calendar pattern="MMM dd, yyyy"
