@@ -37,6 +37,9 @@
 # Purchasing (Financial Administration)
 - Display the correct growl message when a PR is already completed and an
   attempt is made to save changes.
+  * Iml sending normal and error email using Utils and not a method in the managers.
+    Use system options where necessary to get the parameters for the email such 
+    as the developer email.
 - Do not allow some to change the status from completed to something else unless
   they are a procurement officer.
 - Impl email messaging to the originator and other PR stakeholders.

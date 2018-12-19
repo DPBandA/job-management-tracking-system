@@ -378,7 +378,8 @@ public class PurchasingManager implements Serializable {
 
     public void sendErrorEmail(String subject, String message) {
         try {
-            // Send error message to developer's email            
+            // Send error message to developer's email      
+            
             Utils.postMail(null, null, subject, message);
         } catch (Exception ex) {
             System.out.println(ex);
