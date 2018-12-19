@@ -29,6 +29,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import jm.com.dpbennett.business.entity.BusinessEntity;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
@@ -130,9 +131,9 @@ public class PurchasingManager implements Serializable {
 
         // Find the currently stored PR and check it's work status
         if (getSelectedPurchaseRequisition().getId() != null) {
-            
+
             // Procurement officer is required to approve PRs
-            if ( !getUser().getEmployee().isProcurementOfficer()
+            if (!getUser().getEmployee().isProcurementOfficer()
                     && getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
 
                 PrimeFacesUtils.addMessage("Procurement Officer Required",
@@ -141,7 +142,7 @@ public class PurchasingManager implements Serializable {
 
                 return false;
             }
-            
+
             // Do not allow flagging PR as completed unless it is approved             
             if (!getSelectedPurchaseRequisition().isApproved(2) // tk required num. to be made system option
                     && getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
@@ -152,7 +153,7 @@ public class PurchasingManager implements Serializable {
 
                 return false;
             }
-            
+
         } else {
 
             PrimeFacesUtils.addMessage("Purchase Requisition Work Progress Cannot be Changed",
@@ -169,11 +170,21 @@ public class PurchasingManager implements Serializable {
         if (checkPRWorkProgressReadinessToBeChanged()) {
             if (!getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
 
+                selectedPurchaseRequisition.setPurchasingDepartment(
+                        Department.findDefaultDepartment(getEntityManager1(),
+                        "--"));
+                selectedPurchaseRequisition.setProcurementOfficer(
+                        Employee.findDefaultEmployee(getEntityManager1(),
+                        "--", "--", false));
                 getSelectedPurchaseRequisition().setDateOfCompletion(null);
+                
+                getSelectedPurchaseRequisition().setPurchaseOrderDate(null);
 
             } else if (getSelectedPurchaseRequisition().getWorkProgress().equals("Completed")) {
 
                 getSelectedPurchaseRequisition().setDateOfCompletion(new Date());
+                
+                getSelectedPurchaseRequisition().setPurchaseOrderDate(new Date());
 
                 // Set the procurement officer and their department
                 getSelectedPurchaseRequisition().
@@ -342,17 +353,27 @@ public class PurchasingManager implements Serializable {
             PrimeFacesUtils.addMessage("Saved!", "Purchase requisition was saved", FacesMessage.SEVERITY_INFO);
             getSelectedPurchaseRequisition().setEditStatus("");
         } else {
-            PrimeFacesUtils.addMessage("Purchase requisition NOT Saved!",
-                    "Purchase requisition was NOT saved. Please contact the System Administrator!",
+            PrimeFacesUtils.addMessage(returnMessage.getHeader(),
+                    returnMessage.getMessage(),
                     FacesMessage.SEVERITY_ERROR);
 
-            sendErrorEmail("An error occurred while saving a purchase requisition!",
+            sendErrorEmail("An error occurred while saving a purchase requisition! - " 
+                    + returnMessage.getHeader(),
                     "Purchase requisition number: " + getSelectedPurchaseRequisition().getNumber()
                     + "\nJMTS User: " + getUser().getUsername()
                     + "\nDate/time: " + new Date()
                     + "\nDetail: " + returnMessage.getDetail());
         }
+        
+        // Process actions performed on PR
+        processPurchaseReqActions();
 
+    }
+    
+    private void processPurchaseReqActions() {
+        for (BusinessEntity.Action action : getSelectedPurchaseRequisition().getActions()) {
+            System.out.println("Action to process: " + action);
+        }
     }
 
     public void sendErrorEmail(String subject, String message) {
@@ -397,13 +418,13 @@ public class PurchasingManager implements Serializable {
 
     public void purchaseReqDialogReturn() {
         if (getSelectedPurchaseRequisition().getIsDirty()) {
-            PrimeFacesUtils.addMessage("Purchase requisition NOT saved", 
-                    "The recently edited purchase requisition was not saved", 
+            PrimeFacesUtils.addMessage("Purchase requisition NOT saved",
+                    "The recently edited purchase requisition was not saved",
                     FacesMessage.SEVERITY_WARN);
             PrimeFaces.current().ajax().update("headerForm:growl3");
             getSelectedPurchaseRequisition().setIsDirty(false);
         }
-        
+
         doPurchaseReqSearch();
 
     }

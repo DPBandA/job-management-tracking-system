@@ -34,20 +34,11 @@
 - NB: Test as various users with various employee positions. 
 - Add user preference to export invoioices when "Invoice" button is pressed?
 
-# Purchasing (Financial Admin)
-- Add date required to tracking tab. Add the appropriate background color as required.
-- Implement setting purchasing department, procurement officer and completion 
-  date when work progress is set as "Completed" by a  procurement officer.
-- If work progress is set to anything other that completed make sure 
-  procurement officer, department and date completed are reset
-- Impl PurchaseRequisition.isApproved() that determines if a PR was approved.
-  For now, check that at least 2 approvers are in the approval list.
-- Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
-- Move openFinancialAdministration() to financialManager.
-- Populate PurchaseOrder with PR if possible. 
-- Initialize with the latest number used.
-- Ensure that the requisition date is the that orginator signed the PR.
-- The date the PR is completed should be the PO date.
+# Purchasing (Financial Administration)
+- Display the correct growl message when a PR is already completed and an
+  attempt is made to save changes.
+- Do not allow some to change the status from completed to something else unless
+  they are a procurement officer.
 - Impl email messaging to the originator and other PR stakeholders.
 - Enter the approval limits in test and production databases.
 - Set the department of the purchasing officer that completes the PR as the 
@@ -56,6 +47,8 @@
 - Format currency in Employee position table and put $ in table columns. Make sure
   text fields accept "," in the figure eg. 70,000.00
 - Add "Reports" menu item to the fin admin dashboard.
+- Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
+- Populate PurchaseOrder with PR. 
 
 # All Database Update and Deployment
 - Add WORKPROGRESS to purchaserequisition table.

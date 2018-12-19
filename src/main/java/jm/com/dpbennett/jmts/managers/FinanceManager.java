@@ -81,6 +81,10 @@ public class FinanceManager implements Serializable {
     public FinanceManager() {
         init();
     }
+    
+    public void openFinancialAdministration() {
+        getMainTabView().openTab("Financial Administration");
+    }
 
     public ArrayList getDateSearchFields() {
         ArrayList dateSearchFields = new ArrayList();

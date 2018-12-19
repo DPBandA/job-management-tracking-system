@@ -143,23 +143,6 @@ Email: info@dpbennett.com.jm
                          style="background-color: lightyellow;"
                          value="#{systemManager.getDateStr(purchasingManager.selectedPurchaseRequisition.requisitionDate)}" />           
 
-            <h:outputText value="Originating department: " style="font-weight: bold" />
-            <p:autoComplete id="originatingDepartment"                          
-                            readonly="true"
-                            styleClass="read-only-inputfield"
-                            var="department"
-                            forceSelection="false"      
-                            dropdown="false"
-                            scrollHeight="200" 
-                            size="35"
-                            maxlength="40"
-                            value="#{purchasingManager.selectedPurchaseRequisition.originatingDepartment}"
-                            itemValue="#{department}"
-                            itemLabel="#{department.name}"
-                            converter="activeDepartmentConverter"
-                            validator="businessEntityValidator"
-                            completeMethod="#{humanResourceManager.completeActiveDepartment}" /> 
-
             <h:outputText value="Originator: " style="font-weight: bold" />       
             <p:autoComplete id="originator"
                             readonly="true"
@@ -175,6 +158,23 @@ Email: info@dpbennett.com.jm
                             dropdown="false"
                             scrollHeight="200" 
                             completeMethod="#{humanResourceManager.completeActiveEmployee}" />
+            
+            <h:outputText value="Originating dep't: " style="font-weight: bold" />
+            <p:autoComplete id="originatingDepartment"                          
+                            readonly="true"
+                            styleClass="read-only-inputfield"
+                            var="department"
+                            forceSelection="false"      
+                            dropdown="false"
+                            scrollHeight="200" 
+                            size="35"
+                            maxlength="40"
+                            value="#{purchasingManager.selectedPurchaseRequisition.originatingDepartment}"
+                            itemValue="#{department}"
+                            itemLabel="#{department.name}"
+                            converter="activeDepartmentConverter"
+                            validator="businessEntityValidator"
+                            completeMethod="#{humanResourceManager.completeActiveDepartment}" />             
 
             <h:outputText value="Description: " style="font-weight: bold;vertical-align: top;" />       
             <p:inputTextarea

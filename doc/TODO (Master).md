@@ -12,6 +12,7 @@
   to open by default for financial admin module.
 - Add as system option the positions that are allowed to approve a PR. Check 
   that an approver has one of these positions before allowing them to approve.
+- Impl search for PR and supplier as is done in fin admin dashboard.
 
 ### Inventory
 - Get more details then start app development.
