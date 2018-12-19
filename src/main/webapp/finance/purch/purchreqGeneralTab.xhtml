@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <p:panel style="margin-bottom: 1px;border: 0;" >
-        <h:panelGrid id="generalTabPanel" columns="2">
+        <h:panelGrid id="generalTabPanel" columns="2">            
             <h:outputLabel value="No.: " style="font-weight: bold;font-size: 14px;" />
             <h:panelGroup>
                 <h:panelGroup id="prNumberGroup">
@@ -199,7 +199,8 @@ Email: info@dpbennett.com.jm
             <h:outputText id="descriptionCharsRemaining" /> 
         </h:panelGrid>
     </p:panel>
-    <p:panel id="approvalsPanel">
+
+    <p:panel id="approvalsPanel" style="border: 0;" >
         <p:toolbar style="margin-top: 1px;margin-bottom: 1px;">
             <p:toolbarGroup>
                 <p:commandButton title="Approve this purchase requisition"

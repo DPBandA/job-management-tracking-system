@@ -22,7 +22,8 @@ Email: info@dpbennett.com.jm
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    <p:panel id="purhReqStatusAndTracking" header="Status" > 
+    <p:panel id="purhReqStatusAndTracking" header="Status" 
+             style="margin-bottom: 1px;" > 
         <h:panelGrid columns="1" >
             <h:panelGroup>
                 <h:panelGrid columns="2">
@@ -62,7 +63,7 @@ Email: info@dpbennett.com.jm
                                     converter="activeDepartmentConverter"
                                     validator="businessEntityValidator"
                                     completeMethod="#{humanResourceManager.completeActiveDepartment}" /> 
-                     
+
                     <h:outputText value="Procurement officer: " style="font-weight: bold" />       
                     <p:autoComplete id="officer"
                                     readonly="true"
@@ -79,6 +80,11 @@ Email: info@dpbennett.com.jm
                                     scrollHeight="200" 
                                     completeMethod="#{humanResourceManager.completeActiveEmployee}" />
 
+                    <h:outputText value="Completion date: " />
+                    <p:inputText readonly="true"
+                                 style="background-color: lightyellow"
+                                 value="#{systemManager.getDateStr(purchasingManager.selectedPurchaseRequisition.dateOfCompletion)}" />
+
                     <h:outputText value="Last edited by: "/>
                     <p:inputText readonly="true"
                                  maxlength="250"
@@ -87,24 +93,39 @@ Email: info@dpbennett.com.jm
 
                     <h:outputText value="Date edited: " />
                     <p:inputText readonly="true"
-                         style="background-color: lightgray;"
-                         value="#{systemManager.getDateStr(purchasingManager.selectedPurchaseRequisition.dateEdited)}" />  
-                   
+                                 style="background-color: lightgray;"
+                                 value="#{systemManager.getDateStr(purchasingManager.selectedPurchaseRequisition.dateEdited)}" />  
+                    
+                    <h:outputText value="Date required: "/>
+                    <p:calendar pattern="MMM dd, yyyy"
+                                navigator="true"          
+                                readonlyInput="true"
+                                value="#{purchasingManager.selectedPurchaseRequisition.dateRequired}" >
+
+                        <p:ajax event="dateSelect"   
+                                update=":purchreqDialogForm:purchreqDetailToolbar1"
+                                listener="#{purchasingManager.updatePurchaseReq}"/>
+
+                        <p:ajax event="change"  
+                                update=":purchreqDialogForm:purchreqDetailToolbar1"
+                                listener="#{purchasingManager.updatePurchaseReq}"/>
+
+                    </p:calendar>
 
                     <h:outputText value="Expected date of completion: "/>
                     <p:calendar pattern="MMM dd, yyyy"
                                 navigator="true"          
                                 readonlyInput="true"
                                 value="#{purchasingManager.selectedPurchaseRequisition.expectedDateOfCompletion}" >
-                        
+
                         <p:ajax event="dateSelect"   
                                 update=":purchreqDialogForm:purchreqDetailToolbar1"
                                 listener="#{purchasingManager.updatePurchaseReq}"/>
-                        
+
                         <p:ajax event="change"  
                                 update=":purchreqDialogForm:purchreqDetailToolbar1"
                                 listener="#{purchasingManager.updatePurchaseReq}"/>
-                        
+
                     </p:calendar>                   
 
                 </h:panelGrid>
@@ -119,13 +140,13 @@ Email: info@dpbennett.com.jm
             counterTemplate="{0} characters remaining."
             maxlength="1000"
             style="width: 500px;">
-            
+
             <p:ajax event="change"
                     global="false"        
                     update=":purchreqDialogForm:purchreqDetailToolbar1"
                     listener="#{purchasingManager.updatePurchaseReq}"
                     process="@this"/>
-            
+
         </p:inputTextarea>
         <br/>
         <h:outputText id="statusNoteCharsRemaining" /> 
