@@ -141,7 +141,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Date: " style="font-weight: bold" />
             <p:inputText readonly="true"
                          style="background-color: lightyellow;"
-                         value="#{purchasingManager.selectedPurchaseRequisition.requisitionDateStr}" />           
+                         value="#{systemManager.getDateStr(purchasingManager.selectedPurchaseRequisition.requisitionDate)}" />           
 
             <h:outputText value="Originating department: " style="font-weight: bold" />
             <p:autoComplete id="originatingDepartment"                          

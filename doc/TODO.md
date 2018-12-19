@@ -35,6 +35,8 @@
 - Add user preference to export invoioices when "Invoice" button is pressed?
 
 # Purchasing (Financial Admin)
+- Create SystemManager method to convert date to medium date instead of using 
+  methods in entity methods to do this.
 - Impl getting all the dates in PR class as medium date string. 
   Add completion date as yellow back ground read only text to tracking tab.
 - Add other dates to tracking tab. Add the appropriate background color as required.
