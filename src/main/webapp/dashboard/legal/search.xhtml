@@ -92,7 +92,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="Search"
                                  id="legalDocumentSearchButton"
                                  onstart="PF('longProcessDialogVar').show();"
-                                 actionListener="#{legalDocumentManager.doLegalDocumentSearch}"
+                                 actionListener="#{legalDocumentManager.doSearch}"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  onerror="PF('connectionErrorDialog').show();"
                                  update=":headerForm:growl3"

@@ -2124,7 +2124,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getFinanceManager().doSupplierSearch(searchText);
                 getFinanceManager().openSuppliersTab();
                 break;
-            // TK impl other cases here
+            case "Legal documents":
+                getLegalDocumentManager().doLegalDocumentSearch(dateSearchPeriod, searchType, searchText);
+                getLegalDocumentManager().openDocumentBrowser();
+                break;
             default:
                 doJobSearch(dateSearchPeriod, searchType, searchText);
                 openJobBrowser();

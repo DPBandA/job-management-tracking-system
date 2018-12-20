@@ -1,5 +1,7 @@
 
 # Purchasing (Financial Administration)
+- When enter button is pressed ensure that the right search type from the dashboard
+  is used. Do this with the dashboards tab change event. Test with all module tabs.
 - Impl do??Search({search parameters}) in all relevant managers starting with JM.
 - Fix search when enter button is pressed. Try using searchType field instead
   of tab id. Replace use of doGeneralSearch with doSearch.
