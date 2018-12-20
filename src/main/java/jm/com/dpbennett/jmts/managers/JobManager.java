@@ -917,9 +917,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateDashboard(String tabId) {
-
         PrimeFaces.current().ajax().update("dashboardForm");
-
     }
 
     /**
@@ -2112,6 +2110,31 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getSearchText(),
                 includeSampleSearch);
     }
+    
+    public void doDefaultSearch() {
+
+        switch (getDashboard().getSelectedTabId()) {
+            case "":
+                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod, searchType, searchText, null);
+                getPurchasingManager().openPurchaseReqsTab();
+                break;
+            case "?":
+                getFinanceManager().doSupplierSearch(searchText);
+                getFinanceManager().openSuppliersTab();
+                break;
+            case "Document Management":
+                getLegalDocumentManager().doLegalDocumentSearch();
+                getLegalDocumentManager().openDocumentBrowser();
+                break;
+            case "Job Management":
+                doSearch();
+                break;
+            default:
+                // tk display growl.
+                break;
+        }
+
+    }
 
     public void doSearch() {
 
@@ -2129,8 +2152,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getLegalDocumentManager().openDocumentBrowser();
                 break;
             default:
-                doJobSearch(dateSearchPeriod, searchType, searchText);
-                openJobBrowser();
+                // tk display growl.
                 break;
         }
 
