@@ -1,6 +1,23 @@
-# Note
 
-- Some privilege flags control the access of modules.
+# Purchasing (Financial Administration)
+- Impl searching for PR and supplier in JM dashboard as is done in fin admin dashboard.
+- Display the correct growl message when a PR is already completed and an
+  attempt is made to save changes.
+  * Iml sending normal and error email using Utils and not a method in the managers.
+    Use system options where necessary to get the parameters for the email such 
+    as the developer email.
+- Do not allow some to change the status from completed to something else unless
+  they are a procurement officer.
+- Impl email messaging to the originator and other PR stakeholders.
+- Enter the approval limits in test and production databases.
+- Set the department of the purchasing officer that completes the PR as the 
+  purchasing department of the PR.
+- Restrict editing of PR to the orginating department, fin admin or procurement officer.
+- Format currency in Employee position table and put $ in table columns. Make sure
+  text fields accept "," in the figure eg. 70,000.00
+- Add "Reports" menu item to the fin admin dashboard.
+- Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
+- Populate PurchaseOrder with PR. 
 
 # Accpac Invoicing & Credit Status Reporting
 
@@ -33,25 +50,6 @@
 - Put the name of the approver on the job costing.
 - NB: Test as various users with various employee positions. 
 - Add user preference to export invoioices when "Invoice" button is pressed?
-
-# Purchasing (Financial Administration)
-- Display the correct growl message when a PR is already completed and an
-  attempt is made to save changes.
-  * Iml sending normal and error email using Utils and not a method in the managers.
-    Use system options where necessary to get the parameters for the email such 
-    as the developer email.
-- Do not allow some to change the status from completed to something else unless
-  they are a procurement officer.
-- Impl email messaging to the originator and other PR stakeholders.
-- Enter the approval limits in test and production databases.
-- Set the department of the purchasing officer that completes the PR as the 
-  purchasing department of the PR.
-- Restrict editing of PR to the orginating department, fin admin or procurement officer.
-- Format currency in Employee position table and put $ in table columns. Make sure
-  text fields accept "," in the figure eg. 70,000.00
-- Add "Reports" menu item to the fin admin dashboard.
-- Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
-- Populate PurchaseOrder with PR. 
 
 # All Database Update and Deployment
 - Add WORKPROGRESS to purchaserequisition table.
