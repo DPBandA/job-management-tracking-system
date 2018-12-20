@@ -357,12 +357,13 @@ public class PurchasingManager implements Serializable {
                     returnMessage.getMessage(),
                     FacesMessage.SEVERITY_ERROR);
 
-            sendErrorEmail("An error occurred while saving a purchase requisition! - " 
+            Utils.sendErrorEmail("An error occurred while saving a purchase requisition! - " 
                     + returnMessage.getHeader(),
                     "Purchase requisition number: " + getSelectedPurchaseRequisition().getNumber()
                     + "\nJMTS User: " + getUser().getUsername()
                     + "\nDate/time: " + new Date()
-                    + "\nDetail: " + returnMessage.getDetail());
+                    + "\nDetail: " + returnMessage.getDetail(),
+                    getEntityManager1());
         }
         
         // Process actions performed on PR
@@ -373,16 +374,6 @@ public class PurchasingManager implements Serializable {
     private void processPurchaseReqActions() {
         for (BusinessEntity.Action action : getSelectedPurchaseRequisition().getActions()) {
             System.out.println("Action to process: " + action);
-        }
-    }
-
-    public void sendErrorEmail(String subject, String message) {
-        try {
-            // Send error message to developer's email      
-            
-            Utils.postMail(null, null, subject, message);
-        } catch (Exception ex) {
-            System.out.println(ex);
         }
     }
 

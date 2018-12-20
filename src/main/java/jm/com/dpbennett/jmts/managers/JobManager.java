@@ -1956,7 +1956,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void sendErrorEmail(String subject, String message) {
         try {
             // send error message to developer's email            
-            Utils.postMail(null, null, subject, message);
+            Utils.postMail(null, null, subject, message, getEntityManager1());
         } catch (Exception ex) {
             System.out.println(ex);
         }
