@@ -523,12 +523,38 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchTypes.add(new SelectItem("Parent jobs only", "Parent jobs only"));
         searchTypes.add(new SelectItem("Unapproved job costings", "Unapproved job costings"));
         searchTypes.add(new SelectItem("Incomplete jobs", "Incomplete jobs"));
+        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
+        searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
 
         return searchTypes;
     }
 
     public ArrayList getDateSearchFields() {
-        return DateUtils.getDateSearchFields();
+        ArrayList dateSearchFields = new ArrayList();
+
+        switch (searchType) {
+            case "Suppliers":
+//                dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
+//                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+                break;
+            case "Purchase requisitions":
+                dateSearchFields.add(new SelectItem("requisitionDate", "Requisition date"));
+                dateSearchFields.add(new SelectItem("dateOfCompletion", "Date completed"));
+                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+                dateSearchFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
+                dateSearchFields.add(new SelectItem("dateRequired", "Date required"));
+                dateSearchFields.add(new SelectItem("purchaseOrderDate", "Purchase order date"));
+                dateSearchFields.add(new SelectItem("teamLeaderApprovalDate", "Team Leader approval date"));
+                dateSearchFields.add(new SelectItem("divisionalManagerApprovalDate", "Divisional Manager approval date"));
+                dateSearchFields.add(new SelectItem("divisionalDirectorApprovalDate", "Divisional Director approval date"));
+                dateSearchFields.add(new SelectItem("financeManagerApprovalDate", "Finance Manager approval date"));
+                dateSearchFields.add(new SelectItem("executiveDirectorApprovalDate", "Executive Director approval date"));
+                break;
+            default:
+                return DateUtils.getDateSearchFields();
+        }
+
+        return dateSearchFields;
     }
 
     public ArrayList getAuthorizedSearchTypes() {
@@ -913,6 +939,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openJobBrowser() {
+        // Set "Job View" based on search type
+        if (getSearchType().equals("Unapproved job costings")) {
+            getUser().setJobTableViewPreference("Job Costings");
+        }
+
         mainTabView.openTab("Job Browser");
     }
 
@@ -1057,8 +1088,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     "You do not have the prvilege to create jobs. Please contact your System Administrator",
                     FacesMessage.SEVERITY_ERROR);
         }
-        
-        
 
     }
 
@@ -2075,33 +2104,33 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void doGeneralSearch() {
+    public List<Job> findJobs(Boolean includeSampleSearch) {
+        return Job.findJobsByDateSearchField(getEntityManager1(),
+                getUser(), 
+                getDateSearchPeriod(),
+                getSearchType(),
+                getSearchText(),
+                includeSampleSearch);
+    }
 
-        switch (getDashboard().getSelectedTabId()) {
-            case "Job Management":
-                doJobSearch();
+    public void doSearch() {
+
+        switch (searchType) {
+            case "Purchase requisitions":
+                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod, searchType, searchText, null);
+                getPurchasingManager().openPurchaseReqsTab();
                 break;
-            case "Document Management":
-                getLegalDocumentManager().doLegalDocumentSearch();
+            case "Suppliers":
+                getFinanceManager().doSupplierSearch(searchText);
+                getFinanceManager().openSuppliersTab();
                 break;
-            case "Job Management3":
-                break;
+            // TK impl other cases here
             default:
+                doJobSearch(dateSearchPeriod, searchType, searchText);
+                openJobBrowser();
                 break;
         }
 
-    }
-
-    public List<Job> findJobs(Boolean includeSampleSearch) {
-        return Job.findJobsByDateSearchField(getEntityManager1(),
-                getUser(),
-                getDateSearchPeriod().getDateField(),
-                "",
-                getSearchType(),
-                getSearchText(),
-                getDateSearchPeriod().getStartDate(),
-                getDateSearchPeriod().getEndDate(),
-                includeSampleSearch);
     }
 
     public void doJobSearch() {
@@ -2109,7 +2138,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getUser().getId() != null) {
             jobSearchResultList = findJobs(false);
 
-            if (jobSearchResultList.isEmpty()) { // Do search with sample search enabled
+            if (jobSearchResultList.isEmpty()) {
                 jobSearchResultList = findJobs(true);
             }
 
@@ -2117,13 +2146,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             jobSearchResultList = new ArrayList<>();
         }
 
-        // Set "Job View" based on search type
-        if (getSearchType().equals("Unapproved job costings")) {
-            getUser().setJobTableViewPreference("Job Costings");
-        }
-
-        openJobBrowser();
-
+    }
+    
+    public void doJobSearch(DatePeriod dateSearchPeriod, String searchType, String searchText) {
+        this.dateSearchPeriod = dateSearchPeriod;
+        this.searchType = searchType;
+        this.searchText = searchText;
+        
+        doJobSearch();
     }
 
     /**

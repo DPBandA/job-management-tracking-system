@@ -1,6 +1,12 @@
 
 # Purchasing (Financial Administration)
-- Impl searching for PR and supplier in JM dashboard as is done in fin admin dashboard.
+- Impl do??Search({search parameters}) in all relevant managers starting with JM.
+- Fix search when enter button is pressed. Try using searchType field instead
+  of tab id. Replace use of doGeneralSearch with doSearch.
+- Impl use of #{systemManager.doGeneralSearch} instead of #{jobManager.doGeneralSearch}
+  in the "doGeneralSearchButton" default button for doing system wide searches
+  when it is pressed.
+- Put "--" or "n/a" for for date period and field for suppliers search.
 - Display the correct growl message when a PR is already completed and an
   attempt is made to save changes.
   * Iml sending normal and error email using Utils and not a method in the managers.

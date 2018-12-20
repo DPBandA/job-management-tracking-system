@@ -439,12 +439,14 @@ public class FinanceManager implements Serializable {
         doSupplierSearch(supplierSearchText);
     }
     
-    public void doSupplierSearch(String searchText) {
-        if (searchText.trim().length() > 1) {
+    public void doSupplierSearch(String supplierSearchText) {
+        this.supplierSearchText = supplierSearchText;
+        
+        if (supplierSearchText.trim().length() > 1) {
             if (getIsActiveSuppliersOnly()) {
-                foundSuppliers = Supplier.findActiveSuppliersByFirstPartOfName(getEntityManager1(), searchText);
+                foundSuppliers = Supplier.findActiveSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
             } else {
-                foundSuppliers = Supplier.findSuppliersByFirstPartOfName(getEntityManager1(), searchText);
+                foundSuppliers = Supplier.findSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
             }
         } else {
             foundSuppliers = new ArrayList<>();

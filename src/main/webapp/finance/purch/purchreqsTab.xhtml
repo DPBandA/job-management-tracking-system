@@ -41,69 +41,71 @@ Email: info@dpbennett.com.jm
                         update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
             </p:commandButton>
-            <p:spacer width="10" rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}" />
-            <p:inputText id="purchaseReqSearchText" 
-                         placeholder="Enter search text"
-                         style="width:110px" 
-                         rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
-                         value="#{purchasingManager.purchaseReqSearchText}" >
+            <ui:remove>
+                <p:spacer width="10" rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}" />
+                <p:inputText id="purchaseReqSearchText" 
+                             placeholder="Enter search text"
+                             style="width:110px" 
+                             rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
+                             value="#{purchasingManager.purchaseReqSearchText}" >
 
-                <p:ajax event="keyup"                            
-                        global="false"
+                    <p:ajax event="keyup"                            
+                            global="false"
+                            update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                            listener="#{purchasingManager.doPurchaseReqSearch}"
+                            process="@this"/>
+
+                </p:inputText>
+                <p:spacer width="10" rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}" />
+                <p:selectOneMenu value="#{purchasingManager.dateSearchPeriod.dateField}" 
+                                 rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
+                                 id="finDateField" >
+                    <p:ajax                        
                         update=":mainTabViewForm:mainTabView:purchasereqsTable"
                         listener="#{purchasingManager.doPurchaseReqSearch}"
-                        process="@this"/>
+                        process="@this" />
 
-            </p:inputText>
-            <p:spacer width="10" rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}" />
-            <p:selectOneMenu value="#{purchasingManager.dateSearchPeriod.dateField}" 
-                             rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
-                             id="finDateField" >
-                <p:ajax                        
-                    update=":mainTabViewForm:mainTabView:purchasereqsTable"
-                    listener="#{purchasingManager.doPurchaseReqSearch}"
-                    process="@this" />
+                    <f:selectItems value="#{financeManager.dateSearchFields}" />
 
-                <f:selectItems value="#{financeManager.dateSearchFields}" />
+                </p:selectOneMenu>
+                <h:outputText value=" : " rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}" />
+                <p:calendar id="finStartSearchDate"
+                            value="#{purchasingManager.dateSearchPeriod.startDate}"                    
+                            size="17"
+                            navigator="true"
+                            rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
+                            validator="requiredFieldValidator"
+                            pattern="MMM dd, yyyy" >
 
-            </p:selectOneMenu>
-            <h:outputText value=" : " rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}" />
-            <p:calendar id="finStartSearchDate"
-                        value="#{purchasingManager.dateSearchPeriod.startDate}"                    
-                        size="17"
-                        navigator="true"
-                        rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
-                        validator="requiredFieldValidator"
-                        pattern="MMM dd, yyyy" >
+                    <p:ajax event="dateSelect"
+                            update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                            listener="#{purchasingManager.doPurchaseReqSearch}" />
 
-                <p:ajax event="dateSelect"
-                        update=":mainTabViewForm:mainTabView:purchasereqsTable"
-                        listener="#{purchasingManager.doPurchaseReqSearch}" />
-
-                <p:ajax event="keyup"
-                        update=":mainTabViewForm:mainTabView:purchasereqsTable"
-                        listener="#{purchasingManager.doPurchaseReqSearch}" />
+                    <p:ajax event="keyup"
+                            update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                            listener="#{purchasingManager.doPurchaseReqSearch}" />
 
 
-            </p:calendar>
-            <h:outputText value=" to " rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"/>
-            <p:calendar id="finEndSearchDate"
-                        value="#{purchasingManager.dateSearchPeriod.endDate}"                    
-                        size="17"
-                        navigator="true"
-                        rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
-                        validator="requiredFieldValidator"
-                        pattern="MMM dd, yyyy" >
+                </p:calendar>
+                <h:outputText value=" to " rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"/>
+                <p:calendar id="finEndSearchDate"
+                            value="#{purchasingManager.dateSearchPeriod.endDate}"                    
+                            size="17"
+                            navigator="true"
+                            rendered="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
+                            validator="requiredFieldValidator"
+                            pattern="MMM dd, yyyy" >
 
-                <p:ajax event="dateSelect"
-                        update=":mainTabViewForm:mainTabView:purchasereqsTable"
-                        listener="#{purchasingManager.doPurchaseReqSearch}" />
+                    <p:ajax event="dateSelect"
+                            update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                            listener="#{purchasingManager.doPurchaseReqSearch}" />
 
-                <p:ajax event="keyup"
-                        update=":mainTabViewForm:mainTabView:purchasereqsTable"
-                        listener="#{purchasingManager.doPurchaseReqSearch}" />
+                    <p:ajax event="keyup"
+                            update=":mainTabViewForm:mainTabView:purchasereqsTable"
+                            listener="#{purchasingManager.doPurchaseReqSearch}" />
 
-            </p:calendar>
+                </p:calendar>
+            </ui:remove>
         </p:toolbarGroup>
 
     </p:toolbar>
@@ -146,7 +148,7 @@ Email: info@dpbennett.com.jm
                 <f:convertDateTime pattern="MMM dd, yyyy"/>
             </h:outputText>
         </p:column>
-        
+
         <p:column sortBy="#{pr.totalCost}">
             <f:facet name="header">
                 <h:outputText value="Total cost ($)"/>

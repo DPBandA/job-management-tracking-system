@@ -204,11 +204,11 @@ Email: info@dpbennett.com.jm
                         title="This is the default button that accepts the enter key press" 
                         onstart="PF('longProcessDialogVar').show();"                                 
                         oncomplete="PF('longProcessDialogVar').hide();"
-                        actionListener="#{jobManager.doGeneralSearch}"
+                        actionListener="#{jobManager.doSearch}"
                         process="@form"/>                    
 
                     <p:defaultCommand id="dashboardDefaultCommandButton" 
-                                      target="#{jobManager.dashboard.defaultCommandButtonId}" />
+                                      target="doGeneralSearchButton" />
 
                     <p:accordionPanel id="dashboardAccordion" 
                                       value="#{jobManager.dashboard.tabs}" 
