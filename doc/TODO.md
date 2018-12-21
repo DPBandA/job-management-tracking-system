@@ -1,18 +1,11 @@
 
 # Purchasing (Financial Administration)
-- Do not allow some to change the status from completed to something else unless
-  they are a procurement officer.
+- Iml adding action to the PR actions. Don't adan action more than once.
 - Impl email messaging to the originator and other PR stakeholders.
-- Enter the approval limits in test and production databases.
-- Restrict editing of PR to the orginating department, fin admin or procurement officer.
-- Format currency in Employee position table and put $ in table columns. Make sure
-  text fields accept "," in the figure eg. 70,000.00
-- Add "Reports" menu item to the fin admin dashboard.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
 
 # Accpac Invoicing & Credit Status Reporting
-
 - Add CODE, ABBREVIATION to all accountingcode tables and class.
 - Impl getting dist. codes for cost components.
 - Impl exporting Excel file using "Invoice" button. The records must be
@@ -56,6 +49,7 @@
     Network Administrator, System Administrator etc.
 - Update HRM tables with info from chart of accounts.
 - Switch to GF3 before deployment.
+- Enter the approval limits in test and production databases.
 
 # Reports & Forms
 - Do other client report template and upload.

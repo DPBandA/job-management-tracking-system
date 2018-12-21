@@ -153,7 +153,9 @@ Email: info@dpbennett.com.jm
             <f:facet name="header">
                 <h:outputText value="Total cost ($)"/>
             </f:facet>
-            <h:outputText value="#{pr.totalCost}" />                
+            <h:outputText value="#{pr.totalCost}" styleClass="datatable-number-field" >                
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+            </h:outputText>
         </p:column>
 
         <p:column sortBy="#{pr.description}">

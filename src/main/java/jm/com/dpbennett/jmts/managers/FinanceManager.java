@@ -39,6 +39,7 @@ import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Supplier;
 import org.primefaces.event.CellEditEvent;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.wal.managers.ReportManager;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
@@ -80,6 +81,14 @@ public class FinanceManager implements Serializable {
      */
     public FinanceManager() {
         init();
+    }
+    
+    public ReportManager getReportManager() {
+            return BeanUtils.findBean("reportManager");
+    }
+    
+    public void openReportsTab() {
+        getReportManager().openReportsTab("Job");
     }
     
     public String getRenderDateSearchFields() {

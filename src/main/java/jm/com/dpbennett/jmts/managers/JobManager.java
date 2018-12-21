@@ -154,11 +154,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public JobManager() {
         init();
     }
-    
+
     public String getRenderDateSearchFields() {
         switch (searchType) {
             case "Suppliers":
-               return "false";            
+                return "false";
             default:
                 return "true";
         }
@@ -608,11 +608,22 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             currentJob.setIsDirty(false);
         }
 
-        // tk 
-//        System.out.println("removing current job");
-//        if (getApplication().findOpenedJob(currentJob.getId()) != null) {
-//            getApplication().removeOpenedJob(currentJob);
-//        }
+    }
+
+    private void resetManagers() {
+        try {
+
+            getClientManager().reset();
+            getJobContractManager().reset();
+            getJobFinanceManager().reset();
+            getFinanceManager().reset();
+            getPurchasingManager().reset();
+            getJobSampleManager().reset();
+            getReportManager().reset();
+
+        } catch (Exception e) {
+            System.out.println("An ");
+        }
     }
 
     public void reset() {
@@ -622,14 +633,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         renderSearchComponent = true;
         jobSearchResultList = new ArrayList<>();
 
-        // Reset managers
-        getClientManager().reset();
-        getJobContractManager().reset();
-        getJobFinanceManager().reset();
-        getFinanceManager().reset();
-        getPurchasingManager().reset();
-        getJobSampleManager().reset();
-        getReportManager().reset();
+        // Reset managers       
+        resetManagers();
 
         // Unrender all tabs
         dashboard.removeAllTabs();
@@ -2113,16 +2118,16 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public List<Job> findJobs(Boolean includeSampleSearch) {
         return Job.findJobsByDateSearchField(getEntityManager1(),
-                getUser(), 
+                getUser(),
                 getDateSearchPeriod(),
                 getSearchType(),
                 getSearchText(),
                 includeSampleSearch);
     }
-    
+
     public void doDefaultSearch() {
 
-        switch (getDashboard().getSelectedTabId()) {            
+        switch (getDashboard().getSelectedTabId()) {
             case "Financial Administration":
                 getFinanceManager().doSearch();
                 break;
@@ -2133,9 +2138,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 doSearch();
                 break;
             default:
-                PrimeFacesUtils.addMessage("Cannot Search", 
-                    "Please click the 'Search' button to initiate a search.",
-                    FacesMessage.SEVERITY_INFO);
+                PrimeFacesUtils.addMessage("Cannot Search",
+                        "Please click the 'Search' button to initiate a search.",
+                        FacesMessage.SEVERITY_INFO);
                 break;
         }
 
@@ -2145,9 +2150,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         switch (searchType) {
             case "Purchase requisitions":
-                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod, 
-                        searchType, 
-                        searchText, 
+                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod,
+                        searchType,
+                        searchText,
                         getUser().getEmployee().getDepartment().getId());
                 getPurchasingManager().openPurchaseReqsTab();
                 break;
@@ -2177,12 +2182,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
 
     }
-    
+
     public void doJobSearch(DatePeriod dateSearchPeriod, String searchType, String searchText) {
         this.dateSearchPeriod = dateSearchPeriod;
         this.searchType = searchType;
         this.searchText = searchText;
-        
+
         doJobSearch();
     }
 
