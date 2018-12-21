@@ -13,6 +13,7 @@
 - Add as system option the positions that are allowed to approve a PR. Check 
   that an approver has one of these positions before allowing them to approve.
 - Impl search for PR and supplier as is done in fin admin dashboard.
+- Do not save supplier or PR if they were not edited.
 
 ### Inventory
 - Get more details then start app development.
@@ -159,6 +160,7 @@
   * Implement search that deals with case when important fields are null such as
     jobSamples.
 - Add divisions to Business/Organizations
+- Check that all growl message have full stop.
 - Add "+Client" to the dashboard JM "New" menu.
 - NOTE: postMail() hard-coded values to be made system options.
 - Find way to deactivate old costing templates...Add "active" field to "JobCostingAndPayment"

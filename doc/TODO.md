@@ -1,14 +1,7 @@
 
 # Purchasing (Financial Administration)
-- When enter button is pressed ensure that the right search type from the dashboard
-  is used. Do this with the dashboards tab change event. Test with all module tabs.
-- Impl do??Search({search parameters}) in all relevant managers starting with JM.
-- Fix search when enter button is pressed. Try using searchType field instead
-  of tab id. Replace use of doGeneralSearch with doSearch.
-- Impl use of #{systemManager.doGeneralSearch} instead of #{jobManager.doGeneralSearch}
-  in the "doGeneralSearchButton" default button for doing system wide searches
-  when it is pressed.
-- Put "--" or "n/a" for for date period and field for suppliers search.
+- Put "--" or "n/a" for for date period and field for suppliers search or hide the
+  components if they are blank.
 - Display the correct growl message when a PR is already completed and an
   attempt is made to save changes.
   * Iml sending normal and error email using Utils and not a method in the managers.
@@ -18,8 +11,6 @@
   they are a procurement officer.
 - Impl email messaging to the originator and other PR stakeholders.
 - Enter the approval limits in test and production databases.
-- Set the department of the purchasing officer that completes the PR as the 
-  purchasing department of the PR.
 - Restrict editing of PR to the orginating department, fin admin or procurement officer.
 - Format currency in Employee position table and put $ in table columns. Make sure
   text fields accept "," in the figure eg. 70,000.00

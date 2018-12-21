@@ -455,16 +455,16 @@ public class PurchasingManager implements Serializable {
     }
 
     public void doPurchaseReqSearch(DatePeriod dateSearchPeriod,
-            String searchType, String purchaseReqSearchText, Long departmentId) {
+            String searchType, String searchText, Long departmentId) {
 
         EntityManager em = getEntityManager1();
         this.dateSearchPeriod = dateSearchPeriod;
         this.searchType = searchType;
-        this.purchaseReqSearchText = purchaseReqSearchText;
+        this.purchaseReqSearchText = searchText;
 
-        if (!purchaseReqSearchText.isEmpty()) {
+        if (!searchText.isEmpty()) {
             foundPurchaseReqs = PurchaseRequisition.findByDateSearchField(em,
-                    dateSearchPeriod.getDateField(), searchType, purchaseReqSearchText.trim(),
+                    dateSearchPeriod.getDateField(), searchType, searchText.trim(),
                     dateSearchPeriod.getStartDate(), dateSearchPeriod.getEndDate(), departmentId);
         } else {
             foundPurchaseReqs = PurchaseRequisition.findByDateSearchField(em,

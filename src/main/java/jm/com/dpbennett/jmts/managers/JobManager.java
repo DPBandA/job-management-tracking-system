@@ -2113,24 +2113,20 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     
     public void doDefaultSearch() {
 
-        switch (getDashboard().getSelectedTabId()) {
-            case "":
-                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod, searchType, searchText, null);
-                getPurchasingManager().openPurchaseReqsTab();
-                break;
-            case "?":
-                getFinanceManager().doSupplierSearch(searchText);
-                getFinanceManager().openSuppliersTab();
+        switch (getDashboard().getSelectedTabId()) {            
+            case "Financial Administration":
+                getFinanceManager().doSearch();
                 break;
             case "Document Management":
-                getLegalDocumentManager().doLegalDocumentSearch();
-                getLegalDocumentManager().openDocumentBrowser();
+                getLegalDocumentManager().doSearch();
                 break;
             case "Job Management":
                 doSearch();
                 break;
             default:
-                // tk display growl.
+                PrimeFacesUtils.addMessage("Cannot Search", 
+                    "Please click the 'Search' button to initiate a search.",
+                    FacesMessage.SEVERITY_INFO);
                 break;
         }
 
@@ -2147,12 +2143,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getFinanceManager().doSupplierSearch(searchText);
                 getFinanceManager().openSuppliersTab();
                 break;
-            case "Legal documents":
-                getLegalDocumentManager().doLegalDocumentSearch(dateSearchPeriod, searchType, searchText);
-                getLegalDocumentManager().openDocumentBrowser();
-                break;
             default:
-                // tk display growl.
+                doJobSearch();
+                openJobBrowser();
                 break;
         }
 
