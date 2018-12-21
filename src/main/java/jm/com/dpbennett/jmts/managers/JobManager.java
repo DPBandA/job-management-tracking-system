@@ -154,6 +154,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public JobManager() {
         init();
     }
+    
+    public String getRenderDateSearchFields() {
+        switch (searchType) {
+            case "Suppliers":
+               return "false";            
+            default:
+                return "true";
+        }
+    }
 
     /**
      * Gets the ApplicationScoped object that is associated with this webapp.

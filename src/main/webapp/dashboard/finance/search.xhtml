@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <p:panel header="Search" >
+    <p:panel id="finSearchPanel" header="Search" >
 
         <h:panelGrid columns="2" cellspacing="5">
             <h:outputText value="Search type: " />
@@ -33,13 +33,16 @@ Email: info@dpbennett.com.jm
 
                 <f:selectItems value="#{financeManager.searchTypes}" />
 
-                <p:ajax update="finDateField,finDatePeriod" process="@this" />
+                <p:ajax update="finSearchPanel" 
+                        process="@this" />
 
             </p:selectOneMenu>
 
-            <h:outputText value="Date field: " />
+            <h:outputText id="finDateFieldLabel" value="Date field: " 
+                          rendered="#{financeManager.renderDateSearchFields}" />
             <p:selectOneMenu value="#{financeManager.dateSearchPeriod.dateField}" 
                              id="finDateField"
+                             rendered="#{financeManager.renderDateSearchFields}"
                              style="width: 95%;" >
                 <p:ajax                        
                     listener="#{financeManager.updateDateSearchField}"
@@ -49,8 +52,9 @@ Email: info@dpbennett.com.jm
 
             </p:selectOneMenu>
 
-            <h:outputText value="Date period: " />               
+            <h:outputText value="Date period: " rendered="#{financeManager.renderDateSearchFields}" />               
             <p:selectOneMenu value= "#{financeManager.dateSearchPeriod.name}" 
+                             rendered="#{financeManager.renderDateSearchFields}"
                              id="finDatePeriod"
                              style="width: 95%;" >
 
@@ -61,8 +65,9 @@ Email: info@dpbennett.com.jm
                 <f:selectItems value="#{systemManager.datePeriods}"/>
 
             </p:selectOneMenu>
-            <h:outputText value="Start:"  />
+            <h:outputText value="Start:"  rendered="#{financeManager.renderDateSearchFields}" />
             <p:calendar id="finStartSearchDate"
+                        rendered="#{financeManager.renderDateSearchFields}"
                         value="#{financeManager.dateSearchPeriod.startDate}"                    
                         size="17"
                         navigator="true"
@@ -70,8 +75,9 @@ Email: info@dpbennett.com.jm
                         disabled="#{financeManager.dateSearchPeriod.startDateDisabled}"
                         pattern="MMM dd, yyyy" />
 
-            <h:outputText value="End:" />
+            <h:outputText value="End:" rendered="#{financeManager.renderDateSearchFields}" />
             <p:calendar id="finEndSearchDate"
+                        rendered="#{financeManager.renderDateSearchFields}"
                         value="#{financeManager.dateSearchPeriod.endDate}"
                         size="17"
                         navigator="true"

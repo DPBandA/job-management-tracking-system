@@ -82,6 +82,15 @@ public class FinanceManager implements Serializable {
         init();
     }
     
+    public String getRenderDateSearchFields() {
+        switch (searchType) {
+            case "Suppliers":
+               return "false";            
+            default:
+                return "true";
+        }
+    }
+    
     public void openFinancialAdministration() {
         getMainTabView().openTab("Financial Administration");
     }
@@ -91,8 +100,8 @@ public class FinanceManager implements Serializable {
 
         switch (searchType) {
             case "Suppliers":
-//                dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
-//                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+                dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
+                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
                 break;
             case "Purchase requisitions":
                 dateSearchFields.add(new SelectItem("requisitionDate", "Requisition date"));

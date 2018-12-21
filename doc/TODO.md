@@ -1,7 +1,5 @@
 
 # Purchasing (Financial Administration)
-- Put "--" or "n/a" for for date period and field for suppliers search or hide the
-  components if they are blank.
 - Display the correct growl message when a PR is already completed and an
   attempt is made to save changes.
   * Iml sending normal and error email using Utils and not a method in the managers.

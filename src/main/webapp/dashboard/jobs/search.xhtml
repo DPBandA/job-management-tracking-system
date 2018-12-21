@@ -33,13 +33,14 @@ Email: info@dpbennett.com.jm
                 
                 <f:selectItems value="#{jobManager.authorizedSearchTypes}" />
                 
-                <p:ajax update="jmDateField,jmDatePeriod" process="@this" />
+                <p:ajax update="jobSearchPanel" process="@this" />
 
             </p:selectOneMenu>
 
-            <h:outputText value="Date field: " />
+            <h:outputText value="Date field: " rendered="#{jobManager.renderDateSearchFields}" />
             <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
                              id="jmDateField"
+                             rendered="#{jobManager.renderDateSearchFields}"
                              style="width: 90%;" >
                 <p:ajax                        
                     listener="#{jobManager.updateDateSearchField}"
@@ -49,9 +50,10 @@ Email: info@dpbennett.com.jm
 
             </p:selectOneMenu>
 
-            <h:outputText value="Date period: " />               
+            <h:outputText value="Date period: " rendered="#{jobManager.renderDateSearchFields}" />               
             <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}" 
                              id="jmDatePeriod"
+                             rendered="#{jobManager.renderDateSearchFields}"
                              style="width: 90%;" >
 
                 <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
@@ -61,8 +63,9 @@ Email: info@dpbennett.com.jm
                 <f:selectItems value="#{systemManager.datePeriods}"/>
 
             </p:selectOneMenu>
-            <h:outputText value="Start:"  />
+            <h:outputText value="Start:" rendered="#{jobManager.renderDateSearchFields}" />
             <p:calendar id="startSearchDate"
+                        rendered="#{jobManager.renderDateSearchFields}"
                         value="#{jobManager.dateSearchPeriod.startDate}"                    
                         size="17"
                         navigator="true"
@@ -70,8 +73,9 @@ Email: info@dpbennett.com.jm
                         disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
                         pattern="MMM dd, yyyy" />
            
-            <h:outputText value="End:" />
+            <h:outputText value="End:" rendered="#{jobManager.renderDateSearchFields}" />
             <p:calendar id="endSearchDate"
+                        rendered="#{jobManager.renderDateSearchFields}"
                         value="#{jobManager.dateSearchPeriod.endDate}"
                         size="17"
                         navigator="true"
