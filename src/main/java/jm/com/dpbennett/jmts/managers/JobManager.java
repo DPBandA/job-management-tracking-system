@@ -2145,7 +2145,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         switch (searchType) {
             case "Purchase requisitions":
-                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod, searchType, searchText, null);
+                getPurchasingManager().doPurchaseReqSearch(dateSearchPeriod, 
+                        searchType, 
+                        searchText, 
+                        getUser().getEmployee().getDepartment().getId());
                 getPurchasingManager().openPurchaseReqsTab();
                 break;
             case "Suppliers":
