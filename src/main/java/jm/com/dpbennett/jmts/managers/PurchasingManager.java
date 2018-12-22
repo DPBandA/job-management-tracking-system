@@ -208,6 +208,8 @@ public class PurchasingManager implements Serializable {
 
                 getSelectedPurchaseRequisition().
                         setPurchasingDepartment(getUser().getEmployee().getDepartment());
+
+                getSelectedPurchaseRequisition().addAction(BusinessEntity.Action.COMPLETE);
             }
 
             updatePurchaseReq(null);
@@ -246,6 +248,7 @@ public class PurchasingManager implements Serializable {
                 employees.remove(index);
                 removePRApprovalDate(employee.getPositions());
                 getSelectedPurchaseRequisition().setIsDirty(true);
+                getSelectedPurchaseRequisition().addAction(BusinessEntity.Action.EDIT);
 
                 break;
             }
@@ -328,6 +331,11 @@ public class PurchasingManager implements Serializable {
     public void updatePurchaseReq(AjaxBehaviorEvent event) {
         getSelectedPurchaseRequisition().setIsDirty(true);
         getSelectedPurchaseRequisition().setEditStatus("(edited)");
+        
+        // Add EDIT action if CREATE action is not present.
+        if (getSelectedPurchaseRequisition().findAction(BusinessEntity.Action.CREATE) == null) {
+            getSelectedPurchaseRequisition().addAction(BusinessEntity.Action.EDIT);
+        }
     }
 
     public void updateAutoGeneratePRNumber() {
@@ -361,28 +369,34 @@ public class PurchasingManager implements Serializable {
 
     public void saveSelectedPurchaseRequisition() {
 
-        ReturnMessage returnMessage;
+        if (getSelectedPurchaseRequisition().getIsDirty()) {
+            ReturnMessage returnMessage;
 
-        returnMessage = getSelectedPurchaseRequisition().prepareAndSave(getEntityManager1(), getUser());
+            returnMessage = getSelectedPurchaseRequisition().prepareAndSave(getEntityManager1(), getUser());
 
-        if (returnMessage.isSuccess()) {
-            PrimeFacesUtils.addMessage("Saved!", "Purchase requisition was saved", FacesMessage.SEVERITY_INFO);
-            getSelectedPurchaseRequisition().setEditStatus("");
+            if (returnMessage.isSuccess()) {
+                PrimeFacesUtils.addMessage("Saved!", "Purchase requisition was saved", FacesMessage.SEVERITY_INFO);
+                getSelectedPurchaseRequisition().setEditStatus("");
 
-            // Process actions performed on PR
-            processPurchaseReqActions();
+                // Process actions performed on PR
+                processPurchaseReqActions();
+            } else {
+                PrimeFacesUtils.addMessage(returnMessage.getHeader(),
+                        returnMessage.getMessage(),
+                        FacesMessage.SEVERITY_ERROR);
+
+                Utils.sendErrorEmail("An error occurred while saving a purchase requisition! - "
+                        + returnMessage.getHeader(),
+                        "Purchase requisition number: " + getSelectedPurchaseRequisition().getNumber()
+                        + "\nJMTS User: " + getUser().getUsername()
+                        + "\nDate/time: " + new Date()
+                        + "\nDetail: " + returnMessage.getDetail(),
+                        getEntityManager1());
+            }
         } else {
-            PrimeFacesUtils.addMessage(returnMessage.getHeader(),
-                    returnMessage.getMessage(),
-                    FacesMessage.SEVERITY_ERROR);
-
-            Utils.sendErrorEmail("An error occurred while saving a purchase requisition! - "
-                    + returnMessage.getHeader(),
-                    "Purchase requisition number: " + getSelectedPurchaseRequisition().getNumber()
-                    + "\nJMTS User: " + getUser().getUsername()
-                    + "\nDate/time: " + new Date()
-                    + "\nDetail: " + returnMessage.getDetail(),
-                    getEntityManager1());
+            PrimeFacesUtils.addMessage("Already Saved",
+                    "This purchase requisition was not saved because it was not modified or it was recently saved.",
+                    FacesMessage.SEVERITY_INFO);
         }
 
     }
@@ -508,12 +522,13 @@ public class PurchasingManager implements Serializable {
         selectedPurchaseRequisition.setOriginator(getUser().getEmployee());
         selectedPurchaseRequisition.setRequisitionDate(new Date());
         selectedPurchaseRequisition.generateNumber();
+        selectedPurchaseRequisition.addAction(BusinessEntity.Action.CREATE);
 
-        doPurchaseReqSearch(dateSearchPeriod, 
-                searchType, 
-                purchaseReqSearchText, 
+        doPurchaseReqSearch(dateSearchPeriod,
+                searchType,
+                purchaseReqSearchText,
                 getUser().getEmployee().getDepartment().getId());
-        
+
         openPurchaseReqsTab();
 
         editSelectedPurchaseReq();
@@ -728,6 +743,7 @@ public class PurchasingManager implements Serializable {
             getSelectedPurchaseRequisition().getApprovers().add(getUser().getEmployee());
             setPRApprovalDate(getUser().getEmployee().getPositions());
 
+            getSelectedPurchaseRequisition().addAction(BusinessEntity.Action.APPROVE);
             updatePurchaseReq(null);
         } else {
 

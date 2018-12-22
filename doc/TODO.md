@@ -1,8 +1,8 @@
 
 # Purchasing (Financial Administration)
-- When PR tab is opened from the Tools menu or when new PR is created it shows 
-  all PR in the PRs table instead of PRs from the users department. Fix!
+- Impl removing an action and remove CREATE action when PR is saved.
 - Iml adding action to the PR actions. Don't add an action more than once.
+- Implement adding actions based on how the PR is edited eg approvals.
 - Impl email messaging to the originator and other PR stakeholders.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 

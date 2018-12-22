@@ -1862,7 +1862,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
         } else if (!getIsDirty()) {
             // Job not dirty so it will not be saved.
-            PrimeFacesUtils.addMessage("Already Saved", "Job was not saved because it was not modified or it was recently saved", FacesMessage.SEVERITY_INFO);
+            PrimeFacesUtils.addMessage("Already Saved", 
+                    "Job was not saved because it was not modified or it was recently saved.", 
+                    FacesMessage.SEVERITY_INFO);
         } else {
             PrimeFacesUtils.addMessage("Insufficient Privilege",
                     "You may not have the privilege to enter/save this job. \n"
