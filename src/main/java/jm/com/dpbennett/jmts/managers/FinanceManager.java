@@ -523,9 +523,9 @@ public class FinanceManager implements Serializable {
     public void createNewSupplier() {
         selectedSupplier = new Supplier("", true);
 
-        editSelectedSupplier();
-
         openSuppliersTab();
+        
+        editSelectedSupplier();
     }
 
     public Boolean getIsNewSupplier() {

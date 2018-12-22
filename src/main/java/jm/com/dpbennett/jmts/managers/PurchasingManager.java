@@ -368,6 +368,9 @@ public class PurchasingManager implements Serializable {
         if (returnMessage.isSuccess()) {
             PrimeFacesUtils.addMessage("Saved!", "Purchase requisition was saved", FacesMessage.SEVERITY_INFO);
             getSelectedPurchaseRequisition().setEditStatus("");
+
+            // Process actions performed on PR
+            processPurchaseReqActions();
         } else {
             PrimeFacesUtils.addMessage(returnMessage.getHeader(),
                     returnMessage.getMessage(),
@@ -381,9 +384,6 @@ public class PurchasingManager implements Serializable {
                     + "\nDetail: " + returnMessage.getDetail(),
                     getEntityManager1());
         }
-
-        // Process actions performed on PR
-        processPurchaseReqActions();
 
     }
 
@@ -461,17 +461,17 @@ public class PurchasingManager implements Serializable {
 
     public void doPurchaseReqSearch() {
 
-       EntityManager em = getEntityManager1();
+        EntityManager em = getEntityManager1();
 
         if (!purchaseReqSearchText.isEmpty()) {
             foundPurchaseReqs = PurchaseRequisition.findByDateSearchField(em,
                     dateSearchPeriod.getDateField(), searchType, purchaseReqSearchText.trim(),
-                    dateSearchPeriod.getStartDate(), dateSearchPeriod.getEndDate(), 
+                    dateSearchPeriod.getStartDate(), dateSearchPeriod.getEndDate(),
                     searchDepartmentId);
         } else {
             foundPurchaseReqs = PurchaseRequisition.findByDateSearchField(em,
                     dateSearchPeriod.getDateField(), searchType, "",
-                    dateSearchPeriod.getStartDate(), dateSearchPeriod.getEndDate(), 
+                    dateSearchPeriod.getStartDate(), dateSearchPeriod.getEndDate(),
                     searchDepartmentId);
         }
     }
@@ -483,7 +483,7 @@ public class PurchasingManager implements Serializable {
         this.searchType = searchType;
         this.purchaseReqSearchText = searchText;
         this.searchDepartmentId = searchDepartmentId;
-        
+
         doPurchaseReqSearch();
 
     }
@@ -509,6 +509,11 @@ public class PurchasingManager implements Serializable {
         selectedPurchaseRequisition.setRequisitionDate(new Date());
         selectedPurchaseRequisition.generateNumber();
 
+        doPurchaseReqSearch(dateSearchPeriod, 
+                searchType, 
+                purchaseReqSearchText, 
+                getUser().getEmployee().getDepartment().getId());
+        
         openPurchaseReqsTab();
 
         editSelectedPurchaseReq();

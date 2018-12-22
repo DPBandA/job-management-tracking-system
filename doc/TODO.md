@@ -1,6 +1,8 @@
 
 # Purchasing (Financial Administration)
-- Iml adding action to the PR actions. Don't adan action more than once.
+- When PR tab is opened from the Tools menu or when new PR is created it shows 
+  all PR in the PRs table instead of PRs from the users department. Fix!
+- Iml adding action to the PR actions. Don't add an action more than once.
 - Impl email messaging to the originator and other PR stakeholders.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
