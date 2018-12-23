@@ -14,6 +14,7 @@
   that an approver has one of these positions before allowing them to approve.
 - Impl search for PR and supplier as is done in fin admin dashboard.
 - Do not save supplier or PR if they were not edited.
+- Include the updates done to PR in the email.
 
 ### Inventory
 - Get more details then start app development.

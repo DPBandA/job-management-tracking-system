@@ -331,7 +331,7 @@ public class PurchasingManager implements Serializable {
     public void updatePurchaseReq(AjaxBehaviorEvent event) {
         getSelectedPurchaseRequisition().setIsDirty(true);
         getSelectedPurchaseRequisition().setEditStatus("(edited)");
-        
+
         // Add EDIT action if CREATE action is not present.
         if (getSelectedPurchaseRequisition().findAction(BusinessEntity.Action.CREATE) == null) {
             getSelectedPurchaseRequisition().addAction(BusinessEntity.Action.EDIT);
@@ -348,7 +348,13 @@ public class PurchasingManager implements Serializable {
     }
 
     public void closeDialog() {
+
+    }
+
+    public void closePurchaseReqDialog() {
         PrimeFacesUtils.closeDialog(null);
+        
+        processPurchaseReqActions();
     }
 
     public Boolean getIsSelectedPurchaseReqIsValid() {
@@ -378,8 +384,6 @@ public class PurchasingManager implements Serializable {
                 PrimeFacesUtils.addMessage("Saved!", "Purchase requisition was saved", FacesMessage.SEVERITY_INFO);
                 getSelectedPurchaseRequisition().setEditStatus("");
 
-                // Process actions performed on PR
-                processPurchaseReqActions();
             } else {
                 PrimeFacesUtils.addMessage(returnMessage.getHeader(),
                         returnMessage.getMessage(),
@@ -405,6 +409,8 @@ public class PurchasingManager implements Serializable {
         for (BusinessEntity.Action action : getSelectedPurchaseRequisition().getActions()) {
             System.out.println("Action to process: " + action);
         }
+        
+        getSelectedPurchaseRequisition().getActions().clear();
     }
 
     public void onPurchaseReqCellEdit(CellEditEvent event) {
@@ -459,7 +465,7 @@ public class PurchasingManager implements Serializable {
 
     public void editSelectedPurchaseReq() {
 
-        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, 625, 700);
+        PrimeFacesUtils.openDialog(null, "purchreqDialog", true, true, true, false, 625, 700);
     }
 
     public List<PurchaseRequisition> getFoundPurchaseReqs() {

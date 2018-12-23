@@ -1,9 +1,9 @@
 
 # Purchasing (Financial Administration)
-- Impl removing an action and remove CREATE action when PR is saved.
+- Impl removing an action and do not add EDIT action if CREATE action exists.
 - Iml adding action to the PR actions. Don't add an action more than once.
 - Implement adding actions based on how the PR is edited eg approvals.
-- Impl email messaging to the originator and other PR stakeholders.
+- Impl email messaging to the originator and other PR stakeholders based on stored actions.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
 
