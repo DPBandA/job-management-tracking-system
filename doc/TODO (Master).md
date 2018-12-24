@@ -15,6 +15,8 @@
 - Impl search for PR and supplier as is done in fin admin dashboard.
 - Do not save supplier or PR if they were not edited.
 - Include the updates done to PR in the email.
+- Add feature allow sending email from the PR dialog or PRs table to stakeholders. This feature could
+  be actvivated for procurement officers only.
 
 ### Inventory
 - Get more details then start app development.
