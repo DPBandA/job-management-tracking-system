@@ -239,6 +239,7 @@ This release will be around early July.
 - To reuse MainTabView and Dashboard put the id of the components in the constructor
   and tab initialization outside of the constructor.
 - Doing cell edit in table does not validate the object before saving. Fix!!
+- Prevent browser from  saving usernames and password.
 
 ## Job Edit & Synchronization
 - Create/maintain list of opened jobs in the Application class.
