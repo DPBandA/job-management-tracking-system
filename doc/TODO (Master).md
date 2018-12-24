@@ -1,4 +1,4 @@
-# Things to do
+# Things to do (Master)
 
 ## Financial Administration
 - Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
