@@ -1,5 +1,6 @@
 
 # Purchasing (Financial Administration)
+- Add cost code to Cost Component dialog and table.
 - Impl removing an action and do not add EDIT action if CREATE action exists.
 - Iml adding action to the PR actions. Don't add an action more than once.
 - Implement adding actions based on how the PR is edited eg approvals.
@@ -44,13 +45,10 @@
 - Add CODE, ABBREVIATION to accountingcode table. 
 - Add CANADDSUPPLIER to privileges table.
 - Add ACTIVE, INTERNAL, CATEGORY, DESCRIPTION fields to service table.
-- Test using the database on BOSAPP from BOSHRMAPP to see the response in
-  doing database searches and opening the job form.
 - Position names: Team Leader, Divisional Manager, Divisional Director, 
     Finance Manager, Executive Director, Senior Engineer, Analyst, 
-    Network Administrator, System Administrator etc.
+    Network Administrator, System Administrator.
 - Update HRM tables with info from chart of accounts.
-- Switch to GF3 before deployment.
 - Enter the approval limits in test and production databases.
 
 # Reports & Forms
@@ -60,8 +58,6 @@
 - Do not allow export of job costing from until it is approved
 
 # Optional/Future
-- Deploy and configure activiti in gf3 on local PC for testing .
-- Design and include the purchasing process.
 - Pull cost codes from Accpac.
 - The "on hand now" field to the PR should link to inventory.
 - Link to Accpac and do budget allocation.Canceling a PR/PO should reverse 
