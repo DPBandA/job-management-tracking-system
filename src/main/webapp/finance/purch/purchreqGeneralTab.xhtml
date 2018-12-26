@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <p:panel style="margin-bottom: 1px;border: 0;" >
-        <h:panelGrid id="generalTabPanel" columns="2">
+        <h:panelGrid id="generalTabPanel" columns="2">            
             <h:outputLabel value="No.: " style="font-weight: bold;font-size: 14px;" />
             <h:panelGroup>
                 <h:panelGroup id="prNumberGroup">
@@ -139,38 +139,9 @@ Email: info@dpbennett.com.jm
             </h:panelGroup>
 
             <h:outputText value="Date: " style="font-weight: bold" />
-            <p:calendar id="requisitionDate"
-                        value="#{purchasingManager.selectedPurchaseRequisition.requisitionDate}" 
-                        readonlyInput="true"                    
-                        navigator="true" 
-                        pattern="MMM dd, yyyy" >
-
-                <p:ajax event="dateSelect"
-                        update=":purchreqDialogForm:purchreqDetailToolbar1"
-                        listener="#{purchasingManager.updatePurchaseReq}" />
-
-                <p:ajax event="keyup"
-                        update=":purchreqDialogForm:purchreqDetailToolbar1"
-                        listener="#{purchasingManager.updatePurchaseReq}" />
-
-            </p:calendar>
-
-            <h:outputText value="Originating department: " style="font-weight: bold" />
-            <p:autoComplete id="originatingDepartment"                          
-                            readonly="true"
-                            styleClass="read-only-inputfield"
-                            var="department"
-                            forceSelection="false"      
-                            dropdown="false"
-                            scrollHeight="200" 
-                            size="35"
-                            maxlength="40"
-                            value="#{purchasingManager.selectedPurchaseRequisition.originatingDepartment}"
-                            itemValue="#{department}"
-                            itemLabel="#{department.name}"
-                            converter="activeDepartmentConverter"
-                            validator="businessEntityValidator"
-                            completeMethod="#{humanResourceManager.completeActiveDepartment}" /> 
+            <p:inputText readonly="true"
+                         style="background-color: lightyellow;"
+                         value="#{systemManager.getDateStr(purchasingManager.selectedPurchaseRequisition.requisitionDate)}" />           
 
             <h:outputText value="Originator: " style="font-weight: bold" />       
             <p:autoComplete id="originator"
@@ -187,6 +158,23 @@ Email: info@dpbennett.com.jm
                             dropdown="false"
                             scrollHeight="200" 
                             completeMethod="#{humanResourceManager.completeActiveEmployee}" />
+            
+            <h:outputText value="Originating dep't: " style="font-weight: bold" />
+            <p:autoComplete id="originatingDepartment"                          
+                            readonly="true"
+                            styleClass="read-only-inputfield"
+                            var="department"
+                            forceSelection="false"      
+                            dropdown="false"
+                            scrollHeight="200" 
+                            size="35"
+                            maxlength="40"
+                            value="#{purchasingManager.selectedPurchaseRequisition.originatingDepartment}"
+                            itemValue="#{department}"
+                            itemLabel="#{department.name}"
+                            converter="activeDepartmentConverter"
+                            validator="businessEntityValidator"
+                            completeMethod="#{humanResourceManager.completeActiveDepartment}" />             
 
             <h:outputText value="Description: " style="font-weight: bold;vertical-align: top;" />       
             <p:inputTextarea
@@ -197,7 +185,7 @@ Email: info@dpbennett.com.jm
                 counterTemplate="{0} characters remaining."
                 autoResize="false"
                 maxlength="1000"  
-                style="width: 150%;">
+                style="width: 100%;">
 
                 <f:validator validatorId="requiredFieldValidator" />
 
@@ -211,13 +199,14 @@ Email: info@dpbennett.com.jm
             <h:outputText id="descriptionCharsRemaining" /> 
         </h:panelGrid>
     </p:panel>
-    <p:panel id="approvalsPanel">
+
+    <p:panel id="approvalsPanel" style="border: 0;" >
         <p:toolbar style="margin-top: 1px;margin-bottom: 1px;">
             <p:toolbarGroup>
                 <p:commandButton title="Approve this purchase requisition"
                                  value="Approve"
                                  actionListener="#{purchasingManager.approveSelectedPurchaseRequisition}"
-                                 update="approvalsPanel,:purchreqDialogForm:purchreq_growl"
+                                 update=":purchreqDialogForm:purchreqDetailToolbar1,approvalsPanel,:purchreqDialogForm:purchreq_growl"
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  process="@this">
@@ -240,7 +229,7 @@ Email: info@dpbennett.com.jm
                 <f:facet name="header">
                     <h:outputText value="Title(s)" />
                 </f:facet>
-                <h:outputText value="#{approver.positions}" />                    
+                <h:outputText value="#{approver.allPositions}" />                    
             </p:column>
 
             <p:column >
@@ -250,27 +239,18 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="#{purchasingManager.getPRApprovalDate(approver.positions)}" />                    
             </p:column>
 
-            <p:column style="width:32px" >
-                <p:menuButton id="toolsButton" 
-                              title="Delete approver"
-                              icon="ui-icon-pencil" >
+            <p:column style="width:32px" >                                   
+                <p:commandButton   
+                    onclick="purchreqApproverDeleteConfirmDialog.show();"
+                    disabled="#{!purchasingManager.user.privilege.canBeFinancialAdministrator}"
+                    title="Delete this approval"
+                    icon="ui-icon-trash"
+                    process="@this">
 
-                    <p:menuitem >                       
-                        <p:commandButton   
-                            value="Delete"
-                            style="width: 300%;text-align: left;background: none;border: 0;"
-                            onclick="purchreqCostCompDeleteConfirmDialog.show();"
-                            disabled=""
-                            icon="ui-icon-trash"
-                            process="@this">
+                    <f:setPropertyActionListener value="#{approver}"
+                                                 target="#{purchasingManager.selectedApprover}" />
 
-                            <f:setPropertyActionListener value="#{approver}"
-                                                         target="#{purchasingManager.selectedApprover}" />
-
-                        </p:commandButton>
-                    </p:menuitem>                   
-
-                </p:menuButton>                   
+                </p:commandButton>
             </p:column>      
 
         </p:dataTable>
@@ -279,7 +259,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton title="Approve this purchase requisition"
                                  value="Approve"
                                  actionListener="#{purchasingManager.approveSelectedPurchaseRequisition}"
-                                 update="approvalsPanel,:purchreqDialogForm:purchreq_growl"
+                                 update=":purchreqDialogForm:purchreqDetailToolbar1,approvalsPanel,:purchreqDialogForm:purchreq_growl"
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  process="@this">

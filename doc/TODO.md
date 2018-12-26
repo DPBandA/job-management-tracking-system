@@ -1,9 +1,13 @@
-# Note
 
-- Some privilege flags control the access of modules.
+# Purchasing (Financial Administration)
+- Impl removing an action and do not add EDIT action if CREATE action exists.
+- Iml adding action to the PR actions. Don't add an action more than once.
+- Implement adding actions based on how the PR is edited eg approvals.
+- Impl email messaging to the originator and other PR stakeholders based on stored actions.
+- Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
+- Populate PurchaseOrder with PR. 
 
 # Accpac Invoicing & Credit Status Reporting
-
 - Add CODE, ABBREVIATION to all accountingcode tables and class.
 - Impl getting dist. codes for cost components.
 - Impl exporting Excel file using "Invoice" button. The records must be
@@ -32,35 +36,7 @@
   exported.
 - Put the name of the approver on the job costing.
 - NB: Test as various users with various employee positions. 
-
-# Purchasing (Financial Admin)
-
-- Impl searching for PR and supplier using dashboard. 
-  * Impl search for PRs. Use PurchasingManger and code for legal document.
-  * Impl getting date search fields based on search type. Update getDateSearchFields().
-  * Widen the search fields.
-- Impl approver dates and approvers table in general tab.
-  * Do not allow the originator to approve.
-  * Impl approver deletion confirmation dialog.
-  * Allow approval from only one person of a specific position.
-  * Impl getting list of titles without the square brackets.
-- Show growl if PR is closed without saving.
-- Implement setting purchasing department abnd procurement officer when 
-  work progress is set as "Completed"
-- Impl PurchaseRequisition.isApproved() that determines if a PR was approved.
-  For now, check that at least 2 approvers are in the approval list.
-- Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
-- Move openFinancialAdministration() to financialManager.
-- Add "Procurement" menu and menu items for "Suppliers" and "Purchase Requisitions" 
-  JM module "New" and "Tools" menus.
-- Populate PurchaseOrder with PR if possible. 
-- Initialize with the latest number used.
-- Ensure that the requisition date is the that orginator signed the PR.
-- The date the PR is completed should be the PO date.
-- Impl email messaging to the originator and other PR stakeholders.
-- Enter the approval limits in test and production databases.
-- Set the department of the purchasing officer that completes the PR as the 
-  purchasing department of the PR.
+- Add user preference to export invoioices when "Invoice" button is pressed?
 
 # All Database Update and Deployment
 - Add WORKPROGRESS to purchaserequisition table.
@@ -75,6 +51,7 @@
     Network Administrator, System Administrator etc.
 - Update HRM tables with info from chart of accounts.
 - Switch to GF3 before deployment.
+- Enter the approval limits in test and production databases.
 
 # Reports & Forms
 - Do other client report template and upload.
@@ -131,6 +108,8 @@ in active ones.
 - Add payCycle to EmployeePosition class. Should be in Payroll class too?
 
 # General
+- Set all search results list in all managers to null when logout to prevent the next logged
+  user from accessing that list.
 - Misc config search results not sorted. Fix!
 - Upgrade to using Java EE 7/8 and GF 5 on boshrmapp and bosapp ASAP.
 - Set address type to billing for new addresses.
@@ -188,6 +167,8 @@ separate projects using maven overlays.
 - Go through each manager and remove code that is not needed in that manager.
 - Add a separate tab in user account dialog for sys admin.
 - Impl giving privileges to specific tabs in sys admin such as hrm.
+- Use uneditable greyed input text to display uneditable date field instead of 
+  calendar component since a calendar component can't be grey out.
 
 # Accpac
 - Add all depts, subgroups and divisions to jmts live.

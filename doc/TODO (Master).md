@@ -1,4 +1,4 @@
-# Things to do
+# Things to do (Master)
 
 ## Financial Administration
 - Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
@@ -10,6 +10,13 @@
   Throw away as many documents as possible.
 - Open the purchase req tab by default for now but allow user to choose which tab
   to open by default for financial admin module.
+- Add as system option the positions that are allowed to approve a PR. Check 
+  that an approver has one of these positions before allowing them to approve.
+- Impl search for PR and supplier as is done in fin admin dashboard.
+- Do not save supplier or PR if they were not edited.
+- Include the updates done to PR in the email.
+- Add feature allow sending email from the PR dialog or PRs table to stakeholders. This feature could
+  be actvivated for procurement officers only.
 
 ### Inventory
 - Get more details then start app development.
@@ -156,6 +163,7 @@
   * Implement search that deals with case when important fields are null such as
     jobSamples.
 - Add divisions to Business/Organizations
+- Check that all growl message have full stop.
 - Add "+Client" to the dashboard JM "New" menu.
 - NOTE: postMail() hard-coded values to be made system options.
 - Find way to deactivate old costing templates...Add "active" field to "JobCostingAndPayment"
@@ -233,6 +241,7 @@ This release will be around early July.
 - To reuse MainTabView and Dashboard put the id of the components in the constructor
   and tab initialization outside of the constructor.
 - Doing cell edit in table does not validate the object before saving. Fix!!
+- Prevent browser from  saving usernames and password.
 
 ## Job Edit & Synchronization
 - Create/maintain list of opened jobs in the Application class.

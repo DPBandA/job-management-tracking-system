@@ -83,7 +83,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem>
 
-                    <p:commandButton value="Browse Purchase Requisitions"
+                    <p:commandButton value="Purchase Requisitions"
                                      style="text-align: left;background: none;border: 0;"
                                      title="Open purchase requisition tab"
                                      onstart="PF('longProcessDialogVar').show();" 
@@ -95,7 +95,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem>
 
-                    <p:commandButton value="Supplier Management"
+                    <p:commandButton value="Suppliers"
                                      style="text-align: left;background: none;border: 0;"
                                      title="Open suppliers tab"
                                      onstart="PF('longProcessDialogVar').show();" 
@@ -111,10 +111,22 @@ Email: info@dpbennett.com.jm
                                      style="text-align: left;background: none;border: 0;"
                                      title="Open Financial Administration"
                                      onstart="PF('longProcessDialogVar').show();" 
-                                     actionListener="#{systemManager.openFinancialAdministration}" 
+                                     actionListener="#{financeManager.openFinancialAdministration}" 
                                      oncomplete="longProcessDialogVar.hide();"
                                      process="@this" />
 
+                </p:menuitem>
+                
+                <p:separator />
+                
+                <p:menuitem>
+                    <p:commandButton value="Reports"
+                                     style="text-align: left;background: none;border: 0;"
+                                     title="Open the Reports tab"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{financeManager.openReportsTab}" 
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     process="@this" />
                 </p:menuitem>
 
             </p:menuButton>         

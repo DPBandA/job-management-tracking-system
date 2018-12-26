@@ -29,14 +29,14 @@ Email: info@dpbennett.com.jm
                              onerror="PF('connectionErrorDialog').show();"
                              value="Save"
                              update=":purchreqDialogForm"
-                             title="Save purchase requisition"
+                             title="Save this purchase requisition"
                              icon="ui-icon-disk"
                              process="@form" />
 
             <p:spacer height="0" width="10"/>
             
             <p:commandButton value="Close"     
-                             actionListener="#{purchasingManager.closeDialog}"
+                             actionListener="#{purchasingManager.closePurchaseReqDialog}"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();" 
                              onerror="PF('connectionErrorDialog').show();"

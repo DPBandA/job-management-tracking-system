@@ -155,6 +155,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         init();
     }
 
+    public String getRenderDateSearchFields() {
+        switch (searchType) {
+            case "Suppliers":
+                return "false";
+            default:
+                return "true";
+        }
+    }
+
     /**
      * Gets the ApplicationScoped object that is associated with this webapp.
      *
@@ -523,12 +532,38 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchTypes.add(new SelectItem("Parent jobs only", "Parent jobs only"));
         searchTypes.add(new SelectItem("Unapproved job costings", "Unapproved job costings"));
         searchTypes.add(new SelectItem("Incomplete jobs", "Incomplete jobs"));
+        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
+        searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
 
         return searchTypes;
     }
 
     public ArrayList getDateSearchFields() {
-        return DateUtils.getDateSearchFields();
+        ArrayList dateSearchFields = new ArrayList();
+
+        switch (searchType) {
+            case "Suppliers":
+//                dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
+//                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+                break;
+            case "Purchase requisitions":
+                dateSearchFields.add(new SelectItem("requisitionDate", "Requisition date"));
+                dateSearchFields.add(new SelectItem("dateOfCompletion", "Date completed"));
+                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+                dateSearchFields.add(new SelectItem("expectedDateOfCompletion", "Exp'ted date of completion"));
+                dateSearchFields.add(new SelectItem("dateRequired", "Date required"));
+                dateSearchFields.add(new SelectItem("purchaseOrderDate", "Purchase order date"));
+                dateSearchFields.add(new SelectItem("teamLeaderApprovalDate", "Team Leader approval date"));
+                dateSearchFields.add(new SelectItem("divisionalManagerApprovalDate", "Divisional Manager approval date"));
+                dateSearchFields.add(new SelectItem("divisionalDirectorApprovalDate", "Divisional Director approval date"));
+                dateSearchFields.add(new SelectItem("financeManagerApprovalDate", "Finance Manager approval date"));
+                dateSearchFields.add(new SelectItem("executiveDirectorApprovalDate", "Executive Director approval date"));
+                break;
+            default:
+                return DateUtils.getDateSearchFields();
+        }
+
+        return dateSearchFields;
     }
 
     public ArrayList getAuthorizedSearchTypes() {
@@ -573,11 +608,22 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             currentJob.setIsDirty(false);
         }
 
-        // tk 
-//        System.out.println("removing current job");
-//        if (getApplication().findOpenedJob(currentJob.getId()) != null) {
-//            getApplication().removeOpenedJob(currentJob);
-//        }
+    }
+
+    private void resetManagers() {
+        try {
+
+            getClientManager().reset();
+            getJobContractManager().reset();
+            getJobFinanceManager().reset();
+            getFinanceManager().reset();
+            getPurchasingManager().reset();
+            getJobSampleManager().reset();
+            getReportManager().reset();
+
+        } catch (Exception e) {
+            System.out.println("An ");
+        }
     }
 
     public void reset() {
@@ -587,14 +633,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         renderSearchComponent = true;
         jobSearchResultList = new ArrayList<>();
 
-        // Reset managers
-        getClientManager().reset();
-        getJobContractManager().reset();
-        getJobFinanceManager().reset();
-        getFinanceManager().reset();
-        getPurchasingManager().reset();
-        getJobSampleManager().reset();
-        getReportManager().reset();
+        // Reset managers       
+        resetManagers();
 
         // Unrender all tabs
         dashboard.removeAllTabs();
@@ -891,9 +931,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateDashboard(String tabId) {
-
         PrimeFaces.current().ajax().update("dashboardForm");
-
     }
 
     /**
@@ -913,6 +951,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void openJobBrowser() {
+        // Set "Job View" based on search type
+        if (getSearchType().equals("Unapproved job costings")) {
+            getUser().setJobTableViewPreference("Job Costings");
+        }
+
         mainTabView.openTab("Job Browser");
     }
 
@@ -1048,9 +1091,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         if (checkUserJobEntryPrivilege()) {
             createJob(em, false);
-            //initManagers();
             getJobFinanceManager().setEnableOnlyPaymentEditing(false);
             PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 875);
+            openJobBrowser();
         } else {
             // tk test this code with user that does not have the required privilege.
             PrimeFacesUtils.addMessage("Job NOT Created",
@@ -1819,7 +1862,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
         } else if (!getIsDirty()) {
             // Job not dirty so it will not be saved.
-            PrimeFacesUtils.addMessage("Already Saved", "Job was not saved because it was not modified or it was recently saved", FacesMessage.SEVERITY_INFO);
+            PrimeFacesUtils.addMessage("Already Saved", 
+                    "Job was not saved because it was not modified or it was recently saved.", 
+                    FacesMessage.SEVERITY_INFO);
         } else {
             PrimeFacesUtils.addMessage("Insufficient Privilege",
                     "You may not have the privilege to enter/save this job. \n"
@@ -1954,7 +1999,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void sendErrorEmail(String subject, String message) {
         try {
             // send error message to developer's email            
-            Utils.postMail(null, null, subject, message);
+            Utils.postMail(null, null, subject, message, getEntityManager1());
         } catch (Exception ex) {
             System.out.println(ex);
         }
@@ -2073,33 +2118,62 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void doGeneralSearch() {
+    public List<Job> findJobs(Boolean includeSampleSearch) {
+        return Job.findJobsByDateSearchField(getEntityManager1(),
+                getUser(),
+                getDateSearchPeriod(),
+                getSearchType(),
+                getSearchText(),
+                includeSampleSearch);
+    }
+
+    public void doDefaultSearch() {
 
         switch (getDashboard().getSelectedTabId()) {
-            case "Job Management":
-                doJobSearch();
+            case "Financial Administration":
+                getFinanceManager().doSearch();
                 break;
             case "Document Management":
-                getLegalDocumentManager().doLegalDocumentSearch();
+                getLegalDocumentManager().doSearch();
                 break;
-            case "Job Management3":
+            case "Job Management":
+                doSearch();
                 break;
             default:
+                PrimeFacesUtils.addMessage("Cannot Search",
+                        "Please click the 'Search' button to initiate a search.",
+                        FacesMessage.SEVERITY_INFO);
                 break;
         }
 
     }
 
-    public List<Job> findJobs(Boolean includeSampleSearch) {
-        return Job.findJobsByDateSearchField(getEntityManager1(),
-                getUser(),
-                getDateSearchPeriod().getDateField(),
-                "",
-                getSearchType(),
-                getSearchText(),
-                getDateSearchPeriod().getStartDate(),
-                getDateSearchPeriod().getEndDate(),
-                includeSampleSearch);
+    public void doSearch() {
+
+        switch (searchType) {
+            case "Purchase requisitions":
+                doPurchaseReqSearch();
+                break;
+            case "Suppliers":
+                getFinanceManager().doSupplierSearch(searchText);
+                getFinanceManager().openSuppliersTab();
+                break;
+            default:
+                doJobSearch();
+                openJobBrowser();
+                break;
+        }
+
+    }
+
+    public void doPurchaseReqSearch() {
+        getPurchasingManager().doPurchaseReqSearch(
+                getPurchasingManager().getDateSearchPeriod(),
+                getPurchasingManager().getSearchType(),
+                getPurchasingManager().getPurchaseReqSearchText(),
+                getUser().getEmployee().getDepartment().getId());
+        
+        getPurchasingManager().openPurchaseReqsTab();
     }
 
     public void doJobSearch() {
@@ -2107,7 +2181,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getUser().getId() != null) {
             jobSearchResultList = findJobs(false);
 
-            if (jobSearchResultList.isEmpty()) { // Do search with sample search enabled
+            if (jobSearchResultList.isEmpty()) {
                 jobSearchResultList = findJobs(true);
             }
 
@@ -2115,13 +2189,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             jobSearchResultList = new ArrayList<>();
         }
 
-        // Set "Job View" based on search type
-        if (getSearchType().equals("Unapproved job costings")) {
-            getUser().setJobTableViewPreference("Job Costings");
-        }
+    }
 
-        openJobBrowser();
+    public void doJobSearch(DatePeriod dateSearchPeriod, String searchType, String searchText) {
+        this.dateSearchPeriod = dateSearchPeriod;
+        this.searchType = searchType;
+        this.searchText = searchText;
 
+        doJobSearch();
     }
 
     /**
@@ -2723,12 +2798,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         initDashboard();
         initMainTabView();
-        initManager();
+        initManagers();
 
         updateAllForms();
     }
 
-    private void initManager() {
+    private void initManagers() {
         systemManager = BeanUtils.findBean("systemManager");
         systemManager.setUser(getUser());
         systemManager.setMainTabView(getMainTabView());

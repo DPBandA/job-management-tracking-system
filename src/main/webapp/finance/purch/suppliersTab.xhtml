@@ -41,10 +41,11 @@ Email: info@dpbennett.com.jm
                         update=":mainTabViewForm:mainTabView:suppliersTable"/>
 
             </p:commandButton>
-            <p:spacer width="20" />
+            <p:spacer width="20" rendered="#{!financeManager.user.privilege.canBeFinancialAdministrator}" />
             <p:inputText id="supplierSearchText" 
                          placeholder="Enter search text"
                          style="width:200px" 
+                         rendered="#{!financeManager.user.privilege.canBeFinancialAdministrator}"
                          value="#{financeManager.supplierSearchText}" >
 
                 <p:ajax event="keyup"                            

@@ -225,6 +225,7 @@ Email: info@dpbennett.com.jm
                     readonlyInput="true"
                     navigator="true" 
                     pattern="MMM dd, yyyy" >
+            
             <p:ajax event="dateSelect"
                     update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateDateSubmitted}" />
@@ -262,7 +263,7 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>     
 
-        <h:outputText value="Subcontracted dept.:"                      
+        <h:outputText value="Subcontracted dep't:"                      
                       rendered="#{jobManager.renderSubContractingDepartment}"
                       style="font-weight: bold" />
         <p:autoComplete id="subContractedDepartment"                        
