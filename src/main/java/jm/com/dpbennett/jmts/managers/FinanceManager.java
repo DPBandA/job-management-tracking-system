@@ -278,7 +278,7 @@ public class FinanceManager implements Serializable {
     }
 
     public List getCostCodeList() {
-        return FinancialUtils.getCostCodeList();
+        return FinancialUtils.getCostTypeList();
     }
 
     public void updateSupplier() {

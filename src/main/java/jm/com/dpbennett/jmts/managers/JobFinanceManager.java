@@ -145,8 +145,8 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return FinancialUtils.getDiscountTypes();
     }
     
-    public List getCostCodeList() {
-        return FinancialUtils.getCostCodeList();
+    public List getCostTypeList() {
+        return FinancialUtils.getCostTypeList();
     }
 
     public List getPaymentTypes() {
@@ -1208,8 +1208,8 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         setIsDirty(true);
     }
 
-    public void updateCostCode() {
-        switch (selectedCostComponent.getCode()) {
+    public void updateCostType() {
+        switch (selectedCostComponent.getType()) {
             case "FIXED":
                 selectedCostComponent.setIsFixedCost(true);
                 selectedCostComponent.setIsHeading(false);
@@ -1248,9 +1248,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     public Boolean getAllowCostEdit() {
         if (selectedCostComponent != null) {
-            if (null == selectedCostComponent.getCode()) {
+            if (null == selectedCostComponent.getType()) {
                 return true;
-            } else switch (selectedCostComponent.getCode()) {
+            } else switch (selectedCostComponent.getType()) {
                 case "--":
                     return true;
                 default:

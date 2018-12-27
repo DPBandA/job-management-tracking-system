@@ -20,6 +20,8 @@ Email: info@dpbennett.com.jm
 package jm.com.dpbennett.jmts.managers;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +37,7 @@ import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.EmployeePosition;
+import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
@@ -79,6 +82,39 @@ public class PurchasingManager implements Serializable {
      */
     public PurchasingManager() {
         init();
+    }
+    
+    /**
+     * NB: Message body and subject are to be obtained from a "template". The
+     * variables in the template are to be inserted where {variable} appears.
+     *
+     * @param job
+     * @return
+     */
+    public String getNewJobEmailMessage(Job job) {
+        String message = "";
+        DateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+
+        message = message + "Dear Job Assignee,<br><br>";
+        message = message + "A job with the following details was assigned to your department via the <a href='http://boshrmapp:8080/jmts'>Job Management & Tracking System (JMTS)</a>:<br><br>";
+        message = message + "<span style='font-weight:bold'>Job number: </span>" + job.getJobNumber() + "<br>";
+        message = message + "<span style='font-weight:bold'>Client: </span>" + job.getClient().getName() + "<br>";
+        if (!job.getSubContractedDepartment().getName().equals("--")) {
+            message = message + "<span style='font-weight:bold'>Department: </span>" + job.getSubContractedDepartment().getName() + "<br>";
+        } else {
+            message = message + "<span style='font-weight:bold'>Department: </span>" + job.getDepartment().getName() + "<br>";
+        }
+        message = message + "<span style='font-weight:bold'>Date submitted: </span>" + formatter.format(job.getJobStatusAndTracking().getDateSubmitted()) + "<br>";
+        message = message + "<span style='font-weight:bold'>Current assignee: </span>" + BusinessEntityUtils.getPersonFullName(job.getAssignedTo(), Boolean.FALSE) + "<br>";
+        message = message + "<span style='font-weight:bold'>Entered by: </span>" + BusinessEntityUtils.getPersonFullName(job.getJobStatusAndTracking().getEnteredBy(), Boolean.FALSE) + "<br>";
+        message = message + "<span style='font-weight:bold'>Task/Sample descriptions: </span>" + job.getJobSampleDescriptions() + "<br><br>";
+        message = message + "If you are the department's supervisor, you should immediately ensure that the job was correctly assigned to your staff member who will see to its completion.<br><br>";
+        message = message + "If this job was incorrectly assigned to your department, the department supervisor should contact the person who entered/assigned the job.<br><br>";
+        message = message + "This email was automatically generated and sent by the <a href='http://boshrmapp:8080/jmts'>JMTS</a>. Please DO NOT reply.<br><br>";
+        message = message + "Signed<br>";
+        message = message + "Job Manager";
+
+        return message;
     }
 
     public void updateDateSearchField() {
@@ -286,8 +322,8 @@ public class PurchasingManager implements Serializable {
         return financeManager;
     }
 
-    public List getCostCodeList() {
-        return FinancialUtils.getCostCodeList();
+    public List getCostTypeList() {
+        return FinancialUtils.getCostTypeList();
     }
 
     public Boolean getIsSupplierNameValid() {
@@ -630,8 +666,8 @@ public class PurchasingManager implements Serializable {
         getSelectedCostComponent().setIsDirty(true);
     }
 
-    public void updateCostCode() {
-        switch (selectedCostComponent.getCode()) {
+    public void updateCostType() {
+        switch (selectedCostComponent.getType()) {
             case "FIXED":
                 selectedCostComponent.setIsFixedCost(true);
                 selectedCostComponent.setIsHeading(false);
@@ -663,10 +699,10 @@ public class PurchasingManager implements Serializable {
 
     public Boolean getAllowCostEdit() {
         if (selectedCostComponent != null) {
-            if (null == selectedCostComponent.getCode()) {
+            if (null == selectedCostComponent.getType()) {
                 return true;
             } else {
-                switch (selectedCostComponent.getCode()) {
+                switch (selectedCostComponent.getType()) {
                     case "--":
                         return true;
                     default:

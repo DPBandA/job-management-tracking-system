@@ -242,6 +242,7 @@ This release will be around early July.
   and tab initialization outside of the constructor.
 - Doing cell edit in table does not validate the object before saving. Fix!!
 - Prevent browser from  saving usernames and password.
+- Add cancel button to preferences dialog.
 
 ## Job Edit & Synchronization
 - Create/maintain list of opened jobs in the Application class.

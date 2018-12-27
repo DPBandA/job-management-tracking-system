@@ -1,8 +1,5 @@
 
 # Purchasing (Financial Administration)
-- Add cost code to Cost Component dialog and table.
-- Impl removing an action and do not add EDIT action if CREATE action exists.
-- Iml adding action to the PR actions. Don't add an action more than once.
 - Implement adding actions based on how the PR is edited eg approvals.
 - Impl email messaging to the originator and other PR stakeholders based on stored actions.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
@@ -40,6 +37,7 @@
 - Add user preference to export invoioices when "Invoice" button is pressed?
 
 # All Database Update and Deployment
+- Add type to costcomponent table.
 - Add WORKPROGRESS to purchaserequisition table.
 - Add canAddAccountingCode to privilege table.
 - Add CODE, ABBREVIATION to accountingcode table. 
