@@ -1,5 +1,6 @@
 
 # Purchasing (Financial Administration)
+Complete by Friday
 - Impl sending email to procurement officer and the team leader of the 
   originator's department when a PR is created.
 - Impl sending email to persons except the person who edited the PR. For example if the 
@@ -10,6 +11,7 @@
   number of approvals is reached.
 - Impl sending emails to the originator, the TL and approvers when the PR is 
   completed. 
+Complete by Saturday:
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
 
