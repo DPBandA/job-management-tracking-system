@@ -102,7 +102,8 @@
 - Remember to  create labs and units within departments.
 
 ## General
-- Impl open and close tab methods as is done for MainTabView.
+- Change GF default page.
+- Impl error.xhhtml.
 - Remove the busy wait icon from the job dialog tab change and see if this makes 
   any difference on 172.10.0.18/jmts.
 - In the "additional services" tab add list in otherRequestedServices field

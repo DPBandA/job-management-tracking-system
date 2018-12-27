@@ -1,7 +1,15 @@
 
 # Purchasing (Financial Administration)
-- Implement adding actions based on how the PR is edited eg approvals.
-- Impl email messaging to the originator and other PR stakeholders based on stored actions.
+- Impl sending email to procurement officer and the team leader of the 
+  originator's department when a PR is created.
+- Impl sending email to persons except the person who edited the PR. For example if the 
+  procurement officer (PO) edits the PR send emails to the orginator and the team leader (TL)
+  of the department.
+- Impl sending emails to the originator, PO and the TL of the department when
+  a PR is approved. Send separate emails when the PR is approved and when the required
+  number of approvals is reached.
+- Impl sending emails to the originator, the TL and approvers when the PR is 
+  completed. 
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
 
