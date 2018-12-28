@@ -373,6 +373,13 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>emailTemplateDialog</from-outcome>
+            <to-view-id>/admin/emailTemplateDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>reportTemplateDialog</from-outcome>
             <to-view-id>/report/reportTemplateDialog.xhtml</to-view-id>
         </navigation-case>
