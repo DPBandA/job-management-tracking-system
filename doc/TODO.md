@@ -3,6 +3,7 @@
 Complete by Friday:
 - Impl the use of email templates stored in the resources folder.
   * Impl opening packaged or external email template file and display the content.
+  * Put content field in emailTemplate dialog.
 - Impl sending email to procurement officer and the team leader of the 
   originator's department when a PR is created.
 - Impl sending email to persons except the person who edited the PR. For example if the 
@@ -49,11 +50,6 @@ Complete by Saturday:
 - Add user preference to export invoioices when "Invoice" button is pressed?
 
 # All Database Update and Deployment
-- Add type to costcomponent table.
-- Add WORKPROGRESS to purchaserequisition table.
-- Add canAddAccountingCode to privilege table.
-- Add CODE, ABBREVIATION to accountingcode table. 
-- Add CANADDSUPPLIER to privileges table.
 - Add ACTIVE, INTERNAL, CATEGORY, DESCRIPTION fields to service table.
 - Position names: Team Leader, Divisional Manager, Divisional Director, 
     Finance Manager, Executive Director, Senior Engineer, Analyst, 

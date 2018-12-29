@@ -1,30 +1,14 @@
-<!DOCTYPE html>
-<!--
-Job Management & Tracking System (JMTS) 
-Copyright (C) 2019  D P Bennett & Associates Limited
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-Email: info@dpbennett.com.jm
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+Dear {salutation} {surname},<br><br>
+A job with the following details was updated by someone outside of your department via the
+<a href='{JMTSURL}'>Job Management & Tracking System (JMTS)</a>:<br><br>
+<span style='font-weight:bold'>Purchase requisition number: </span>{purchaseRequisitionNumber}<br>
+<span style='font-weight:bold'>Originator: </span>{originator}<br>
+<span style='font-weight:bold'>Department: </span>{department}<br>
+<span style='font-weight:bold'>Date requested: </span> + formatter.format(job.getJobStatusAndTracking().getDateSubmitted()) + "<br>";
+message = message + "<span style='font-weight:bold'>Current assignee: </span>" + BusinessEntityUtils.getPersonFullName(job.getAssignedTo(), Boolean.FALSE) + "<br>";
+message = message + "<span style='font-weight:bold'>Updated by: </span>" + BusinessEntityUtils.getPersonFullName(job.getJobStatusAndTracking().getEditedBy(), Boolean.FALSE) + "<br>";
+message = message + "<span style='font-weight:bold'>Task/Sample descriptions: </span>" + job.getJobSampleDescriptions() + "<br><br>";
+message = message + "You are being informed of this update so that you may take the requisite action.<br><br>";
+message = message + "This email was automatically generated and sent by the <a href='http://boshrmapp:8080/jmts'>JMTS</a>. Please DO NOT reply.<br><br>";
+message = message + "Signed<br>";
+message = message + "Job Manager";
