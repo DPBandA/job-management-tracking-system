@@ -18,6 +18,15 @@
 - Add feature allow sending email from the PR dialog or PRs table to stakeholders. This feature could
   be actvivated for procurement officers only.
 
+### PR Module 
+- Pull cost codes from Accpac.
+- The "on hand now" field to the PR should link to inventory.
+- Link to Accpac and do budget allocation.Canceling a PR/PO should reverse 
+  Accpac budget allocation.
+- Create report to show Accpac budget allocations.
+- Get suppliers from Accpac.
+- Impl supplier evaluation.
+
 ### Inventory
 - Get more details then start app development.
 
@@ -36,7 +45,15 @@
 ### Inter-billing upload to Accpac
 - See email attachment from Simone
 
+### Accpac
+- Add all depts, subgroups and divisions to jmts live.
+- https://smist08.wordpress.com/2013/01/01/the-sage-300-erp-java-api/
+
 ## Customer Relationship Management (CRM)
+- Meet with BSJ re features and requirements
+- See docs in downloads folder
+- Put isNameAndIdEditable as transient in Client class and get rid of 
+  use of isNameAndIdEditable.
 - Get HBS Access database for importation into JMTS.
 - Add identification and identificationType to Client class.
 - Create MarketingCampaign class to capture telemarketing and other types of 
@@ -50,6 +67,10 @@
 - Update JMTS user manual
 
 ## Reports
+- Do other client report template and upload.
+- Impl new service contract and agreement.
+- Do report for jobs not approved and incomplete up to 2017.
+- Do not allow export of job costing from until it is approved
 - Create parent/child jobs report for Ministry of Finance based on request.
 - Remove the jasper-fonts from the hrm server and restart it to make use of the
   jasper fonts deployed with JMTS
@@ -74,6 +95,28 @@
   flag.
 - Create and add Contractor to BEL/HRM? 
 - To Organization/Business class add Divisions, Subgroups, Departments, Clients
+- Reload entities before opening dialogs. Start with employee.
+  * Load from database using setSelected* in <f:setPropertyActionListener>
+    and redo search in the "dialogReturn" method.
+- In departments tab in division dialog, list the departments that are in subgroups
+  in addition to those that fall directly under the division.
+- Deploy and subgroup and division records.
+- Add code to generate "accounting codes" in Job Costing tab.
+- When error occurs while saving job occurs and email is sent, a job number is 
+still generated. This happened for job 6153 which was later saved to 6154. 
+A valid job number should not be generated when this occurs.
+- Deal with apparent creation of multiple 
+"QEMS-OSH (Quality &amp; Environmental Management Systems - Occupational Health &amp; Safety)"
+department which seems to be due to the "&" character or "&amp;". Try to delete the
+in active ones.
+- Impl searching for department on the code field.
+- Add head to division dialog.
+- Impl Labs and Department units.
+- Instead of Notes put head in Dept, Subgroup and Division tables.
+- In the relevant dialogs, layout fields as Code, Name, Head.
+- Add payCycle to EmployeePosition class. Should be in Payroll class too?
+- Fundamentals of Human Resource Management, pg 19
+- Look up Java API for PeopleSoft HRM app.
 
 ## Updates based on training, testing and feedback
 - The delete payment dialog text does not show in dark hive. Fix!
@@ -102,7 +145,68 @@
 - Remember to  create labs and units within departments.
 
 ## General
-- Change GF default page.
+- Set all search results list in all managers to null when logout to prevent the next logged
+  user from accessing that list.
+- Misc config search results not sorted. Fix!
+- Upgrade to using Java EE 7/8 and GF 5 on boshrmapp and bosapp ASAP.
+- Set address type to billing for new addresses.
+- Check out Server Performance Tuner in GF4/5 to see if this help the speed of 
+  searches etc.
+- Dr. Ramdonquestion: Can JMTS have more than one person able to untick complete?
+  * Allow other persons apart from department "Head" and "Acting Head" and system admin.
+- Reminder: include info re "Legal Office" module in JMTS User manual.
+- Put Contact Management module in Future.md
+- Impl automatic including child job cost based on various criteria such as 
+  percentage, cost component type etc. -- Include this as proposal for future 
+  work.
+- Allow tracking information to added to the job even after it is marked completed
+  * Impl tacking feature for this.
+- Impl using only one EMF which is used by all session beans when an entity 
+  manager is needed.
+- Now that department is removed from JMUser, check that no code is broken.
+- Send error email for only job save related exceptions. Not messages pertaining
+  to privileges. Send emails to desbenn@gmail.com
+- Remove major modules such as helpdesk, hrm, crm and stds dev and create as
+separate projects using maven overlays.
+- Add option to auto generate sample reference as is done with job number.
+- Consider using oauth for authentication over the web.
+- Check why admain2 is not used when admain is not available.
+- Impl login with admin user and encrypted password.
+- See if all passwords can be encrypted in system options.
+- Receipt # not showing on some job costings. Impl the "Sing User Job Access" for
+  to solve this which may be as result of one user overwriting the edits of 
+  another.
+- Impl UpdateAction as is done in PR class to determine alerts to send.
+- In Authentication impl notification when login attempts reaches a certain amount
+  eg. 2.
+- Get rid of "shadow" when  mouse over menu item in edit client menu and others.
+- Get rid of excess "--" employee.
+- Display growl when user is not authenticated.
+- Use dialogReturn through the system update the respective tables when dialogs
+  are closed.
+- Backup all affected projects and and change jmuser to user or userprofile.
+  Eventually rename the jmuser table to user or userprofile.
+- Set all dialog heights to 0 so the actual height is automatically set
+  when the dialog is open.
+- Remove TRN and add iden. type and iden. to client dialog. If iden type is TRN
+  set the TRN field in the Client class.
+- Add list of id type as autocomplete to supplier and client dialogs.
+- Make Parish/State/Province autocomplete in address dialog.
+- Impl searching or any part of client or supplier as is done with job entry.
+- Use finance related methods in FinancialApplication and not JMTSApplication.
+- Clean up unused or unneeded out of JMTSApplication. Some of this code is already
+  in managers/WAL or can be put in them.
+- Create Application class and put in WAL. Other application classes such as
+  JMTSApplication can be put in it.
+- Do Dashboard and MainTab tab init in JobManager and not in the contructors.
+- Put the sync methods in the Application class from which all application scope
+   classes would inherit. openedJobs would become openedObjects etc.
+- Go through each manager and remove code that is not needed in that manager.
+- Add a separate tab in user account dialog for sys admin.
+- Impl giving privileges to specific tabs in sys admin such as hrm.
+- Use uneditable greyed input text to display uneditable date field instead of 
+  calendar component since a calendar component can't be grey out.
+- Change GF default page by editing the files in docroot.
 - Impl error.xhhtml.
 - Remove the busy wait icon from the job dialog tab change and see if this makes 
   any difference on 172.10.0.18/jmts.
@@ -259,3 +363,13 @@ This release will be around early July.
 - Create Livestock class to represent fish and other farm animals. Create Broodstock as 
 subclass of Livestock.
 
+## Legal Office
+- Impl opening the saved document from the database. Refresh the edited document
+  in the table and show as visited.
+- The "visited" row feature not working for legal document. Fix.
+  * It's because re-search is done after saving.
+- Hide "For job earnings:" in classification dialog except for "Job" category.
+- Do update Legal Office report with set and actual turnaround times. 
+  Update "turnaround times" when doc is being saved?
+- Switch to LegalOfficeReport2 in system admin.
+- Search results do not seem to be sorted. Fix.
