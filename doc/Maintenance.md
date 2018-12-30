@@ -348,6 +348,8 @@ This release will be around early July.
 - Doing cell edit in table does not validate the object before saving. Fix!!
 - Prevent browser from  saving usernames and password.
 - Add cancel button to preferences dialog.
+- Impl email search based on type.
+- Display busy wait icon when any tab is selected.
 
 ## Job Edit & Synchronization
 - Create/maintain list of opened jobs in the Application class.

@@ -1,7 +1,6 @@
 
 # Purchasing (Financial Administration)
 - Impl the use of email templates stored in the resources folder.
-  * Complete email-to-procurement-officer.html.
   * Put content field in emailTemplate dialog.
   * Impl sending email to procurement officer and the team leader of the 
   originator's department when a PR is created.
@@ -23,7 +22,6 @@
   file sent by Donna.
 
 # Accpac Invoicing & Credit Status Reporting
-- Add CODE, ABBREVIATION to all accountingcode tables and class.
 - Impl getting dist. codes for cost components.
 - Impl exporting Excel file using "Invoice" button. The records must be
   must be checked to see if they can be exported first eg the client id is valid.
