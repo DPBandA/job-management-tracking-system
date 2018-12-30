@@ -1,9 +1,9 @@
 
 # Purchasing (Financial Administration)
+- Impl finding all employees by employee position.
 - Impl the use of email templates stored in the resources folder.
-  * Put content field in emailTemplate dialog.
   * Impl sending email to procurement officer and the team leader of the 
-  originator's department when a PR is created.
+    originator's department when a PR is created. 
   * Impl sending email to persons except the person who edited the PR. For example if the 
   procurement officer (PO) edits the PR send emails to the orginator and the team leader (TL)
   of the department.

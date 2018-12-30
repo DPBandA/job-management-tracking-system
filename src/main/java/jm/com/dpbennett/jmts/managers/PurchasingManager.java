@@ -35,6 +35,7 @@ import jm.com.dpbennett.business.entity.BusinessEntity;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
+import jm.com.dpbennett.business.entity.Email;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.EmployeePosition;
 import jm.com.dpbennett.business.entity.Job;
@@ -83,7 +84,7 @@ public class PurchasingManager implements Serializable {
     public PurchasingManager() {
         init();
     }
-    
+
     /**
      * NB: Message body and subject are to be obtained from a "template". The
      * variables in the template are to be inserted where {variable} appears.
@@ -389,7 +390,7 @@ public class PurchasingManager implements Serializable {
 
     public void closePurchaseReqDialog() {
         PrimeFacesUtils.closeDialog(null);
-        
+
         processPurchaseReqActions();
     }
 
@@ -443,10 +444,16 @@ public class PurchasingManager implements Serializable {
 
     private void processPurchaseReqActions() {
         for (BusinessEntity.Action action : getSelectedPurchaseRequisition().getActions()) {
+            // tk
             System.out.println("Action to process: " + action);
         }
-        
+
         getSelectedPurchaseRequisition().getActions().clear();
+
+        // tk
+        Email email = Email.findEmailByName(getEntityManager1(), "pr-email-to-procurement-officer");
+        System.out.println("Email content: "
+                + email.getContent("/correspondences/")); //tk
     }
 
     public void onPurchaseReqCellEdit(CellEditEvent event) {
