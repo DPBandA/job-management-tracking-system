@@ -1,9 +1,9 @@
 
 # Purchasing (Financial Administration)
-- Impl finding all employees by employee position.
+- Impl fillEmailTemplate().
 - Impl the use of email templates stored in the resources folder.
-  * Impl sending email to procurement officer and the team leader of the 
-    originator's department when a PR is created. 
+  * Fill out email template for procurement officer and send email. 
+  * Fill out email template for team leader and send email. 
   * Impl sending email to persons except the person who edited the PR. For example if the 
   procurement officer (PO) edits the PR send emails to the orginator and the team leader (TL)
   of the department.
@@ -12,6 +12,7 @@
   number of approvals is reached.
   * Impl sending emails to the originator, the TL and approvers when the PR is 
   completed. 
+- Do not send email if the PR id is null.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
 - Enter the following positions into the production database: 

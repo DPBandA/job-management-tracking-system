@@ -391,7 +391,20 @@ public class PurchasingManager implements Serializable {
     public void closePurchaseReqDialog() {
         PrimeFacesUtils.closeDialog(null);
 
-        processPurchaseReqActions();
+        // Process actions performed during the editing of the saved PR.
+        if (selectedPurchaseRequisition.getId() != null) {
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        processPurchaseReqActions();
+                    } catch (Exception e) {
+                        System.out.println("Error processing PR actions: " + e);
+                    }
+                }
+
+            }.start();
+        }
     }
 
     public Boolean getIsSelectedPurchaseReqIsValid() {
@@ -441,19 +454,53 @@ public class PurchasingManager implements Serializable {
         }
 
     }
+    
+    private String fillEmailTemplate(String template) {
+        return template;
+    }
 
-    private void processPurchaseReqActions() {
+    private synchronized void processPurchaseReqActions() {
         for (BusinessEntity.Action action : getSelectedPurchaseRequisition().getActions()) {
-            // tk
-            System.out.println("Action to process: " + action);
+            switch (action) {
+                case CREATE:
+                    EntityManager em = getEntityManager1();
+
+                    List<Employee> procurementOfficers = Employee.
+                            findActiveEmployeesByPosition(em,
+                                    "Procurement Officer");
+                    Email email = Email.findEmailByName(em,
+                            "pr-email-to-procurement-officer");
+
+                    // Send email to all procurement officers
+                    for (Employee procurementOfficer : procurementOfficers) {
+                        JobManagerUser procurementOfficerUser
+                                = JobManagerUser.findJobManagerUserByEmployeeId(
+                                        em, procurementOfficer.getId());
+                        Utils.postMail(null,
+                                procurementOfficerUser,
+                                email.getSubject().
+                                        replace("{purchaseRequisitionNumber}",
+                                                getSelectedPurchaseRequisition().getNumber()),
+                                fillEmailTemplate(email.getContent("/correspondences/")),
+                                email.getContentType(),
+                                em);
+
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         getSelectedPurchaseRequisition().getActions().clear();
 
         // tk
-        Email email = Email.findEmailByName(getEntityManager1(), "pr-email-to-procurement-officer");
-        System.out.println("Email content: "
-                + email.getContent("/correspondences/")); //tk
+        // get employees with 
+//        System.out.println("Procurement officers: " + 
+//                Employee.findActiveEmployeesByPosition(getEntityManager1(), "Procurement Officer"));
+//        Email email = Email.findEmailByName(getEntityManager1(), "pr-email-to-procurement-officer");
+//        System.out.println("Email content: "
+//                + email.getContent("/correspondences/"));
     }
 
     public void onPurchaseReqCellEdit(CellEditEvent event) {

@@ -375,3 +375,7 @@ subclass of Livestock.
   Update "turnaround times" when doc is being saved?
 - Switch to LegalOfficeReport2 in system admin.
 - Search results do not seem to be sorted. Fix.
+
+## Misc
+- When PRs rapidly entered not all except the first email gets sent. See if this
+  can be fixed.
