@@ -460,7 +460,7 @@ public class PurchasingManager implements Serializable {
         EntityManager em = getEntityManager1();
 
         String prNum = getSelectedPurchaseRequisition().getNumber();
-        String originatingDepartment = getSelectedPurchaseRequisition().
+        String department = getSelectedPurchaseRequisition().
                 getOriginatingDepartment().getName();
         String JMTSURL = (String) SystemOption.getOptionValueObject(em, "appURL");
         String originator = getSelectedPurchaseRequisition().getOriginator().getFirstName()
@@ -484,10 +484,17 @@ public class PurchasingManager implements Serializable {
                     email.getSubject().
                             replace("{purchaseRequisitionNumber}", prNum),
                     email.getContent("/correspondences/").
-                            replace("{purchaseRequisitionNumber}",
-                                    getSelectedPurchaseRequisition().getNumber()).
-                            replace("{purchaseRequisitionNumber}",
-                                    getSelectedPurchaseRequisition().getNumber()),
+                            replace("{title}",
+                                    procurementOfficer.getTitle()).
+                            replace("{surname}",
+                                    procurementOfficer.getLastName()).
+                            replace("{JMTSURL}", JMTSURL).
+                            replace("{purchaseRequisitionNumber}", prNum).
+                            replace("{originator}", originator).
+                            replace("{department}", department).
+                            replace("{requisitionDate}", requisitionDate).
+                            replace("{description}", description).
+                            replace("{description}", description),
                     email.getContentType(),
                     em);
 
@@ -500,7 +507,6 @@ public class PurchasingManager implements Serializable {
             switch (action) {
                 case CREATE:
                     emailProcurementOfficers();
-
                     break;
                 default:
                     break;
