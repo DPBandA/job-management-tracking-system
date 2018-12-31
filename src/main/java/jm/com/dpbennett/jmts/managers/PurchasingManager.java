@@ -42,6 +42,7 @@ import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
+import jm.com.dpbennett.business.entity.SystemOption;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.StreamedContent;
@@ -454,38 +455,52 @@ public class PurchasingManager implements Serializable {
         }
 
     }
-    
-    private String fillEmailTemplate(String template) {
-        return template;
+
+    private void emailProcurementOfficers() {
+        EntityManager em = getEntityManager1();
+
+        String prNum = getSelectedPurchaseRequisition().getNumber();
+        String originatingDepartment = getSelectedPurchaseRequisition().
+                getOriginatingDepartment().getName();
+        String JMTSURL = (String) SystemOption.getOptionValueObject(em, "appURL");
+        String originator = getSelectedPurchaseRequisition().getOriginator().getFirstName()
+                + " " + getSelectedPurchaseRequisition().getOriginator().getLastName();
+        String requisitionDate = BusinessEntityUtils.
+                getDateInMediumDateFormat(getSelectedPurchaseRequisition().getRequisitionDate());
+        String description = getSelectedPurchaseRequisition().getDescription();
+
+        List<Employee> procurementOfficers = Employee.
+                findActiveEmployeesByPosition(em,
+                        "Procurement Officer");
+        Email email = Email.findEmailByName(em, "pr-email-to-procurement-officer");
+
+        // Send email to all procurement officers
+        for (Employee procurementOfficer : procurementOfficers) {
+            JobManagerUser procurementOfficerUser
+                    = JobManagerUser.findJobManagerUserByEmployeeId(
+                            em, procurementOfficer.getId());
+            Utils.postMail(null,
+                    procurementOfficerUser,
+                    email.getSubject().
+                            replace("{purchaseRequisitionNumber}", prNum),
+                    email.getContent("/correspondences/").
+                            replace("{purchaseRequisitionNumber}",
+                                    getSelectedPurchaseRequisition().getNumber()).
+                            replace("{purchaseRequisitionNumber}",
+                                    getSelectedPurchaseRequisition().getNumber()),
+                    email.getContentType(),
+                    em);
+
+        }
     }
 
     private synchronized void processPurchaseReqActions() {
+
         for (BusinessEntity.Action action : getSelectedPurchaseRequisition().getActions()) {
             switch (action) {
                 case CREATE:
-                    EntityManager em = getEntityManager1();
+                    emailProcurementOfficers();
 
-                    List<Employee> procurementOfficers = Employee.
-                            findActiveEmployeesByPosition(em,
-                                    "Procurement Officer");
-                    Email email = Email.findEmailByName(em,
-                            "pr-email-to-procurement-officer");
-
-                    // Send email to all procurement officers
-                    for (Employee procurementOfficer : procurementOfficers) {
-                        JobManagerUser procurementOfficerUser
-                                = JobManagerUser.findJobManagerUserByEmployeeId(
-                                        em, procurementOfficer.getId());
-                        Utils.postMail(null,
-                                procurementOfficerUser,
-                                email.getSubject().
-                                        replace("{purchaseRequisitionNumber}",
-                                                getSelectedPurchaseRequisition().getNumber()),
-                                fillEmailTemplate(email.getContent("/correspondences/")),
-                                email.getContentType(),
-                                em);
-
-                    }
                     break;
                 default:
                     break;

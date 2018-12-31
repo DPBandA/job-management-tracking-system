@@ -1,8 +1,7 @@
 
 # Purchasing (Financial Administration)
-- Impl fillEmailTemplate().
 - Impl the use of email templates stored in the resources folder.
-  * Fill out email template for procurement officer and send email. 
+  * Impl emailProcurementOfficers(). 
   * Fill out email template for team leader and send email. 
   * Impl sending email to persons except the person who edited the PR. For example if the 
   procurement officer (PO) edits the PR send emails to the orginator and the team leader (TL)
