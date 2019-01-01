@@ -1,8 +1,8 @@
 
 # Purchasing (Financial Administration)
+- Impl sendPurchaseReqEmail() for sending generic PR email.
 - Impl the use of email templates stored in the resources folder.
-  * Impl emailProcurementOfficers(), emailTeamLeader(). 
-  * Fill out email template for team leader and send email. 
+  * Impl sending email to the PO when the PR is edited by anyone except the PO. 
   * Impl sending email to persons except the person who edited the PR. For example if the 
   procurement officer (PO) edits the PR send emails to the orginator and the team leader (TL)
   of the department.
@@ -11,7 +11,6 @@
   number of approvals is reached.
   * Impl sending emails to the originator, the TL and approvers when the PR is 
   completed. 
-- Do not send email if the PR id is null.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
 - Enter the following positions into the production database: 
@@ -20,6 +19,8 @@
   Network Administrator, System Administrator.
 - Enter the approval limits in the production database using info from the 
   file sent by Donna.
+- Impl sending "Actions" menu for general messages and for the PO to request
+  approval from someone who is able to approve a PR.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl getting dist. codes for cost components.

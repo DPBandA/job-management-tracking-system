@@ -456,7 +456,7 @@ public class PurchasingManager implements Serializable {
 
     }
 
-    private void emailProcurementOfficers() {
+    private void emailProcurementOfficers(String action) {
         EntityManager em = getEntityManager1();
 
         String prNum = getSelectedPurchaseRequisition().getNumber();
@@ -472,7 +472,7 @@ public class PurchasingManager implements Serializable {
         List<Employee> procurementOfficers = Employee.
                 findActiveEmployeesByPosition(em,
                         "Procurement Officer");
-        Email email = Email.findEmailByName(em, "pr-email-to-procurement-officer");
+        Email email = Email.findActiveEmailByName(em, "pr-email-template");
 
         // Send email to all procurement officers
         for (Employee procurementOfficer : procurementOfficers) {
@@ -493,7 +493,7 @@ public class PurchasingManager implements Serializable {
                             replace("{originator}", originator).
                             replace("{department}", department).
                             replace("{requisitionDate}", requisitionDate).
-                            replace("{description}", description).
+                            replace("{action}", action).
                             replace("{description}", description),
                     email.getContentType(),
                     em);
@@ -501,12 +501,114 @@ public class PurchasingManager implements Serializable {
         }
     }
 
+    private void emailDepartmentHeads(String action) {
+        EntityManager em = getEntityManager1();
+
+        String prNum = getSelectedPurchaseRequisition().getNumber();
+        String department = getSelectedPurchaseRequisition().
+                getOriginatingDepartment().getName();
+        String JMTSURL = (String) SystemOption.getOptionValueObject(em, "appURL");
+        String originator = getSelectedPurchaseRequisition().getOriginator().getFirstName()
+                + " " + getSelectedPurchaseRequisition().getOriginator().getLastName();
+        String requisitionDate = BusinessEntityUtils.
+                getDateInMediumDateFormat(getSelectedPurchaseRequisition().getRequisitionDate());
+        String description = getSelectedPurchaseRequisition().getDescription();
+
+        Email email = Email.findActiveEmailByName(em, "pr-email-template");
+
+        Employee head = getSelectedPurchaseRequisition().getOriginatingDepartment().getHead();
+        Employee actingHead = getSelectedPurchaseRequisition().getOriginatingDepartment().getActingHead();
+        JobManagerUser headUser = JobManagerUser.findJobManagerUserByEmployeeId(em, head.getId());
+        JobManagerUser actingHeadUser = JobManagerUser.findJobManagerUserByEmployeeId(em, actingHead.getId());
+
+        // Send to head.
+        Utils.postMail(null,
+                headUser,
+                email.getSubject().
+                        replace("{purchaseRequisitionNumber}", prNum),
+                email.getContent("/correspondences/").
+                        replace("{title}",
+                                head.getTitle()).
+                        replace("{surname}",
+                                head.getLastName()).
+                        replace("{JMTSURL}", JMTSURL).
+                        replace("{purchaseRequisitionNumber}", prNum).
+                        replace("{originator}", originator).
+                        replace("{department}", department).
+                        replace("{requisitionDate}", requisitionDate).
+                        replace("{action}", action).
+                        replace("{description}", description),
+                email.getContentType(),
+                em);
+
+        // Send to acting head if active.
+        if (getSelectedPurchaseRequisition().getOriginatingDepartment().getActingHeadActive()) {
+            Utils.postMail(null,
+                    actingHeadUser,
+                    email.getSubject().
+                            replace("{purchaseRequisitionNumber}", prNum),
+                    email.getContent("/correspondences/").
+                            replace("{title}",
+                                    actingHead.getTitle()).
+                            replace("{surname}",
+                                    actingHead.getLastName()).
+                            replace("{JMTSURL}", JMTSURL).
+                            replace("{purchaseRequisitionNumber}", prNum).
+                            replace("{originator}", originator).
+                            replace("{department}", department).
+                            replace("{requisitionDate}", requisitionDate).
+                            replace("{action}", description).
+                            replace("{description}", description),
+                    email.getContentType(),
+                    em);
+        }
+    }
+
+    private void sendPurchaseReqEmail(
+            EntityManager em,
+            JobManagerUser user,
+            String role,
+            String action) {
+
+        Email email = Email.findActiveEmailByName(em, "pr-email-template");
+        String prNum = getSelectedPurchaseRequisition().getNumber();
+        String department = getSelectedPurchaseRequisition().
+                getOriginatingDepartment().getName();
+        String JMTSURL = (String) SystemOption.getOptionValueObject(em, "appURL");
+        String originator = getSelectedPurchaseRequisition().getOriginator().getFirstName()
+                + " " + getSelectedPurchaseRequisition().getOriginator().getLastName();
+        String requisitionDate = BusinessEntityUtils.
+                getDateInMediumDateFormat(getSelectedPurchaseRequisition().getRequisitionDate());
+        String description = getSelectedPurchaseRequisition().getDescription();
+
+        Utils.postMail(null,
+                user,
+                email.getSubject().
+                        replace("{purchaseRequisitionNumber}", prNum),
+                email.getContent("/correspondences/").
+                        replace("{title}",
+                                user.getEmployee().getTitle()).
+                        replace("{surname}",
+                                user.getEmployee().getLastName()).
+                        replace("{JMTSURL}", JMTSURL).
+                        replace("{purchaseRequisitionNumber}", prNum).
+                        replace("{originator}", originator).
+                        replace("{department}", department).
+                        replace("{requisitionDate}", requisitionDate).
+                        replace("{role}", role).
+                        replace("{action}", action).
+                        replace("{description}", description),
+                email.getContentType(),
+                em);
+    }
+
     private synchronized void processPurchaseReqActions() {
 
         for (BusinessEntity.Action action : getSelectedPurchaseRequisition().getActions()) {
             switch (action) {
                 case CREATE:
-                    emailProcurementOfficers();
+                    emailProcurementOfficers("created");
+                    emailDepartmentHeads("created");
                     break;
                 default:
                     break;

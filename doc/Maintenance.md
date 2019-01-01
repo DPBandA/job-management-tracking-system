@@ -117,6 +117,7 @@ in active ones.
 - Add payCycle to EmployeePosition class. Should be in Payroll class too?
 - Fundamentals of Human Resource Management, pg 19
 - Look up Java API for PeopleSoft HRM app.
+- Trim names entered via any dialog.
 
 ## Updates based on training, testing and feedback
 - The delete payment dialog text does not show in dark hive. Fix!
