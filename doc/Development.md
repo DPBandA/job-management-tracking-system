@@ -1,6 +1,5 @@
 
 # Purchasing (Financial Administration)
-- Impl sendPurchaseReqEmail() for sending generic PR email.
 - Impl the use of email templates stored in the resources folder.
   * Impl sending email to the PO when the PR is edited by anyone except the PO. 
   * Impl sending email to persons except the person who edited the PR. For example if the 

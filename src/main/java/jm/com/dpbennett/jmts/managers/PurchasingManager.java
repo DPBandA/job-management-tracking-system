@@ -459,44 +459,19 @@ public class PurchasingManager implements Serializable {
     private void emailProcurementOfficers(String action) {
         EntityManager em = getEntityManager1();
 
-        String prNum = getSelectedPurchaseRequisition().getNumber();
-        String department = getSelectedPurchaseRequisition().
-                getOriginatingDepartment().getName();
-        String JMTSURL = (String) SystemOption.getOptionValueObject(em, "appURL");
-        String originator = getSelectedPurchaseRequisition().getOriginator().getFirstName()
-                + " " + getSelectedPurchaseRequisition().getOriginator().getLastName();
-        String requisitionDate = BusinessEntityUtils.
-                getDateInMediumDateFormat(getSelectedPurchaseRequisition().getRequisitionDate());
-        String description = getSelectedPurchaseRequisition().getDescription();
-
         List<Employee> procurementOfficers = Employee.
                 findActiveEmployeesByPosition(em,
                         "Procurement Officer");
-        Email email = Email.findActiveEmailByName(em, "pr-email-template");
 
-        // Send email to all procurement officers
         for (Employee procurementOfficer : procurementOfficers) {
             JobManagerUser procurementOfficerUser
                     = JobManagerUser.findJobManagerUserByEmployeeId(
                             em, procurementOfficer.getId());
-            Utils.postMail(null,
-                    procurementOfficerUser,
-                    email.getSubject().
-                            replace("{purchaseRequisitionNumber}", prNum),
-                    email.getContent("/correspondences/").
-                            replace("{title}",
-                                    procurementOfficer.getTitle()).
-                            replace("{surname}",
-                                    procurementOfficer.getLastName()).
-                            replace("{JMTSURL}", JMTSURL).
-                            replace("{purchaseRequisitionNumber}", prNum).
-                            replace("{originator}", originator).
-                            replace("{department}", department).
-                            replace("{requisitionDate}", requisitionDate).
-                            replace("{action}", action).
-                            replace("{description}", description),
-                    email.getContentType(),
-                    em);
+
+            if (!getUser().equals(procurementOfficerUser)) {
+                sendPurchaseReqEmail(em, procurementOfficerUser,
+                        "a procurement officer", action);
+            }
 
         }
     }
@@ -504,63 +479,21 @@ public class PurchasingManager implements Serializable {
     private void emailDepartmentHeads(String action) {
         EntityManager em = getEntityManager1();
 
-        String prNum = getSelectedPurchaseRequisition().getNumber();
-        String department = getSelectedPurchaseRequisition().
-                getOriginatingDepartment().getName();
-        String JMTSURL = (String) SystemOption.getOptionValueObject(em, "appURL");
-        String originator = getSelectedPurchaseRequisition().getOriginator().getFirstName()
-                + " " + getSelectedPurchaseRequisition().getOriginator().getLastName();
-        String requisitionDate = BusinessEntityUtils.
-                getDateInMediumDateFormat(getSelectedPurchaseRequisition().getRequisitionDate());
-        String description = getSelectedPurchaseRequisition().getDescription();
-
-        Email email = Email.findActiveEmailByName(em, "pr-email-template");
-
         Employee head = getSelectedPurchaseRequisition().getOriginatingDepartment().getHead();
         Employee actingHead = getSelectedPurchaseRequisition().getOriginatingDepartment().getActingHead();
         JobManagerUser headUser = JobManagerUser.findJobManagerUserByEmployeeId(em, head.getId());
         JobManagerUser actingHeadUser = JobManagerUser.findJobManagerUserByEmployeeId(em, actingHead.getId());
 
         // Send to head.
-        Utils.postMail(null,
-                headUser,
-                email.getSubject().
-                        replace("{purchaseRequisitionNumber}", prNum),
-                email.getContent("/correspondences/").
-                        replace("{title}",
-                                head.getTitle()).
-                        replace("{surname}",
-                                head.getLastName()).
-                        replace("{JMTSURL}", JMTSURL).
-                        replace("{purchaseRequisitionNumber}", prNum).
-                        replace("{originator}", originator).
-                        replace("{department}", department).
-                        replace("{requisitionDate}", requisitionDate).
-                        replace("{action}", action).
-                        replace("{description}", description),
-                email.getContentType(),
-                em);
+        if (!getUser().equals(headUser)) {
+            sendPurchaseReqEmail(em, headUser, "a department head", action);
+        }
 
         // Send to acting head if active.
-        if (getSelectedPurchaseRequisition().getOriginatingDepartment().getActingHeadActive()) {
-            Utils.postMail(null,
-                    actingHeadUser,
-                    email.getSubject().
-                            replace("{purchaseRequisitionNumber}", prNum),
-                    email.getContent("/correspondences/").
-                            replace("{title}",
-                                    actingHead.getTitle()).
-                            replace("{surname}",
-                                    actingHead.getLastName()).
-                            replace("{JMTSURL}", JMTSURL).
-                            replace("{purchaseRequisitionNumber}", prNum).
-                            replace("{originator}", originator).
-                            replace("{department}", department).
-                            replace("{requisitionDate}", requisitionDate).
-                            replace("{action}", description).
-                            replace("{description}", description),
-                    email.getContentType(),
-                    em);
+        if (!getUser().equals(actingHeadUser)) {
+            if (getSelectedPurchaseRequisition().getOriginatingDepartment().getActingHeadActive()) {
+                sendPurchaseReqEmail(em, actingHeadUser, "an acting department head", action);
+            }
         }
     }
 
@@ -610,6 +543,9 @@ public class PurchasingManager implements Serializable {
                     emailProcurementOfficers("created");
                     emailDepartmentHeads("created");
                     break;
+                case EDIT:
+                    emailProcurementOfficers("edited");
+                    emailDepartmentHeads("edited");
                 default:
                     break;
             }

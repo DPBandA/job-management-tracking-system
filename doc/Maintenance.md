@@ -351,6 +351,7 @@ This release will be around early July.
 - Add cancel button to preferences dialog.
 - Impl email search based on type.
 - Display busy wait icon when any tab is selected.
+- Impl user preference to sync mainview tab with dashboard tab.
 
 ## Job Edit & Synchronization
 - Create/maintain list of opened jobs in the Application class.
