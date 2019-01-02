@@ -2344,7 +2344,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             String listAsString = (String) SystemOption.getOptionValueObject(em, "domainNames");
             String domainNames[] = listAsString.split(";");
 
-            JobManagerUser user1 = JobManagerUser.findJobManagerUserByEmployeeId(em, employee.getId());
+            JobManagerUser user1 = JobManagerUser.findActiveJobManagerUserByEmployeeId(em, employee.getId());
 
             // Build email address
             if (user1 != null) {

@@ -1,7 +1,11 @@
 
 # Purchasing (Financial Administration)
+- Test setting work progress to complete with dmarshall.
+- Only allow one of the set positions to approve otherwise an approval date will
+  not be shown.
+- Call addAction() after  updatePurchaseReq() to update the actions since 
+   updatePurchaseReq() sets EDIT action by default.
 - Impl the use of email templates stored in the resources folder.
-  * Impl sending email to the PO when the PR is edited by anyone except the PO. 
   * Impl sending email to persons except the person who edited the PR. For example if the 
   procurement officer (PO) edits the PR send emails to the orginator and the team leader (TL)
   of the department.
