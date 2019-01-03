@@ -1,27 +1,9 @@
 
 # Purchasing (Financial Administration)
-- Test setting work progress to complete with dmarshall.
-- A person who is not a PO eg dbennett is able to delete approvers. Fix!
-- Call addAction() after  updatePurchaseReq() to update the actions since 
-   updatePurchaseReq() sets EDIT action by default.
-- Impl the use of email templates stored in the resources folder.
-  * Impl sending email to persons except the person who edited the PR. For example if the 
-  procurement officer (PO) edits the PR send emails to the orginator and the team leader (TL)
-  of the department.
-  * Impl sending emails to the originator, PO and the TL of the department when
-  a PR is approved. Send separate emails when the PR is approved and when the required
-  number of approvals is reached.
-  * Impl sending emails to the originator, the TL and approvers when the PR is 
-  completed. 
+- Impl sending email to approvers. 
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
-- Enter the following positions into the production database: 
-  Team Leader, Divisional Manager, Divisional Director, 
-  Finance Manager, Executive Director, Senior Engineer, Analyst, 
-  Network Administrator, System Administrator.
-- Enter the approval limits in the production database using info from the 
-  file sent by Donna.
-- Impl sending "Actions" menu for general messages and for the PO to request
+- Impl "Actions" menu for general messages and for the PO to request
   approval from someone who is able to approve a PR.
 
 # Accpac Invoicing & Credit Status Reporting
@@ -56,3 +38,9 @@
 
 # Database update and deployment
 - Add approvalDate to PR class and table for all databases.
+- Enter the following employee positions into the all databases: 
+  Team Leader, Divisional Manager, Divisional Director, 
+  Finance Manager, Executive Director, Senior Engineer, Analyst, 
+  Network Administrator, System Administrator.
+- Enter the approval limits in the production database using info from the 
+  file sent by Donna.

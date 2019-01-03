@@ -29,6 +29,7 @@
 - Only allow one of the set positions to approve otherwise an approval date will
   not be shown. Add system option that sets the positions that can approve PR.
 - Allow entry of the urgency of the PR possibly via the priority field.
+- Indicate the number of approvals in the email template?
 
 ### Inventory
 - Get more details then start app development.
