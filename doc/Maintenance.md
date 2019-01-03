@@ -1,4 +1,4 @@
-# Things to do (Master)
+# Maintenance Tasks
 
 ## Financial Administration
 - Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
@@ -356,6 +356,8 @@ This release will be around early July.
 - Impl email search based on type.
 - Display busy wait icon when any tab is selected.
 - Impl user preference to sync mainview tab with dashboard tab.
+- Create Field class with name, value, description fields to facilitate the adding of custom fields to
+  a class.
 
 ## Job Edit & Synchronization
 - Create/maintain list of opened jobs in the Application class.
