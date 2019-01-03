@@ -26,6 +26,9 @@
 - Create report to show Accpac budget allocations.
 - Get suppliers from Accpac.
 - Impl supplier evaluation.
+- Only allow one of the set positions to approve otherwise an approval date will
+  not be shown. Add system option that sets the positions that can approve PR.
+- Allow entry of the urgency of the PR possibly via the priority field.
 
 ### Inventory
 - Get more details then start app development.

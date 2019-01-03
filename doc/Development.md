@@ -1,8 +1,7 @@
 
 # Purchasing (Financial Administration)
 - Test setting work progress to complete with dmarshall.
-- Only allow one of the set positions to approve otherwise an approval date will
-  not be shown.
+- A person who is not a PO eg dbennett is able to delete approvers. Fix!
 - Call addAction() after  updatePurchaseReq() to update the actions since 
    updatePurchaseReq() sets EDIT action by default.
 - Impl the use of email templates stored in the resources folder.
@@ -54,3 +53,6 @@
 - Put the name of the approver on the job costing.
 - NB: Test as various users with various employee positions. 
 - Add user preference to export invoioices when "Invoice" button is pressed?
+
+# Database update and deployment
+- Add approvalDate to PR class and table for all databases.

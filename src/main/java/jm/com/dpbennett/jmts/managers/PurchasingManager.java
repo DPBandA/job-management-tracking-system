@@ -147,10 +147,11 @@ public class PurchasingManager implements Serializable {
                     return BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
                             getFinanceManagerApprovalDate());
                 case "Executive Director":
-                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                    return BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
                             getExecutiveDirectorApprovalDate());
                 default:
-                    break;
+                    return BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getApprovalDate());
             }
         }
 
@@ -246,7 +247,7 @@ public class PurchasingManager implements Serializable {
 
                 getSelectedPurchaseRequisition().
                         setPurchasingDepartment(getUser().getEmployee().getDepartment());
-                
+
                 updatePurchaseReq(null);
 
                 getSelectedPurchaseRequisition().addAction(BusinessEntity.Action.COMPLETE);
@@ -389,21 +390,6 @@ public class PurchasingManager implements Serializable {
 
     public void closePurchaseReqDialog() {
         PrimeFacesUtils.closeDialog(null);
-
-        // Process actions performed during the editing of the saved PR.
-        if (selectedPurchaseRequisition.getId() != null) {
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        processPurchaseReqActions();
-                    } catch (Exception e) {
-                        System.out.println("Error processing PR actions: " + e);
-                    }
-                }
-
-            }.start();
-        }
     }
 
     public Boolean getIsSelectedPurchaseReqIsValid() {
@@ -481,7 +467,7 @@ public class PurchasingManager implements Serializable {
         Employee actingHead = getSelectedPurchaseRequisition().getOriginatingDepartment().getActingHead();
         JobManagerUser headUser = JobManagerUser.findActiveJobManagerUserByEmployeeId(em, head.getId());
         JobManagerUser actingHeadUser = JobManagerUser.findActiveJobManagerUserByEmployeeId(em, actingHead.getId());
-        
+
         if (!getUser().equals(headUser)) {
             sendPurchaseReqEmail(em, headUser, "a department head", action);
         }
@@ -514,6 +500,7 @@ public class PurchasingManager implements Serializable {
         Utils.postMail(null,
                 user,
                 email.getSubject().
+                        replace("{action}", action).
                         replace("{purchaseRequisitionNumber}", prNum),
                 email.getContent("/correspondences/").
                         replace("{title}",
@@ -533,7 +520,7 @@ public class PurchasingManager implements Serializable {
     }
 
     private synchronized void processPurchaseReqActions() {
-        
+
         // tk
         System.out.println("Processing: " + getSelectedPurchaseRequisition().getActions());
 
@@ -602,10 +589,23 @@ public class PurchasingManager implements Serializable {
                     FacesMessage.SEVERITY_WARN);
             PrimeFaces.current().ajax().update("headerForm:growl3");
             getSelectedPurchaseRequisition().setIsDirty(false);
+        } else {
+            doPurchaseReqSearch();
+            // Process actions performed during the editing of the saved PR.
+            if (getSelectedPurchaseRequisition().getId() != null) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            processPurchaseReqActions();
+                        } catch (Exception e) {
+                            System.out.println("Error processing PR actions: " + e);
+                        }
+                    }
+
+                }.start();
+            }
         }
-
-        doPurchaseReqSearch();
-
     }
 
     public void createNewPurhaseReqSupplier() {
@@ -902,7 +902,7 @@ public class PurchasingManager implements Serializable {
 
             updatePurchaseReq(null);
             getSelectedPurchaseRequisition().addAction(BusinessEntity.Action.APPROVE);
-            
+
         } else {
 
             PrimeFacesUtils.addMessage("Cannot Approve",
@@ -941,7 +941,8 @@ public class PurchasingManager implements Serializable {
                     getSelectedPurchaseRequisition().setExecutiveDirectorApprovalDate(new Date());
                     return;
                 default:
-                    break;
+                    getSelectedPurchaseRequisition().setApprovalDate(new Date());
+                    return;
             }
         }
     }
