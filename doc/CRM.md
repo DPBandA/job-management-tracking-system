@@ -1,4 +1,4 @@
-# Custmer Relationship Management
+# Customer Relationship Management
 
 ## Introduction
 
@@ -24,13 +24,27 @@ For organizations with basic customer service tools, self-service is one of thre
 
 ## CRM Features
 
-General:
+### General
 - Search the knowledge base for resolutions to issues;
 - Creating, viewing, or updating existing service issues;
 - Downloading support materials such as manuals and datasheets;
-Customer Management:
+### Customer Management:
 - Customers able to manage their profile information (addresses, phone numbers, and so on)
 - Fields to categorize customers in multiple ways - by sales territory, by market segment, or by industry
-Marketing:
+### Marketing:
 - An integrated wiki or other knowledge base tool to foster information sharing across the service department.
 - Implement ability to bundle permissions/privileges into “roles” that can be assigned to users or groups to facilitate user management.
+### Reporting
+- User-focused tools that enable construction of basic reports and dashboards without programming.
+- Open access to the data using other reporting tools via standard protocols (for example, ODBC), in a way that respects the
+application’s security model. For example, some applications allow data to be exported to Microsoft Excel for reporting and analysis.
+### Workflow Automation
+- The ability to design multistep workflow processes that can
+respond to application events (for example, creation, update,
+deletion, reassignment of records) and take a variety of actions (for
+example, create new records, reassign records, send e-mails or text
+messages, update records). This should not require programming.
+- The ability to branch and control the flow of the workflow process.
+- The ability to extend workflow processes with custom logic via
+code.
+
