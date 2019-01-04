@@ -1,6 +1,8 @@
 
 # Purchasing (Financial Administration)
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
+  * Add totalCost field to PR class?
+  * Provide for entry of the unit field in the PR dialog.
 - Populate PurchaseOrder with PR. 
 - Impl "Actions" menu for general messages and for the PO to request
   approval from someone who is able to approve a PR.
