@@ -12,7 +12,13 @@
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="249"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="743"/>
 	<subDataset name="Cost Components" uuid="a7e613e8-cf98-4942-94d6-f734eb7f6361">
-		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.sql.tables">
+			<![CDATA[am10cy5jb3N0Y29tcG9uZW50ICwyNDYsMTUsMjE5YThhMjQtNDllYy00ZDQxLWI2NjktZDkxODA5
+ZDMyNDkzO2ptdHMucHVyY2hhc2VyZXF1aXNpdGlvbl9jb3N0Y29tcG9uZW50ICwxNSw1NDMsNzU2
+NGFlYTMtMTA2Ni00YTVmLTg0ZDItOWM2Mzg0NTg4ODA5O2ptdHMucHVyY2hhc2VyZXF1aXNpdGlv
+biAsMjQ2LDQ2OSxkOTQ1MzIwYS01NmU4LTRlODItYjY5Mi03ZWIwMTYxNmE1OGU7
+]]>
+		</property>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LocalMySQLDataAdapter.xml"/>
 		<parameter name="costComponent_prId" class="java.lang.Long">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -34,38 +40,43 @@ FROM jmts.purchaserequisition_costcomponent
 WHERE 
 	 $P!{costComponent_prId} = jmts.purchaserequisition.`ID`]]>
 		</queryString>
-		<field name="ID" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="ID"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="purchaserequisition"/>
-		</field>
-		<field name="RATE" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.label" value="RATE"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="costcomponent"/>
-		</field>
-		<field name="HOURS" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.label" value="HOURS"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="costcomponent"/>
-		</field>
-		<field name="NAME" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="NAME"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="costcomponent"/>
-		</field>
-		<field name="CODE" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="CODE"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="costcomponent"/>
-		</field>
-		<field name="HOURSORQUANTITY" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.label" value="HOURSORQUANTITY"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="costcomponent"/>
-		</field>
-		<field name="COST" class="java.lang.Double">
-			<property name="com.jaspersoft.studio.field.label" value="COST"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="costcomponent"/>
-		</field>
-		<field name="UNIT" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="UNIT"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="costcomponent"/>
-		</field>
+		<field name="job_ID" class="java.lang.Long"/>
+		<field name="job_JOBCOSTINGANDPAYMENT_ID" class="java.lang.Long"/>
+		<field name="jobcostingandpayment_costcomponent_JobCostingAndPayment_ID" class="java.lang.Long"/>
+		<field name="jobcostingandpayment_costcomponent_costComponents_ID" class="java.lang.Long"/>
+		<field name="jobcostingandpayment_ID" class="java.lang.Long"/>
+		<field name="jobcostingandpayment_DEPOSITDATE" class="java.sql.Date"/>
+		<field name="jobcostingandpayment_COMPLETED" class="java.lang.Boolean"/>
+		<field name="jobcostingandpayment_COSTINGAPPROVED" class="java.lang.Boolean"/>
+		<field name="jobcostingandpayment_COSTINGCOMPLETED" class="java.lang.Boolean"/>
+		<field name="jobcostingandpayment_COSTINGDATE" class="java.sql.Date"/>
+		<field name="jobcostingandpayment_DATEOFLASTPAYMENT" class="java.sql.Date"/>
+		<field name="jobcostingandpayment_DEPOSIT" class="java.lang.Double"/>
+		<field name="jobcostingandpayment_DISCOUNT" class="java.lang.Double"/>
+		<field name="jobcostingandpayment_ESTIMATEDCOST" class="java.lang.Double"/>
+		<field name="jobcostingandpayment_ESTIMATEDCOSTDONEBY" class="java.lang.String"/>
+		<field name="jobcostingandpayment_FINALCOST" class="java.lang.Double"/>
+		<field name="jobcostingandpayment_FINALCOSTDONEBY" class="java.lang.String"/>
+		<field name="jobcostingandpayment_INVOICENUMBER" class="java.lang.String"/>
+		<field name="jobcostingandpayment_JOBID" class="java.lang.Long"/>
+		<field name="jobcostingandpayment_MINDEPOSIT" class="java.lang.Double"/>
+		<field name="jobcostingandpayment_NAME" class="java.lang.String"/>
+		<field name="jobcostingandpayment_PAYMENTRECEIVEDTODATE" class="java.lang.Double"/>
+		<field name="jobcostingandpayment_PAYMENTTERMS" class="java.lang.String"/>
+		<field name="jobcostingandpayment_PURCHASEORDERNUMBER" class="java.lang.String"/>
+		<field name="jobcostingandpayment_RECEIPTNUMBER" class="java.lang.String"/>
+		<field name="jobcostingandpayment_COSTINGAPPROVEDBY_ID" class="java.lang.Long"/>
+		<field name="jobcostingandpayment_INVOICED" class="java.lang.Boolean"/>
+		<field name="costcomponent_ID" class="java.lang.Long"/>
+		<field name="costcomponent_CATEGORY" class="java.lang.String"/>
+		<field name="costcomponent_CODE" class="java.lang.String"/>
+		<field name="costcomponent_COMMENTS" class="java.lang.String"/>
+		<field name="costcomponent_COST" class="java.lang.Double"/>
+		<field name="costcomponent_HOURS" class="java.lang.Double"/>
+		<field name="costcomponent_HOURSORQUANTITY" class="java.lang.Double"/>
+		<field name="costcomponent_ISHEADING" class="java.lang.Boolean"/>
+		<field name="costcomponent_NAME" class="java.lang.String"/>
+		<field name="costcomponent_RATE" class="java.lang.Double"/>
 		<variable name="itemNum" class="java.lang.Long" calculation="Count">
 			<variableExpression><![CDATA[$F{jobcostingandpayment_costcomponent_costComponents_ID}]]></variableExpression>
 		</variable>
@@ -137,8 +148,20 @@ WHERE
 	jmts.purchaserequisition.`PURCHASEORDERNUMBER`,
 	jmts.purchaserequisition.`REQUISITIONDATE`,
 	jmts.purchaserequisition.`ORIGINATINGDEPARTMENT_ID`,
-	jmts.purchaserequisition.`ORIGINATOR_ID`
-FROM jmts.purchaserequisition
+	originatingDepartment.`NAME`,
+	jmts.purchaserequisition.`ORIGINATOR_ID`,
+	originator.`LASTNAME`,
+	originator.`FIRSTNAME`
+FROM jmts.purchaserequisition_costcomponent
+	INNER JOIN jmts.costcomponent ON 
+	 jmts.purchaserequisition_costcomponent.`costComponents_ID` = jmts.costcomponent.`ID` 
+	INNER JOIN jmts.purchaserequisition ON 
+	 jmts.purchaserequisition_costcomponent.`PurchaseRequisition_ID` = jmts.purchaserequisition.`ID` 
+	INNER JOIN jmts.department AS originatingDepartment ON 
+	 jmts.purchaserequisition.`ORIGINATINGDEPARTMENT_ID` = originatingDepartment.`ID` 
+	 AND 'NULL' = originatingDepartment.`ID` 
+	INNER JOIN jmts.employee AS originator ON 
+	 jmts.purchaserequisition.`ORIGINATOR_ID` = originator.`ID` 
 WHERE 
 	 jmts.purchaserequisition.`ID` = $P{prId}]]>
 	</queryString>
@@ -178,9 +201,21 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="ORIGINATINGDEPARTMENT_ID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="purchaserequisition"/>
 	</field>
+	<field name="NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="department"/>
+	</field>
 	<field name="ORIGINATOR_ID" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.label" value="ORIGINATOR_ID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="purchaserequisition"/>
+	</field>
+	<field name="LASTNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="LASTNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="FIRSTNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="FIRSTNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -254,7 +289,7 @@ WHERE
 						<datasetParameter name="costComponent_prId">
 							<datasetParameterExpression><![CDATA[$P{prId}]]></datasetParameterExpression>
 						</datasetParameter>
-						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION} ]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="40" uuid="7728d8ae-ef8b-496a-beae-1a8df2702791">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
@@ -304,7 +339,7 @@ WHERE
 								<textElement textAlignment="Justified">
 									<font fontName="SansSerif" size="10"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{CODE}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{costcomponent_NAME}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -331,7 +366,7 @@ WHERE
 								<textElement textAlignment="Right">
 									<paragraph rightIndent="2"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{costcomponent_HOURSORQUANTITY}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -358,7 +393,7 @@ WHERE
 								<textElement textAlignment="Right">
 									<paragraph rightIndent="2"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{RATE}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{costcomponent_RATE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -385,7 +420,7 @@ WHERE
 								<textElement textAlignment="Right">
 									<paragraph rightIndent="2"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{UNIT}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{costcomponent_COST}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -415,7 +450,7 @@ WHERE
 								<textElement textAlignment="Right">
 									<paragraph rightIndent="2"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{RATE}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{costcomponent_COST}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -442,7 +477,7 @@ WHERE
 								<textElement textAlignment="Right">
 									<paragraph rightIndent="2"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{COST}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{costcomponent_COST}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>

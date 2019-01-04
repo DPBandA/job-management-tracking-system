@@ -459,15 +459,41 @@ public class PurchasingManager implements Serializable {
 
         }
     }
-
-    private void emailDepartmentHeads(String action) {
+    
+    private void emailPurchaseReqApprovers(String action) {
         EntityManager em = getEntityManager1();
 
+
+        for (Employee approver : getSelectedPurchaseRequisition().getApprovers()) {
+            JobManagerUser approverUser
+                    = JobManagerUser.findActiveJobManagerUserByEmployeeId(
+                            em, approver.getId());
+
+            if (!getUser().equals(approverUser)) {
+                sendPurchaseReqEmail(em, approverUser,
+                        "an approver", action);
+            }
+
+        }
+    }
+
+    private void emailDepartmentRepresentatives(String action) {
+        EntityManager em = getEntityManager1();
+
+        JobManagerUser originatorUser = JobManagerUser.
+                findActiveJobManagerUserByEmployeeId(em, 
+                        getSelectedPurchaseRequisition().getOriginator().getId());
         Employee head = getSelectedPurchaseRequisition().getOriginatingDepartment().getHead();
         Employee actingHead = getSelectedPurchaseRequisition().getOriginatingDepartment().getActingHead();
         JobManagerUser headUser = JobManagerUser.findActiveJobManagerUserByEmployeeId(em, head.getId());
         JobManagerUser actingHeadUser = JobManagerUser.findActiveJobManagerUserByEmployeeId(em, actingHead.getId());
 
+        // Send to originator
+        if (!getUser().equals(originatorUser)) {
+            sendPurchaseReqEmail(em, originatorUser, "the orginator", action);
+        }
+
+        // Send to department head
         if (!getUser().equals(headUser)) {
             sendPurchaseReqEmail(em, headUser, "a department head", action);
         }
@@ -528,19 +554,23 @@ public class PurchasingManager implements Serializable {
             switch (action) {
                 case CREATE:
                     emailProcurementOfficers("created");
-                    emailDepartmentHeads("created");
+                    emailDepartmentRepresentatives("created");
+                    emailPurchaseReqApprovers("created");
                     break;
                 case EDIT:
                     emailProcurementOfficers("edited");
-                    emailDepartmentHeads("edited");
+                    emailDepartmentRepresentatives("edited");
+                    emailPurchaseReqApprovers("edited");
                     break;
                 case APPROVE:
                     emailProcurementOfficers("approved");
-                    emailDepartmentHeads("approved");
+                    emailDepartmentRepresentatives("approved");
+                    emailPurchaseReqApprovers("approved");
                     break;
                 case COMPLETE:
                     emailProcurementOfficers("completed");
-                    emailDepartmentHeads("completed");
+                    emailDepartmentRepresentatives("completed");
+                    emailPurchaseReqApprovers("completed");
                     break;
                 default:
                     break;

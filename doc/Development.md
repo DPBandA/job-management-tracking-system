@@ -1,6 +1,5 @@
 
 # Purchasing (Financial Administration)
-- Impl sending email to approvers. 
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
 - Impl "Actions" menu for general messages and for the PO to request
