@@ -6,7 +6,12 @@
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LocalMySQLDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.report.description" value="Purchase Requisition"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[am10cy5zdXBwbGllciAsMjg2LDI1MiwwYmExNWRmZi0xYzk1LTRjYmQtYTE3ZS1iZjJiODhlNmM1
+YzQ7am10cy5wdXJjaGFzZXJlcXVpc2l0aW9uICwxNSwxNSxmYjNiNDMxNC02ZWJhLTQyNDUtYTlj
+OS02ZDI0ZjM3YTVhYzg7
+]]>
+	</property>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="763"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="224"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="249"/>
@@ -79,9 +84,7 @@ WHERE
 	<parameter name="supplierName" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["D P Bennett & Associates Limited"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="totalCost" class="java.lang.Double" isForPrompting="false">
-		<defaultValueExpression><![CDATA[10000000.0]]></defaultValueExpression>
-	</parameter>
+	<parameter name="totalCost" class="java.lang.Double" isForPrompting="false"/>
 	<parameter name="supplierName2" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -138,7 +141,7 @@ WHERE
 	jmts.purchaserequisition.`REQUISITIONDATE`,
 	jmts.purchaserequisition.`ORIGINATINGDEPARTMENT_ID`,
 	jmts.purchaserequisition.`ORIGINATOR_ID`,
-	jmts.supplier.`NAME`
+	jmts.supplier.`NAME` AS supplierName
 FROM jmts.purchaserequisition
 	INNER JOIN jmts.supplier ON 
 	 jmts.purchaserequisition.`SUPPLIER_ID` = jmts.supplier.`ID` 
@@ -185,8 +188,8 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="ORIGINATOR_ID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="purchaserequisition"/>
 	</field>
-	<field name="NAME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="NAME"/>
+	<field name="supplierName" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="supplierName"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="supplier"/>
 	</field>
 	<background>
@@ -463,7 +466,7 @@ WHERE
 				<textElement>
 					<font fontName="SansSerif" size="12" isUnderline="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierName}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="60" height="32" forecolor="#003366" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="de83a076-a7bf-43ab-b6b9-74be073f51b7"/>
@@ -961,7 +964,7 @@ WHERE
 				<textElement verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="12" isUnderline="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{suggestedSupplier}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{supplierName}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="0" y="265" width="571" height="16" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="f95e9343-d565-458e-8f4c-1d36775c3b7d"/>
