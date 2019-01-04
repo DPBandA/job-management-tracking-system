@@ -67,7 +67,7 @@ WHERE
 			<property name="com.jaspersoft.studio.field.tree.path" value="costcomponent"/>
 		</field>
 		<variable name="itemNum" class="java.lang.Long" calculation="Count">
-			<variableExpression><![CDATA[$F{jobcostingandpayment_costcomponent_costComponents_ID}]]></variableExpression>
+			<variableExpression><![CDATA[$F{ID}]]></variableExpression>
 		</variable>
 	</subDataset>
 	<parameter name="prId" class="java.lang.Long">
@@ -137,8 +137,11 @@ WHERE
 	jmts.purchaserequisition.`PURCHASEORDERNUMBER`,
 	jmts.purchaserequisition.`REQUISITIONDATE`,
 	jmts.purchaserequisition.`ORIGINATINGDEPARTMENT_ID`,
-	jmts.purchaserequisition.`ORIGINATOR_ID`
+	jmts.purchaserequisition.`ORIGINATOR_ID`,
+	jmts.supplier.`NAME`
 FROM jmts.purchaserequisition
+	INNER JOIN jmts.supplier ON 
+	 jmts.purchaserequisition.`SUPPLIER_ID` = jmts.supplier.`ID` 
 WHERE 
 	 jmts.purchaserequisition.`ID` = $P{prId}]]>
 	</queryString>
@@ -181,6 +184,10 @@ WHERE
 	<field name="ORIGINATOR_ID" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.label" value="ORIGINATOR_ID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="purchaserequisition"/>
+	</field>
+	<field name="NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="supplier"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -456,7 +463,7 @@ WHERE
 				<textElement>
 					<font fontName="SansSerif" size="12" isUnderline="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{supplierName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="60" height="32" forecolor="#003366" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="de83a076-a7bf-43ab-b6b9-74be073f51b7"/>
