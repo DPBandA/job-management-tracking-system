@@ -31,6 +31,7 @@
 - Allow entry of the urgency of the PR possibly via the priority field. Use an
   autocomplete component with A, B, C to indicate priority for now.
 - Indicate the number of approvals in the email template?
+- Add the supplier address to the PR and PO form.
 
 ### Inventory
 - Get more details then start app development.
