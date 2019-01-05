@@ -86,39 +86,6 @@ public class PurchasingManager implements Serializable {
         init();
     }
 
-    /**
-     * NB: Message body and subject are to be obtained from a "template". The
-     * variables in the template are to be inserted where {variable} appears.
-     *
-     * @param job
-     * @return
-     */
-    public String getNewJobEmailMessage(Job job) {
-        String message = "";
-        DateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
-
-        message = message + "Dear Job Assignee,<br><br>";
-        message = message + "A job with the following details was assigned to your department via the <a href='http://boshrmapp:8080/jmts'>Job Management & Tracking System (JMTS)</a>:<br><br>";
-        message = message + "<span style='font-weight:bold'>Job number: </span>" + job.getJobNumber() + "<br>";
-        message = message + "<span style='font-weight:bold'>Client: </span>" + job.getClient().getName() + "<br>";
-        if (!job.getSubContractedDepartment().getName().equals("--")) {
-            message = message + "<span style='font-weight:bold'>Department: </span>" + job.getSubContractedDepartment().getName() + "<br>";
-        } else {
-            message = message + "<span style='font-weight:bold'>Department: </span>" + job.getDepartment().getName() + "<br>";
-        }
-        message = message + "<span style='font-weight:bold'>Date submitted: </span>" + formatter.format(job.getJobStatusAndTracking().getDateSubmitted()) + "<br>";
-        message = message + "<span style='font-weight:bold'>Current assignee: </span>" + BusinessEntityUtils.getPersonFullName(job.getAssignedTo(), Boolean.FALSE) + "<br>";
-        message = message + "<span style='font-weight:bold'>Entered by: </span>" + BusinessEntityUtils.getPersonFullName(job.getJobStatusAndTracking().getEnteredBy(), Boolean.FALSE) + "<br>";
-        message = message + "<span style='font-weight:bold'>Task/Sample descriptions: </span>" + job.getJobSampleDescriptions() + "<br><br>";
-        message = message + "If you are the department's supervisor, you should immediately ensure that the job was correctly assigned to your staff member who will see to its completion.<br><br>";
-        message = message + "If this job was incorrectly assigned to your department, the department supervisor should contact the person who entered/assigned the job.<br><br>";
-        message = message + "This email was automatically generated and sent by the <a href='http://boshrmapp:8080/jmts'>JMTS</a>. Please DO NOT reply.<br><br>";
-        message = message + "Signed<br>";
-        message = message + "Job Manager";
-
-        return message;
-    }
-
     public void updateDateSearchField() {
         //doSearch();
     }
