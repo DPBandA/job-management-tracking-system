@@ -150,6 +150,27 @@ Email: info@dpbennett.com.jm
                                 update="purchreqCostingCompDialogForm:costComponentCost"
                                 process="@this"/>
                     </p:inputText>
+                    
+                    <h:outputLabel  rendered="#{!purchasingManager.selectedCostComponent.isHeading}"
+                                   value="Unit:" />
+                    <p:spacer  rendered="#{!purchasingManager.selectedCostComponent.isHeading}" 
+                              height="0" width="10"/>
+                    <p:inputText  rendered="#{!purchasingManager.selectedCostComponent.isHeading}" 
+                                 id="costComponentUnit"
+                                 value="#{purchasingManager.selectedCostComponent.unit}"
+                                 style="width: 90%" >
+                        
+                        <p:ajax event="keyup"
+                                global="false"
+                                listener="#{purchasingManager.updateSelectedCostComponent}"
+                                process="@this"/>
+                        
+                        <p:ajax event="change"
+                                global="false"
+                                listener="#{purchasingManager.updateSelectedCostComponent}"
+                                process="@this"/>
+                        
+                    </p:inputText>
 
                     <h:outputLabel rendered="#{!purchasingManager.selectedCostComponent.isHeading}" 
                                    value="Cost ($):" style="font-weight: bold;" />

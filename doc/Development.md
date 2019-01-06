@@ -1,7 +1,7 @@
 
 # Purchasing (Financial Administration)
+- Impl getPurchaseReqStreamContent() to use purchaseReq template and not job costing.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
-  * Provide for entry of the unit field in the PR dialog.
 - Populate PurchaseOrder with PR. 
 - Impl "Actions" menu for general messages and for the PO to request
   approval from someone who is able to approve a PR.

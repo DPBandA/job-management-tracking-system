@@ -19,11 +19,14 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
@@ -32,6 +35,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.BusinessEntity;
+import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
@@ -53,7 +57,12 @@ import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import jm.com.dpbennett.wal.utils.Utils;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DefaultStreamedContent;
 
 /**
  *
@@ -334,12 +343,12 @@ public class PurchasingManager implements Serializable {
     }
 
     public StreamedContent getPurchaseReqFile() {
-        StreamedContent streamContent = null;
+        StreamedContent streamedContent = null;
 
         try {
 
             // tk impl get PR form
-            //streamContent = getContractManager().getServiceContractStreamContent();
+            streamedContent = getPurchaseReqStreamContent(getEntityManager1());
             setLongProcessProgress(100);
 
         } catch (Exception e) {
@@ -347,7 +356,67 @@ public class PurchasingManager implements Serializable {
             setLongProcessProgress(0);
         }
 
-        return streamContent;
+        return streamedContent;
+    }
+    
+     // tk get forms 
+    public StreamedContent getPurchaseReqStreamContent(EntityManager em) {
+
+        HashMap parameters = new HashMap();
+
+        try {
+            parameters.put("prId", getSelectedPurchaseRequisition().getId());
+
+//            Client client = getCurrentJob().getClient();
+
+//            parameters.put("contactPersonName", BusinessEntityUtils.getContactFullName(getCurrentJob().getContact()));
+//            parameters.put("customerAddress", getCurrentJob().getBillingAddress().toString());
+//            parameters.put("contactNumbers", client.getStringListOfContactPhoneNumbers());
+//            parameters.put("jobDescription", getCurrentJob().getJobDescription());
+//
+//            parameters.put("totalCost", getCurrentJob().getJobCostingAndPayment().getTotalJobCostingsAmount());
+//            parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumber());
+//            parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount());
+//            parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscountType());
+//            parameters.put("deposit", getCurrentJob().getJobCostingAndPayment().getTotalPayment());
+//            parameters.put("amountDue", getCurrentJob().getJobCostingAndPayment().getAmountDue());
+//            parameters.put("totalTax", getCurrentJob().getJobCostingAndPayment().getTotalTax());
+//            parameters.put("totalTaxLabel", getCurrentJob().getJobCostingAndPayment().getTotalTaxLabel());
+//            parameters.put("grandTotalCostLabel", getCurrentJob().getJobCostingAndPayment().getTotalCostWithTaxLabel().toUpperCase().trim());
+//            parameters.put("grandTotalCost", getCurrentJob().getJobCostingAndPayment().getTotalCost());
+
+            Connection con = BusinessEntityUtils.establishConnection(
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
+
+            if (con != null) {
+                try {
+                    StreamedContent streamedContent;
+                    // generate report
+                    JasperPrint print = JasperFillManager.fillReport((String) SystemOption.getOptionValueObject(em, "jobCosting"), parameters, con);
+
+                    byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
+
+                    streamedContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes), 
+                            "application/pdf", "Purchase Requisition - " + getSelectedPurchaseRequisition().getNumber() + ".pdf");
+
+                    setLongProcessProgress(100);
+
+                    return streamedContent;
+                } catch (JRException ex) {
+                    System.out.println(ex);
+                    return null;
+                }
+            }
+
+            return null;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+
     }
 
     public StreamedContent getPurchaseOrderFile() {
@@ -827,6 +896,7 @@ public class PurchasingManager implements Serializable {
                 selectedCostComponent.setHoursOrQuantity(0.0);
                 selectedCostComponent.setRate(0.0);
                 selectedCostComponent.setCost(0.0);
+                selectedCostComponent.setUnit("");
                 break;
             case "VARIABLE":
                 selectedCostComponent.setIsFixedCost(false);
