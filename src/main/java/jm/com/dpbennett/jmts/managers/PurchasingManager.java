@@ -58,9 +58,11 @@ import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import jm.com.dpbennett.wal.utils.Utils;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DefaultStreamedContent;
 
@@ -358,8 +360,8 @@ public class PurchasingManager implements Serializable {
 
         return streamedContent;
     }
-    
-     // tk get forms 
+
+    // tk get forms 
     public StreamedContent getPurchaseReqStreamContent(EntityManager em) {
 
         HashMap parameters = new HashMap();
@@ -368,7 +370,6 @@ public class PurchasingManager implements Serializable {
             parameters.put("prId", getSelectedPurchaseRequisition().getId());
 
 //            Client client = getCurrentJob().getClient();
-
 //            parameters.put("contactPersonName", BusinessEntityUtils.getContactFullName(getCurrentJob().getContact()));
 //            parameters.put("customerAddress", getCurrentJob().getBillingAddress().toString());
 //            parameters.put("contactNumbers", client.getStringListOfContactPhoneNumbers());
@@ -384,7 +385,6 @@ public class PurchasingManager implements Serializable {
 //            parameters.put("totalTaxLabel", getCurrentJob().getJobCostingAndPayment().getTotalTaxLabel());
 //            parameters.put("grandTotalCostLabel", getCurrentJob().getJobCostingAndPayment().getTotalCostWithTaxLabel().toUpperCase().trim());
 //            parameters.put("grandTotalCost", getCurrentJob().getJobCostingAndPayment().getTotalCost());
-
             Connection con = BusinessEntityUtils.establishConnection(
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
@@ -392,12 +392,35 @@ public class PurchasingManager implements Serializable {
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
 
             if (con != null) {
+//                try {
+//                    StreamedContent streamedContent;
+//                    // generate report
+//                    JasperPrint print = JasperFillManager.fillReport((String) SystemOption.getOptionValueObject(em, "jobCosting"), parameters, con);
+//
+//                    byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
+//
+//                    streamedContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes), 
+//                            "application/pdf", "Purchase Requisition - " + getSelectedPurchaseRequisition().getNumber() + ".pdf");
+//
+//                    setLongProcessProgress(100);
+//
+//                    return streamedContent;
+//                } catch (JRException ex) {
+//                    System.out.println(ex);
+//                    return null;
+//                }
                 try {
                     StreamedContent streamedContent;
-                    // generate report
-                    JasperPrint print = JasperFillManager.fillReport((String) SystemOption.getOptionValueObject(em, "jobCosting"), parameters, con);
+                    
+                    JasperReport jasperReport = JasperCompileManager
+                            .compileReport((String) SystemOption.getOptionValueObject(em, "purchaseRequisition"));
 
-                    byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
+                    JasperPrint print = JasperFillManager.fillReport(
+                            jasperReport,
+                            parameters,
+                            con);
+                    
+                     byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
 
                     streamedContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes), 
                             "application/pdf", "Purchase Requisition - " + getSelectedPurchaseRequisition().getNumber() + ".pdf");
@@ -405,9 +428,9 @@ public class PurchasingManager implements Serializable {
                     setLongProcessProgress(100);
 
                     return streamedContent;
-                } catch (JRException ex) {
-                    System.out.println(ex);
-                    return null;
+
+                } catch (JRException e) {
+                    System.out.println("Error compiling purchase requisition: " + e);
                 }
             }
 
@@ -528,10 +551,9 @@ public class PurchasingManager implements Serializable {
 
         }
     }
-    
+
     private void emailPurchaseReqApprovers(String action) {
         EntityManager em = getEntityManager1();
-
 
         for (Employee approver : getSelectedPurchaseRequisition().getApprovers()) {
             JobManagerUser approverUser
@@ -550,7 +572,7 @@ public class PurchasingManager implements Serializable {
         EntityManager em = getEntityManager1();
 
         JobManagerUser originatorUser = JobManagerUser.
-                findActiveJobManagerUserByEmployeeId(em, 
+                findActiveJobManagerUserByEmployeeId(em,
                         getSelectedPurchaseRequisition().getOriginator().getId());
         Employee head = getSelectedPurchaseRequisition().getOriginatingDepartment().getHead();
         Employee actingHead = getSelectedPurchaseRequisition().getOriginatingDepartment().getActingHead();

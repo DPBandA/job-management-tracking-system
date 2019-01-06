@@ -6,12 +6,6 @@
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LocalMySQLDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.report.description" value="Purchase Requisition"/>
-	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[am10cy5zdXBwbGllciAsMjg2LDI1MiwwYmExNWRmZi0xYzk1LTRjYmQtYTE3ZS1iZjJiODhlNmM1
-YzQ7am10cy5wdXJjaGFzZXJlcXVpc2l0aW9uICwxNSwxNSxmYjNiNDMxNC02ZWJhLTQyNDUtYTlj
-OS02ZDI0ZjM3YTVhYzg7
-]]>
-	</property>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="763"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="224"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="249"/>

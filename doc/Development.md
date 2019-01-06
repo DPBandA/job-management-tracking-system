@@ -1,6 +1,7 @@
 
 # Purchasing (Financial Administration)
 - Impl getPurchaseReqStreamContent() to use purchaseReq template and not job costing.
+   * Close busy wait icon when finish export PR. Use the setProces*** in FinanceManager.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
 - Impl "Actions" menu for general messages and for the PO to request
@@ -40,3 +41,6 @@
   Network Administrator, System Administrator.
 - Enter the approval limits in the production database using info from the 
   file sent by Donna.
+- Enter purchaseRequisition system option and copy the Purchase Requisition.jrxml
+  for now. Later this will be done in "Form templates" tab in Business Entities.
+  file to the jasperreports folder.
