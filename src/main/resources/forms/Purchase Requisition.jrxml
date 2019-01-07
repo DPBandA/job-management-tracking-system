@@ -6,12 +6,6 @@
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="LocalMySQLDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.report.description" value="Purchase Requisition"/>
-	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[am10cy5zdXBwbGllciAsMjg2LDI1MiwwYmExNWRmZi0xYzk1LTRjYmQtYTE3ZS1iZjJiODhlNmM1
-YzQ7am10cy5wdXJjaGFzZXJlcXVpc2l0aW9uICwxNSwxNSxmYjNiNDMxNC02ZWJhLTQyNDUtYTlj
-OS02ZDI0ZjM3YTVhYzg7
-]]>
-	</property>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="763"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="224"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="249"/>
@@ -708,7 +702,7 @@ WHERE
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="329" y="64" width="242" height="15" forecolor="#003366" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="7ba5a202-bbb2-493b-a838-e858eab2b083"/>
+				<reportElement mode="Transparent" x="329" y="64" width="242" height="16" forecolor="#003366" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="7ba5a202-bbb2-493b-a838-e858eab2b083"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -868,7 +862,7 @@ WHERE
 				<text><![CDATA[$]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="455" y="137" width="58" height="20" forecolor="#000000" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="cffa56c9-0db0-493d-aa75-b53bd8884d17"/>
+				<reportElement mode="Transparent" x="455" y="137" width="58" height="21" forecolor="#000000" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="cffa56c9-0db0-493d-aa75-b53bd8884d17"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineColor="#003366"/>
 					<bottomPen lineWidth="1.0"/>

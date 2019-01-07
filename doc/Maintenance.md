@@ -17,6 +17,10 @@
 - Include the updates done to PR in the email.
 - Add feature allow sending email from the PR dialog or PRs table to stakeholders. This feature could
   be actvivated for procurement officers only.
+- Add job costing and purchase requisition forms to the Form templates tab in 
+  Business entities tab and stop using system options to get the files. 
+- Fix up PR jasper form by removing the overlapping line and put in missing borders.
+  
 
 ### PR Module 
 - Pull cost codes from Accpac.

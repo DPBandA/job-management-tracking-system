@@ -19,11 +19,14 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
@@ -32,6 +35,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.BusinessEntity;
+import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
@@ -53,7 +57,14 @@ import jm.com.dpbennett.wal.utils.FinancialUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import jm.com.dpbennett.wal.utils.Utils;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DefaultStreamedContent;
 
 /**
  *
@@ -301,20 +312,85 @@ public class PurchasingManager implements Serializable {
     }
 
     public StreamedContent getPurchaseReqFile() {
-        StreamedContent streamContent = null;
+        StreamedContent streamedContent = null;
 
         try {
 
             // tk impl get PR form
-            //streamContent = getContractManager().getServiceContractStreamContent();
-            setLongProcessProgress(100);
+            streamedContent = getPurchaseReqStreamContent(getEntityManager1());
+            getFinanceManager().setLongProcessProgress(100);
 
         } catch (Exception e) {
             System.out.println(e);
-            setLongProcessProgress(0);
+            getFinanceManager().setLongProcessProgress(0);
         }
 
-        return streamContent;
+        return streamedContent;
+    }
+
+    public StreamedContent getPurchaseReqStreamContent(EntityManager em) {
+
+        HashMap parameters = new HashMap();
+
+        try {
+            parameters.put("prId", getSelectedPurchaseRequisition().getId());
+
+            parameters.put("purchReqNo", getSelectedPurchaseRequisition().getNumber());
+            parameters.put("addressLine1", getSelectedPurchaseRequisition()
+                    .getSupplier().getDefaultAddress().getAddressLine1());
+            parameters.put("addressLine2", getSelectedPurchaseRequisition()
+                    .getSupplier().getDefaultAddress().getAddressLine2());
+//            parameters.put("jobDescription", getCurrentJob().getJobDescription());
+//
+//            parameters.put("totalCost", getCurrentJob().getJobCostingAndPayment().getTotalJobCostingsAmount());
+//            parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumber());
+//            parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount());
+//            parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscountType());
+//            parameters.put("deposit", getCurrentJob().getJobCostingAndPayment().getTotalPayment());
+//            parameters.put("amountDue", getCurrentJob().getJobCostingAndPayment().getAmountDue());
+//            parameters.put("totalTax", getCurrentJob().getJobCostingAndPayment().getTotalTax());
+//            parameters.put("totalTaxLabel", getCurrentJob().getJobCostingAndPayment().getTotalTaxLabel());
+//            parameters.put("grandTotalCostLabel", getCurrentJob().getJobCostingAndPayment().getTotalCostWithTaxLabel().toUpperCase().trim());
+//            parameters.put("grandTotalCost", getCurrentJob().getJobCostingAndPayment().getTotalCost());
+
+            Connection con = BusinessEntityUtils.establishConnection(
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
+
+            if (con != null) {
+                try {
+                    StreamedContent streamedContent;
+
+                    JasperReport jasperReport = JasperCompileManager
+                            .compileReport((String) SystemOption.getOptionValueObject(em, "purchaseRequisition"));
+
+                    JasperPrint print = JasperFillManager.fillReport(
+                            jasperReport,
+                            parameters,
+                            con);
+
+                    byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
+
+                    streamedContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
+                            "application/pdf", "Purchase Requisition - " + getSelectedPurchaseRequisition().getNumber() + ".pdf");
+
+                    setLongProcessProgress(100);
+
+                    return streamedContent;
+
+                } catch (JRException e) {
+                    System.out.println("Error compiling purchase requisition: " + e);
+                }
+            }
+
+            return null;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+
     }
 
     public StreamedContent getPurchaseOrderFile() {
@@ -426,10 +502,9 @@ public class PurchasingManager implements Serializable {
 
         }
     }
-    
+
     private void emailPurchaseReqApprovers(String action) {
         EntityManager em = getEntityManager1();
-
 
         for (Employee approver : getSelectedPurchaseRequisition().getApprovers()) {
             JobManagerUser approverUser
@@ -448,7 +523,7 @@ public class PurchasingManager implements Serializable {
         EntityManager em = getEntityManager1();
 
         JobManagerUser originatorUser = JobManagerUser.
-                findActiveJobManagerUserByEmployeeId(em, 
+                findActiveJobManagerUserByEmployeeId(em,
                         getSelectedPurchaseRequisition().getOriginator().getId());
         Employee head = getSelectedPurchaseRequisition().getOriginatingDepartment().getHead();
         Employee actingHead = getSelectedPurchaseRequisition().getOriginatingDepartment().getActingHead();
@@ -794,6 +869,7 @@ public class PurchasingManager implements Serializable {
                 selectedCostComponent.setHoursOrQuantity(0.0);
                 selectedCostComponent.setRate(0.0);
                 selectedCostComponent.setCost(0.0);
+                selectedCostComponent.setUnit("");
                 break;
             case "VARIABLE":
                 selectedCostComponent.setIsFixedCost(false);

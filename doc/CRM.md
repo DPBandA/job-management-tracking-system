@@ -47,4 +47,6 @@ messages, update records). This should not require programming.
 - The ability to branch and control the flow of the workflow process.
 - The ability to extend workflow processes with custom logic via
 code.
+### Roadmap
+- Create a catalog of the different applications used to manage customer information or customer-related processes.
 
