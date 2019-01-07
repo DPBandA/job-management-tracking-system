@@ -20,6 +20,8 @@
 - Add job costing and purchase requisition forms to the Form templates tab in 
   Business entities tab and stop using system options to get the files. 
 - Fix up PR jasper form by removing the overlapping line and put in missing borders.
+- Values that are 0 set them n/a in the PR form and change the corresponding 
+  parameter types to String.
   
 
 ### PR Module 

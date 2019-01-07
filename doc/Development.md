@@ -1,5 +1,7 @@
 
 # Purchasing (Financial Administration)
+- Put the PR parameters into the PR jasper form.
+- Add "pr-email-template" to system.
 - Impl spliting PR purpose into 3 lines to fit the fields on the PR form.
 - Impl getPurchaseReqStreamContent() to use purchaseReq template and not job costing.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
@@ -41,6 +43,6 @@
   Network Administrator, System Administrator.
 - Enter the approval limits in the production database using info from the 
   file sent by Donna.
-- Enter purchaseRequisition system option and copy the Purchase Requisition.jrxml
-  for now. Later this will be done in "Form templates" tab in Business Entities.
-  file to the jasperreports folder.
+- Enter purchaseRequisition system option for the Purchase Requisition.jrxml
+  file for now. Later this will be done in "Form templates" tab in Business Entities.
+  

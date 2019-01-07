@@ -31,6 +31,7 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -340,9 +341,23 @@ public class PurchasingManager implements Serializable {
                     .getSupplier().getDefaultAddress().getAddressLine1());
             parameters.put("addressLine2", getSelectedPurchaseRequisition()
                     .getSupplier().getDefaultAddress().getAddressLine2());
-//            parameters.put("jobDescription", getCurrentJob().getJobDescription());
-//
-//            parameters.put("totalCost", getCurrentJob().getJobCostingAndPayment().getTotalJobCostingsAmount());
+            // tk to be replaced with the use of a method that splits the description
+            // into 3            
+            parameters.put("purposeOfOrder", getSelectedPurchaseRequisition().getDescription());
+            parameters.put("suggestedSupplier", getSelectedPurchaseRequisition()
+                    .getSupplier().getName());
+            parameters.put("originator", getSelectedPurchaseRequisition()
+                    .getOriginator().getFirstName() + " "
+                    + getSelectedPurchaseRequisition()
+                            .getOriginator().getLastName());
+            parameters.put("priorityCode", getSelectedPurchaseRequisition().getPriorityCode());
+            parameters.put("requisitionDate",
+                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getRequisitionDate()));
+            parameters.put("originatorSignature", getSelectedPurchaseRequisition()
+                    .getOriginator().getFirstName() + " "
+                    + getSelectedPurchaseRequisition()
+                            .getOriginator().getLastName());
 //            parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumber());
 //            parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount());
 //            parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscountType());
@@ -555,6 +570,7 @@ public class PurchasingManager implements Serializable {
             String action) {
 
         Email email = Email.findActiveEmailByName(em, "pr-email-template");
+
         String prNum = getSelectedPurchaseRequisition().getNumber();
         String department = getSelectedPurchaseRequisition().
                 getOriginatingDepartment().getName();
@@ -1069,6 +1085,17 @@ public class PurchasingManager implements Serializable {
 
     public void setSearchType(String searchType) {
         this.searchType = searchType;
+    }
+
+    public List getPriorityCodes() {
+        ArrayList codes = new ArrayList();
+
+        codes.add(new SelectItem("", ""));
+        codes.add(new SelectItem("A", "A"));
+        codes.add(new SelectItem("B", "B"));
+        codes.add(new SelectItem("C", "C"));
+
+        return codes;
     }
 
 }

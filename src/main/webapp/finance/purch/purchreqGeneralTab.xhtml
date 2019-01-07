@@ -158,7 +158,7 @@ Email: info@dpbennett.com.jm
                             dropdown="false"
                             scrollHeight="200" 
                             completeMethod="#{humanResourceManager.completeActiveEmployee}" />
-            
+
             <h:outputText value="Originating dep't: " style="font-weight: bold" />
             <p:autoComplete id="originatingDepartment"                          
                             readonly="true"
@@ -176,6 +176,23 @@ Email: info@dpbennett.com.jm
                             validator="businessEntityValidator"
                             completeMethod="#{humanResourceManager.completeActiveDepartment}" />             
 
+            <h:outputLabel value="Priority code: " 
+                           for="priorityCode"/>
+            <p:selectOneMenu id="priorityCode"     
+                             style="width: 100px;"
+                             value="#{purchasingManager.selectedPurchaseRequisition.priorityCode}">
+
+                <f:selectItems  value="#{purchasingManager.priorityCodes}"
+                                var="code"                            
+                                itemValue="#{code}"
+                                itemLabel="#{code}"/>
+
+                <p:ajax listener="#{purchasingManager.updatePurchaseReq}"
+                        global="false"
+                        process="@this"/>
+
+            </p:selectOneMenu>
+            
             <h:outputText value="Purpose/Description: " style="font-weight: bold;vertical-align: top;" />       
             <p:inputTextarea
                 id="description"
@@ -197,6 +214,7 @@ Email: info@dpbennett.com.jm
             </p:inputTextarea> 
             <h:outputText value="&nbsp;&nbsp;" />
             <h:outputText id="descriptionCharsRemaining" /> 
+            
         </h:panelGrid>
     </p:panel>
 
