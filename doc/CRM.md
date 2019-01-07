@@ -49,4 +49,6 @@ messages, update records). This should not require programming.
 code.
 ### Roadmap
 - Create a catalog of the different applications used to manage customer information or customer-related processes.
-
+### Evaluating Software and Consultants
+- The traditional CRM “suite” includes features to support three front-office business functions: marketing, sales, and customer service.
+- The promised value of the full CRM suite, aside from the value derived within each department from the application’s features, is the information sharing that it can foster across departments. Such sharing is necessary if the organization is going to present a single face to the customer.
