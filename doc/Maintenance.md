@@ -15,13 +15,14 @@
 - Impl search for PR and supplier as is done in fin admin dashboard.
 - Do not save supplier or PR if they were not edited.
 - Include the updates done to PR in the email.
-- Add feature allow sending email from the PR dialog or PRs table to stakeholders. This feature could
-  be actvivated for procurement officers only.
+- Add feature allow sending email from the PR dialog or PRs table to stakeholders. 
+  This feature could be activated for procurement officers only.
 - Add job costing and purchase requisition forms to the Form templates tab in 
   Business entities tab and stop using system options to get the files. 
 - Fix up PR jasper form by removing the overlapping line and put in missing borders.
 - Values that are 0 set them n/a in the PR form and change the corresponding 
   parameter types to String.
+- Make sure that more than one person with the same position cannot approve PR.
   
 
 ### PR Module 

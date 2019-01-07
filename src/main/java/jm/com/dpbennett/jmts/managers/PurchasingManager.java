@@ -358,6 +358,16 @@ public class PurchasingManager implements Serializable {
                     .getOriginator().getFirstName() + " "
                     + getSelectedPurchaseRequisition()
                             .getOriginator().getLastName());
+            // Set approvals
+            List<Employee> teamLeaders = Employee.findActiveEmployeesByPosition(em, "Team Leader");
+            if (!teamLeaders.isEmpty()) {
+                parameters.put("teamLeaderApproval", 
+                        teamLeaders.get(0).getFirstName() + " " + teamLeaders.get(0).getLastName());
+                parameters.put("teamLeaderApprovalDate",
+                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getTeamLeaderApprovalDate()));
+                
+            }
 //            parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumber());
 //            parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount());
 //            parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscountType());

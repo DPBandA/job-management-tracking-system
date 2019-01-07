@@ -1,5 +1,7 @@
 
 # Purchasing (Financial Administration)
+- Impl getFirstApproverByPosition() in PR class and use it to set approvers and 
+  date in the PR form.
 - Put the PR parameters into the PR jasper form.
 - Add "pr-email-template" to system.
 - Impl spliting PR purpose into 3 lines to fit the fields on the PR form.
