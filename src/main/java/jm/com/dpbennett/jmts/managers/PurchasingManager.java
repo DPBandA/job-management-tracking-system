@@ -351,17 +351,16 @@ public class PurchasingManager implements Serializable {
 
             // tk impl get PR form
             streamedContent = getPurchaseReqStreamContent(getEntityManager1());
-            setLongProcessProgress(100);
+            getFinanceManager().setLongProcessProgress(100);
 
         } catch (Exception e) {
             System.out.println(e);
-            setLongProcessProgress(0);
+            getFinanceManager().setLongProcessProgress(0);
         }
 
         return streamedContent;
     }
 
-    // tk get forms 
     public StreamedContent getPurchaseReqStreamContent(EntityManager em) {
 
         HashMap parameters = new HashMap();
@@ -369,10 +368,11 @@ public class PurchasingManager implements Serializable {
         try {
             parameters.put("prId", getSelectedPurchaseRequisition().getId());
 
-//            Client client = getCurrentJob().getClient();
-//            parameters.put("contactPersonName", BusinessEntityUtils.getContactFullName(getCurrentJob().getContact()));
-//            parameters.put("customerAddress", getCurrentJob().getBillingAddress().toString());
-//            parameters.put("contactNumbers", client.getStringListOfContactPhoneNumbers());
+            parameters.put("purchReqNo", getSelectedPurchaseRequisition().getNumber());
+            parameters.put("addressLine1", getSelectedPurchaseRequisition()
+                    .getSupplier().getDefaultAddress().getAddressLine1());
+            parameters.put("addressLine2", getSelectedPurchaseRequisition()
+                    .getSupplier().getDefaultAddress().getAddressLine2());
 //            parameters.put("jobDescription", getCurrentJob().getJobDescription());
 //
 //            parameters.put("totalCost", getCurrentJob().getJobCostingAndPayment().getTotalJobCostingsAmount());
@@ -385,6 +385,7 @@ public class PurchasingManager implements Serializable {
 //            parameters.put("totalTaxLabel", getCurrentJob().getJobCostingAndPayment().getTotalTaxLabel());
 //            parameters.put("grandTotalCostLabel", getCurrentJob().getJobCostingAndPayment().getTotalCostWithTaxLabel().toUpperCase().trim());
 //            parameters.put("grandTotalCost", getCurrentJob().getJobCostingAndPayment().getTotalCost());
+
             Connection con = BusinessEntityUtils.establishConnection(
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
@@ -392,26 +393,9 @@ public class PurchasingManager implements Serializable {
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
 
             if (con != null) {
-//                try {
-//                    StreamedContent streamedContent;
-//                    // generate report
-//                    JasperPrint print = JasperFillManager.fillReport((String) SystemOption.getOptionValueObject(em, "jobCosting"), parameters, con);
-//
-//                    byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
-//
-//                    streamedContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes), 
-//                            "application/pdf", "Purchase Requisition - " + getSelectedPurchaseRequisition().getNumber() + ".pdf");
-//
-//                    setLongProcessProgress(100);
-//
-//                    return streamedContent;
-//                } catch (JRException ex) {
-//                    System.out.println(ex);
-//                    return null;
-//                }
                 try {
                     StreamedContent streamedContent;
-                    
+
                     JasperReport jasperReport = JasperCompileManager
                             .compileReport((String) SystemOption.getOptionValueObject(em, "purchaseRequisition"));
 
@@ -419,10 +403,10 @@ public class PurchasingManager implements Serializable {
                             jasperReport,
                             parameters,
                             con);
-                    
-                     byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
 
-                    streamedContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes), 
+                    byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
+
+                    streamedContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
                             "application/pdf", "Purchase Requisition - " + getSelectedPurchaseRequisition().getNumber() + ".pdf");
 
                     setLongProcessProgress(100);

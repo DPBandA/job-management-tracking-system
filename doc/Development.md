@@ -1,7 +1,7 @@
 
 # Purchasing (Financial Administration)
+- Impl spliting PR purpose into 3 lines to fit the fields on the PR form.
 - Impl getPurchaseReqStreamContent() to use purchaseReq template and not job costing.
-   * Close busy wait icon when finish export PR. Use the setProces*** in FinanceManager.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
 - Impl "Actions" menu for general messages and for the PO to request
