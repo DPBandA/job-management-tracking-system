@@ -359,15 +359,60 @@ public class PurchasingManager implements Serializable {
                     + getSelectedPurchaseRequisition()
                             .getOriginator().getLastName());
             // Set approvals
-            List<Employee> teamLeaders = Employee.findActiveEmployeesByPosition(em, "Team Leader");
-            if (!teamLeaders.isEmpty()) {
+            Employee approver = getSelectedPurchaseRequisition().
+                               getFirstApproverByPositionTitle("Team Leader");
+            if (approver != null) {
                 parameters.put("teamLeaderApproval", 
-                        teamLeaders.get(0).getFirstName() + " " + teamLeaders.get(0).getLastName());
+                        approver.getFirstName() + " " + approver.getLastName());
                 parameters.put("teamLeaderApprovalDate",
                     BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
                             getTeamLeaderApprovalDate()));
                 
             }
+            approver = getSelectedPurchaseRequisition().
+                               getFirstApproverByPositionTitle("Divisional Manager");
+            if (approver != null) {
+                parameters.put("divisionalManagerApproval", 
+                        approver.getFirstName() + " " + approver.getLastName());
+                parameters.put("divisionalManagerApprovalDate",
+                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getDivisionalManagerApprovalDate()));
+                
+            }
+            approver = getSelectedPurchaseRequisition().
+                               getFirstApproverByPositionTitle("Divisional Director");
+            if (approver != null) {
+                parameters.put("divisionalDirectorApproval", 
+                        approver.getFirstName() + " " + approver.getLastName());
+                parameters.put("divisionalDirectorApprovalDate",
+                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getDivisionalDirectorApprovalDate()));
+                
+            }
+            approver = getSelectedPurchaseRequisition().
+                               getFirstApproverByPositionTitle("Finance Manager");
+            if (approver != null) {
+                parameters.put("financeManagerApproval", 
+                        approver.getFirstName() + " " + approver.getLastName());
+                parameters.put("financeManagerApprovalDate",
+                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getFinanceManagerApprovalDate()));
+                
+            }
+            approver = getSelectedPurchaseRequisition().
+                               getFirstApproverByPositionTitle("Executive Director");
+            if (approver != null) {
+                parameters.put("executiveDirectorApproval", 
+                        approver.getFirstName() + " " + approver.getLastName());
+                parameters.put("executiveDirectorApprovalDate",
+                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getExecutiveDirectorApprovalDate()));
+                
+            }
+            parameters.put("procurementOfficer", getSelectedPurchaseRequisition()
+                    .getProcurementOfficer().getFirstName() + " "
+                    + getSelectedPurchaseRequisition()
+                            .getProcurementOfficer().getLastName());
 //            parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumber());
 //            parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount());
 //            parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscountType());

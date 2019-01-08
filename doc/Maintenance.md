@@ -23,6 +23,9 @@
 - Values that are 0 set them n/a in the PR form and change the corresponding 
   parameter types to String.
 - Make sure that more than one person with the same position cannot approve PR.
+- Take the approvers section out of the page footer of the PR form and put it
+  at the end of the report.
+- Make the PO box the same width as the Rate and Cost column heading width combined.
   
 
 ### PR Module 

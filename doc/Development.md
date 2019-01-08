@@ -2,6 +2,7 @@
 # Purchasing (Financial Administration)
 - Impl getFirstApproverByPosition() in PR class and use it to set approvers and 
   date in the PR form.
+- Test by approving the PR with the approvers with the required position.
 - Put the PR parameters into the PR jasper form.
 - Add "pr-email-template" to system.
 - Impl spliting PR purpose into 3 lines to fit the fields on the PR form.
@@ -10,6 +11,8 @@
 - Populate PurchaseOrder with PR. 
 - Impl "Actions" menu for general messages and for the PO to request
   approval from someone who is able to approve a PR.
+- The word "Recommendation" is missing the last "n" when exported to PDF. Fix! 
+- The PR dialog box jumps a little when an item is edited. See if that can be fixed.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl getting dist. codes for cost components.
