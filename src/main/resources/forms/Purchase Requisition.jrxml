@@ -1082,7 +1082,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[DATE REQUIRED]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
+			<textField pattern="MMM d, yyyy" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="490" y="308" width="81" height="16" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="b511d8ca-cdeb-4f26-a367-d02b2b445961"/>
 				<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineColor="#003366"/>
@@ -1091,6 +1091,7 @@ WHERE
 				<textElement verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="12" isUnderline="false"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$F{DATEREQUIRED}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="200" y="387" width="240" height="24" uuid="f42ae367-15d1-4962-b047-0902fcb10cdd"/>
@@ -1205,7 +1206,7 @@ WHERE
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="140" y="0" width="90" height="20" forecolor="#003366" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="8276e5a9-deaa-411f-8d58-438ead398e3c"/>
-				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
