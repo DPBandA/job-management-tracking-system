@@ -413,15 +413,7 @@ public class PurchasingManager implements Serializable {
                     .getProcurementOfficer().getFirstName() + " "
                     + getSelectedPurchaseRequisition()
                             .getProcurementOfficer().getLastName());
-//            parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumber());
-//            parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount());
-//            parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscountType());
-//            parameters.put("deposit", getCurrentJob().getJobCostingAndPayment().getTotalPayment());
-//            parameters.put("amountDue", getCurrentJob().getJobCostingAndPayment().getAmountDue());
-//            parameters.put("totalTax", getCurrentJob().getJobCostingAndPayment().getTotalTax());
-//            parameters.put("totalTaxLabel", getCurrentJob().getJobCostingAndPayment().getTotalTaxLabel());
-//            parameters.put("grandTotalCostLabel", getCurrentJob().getJobCostingAndPayment().getTotalCostWithTaxLabel().toUpperCase().trim());
-//            parameters.put("grandTotalCost", getCurrentJob().getJobCostingAndPayment().getTotalCost());
+            parameters.put("totalCost", getSelectedPurchaseRequisition().getTotalCost());
 
             Connection con = BusinessEntityUtils.establishConnection(
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),

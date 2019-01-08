@@ -26,6 +26,9 @@
 - Take the approvers section out of the page footer of the PR form and put it
   at the end of the report.
 - Make the PO box the same width as the Rate and Cost column heading width combined.
+- Right justing the total cost in the PR form.
+- Centre "Suggested Supplier:" static text with the text field.
+- Remove the default values from all parameters.
   
 
 ### PR Module 

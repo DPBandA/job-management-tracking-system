@@ -1,11 +1,7 @@
 
 # Purchasing (Financial Administration)
-- Impl getFirstApproverByPosition() in PR class and use it to set approvers and 
-  date in the PR form.
-- Test by approving the PR with the approvers with the required position.
-- Put the PR parameters into the PR jasper form.
-- Add "pr-email-template" to system.
 - Impl spliting PR purpose into 3 lines to fit the fields on the PR form.
+  Impl unit test with the PR class.
 - Impl getPurchaseReqStreamContent() to use purchaseReq template and not job costing.
 - Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
 - Populate PurchaseOrder with PR. 
@@ -41,6 +37,7 @@
 - Put the name of the approver on the job costing.
 
 # Database update and deployment
+- Add "pr-email-template" to system.
 - Add approvalDate to PR class and table for all databases.
 - Enter the following employee positions into the all databases: 
   Team Leader, Divisional Manager, Divisional Director, 
