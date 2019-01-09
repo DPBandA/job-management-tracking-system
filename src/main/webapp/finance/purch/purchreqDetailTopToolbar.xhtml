@@ -22,7 +22,7 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html" >
-    
+
     <p:toolbar id="purchreqDetailToolbar1">
         <p:toolbarGroup align="left" >  
             <p:commandButton actionListener="#{purchasingManager.saveSelectedPurchaseRequisition}"                            
@@ -49,6 +49,37 @@ Email: info@dpbennett.com.jm
             <p:spacer width="20" />
 
             <h:outputText value="#{purchasingManager.selectedPurchaseRequisition.editStatus}" />
+            
+            <p:spacer width="20" />
+
+            <p:menuButton value="Tools" >  
+
+                <p:menuitem>
+
+                    <p:commandButton value="Request approval..."
+                                     style="text-align: left;background: none;border: 0;"
+                                     title="Send a request for approval for this purchase requisition"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{purchasingManager.openRequestApprovalDialog}" 
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     process="@this" />
+
+                </p:menuitem>
+
+                <p:menuitem>
+
+                    <p:commandButton value="Send message..."
+                                     style="text-align: left;background: none;border: 0;"
+                                     title="Send a message"
+                                     onstart="PF('longProcessDialogVar').show();" 
+                                     actionListener="#{purchasingManager.openSendMessageDialog}" 
+                                     oncomplete="longProcessDialogVar.hide();"
+                                     process="@this" />
+
+                </p:menuitem>
+               
+
+            </p:menuButton>   
 
         </p:toolbarGroup>
 
@@ -62,9 +93,9 @@ Email: info@dpbennett.com.jm
                             disabled="#{!purchasingManager.isSelectedPurchaseReqIsValid}"                   
                             update="longProgressDialogForm4"
                             onclick="PF('longProcessDialogVar4').show();" >
-                    
+
                     <p:fileDownload value="#{purchasingManager.purchaseReqFile}" />
-                    
+
                 </p:menuitem>
                 <p:menuitem value="Purchase Order"
                             ajax="false" 
@@ -72,9 +103,9 @@ Email: info@dpbennett.com.jm
                             disabled="#{!purchasingManager.isSelectedPurchaseReqIsValid}"                   
                             update="longProgressDialogForm4"
                             onclick="PF('longProcessDialogVar4').show();" >
-                    
+
                     <p:fileDownload value="#{purchasingManager.purchaseOrderFile}" />
-                    
+
                 </p:menuitem>
             </p:menuButton>
         </p:toolbarGroup>

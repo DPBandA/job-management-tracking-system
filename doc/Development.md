@@ -1,7 +1,9 @@
 
 # Purchasing (Financial Administration)
-- Impl "Actions/Tools" menu for general messages and for the PO to request approval from 
-  someone who is able to approve a PR.
+- Impl "Tools" menu for general messages and for the PO to request approval from 
+  someone who is able to approve a PR:
+  * Impl purchaseReqEmailDialog
+  * Impl request for approval dialog using the purchaseReqEmailDialog.
   * Modify add postMail method that accepts the "from user" as argument.
 - PR form update:
   * Date required field not included in the PR jasper report. Fix!

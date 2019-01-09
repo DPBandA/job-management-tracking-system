@@ -290,6 +290,14 @@ public class PurchasingManager implements Serializable {
     public void openPurchaseReqsTab() {
         mainTabView.openTab("Purchase Requisitions");
     }
+    
+    public void openRequestApprovalDialog() {
+        System.out.println("Impl and open request approval dialog"); //tk
+    }
+    
+    public void openSendMessageDialog() {
+        System.out.println("Impl send message dialog"); //tk
+    }
 
     /**
      * Get FinanceManager SessionScoped bean.
