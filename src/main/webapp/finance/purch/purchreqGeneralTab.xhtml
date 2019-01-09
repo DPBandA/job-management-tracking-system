@@ -188,6 +188,7 @@ Email: info@dpbennett.com.jm
                                 itemLabel="#{code}"/>
 
                 <p:ajax listener="#{purchasingManager.updatePurchaseReq}"
+                        update=":purchreqDialogForm:purchreqDetailToolbar1"
                         global="false"
                         process="@this"/>
 
@@ -201,7 +202,7 @@ Email: info@dpbennett.com.jm
                 counter="descriptionCharsRemaining"
                 counterTemplate="{0} characters remaining."
                 autoResize="false"
-                maxlength="1000"  
+                maxlength="400"  
                 style="width: 100%;">
 
                 <f:validator validatorId="requiredFieldValidator" />

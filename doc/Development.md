@@ -1,14 +1,15 @@
 
 # Purchasing (Financial Administration)
-- Impl spliting PR purpose into 3 lines to fit the fields on the PR form.
-  Impl unit test with the PR class.
-- Impl getPurchaseReqStreamContent() to use purchaseReq template and not job costing.
-- Complete PR and PO forms and impl auto generation from menu "Forms" menuitems.
-- Populate PurchaseOrder with PR. 
-- Impl "Actions" menu for general messages and for the PO to request
-  approval from someone who is able to approve a PR.
-- The word "Recommendation" is missing the last "n" when exported to PDF. Fix! 
-- The PR dialog box jumps a little when an item is edited. See if that can be fixed.
+- Impl "Actions/Tools" menu for general messages and for the PO to request approval from 
+  someone who is able to approve a PR.
+  * Modify add postMail method that accepts the "from user" as argument.
+- PR form update:
+  * Date required field not included in the PR jasper report. Fix!
+  * Suggested Supplier: label is not centred and the supplier name is underlined. Fix!
+  * Centre the procurement officer name.
+- Complete PO form:
+  * Copy and use PR form as basis.
+  * Generate from "Forms menu.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl getting dist. codes for cost components.

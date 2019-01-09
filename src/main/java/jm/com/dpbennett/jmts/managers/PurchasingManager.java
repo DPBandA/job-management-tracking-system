@@ -522,7 +522,7 @@ public class PurchasingManager implements Serializable {
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Purchase requisition was saved", FacesMessage.SEVERITY_INFO);
-                getSelectedPurchaseRequisition().setEditStatus("");
+                getSelectedPurchaseRequisition().setEditStatus(" ");
 
             } else {
                 PrimeFacesUtils.addMessage(returnMessage.getHeader(),
