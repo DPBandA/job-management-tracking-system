@@ -1,15 +1,10 @@
 
 # Purchasing (Financial Administration)
-- Chech PO# is set.
 - Impl "Tools" menu for general messages and for the PO to request approval from 
   someone who is able to approve a PR:
-  * Impl purchaseReqEmailDialog
+  * Impl purchaseReqEmailDialog. Impl validation growl messages for subject and content.
   * Impl request for approval dialog using the purchaseReqEmailDialog.
   * Modify add postMail method that accepts the "from user" as argument.
-- PR form update:
-  * Date required field not included in the PR jasper report. Fix!
-  * Suggested Supplier: label is not centred and the supplier name is underlined. Fix!
-  * Centre the procurement officer name.
 - Complete PO form:
   * Copy and use PR form as basis.
   * Generate from "Forms menu.

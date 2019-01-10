@@ -22,8 +22,6 @@ package jm.com.dpbennett.jmts.managers;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.sql.Connection;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,14 +34,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.BusinessEntity;
-import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.Email;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.EmployeePosition;
-import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.PurchaseRequisition;
 import jm.com.dpbennett.business.entity.Supplier;
@@ -90,12 +86,39 @@ public class PurchasingManager implements Serializable {
     private String searchType;
     private DatePeriod dateSearchPeriod;
     private Long searchDepartmentId;
+    private List<Employee> toEmployees;
+    private String purchaseReqEmailSubject;
+    private String purchaseReqEmailContent;
 
     /**
      * Creates a new instance of JobManagerBean
      */
     public PurchasingManager() {
         init();
+    }
+
+    public String getPurchaseReqEmailContent() {
+        return purchaseReqEmailContent;
+    }
+
+    public void setPurchaseReqEmailContent(String purchaseReqEmailContent) {
+        this.purchaseReqEmailContent = purchaseReqEmailContent;
+    }
+
+    public String getPurchaseReqEmailSubject() {
+        return purchaseReqEmailSubject;
+    }
+
+    public void setPurchaseReqEmailSubject(String purchaseReqEmailSubject) {
+        this.purchaseReqEmailSubject = purchaseReqEmailSubject;
+    }
+
+    public List<Employee> getToEmployees() {        
+        return toEmployees;
+    }
+
+    public void setToEmployees(List<Employee> toEmployees) {
+        this.toEmployees = toEmployees;
     }
 
     public void updateDateSearchField() {
@@ -291,12 +314,22 @@ public class PurchasingManager implements Serializable {
         mainTabView.openTab("Purchase Requisitions");
     }
     
+    public void editPurchaseReqEmail() {
+        PrimeFacesUtils.openDialog(null, "purchaseReqEmailDialog", true, true, true, false, 500, 625);
+    }
+
     public void openRequestApprovalDialog() {
         System.out.println("Impl and open request approval dialog"); //tk
+        editPurchaseReqEmail();
     }
-    
+
     public void openSendMessageDialog() {
         System.out.println("Impl send message dialog"); //tk
+        editPurchaseReqEmail();
+    }
+
+    public void sendPurchaseReqEmail() {
+        System.out.println("Sending PR email..."); //tk
     }
 
     /**
@@ -345,12 +378,11 @@ public class PurchasingManager implements Serializable {
             parameters.put("prId", getSelectedPurchaseRequisition().getId());
 
             parameters.put("purchReqNo", getSelectedPurchaseRequisition().getNumber());
+            parameters.put("purchaseOrderNo", getSelectedPurchaseRequisition().getPurchaseOrderNumber());
             parameters.put("addressLine1", getSelectedPurchaseRequisition()
                     .getSupplier().getDefaultAddress().getAddressLine1());
             parameters.put("addressLine2", getSelectedPurchaseRequisition()
                     .getSupplier().getDefaultAddress().getAddressLine2());
-            // tk to be replaced with the use of a method that splits the description
-            // into 3            
             parameters.put("purposeOfOrder", getSelectedPurchaseRequisition().getDescription());
             parameters.put("suggestedSupplier", getSelectedPurchaseRequisition()
                     .getSupplier().getName());
@@ -368,54 +400,54 @@ public class PurchasingManager implements Serializable {
                             .getOriginator().getLastName());
             // Set approvals
             Employee approver = getSelectedPurchaseRequisition().
-                               getFirstApproverByPositionTitle("Team Leader");
+                    getFirstApproverByPositionTitle("Team Leader");
             if (approver != null) {
-                parameters.put("teamLeaderApproval", 
+                parameters.put("teamLeaderApproval",
                         approver.getFirstName() + " " + approver.getLastName());
                 parameters.put("teamLeaderApprovalDate",
-                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
-                            getTeamLeaderApprovalDate()));
-                
+                        BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                                getTeamLeaderApprovalDate()));
+
             }
             approver = getSelectedPurchaseRequisition().
-                               getFirstApproverByPositionTitle("Divisional Manager");
+                    getFirstApproverByPositionTitle("Divisional Manager");
             if (approver != null) {
-                parameters.put("divisionalManagerApproval", 
+                parameters.put("divisionalManagerApproval",
                         approver.getFirstName() + " " + approver.getLastName());
                 parameters.put("divisionalManagerApprovalDate",
-                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
-                            getDivisionalManagerApprovalDate()));
-                
+                        BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                                getDivisionalManagerApprovalDate()));
+
             }
             approver = getSelectedPurchaseRequisition().
-                               getFirstApproverByPositionTitle("Divisional Director");
+                    getFirstApproverByPositionTitle("Divisional Director");
             if (approver != null) {
-                parameters.put("divisionalDirectorApproval", 
+                parameters.put("divisionalDirectorApproval",
                         approver.getFirstName() + " " + approver.getLastName());
                 parameters.put("divisionalDirectorApprovalDate",
-                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
-                            getDivisionalDirectorApprovalDate()));
-                
+                        BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                                getDivisionalDirectorApprovalDate()));
+
             }
             approver = getSelectedPurchaseRequisition().
-                               getFirstApproverByPositionTitle("Finance Manager");
+                    getFirstApproverByPositionTitle("Finance Manager");
             if (approver != null) {
-                parameters.put("financeManagerApproval", 
+                parameters.put("financeManagerApproval",
                         approver.getFirstName() + " " + approver.getLastName());
                 parameters.put("financeManagerApprovalDate",
-                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
-                            getFinanceManagerApprovalDate()));
-                
+                        BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                                getFinanceManagerApprovalDate()));
+
             }
             approver = getSelectedPurchaseRequisition().
-                               getFirstApproverByPositionTitle("Executive Director");
+                    getFirstApproverByPositionTitle("Executive Director");
             if (approver != null) {
-                parameters.put("executiveDirectorApproval", 
+                parameters.put("executiveDirectorApproval",
                         approver.getFirstName() + " " + approver.getLastName());
                 parameters.put("executiveDirectorApprovalDate",
-                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
-                            getExecutiveDirectorApprovalDate()));
-                
+                        BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                                getExecutiveDirectorApprovalDate()));
+
             }
             parameters.put("procurementOfficer", getSelectedPurchaseRequisition()
                     .getProcurementOfficer().getFirstName() + " "
@@ -498,7 +530,7 @@ public class PurchasingManager implements Serializable {
     }
 
     public void closeDialog() {
-
+        PrimeFacesUtils.closeDialog(null);
     }
 
     public void closePurchaseReqDialog() {
@@ -659,9 +691,6 @@ public class PurchasingManager implements Serializable {
     }
 
     private synchronized void processPurchaseReqActions() {
-
-        // tk
-        System.out.println("Processing: " + getSelectedPurchaseRequisition().getActions());
 
         for (BusinessEntity.Action action : getSelectedPurchaseRequisition().getActions()) {
             switch (action) {
@@ -864,6 +893,7 @@ public class PurchasingManager implements Serializable {
         dateSearchPeriod.initDatePeriod();
         purchaseReqSearchText = "";
         foundPurchaseReqs = null;
+        toEmployees = new ArrayList<>();
     }
 
     public void reset() {

@@ -27,8 +27,10 @@
   at the end of the report.
 - Make the PO box the same width as the Rate and Cost column heading width combined.
 - Right justing the total cost in the PR form.
-- Centre "Suggested Supplier:" static text with the text field.
+- Centre "Suggested Supplier:" static text with the text field. It is not centred
+  when exported to PDF on Linux. See if it is the same on Windows.
 - Remove the default values from all parameters.
+- Impl feature to send PO to supplier.
   
 
 ### PR Module 
