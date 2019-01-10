@@ -31,6 +31,7 @@
   when exported to PDF on Linux. See if it is the same on Windows.
 - Remove the default values from all parameters.
 - Impl feature to send PO to supplier.
+- Create email template for email requesting PR approval and remove from hard code.
   
 
 ### PR Module 

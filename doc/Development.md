@@ -2,9 +2,10 @@
 # Purchasing (Financial Administration)
 - Impl "Tools" menu for general messages and for the PO to request approval from 
   someone who is able to approve a PR:
-  * Impl purchaseReqEmailDialog. Impl validation growl messages for subject and content.
-  * Impl request for approval dialog using the purchaseReqEmailDialog.
+  * Finish implementing openRequestApprovalDialog().
   * Modify add postMail method that accepts the "from user" as argument.
+  * Impl purchaseReqEmailDialog.
+  * Impl request for approval dialog using the purchaseReqEmailDialog.
 - Complete PO form:
   * Copy and use PR form as basis.
   * Generate from "Forms menu.

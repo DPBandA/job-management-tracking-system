@@ -72,8 +72,7 @@ Email: info@dpbennett.com.jm
                                     itemLabel="#{employee.name}"
                                     itemValue="#{employee}"
                                     converter="activeEmployeeConverter"
-                                    validator="businessEntityValidator"
-                                    forceSelection="true"
+                                    forceSelection="true"                                    
                                     dropdown="true"
                                     scrollHeight="200"                         
                                     multiple="true"
@@ -83,17 +82,18 @@ Email: info@dpbennett.com.jm
                     <h:outputLabel value="Subject:" for="emailSubject" style="font-weight: bold;" />
                     <p:inputText value="#{purchasingManager.purchaseReqEmailSubject}"
                                  id="emailSubject" 
-                                 style="width: 100%;"
-                                 validatorMessage="Please enter a subject" />
+                                 style="width: 100%;" 
+                                 validator="requiredFieldValidator" />
 
                     <h:outputLabel value="" for="emailContent" style="font-weight: bold;" />
                     <p:inputTextarea
                         id="emailContent"
-                        value="#{purchasingManager.purchaseReqEmailSubject}"
+                        value="#{purchasingManager.purchaseReqEmailContent}"
                         rows="18"
                         counter="emailSubjectCharsRemaining"
                         counterTemplate="{0} characters remaining."
-                        autoResize="false"
+                        autoResize="false" 
+                        placeholder="Enter message..."
                         maxlength="1000"  
                         style="width: 100%;">
 

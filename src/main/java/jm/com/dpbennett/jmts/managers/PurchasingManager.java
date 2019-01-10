@@ -113,7 +113,7 @@ public class PurchasingManager implements Serializable {
         this.purchaseReqEmailSubject = purchaseReqEmailSubject;
     }
 
-    public List<Employee> getToEmployees() {        
+    public List<Employee> getToEmployees() {
         return toEmployees;
     }
 
@@ -313,13 +313,17 @@ public class PurchasingManager implements Serializable {
     public void openPurchaseReqsTab() {
         mainTabView.openTab("Purchase Requisitions");
     }
-    
+
     public void editPurchaseReqEmail() {
         PrimeFacesUtils.openDialog(null, "purchaseReqEmailDialog", true, true, true, false, 500, 625);
     }
 
     public void openRequestApprovalDialog() {
         System.out.println("Impl and open request approval dialog"); //tk
+        setPurchaseReqEmailSubject("Request for purchase requisition approval");
+        setPurchaseReqEmailContent("Dear Sir/Madam,\n"
+                + "You are kindly being requested to approve the purchase requisit");
+
         editPurchaseReqEmail();
     }
 
