@@ -904,40 +904,27 @@ WHERE
 				<text><![CDATA[$]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="0" y="238" width="99" height="27" forecolor="#003366" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="36af738a-cf2c-4caf-9626-b8d766363c67"/>
+				<reportElement mode="Transparent" x="0" y="238" width="99" height="43" forecolor="#003366" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="36af738a-cf2c-4caf-9626-b8d766363c67"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.0"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Suggested Supplier:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="99" y="238" width="472" height="27" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="2381aa0c-34c5-4ed7-8971-63a92f1c5de3"/>
+				<reportElement mode="Transparent" x="99" y="238" width="472" height="43" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="2381aa0c-34c5-4ed7-8971-63a92f1c5de3"/>
 				<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineColor="#003366"/>
 					<leftPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="12" isUnderline="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{supplierName}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="0" y="265" width="571" height="16" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="f95e9343-d565-458e-8f4c-1d36775c3b7d"/>
-				<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement verticalAlignment="Bottom">
-					<font fontName="SansSerif" size="12" isUnderline="false"/>
-				</textElement>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="281" width="118" height="27" forecolor="#003366" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="e03720df-dafc-4e87-8f2f-a1a3fa156724"/>
@@ -1048,7 +1035,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[DATE REQUIRED]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
+			<textField pattern="MMM d, yyyy" isBlankWhenNull="true">
 				<reportElement mode="Transparent" x="490" y="308" width="81" height="16" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="b511d8ca-cdeb-4f26-a367-d02b2b445961"/>
 				<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineColor="#003366"/>
@@ -1057,6 +1044,7 @@ WHERE
 				<textElement verticalAlignment="Bottom">
 					<font fontName="SansSerif" size="12" isUnderline="false"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$F{DATEREQUIRED}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="200" y="387" width="240" height="24" uuid="f42ae367-15d1-4962-b047-0902fcb10cdd"/>
@@ -1430,7 +1418,7 @@ WHERE
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0" lineColor="#003366"/>
 				</box>
-				<textElement textAlignment="Left" verticalAlignment="Bottom">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" isUnderline="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{procurementOfficer}]]></textFieldExpression>

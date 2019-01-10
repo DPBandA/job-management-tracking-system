@@ -1,5 +1,6 @@
 
 # Purchasing (Financial Administration)
+- Chech PO# is set.
 - Impl "Tools" menu for general messages and for the PO to request approval from 
   someone who is able to approve a PR:
   * Impl purchaseReqEmailDialog
