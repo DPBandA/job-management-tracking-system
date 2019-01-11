@@ -1431,8 +1431,8 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             Long id = BusinessEntityUtils.saveBusinessEntity(em, currentUnitCost);
             if (id == null) {
                 
-                sendErrorEmail("An error occured while saving this unit cost",
-                        "Unit cost save error occured");
+                sendErrorEmail("An error occurred while saving this unit cost",
+                        "Unit cost save error occurred");
                 return;
             }
 
@@ -1595,7 +1595,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public void sendErrorEmail(String subject, String message) {
         try {
             // Send error message to developer's email            
-            Utils.postMail(null, null, subject, message, 
+            Utils.postMail(null, null, null, subject, message, 
                     "text/plain", getEntityManager1());
         } catch (Exception ex) {
             System.out.println(ex);

@@ -1,14 +1,17 @@
-
 # Purchasing (Financial Administration)
+- Impl ReturnMessage for postMail
+- Impl getEmailAddress() in employee class that uses the emloyee's username and
+  company domain if email1 id empty or null.
+- Show growl for successful/unsuccessful processing of PR actions. 
 - Impl "Tools" menu for general messages and for the PO to request approval from 
   someone who is able to approve a PR:
-  * Finish implementing openRequestApprovalDialog().
+  * Finish implementing openRequestApprovalDialog() using an email template.
   * Modify add postMail method that accepts the "from user" as argument.
   * Impl purchaseReqEmailDialog.
   * Impl request for approval dialog using the purchaseReqEmailDialog.
 - Complete PO form:
   * Copy and use PR form as basis.
-  * Generate from "Forms menu.
+  * Generate from "Forms menu. occurred.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl getting dist. codes for cost components.

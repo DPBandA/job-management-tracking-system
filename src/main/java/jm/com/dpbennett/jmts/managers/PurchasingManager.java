@@ -672,7 +672,7 @@ public class PurchasingManager implements Serializable {
                 getDateInMediumDateFormat(getSelectedPurchaseRequisition().getRequisitionDate());
         String description = getSelectedPurchaseRequisition().getDescription();
 
-        Utils.postMail(null,
+        Utils.postMail(null, null,
                 user,
                 email.getSubject().
                         replace("{action}", action).
