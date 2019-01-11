@@ -1,9 +1,4 @@
 # Purchasing (Financial Administration)
-- Use a PF field that validates the email address entered for an entity.
-  Make email entry mandatory.
-- Impl getEmailAddress() in employee class that uses the emloyee's username and
-  company domain if email1 id empty or null.
-- Show growl for successful/unsuccessful processing of PR actions. 
 - Impl "Tools" menu for general messages and for the PO to request approval from 
   someone who is able to approve a PR:
   * Finish implementing openRequestApprovalDialog() using an email template.
@@ -12,7 +7,7 @@
   * Impl request for approval dialog using the purchaseReqEmailDialog.
 - Complete PO form:
   * Copy and use PR form as basis.
-  * Generate from "Forms menu. occurred.
+  * Generate from "Forms menu.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl getting dist. codes for cost components.
