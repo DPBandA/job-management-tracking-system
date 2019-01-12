@@ -1,7 +1,9 @@
 # Purchasing (Financial Administration)
 - Impl "Tools" menu for general messages and for the PO to request approval from 
   someone who is able to approve a PR:
-  * Finish implementing openRequestApprovalDialog() using an email template.
+  * Impl PR email template.
+  * Finish implementing openRequestApprovalDialog() using PR email template.
+  * Finish implementing sendPurchaseReqEmail() using PR email template.
   * Modify add postMail method that accepts the "from user" as argument.
   * Impl purchaseReqEmailDialog.
   * Impl request for approval dialog using the purchaseReqEmailDialog.
