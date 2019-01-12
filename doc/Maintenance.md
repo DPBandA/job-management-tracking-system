@@ -140,6 +140,9 @@ in active ones.
 - Fundamentals of Human Resource Management, pg 19
 - Look up Java API for PeopleSoft HRM app.
 - Trim names entered via any dialog.
+- Do not make the entry of the email address mandatory in the employee dialog. Make
+  mandatory in the User dialog. This is so that the HR personnel is not forced 
+  know the email address of a new employee.
 
 ## Updates based on training, testing and feedback
 - The delete payment dialog text does not show in dark hive. Fix!
@@ -376,6 +379,8 @@ This release will be around early July.
 - Impl user preference to sync mainview tab with dashboard tab.
 - Create Field class with name, value, description fields to facilitate the adding of custom fields to
   a class.
+- Create the MarketProduct class and create the "Products" alongside the "Services"
+  tab to list the services and product a company offers.
 
 ## Job Edit & Synchronization
 - Create/maintain list of opened jobs in the Application class.

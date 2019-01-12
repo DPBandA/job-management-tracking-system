@@ -314,22 +314,44 @@ public class PurchasingManager implements Serializable {
         mainTabView.openTab("Purchase Requisitions");
     }
 
-    public void editPurchaseReqEmail() {
+    public void editPurchReqGeneralEmail() {
         PrimeFacesUtils.openDialog(null, "purchaseReqEmailDialog", true, true, true, false, 500, 625);
     }
 
-    public void openRequestApprovalDialog() {
-        System.out.println("Impl and open request approval dialog"); //tk
-        setPurchaseReqEmailSubject("Request for purchase requisition approval");
-        setPurchaseReqEmailContent("Dear Sir/Madam,\n"
-                + "You are kindly being requested to approve the purchase requisit");
+    public void openRequestApprovalEmailDialog() {
+        EntityManager em = getEntityManager1();
+        Email email = Email.findActiveEmailByName(em, "pr-gen-email-template");
 
-        editPurchaseReqEmail();
+        String prNum = getSelectedPurchaseRequisition().generateNumber();
+        String JMTSURL = (String) SystemOption.getOptionValueObject(em, "appURL");
+        String originator = getSelectedPurchaseRequisition().getOriginator().getFirstName()
+                + " " + getSelectedPurchaseRequisition().getOriginator().getLastName();
+        String department = getSelectedPurchaseRequisition().getOriginatingDepartment().getName();
+        String requisitionDate = BusinessEntityUtils.
+                getDateInMediumDateFormat(getSelectedPurchaseRequisition().getRequisitionDate());
+        String description = getSelectedPurchaseRequisition().getDescription();
+        String sender = getUser().getEmployee().getFirstName() + " " + 
+                        getUser().getEmployee().getLastName();
+      
+        setPurchaseReqEmailSubject(
+                email.getSubject().replace("{purchaseRequisitionNumber}", prNum));
+        setPurchaseReqEmailContent(
+                email.getContent("/correspondences/").
+                        replace("{JMTSURL}", JMTSURL).
+                        replace("{purchaseRequisitionNumber}", prNum).
+                        replace("{originator}", originator).
+                        replace("{department}", department).
+                        replace("{requisitionDate}", requisitionDate).
+                        replace("{action}", "approve").
+                        replace("{description}", description).
+                        replace("{sender}", sender));
+        
+        editPurchReqGeneralEmail();
     }
 
     public void openSendMessageDialog() {
         System.out.println("Impl send message dialog"); //tk
-        editPurchaseReqEmail();
+        editPurchReqGeneralEmail();
     }
 
     public void sendPurchaseReqEmail() {
