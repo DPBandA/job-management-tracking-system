@@ -114,6 +114,9 @@ public class PurchasingManager implements Serializable {
     }
 
     public List<Employee> getToEmployees() {
+        if (toEmployees == null) {
+            toEmployees = new ArrayList<>();
+        }
         return toEmployees;
     }
 
@@ -330,9 +333,10 @@ public class PurchasingManager implements Serializable {
         String requisitionDate = BusinessEntityUtils.
                 getDateInMediumDateFormat(getSelectedPurchaseRequisition().getRequisitionDate());
         String description = getSelectedPurchaseRequisition().getDescription();
-        String sender = getUser().getEmployee().getFirstName() + " " + 
-                        getUser().getEmployee().getLastName();
-      
+        String sender = getUser().getEmployee().getFirstName() + " "
+                + getUser().getEmployee().getLastName();
+
+        getToEmployees().clear();
         setPurchaseReqEmailSubject(
                 email.getSubject().replace("{purchaseRequisitionNumber}", prNum));
         setPurchaseReqEmailContent(
@@ -345,17 +349,54 @@ public class PurchasingManager implements Serializable {
                         replace("{action}", "approve").
                         replace("{description}", description).
                         replace("{sender}", sender));
-        
+
         editPurchReqGeneralEmail();
     }
 
-    public void openSendMessageDialog() {
-        System.out.println("Impl send message dialog"); //tk
+    public void openSendEmailDialog() {
+        getToEmployees().clear();
+        setPurchaseReqEmailSubject("");
+        setPurchaseReqEmailContent("");
+
         editPurchReqGeneralEmail();
     }
 
-    public void sendPurchaseReqEmail() {
-        System.out.println("Sending PR email..."); //tk
+    public void sendGeneralPurchaseReqEmail() {
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    EntityManager em = getEntityManager1();
+                    Email email = Email.findActiveEmailByName(em, "pr-gen-email-template");
+
+                    for (Employee toEmployee : getToEmployees()) {
+                        JobManagerUser toEmployeeUser
+                                = JobManagerUser.findActiveJobManagerUserByEmployeeId(
+                                        em, toEmployee.getId());
+
+                        Utils.postMail(null,
+                                getUser().getEmployee(),
+                                toEmployeeUser,
+                                getPurchaseReqEmailSubject(),
+                                getPurchaseReqEmailContent().
+                                        replace("{title}",
+                                                user.getEmployee().getTitle()).
+                                        replace("{surname}",
+                                                user.getEmployee().getLastName()).
+                                        replace("{role}", toEmployee.getPositions().get(0).getTitle()),
+                                email.getContentType(),
+                                em);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error sending PR email(s): " + e);
+                }
+            }
+
+        }.start();
+
+        closeDialog();
+
     }
 
     /**
@@ -635,6 +676,7 @@ public class PurchasingManager implements Serializable {
         EntityManager em = getEntityManager1();
 
         for (Employee approver : getSelectedPurchaseRequisition().getApprovers()) {
+
             JobManagerUser approverUser
                     = JobManagerUser.findActiveJobManagerUserByEmployeeId(
                             em, approver.getId());

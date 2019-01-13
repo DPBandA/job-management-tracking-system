@@ -42,7 +42,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Send"
-                                     actionListener="#{purchasingManager.sendPurchaseReqEmail}"
+                                     actionListener="#{purchasingManager.sendGeneralPurchaseReqEmail}"
                                      onstart="PF('longProcessDialogVar4').show();"
                                      oncomplete="PF('longProcessDialogVar4').hide();"
                                      icon="ui-icon-mail-closed"
@@ -74,6 +74,8 @@ Email: info@dpbennett.com.jm
                                     converter="activeEmployeeConverter"
                                     forceSelection="true"                                    
                                     dropdown="true"
+                                    required="true"
+                                    requiredMessage="Email recipients required"
                                     scrollHeight="200"                         
                                     multiple="true"
                                     completeMethod="#{humanResourceManager.completeActiveEmployee}" />
@@ -110,7 +112,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Send"
-                                     actionListener="#{purchasingManager.sendPurchaseReqEmail}"
+                                     actionListener="#{purchasingManager.sendGeneralPurchaseReqEmail}"
                                      onstart="PF('longProcessDialogVar4').show();"
                                      oncomplete="PF('longProcessDialogVar4').hide();"
                                      icon="ui-icon-mail-closed"

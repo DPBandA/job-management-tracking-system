@@ -1,8 +1,4 @@
 # Purchasing (Financial Administration)
-- Impl "Tools" menu for general messages and for the PO to request approval from 
-  someone who is able to approve a PR:
-  * Finish implementing openRequestApprovalDialog() using PR email template.
-  * Finish implementing sendPurchaseReqEmail() using PR email template.
 - Complete PO Jasper form:
   * Copy and use PR form as basis.
   * Generate from "Forms menu.
