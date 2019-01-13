@@ -3,6 +3,7 @@
   * Copy and use PR form as basis.
   * Generate from "Forms menu.
 - Allow only the PO and fin admin to export pr and po forms.
+- Select priority code C the default when creating a purhase req.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl getting dist. codes for cost components.
