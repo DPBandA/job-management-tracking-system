@@ -32,6 +32,7 @@
 - Remove the default values from all parameters.
 - Impl feature to send PO to supplier.
 - Create email template for email requesting PR approval and remove from hard code.
+- Make purchaseReqPriorityCodes (A,B,C) a system option.
   
 
 ### PR Module 
