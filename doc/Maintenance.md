@@ -33,8 +33,9 @@
 - Impl feature to send PO to supplier.
 - Create email template for email requesting PR approval and remove from hard code.
 - Make purchaseReqPriorityCodes (A,B,C) a system option.
+- Add a "Purchase Order" tab that allows entry of information for the PO such as 
+  terms. Add the required fields to the PR class.
   
-
 ### PR Module 
 - Pull cost codes from Accpac.
 - The "on hand now" field to the PR should link to inventory.
