@@ -1,8 +1,6 @@
 # Maintenance Tasks
 
 ## Financial Administration
-- For PO form get the terms and conditions from the printed form and place after
-  the page break in the jasper form.
 - Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
 - Create deduction class. Add name, type, threshold, thresholdType, percentage fields.
 - Make Purchasing a module Financial Services . Delete the Purchasing app from github for now?
