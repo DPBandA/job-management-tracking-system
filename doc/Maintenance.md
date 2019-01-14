@@ -88,6 +88,7 @@
 
 ## Documentation
 - Update JMTS user manual
+- Document templates variables such as {role} which is used in email templates.
 
 ## Reports
 - Do other client report template and upload.
