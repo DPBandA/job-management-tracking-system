@@ -2,6 +2,8 @@
 - Complete PO Jasper form:
   * Copy and use PR form as basis.
   * Generate from "Forms menu.
+- For PO form get the terms and conditions from the printed form and place after
+  the page break in the jasper form.
 - Allow only the PO and fin admin to export pr and po forms.
 - Select priority code C the default when creating a purhase req.
 
