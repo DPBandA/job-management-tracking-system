@@ -566,7 +566,7 @@ public class PurchasingManager implements Serializable {
         StreamedContent streamContent = null;
 
         try {
-            
+
             streamContent = getPurchaseOrderStreamContent(getEntityManager1());
             getFinanceManager().setLongProcessProgress(100);
 
@@ -577,7 +577,7 @@ public class PurchasingManager implements Serializable {
 
         return streamContent;
     }
-    
+
     public StreamedContent getPurchaseOrderStreamContent(EntityManager em) {
 
         HashMap parameters = new HashMap();
@@ -593,11 +593,21 @@ public class PurchasingManager implements Serializable {
                     .getSupplier().getDefaultAddress().getAddressLine2());
             parameters.put("suggestedSupplier", getSelectedPurchaseRequisition()
                     .getSupplier().getName());
-           
+
+            parameters.put("shippingInstructions", "");
+            parameters.put("terms", "CREDIT");
+            parameters.put("originatingDeptCode",
+                    getSelectedPurchaseRequisition().getOriginatingDepartment().getCode());
+            parameters.put("importLicenceNo", "");
+            parameters.put("deliveryDateRequired", "");
+            parameters.put("pleaseSupply", "");
+            parameters.put("importLicenseDate", "");
+            parameters.put("quotation Number", "");
+
             parameters.put("requisitionDate",
                     BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
                             getRequisitionDate()));
-           
+
             parameters.put("procurementOfficer", getSelectedPurchaseRequisition()
                     .getProcurementOfficer().getFirstName() + " "
                     + getSelectedPurchaseRequisition()
@@ -642,7 +652,7 @@ public class PurchasingManager implements Serializable {
             return null;
         }
 
-    }    
+    }
 
     public void updatePurchaseReq(AjaxBehaviorEvent event) {
         getSelectedPurchaseRequisition().setIsDirty(true);
