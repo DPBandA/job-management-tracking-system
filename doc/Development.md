@@ -1,5 +1,5 @@
 # Purchasing (Financial Administration)
-- 
+- Editing supplier in the PR dialog does not seem to work. Fix.
 - Complete PO Jasper form:
   * Set all parameters before exporting.
   * Change parameter quotation Number to quotationNumber.
