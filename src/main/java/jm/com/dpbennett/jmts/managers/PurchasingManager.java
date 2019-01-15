@@ -568,11 +568,11 @@ public class PurchasingManager implements Serializable {
         try {
             
             streamContent = getPurchaseOrderStreamContent(getEntityManager1());
-            setLongProcessProgress(100);
+            getFinanceManager().setLongProcessProgress(100);
 
         } catch (Exception e) {
             System.out.println(e);
-            setLongProcessProgress(0);
+            getFinanceManager().setLongProcessProgress(0);
         }
 
         return streamContent;

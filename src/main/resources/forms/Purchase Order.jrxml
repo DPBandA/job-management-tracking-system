@@ -333,6 +333,10 @@ WHERE
 								<reportElement x="0" y="0" width="40" height="22" uuid="dd33ffe4-279f-4a34-8ce0-3ea6f3ee59bc"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0" lineColor="#003366"/>
+									<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+									<leftPen lineWidth="1.0" lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+									<rightPen lineWidth="1.0" lineColor="#FFFFFF"/>
 								</box>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[$V{itemNum}]]></textFieldExpression>
@@ -470,7 +474,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="22">
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-								<reportElement stretchType="ContainerBottom" mode="Opaque" x="0" y="0" width="60" height="22" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="df961954-2953-484c-aa48-6622162cffb6"/>
+								<reportElement stretchType="ContainerBottom" mode="Transparent" x="0" y="0" width="60" height="22" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="df961954-2953-484c-aa48-6622162cffb6"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0" lineColor="#003366"/>
 								</box>
@@ -497,7 +501,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="22">
 							<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-								<reportElement stretchType="ContainerBottom" mode="Opaque" x="0" y="0" width="71" height="22" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="7e6aec7b-74c6-4de0-baba-39dff5c7ca94"/>
+								<reportElement stretchType="ContainerBottom" mode="Transparent" x="0" y="0" width="71" height="22" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="7e6aec7b-74c6-4de0-baba-39dff5c7ca94"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0" lineColor="#003366"/>
 								</box>
@@ -862,7 +866,7 @@ WHERE
 				</reportElement>
 			</break>
 			<staticText>
-				<reportElement mode="Transparent" x="382" y="322" width="90" height="11" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="a204d875-588a-4931-92d1-99ab4345ca07"/>
+				<reportElement positionType="Float" mode="Transparent" x="382" y="322" width="90" height="11" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="a204d875-588a-4931-92d1-99ab4345ca07"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -874,7 +878,7 @@ WHERE
 				<text><![CDATA[For and on behalf of]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="382" y="342" width="188" height="15" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="b349dda4-08a4-4210-bf1f-05d432b8a4ec"/>
+				<reportElement positionType="Float" mode="Transparent" x="382" y="342" width="188" height="15" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="b349dda4-08a4-4210-bf1f-05d432b8a4ec"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -886,7 +890,7 @@ WHERE
 				<text><![CDATA[BUREAU OF STANDARDS]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Transparent" x="382" y="357" width="188" height="32" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="1db3bb3a-67d3-45a2-8424-e58fd5dc24d6"/>
+				<reportElement positionType="Float" mode="Transparent" x="382" y="357" width="188" height="32" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="1db3bb3a-67d3-45a2-8424-e58fd5dc24d6"/>
 				<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineColor="#003366"/>
 					<topPen lineWidth="0.0"/>
@@ -900,7 +904,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{procurementOfficer}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="30" y="322" width="110" height="35" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="49df2f7e-3914-432c-8617-89619cb28e33"/>
+				<reportElement positionType="Float" mode="Transparent" x="30" y="322" width="110" height="35" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="49df2f7e-3914-432c-8617-89619cb28e33"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0"/>

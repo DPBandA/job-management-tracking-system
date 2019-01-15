@@ -1,6 +1,6 @@
 # Purchasing (Financial Administration)
 - Complete PO Jasper form:
-  * Copy and use PR form as basis.
+  * Impl getPurchaseOrderNumber.
   * Generate from "Forms menu.
 - Add a "Order" tab that allows entry of information for the PO such as 
   terms. Add the required fields to the PR class.
