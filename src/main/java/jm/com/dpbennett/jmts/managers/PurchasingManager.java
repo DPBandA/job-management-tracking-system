@@ -566,9 +566,8 @@ public class PurchasingManager implements Serializable {
         StreamedContent streamContent = null;
 
         try {
-
-            // tk impl get PO form
-            //streamContent = getContractManager().getServiceContractStreamContent();
+            
+            streamContent = getPurchaseOrderStreamContent(getEntityManager1());
             setLongProcessProgress(100);
 
         } catch (Exception e) {
@@ -578,6 +577,72 @@ public class PurchasingManager implements Serializable {
 
         return streamContent;
     }
+    
+    public StreamedContent getPurchaseOrderStreamContent(EntityManager em) {
+
+        HashMap parameters = new HashMap();
+
+        try {
+            parameters.put("prId", getSelectedPurchaseRequisition().getId());
+
+            parameters.put("purchReqNo", getSelectedPurchaseRequisition().getNumber());
+            parameters.put("purchaseOrderNo", getSelectedPurchaseRequisition().getPurchaseOrderNumber());
+            parameters.put("addressLine1", getSelectedPurchaseRequisition()
+                    .getSupplier().getDefaultAddress().getAddressLine1());
+            parameters.put("addressLine2", getSelectedPurchaseRequisition()
+                    .getSupplier().getDefaultAddress().getAddressLine2());
+            parameters.put("suggestedSupplier", getSelectedPurchaseRequisition()
+                    .getSupplier().getName());
+           
+            parameters.put("requisitionDate",
+                    BusinessEntityUtils.getDateInMediumDateFormat(getSelectedPurchaseRequisition().
+                            getRequisitionDate()));
+           
+            parameters.put("procurementOfficer", getSelectedPurchaseRequisition()
+                    .getProcurementOfficer().getFirstName() + " "
+                    + getSelectedPurchaseRequisition()
+                            .getProcurementOfficer().getLastName());
+            parameters.put("totalCost", getSelectedPurchaseRequisition().getTotalCost());
+
+            Connection con = BusinessEntityUtils.establishConnection(
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseURL"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabaseUsername"),
+                    (String) SystemOption.getOptionValueObject(em, "defaultDatabasePassword"));
+
+            if (con != null) {
+                try {
+                    StreamedContent streamedContent;
+
+                    JasperReport jasperReport = JasperCompileManager
+                            .compileReport((String) SystemOption.getOptionValueObject(em, "purchaseOrder"));
+
+                    JasperPrint print = JasperFillManager.fillReport(
+                            jasperReport,
+                            parameters,
+                            con);
+
+                    byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
+
+                    streamedContent = new DefaultStreamedContent(new ByteArrayInputStream(fileBytes),
+                            "application/pdf", "Purchase Order - " + getSelectedPurchaseRequisition().getPurchaseOrderNumber() + ".pdf");
+
+                    setLongProcessProgress(100);
+
+                    return streamedContent;
+
+                } catch (JRException e) {
+                    System.out.println("Error compiling purchase order: " + e);
+                }
+            }
+
+            return null;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+
+    }    
 
     public void updatePurchaseReq(AjaxBehaviorEvent event) {
         getSelectedPurchaseRequisition().setIsDirty(true);
