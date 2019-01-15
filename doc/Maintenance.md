@@ -1,6 +1,7 @@
 # Maintenance Tasks
 
 ## Financial Administration
+- Create service contract as jasper report and add feature to generate blank form.
 - Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
 - Create deduction class. Add name, type, threshold, thresholdType, percentage fields.
 - Make Purchasing a module Financial Services . Delete the Purchasing app from github for now?
