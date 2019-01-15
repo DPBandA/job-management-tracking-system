@@ -6,8 +6,18 @@
   terms. Add the required fields to the PR class.
 - For PO form get the terms and conditions from the printed form and place after
   the page break in the jasper form.
-- Allow only the PO and fin admin to export pr and po forms.
-- Select priority code C the default when creating a purhase req.
+- Use "Regular" and "Urgent" as priority codes.
+- Allow only the PO to cancell a PR once it is saved.
+- Add a default of 2 weeks to the date when the PR is fully approved (2 or 3 approvals) 
+to arrive at the default "Expected date of completion". Allow changing this default period
+in fin options.
+- Set the limit in fin otions when a PR needs to go to procurement. 1.5M is the current limit.
+show an alert when the total cost exceeds this limit. Put a note in the status note section
+stating that the limit was exceeded.
+- Send automatic email to persons that can approve the PR based on the criteria given by Rohan Anderson.
+  Note only persons in the originator's division should get this email.
+- Add the total amount to the PR emails templates.
+- Send automatic PR emails to admin assistant of a department/division.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl getting dist. codes for cost components.
