@@ -19,6 +19,8 @@ stating that the limit was exceeded.
   Note only persons in the originator's division should get this email.
 - Add the total amount to the PR emails templates.
 - Send automatic PR emails to admin assistant of a department/division.
+- Implement selecting the currency in the costcomponent. Implement "Currency"/ entity class to faciliate 
+conversion between currencies using static methods. Currency class should have the ISO symbol and abbreviation.
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl getting dist. codes for cost components.
