@@ -32,8 +32,7 @@
   when exported to PDF on Linux. See if it is the same on Windows.
 - Remove the default values from all parameters.
 - Impl feature to send PO to supplier.
-- Create email template for email requesting PR approval and remove from hard code.
-- Make purchaseReqPriorityCodes (A,B,C) a system option.
+- Impl editing cost components in the table in the PR dialog.
   
 ### Purchasing Module 
 - Pull cost codes from Accpac.
