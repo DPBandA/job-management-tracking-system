@@ -35,7 +35,7 @@
 - Create email template for email requesting PR approval and remove from hard code.
 - Make purchaseReqPriorityCodes (A,B,C) a system option.
   
-### PR Module 
+### Purchasing Module 
 - Pull cost codes from Accpac.
 - The "on hand now" field to the PR should link to inventory.
 - Link to Accpac and do budget allocation.Canceling a PR/PO should reverse 
@@ -49,6 +49,7 @@
   autocomplete component with A, B, C to indicate priority for now.
 - Indicate the number of approvals in the email template?
 - Add the supplier address to the PR and PO form.
+- Do proposal to get cost codes, budgets and suppliers from Accpac.
 
 ### Inventory
 - Get more details then start app development.
