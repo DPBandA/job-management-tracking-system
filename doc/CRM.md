@@ -52,3 +52,17 @@ code.
 ### Evaluating Software and Consultants
 - The traditional CRM “suite” includes features to support three front-office business functions: marketing, sales, and customer service.
 - The promised value of the full CRM suite, aside from the value derived within each department from the application’s features, is the information sharing that it can foster across departments. Such sharing is necessary if the organization is going to present a single face to the customer.
+### Design
+- Application alignment: An item that we will discuss later in the
+chapter is the alignment of your application with your
+organization’s business processes. One of the largest CRM
+implementation gotchas is allowing the technology to drive usage
+scenarios and business process. Defining your process up front will
+enable you to ensure that your implementation team, including
+vendors, are working diligently toward making the application
+meet your business processes and not the technology’s process.
+- Process updates: Analyzing your processes up front will enable your
+team to review those processes and determine whether they are
+appropriate for the company moving forward. Spending time to
+review how each process might change or be made better will again
+allow you to make sure the application will meet those needs.
