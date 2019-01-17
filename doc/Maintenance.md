@@ -236,3 +236,9 @@ separate projects using maven overlays.
 - Impl giving privileges to specific tabs in sys admin such as hrm.
 - Use uneditable greyed input text to display uneditable date field instead of 
   calendar component sin
+- Checkout what causes this error to occure: javax.persistence.RollbackException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.3.2.v20111125-r10461): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: com.mysql.jdbc.MysqlDataTruncation: Data truncation: Data too long for column 'COMMENT' at row 1
+Error Code: 1406
+Call: UPDATE job SET COMMENT = ?, JOBNUMBER = ?, JOBSEQUENCENUMBER = ? WHERE (ID = ?)
+        bind => [4 parameters bound]
+Query: UpdateObjectQuery(1514057)
