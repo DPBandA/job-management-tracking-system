@@ -21,6 +21,7 @@ stating that the limit was exceeded.
 - Send automatic PR emails to admin assistant of a department/division.
 - Implement selecting the currency in the costcomponent. Implement "Currency"/ entity class to faciliate 
 conversion between currencies using static methods. Currency class should have the ISO symbol and abbreviation.
+- Implement adding links to attachments
 
 # Accpac Invoicing & Credit Status Reporting
 - Impl getting dist. codes for cost components.
