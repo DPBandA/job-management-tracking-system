@@ -66,3 +66,4 @@ team to review those processes and determine whether they are
 appropriate for the company moving forward. Spending time to
 review how each process might change or be made better will again
 allow you to make sure the application will meet those needs.
+- Add Prospect entity class as and entity that is being converted to a Client.
