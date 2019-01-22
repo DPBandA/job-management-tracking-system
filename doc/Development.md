@@ -1,28 +1,3 @@
-# Purchasing (Financial Administration)
-- Editing supplier in the PR dialog does not seem to work. Fix.
-- Complete PO Jasper form:
-  * Set all parameters before exporting.
-  * Change parameter quotation Number to quotationNumber.
-- Add a "Order" tab that allows entry of information for the PO such as 
-  terms. Add the required fields to the PR class.
-- For PO form get the terms and conditions from the printed form and place after
-  the page break in the jasper form.
-- Use "Regular" and "Urgent" as priority codes.
-- Allow only the PO to cancell a PR once it is saved.
-- Add a default of 2 weeks to the date when the PR is fully approved (2 or 3 approvals) 
-to arrive at the default "Expected date of completion". Allow changing this default period
-in fin options.
-- Set the limit in fin otions when a PR needs to go to procurement. 1.5M is the current limit.
-show an alert when the total cost exceeds this limit. Put a note in the status note section
-stating that the limit was exceeded.
-- Send automatic email to persons that can approve the PR based on the criteria given by Rohan Anderson.
-  Note only persons in the originator's division should get this email.
-- Add the total amount to the PR emails templates.
-- Send automatic PR emails to admin assistant of a department/division.
-- Implement selecting the currency in the costcomponent. Implement "Currency"/ entity class to faciliate 
-conversion between currencies using static methods. Currency class should have the ISO symbol and abbreviation.
-- Implement adding links to attachments
-
 # Accpac Invoicing & Credit Status Reporting
 - Setup up accpac database locally.
 - Impl getting dist. codes for cost components.
@@ -49,6 +24,32 @@ conversion between currencies using static methods. Currency class should have t
 - Add sys option that determines if the accpac invoices spreadsheet is to be
   exported. Add user preference to export invoices when "Invoice" button is pressed?
 - Put the name of the approver on the job costing.
+- Test Accpac credit status feature in light of the changes made to AccPacCustomer.
+
+# Purchasing (Financial Administration)
+- Editing supplier in the PR dialog does not seem to work. Fix.
+- Complete PO Jasper form:
+  * Set all parameters before exporting.
+  * Change parameter quotation Number to quotationNumber.
+- Add a "Order" tab that allows entry of information for the PO such as 
+  terms. Add the required fields to the PR class.
+- For PO form get the terms and conditions from the printed form and place after
+  the page break in the jasper form.
+- Use "Regular" and "Urgent" as priority codes.
+- Allow only the PO to cancell a PR once it is saved.
+- Add a default of 2 weeks to the date when the PR is fully approved (2 or 3 approvals) 
+to arrive at the default "Expected date of completion". Allow changing this default period
+in fin options.
+- Set the limit in fin otions when a PR needs to go to procurement. 1.5M is the current limit.
+show an alert when the total cost exceeds this limit. Put a note in the status note section
+stating that the limit was exceeded.
+- Send automatic email to persons that can approve the PR based on the criteria given by Rohan Anderson.
+  Note only persons in the originator's division should get this email.
+- Add the total amount to the PR emails templates.
+- Send automatic PR emails to admin assistant of a department/division.
+- Implement selecting the currency in the costcomponent. Implement "Currency"/ entity class to faciliate 
+conversion between currencies using static methods. Currency class should have the ISO symbol and abbreviation.
+- Implement adding links to attachments
 
 # Database update and deployment
 - Add "pr-email-template" to system.

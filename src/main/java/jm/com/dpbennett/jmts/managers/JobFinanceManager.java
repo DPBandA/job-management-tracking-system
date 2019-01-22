@@ -2045,9 +2045,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
         if (accPacCustomer != null) {
             if (getShowPrepayments()) {
-                filteredAccPacCustomerDocuments = AccPacDocument.findAccPacInvoicesDueByCustomerId(em, accPacCustomer.getId(), true);
+                filteredAccPacCustomerDocuments = AccPacDocument.findAccPacInvoicesDueByCustomerId(em, accPacCustomer.getIdCust(), true);
             } else {
-                filteredAccPacCustomerDocuments = AccPacDocument.findAccPacInvoicesDueByCustomerId(em, accPacCustomer.getId(), false);
+                filteredAccPacCustomerDocuments = AccPacDocument.findAccPacInvoicesDueByCustomerId(em, accPacCustomer.getIdCust(), false);
             }
         } else {
             createNewAccPacCustomer();
@@ -2064,15 +2064,15 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         } else {
             accPacCustomer = new AccPacCustomer(null);
         }
-        accPacCustomer.setId(null);
+        accPacCustomer.setIdCust(null);
         filteredAccPacCustomerDocuments = new ArrayList<>();
     }
 
     public String getAccPacCustomerID() {
-        if (accPacCustomer.getId() == null) {
+        if (accPacCustomer.getIdCust() == null) {
             return "";
         } else {
-            return accPacCustomer.getId();
+            return accPacCustomer.getIdCust();
         }
     }
 
