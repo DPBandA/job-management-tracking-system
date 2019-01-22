@@ -24,6 +24,7 @@ conversion between currencies using static methods. Currency class should have t
 - Implement adding links to attachments
 
 # Accpac Invoicing & Credit Status Reporting
+- Setup up accpac database locally.
 - Impl getting dist. codes for cost components.
 - Impl exporting Excel file using "Invoice" button. The records must be
   must be checked to see if they can be exported first eg the client id is valid.
