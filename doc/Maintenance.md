@@ -58,6 +58,7 @@
 - Remove the default values from all parameters.
 - Impl feature to send PO to supplier.
 - Impl editing cost components in the table in the PR dialog.
+- Use PrimeFaces TreeTable to create an accounting system like GnuCash.
   
 ### Purchasing Module 
 - Pull cost codes from Accpac.
