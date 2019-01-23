@@ -3,6 +3,8 @@
 ## Reports
 - Report on total earnings for a department for a specific period. 
   First see if there is a report that gives this info. 
+- Allow searching for jobs by a specific department. This should be allowed
+for persons with "General" search privilege.
 - Do other client report template and upload.
 - Impl new service contract and agreement.
 - Do report for jobs not approved and incomplete up to 2017.
