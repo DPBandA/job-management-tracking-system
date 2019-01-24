@@ -1,41 +1,5 @@
 # Tasks
 
-## General
-- Create service contract as jasper report and add feature to generate blank form.
-- Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
-- Create deduction class. Add name, type, threshold, thresholdType, percentage fields.
-- Make Purchasing a module Financial Services . Delete the Purchasing app from github for now?
-- Implement Payroll class to have a Pay collection field, date, creator, etc. 
-  The Pay class should have employee, salary, net salary, date, taxes etc.
-- Use phone scanner app to scan front and back cover of books and documents.
-  Throw away as many documents as possible.
-- Open the purchase req tab by default for now but allow user to choose which tab
-  to open by default for financial admin module.
-- Add as system option the positions that are allowed to approve a PR. Check 
-  that an approver has one of these positions before allowing them to approve.
-- Impl search for PR and supplier as is done in fin admin dashboard.
-- Do not save supplier or PR if they were not edited.
-- Include the updates done to PR in the email.
-- Do not allow export of job costing from until it is approved?
-- Add feature allow sending email from the PR dialog or PRs table to stakeholders. 
-  This feature could be activated for procurement officers only.
-- Add job costing and purchase requisition forms to the Form templates tab in 
-  Business entities tab and stop using system options to get the files. 
-- Fix up PR jasper form by removing the overlapping line and put in missing borders.
-- Values that are 0 set them n/a in the PR form and change the corresponding 
-  parameter types to String.
-- Make sure that more than one person with the same position cannot approve PR.
-- Take the approvers section out of the page footer of the PR form and put it
-  at the end of the report.
-- Make the PO box the same width as the Rate and Cost column heading width combined.
-- Right justing the total cost in the PR form.
-- Centre "Suggested Supplier:" static text with the text field. It is not centred
-  when exported to PDF on Linux. See if it is the same on Windows.
-- Remove the default values from all parameters.
-- Impl feature to send PO to supplier.
-- Impl editing cost components in the table in the PR dialog.
-- Use PrimeFaces TreeTable to create an accounting system like GnuCash.
-
 ## Accpac Invoicing & Credit Status Reporting
 - Impl new service contract and agreement using Jasper Reports.
 - Setup up and test accpac database locally.
@@ -66,7 +30,7 @@
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
 
 ## Purchasing Module 
-- Editing supplier in the PR dialog does not seem to work. Fix.
+- Adding/Editing supplier in the PR dialog does not seem to work. Fix.
 - Complete PO Jasper form:
   * Set all parameters before exporting.
   * Change parameter quotation Number to quotationNumber.
@@ -103,6 +67,42 @@ conversion between currencies using static methods. Currency class should have t
 - Indicate the number of approvals in the email template?
 - Add the supplier address to the PR and PO form.
 - Do proposal to get cost codes, budgets and suppliers from Accpac.
+
+## General
+- Create service contract as jasper report and add feature to generate blank form.
+- Create Tax class. Add name, type, threshold, thresholdType, fixed, percentage,fields.
+- Create deduction class. Add name, type, threshold, thresholdType, percentage fields.
+- Make Purchasing a module Financial Services . Delete the Purchasing app from github for now?
+- Implement Payroll class to have a Pay collection field, date, creator, etc. 
+  The Pay class should have employee, salary, net salary, date, taxes etc.
+- Use phone scanner app to scan front and back cover of books and documents.
+  Throw away as many documents as possible.
+- Open the purchase req tab by default for now but allow user to choose which tab
+  to open by default for financial admin module.
+- Add as system option the positions that are allowed to approve a PR. Check 
+  that an approver has one of these positions before allowing them to approve.
+- Impl search for PR and supplier as is done in fin admin dashboard.
+- Do not save supplier or PR if they were not edited.
+- Include the updates done to PR in the email.
+- Do not allow export of job costing from until it is approved?
+- Add feature allow sending email from the PR dialog or PRs table to stakeholders. 
+  This feature could be activated for procurement officers only.
+- Add job costing and purchase requisition forms to the Form templates tab in 
+  Business entities tab and stop using system options to get the files. 
+- Fix up PR jasper form by removing the overlapping line and put in missing borders.
+- Values that are 0 set them n/a in the PR form and change the corresponding 
+  parameter types to String.
+- Make sure that more than one person with the same position cannot approve PR.
+- Take the approvers section out of the page footer of the PR form and put it
+  at the end of the report.
+- Make the PO box the same width as the Rate and Cost column heading width combined.
+- Right justing the total cost in the PR form.
+- Centre "Suggested Supplier:" static text with the text field. It is not centred
+  when exported to PDF on Linux. See if it is the same on Windows.
+- Remove the default values from all parameters.
+- Impl feature to send PO to supplier.
+- Impl editing cost components in the table in the PR dialog.
+- Use PrimeFaces TreeTable to create an accounting system like GnuCash.
 
 ## Database update and deployment
 - Add "pr-email-template" to system.
