@@ -1,4 +1,15 @@
-# Customer Relationship Management
+# Tasks
+- Put isNameAndIdEditable as transient in Client class and get rid of 
+  use of isNameAndIdEditable.
+- Add identification and identificationType to Client class.
+- Create MarketingCampaign class to capture telemarketing and other types of 
+  marketing campaigns. Add Telemarketing (check spelling) as one type of marketing campaign.
+- Add menu buttons in client dialog general tab to add/edit most recent address or contact.
+- Where does the marketing process start?
+- How should knowledge management be incorporated?
+- Add dialog return to "Client Management" menu item.
+
+# Customer Relationship Management R&D
 
 ## Introduction
 
