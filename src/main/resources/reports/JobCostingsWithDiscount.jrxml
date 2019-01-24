@@ -89,7 +89,7 @@ GROUP BY
 	<title>
 		<band height="97" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="30" width="826" height="24" uuid="e7b3e603-6a90-490d-b930-2d05c7f366a6"/>
+				<reportElement x="0" y="30" width="270" height="24" uuid="e7b3e603-6a90-490d-b930-2d05c7f366a6"/>
 				<textElement textAlignment="Left" markup="none">
 					<font size="16" isBold="true"/>
 				</textElement>

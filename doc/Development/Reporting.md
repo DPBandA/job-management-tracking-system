@@ -24,3 +24,5 @@ for persons with "General" search privilege.
   other reports.
 - Add test and calibration values to monthly report Excel spreadsheet.
 - Do Mechanical Dept monthly report as possible sample for other reports.
+- Try to get the most recent jasper reports library ( >= 6.6.0) and use it with maven.
+  The may lead to better exporting of reports to Excel as is done in JR Studio.

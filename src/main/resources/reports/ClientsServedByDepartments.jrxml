@@ -4,6 +4,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BSJ JMTS MySQL"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -93,20 +94,38 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="66" splitType="Stretch">
-			<textField isStretchWithOverflow="true" pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="30" width="1691" height="21" uuid="467a70a7-176a-427c-8ac5-a6991ed93cf7"/>
-				<textElement>
-					<font fontName="SansSerif" size="18"/>
+		<band height="83" splitType="Stretch">
+			<image>
+				<reportElement x="1" y="8" width="170" height="42" uuid="e894b147-90b7-4b92-95e8-5684b75f68cb"/>
+				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="190" y="2" width="490" height="24" uuid="0a9de776-2460-4a31-bf48-236571763bba"/>
+				<textElement textAlignment="Left" markup="none">
+					<font size="18" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Clients Served by Departments (January 2018)"]]></textFieldExpression>
+				<text><![CDATA[Clients Served by Departments]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement x="190" y="27" width="113" height="29" isRemoveLineWhenBlank="true" uuid="1ad2b5ad-1b45-4d16-82e4-e00083a0e8ca"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="0" y="0" width="1691" height="30" uuid="0170e003-fd27-47ac-92c5-37799a677a25"/>
+			<staticText>
+				<reportElement x="303" y="27" width="24" height="29" isRemoveLineWhenBlank="true" uuid="9820eb5b-2280-432d-a159-5731c6b937dd"/>
 				<textElement>
-					<font fontName="SansSerif" size="22"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Bureau of Standards Jamaica"]]></textFieldExpression>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement x="332" y="27" width="178" height="29" isRemoveLineWhenBlank="true" uuid="75423a7c-1132-4046-b08c-161a182ac93c"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
