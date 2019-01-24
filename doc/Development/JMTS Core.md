@@ -93,3 +93,4 @@ Error Code: 1406
 Call: UPDATE job SET COMMENT = ?, JOBNUMBER = ?, JOBSEQUENCENUMBER = ? WHERE (ID = ?)
         bind => [4 parameters bound]
 Query: UpdateObjectQuery(1514057)
+- Impl the submission of issues and feedback within the JMTS. Github issue tracking system could be used in the backend.
