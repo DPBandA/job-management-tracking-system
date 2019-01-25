@@ -4,7 +4,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BSJ JMTS MySQL"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -88,7 +88,7 @@ GROUP BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="113" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="5" width="826" height="36" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
 				<textElement textAlignment="Left" markup="none">
@@ -97,26 +97,33 @@ GROUP BY
 				<text><![CDATA[Bureau of Standards Jamaica]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="0" y="41" width="138" height="29" uuid="28e170c0-3a2f-4fc1-8286-56d5206caf1d"/>
+				<reportElement x="0" y="72" width="178" height="29" uuid="28e170c0-3a2f-4fc1-8286-56d5206caf1d"/>
 				<textElement>
 					<font fontName="Arial" size="22" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="138" y="41" width="24" height="29" uuid="db897ea0-298c-4557-a1bd-3ba82fc68326"/>
+				<reportElement x="178" y="72" width="39" height="29" uuid="db897ea0-298c-4557-a1bd-3ba82fc68326"/>
 				<textElement>
 					<font fontName="Arial" size="22" isBold="true"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="162" y="41" width="178" height="29" uuid="14e35e48-cc2f-404f-a176-9d25c491f95d"/>
+				<reportElement x="217" y="72" width="178" height="29" uuid="14e35e48-cc2f-404f-a176-9d25c491f95d"/>
 				<textElement>
 					<font fontName="Arial" size="22" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="41" width="395" height="30" forecolor="#000033" uuid="b5e987cd-af91-477f-8e63-ac8ba7f1b86d"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job Costings and Approvals]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -125,56 +132,56 @@ GROUP BY
 	<columnHeader>
 		<band height="23" splitType="Stretch">
 			<staticText>
-				<reportElement style="Column header" x="0" y="0" width="164" height="23" forecolor="#000000" uuid="8144f9ca-43c1-4c98-8e9b-d1e5e55d376d"/>
+				<reportElement x="0" y="0" width="164" height="23" forecolor="#000000" uuid="8144f9ca-43c1-4c98-8e9b-d1e5e55d376d"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Job number]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="164" y="0" width="133" height="23" forecolor="#000000" uuid="8f43d481-ce38-47ff-8a2c-74c3737c6227"/>
+				<reportElement x="164" y="0" width="133" height="23" forecolor="#000000" uuid="8f43d481-ce38-47ff-8a2c-74c3737c6227"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Client]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="297" y="0" width="156" height="23" forecolor="#000000" uuid="93dfbeba-67c1-4ecd-83c1-8ea0ad190b4d"/>
+				<reportElement x="297" y="0" width="156" height="23" forecolor="#000000" uuid="93dfbeba-67c1-4ecd-83c1-8ea0ad190b4d"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Date Work Completed]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="453" y="0" width="161" height="23" forecolor="#000000" uuid="a4ef0739-5a62-4cad-b55e-3f90902b93b4"/>
+				<reportElement x="453" y="0" width="161" height="23" forecolor="#000000" uuid="a4ef0739-5a62-4cad-b55e-3f90902b93b4"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Costing Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="614" y="0" width="167" height="23" forecolor="#000000" uuid="45f15ab5-aaff-442f-8d24-c4a5bccf3b91"/>
+				<reportElement x="614" y="0" width="167" height="23" forecolor="#000000" uuid="45f15ab5-aaff-442f-8d24-c4a5bccf3b91"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Approval Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="781" y="0" width="258" height="23" forecolor="#000000" uuid="f42bc4b8-4b86-4531-91f3-3669c7d53a26"/>
+				<reportElement x="781" y="0" width="258" height="23" forecolor="#000000" uuid="f42bc4b8-4b86-4531-91f3-3669c7d53a26"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Days betw. Costing & Job Compl. Dates]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="1281" y="0" width="139" height="23" forecolor="#000000" uuid="be8bf530-c8e2-4ba1-a248-bd4e871fe7c7"/>
+				<reportElement x="1281" y="0" width="139" height="23" forecolor="#000000" uuid="be8bf530-c8e2-4ba1-a248-bd4e871fe7c7"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cost]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="1039" y="0" width="242" height="23" forecolor="#000000" uuid="ce1d6929-4a2e-4831-83b6-090a46dd2bf1"/>
+				<reportElement x="1039" y="0" width="242" height="23" forecolor="#000000" uuid="ce1d6929-4a2e-4831-83b6-090a46dd2bf1"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
@@ -187,56 +194,56 @@ GROUP BY
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="2008" height="22" uuid="5ba434ea-ed6c-4738-b173-f021878f21aa"/>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="0" y="0" width="164" height="18" uuid="10c394c0-a8a3-47ea-921a-9cec4cb4ed2a"/>
+					<reportElement positionType="Float" x="0" y="0" width="164" height="18" uuid="10c394c0-a8a3-47ea-921a-9cec4cb4ed2a"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{job_JOBNUMBER}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="164" y="0" width="133" height="18" uuid="c3c79e99-eac9-43d4-9886-a03c302dc945"/>
+					<reportElement positionType="Float" x="164" y="0" width="133" height="18" uuid="c3c79e99-eac9-43d4-9886-a03c302dc945"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="297" y="0" width="156" height="18" uuid="b9e70d58-2a47-44be-823e-57747fb99142"/>
+					<reportElement positionType="Float" x="297" y="0" width="156" height="18" uuid="b9e70d58-2a47-44be-823e-57747fb99142"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATEOFCOMPLETION}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="453" y="0" width="161" height="18" uuid="e27818a6-82d4-4255-be0f-d2b4f70263c4"/>
+					<reportElement positionType="Float" x="453" y="0" width="161" height="18" uuid="e27818a6-82d4-4255-be0f-d2b4f70263c4"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jobstatusandtracking_COSTINGDATE}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="614" y="0" width="167" height="18" uuid="7163f898-56d7-4437-95c2-b4f12f97aec5"/>
+					<reportElement positionType="Float" x="614" y="0" width="167" height="18" uuid="7163f898-56d7-4437-95c2-b4f12f97aec5"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATECOSTINGAPPROVED}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="781" y="0" width="258" height="18" uuid="7f2bc54a-c0e9-431b-ae46-806562dc54ed"/>
+					<reportElement positionType="Float" x="781" y="0" width="258" height="18" uuid="7f2bc54a-c0e9-431b-ae46-806562dc54ed"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{DaysBetweenCostingAndJobCompl}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="$ #,##0.00" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="1281" y="0" width="139" height="18" uuid="f1a416f5-4fec-48e5-9dd3-955691486500"/>
+					<reportElement positionType="Float" x="1281" y="0" width="139" height="18" uuid="f1a416f5-4fec-48e5-9dd3-955691486500"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jobcostingandpayment_FINALCOST}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="1039" y="0" width="242" height="18" uuid="96c28c92-8e55-4fb5-af99-74b259cafbad"/>
+					<reportElement positionType="Float" x="1039" y="0" width="242" height="18" uuid="96c28c92-8e55-4fb5-af99-74b259cafbad"/>
 					<textElement>
 						<font fontName="SansSerif" size="12"/>
 					</textElement>
@@ -253,14 +260,14 @@ GROUP BY
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="2008" height="25" forecolor="#D0B48E" backcolor="#000000" uuid="1b401537-26df-4b54-9c00-547af5bc4251"/>
 				<textField evaluationTime="Report">
-					<reportElement style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF" uuid="5ebe8fdb-3450-4e6f-a9db-981a17105dbd"/>
+					<reportElement x="757" y="3" width="40" height="20" forecolor="#FFFFFF" uuid="5ebe8fdb-3450-4e6f-a9db-981a17105dbd"/>
 					<textElement verticalAlignment="Middle">
 						<font fontName="SansSerif" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="Column header" x="677" y="3" width="80" height="20" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" uuid="14a0048f-8751-4ab0-ab25-c29b45ede76a"/>
+					<reportElement x="677" y="3" width="80" height="20" isRemoveLineWhenBlank="true" forecolor="#FFFFFF" uuid="14a0048f-8751-4ab0-ab25-c29b45ede76a"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font fontName="SansSerif" size="10" isBold="false"/>
 					</textElement>

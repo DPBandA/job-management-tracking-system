@@ -1,5 +1,5 @@
 ## Tasks
-
+- Ensure that headings are on all reports.
 - Edit and deploy all reports to production server and send email re formal
   requests for other reports.
 - Report on total earnings for a department for a specific period. 
@@ -23,6 +23,8 @@ for persons with "General" search privilege.
 - Check and fix up font for "Frequently Requested Jobs by Category" and may be 
   other reports.
 - Add test and calibration values to monthly report Excel spreadsheet.
-- Do Mechanical Dept monthly report as possible sample for other reports.
+- Check with Burton and Allen of the "Monthly Report" in the system be taylored
+  for the Nech monthly report.
+- Ask Allen about doing a report based on the monthly report for the Eng division.
 - Try to get the most recent jasper reports library ( >= 6.6.0) and use it with maven.
   The may lead to better exporting of reports to Excel as is done in JR Studio.
