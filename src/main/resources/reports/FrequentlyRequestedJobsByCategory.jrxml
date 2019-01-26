@@ -86,7 +86,7 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="109" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="1" y="5" width="549" height="36" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
 				<textElement textAlignment="Left" markup="none">
@@ -95,26 +95,40 @@ ORDER BY
 				<text><![CDATA[Bureau of Standards Jamaica]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="0" y="41" width="157" height="29" uuid="4395d2c8-482b-49f5-954a-b79435fb58ac"/>
+				<reportElement x="0" y="77" width="157" height="29" uuid="4395d2c8-482b-49f5-954a-b79435fb58ac"/>
 				<textElement>
 					<font fontName="Arial" size="22" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="157" y="41" width="36" height="29" uuid="45c619fa-38c2-4f7b-b010-861437d0e024"/>
+				<reportElement x="157" y="77" width="36" height="29" uuid="45c619fa-38c2-4f7b-b010-861437d0e024"/>
 				<textElement>
 					<font fontName="Arial" size="22" isBold="true"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="193" y="41" width="178" height="29" uuid="5e3b36bb-db46-48e0-9853-9b69fff41f4b"/>
+				<reportElement x="193" y="77" width="178" height="29" uuid="5e3b36bb-db46-48e0-9853-9b69fff41f4b"/>
 				<textElement>
 					<font fontName="Arial" size="22" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="549" height="36" forecolor="#330033" uuid="8bcfbb2c-8682-4b64-86dd-5eed909df761"/>
+				<textElement textAlignment="Left" markup="none">
+					<font fontName="SansSerif" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Bureau of Standards Jamaica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="36" width="549" height="36" forecolor="#330033" uuid="d94ee6d1-5727-47f9-8f8e-011bef06819b"/>
+				<textElement textAlignment="Left" markup="none">
+					<font fontName="SansSerif" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Frequently Requested Jobs by Category]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>

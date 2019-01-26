@@ -4,7 +4,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="616"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BSJ JMTS MySQL"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="SansSerif" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="SansSerif" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="SansSerif" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -93,7 +93,7 @@ GROUP BY
 				<textElement textAlignment="Left" markup="none">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Job Costings with Discount]]></text>
+				<text><![CDATA[Jobs with Discount]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="826" height="29" forecolor="#330033" uuid="cf4148e2-769f-4e1a-ac00-8f2418103542"/>
@@ -103,21 +103,21 @@ GROUP BY
 				<text><![CDATA[Bureau of Standards Jamaica]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="2" y="54" width="108" height="29" isRemoveLineWhenBlank="true" uuid="54045d70-251f-40ff-a61a-02d0fc8125ce"/>
-				<textElement>
+				<reportElement x="1" y="54" width="130" height="29" isRemoveLineWhenBlank="true" uuid="54045d70-251f-40ff-a61a-02d0fc8125ce"/>
+				<textElement textAlignment="Right">
 					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="110" y="54" width="24" height="29" isRemoveLineWhenBlank="true" uuid="853e120c-7912-46d4-930c-c84fcb381ecb"/>
-				<textElement>
+				<reportElement x="131" y="54" width="29" height="29" isRemoveLineWhenBlank="true" uuid="853e120c-7912-46d4-930c-c84fcb381ecb"/>
+				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="134" y="54" width="178" height="29" isRemoveLineWhenBlank="true" uuid="29b07ac6-2311-401a-aa53-ce3c81d50f5c"/>
+				<reportElement x="160" y="54" width="178" height="29" isRemoveLineWhenBlank="true" uuid="29b07ac6-2311-401a-aa53-ce3c81d50f5c"/>
 				<textElement>
 					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>

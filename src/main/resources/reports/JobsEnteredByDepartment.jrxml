@@ -4,7 +4,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL JMTS Live"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BSJ JMTS MySQL"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -277,35 +277,35 @@ job.`ID` DESC]]>
 	<title>
 		<band height="70" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="5" width="209" height="36" forecolor="#000000" uuid="34049110-7832-4684-9215-8eeae0100de4"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="0" y="5" width="272" height="36" forecolor="#000000" uuid="34049110-7832-4684-9215-8eeae0100de4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="26" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Jobs Entered by ]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="162" y="41" width="178" height="29" uuid="7b20eb55-fc0b-4bdf-a309-d5d8832aa567"/>
+				<reportElement x="218" y="41" width="178" height="29" uuid="7b20eb55-fc0b-4bdf-a309-d5d8832aa567"/>
 				<textElement>
 					<font fontName="Arial" size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="138" y="41" width="24" height="29" uuid="1b6f14d2-0b8b-49e8-9fd4-54d2c9a2ad28"/>
-				<textElement>
+				<reportElement x="178" y="41" width="40" height="29" uuid="1b6f14d2-0b8b-49e8-9fd4-54d2c9a2ad28"/>
+				<textElement textAlignment="Center">
 					<font fontName="Arial" size="22"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="0" y="41" width="138" height="29" uuid="e05af91a-98e1-45d2-be9f-b0ee4e9f491d"/>
-				<textElement>
+				<reportElement x="0" y="41" width="178" height="29" uuid="e05af91a-98e1-45d2-be9f-b0ee4e9f491d"/>
+				<textElement textAlignment="Right">
 					<font fontName="Arial" size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="208" y="5" width="657" height="36" uuid="edde051c-6564-4965-b6b2-4c50018f1347"/>
+				<reportElement x="272" y="5" width="745" height="36" uuid="edde051c-6564-4965-b6b2-4c50018f1347"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="26" isBold="true"/>
 				</textElement>

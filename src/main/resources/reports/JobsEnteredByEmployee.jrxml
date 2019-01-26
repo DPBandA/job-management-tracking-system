@@ -4,7 +4,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BSJ JMTS MySQL"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="252"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="739"/>
@@ -471,22 +471,22 @@ GROUP BY
 				<text><![CDATA[Jobs Entered by Employee]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="162" y="41" width="178" height="29" isRemoveLineWhenBlank="true" uuid="7b20eb55-fc0b-4bdf-a309-d5d8832aa567"/>
+				<reportElement x="220" y="41" width="178" height="29" isRemoveLineWhenBlank="true" uuid="7b20eb55-fc0b-4bdf-a309-d5d8832aa567"/>
 				<textElement>
 					<font fontName="Arial" size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="138" y="41" width="24" height="29" isRemoveLineWhenBlank="true" uuid="1b6f14d2-0b8b-49e8-9fd4-54d2c9a2ad28"/>
-				<textElement>
+				<reportElement x="184" y="41" width="36" height="29" isRemoveLineWhenBlank="true" uuid="1b6f14d2-0b8b-49e8-9fd4-54d2c9a2ad28"/>
+				<textElement textAlignment="Center">
 					<font fontName="Arial" size="22"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="0" y="41" width="138" height="29" isRemoveLineWhenBlank="true" uuid="e05af91a-98e1-45d2-be9f-b0ee4e9f491d"/>
-				<textElement>
+				<reportElement x="0" y="41" width="184" height="29" isRemoveLineWhenBlank="true" uuid="e05af91a-98e1-45d2-be9f-b0ee4e9f491d"/>
+				<textElement textAlignment="Right">
 					<font fontName="Arial" size="22"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
