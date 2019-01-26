@@ -29,7 +29,6 @@
 - Set all search results list in all managers to null when logout to prevent the next logged
   user from accessing that list.
 - Misc config search results not sorted. Fix!
-- Upgrade to using Java EE 7/8 and GF 5 on boshrmapp and bosapp ASAP.
 - Set address type to billing for new addresses.
 - Check out Server Performance Tuner in GF4/5 to see if this help the speed of 
   searches etc.
@@ -95,3 +94,4 @@ Call: UPDATE job SET COMMENT = ?, JOBNUMBER = ?, JOBSEQUENCENUMBER = ? WHERE (ID
 Query: UpdateObjectQuery(1514057)
 - Impl the submission of issues and feedback within the JMTS. Github issue tracking system could be used in the backend.
 - Add default report category to JobManagerUser.
+- Make all tabs closeable and maintain a "openedTabs" list all tabs in the "user profile" and reopen them when the user logs in.
