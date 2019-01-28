@@ -1,9 +1,6 @@
 ## Tasks
-- Ensure that headings are on all reports.
 - Edit and deploy all reports to production server and send email re formal
-  requests for other reports as follows:
-  * Report on total earnings for a department for a specific period. 
-    First see if there is a report that gives this info. 
+  requests for other reports as follows: 
   * Do report for jobs not approved and incomplete for specified period.
   * Impl finance report showing jobs that are supposed to have deposits but don't
     "Jobs Requiring Deposits" as the report. 
