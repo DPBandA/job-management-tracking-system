@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jobs received in period for - auditiing" pageWidth="2400" pageHeight="595" orientation="Landscape" columnWidth="2360" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jobs with Tests and Calibrations" pageWidth="2400" pageHeight="595" orientation="Landscape" columnWidth="2360" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BSJ JMTS MySQL"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -13,10 +15,10 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="startOFPeriod" class="java.util.Date">
+	<parameter name="startOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[01/01/2015]]></defaultValueExpression>
 	</parameter>
-	<parameter name="endOFPeriod" class="java.util.Date">
+	<parameter name="endOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[31/01/2015]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -95,8 +97,8 @@ FROM
      INNER JOIN `servicecontract` servicecontract ON job.`SERVICECONTRACT_ID` = servicecontract.`ID`
      INNER JOIN `jobsample` jobsample ON job_jobsample.`jobSamples_ID` = jobsample.`ID`
 WHERE
-     jobstatusandtracking.`DATESUBMITTED` >= $P{startOFPeriod}
- AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOFPeriod}
+     jobstatusandtracking.`DATESUBMITTED` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOfPeriod1}
 AND jobsubcategory.`IsEarning` = 1
 AND jobstatusandtracking_A.`WORKPROGRESS` = 'Completed'
 GROUP BY
@@ -166,103 +168,92 @@ GROUP BY
 	<field name="servicecontract_SPECIALINSTRUCTIONS" class="java.lang.String"/>
 	<field name="jobsubcategory_IsEarning" class="java.lang.Boolean"/>
 	<title>
-		<band height="50" splitType="Stretch">
+		<band height="84" splitType="Stretch">
+			<image>
+				<reportElement x="1" y="8" width="170" height="42" uuid="b332a031-bb9e-4f80-b1c8-7dd7ce37194c"/>
+				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
+			</image>
 			<staticText>
-				<reportElement x="2" y="0" width="301" height="32" uuid="2fcfdb36-71b7-45d9-a565-70403c7a89c4"/>
-				<textElement>
-					<font size="24"/>
+				<reportElement x="190" y="2" width="490" height="24" uuid="670f0a9c-8090-4049-8e16-3be23cdc2a29"/>
+				<textElement textAlignment="Left" markup="none">
+					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Jobs received in the period  ]]></text>
+				<text><![CDATA[Jobs with Tests or Calibrations]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="302" y="0" width="151" height="32" uuid="a74fc375-e96e-4161-93dd-366f40a7a703"/>
+				<reportElement x="190" y="27" width="113" height="29" isRemoveLineWhenBlank="true" uuid="5ea9e086-d597-46c2-b50b-82e680ad6e70"/>
 				<textElement>
-					<font size="24"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{startOFPeriod}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="452" y="0" width="25" height="32" uuid="f088f1ae-d1ec-4ec8-9872-c821851dfa3e"/>
-				<textElement>
-					<font size="24"/>
+				<reportElement x="303" y="27" width="24" height="29" isRemoveLineWhenBlank="true" uuid="7e4d2605-d618-4912-a74d-44236e7baf37"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="476" y="0" width="192" height="32" uuid="b2004fdf-6ef8-4076-91f1-249ddc99edc3"/>
+				<reportElement x="328" y="27" width="178" height="29" isRemoveLineWhenBlank="true" uuid="0bb9763d-be2c-4bb6-bba7-a4733a33981c"/>
 				<textElement>
-					<font size="24"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{endOFPeriod}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="18" splitType="Stretch">
+		<band height="24" splitType="Stretch">
 			<staticText>
-				<reportElement style="Column header" x="0" y="0" width="176" height="18" forecolor="#000000" uuid="8144f9ca-43c1-4c98-8e9b-d1e5e55d376d"/>
+				<reportElement x="0" y="0" width="176" height="18" forecolor="#000000" uuid="8144f9ca-43c1-4c98-8e9b-d1e5e55d376d"/>
 				<box leftPadding="0"/>
 				<textElement>
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Job number]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="175" y="0" width="151" height="18" forecolor="#000000" uuid="93dfbeba-67c1-4ecd-83c1-8ea0ad190b4d"/>
+				<reportElement x="175" y="0" width="151" height="18" forecolor="#000000" uuid="93dfbeba-67c1-4ecd-83c1-8ea0ad190b4d"/>
 				<textElement>
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No. of Calibrations]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="326" y="0" width="112" height="18" forecolor="#000000" uuid="45f15ab5-aaff-442f-8d24-c4a5bccf3b91"/>
+				<reportElement x="326" y="0" width="112" height="18" forecolor="#000000" uuid="45f15ab5-aaff-442f-8d24-c4a5bccf3b91"/>
 				<textElement>
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No. of Tests]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="633" y="0" width="232" height="18" forecolor="#000000" uuid="f42bc4b8-4b86-4531-91f3-3669c7d53a26"/>
+				<reportElement x="633" y="0" width="232" height="18" forecolor="#000000" uuid="f42bc4b8-4b86-4531-91f3-3669c7d53a26"/>
 				<textElement>
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Job Subcategory]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="864" y="0" width="313" height="18" forecolor="#000000" uuid="b8366ad2-2ccb-41d4-82e8-7a5c1450ffe4"/>
+				<reportElement x="864" y="0" width="313" height="18" forecolor="#000000" uuid="b8366ad2-2ccb-41d4-82e8-7a5c1450ffe4"/>
 				<textElement>
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Job Detail/Instructions]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="437" y="0" width="197" height="18" forecolor="#000000" uuid="5da0a12c-bbaf-4207-a5d4-b7808de62742"/>
+				<reportElement x="437" y="0" width="197" height="18" forecolor="#000000" uuid="5da0a12c-bbaf-4207-a5d4-b7808de62742"/>
 				<textElement>
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No. of Tests and Calibrations]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="1176" y="0" width="314" height="18" forecolor="#000000" uuid="176732f9-f6e9-43ad-802e-05f91c706120"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Products/Samples]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="1489" y="0" width="171" height="18" forecolor="#000000" uuid="5e404d3c-aa2e-4b55-96cb-5713725193ef"/>
-				<box leftPadding="10"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Job Cost]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="31" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="0" y="0" width="164" height="18" uuid="25ee610b-5460-4370-8d00-9f0e72076b09"/>
+				<reportElement positionType="Float" x="0" y="0" width="175" height="18" uuid="25ee610b-5460-4370-8d00-9f0e72076b09"/>
 				<box leftPadding="0"/>
 				<textElement>
 					<font size="14"/>
@@ -270,54 +261,39 @@ GROUP BY
 				<textFieldExpression><![CDATA[$F{job_JOBNUMBER}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="175" y="0" width="128" height="18" uuid="9cb63099-7d5a-406f-ace7-ea1137584fd5"/>
+				<reportElement positionType="Float" x="175" y="0" width="151" height="18" uuid="9cb63099-7d5a-406f-ace7-ea1137584fd5"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{job_NOOFCALIBRATIONS}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="326" y="0" width="101" height="18" uuid="fc5f16f6-0f77-4b21-8353-739be7eb6811"/>
+				<reportElement positionType="Float" x="326" y="0" width="111" height="18" uuid="fc5f16f6-0f77-4b21-8353-739be7eb6811"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{job_NOOFTESTS}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="437" y="0" width="181" height="18" uuid="fc3aae91-4622-49c7-8b27-30b41e81031b"/>
+				<reportElement positionType="Float" x="437" y="0" width="196" height="18" uuid="fc3aae91-4622-49c7-8b27-30b41e81031b"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{job_NOOFTESTSORCALIBRATIONS}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="633" y="0" width="232" height="18" uuid="25170a30-dbe3-4364-b69b-1af4c565eba0"/>
+				<reportElement positionType="Float" x="633" y="0" width="232" height="18" uuid="25170a30-dbe3-4364-b69b-1af4c565eba0"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jobsubcategory_SubCategory}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="864" y="0" width="313" height="18" uuid="e96a3a8d-9b0d-4447-9b28-76dcd67081ec"/>
+				<reportElement positionType="Float" x="864" y="0" width="313" height="18" uuid="e96a3a8d-9b0d-4447-9b28-76dcd67081ec"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{job_JOBDESCRIPTION} + " " + $F{servicecontract_SPECIALINSTRUCTIONS}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="1176" y="0" width="314" height="18" uuid="e804047f-ed76-4767-8237-5f4d90f1f251"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{samples}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="1489" y="0" width="171" height="18" uuid="fdbc2c8f-6f0f-47c4-bc92-53279338cf26"/>
-				<box leftPadding="10"/>
-				<textElement>
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{jobcostingandpayment_A_FINALCOST}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

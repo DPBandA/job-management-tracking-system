@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jobs Samples and Instruments Submitted" language="groovy" pageWidth="2400" pageHeight="595" orientation="Landscape" columnWidth="2360" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="1cda2bef-1062-41dd-abde-2d67ef351d32">
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jobs Samples and Instruments Submitted" pageWidth="2400" pageHeight="595" orientation="Landscape" columnWidth="2360" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="1cda2bef-1062-41dd-abde-2d67ef351d32">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BSJ JMTS MySQL"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -13,10 +15,10 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="startOFPeriod" class="java.util.Date">
+	<parameter name="startOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="endOFPeriod" class="java.util.Date">
+	<parameter name="endOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -58,8 +60,8 @@ FROM
      INNER JOIN `sector` sector ON job.`SECTOR_ID` = sector.`ID`
      INNER JOIN `jobsample` jobsample ON job_jobsample.`jobSamples_ID` = jobsample.`ID`
 WHERE
-     jobstatusandtracking.`DATESUBMITTED` >= $P{startOFPeriod}
- AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOFPeriod}
+     jobstatusandtracking.`DATESUBMITTED` >= $P{startOfPeriod1}
+ AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOfPeriod1}
  AND jobsubcategory.`IsEarning` = 1
  AND department_A.`NAME` = "--"
  AND (department.`SUBGROUPCODE` = 25
@@ -116,20 +118,41 @@ ORDER BY
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="66" splitType="Stretch">
-			<textField isStretchWithOverflow="true" pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="0" y="30" width="1327" height="21" uuid="467a70a7-176a-427c-8ac5-a6991ed93cf7"/>
-				<textElement>
-					<font fontName="SansSerif" size="18"/>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="826" height="29" forecolor="#330033" uuid="b4225161-1af4-4a8c-9329-212fc6517969"/>
+				<textElement textAlignment="Left" markup="none">
+					<font size="22" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["JMTS Report on Samples/Instruments Received in the Period April 1, 2016 to March 31, 2017"]]></textFieldExpression>
+				<text><![CDATA[Bureau of Standards Jamaica]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="430" height="24" uuid="f2d1d0e1-8db1-4146-9680-7b2d867d573d"/>
+				<textElement textAlignment="Left" markup="none">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jobs Submitted with Samples and Instruments]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement x="0" y="54" width="131" height="29" isRemoveLineWhenBlank="true" uuid="feb6d85e-d589-4625-a583-42924fc188f9"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement style="Detail" positionType="Float" x="0" y="0" width="1327" height="30" uuid="0170e003-fd27-47ac-92c5-37799a677a25"/>
-				<textElement>
-					<font fontName="SansSerif" size="22"/>
+			<staticText>
+				<reportElement x="131" y="54" width="29" height="29" isRemoveLineWhenBlank="true" uuid="8eba8ba4-c49a-4e2b-b3a1-5fe940003cb0"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Bureau of Standards Jamaica"]]></textFieldExpression>
+				<text><![CDATA[to]]></text>
+			</staticText>
+			<textField pattern="MMM dd, yyyy">
+				<reportElement x="160" y="54" width="178" height="29" isRemoveLineWhenBlank="true" uuid="cee2d90a-df4f-48c5-bf89-6add341f2df6"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{endOfPeriod1}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -139,14 +162,14 @@ ORDER BY
 	<columnHeader>
 		<band height="18" splitType="Stretch">
 			<staticText>
-				<reportElement style="Column header" x="0" y="0" width="132" height="18" forecolor="#000000" uuid="f62abab1-cda1-4ad7-8acd-c67e26c68f43"/>
+				<reportElement x="0" y="0" width="132" height="18" forecolor="#000000" uuid="f62abab1-cda1-4ad7-8acd-c67e26c68f43"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Client]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="345" y="0" width="231" height="18" forecolor="#000000" uuid="517983bd-497d-4977-9a8c-57d9f344af0e"/>
+				<reportElement x="345" y="0" width="231" height="18" forecolor="#000000" uuid="517983bd-497d-4977-9a8c-57d9f344af0e"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 					<paragraph leftIndent="20"/>
@@ -154,7 +177,7 @@ ORDER BY
 				<text><![CDATA[No. of Samples/Instruments]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="132" y="0" width="213" height="18" forecolor="#000000" uuid="cab8ad73-ab35-404f-8de9-790cddb16df9"/>
+				<reportElement x="132" y="0" width="213" height="18" forecolor="#000000" uuid="cab8ad73-ab35-404f-8de9-790cddb16df9"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 					<paragraph leftIndent="10"/>
@@ -162,20 +185,12 @@ ORDER BY
 				<text><![CDATA[Parent Department/Unit]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="Column header" x="576" y="0" width="433" height="18" forecolor="#000000" uuid="1b364744-31be-4013-8c6c-32d7f846de1d"/>
+				<reportElement x="576" y="0" width="433" height="18" forecolor="#000000" uuid="1b364744-31be-4013-8c6c-32d7f846de1d"/>
 				<textElement>
 					<font fontName="SansSerif" size="12" isBold="true"/>
 					<paragraph leftIndent="20"/>
 				</textElement>
 				<text><![CDATA[Sample/Instrument Descriptions]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="Column header" x="1009" y="0" width="252" height="18" forecolor="#000000" uuid="c6e4c348-f814-4431-a8a3-432d29d4c3a4"/>
-				<textElement>
-					<font fontName="SansSerif" size="12" isBold="true"/>
-					<paragraph leftIndent="20"/>
-				</textElement>
-				<text><![CDATA[Sector]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -184,14 +199,14 @@ ORDER BY
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="2350" height="18" uuid="33e7ddf2-1de6-4301-a2e2-c6a51be75a09"/>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="0" y="0" width="132" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="ef99faed-6c45-41ad-8c29-4bea78f09886"/>
+					<reportElement positionType="Float" x="0" y="0" width="132" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="ef99faed-6c45-41ad-8c29-4bea78f09886"/>
 					<textElement>
 						<font fontName="SansSerif" size="14"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="345" y="0" width="231" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="0432cfc8-afb0-4c3e-b9a5-01e5d2281a2d"/>
+					<reportElement positionType="Float" x="345" y="0" width="231" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="0432cfc8-afb0-4c3e-b9a5-01e5d2281a2d"/>
 					<textElement>
 						<font fontName="SansSerif" size="14"/>
 						<paragraph leftIndent="20"/>
@@ -199,7 +214,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{job_NUMBEROFSAMPLES}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="132" y="0" width="213" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="938b981a-e048-49b9-ac2d-af4995eb1800"/>
+					<reportElement positionType="Float" x="132" y="0" width="213" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="938b981a-e048-49b9-ac2d-af4995eb1800"/>
 					<textElement>
 						<font fontName="SansSerif" size="14"/>
 						<paragraph leftIndent="10"/>
@@ -207,20 +222,12 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{department_NAME}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="576" y="0" width="433" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="923e6101-b40e-4b5b-a11a-dd43aa126eb2"/>
+					<reportElement positionType="Float" x="576" y="0" width="433" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="923e6101-b40e-4b5b-a11a-dd43aa126eb2"/>
 					<textElement>
 						<font fontName="SansSerif" size="14"/>
 						<paragraph leftIndent="20"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{samples}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="1009" y="0" width="252" height="18" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="b7a99667-8385-4c10-96fc-73df1d16f632"/>
-					<textElement>
-						<font fontName="SansSerif" size="14"/>
-						<paragraph leftIndent="20"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{sectors}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
