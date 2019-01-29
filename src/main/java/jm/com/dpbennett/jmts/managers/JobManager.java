@@ -1693,7 +1693,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!",
                         "Job was NOT saved. Please contact the System Administrator!",
@@ -1711,7 +1711,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
 
@@ -1728,7 +1728,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
 
@@ -1746,7 +1746,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
 
@@ -1764,7 +1764,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
 
@@ -1780,7 +1780,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
 
@@ -1800,7 +1800,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
 
@@ -1818,7 +1818,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
 
@@ -1834,7 +1834,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
 
@@ -1850,7 +1850,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
             if (returnMessage.isSuccess()) {
                 PrimeFacesUtils.addMessage("Saved!", "Job was saved", FacesMessage.SEVERITY_INFO);
-                currentJob.getJobStatusAndTracking().setEditStatus(" ");
+                currentJob.getJobStatusAndTracking().setEditStatus("        ");
             } else {
                 PrimeFacesUtils.addMessage("Job NOT Saved!", "Job was NOT saved. Please contact the System Administrator!", FacesMessage.SEVERITY_ERROR);
 
@@ -2007,7 +2007,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void editJob() {
-        getCurrentJob().getJobStatusAndTracking().setEditStatus(" ");
+        getCurrentJob().getJobStatusAndTracking().setEditStatus("        ");
         PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 875);
     }
 
@@ -2312,7 +2312,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (dirty) {
             getCurrentJob().getJobStatusAndTracking().setEditStatus("(edited)");
         } else {
-            getCurrentJob().getJobStatusAndTracking().setEditStatus(" ");
+            getCurrentJob().getJobStatusAndTracking().setEditStatus("        ");
         }
     }
 

@@ -1,9 +1,6 @@
 # Tasks
 
 ## Accpac Invoicing & Credit Status Reporting
-- Impl new service contract and agreement using Jasper Reports.
-- Setup up and test accpac database locally.
-- Impl getting dist. codes for cost components.
 - Impl exporting Excel file using "Invoice" button. The records must be
   must be checked to see if they can be exported first eg the client id is valid.
 - Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
@@ -28,6 +25,7 @@
   exported. Add user preference to export invoices when "Invoice" button is pressed?
 - Put the name of the approver on the job costing.
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
+- Impl new service contract and agreement using Jasper Reports.
 
 ## Purchasing Module 
 - Adding/Editing supplier in the PR dialog does not seem to work. Fix.
