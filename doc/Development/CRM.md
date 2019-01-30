@@ -8,7 +8,7 @@
 - Where does the marketing process start?
 - How should knowledge management be incorporated?
 - Add dialog return to "Client Management" menu item.
-- Create "BillingInformation" class and associate it with the Client class as is done in GnuCash.
+- Create "BillingInformation/Billing" class and associate it with the Client class as is done in GnuCash.
 
 # Customer Relationship Management R&D
 
