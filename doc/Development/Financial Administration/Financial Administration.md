@@ -8,6 +8,8 @@
   must be checked to see if they can be exported first eg the client id is valid.
 - Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
   table.
+- Impl Tax class for storing GCT and other taxes. Add accounting code as field for specifying the 
+  distribution code.
 - Impl  getting dist. code of the from 1310-21-24-21 
    ie dept code first, subgroup second and div code last
 - Impl searching for job costings that have been approved but not invoiced so
@@ -29,6 +31,7 @@
 - Put the name of the approver on the job costing.
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
 - Impl new service contract and agreement using Jasper Reports.
+- Make credit status dialog about 25 - 50 pixels taller.
 
 ## Purchasing Module 
 - Adding/Editing supplier in the PR dialog does not seem to work. Fix.
