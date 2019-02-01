@@ -1,6 +1,9 @@
 # Tasks
 
-## Accpac Invoicing & Credit Status Reporting
+## Accpac Invoicing, Credit Status Reporting, Job Costing
+- Fix printing of receipts on job costing using 25/2018/9506 and ensure job costing approver
+  appears on the printed job costing.
+- Do report reports based on proforma and email from RA.
 - Impl exporting Excel file using "Invoice" button. The records must be
   must be checked to see if they can be exported first eg the client id is valid.
 - Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
