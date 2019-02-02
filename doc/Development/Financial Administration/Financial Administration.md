@@ -123,6 +123,7 @@ conversion between currencies using static methods. Currency class should have t
 ## Accpac Integration
 - See https://smist08.wordpress.com/2013/01/01/the-sage-300-erp-java-api/ for info
   on Java API. Check other Sage/Accpac posts from said blogger.
+  * Check the exact version of Sage 300 and the required jar files for the API
 - Get more details for Inter-billing upload to Accpac from Finance.
 
 ## Inventory
