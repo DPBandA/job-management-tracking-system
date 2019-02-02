@@ -26,6 +26,8 @@
 - Remember to  create labs and units within departments.
 
 ## General
+- Create Module entity class for storing and tracking module information such as name and
+  activation status
 - Set all search results list in all managers to null when logout to prevent the next logged
   user from accessing that list.
 - Misc config search results not sorted. Fix!
