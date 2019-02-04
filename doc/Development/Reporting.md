@@ -3,6 +3,8 @@
   requests for other reports as follows: 
   * Uninvoiced jobs: Division, Source of Entry (customer serv etc), Client Type (Credit / Misc), Deposit not 
     stored as part of job record so require a more complex query to extract.
+  * Note in JobStatusAndTracking class javadoc that costingDate and dateCostingCompleted
+    are currently treated as the job costing preparation date.
   * Impl finance report showing jobs that are supposed to have deposits but don't
     "Jobs Requiring Deposits" as the report. 
 - Deal with the multiple row entries all reports especially those used by 
