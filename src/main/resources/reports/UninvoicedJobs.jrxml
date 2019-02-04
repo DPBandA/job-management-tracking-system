@@ -346,7 +346,7 @@ ORDER BY
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Service Provided By]]></text>
+				<text><![CDATA[Cost Centre]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="280" y="0" width="149" height="18" forecolor="#000000" uuid="38585eb6-679b-4f9e-ba9b-a5f8717b5c15"/>
@@ -360,21 +360,21 @@ ORDER BY
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Sub Dept]]></text>
+				<text><![CDATA[Subcontracted Cost Centre ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="935" y="0" width="406" height="18" forecolor="#000000" uuid="f1ec2a2c-a69b-444d-9c08-b4f289bd4084"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Instructions]]></text>
+				<text><![CDATA[Client]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1341" y="0" width="305" height="18" forecolor="#000000" uuid="1c714221-a621-42da-963a-dc4f22b40e39"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Client]]></text>
+				<text><![CDATA[Costing Preparation Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1646" y="0" width="170" height="18" forecolor="#000000" uuid="b1f0d796-b06a-4c7a-86ed-15d1a00cbca6"/>
@@ -533,7 +533,7 @@ ORDER BY
 				<textElement>
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{job_INSTRUCTIONS}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement positionType="Float" x="1341" y="0" width="305" height="18" uuid="4e190921-e0a2-426d-906a-d58129e24a47"/>
