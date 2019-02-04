@@ -1,7 +1,8 @@
 ## Tasks
 - Edit and deploy all reports to production server and send email re formal
   requests for other reports as follows: 
-  * Do report for jobs not approved and incomplete for specified period.
+  * Uninvoiced jobs: Division, Source of Entry (customer serv etc), Client Type (Credit / Misc), Deposit not 
+    stored as part of job record so require a more complex query to extract.
   * Impl finance report showing jobs that are supposed to have deposits but don't
     "Jobs Requiring Deposits" as the report. 
 - Deal with the multiple row entries all reports especially those used by 
