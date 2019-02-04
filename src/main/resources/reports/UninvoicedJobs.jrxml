@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Jobs Report for Auditor General" pageWidth="5000" pageHeight="595" orientation="Landscape" columnWidth="4960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Uninvoiced Jobs" pageWidth="5000" pageHeight="595" orientation="Landscape" columnWidth="4960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="2267"/>
 	<property name="ireport.y" value="0"/>
@@ -295,28 +295,28 @@ ORDER BY
 				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="190" y="2" width="490" height="24" uuid="e4d5de4a-75f4-476e-a6cc-87671a899f43"/>
+				<reportElement x="190" y="2" width="315" height="24" uuid="e4d5de4a-75f4-476e-a6cc-87671a899f43"/>
 				<textElement textAlignment="Left" markup="none">
 					<font size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Auditor General Job Report]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="190" y="27" width="113" height="29" isRemoveLineWhenBlank="true" uuid="42fe2076-fffd-4ba6-81ee-09b9d464f6d2"/>
+				<reportElement x="190" y="26" width="113" height="29" isRemoveLineWhenBlank="true" uuid="42fe2076-fffd-4ba6-81ee-09b9d464f6d2"/>
 				<textElement>
 					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{startOfPeriod1}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="303" y="27" width="24" height="29" isRemoveLineWhenBlank="true" uuid="15aba994-9e2d-4f92-9776-cdcc7bc14ef3"/>
+				<reportElement x="303" y="26" width="24" height="29" isRemoveLineWhenBlank="true" uuid="15aba994-9e2d-4f92-9776-cdcc7bc14ef3"/>
 				<textElement textAlignment="Center">
 					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[to]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy">
-				<reportElement x="328" y="27" width="178" height="29" isRemoveLineWhenBlank="true" uuid="8ef5c2da-ee4e-4ed5-9c84-5849acb1a8fe"/>
+				<reportElement x="327" y="26" width="178" height="29" isRemoveLineWhenBlank="true" uuid="8ef5c2da-ee4e-4ed5-9c84-5849acb1a8fe"/>
 				<textElement>
 					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
@@ -332,7 +332,7 @@ ORDER BY
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Date of Service Request]]></text>
+				<text><![CDATA[Submission Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="176" y="0" width="104" height="18" forecolor="#000000" uuid="f42bc4b8-4b86-4531-91f3-3669c7d53a26"/>

@@ -80,7 +80,7 @@ separate projects using maven overlays.
   in managers/WAL or can be put in them.
 - Create Application class and put in WAL. Other application classes such as
   JMTSApplication can be put in it.
-- Do Dashboard and MainTab tab init in JobManager and not in the contructors.
+- Do Dashboard and MainTab tab init in JobManager and not in the constructors.
 - Put the sync methods in the Application class from which all application scope
    classes would inherit. openedJobs would become openedObjects etc.
 - Go through each manager and remove code that is not needed in that manager.
@@ -97,3 +97,6 @@ Query: UpdateObjectQuery(1514057)
 - Impl the submission of issues and feedback within the JMTS. Github issue tracking system could be used in the backend.
 - Add default report category to JobManagerUser.
 - Make all tabs closeable and maintain a "openedTabs" list all tabs in the "user profile" and reopen them when the user logs in.
+- When a new job is created and the dialog box is closed do a search with the sequence number 
+  and "this month" as search parameters.
+- Redesign the module access and privilege feature to allow finer level access to a module/submodule and features.
