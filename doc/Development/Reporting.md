@@ -1,4 +1,5 @@
 ## Tasks
+- Add billing fields to all databases.
 - Edit and deploy all reports to production server and send email re formal
   requests for other reports as follows: 
   * Uninvoiced jobs: Division, Source of Entry (customer serv etc), Client Type (Credit / Misc), Deposit not 
