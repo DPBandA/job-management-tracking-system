@@ -21,4 +21,6 @@
 - Ask Allen about doing a report based on the monthly report for the Eng. division.
 - Try to get the most recent jasper reports library ( >= 6.6.0) and use it with maven.
   The may lead to better exporting of reports to Excel as is done in JR Studio.
-- Update templates table when new reports are created.
+- Add amount paid to "Uninvoiced" and "Deposit" reports using an inner aggregate
+  subquery.
+
