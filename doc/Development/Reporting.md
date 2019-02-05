@@ -1,13 +1,17 @@
 ## Tasks
-- Add billing fields to all databases.
+- Generate client reports by departments  for Rhooms with specific departments. Remove the 
+  specific departments from the clients grouped by department report.
+- Add fields to client table in all databases and test with entry of new job then cancel it: 
+  * CREDITLIMIT (DOUBLE)
+  * DISCOUNT (DOUBLE)
+  * TAXEXEMPT(BIT)
+  * DISCOUNTTYPE (VARCHAR 255)
 - Edit and deploy all reports to production server and send email re formal
   requests for other reports as follows: 
-  * Uninvoiced jobs: Division, Source of Entry (customer serv etc), Client Type (Credit / Misc), Deposit not 
-    stored as part of job record so require a more complex query to extract.
   * Note in JobStatusAndTracking class javadoc that costingDate and dateCostingCompleted
     are currently treated as the job costing preparation date.
   * Impl finance report showing jobs that are supposed to have deposits but don't
-    "Jobs Requiring Deposits" as the report. 
+    "Jobs Requiring Deposits" as the report. Make use of client's credit limit.
 - Deal with the multiple row entries all reports especially those used by 
   Customer Service. See if "DISTINCT" solves the problem.
 - Impl finding report by name and description.

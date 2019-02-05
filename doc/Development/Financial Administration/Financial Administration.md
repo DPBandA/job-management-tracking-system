@@ -1,7 +1,10 @@
 # Tasks
 
 ## Accpac Invoicing, Credit Status Reporting, Job Costing
-- Add billing fields to all databases.
+- Impl new service contract and agreement using new files sent by GA. Add menu 
+  items to print contract and agreement separately. Check that correct deposit is 
+  printed on the contract.
+- When new cash payment is added the "edited" status is not changed. Fix.
 - Fix printing of receipts on job costing using 25/2018/9506 and ensure job costing approver
   appears on the printed job costing.
 - Do report reports based on proforma and email from RA.
@@ -31,8 +34,6 @@
   exported. Add user preference to export invoices when "Invoice" button is pressed?
 - Put the name of the approver on the job costing.
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
-- Impl new service contract and agreement using new files sent by GA. Add menu 
-  items to print contract and agreement separately.
 - Make credit status dialog about 25 - 50 pixels taller.
 - Add "Billing Information" tab to client dialog with discount, credit limit, 
   tax exempt etc.
