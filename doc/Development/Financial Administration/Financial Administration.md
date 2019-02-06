@@ -1,6 +1,9 @@
 # Tasks
 
 ## Accpac Invoicing, Credit Status Reporting, Job Costing
+- Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
+  Do similar for "getReceiptNumbers()" and other fields dealing with payment.
+- See if two values can be combined into 1 column in SQL.
 - Impl new service contract and agreement using new files sent by GA. Add menu 
   items to print contract and agreement separately. Check that correct deposit is 
   printed on the contract.
