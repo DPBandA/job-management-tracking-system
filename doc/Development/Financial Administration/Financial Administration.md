@@ -1,12 +1,19 @@
 # Tasks
 
 ## Accpac Invoicing, Credit Status Reporting, Job Costing
+- Extract proforma info and submit proforma based on the following:
+  * Impl Tax class for storing GCT and other taxes. Add accounting code as field for specifying the 
+    distribution code. Impl automatic application of tax based on department.
+  * Impl Discount class with value, valueType, description, AccountingCode etc 
+  * Impl new service contract and agreement using new files sent by GA. Add menu 
+    items to print contract and agreement separately. Check that correct deposit is 
+    printed on the contract. Update job costing form to include approver and receipt #s.
+  * Add "Billing Information" tab to client dialog with discount, credit limit, 
+    tax exempt etc.
+  * Impl automtatic pulling of Accpac info into JMTS client class where possible.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
 - See if two values can be combined into 1 column in SQL.
-- Impl new service contract and agreement using new files sent by GA. Add menu 
-  items to print contract and agreement separately. Check that correct deposit is 
-  printed on the contract.
 - When new cash payment is added the "edited" status is not changed. Fix.
 - Fix printing of receipts on job costing using 25/2018/9506 and ensure job costing approver
   appears on the printed job costing.
@@ -15,9 +22,6 @@
   must be checked to see if they can be exported first eg the client id is valid.
 - Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
   table.
-- Impl Tax class for storing GCT and other taxes. Add accounting code as field for specifying the 
-  distribution code.
-- Impl Discount class with value, valueType, description, AccountingCode etc.
 - Impl  getting dist. code of the from 1310-21-24-21 
    ie dept code first, subgroup second and div code last
 - Impl searching for job costings that have been approved but not invoiced so
@@ -39,8 +43,6 @@
 - Put the name of the approver on the job costing.
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
 - Make credit status dialog about 25 - 50 pixels taller.
-- Add "Billing Information" tab to client dialog with discount, credit limit, 
-  tax exempt etc.
 
 ## Purchasing Module 
 - Adding/Editing supplier in the PR dialog does not seem to work. Fix.
