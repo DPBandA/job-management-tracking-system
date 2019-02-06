@@ -17,6 +17,7 @@
   table.
 - Impl Tax class for storing GCT and other taxes. Add accounting code as field for specifying the 
   distribution code.
+- Impl Discount class with value, valueType, description, AccountingCode etc.
 - Impl  getting dist. code of the from 1310-21-24-21 
    ie dept code first, subgroup second and div code last
 - Impl searching for job costings that have been approved but not invoiced so
