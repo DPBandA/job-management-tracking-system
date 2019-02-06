@@ -26,6 +26,7 @@
 - Remember to  create labs and units within departments.
 
 ## General
+- Make the assignee field as wide as the department field in the job dialog.
 - Add Division and Business to the Job class and initialize them when a job is created or
   subcontracted.
 - Create Module entity class for storing and tracking module information such as name and
