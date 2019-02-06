@@ -1,11 +1,5 @@
 ## Tasks
-- Generate client reports by departments  for Rhooms with specific departments. Remove the 
-  specific departments from the clients grouped by department report.
-- Add fields to client table in all databases and test with entry of new job then cancel it: 
-  * CREDITLIMIT (DOUBLE)
-  * DISCOUNT (DOUBLE)
-  * TAXEXEMPT(BIT)
-  * DISCOUNTTYPE (VARCHAR 255)
+- Add total payment to uninvoiced and deposit reports.
 - Edit and deploy all reports to production server and send email re formal
   requests for other reports as follows: 
   * Note in JobStatusAndTracking class javadoc that costingDate and dateCostingCompleted
