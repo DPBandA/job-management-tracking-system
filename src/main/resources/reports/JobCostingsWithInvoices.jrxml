@@ -28,10 +28,10 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="startOfPeriod1" class="java.util.Date" isForPrompting="false">
-		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2019-02-04")]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2019-01-10")]]></defaultValueExpression>
 	</parameter>
 	<parameter name="endOfPeriod1" class="java.util.Date" isForPrompting="false">
-		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2019-02-04")]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2019-01-31")]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -44,6 +44,7 @@
      jobsubcategory.`SubCategory` AS jobsubcategory_SubCategory,
      jobsubcategory.`IsEarning` AS jobsubcategory_IsEarning,
      classification.`NAME` AS classification_NAME,
+     classification.`ISEARNING` AS classification_ISEARNING,
      jobcostingandpayment.`FINALCOST` AS jobcostingandpayment_FINALCOST,
      jobcostingandpayment.`TOTALCOST` AS jobcostingandpayment_TOTALCOST,
      jobcostingandpayment.`DEPOSIT` AS jobcostingandpayment_DEPOSIT,
@@ -77,14 +78,9 @@ FROM
 WHERE
  jobstatusandtracking.`DATESUBMITTED` >= $P{startOfPeriod1}
  AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOfPeriod1}
- AND (classification.`NAME` NOT LIKE '%Non-Earning - Government Client Partnership%')
- AND (classification.`NAME` NOT LIKE '%Non-Earning - Internal Client Request%')
- AND (classification.`NAME` NOT LIKE '%Non-Earning - Obligatory Duties%')
- AND (classification.`NAME` NOT LIKE '%Non-Earning - Service Offered%')
+ AND (classification.`ISEARNING` = 1)
  AND (jobstatusandtracking.`WORKPROGRESS` NOT LIKE '%Cancelled%')
- AND (jobstatusandtracking.`WORKPROGRESS` NOT LIKE '%Withdrawn by client%')
- AND ( jobcostingandpayment.`INVOICED` = 0)
- 
+ AND (jobstatusandtracking.`WORKPROGRESS` NOT LIKE '%Withdrawn by client%') 
 
 ORDER BY
      jobstatusandtracking.`DATESUBMITTED` DESC]]>
@@ -123,6 +119,10 @@ ORDER BY
 	</field>
 	<field name="classification_NAME" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="classification_NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="classification"/>
+	</field>
+	<field name="classification_ISEARNING" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="classification_ISEARNING"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="classification"/>
 	</field>
 	<field name="jobcostingandpayment_FINALCOST" class="java.lang.Double">
@@ -192,7 +192,7 @@ ORDER BY
 				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="176" y="17" width="329" height="24" uuid="e4d5de4a-75f4-476e-a6cc-87671a899f43"/>
+				<reportElement x="176" y="8" width="266" height="42" uuid="e4d5de4a-75f4-476e-a6cc-87671a899f43"/>
 				<box leftPadding="10"/>
 				<textElement textAlignment="Left" markup="none">
 					<font size="18" isBold="true"/>
@@ -261,32 +261,39 @@ ORDER BY
 				<text><![CDATA[CostingApproval Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1660" y="0" width="90" height="18" forecolor="#000000" uuid="8100dce6-d780-4350-a10d-b97cd05e8c76"/>
+				<reportElement x="1797" y="0" width="90" height="18" forecolor="#000000" uuid="8100dce6-d780-4350-a10d-b97cd05e8c76"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Invoiced]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1750" y="0" width="168" height="18" forecolor="#000000" uuid="75bac3b2-dbb4-4b53-8e76-f51f96736631"/>
+				<reportElement x="1887" y="0" width="168" height="18" forecolor="#000000" uuid="75bac3b2-dbb4-4b53-8e76-f51f96736631"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Deposit (Obsolete) ($)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1918" y="0" width="163" height="18" forecolor="#000000" uuid="bb9b7d88-de94-4159-a111-c6bcfeeedbeb"/>
+				<reportElement x="2055" y="0" width="163" height="18" forecolor="#000000" uuid="bb9b7d88-de94-4159-a111-c6bcfeeedbeb"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Payments (Obsolete) ($)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2081" y="0" width="130" height="18" forecolor="#000000" uuid="20954274-3b59-4393-8ed8-3d9098570632"/>
+				<reportElement x="2218" y="0" width="130" height="18" forecolor="#000000" uuid="20954274-3b59-4393-8ed8-3d9098570632"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total Payments ($)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1660" y="0" width="137" height="18" forecolor="#000000" uuid="f09fbeca-3564-452b-917a-4be12811bfde"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Classification]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -350,32 +357,39 @@ ORDER BY
 				<textFieldExpression><![CDATA[$F{jobstatusandtracking_DATECOSTINGAPPROVED}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="1660" y="0" width="90" height="18" uuid="ed6fd949-6aeb-42f3-8c35-c7f403a76fcb"/>
+				<reportElement positionType="Float" x="1797" y="0" width="90" height="18" uuid="ed6fd949-6aeb-42f3-8c35-c7f403a76fcb"/>
 				<textElement textAlignment="Left">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{costing_INVOICED}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="1750" y="0" width="168" height="18" uuid="787b682f-1c98-4949-8d40-138fcf738664"/>
+				<reportElement positionType="Float" x="1887" y="0" width="168" height="18" uuid="787b682f-1c98-4949-8d40-138fcf738664"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jobcostingandpayment_DEPOSIT}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="1918" y="0" width="163" height="18" uuid="287f27a1-29d5-427e-b179-9f23079886c7"/>
+				<reportElement positionType="Float" x="2055" y="0" width="163" height="18" uuid="287f27a1-29d5-427e-b179-9f23079886c7"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jobcostingandpayment_PAYMENTRECEIVEDTODAT}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="2081" y="0" width="130" height="18" uuid="42ce82f4-7760-4036-9c12-eab4ae522848"/>
+				<reportElement positionType="Float" x="2218" y="0" width="130" height="18" uuid="42ce82f4-7760-4036-9c12-eab4ae522848"/>
 				<textElement>
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jobcostingandpayment_TOTALPAYMENT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="1660" y="0" width="137" height="18" uuid="d3889d67-4fe8-4272-9dc2-25a0c8de26a2"/>
+				<textElement textAlignment="Left">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{classification_NAME}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -1,5 +1,6 @@
 ## Tasks
-- Add total payment to uninvoiced and deposit reports.
+- Modify uninvoiced and deposit reports to use "isearnining" field instead of 
+  classification name.
 - Edit and deploy all reports to production server and send email re formal
   requests for other reports as follows: 
   * Note in JobStatusAndTracking class javadoc that costingDate and dateCostingCompleted
