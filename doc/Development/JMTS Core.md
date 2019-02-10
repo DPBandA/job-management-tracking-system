@@ -104,3 +104,4 @@ Query: UpdateObjectQuery(1514057)
   and "this month" as search parameters.
 - Redesign the module access and privilege feature to allow finer level access to a module/submodule and features.
 - Use the technique use to detect opened jobs to detect when a use is logged on. See if this can be used to automatically notify a user and log them off.
+- For job dialog show the busy wait and hide it "in the dialog return method.
