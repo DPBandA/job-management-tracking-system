@@ -1,4 +1,7 @@
 ## Tasks
+- This financial year date period should be Apr 1 2018 to Mar 31 2019 and not
+  what it is now
+- Last financial year is being set to this financial year. Fix.
 - Modify uninvoiced and deposit reports to use "isearnining" field instead of 
   classification name.
 - Edit and deploy all reports to production server and send email re formal
@@ -18,4 +21,8 @@
   The may lead to better exporting of reports to Excel as is done in JR Studio.
 - Add amount paid to "Uninvoiced" and "Deposit" reports using an inner aggregate
   subquery.
+- Jobs without samples are not comining out in the engineering report raw data.
+- Test and calibrations not commining out on eng. report raw data.
+- Add # of assessments to eng report. Get clarification from GA.
+- Product common name and product not coming out in eng. report raw data.
 
