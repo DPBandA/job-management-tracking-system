@@ -43,6 +43,7 @@
 - Put the name of the approver on the job costing.
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
 - Make credit status dialog about 25 - 50 pixels taller.
+- Create FinancialAccount and FinancialTransaction classes for the accounting module of the jmts. Let FinancialTransaction class Implement the  Transaction interface and FinancialAccount class inherit from Account.
 
 ## Purchasing Module 
 - Adding/Editing supplier in the PR dialog does not seem to work. Fix.
