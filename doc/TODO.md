@@ -21,8 +21,8 @@
   The may lead to better exporting of reports to Excel as is done in JR Studio.
 - Add amount paid to "Uninvoiced" and "Deposit" reports using an inner aggregate
   subquery.
-- Jobs without samples are not comining out in the engineering report raw data.
-- Test and calibrations not commining out on eng. report raw data.
+- Jobs without samples are not coming out in the engineering report raw data.
+- Test and calibrations not coming out on eng. report raw data.
 - Add # of assessments to eng report. Get clarification from GA.
 - Product common name and product not coming out in eng. report raw data.
 - Add "Two months ago" and "Two years ago" date periods.
