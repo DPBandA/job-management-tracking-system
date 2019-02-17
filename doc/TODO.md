@@ -1,4 +1,5 @@
 ## Tasks
+- Comment out PR and A/R features for next release.
 - This financial year date period should be Apr 1 2018 to Mar 31 2019 and not
   what it is now
 - Last financial year is being set to this financial year. Fix.
