@@ -26,24 +26,6 @@ Email: info@dpbennett.com.jm
 
         <p:toolbarGroup align="left">
 
-            <ui:remove>
-                <p:commandButton                
-                    actionListener="#{jobManager.createNewJob}"      
-                    onstart="PF('longProcessDialogVar').show();" 
-                    oncomplete="PF('longProcessDialogVar').hide();"
-                    onerror="PF('connectionErrorDialog').show();"
-                    value="New"       
-                    update="headerForm:growl3"
-                    title="Create new job"
-                    icon="ui-icon-plus"
-                    process="@this" >
-
-                    <p:ajax event="dialogReturn" 
-                            update=":mainTabViewForm:mainTabView"
-                            listener="#{jobManager.jobDialogReturn}" />
-
-                </p:commandButton>
-            </ui:remove>
             <p:menuButton value="New" >  
                 <p:menuitem>                       
                     <p:commandButton value="Job"
@@ -62,7 +44,7 @@ Email: info@dpbennett.com.jm
                     </p:commandButton>          
                 </p:menuitem>
                 <p:separator/>
-                <p:menuitem>                       
+                <p:menuitem disabled="true" >                       
                     <p:commandButton value="Purchase requisition"
                                      style="width: 100%;text-align: left;background: none;border: 0;"
                                      title="Create new purchase requisition"
@@ -78,7 +60,7 @@ Email: info@dpbennett.com.jm
                     </p:commandButton>          
                 </p:menuitem>
 
-                <p:menuitem>                       
+                <p:menuitem disabled="true" >                       
                     <p:commandButton value="Supplier"
                                      style="width: 100%;text-align: left;background: none;border: 0;"
                                      title="Create new supplier"
