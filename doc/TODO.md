@@ -1,6 +1,6 @@
-## Tasks
-- "Sort" the date periods in initDatePeriod() to match the order in the date period
-  of select one component.
+### Tasks
+- Implement DatePeriodTest class and Use March 31 {current year} as the reference 
+  date for determining financial year periods.
 - This financial year date period should be Apr 1 2018 to Mar 31 2019 and not
   what it is now
 - Last financial year is being set to this financial year. Fix.
@@ -28,4 +28,8 @@
 - Add # of assessments to eng report. Get clarification from GA.
 - Product common name and product not coming out in eng. report raw data.
 - Add "Two months ago" and "Two years ago" date periods.
+- Whenever a client is edited from the job form without a valid address and contact entered the 
+job cannot be saved no matter what. To solve this, the user could be prevented from editing the 
+client until a valid address and contact are entered ie the edit menu item should be disabled.
+- Test other scenarios when editing client such as address and contact.
 

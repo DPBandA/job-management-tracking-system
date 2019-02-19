@@ -176,6 +176,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return application;
     }
 
+    /**
+     * Completes a list of active job subcategories based on the query string provided.
+     * 
+     * @param query
+     * @return 
+     */
     public List<JobSubCategory> completeActiveJobSubCategories(String query) {
         EntityManager em = getEntityManager1();
 
@@ -185,7 +191,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * NB: query not used to filter
+     * Completes a list of active job categories based on the query string provided.
      *
      * @param query
      * @return
