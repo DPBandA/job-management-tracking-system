@@ -1,9 +1,4 @@
 ### Tasks
-- Implement DatePeriodTest class and Use March 31 {current year} as the reference 
-  date for determining financial year periods.
-- This financial year date period should be Apr 1 2018 to Mar 31 2019 and not
-  what it is now
-- Last financial year is being set to this financial year. Fix.
 - Modify uninvoiced and deposit reports to use "isearnining" field instead of 
   classification name.
 - Edit and deploy all reports to production server and send email re formal
