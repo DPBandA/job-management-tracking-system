@@ -37,6 +37,7 @@ import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Supplier;
+import jm.com.dpbennett.business.entity.Tax;
 import org.primefaces.event.CellEditEvent;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.wal.managers.ReportManager;
@@ -60,6 +61,7 @@ public class FinanceManager implements Serializable {
     private EntityManagerFactory EMF2;
     private Integer longProcessProgress;
     private AccountingCode selectedAccountingCode;
+    private Tax selectedTax;
     private Supplier selectedSupplier;
     private Contact selectedSupplierContact;
     private Address selectedSupplierAddress;
@@ -81,6 +83,14 @@ public class FinanceManager implements Serializable {
      */
     public FinanceManager() {
         init();
+    }
+
+    public Tax getSelectedTax() {
+        return selectedTax;
+    }
+
+    public void setSelectedTax(Tax selectedTax) {
+        this.selectedTax = selectedTax;
     }
     
     public ReportManager getReportManager() {
@@ -184,6 +194,14 @@ public class FinanceManager implements Serializable {
     public void saveSelectedAccountingCode() {
 
         selectedAccountingCode.save(getEntityManager1());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+
+    }
+    
+    public void saveSelectedTax() {
+
+        selectedTax.save(getEntityManager1());
 
         PrimeFaces.current().dialog().closeDynamic(null);
 

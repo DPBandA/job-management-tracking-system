@@ -1,6 +1,8 @@
 # Tasks
 
 ## Accpac Invoicing, Credit Status Reporting, Job Costing
+- Impl Tax dialog and tab.
+  * Impl autocompplete for accounting code. Use department autocomplete as basis.
 - Impl Tax class for storing GCT and other taxes. Add AccountingCode as field 
   called "code" for specifying the distribution code. Impl automatic application 
   of tax based on department. Use another entity class as basis.
