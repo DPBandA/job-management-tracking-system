@@ -68,23 +68,34 @@ Email: info@dpbennett.com.jm
                         <f:validator validatorId="taxValidator" />
 
                     </p:inputText> 
-                    
+
                     <h:outputText value="Accounting code:" style="font-weight: bold;" />
-                    <p:inputText value="#{financeManager.selectedAccountingCode.code}"    
-                                 id="accountingCode"
-                                 style="width:300px" >
+                    <p:autoComplete id="accountingCode"  
+                                    var="accountingCode"
+                                    forceSelection="true"      
+                                    dropdown="true"
+                                    scrollHeight="200" 
+                                    size="35"
+                                    maxlength="40"
+                                    value="#{financeManager.selectedTax.accountingCode}"
+                                    title="#{financeManager.selectedTax.accountingCode}"
+                                    itemValue="#{accountingCode}"
+                                    itemLabel="#{accountingCode.name}"
+                                    converter="accountingCodeConverter"
+                                    validator="businessEntityValidator"
+                                    completeMethod="#{financeManager.completeAccountingCode}" />            
 
-                        <f:validator validatorId="accountingCodeValidator" />
-
-                    </p:inputText> 
-                    
-                    <h:outputText value="Abbrev.:" style="font-weight: bold;" />
-                    <p:inputText value="#{financeManager.selectedAccountingCode.abbreviation}"    
-                                 id="accountingCodeAbbrev"
-                                 style="width:300px" >
-
-                        <f:validator validatorId="accountingCodeValidator" />
-
+                    <h:outputText value="Value:" style="font-weight: bold;" />
+                    <p:inputText value="#{financeManager.selectedTax.taxValue}"
+                                 converterMessage="Please enter a valid tax value."
+                                 styleClass="number-field"
+                                 maxlength="15" >
+                       
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                        
+                        <p:ajax event="change"                                                       
+                                process="@this"/>
+                        
                     </p:inputText>
 
                     <h:outputText value="Type:" style="font-weight: bold;" />                    

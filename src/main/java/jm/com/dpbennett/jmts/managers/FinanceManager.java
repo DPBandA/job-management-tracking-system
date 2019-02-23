@@ -84,6 +84,21 @@ public class FinanceManager implements Serializable {
     public FinanceManager() {
         init();
     }
+    
+    public List<AccountingCode> completeAccountingCode(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<AccountingCode> codes = AccountingCode.findAccountingCodesByNameAndDescription(em, query);
+
+            return codes;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
 
     public Tax getSelectedTax() {
         return selectedTax;

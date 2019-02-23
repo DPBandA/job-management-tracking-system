@@ -1,6 +1,6 @@
 # Tasks
 
-## Accpac Invoicing, Credit Status Reporting, Job Costing
+## Accpac Invoicing, Credit Status Reporting, Job Costing (v3.4.0)
 - Impl Tax dialog and tab.
   * Impl autocompplete for accounting code. Use department autocomplete as basis.
 - Impl Tax class for storing GCT and other taxes. Add AccountingCode as field 
@@ -12,6 +12,8 @@
     printed on the contract. Update job costing form to include approver and receipt #s.
 - Add "Billing Information" tab to client dialog with discount, credit limit, 
     tax exempt etc.
+- Add Services tab to system admin. Add services field to Job class. Add/remove the 
+  respective service when a service is selected/unselected.
 - Impl automtatic pulling of Accpac info into JMTS client class where possible.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
@@ -47,7 +49,8 @@
 - Create FinancialAccount and FinancialTransaction classes for the accounting module of the jmts. Let FinancialTransaction class Implement the  Transaction interface and FinancialAccount class inherit from Account.
 - Put "active" field in the JobCostingAndPayment class and use it to manage the visibility of costing templates.
 
-## Purchasing Module 
+## Purchasing Module (v3.5.0) NB to be moved to separate issue. The current issue title is to be changed.
+
 - Adding/Editing supplier in the PR dialog does not seem to work. Fix.
 - Complete PO Jasper form:
   * Set all parameters before exporting.
