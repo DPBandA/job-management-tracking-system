@@ -34,6 +34,7 @@ import jm.com.dpbennett.business.entity.AccountingCode;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.DatePeriod;
+import jm.com.dpbennett.business.entity.Discount;
 import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Supplier;
@@ -62,6 +63,7 @@ public class FinanceManager implements Serializable {
     private Integer longProcessProgress;
     private AccountingCode selectedAccountingCode;
     private Tax selectedTax;
+    private Discount selectedDiscount;
     private Supplier selectedSupplier;
     private Contact selectedSupplierContact;
     private Address selectedSupplierAddress;
@@ -69,8 +71,12 @@ public class FinanceManager implements Serializable {
     private String searchText;
     private String supplierSearchText;
     private String accountingCodeSearchText;
+    private String taxSearchText;
+    private String discountSearchText;
     private Boolean isActiveSuppliersOnly;
     private List<AccountingCode> foundAccountingCodes;
+    private List<Tax> foundTaxes;
+    private List<Discount> foundDiscounts;
     private List<Supplier> foundSuppliers;
     private MainTabView mainTabView;
     private JobManagerUser user;
@@ -84,7 +90,7 @@ public class FinanceManager implements Serializable {
     public FinanceManager() {
         init();
     }
-    
+
     public List<AccountingCode> completeAccountingCode(String query) {
         EntityManager em;
 
@@ -107,24 +113,32 @@ public class FinanceManager implements Serializable {
     public void setSelectedTax(Tax selectedTax) {
         this.selectedTax = selectedTax;
     }
-    
-    public ReportManager getReportManager() {
-            return BeanUtils.findBean("reportManager");
+
+    public Discount getSelectedDiscount() {
+        return selectedDiscount;
     }
-    
+
+    public void setSelectedDiscount(Discount selectedDiscount) {
+        this.selectedDiscount = selectedDiscount;
+    }
+
+    public ReportManager getReportManager() {
+        return BeanUtils.findBean("reportManager");
+    }
+
     public void openReportsTab() {
         getReportManager().openReportsTab("Job");
     }
-    
+
     public String getRenderDateSearchFields() {
         switch (searchType) {
             case "Suppliers":
-               return "false";            
+                return "false";
             default:
                 return "true";
         }
     }
-    
+
     public void openFinancialAdministration() {
         getMainTabView().openTab("Financial Administration");
     }
@@ -213,10 +227,18 @@ public class FinanceManager implements Serializable {
         PrimeFaces.current().dialog().closeDynamic(null);
 
     }
-    
+
     public void saveSelectedTax() {
 
         selectedTax.save(getEntityManager1());
+
+        PrimeFaces.current().dialog().closeDynamic(null);
+
+    }
+
+    public void saveSelectedDiscount() {
+
+        selectedDiscount.save(getEntityManager1());
 
         PrimeFaces.current().dialog().closeDynamic(null);
 
@@ -232,8 +254,25 @@ public class FinanceManager implements Serializable {
         return valueTypes;
     }
 
+    public List getValueTypes() {
+        ArrayList valueTypes = new ArrayList();
+
+        valueTypes.add(new SelectItem("Percentage", "Percentage"));
+        valueTypes.add(new SelectItem("Currency", "Currency"));
+
+        return valueTypes;
+    }
+
     public void editAccountingCode() {
         PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
+    }
+
+    public void editTax() {
+        PrimeFacesUtils.openDialog(null, "taxDialog", true, true, true, 0, 500);
+    }
+    
+    public void editDiscount() {
+        PrimeFacesUtils.openDialog(null, "discountDialog", true, true, true, 0, 500);
     }
 
     public void onAccountingCodeCellEdit(CellEditEvent event) {
@@ -246,6 +285,42 @@ public class FinanceManager implements Serializable {
                 if (!newValue.toString().trim().equals("")) {
                     AccountingCode code = getFoundAccountingCodes().get(index);
                     code.save(getEntityManager1());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
+    public void onTaxCellEdit(CellEditEvent event) {
+        int index = event.getRowIndex();
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        try {
+            if (newValue != null && !newValue.equals(oldValue)) {
+                if (!newValue.toString().trim().equals("")) {
+                    Tax tax = getFoundTaxes().get(index);
+                    tax.save(getEntityManager1());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+    
+    public void onDiscountCellEdit(CellEditEvent event) {
+        int index = event.getRowIndex();
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
+
+        try {
+            if (newValue != null && !newValue.equals(oldValue)) {
+                if (!newValue.toString().trim().equals("")) {
+                    Discount discount = getFoundDiscounts().get(index);
+                    discount.save(getEntityManager1());
                 }
             }
         } catch (Exception e) {
@@ -274,6 +349,30 @@ public class FinanceManager implements Serializable {
         this.foundAccountingCodes = foundAccountingCodes;
     }
 
+    public List<Tax> getFoundTaxes() {
+        if (foundTaxes == null) {
+            foundTaxes = Tax.findAllTaxes(getEntityManager1());
+        }
+
+        return foundTaxes;
+    }
+
+    public void setFoundTaxes(List<Tax> foundTaxes) {
+        this.foundTaxes = foundTaxes;
+    }
+
+    public List<Discount> getFoundDiscounts() {
+        if (foundDiscounts == null) {
+            foundDiscounts = Discount.findAllDiscounts(getEntityManager1());
+        }
+
+        return foundDiscounts;
+    }
+
+    public void setFoundDiscounts(List<Discount> foundDiscounts) {
+        this.foundDiscounts = foundDiscounts;
+    }
+
     public void doAccountingCodeSearch() {
 
         foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
@@ -284,11 +383,45 @@ public class FinanceManager implements Serializable {
         }
     }
 
+    public void doTaxSearch() {
+
+        foundTaxes = Tax.findTaxesByNameAndDescription(getEntityManager1(),
+                getTaxSearchText());
+
+        if (foundTaxes == null) {
+            foundTaxes = new ArrayList<>();
+        }
+    }
+
+    public void doDiscountSearch() {
+
+        foundDiscounts = Discount.findDiscountsByNameAndDescription(getEntityManager1(),
+                getDiscountSearchText());
+
+        if (foundDiscounts == null) {
+            foundDiscounts = new ArrayList<>();
+        }
+    }
+
     public void createNewAccountingCode() {
 
         selectedAccountingCode = new AccountingCode();
 
         PrimeFacesUtils.openDialog(null, "accountingCodeDialog", true, true, true, 0, 500);
+    }
+
+    public void createNewTax() {
+
+        selectedTax = new Tax();
+
+        PrimeFacesUtils.openDialog(null, "taxDialog", true, true, true, 0, 500);
+    }
+
+    public void createNewDiscount() {
+
+        selectedDiscount = new Discount();
+
+        PrimeFacesUtils.openDialog(null, "discountDialog", true, true, true, 0, 500);
     }
 
     public AccountingCode getSelectedAccountingCode() {
@@ -489,10 +622,10 @@ public class FinanceManager implements Serializable {
     public void doSupplierSearch() {
         doSupplierSearch(supplierSearchText);
     }
-    
+
     public void doSupplierSearch(String supplierSearchText) {
         this.supplierSearchText = supplierSearchText;
-        
+
         if (supplierSearchText.trim().length() > 1) {
             if (getIsActiveSuppliersOnly()) {
                 foundSuppliers = Supplier.findActiveSuppliersByFirstPartOfName(getEntityManager1(), supplierSearchText);
@@ -557,7 +690,7 @@ public class FinanceManager implements Serializable {
         selectedSupplier = new Supplier("", true);
 
         openSuppliersTab();
-        
+
         editSelectedSupplier();
     }
 
@@ -654,12 +787,30 @@ public class FinanceManager implements Serializable {
     private void init() {
         longProcessProgress = 0;
         accountingCodeSearchText = "";
+        taxSearchText = "";
+        discountSearchText = "";
         supplierSearchText = "";
         foundSuppliers = new ArrayList<>();
         searchType = "Purchase requisitions";
         dateSearchPeriod = new DatePeriod("This year", "year",
                 "requisitionDate", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
+    }
+
+    public String getDiscountSearchText() {
+        return discountSearchText;
+    }
+
+    public void setDiscountSearchText(String discountSearchText) {
+        this.discountSearchText = discountSearchText;
+    }
+
+    public String getTaxSearchText() {
+        return taxSearchText;
+    }
+
+    public void setTaxSearchText(String taxSearchText) {
+        this.taxSearchText = taxSearchText;
     }
 
     public void reset() {

@@ -31,19 +31,19 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="expires" content="0" />
         <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
         <meta http-equiv="pragma" content="no-cache" />
-        <title>Tax Detail</title>
+        <title>Discount Detail</title>
         <link rel="stylesheet" href="../css/main.css" />
     </h:head>
     <h:body >  
         <ui:include src="../common/longProcessDialog.xhtml"/>  
         <ui:include src="../common/commonDialogs.xhtml"/>  
-        <h:form id="taxDialogForm">        
+        <h:form id="discountDialogForm">        
             <p:growl id="growl" life="5000" />
 
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{financeManager.saveSelectedTax}"
+                                     actionListener="#{financeManager.saveSelectedDiscount}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"
@@ -61,11 +61,11 @@ Email: info@dpbennett.com.jm
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
                 <h:panelGrid columns="2">                
                     <h:outputText value="Name:" style="font-weight: bold;" />
-                    <p:inputText value="#{financeManager.selectedTax.name}"    
-                                 id="taxName"
+                    <p:inputText value="#{financeManager.selectedDiscount.name}"    
+                                 id="discountName"
                                  style="width:300px" >
 
-                        <f:validator validatorId="taxValidator" />
+                        <f:validator validatorId="discountValidator" />
 
                     </p:inputText> 
 
@@ -77,8 +77,8 @@ Email: info@dpbennett.com.jm
                                     scrollHeight="200" 
                                     size="35"
                                     maxlength="40"
-                                    value="#{financeManager.selectedTax.accountingCode}"
-                                    title="#{financeManager.selectedTax.accountingCode}"
+                                    value="#{financeManager.selectedDiscount.accountingCode}"
+                                    title="#{financeManager.selectedDiscount.accountingCode}"
                                     itemValue="#{accountingCode}"
                                     itemLabel="#{accountingCode.name}"
                                     converter="accountingCodeConverter"
@@ -86,8 +86,8 @@ Email: info@dpbennett.com.jm
                                     completeMethod="#{financeManager.completeAccountingCode}" />            
 
                     <h:outputText value="Value:" style="font-weight: bold;" />
-                    <p:inputText value="#{financeManager.selectedTax.taxValue}"
-                                 converterMessage="Please enter a valid tax value."
+                    <p:inputText value="#{financeManager.selectedDiscount.discountValue}"
+                                 converterMessage="Please enter a valid discount value."
                                  styleClass="number-field"
                                  maxlength="15" >
                        
@@ -99,8 +99,8 @@ Email: info@dpbennett.com.jm
                     </p:inputText>
 
                     <h:outputText value="Value type:" style="font-weight: bold;" />                    
-                    <p:selectOneMenu id="taxValueType"    
-                                     value="#{financeManager.selectedTax.taxValueType}">
+                    <p:selectOneMenu id="discountValueType"    
+                                     value="#{financeManager.selectedDiscount.discountValueType}">
 
                         <f:selectItems  value="#{financeManager.valueTypes}"
                                         var="type"                            
@@ -110,14 +110,14 @@ Email: info@dpbennett.com.jm
                     </p:selectOneMenu>
 
                     <h:outputText value="Description:" style="width: 50%;font-weight: bold;" />
-                    <p:inputTextarea  value="#{financeManager.selectedTax.description}"
-                                      id="taxDescription"
+                    <p:inputTextarea  value="#{financeManager.selectedDiscount.description}"
+                                      id="discountDescription"
                                       maxlength="1000"
                                       rows="4"
                                       autoResize="false"
                                       style="width:300px" >
 
-                        <f:validator validatorId="taxValidator" />
+                        <f:validator validatorId="discountValidator" />
 
                     </p:inputTextarea>                           
 
@@ -127,7 +127,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{financeManager.saveSelectedTax}"
+                                     actionListener="#{financeManager.saveSelectedDiscount}"
                                      onstart="PF('longProcessDialogVar').show();"
                                      oncomplete="PF('longProcessDialogVar').hide();"
                                      icon="ui-icon ui-icon-check"

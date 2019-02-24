@@ -1,17 +1,17 @@
 # Tasks
 
 ## Accpac Invoicing, Credit Status Reporting, Job Costing (v3.4.0)
-- Impl Tax dialog and tab.
-  * Impl autocompplete for accounting code. Use department autocomplete as basis.
+- Impl Discount dialog and tab.
 - Impl Tax class for storing GCT and other taxes. Add AccountingCode as field 
   called "code" for specifying the distribution code. Impl automatic application 
   of tax based on department. Use another entity class as basis.
 - Impl Discount class with value, valueType, description, AccountingCode etc 
 - Impl new service contract and agreement using new files sent by GA. Add menu 
-    items to print contract and agreement separately. Check that correct deposit is 
-    printed on the contract. Update job costing form to include approver and receipt #s.
+  items to print contract and agreement separately. Check that correct deposit is 
+  printed on the contract. Update job costing form to include approver and receipt #s.
 - Add "Billing Information" tab to client dialog with discount, credit limit, 
-    tax exempt etc.
+  tax exempt etc. Get the accpac credit status and limit when the accounting code is
+  entered.
 - Add Services tab to system admin. Add services field to Job class. Add/remove the 
   respective service when a service is selected/unselected.
 - Impl automtatic pulling of Accpac info into JMTS client class where possible.
@@ -48,6 +48,9 @@
 - Make credit status dialog about 25 - 50 pixels taller.
 - Create FinancialAccount and FinancialTransaction classes for the accounting module of the jmts. Let FinancialTransaction class Implement the  Transaction interface and FinancialAccount class inherit from Account.
 - Put "active" field in the JobCostingAndPayment class and use it to manage the visibility of costing templates.
+
+### Deployment
+- Run TaxTest to create Tax table if it is not created automatically.
 
 ## Purchasing Module (v3.5.0) NB to be moved to separate issue. The current issue title is to be changed.
 

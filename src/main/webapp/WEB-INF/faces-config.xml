@@ -38,6 +38,10 @@
         <converter-class>jm.com.dpbennett.wal.converter.TaxConverter</converter-class>
     </converter>
     <converter>
+        <converter-id>discountConverter</converter-id>
+        <converter-class>jm.com.dpbennett.wal.converter.DiscountConverter</converter-class>
+    </converter>
+    <converter>
         <converter-id>reportConverter</converter-id>
         <converter-class>jm.com.dpbennett.wal.converter.ReportConverter</converter-class>
     </converter>     
@@ -104,6 +108,10 @@
     <validator>
         <validator-id>taxValidator</validator-id>
         <validator-class>jm.com.dpbennett.wal.validator.TaxValidator</validator-class>
+    </validator>
+    <validator>
+        <validator-id>discountValidator</validator-id>
+        <validator-class>jm.com.dpbennett.wal.validator.DiscountValidator</validator-class>
     </validator>
     <validator>
         <validator-id>systemOptionValidator</validator-id>
@@ -348,6 +356,13 @@
         <navigation-case>
             <from-outcome>taxDialog</from-outcome>
             <to-view-id>/finance/taxDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>discountDialog</from-outcome>
+            <to-view-id>/finance/discountDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>

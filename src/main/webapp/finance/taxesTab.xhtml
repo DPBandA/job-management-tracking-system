@@ -1,0 +1,131 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new tax"                                  
+                             value="New"
+                             actionListener="#{financeManager.createNewTax}"                                                     
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-plus" >
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{financeManager.doTaxSearch}"
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:taxesTable"/>
+
+
+            </p:commandButton>
+            <p:spacer width="20" />
+            <p:inputText value="#{financeManager.taxSearchText}"                                             
+                         style="width:250px" placeholder="Enter any part of tax description">
+                <p:ajax event="keyup"
+                        global="false"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:taxesTable"
+                        listener="#{financeManager.doTaxSearch}"
+                        process="@this"/>
+            </p:inputText>
+        </p:toolbarGroup>
+    </p:toolbar>    
+    <p:dataTable id="taxesTable"                                       
+                 var="tax"     
+                 editable="true" 
+                 editMode="cell"
+                 paginator="true"
+                 rows="15"
+                 widgetVar="taxTableVar"
+                 style="margin-top: 1px;"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{financeManager.foundTaxes}">
+
+        <p:ajax event="cellEdit" listener="#{financeManager.onTaxCellEdit}" />
+
+        <f:facet name="header">
+            Taxes
+        </f:facet>
+
+        <p:column headerText="Name">
+            <p:cellEditor>
+                <f:facet name="output"> 
+                    <h:outputText value="#{tax.name}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{tax.name}" style="width:96%"/>
+                </f:facet>
+            </p:cellEditor>                                         
+        </p:column>           
+        
+        <p:column headerText="Value">
+            <p:cellEditor>
+                <f:facet name="output"> 
+                    <h:outputText value="#{tax.taxValue}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{tax.taxValue}" style="width:96%"/>
+                </f:facet>
+            </p:cellEditor>                                         
+        </p:column> 
+
+        <p:column headerText="Description">
+            <p:cellEditor>
+                <f:facet name="output"> 
+                    <h:outputText value="#{tax.description}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{tax.description}" style="width:96%"/>
+                </f:facet>
+            </p:cellEditor>                                           
+        </p:column>   
+
+        <p:column style="width:32px">
+            <p:commandButton title="View or edit tax"   
+                             actionListener="#{financeManager.editTax}"
+                             onstart="PF('longProcessDialogVar').show();"  
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             global="true"
+                             process="@this"
+                             icon="ui-icon ui-icon-pencil">
+
+                <f:setPropertyActionListener value="#{tax}"                                                                    
+                                             target="#{financeManager.selectedTax}" />
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{financeManager.doTaxSearch}"
+                        update=":mainTabViewForm:mainTabView:financialAdminTabView:taxesTable"/>
+
+            </p:commandButton>           
+        </p:column>
+    </p:dataTable> 
+
+</html>
+
