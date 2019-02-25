@@ -659,8 +659,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     }
 
-    public Boolean getCanApplyGCT() {
-        return JobCostingAndPayment.getCanApplyGCT(getCurrentJob());
+    public Boolean getCanApplyTax() {
+        return JobCostingAndPayment.getCanApplyTax(getCurrentJob());
     }
 
     public MainTabView getMainTabView() {
@@ -1297,7 +1297,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         EntityManager em = getEntityManager1();
 
         // Get the clasification saved for use in setting taxes
-        JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
+        //JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
         if (currentJob.getId() != null) {
             getJobFinanceManager().updateAllTaxes(null);
@@ -2057,7 +2057,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             currentJob.setJobNumber(Job.getJobNumber(currentJob, getEntityManager1()));
         }
 
-        JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
+        //JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         if (currentJob.getId() != null) {
             getJobFinanceManager().updateAllTaxes(null);
         }
@@ -2347,7 +2347,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob.setJobNumber(getCurrentJobNumber());
             }
 
-            JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
+            //JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
             if (currentJob.getId() != null) {
                 getJobFinanceManager().updateAllTaxes(null);
             }
@@ -2370,7 +2370,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 currentJob.setJobNumber(getCurrentJobNumber());
             }
 
-            JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
+            //JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
             if (currentJob.getId() != null) {
                 getJobFinanceManager().updateAllTaxes(null);
             }

@@ -43,39 +43,39 @@ Email: info@dpbennett.com.jm
 
                     </p:commandButton>          
                 </p:menuitem>
-                <p:separator/>
-                <p:menuitem disabled="true" >                       
-                    <p:commandButton value="Purchase requisition"
-                                     style="width: 100%;text-align: left;background: none;border: 0;"
-                                     title="Create new purchase requisition"
-                                     icon="ui-icon-plus"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     actionListener="#{purchasingManager.createNewPurchaseReq}" 
-                                     process="@this" >
+                <ui:remove>
+                    <p:separator/>
+                    <p:menuitem >                       
+                        <p:commandButton value="Purchase requisition"
+                                         style="width: 100%;text-align: left;background: none;border: 0;"
+                                         title="Create new purchase requisition"
+                                         icon="ui-icon-plus"
+                                         onstart="PF('longProcessDialogVar').show();" 
+                                         oncomplete="longProcessDialogVar.hide();"
+                                         actionListener="#{purchasingManager.createNewPurchaseReq}" 
+                                         process="@this" >
 
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
+                            <p:ajax event="dialogReturn" 
+                                    update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
-                    </p:commandButton>          
-                </p:menuitem>
+                        </p:commandButton>          
+                    </p:menuitem>
+                    <p:menuitem >                       
+                        <p:commandButton value="Supplier"
+                                         style="width: 100%;text-align: left;background: none;border: 0;"
+                                         title="Create new supplier"
+                                         icon="ui-icon-plus"
+                                         onstart="PF('longProcessDialogVar').show();" 
+                                         oncomplete="longProcessDialogVar.hide();"
+                                         actionListener="#{financeManager.createNewSupplier}" 
+                                         process="@this" >
 
-                <p:menuitem disabled="true" >                       
-                    <p:commandButton value="Supplier"
-                                     style="width: 100%;text-align: left;background: none;border: 0;"
-                                     title="Create new supplier"
-                                     icon="ui-icon-plus"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     actionListener="#{financeManager.createNewSupplier}" 
-                                     process="@this" >
+                            <p:ajax event="dialogReturn" 
+                                    update=":mainTabViewForm:mainTabView:suppliersTable"/>
 
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView:suppliersTable"/>
-
-                    </p:commandButton>          
-                </p:menuitem>
-
+                        </p:commandButton>          
+                    </p:menuitem>
+                </ui:remove>
             </p:menuButton>    
 
         </p:toolbarGroup>
@@ -111,26 +111,28 @@ Email: info@dpbennett.com.jm
                                      oncomplete="longProcessDialogVar.hide();"
                                      process="@this" />
                 </p:menuitem>
-                <p:separator />
-                <p:menuitem>
-                    <p:commandButton value="Purchase Requisitions"
-                                     style="text-align: left;background: none;border: 0;"
-                                     title="Open Purchase Requisition tab"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     actionListener="#{jobManager.doPurchaseReqSearch}" 
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     process="@this" />
-                </p:menuitem>
-                <p:menuitem>
-                    <p:commandButton value="Suppliers"
-                                     style="text-align: left;background: none;border: 0;"
-                                     title="Open suppliers tab"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     actionListener="#{financeManager.openSuppliersTab}" 
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     process="@this" />
+                <ui:remove>
+                    <p:separator />
+                    <p:menuitem>
+                        <p:commandButton value="Purchase Requisitions"
+                                         style="text-align: left;background: none;border: 0;"
+                                         title="Open Purchase Requisition tab"
+                                         onstart="PF('longProcessDialogVar').show();" 
+                                         actionListener="#{jobManager.doPurchaseReqSearch}" 
+                                         oncomplete="longProcessDialogVar.hide();"
+                                         process="@this" />
+                    </p:menuitem>
+                    <p:menuitem>
+                        <p:commandButton value="Suppliers"
+                                         style="text-align: left;background: none;border: 0;"
+                                         title="Open suppliers tab"
+                                         onstart="PF('longProcessDialogVar').show();" 
+                                         actionListener="#{financeManager.openSuppliersTab}" 
+                                         oncomplete="longProcessDialogVar.hide();"
+                                         process="@this" />
 
-                </p:menuitem>
+                    </p:menuitem>
+                </ui:remove>
             </p:menuButton>         
         </p:toolbarGroup>
     </p:toolbar>

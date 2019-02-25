@@ -52,10 +52,7 @@ Email: info@dpbennett.com.jm
                             listener="#{jobFinanceManager.completeJobCosting}"
                             update="@this,costingDate,jobCosting_growl,exportJobCostingButton1"
                             process="@form"/>
-                </p:selectBooleanCheckbox>
-                <ui:remove>
-                    <p:tooltip for="prepared" value="Check to indicate that this job costing was prepared completely" showEffect="fade" hideEffect="fade" />
-                </ui:remove>
+                </p:selectBooleanCheckbox>               
             </h:panelGroup>
             <p:spacer width="10"/>
             <h:panelGroup>
@@ -67,10 +64,7 @@ Email: info@dpbennett.com.jm
                             listener="#{jobFinanceManager.approveJobCosting}"
                             update="@this,jobCosting_growl,costComponentsPanel,:jobCostingDialogForm:costingDate,exportJobCostingButton1"
                             process="@this"/>
-                </p:selectBooleanCheckbox>
-                <ui:remove>
-                    <p:tooltip for="approved" value="Check to indicate that this job costing was approved" showEffect="fade" hideEffect="fade" />
-                </ui:remove>
+                </p:selectBooleanCheckbox>               
             </h:panelGroup>
             <p:spacer width="10"/>
             <h:panelGroup>
@@ -83,9 +77,6 @@ Email: info@dpbennett.com.jm
                             update="@this,jobCosting_growl"
                             process="@this"/>
                 </p:selectBooleanCheckbox>
-                <ui:remove>
-                    <p:tooltip for="invoiced" value="Check to indicate that an invoice was done for this job costing" showEffect="fade" hideEffect="fade" />           
-                </ui:remove>
             </h:panelGroup>   
             <p:spacer width="10"/>
             <h:panelGroup>
@@ -96,7 +87,7 @@ Email: info@dpbennett.com.jm
                                  immediate="true"
                                  title="Export job costing"                        
                                  ajax="false"
-                                 onclick="longProcessDialogVar4.show();">
+                                 onclick="longProcessDialogVar5.show();">
                     
                     <p:fileDownload value="#{jobFinanceManager.jobCostingFile}" />
                     

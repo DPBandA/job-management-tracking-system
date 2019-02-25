@@ -43,6 +43,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.AccPacDocument;
+import jm.com.dpbennett.business.entity.AccountingCode;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Client;
@@ -58,6 +59,7 @@ import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Preference;
 import jm.com.dpbennett.business.entity.SystemOption;
+import jm.com.dpbennett.business.entity.Tax;
 import jm.com.dpbennett.business.entity.UnitCost;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
 import net.sf.jasperreports.engine.JRException;
@@ -77,6 +79,8 @@ import jm.com.dpbennett.wal.utils.Utils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import jm.com.dpbennett.wal.utils.ReportUtils;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -133,6 +137,21 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
      */
     public JobFinanceManager() {
         init();
+    }
+    
+    public List<Tax> completeTax(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<Tax> taxes = Tax.findTaxesByNameAndDescription(em, query);
+
+            return taxes;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
       
     /**
@@ -754,8 +773,14 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             if (con != null) {
                 try {
                     StreamedContent streamContent;
-                    // generate report
-                    JasperPrint print = JasperFillManager.fillReport((String) SystemOption.getOptionValueObject(em, "jobCosting"), parameters, con);
+                    // Compile report
+                     JasperReport jasperReport = 
+                             JasperCompileManager.
+                                     compileReport((String) SystemOption.getOptionValueObject(em, "jobCosting"));
+                    
+                    // Generate report
+                    //JasperPrint print = JasperFillManager.fillReport((String) SystemOption.getOptionValueObject(em, "jobCosting"), parameters, con);
+                    JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, con);
 
                     byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
 
@@ -920,10 +945,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             if (!(jcp.getCashPayments().isEmpty()
                     || getUser().getPrivilege().getCanBeFinancialAdministrator())) {
 
-                // Reset tax
-                getCurrentJob().getJobCostingAndPayment().
-                        setPercentageGCT(jcp.getPercentageGCT());
-
                 // Reset cash payments
                 getCurrentJob().getJobCostingAndPayment().
                         setCashPayments(jcp.getCashPayments());
@@ -1076,7 +1097,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 if (getCurrentJob().getJobCostingAndPayment().getEstimatedCost() != null) {
                     Double estimatedCostWithTaxes = getCurrentJob().getJobCostingAndPayment().getEstimatedCost()
                             + getCurrentJob().getJobCostingAndPayment().getEstimatedCost()
-                            * getCurrentJob().getJobCostingAndPayment().getPercentageGCT() / 100.0;
+                            * getCurrentJob().getJobCostingAndPayment().getTax().getValue();
                     getCurrentJob().getJobCostingAndPayment().setEstimatedCostIncludingTaxes(estimatedCostWithTaxes);
                     setJobCostingAndPaymentDirty(true);
                 }
@@ -1085,7 +1106,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 if (getCurrentJob().getJobCostingAndPayment().getMinDeposit() != null) {
                     Double minDepositWithTaxes = getCurrentJob().getJobCostingAndPayment().getMinDeposit()
                             + getCurrentJob().getJobCostingAndPayment().getMinDeposit()
-                            * getCurrentJob().getJobCostingAndPayment().getPercentageGCT() / 100.0;
+                            * getCurrentJob().getJobCostingAndPayment().getTax().getValue();
                     getCurrentJob().getJobCostingAndPayment().setMinDepositIncludingTaxes(minDepositWithTaxes);
                     setJobCostingAndPaymentDirty(true);
                 }
@@ -1718,9 +1739,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         setJobCostingAndPaymentDirty(true);
     }
 
-    public Boolean getCanApplyGCT() {
+    public Boolean getCanApplyTax() {
 
-        return JobCostingAndPayment.getCanApplyGCT(getCurrentJob())
+        return JobCostingAndPayment.getCanApplyTax(getCurrentJob())
                 && getCanEditJobCosting();
     }
 
@@ -2384,37 +2405,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     public Boolean getIsMemberOfCustomerServiceDept() {
         return getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("customerServiceDeptId"));
-    }
-
-    public List<SelectItem> getGCTPercentages() { // tk put in a costing entity
-        ArrayList percentages = new ArrayList();
-
-        percentages.addAll(SystemManager.getStringListAsSelectItems(getEntityManager1(), "GCTPercentageList"));
-
-        return percentages;
-    }
-
-    public List<Double> completeTaxPercentage(String query) {
-        List<Double> percentages = new ArrayList<>();
-
-        try {
-
-            EntityManager em = getEntityManager1();
-
-            List<String> stringList = (List<String>) SystemOption.getOptionValueObject(em, "GCTPercentageList");
-
-            for (String percent : stringList) {
-                if (percent.contains(query)) {
-                    percentages.add(Double.parseDouble(percent));
-                }
-            }
-
-            return percentages;
-        } catch (NumberFormatException e) {
-
-            System.out.println(e);
-            return new ArrayList<>();
-        }
     }
 
     /**

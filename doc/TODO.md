@@ -1,8 +1,13 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Impl use of Tax and Discount classes in the JobCostingAndPayment class instead of 
-  the existing individual fields.
+- "(edited)" is still shown when Job Costing is edited although costing is already saved.
+- Impl use of Tax and Discount classes in the JobCostingAndPayment class and tab 
+  instead of the existing individual fields.
+  * Verify that tax (GCT) is calculated on all forms (service contract, job costing).
+    Use Job Costing.jrxml instead of .jasper.
+  * Add ISTAXABLE fields to classification, jobcategory and jobsubcategory dialogs.
+  * Test with the creation of new job. Default tax should be "0.0".
+  * Impl the use of discount object and comment out discount related fields in JCP.
 - Impl automatic application of tax based on department.
-- Impl Discount class with value, valueType, description, AccountingCode etc 
 - Impl new service contract and agreement using new files sent by GA. Add menu 
   items to print contract and agreement separately. Check that correct deposit is 
   printed on the contract. Update job costing form to include approver and receipt #s.
@@ -26,7 +31,6 @@
    ie dept code first, subgroup second and div code last
 - Impl searching for job costings that have been approved but not invoiced so
   they can be invoiced.
-- Impl invoice export. 
 - Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
   How to determine the test/cal code eg 1310 for test? Use the service selected in the service contract,
   the department to which the job is assigned etc.
@@ -36,15 +40,27 @@
     * Impl fill out of multiple CNTLINE for each CNTITEM.
     * Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
       in Financial Admin. NB impl finding code by name and description.
+- Impl invoice export.
 - Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
 - Flag job as invoiced after export? Add accounting codes to table.
 - Add sys option that determines if the accpac invoices spreadsheet is to be
   exported. Add user preference to export invoices when "Invoice" button is pressed?
-- Put the name of the approver on the job costing.
+- Put the names of the preparer and approver on the job costing.
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
 - Make credit status dialog about 25 - 50 pixels taller.
 - Create FinancialAccount and FinancialTransaction classes for the accounting module of the jmts. Let FinancialTransaction class Implement the  Transaction interface and FinancialAccount class inherit from Account.
 - Put "active" field in the JobCostingAndPayment class and use it to manage the visibility of costing templates.
+- Put Job costing approval date in Job Costing dialog
 
-### Deployment
+
+### Databae update and deployment
 - Run TaxTest to create Tax table if it is not created automatically.
+- Add TAX_ID (BIGINT, INDEX) to jobcostingandpayment table.
+- Add a tax with name "0.0" and value 0.0
+- Add all GCT taxes.
+- Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
+- Copy Job Costing.jxml file to c:\jasperreports and use .jxrml file instead of 
+  .jasper to generate job costing.
+
+### Release Notes
+- Tax and discount tables and user interface elements added.

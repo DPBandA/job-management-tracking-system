@@ -81,17 +81,21 @@ Email: info@dpbennett.com.jm
             </p:inputText>
             <h:outputText value="&nbsp;"/>      
 
-            <h:outputText value="GCT(%):"/>            
-            <p:autoComplete id="gct"
-                            value="#{jobFinanceManager.currentJob.jobCostingAndPayment.percentageGCT}"
+            <h:outputText value="Tax (%):"/>               
+            <p:autoComplete id="tax"  
+                            var="tax"
+                            forceSelection="true"      
                             dropdown="true"
-                            forceSelection="true"
-                            disabled="#{jobFinanceManager.isJobCompleted}" 
-                            maxlength="10"
-                            styleClass="#{jobFinanceManager.canApplyGCT eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                            completeMethod="#{jobFinanceManager.completeTaxPercentage}">
-
-                <f:convertNumber minFractionDigits="1" maxFractionDigits="1"/>
+                            scrollHeight="200" 
+                            maxlength="40"
+                            value="#{jobFinanceManager.currentJob.jobCostingAndPayment.tax}"
+                            title="#{jobFinanceManager.currentJob.jobCostingAndPayment.tax}"
+                            styleClass="#{jobFinanceManager.canApplyTax eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
+                            itemValue="#{tax}"
+                            itemLabel="#{tax.name}"
+                            converter="taxConverter"
+                            validator="businessEntityValidator"
+                            completeMethod="#{jobFinanceManager.completeTax}" >
 
                 <p:ajax event="itemSelect"
                         global="true"
@@ -99,7 +103,7 @@ Email: info@dpbennett.com.jm
                         listener="#{jobFinanceManager.updateAllTaxes}"
                         process="@this" />
 
-            </p:autoComplete>      
+            </p:autoComplete>
             <h:outputText value="&nbsp;"/>
 
             <h:outputText id="costEstimateLabel"

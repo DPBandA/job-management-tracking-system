@@ -584,7 +584,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
             ReportUtils.setExcelCellValue(
                     wb, serviceContractSheet, "F14",
                     getCurrentJob().getJobCostingAndPayment().getEstimatedCost()
-                    * getCurrentJob().getJobCostingAndPayment().getPercentageGCT() / 100,
+                    * getCurrentJob().getJobCostingAndPayment().getTax().getValue(),
                     "Currency", dataCellStyle);
 
             // Estimated Total Cost (J$):
@@ -643,11 +643,11 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
                     "Currency", dataCellStyle);
 
             // PAYMENT BREAKDOWN
-            // Calculate GCT from payment
+            // Calculate tax from payment
             Double payment = (100.0 * getCurrentJob().getJobCostingAndPayment().getTotalPayment())
-                    / (getCurrentJob().getJobCostingAndPayment().getPercentageGCT() + 100.0);
-            Double jobGCT = getCurrentJob().getJobCostingAndPayment().getTotalPayment() - payment;
-            // GCT
+                    / (getCurrentJob().getJobCostingAndPayment().getTax().getTaxValue() + 100.0);
+            Double tax = getCurrentJob().getJobCostingAndPayment().getTotalPayment() - payment;
+            // Tax
             dataCellStyle = getDefaultCellStyle(wb);
             dataCellStyle.setBorderTop((short) 1);
             dataCellStyle.setFont(defaultFont);
@@ -655,7 +655,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
             dataCellStyle.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
             ReportUtils.setExcelCellValue(
                     wb, serviceContractSheet, "AC9",
-                    jobGCT,
+                    tax,
                     "Currency", dataCellStyle);
             // Payment
             dataCellStyle = getDefaultCellStyle(wb);

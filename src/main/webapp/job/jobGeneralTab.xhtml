@@ -82,10 +82,12 @@ Email: info@dpbennett.com.jm
                         validator="businessEntityValidator"
                         forceSelection="true"
                         completeMethod="#{systemManager.completeBusinessOffice}" >
+            
             <p:ajax event="itemSelect"                       
                     update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
+            
         </p:autoComplete>        
 
         <h:outputText value="Classification:" style="font-weight: bold" />
