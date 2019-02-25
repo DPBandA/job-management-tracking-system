@@ -1,4 +1,4 @@
-## Accpac Invoicing, Credit Status Reporting, Job Costing (v3.4.0)
+## Accounts Receivable Feature (v3.4.0)
 - Impl use of Tax and Discount classes in the JobCostingAndPayment class instead of 
   the existing individual fields.
 - Impl automatic application of tax based on department.
