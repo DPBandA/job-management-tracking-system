@@ -1,5 +1,3 @@
-# Tasks
-
 ## Accpac Invoicing, Credit Status Reporting, Job Costing (v3.4.0)
 - Impl use of Tax and Discount classes in the JobCostingAndPayment class instead of 
   the existing individual fields.
@@ -50,46 +48,6 @@
 
 ### Deployment
 - Run TaxTest to create Tax table if it is not created automatically.
-
-## Purchasing Module (v3.5.0) NB to be moved to separate issue. The current issue title is to be changed.
-
-- Adding/Editing supplier in the PR dialog does not seem to work. Fix.
-- Complete PO Jasper form:
-  * Set all parameters before exporting.
-  * Change parameter quotation Number to quotationNumber.
-- Add a "Order" tab that allows entry of information for the PO such as 
-  terms. Add the required fields to the PR class.
-- For PO form get the terms and conditions from the printed form and place after
-  the page break in the jasper form.
-- Use "Regular" and "Urgent" as priority codes.
-- Allow only the PO to cancell a PR once it is saved.
-- Add a default of 2 weeks to the date when the PR is fully approved (2 or 3 approvals) 
-to arrive at the default "Expected date of completion". Allow changing this default period
-in fin options.
-- Set the limit in fin otions when a PR needs to go to procurement. 1.5M is the current limit.
-show an alert when the total cost exceeds this limit. Put a note in the status note section
-stating that the limit was exceeded.
-- Send automatic email to persons that can approve the PR based on the criteria given by Rohan Anderson.
-  Note only persons in the originator's division should get this email.
-- Add the total amount to the PR emails templates.
-- Send automatic PR emails to admin assistant of a department/division.
-- Implement selecting the currency in the costcomponent. Implement "Currency"/ entity class to faciliate 
-conversion between currencies using static methods. Currency class should have the ISO symbol and abbreviation.
-- Implement adding links to attachments
-- Pull cost codes from Accpac.
-- The "on hand now" field to the PR should link to inventory.
-- Link to Accpac and do budget allocation.Canceling a PR/PO should reverse 
-  Accpac budget allocation.
-- Create report to show Accpac budget allocations.
-- Get suppliers from Accpac.
-- Impl supplier evaluation.
-- Only allow one of the set positions to approve otherwise an approval date will
-  not be shown. Add system option that sets the positions that can approve PR.
-- Allow entry of the urgency of the PR possibly via the priority field. Use an
-  autocomplete component with A, B, C to indicate priority for now.
-- Indicate the number of approvals in the email template?
-- Add the supplier address to the PR and PO form.
-- Do proposal to get cost codes, budgets and suppliers from Accpac.
 
 ## General
 - Create service contract as jasper report and add feature to generate blank form.
