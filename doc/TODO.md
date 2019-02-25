@@ -1,10 +1,9 @@
 # Tasks
 
 ## Accpac Invoicing, Credit Status Reporting, Job Costing (v3.4.0)
-- Impl Discount dialog and tab.
-- Impl Tax class for storing GCT and other taxes. Add AccountingCode as field 
-  called "code" for specifying the distribution code. Impl automatic application 
-  of tax based on department. Use another entity class as basis.
+- Impl use of Tax and Discount classes in the JobCostingAndPayment class instead of 
+  the existing individual fields.
+- Impl automatic application of tax based on department.
 - Impl Discount class with value, valueType, description, AccountingCode etc 
 - Impl new service contract and agreement using new files sent by GA. Add menu 
   items to print contract and agreement separately. Check that correct deposit is 
