@@ -217,40 +217,47 @@ Email: info@dpbennett.com.jm
                 </ui:remove>
 
                 <h:outputText value="Discount:" />
-                <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.discount}"  
-                             id="discountAmount"
-                             readonly="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                             styleClass="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment ? 'number-field' : 'read-only-number-field'}" 
-                             validator="requiredFieldValidator"
-                             converterMessage="Invalid discount value"
-                             maxlength="5" >
+                <ui:remove>
+                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.discount}"  
+                                 id="discountAmount"
+                                 readonly="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                                 styleClass="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment ? 'number-field' : 'read-only-number-field'}" 
+                                 validator="requiredFieldValidator"
+                                 converterMessage="Invalid discount value"
+                                 maxlength="5" >
 
-                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 
-                    <p:ajax event="change"
-                            global="false"
+                        <p:ajax event="change"
+                                global="false"
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"
+                                update=":jobDialogForm:jobDetailToolbar1,jobCosting"
+                                process="@this"/>
+                    </p:inputText>
+                </ui:remove>
+                <p:autoComplete id="discount"  
+                                var="discount"
+                                forceSelection="true"      
+                                dropdown="true"
+                                scrollHeight="200" 
+                                maxlength="40"
+                                value="#{jobFinanceManager.currentJob.jobCostingAndPayment.discount}"
+                                title="#{jobFinanceManager.currentJob.jobCostingAndPayment.discount}"
+                                styleClass="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment ? 'right-inputfield' : 'read-only-right-inputfield'}" 
+                                itemValue="#{discount}"
+                                itemLabel="#{discount.name}"
+                                converter="discountConverter"
+                                validator="businessEntityValidator"
+                                completeMethod="#{jobFinanceManager.completeDiscount}" >
+
+                    <p:ajax event="itemSelect"
+                            global="true"
                             listener="#{jobFinanceManager.updateJobCostingAndPayment}"
                             update=":jobDialogForm:jobDetailToolbar1,jobCosting"
-                            process="@this"/>
-                </p:inputText> 
+                            process="@this" />
 
-                <h:outputText value="Discount type:" />               
-                <p:autoComplete id="discountType"
-                                value="#{jobFinanceManager.currentJob.jobCostingAndPayment.discountType}"
-                                dropdown="true"
-                                forceSelection="true"
-                                readonly="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                                styleClass="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment ? '' : 'read-only-inputfield'}" 
-                                completeMethod="#{jobFinanceManager.completeDiscountType}">
+                </p:autoComplete>
 
-                    <p:ajax
-                        event="itemSelect"
-                        global="true"
-                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"
-                        update=":jobDialogForm:jobDetailToolbar1,jobCosting"
-                        process="@this" />
-
-                </p:autoComplete>   
 
             </h:panelGrid>
         </p:panel>        

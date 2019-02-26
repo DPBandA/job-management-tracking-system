@@ -51,6 +51,7 @@ import jm.com.dpbennett.business.entity.CostCode;
 import jm.com.dpbennett.business.entity.CostComponent;
 import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.DepartmentUnit;
+import jm.com.dpbennett.business.entity.Discount;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCosting;
@@ -148,6 +149,21 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             List<Tax> taxes = Tax.findTaxesByNameAndDescription(em, query);
 
             return taxes;
+
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Discount> completeDiscount(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<Discount> discounts = Discount.findDiscountsByNameAndDescription(em, query);
+
+            return discounts;
 
         } catch (Exception e) {
             return new ArrayList<>();
@@ -754,9 +770,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             parameters.put("jobDescription", getCurrentJob().getJobDescription());
 
             parameters.put("totalCost", getCurrentJob().getJobCostingAndPayment().getTotalJobCostingsAmount());
-            parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumber());
-            parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount());
-            parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscountType());
+            parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumbers());
+            parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount().getDiscountValue());
+            parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscount().getDiscountValueType());
             parameters.put("deposit", getCurrentJob().getJobCostingAndPayment().getTotalPayment());
             parameters.put("amountDue", getCurrentJob().getJobCostingAndPayment().getAmountDue());
             parameters.put("totalTax", getCurrentJob().getJobCostingAndPayment().getTotalTax());

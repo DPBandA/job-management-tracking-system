@@ -52,7 +52,7 @@
      department.`ID` AS department_ID,
      department.`NAME` AS department_NAME,
      CASE WHEN  department_A.`NAME` = '--' THEN 'N/A' ELSE  department_A.`NAME` END AS department_A_NAME,
-     CASE WHEN   jobcostingandpayment.`INVOICED` = 0 THEN 'No' ELSE  'Yes' END AS costing_INVOICED,
+     CASE WHEN   jobcostingandpayment.`INVOICED` = 1 THEN 'Yes' ELSE 'No' END AS costing_INVOICED,
      department_A.`JOBCOSTINGTYPE` AS department_A_JOBCOSTINGTYPE,
      job.`YEARRECEIVED` AS job_YEARRECEIVED,
      job.`JOBNUMBER` AS job_JOBNUMBER,

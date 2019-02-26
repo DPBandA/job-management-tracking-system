@@ -1,16 +1,5 @@
 ## Accounts Receivable Feature (v3.4.0)
-- "(edited)" is still shown when Job Costing is edited although costing is already saved.
-- Impl use of Tax and Discount classes in the JobCostingAndPayment class and tab 
-  instead of the existing individual fields.
-  * Verify that tax (GCT) is calculated on all forms (service contract, job costing).
-    Use Job Costing.jrxml instead of .jasper.
-  * Add ISTAXABLE fields to classification, jobcategory and jobsubcategory dialogs.
-  * Test with the creation of new job. Default tax should be "0.0".
-  * Impl the use of discount object and comment out discount related fields in JCP.
-- Impl automatic application of tax based on department.
-- Impl new service contract and agreement using new files sent by GA. Add menu 
-  items to print contract and agreement separately. Check that correct deposit is 
-  printed on the contract. Update job costing form to include approver and receipt #s.
+
 - Add "Billing Information" tab to client dialog with discount, credit limit, 
   tax exempt etc. Get the accpac credit status and limit when the accounting code is
   entered.
@@ -51,16 +40,30 @@
 - Create FinancialAccount and FinancialTransaction classes for the accounting module of the jmts. Let FinancialTransaction class Implement the  Transaction interface and FinancialAccount class inherit from Account.
 - Put "active" field in the JobCostingAndPayment class and use it to manage the visibility of costing templates.
 - Put Job costing approval date in Job Costing dialog
+- "(edited)" is still shown when Job Costing is edited although costing is already saved.
+- Comment out PR and supplier out of search types for finance and JM.
+- Impl automatic application of tax based on department or classification of job.
+  find out for which and department and classification a tax should apply and
+  prompt for a tax if it is 0.0.
+- Download new files sent by GA and impl new service contract and agreement. Add menu 
+  items to print contract and agreement separately. Check that correct deposit, discount and tax 
+  are printed on the contract.
+- When new client is being added clear out the existing client, billing address
+  and contact.
+- Add privilege for changing client billing info or use some other existing criteria?
 
 
 ### Databae update and deployment
 - Run TaxTest to create Tax table if it is not created automatically.
 - Add TAX_ID (BIGINT, INDEX) to jobcostingandpayment table.
-- Add a tax with name "0.0" and value 0.0
+- Add tax and discount with name "0.0" and value 0.0.
 - Add all GCT taxes.
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
 - Copy Job Costing.jxml file to c:\jasperreports and use .jxrml file instead of 
   .jasper to generate job costing.
+- Add DISCOUNT_ID (BIGINT, INDEX) to client table.
 
-### Release Notes
+### Release Notes (v3.4.0)
 - Tax and discount tables and user interface elements added.
+- Corrected the standard financial date periods.
+- Updated and deployed the Job Costing and Service Contract forms.
