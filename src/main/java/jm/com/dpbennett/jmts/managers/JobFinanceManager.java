@@ -1845,6 +1845,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
     }
     
+    // tk use the one in ClientManager?
     public List<AccPacCustomer> completeAccPacClient(String query) {
         EntityManager em2;
 

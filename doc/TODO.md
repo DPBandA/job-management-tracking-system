@@ -2,7 +2,8 @@
 
 - Add "Billing Information" tab to client dialog with discount, credit limit, 
   tax exempt etc. Get the accpac credit status and limit when the accounting code is
-  entered.
+  entered. 
+  * Create AccPacCustomer converter and use it in billing address autocomplete.
 - Add Services tab to system admin. Add services field to Job class. Add/remove the 
   respective service when a service is selected/unselected.
 - Impl automtatic pulling of Accpac info into JMTS client class where possible.
@@ -16,8 +17,8 @@
   must be checked to see if they can be exported first eg the client id is valid.
 - Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
   table.
-- Impl  getting dist. code of the from 1310-21-24-21 
-   ie dept code first, subgroup second and div code last
+- Impl  getting dist. code of the from 1310-21-24-21 ie dept code first, subgroup 
+  second and div code last.
 - Impl searching for job costings that have been approved but not invoiced so
   they can be invoiced.
 - Note each each count item have a dist code. eg discount, gct, testing & cal. etc.

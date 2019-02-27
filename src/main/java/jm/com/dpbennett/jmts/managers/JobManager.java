@@ -269,7 +269,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * Finds and Accpac customer by name and updates the Accpac customer field.
+     * Finds an Accpac customer by name and updates the Accpac customer field.
      *
      * @param event
      */
