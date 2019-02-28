@@ -62,7 +62,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.client.accountingId}" 
+        <p:column sortBy="#{job.client.financialAccount.idCust}" 
                   rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
             <f:facet name="header">
                 <h:outputText value="Client Id"/>
@@ -70,21 +70,20 @@ Email: info@dpbennett.com.jm
 
             <p:cellEditor>
                 <f:facet name="output"> 
-                    <h:outputText value="#{job.client.accountingId}" />
+                    <h:outputText value="#{job.client.financialAccount.idCust}" />
                 </f:facet>
                 <f:facet name="input" >
                     <p:autoComplete forceSelection="true"
-                                    id="accountingId"
-                                    size="10"                                        
+                                    id="account"
+                                    var="account"                                
                                     scrollHeight="200" 
-                                    value="#{jobManager.accPacCustomer.customerName}"                           
-                                    completeMethod="#{jobFinanceManager.completeAccPacClient}" >      
+                                    size="10"
+                                    converter="accPacCustomerConverter"
+                                    value="#{job.client.financialAccount}"  
+                                    itemLabel="#{account.idCust}"
+                                    itemValue="#{account}"
+                                    completeMethod="#{clientManager.completeAccPacClient}" />      
 
-                        <p:ajax event="itemSelect"
-                                listener="#{jobManager.updateAccPacCustomer}"
-                                update="accountingId" />
-
-                    </p:autoComplete>
                 </f:facet>
             </p:cellEditor>
         </p:column>

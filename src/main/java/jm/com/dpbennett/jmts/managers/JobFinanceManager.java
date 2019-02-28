@@ -286,11 +286,11 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                         invoiceRow,
                         "java.lang.Integer", integerCellStyle);
                 // IDCUST (Customer Id)
-                if (job.getClient().getAccountingId().isEmpty()) {
+                if (job.getClient().getFinancialAccount() == null) {
                     fileDownloadErrorMessage = "Error - missing customer id(s)";
                 }
                 ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        job.getClient().getAccountingId(),
+                        job.getClient().getFinancialAccount().getIdCust(),
                         "java.lang.String", stringCellStyle);
                 // IDINVC (Invoice No./Id)
                 ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,

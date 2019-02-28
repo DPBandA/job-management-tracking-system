@@ -4,7 +4,6 @@
  */
 package jm.com.dpbennett.jmts.managers;
 
-import jm.com.dpbennett.jmts.managers.ClientManager;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,7 +31,6 @@ import jm.com.dpbennett.business.entity.Country;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Distributor;
 import jm.com.dpbennett.business.entity.DocumentInspection;
-import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Manufacturer;
 import jm.com.dpbennett.business.entity.ProductInspection;
 import jm.com.dpbennett.business.entity.SampleRequest;

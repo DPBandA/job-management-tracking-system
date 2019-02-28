@@ -66,6 +66,10 @@
         <converter-class>jm.com.dpbennett.wal.converter.ClientAddressConverter</converter-class>
     </converter>   
     <converter>
+        <converter-id>addressConverter</converter-id>
+        <converter-class>jm.com.dpbennett.wal.converter.AddressConverter</converter-class>
+    </converter>
+    <converter>
         <converter-id>businessOfficeConverter</converter-id>
         <converter-class>jm.com.dpbennett.wal.converter.BusinessOfficeConverter</converter-class>
     </converter>   

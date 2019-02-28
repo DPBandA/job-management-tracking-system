@@ -25,54 +25,45 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
     <h:panelGrid columns="2" cellspacing="10">
 
-        <h:outputText value="Accounting cient:" /> 
+        <h:outputText value="Account ID:" /> 
         <p:autoComplete forceSelection="true"
-                        id="accountingClient"
-                        var="customer"                                
+                        id="account"
+                        var="account"                                
                         scrollHeight="200" 
                         converter="accPacCustomerConverter"
-                        value="#{clientManager.selectedClient.accPacCustomer}"  
-                        itemLabel="#{customer.customerName}"
-                        itemValue="#{customer}"
+                        value="#{clientManager.selectedClient.financialAccount}"  
+                        itemLabel="#{account.idCust} (#{account.customerName})"
+                        itemValue="#{account}"
                         completeMethod="#{clientManager.completeAccPacClient}" >      
 
             <p:ajax event="itemSelect"
-                    listener="#{clientManager.updateAccPacCustomer}"
-                    update="accountingID" />
+                    update="account"
+                    listener="#{clientManager.updateFinancialAccount}" />
 
         </p:autoComplete>
 
-        <h:outputText value="Accounting ID:" />           
-        <p:inputText value="#{clientManager.selectedClient.accountingId}"
-                     id="accountingID"
-                     readonly="true" 
-                     style="background-color: lightgray !important;" />  
+        <h:outputText value="Billing address:" style="font-weight: bold" />    
+        <p:autoComplete id="billingAddress"
+                        value="#{clientManager.selectedClient.billingAddress}"
+                        dropdown="true"
+                        forceSelection="true"
+                        size="35"
+                        maxlength="40"
+                        converter="clientAddressConverter" 
+                        validator="addressValidator"
+                        var="address"  
+                        scrollHeight="200"
+                        itemValue="#{address}"
+                        itemLabel="#{address.name}" 
+                        completeMethod="#{clientManager.completeClientAddress}">
+            
+            <f:attribute name="currentClient" value="#{clientManager.selectedClient}" />
 
-        <ui:remove>
-            <h:outputText value="Billing address:" style="font-weight: bold" />    
-            <p:autoComplete id="billingAddress"
-                            value="#{clientManager.selectedClient.billingAddress}"
-                            dropdown="true"
-                            forceSelection="true"
-                            size="35"
-                            maxlength="40"
-                            converter="clientAddressConverter" 
-                            validator="addressValidator"
-                            var="address"  
-                            scrollHeight="200"
-                            itemValue="#{address}"
-                            itemLabel="#{address.name}" 
-                            completeMethod="#{jobManager.completeClientAddress}">
+            <p:ajax event="itemSelect"
+                    update="account"
+                    listener="#{clientManager.updateFinancialAccount}" />  
 
-                <f:attribute name="currentClientId" value="#{jobManager.currentJob.client.id}" />
-
-                <p:ajax event="itemSelect"
-                        listener="#{jobManager.updateJob}"                                        
-                        update=":jobDialogForm:jobDetailToolbar1"
-                        process="@this" />   
-
-            </p:autoComplete>
-        </ui:remove>
+        </p:autoComplete>
 
         <ui:remove>
             <h:outputText value="Entered by:" />           

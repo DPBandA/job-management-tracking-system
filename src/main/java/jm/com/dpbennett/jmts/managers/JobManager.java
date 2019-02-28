@@ -314,10 +314,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Update and save client if edited
         if (getAccPacCustomer().getIsDirty()) {
-            getJobSearchResultList().get(event.getRowIndex()).
-                    getClient().setAccountingId(getAccPacCustomer().getIdCust());
+           
             getJobSearchResultList().get(event.getRowIndex()).
                     getClient().setEditedBy(getUser().getEmployee());
+            
             getJobSearchResultList().get(event.getRowIndex()).
                     getClient().save(getEntityManager1());
 

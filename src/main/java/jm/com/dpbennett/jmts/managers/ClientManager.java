@@ -72,24 +72,6 @@ public class ClientManager implements Serializable {
         init();
     }
     
-    /**
-     * Finds an Accpac customer by name and updates the Accpac customer field.
-     *
-     * @param event
-     */
-    public void updateAccPacCustomer(SelectEvent event) {
-        EntityManager em = getEntityManager2();
-
-        selectedClient.setAccPacCustomer(AccPacCustomer.findByName(em, 
-                selectedClient.getAccPacCustomer().getCustomerName().trim()));
-        if (selectedClient.getAccPacCustomer() != null) {
-            if (selectedClient.getAccPacCustomer().getIdCust() != null) {
-                selectedClient.setAccountingId(selectedClient.getAccPacCustomer().getIdCust());
-                setIsDirty(true);
-            }
-        }
-    }
-    
     public List<Client> completeActiveClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
@@ -324,6 +306,13 @@ public class ClientManager implements Serializable {
     }
 
     public void updateClient() {
+        setIsDirty(true);
+    }
+    
+    public void updateFinancialAccount() {
+        
+        selectedClient.setAccountingId(selectedClient.getFinancialAccount().getIdCust());
+        
         setIsDirty(true);
     }
 
