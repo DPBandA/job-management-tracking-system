@@ -108,7 +108,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private Boolean useAccPacCustomerList;
     private CostComponent selectedCostComponent;
     private JobCostingAndPayment selectedJobCostingAndPayment;
-    private String selectedJobCostingTemplate;        
+    private String selectedJobCostingTemplate;
     private Department unitCostDepartment;
     private UnitCost currentUnitCost;
     private List<UnitCost> unitCosts;
@@ -129,7 +129,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private Boolean enableOnlyPaymentEditing;
     private JobManager jobManager;
     private Boolean edit;
-    private String fileDownloadErrorMessage;    
+    private String fileDownloadErrorMessage;
     private MainTabView mainTabView;
     private JobManagerUser user;
 
@@ -139,7 +139,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public JobFinanceManager() {
         init();
     }
-    
+
     public List<Tax> completeTax(String query) {
         EntityManager em;
 
@@ -154,7 +154,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             return new ArrayList<>();
         }
     }
-    
+
     public List<Discount> completeDiscount(String query) {
         EntityManager em;
 
@@ -169,7 +169,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             return new ArrayList<>();
         }
     }
-      
+
     /**
      * Returns the discount type that can be applied to a payment/amount
      *
@@ -179,7 +179,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
         return FinancialUtils.getDiscountTypes();
     }
-    
+
     public List getCostTypeList() {
         return FinancialUtils.getCostTypeList();
     }
@@ -191,11 +191,11 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public List getPaymentPurposes() {
         return FinancialUtils.getPaymentPurposes();
     }
-  
+
     public void closeDialog() {
         PrimeFacesUtils.closeDialog(null);
     }
-    
+
     public JobCostingAndPayment getSelectedJobCostingAndPayment() {
         return selectedJobCostingAndPayment;
     }
@@ -209,7 +209,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public MainTabView getMainTabView() {
-        
+
         return mainTabView;
     }
 
@@ -241,7 +241,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
         return null;
     }
-    
+
     public ByteArrayInputStream getAccpacInvoicesFileInputStream(
             File file) {
 
@@ -350,7 +350,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
         return null;
     }
- 
+
     public Boolean getEdit() {
         return edit;
     }
@@ -463,7 +463,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public void setUser(JobManagerUser user) {
         this.user = user;
     }
-    
+
     @Override
     public String getInvalidFormFieldMessage() {
         return invalidFormFieldMessage;
@@ -768,7 +768,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             parameters.put("customerAddress", getCurrentJob().getBillingAddress().toString());
             parameters.put("contactNumbers", client.getStringListOfContactPhoneNumbers());
             parameters.put("jobDescription", getCurrentJob().getJobDescription());
-
             parameters.put("totalCost", getCurrentJob().getJobCostingAndPayment().getTotalJobCostingsAmount());
             parameters.put("depositReceiptNumbers", getCurrentJob().getJobCostingAndPayment().getReceiptNumbers());
             parameters.put("discount", getCurrentJob().getJobCostingAndPayment().getDiscount().getDiscountValue());
@@ -779,6 +778,19 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             parameters.put("totalTaxLabel", getCurrentJob().getJobCostingAndPayment().getTotalTaxLabel());
             parameters.put("grandTotalCostLabel", getCurrentJob().getJobCostingAndPayment().getTotalCostWithTaxLabel().toUpperCase().trim());
             parameters.put("grandTotalCost", getCurrentJob().getJobCostingAndPayment().getTotalCost());
+            if (getCurrentJob().getJobCostingAndPayment().getCostingPreparedBy() != null) {
+                parameters.put("preparedBy",
+                        getCurrentJob().getJobCostingAndPayment().getCostingPreparedBy().getFirstName() + " "
+                        + getCurrentJob().getJobCostingAndPayment().getCostingPreparedBy().getLastName());
+            }
+            if (getCurrentJob().getJobCostingAndPayment().getCostingApprovedBy() != null) {
+                parameters.put("approvedBy",
+                        getCurrentJob().getJobCostingAndPayment().getCostingApprovedBy().getFirstName() + " "
+                        + getCurrentJob().getJobCostingAndPayment().getCostingApprovedBy().getLastName());
+            }
+            parameters.put("approvalDate",
+                    BusinessEntityUtils.getDateInMediumDateFormat(
+                            getCurrentJob().getJobStatusAndTracking().getDateCostingApproved()));
 
             Connection con = BusinessEntityUtils.establishConnection(
                     (String) SystemOption.getOptionValueObject(em, "defaultDatabaseDriver"),
@@ -790,12 +802,11 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 try {
                     StreamedContent streamContent;
                     // Compile report
-                     JasperReport jasperReport = 
-                             JasperCompileManager.
-                                     compileReport((String) SystemOption.getOptionValueObject(em, "jobCosting"));
-                    
+                    JasperReport jasperReport
+                            = JasperCompileManager.
+                                    compileReport((String) SystemOption.getOptionValueObject(em, "jobCosting"));
+
                     // Generate report
-                    //JasperPrint print = JasperFillManager.fillReport((String) SystemOption.getOptionValueObject(em, "jobCosting"), parameters, con);
                     JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, con);
 
                     byte[] fileBytes = JasperExportManager.exportReportToPdf(print);
@@ -849,8 +860,12 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     public void invoiceJobCosting() {
         if (canInvoiceJobCosting(getCurrentJob())) {
+            getCurrentJob().getJobStatusAndTracking().setDateCostingInvoiced(new Date());
+            getCurrentJob().getJobCostingAndPayment().setCostingInvoicedBy(
+                    getUser().getEmployee());
             setJobCostingAndPaymentDirty(true);
         } else {
+            // Reset invoiced status
             getCurrentJob().getJobCostingAndPayment().setInvoiced(!getCurrentJob().
                     getJobCostingAndPayment().getInvoiced());
         }
@@ -1158,7 +1173,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
     }
 
-    public void completeJobCosting() {
+    public void prepareJobCosting() {
 
         if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()) {
             getCurrentJob().getJobCostingAndPayment().setCostingCompleted(!getCurrentJob().getJobCostingAndPayment().getCostingCompleted());
@@ -1168,9 +1183,12 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         } else if (getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(new Date());
             getCurrentJob().getJobStatusAndTracking().setCostingDate(new Date());
+            getCurrentJob().getJobCostingAndPayment().setCostingPreparedBy(
+                    getUser().getEmployee());
         } else if (!getCurrentJob().getJobCostingAndPayment().getCostingCompleted()) {
             getCurrentJob().getJobStatusAndTracking().setDateCostingCompleted(null);
             getCurrentJob().getJobStatusAndTracking().setCostingDate(null);
+            getCurrentJob().getJobCostingAndPayment().setCostingPreparedBy(null);
         }
 
         setJobCostingAndPaymentDirty(true);
@@ -1202,11 +1220,15 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         if (canChangeJobCostingApprovalStatus(getCurrentJob())) {
             if (getCurrentJob().getJobCostingAndPayment().getCostingApproved()) {
                 getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(new Date());
+                getCurrentJob().getJobCostingAndPayment().setCostingApprovedBy(
+                        getUser().getEmployee());
             } else {
                 getCurrentJob().getJobStatusAndTracking().setDateCostingApproved(null);
+                getCurrentJob().getJobCostingAndPayment().setCostingApprovedBy(null);
             }
             setJobCostingAndPaymentDirty(true);
         } else {
+            // Reset the costing status
             getCurrentJob().getJobCostingAndPayment().
                     setCostingApproved(!getCurrentJob().getJobCostingAndPayment().getCostingApproved());
         }
@@ -1287,11 +1309,13 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         if (selectedCostComponent != null) {
             if (null == selectedCostComponent.getType()) {
                 return true;
-            } else switch (selectedCostComponent.getType()) {
-                case "--":
-                    return true;
-                default:
-                    return false;
+            } else {
+                switch (selectedCostComponent.getType()) {
+                    case "--":
+                        return true;
+                    default:
+                        return false;
+                }
             }
         } else {
             return true;
@@ -1467,7 +1491,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
             Long id = BusinessEntityUtils.saveBusinessEntity(em, currentUnitCost);
             if (id == null) {
-                
+
                 sendErrorEmail("An error occurred while saving this unit cost",
                         "Unit cost save error occurred");
                 return;
@@ -1477,7 +1501,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             setIsDirty(false);
 
         } catch (Exception e) {
-            
+
             System.out.println(e);
             // send error message to developer's email
             sendErrorEmail("An exception occurred while saving a unit cost!",
@@ -1632,7 +1656,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public void sendErrorEmail(String subject, String message) {
         try {
             // Send error message to developer's email            
-            Utils.postMail(null, null, null, subject, message, 
+            Utils.postMail(null, null, null, subject, message,
                     "text/plain", getEntityManager1());
         } catch (Exception ex) {
             System.out.println(ex);
@@ -1844,7 +1868,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             return new ArrayList<>();
         }
     }
-    
+
     // tk use the one in ClientManager?
     public List<AccPacCustomer> completeAccPacClient(String query) {
         EntityManager em2;
@@ -2212,7 +2236,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 //    public Date getCurrentDate() {
 //        return new Date();
 //    }
-
     public Long saveCashPayment(EntityManager em, CashPayment cashPayment) {
         return BusinessEntityUtils.saveBusinessEntity(em, cashPayment);
     }
@@ -2282,7 +2305,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         PrimeFacesUtils.openDialog(null, "jobCostings", true, true, true, 600, 800);
     }
 
-   
     public void doJobCostSearch() {
         System.out.println("To be implemented");
     }
@@ -2349,7 +2371,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         try {
             if (getCurrentJob().getIsSubContract() || getCurrentJob().getIsToBeCopied()) {
                 return false;
-            } else return getCurrentJob().getId() == null;
+            } else {
+                return getCurrentJob().getId() == null;
+            }
         } catch (Exception e) {
             System.out.println(e);
         }

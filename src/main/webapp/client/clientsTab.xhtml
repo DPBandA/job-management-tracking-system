@@ -1,0 +1,184 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <ui:remove>
+                <p:commandButton value="Close"
+                                 actionListener="#{clientManager.closeClientsTab}"
+                                 icon="ui-icon ui-icon-close" />
+                <p:spacer width="10" />
+            </ui:remove>
+            <p:commandButton 
+                value="New"
+                icon="ui-icon-plus" 
+                onstart="PF('longProcessDialogVar').show();"
+                oncomplete="longProcessDialogVar.hide();"
+                disabled="#{!clientManager.user.privilege.canAddClient}"
+                actionListener="#{clientManager.createNewClient}"                                            
+                process="@this"
+                title="Add a new client to the client database" >
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{clientManager.doClientSearch}"
+                        update=":mainTabViewForm:mainTabView:clientsTable"/>
+
+            </p:commandButton>
+            <p:spacer width="20" />
+            <p:inputText id="clientSearchText" 
+                         placeholder="Enter search text"
+                         style="width:200px" 
+                         value="#{clientManager.searchText}" >
+
+                <p:ajax event="keyup"                            
+                        global="false"
+                        update=":mainTabViewForm:mainTabView:clientsTable"
+                        listener="#{clientManager.doClientSearch}"
+                        process="@this"/>
+
+            </p:inputText>
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right" rendered="#{clientManager.user.privilege.canBeJMTSAdministrator}" >
+            <h:outputText value="Active clients only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="activeClientsOnly"
+                                         value="#{clientManager.isActiveClientsOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:clientsTable"
+                             listener="#{clientManager.doClientSearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>            
+                <p:tooltip for="activeClientsOnly" value="Check to search for activate clients only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+            </h:panelGroup>
+        </p:toolbarGroup>
+    </p:toolbar>
+
+    <p:dataTable id="clientsTable"
+                 var="client"
+                 style="margin-bottom: 1px;margin-top: 1px;"
+                 editable="true" 
+                 editMode="cell"
+                 paginator="true"                                 
+                 rows="15"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{clientManager.foundClients}">                        
+
+        <p:ajax event="cellEdit" listener="#{clientManager.onClientCellEdit}" />
+
+        <f:facet name="header">
+            <h:outputText value="Search Results (found: #{clientManager.numClientFound})" />
+        </f:facet>
+
+        <p:column sortBy="#{client.name}">
+            <f:facet name="header">
+                <h:outputText value="Name"/>
+            </f:facet>
+            <h:outputText value="#{client.name}" />
+        </p:column>
+
+        <p:column sortBy="#{client.editedBy}">
+            <f:facet name="header">
+                <h:outputText value="Last edited by"/>
+            </f:facet>
+            <h:outputText value="#{client.editedBy}" />
+        </p:column>
+
+        <p:column sortBy="#{client.dateEdited}">
+            <f:facet name="header">
+                <h:outputText value="Date last edited"/>
+            </f:facet>
+            <h:outputText value="#{client.dateEdited}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+
+        <p:column headerText="Active?" 
+                  rendered="#{clientManager.user.privilege.canAddClient}">                                                                         
+            <p:cellEditor>                
+                <f:facet name="output">
+                    <h:outputText value="#{client.isActive}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:selectOneMenu value="#{client.isActive}" style="width:96%">
+                        <f:selectItem itemLabel="Yes" itemValue="Yes"/>
+                        <f:selectItem itemLabel="No" itemValue="No"/>
+                    </p:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>         
+        </p:column>
+
+        <p:column style="width:32px">
+            <p:commandButton icon="ui-icon-pencil"
+                             onstart="PF('longProcessDialogVar').show();"                               
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             actionListener="#{clientManager.editSelectedClient}"
+                             process="@this"
+                             title="View or edit this client's detail">
+
+                <f:setPropertyActionListener value="#{client}" 
+                                             target="#{clientManager.selectedClient}" />
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:clientsTable"/>
+
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <ui:remove>
+            <p:commandButton value="Close"
+                             actionListener="#{clientManager.closeClientsTab}"
+                             icon="ui-icon ui-icon-close" />
+            <p:spacer width="10" />
+            </ui:remove>
+            <p:commandButton 
+                value="New"
+                icon="ui-icon-plus" 
+                onstart="PF('longProcessDialogVar').show();"
+                oncomplete="longProcessDialogVar.hide();"
+                disabled="#{!clientManager.user.privilege.canAddClient}"
+                actionListener="#{clientManager.createNewClient}"                                            
+                process="@this"
+                title="Add a new client to the client database" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:clientsTable"/>
+
+            </p:commandButton>
+
+        </p:toolbarGroup>
+
+    </p:toolbar>
+
+</html>
+

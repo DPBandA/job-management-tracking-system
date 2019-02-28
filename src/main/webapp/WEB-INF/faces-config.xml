@@ -18,6 +18,10 @@
         </view-handler>
     </application>    
     <converter>
+        <converter-id>accPacCustomerConverter</converter-id>
+        <converter-class>jm.com.dpbennett.wal.converter.AccPacCustomerConverter</converter-class>
+    </converter>
+    <converter>
         <converter-id>activeSupplierConverter</converter-id>
         <converter-class>jm.com.dpbennett.wal.converter.ActiveSupplierConverter</converter-class>
     </converter>
@@ -447,7 +451,7 @@
     
     <managed-bean>
         <managed-bean-name>clientManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.wal.managers.ClientManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.ClientManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
@@ -495,7 +499,7 @@
     
     <managed-bean>
         <managed-bean-name>legalDocumentManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.wal.managers.LegalDocumentManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.jmts.managers.LegalDocumentManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     

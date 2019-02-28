@@ -49,7 +49,7 @@ Email: info@dpbennett.com.jm
                                          disabled="#{jobFinanceManager.isJobCompleted}" 
                                          itemLabel="Prepared" >
                     <p:ajax global="true" 
-                            listener="#{jobFinanceManager.completeJobCosting}"
+                            listener="#{jobFinanceManager.prepareJobCosting}"
                             update="@this,costingDate,jobCosting_growl,exportJobCostingButton1"
                             process="@form"/>
                 </p:selectBooleanCheckbox>               

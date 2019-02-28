@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:include src="documentBrowserToolbar.xhtml" />
+
+    <p:dataTable id="documentTable"
+                 var="document"
+                 paginator="true"
+                 rows="15"
+                 rowStyleClass="#{document.rowStyle}"
+                 style="margin-top: 1px;margin-bottom: 1px;"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{legalDocumentManager.documentSearchResultList}">
+
+        <f:facet name="header">
+            <h:outputText value="Document search results (#{legalDocumentManager.numberOfDocumentsFound})"/>
+        </f:facet>
+
+        <p:column style="width:150px">
+            <f:facet name="header">
+                <h:outputText value="Document #"/>
+            </f:facet>
+            <h:outputText value="#{document.number}" />
+        </p:column>
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Particulars"/>
+            </f:facet>
+            <h:outputText value="#{document.description}"/>
+        </p:column>
+        <p:column style="min-width: 85px">
+            <f:facet name="header">
+                <h:outputText value="Received"/>
+            </f:facet>
+            <h:outputText value="#{document.dateReceived}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>        
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Agreed delivery"/>
+            </f:facet>
+            <h:outputText value="#{document.expectedDateOfCompletion}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column style="min-width: 85px">
+            <f:facet name="header">
+                <h:outputText value="Delivered"/>
+            </f:facet>
+            <h:outputText value="#{document.dateOfCompletion}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column style="width:32px">
+
+            <p:menuButton icon="ui-icon-pencil" title="Edit or delete">
+                <p:menuitem>                       
+                    <p:commandButton value="View or edit"                                  
+                                     icon="ui-icon ui-icon-pencil" 
+                                     style="width: 300%;text-align: left;background: none;border: 0;"                                    
+                                     onstart="PF('longProcessDialogVar').show();"  
+                                     oncomplete="PF('longProcessDialogVar').hide();"
+                                     actionListener="#{legalDocumentManager.editDocument}" 
+                                     process="@this" >      
+
+                        <f:setPropertyActionListener value="#{document}"
+                                                     target="#{legalDocumentManager.currentDocument}" />
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{legalDocumentManager.documentDialogReturn}"
+                                update="documentTable,:headerForm:growl3" />
+
+                    </p:commandButton>
+                </p:menuitem>       
+                <p:menuitem >       
+                    <p:commandButton 
+                        value="Delete"
+                        icon="ui-icon-trash" 
+                        style="width: 300%;text-align: left;background: none;border: 0;"
+                        onclick="documentDeleteConfirm.show();" 
+                        process="@this" >
+
+                        <f:setPropertyActionListener value="#{document}"
+                                                     target="#{legalDocumentManager.selectedDocument}" />
+
+                    </p:commandButton>
+                </p:menuitem>
+            </p:menuButton>   
+
+        </p:column>
+
+    </p:dataTable>
+
+    <ui:include src="documentBrowserToolbar.xhtml" />
+
+</html>

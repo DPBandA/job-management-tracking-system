@@ -1,0 +1,512 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <title>Legal Document</title>
+        <link rel="stylesheet" href="../css/main.css" />
+    </h:head>
+    <h:body >  
+        <ui:include src="../common/longProcessDialog.xhtml"/>  
+        <ui:include src="../common/commonDialogs.xhtml"/>  
+
+        <h:form id="documentDialogForm">        
+            <p:growl id="document_dialog_growl" life="5000" showDetail="true" />
+
+            <ui:include src="legalDocumentDialogToolbar.xhtml" />
+
+            <p:tabView id="docTabView"                  
+                       style="margin-top: 1px;margin-bottom: 1px;" >
+
+                <p:tab title="General" >
+                    <h:panelGrid columns="2" id="general">
+
+                        <h:outputText value="Document #:" style="font-weight: bold;" />
+                        <h:panelGroup>
+                            <p:inputText value="#{legalDocumentManager.currentDocument.number}"
+                                         id="currentDocumentNumber"
+                                         title="#{legalDocumentManager.currentDocument.number}"
+                                         readonly="#{legalDocumentManager.currentDocument.autoGenerateNumber}"  >
+
+                                <f:validator validatorId="requiredFieldValidator" />
+
+                                <p:ajax event="change"                                        
+                                        listener="#{legalDocumentManager.updateDocument}"
+                                        process="@this"/>
+
+                            </p:inputText>
+                            <p:spacer height="0" width="5"/>
+                            <p:selectBooleanCheckbox id="autoGenerateNumber"
+                                                     itemLabel="auto"
+                                                     title="Enable/disable automatic number generation"
+                                                     value="#{legalDocumentManager.currentDocument.autoGenerateNumber}">
+
+                                <p:ajax listener="#{legalDocumentManager.updateDocument}"
+                                        update="currentDocumentNumber"
+                                        process="@this"/>
+
+                            </p:selectBooleanCheckbox>
+                        </h:panelGroup>
+
+                        <h:outputText value="Priority level:" style="font-weight: bold;" />
+                        <p:selectOneMenu value="#{legalDocumentManager.currentDocument.priorityLevel}" >
+
+                            <p:ajax listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this" />
+
+                            <f:selectItems value="#{legalDocumentManager.priorityLevels}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Requesting department:" style="font-weight: bold;" />                       
+                        <p:autoComplete var="department"
+                                        forceSelection="true"      
+                                        dropdown="true"
+                                        scrollHeight="200" 
+                                        size="35"  
+                                        maxlength="40"
+                                        value="#{legalDocumentManager.currentDocument.requestingDepartment}"
+                                        itemValue="#{department}"
+                                        itemLabel="#{department.name}"
+                                        converter="activeDepartmentConverter"
+                                        validator="businessEntityValidator"
+                                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
+
+                            <p:ajax listener="#{legalDocumentManager.updateDocument}"
+                                    event="itemSelect"
+                                    process="@this" />
+
+                        </p:autoComplete> 
+
+                        <h:outputText value="External client:" />
+                        <h:panelGroup>
+                            <p:autoComplete id="client"
+                                            widgetVar="clientVar"
+                                            value="#{legalDocumentManager.currentDocument.externalClient}"
+                                            var="client"
+                                            size="35"
+                                            maxlength="40" 
+                                            scrollHeight="200" 
+                                            itemLabel="#{client.truncatedName}"
+                                            itemValue="#{client}"
+                                            title="#{client.name}"
+                                            forceSelection="true"
+                                            converter="activeClientConverter"
+                                            completeMethod="#{clientManager.completeActiveClient}" >
+
+                                <p:ajax event="itemSelect"   
+                                        update="clientActionsMenu"
+                                        listener="#{legalDocumentManager.updateDocument}" />
+
+                            </p:autoComplete>                           
+                            <p:menuButton id="clientActionsMenu" icon="ui-icon-pencil" >
+                                <p:menuitem>                       
+                                    <p:commandButton value="Edit client"
+                                                     icon="ui-icon-pencil" 
+                                                     disabled="${!legalDocumentManager.isClientNameValid}"
+                                                     style="width: 300%;text-align: left;background: none;border: 0;"
+                                                     onstart="PF('longProcessDialogVar').show();"     
+                                                     oncomplete="PF('longProcessDialogVar').hide();"                                
+                                                     actionListener="#{legalDocumentManager.editExternalClient}"  
+                                                     process="@this,client"                             
+                                                     title="Edit this client's detail">  
+
+                                        <p:ajax event="dialogReturn" 
+                                                listener="#{legalDocumentManager.externalClientDialogReturn}"
+                                                update="client" />
+
+                                    </p:commandButton>            
+                                </p:menuitem>
+
+                                <p:menuitem >       
+                                    <p:commandButton 
+                                        value="Add new client"
+                                        icon="ui-icon-plus" 
+                                        style="width: 300%;text-align: left;background: none;border: 0;"
+                                        onstart="PF('longProcessDialogVar').show();"        
+                                        oncomplete="PF('longProcessDialogVar').hide();"                
+                                        disabled="#{!legalDocumentManager.user.privilege.canAddClient}"
+                                        actionListener="#{legalDocumentManager.createNewExternalClient}"                                            
+                                        process="@this"
+                                        title="Add a new client to the client database">
+
+                                        <p:ajax event="dialogReturn" 
+                                                listener="#{legalDocumentManager.externalClientDialogReturn}"
+                                                update="client" />
+
+                                    </p:commandButton>
+                                </p:menuitem>
+                            </p:menuButton>    
+                            <p:watermark for="client" value="select a client"/>
+                        </h:panelGroup>
+
+                        <h:outputText value="Requesting employee:" style="font-weight: bold;" />
+                        <p:autoComplete id="submittedBy"  
+                                        maxlength="40"
+                                        scrollHeight="200" 
+                                        size="35"
+                                        var="submittedBy"
+                                        value="#{legalDocumentManager.currentDocument.submittedBy}"
+                                        itemLabel="#{submittedBy.name}"
+                                        itemValue="#{submittedBy}"
+                                        converter="activeEmployeeConverter"
+                                        validator="businessEntityValidator"
+                                        forceSelection="true"         
+                                        dropdown="true"
+                                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+                            <p:ajax event="itemSelect"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this"/>
+                        </p:autoComplete>
+
+
+                        <h:outputText value="Document type: " style="font-weight: bold;" />
+                        <h:panelGroup>                           
+                            <p:autoComplete var="documentType"
+                                            id="documentType"
+                                            forceSelection="true"      
+                                            dropdown="true"
+                                            scrollHeight="200" 
+                                            size="35"  
+                                            maxlength="40"
+                                            value="#{legalDocumentManager.currentDocument.type}"
+                                            itemValue="#{documentType}"
+                                            itemLabel="#{documentType.name}"
+                                            converter="documentTypeConverter"
+                                            validator="businessEntityValidator"
+                                            completeMethod="#{legalDocumentManager.completeLegalDocumentType}" >            
+
+                                <p:ajax listener="#{legalDocumentManager.updateDocument}"
+                                        event="itemSelect"
+                                        update="currentDocumentNumber"
+                                        process="@this" />
+
+                            </p:autoComplete>
+                            <p:spacer height="0" width="4"/>                           
+                            <p:menuButton icon="ui-icon-pencil" title="Edit or add new type">
+                                <p:menuitem>                       
+                                    <p:commandButton value="Edit"
+                                                     icon="ui-icon-pencil" 
+                                                     style="width: 300%;text-align: left;background: none;border: 0;"
+                                                     onstart="PF('longProcessDialogVar').show();"  
+                                                     oncomplete="PF('longProcessDialogVar').hide();"
+                                                     actionListener="#{legalDocumentManager.editDocumentType}" 
+                                                     process="@this"
+                                                     title="Edit document type" >     
+
+                                        <p:ajax event="dialogReturn" 
+                                                listener="#{legalDocumentManager.documentTypeDialogReturn}"
+                                                process="@this"
+                                                update="documentType,currentDocumentNumber" />
+
+                                    </p:commandButton>
+                                </p:menuitem>                                
+                                <p:menuitem >       
+                                    <p:commandButton 
+                                        value="New"
+                                        icon="ui-icon-plus" 
+                                        style="width: 300%;text-align: left;background: none;border: 0;"
+                                        onstart="PF('longProcessDialogVar').show();" 
+                                        oncomplete="PF('longProcessDialogVar').hide();"
+                                        actionListener="#{legalDocumentManager.createNewDocumentType}"                                            
+                                        process="@this"
+                                        title="Add a new document type">
+
+                                        <p:ajax event="dialogReturn" 
+                                                listener="#{legalDocumentManager.documentTypeDialogReturn}"
+                                                process="@this"
+                                                update="documentType,currentDocumentNumber" />
+
+                                    </p:commandButton>
+                                </p:menuitem>
+                            </p:menuButton>   
+                        </h:panelGroup>
+
+                        <h:outputText value="Classification:" style="font-weight: bold;" />
+                        <h:panelGroup>
+                            <p:autoComplete dropdown="true"
+                                            var="classification"
+                                            id="classification"
+                                            styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
+                                            size="35"
+                                            maxlength="40"
+                                            value="#{legalDocumentManager.currentDocument.classification}"
+                                            itemLabel="#{classification.name}"                        
+                                            itemValue="#{classification}"                        
+                                            converter="classificationConverter"
+                                            validator="businessEntityValidator"
+                                            forceSelection="true"
+                                            completeMethod="#{legalDocumentManager.completeClassification}" >
+
+                                <p:ajax event="itemSelect"                                                                  
+                                        listener="#{legalDocumentManager.updateDocument}"
+                                        process="@this"/>
+
+                            </p:autoComplete>
+                            <p:spacer height="0" width="4"/>                           
+                            <p:menuButton icon="ui-icon-pencil" title="Edit or add new classification">
+                                <p:menuitem>                       
+                                    <p:commandButton value="Edit"
+                                                     icon="ui-icon-pencil" 
+                                                     style="width: 300%;text-align: left;background: none;border: 0;"
+                                                     onstart="PF('longProcessDialogVar').show();"  
+                                                     oncomplete="PF('longProcessDialogVar').hide();"
+                                                     actionListener="#{legalDocumentManager.editClassification}" 
+                                                     process="@this,classification"  
+                                                     title="Edit classification" >   
+
+                                        <p:ajax event="dialogReturn" 
+                                                listener="#{legalDocumentManager.classificationDialogReturn}"
+                                                update="classification" />
+
+                                    </p:commandButton>
+                                </p:menuitem>                                
+                                <p:menuitem >       
+                                    <p:commandButton 
+                                        value="New"
+                                        icon="ui-icon-plus" 
+                                        style="width: 300%;text-align: left;background: none;border: 0;"
+                                        onstart="PF('longProcessDialogVar').show();" 
+                                        oncomplete="PF('longProcessDialogVar').hide();"
+                                        actionListener="#{legalDocumentManager.createNewClassification}"                                            
+                                        process="@this"
+                                        title="Add a new classification">
+
+                                        <p:ajax event="dialogReturn" 
+                                                listener="#{legalDocumentManager.classificationDialogReturn}"
+                                                update="classification" />
+
+                                    </p:commandButton>
+                                </p:menuitem>
+                            </p:menuButton>   
+                        </h:panelGroup>
+
+                        <h:outputText value="Document form:" style="font-weight: bold;" />
+                        <p:selectOneMenu value="#{legalDocumentManager.currentDocument.documentForm}" >
+
+                            <p:ajax listener="#{legalDocumentManager.updateDocument}"
+                                    update="currentDocumentNumber"
+                                    process="@this" />
+
+                            <f:selectItems value="#{legalDocumentManager.documentForms}" />
+
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Date received:" style="font-weight: bold;" />
+                        <p:calendar id="dateReceived"
+                                    value="#{legalDocumentManager.currentDocument.dateReceived}"
+                                    readonlyInput="true"
+                                    required="true"
+                                    navigator="true"
+                                    pattern="MMM dd, yyyy" >
+
+                            <p:ajax event="dateSelect"
+                                    update="actualTurnaroundTime,currentDocumentNumber,turnAroundTime"
+                                    listener="#{legalDocumentManager.updateDateReceived}" />
+
+                        </p:calendar>
+
+                        <h:outputText value="Particulars:" />
+                        <p:inputTextarea value="#{legalDocumentManager.currentDocument.description}"
+                                         id="documentDescription"
+                                         rows="3"
+                                         autoResize="false"
+                                         style="width: 300px">
+
+                            <ui:remove>
+                                <f:validator validatorId="requiredFieldValidator" />
+                            </ui:remove>
+
+                            <p:ajax event="change"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this"/>
+
+                        </p:inputTextarea>
+
+                        <h:outputText value="Nature of request:" />
+                        <p:inputTextarea value="#{legalDocumentManager.currentDocument.workPerformedOnDocument}"
+                                         id="workPerformedOnDocument"
+                                         rows="2"
+                                         autoResize="false"
+                                         style="width: 300px">
+
+                            <p:ajax event="change"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this"/>
+
+                        </p:inputTextarea>
+
+                        <h:outputText value="Strategic priority" />                      
+                        <p:autoComplete id="strategicPriority"
+                                        value="#{legalDocumentManager.currentDocument.strategicPriority}"
+                                        dropdown="true"
+                                        forceSelection="false" 
+                                        completeMethod="#{legalDocumentManager.completeStrategicPriority}">
+
+                            <p:ajax event="change"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this" />
+
+                            <p:ajax event="itemSelect"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this" />
+
+                        </p:autoComplete> 
+
+                    </h:panelGrid>
+                </p:tab>
+
+                <p:tab title="Tracking">
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Department responsible:" style="font-weight: bold;" />                       
+                        <p:autoComplete var="department"
+                                        forceSelection="true"      
+                                        dropdown="true"
+                                        scrollHeight="200" 
+                                        size="35"  
+                                        maxlength="40"
+                                        value="#{legalDocumentManager.currentDocument.responsibleDepartment}"
+                                        itemValue="#{department}"
+                                        itemLabel="#{department.name}"
+                                        converter="activeDepartmentConverter"
+                                        validator="businessEntityValidator"
+                                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
+
+                            <p:ajax listener="#{legalDocumentManager.updateDocument}"
+                                    event="itemSelect"
+                                    process="@this" />
+
+                        </p:autoComplete> 
+
+                        <h:outputText value="Officer responsible:" style="font-weight: bold;" />
+                        <p:autoComplete id="officerResponsible"   
+                                        maxlength="40"
+                                        scrollHeight="200" 
+                                        size="35"
+                                        var="officerResponsible"
+                                        dropdown="true"
+                                        value="#{legalDocumentManager.currentDocument.responsibleOfficer}"
+                                        itemLabel="#{officerResponsible.name}"
+                                        itemValue="#{officerResponsible}"
+                                        converter="activeEmployeeConverter"
+                                        validator="businessEntityValidator"
+                                        forceSelection="true"
+                                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+                            <p:ajax event="itemSelect"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this"/>
+
+                        </p:autoComplete>
+
+                        <h:outputText value="Agreed delivery date:" />
+                        <p:calendar id="expectedDeliveryDate"
+                                    value="#{legalDocumentManager.currentDocument.expectedDateOfCompletion}"
+                                    readonlyInput="true"
+                                    navigator="true"
+                                    pattern="MMM dd, yyyy" >
+
+                            <p:ajax event="dateSelect"
+                                    update="turnAroundTime"
+                                    listener="#{legalDocumentManager.updateDocument}" />
+
+                        </p:calendar>
+
+                        <h:outputText value="Delivery date:" />
+                        <p:calendar id="deliveryDate"
+                                    value="#{legalDocumentManager.currentDocument.dateOfCompletion}"
+                                    readonlyInput="true"
+                                    navigator="true"
+                                    pattern="MMM dd, yyyy" >
+
+                            <p:ajax event="dateSelect"
+                                    update="actualTurnaroundTime"
+                                    listener="#{legalDocumentManager.updateDocument}" />
+
+                        </p:calendar>
+
+                        <h:outputText value="Set turnaround time (working days):" />
+                        <p:inputText value="#{legalDocumentManager.currentDocument.turnaroundTime}"
+                                     id="turnAroundTime"
+                                     converterMessage="Invalid Turnaround Time (TAT)" 
+                                     readonly="true"
+                                     styleClass="read-only-text-field"
+                                     validator="turnaroundTimeValidator" >
+
+                            <f:attribute name="tatRequired" value="#{false}" />
+
+                            <p:ajax event="change"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this"/>
+
+                        </p:inputText>
+
+                        <h:outputText value="Actual turnaround time (working days):" />
+                        <p:inputText value="#{legalDocumentManager.currentDocument.actualTurnaroundTime}"
+                                     id="actualTurnaroundTime"
+                                     styleClass="read-only-text-field"
+                                     readonly="true" >
+
+                            <p:ajax event="change"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this"/>
+
+                        </p:inputText>
+
+                        <h:outputText value="Status:" />                       
+                        <p:selectOneMenu value="#{legalDocumentManager.currentDocument.status}" >
+
+                            <p:ajax listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this" />
+
+                            <f:selectItems value="#{legalDocumentManager.documentStatuses}"/>
+
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Comment:" />
+                        <p:inputTextarea value="#{legalDocumentManager.currentDocument.comments}"
+                                         style="width: 300px">
+
+                            <p:ajax event="change"
+                                    listener="#{legalDocumentManager.updateDocument}"
+                                    process="@this"/>
+
+                        </p:inputTextarea>
+
+                    </h:panelGrid>
+                </p:tab>
+            </p:tabView>
+
+            <ui:include src="legalDocumentDialogToolbar.xhtml" />
+
+            <p/>
+        </h:form> 
+    </h:body>
+</html>

@@ -19,10 +19,8 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
-import jm.com.dpbennett.wal.managers.LegalDocumentManager;
 import jm.com.dpbennett.wal.managers.ReportManager;
 import jm.com.dpbennett.wal.managers.HumanResourceManager;
-import jm.com.dpbennett.wal.managers.ClientManager;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -177,10 +175,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * Completes a list of active job subcategories based on the query string provided.
-     * 
+     * Completes a list of active job subcategories based on the query string
+     * provided.
+     *
      * @param query
-     * @return 
+     * @return
      */
     public List<JobSubCategory> completeActiveJobSubCategories(String query) {
         EntityManager em = getEntityManager1();
@@ -191,7 +190,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * Completes a list of active job categories based on the query string provided.
+     * Completes a list of active job categories based on the query string
+     * provided.
      *
      * @param query
      * @return
@@ -1868,8 +1868,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             }
         } else if (!getIsDirty()) {
             // Job not dirty so it will not be saved.
-            PrimeFacesUtils.addMessage("Already Saved", 
-                    "Job was not saved because it was not modified or it was recently saved.", 
+            PrimeFacesUtils.addMessage("Already Saved",
+                    "Job was not saved because it was not modified or it was recently saved.",
                     FacesMessage.SEVERITY_INFO);
         } else {
             PrimeFacesUtils.addMessage("Insufficient Privilege",
@@ -2005,7 +2005,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void sendErrorEmail(String subject, String message) {
         try {
             // send error message to developer's email            
-            Utils.postMail(null, null, null, subject, message, 
+            Utils.postMail(null, null, null, subject, message,
                     "text/plain", getEntityManager1());
         } catch (Exception ex) {
             System.out.println(ex);
@@ -2179,7 +2179,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 getPurchasingManager().getSearchType(),
                 getPurchasingManager().getPurchaseReqSearchText(),
                 getUser().getEmployee().getDepartment().getId());
-        
+
         getPurchasingManager().openPurchaseReqsTab();
     }
 
@@ -2736,10 +2736,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                     if (getJobFinanceManager().canChangeJobCostingApprovalStatus(job)) {
                         job.getJobCostingAndPayment().setCostingApproved(true);
                         job.getJobStatusAndTracking().setDateCostingApproved(new Date());
+                        job.getJobCostingAndPayment().setCostingApprovedBy(
+                                getUser().getEmployee());
                         job.getJobCostingAndPayment().setIsDirty(true);
                     } else {
                         job.getJobCostingAndPayment().setCostingApproved(false);
                         job.getJobStatusAndTracking().setDateCostingApproved(null);
+                        job.getJobCostingAndPayment().setCostingApprovedBy(null);
                         job.getJobCostingAndPayment().setIsDirty(true);
                     }
                     job.save(em);
@@ -2765,10 +2768,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                 if (!job.getJobCostingAndPayment().getInvoiced()) {
                     if (getJobFinanceManager().canInvoiceJobCosting(job)) {
                         job.getJobCostingAndPayment().setInvoiced(true);
+                        job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
+                        job.getJobCostingAndPayment().setCostingInvoicedBy(
+                                getUser().getEmployee());
                         job.getJobCostingAndPayment().setIsDirty(true);
                     } else {
                         job.getJobCostingAndPayment().setInvoiced(false);
-                        job.getJobCostingAndPayment().setIsDirty(true);
+                        job.getJobStatusAndTracking().setDateCostingInvoiced(null);
+                        job.getJobCostingAndPayment().setCostingInvoicedBy(null);
+                        job.getJobCostingAndPayment().setIsDirty(false);
                     }
                     job.save(em);
                 } else {

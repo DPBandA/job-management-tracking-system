@@ -1,8 +1,9 @@
 ## Accounts Receivable Feature (v3.4.0)
-
+- Add AccPacCustomer field name accountName and delete accountingId. 
+  Use "Account name (ID)" as the account name label in the dialog tab.
 - Add "Billing Information" tab to client dialog with discount, credit limit, 
   tax exempt etc. Get the accpac credit status and limit when the accounting code is
-  entered. 
+  entered. Accpac customer as field name accountingClient.
   * Create AccPacCustomer converter and use it in billing address autocomplete.
 - Add Services tab to system admin. Add services field to Job class. Add/remove the 
   respective service when a service is selected/unselected.
@@ -35,7 +36,6 @@
 - Flag job as invoiced after export? Add accounting codes to table.
 - Add sys option that determines if the accpac invoices spreadsheet is to be
   exported. Add user preference to export invoices when "Invoice" button is pressed?
-- Put the names of the preparer and approver on the job costing.
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
 - Make credit status dialog about 25 - 50 pixels taller.
 - Create FinancialAccount and FinancialTransaction classes for the accounting module of the jmts. Let FinancialTransaction class Implement the  Transaction interface and FinancialAccount class inherit from Account.
@@ -52,6 +52,8 @@
 - When new client is being added clear out the existing client, billing address
   and contact.
 - Add privilege for changing client billing info or use some other existing criteria?
+- Add tax field to JobCategory, JobSubCategory and Classification classes. May have
+  to give access to these in fin admin.
 
 
 ### Databae update and deployment
@@ -63,6 +65,9 @@
 - Copy Job Costing.jxml file to c:\jasperreports and use .jxrml file instead of 
   .jasper to generate job costing.
 - Add DISCOUNT_ID (BIGINT, INDEX) to client table.
+- Add COSTINGPREPAREDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
+- Add COSTINGINVOICEDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
+- Add DATECOSTINGINVOICED to jobstatusandtracking table.
 
 ### Release Notes (v3.4.0)
 - Tax and discount tables and user interface elements added.

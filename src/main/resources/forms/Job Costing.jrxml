@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costing" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4a52baad-35f7-495a-a8aa-125da4be7058">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<subDataset name="Cost Components" uuid="a7e613e8-cf98-4942-94d6-f734eb7f6361">
 		<parameter name="costComponent_jobId" class="java.lang.Long">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -125,7 +127,7 @@ ORDER BY
 		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
 	</parameter>
 	<parameter name="discountType" class="java.lang.String">
-		<defaultValueExpression><![CDATA["Fixed Cost"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["Percentage"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="totalTaxLabel" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["TAX (GCT) ($):"]]></defaultValueExpression>
@@ -133,6 +135,9 @@ ORDER BY
 	<parameter name="grandTotalCostLabel" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["TOTAL COST ($):"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="preparedBy" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="approvedBy" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="approvalDate" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
      job.`ID` AS job_ID,
@@ -487,7 +492,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[DATE JOB COMPLETED:]]></text>
 			</staticText>
-			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="162" y="49" width="409" height="16" uuid="fd46df55-ed28-46eb-9628-8c1901fac40b"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
@@ -515,7 +520,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[CONTACT NAME:]]></text>
 			</staticText>
-			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="162" y="65" width="409" height="16" uuid="ceb5acb9-c69e-451a-bdbd-102df41ee2e0"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
@@ -557,7 +562,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[CUSTOMER ADDRESS:]]></text>
 			</staticText>
-			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="162" y="81" width="409" height="34" uuid="67126f96-a991-4d71-bbaf-71b9327cf49e"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
@@ -643,7 +648,7 @@ WHERE
 			</textField>
 			<staticText>
 				<reportElement positionType="Float" x="211" y="382" width="255" height="23" uuid="1b111d79-b437-412f-bc68-70b487cce348">
-					<printWhenExpression><![CDATA[$P{discountType}.equals( "Fixed Cost" )]]></printWhenExpression>
+					<printWhenExpression><![CDATA[$P{discountType}.equals( "Currency" )]]></printWhenExpression>
 				</reportElement>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
@@ -699,7 +704,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[CONTACT NOs:]]></text>
 			</staticText>
-			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="162" y="115" width="409" height="16" uuid="b0604977-68ac-4733-9479-dab325fb3fba"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
@@ -727,7 +732,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[DESCRIPTION OF JOB:]]></text>
 			</staticText>
-			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="162" y="131" width="409" height="32" uuid="ecc55d9e-f478-40a1-8446-92459bba24f6"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
@@ -755,7 +760,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[PURCHASE ORDER NO:]]></text>
 			</staticText>
-			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="162" y="163" width="409" height="16" uuid="77bb75ee-f464-4c94-b0cd-e454359d872f"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
@@ -783,7 +788,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[EMPLOYEE(S) ASSIGNED:]]></text>
 			</staticText>
-			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
+			<textField isBlankWhenNull="true">
 				<reportElement x="162" y="179" width="409" height="16" uuid="7bd5501f-f24b-4e1a-b0b7-9bd7281c8fcb"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
@@ -941,6 +946,13 @@ WHERE
 			</staticText>
 			<staticText>
 				<reportElement x="6" y="37" width="162" height="20" uuid="e32e4328-7979-4928-8525-6e385ff3ef15"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
 				<textElement>
 					<font fontName="SansSerif" size="12"/>
 				</textElement>
@@ -970,6 +982,48 @@ WHERE
 			<textField evaluationTime="Report">
 				<reportElement x="291" y="100" width="40" height="20" uuid="895722e1-ada4-4098-8eb8-aa429f1c7ba8"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="6" y="20" width="162" height="16" uuid="2ef6fa6e-eaa5-4fce-a3ab-996e24157060"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{preparedBy}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="409" y="20" width="162" height="16" uuid="0ea1c970-d94f-451b-8efe-3a56707cfa3e"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{approvedBy}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="409" y="63" width="162" height="16" uuid="572c85ca-74d8-425b-9cf9-97c0025b8005"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="12" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{approvalDate}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:panel style="margin-bottom: 1px;">
+        <h:panelGrid columns="6">
+            <h:outputText value="Report:"/>
+            <p:selectOneMenu value="#{legalDocumentManager.documentReport.id}" >
+                <p:ajax listener="#{legalDocumentManager.updateDocumentReport}"
+                        global="false"
+                        update=""
+                        process="@this" />
+                <f:selectItems value="#{legalDocumentManager.documentReports}"
+                               var="documentReport"
+                               itemLabel="#{documentReport.name}"
+                               itemValue="#{documentReport.id}"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+    </p:panel>
+
+    <ui:include src="documentReportsToolbar.xhtml" />
+
+    <p:dataTable id="documentReportTable"
+                 style="min-width: 850px;margin-bottom: 1px;margin-top: 1px;"
+                 var="document"
+                 paginator="true"
+                 rows="15"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{legalDocumentManager.documentSearchResultList}">
+
+        <f:facet name="header">
+            <h:outputText value="#{legalDocumentManager.documentReport.name}"/>
+        </f:facet>
+        <p:column style="width:16px" 
+                  exportable="false"
+                  rendered="#{legalDocumentManager.documentReport.showNumberOfDocuments}">
+            <f:facet name="header">
+                <h:outputText value="Detail"/>
+            </f:facet>
+            <p:commandButton update=":typeGroupDialogForm:documentSubReportTable"
+                             oncomplete="typeGroupDialog.show();"
+                             icon="ui-icon-search"
+                             title="View table of documents">
+                <f:setPropertyActionListener value="#{document}" target="#{legalDocumentManager.selectedDocument}" />
+            </p:commandButton>
+        </p:column>
+        <p:column style="width:150px" rendered="#{legalDocumentManager.documentReport.showType}">
+            <f:facet name="header">
+                <h:outputText value="Document type"/>
+            </f:facet>
+            <h:outputText value="#{document.type.name}" />
+        </p:column>
+        <p:column style="width:150px" rendered="#{legalDocumentManager.documentReport.showNumberOfDocuments}">
+            <f:facet name="header">
+                <h:outputText value="# of Documents"/>
+            </f:facet>
+            <h:outputText value="#{document.numberOfDocuments}" />
+        </p:column>
+        <p:column style="width:150px" rendered="#{legalDocumentManager.documentReport.showNumber}">
+            <f:facet name="header">
+                <h:outputText value="Document #"/>
+            </f:facet>
+            <h:outputText value="#{document.number}" />
+        </p:column>
+        <p:column rendered="#{legalDocumentManager.documentReport.showSubmittedBy}" >
+            <f:facet name="header">
+                <h:outputText value="Submitted by"/>
+            </f:facet>
+            <h:outputText value="#{document.submittedBy.lastName}, #{document.submittedBy.firstName}"/>
+        </p:column>
+        <p:column rendered="#{legalDocumentManager.documentReport.showDescription}">
+            <f:facet name="header">
+                <h:outputText value="Particulars"/>
+            </f:facet>
+            <h:outputText value="#{document.description}"/>
+        </p:column>
+        <p:column rendered="#{legalDocumentManager.documentReport.showExpectedDateOfCompletion}">
+            <f:facet name="header">
+                <h:outputText value="Agreed delivery"/>
+            </f:facet>
+            <h:outputText value="#{document.expectedDateOfCompletion}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column rendered="#{legalDocumentManager.documentReport.showDateReceived}" style="min-width: 85px">
+            <f:facet name="header">
+                <h:outputText value="Received"/>
+            </f:facet>
+            <h:outputText value="#{document.dateReceived}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column rendered="#{legalDocumentManager.documentReport.showDateOfCompletion}" style="min-width: 85px">
+            <f:facet name="header">
+                <h:outputText value="Delivery"/>
+            </f:facet>
+            <h:outputText value="#{document.dateOfCompletion}">
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
+        <p:column rendered="#{legalDocumentManager.documentReport.showCurrentDocumentTurnaroundTime}">
+            <f:facet name="header">
+                <h:outputText value="Turnaround"/>
+            </f:facet>
+            <h:outputText value="#{document.turnaroundTime}"/>
+        </p:column>       
+
+    </p:dataTable>
+
+    <ui:include src="documentReportsToolbar.xhtml" />
+</html>
