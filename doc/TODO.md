@@ -57,6 +57,8 @@
 - Add privilege for changing client billing info or use some other existing criteria?
 - Add tax field to JobCategory, JobSubCategory and Classification classes. May have
   to give access to these in fin admin.
+- Put costing approved yes/no column in the job costing with invoices and uninvoiced jobs reports.
+- Check why job costing can be checked as approved with no approval date.
 
 
 ### Databae update and deployment
