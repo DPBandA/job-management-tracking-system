@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
                         value="#{clientManager.selectedClient.billingAddress}"
                         dropdown="true"
                         forceSelection="true"
-                        size="35"
+                        size="45"
                         maxlength="40"
                         converter="clientAddressConverter" 
                         validator="addressValidator"
@@ -60,7 +60,6 @@ Email: info@dpbennett.com.jm
             <f:attribute name="currentClient" value="#{clientManager.selectedClient}" />
 
             <p:ajax event="itemSelect"
-                    update="account"
                     listener="#{clientManager.updateFinancialAccount}" />  
 
         </p:autoComplete>

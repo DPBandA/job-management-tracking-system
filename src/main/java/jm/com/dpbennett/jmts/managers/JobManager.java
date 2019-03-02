@@ -2745,6 +2745,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         job.getJobCostingAndPayment().setCostingApprovedBy(null);
                         job.getJobCostingAndPayment().setIsDirty(true);
                     }
+                    
                     job.save(em);
                 } else {
                     PrimeFacesUtils.addMessage("Aready Approved",
@@ -2778,6 +2779,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         job.getJobCostingAndPayment().setCostingInvoicedBy(null);
                         job.getJobCostingAndPayment().setIsDirty(false);
                     }
+                    
                     job.save(em);
                 } else {
                     PrimeFacesUtils.addMessage("Aready Invoiced",

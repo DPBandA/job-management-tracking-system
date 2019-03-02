@@ -1,8 +1,8 @@
 ## Accounts Receivable Feature (v3.4.0)
 
 - Fill out client "Billing Information" tab and test it with the creation of a new client.
-  * Modify ClientAddressConverter to work work with the client and not id.
-    If it works remember to modify the job autocomplete for billing address.
+  * Modify ClientAddressConverter to work with the client and not id.
+    If it works remember to modify the job dialog autocomplete for billing address.
 - Fix the selection client/accounting ID in the job costing table.
 - Add "Billing Information" tab to client dialog with discount, credit limit, 
   tax exempt etc. Get the accpac credit status and limit when the accounting code is

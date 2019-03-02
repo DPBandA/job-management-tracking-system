@@ -19,7 +19,6 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
-import jm.com.dpbennett.wal.managers.SystemManager;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,13 +36,11 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.AccPacDocument;
-import jm.com.dpbennett.business.entity.AccountingCode;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Client;
@@ -1390,6 +1387,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                     getCurrentJob().getJobStatusAndTracking().setEditStatus("");
                     PrimeFacesUtils.addMessage("Job Costing and Job Saved", "This job and the costing were saved", FacesMessage.SEVERITY_INFO);
+                }
+                else {
+                    PrimeFacesUtils.addMessage("Job Costing and Job NOT Saved", "This job and the costing were NOT saved", FacesMessage.SEVERITY_ERROR);
                 }
             }
         }
