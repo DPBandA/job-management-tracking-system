@@ -60,7 +60,8 @@
 - Put costing approved yes/no column in the job costing with invoices and uninvoiced jobs reports.
 - Check why job costing can be checked as approved with no approval date.
 - Take out extra classification dialog navogation out of faces config. Change 
-  admin to legal for legal doc dialog.
+  admin to legal for legal document dialog.
+- Change "managers" package to "manager" in all projects.
 
 
 ### Databae update and deployment
