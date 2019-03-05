@@ -1,5 +1,5 @@
 ## Accounts Receivable Feature (v3.4.0)
-
+- Update "invoice" reports with "Costing Prepared" and "Costing Approved" columns.
 - Fill out client "Billing Information" tab and test it with the creation of a new client.
   * Modify ClientAddressConverter to work with the client and not id.
     If it works remember to modify the job dialog autocomplete for billing address.
