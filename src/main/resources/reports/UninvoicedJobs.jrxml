@@ -282,7 +282,7 @@ ORDER BY
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Costing Invoiced?]]></text>
+				<text><![CDATA[Costing Inv'd?]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="2081" y="0" width="130" height="18" forecolor="#000000" uuid="20954274-3b59-4393-8ed8-3d9098570632"/>
