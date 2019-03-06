@@ -1,8 +1,8 @@
 ## Accounts Receivable Feature (v3.4.0)
 - Fill out client "Billing Information" tab and test it with the creation of a new client.
-  * Modify ClientAddressConverter to work with the client and not id.
-    If it works remember to modify the job dialog autocomplete for billing address.
-  * Modify clientContactConverter as is done with ClientAddressConverter.
+  * Disable Account ID as is done with other fiance related fields.
+  * Set the client's credit limit and name to what is in accpac when the Account ID is selected.
+  * Impl find by accpac customer id and use it to where possible to init client class.
 - Fix the selection client/accounting ID in the job costing table.
 - Add "Billing Information" tab to client dialog with discount, credit limit, 
   tax exempt etc. Get the accpac credit status and limit when the accounting code is
@@ -62,6 +62,9 @@
 - Take out extra classification dialog navogation out of faces config. Change 
   admin to legal for legal document dialog.
 - "Unrender" modules that are not being before next release.
+- Use debug flag to display "Test & Training Version" 
+- Set if a job's billing address and contact can be set automatically when a client is selected.
+- Automatically get the client's discount and set it the job cost discount when a client is selected.
 
 ### Database update and deployment
 - Run DiscountAndTaxTest to create Tax table if it is not created automatically.

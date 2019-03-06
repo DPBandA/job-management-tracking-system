@@ -33,6 +33,7 @@ import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.Address;
 import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
+import jm.com.dpbennett.business.entity.Discount;
 import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
@@ -71,7 +72,7 @@ public class ClientManager implements Serializable {
     public ClientManager() {
         init();
     }
-    
+       
     public List<Client> completeActiveClient(String query) {
         try {
             return Client.findActiveClientsByAnyPartOfName(getEntityManager1(), query);
@@ -79,6 +80,22 @@ public class ClientManager implements Serializable {
         } catch (Exception e) {
             System.out.println(e);
 
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Discount> completeDiscount(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<Discount> discounts = Discount.findDiscountsByNameAndDescription(em, query);
+
+            return discounts;
+
+        } catch (Exception e) {
+            System.out.println(e);
             return new ArrayList<>();
         }
     }

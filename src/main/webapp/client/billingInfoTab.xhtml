@@ -48,7 +48,6 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         forceSelection="true"
                         size="45"
-                        maxlength="40"
                         converter="clientAddressConverter" 
                         validator="addressValidator"
                         var="address"  
@@ -56,7 +55,7 @@ Email: info@dpbennett.com.jm
                         itemValue="#{address}"
                         itemLabel="#{address.name}" 
                         completeMethod="#{clientManager.completeClientAddress}">
-            
+
             <f:attribute name="currentClient" value="#{clientManager.selectedClient}" />
 
             <p:ajax event="itemSelect"
@@ -64,32 +63,75 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>
 
-        <ui:remove>
-            <h:outputText value="Entered by:" />           
-            <p:inputText value="#{clientManager.selectedClient.enteredBy.name}"
-                         readonly="true" 
-                         style="background-color: lightgray !important;" />  
+        <h:outputText value="Billing contact:" style="font-weight: bold" />  
+        <p:autoComplete id="billingContact"
+                        value="#{clientManager.selectedClient.billingContact}"
+                        dropdown="true"
+                        forceSelection="true"
+                        scrollHeight="200"
+                        converter="clientContactConverter" 
+                        validator="contactValidator"
+                        var="contact"                        
+                        itemValue="#{contact}"
+                        itemLabel="#{contact.name}" 
+                        completeMethod="#{clientManager.completeClientContact}">
 
+            <f:attribute name="currentClient" value="#{clientManager.selectedClient}" />
 
-            <h:outputText value="Date entered: " />
-            <p:calendar value="#{clientManager.selectedClient.dateEntered}"                                                            
-                        readonly="true"
-                        readonlyInput="true"
-                        showOn="none"   
-                        pattern="MMM dd, yyyy" />     
+            <p:ajax event="itemSelect"
+                    listener="#{clientManager.updateFinancialAccount}" />   
 
-            <h:outputText value="Edited by:" />            
-            <p:inputText value="#{clientManager.selectedClient.editedBy.name}"                        
-                         readonly="true" 
-                         style="background-color: lightgray !important;" />  
+        </p:autoComplete>
 
-            <h:outputText value="Date edited: " />
-            <p:calendar value="#{clientManager.selectedClient.dateEdited}"  
-                        readonly="true"
-                        readonlyInput="true"
-                        showOn="none"   
-                        pattern="MMM dd, yyyy" />     
-        </ui:remove>
+        <h:outputText value="Credit limit ($):" style="font-weight: bold" />
+        <p:inputText value="#{clientManager.selectedClient.creditLimit}"
+                     styleClass="number-field"
+                     converterMessage="Please enter a valid credit limit."
+                     maxlength="15" >
+
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+
+            <p:ajax event="change"
+                    listener="#{clientManager.updateFinancialAccount}" />
+
+        </p:inputText>
+
+        <h:outputText value="Discount (%/$):" style="font-weight: bold" />
+        <p:autoComplete id="discount"  
+                        var="discount"
+                        forceSelection="true"      
+                        dropdown="true"
+                        scrollHeight="200" 
+                        maxlength="40"
+                        value="#{clientManager.selectedClient.discount}"
+                        title="#{clientManager.selectedClient.discount}"
+                        styleClass="right-inputfield" 
+                        itemValue="#{discount}"
+                        itemLabel="#{discount.name}"
+                        converter="discountConverter"
+                        validator="businessEntityValidator"
+                        completeMethod="#{clientManager.completeDiscount}" >
+
+            <p:ajax event="itemSelect"
+                    listener="#{clientManager.updateFinancialAccount}" />
+
+        </p:autoComplete>
+
+        <p:outputLabel for="taxExempt" value="Tax exempt:" style="font-weight: bold;" />  
+        <h:panelGroup>
+            <p:selectBooleanCheckbox style="vertical-align: middle"
+                                     id="taxExempt"
+                                     value="#{clientManager.selectedClient.taxExempt}" >
+                
+                <p:ajax listener="#{clientManager.updateFinancialAccount}"
+                        event="change"                                      
+                        process="@this"/>
+                
+            </p:selectBooleanCheckbox>     
+            
+            <p:tooltip for="taxExempt" value="Check to activate tax exempt" 
+                       showEffect="fade" hideEffect="fade" />            
+        </h:panelGroup>
 
     </h:panelGrid>
 </html>

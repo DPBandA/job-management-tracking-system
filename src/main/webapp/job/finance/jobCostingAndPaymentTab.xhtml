@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2019  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -54,7 +54,9 @@ Email: info@dpbennett.com.jm
                              readonly="#{!jobFinanceManager.canEditJobCosting}"
                              disabled="#{jobFinanceManager.isJobCompleted}" 
                              maxlength="15" >
+                    
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    
                     <p:ajax event="change"
                             global="false"
                             update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
@@ -203,38 +205,7 @@ Email: info@dpbennett.com.jm
         <p:panel style="margin-bottom: 1px;margin-top: 1px;">
             <h:panelGrid columns="2">
 
-                <ui:remove>
-                    <h:outputText value="Invoice number:" />
-                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.invoiceNumber}"
-                                 readonly="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                                 styleClass="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment ? '' : 'read-only-text-field'}" 
-                                 maxlength="40" >
-                        <p:ajax event="change"                            
-                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"
-                                update=":jobDialogForm:jobDetailToolbar1"
-                                process="@this"/>
-                    </p:inputText>
-                </ui:remove>
-
-                <h:outputText value="Discount:" />
-                <ui:remove>
-                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.discount}"  
-                                 id="discountAmount"
-                                 readonly="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                                 styleClass="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment ? 'number-field' : 'read-only-number-field'}" 
-                                 validator="requiredFieldValidator"
-                                 converterMessage="Invalid discount value"
-                                 maxlength="5" >
-
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-
-                        <p:ajax event="change"
-                                global="false"
-                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"
-                                update=":jobDialogForm:jobDetailToolbar1,jobCosting"
-                                process="@this"/>
-                    </p:inputText>
-                </ui:remove>
+                <h:outputText value="Discount (%/$):" />
                 <p:autoComplete id="discount"  
                                 var="discount"
                                 forceSelection="true"      

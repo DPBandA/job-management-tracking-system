@@ -180,7 +180,6 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         forceSelection="true"
                         size="35"
-                        maxlength="40"
                         converter="clientAddressConverter" 
                         validator="addressValidator"
                         var="address"  
@@ -204,7 +203,6 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         forceSelection="true"
                         scrollHeight="200"
-                        maxlength="40"
                         converter="clientContactConverter" 
                         validator="contactValidator"
                         var="contact"                        
@@ -212,7 +210,7 @@ Email: info@dpbennett.com.jm
                         itemLabel="#{contact.name}" 
                         completeMethod="#{jobManager.completeClientContact}">
 
-            <f:attribute name="currentClientId" value="#{jobManager.currentJob.client.id}" />
+            <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        
