@@ -34,6 +34,7 @@ Email: info@dpbennett.com.jm
                         value="#{clientManager.selectedClient.financialAccount}"  
                         itemLabel="#{account.idCust} (#{account.customerName})"
                         itemValue="#{account}"
+                        disabled="#{!clientManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                         completeMethod="#{clientManager.completeAccPacClient}" >      
 
             <p:ajax event="itemSelect"
@@ -122,13 +123,13 @@ Email: info@dpbennett.com.jm
             <p:selectBooleanCheckbox style="vertical-align: middle"
                                      id="taxExempt"
                                      value="#{clientManager.selectedClient.taxExempt}" >
-                
+
                 <p:ajax listener="#{clientManager.updateFinancialAccount}"
                         event="change"                                      
                         process="@this"/>
-                
+
             </p:selectBooleanCheckbox>     
-            
+
             <p:tooltip for="taxExempt" value="Check to activate tax exempt" 
                        showEffect="fade" hideEffect="fade" />            
         </h:panelGroup>

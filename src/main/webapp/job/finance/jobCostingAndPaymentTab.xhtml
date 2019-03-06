@@ -215,6 +215,7 @@ Email: info@dpbennett.com.jm
                                 value="#{jobFinanceManager.currentJob.jobCostingAndPayment.discount}"
                                 title="#{jobFinanceManager.currentJob.jobCostingAndPayment.discount}"
                                 styleClass="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment ? 'right-inputfield' : 'read-only-right-inputfield'}" 
+                                disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                                 itemValue="#{discount}"
                                 itemLabel="#{discount.name}"
                                 converter="discountConverter"

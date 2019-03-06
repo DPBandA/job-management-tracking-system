@@ -1,6 +1,5 @@
 ## Accounts Receivable Feature (v3.4.0)
 - Fill out client "Billing Information" tab and test it with the creation of a new client.
-  * Disable Account ID as is done with other fiance related fields.
   * Set the client's credit limit and name to what is in accpac when the Account ID is selected.
   * Impl find by accpac customer id and use it to where possible to init client class.
 - Fix the selection client/accounting ID in the job costing table.
