@@ -189,7 +189,7 @@ Email: info@dpbennett.com.jm
                         itemLabel="#{address.name}" 
                         completeMethod="#{jobManager.completeClientAddress}">
 
-            <f:attribute name="currentClientId" value="#{jobManager.currentJob.client.id}" />
+            <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"                                        

@@ -1,8 +1,8 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Update "invoice" reports with "Costing Prepared" and "Costing Approved" columns.
 - Fill out client "Billing Information" tab and test it with the creation of a new client.
   * Modify ClientAddressConverter to work with the client and not id.
     If it works remember to modify the job dialog autocomplete for billing address.
+  * Modify clientContactConverter as is done with ClientAddressConverter.
 - Fix the selection client/accounting ID in the job costing table.
 - Add "Billing Information" tab to client dialog with discount, credit limit, 
   tax exempt etc. Get the accpac credit status and limit when the accounting code is
@@ -61,18 +61,16 @@
 - Check why job costing can be checked as approved with no approval date.
 - Take out extra classification dialog navogation out of faces config. Change 
   admin to legal for legal document dialog.
-- Change "managers" package to "manager" in all projects.
+- "Unrender" modules that are not being before next release.
 
-
-### Databae update and deployment
+### Database update and deployment
 - Run DiscountAndTaxTest to create Tax table if it is not created automatically.
-- Add TAX_ID (BIGINT, INDEX) to jobcostingandpayment table.
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
-- Add DISCOUNT_ID (BIGINT, INDEX) to client table.
-- Add COSTINGPREPAREDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
-- Add COSTINGINVOICEDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
-- Add DATECOSTINGINVOICED to jobstatusandtracking table.
-- Add FINANCIALACCOUNT_IDCUST (CHAR(12), INDEX) to client table.
+- Add DISCOUNT_ID (BIGINT, INDEX), FINANCIALACCOUNT_IDCUST (CHAR(12), INDEX),
+  BILLINGADDRESS_ID (BIGINT, INDEX) to client table.
+- Add TAX_ID (BIGINT, INDEX), DISCOUNT_ID (BIGINT, INDEX), COSTINGPREPAREDBY_ID (BIGINT, INDEX),
+  COSTINGINVOICEDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
+- Add DATECOSTINGINVOICED (DATE) to jobstatusandtracking table.
 - Add tax and discount with name "0.0" and value 0.0.
 - Copy Job Costing.jxml file to c:\jasperreports and use .jxrml file instead of 
   .jasper to generate job costing.
