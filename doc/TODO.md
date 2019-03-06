@@ -67,7 +67,6 @@
 ### Databae update and deployment
 - Run DiscountAndTaxTest to create Tax table if it is not created automatically.
 - Add TAX_ID (BIGINT, INDEX) to jobcostingandpayment table.
-- Add all GCT taxes.
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
 - Add DISCOUNT_ID (BIGINT, INDEX) to client table.
 - Add COSTINGPREPAREDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
@@ -77,6 +76,7 @@
 - Add tax and discount with name "0.0" and value 0.0.
 - Copy Job Costing.jxml file to c:\jasperreports and use .jxrml file instead of 
   .jasper to generate job costing.
+- Add all GCT taxes.
 
 ### Release Notes (v3.4.0)
 - Tax and discount tables and user interface elements added.
