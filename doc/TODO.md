@@ -12,6 +12,7 @@
 - Impl automtatic pulling of Accpac info into JMTS client class where possible.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
+- Impl services tab and dialog.
 - See if two values can be combined into 1 column in SQL.
 - When new cash payment is added the "edited" status is not changed. Fix.
 - Fix printing of receipts on job costing using 25/2018/9506 and ensure job costing approver
@@ -34,6 +35,7 @@
 - Use the job subcategory to determine the distribution code by assigning an accounting code to each job subcategory. 
   Remember to add accountingCodes to existing categories and sub categories.
 - Associate each service with a job category and sub category. Add the fields to the class.
+- Add list of job subcategories to job categories.
 - Impl fill out of Invoice_Details sheet
     * Impl fill out of multiple CNTLINE for each CNTITEM.
     * Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
