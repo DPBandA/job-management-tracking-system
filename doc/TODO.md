@@ -29,6 +29,11 @@
   the department to which the job is assigned etc.
 - In onJobCostingCellEdit save JCP and client only if these were table cells 
     were edited. Also new Accounting codes are being saved. Fix!
+- Add otherServices and services field for storing services offered for a job. Add
+  items to services when a service contract item is selected.
+- Use the job subcategory to determine the distribution code by assigning an accounting code to each job subcategory. 
+  Remember to add accountingCodes to existing categories and sub categories.
+- Associate each service with a job category and sub category. Add the fields to the class.
 - Impl fill out of Invoice_Details sheet
     * Impl fill out of multiple CNTLINE for each CNTITEM.
     * Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
@@ -64,6 +69,8 @@
 - Use debug flag to display "Test & Training Version" 
 - Set if a job's billing address and contact can be set automatically when a client is selected.
 - Automatically get the client's discount and set it the job cost discount when a client is selected.
+- Use the debug flag to display Test & Training Version instead of subtitle in jmts.
+- Check if job status tracking class is saved in batch or normal approval or invoicing.
 
 ### Database update and deployment
 - Run DiscountAndTaxTest to create Tax table if it is not created automatically.
