@@ -336,6 +336,7 @@ public class ClientManager implements Serializable {
         selectedClient.setAccountingId(selectedClient.getFinancialAccount().getIdCust());
         // Set credit limit 
         
+        
         // Set financial account name??
         
         setIsDirty(true);

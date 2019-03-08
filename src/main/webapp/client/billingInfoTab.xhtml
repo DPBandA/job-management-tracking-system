@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
                         completeMethod="#{clientManager.completeAccPacClient}" >      
 
             <p:ajax event="itemSelect"
-                    update="account"
+                    update="account,creditLimit"
                     listener="#{clientManager.updateFinancialAccountId}" />
 
         </p:autoComplete>
@@ -86,6 +86,7 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Credit limit ($):" style="font-weight: bold" />
         <p:inputText value="#{clientManager.selectedClient.creditLimit}"
+                     id="creditLimit"
                      styleClass="number-field"
                      converterMessage="Please enter a valid credit limit."
                      maxlength="15" >
