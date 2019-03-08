@@ -73,6 +73,7 @@
 - Automatically get the client's discount and set it the job cost discount when a client is selected.
 - Use the debug flag to display Test & Training Version instead of subtitle in jmts.
 - Check if job status tracking class is saved in batch or normal approval or invoicing.
+- Put new logo in the old service contract and use to for now.
 
 ### Database update and deployment
 - Run DiscountAndTaxTest to create Tax table if it is not created automatically.
