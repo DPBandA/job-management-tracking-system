@@ -328,7 +328,15 @@ public class ClientManager implements Serializable {
     
     public void updateFinancialAccount() {
         
+        setIsDirty(true);
+    }
+    
+    public void updateFinancialAccountId() {
+        
         selectedClient.setAccountingId(selectedClient.getFinancialAccount().getIdCust());
+        // Set credit limit 
+        
+        // Set financial account name??
         
         setIsDirty(true);
     }
