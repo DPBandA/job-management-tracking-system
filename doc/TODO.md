@@ -1,26 +1,15 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Fill out client "Billing Information" tab and test it with the creation of a new client.
-  * Set the client's credit limit and name to what is in accpac when the Account ID is selected.
-  * Impl find by accpac customer id and use it to where possible to init client class.
-- Fix the selection client/accounting ID in the job costing table.
-- Add "Billing Information" tab to client dialog with discount, credit limit, 
-  tax exempt etc. Get the accpac credit status and limit when the accounting code is
-  entered. Accpac customer as field name accountingClient.
-  * Create AccPacCustomer converter and use it in billing address autocomplete.
-- Add Services tab to system admin. Add services field to Job class. Add/remove the 
-  respective service when a service is selected/unselected.
-- Impl automtatic pulling of Accpac info into JMTS client class where possible.
+- Add Services tab and dialog to system admin. 
+  * Add accounting code.
+- Add services field to Job class. Add/remove the respective service when a service is selected/unselected.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
-- Impl services tab and dialog.
-- See if two values can be combined into 1 column in SQL.
+- See if two values can be combined into 1 column in SQL may be by using the SUM
+  aggregate function. Use to sum deposit field value and the total cash payments
+  if possible.
 - When new cash payment is added the "edited" status is not changed. Fix.
-- Fix printing of receipts on job costing using 25/2018/9506 and ensure job costing approver
-  appears on the printed job costing.
 - Impl exporting Excel file using "Invoice" button. The records must be
   must be checked to see if they can be exported first eg the client id is valid.
-- Fix the columns related to "Client Id" and "Dist'n Ids" in the job costings
-  table.
 - Impl  getting dist. code of the from 1310-21-24-21 ie dept code first, subgroup 
   second and div code last.
 - Impl searching for job costings that have been approved but not invoiced so
@@ -28,12 +17,8 @@
 - Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
   How to determine the test/cal code eg 1310 for test? Use the service selected in the service contract,
   the department to which the job is assigned etc.
-- In onJobCostingCellEdit save JCP and client only if these were table cells 
-    were edited. Also new Accounting codes are being saved. Fix!
-- Add otherServices and services field for storing services offered for a job. Add
-  items to services when a service contract item is selected.
-- Use the job subcategory to determine the distribution code by assigning an accounting code to each job subcategory. 
-  Remember to add accountingCodes to existing categories and sub categories.
+- Use the job subcategory to determine the distribution code by assigning an 
+  accounting code to each job subcategory. Remember to add accountingCodes to existing categories and sub categories.
 - Associate each service with a job category and sub category. Add the fields to the class.
 - Add list of job subcategories to job categories.
 - Impl fill out of Invoice_Details sheet
@@ -74,6 +59,7 @@
 - Use the debug flag to display Test & Training Version instead of subtitle in jmts.
 - Check if job status tracking class is saved in batch or normal approval or invoicing.
 - Put new logo in the old service contract and use to for now.
+- Add search for "Approved but not invoiced" jobs.
 
 ### Database update and deployment
 - Run DiscountAndTaxTest to create Tax table if it is not created automatically.
@@ -83,6 +69,8 @@
 - Add TAX_ID (BIGINT, INDEX), DISCOUNT_ID (BIGINT, INDEX), COSTINGPREPAREDBY_ID (BIGINT, INDEX),
   COSTINGINVOICEDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
 - Add DATECOSTINGINVOICED (DATE) to jobstatusandtracking table.
+- Add ACCOUNTINGCODE_ID (BIGINT, INDEX) to service table
+Data updates:
 - Add tax and discount with name "0.0" and value 0.0.
 - Copy Job Costing.jxml file to c:\jasperreports and use .jxrml file instead of 
   .jasper to generate job costing.

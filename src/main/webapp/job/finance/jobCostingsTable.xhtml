@@ -62,7 +62,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.client.financialAccount.idCust}" 
+        <p:column sortBy="#{job.client.accountingId}" 
                   rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
             <f:facet name="header">
                 <h:outputText value="Client Id"/>
@@ -70,7 +70,7 @@ Email: info@dpbennett.com.jm
 
             <p:cellEditor>
                 <f:facet name="output"> 
-                    <h:outputText value="#{job.client.financialAccount.idCust}" />
+                    <h:outputText value="#{job.client.accountingId}" />
                 </f:facet>
                 <f:facet name="input" >
                     <p:autoComplete forceSelection="true"
@@ -80,7 +80,7 @@ Email: info@dpbennett.com.jm
                                     size="10"
                                     converter="accPacCustomerConverter"
                                     value="#{job.client.financialAccount}"  
-                                    itemLabel="#{account.idCust}"
+                                    itemLabel="#{account.idCust} (#{account.customerName})"
                                     itemValue="#{account}"
                                     completeMethod="#{clientManager.completeAccPacClient}" />      
 
@@ -88,14 +88,13 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>
         </p:column>
 
-        <ui:remove>
-            <p:column rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}" >
-                <f:facet name="header">
-                    <h:outputText value="Dist'n Codes"/>
-                </f:facet>
-                <h:outputText value="#{job.jobCostingAndPayment.accountingCodes}" />
-            </p:column>
-        </ui:remove>
+        <p:column rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}" >
+            <f:facet name="header">
+                <h:outputText value="Acc. Codes"/>
+            </f:facet>
+            <h:outputText value="#{job.jobCostingAndPayment.accountingCodes}" />
+        </p:column>
+
 
         <p:column sortBy="#{job.classification.name}" >
             <f:facet name="header">

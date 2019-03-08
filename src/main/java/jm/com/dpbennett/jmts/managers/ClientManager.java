@@ -146,7 +146,7 @@ public class ClientManager implements Serializable {
         selectedClient = null;
         selectedContact = null;
         selectedAddress = null;
-        searchText = null;
+        searchText = "";
     }
 
     public void reset() {
@@ -335,7 +335,9 @@ public class ClientManager implements Serializable {
         
         selectedClient.setAccountingId(selectedClient.getFinancialAccount().getIdCust());
         // Set credit limit 
-        
+        selectedClient.setCreditLimit((selectedClient.
+                getFinancialAccount().
+                getCreditLimit().doubleValue()));
         
         // Set financial account name??
         
@@ -368,6 +370,7 @@ public class ClientManager implements Serializable {
 
     public void createNewClient(Boolean active) {
         selectedClient = new Client("", active);
+        selectedClient.setDiscount(Discount.findDefault(getEntityManager1(), "0.0"));
     }
 
     public Boolean getIsDirty() {

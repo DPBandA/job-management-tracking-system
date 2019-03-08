@@ -312,23 +312,37 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public void onJobCostingCellEdit(CellEditEvent event) {
 
-        // Update and save client if edited
-        if (getAccPacCustomer().getIsDirty()) {
-           
-            getJobSearchResultList().get(event.getRowIndex()).
-                    getClient().setEditedBy(getUser().getEmployee());
-            
-            getJobSearchResultList().get(event.getRowIndex()).
-                    getClient().save(getEntityManager1());
+        // Set edited by
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().setEditedBy(getUser().getEmployee());
+        
+        // Set date edited
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().setDateEdited(new Date());
+        
+        // Set the Accounting ID
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().setAccountingId(
+                getJobSearchResultList().get(event.getRowIndex()).
+                getClient().getFinancialAccount().getIdCust());
+        
+        // Set credit limit
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().setCreditLimit(
+                getJobSearchResultList().get(event.getRowIndex()).
+                getClient().getFinancialAccount().getCreditLimit().doubleValue());        
+        
+        // Save
+        getJobSearchResultList().get(event.getRowIndex()).
+                getClient().save(getEntityManager1());
 
-            accPacCustomer = new AccPacCustomer();
-        }
-
+        //    accPacCustomer = new AccPacCustomer();
+        //}
         // Update and save job costing and payment if edited        
-        getJobSearchResultList().get(event.getRowIndex()).
-                getJobCostingAndPayment().setIsDirty(true);
-        getJobSearchResultList().get(event.getRowIndex()).
-                getJobCostingAndPayment().save(getEntityManager1());
+        //getJobSearchResultList().get(event.getRowIndex()).
+        //        getJobCostingAndPayment().setIsDirty(true);
+        //getJobSearchResultList().get(event.getRowIndex()).
+        //        getJobCostingAndPayment().save(getEntityManager1());
     }
 
     /**
@@ -2745,7 +2759,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         job.getJobCostingAndPayment().setCostingApprovedBy(null);
                         job.getJobCostingAndPayment().setIsDirty(true);
                     }
-                    
+
                     job.save(em);
                 } else {
                     PrimeFacesUtils.addMessage("Aready Approved",
@@ -2779,7 +2793,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         job.getJobCostingAndPayment().setCostingInvoicedBy(null);
                         job.getJobCostingAndPayment().setIsDirty(false);
                     }
-                    
+
                     job.save(em);
                 } else {
                     PrimeFacesUtils.addMessage("Aready Invoiced",
