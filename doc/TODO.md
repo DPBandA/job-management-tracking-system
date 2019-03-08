@@ -1,7 +1,6 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Add Services tab and dialog to system admin. 
-  * Add accounting code.
 - Add services field to Job class. Add/remove the respective service when a service is selected/unselected.
+  Add a temporary multiple selection autocomplete to view the services added.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
 - See if two values can be combined into 1 column in SQL may be by using the SUM
