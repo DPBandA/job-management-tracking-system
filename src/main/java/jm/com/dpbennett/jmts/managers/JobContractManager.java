@@ -33,6 +33,7 @@ import jm.com.dpbennett.business.entity.Department;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.JobSample;
+import jm.com.dpbennett.business.entity.Service;
 import jm.com.dpbennett.business.entity.SystemOption;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -364,11 +365,45 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     public void updateJob() {
         setIsDirty(true);
     }
-    
+
     public void updateServices() {
+        // Add/remove testing service
         if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
+            getCurrentJob().getServices().add(Service.findByName(
+                    getEntityManager1(), "Testing"));
+        } else {
+            for (int i = 0; i < getCurrentJob().getServices().size(); i++) {
+                if (getCurrentJob().getServices().get(i).getName().equals("Testing")) {
+                    getCurrentJob().getServices().remove(i);
+                }
+
+            }
+        }
+        // Add/remove calibration service
+        if (getCurrentJob().getServiceContract().getServiceRequestedCalibration()) {
+            getCurrentJob().getServices().add(Service.findByName(
+                    getEntityManager1(), "Calibration"));
+        }
+        else {
             
         }
+        // Add/remove Label Evaluation service
+        if (getCurrentJob().getServiceContract().getServiceRequestedLabelEvaluation()) {
+            getCurrentJob().getServices().add(Service.findByName(
+                    getEntityManager1(), "Label Evaluation"));
+        }
+        else {
+            
+        }
+        // Add/remove Inspection service
+        if (getCurrentJob().getServiceContract().getServiceRequestedInspection()) {
+            getCurrentJob().getServices().add(Service.findByName(
+                    getEntityManager1(), "Inspection"));
+        }
+        else {
+            
+        }
+
         setIsDirty(true);
     }
 

@@ -1,6 +1,7 @@
 ## Accounts Receivable Feature (v3.4.0)
 - Add services field to Job class.  
-  * Update the "services autocomplete" when a requested service check box is selected/unselected.
+  * Update the job dialog form/"services autocomplete" when a requested service 
+    check box is selected/unselected. Check what happens if a null service is added.
   * Add/remove the respective service when a service is selected/unselected.
   * Create jmts.job_service via BEL test class. May just instantiating a class will do it.
   * Add check boxes for other services such as certification.
@@ -76,6 +77,7 @@ Data updates:
 - Copy Job Costing.jxml file to c:\jasperreports and use .jxrml file instead of 
   .jasper to generate job costing.
 - Add all GCT taxes.
+- Add services including the catch all "Other".
 
 ### Release Notes (v3.4.0)
 - Tax and discount tables and user interface elements added.

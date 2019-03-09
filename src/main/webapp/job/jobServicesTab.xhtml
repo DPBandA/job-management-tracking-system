@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Testing"
                                                  value="#{jobContractManager.currentJob.serviceContract.serviceRequestedTesting}">
                             <p:ajax listener="#{jobContractManager.updateServices}"
-                                    update=":jobDialogForm:jobDetailToolbar1,services"
+                                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
                                     global="false"                                        
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Calibration"
                                                  value="#{jobContractManager.serviceRequestedCalibration}">
                             <p:ajax listener="#{jobContractManager.updateServices}"
-                                    update=":jobDialogForm:jobDetailToolbar1"
+                                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -56,7 +56,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Label Evaluation"
                                                  value="#{jobContractManager.serviceRequestedLabelEvaluation}" >
                             <p:ajax listener="#{jobContractManager.updateServices}"
-                                    update=":jobDialogForm:jobDetailToolbar1"
+                                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -65,7 +65,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Inspection"
                                                  value="#{jobContractManager.serviceRequestedInspection}">
                             <p:ajax listener="#{jobContractManager.updateServices}"
-                                    update=":jobDialogForm:jobDetailToolbar1"
+                                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -74,7 +74,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Consultancy"
                                                  value="#{jobContractManager.serviceRequestedConsultancy}">
                             <p:ajax listener="#{jobContractManager.updateServices}"
-                                    update=":jobDialogForm:jobDetailToolbar1"
+                                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -83,7 +83,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Training"
                                                  value="#{jobContractManager.serviceRequestedTraining}">
                             <p:ajax listener="#{jobContractManager.updateServices}"
-                                    update=":jobDialogForm:jobDetailToolbar1"
+                                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -94,7 +94,7 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Other:"
                                                  value="#{jobContractManager.serviceRequestedOther}">
                             <p:ajax listener="#{jobContractManager.updateJob}"
-                                    update="otherServiceText,:jobDialogForm:jobDetailToolbar1"
+                                    update="otherServiceText,:jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>

@@ -40,7 +40,6 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Service(s) offered:" />       
         <p:autoComplete id="services"
-                        disabled="true"
                         var="service"   
                         value="#{jobManager.currentJob.services}"
                         itemLabel="#{service.name}"
@@ -66,8 +65,7 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Report number(s): " />
         <h:panelGroup>
-            <p:inputText id="reportNumbers"
-                         style="width: 200%"                         
+            <p:inputText id="reportNumbers"                     
                          title="#{jobManager.currentJob.reportNumber}"
                          value="#{jobManager.currentJob.reportNumber}">
                 <p:ajax event="change"
