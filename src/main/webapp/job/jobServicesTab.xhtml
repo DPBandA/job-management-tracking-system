@@ -28,13 +28,17 @@ Email: info@dpbennett.com.jm
         <p:tab title="General Services">
             <h:panelGrid id="serviceContract" columns="1" >
                 <p:panel header="Services Involved" >
+                    <h:panelGrid columns="1"  cellspacing="10">
+                        <h:outputText value="Service(s) requested:" />
+                    </h:panelGrid>
+
                     <h:panelGrid columns="3" cellspacing="10" >
 
                         <p:selectBooleanCheckbox id="testingService" 
                                                  itemLabel="Testing"
                                                  value="#{jobContractManager.currentJob.serviceContract.serviceRequestedTesting}">
-                            <p:ajax listener="#{jobContractManager.updateJob}"
-                                    update=":jobDialogForm:jobDetailToolbar1"
+                            <p:ajax listener="#{jobContractManager.updateServices}"
+                                    update=":jobDialogForm:jobDetailToolbar1,services"
                                     global="false"                                        
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -42,7 +46,7 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="calibrationService" 
                                                  itemLabel="Calibration"
                                                  value="#{jobContractManager.serviceRequestedCalibration}">
-                            <p:ajax listener="#{jobContractManager.updateJob}"
+                            <p:ajax listener="#{jobContractManager.updateServices}"
                                     update=":jobDialogForm:jobDetailToolbar1"
                                     global="false"
                                     process="@this"/>
@@ -51,7 +55,7 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="labelEvaluationService"     
                                                  itemLabel="Label Evaluation"
                                                  value="#{jobContractManager.serviceRequestedLabelEvaluation}" >
-                            <p:ajax listener="#{jobContractManager.updateJob}"
+                            <p:ajax listener="#{jobContractManager.updateServices}"
                                     update=":jobDialogForm:jobDetailToolbar1"
                                     global="false"
                                     process="@this"/>
@@ -60,7 +64,7 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="inspectionService" 
                                                  itemLabel="Inspection"
                                                  value="#{jobContractManager.serviceRequestedInspection}">
-                            <p:ajax listener="#{jobContractManager.updateJob}"
+                            <p:ajax listener="#{jobContractManager.updateServices}"
                                     update=":jobDialogForm:jobDetailToolbar1"
                                     global="false"
                                     process="@this"/>
@@ -69,7 +73,7 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="consultancyService" 
                                                  itemLabel="Consultancy"
                                                  value="#{jobContractManager.serviceRequestedConsultancy}">
-                            <p:ajax listener="#{jobContractManager.updateJob}"
+                            <p:ajax listener="#{jobContractManager.updateServices}"
                                     update=":jobDialogForm:jobDetailToolbar1"
                                     global="false"
                                     process="@this"/>
@@ -78,13 +82,14 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="trainingService" 
                                                  itemLabel="Training"
                                                  value="#{jobContractManager.serviceRequestedTraining}">
-                            <p:ajax listener="#{jobContractManager.updateJob}"
+                            <p:ajax listener="#{jobContractManager.updateServices}"
                                     update=":jobDialogForm:jobDetailToolbar1"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
                     </h:panelGrid>
-                    <h:panelGrid columns="2"  cellspacing="10" style="margin-top: -10px;">
+                    <h:panelGrid columns="2"  cellspacing="10" style="margin-top: -10px;">                        
+
                         <p:selectBooleanCheckbox id="otherService" 
                                                  itemLabel="Other:"
                                                  value="#{jobContractManager.serviceRequestedOther}">
@@ -103,7 +108,8 @@ Email: info@dpbennett.com.jm
                                     event="change"
                                     global="false"
                                     process="@this"/>
-                        </p:inputText>                       
+                        </p:inputText>    
+
                     </h:panelGrid>
                 </p:panel>
 
@@ -175,7 +181,7 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputText>
                     </h:panelGrid>
-                    
+
                 </p:panel>
 
                 <p:panel header="Special Instructions" >

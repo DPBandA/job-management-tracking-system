@@ -364,6 +364,13 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     public void updateJob() {
         setIsDirty(true);
     }
+    
+    public void updateServices() {
+        if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
+            
+        }
+        setIsDirty(true);
+    }
 
     @Override
     public void setIsDirty(Boolean dirty) {

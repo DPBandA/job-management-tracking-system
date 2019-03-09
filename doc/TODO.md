@@ -1,6 +1,10 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Add services field to Job class. Add/remove the respective service when a service is selected/unselected.
-  Add a temporary multiple selection autocomplete to view the services added.
+- Add services field to Job class.  
+  * Update the "services autocomplete" when a requested service check box is selected/unselected.
+  * Add/remove the respective service when a service is selected/unselected.
+  * Create jmts.job_service via BEL test class. May just instantiating a class will do it.
+  * Add check boxes for other services such as certification.
+  * Show message growl if new service is entered or ticked.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
 - See if two values can be combined into 1 column in SQL may be by using the SUM
@@ -16,8 +20,6 @@
 - Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
   How to determine the test/cal code eg 1310 for test? Use the service selected in the service contract,
   the department to which the job is assigned etc.
-- Use the job subcategory to determine the distribution code by assigning an 
-  accounting code to each job subcategory. Remember to add accountingCodes to existing categories and sub categories.
 - Associate each service with a job category and sub category. Add the fields to the class.
 - Add list of job subcategories to job categories.
 - Impl fill out of Invoice_Details sheet
