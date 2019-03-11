@@ -369,8 +369,11 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     public void updateServices() {
         // Add/remove testing service
         if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
-            getCurrentJob().getServices().add(Service.findByName(
-                    getEntityManager1(), "Testing"));
+            Service service = Service.findByName(getEntityManager1(), "Testing");
+            if (service != null) {
+                getCurrentJob().getServices().add(service);
+            }
+
         } else {
             for (int i = 0; i < getCurrentJob().getServices().size(); i++) {
                 if (getCurrentJob().getServices().get(i).getName().equals("Testing")) {
@@ -383,25 +386,24 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         if (getCurrentJob().getServiceContract().getServiceRequestedCalibration()) {
             getCurrentJob().getServices().add(Service.findByName(
                     getEntityManager1(), "Calibration"));
-        }
-        else {
-            
+        } else {
+
         }
         // Add/remove Label Evaluation service
         if (getCurrentJob().getServiceContract().getServiceRequestedLabelEvaluation()) {
-            getCurrentJob().getServices().add(Service.findByName(
-                    getEntityManager1(), "Label Evaluation"));
-        }
-        else {
-            
+            Service service = Service.findByName(getEntityManager1(), "Label Evaluation");
+            if (service != null) {
+                getCurrentJob().getServices().add(service);
+            }
+        } else {
+
         }
         // Add/remove Inspection service
         if (getCurrentJob().getServiceContract().getServiceRequestedInspection()) {
             getCurrentJob().getServices().add(Service.findByName(
                     getEntityManager1(), "Inspection"));
-        }
-        else {
-            
+        } else {
+
         }
 
         setIsDirty(true);

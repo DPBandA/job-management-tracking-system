@@ -93,7 +93,7 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox id="otherService" 
                                                  itemLabel="Other:"
                                                  value="#{jobContractManager.serviceRequestedOther}">
-                            <p:ajax listener="#{jobContractManager.updateJob}"
+                            <p:ajax listener="#{jobContractManager.updateServices}"
                                     update="otherServiceText,:jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
                                     global="false"
                                     process="@this"/>
@@ -103,7 +103,7 @@ Email: info@dpbennett.com.jm
                                      disabled="#{!jobContractManager.serviceRequestedOther}"
                                      maxlength="250"
                                      value="#{jobContractManager.currentJob.serviceContract.serviceRequestedOtherText}" >
-                            <p:ajax listener="#{jobContractManager.updateJob}"
+                            <p:ajax listener="#{jobContractManager.updateServices}"
                                     update=":jobDialogForm:jobDetailToolbar1"
                                     event="change"
                                     global="false"
