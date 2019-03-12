@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.Serializable;
+import javax.faces.event.AjaxBehaviorEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -366,45 +367,90 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         setIsDirty(true);
     }
 
-    public void updateServices() {
-        // Add/remove testing service
-        if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
-            Service service = Service.findByName(getEntityManager1(), "Testing");
-            if (service != null) {
-                getCurrentJob().getServices().add(service);
+    private void addService(String name) {
+        Service service = Service.findByName(getEntityManager1(), name);
+        if (service != null) {
+            getCurrentJob().getServices().add(service);
+        }
+    }
+
+    private void removeService(String name) {
+        for (int i = 0; i < getCurrentJob().getServices().size(); i++) {
+            if (getCurrentJob().getServices().get(i).getName().equals(name)) {
+                getCurrentJob().getServices().remove(i);
             }
 
-        } else {
-            for (int i = 0; i < getCurrentJob().getServices().size(); i++) {
-                if (getCurrentJob().getServices().get(i).getName().equals("Testing")) {
-                    getCurrentJob().getServices().remove(i);
+        }
+    }
+
+    public void updateServices(AjaxBehaviorEvent event) {
+        switch (event.getComponent().getId()) {
+            case "testingService":
+                if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
+                    addService("Testing");
+
+                    return;
+                } else {
+                    removeService("Testing");
                 }
-
-            }
+                break;
+            case "calibrationService":
+                if (getCurrentJob().getServiceContract().getServiceRequestedCalibration()) {
+                    addService("Calibration");
+                } else {
+                    removeService("Calibration");
+                }
+                break;
+            case "labelEvaluationService":
+                if (getCurrentJob().getServiceContract().getServiceRequestedLabelEvaluation()) {
+                    addService("Label Evaluation");
+                } else {
+                    removeService("Label Evaluation");
+                }
+                break;
+            case "inspectionService":
+                if (getCurrentJob().getServiceContract().getServiceRequestedInspection()) {
+                    addService("Inspection");
+                } else {
+                    removeService("Inspection");
+                }
+                break;
+            case "consultancyService":
+                if (getCurrentJob().getServiceContract().getServiceRequestedConsultancy()) {
+                    addService("Consultancy");
+                } else {
+                    removeService("Consultancy");
+                }
+                break;
+            case "trainingService":
+                if (getCurrentJob().getServiceContract().getServiceRequestedTraining()) {
+                    addService("Training");
+                } else {
+                    removeService("Training");
+                }
+                break;
+            case "otherService":
+                if (getCurrentJob().getServiceContract().getServiceRequestedOther()) {
+                    addService("Other");
+                } else {
+                    removeService("Other");
+                }
+                break;
         }
-        // Add/remove calibration service
-        if (getCurrentJob().getServiceContract().getServiceRequestedCalibration()) {
-            getCurrentJob().getServices().add(Service.findByName(
-                    getEntityManager1(), "Calibration"));
-        } else {
 
-        }
-        // Add/remove Label Evaluation service
-        if (getCurrentJob().getServiceContract().getServiceRequestedLabelEvaluation()) {
-            Service service = Service.findByName(getEntityManager1(), "Label Evaluation");
-            if (service != null) {
-                getCurrentJob().getServices().add(service);
-            }
-        } else {
+        // Add/remove testing service
 
-        }
-        // Add/remove Inspection service
-        if (getCurrentJob().getServiceContract().getServiceRequestedInspection()) {
-            getCurrentJob().getServices().add(Service.findByName(
-                    getEntityManager1(), "Inspection"));
-        } else {
+//        // Add/remove calibration service
 
-        }
+//        // Add/remove Label Evaluation service
+
+//        // Add/remove Inspection service
+
+//        // Add/remove Consultancy service
+
+//        // Add/remove Training service
+
+//        // Add/remove Other service
 
         setIsDirty(true);
     }

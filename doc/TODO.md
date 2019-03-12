@@ -1,11 +1,8 @@
 ## Accounts Receivable Feature (v3.4.0)
 - Add services field to Job class.  
-  * Update the job dialog form/"services autocomplete" when a requested service 
-    check box is selected/unselected. Check what happens if a null service is added.
-  * Add/remove the respective service when a service is selected/unselected.
-  * Create jmts.job_service via BEL test class. May just instantiating a class will do it.
-  * Add check boxes for other services such as certification.
-  * Show message growl if new service is entered or ticked.
+  * Add check boxes for other services such as certification. Look at the codes
+    document received from BSJ for other services needed. 
+    Complete editing ServiceContract class.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
 - See if two values can be combined into 1 column in SQL may be by using the SUM
@@ -62,9 +59,9 @@
 - Check if job status tracking class is saved in batch or normal approval or invoicing.
 - Put new logo in the old service contract and use to for now.
 - Add search for "Approved but not invoiced" jobs.
+- Add list of countries in a multiple autocomplete for othe markets.
 
 ### Database update and deployment
-- Run DiscountAndTaxTest to create Tax table if it is not created automatically.
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
 - Add DISCOUNT_ID (BIGINT, INDEX), FINANCIALACCOUNT_IDCUST (CHAR(12), INDEX),
   BILLINGADDRESS_ID (BIGINT, INDEX) to client table.
@@ -73,11 +70,14 @@
 - Add DATECOSTINGINVOICED (DATE) to jobstatusandtracking table.
 - Add ACCOUNTINGCODE_ID (BIGINT, INDEX) to service table
 Data updates:
+- Run DiscountAndTaxTest to create Tax table if it is not created automatically.
 - Add tax and discount with name "0.0" and value 0.0.
 - Copy Job Costing.jxml file to c:\jasperreports and use .jxrml file instead of 
   .jasper to generate job costing.
 - Add all GCT taxes.
-- Add services including the catch all "Other".
+- Add services including the catch all "Other". Find out the other services 
+  that need to be added as check box in ther services tab.
+- Run JobTest to create job_service table via BEL.
 
 ### Release Notes (v3.4.0)
 - Tax and discount tables and user interface elements added.
