@@ -1,5 +1,8 @@
 ## Accounts Receivable Feature (v3.4.0)
 - Add services field to Job class.  
+  * Check if updateService() is called when services to is loaded.
+    Check if the method can be called when the job dialog is opened.
+  * Add accounting codes according to finance cheat sheet.
   * Add check boxes for other services such as certification. Look at the codes
     document received from BSJ for other services needed. 
     Complete editing ServiceContract class.
@@ -15,20 +18,18 @@
   second and div code last.
 - Impl searching for job costings that have been approved but not invoiced so
   they can be invoiced.
-- Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
-  How to determine the test/cal code eg 1310 for test? Use the service selected in the service contract,
-  the department to which the job is assigned etc.
-- Associate each service with a job category and sub category. Add the fields to the class.
-- Add list of job subcategories to job categories.
-- Impl fill out of Invoice_Details sheet
-    * Impl fill out of multiple CNTLINE for each CNTITEM.
-    * Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
-      in Financial Admin. NB impl finding code by name and description.
 - Impl invoice export.
-- Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
-- Flag job as invoiced after export? Add accounting codes to table.
-- Add sys option that determines if the accpac invoices spreadsheet is to be
-  exported. Add user preference to export invoices when "Invoice" button is pressed?
+  * Call addServices() before doing export to ensure that all relevant services are added.
+  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
+    How to determine the test/cal code eg 1310 for test? Use the service selected in the service contract,
+    the department to which the job is assigned etc.
+  * Impl fill out of Invoice_Details sheet:
+  * Impl fill out of multiple CNTLINE for each CNTITEM.
+  * Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
+    in Financial Admin. NB impl finding code by name and description.
+  * Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
+  * Add sys option that determines if the accpac invoices spreadsheet is to be
+    exported. Add user preference to export invoices when "Invoice" button is pressed?
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
 - Make credit status dialog about 25 - 50 pixels taller.
 - Create FinancialAccount and FinancialTransaction classes for the accounting module of the jmts. Let FinancialTransaction class Implement the  Transaction interface and FinancialAccount class inherit from Account.
@@ -44,8 +45,7 @@
   are printed on the contract.
 - When new client is being added clear out the existing client, billing address
   and contact.
-- Add privilege for changing client billing info or use some other existing criteria?
-- Add tax field to JobCategory, JobSubCategory and Classification classes. May have
+- Add tax field to JobCategory, JobSubCategory and Classification classes? May have
   to give access to these in fin admin.
 - Put costing approved yes/no column in the job costing with invoices and uninvoiced jobs reports.
 - Check why job costing can be checked as approved with no approval date.

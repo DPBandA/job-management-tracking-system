@@ -370,6 +370,9 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     private void addService(String name) {
         Service service = Service.findByName(getEntityManager1(), name);
         if (service != null) {
+            // Attempt to remove the service to ensure that it's not already added
+            removeService(name);
+            
             getCurrentJob().getServices().add(service);
         }
     }
@@ -383,13 +386,18 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         }
     }
 
+    /**
+     * Add or remove a service when a service check box is clicked.
+     * 
+     * @param event 
+     */
     public void updateServices(AjaxBehaviorEvent event) {
+        System.out.println("calling updateServices()");
+
         switch (event.getComponent().getId()) {
             case "testingService":
                 if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
                     addService("Testing");
-
-                    return;
                 } else {
                     removeService("Testing");
                 }
@@ -438,21 +446,40 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
                 break;
         }
 
-        // Add/remove testing service
-
-//        // Add/remove calibration service
-
-//        // Add/remove Label Evaluation service
-
-//        // Add/remove Inspection service
-
-//        // Add/remove Consultancy service
-
-//        // Add/remove Training service
-
-//        // Add/remove Other service
-
         setIsDirty(true);
+    }
+
+    public void addServices() {
+        System.out.println("calling addServices()");
+
+        if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
+            addService("Testing");
+        } 
+
+        if (getCurrentJob().getServiceContract().getServiceRequestedCalibration()) {
+            addService("Calibration");
+        } 
+
+        if (getCurrentJob().getServiceContract().getServiceRequestedLabelEvaluation()) {
+            addService("Label Evaluation");
+        } 
+
+        if (getCurrentJob().getServiceContract().getServiceRequestedInspection()) {
+            addService("Inspection");
+        } 
+
+        if (getCurrentJob().getServiceContract().getServiceRequestedConsultancy()) {
+            addService("Consultancy");
+        } 
+
+        if (getCurrentJob().getServiceContract().getServiceRequestedTraining()) {
+            addService("Training");
+        } 
+
+        if (getCurrentJob().getServiceContract().getServiceRequestedOther()) {
+            addService("Other");
+        } 
+
     }
 
     @Override
