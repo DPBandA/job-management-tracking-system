@@ -80,7 +80,7 @@ Email: info@dpbennett.com.jm
                                     value="#{financeManager.selectedDiscount.accountingCode}"
                                     title="#{financeManager.selectedDiscount.accountingCode}"
                                     itemValue="#{accountingCode}"
-                                    itemLabel="#{accountingCode.name}"
+                                    itemLabel="#{accountingCode.code} (#{accountingCode.name})"
                                     converter="accountingCodeConverter"
                                     validator="businessEntityValidator"
                                     completeMethod="#{financeManager.completeAccountingCode}" />            

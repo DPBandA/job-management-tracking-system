@@ -1,11 +1,11 @@
 ## Accounts Receivable Feature (v3.4.0)
 - Add services field to Job class.  
-  * Check if updateService() is called when services to is loaded.
-    Check if the method can be called when the job dialog is opened.
-  * Add accounting codes according to finance cheat sheet.
+  * Add discounts as given in "BSJ Department Codes and Notes.pdf".
   * Add check boxes for other services such as certification. Look at the codes
     document received from BSJ for other services needed. 
     Complete editing ServiceContract class.
+- Add defaultTax field client class.
+- Ensure that default tax and discount are applied when a client is selected.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
 - See if two values can be combined into 1 column in SQL may be by using the SUM
@@ -30,7 +30,6 @@
   * Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
   * Add sys option that determines if the accpac invoices spreadsheet is to be
     exported. Add user preference to export invoices when "Invoice" button is pressed?
-- Test Accpac credit status feature in light of the changes made to AccPacCustomer.
 - Make credit status dialog about 25 - 50 pixels taller.
 - Create FinancialAccount and FinancialTransaction classes for the accounting module of the jmts. Let FinancialTransaction class Implement the  Transaction interface and FinancialAccount class inherit from Account.
 - Put "active" field in the JobCostingAndPayment class and use it to manage the visibility of costing templates.
@@ -49,7 +48,7 @@
   to give access to these in fin admin.
 - Put costing approved yes/no column in the job costing with invoices and uninvoiced jobs reports.
 - Check why job costing can be checked as approved with no approval date.
-- Take out extra classification dialog navogation out of faces config. Change 
+- Take out extra classification dialog navigation out of faces config. Change 
   admin to legal for legal document dialog.
 - "Unrender" modules that are not being before next release.
 - Use debug flag to display "Test & Training Version" 
@@ -61,7 +60,7 @@
 - Add search for "Approved but not invoiced" jobs.
 - Add list of countries in a multiple autocomplete for othe markets.
 
-### Database update and deployment
+### Database update, deployment and testing
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
 - Add DISCOUNT_ID (BIGINT, INDEX), FINANCIALACCOUNT_IDCUST (CHAR(12), INDEX),
   BILLINGADDRESS_ID (BIGINT, INDEX) to client table.
@@ -69,6 +68,12 @@
   COSTINGINVOICEDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
 - Add DATECOSTINGINVOICED (DATE) to jobstatusandtracking table.
 - Add ACCOUNTINGCODE_ID (BIGINT, INDEX) to service table
+- Add SERVICEREQUESTEDFOODINSPECTORATE, SERVICEREQUESTEDLEGALMETROLOGY,
+  SERVICEREQUESTEDSALEOFPUBLICATION, SERVICEREQUESTEDSTATIONERYORPHOTOCOPY,
+  SERVICEREQUESTEDCERTIFICATION, SERVICEREQUESTEDCERTIFICATIONSTANDARDS,
+  SERVICEREQUESTEDDETENTIONREHABINSPECTION, SERVICEREQUESTEDFACILITIESMANAGEMENT
+  SERVICEREQUESTEDCEMENTTESTING, SERVICEREQUESTEDPETROLSAMPLING (BIT) to
+  servicecontract table.
 Data updates:
 - Run DiscountAndTaxTest to create Tax table if it is not created automatically.
 - Add tax and discount with name "0.0" and value 0.0.
@@ -78,6 +83,10 @@ Data updates:
 - Add services including the catch all "Other". Find out the other services 
   that need to be added as check box in ther services tab.
 - Run JobTest to create job_service table via BEL.
+- Add accounting codes as given in "BSJ Department Codes and Notes.pdf".
+- Find out the values of the discount offered.
+Testing:
+- Test Accpac credit status feature in light of the changes made to AccPacCustomer.
 
 ### Release Notes (v3.4.0)
 - Tax and discount tables and user interface elements added.

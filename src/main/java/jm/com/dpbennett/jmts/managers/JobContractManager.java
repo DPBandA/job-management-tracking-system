@@ -450,8 +450,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     }
 
     public void addServices() {
-        System.out.println("calling addServices()");
-
+        
         if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
             addService("Testing");
         } 
