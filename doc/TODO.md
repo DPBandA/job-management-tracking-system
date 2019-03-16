@@ -8,9 +8,6 @@
 - Ensure that default tax and discount are applied when a client is selected.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
-- See if two values can be combined into 1 column in SQL may be by using the SUM
-  aggregate function. Use to sum deposit field value and the total cash payments
-  if possible.
 - When new cash payment is added the "edited" status is not changed. Fix.
 - Impl exporting Excel file using "Invoice" button. The records must be
   must be checked to see if they can be exported first eg the client id is valid.
@@ -30,8 +27,6 @@
   * Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
   * Add sys option that determines if the accpac invoices spreadsheet is to be
     exported. Add user preference to export invoices when "Invoice" button is pressed?
-- Make credit status dialog about 25 - 50 pixels taller.
-- Create FinancialAccount and FinancialTransaction classes for the accounting module of the jmts. Let FinancialTransaction class Implement the  Transaction interface and FinancialAccount class inherit from Account.
 - Put "active" field in the JobCostingAndPayment class and use it to manage the visibility of costing templates.
 - Put Job costing approval date in Job Costing dialog
 - "(edited)" is still shown when Job Costing is edited although costing is already saved.
@@ -43,22 +38,14 @@
   items to print contract and agreement separately. Check that correct deposit, discount and tax 
   are printed on the contract.
 - When new client is being added clear out the existing client, billing address
-  and contact.
-- Add tax field to JobCategory, JobSubCategory and Classification classes? May have
-  to give access to these in fin admin.
-- Put costing approved yes/no column in the job costing with invoices and uninvoiced jobs reports.
-- Check why job costing can be checked as approved with no approval date.
+  and contact??
 - Take out extra classification dialog navigation out of faces config. Change 
   admin to legal for legal document dialog.
 - "Unrender" modules that are not being before next release.
-- Use debug flag to display "Test & Training Version" 
-- Set if a job's billing address and contact can be set automatically when a client is selected.
-- Automatically get the client's discount and set it the job cost discount when a client is selected.
+- Check if a job's billing address and contact can be set automatically when a client is selected.
+- Automatically get the client's discount and tax and set them when a client is selected.
 - Use the debug flag to display Test & Training Version instead of subtitle in jmts.
-- Check if job status tracking class is saved in batch or normal approval or invoicing.
-- Put new logo in the old service contract and use to for now.
 - Add search for "Approved but not invoiced" jobs.
-- Add list of countries in a multiple autocomplete for othe markets.
 
 ### Database update, deployment and testing
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
