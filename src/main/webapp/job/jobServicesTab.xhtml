@@ -91,6 +91,17 @@ Email: info@dpbennett.com.jm
                                 global="false"
                                 process="@this"/>
                     </p:selectBooleanCheckbox>
+                    
+                    <p:selectBooleanCheckbox id="serviceRequestedFoodInspectorate" 
+                                             itemLabel="Food Inspectorate"
+                                             value="#{jobContractManager.currentJob.serviceContract.serviceRequestedFoodInspectorate}">
+                        <p:ajax listener="#{jobContractManager.updateServices}"
+                                update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
+                                global="false"
+                                process="@this"/>
+                    </p:selectBooleanCheckbox>                    
+                    
+                    
                 </h:panelGrid>
                 <h:panelGrid columns="2"  cellspacing="10" style="margin-top: -10px;">                        
 

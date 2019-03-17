@@ -36,6 +36,7 @@ import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.Discount;
 import jm.com.dpbennett.business.entity.Internet;
 import jm.com.dpbennett.business.entity.JobManagerUser;
+import jm.com.dpbennett.business.entity.Tax;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.validator.AddressValidator;
@@ -93,6 +94,22 @@ public class ClientManager implements Serializable {
             List<Discount> discounts = Discount.findDiscountsByNameAndDescription(em, query);
 
             return discounts;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Tax> completeTax(String query) {
+        EntityManager em;
+
+        try {
+            em = getEntityManager1();
+
+            List<Tax> taxes = Tax.findTaxesByNameAndDescription(em, query);
+
+            return taxes;
 
         } catch (Exception e) {
             System.out.println(e);
@@ -371,6 +388,7 @@ public class ClientManager implements Serializable {
     public void createNewClient(Boolean active) {
         selectedClient = new Client("", active);
         selectedClient.setDiscount(Discount.findDefault(getEntityManager1(), "0.0"));
+        selectedClient.setDefaultTax(Tax.findDefault(getEntityManager1(), "0.0"));
     }
 
     public Boolean getIsDirty() {

@@ -1,10 +1,9 @@
 ## Accounts Receivable Feature (v3.4.0)
 - Add services field to Job class.  
-  * Add discounts as given in "BSJ Department Codes and Notes.pdf".
+  * Add the new services to the system.
   * Add check boxes for other services such as certification. Look at the codes
     document received from BSJ for other services needed. 
-    Complete editing ServiceContract class.
-- Add defaultTax field client class.
+  * Update addServices() with new service cases as is done with updateServices().
 - Ensure that default tax and discount are applied when a client is selected.
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
@@ -50,7 +49,7 @@
 ### Database update, deployment and testing
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
 - Add DISCOUNT_ID (BIGINT, INDEX), FINANCIALACCOUNT_IDCUST (CHAR(12), INDEX),
-  BILLINGADDRESS_ID (BIGINT, INDEX) to client table.
+  BILLINGADDRESS_ID (BIGINT, INDEX), DEFAULTTAX_ID (BIGINT, INDEX) to client table.
 - Add TAX_ID (BIGINT, INDEX), DISCOUNT_ID (BIGINT, INDEX), COSTINGPREPAREDBY_ID (BIGINT, INDEX),
   COSTINGINVOICEDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
 - Add DATECOSTINGINVOICED (DATE) to jobstatusandtracking table.

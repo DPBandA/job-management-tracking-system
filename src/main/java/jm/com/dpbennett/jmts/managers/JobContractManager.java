@@ -392,7 +392,6 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
      * @param event 
      */
     public void updateServices(AjaxBehaviorEvent event) {
-        System.out.println("calling updateServices()");
 
         switch (event.getComponent().getId()) {
             case "testingService":
@@ -437,6 +436,13 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
                     removeService("Training");
                 }
                 break;
+            case "serviceRequestedFoodInspectorate":
+                if (getCurrentJob().getServiceContract().getServiceRequestedFoodInspectorate()) {
+                    addService("Food Inspectorate");
+                } else {
+                    removeService("Food Inspectorate");
+                }
+                break;    
             case "otherService":
                 if (getCurrentJob().getServiceContract().getServiceRequestedOther()) {
                     addService("Other");

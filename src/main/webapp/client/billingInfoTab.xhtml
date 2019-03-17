@@ -97,6 +97,27 @@ Email: info@dpbennett.com.jm
                     listener="#{clientManager.updateFinancialAccount}" />
 
         </p:inputText>
+        
+        <h:outputText value="Default tax (%/$):" style="font-weight: bold" />
+        <p:autoComplete id="tax"  
+                        var="tax"
+                        forceSelection="true"      
+                        dropdown="true"
+                        scrollHeight="200" 
+                        maxlength="40"
+                        value="#{clientManager.selectedClient.defaultTax}"
+                        title="#{clientManager.selectedClient.defaultTax}"
+                        styleClass="right-inputfield" 
+                        itemValue="#{tax}"
+                        itemLabel="#{tax.name}"
+                        converter="taxConverter"
+                        validator="businessEntityValidator"
+                        completeMethod="#{clientManager.completeTax}" >
+
+            <p:ajax event="itemSelect"
+                    listener="#{clientManager.updateFinancialAccount}" />
+
+        </p:autoComplete>
 
         <h:outputText value="Discount (%/$):" style="font-weight: bold" />
         <p:autoComplete id="discount"  
