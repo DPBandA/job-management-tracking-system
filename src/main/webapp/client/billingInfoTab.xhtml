@@ -34,7 +34,6 @@ Email: info@dpbennett.com.jm
                         value="#{clientManager.selectedClient.financialAccount}"  
                         itemLabel="#{account.idCust} (#{account.customerName})"
                         itemValue="#{account}"
-                        disabled="#{!clientManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                         completeMethod="#{clientManager.completeAccPacClient}" >      
 
             <p:ajax event="itemSelect"

@@ -1,20 +1,19 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Add services field to Job class.  
-  * Add the new services to the system.
-  * Add check boxes for other services such as certification. Look at the codes
-    document received from BSJ for other services needed. 
-  * Update addServices() with new service cases as is done with updateServices().
 - Ensure that default tax and discount are applied when a client is selected.
+  * Do update of costing after client selection.
+  * Check that discount and tax are set for new client and job.
+- Use the debug flag to display Test & Training Version instead of subtitle in jmts.
+- Check if a job's billing address and contact can be set automatically when a client is selected.
+- Put Job costing approval date in Job Costing dialog
 - Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
   Do similar for "getReceiptNumbers()" and other fields dealing with payment.
 - When new cash payment is added the "edited" status is not changed. Fix.
-- Impl exporting Excel file using "Invoice" button. The records must be
-  must be checked to see if they can be exported first eg the client id is valid.
 - Impl  getting dist. code of the from 1310-21-24-21 ie dept code first, subgroup 
   second and div code last.
 - Impl searching for job costings that have been approved but not invoiced so
   they can be invoiced.
 - Impl invoice export.
+  * Check that all selected invoices can be exported. eg a valid client accounting ID is set
   * Call addServices() before doing export to ensure that all relevant services are added.
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
     How to determine the test/cal code eg 1310 for test? Use the service selected in the service contract,
@@ -26,10 +25,7 @@
   * Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
   * Add sys option that determines if the accpac invoices spreadsheet is to be
     exported. Add user preference to export invoices when "Invoice" button is pressed?
-- Put "active" field in the JobCostingAndPayment class and use it to manage the visibility of costing templates.
-- Put Job costing approval date in Job Costing dialog
 - "(edited)" is still shown when Job Costing is edited although costing is already saved.
-- Comment out PR and supplier out of search types for finance and JM.
 - Impl automatic application of tax based on department or classification of job.
   find out for which and department and classification a tax should apply and
   prompt for a tax if it is 0.0.
@@ -41,10 +37,7 @@
 - Take out extra classification dialog navigation out of faces config. Change 
   admin to legal for legal document dialog.
 - "Unrender" modules that are not being before next release.
-- Check if a job's billing address and contact can be set automatically when a client is selected.
-- Automatically get the client's discount and tax and set them when a client is selected.
-- Use the debug flag to display Test & Training Version instead of subtitle in jmts.
-- Add search for "Approved but not invoiced" jobs.
+  * Comment out PR and supplier out of search types for finance and JM.
 
 ### Database update, deployment and testing
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.

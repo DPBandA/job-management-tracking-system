@@ -443,6 +443,69 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
                     removeService("Food Inspectorate");
                 }
                 break;    
+            case "serviceRequestedLegalMetrology":
+                if (getCurrentJob().getServiceContract().getServiceRequestedLegalMetrology()) {
+                    addService("Legal Metrology");
+                } else {
+                    removeService("Legal Metrology");
+                }
+                break;  
+            case "serviceRequestedSaleOfPublication":
+                if (getCurrentJob().getServiceContract().getServiceRequestedSaleOfPublication()) {
+                    addService("Sale of Publication");
+                } else {
+                    removeService("Sale of Publication");
+                }
+                break;  
+            case "serviceRequestedStationeryOrPhotocopy":
+                if (getCurrentJob().getServiceContract().getServiceRequestedStationeryOrPhotocopy()) {
+                    addService("Stationery or Photocopy");
+                } else {
+                    removeService("Stationery or Photocopy");
+                }
+                break;    
+            case "serviceRequestedCertification":
+                if (getCurrentJob().getServiceContract().getServiceRequestedCertification()) {
+                    addService("Certification");
+                } else {
+                    removeService("Certification");
+                }
+                break;    
+            case "serviceRequestedCertificationStandards":
+                if (getCurrentJob().getServiceContract().getServiceRequestedCertificationStandards()) {
+                    addService("Certification Standards");
+                } else {
+                    removeService("Certification Standards");
+                }
+                break;   
+            case "serviceRequestedDetentionRehabInspection":
+                if (getCurrentJob().getServiceContract().getServiceRequestedDetentionRehabInspection()) {
+                    addService("Detention, Rehabilitation & Inspection");
+                } else {
+                    removeService("Detention, Rehabilitation & Inspection");
+                }
+                break;    
+            case "serviceRequestedFacilitiesManagement":
+                if (getCurrentJob().getServiceContract().getServiceRequestedFacilitiesManagement()) {
+                    addService("Facilities Management");
+                } else {
+                    removeService("Facilities Management");
+                }
+                break;  
+            case "serviceRequestedCementTesting":
+                if (getCurrentJob().getServiceContract().getServiceRequestedCementTesting()) {
+                    addService("Cement Testing");
+                } else {
+                    removeService("Cement Testing");
+                }
+                break;    
+            case "serviceRequestedPetrolSampling":
+                if (getCurrentJob().getServiceContract().getServiceRequestedPetrolSampling()) {
+                    addService("Petrol Sampling");
+                } else {
+                    removeService("Petrol Sampling");
+                }
+                break;    
             case "otherService":
                 if (getCurrentJob().getServiceContract().getServiceRequestedOther()) {
                     addService("Other");
@@ -480,6 +543,46 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         if (getCurrentJob().getServiceContract().getServiceRequestedTraining()) {
             addService("Training");
         } 
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedFoodInspectorate()) {
+            addService("Food Inspectorate");
+        } 
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedLegalMetrology()) {
+            addService("Legal Metrology");
+        }
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedSaleOfPublication()) {
+            addService("Sale of Publication");
+        }
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedStationeryOrPhotocopy()) {
+            addService("Stationery or Photocopy");
+        }
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedCertification()) {
+            addService("Certification");
+        }
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedCertificationStandards()) {
+            addService("Certification Standards");
+        }
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedDetentionRehabInspection()) {
+            addService("Detention, Rehabilitation & Inspection");
+        }
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedFacilitiesManagement()) {
+            addService("Facilities Management");
+        }
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedCementTesting()) {
+            addService("Cement Testing");
+        }
+        
+        if (getCurrentJob().getServiceContract().getServiceRequestedPetrolSampling()) {
+            addService("Petrol Sampling");
+        }
 
         if (getCurrentJob().getServiceContract().getServiceRequestedOther()) {
             addService("Other");
