@@ -42,7 +42,7 @@ Email: info@dpbennett.com.jm
         <h:form id="jobCostingDialogForm" > 
             <p:remoteCommand name="rc" autoRun="true" 
                              actionListener="#{jobFinanceManager.checkForSubcontracts}" />
-            
+
             <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
 
             <ui:include src="jobCostingDialogToolbar.xhtml"/> 
@@ -81,10 +81,44 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"                                 
-                                listener="#{jobFinanceManager.updateJobCostingDate}"/>
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
                         <p:ajax event="keyup"                                 
-                                listener="#{jobFinanceManager.updateJobCostingDate}"/>
-                    </p:calendar>                    
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+                    </p:calendar>  
+
+                    <h:outputText value="Approval date:" />
+                    <p:spacer height="0" width="10"/>
+                    <p:calendar required="false"   
+                                readonly="true"
+                                readonlyInput="true"
+                                showOn="none"                                                                    
+                                id="costingApprovalDate"
+                                value="#{jobFinanceManager.currentJob.jobStatusAndTracking.dateCostingApproved}"
+                                styleClass="read-only-inputfield"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"                                 
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+                        <p:ajax event="keyup"                                 
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+                    </p:calendar>
+                    
+                    <h:outputText value="Invoice date:" />
+                    <p:spacer height="0" width="10"/>
+                    <p:calendar required="false"   
+                                readonly="true"
+                                readonlyInput="true"
+                                showOn="none"                                                                    
+                                id="costingInvoiceDate"
+                                value="#{jobFinanceManager.currentJob.jobStatusAndTracking.dateCostingInvoiced}"
+                                styleClass="read-only-inputfield"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"                                 
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+                        <p:ajax event="keyup"                                 
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+                    </p:calendar>
 
                     <h:outputText value="Job description:"  style="font-weight: bold" />
                     <p:spacer height="0" width="10"/>
@@ -97,7 +131,7 @@ Email: info@dpbennett.com.jm
                         <p:ajax event="change"  
                                 global="false"
                                 process="@this"                               
-                                listener="#{jobFinanceManager.updateJobDescription}"/>
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
 
                         <f:validator validatorId="requiredFieldValidator" />
 
@@ -159,11 +193,11 @@ Email: info@dpbennett.com.jm
                                          icon="ui-icon-plus"
                                          process="@this">
                         </p:commandButton>
-                        
-                            <p:spacer width="10" />
-                            <h:outputText value="#{jobFinanceManager.subcontractsMessage}" 
-                                          style="color: gold;font-weight: bold;" />
-                        
+
+                        <p:spacer width="10" />
+                        <h:outputText value="#{jobFinanceManager.subcontractsMessage}" 
+                                      style="color: gold;font-weight: bold;" />
+
                     </p:toolbarGroup>                    
                 </p:toolbar>
 
@@ -314,7 +348,7 @@ Email: info@dpbennett.com.jm
             </p:panel>
             <p:panel id="costingSummaryPanel" header="Costing &amp; Payment Summary">
                 <h:panelGrid columns="3">
-                    
+
                     <h:outputText value="Total paid ($):" />
                     <p:spacer height="0" width="10"/>
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalPayment}" 

@@ -1,20 +1,13 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Ensure that default tax and discount are applied when a client is selected.
-  * Do update of costing after client selection.
-  * Check that discount and tax are set for new client and job.
-- Use the debug flag to display Test & Training Version instead of subtitle in jmts.
-- Check if a job's billing address and contact can be set automatically when a client is selected.
-- Put Job costing approval date in Job Costing dialog
-- Impl getDeposits() and do not overwrite the deposit field in JobCostingAndPayment.
-  Do similar for "getReceiptNumbers()" and other fields dealing with payment.
-- When new cash payment is added the "edited" status is not changed. Fix.
-- Impl  getting dist. code of the from 1310-21-24-21 ie dept code first, subgroup 
-  second and div code last.
 - Impl searching for job costings that have been approved but not invoiced so
-  they can be invoiced.
+  they can be invoiced. Impl "Appr'd & uninv'd jobs".
+- When search is done a select job costing stays selected. Fix!
+- Ensure that at least 1 service is selected before saving job. Select "Other" service
+  if no service is selected.
 - Impl invoice export.
-  * Check that all selected invoices can be exported. eg a valid client accounting ID is set
+  * Check that all selected invoices can be exported. eg a valid client accounting ID is set    
   * Call addServices() before doing export to ensure that all relevant services are added.
+    Add a default service if none is selected.
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
     How to determine the test/cal code eg 1310 for test? Use the service selected in the service contract,
     the department to which the job is assigned etc.
@@ -53,6 +46,7 @@
   SERVICEREQUESTEDDETENTIONREHABINSPECTION, SERVICEREQUESTEDFACILITIESMANAGEMENT
   SERVICEREQUESTEDCEMENTTESTING, SERVICEREQUESTEDPETROLSAMPLING (BIT) to
   servicecontract table.
+
 Data updates:
 - Run DiscountAndTaxTest to create Tax table if it is not created automatically.
 - Add tax and discount with name "0.0" and value 0.0.
@@ -64,8 +58,10 @@ Data updates:
 - Run JobTest to create job_service table via BEL.
 - Add accounting codes as given in "BSJ Department Codes and Notes.pdf".
 - Find out the values of the discount offered.
+
 Testing:
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.
+- Connect to bsj jmts databases and do testing before deploying.
 
 ### Release Notes (v3.4.0)
 - Tax and discount tables and user interface elements added.

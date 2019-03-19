@@ -53,25 +53,19 @@ Email: info@dpbennett.com.jm
                           rendered="true" 
                           header=""
                           style="border: 0;" 
-                          size="80" >
+                          size="75" >
                 <h:form id="headerForm">   
                     <p:growl id="growl3" life="5000" showDetail="true" />
                     <h:panelGrid rendered="#{jobManager.renderUserMenu()}" width="100%" 
                                  border="0" columns="3" >
                         <p:graphicImage value="images/BSJ Logo - H41.png"/>
-                        <h:panelGrid>   
+                        <h:panelGrid columns="1">   
 
-                            <div align="center">
-                                <span style="color: darkgrey; font-size: 14pt; font-weight: bold;">
-                                    #{jobManager.applicationHeader}
-                                </span>  
-                                <br />
-                                <div style=" padding-top: 5px;">
-                                    <span style="color: darkgrey; font-size: 10pt; font-weight: bold;">
-                                        #{jobManager.applicationSubheader}
-                                    </span>   
-                                </div>
-                            </div>
+                            <h:outputText value="#{jobManager.applicationHeader}"
+                                          style="color: darkgrey; font-size: 14pt; font-weight: bold;" />
+
+                            <h:outputText value="#{jobManager.applicationSubheader}"
+                                          styleClass="#{jobManager.isDebugMode eq true ? 'debug-mode' : 'non-debug-mode'}" />  
 
                         </h:panelGrid>
                         <p:menuButton value="#{jobManager.user.employee.firstName} #{jobManager.user.employee.lastName}"     

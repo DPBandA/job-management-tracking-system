@@ -857,9 +857,14 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     public void invoiceJobCosting() {
         if (canInvoiceJobCosting(getCurrentJob())) {
-            getCurrentJob().getJobStatusAndTracking().setDateCostingInvoiced(new Date());
-            getCurrentJob().getJobCostingAndPayment().setCostingInvoicedBy(
-                    getUser().getEmployee());
+            if (getCurrentJob().getJobCostingAndPayment().getInvoiced()) {
+                getCurrentJob().getJobStatusAndTracking().setDateCostingInvoiced(new Date());
+                getCurrentJob().getJobCostingAndPayment().setCostingInvoicedBy(getUser().getEmployee());
+            }
+            else {
+                getCurrentJob().getJobStatusAndTracking().setDateCostingInvoiced(null);
+                getCurrentJob().getJobCostingAndPayment().setCostingInvoicedBy(null);
+            }
             setJobCostingAndPaymentDirty(true);
         } else {
             // Reset invoiced status
@@ -955,10 +960,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
             updateCostComponent();
         }
-    }
-
-    public void updateJobDescription() {
-        setJobCostingAndPaymentDirty(true);
     }
 
     public void updateAllTaxes(AjaxBehaviorEvent event) {
@@ -1334,9 +1335,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         setIsDirty(true);
     }
 
-    public void updateDepartmentReport() {
-    }
-
     public void updateJobNumber() {
         setIsDirty(true);
     }
@@ -1387,8 +1385,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 if (getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
                     getCurrentJob().getJobStatusAndTracking().setEditStatus("");
                     PrimeFacesUtils.addMessage("Job Costing and Job Saved", "This job and the costing were saved", FacesMessage.SEVERITY_INFO);
-                }
-                else {
+                } else {
                     PrimeFacesUtils.addMessage("Job Costing and Job NOT Saved", "This job and the costing were NOT saved", FacesMessage.SEVERITY_ERROR);
                 }
             }
@@ -1823,10 +1820,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
         PrimeFaces.current().dialog().closeDynamic(null);
 
-    }
-
-    public void updateJobCostingDate() {
-        setJobCostingAndPaymentDirty(true);
     }
 
     public List<JobCostingAndPayment> completeJobCostingAndPaymentName(String query) {
