@@ -1,10 +1,11 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Impl searching for job costings that have been approved but not invoiced so
-  they can be invoiced. Impl "Appr'd & uninv'd jobs".
-- When search is done a select job costing stays selected. Fix!
-- Ensure that at least 1 service is selected before saving job. Select "Other" service
-  if no service is selected.
-- Impl invoice export.
+- Check that correct deposit, discount and tax are printed on the contract.
+- Take out extra classification dialog navigation out of faces config. Change 
+  admin to legal for legal document dialog.
+- "Unrender" modules that are not being before next release.
+  * Comment out PR and supplier out of search types for finance and JM.
+- When error occurs set the job sequence number to null on if the job id is null.
+- Impl batch invoice export.
   * Check that all selected invoices can be exported. eg a valid client accounting ID is set    
   * Call addServices() before doing export to ensure that all relevant services are added.
     Add a default service if none is selected.
@@ -18,21 +19,10 @@
   * Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
   * Add sys option that determines if the accpac invoices spreadsheet is to be
     exported. Add user preference to export invoices when "Invoice" button is pressed?
-- "(edited)" is still shown when Job Costing is edited although costing is already saved.
-- Impl automatic application of tax based on department or classification of job.
-  find out for which and department and classification a tax should apply and
-  prompt for a tax if it is 0.0.
-- Download new files sent by GA and impl new service contract and agreement. Add menu 
-  items to print contract and agreement separately. Check that correct deposit, discount and tax 
-  are printed on the contract.
-- When new client is being added clear out the existing client, billing address
-  and contact??
-- Take out extra classification dialog navigation out of faces config. Change 
-  admin to legal for legal document dialog.
-- "Unrender" modules that are not being before next release.
-  * Comment out PR and supplier out of search types for finance and JM.
+
 
 ### Database update, deployment and testing
+- Add DEFAULTTAX_ID (BIGINT, INDEX) to classification table.
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
 - Add DISCOUNT_ID (BIGINT, INDEX), FINANCIALACCOUNT_IDCUST (CHAR(12), INDEX),
   BILLINGADDRESS_ID (BIGINT, INDEX), DEFAULTTAX_ID (BIGINT, INDEX) to client table.
@@ -58,6 +48,7 @@ Data updates:
 - Run JobTest to create job_service table via BEL.
 - Add accounting codes as given in "BSJ Department Codes and Notes.pdf".
 - Find out the values of the discount offered.
+- Add GCT to "earning" classifications and "0" tax to "non-earning".
 
 Testing:
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.

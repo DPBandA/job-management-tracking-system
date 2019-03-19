@@ -704,8 +704,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         if (getIsDebugMode()) {
             subHeader = "Testing & Training Version";
-        }
-        else {
+        } else {
             subHeader = (String) SystemOption.getOptionValueObject(
                     getEntityManager1(), "applicationSubheader");
 
@@ -1320,8 +1319,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobClassification() {
-        EntityManager em = getEntityManager1();
-
+        
+        // Setup default tax
+        if (currentJob.getClassification().getDefaultTax() != null) {
+            currentJob.getJobCostingAndPayment().setTax(currentJob.getClassification().getDefaultTax());
+        }
+        
         // Get the clasification saved for use in setting taxes
         //JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
@@ -1719,6 +1722,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         EntityManager em = getEntityManager1();
         ReturnMessage returnMessage;
 
+        // Check form completion
+        if (true) {
+            
+        }
+
+        // Do privelege checks and save if possible
         if (isCurrentJobNew() && getUser().getEmployee().getDepartment().getPrivilege().getCanEditJob()) {
             // User can enter/edit any new job...saving
             returnMessage = getCurrentJob().prepareAndSave(getEntityManager1(), getUser());
@@ -2327,8 +2336,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         currentJob.getJobCostingAndPayment().setCashPayments(jcp.getCashPayments());
 
-        //initManagers();
-        setSelectedJobs(null);
+        setSelectedJobs(new Job[]{}); // tk null
     }
 
     public void setEditJobCostingAndPayment(Job currentJob) {

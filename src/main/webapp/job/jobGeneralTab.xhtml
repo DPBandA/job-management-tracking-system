@@ -105,7 +105,7 @@ Email: info@dpbennett.com.jm
                         completeMethod="#{jobManager.completeJobClassification}" >
             <p:ajax event="itemSelect"                                                                  
                     listener="#{jobManager.updateJobClassification}"
-                    update=":jobDialogForm:jobDetailToolbar1"
+                    update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,:jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
         </p:autoComplete>
 
