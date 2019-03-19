@@ -1,5 +1,4 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Check that correct deposit, discount and tax are printed on the contract.
 - Take out extra classification dialog navigation out of faces config. Change 
   admin to legal for legal document dialog.
 - "Unrender" modules that are not being before next release.
@@ -19,7 +18,6 @@
   * Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
   * Add sys option that determines if the accpac invoices spreadsheet is to be
     exported. Add user preference to export invoices when "Invoice" button is pressed?
-
 
 ### Database update, deployment and testing
 - Add DEFAULTTAX_ID (BIGINT, INDEX) to classification table.
