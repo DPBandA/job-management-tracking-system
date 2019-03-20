@@ -1,4 +1,5 @@
 ## Accounts Receivable Feature (v3.4.0)
+- Deal with old jobs that do not have the tax or discount object set.
 - Impl batch invoice export
   * Check that all selected invoices can be exported. eg a valid client accounting ID is set    
     ~ Impl canInvoiceJobCosting(Job job) by checking all the criteria required for generating and invoice.
