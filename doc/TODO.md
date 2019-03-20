@@ -1,4 +1,5 @@
 ## Accounts Receivable Feature (v3.4.0)
+- Do inv.
 - Take out extra classification dialog navigation out of faces config. Change 
   admin to legal for legal document dialog.
 - "Unrender" modules that are not being before next release.
