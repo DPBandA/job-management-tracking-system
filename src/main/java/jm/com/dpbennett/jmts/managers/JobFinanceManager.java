@@ -860,8 +860,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             if (getCurrentJob().getJobCostingAndPayment().getInvoiced()) {
                 getCurrentJob().getJobStatusAndTracking().setDateCostingInvoiced(new Date());
                 getCurrentJob().getJobCostingAndPayment().setCostingInvoicedBy(getUser().getEmployee());
-            }
-            else {
+            } else {
                 getCurrentJob().getJobStatusAndTracking().setDateCostingInvoiced(null);
                 getCurrentJob().getJobCostingAndPayment().setCostingInvoicedBy(null);
             }
@@ -873,15 +872,33 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
     }
 
+// tk del when other version is completed
+//    public Boolean canInvoiceJobCosting(Job job) {
+//
+//        if (job.getJobCostingAndPayment().getCostingApproved()
+//                && job.getJobCostingAndPayment().getCostingCompleted()
+//                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
+//
+//            return true;
+//
+//        } else {
+//
+//            PrimeFacesUtils.addMessage("Permission Denied",
+//                    "You do not have permission to change invoice status or "
+//                    + "the job costing has not been prepared and approved for "
+//                    + job.getJobNumber(),
+//                    FacesMessage.SEVERITY_ERROR);
+//
+//            return false;
+//        }
+//
+//    }
+    
     public Boolean canInvoiceJobCosting(Job job) {
 
         if (job.getJobCostingAndPayment().getCostingApproved()
                 && job.getJobCostingAndPayment().getCostingCompleted()
                 && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-
-            return true;
-
-        } else {
 
             PrimeFacesUtils.addMessage("Permission Denied",
                     "You do not have permission to change invoice status or "
@@ -890,6 +907,34 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     FacesMessage.SEVERITY_ERROR);
 
             return false;
+
+        } else if (job.getJobCostingAndPayment().getCostingApproved()
+                && job.getJobCostingAndPayment().getCostingCompleted()
+                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
+
+            PrimeFacesUtils.addMessage("Permission Denied",
+                    "You do not have permission to change invoice status or "
+                    + "the job costing has not been prepared and approved for "
+                    + job.getJobNumber(),
+                    FacesMessage.SEVERITY_ERROR);
+
+            return false;
+
+        } else if (job.getJobCostingAndPayment().getCostingApproved()
+                && job.getJobCostingAndPayment().getCostingCompleted()
+                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
+
+            PrimeFacesUtils.addMessage("Permission Denied",
+                    "You do not have permission to change invoice status or "
+                    + "the job costing has not been prepared and approved for "
+                    + job.getJobNumber(),
+                    FacesMessage.SEVERITY_ERROR);
+
+            return false;
+
+        } else {
+
+            return true;
         }
 
     }

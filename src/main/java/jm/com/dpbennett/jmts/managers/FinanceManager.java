@@ -178,7 +178,7 @@ public class FinanceManager implements Serializable {
     public ArrayList getSearchTypes() {
         ArrayList searchTypes = new ArrayList();
 
-        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
+        //searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
         searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
 
         return searchTypes;
@@ -791,7 +791,7 @@ public class FinanceManager implements Serializable {
         discountSearchText = "";
         supplierSearchText = "";
         foundSuppliers = new ArrayList<>();
-        searchType = "Purchase requisitions";
+        searchType = "Suppliers";
         dateSearchPeriod = new DatePeriod("This year", "year",
                 "requisitionDate", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();

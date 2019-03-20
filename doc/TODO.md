@@ -1,12 +1,9 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Do inv.
-- Take out extra classification dialog navigation out of faces config. Change 
-  admin to legal for legal document dialog.
-- "Unrender" modules that are not being before next release.
-  * Comment out PR and supplier out of search types for finance and JM.
-- When error occurs set the job sequence number to null on if the job id is null.
-- Impl batch invoice export.
+- Impl batch invoice export
   * Check that all selected invoices can be exported. eg a valid client accounting ID is set    
+    ~ Impl canInvoiceJobCosting(Job job) by checking all the criteria required for generating and invoice.
+  * Create menu button similar to tools button for "Invoiced job costing(s)" and "Export invoice(s)".
+    ~ Test out "Export invoice(s)" by exporting incomplete invoice spreadsheet.
   * Call addServices() before doing export to ensure that all relevant services are added.
     Add a default service if none is selected.
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.

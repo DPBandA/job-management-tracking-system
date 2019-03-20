@@ -54,6 +54,7 @@ import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
+import jm.com.dpbennett.business.entity.Discount;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCategory;
@@ -65,6 +66,7 @@ import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.ServiceContract;
 import jm.com.dpbennett.business.entity.ServiceRequest;
 import jm.com.dpbennett.business.entity.SystemOption;
+import jm.com.dpbennett.business.entity.Tax;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.event.CloseEvent;
@@ -553,7 +555,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchTypes.add(new SelectItem("Unapproved job costings", "Unapproved job costings"));
         searchTypes.add(new SelectItem("Appr'd & uninv'd jobs", "Appr'd & uninv'd jobs"));
         searchTypes.add(new SelectItem("Incomplete jobs", "Incomplete jobs"));
-        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
+        //searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
         searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
 
         return searchTypes;
@@ -1319,12 +1321,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public void updateJobClassification() {
-        
+
         // Setup default tax
-        if (currentJob.getClassification().getDefaultTax() != null) {
+        if (currentJob.getClassification().getDefaultTax().getId() != null) {
             currentJob.getJobCostingAndPayment().setTax(currentJob.getClassification().getDefaultTax());
         }
-        
+
         // Get the clasification saved for use in setting taxes
         //JobCostingAndPayment.setJobCostingTaxes(em, currentJob);
         // Update all costs that depend on tax
@@ -1724,7 +1726,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         // Check form completion
         if (true) {
-            
+
         }
 
         // Do privelege checks and save if possible
@@ -2439,12 +2441,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
 
         // Set default tax
-        if (currentJob.getClient().getDefaultTax() != null) {
+        if (currentJob.getClient().getDefaultTax().getId() != null) {
             currentJob.getJobCostingAndPayment().setTax(currentJob.getClient().getDefaultTax());
         }
 
         // Set default discount
-        if (currentJob.getClient().getDiscount() != null) {
+        if (currentJob.getClient().getDiscount().getId() != null) {
             currentJob.getJobCostingAndPayment().setDiscount(currentJob.getClient().getDiscount());
         }
 
@@ -2792,14 +2794,18 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         job.getJobCostingAndPayment().setCostingApprovedBy(
                                 getUser().getEmployee());
                         job.getJobCostingAndPayment().setIsDirty(true);
+                        
+                        job.save(em);
                     } else {
-                        job.getJobCostingAndPayment().setCostingApproved(false);
-                        job.getJobStatusAndTracking().setDateCostingApproved(null);
-                        job.getJobCostingAndPayment().setCostingApprovedBy(null);
-                        job.getJobCostingAndPayment().setIsDirty(true);
+                        //job.getJobCostingAndPayment().setCostingApproved(false);
+                        //job.getJobStatusAndTracking().setDateCostingApproved(null);
+                        //job.getJobCostingAndPayment().setCostingApprovedBy(null);
+                        //job.getJobCostingAndPayment().setIsDirty(true);
+                        
+                        return;
                     }
 
-                    job.save(em);
+                    
                 } else {
                     PrimeFacesUtils.addMessage("Aready Approved",
                             "The job costing for " + job.getJobNumber() + " was already approved",
@@ -2826,18 +2832,24 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         job.getJobCostingAndPayment().setCostingInvoicedBy(
                                 getUser().getEmployee());
                         job.getJobCostingAndPayment().setIsDirty(true);
+                        
+                        job.save(em);
                     } else {
-                        job.getJobCostingAndPayment().setInvoiced(false);
-                        job.getJobStatusAndTracking().setDateCostingInvoiced(null);
-                        job.getJobCostingAndPayment().setCostingInvoicedBy(null);
-                        job.getJobCostingAndPayment().setIsDirty(false);
+                        //job.getJobCostingAndPayment().setInvoiced(false);
+                        //job.getJobStatusAndTracking().setDateCostingInvoiced(null);
+                        //job.getJobCostingAndPayment().setCostingInvoicedBy(null);
+                        //job.getJobCostingAndPayment().setIsDirty(false);
+                        
+                        return;
                     }
 
-                    job.save(em);
+                    
                 } else {
                     PrimeFacesUtils.addMessage("Aready Invoiced",
                             "The job costing for " + job.getJobNumber() + " was already invoiced",
                             FacesMessage.SEVERITY_INFO);
+
+                    return;
                 }
             }
 
