@@ -259,6 +259,7 @@ public class FinanceManager implements Serializable {
 
         valueTypes.add(new SelectItem("Percentage", "Percentage"));
         valueTypes.add(new SelectItem("Currency", "Currency"));
+        valueTypes.add(new SelectItem("Fixed Cost", "Fixed Cost"));
 
         return valueTypes;
     }

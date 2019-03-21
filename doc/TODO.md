@@ -1,6 +1,6 @@
 ## Accounts Receivable Feature (v3.4.0)
 - Deal with old jobs that do not have the tax or discount object set.
-  * Impl getting discount value based on fixed or percentage. 
+  * Impl getting/finding default discount based on name, value and value type. 
     Test with JCP ID = 705759, and job 26/2015/1576/A-B, discount = $2745.0.
   * Impl getTax() and getDiscount() in JobFinanceManager deal with field and primitive 
     objects for these values.
