@@ -137,6 +137,39 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         init();
     }
 
+    public Tax getTax() {
+        Tax tax = getCurrentJob().getJobCostingAndPayment().getTax();
+
+        if (tax.getId() == null) {
+            if (getCurrentJob().getJobCostingAndPayment().getPercentageGCT() != null) {
+                Tax tax2 = Tax.findByValue(getEntityManager1(),
+                        Double.parseDouble(getCurrentJob().getJobCostingAndPayment().getPercentageGCT()));
+                if (tax2 != null) {
+                    tax = tax2;
+                    getCurrentJob().getJobCostingAndPayment().setTax(tax2);
+                } else {
+                    getCurrentJob().getJobCostingAndPayment().setTax(Tax.findDefault(getEntityManager1(), "0.0"));
+                }
+            } else {
+                getCurrentJob().getJobCostingAndPayment().setTax(Tax.findDefault(getEntityManager1(), "0.0"));
+            }
+        }
+
+        return tax;
+    }
+
+    public void setTax(Tax tax) {
+        getCurrentJob().getJobCostingAndPayment().setTax(tax);
+    }
+
+    public Discount getDiscount() {
+        return getCurrentJob().getJobCostingAndPayment().getDiscount();
+    }
+
+    public void setDiscount(Discount discount) {
+        getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
+    }
+
     public List<Tax> completeTax(String query) {
         EntityManager em;
 
@@ -893,7 +926,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 //        }
 //
 //    }
-    
     public Boolean canInvoiceJobCosting(Job job) {
 
         if (job.getJobCostingAndPayment().getCostingApproved()

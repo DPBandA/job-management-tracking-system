@@ -90,12 +90,12 @@ Email: info@dpbennett.com.jm
                                  converterMessage="Please enter a valid tax value."
                                  styleClass="number-field"
                                  maxlength="15" >
-                       
+
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                        
+
                         <p:ajax event="change"                                                       
                                 process="@this"/>
-                        
+
                     </p:inputText>
 
                     <h:outputText value="Value type:" style="font-weight: bold;" />                    
@@ -119,7 +119,18 @@ Email: info@dpbennett.com.jm
 
                         <f:validator validatorId="taxValidator" />
 
-                    </p:inputTextarea>                           
+                    </p:inputTextarea>   
+
+                    <p:outputLabel for="taxExempt" value="Exempt:" style="font-weight: bold;" />  
+                    <h:panelGroup>
+                        <p:selectBooleanCheckbox style="vertical-align: middle"
+                                                 id="taxExempt"
+                                                 value="#{financeManager.selectedTax.exempt}" />
+
+                        <p:tooltip for="taxExempt" value="Check to activate tax exempt" 
+                                   showEffect="fade" hideEffect="fade" />   
+
+                    </h:panelGroup>
 
                 </h:panelGrid>
             </p:panel>
