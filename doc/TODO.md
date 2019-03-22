@@ -1,9 +1,8 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Deal with old jobs that do not have the tax or discount object set.
-  * Impl getting/finding default discount based on name, value and value type. 
-    Test with JCP ID = 705759, and job 26/2015/1576/A-B, discount = $2745.0.
-  * Impl getTax() and getDiscount() in JobFinanceManager deal with field and primitive 
-    objects for these values.
+- Update jmts test database and deploy to boshrmapp.
+- Put message that the invoicing and export not yet functional until all data is entered
+- Do not show a pr tab when fin admin module is activated
+- Deploy abd send email.
 - Impl batch invoice export
   * Check that all selected invoices can be exported. eg a valid client accounting ID is set    
     ~ Impl canInvoiceJobCosting(Job job) by checking all the criteria required for generating and invoice.
@@ -21,12 +20,17 @@
   * Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
   * Add sys option that determines if the accpac invoices spreadsheet is to be
     exported. Add user preference to export invoices when "Invoice" button is pressed?
+- Deal with old jobs that do not have the tax or discount object set.
+  * Impl getting/finding default discount based on name, value and value type. 
+    Test with JCP ID = 705759, and job 26/2015/1576/A-B, discount = $2745.0.
+  * Impl getTax() and getDiscount() in JobFinanceManager deal with field and primitive 
+    objects for these values.
 
 ### Database update, deployment and testing
 - Add DEFAULTTAX_ID (BIGINT, INDEX) to classification table.
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
 - Add DISCOUNT_ID (BIGINT, INDEX), FINANCIALACCOUNT_IDCUST (CHAR(12), INDEX),
-  BILLINGADDRESS_ID (BIGINT, INDEX), DEFAULTTAX_ID (BIGINT, INDEX) to client table.
+  BILLINGADDRESS_ID (BIGINT, INDEX), BILLINGCONTACT_ID (BIGINT, INDEX), DEFAULTTAX_ID (BIGINT, INDEX) to client table.
 - Add TAX_ID (BIGINT, INDEX), DISCOUNT_ID (BIGINT, INDEX), COSTINGPREPAREDBY_ID (BIGINT, INDEX),
   COSTINGINVOICEDBY_ID (BIGINT, INDEX) to jobcostingandpayment table.
 - Add DATECOSTINGINVOICED (DATE) to jobstatusandtracking table.

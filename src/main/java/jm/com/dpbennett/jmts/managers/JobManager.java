@@ -374,10 +374,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getUser().getModules().getAdminModule()) {
             mainTabView.openTab("System Administration");
         }
-        if (getUser().getModules().getFinancialAdminModule()) {
-            // tk The option to choose which tab to add will be implemented in the future.
-            mainTabView.openTab("Purchase Requisitions");
-        }
+//        if (getUser().getModules().getFinancialAdminModule()) {
+//            // tk The option to choose which tab to add will be implemented in the future.
+//            mainTabView.openTab("Purchase Requisitions");
+//        }
         if (getUser().getModules().getLegalOfficeModule()) {
             mainTabView.openTab("Document Browser");
         }

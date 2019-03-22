@@ -906,15 +906,32 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
 // tk del when other version is completed
+    public Boolean canInvoiceJobCosting(Job job) {
+
+        if (job.getJobCostingAndPayment().getCostingApproved()
+                && job.getJobCostingAndPayment().getCostingCompleted()
+                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
+
+            return true;
+
+        } else {
+
+            PrimeFacesUtils.addMessage("Permission Denied",
+                    "You do not have permission to change invoice status or "
+                    + "the job costing has not been prepared and approved for "
+                    + job.getJobNumber(),
+                    FacesMessage.SEVERITY_ERROR);
+
+            return false;
+        }
+
+    }
+    
 //    public Boolean canInvoiceJobCosting(Job job) {
 //
 //        if (job.getJobCostingAndPayment().getCostingApproved()
 //                && job.getJobCostingAndPayment().getCostingCompleted()
 //                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-//
-//            return true;
-//
-//        } else {
 //
 //            PrimeFacesUtils.addMessage("Permission Denied",
 //                    "You do not have permission to change invoice status or "
@@ -923,53 +940,37 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 //                    FacesMessage.SEVERITY_ERROR);
 //
 //            return false;
-//        }
 //
+//        } else if (job.getJobCostingAndPayment().getCostingApproved()
+//                && job.getJobCostingAndPayment().getCostingCompleted()
+//                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
+//
+//            PrimeFacesUtils.addMessage("Permission Denied",
+//                    "You do not have permission to change invoice status or "
+//                    + "the job costing has not been prepared and approved for "
+//                    + job.getJobNumber(),
+//                    FacesMessage.SEVERITY_ERROR);
+//
+//            return false;
+//
+//        } else if (job.getJobCostingAndPayment().getCostingApproved()
+//                && job.getJobCostingAndPayment().getCostingCompleted()
+//                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
+//
+//            PrimeFacesUtils.addMessage("Permission Denied",
+//                    "You do not have permission to change invoice status or "
+//                    + "the job costing has not been prepared and approved for "
+//                    + job.getJobNumber(),
+//                    FacesMessage.SEVERITY_ERROR);
+//
+//            return false;
+//
+//        } else {
+//
+//            return true;
+//        }
+
 //    }
-    public Boolean canInvoiceJobCosting(Job job) {
-
-        if (job.getJobCostingAndPayment().getCostingApproved()
-                && job.getJobCostingAndPayment().getCostingCompleted()
-                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-
-            PrimeFacesUtils.addMessage("Permission Denied",
-                    "You do not have permission to change invoice status or "
-                    + "the job costing has not been prepared and approved for "
-                    + job.getJobNumber(),
-                    FacesMessage.SEVERITY_ERROR);
-
-            return false;
-
-        } else if (job.getJobCostingAndPayment().getCostingApproved()
-                && job.getJobCostingAndPayment().getCostingCompleted()
-                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-
-            PrimeFacesUtils.addMessage("Permission Denied",
-                    "You do not have permission to change invoice status or "
-                    + "the job costing has not been prepared and approved for "
-                    + job.getJobNumber(),
-                    FacesMessage.SEVERITY_ERROR);
-
-            return false;
-
-        } else if (job.getJobCostingAndPayment().getCostingApproved()
-                && job.getJobCostingAndPayment().getCostingCompleted()
-                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-
-            PrimeFacesUtils.addMessage("Permission Denied",
-                    "You do not have permission to change invoice status or "
-                    + "the job costing has not been prepared and approved for "
-                    + job.getJobNumber(),
-                    FacesMessage.SEVERITY_ERROR);
-
-            return false;
-
-        } else {
-
-            return true;
-        }
-
-    }
 
     public List<Preference> getJobTableViewPreferences() {
         EntityManager em = getEntityManager1();
