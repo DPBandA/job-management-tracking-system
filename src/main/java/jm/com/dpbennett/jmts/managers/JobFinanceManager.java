@@ -159,14 +159,23 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void setTax(Tax tax) {
+                
         getCurrentJob().getJobCostingAndPayment().setTax(tax);
     }
 
     public Discount getDiscount() {
-        return getCurrentJob().getJobCostingAndPayment().getDiscount();
+        
+        Discount discount = getCurrentJob().getJobCostingAndPayment().getDiscount();
+        
+        if (discount.getId() == null) {
+            
+        }
+        
+        return discount;
     }
 
     public void setDiscount(Discount discount) {
+        
         getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
     }
 
