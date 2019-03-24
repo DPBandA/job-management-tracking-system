@@ -1,4 +1,6 @@
 ## Accounts Receivable Feature (v3.4.0)
+- Use "depreciated" javadoc feature to document class and database fields that will be removed in the future eg discount and discountType in the JobCostingAndPayment class.
+- Enter taxes, discounts and accounting codes.
 - Deal with old jobs that do not have the tax or discount object set.
   * Fixed cost discount does not work. Edit getTotalTax() and getTotalCost()
     to use fixed cost.
