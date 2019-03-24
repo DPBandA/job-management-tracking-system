@@ -1,6 +1,9 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Enter taxes, discounts and accounting codes.
 - Deal with old jobs that do not have the tax or discount object set.
+  * Fixed cost discount does not work. Edit getTotalTax() and getTotalCost()
+    to use fixed cost.
+  * Check if fixed cost tax can also be applied as is done with discount.
+  * Impl and use discountValue and discountType in getDiscount().
   * Impl getting/finding default discount based on name, value and value type. 
     Test with JCP ID = 705759, and job 26/2015/1576/A-B, discount = $2745.0.
   * Impl getTax() and getDiscount() in JobFinanceManager deal with field and primitive 

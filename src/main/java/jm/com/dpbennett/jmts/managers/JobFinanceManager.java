@@ -140,42 +140,69 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public Tax getTax() {
         Tax tax = getCurrentJob().getJobCostingAndPayment().getTax();
 
+        // Handle the case where the tax is not set
         if (tax.getId() == null) {
             if (getCurrentJob().getJobCostingAndPayment().getPercentageGCT() != null) {
+                // Find and use tax object 
                 Tax tax2 = Tax.findByValue(getEntityManager1(),
                         Double.parseDouble(getCurrentJob().getJobCostingAndPayment().getPercentageGCT()));
                 if (tax2 != null) {
                     tax = tax2;
                     getCurrentJob().getJobCostingAndPayment().setTax(tax2);
                 } else {
-                    getCurrentJob().getJobCostingAndPayment().setTax(Tax.findDefault(getEntityManager1(), "0.0"));
+                    tax = Tax.findDefault(getEntityManager1(), "0.0");
+                    getCurrentJob().getJobCostingAndPayment().setTax(tax);
                 }
             } else {
-                getCurrentJob().getJobCostingAndPayment().setTax(Tax.findDefault(getEntityManager1(), "0.0"));
+                tax = Tax.findDefault(getEntityManager1(), "0.0");
+                getCurrentJob().getJobCostingAndPayment().setTax(tax);
             }
+
+            getCurrentJob().getJobCostingAndPayment().setIsDirty(true);
         }
 
         return tax;
     }
 
     public void setTax(Tax tax) {
-                
+
         getCurrentJob().getJobCostingAndPayment().setTax(tax);
     }
 
     public Discount getDiscount() {
-        
+
         Discount discount = getCurrentJob().getJobCostingAndPayment().getDiscount();
-        
+
+        // Handle the case where the discount object is not set.
         if (discount.getId() == null) {
-            
+            discount = Discount.findByValueAndType(
+                    getEntityManager1(),
+                    getCurrentJob().getJobCostingAndPayment().getDiscountValue(),
+                    getCurrentJob().getJobCostingAndPayment().getDiscountType());
+
+            if (discount == null) {
+                
+                discount = Discount.findDefault(
+                                getEntityManager1(),
+                                getCurrentJob().getJobCostingAndPayment().getDiscountValue().toString(),
+                                getCurrentJob().getJobCostingAndPayment().getDiscountValue(),
+                                getCurrentJob().getJobCostingAndPayment().getDiscountType());
+                
+                getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
+
+            } else {
+                getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
+            }
+
+            getCurrentJob().getJobCostingAndPayment().setIsDirty(true);
+
         }
-        
+
         return discount;
     }
 
     public void setDiscount(Discount discount) {
-        
+
         getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
     }
 
@@ -935,7 +962,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
 
     }
-    
+
 //    public Boolean canInvoiceJobCosting(Job job) {
 //
 //        if (job.getJobCostingAndPayment().getCostingApproved()
@@ -978,9 +1005,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 //
 //            return true;
 //        }
-
 //    }
-
     public List<Preference> getJobTableViewPreferences() {
         EntityManager em = getEntityManager1();
 
