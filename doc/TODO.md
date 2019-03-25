@@ -2,6 +2,7 @@
  Impl batch invoice export
   * Check that invoices for the selected jobs can be exported. eg a valid client accounting ID is set    
     ~ Impl canInvoiceJobCosting(Job job) by checking all the criteria required for generating and invoice.
+    ~ Display message of the number of invoices created.
     NB: Aborted invoicing if at least one job cannot be invoiced or 
         when exporting the invoices do not export the ones that cannot be invoiced.
   * Enable/disable "Export invoice(s)" based on check if the invoices can be exported.
