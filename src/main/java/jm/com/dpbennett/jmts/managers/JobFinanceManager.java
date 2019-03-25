@@ -337,7 +337,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             XSSFSheet invoiceDetails = wb.getSheet("Invoice_Details");
 
             // Get report data
-            List<Job> reportData = getJobManager().getJobSearchResultList();
+            Job reportData [] = getJobManager().getSelectedJobs(); //.getJobSearchResultList();
             for (Job job : reportData) {
                 invoiceCol = 0;
                 invoiceDetailsCol = 0;

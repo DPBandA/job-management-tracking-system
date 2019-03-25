@@ -2782,6 +2782,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         getReportManager().openReportsTab("Job");
     }
 
+    // tk move to job finance manager
     public void approveSelectedJobCostings() {
         if (selectedJobs.length > 0) {
             EntityManager em = getEntityManager1();
@@ -2820,6 +2821,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     }
 
+    // tk move to job finance manager
     public void invoiceSelectedJobCostings() {
         if (selectedJobs.length > 0) {
             EntityManager em = getEntityManager1();

@@ -1,20 +1,7 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Use "depreciated" javadoc feature to document class and database fields that will be removed in the future eg discount and discountType in the JobCostingAndPayment class.
-- Enter taxes, discounts and accounting codes.
-- Deal with old jobs that do not have the tax or discount object set.
-  * Fixed cost discount does not work. Edit getTotalTax() and getTotalCost()
-    to use fixed cost.
-  * Check if fixed cost tax can also be applied as is done with discount.
-  * Impl and use discountValue and discountType in getDiscount().
-  * Impl getting/finding default discount based on name, value and value type. 
-    Test with JCP ID = 705759, and job 26/2015/1576/A-B, discount = $2745.0.
-  * Impl getTax() and getDiscount() in JobFinanceManager deal with field and primitive 
-    objects for these values.
-- Impl batch invoice export
-  * Check that all selected invoices can be exported. eg a valid client accounting ID is set    
+ Impl batch invoice export
+  * Check that invoices for the selected jobs can be exported. eg a valid client accounting ID is set    
     ~ Impl canInvoiceJobCosting(Job job) by checking all the criteria required for generating and invoice.
-  * Create menu button similar to tools button for "Invoiced job costing(s)" and "Export invoice(s)".
-    ~ Test out "Export invoice(s)" by exporting incomplete invoice spreadsheet.
   * Call addServices() before doing export to ensure that all relevant services are added.
     Add a default service if none is selected.
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
@@ -28,7 +15,6 @@
   * Add sys option that determines if the accpac invoices spreadsheet is to be
     exported. Add user preference to export invoices when "Invoice" button is pressed?
 - Add TAT to "invoices reports".
-
 
 ### Database update, deployment and testing
 - Add DEFAULTTAX_ID (BIGINT, INDEX) to classification table.

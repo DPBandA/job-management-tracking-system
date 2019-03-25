@@ -34,14 +34,28 @@ Email: info@dpbennett.com.jm
                              oncomplete="PF('longProcessDialogVar2').hide();">                                                                                    
             </p:commandButton>
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
-            <p:commandButton value="Invoice"    
-                             rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"
-                             title="Generate invoice(s) for the selected job costing(s)"
-                             actionListener="#{jobManager.invoiceSelectedJobCostings}"
-                             update=":headerForm:growl3,jobCostingsTable"
-                             onstart="PF('longProcessDialogVar2').show();" 
-                             oncomplete="PF('longProcessDialogVar2').hide();">                                                                                    
-            </p:commandButton>
+            
+            <p:menuButton value="Invoice"                          
+                          rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}">
+
+                <p:menuitem value="Create invoice(s)"
+                            title="Generate invoice(s) for the selected job costing(s)"
+                            actionListener="#{jobManager.invoiceSelectedJobCostings}"
+                            update=":headerForm:growl3,jobCostingsTable"
+                            onstart="PF('longProcessDialogVar2').show();" 
+                            oncomplete="PF('longProcessDialogVar2').hide();" />
+                
+                <p:menuitem value="Export invoice(s)"
+                            ajax="false" 
+                            immediate="true"                   
+                            update="longProgressDialogForm5"
+                            onclick="PF('longProcessDialogVar5').show();" >
+                    
+                    <p:fileDownload value="#{jobFinanceManager.accpacInvoicesFile}" />
+                    
+                </p:menuitem>
+
+            </p:menuButton>
             <p:commandButton
                 rendered="#{!jobManager.user.isJobCostingsPreferredJobTableView}"
                 actionListener="#{jobManager.createNewJob}"
