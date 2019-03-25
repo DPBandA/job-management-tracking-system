@@ -181,13 +181,13 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     getCurrentJob().getJobCostingAndPayment().getDiscountType());
 
             if (discount == null) {
-                
+
                 discount = Discount.findDefault(
-                                getEntityManager1(),
-                                getCurrentJob().getJobCostingAndPayment().getDiscountValue().toString(),
-                                getCurrentJob().getJobCostingAndPayment().getDiscountValue(),
-                                getCurrentJob().getJobCostingAndPayment().getDiscountType());
-                
+                        getEntityManager1(),
+                        getCurrentJob().getJobCostingAndPayment().getDiscountValue().toString(),
+                        getCurrentJob().getJobCostingAndPayment().getDiscountValue(),
+                        getCurrentJob().getJobCostingAndPayment().getDiscountType());
+
                 getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
 
             } else {
@@ -337,7 +337,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             XSSFSheet invoiceDetails = wb.getSheet("Invoice_Details");
 
             // Get report data
-            Job reportData [] = getJobManager().getSelectedJobs(); //.getJobSearchResultList();
+            Job reportData[] = getJobManager().getSelectedJobs();
             for (Job job : reportData) {
                 invoiceCol = 0;
                 invoiceDetailsCol = 0;
@@ -942,70 +942,56 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
 // tk del when other version is completed
-    public Boolean canInvoiceJobCosting(Job job) {
-
-        if (job.getJobCostingAndPayment().getCostingApproved()
-                && job.getJobCostingAndPayment().getCostingCompleted()
-                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-
-            return true;
-
-        } else {
-
-            PrimeFacesUtils.addMessage("Permission Denied",
-                    "You do not have permission to change invoice status or "
-                    + "the job costing has not been prepared and approved for "
-                    + job.getJobNumber(),
-                    FacesMessage.SEVERITY_ERROR);
-
-            return false;
-        }
-
-    }
-
 //    public Boolean canInvoiceJobCosting(Job job) {
 //
 //        if (job.getJobCostingAndPayment().getCostingApproved()
 //                && job.getJobCostingAndPayment().getCostingCompleted()
 //                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
 //
-//            PrimeFacesUtils.addMessage("Permission Denied",
-//                    "You do not have permission to change invoice status or "
-//                    + "the job costing has not been prepared and approved for "
-//                    + job.getJobNumber(),
-//                    FacesMessage.SEVERITY_ERROR);
-//
-//            return false;
-//
-//        } else if (job.getJobCostingAndPayment().getCostingApproved()
-//                && job.getJobCostingAndPayment().getCostingCompleted()
-//                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-//
-//            PrimeFacesUtils.addMessage("Permission Denied",
-//                    "You do not have permission to change invoice status or "
-//                    + "the job costing has not been prepared and approved for "
-//                    + job.getJobNumber(),
-//                    FacesMessage.SEVERITY_ERROR);
-//
-//            return false;
-//
-//        } else if (job.getJobCostingAndPayment().getCostingApproved()
-//                && job.getJobCostingAndPayment().getCostingCompleted()
-//                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-//
-//            PrimeFacesUtils.addMessage("Permission Denied",
-//                    "You do not have permission to change invoice status or "
-//                    + "the job costing has not been prepared and approved for "
-//                    + job.getJobNumber(),
-//                    FacesMessage.SEVERITY_ERROR);
-//
-//            return false;
+//            return true;
 //
 //        } else {
 //
-//            return true;
+//            PrimeFacesUtils.addMessage("Permission Denied",
+//                    "You do not have permission to change invoice status or "
+//                    + "the job costing has not been prepared and approved for "
+//                    + job.getJobNumber(),
+//                    FacesMessage.SEVERITY_ERROR);
+//
+//            return false;
 //        }
+//
 //    }
+    public Boolean canInvoiceJobCosting(Job job) {
+
+        // Check for permission to invoice by department that can do invoices
+        // NB: This permission will be put in the user's profile in the future.
+        if (!getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
+
+            PrimeFacesUtils.addMessage("Permission Denied",
+                    "You do not have permission to create an invoice for "                    
+                    + job.getJobNumber(),
+                    FacesMessage.SEVERITY_ERROR);
+
+            return false;
+
+        }
+
+        if (!job.getJobCostingAndPayment().getCostingApproved()) {
+
+            PrimeFacesUtils.addMessage("Job Costing NOT Approved",
+                    "The job costing was not approved for "
+                    + job.getJobNumber(),
+                    FacesMessage.SEVERITY_ERROR);
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
     public List<Preference> getJobTableViewPreferences() {
         EntityManager em = getEntityManager1();
 

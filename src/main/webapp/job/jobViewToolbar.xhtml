@@ -47,8 +47,8 @@ Email: info@dpbennett.com.jm
                 
                 <p:menuitem value="Export invoice(s)"
                             ajax="false" 
-                            immediate="true"                   
-                            update="longProgressDialogForm5"
+                            update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
+                            immediate="false" 
                             onclick="PF('longProcessDialogVar5').show();" >
                     
                     <p:fileDownload value="#{jobFinanceManager.accpacInvoicesFile}" />

@@ -973,6 +973,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * @return
      */
     public Job[] getSelectedJobs() {
+        if (selectedJobs == null) {
+            selectedJobs = new Job[]{};
+        }
         return selectedJobs;
     }
 
@@ -2795,18 +2798,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         job.getJobCostingAndPayment().setCostingApprovedBy(
                                 getUser().getEmployee());
                         job.getJobCostingAndPayment().setIsDirty(true);
-                        
+
                         job.save(em);
                     } else {
                         //job.getJobCostingAndPayment().setCostingApproved(false);
                         //job.getJobStatusAndTracking().setDateCostingApproved(null);
                         //job.getJobCostingAndPayment().setCostingApprovedBy(null);
                         //job.getJobCostingAndPayment().setIsDirty(true);
-                        
+
                         return;
                     }
 
-                    
                 } else {
                     PrimeFacesUtils.addMessage("Aready Approved",
                             "The job costing for " + job.getJobNumber() + " was already approved",
@@ -2834,18 +2836,17 @@ public class JobManager implements Serializable, BusinessEntityManagement,
                         job.getJobCostingAndPayment().setCostingInvoicedBy(
                                 getUser().getEmployee());
                         job.getJobCostingAndPayment().setIsDirty(true);
-                        
+
                         job.save(em);
                     } else {
                         //job.getJobCostingAndPayment().setInvoiced(false);
                         //job.getJobStatusAndTracking().setDateCostingInvoiced(null);
                         //job.getJobCostingAndPayment().setCostingInvoicedBy(null);
                         //job.getJobCostingAndPayment().setIsDirty(false);
-                        
+
                         return;
                     }
 
-                    
                 } else {
                     PrimeFacesUtils.addMessage("Aready Invoiced",
                             "The job costing for " + job.getJobNumber() + " was already invoiced",
