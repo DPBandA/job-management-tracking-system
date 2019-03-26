@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Approve"  
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
                              title="Approve the selected job costing(s)"
-                             actionListener="#{jobManager.approveSelectedJobCostings}"
+                             actionListener="#{jobFinanceManager.approveSelectedJobCostings}"
                              update=":headerForm:growl3,jobCostingsTable"
                              onstart="PF('longProcessDialogVar2').show();" 
                              oncomplete="PF('longProcessDialogVar2').hide();">                                                                                    
@@ -40,7 +40,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem value="Create invoice(s)"
                             title="Generate invoice(s) for the selected job costing(s)"
-                            actionListener="#{jobManager.invoiceSelectedJobCostings}"
+                            actionListener="#{jobFinanceManager.invoiceSelectedJobCostings}"
                             update=":headerForm:growl3,jobCostingsTable"
                             onstart="PF('longProcessDialogVar2').show();" 
                             oncomplete="PF('longProcessDialogVar2').hide();" />

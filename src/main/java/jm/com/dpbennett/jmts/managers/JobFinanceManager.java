@@ -137,6 +137,92 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         init();
     }
 
+    // tk move to job finance manager
+    public void approveSelectedJobCostings() {
+        int numCostingsCApproved = 0;
+
+        if (getJobManager().getSelectedJobs().length > 0) {
+            EntityManager em = getEntityManager1();
+
+            for (Job job : getJobManager().getSelectedJobs()) {
+                if (!job.getJobCostingAndPayment().getCostingApproved()) {
+                    if (canChangeJobCostingApprovalStatus(job)) {
+                        numCostingsCApproved++;
+
+                        job.getJobCostingAndPayment().setCostingApproved(true);
+                        job.getJobStatusAndTracking().setDateCostingApproved(new Date());
+                        job.getJobCostingAndPayment().setCostingApprovedBy(
+                                getUser().getEmployee());
+                        job.getJobCostingAndPayment().setIsDirty(true);
+
+                        job.save(em);
+                    } else {
+
+                        return;
+                    }
+
+                } else {
+                    PrimeFacesUtils.addMessage("Aready Approved",
+                            "The job costing for " + job.getJobNumber() + " was already approved",
+                            FacesMessage.SEVERITY_WARN);
+                }
+            }
+
+            PrimeFacesUtils.addMessage("Job Costing(s) Approved",
+                    "" + numCostingsCApproved + " job costing(s) approved",
+                    FacesMessage.SEVERITY_INFO);
+
+        } else {
+            PrimeFacesUtils.addMessage("No Selection",
+                    "No job costing was selected",
+                    FacesMessage.SEVERITY_WARN);
+        }
+
+    }
+
+    public void invoiceSelectedJobCostings() {
+        int numInvoicesCreated = 0;
+
+        if (getJobManager().getSelectedJobs().length > 0) {
+            EntityManager em = getEntityManager1();
+
+            for (Job job : getJobManager().getSelectedJobs()) {
+                if (!job.getJobCostingAndPayment().getInvoiced()) {
+                    if (canInvoiceJobCosting(job)) {
+                        numInvoicesCreated++;
+
+                        job.getJobCostingAndPayment().setInvoiced(true);
+                        job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
+                        job.getJobCostingAndPayment().setCostingInvoicedBy(
+                                getUser().getEmployee());
+                        job.getJobCostingAndPayment().setIsDirty(true);
+
+                        job.save(em);
+                    } else {
+
+                        return;
+                    }
+
+                } else {
+                    PrimeFacesUtils.addMessage("Aready Invoiced",
+                            "The job costing for " + job.getJobNumber() + " was already invoiced",
+                            FacesMessage.SEVERITY_WARN);
+
+                    return;
+                }
+            }
+
+            PrimeFacesUtils.addMessage("Invoice(s) Created",
+                    "" + numInvoicesCreated + " invoice(s) created",
+                    FacesMessage.SEVERITY_INFO);
+
+        } else {
+            PrimeFacesUtils.addMessage("No Selection",
+                    "No job costing was selected",
+                    FacesMessage.SEVERITY_WARN);
+        }
+    }
+
     public Tax getTax() {
         Tax tax = getCurrentJob().getJobCostingAndPayment().getTax();
 
@@ -323,7 +409,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             XSSFWorkbook wb = new XSSFWorkbook(inp);
             XSSFCellStyle stringCellStyle = wb.createCellStyle();
             XSSFCellStyle integerCellStyle = wb.createCellStyle();
-            XSSFCellStyle doubleCellStyle = wb.createCellStyle();
+            //XSSFCellStyle doubleCellStyle = wb.createCellStyle();
             XSSFCellStyle dateCellStyle = wb.createCellStyle();
             CreationHelper createHelper = wb.getCreationHelper();
             dateCellStyle.setDataFormat(
@@ -339,70 +425,100 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             // Get report data
             Job reportData[] = getJobManager().getSelectedJobs();
             for (Job job : reportData) {
-                invoiceCol = 0;
-                invoiceDetailsCol = 0;
+                // Export only if costing was invoiced
+                if (job.getJobCostingAndPayment().getInvoiced()) {
+                    invoiceCol = 0;
+                    invoiceDetailsCol = 0;
 
-                // Fill out the Invoices 
-                // CNTBTCH (batch number)
-                ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        0,
-                        "java.lang.Integer", integerCellStyle);
-                // CNTITEM (Item number)
-                ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        invoiceRow,
-                        "java.lang.Integer", integerCellStyle);
-                // IDCUST (Customer Id)
-                if (job.getClient().getFinancialAccount() == null) {
-                    fileDownloadErrorMessage = "Error - missing customer id(s)";
+                    // Fill out the Invoices sheet
+                    // CNTBTCH (batch number)
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            0,
+                            "java.lang.Integer", integerCellStyle);
+                    // CNTITEM (Item number)
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            invoiceRow,
+                            "java.lang.Integer", integerCellStyle);
+                    // IDCUST (Customer Id)
+                    if (job.getClient().getFinancialAccount() == null) {
+                        fileDownloadErrorMessage = "Error - missing customer id(s)";
+                    }
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            job.getClient().getFinancialAccount().getIdCust(),
+                            "java.lang.String", stringCellStyle);
+                    // IDINVC (Invoice No./Id)
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            "JMTS" + job.getDepartmentAssignedToJob().getCode()
+                            + job.getYearReceived() + ""
+                            + job.getJobSequenceNumber(),
+                            "java.lang.String", stringCellStyle);
+                    // TEXTTRX
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            1,
+                            "java.lang.Integer", integerCellStyle);
+                    // IDTRX
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            12,
+                            "java.lang.Integer", integerCellStyle);
+                    // INVCDESC
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            job.getInstructions(),
+                            "java.lang.String", stringCellStyle);
+                    // DATEINVC
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            new Date(),
+                            "java.util.Date", dateCellStyle);
+                    // INVCTYPE
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            2,
+                            "java.lang.Integer", integerCellStyle);
+
+                    // Fill out Invoice Details sheet
+                    // Add an item for each cost component
+                    // CNTBTCH (batch number)
+                    int index = 0;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                0, // CNTBTCH
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // CNTITEM (Item/Invoice number/index)
+                    index = 0;
+                    invoiceDetailsCol++;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                invoiceRow, // CNTITEM
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // CNTLINE
+                    index = 0;
+                    invoiceDetailsCol++;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index,
+                                invoiceDetailsCol,
+                                ++index, // CNTLINE
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // IDDIST
+                    index = 0;
+                    invoiceDetailsCol++;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                getRevenueCode(job), // IDDIST
+                                "java.lang.String", stringCellStyle);
+                    }
+
+                    invoiceDetailsRow = invoiceDetailsRow + index + 1;
+                    invoiceRow++;
+
                 }
-                ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        job.getClient().getFinancialAccount().getIdCust(),
-                        "java.lang.String", stringCellStyle);
-                // IDINVC (Invoice No./Id)
-                ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        "IN" + job.getYearReceived() + "" + job.getJobSequenceNumber(),
-                        "java.lang.String", stringCellStyle);
-                // TEXTTRX
-                ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        1,
-                        "java.lang.Integer", integerCellStyle);
-                // IDTRX
-                ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        12,
-                        "java.lang.Integer", integerCellStyle);
-                // INVCDESC
-                ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        job.getInstructions(),
-                        "java.lang.String", stringCellStyle);
-                // DATEINVC
-                ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        new Date(),
-                        "java.util.Date", dateCellStyle);
-                // INVCTYPE
-                ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                        2,
-                        "java.lang.Integer", integerCellStyle);
-
-                // Fill out invoice details
-                // CNTBTCH (batch number)
-                ReportUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow,
-                        invoiceDetailsCol++,
-                        0,
-                        "java.lang.Integer", integerCellStyle);
-                // CNTITEM (Item number)
-                ReportUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow,
-                        invoiceDetailsCol++,
-                        invoiceRow,
-                        "java.lang.Integer", integerCellStyle);
-                // CNTLINE
-                ReportUtils.setExcelCellValue(wb, invoiceDetails, invoiceDetailsRow,
-                        invoiceDetailsCol++,
-                        invoiceDetailsRow, // Cell value
-                        "java.lang.Integer", integerCellStyle);
-
-                invoiceDetailsRow++;
-                invoiceRow++;
-
             }
 
             // Write modified Excel file and return it
@@ -415,6 +531,19 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
 
         return null;
+    }
+    
+    private String getRevenueCode(Job job) {
+        String code = "";
+        
+        if (!job.getServices().isEmpty()) {
+            
+        }
+        else {
+            
+        }
+        
+        return code;
     }
 
     public Boolean getEdit() {
@@ -941,27 +1070,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
     }
 
-// tk del when other version is completed
-//    public Boolean canInvoiceJobCosting(Job job) {
-//
-//        if (job.getJobCostingAndPayment().getCostingApproved()
-//                && job.getJobCostingAndPayment().getCostingCompleted()
-//                && getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-//
-//            return true;
-//
-//        } else {
-//
-//            PrimeFacesUtils.addMessage("Permission Denied",
-//                    "You do not have permission to change invoice status or "
-//                    + "the job costing has not been prepared and approved for "
-//                    + job.getJobNumber(),
-//                    FacesMessage.SEVERITY_ERROR);
-//
-//            return false;
-//        }
-//
-//    }
     public Boolean canInvoiceJobCosting(Job job) {
 
         // Check for permission to invoice by department that can do invoices
@@ -969,7 +1077,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         if (!getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
 
             PrimeFacesUtils.addMessage("Permission Denied",
-                    "You do not have permission to create an invoice for "                    
+                    "You do not have permission to create an invoice for "
                     + job.getJobNumber(),
                     FacesMessage.SEVERITY_ERROR);
 
@@ -981,6 +1089,17 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
             PrimeFacesUtils.addMessage("Job Costing NOT Approved",
                     "The job costing was not approved for "
+                    + job.getJobNumber(),
+                    FacesMessage.SEVERITY_ERROR);
+
+            return false;
+
+        }
+
+        if (job.getClient().getFinancialAccount().getIdCust().isEmpty()) {
+
+            PrimeFacesUtils.addMessage("Client Identification required",
+                    "The client identification (Id) is not set for "
                     + job.getJobNumber(),
                     FacesMessage.SEVERITY_ERROR);
 

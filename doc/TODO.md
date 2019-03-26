@@ -1,24 +1,15 @@
 ## Accounts Receivable Feature (v3.4.0)
- Impl batch invoice export
-  * Check that invoices for the selected jobs can be exported. eg a valid client accounting ID is set    
-    ~ Impl canInvoiceJobCosting(Job job) by checking all the criteria required for generating and invoice.
-    ~ Display message of the number of invoices created.
-    NB: Aborted invoicing if at least one job cannot be invoiced or 
-        when exporting the invoices do not export the ones that cannot be invoiced.
-  * Enable/disable "Export invoice(s)" based on check if the invoices can be exported.
-  * Call addServices() before doing export to ensure that all relevant services are added.
-    Add a default service if none is selected.
+- Impl batch invoice export
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
-    How to determine the test/cal code eg 1310 for test? Use the service selected in the service contract,
-    the department to which the job is assigned etc.
+    How to determine the test/cal code eg 1310 for test? Use the service selected 
+    in the service contract, the department to which the job is assigned etc.
+    ~ Implement getRevenueCode(Job job).
+  * When getting the distribution code use the "Other" service when there is no service.
   * Impl fill out of Invoice_Details sheet:
   * Impl fill out of multiple CNTLINE for each CNTITEM.
   * Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
     in Financial Admin. NB impl finding code by name and description.
   * Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
-  * Add sys option that determines if the accpac invoices spreadsheet is to be
-    exported. Add user preference to export invoices when "Invoice" button is pressed?
-- Add TAT to "invoices reports".
 
 ### Database update, deployment and testing
 - Add DEFAULTTAX_ID (BIGINT, INDEX) to classification table.

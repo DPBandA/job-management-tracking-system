@@ -54,7 +54,6 @@ import jm.com.dpbennett.business.entity.Client;
 import jm.com.dpbennett.business.entity.Contact;
 import jm.com.dpbennett.business.entity.DatePeriod;
 import jm.com.dpbennett.business.entity.Department;
-import jm.com.dpbennett.business.entity.Discount;
 import jm.com.dpbennett.business.entity.Employee;
 import jm.com.dpbennett.business.entity.Job;
 import jm.com.dpbennett.business.entity.JobCategory;
@@ -66,7 +65,6 @@ import jm.com.dpbennett.business.entity.Sector;
 import jm.com.dpbennett.business.entity.ServiceContract;
 import jm.com.dpbennett.business.entity.ServiceRequest;
 import jm.com.dpbennett.business.entity.SystemOption;
-import jm.com.dpbennett.business.entity.Tax;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
 import org.primefaces.event.CloseEvent;
@@ -338,13 +336,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         getJobSearchResultList().get(event.getRowIndex()).
                 getClient().save(getEntityManager1());
 
-        //    accPacCustomer = new AccPacCustomer();
-        //}
-        // Update and save job costing and payment if edited        
-        //getJobSearchResultList().get(event.getRowIndex()).
-        //        getJobCostingAndPayment().setIsDirty(true);
-        //getJobSearchResultList().get(event.getRowIndex()).
-        //        getJobCostingAndPayment().save(getEntityManager1());
     }
 
     /**
@@ -968,7 +959,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     /**
-     * Get selected job which is usually displayed in a table.
+     * Get selected jobs which are usually displayed in a table.
      *
      * @return
      */
@@ -2783,84 +2774,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void openReportsTab() {
         getReportManager().openReportsTab("Job");
-    }
-
-    // tk move to job finance manager
-    public void approveSelectedJobCostings() {
-        if (selectedJobs.length > 0) {
-            EntityManager em = getEntityManager1();
-
-            for (Job job : selectedJobs) {
-                if (!job.getJobCostingAndPayment().getCostingApproved()) {
-                    if (getJobFinanceManager().canChangeJobCostingApprovalStatus(job)) {
-                        job.getJobCostingAndPayment().setCostingApproved(true);
-                        job.getJobStatusAndTracking().setDateCostingApproved(new Date());
-                        job.getJobCostingAndPayment().setCostingApprovedBy(
-                                getUser().getEmployee());
-                        job.getJobCostingAndPayment().setIsDirty(true);
-
-                        job.save(em);
-                    } else {
-                        //job.getJobCostingAndPayment().setCostingApproved(false);
-                        //job.getJobStatusAndTracking().setDateCostingApproved(null);
-                        //job.getJobCostingAndPayment().setCostingApprovedBy(null);
-                        //job.getJobCostingAndPayment().setIsDirty(true);
-
-                        return;
-                    }
-
-                } else {
-                    PrimeFacesUtils.addMessage("Aready Approved",
-                            "The job costing for " + job.getJobNumber() + " was already approved",
-                            FacesMessage.SEVERITY_INFO);
-                }
-            }
-        } else {
-            PrimeFacesUtils.addMessage("No Selection",
-                    "No job costing was selected",
-                    FacesMessage.SEVERITY_INFO);
-        }
-
-    }
-
-    // tk move to job finance manager
-    public void invoiceSelectedJobCostings() {
-        if (selectedJobs.length > 0) {
-            EntityManager em = getEntityManager1();
-
-            for (Job job : selectedJobs) {
-                if (!job.getJobCostingAndPayment().getInvoiced()) {
-                    if (getJobFinanceManager().canInvoiceJobCosting(job)) {
-                        job.getJobCostingAndPayment().setInvoiced(true);
-                        job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
-                        job.getJobCostingAndPayment().setCostingInvoicedBy(
-                                getUser().getEmployee());
-                        job.getJobCostingAndPayment().setIsDirty(true);
-
-                        job.save(em);
-                    } else {
-                        //job.getJobCostingAndPayment().setInvoiced(false);
-                        //job.getJobStatusAndTracking().setDateCostingInvoiced(null);
-                        //job.getJobCostingAndPayment().setCostingInvoicedBy(null);
-                        //job.getJobCostingAndPayment().setIsDirty(false);
-
-                        return;
-                    }
-
-                } else {
-                    PrimeFacesUtils.addMessage("Aready Invoiced",
-                            "The job costing for " + job.getJobNumber() + " was already invoiced",
-                            FacesMessage.SEVERITY_INFO);
-
-                    return;
-                }
-            }
-
-        } else {
-            PrimeFacesUtils.addMessage("No Selection",
-                    "No job costing was selected",
-                    FacesMessage.SEVERITY_INFO);
-        }
     }
 
     @Override

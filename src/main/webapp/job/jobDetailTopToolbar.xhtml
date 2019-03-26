@@ -33,7 +33,11 @@ Email: info@dpbennett.com.jm
                              update=":jobDialogForm"
                              title="Save current job"
                              icon="ui-icon-disk"
-                             process="@form" />
+                             process="@form" >
+                
+                <p:ajax update=":jobDialogForm" resetValues="true" />
+                
+            </p:commandButton>
 
             <p:spacer height="0" width="10"/>
 
