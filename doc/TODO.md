@@ -3,13 +3,8 @@
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
     How to determine the test/cal code eg 1310 for test? Use the service selected 
     in the service contract, the department to which the job is assigned etc.
-    ~ Implement getRevenueCode(Job job).
-  * When getting the distribution code use the "Other" service when there is no service.
-  * Impl fill out of Invoice_Details sheet:
-  * Impl fill out of multiple CNTLINE for each CNTITEM.
-  * Impl selection of distribution ID. Add tab, new button and dialog for AccountingCode
-    in Financial Admin. NB impl finding code by name and description.
-  * Export invoices for only selected jobs. Check that each selection can be exported eg the client code is valid. 
+    ~ Impl double cell format with 2 decimal places or as is done with the
+      Accpac invoice spreadsheet.
 
 ### Database update, deployment and testing
 - Add DEFAULTTAX_ID (BIGINT, INDEX) to classification table.

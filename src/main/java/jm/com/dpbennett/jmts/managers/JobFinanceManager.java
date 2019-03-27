@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +42,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import jm.com.dpbennett.business.entity.AccPacCustomer;
 import jm.com.dpbennett.business.entity.AccPacDocument;
+import jm.com.dpbennett.business.entity.AccountingCode;
 import jm.com.dpbennett.business.entity.Alert;
 import jm.com.dpbennett.business.entity.CashPayment;
 import jm.com.dpbennett.business.entity.Client;
@@ -56,6 +58,7 @@ import jm.com.dpbennett.business.entity.JobCostingAndPayment;
 import jm.com.dpbennett.business.entity.JobManagerUser;
 import jm.com.dpbennett.business.entity.Laboratory;
 import jm.com.dpbennett.business.entity.Preference;
+import jm.com.dpbennett.business.entity.Service;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.Tax;
 import jm.com.dpbennett.business.entity.UnitCost;
@@ -70,6 +73,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.wal.managers.HumanResourceManager;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.DialogActionHandler;
 import jm.com.dpbennett.wal.utils.FinancialUtils;
@@ -402,14 +406,15 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             int invoiceRow = 1;
             int invoiceDetailsRow = 1;
             int invoiceCol;
-            int invoiceDetailsCol;
+            int invoiceDetailsCol;           
+            DecimalFormat formatter = new DecimalFormat("#,##0.00");
 
             fileDownloadErrorMessage = "";
 
             XSSFWorkbook wb = new XSSFWorkbook(inp);
             XSSFCellStyle stringCellStyle = wb.createCellStyle();
             XSSFCellStyle integerCellStyle = wb.createCellStyle();
-            //XSSFCellStyle doubleCellStyle = wb.createCellStyle();
+            XSSFCellStyle doubleCellStyle = wb.createCellStyle();
             XSSFCellStyle dateCellStyle = wb.createCellStyle();
             CreationHelper createHelper = wb.getCreationHelper();
             dateCellStyle.setDataFormat(
@@ -484,10 +489,42 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 0, // CNTBTCH
                                 "java.lang.Integer", integerCellStyle);
                     }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                0, // CNTBTCH
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                0, // CNTBTCH
+                                "java.lang.Integer", integerCellStyle);
+                    }
                     // CNTITEM (Item/Invoice number/index)
                     index = 0;
                     invoiceDetailsCol++;
                     for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                invoiceRow, // CNTITEM
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                invoiceRow, // CNTITEM
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -499,9 +536,25 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     invoiceDetailsCol++;
                     for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
-                                invoiceDetailsRow + index,
+                                invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                ++index, // CNTLINE
+                                index, // CNTLINE
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                index, // CNTLINE
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                index, // CNTLINE
                                 "java.lang.Integer", integerCellStyle);
                     }
                     // IDDIST
@@ -514,8 +567,78 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 getRevenueCode(job), // IDDIST
                                 "java.lang.String", stringCellStyle);
                     }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                job.getJobCostingAndPayment().getTax().
+                                        getAccountingCode().getCode(), // IDDIST
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                job.getJobCostingAndPayment().getDiscount().
+                                        getAccountingCode().getCode(), // IDDIST
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // TEXTDESC
+                    index = 0;
+                    invoiceDetailsCol++;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                costComponent.getName(), // TEXTDESC
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                job.getJobCostingAndPayment().getTax().getDescription(), // TEXTDESC
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                job.getJobCostingAndPayment().getDiscount().getDescription(), // TEXTDESC
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // AMTEXTN
+                    index = 0;
+                    invoiceDetailsCol++;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                formatter.format(costComponent.getCost()), // AMTEXTN
+                                "java.lang.String", null);
+                    }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                formatter.format(job.getJobCostingAndPayment().getTotalTax()), // AMTEXTN
+                                "java.lang.String", null);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                formatter.format(job.getJobCostingAndPayment().getTotalDiscount()), // AMTEXTN
+                                "java.lang.String", null);
+                    }
 
-                    invoiceDetailsRow = invoiceDetailsRow + index + 1;
+                    invoiceDetailsRow = invoiceDetailsRow + index;
                     invoiceRow++;
 
                 }
@@ -532,18 +655,29 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
         return null;
     }
-    
+
     private String getRevenueCode(Job job) {
-        String code = "";
-        
+
+        // Initialize code with the department's full code.
+        String revenueCode = HumanResourceManager.getDepartmentFullCode(
+                getEntityManager1(), job.getDepartmentAssignedToJob());
+
         if (!job.getServices().isEmpty()) {
-            
+
+            revenueCode = job.getServices().get(0).getAccountingCode().getCode()
+                    + "-" + revenueCode;
+        } else {
+            // Get and use default accounting code
+            AccountingCode ac = AccountingCode.findByName(getEntityManager1(), "Miscellaneous");
+            if (ac != null) {
+                revenueCode = ac.getCode() + "-" + revenueCode;
+            } else {
+                // NB: Just using this accounting code for testing for now.
+                revenueCode = "1810" + "-" + revenueCode;
+            }
         }
-        else {
-            
-        }
-        
-        return code;
+
+        return revenueCode;
     }
 
     public Boolean getEdit() {
