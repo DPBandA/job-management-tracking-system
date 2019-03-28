@@ -1,12 +1,21 @@
 ## Accounts Receivable Feature (v3.4.0)
+- Update getRevenueCode() to use the abbreviation of the revenue code.
+  * Implement getting a default code if no service is selected.
 - Impl batch invoice export
   * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
     How to determine the test/cal code eg 1310 for test? Use the service selected 
     in the service contract, the department to which the job is assigned etc.
     ~ Impl double cell format with 2 decimal places or as is done with the
       Accpac invoice spreadsheet.
+- Try to get the accpac client id when invoices are being created and update 
+  the billing info if successful and save the client.
+- Format the invoice number with at least 4 characters for the sequence number as
+  is done with the job number.
+- Enter the accounting codes based on spreadsheet from RA.
+- Deploy and email about deployment.
 
 ### Database update, deployment and testing
+- Add ACCOUNT (VARCHAR, 255) to accountingcode table.
 - Add DEFAULTTAX_ID (BIGINT, INDEX) to classification table.
 - Add ISTAXABLE (BIT) to classification, jobcategory and jobsubcategory tables.
 - Add DISCOUNT_ID (BIGINT, INDEX), FINANCIALACCOUNT_IDCUST (CHAR(12), INDEX),

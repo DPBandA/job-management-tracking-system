@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -48,6 +50,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
+import jm.com.dpbennett.wal.managers.HumanResourceManager;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.ReportUtils;
 
@@ -67,6 +70,22 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
      */
     public JobContractManager() {
         init();
+    }
+
+    public List<Service> completeService(String query) {
+
+        try {
+            
+            return Service.findAllActiveByNameAndAccountingCode(
+                    getEntityManager1(),
+                    query,
+                    HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
+                            getCurrentJob().getDepartmentAssignedToJob()));
+        } catch (Exception e) {
+            System.out.println(e);
+
+            return new ArrayList<>();
+        }
     }
 
     public JobManager getJobManager() {
@@ -368,13 +387,19 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     }
 
     private void addService(String name) {
-        Service service = Service.findByName(getEntityManager1(), name);
+        Service service = Service.findByNameAndAccountingCode(
+                getEntityManager1(),
+                name,
+                HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
+                        getCurrentJob().getDepartmentAssignedToJob()));
+
         if (service != null) {
             // Attempt to remove the service to ensure that it's not already added
             removeService(name);
-            
+
             getCurrentJob().getServices().add(service);
         }
+
     }
 
     private void removeService(String name) {
@@ -388,8 +413,8 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
 
     /**
      * Add or remove a service when a service check box is clicked.
-     * 
-     * @param event 
+     *
+     * @param event
      */
     public void updateServices(AjaxBehaviorEvent event) {
 
@@ -442,70 +467,70 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
                 } else {
                     removeService("Food Inspectorate");
                 }
-                break;    
+                break;
             case "serviceRequestedLegalMetrology":
                 if (getCurrentJob().getServiceContract().getServiceRequestedLegalMetrology()) {
                     addService("Legal Metrology");
                 } else {
                     removeService("Legal Metrology");
                 }
-                break;  
+                break;
             case "serviceRequestedSaleOfPublication":
                 if (getCurrentJob().getServiceContract().getServiceRequestedSaleOfPublication()) {
                     addService("Sale of Publication");
                 } else {
                     removeService("Sale of Publication");
                 }
-                break;  
+                break;
             case "serviceRequestedStationeryOrPhotocopy":
                 if (getCurrentJob().getServiceContract().getServiceRequestedStationeryOrPhotocopy()) {
                     addService("Stationery or Photocopy");
                 } else {
                     removeService("Stationery or Photocopy");
                 }
-                break;    
+                break;
             case "serviceRequestedCertification":
                 if (getCurrentJob().getServiceContract().getServiceRequestedCertification()) {
                     addService("Certification");
                 } else {
                     removeService("Certification");
                 }
-                break;    
+                break;
             case "serviceRequestedCertificationStandards":
                 if (getCurrentJob().getServiceContract().getServiceRequestedCertificationStandards()) {
-                    addService("Certification Standards");
+                    addService("Certification Mark Programme");
                 } else {
-                    removeService("Certification Standards");
+                    removeService("Certification Mark Programme");
                 }
-                break;   
+                break;
             case "serviceRequestedDetentionRehabInspection":
                 if (getCurrentJob().getServiceContract().getServiceRequestedDetentionRehabInspection()) {
                     addService("Detention, Rehabilitation & Inspection");
                 } else {
                     removeService("Detention, Rehabilitation & Inspection");
                 }
-                break;    
+                break;
             case "serviceRequestedFacilitiesManagement":
                 if (getCurrentJob().getServiceContract().getServiceRequestedFacilitiesManagement()) {
                     addService("Facilities Management");
                 } else {
                     removeService("Facilities Management");
                 }
-                break;  
+                break;
             case "serviceRequestedCementTesting":
                 if (getCurrentJob().getServiceContract().getServiceRequestedCementTesting()) {
                     addService("Cement Testing");
                 } else {
                     removeService("Cement Testing");
                 }
-                break;    
+                break;
             case "serviceRequestedPetrolSampling":
                 if (getCurrentJob().getServiceContract().getServiceRequestedPetrolSampling()) {
                     addService("Petrol Sampling");
                 } else {
                     removeService("Petrol Sampling");
                 }
-                break;    
+                break;
             case "otherService":
                 if (getCurrentJob().getServiceContract().getServiceRequestedOther()) {
                     addService("Other");
@@ -519,74 +544,74 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     }
 
     public void addServices() {
-        
+
         if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
             addService("Testing");
-        } 
+        }
 
         if (getCurrentJob().getServiceContract().getServiceRequestedCalibration()) {
             addService("Calibration");
-        } 
+        }
 
         if (getCurrentJob().getServiceContract().getServiceRequestedLabelEvaluation()) {
             addService("Label Evaluation");
-        } 
+        }
 
         if (getCurrentJob().getServiceContract().getServiceRequestedInspection()) {
             addService("Inspection");
-        } 
+        }
 
         if (getCurrentJob().getServiceContract().getServiceRequestedConsultancy()) {
             addService("Consultancy");
-        } 
+        }
 
         if (getCurrentJob().getServiceContract().getServiceRequestedTraining()) {
             addService("Training");
-        } 
-        
+        }
+
         if (getCurrentJob().getServiceContract().getServiceRequestedFoodInspectorate()) {
             addService("Food Inspectorate");
-        } 
-        
+        }
+
         if (getCurrentJob().getServiceContract().getServiceRequestedLegalMetrology()) {
             addService("Legal Metrology");
         }
-        
+
         if (getCurrentJob().getServiceContract().getServiceRequestedSaleOfPublication()) {
             addService("Sale of Publication");
         }
-        
+
         if (getCurrentJob().getServiceContract().getServiceRequestedStationeryOrPhotocopy()) {
             addService("Stationery or Photocopy");
         }
-        
+
         if (getCurrentJob().getServiceContract().getServiceRequestedCertification()) {
             addService("Certification");
         }
-        
+
         if (getCurrentJob().getServiceContract().getServiceRequestedCertificationStandards()) {
-            addService("Certification Standards");
+            addService("Certification Mark Programme");
         }
-        
+
         if (getCurrentJob().getServiceContract().getServiceRequestedDetentionRehabInspection()) {
             addService("Detention, Rehabilitation & Inspection");
         }
-        
+
         if (getCurrentJob().getServiceContract().getServiceRequestedFacilitiesManagement()) {
             addService("Facilities Management");
         }
-        
+
         if (getCurrentJob().getServiceContract().getServiceRequestedCementTesting()) {
             addService("Cement Testing");
         }
-        
+
         if (getCurrentJob().getServiceContract().getServiceRequestedPetrolSampling()) {
             addService("Petrol Sampling");
         }
 
         if (getCurrentJob().getServiceContract().getServiceRequestedOther()) {
             addService("Other");
-        } 
+        }
 
     }
 

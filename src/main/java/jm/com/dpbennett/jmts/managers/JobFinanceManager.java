@@ -564,7 +564,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                getRevenueCode(job), // IDDIST
+                                getRevenueCodeAbbreviation(job), // IDDIST
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Tax row if any 
@@ -656,28 +656,26 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return null;
     }
 
-    private String getRevenueCode(Job job) {
+    private String getRevenueCodeAbbreviation(Job job) {
 
-        // Initialize code with the department's full code.
-        String revenueCode = HumanResourceManager.getDepartmentFullCode(
-                getEntityManager1(), job.getDepartmentAssignedToJob());
+        String revenueCodeAbbr = ""; 
 
         if (!job.getServices().isEmpty()) {
 
-            revenueCode = job.getServices().get(0).getAccountingCode().getCode()
-                    + "-" + revenueCode;
+            revenueCodeAbbr = job.getServices().get(0).getAccountingCode().getAbbreviation(); 
+            
         } else {
             // Get and use default accounting code
             AccountingCode ac = AccountingCode.findByName(getEntityManager1(), "Miscellaneous");
             if (ac != null) {
-                revenueCode = ac.getCode() + "-" + revenueCode;
+                revenueCodeAbbr = ac.getAbbreviation(); 
             } else {
                 // NB: Just using this accounting code for testing for now.
-                revenueCode = "1810" + "-" + revenueCode;
+                revenueCodeAbbr = "1810"; 
             }
         }
 
-        return revenueCode;
+        return revenueCodeAbbr;
     }
 
     public Boolean getEdit() {
