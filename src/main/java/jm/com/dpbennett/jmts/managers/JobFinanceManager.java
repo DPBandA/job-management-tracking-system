@@ -85,6 +85,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFDataFormat;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.PrimeFaces;
@@ -129,6 +130,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private DialogActionHandler dialogActionHandler;
     private Boolean enableOnlyPaymentEditing;
     private JobManager jobManager;
+    private JobContractManager jobContractManager;
     private Boolean edit;
     private String fileDownloadErrorMessage;
     private MainTabView mainTabView;
@@ -406,7 +408,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             int invoiceRow = 1;
             int invoiceDetailsRow = 1;
             int invoiceCol;
-            int invoiceDetailsCol;           
+            int invoiceDetailsCol;
             DecimalFormat formatter = new DecimalFormat("#,##0.00");
 
             fileDownloadErrorMessage = "";
@@ -415,6 +417,8 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             XSSFCellStyle stringCellStyle = wb.createCellStyle();
             XSSFCellStyle integerCellStyle = wb.createCellStyle();
             XSSFCellStyle doubleCellStyle = wb.createCellStyle();
+            XSSFDataFormat doubleFormat = wb.createDataFormat();
+            doubleCellStyle.setDataFormat(doubleFormat.getFormat("#,##0.00"));
             XSSFCellStyle dateCellStyle = wb.createCellStyle();
             CreationHelper createHelper = wb.getCreationHelper();
             dateCellStyle.setDataFormat(
@@ -618,24 +622,24 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                formatter.format(costComponent.getCost()), // AMTEXTN
-                                "java.lang.String", null);
+                                costComponent.getCost(), // AMTEXTN
+                                "java.lang.Double", doubleCellStyle);
                     }
                     // Add Tax row if any 
                     if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                formatter.format(job.getJobCostingAndPayment().getTotalTax()), // AMTEXTN
-                                "java.lang.String", null);
+                                job.getJobCostingAndPayment().getTotalTax(), // AMTEXTN
+                                "java.lang.Double", doubleCellStyle);
                     }
                     // Add Discount row if any 
                     if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                formatter.format(job.getJobCostingAndPayment().getTotalDiscount()), // AMTEXTN
-                                "java.lang.String", null);
+                                -job.getJobCostingAndPayment().getTotalDiscount(), // AMTEXTN
+                                "java.lang.Double", doubleCellStyle);
                     }
 
                     invoiceDetailsRow = invoiceDetailsRow + index;
@@ -658,20 +662,25 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     private String getRevenueCodeAbbreviation(Job job) {
 
-        String revenueCodeAbbr = ""; 
+        String revenueCodeAbbr = "";
 
         if (!job.getServices().isEmpty()) {
 
-            revenueCodeAbbr = job.getServices().get(0).getAccountingCode().getAbbreviation(); 
-            
+            revenueCodeAbbr = job.getServices().get(0).getAccountingCode().getAbbreviation();
+
         } else {
             // Get and use default accounting code
-            AccountingCode ac = AccountingCode.findByName(getEntityManager1(), "Miscellaneous");
-            if (ac != null) {
-                revenueCodeAbbr = ac.getAbbreviation(); 
+            Service service = Service.findByNameAndAccountingCode(
+                    getEntityManager1(),
+                    "Miscellaneous",
+                    HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
+                            getCurrentJob().getDepartmentAssignedToJob()));
+            if (service != null) {
+                revenueCodeAbbr = service.getAccountingCode().getAbbreviation();
             } else {
-                // NB: Just using this accounting code for testing for now.
-                revenueCodeAbbr = "1810"; 
+                // tk NB: Just using this revenue code for testing for now.
+                // This value is to be obtained from system option.
+                revenueCodeAbbr = "MISC";
             }
         }
 
@@ -692,6 +701,15 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
         return jobManager;
     }
+
+    public JobContractManager getJobContractManager() {
+        if (jobContractManager == null) {
+            jobContractManager = BeanUtils.findBean("jobContractManager");
+        }
+        return jobContractManager;
+    }
+    
+    
 
     private void init() {
         longProcessProgress = 0;
@@ -1203,11 +1221,14 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public Boolean canInvoiceJobCosting(Job job) {
+        // Prepare the job
+        // Ensure that services are added based on the service contract
+        getJobContractManager().addServices(job);
+        // Ensure that an accounting Id is added for the client        
 
         // Check for permission to invoice by department that can do invoices
         // NB: This permission will be put in the user's profile in the future.
-        if (!getUser().getEmployee().isMemberOf(getDepartmentBySystemOptionDeptId("invoicingDepartmentId"))) {
-
+        if (!getUser().getEmployee().getDepartment().getPrivilege().getCanEditInvoicingAndPayment()) {
             PrimeFacesUtils.addMessage("Permission Denied",
                     "You do not have permission to create an invoice for "
                     + job.getJobNumber(),
@@ -1216,7 +1237,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             return false;
 
         }
-
+        // Check if approved
         if (!job.getJobCostingAndPayment().getCostingApproved()) {
 
             PrimeFacesUtils.addMessage("Job Costing NOT Approved",
@@ -1227,7 +1248,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             return false;
 
         }
-
+        // Check for a valid cleint Id
         if (job.getClient().getFinancialAccount().getIdCust().isEmpty()) {
 
             PrimeFacesUtils.addMessage("Client Identification required",
@@ -2195,7 +2216,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         try {
 
             em2 = getEntityManager2();
-            List<AccPacCustomer> clients = AccPacCustomer.findAccPacCustomersByName(em2, query);
+            List<AccPacCustomer> clients = AccPacCustomer.findAllByName(em2, query);
             List<String> suggestions = new ArrayList<>();
 
             for (AccPacCustomer client : clients) {
@@ -2218,7 +2239,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         try {
             em2 = getEntityManager2();
 
-            return AccPacCustomer.findAccPacCustomersByName(em2, query);
+            return AccPacCustomer.findAllByName(em2, query);
         } catch (Exception e) {
 
             System.out.println(e);

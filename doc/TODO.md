@@ -1,17 +1,13 @@
 ## Accounts Receivable Feature (v3.4.0)
-- Update getRevenueCode() to use the abbreviation of the revenue code.
-  * Implement getting a default code if no service is selected.
-- Impl batch invoice export
-  * Note each each count item have a dist code. eg discount, gct, testing & cal. etc.
-    How to determine the test/cal code eg 1310 for test? Use the service selected 
-    in the service contract, the department to which the job is assigned etc.
-    ~ Impl double cell format with 2 decimal places or as is done with the
-      Accpac invoice spreadsheet.
+- Call addServices() and try to insert to financial account when creating invoices
+  Update canInvoiceJobCosting(Job job) for this.
+- Export discount with negative value.
+- Exclude subcontracts from the "Appr'd & Uninv'd" jobs search.
 - Try to get the accpac client id when invoices are being created and update 
   the billing info if successful and save the client.
 - Format the invoice number with at least 4 characters for the sequence number as
   is done with the job number.
-- Enter the accounting codes based on spreadsheet from RA.
+- Enter the accounting codes and corresponding services based on spreadsheet from RA.
 - Deploy and email about deployment.
 
 ### Database update, deployment and testing
@@ -43,6 +39,7 @@ Data updates:
 - Add accounting codes as given in "BSJ Department Codes and Notes.pdf".
 - Find out the values of the discount offered.
 - Add GCT to "earning" classifications and "0" tax to "non-earning".
+- Enter the accounting codes and corresponding services based on spreadsheet from RA.
 
 Testing:
 - Test Accpac credit status feature in light of the changes made to AccPacCustomer.

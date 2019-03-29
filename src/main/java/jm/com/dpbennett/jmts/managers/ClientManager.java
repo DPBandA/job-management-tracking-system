@@ -123,7 +123,7 @@ public class ClientManager implements Serializable {
         try {
             em2 = getEntityManager2();
 
-            return AccPacCustomer.findAccPacCustomersByName(em2, query);
+            return AccPacCustomer.findAllByName(em2, query);
         } catch (Exception e) {
 
             System.out.println(e);
@@ -356,8 +356,6 @@ public class ClientManager implements Serializable {
                 getFinancialAccount().
                 getCreditLimit().doubleValue()));
         
-        // Set financial account name??
-        
         setIsDirty(true);
     }
 
@@ -395,6 +393,7 @@ public class ClientManager implements Serializable {
         return getSelectedClient().getIsDirty();
     }
 
+    // tk could be replaced with the same method in the Client class.
     public void setIsDirty(Boolean isDirty) {
         getSelectedClient().setIsDirty(isDirty);
     }
