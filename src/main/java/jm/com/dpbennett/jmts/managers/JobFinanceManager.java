@@ -459,7 +459,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                             "JMTS" + job.getDepartmentAssignedToJob().getCode()
                             + job.getYearReceived() + ""
-                            + job.getJobSequenceNumber(),
+                            + BusinessEntityUtils.getFourDigitString(job.getJobSequenceNumber()),
                             "java.lang.String", stringCellStyle);
                     // TEXTTRX
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
@@ -1224,13 +1224,13 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         getJobContractManager().addServices(job);
         // Ensure that an accounting Id is added for the client  
         AccPacCustomer financialAccount = AccPacCustomer.findByName(
-                getEntityManager1(), job.getClient().getName());
+                getEntityManager2(), job.getClient().getName());
         if (financialAccount != null) {
             // Set accounting Id
             job.getClient().setAccountingId(financialAccount.getIdCust());
             // Set credit limit 
             job.getClient().setCreditLimit((financialAccount.getCreditLimit().doubleValue()));
-            // Upate and save
+            // Update and save
             job.getClient().setEditedBy(getUser().getEmployee());
             job.getClient().setDateEdited(new Date());
             job.getClient().save(getEntityManager1());
