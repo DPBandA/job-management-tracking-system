@@ -708,8 +708,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
         return jobContractManager;
     }
-    
-    
 
     private void init() {
         longProcessProgress = 0;
@@ -1224,7 +1222,19 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         // Prepare the job
         // Ensure that services are added based on the service contract
         getJobContractManager().addServices(job);
-        // Ensure that an accounting Id is added for the client        
+        // Ensure that an accounting Id is added for the client  
+        AccPacCustomer financialAccount = AccPacCustomer.findByName(
+                getEntityManager1(), job.getClient().getName());
+        if (financialAccount != null) {
+            // Set accounting Id
+            job.getClient().setAccountingId(financialAccount.getIdCust());
+            // Set credit limit 
+            job.getClient().setCreditLimit((financialAccount.getCreditLimit().doubleValue()));
+            // Upate and save
+            job.getClient().setEditedBy(getUser().getEmployee());
+            job.getClient().setDateEdited(new Date());
+            job.getClient().save(getEntityManager1());
+        }
 
         // Check for permission to invoice by department that can do invoices
         // NB: This permission will be put in the user's profile in the future.
