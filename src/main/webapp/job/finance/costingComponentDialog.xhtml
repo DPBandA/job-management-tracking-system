@@ -61,9 +61,10 @@ Email: info@dpbennett.com.jm
                                         itemValue="#{type}"
                                         itemLabel="#{type}"/>
 
-                        <p:ajax listener="#{jobFinanceManager.updateCostType}"
+                        <p:ajax listener="#{jobFinanceManager.updateCostComponent}"
                                 update="costingComponentPanelGrid"
                                 process="@this"/>
+                                                
                     </p:selectOneMenu>    
 
 
@@ -72,11 +73,13 @@ Email: info@dpbennett.com.jm
                     <p:spacer rendered="#{jobFinanceManager.selectedCostComponent.isSubcontract}" height="0" width="10"/>
                     <p:selectOneMenu id="subcontract"        
                                      rendered="#{jobFinanceManager.selectedCostComponent.isSubcontract}" >
+                        
                         <p:ajax event="change"
                                 global="false"         
                                 update="costingComponentPanelGrid"
                                 listener="#{jobFinanceManager.updateSubcontract}"
                                 process="@this"/>
+                        
                         <f:selectItems  value="#{jobFinanceManager.allSubcontracts}"
                                         var="subcontact"
                                         itemValue="#{subcontact.id}"
@@ -85,17 +88,7 @@ Email: info@dpbennett.com.jm
 
                     <h:outputLabel value="Component:" style="font-weight: bold" />
                     <p:spacer height="0" width="10"/>
-                    <ui:remove>
-                        <p:inputText value="#{jobFinanceManager.selectedCostComponent.name}" 
-                                     id="costComponentName"
-                                     validator="requiredFieldValidator"
-                                     style="width: 90%;" >
-                            <p:ajax event="change"
-                                    global="false" 
-                                    listener="#{jobFinanceManager.updateCostComponent}" 
-                                    process="@this"/>
-                        </p:inputText>
-                    </ui:remove>
+                    
                     <p:inputTextarea  value="#{jobFinanceManager.selectedCostComponent.name}"
                                       id="costComponentName"
                                       validator="requiredFieldValidator"
@@ -122,7 +115,9 @@ Email: info@dpbennett.com.jm
                                  validator="requiredFieldValidator"
                                  converterMessage="Invalid Component Hours/Quantity"
                                  style="width: 90%">
+                        
                         <f:convertNumber />
+                        
                         <p:ajax event="keyup"
                                 global="false"
                                 listener="#{jobFinanceManager.updateCostComponent}"
@@ -133,6 +128,7 @@ Email: info@dpbennett.com.jm
                                 listener="#{jobFinanceManager.updateCostComponent}"
                                 update="costingComponentDialogForm:costComponentCost"
                                 process="@this"/>
+                        
                     </p:inputText>
 
                     <h:outputLabel rendered="#{!jobFinanceManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
@@ -146,7 +142,9 @@ Email: info@dpbennett.com.jm
                                  styleClass="number-field" 
                                  validator="requiredFieldValidator"
                                  converterMessage="Invalid Component Rate" >
+                        
                         <f:convertNumber />
+                        
                         <p:ajax event="keyup"
                                 global="false"
                                 listener="#{jobFinanceManager.updateCostComponent}"
@@ -170,7 +168,9 @@ Email: info@dpbennett.com.jm
                                  validator="requiredFieldValidator"
                                  converterMessage="Invalid Component Cost"
                                  styleClass="number-field #{jobFinanceManager.selectedCostComponent.isCostReadOnly ? 'editableclass' : null}">
+                                                
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        
                         <p:ajax event="change"
                                 global="false"                            
                                 listener="#{jobFinanceManager.updateCostComponent}"

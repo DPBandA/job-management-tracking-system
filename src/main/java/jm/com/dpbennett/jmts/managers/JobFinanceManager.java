@@ -1327,6 +1327,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void updateCostComponent() {
+        updateCostType();
         getSelectedCostComponent().setIsDirty(true);
     }
 
@@ -1651,8 +1652,8 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 selectedCostComponent.setIsFixedCost(true);
                 selectedCostComponent.setIsHeading(false);
                 selectedCostComponent.setHours(0.0);
-                selectedCostComponent.setHoursOrQuantity(0.0);
-                selectedCostComponent.setRate(0.0);
+                selectedCostComponent.setHoursOrQuantity(1.0); // tk org 0.0
+                selectedCostComponent.setRate(selectedCostComponent.getCost()); // tk org 0.0
                 break;
             case "HEADING":
                 selectedCostComponent.setIsFixedCost(false);
@@ -1679,7 +1680,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 break;
         }
 
-        updateCostComponent();
 
     }
 
