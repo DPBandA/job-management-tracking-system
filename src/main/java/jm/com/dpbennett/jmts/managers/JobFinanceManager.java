@@ -375,12 +375,12 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         this.mainTabView = mainTabView;
     }
 
-    public StreamedContent getAccpacInvoicesFile() {
+    public StreamedContent getInvoicesFile() {
 
         try {
             ByteArrayInputStream stream;
 
-            stream = getAccpacInvoicesFileInputStream(
+            stream = getInvoicesFileInputStream(
                     new File(getClass().getClassLoader().
                             getResource("/reports/"
                                     + (String) SystemOption.getOptionValueObject(getEntityManager1(),
@@ -400,16 +400,17 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return null;
     }
 
-    public ByteArrayInputStream getAccpacInvoicesFileInputStream(
+    public ByteArrayInputStream getInvoicesFileInputStream(
             File file) {
 
         try {
             FileInputStream inp = new FileInputStream(file);
             int invoiceRow = 1;
-            int invoiceDetailsRow = 1;
             int invoiceCol;
+            int invoiceDetailsRow = 1;
             int invoiceDetailsCol;
-            DecimalFormat formatter = new DecimalFormat("#,##0.00");
+            int invoiceOptionalFieldsRow = 1;
+            int invoiceOptionalFieldsCol;
 
             fileDownloadErrorMessage = "";
 
@@ -430,6 +431,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             // Get sheets          
             XSSFSheet invoices = wb.getSheet("Invoices");
             XSSFSheet invoiceDetails = wb.getSheet("Invoice_Details");
+            XSSFSheet invoiceOptionalFields = wb.getSheet("Invoice_Optional_Fields");
 
             // Get report data
             Job reportData[] = getJobManager().getSelectedJobs();
@@ -438,6 +440,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 if (job.getJobCostingAndPayment().getInvoiced()) {
                     invoiceCol = 0;
                     invoiceDetailsCol = 0;
+                    invoiceOptionalFieldsCol = 0;
 
                     // Fill out the Invoices sheet
                     // CNTBTCH (batch number)
@@ -448,38 +451,43 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                             invoiceRow,
                             "java.lang.Integer", integerCellStyle);
-                    // IDCUST (Customer Id)
-                    if (job.getClient().getFinancialAccount() == null) {
-                        fileDownloadErrorMessage = "Error - missing customer id(s)";
-                    }
+                    // IDCUST (Customer Id)                  
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                             job.getClient().getFinancialAccount().getIdCust(),
                             "java.lang.String", stringCellStyle);
                     // IDINVC (Invoice No./Id)
-                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                            "JMTS" + job.getDepartmentAssignedToJob().getCode()
-                            + job.getYearReceived() + ""
-                            + BusinessEntityUtils.getFourDigitString(job.getJobSequenceNumber()),
-                            "java.lang.String", stringCellStyle);
+                    //ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                    //        "JMTS" + job.getDepartmentAssignedToJob().getCode()
+                    //        + job.getYearReceived() + ""
+                    //        + BusinessEntityUtils.getFourDigitString(job.getJobSequenceNumber()),
+                    //        "java.lang.String", stringCellStyle);
                     // TEXTTRX
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                             1,
                             "java.lang.Integer", integerCellStyle);
                     // IDTRX
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                            12,
+                            11,
                             "java.lang.Integer", integerCellStyle);
+                    // ORDRNBR
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            "",
+                            "java.lang.String", stringCellStyle);
+                    // CUSTPO
+                    ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
+                            job.getJobCostingAndPayment().getPurchaseOrderNumber(),
+                            "java.lang.String", stringCellStyle);
                     // INVCDESC
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                             job.getInstructions(),
                             "java.lang.String", stringCellStyle);
                     // DATEINVC
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                            new Date(),
+                            job.getJobStatusAndTracking().getDateCostingInvoiced(),
                             "java.util.Date", dateCellStyle);
                     // INVCTYPE
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                            2,
+                            1, // tk org. 2
                             "java.lang.Integer", integerCellStyle);
 
                     // Fill out Invoice Details sheet
@@ -561,6 +569,34 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 index, // CNTLINE
                                 "java.lang.Integer", integerCellStyle);
                     }
+                    // IDITEM
+                    index = 0;
+                    invoiceDetailsCol++;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                getRevenueCodeAbbreviation(job), // IDITEM
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                job.getJobCostingAndPayment().getTax().
+                                        getAccountingCode().getCode(), // IDITEM
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                job.getJobCostingAndPayment().getDiscount().
+                                        getAccountingCode().getCode(), // IDITEM
+                                "java.lang.String", stringCellStyle);
+                    }
                     // IDDIST
                     index = 0;
                     invoiceDetailsCol++;
@@ -615,6 +651,84 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 job.getJobCostingAndPayment().getDiscount().getDescription(), // TEXTDESC
                                 "java.lang.String", stringCellStyle);
                     }
+                    // UNITMEAS
+                    index = 0;
+                    invoiceDetailsCol++;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                "EACH", // UNITMEAS
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                "EACH", // UNITMEAS
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                "EACH", // UNITMEAS
+                                "java.lang.String", stringCellStyle);
+                    }
+                    // QTYINVC
+                    index = 0;
+                    invoiceDetailsCol++;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                costComponent.getHoursOrQuantity().intValue(), // UNITMEAS
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                1, // QTYINVC
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                1, // QTYINVC
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // AMTPRIC
+                    index = 0;
+                    invoiceDetailsCol++;
+                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                costComponent.getRate(), // AMTPRIC
+                                "java.lang.Double", doubleCellStyle);
+                    }
+                    // Add Tax row if any 
+                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                job.getJobCostingAndPayment().getTotalTax(), // AMTPRIC
+                                "java.lang.Double", doubleCellStyle);
+                    }
+                    // Add Discount row if any 
+                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                        ReportUtils.setExcelCellValue(wb, invoiceDetails,
+                                invoiceDetailsRow + index++,
+                                invoiceDetailsCol,
+                                -job.getJobCostingAndPayment().getTotalDiscount(), // AMTPRIC
+                                "java.lang.Double", doubleCellStyle);
+                    }
                     // AMTEXTN
                     index = 0;
                     invoiceDetailsCol++;
@@ -642,7 +756,86 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Double", doubleCellStyle);
                     }
 
+                    // Fill out Invoice Optional Fields sheet                    
+                    // CNTBTCH (batch number)
+                    int index2 = 0;
+                    for (int i = 0; i < 4; i++) {
+                        ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                                invoiceOptionalFieldsRow + index2++,
+                                invoiceOptionalFieldsCol,
+                                0, // CNTBTCH
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // CNTITEM (Item/Invoice number/index)
+                    index2 = 0;
+                    ++invoiceOptionalFieldsCol;
+                    for (int i = 0; i < 4; i++) {
+                        ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                                invoiceOptionalFieldsRow + index2++,
+                                invoiceOptionalFieldsCol,
+                                invoiceRow, // CNTITEM
+                                "java.lang.Integer", integerCellStyle);
+                    }
+                    // OPTFIELD                    
+                    index2 = 0;
+                    ++invoiceOptionalFieldsCol;
+                    // DEPTCODE
+                    ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                            invoiceOptionalFieldsRow + index2++,
+                            invoiceOptionalFieldsCol,
+                            "DEPTCODE", // DEPTCODE
+                            "java.lang.String", stringCellStyle);
+                    // INVCONTACT
+                    ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                            invoiceOptionalFieldsRow + index2++,
+                            invoiceOptionalFieldsCol,
+                            "INVCONTACT", // INVCONTACT
+                            "java.lang.String", stringCellStyle);
+                    // JOBNO
+                    ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                            invoiceOptionalFieldsRow + index2++,
+                            invoiceOptionalFieldsCol,
+                            "JOBNO", // JOBNO
+                            "java.lang.String", stringCellStyle);
+                    // REFNO
+                    ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                            invoiceOptionalFieldsRow + index2++,
+                            invoiceOptionalFieldsCol,
+                            "REFNO", // REFNO
+                            "java.lang.String", stringCellStyle);
+                    
+                    // OPTFIELD/VALUE                    
+                    index2 = 0;
+                    ++invoiceOptionalFieldsCol;
+                    // DEPTCODE
+                    ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                            invoiceOptionalFieldsRow + index2++,
+                            invoiceOptionalFieldsCol,
+                            job.getDepartmentAssignedToJob().getCode(), // DEPTCODE
+                            "java.lang.String", stringCellStyle);
+                    // INVCONTACT
+                    ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                            invoiceOptionalFieldsRow + index2++,
+                            invoiceOptionalFieldsCol,
+                            job.getContact().getFirstName()
+                            + " " + job.getContact().getLastName(), // INVCONTACT
+                            "java.lang.String", stringCellStyle);
+                    // JOBNO
+                    ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                            invoiceOptionalFieldsRow + index2++,
+                            invoiceOptionalFieldsCol,
+                            job.getJobNumber(), // JOBNO
+                            "java.lang.String", stringCellStyle);
+                    // REFNO
+                    ReportUtils.setExcelCellValue(wb, invoiceOptionalFields,
+                            invoiceOptionalFieldsRow + index2++,
+                            invoiceOptionalFieldsCol,
+                            "", // REFNO
+                            "java.lang.String", stringCellStyle);
+
+                    // Prepare for next invoice
                     invoiceDetailsRow = invoiceDetailsRow + index;
+                    invoiceOptionalFieldsRow = invoiceOptionalFieldsRow + index2;
                     invoiceRow++;
 
                 }
@@ -1647,40 +1840,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public void updateCostType() {
-        switch (selectedCostComponent.getType()) {
-            case "FIXED":
-                selectedCostComponent.setIsFixedCost(true);
-                selectedCostComponent.setIsHeading(false);
-                selectedCostComponent.setHours(0.0);
-                selectedCostComponent.setHoursOrQuantity(1.0); // tk org 0.0
-                selectedCostComponent.setRate(selectedCostComponent.getCost()); // tk org 0.0
-                break;
-            case "HEADING":
-                selectedCostComponent.setIsFixedCost(false);
-                selectedCostComponent.setIsHeading(true);
-                selectedCostComponent.setHours(0.0);
-                selectedCostComponent.setHoursOrQuantity(0.0);
-                selectedCostComponent.setRate(0.0);
-                selectedCostComponent.setCost(0.0);
-                break;
-            case "VARIABLE":
-                selectedCostComponent.setIsFixedCost(false);
-                selectedCostComponent.setIsHeading(false);
-                break;
-            case "SUBCONTRACT":
-                selectedCostComponent.setIsFixedCost(true);
-                selectedCostComponent.setIsHeading(false);
-                selectedCostComponent.setHours(0.0);
-                selectedCostComponent.setHoursOrQuantity(0.0);
-                selectedCostComponent.setRate(0.0);
-                break;
-            default:
-                selectedCostComponent.setIsFixedCost(false);
-                selectedCostComponent.setIsHeading(false);
-                break;
-        }
-
-
+        selectedCostComponent.update();
     }
 
     public Boolean getAllowCostEdit() {
