@@ -69,6 +69,7 @@ Email: info@dpbennett.com.jm
 
                     </p:inputText> 
                     
+                    <ui:remove>
                     <h:outputText value="Account:" style="font-weight: bold;" />
                     <p:inputText value="#{financeManager.selectedAccountingCode.account}"    
                                  id="accountingCodeAccount"
@@ -77,6 +78,7 @@ Email: info@dpbennett.com.jm
                         <f:validator validatorId="accountingCodeValidator" />
 
                     </p:inputText> 
+                    </ui:remove>
                     
                     <h:outputText value="Code:" style="font-weight: bold;" />
                     <p:inputText value="#{financeManager.selectedAccountingCode.code}"    
