@@ -593,8 +593,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                job.getJobCostingAndPayment().getDiscount().
-                                        getAccountingCode().getCode(), // IDITEM
+                                getDiscountCodeAbbreviation(job), // IDITEM
                                 "java.lang.String", stringCellStyle);
                     }
                     // IDDIST
@@ -621,8 +620,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                job.getJobCostingAndPayment().getDiscount().
-                                        getAccountingCode().getCode(), // IDDIST
+                                getDiscountCodeAbbreviation(job), // IDDIST
                                 "java.lang.String", stringCellStyle);
                     }
                     // TEXTDESC
@@ -803,7 +801,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                             invoiceOptionalFieldsCol,
                             "REFNO", // REFNO
                             "java.lang.String", stringCellStyle);
-                    
+
                     // OPTFIELD/VALUE                    
                     index2 = 0;
                     ++invoiceOptionalFieldsCol;
@@ -853,6 +851,25 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return null;
     }
 
+    private String getDiscountCodeAbbreviation(Job job) {
+        String currentDiscountCountCode
+                = // This should be a 4-digit code eg 5133
+                job.getJobCostingAndPayment().getDiscount().getAccountingCode().getCode();
+        String deptFullCode = HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
+                job.getDepartmentAssignedToJob());
+
+        // Find an accounting code that contains the department's full code
+        AccountingCode accountingCode
+                = AccountingCode.findByCode(getEntityManager1(),
+                        currentDiscountCountCode + "-" + deptFullCode);
+        if (accountingCode != null) {
+            return accountingCode.getAbbreviation();
+        } else {
+            return job.getJobCostingAndPayment().getDiscount().getAccountingCode().getAbbreviation();
+        }
+
+    }
+
     private String getRevenueCodeAbbreviation(Job job) {
 
         String revenueCodeAbbr = "";
@@ -867,7 +884,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     getEntityManager1(),
                     "Miscellaneous",
                     HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
-                            getCurrentJob().getDepartmentAssignedToJob()));
+                            job.getDepartmentAssignedToJob()));
             if (service != null) {
                 revenueCodeAbbr = service.getAccountingCode().getAbbreviation();
             } else {
@@ -1151,7 +1168,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     public Boolean getCanEditJobCosting() {
-        // Can edit if user belongs to the department to which the job was assigned
+
         return getUser().getPrivilege().getCanBeFinancialAdministrator()
                 || getCurrentJob().getJobCostingAndPayment().getCashPayments().isEmpty();
     }
