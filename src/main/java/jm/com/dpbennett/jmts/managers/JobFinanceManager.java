@@ -584,8 +584,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                job.getJobCostingAndPayment().getTax().
-                                        getAccountingCode().getCode(), // IDITEM
+                                getTaxCodeAbbreviation(job), // IDITEM
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Discount row if any 
@@ -611,8 +610,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                job.getJobCostingAndPayment().getTax().
-                                        getAccountingCode().getCode(), // IDDIST
+                                getTaxCodeAbbreviation(job), // IDDIST
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Discount row if any 
@@ -852,7 +850,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     private String getDiscountCodeAbbreviation(Job job) {
-        String currentDiscountCountCode
+        String currentDiscountCode
                 = // This should be a 4-digit code eg 5133
                 job.getJobCostingAndPayment().getDiscount().getAccountingCode().getCode();
         String deptFullCode = HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
@@ -861,11 +859,31 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         // Find an accounting code that contains the department's full code
         AccountingCode accountingCode
                 = AccountingCode.findByCode(getEntityManager1(),
-                        currentDiscountCountCode + "-" + deptFullCode);
+                        currentDiscountCode + "-" + deptFullCode);
         if (accountingCode != null) {
             return accountingCode.getAbbreviation();
         } else {
             return job.getJobCostingAndPayment().getDiscount().getAccountingCode().getAbbreviation();
+        }
+
+    }
+    
+    private String getTaxCodeAbbreviation(Job job) {
+        String currentTaxCode
+                = // This should be a 4-digit code eg 5133
+                job.getJobCostingAndPayment().getTax().getAccountingCode().getCode();
+        String deptFullCode = HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
+                job.getDepartmentAssignedToJob());
+
+        // Find an accounting code that contains the department's full code
+        AccountingCode accountingCode
+                = AccountingCode.findByCode(getEntityManager1(),
+                        currentTaxCode + "-" + deptFullCode);
+        
+        if (accountingCode != null) {
+            return accountingCode.getAbbreviation();
+        } else {
+            return job.getJobCostingAndPayment().getTax().getAccountingCode().getAbbreviation();
         }
 
     }
