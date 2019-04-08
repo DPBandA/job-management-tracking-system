@@ -75,7 +75,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     public List<Service> completeService(String query) {
 
         try {
-            
+
             return Service.findAllActiveByNameAndAccountingCode(
                     getEntityManager1(),
                     query,
@@ -390,7 +390,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         addService(getCurrentJob(), name);
 
     }
-    
+
     private void addService(Job job, String name) {
         Service service = Service.findByNameAndAccountingCode(
                 getEntityManager1(),
@@ -409,7 +409,8 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
 
     private void removeService(String name) {
         for (int i = 0; i < getCurrentJob().getServices().size(); i++) {
-            if (getCurrentJob().getServices().get(i).getName().equals(name)) {
+//            if (getCurrentJob().getServices().get(i).getName().equals(name)) {
+            if (getCurrentJob().getServices().get(i).getName().contains(name)) {
                 getCurrentJob().getServices().remove(i);
             }
 
@@ -547,7 +548,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
 
         setIsDirty(true);
     }
-    
+
     public void addServices() {
         addServices(getCurrentJob());
     }
