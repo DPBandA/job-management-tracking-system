@@ -247,8 +247,9 @@ public class FinanceManager implements Serializable {
     public List getAccountingCodeTypes() {
         ArrayList valueTypes = new ArrayList();
 
-        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));
+        // tk make this list a system option
         valueTypes.add(new SelectItem("Revenue Account", "Revenue Account"));
+        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));        
         valueTypes.add(new SelectItem("General", "General"));
 
         return valueTypes;
@@ -257,6 +258,7 @@ public class FinanceManager implements Serializable {
     public List getValueTypes() {
         ArrayList valueTypes = new ArrayList();
 
+        // tk make this list a system option
         valueTypes.add(new SelectItem("Percentage", "Percentage"));
         valueTypes.add(new SelectItem("Currency", "Currency"));
         valueTypes.add(new SelectItem("Fixed Cost", "Fixed Cost"));

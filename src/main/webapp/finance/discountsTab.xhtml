@@ -94,6 +94,17 @@ Email: info@dpbennett.com.jm
                 </f:facet>
             </p:cellEditor>                                         
         </p:column> 
+        
+         <p:column headerText="Code">
+            <p:cellEditor>
+                <f:facet name="output"> 
+                    <h:outputText value="#{discount.accountingCode.code}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{discount.accountingCode.code}" style="width:96%"/>
+                </f:facet>
+            </p:cellEditor>                                         
+        </p:column> 
 
         <p:column headerText="Description">
             <p:cellEditor>

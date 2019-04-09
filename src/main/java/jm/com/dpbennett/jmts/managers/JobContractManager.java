@@ -76,11 +76,15 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
 
         try {
 
-            return Service.findAllActiveByNameAndAccountingCode(
+//            return Service.findAllActiveByNameAndAccountingCode(
+//                    getEntityManager1(),
+//                    query,
+//                    HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
+//                            getCurrentJob().getDepartmentAssignedToJob()));
+            return Service.findAllActiveByName(
                     getEntityManager1(),
-                    query,
-                    HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
-                            getCurrentJob().getDepartmentAssignedToJob()));
+                    query);
+
         } catch (Exception e) {
             System.out.println(e);
 
@@ -392,11 +396,14 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     }
 
     private void addService(Job job, String name) {
-        Service service = Service.findByNameAndAccountingCode(
+//        Service service = Service.findByNameAndAccountingCode(
+//                getEntityManager1(),
+//                name,
+//                HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
+//                        job.getDepartmentAssignedToJob()));
+        Service service = Service.findActiveByName(
                 getEntityManager1(),
-                name,
-                HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
-                        job.getDepartmentAssignedToJob()));
+                name);
 
         if (service != null) {
             // Attempt to remove the service to ensure that it's not already added

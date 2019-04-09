@@ -867,7 +867,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
 
     }
-    
+
     private String getTaxCodeAbbreviation(Job job) {
         String currentTaxCode
                 = // This should be a 4-digit code eg 5133
@@ -879,7 +879,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         AccountingCode accountingCode
                 = AccountingCode.findByCode(getEntityManager1(),
                         currentTaxCode + "-" + deptFullCode);
-        
+
         if (accountingCode != null) {
             return accountingCode.getAbbreviation();
         } else {
@@ -889,16 +889,26 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     private String getRevenueCodeAbbreviation(Job job) {
-
         String revenueCodeAbbr = "";
 
         if (!job.getServices().isEmpty()) {
-
             revenueCodeAbbr = job.getServices().get(0).getAccountingCode().getAbbreviation();
 
+            String deptFullCode = HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
+                    job.getDepartmentAssignedToJob());
+
+            // Find an accounting code that contains the department's full code
+            AccountingCode accountingCode
+                    = AccountingCode.findByCode(getEntityManager1(),
+                            revenueCodeAbbr + "-" + deptFullCode);
+
+            if (accountingCode != null) {
+                revenueCodeAbbr = accountingCode.getAbbreviation();
+            } 
+            
         } else {
             // Get and use default accounting code
-            Service service = Service.findByNameAndAccountingCode(
+            Service service = Service.findActiveByNameAndAccountingCode(
                     getEntityManager1(),
                     "Miscellaneous",
                     HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
@@ -911,8 +921,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 revenueCodeAbbr = "MISC";
             }
         }
-
+        
         return revenueCodeAbbr;
+
     }
 
     public Boolean getEdit() {
