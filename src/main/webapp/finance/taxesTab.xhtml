@@ -55,6 +55,25 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
+        
+        <p:toolbarGroup align="right">
+            <p:outputLabel for="activeTaxesOnly" value="Active taxes only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="activeTaxesOnly"
+                                         value="#{financeManager.isActiveTaxesOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:financialAdminTabView:taxesTable"
+                             listener="#{financeManager.doTaxSearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>         
+                
+                <p:tooltip for="activeTaxesOnly" value="Check to show active taxes only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+                
+            </h:panelGroup>
+        </p:toolbarGroup>
     </p:toolbar>    
     <p:dataTable id="taxesTable"                                       
                  var="tax"     

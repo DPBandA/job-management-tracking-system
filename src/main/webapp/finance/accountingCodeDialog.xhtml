@@ -59,7 +59,18 @@ Email: info@dpbennett.com.jm
             </p:toolbar>
 
             <p:panel style="margin-top: 1px;margin-bottom: 1px;">
-                <h:panelGrid columns="2">                
+                <h:panelGrid columns="2">      
+                    <p:outputLabel for="active" value="Active:" style="font-weight: bold;" />  
+                    <h:panelGroup>
+                        <p:selectBooleanCheckbox style="vertical-align: middle"
+                                                 id="active"
+                                                 value="#{financeManager.selectedAccountingCode.active}" />
+
+                        <p:tooltip for="active" value="Check to activate this code" 
+                                   showEffect="fade" hideEffect="fade" />            
+
+                    </h:panelGroup>
+
                     <h:outputText value="Name:" style="font-weight: bold;" />
                     <p:inputText value="#{financeManager.selectedAccountingCode.name}"    
                                  id="accountingCodeName"
@@ -68,18 +79,18 @@ Email: info@dpbennett.com.jm
                         <f:validator validatorId="accountingCodeValidator" />
 
                     </p:inputText> 
-                    
+
                     <ui:remove>
-                    <h:outputText value="Account:" style="font-weight: bold;" />
-                    <p:inputText value="#{financeManager.selectedAccountingCode.account}"    
-                                 id="accountingCodeAccount"
-                                 style="width:300px" >
+                        <h:outputText value="Account:" style="font-weight: bold;" />
+                        <p:inputText value="#{financeManager.selectedAccountingCode.account}"    
+                                     id="accountingCodeAccount"
+                                     style="width:300px" >
 
-                        <f:validator validatorId="accountingCodeValidator" />
+                            <f:validator validatorId="accountingCodeValidator" />
 
-                    </p:inputText> 
+                        </p:inputText> 
                     </ui:remove>
-                    
+
                     <h:outputText value="Code:" style="font-weight: bold;" />
                     <p:inputText value="#{financeManager.selectedAccountingCode.code}"    
                                  id="accountingCode"
@@ -88,7 +99,7 @@ Email: info@dpbennett.com.jm
                         <f:validator validatorId="accountingCodeValidator" />
 
                     </p:inputText> 
-                    
+
                     <h:outputText value="Abbreviation:" style="font-weight: bold;" />
                     <p:inputText value="#{financeManager.selectedAccountingCode.abbreviation}"    
                                  id="accountingCodeAbbrev"

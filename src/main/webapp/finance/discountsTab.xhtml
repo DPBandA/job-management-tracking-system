@@ -55,6 +55,25 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
+
+        <p:toolbarGroup align="right">
+            <p:outputLabel for="activeDiscountsOnly" value="Active discounts only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="activeDiscountsOnly"
+                                         value="#{financeManager.isActiveDiscountsOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:financialAdminTabView:discountsTable"
+                             listener="#{financeManager.doDiscountSearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>         
+                
+                <p:tooltip for="activeDiscountsOnly" value="Check to show active discounts only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+                
+            </h:panelGroup>
+        </p:toolbarGroup>
     </p:toolbar>    
     <p:dataTable id="discountsTable"                                       
                  var="discount"     
@@ -83,7 +102,7 @@ Email: info@dpbennett.com.jm
                 </f:facet>
             </p:cellEditor>                                         
         </p:column>           
-        
+
         <p:column headerText="Value">
             <p:cellEditor>
                 <f:facet name="output"> 
@@ -94,8 +113,8 @@ Email: info@dpbennett.com.jm
                 </f:facet>
             </p:cellEditor>                                         
         </p:column> 
-        
-         <p:column headerText="Code">
+
+        <p:column headerText="Code">
             <p:cellEditor>
                 <f:facet name="output"> 
                     <h:outputText value="#{discount.accountingCode.code}" />

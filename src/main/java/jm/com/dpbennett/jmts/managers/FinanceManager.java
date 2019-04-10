@@ -83,6 +83,9 @@ public class FinanceManager implements Serializable {
     private PurchasingManager purchasingManager;
     private String searchType;
     private DatePeriod dateSearchPeriod;
+    private Boolean isActiveDiscountsOnly;
+    private Boolean isActiveTaxesOnly;
+    private Boolean isActiveAccountingCodesOnly;
 
     /**
      * Creates a new instance of JobManagerBean
@@ -97,7 +100,8 @@ public class FinanceManager implements Serializable {
         try {
             em = getEntityManager1();
 
-            List<AccountingCode> codes = AccountingCode.findAccountingCodesByNameAndDescription(em, query);
+            List<AccountingCode> codes = AccountingCode.
+                    findActiveAccountingCodesByNameAndDescription(em, query);
 
             return codes;
 
@@ -178,7 +182,7 @@ public class FinanceManager implements Serializable {
     public ArrayList getSearchTypes() {
         ArrayList searchTypes = new ArrayList();
 
-        //searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
+        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
         searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
 
         return searchTypes;
@@ -249,7 +253,7 @@ public class FinanceManager implements Serializable {
 
         // tk make this list a system option
         valueTypes.add(new SelectItem("Revenue Account", "Revenue Account"));
-        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));        
+        valueTypes.add(new SelectItem("Distribution Code", "Distribution Code"));
         valueTypes.add(new SelectItem("General", "General"));
 
         return valueTypes;
@@ -273,7 +277,7 @@ public class FinanceManager implements Serializable {
     public void editTax() {
         PrimeFacesUtils.openDialog(null, "taxDialog", true, true, true, 0, 500);
     }
-    
+
     public void editDiscount() {
         PrimeFacesUtils.openDialog(null, "discountDialog", true, true, true, 0, 500);
     }
@@ -313,7 +317,7 @@ public class FinanceManager implements Serializable {
         }
 
     }
-    
+
     public void onDiscountCellEdit(CellEditEvent event) {
         int index = event.getRowIndex();
         Object oldValue = event.getOldValue();
@@ -342,7 +346,7 @@ public class FinanceManager implements Serializable {
 
     public List<AccountingCode> getFoundAccountingCodes() {
         if (foundAccountingCodes == null) {
-            foundAccountingCodes = AccountingCode.findAllAccountingCodes(getEntityManager1());
+            doAccountingCodeSearch();
         }
 
         return foundAccountingCodes;
@@ -354,7 +358,7 @@ public class FinanceManager implements Serializable {
 
     public List<Tax> getFoundTaxes() {
         if (foundTaxes == null) {
-            foundTaxes = Tax.findAllTaxes(getEntityManager1());
+            doTaxSearch();
         }
 
         return foundTaxes;
@@ -366,7 +370,7 @@ public class FinanceManager implements Serializable {
 
     public List<Discount> getFoundDiscounts() {
         if (foundDiscounts == null) {
-            foundDiscounts = Discount.findAllDiscounts(getEntityManager1());
+            doDiscountSearch();
         }
 
         return foundDiscounts;
@@ -378,31 +382,37 @@ public class FinanceManager implements Serializable {
 
     public void doAccountingCodeSearch() {
 
-        foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
-                getAccountingCodeSearchText());
-
-        if (foundAccountingCodes == null) {
-            foundAccountingCodes = new ArrayList<>();
+        if (getIsActiveAccountingCodesOnly()) {
+            foundAccountingCodes = AccountingCode.findActiveAccountingCodesByNameAndDescription(getEntityManager1(),
+                    getAccountingCodeSearchText());
         }
+        else {
+            foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
+                    getAccountingCodeSearchText());
+        }
+
     }
 
     public void doTaxSearch() {
 
-        foundTaxes = Tax.findTaxesByNameAndDescription(getEntityManager1(),
-                getTaxSearchText());
-
-        if (foundTaxes == null) {
-            foundTaxes = new ArrayList<>();
+        if (getIsActiveTaxesOnly()) {
+            foundTaxes = Tax.findActiveTaxesByNameAndDescription(getEntityManager1(),
+                    getTaxSearchText());
+        } else {
+            foundTaxes = Tax.findTaxesByNameAndDescription(getEntityManager1(),
+                    getTaxSearchText());
         }
+
     }
 
     public void doDiscountSearch() {
 
-        foundDiscounts = Discount.findDiscountsByNameAndDescription(getEntityManager1(),
-                getDiscountSearchText());
-
-        if (foundDiscounts == null) {
-            foundDiscounts = new ArrayList<>();
+        if (getIsActiveDiscountsOnly()) {
+            foundDiscounts = Discount.findActiveDiscountsByNameAndDescription(getEntityManager1(),
+                    getDiscountSearchText());
+        } else {
+            foundDiscounts = Discount.findDiscountsByNameAndDescription(getEntityManager1(),
+                    getDiscountSearchText());
         }
     }
 
@@ -691,6 +701,10 @@ public class FinanceManager implements Serializable {
 
     public void createNewSupplier() {
         selectedSupplier = new Supplier("", true);
+    }
+    
+    public void addNewSupplier() {
+        selectedSupplier = new Supplier("", true);
 
         openSuppliersTab();
 
@@ -794,10 +808,37 @@ public class FinanceManager implements Serializable {
         discountSearchText = "";
         supplierSearchText = "";
         foundSuppliers = new ArrayList<>();
-        searchType = "Suppliers";
+        searchType = "Purchase requisitions";
         dateSearchPeriod = new DatePeriod("This year", "year",
                 "requisitionDate", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
+        isActiveDiscountsOnly = true;
+        isActiveTaxesOnly = true;
+        isActiveAccountingCodesOnly = true;
+    }
+
+    public Boolean getIsActiveAccountingCodesOnly() {
+        return isActiveAccountingCodesOnly;
+    }
+
+    public void setIsActiveAccountingCodesOnly(Boolean isActiveAccountingCodesOnly) {
+        this.isActiveAccountingCodesOnly = isActiveAccountingCodesOnly;
+    }
+
+    public Boolean getIsActiveTaxesOnly() {
+        return isActiveTaxesOnly;
+    }
+
+    public void setIsActiveTaxesOnly(Boolean isActiveTaxesOnly) {
+        this.isActiveTaxesOnly = isActiveTaxesOnly;
+    }
+
+    public Boolean getIsActiveDiscountsOnly() {
+        return isActiveDiscountsOnly;
+    }
+
+    public void setIsActiveDiscountsOnly(Boolean isActiveDiscountsOnly) {
+        this.isActiveDiscountsOnly = isActiveDiscountsOnly;
     }
 
     public String getDiscountSearchText() {

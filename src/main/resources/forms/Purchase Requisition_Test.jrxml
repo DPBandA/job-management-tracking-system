@@ -202,7 +202,7 @@ WHERE
 			</staticText>
 			<image>
 				<reportElement x="2" y="2" width="170" height="42" uuid="dca0a256-6da6-40fc-9c33-3a10940310b0"/>
-				<imageExpression><![CDATA["/home/desbenn/Projects/waccar/src/main/webapp/images/BSJ Logo - H41.png"]]></imageExpression>
+				<imageExpression><![CDATA["/home/desbenn/Projects/web-application-resources/src/main/webapp/images/BSJ Logo - H41.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="180" y="16" width="200" height="14" forecolor="#003366" uuid="5b32076e-3061-4a79-be98-cd298c1224f1"/>

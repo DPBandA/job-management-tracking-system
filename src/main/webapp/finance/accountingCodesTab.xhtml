@@ -55,6 +55,25 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
             </p:inputText>
         </p:toolbarGroup>
+
+        <p:toolbarGroup align="right">
+            <p:outputLabel for="activeAccountingCodesOnly" value="Active accounting codes only: " />  
+            <h:panelGroup>
+                <p:selectBooleanCheckbox style="vertical-align: middle"
+                                         id="activeAccountingCodesOnly"
+                                         value="#{financeManager.isActiveAccountingCodesOnly}" >
+                    <p:ajax  update=":mainTabViewForm:mainTabView:financialAdminTabView:accountingCodesTable"
+                             listener="#{financeManager.doAccountingCodeSearch}"
+                             event="change"                                      
+                             process="@this"/>
+                </p:selectBooleanCheckbox>         
+
+                <p:tooltip for="activeAccountingCodesOnly" value="Check to show active codes only" 
+                           showEffect="fade" hideEffect="fade" />
+                <p:spacer width="15" />                
+
+            </h:panelGroup>
+        </p:toolbarGroup>
     </p:toolbar>    
     <p:dataTable id="accountingCodesTable"                                       
                  var="accountingCode"     
@@ -94,7 +113,7 @@ Email: info@dpbennett.com.jm
                 </f:facet>
             </p:cellEditor>                                         
         </p:column>
-        
+
         <p:column headerText="Abbreviation">
             <p:cellEditor>
                 <f:facet name="output"> 

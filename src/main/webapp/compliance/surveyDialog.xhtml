@@ -278,7 +278,7 @@ Email: info@dpbennett.com.jm
                                         itemLabel="#{contact.name}" 
                                         completeMethod="#{complianceManager.completeConsigneetContact}">
 
-                            <f:attribute name="currentClientId" value="#{complianceManager.currentComplianceSurvey.consignee.id}" />
+                            <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.consignee}" />
 
                             <p:ajax event="itemSelect"
                                     listener="#{complianceManager.updateSurvey}"  

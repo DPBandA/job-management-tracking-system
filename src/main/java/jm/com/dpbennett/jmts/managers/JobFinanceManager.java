@@ -304,7 +304,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         try {
             em = getEntityManager1();
 
-            List<Tax> taxes = Tax.findTaxesByNameAndDescription(em, query);
+            List<Tax> taxes = Tax.findActiveTaxesByNameAndDescription(em, query);
 
             return taxes;
 
@@ -319,7 +319,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         try {
             em = getEntityManager1();
 
-            List<Discount> discounts = Discount.findDiscountsByNameAndDescription(em, query);
+            List<Discount> discounts = Discount.findActiveDiscountsByNameAndDescription(em, query);
 
             return discounts;
 
@@ -858,7 +858,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
         // Find an accounting code that contains the department's full code
         AccountingCode accountingCode
-                = AccountingCode.findByCode(getEntityManager1(),
+                = AccountingCode.findActiveByCode(getEntityManager1(),
                         currentDiscountCode + "-" + deptFullCode);
         if (accountingCode != null) {
             return accountingCode.getAbbreviation();
@@ -877,7 +877,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
         // Find an accounting code that contains the department's full code
         AccountingCode accountingCode
-                = AccountingCode.findByCode(getEntityManager1(),
+                = AccountingCode.findActiveByCode(getEntityManager1(),
                         currentTaxCode + "-" + deptFullCode);
 
         if (accountingCode != null) {
@@ -899,7 +899,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
             // Find an accounting code that contains the department's full code
             AccountingCode accountingCode
-                    = AccountingCode.findByCode(getEntityManager1(),
+                    = AccountingCode.findActiveByCode(getEntityManager1(),
                             revenueCodeAbbr + "-" + deptFullCode);
 
             if (accountingCode != null) {

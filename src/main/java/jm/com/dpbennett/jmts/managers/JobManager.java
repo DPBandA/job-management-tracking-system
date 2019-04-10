@@ -365,10 +365,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (getUser().getModules().getAdminModule()) {
             mainTabView.openTab("System Administration");
         }
-//        if (getUser().getModules().getFinancialAdminModule()) {
-//            // tk The option to choose which tab to add will be implemented in the future.
-//            mainTabView.openTab("Purchase Requisitions");
-//        }
+        if (getUser().getModules().getFinancialAdminModule()) {
+            // tk The feature to choose which tab to add will be implemented in the future.
+            mainTabView.openTab("Purchase Requisitions");
+        }
         if (getUser().getModules().getLegalOfficeModule()) {
             mainTabView.openTab("Document Browser");
         }
@@ -546,7 +546,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchTypes.add(new SelectItem("Unapproved job costings", "Unapproved job costings"));
         searchTypes.add(new SelectItem("Appr'd & uninv'd jobs", "Appr'd & uninv'd jobs"));
         searchTypes.add(new SelectItem("Incomplete jobs", "Incomplete jobs"));
-        //searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
+        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
         searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
 
         return searchTypes;
