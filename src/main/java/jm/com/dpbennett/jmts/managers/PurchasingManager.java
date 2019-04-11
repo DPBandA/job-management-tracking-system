@@ -96,6 +96,18 @@ public class PurchasingManager implements Serializable {
     public PurchasingManager() {
         init();
     }
+    
+    public Boolean getCanExportPurchaseReqForm() {
+        return getIsSelectedPurchaseReqIsValid();
+    }
+    
+    public Boolean getCanExportPurchaseOrderForm() {
+        return getIsProcurementOfficer() && getIsSelectedPurchaseReqIsValid();
+    }
+    
+    public Boolean getIsProcurementOfficer() {
+        return getUser().getEmployee().isProcurementOfficer();
+    }
 
     public String getPurchaseReqEmailContent() {
         return purchaseReqEmailContent;
