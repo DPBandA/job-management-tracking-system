@@ -546,8 +546,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         searchTypes.add(new SelectItem("Unapproved job costings", "Unapproved job costings"));
         searchTypes.add(new SelectItem("Appr'd & uninv'd jobs", "Appr'd & uninv'd jobs"));
         searchTypes.add(new SelectItem("Incomplete jobs", "Incomplete jobs"));
-        searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
-        searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
+        //searchTypes.add(new SelectItem("Purchase requisitions", "Purchase requisitions"));
+        //searchTypes.add(new SelectItem("Suppliers", "Suppliers"));
 
         return searchTypes;
     }
@@ -557,8 +557,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         switch (searchType) {
             case "Suppliers":
-//                dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
-//                dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
+                //  dateSearchFields.add(new SelectItem("dateEntered", "Date entered"));
+                //  dateSearchFields.add(new SelectItem("dateEdited", "Date edited"));
                 break;
             case "Purchase requisitions":
                 dateSearchFields.add(new SelectItem("requisitionDate", "Requisition date"));
