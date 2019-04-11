@@ -2420,19 +2420,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             getJobFinanceManager().updateCreditStatus(null);
         }
 
-        // Set the client's billing address if it is set.
-        if (currentJob.getClient().getBillingAddress() != null) {
-            currentJob.setBillingAddress(currentJob.getClient().getBillingAddress());
-        } else {
-            currentJob.setBillingAddress(new Address());
-        }
-
-        // Set the client's billing contact if it is set
-        if (currentJob.getClient().getBillingContact() != null) {
-            currentJob.setContact(currentJob.getClient().getBillingContact());
-        } else {
-            currentJob.setContact(new Contact());
-        }
+        currentJob.setBillingAddress(new Address());
+        currentJob.setContact(new Contact());
 
         // Set default tax
         if (currentJob.getClient().getDefaultTax().getId() != null) {
