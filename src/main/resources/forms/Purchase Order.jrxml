@@ -273,7 +273,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{PURCHASEORDERNUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="440" y="47" width="90" height="11" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="6778afe6-1cd8-4d3f-9d90-b7344bd61494"/>
+				<reportElement mode="Transparent" x="440" y="47" width="131" height="11" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="6778afe6-1cd8-4d3f-9d90-b7344bd61494"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -285,7 +285,7 @@ WHERE
 				<text><![CDATA[Number to be quoted]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="440" y="58" width="90" height="11" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="a42cee42-190d-4df7-8250-6737482b4ca6"/>
+				<reportElement mode="Transparent" x="440" y="58" width="131" height="11" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="a42cee42-190d-4df7-8250-6737482b4ca6"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
@@ -595,7 +595,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{addressLine2}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="440" y="-34" width="90" height="11" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="afd23513-cbce-4330-b0fe-5459d1bf082b"/>
+				<reportElement mode="Transparent" x="440" y="-34" width="131" height="11" forecolor="#6C4256" backcolor="rgba(102, 153, 204, 0.49019608)" uuid="afd23513-cbce-4330-b0fe-5459d1bf082b"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="0.0"/>
