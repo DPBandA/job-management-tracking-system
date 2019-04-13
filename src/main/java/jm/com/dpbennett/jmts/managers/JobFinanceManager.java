@@ -189,44 +189,53 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public void invoiceSelectedJobCostings() {
         int numInvoicesCreated = 0;
 
-        if (getJobManager().getSelectedJobs().length > 0) {
-            EntityManager em = getEntityManager1();
+        try {
+            if (getJobManager().getSelectedJobs().length > 0) {
+                EntityManager em = getEntityManager1();
 
-            for (Job job : getJobManager().getSelectedJobs()) {
-                if (!job.getJobCostingAndPayment().getInvoiced()) {
-                    if (canInvoiceJobCosting(job)) {
-                        numInvoicesCreated++;
+                for (Job job : getJobManager().getSelectedJobs()) {
+                    if (!job.getJobCostingAndPayment().getInvoiced()) {
+                        if (canInvoiceJobCosting(job)) {
+                            numInvoicesCreated++;
 
-                        job.getJobCostingAndPayment().setInvoiced(true);
-                        job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
-                        job.getJobCostingAndPayment().setCostingInvoicedBy(
-                                getUser().getEmployee());
-                        job.getJobCostingAndPayment().setIsDirty(true);
+                            job.getJobCostingAndPayment().setInvoiced(true);
+                            job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
+                            job.getJobCostingAndPayment().setCostingInvoicedBy(
+                                    getUser().getEmployee());
+                            job.getJobCostingAndPayment().setIsDirty(true);
 
-                        job.save(em);
+                            job.save(em);
+                        } else {
+
+                            return;
+                        }
+
                     } else {
+                        PrimeFacesUtils.addMessage("Aready Invoiced",
+                                "The job costing for " + job.getJobNumber() + " was already invoiced",
+                                FacesMessage.SEVERITY_WARN);
 
                         return;
                     }
-
-                } else {
-                    PrimeFacesUtils.addMessage("Aready Invoiced",
-                            "The job costing for " + job.getJobNumber() + " was already invoiced",
-                            FacesMessage.SEVERITY_WARN);
-
-                    return;
                 }
+
+                PrimeFacesUtils.addMessage("Invoice(s) Created",
+                        "" + numInvoicesCreated + " invoice(s) created",
+                        FacesMessage.SEVERITY_INFO);
+
+            } else {
+                PrimeFacesUtils.addMessage("No Selection",
+                        "No job costing was selected",
+                        FacesMessage.SEVERITY_WARN);
             }
-
-            PrimeFacesUtils.addMessage("Invoice(s) Created",
-                    "" + numInvoicesCreated + " invoice(s) created",
-                    FacesMessage.SEVERITY_INFO);
-
-        } else {
-            PrimeFacesUtils.addMessage("No Selection",
-                    "No job costing was selected",
-                    FacesMessage.SEVERITY_WARN);
+        } catch (Exception e) {
+            System.out.println("Error occurred while invoicing: " + e);
+            PrimeFacesUtils.addMessage("Invoicing Error",
+                    "An error occurred while creating one or more invoices. "
+                    + "Please check that all required information such as a client Id is provided.",
+                    FacesMessage.SEVERITY_ERROR);
         }
+
     }
 
     public Tax getTax() {
@@ -249,8 +258,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 tax = Tax.findDefault(getEntityManager1(), "0.0");
                 getCurrentJob().getJobCostingAndPayment().setTax(tax);
             }
-
-            getCurrentJob().getJobCostingAndPayment().setIsDirty(true);
         }
 
         return tax;
@@ -285,8 +292,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             } else {
                 getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
             }
-
-            getCurrentJob().getJobCostingAndPayment().setIsDirty(true);
 
         }
 
@@ -889,10 +894,11 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     private String getRevenueCodeAbbreviation(Job job) {
-        String revenueCodeAbbr = "";
+        String revenueCode;
+        String revenueCodeAbbr;
 
         if (!job.getServices().isEmpty()) {
-            revenueCodeAbbr = job.getServices().get(0).getAccountingCode().getAbbreviation();
+            revenueCode = job.getServices().get(0).getAccountingCode().getCode();
 
             String deptFullCode = HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
                     job.getDepartmentAssignedToJob());
@@ -900,12 +906,14 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             // Find an accounting code that contains the department's full code
             AccountingCode accountingCode
                     = AccountingCode.findActiveByCode(getEntityManager1(),
-                            revenueCodeAbbr + "-" + deptFullCode);
+                            revenueCode + "-" + deptFullCode);
 
             if (accountingCode != null) {
                 revenueCodeAbbr = accountingCode.getAbbreviation();
-            } 
-            
+            } else {
+                revenueCodeAbbr = "MISC";
+            }
+
         } else {
             // Get and use default accounting code
             Service service = Service.findActiveByNameAndAccountingCode(
@@ -913,6 +921,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     "Miscellaneous",
                     HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
                             job.getDepartmentAssignedToJob()));
+
             if (service != null) {
                 revenueCodeAbbr = service.getAccountingCode().getAbbreviation();
             } else {
@@ -921,7 +930,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 revenueCodeAbbr = "MISC";
             }
         }
-        
+
         return revenueCodeAbbr;
 
     }

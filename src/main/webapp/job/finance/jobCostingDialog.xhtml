@@ -124,7 +124,6 @@ Email: info@dpbennett.com.jm
                     <p:spacer height="0" width="10"/>
                     <p:inputTextarea value="#{jobFinanceManager.currentJob.jobDescription}" 
                                      id="jobDescription"
-                                     disabled="#{jobFinanceManager.isJobCompleted}" 
                                      rows="2" 
                                      style="width: 300px" >
 
@@ -151,7 +150,6 @@ Email: info@dpbennett.com.jm
                                             value="#{jobFinanceManager.selectedJobCostingTemplate}"
                                             title="Choose an existing costing template name"                                                                                    
                                             scrollHeight="200" 
-                                            disabled="#{jobFinanceManager.isJobCompleted}" 
                                             forceSelection="true"
                                             completeMethod="#{jobFinanceManager.completeJobCostingAndPaymentName}">
                                 <p:ajax event="itemSelect"                                    
@@ -168,7 +166,6 @@ Email: info@dpbennett.com.jm
                                            value="Template name: " />
                             <p:inputText id="jobCostingsTemplateName"
                                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.name}"
-                                         disabled="#{jobFinanceManager.isJobCompleted}" 
                                          style="width: 150px;">
                                 <p:ajax event="change"
                                         global="false"
@@ -186,7 +183,6 @@ Email: info@dpbennett.com.jm
                         <p:commandButton title="Add new cost component"
                                          value="New"
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
-                                         disabled="#{jobFinanceManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
                                          onstart="PF('longProcessDialogVar').show();"
                                          oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
@@ -292,7 +288,6 @@ Email: info@dpbennett.com.jm
 
                     <p:column style="width:32px" >
                         <p:menuButton id="toolsButton" 
-                                      disabled="#{jobFinanceManager.isJobCompleted}" 
                                       title="Edit or delete cost component"
                                       icon="ui-icon-pencil" >
                             <p:menuitem>                       
@@ -300,7 +295,7 @@ Email: info@dpbennett.com.jm
                                     value="Edit"
                                     style="width: 300%;text-align: left;background: none;border: 0;"
                                     actionListener="#{jobFinanceManager.editCostComponent}"
-                                    disabled="#{!costComponent.isEditable or jobFinanceManager.isJobCompleted}"
+                                    disabled="#{!costComponent.isEditable}"
                                     update=":costingComponentDialogForm"
                                     oncomplete="PF('costingComponentDialog').show();"
                                     icon="ui-icon ui-icon-pencil"
@@ -316,7 +311,6 @@ Email: info@dpbennett.com.jm
                                 <p:commandButton   
                                     value="Delete"
                                     style="width: 300%;text-align: left;background: none;border: 0;"
-                                    disabled="#{jobFinanceManager.isJobCompleted}"
                                     onclick="costComponentDeleteConfirm.show();"
                                     icon="ui-icon-trash"
                                     process="@this">
@@ -336,7 +330,6 @@ Email: info@dpbennett.com.jm
                         <p:commandButton title="Add new cost component"
                                          value="New"
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
-                                         disabled="#{jobFinanceManager.isJobCompleted}"
                                          update=":costingComponentDialogForm"
                                          onstart="PF('longProcessDialogVar').show();"
                                          oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"

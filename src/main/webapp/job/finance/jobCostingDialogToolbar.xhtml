@@ -26,7 +26,6 @@ Email: info@dpbennett.com.jm
     <p:toolbar id="jobCostingAndPaymentToolbar">
         <p:toolbarGroup align="left" >  
             <p:commandButton value="Ok"
-                             disabled="#{jobFinanceManager.isJobCompleted}"
                              onstart="PF('longProcessDialogVar').show();"
                              actionListener="#{jobFinanceManager.okJobCosting}"                         
                              oncomplete="PF('longProcessDialogVar').hide();"
@@ -46,12 +45,12 @@ Email: info@dpbennett.com.jm
                 <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.costingCompleted}" 
                                          id="prepared"
                                          style="vertical-align: bottom;"
-                                         disabled="#{jobFinanceManager.isJobCompleted}" 
                                          itemLabel="Prepared" >
                     <p:ajax global="true" 
                             listener="#{jobFinanceManager.prepareJobCosting}"
                             update="@this,costingDate,costingApprovalDate,costingInvoiceDate,jobCosting_growl,exportJobCostingButton1"
                             process="@form"/>
+                    
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>
             <p:spacer width="10"/>
