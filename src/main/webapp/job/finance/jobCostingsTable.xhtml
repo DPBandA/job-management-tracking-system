@@ -31,7 +31,7 @@ Email: info@dpbennett.com.jm
                  editable="true" 
                  editMode="cell"
                  rowStyleClass="#{job.rowStyle}"
-                 selection="#{jobManager.selectedJobs}"
+                 selection="#{jobManager.selectedJobs}" 
                  resizableColumns="false"                 
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
@@ -41,12 +41,15 @@ Email: info@dpbennett.com.jm
                 oncomplete="PF('longProcessDialogVar').hide();" />
 
         <p:ajax event="cellEdit" listener="#{jobManager.onJobCostingCellEdit}" />
+        <p:ajax event="rowSelect" listener="#{jobManager.onJobCostingSelect}" update="" />
+        <p:ajax event="rowUnselect" listener="#{jobManager.onJobCostingUnSelect}" update="" />
 
         <f:facet name="header">
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
-        <p:column selectionMode="multiple" style="width:20px;" />  
+        <p:column selectionMode="multiple" 
+                  style="width:20px;" />  
 
         <p:column sortBy="#{job.jobNumber}" >
             <f:facet name="header">

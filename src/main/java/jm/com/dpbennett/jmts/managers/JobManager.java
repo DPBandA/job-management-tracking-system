@@ -90,6 +90,7 @@ import jm.com.dpbennett.wal.utils.ReportUtils;
 import jm.com.dpbennett.wal.utils.TabPanel;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.UnselectEvent;
 
 /**
  *
@@ -303,6 +304,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      */
     public void setAccPacCustomer(AccPacCustomer accPacCustomer) {
         this.accPacCustomer = accPacCustomer;
+    }
+    
+    public void onJobCostingSelect(SelectEvent event) {
+        System.out.println("job costing selected.");
+    }
+    
+    public void onJobCostingUnSelect(UnselectEvent event) {
+        System.out.println("job costing unselected.");
     }
 
     /**
@@ -1119,7 +1128,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         if (checkUserJobEntryPrivilege()) {
             createJob(em, false);
             getJobFinanceManager().setEnableOnlyPaymentEditing(false);
-            PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 875);
+            PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 975);
             openJobBrowser();
         } else {
             // tk test this code with user that does not have the required privilege.
@@ -2045,11 +2054,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void editJob() {
         getCurrentJob().getJobStatusAndTracking().setEditStatus("        ");
-        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 875);
+        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 975);
     }
 
     public void editJobCostingAndPayment() {
-        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 875);
+        PrimeFacesUtils.openDialog(null, "jobDialog", true, true, true, 600, 975);
     }
 
     public String getJobAssignee() {
