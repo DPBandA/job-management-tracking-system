@@ -307,11 +307,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
     
     public void onJobCostingSelect(SelectEvent event) {
-        System.out.println("job costing selected.");
     }
     
     public void onJobCostingUnSelect(UnselectEvent event) {
-        System.out.println("job costing unselected.");
     }
 
     /**
