@@ -185,6 +185,29 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
 
     }
+    
+    public Boolean invoiceJobCosting(Job job, Boolean invoice) {
+        
+        prepareToInvoiceJobCosting(job);
+        
+        if (canInvoiceJobCosting(job)) {
+            if (invoice) {
+                job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
+                job.getJobCostingAndPayment().setCostingInvoicedBy(getUser().getEmployee());
+            } else {
+                job.getJobStatusAndTracking().setDateCostingInvoiced(null);
+                job.getJobCostingAndPayment().setCostingInvoicedBy(null);
+            }
+            setJobCostingAndPaymentDirty(job, true);
+            
+            return true;
+        } else {
+            // Reset invoiced status
+            job.getJobCostingAndPayment().setInvoiced(!invoice);
+            
+            return false;
+        }
+    }
 
     public void invoiceSelectedJobCostings() {
         int numInvoicesCreated = 0;
@@ -195,20 +218,27 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
                 for (Job job : getJobManager().getSelectedJobs()) {
                     if (!job.getJobCostingAndPayment().getInvoiced()) {
-                        if (canInvoiceJobCosting(job)) {
-                            numInvoicesCreated++;
-
-                            job.getJobCostingAndPayment().setInvoiced(true);
-                            job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
-                            job.getJobCostingAndPayment().setCostingInvoicedBy(
-                                    getUser().getEmployee());
-                            job.getJobCostingAndPayment().setIsDirty(true);
-
-                            job.save(em);
-                        } else {
-
-                            return;
-                        }
+//                        if (canInvoiceJobCosting(job)) {
+//                            numInvoicesCreated++;
+//
+//                            job.getJobCostingAndPayment().setInvoiced(true);
+//                            job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
+//                            job.getJobCostingAndPayment().setCostingInvoicedBy(
+//                                    getUser().getEmployee());
+//                            job.getJobCostingAndPayment().setIsDirty(true);
+//
+//                            job.save(em);
+//                        } else {
+//
+//                            return;
+//                        }
+                         if (invoiceJobCosting(job, true)) {                             
+                             job.save(em);
+                             numInvoicesCreated++;
+                         }
+                         else {
+                             return;
+                         }                    
 
                     } else {
                         PrimeFacesUtils.addMessage("Aready Invoiced",
@@ -237,37 +267,49 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
 
     }
-
-    public Tax getTax() {
-        Tax tax = getCurrentJob().getJobCostingAndPayment().getTax();
+    
+    public Double getTotalTax(Job job) {
+        return job.getJobCostingAndPayment().getTotalTax();
+    }
+    
+    public Double getTotalDiscount(Job job) {
+        return job.getJobCostingAndPayment().getTotalDiscount();
+    }
+    
+    public Tax getTax(Job job) {
+        Tax tax = job.getJobCostingAndPayment().getTax();
 
         // Handle the case where the tax is not set
         if (tax.getId() == null) {
-            if (getCurrentJob().getJobCostingAndPayment().getPercentageGCT() != null) {
+            if (job.getJobCostingAndPayment().getPercentageGCT() != null) {
                 // Find and use tax object 
                 Tax tax2 = Tax.findByValue(getEntityManager1(),
-                        Double.parseDouble(getCurrentJob().getJobCostingAndPayment().getPercentageGCT()));
+                        Double.parseDouble(job.getJobCostingAndPayment().getPercentageGCT()));
                 if (tax2 != null) {
                     tax = tax2;
-                    getCurrentJob().getJobCostingAndPayment().setTax(tax2);
+                    job.getJobCostingAndPayment().setTax(tax2);
                 } else {
                     tax = Tax.findDefault(getEntityManager1(), "0.0");
-                    getCurrentJob().getJobCostingAndPayment().setTax(tax);
+                    job.getJobCostingAndPayment().setTax(tax);
                 }
             } else {
                 tax = Tax.findDefault(getEntityManager1(), "0.0");
-                getCurrentJob().getJobCostingAndPayment().setTax(tax);
+                job.getJobCostingAndPayment().setTax(tax);
             }
         }
 
         return tax;
     }
 
+    public Tax getTax() {
+        return getTax(getCurrentJob());
+    }
+
     public void setTax(Tax tax) {
 
         getCurrentJob().getJobCostingAndPayment().setTax(tax);
     }
-
+    
     public Discount getDiscount() {
 
         Discount discount = getCurrentJob().getJobCostingAndPayment().getDiscount();
@@ -291,6 +333,36 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
             } else {
                 getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
+            }
+
+        }
+
+        return discount;
+    }
+
+    public Discount getDiscount(Job job) {
+
+        Discount discount = job.getJobCostingAndPayment().getDiscount();
+
+        // Handle the case where the discount object is not set.
+        if (discount.getId() == null) {
+            discount = Discount.findByValueAndType(
+                    getEntityManager1(),
+                    job.getJobCostingAndPayment().getDiscountValue(),
+                    job.getJobCostingAndPayment().getDiscountType());
+
+            if (discount == null) {
+
+                discount = Discount.findDefault(
+                        getEntityManager1(),
+                        job.getJobCostingAndPayment().getDiscountValue().toString(),
+                        job.getJobCostingAndPayment().getDiscountValue(),
+                        job.getJobCostingAndPayment().getDiscountType());
+
+                job.getJobCostingAndPayment().setDiscount(discount);
+
+            } else {
+                job.getJobCostingAndPayment().setDiscount(discount);
             }
 
         }
@@ -427,8 +499,10 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             doubleCellStyle.setDataFormat(doubleFormat.getFormat("#,##0.00"));
             XSSFCellStyle dateCellStyle = wb.createCellStyle();
             CreationHelper createHelper = wb.getCreationHelper();
+//            dateCellStyle.setDataFormat(
+//                    createHelper.createDataFormat().getFormat("m/d/yyyy"));
             dateCellStyle.setDataFormat(
-                    createHelper.createDataFormat().getFormat("m/d/yyyy"));
+                    createHelper.createDataFormat().getFormat("M/D/YYYY"));
 
             // Output stream for modified Excel file
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -446,6 +520,8 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     invoiceCol = 0;
                     invoiceDetailsCol = 0;
                     invoiceOptionalFieldsCol = 0;
+                    
+                    prepareToInvoiceJobCosting(job);
 
                     // Fill out the Invoices sheet
                     // CNTBTCH (batch number)
@@ -507,7 +583,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Integer", integerCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -515,7 +591,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Integer", integerCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -533,7 +609,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Integer", integerCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -541,7 +617,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Integer", integerCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -559,7 +635,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Integer", integerCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -567,7 +643,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Integer", integerCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -585,7 +661,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -593,7 +669,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -611,7 +687,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -619,7 +695,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -637,7 +713,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -645,7 +721,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -663,7 +739,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -671,7 +747,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.String", stringCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -689,7 +765,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Integer", integerCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -697,7 +773,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Integer", integerCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -715,19 +791,19 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Double", doubleCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                job.getJobCostingAndPayment().getTotalTax(), // AMTPRIC
+                                getTotalTax(job), // AMTPRIC
                                 "java.lang.Double", doubleCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                -job.getJobCostingAndPayment().getTotalDiscount(), // AMTPRIC
+                                -getTotalDiscount(job), // AMTPRIC
                                 "java.lang.Double", doubleCellStyle);
                     }
                     // AMTEXTN
@@ -741,19 +817,19 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                                 "java.lang.Double", doubleCellStyle);
                     }
                     // Add Tax row if any 
-                    if (job.getJobCostingAndPayment().getTax().getTaxValue() > 0.0) {
+                    if (getTax(job).getTaxValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                job.getJobCostingAndPayment().getTotalTax(), // AMTEXTN
+                                getTotalTax(job), // AMTEXTN
                                 "java.lang.Double", doubleCellStyle);
                     }
                     // Add Discount row if any 
-                    if (job.getJobCostingAndPayment().getDiscount().getDiscountValue() > 0.0) {
+                    if (getDiscount(job).getDiscountValue() > 0.0) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
-                                -job.getJobCostingAndPayment().getTotalDiscount(), // AMTEXTN
+                                -getTotalDiscount(job), // AMTEXTN
                                 "java.lang.Double", doubleCellStyle);
                     }
 
@@ -857,7 +933,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private String getDiscountCodeAbbreviation(Job job) {
         String currentDiscountCode
                 = // This should be a 4-digit code eg 5133
-                job.getJobCostingAndPayment().getDiscount().getAccountingCode().getCode();
+                getDiscount(job).getAccountingCode().getCode();
         String deptFullCode = HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
                 job.getDepartmentAssignedToJob());
 
@@ -868,7 +944,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         if (accountingCode != null) {
             return accountingCode.getAbbreviation();
         } else {
-            return job.getJobCostingAndPayment().getDiscount().getAccountingCode().getAbbreviation();
+            return getDiscount(job).getAccountingCode().getAbbreviation();
         }
 
     }
@@ -876,7 +952,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private String getTaxCodeAbbreviation(Job job) {
         String currentTaxCode
                 = // This should be a 4-digit code eg 5133
-                job.getJobCostingAndPayment().getTax().getAccountingCode().getCode();
+                getTax(job).getAccountingCode().getCode();
         String deptFullCode = HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
                 job.getDepartmentAssignedToJob());
 
@@ -888,7 +964,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         if (accountingCode != null) {
             return accountingCode.getAbbreviation();
         } else {
-            return job.getJobCostingAndPayment().getTax().getAccountingCode().getAbbreviation();
+            return getTax(job).getAccountingCode().getAbbreviation();
         }
 
     }
@@ -1365,7 +1441,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             parameters.put("discountType", getCurrentJob().getJobCostingAndPayment().getDiscount().getDiscountValueType());
             parameters.put("deposit", getCurrentJob().getJobCostingAndPayment().getTotalPayment());
             parameters.put("amountDue", getCurrentJob().getJobCostingAndPayment().getAmountDue());
-            parameters.put("totalTax", getCurrentJob().getJobCostingAndPayment().getTotalTax());
+            parameters.put("totalTax", getTotalTax(getCurrentJob()));
             parameters.put("totalTaxLabel", getCurrentJob().getJobCostingAndPayment().getTotalTaxLabel());
             parameters.put("grandTotalCostLabel", getCurrentJob().getJobCostingAndPayment().getTotalCostWithTaxLabel().toUpperCase().trim());
             parameters.put("grandTotalCost", getCurrentJob().getJobCostingAndPayment().getTotalCost());
@@ -1448,26 +1524,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return !(getCurrentJob().getJobCostingAndPayment().getCostingApproved()
                 && getCurrentJob().getJobCostingAndPayment().getCostingCompleted());
     }
-
-    public void invoiceJobCosting() {
-        if (canInvoiceJobCosting(getCurrentJob())) {
-            if (getCurrentJob().getJobCostingAndPayment().getInvoiced()) {
-                getCurrentJob().getJobStatusAndTracking().setDateCostingInvoiced(new Date());
-                getCurrentJob().getJobCostingAndPayment().setCostingInvoicedBy(getUser().getEmployee());
-            } else {
-                getCurrentJob().getJobStatusAndTracking().setDateCostingInvoiced(null);
-                getCurrentJob().getJobCostingAndPayment().setCostingInvoicedBy(null);
-            }
-            setJobCostingAndPaymentDirty(true);
-        } else {
-            // Reset invoiced status
-            getCurrentJob().getJobCostingAndPayment().setInvoiced(!getCurrentJob().
-                    getJobCostingAndPayment().getInvoiced());
-        }
-    }
-
-    public Boolean canInvoiceJobCosting(Job job) {
-        // Prepare the job
+    
+    private void prepareToInvoiceJobCosting(Job job) {
+        
         // Ensure that services are added based on the service contract
         getJobContractManager().addServices(job);
         // Ensure that an accounting Id is added for the client  
@@ -1483,6 +1542,15 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             job.getClient().setDateEdited(new Date());
             job.getClient().save(getEntityManager1());
         }
+        
+        // tk update costs, tax, discount updates
+    }
+
+    public void invoiceJobCosting() {
+        invoiceJobCosting(getCurrentJob(), getCurrentJob().getJobCostingAndPayment().getInvoiced());
+    }
+
+    public Boolean canInvoiceJobCosting(Job job) {        
 
         // Check for permission to invoice by department that can do invoices
         // NB: This permission will be put in the user's profile in the future.
@@ -2523,6 +2591,16 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             getCurrentJob().getJobStatusAndTracking().setEditStatus("(edited)");
         } else {
             getCurrentJob().getJobStatusAndTracking().setEditStatus("");
+        }
+    }
+    
+    public void setJobCostingAndPaymentDirty(Job job, Boolean dirty) {
+        job.getJobCostingAndPayment().setIsDirty(dirty);
+
+        if (dirty) {
+            job.getJobStatusAndTracking().setEditStatus("(edited)");
+        } else {
+            job.getJobStatusAndTracking().setEditStatus("");
         }
     }
 
