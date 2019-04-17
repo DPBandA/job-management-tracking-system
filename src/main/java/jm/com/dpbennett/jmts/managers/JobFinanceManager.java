@@ -192,9 +192,11 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         
         if (canInvoiceJobCosting(job)) {
             if (invoice) {
+                job.getJobCostingAndPayment().setInvoiced(invoice);
                 job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
                 job.getJobCostingAndPayment().setCostingInvoicedBy(getUser().getEmployee());
             } else {
+                job.getJobCostingAndPayment().setInvoiced(invoice);
                 job.getJobStatusAndTracking().setDateCostingInvoiced(null);
                 job.getJobCostingAndPayment().setCostingInvoicedBy(null);
             }
@@ -312,32 +314,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     
     public Discount getDiscount() {
 
-        Discount discount = getCurrentJob().getJobCostingAndPayment().getDiscount();
-
-        // Handle the case where the discount object is not set.
-        if (discount.getId() == null) {
-            discount = Discount.findByValueAndType(
-                    getEntityManager1(),
-                    getCurrentJob().getJobCostingAndPayment().getDiscountValue(),
-                    getCurrentJob().getJobCostingAndPayment().getDiscountType());
-
-            if (discount == null) {
-
-                discount = Discount.findDefault(
-                        getEntityManager1(),
-                        getCurrentJob().getJobCostingAndPayment().getDiscountValue().toString(),
-                        getCurrentJob().getJobCostingAndPayment().getDiscountValue(),
-                        getCurrentJob().getJobCostingAndPayment().getDiscountType());
-
-                getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
-
-            } else {
-                getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
-            }
-
-        }
-
-        return discount;
+        return getDiscount(getCurrentJob());
     }
 
     public Discount getDiscount(Job job) {
