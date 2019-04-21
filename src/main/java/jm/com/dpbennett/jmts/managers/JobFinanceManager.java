@@ -335,11 +335,21 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         getCurrentJob().getJobCostingAndPayment().setTax(tax);
     }
     
+    /**
+     * Gets the discount associated with the current job.
+     * @return 
+     */
     public Discount getDiscount() {
 
         return getDiscount(getCurrentJob());
     }
 
+    /**
+     * Gets the discount associated with the specified job.
+     * The default discount object is set and returned if the discount object is not set.
+     * @param job
+     * @return 
+     */
     public Discount getDiscount(Job job) {
 
         Discount discount = job.getJobCostingAndPayment().getDiscount();
@@ -370,6 +380,10 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return discount;
     }
 
+    /**
+     * Sets the discount associated with the current job.
+     * @param discount 
+     */
     public void setDiscount(Discount discount) {
 
         getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
