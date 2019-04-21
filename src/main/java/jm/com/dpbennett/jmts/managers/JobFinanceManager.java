@@ -28,7 +28,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -92,7 +91,8 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 
 /**
- *
+ * This class handles financial  matters pertaining to a job. 
+ * 
  * @author Desmond Bennett
  */
 public class JobFinanceManager implements Serializable, BusinessEntityManagement,
@@ -137,13 +137,16 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private JobManagerUser user;
 
     /**
-     * Creates a new instance of JobManagerBean
+     * Creates a new instance of the JobFinanceManager class.
      */
     public JobFinanceManager() {
         init();
     }
 
-    // tk move to job finance manager
+    /**
+     * Attempts to approve the selected job costing(s).
+     * @see JobFinanceManager#canChangeJobCostingApprovalStatus(jm.com.dpbennett.business.entity.Job) 
+     */
     public void approveSelectedJobCostings() {
         int numCostingsCApproved = 0;
 
@@ -186,6 +189,13 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     }
     
+    /**
+     * Attempts to create an invoice for the job costing of the specified job.
+     * @see JobFinanceManager#canChangeJobCostingApprovalStatus(jm.com.dpbennett.business.entity.Job) 
+     * @param job
+     * @param invoice
+     * @return 
+     */
     public Boolean invoiceJobCosting(Job job, Boolean invoice) {
         
         prepareToInvoiceJobCosting(job);
@@ -211,6 +221,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
     }
 
+    /**
+     * Attempts to create invoices for job costings of the selected jobs.
+     */
     public void invoiceSelectedJobCostings() {
         int numInvoicesCreated = 0;
 
@@ -220,20 +233,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
                 for (Job job : getJobManager().getSelectedJobs()) {
                     if (!job.getJobCostingAndPayment().getInvoiced()) {
-//                        if (canInvoiceJobCosting(job)) {
-//                            numInvoicesCreated++;
-//
-//                            job.getJobCostingAndPayment().setInvoiced(true);
-//                            job.getJobStatusAndTracking().setDateCostingInvoiced(new Date());
-//                            job.getJobCostingAndPayment().setCostingInvoicedBy(
-//                                    getUser().getEmployee());
-//                            job.getJobCostingAndPayment().setIsDirty(true);
-//
-//                            job.save(em);
-//                        } else {
-//
-//                            return;
-//                        }
                          if (invoiceJobCosting(job, true)) {                             
                              job.save(em);
                              numInvoicesCreated++;
@@ -1019,6 +1018,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         unitCostDepartment = null;
         jobCostDepartment = null;
         filteredAccPacCustomerDocuments = new ArrayList<>();
+       
     }
 
     public void reset() {
