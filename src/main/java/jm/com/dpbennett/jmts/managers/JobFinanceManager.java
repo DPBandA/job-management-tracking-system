@@ -269,14 +269,30 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     }
     
+    /**
+     * Gets the total tax in the default currency associated with the specified job.
+     * @param job
+     * @return 
+     */
     public Double getTotalTax(Job job) {
         return job.getJobCostingAndPayment().getTotalTax();
     }
     
+    /**
+     * Gets the total discount in the default currency associated with the specified job.
+     * @param job
+     * @return 
+     */
     public Double getTotalDiscount(Job job) {
         return job.getJobCostingAndPayment().getTotalDiscount();
     }
     
+    /**
+     * Gets the tax object associated with the specified job.
+     * A default tax object with a value of 0.0 is set and returned if the tax object is not set.
+     * @param job
+     * @return 
+     */
     public Tax getTax(Job job) {
         Tax tax = job.getJobCostingAndPayment().getTax();
 
@@ -302,10 +318,18 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return tax;
     }
 
+    /**
+     * Gets the tax associated with the current job.
+     * @return 
+     */
     public Tax getTax() {
         return getTax(getCurrentJob());
     }
 
+    /**
+     * Sets the tax associated with the current job.
+     * @param tax 
+     */
     public void setTax(Tax tax) {
 
         getCurrentJob().getJobCostingAndPayment().setTax(tax);
