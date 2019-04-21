@@ -93,7 +93,7 @@ import org.primefaces.component.selectonemenu.SelectOneMenu;
 /**
  * This class handles financial  matters pertaining to a job. 
  * 
- * @author Desmond P. Bennett
+ * @author Desmond P. Bennett (info@dpbenentt.com.jm)
  */
 public class JobFinanceManager implements Serializable, BusinessEntityManagement,
         DialogActionHandler, MessageManagement {
