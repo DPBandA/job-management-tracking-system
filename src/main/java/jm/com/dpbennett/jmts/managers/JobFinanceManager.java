@@ -389,6 +389,12 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
     }
 
+    /**
+     * This method is called automatically by a JSF "auto complete" component
+     * to "complete" a list of tax objects based on a database query.
+     * @param query
+     * @return 
+     */
     public List<Tax> completeTax(String query) {
         EntityManager em;
 
@@ -404,6 +410,12 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
     }
 
+    /**
+     * This method is called automatically by a JSF "auto complete" component
+     * to "complete" a list of discount objects based on a database query.
+     * @param query
+     * @return 
+     */
     public List<Discount> completeDiscount(String query) {
         EntityManager em;
 
@@ -420,8 +432,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     /**
-     * Returns the discount type that can be applied to a payment/amount
-     *
+     * Returns a list of discount types.
      * @return
      */
     public List getDiscountTypes() {
@@ -429,18 +440,33 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return FinancialUtils.getDiscountTypes();
     }
 
+    /**
+     * Returns a list of CostComponent cost types.
+     * @return 
+     */
     public List getCostTypeList() {
         return FinancialUtils.getCostTypeList();
     }
 
+    /**
+     * Returns a list of cash payment types.
+     * @return 
+     */
     public List getPaymentTypes() {
         return FinancialUtils.getPaymentTypes();
     }
 
+    /**
+     * Returns a list of cash payment purposes.
+     * @return 
+     */
     public List getPaymentPurposes() {
         return FinancialUtils.getPaymentPurposes();
     }
 
+    /**
+     * Closes a PrimeFaces 
+     */
     public void closeDialog() {
         PrimeFacesUtils.closeDialog(null);
     }
