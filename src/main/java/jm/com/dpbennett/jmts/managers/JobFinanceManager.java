@@ -1126,6 +1126,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return jobContractManager;
     }
 
+    /**
+     * Initializes an instance of the JobFinanceManger class.
+     */
     private void init() {
         longProcessProgress = 0;
         accPacCustomer = new AccPacCustomer(null);
