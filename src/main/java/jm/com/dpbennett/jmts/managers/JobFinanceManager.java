@@ -335,11 +335,21 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         getCurrentJob().getJobCostingAndPayment().setTax(tax);
     }
     
+    /**
+     * Gets the discount associated with the current job.
+     * @return 
+     */
     public Discount getDiscount() {
 
         return getDiscount(getCurrentJob());
     }
 
+    /**
+     * Gets the discount associated with the specified job.
+     * The default discount object is set and returned if the discount object is not set.
+     * @param job
+     * @return 
+     */
     public Discount getDiscount(Job job) {
 
         Discount discount = job.getJobCostingAndPayment().getDiscount();
@@ -370,11 +380,21 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return discount;
     }
 
+    /**
+     * Sets the discount associated with the current job.
+     * @param discount 
+     */
     public void setDiscount(Discount discount) {
 
         getCurrentJob().getJobCostingAndPayment().setDiscount(discount);
     }
 
+    /**
+     * This method is called automatically by a JSF "auto complete" component
+     * to "complete" a list of tax objects based on a database query.
+     * @param query
+     * @return 
+     */
     public List<Tax> completeTax(String query) {
         EntityManager em;
 
@@ -390,6 +410,12 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
     }
 
+    /**
+     * This method is called automatically by a JSF "auto complete" component
+     * to "complete" a list of discount objects based on a database query.
+     * @param query
+     * @return 
+     */
     public List<Discount> completeDiscount(String query) {
         EntityManager em;
 
@@ -406,8 +432,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     }
 
     /**
-     * Returns the discount type that can be applied to a payment/amount
-     *
+     * Returns a list of discount types.
      * @return
      */
     public List getDiscountTypes() {
@@ -415,43 +440,84 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return FinancialUtils.getDiscountTypes();
     }
 
+    /**
+     * Returns a list of CostComponent cost types.
+     * @return 
+     */
     public List getCostTypeList() {
         return FinancialUtils.getCostTypeList();
     }
 
+    /**
+     * Returns a list of cash payment types.
+     * @return 
+     */
     public List getPaymentTypes() {
         return FinancialUtils.getPaymentTypes();
     }
 
+    /**
+     * Returns a list of cash payment purposes.
+     * @return 
+     */
     public List getPaymentPurposes() {
         return FinancialUtils.getPaymentPurposes();
     }
 
+    /**
+     * Closes a PrimeFaces dialog.
+     */
     public void closeDialog() {
         PrimeFacesUtils.closeDialog(null);
     }
 
+    /**
+     * Gets the selected JobCostingAndPayment object.
+     * @return 
+     */
     public JobCostingAndPayment getSelectedJobCostingAndPayment() {
         return selectedJobCostingAndPayment;
     }
 
+    /**
+     * Sets the selected JobCostingAndPayment object.
+     * @param selectedJobCostingAndPayment 
+     */
     public void setSelectedJobCostingAndPayment(JobCostingAndPayment selectedJobCostingAndPayment) {
         this.selectedJobCostingAndPayment = selectedJobCostingAndPayment;
     }
 
+    /**
+     * Cancels/closes a PrimeFaces dialog.
+     * @param actionEvent 
+     */
     public void cancelDialogEdit(ActionEvent actionEvent) {
         PrimeFaces.current().dialog().closeDynamic(null);
     }
 
-    public MainTabView getMainTabView() {
+    
+    /** 
+     * Gets the main view of tabs associated with the web application.
+     * @return 
+     */
+    public MainTabView getMainTabView() {     
 
         return mainTabView;
     }
 
+    /**
+     * Sets the main view of tabs associated with the web application.
+     * @param mainTabView 
+     */
     public void setMainTabView(MainTabView mainTabView) {
         this.mainTabView = mainTabView;
     }
 
+    /**
+     * Gets an MS Excel file containing the details of invoices generated from the
+     * selected job costings that have been invoiced.
+     * @return 
+     */
     public StreamedContent getInvoicesFile() {
 
         try {
@@ -477,6 +543,12 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return null;
     }
 
+    /**
+     * Gets a byte array stream containing the details of invoices generated from the
+     * selected job costings that have been invoiced.
+     * @param file
+     * @return 
+     */
     public ByteArrayInputStream getInvoicesFileInputStream(
             File file) {
 
@@ -499,8 +571,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             doubleCellStyle.setDataFormat(doubleFormat.getFormat("#,##0.00"));
             XSSFCellStyle dateCellStyle = wb.createCellStyle();
             CreationHelper createHelper = wb.getCreationHelper();
-//            dateCellStyle.setDataFormat(
-//                    createHelper.createDataFormat().getFormat("m/d/yyyy"));
             dateCellStyle.setDataFormat(
                     createHelper.createDataFormat().getFormat("M/D/YYYY"));
 
@@ -536,12 +606,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                             job.getClient().getFinancialAccount().getIdCust(),
                             "java.lang.String", stringCellStyle);
-                    // IDINVC (Invoice No./Id)
-                    //ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
-                    //        "JMTS" + job.getDepartmentAssignedToJob().getCode()
-                    //        + job.getYearReceived() + ""
-                    //        + BusinessEntityUtils.getFourDigitString(job.getJobSequenceNumber()),
-                    //        "java.lang.String", stringCellStyle);
                     // TEXTTRX
                     ReportUtils.setExcelCellValue(wb, invoices, invoiceRow, invoiceCol++,
                             1,
@@ -930,9 +994,13 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return null;
     }
 
+    /**
+     * Gets the abbreviated discount code associated with the discount for a job.
+     * @param job
+     * @return 
+     */
     private String getDiscountCodeAbbreviation(Job job) {
-        String currentDiscountCode
-                = // This should be a 4-digit code eg 5133
+        String currentDiscountCode = 
                 getDiscount(job).getAccountingCode().getCode();
         String deptFullCode = HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
                 job.getDepartmentAssignedToJob());
@@ -949,9 +1017,13 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     }
 
+    /**
+     * Gets the abbreviated tax code associated with the tax for a job.
+     * @param job
+     * @return 
+     */
     private String getTaxCodeAbbreviation(Job job) {
-        String currentTaxCode
-                = // This should be a 4-digit code eg 5133
+        String currentTaxCode = 
                 getTax(job).getAccountingCode().getCode();
         String deptFullCode = HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
                 job.getDepartmentAssignedToJob());
@@ -969,6 +1041,11 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     }
 
+    /**
+     * Gets the abbreviated revenue code associated with the service for a job.
+     * @param job
+     * @return 
+     */
     private String getRevenueCodeAbbreviation(Job job) {
         String revenueCode;
         String revenueCodeAbbr;
@@ -1011,14 +1088,26 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     }
 
+    /**
+     * Gets the flag that determines if an object is being edited.
+     * @return 
+     */
     public Boolean getEdit() {
         return edit;
     }
 
+    /**
+     * Sets the flag that determines if an object is being edited.
+     * @param edit 
+     */
     public void setEdit(Boolean edit) {
         this.edit = edit;
     }
 
+    /**
+     * Finds and gets the JobManager JSF bean.
+     * @return 
+     */
     public JobManager getJobManager() {
         if (jobManager == null) {
             jobManager = BeanUtils.findBean("jobManager");
