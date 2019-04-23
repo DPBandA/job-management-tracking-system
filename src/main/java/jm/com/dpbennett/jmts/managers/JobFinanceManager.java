@@ -1115,6 +1115,10 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return jobManager;
     }
 
+    /**
+     * Finds/gets the JobContracManager session bean. 
+     * @return 
+     */
     public JobContractManager getJobContractManager() {
         if (jobContractManager == null) {
             jobContractManager = BeanUtils.findBean("jobContractManager");
