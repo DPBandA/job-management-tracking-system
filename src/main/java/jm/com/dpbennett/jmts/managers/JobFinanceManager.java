@@ -427,7 +427,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     /**
      * This method is called automatically by a JSF "auto complete" component to
-     * "complete" a list of discount objects based on a database query.
+     * "complete" a list of discount objects based on a database query...
      *
      * @param query
      * @return
