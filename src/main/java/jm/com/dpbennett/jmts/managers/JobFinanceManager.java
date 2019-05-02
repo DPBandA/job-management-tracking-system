@@ -119,6 +119,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private Job currentJobWithCosting;
     private Department jobCostDepartment;
     private Boolean showPrepayments;
+    // NB: These fields may be deprecated/removed in the future if they are no longer being used.
     private String invalidFormFieldMessage;
     private String dialogMessage;
     private String dialogMessageHeader;
@@ -128,6 +129,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private Boolean dialogRenderNoButton;
     private Boolean dialogRenderCancelButton;
     private DialogActionHandler dialogActionHandler;
+    // End fields to be deprecated.
     private Boolean enableOnlyPaymentEditing;
     private JobManager jobManager;
     private JobContractManager jobContractManager;
@@ -1037,6 +1039,11 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return null;
     }
 
+    /**
+     * Get the accounting codes associated with a job.
+     * @param job
+     * @return 
+     */
     public List<String> getAccountingCodes(Job job) {
         List<String> codes = new ArrayList<>();
 
@@ -1206,6 +1213,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     }
 
+    /**
+     * Resets an instance of this class.
+     */
     public void reset() {
         init();
     }
@@ -1217,93 +1227,186 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return enableOnlyPaymentEditing;
     }
 
+    /**
+     * Sets the enableOnlyPaymentEditing field. 
+     * @param enableOnlyPaymentEditing 
+     */
     public void setEnableOnlyPaymentEditing(Boolean enableOnlyPaymentEditing) {
         this.enableOnlyPaymentEditing = enableOnlyPaymentEditing;
     }
 
+    /**
+     * Gets the dialogRenderCancelButton field.
+     * @return 
+     */
     public Boolean getDialogRenderCancelButton() {
         return dialogRenderCancelButton;
     }
 
+    /**
+     * Sets the dialogRenderCancelButton field.
+     * @param dialogRenderCancelButton 
+     */
     public void setDialogRenderCancelButton(Boolean dialogRenderCancelButton) {
         this.dialogRenderCancelButton = dialogRenderCancelButton;
     }
 
+    /**
+     * Sets the dialogActionHandler field.
+     * @param dialogActionHandler 
+     */
     public void setDialogActionHandler(DialogActionHandler dialogActionHandler) {
         this.dialogActionHandler = dialogActionHandler;
     }
 
+    /**
+     * Gets the dialogRenderOkButton field.
+     * @return 
+     */
     public Boolean getDialogRenderOkButton() {
         return dialogRenderOkButton;
     }
 
+    /**
+     * Sets the dialogRenderOkButton field.
+     * @param dialogRenderOkButton 
+     */
     public void setDialogRenderOkButton(Boolean dialogRenderOkButton) {
         this.dialogRenderOkButton = dialogRenderOkButton;
     }
 
+    /**
+     * Gets the dialogRenderYesButton field.
+     * @return 
+     */
     public Boolean getDialogRenderYesButton() {
         return dialogRenderYesButton;
     }
 
+    /**
+     * Sets the dialogRenderYesButton field.
+     * @param dialogRenderYesButton 
+     */
     public void setDialogRenderYesButton(Boolean dialogRenderYesButton) {
         this.dialogRenderYesButton = dialogRenderYesButton;
     }
 
+    /**
+     * Gets the dialogRenderNoButton field.
+     * @return 
+     */    
     public Boolean getDialogRenderNoButton() {
         return dialogRenderNoButton;
     }
 
+    /**
+     * Sets the dialogRenderNoButton field.
+     * @param dialogRenderNoButton 
+     */
     public void setDialogRenderNoButton(Boolean dialogRenderNoButton) {
         this.dialogRenderNoButton = dialogRenderNoButton;
     }
 
+    /**
+     * Gets the dialogMessage field.
+     * @return 
+     */
     public String getDialogMessage() {
         return dialogMessage;
     }
 
+    /**
+     * Sets the dialogMessage field.
+     * @param dialogMessage 
+     */
     public void setDialogMessage(String dialogMessage) {
         this.dialogMessage = dialogMessage;
     }
 
+    /**
+     * Gets the dialogMessageHeader field.
+     * @return 
+     */
     public String getDialogMessageHeader() {
         return dialogMessageHeader;
     }
 
+    /**
+     * Sets the dialogMessageHeader field.
+     * @param dialogMessageHeader 
+     */
     public void setDialogMessageHeader(String dialogMessageHeader) {
         this.dialogMessageHeader = dialogMessageHeader;
     }
 
+    /**
+     * Gets the dialogMessageSeverity field.
+     * @return 
+     */
     public String getDialogMessageSeverity() {
         return dialogMessageSeverity;
     }
 
+    /**
+     * Sets the dialogMessageSeverity field.
+     * @param dialogMessageSeverity 
+     */
     public void setDialogMessageSeverity(String dialogMessageSeverity) {
         this.dialogMessageSeverity = dialogMessageSeverity;
     }
 
+    /**
+     * Creates and gets an EntityManager object using the EMF1 EntityManagerFactory object. 
+     * @return 
+     */
     public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
     }
 
+    /**
+     * Gets the logged on user field.
+     * @return 
+     */
     public JobManagerUser getUser() {
         return user;
     }
 
+    /**
+     * Sets the logged on user field.
+     * @param user 
+     */
     public void setUser(JobManagerUser user) {
         this.user = user;
     }
 
+    /**
+     * Gets the invalidFormFieldMessage field.
+     * @return 
+     */
     @Override
     public String getInvalidFormFieldMessage() {
         return invalidFormFieldMessage;
     }
 
+    /**
+     * Sets the invalidFormFieldMessage field.
+     * @param invalidFormFieldMessage 
+     */
     @Override
     public void setInvalidFormFieldMessage(String invalidFormFieldMessage) {
         this.invalidFormFieldMessage = invalidFormFieldMessage;
     }
 
-    public void displayCommonMessageDialog(DialogActionHandler dialogActionHandler, String dialogMessage,
+    /**
+     * Displays a PrimeFaces message dialog.
+     * @param dialogActionHandler
+     * @param dialogMessage
+     * @param dialogMessageHeader
+     * @param dialoMessageSeverity 
+     */
+    public void displayCommonMessageDialog(
+            DialogActionHandler dialogActionHandler, 
+            String dialogMessage,
             String dialogMessageHeader,
             String dialoMessageSeverity) {
 
@@ -1321,6 +1424,13 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         PrimeFaces.current().executeScript("PF('commonMessageDialog').show();");
     }
 
+    /**
+     * Displays a PrimeFaces confirmation dialog.
+     * @param dialogActionHandler
+     * @param dialogMessage
+     * @param dialogMessageHeader
+     * @param dialoMessageSeverity 
+     */
     public void displayCommonConfirmationDialog(DialogActionHandler dialogActionHandler,
             String dialogMessage,
             String dialogMessageHeader,
@@ -1341,38 +1451,62 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         PrimeFaces.current().executeScript("PF('commonMessageDialog').show();");
     }
 
+    /**
+     * A "wrapper" method for the handleDialogOkButtonClick method.
+     */
     public void handleDialogOkButtonPressed() {
         if (dialogActionHandler != null) {
             dialogActionHandler.handleDialogOkButtonClick();
         }
     }
 
+    /**
+     * A "wrapper" method for the handleDialogYesButtonClick method.
+     */
     public void handleDialogYesButtonPressed() {
         if (dialogActionHandler != null) {
             dialogActionHandler.handleDialogYesButtonClick();
         }
     }
 
+    /**
+     * A "wrapper" method for the handleDialogNoButtonClick method.
+     */
     public void handleDialogNoButtonPressed() {
         if (dialogActionHandler != null) {
             dialogActionHandler.handleDialogNoButtonClick();
         }
     }
 
+    /**
+     * A "wrapper" method for the handleDialogCancelButtonClick method.
+     */
     public void handleDialogCancelButtonPressed() {
         if (dialogActionHandler != null) {
             dialogActionHandler.handleDialogCancelButtonClick();
         }
     }
 
+    /**
+     * Gets the filteredAccPacCustomerDocuments field.
+     * @return 
+     */
     public List<AccPacDocument> getFilteredAccPacCustomerDocuments() {
         return filteredAccPacCustomerDocuments;
     }
 
+    /**
+     * Sets the filteredAccPacCustomerDocuments field.
+     * @param filteredAccPacCustomerDocuments 
+     */
     public void setFilteredAccPacCustomerDocuments(List<AccPacDocument> filteredAccPacCustomerDocuments) {
         this.filteredAccPacCustomerDocuments = filteredAccPacCustomerDocuments;
     }
 
+    /**
+     * Gets the showPrepayments field. Sets the field to false if it is null.
+     * @return 
+     */
     public Boolean getShowPrepayments() {
         if (showPrepayments == null) {
             showPrepayments = false;
@@ -1380,10 +1514,18 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return showPrepayments;
     }
 
+    /**
+     * Sets the showPrepayments field.
+     * @param showPrepayments 
+     */
     public void setShowPrepayments(Boolean showPrepayments) {
         this.showPrepayments = showPrepayments;
     }
 
+    /**
+     * Gets the jobCostDepartment field. Sets the field to a "no-name" department if it is null.
+     * @return 
+     */
     public Department getJobCostDepartment() {
         if (jobCostDepartment == null) {
             jobCostDepartment = new Department("");
@@ -1391,6 +1533,10 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return jobCostDepartment;
     }
 
+    /**
+     * Sets the jobCostDepartment field.
+     * @param jobCostDepartment 
+     */
     public void setJobCostDepartment(Department jobCostDepartment) {
         this.jobCostDepartment = jobCostDepartment;
     }
