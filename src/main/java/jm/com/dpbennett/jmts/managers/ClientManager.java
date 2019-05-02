@@ -123,7 +123,7 @@ public class ClientManager implements Serializable {
         try {
             em2 = getEntityManager2();
 
-            return AccPacCustomer.findAllByName(em2, query);
+            return AccPacCustomer.findAllByNameAndId(em2, query);
         } catch (Exception e) {
 
             System.out.println(e);

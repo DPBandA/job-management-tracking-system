@@ -91,15 +91,12 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>
         </p:column>
 
-        <ui:remove>
-            <p:column rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}" >
-                <f:facet name="header">
-                    <h:outputText value="Acc. Codes"/>
-                </f:facet>
-                <h:outputText value="#{job.jobCostingAndPayment.accountingCodes}" />
-            </p:column>
-        </ui:remove>
-
+        <p:column rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}" >
+            <f:facet name="header">
+                <h:outputText value="Acc. Codes"/>
+            </f:facet>
+            <h:outputText value="#{jobFinanceManager.getAccountingCodes(job)}" />
+        </p:column>
 
         <p:column sortBy="#{job.classification.name}" >
             <f:facet name="header">

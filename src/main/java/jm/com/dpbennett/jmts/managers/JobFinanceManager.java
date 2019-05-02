@@ -536,6 +536,23 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public void setMainTabView(MainTabView mainTabView) {
         this.mainTabView = mainTabView;
     }
+    
+    /**
+     * Get all cost components without heading.
+     * @param jobCostingAndPayment
+     * @return 
+     */
+    public List<CostComponent> getCostComponentsWithoutHeadings(JobCostingAndPayment jobCostingAndPayment) {
+        List<CostComponent> costComponents = new ArrayList<>();
+        
+        for (CostComponent costComponent : jobCostingAndPayment.getAllSortedCostComponents()) {
+            if (!costComponent.getIsHeading()) {
+                costComponents.add(costComponent);
+            }
+        }
+        
+        return costComponents;
+    }
 
     /**
      * Gets an MS Excel file containing the details of invoices generated from
@@ -665,7 +682,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // Add an item for each cost component
                     // CNTBTCH (batch number)
                     int index = 0;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -691,7 +708,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // CNTITEM (Item/Invoice number/index)
                     index = 0;
                     invoiceDetailsCol++;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -717,7 +734,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // CNTLINE
                     index = 0;
                     invoiceDetailsCol++;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -743,7 +760,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // IDITEM
                     index = 0;
                     invoiceDetailsCol++;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -769,7 +786,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // IDDIST
                     index = 0;
                     invoiceDetailsCol++;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -795,7 +812,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // TEXTDESC
                     index = 0;
                     invoiceDetailsCol++;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -821,7 +838,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // UNITMEAS
                     index = 0;
                     invoiceDetailsCol++;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -847,7 +864,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // QTYINVC
                     index = 0;
                     invoiceDetailsCol++;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -873,7 +890,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // AMTPRIC
                     index = 0;
                     invoiceDetailsCol++;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -899,7 +916,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                     // AMTEXTN
                     index = 0;
                     invoiceDetailsCol++;
-                    for (CostComponent costComponent : job.getJobCostingAndPayment().getAllSortedCostComponents()) {
+                    for (CostComponent costComponent : getCostComponentsWithoutHeadings(job.getJobCostingAndPayment())) {
                         ReportUtils.setExcelCellValue(wb, invoiceDetails,
                                 invoiceDetailsRow + index++,
                                 invoiceDetailsCol,
@@ -1018,6 +1035,20 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         }
 
         return null;
+    }
+
+    public List<String> getAccountingCodes(Job job) {
+        List<String> codes = new ArrayList<>();
+
+        codes.add(getRevenueCodeAbbreviation(job));
+        if (getTax(job).getTaxValue() > 0.0) {
+            codes.add(getTaxCodeAbbreviation(job));
+        }
+        if (getDiscount(job).getDiscountValue() > 0.0) {
+            codes.add(getDiscountCodeAbbreviation(job));
+        }
+
+        return codes;
     }
 
     /**
@@ -1706,7 +1737,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                 job.getClient().setEditedBy(getUser().getEmployee());
                 job.getClient().setDateEdited(new Date());
                 job.getClient().save(getEntityManager1());
-            } else {               
+            } else {
 
                 return false;
             }
