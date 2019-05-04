@@ -396,12 +396,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
     }
 
     private void addService(Job job, String name) {
-//        Service service = Service.findByNameAndAccountingCode(
-//                getEntityManager1(),
-//                name,
-//                HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
-//                        job.getDepartmentAssignedToJob()));
-        Service service = Service.findActiveByName(
+        Service service = Service.findActiveByExactName(
                 getEntityManager1(),
                 name);
 
@@ -416,8 +411,8 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
 
     private void removeService(String name) {
         for (int i = 0; i < getCurrentJob().getServices().size(); i++) {
-//            if (getCurrentJob().getServices().get(i).getName().equals(name)) {
-            if (getCurrentJob().getServices().get(i).getName().contains(name)) {
+            if (getCurrentJob().getServices().get(i).getName().equals(name)) {
+//            if (getCurrentJob().getServices().get(i).getName().contains(name)) {
                 getCurrentJob().getServices().remove(i);
             }
 

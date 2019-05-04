@@ -989,7 +989,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
                             invoiceOptionalFieldsCol,
                             "REFNO", // REFNO
                             "java.lang.String", stringCellStyle);
-
                     // OPTFIELD/VALUE                    
                     index2 = 0;
                     ++invoiceOptionalFieldsCol;
@@ -1046,6 +1045,8 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
      */
     public List<String> getAccountingCodes(Job job) {
         List<String> codes = new ArrayList<>();
+        
+        prepareToInvoiceJobCosting(job);
 
         codes.add(getRevenueCodeAbbreviation(job));
         if (getTax(job).getTaxValue() > 0.0) {
@@ -2034,6 +2035,12 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return true;
     }
 
+    /**
+     * Determines if a job costing can be invoiced. A PrimeFaces message is displayed
+     * if the job costing cannot be invoiced.
+     * @param job
+     * @return 
+     */
     public Boolean canInvoiceJobCosting(Job job) {
 
         // Check for permission to invoice by department that can do invoices
@@ -2074,6 +2081,11 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
 
     }
 
+    
+    /**
+     * Gets all Job TableView preferences.
+     * @return 
+     */
     public List<Preference> getJobTableViewPreferences() {
         EntityManager em = getEntityManager1();
 
@@ -2094,10 +2106,19 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
         return isJobAssignedToUserDepartment(job);
     }
 
+    /**
+     * Gets the selected Cash Payment object.
+     * @return 
+     */
     public CashPayment getSelectedCashPayment() {
         return selectedCashPayment;
     }
 
+    /**
+     * Sets the selected Cash Payment object. The related costs are updated and
+     * the is corresponding job is saved.
+     * @param selectedCashPayment 
+     */
     public void setSelectedCashPayment(CashPayment selectedCashPayment) {
 
         this.selectedCashPayment = selectedCashPayment;
@@ -2109,15 +2130,24 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
             updateAmountDue();
 
             if (!getCurrentJob().prepareAndSave(getEntityManager1(), getUser()).isSuccess()) {
-                PrimeFacesUtils.addMessage("Payment and Job NOT Saved!", "Payment and the job and the payment were NOT saved!", FacesMessage.SEVERITY_ERROR);
+                PrimeFacesUtils.addMessage("Payment and Job NOT Saved!", 
+                        "Payment and the job and the payment were NOT saved!", 
+                        FacesMessage.SEVERITY_ERROR);
             }
         }
     }
 
+    /**
+     * Creates and gets Entity Manager 2.
+     * @return 
+     */
     public EntityManager getEntityManager2() {
         return getEMF2().createEntityManager();
     }
 
+    /**
+     * Updates the status of the current job costing and payment as being edited.
+     */
     public void updateJobCostingAndPayment() {
         setJobCostingAndPaymentDirty(true);
     }

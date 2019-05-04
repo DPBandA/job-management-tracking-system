@@ -101,7 +101,7 @@ public class FinanceManager implements Serializable {
             em = getEntityManager1();
 
             List<AccountingCode> codes = AccountingCode.
-                    findActiveAccountingCodesByNameAndDescription(em, query);
+                    findActiveAccountingCodes(em, query);
 
             return codes;
 
@@ -383,11 +383,11 @@ public class FinanceManager implements Serializable {
     public void doAccountingCodeSearch() {
 
         if (getIsActiveAccountingCodesOnly()) {
-            foundAccountingCodes = AccountingCode.findActiveAccountingCodesByNameAndDescription(getEntityManager1(),
+            foundAccountingCodes = AccountingCode.findActiveAccountingCodes(getEntityManager1(),
                     getAccountingCodeSearchText());
         }
         else {
-            foundAccountingCodes = AccountingCode.findAccountingCodesByNameAndDescription(getEntityManager1(),
+            foundAccountingCodes = AccountingCode.findAccountingCodes(getEntityManager1(),
                     getAccountingCodeSearchText());
         }
 
