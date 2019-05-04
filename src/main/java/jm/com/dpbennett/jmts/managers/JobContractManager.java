@@ -602,27 +602,27 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         }
 
         if (job.getServiceContract().getServiceRequestedCertificationStandards()) {
-            addService("job, Certification Mark Programme");
+            addService(job,"Certification Mark Programme");
         }
 
         if (job.getServiceContract().getServiceRequestedDetentionRehabInspection()) {
-            addService("job, Detention, Rehabilitation & Inspection");
+            addService(job, "Detention, Rehabilitation & Inspection");
         }
 
         if (job.getServiceContract().getServiceRequestedFacilitiesManagement()) {
-            addService("Facilities Management");
+            addService(job, "Facilities Management");
         }
 
         if (job.getServiceContract().getServiceRequestedCementTesting()) {
-            addService("Cement Testing");
+            addService(job, "Cement Testing");
         }
 
         if (job.getServiceContract().getServiceRequestedPetrolSampling()) {
-            addService("Petrol Sampling");
+            addService(job, "Petrol Sampling");
         }
 
         if (job.getServiceContract().getServiceRequestedOther()) {
-            addService("Other");
+            addService(job, "Other");
         }
 
     }
