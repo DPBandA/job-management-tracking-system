@@ -402,21 +402,24 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
 
         if (service != null) {
             // Attempt to remove the service to ensure that it's not already added
-            removeService(name);
+            removeService(job, name);
 
             job.getServices().add(service);
         }
 
     }
-
-    private void removeService(String name) {
-        for (int i = 0; i < getCurrentJob().getServices().size(); i++) {
-            if (getCurrentJob().getServices().get(i).getName().equals(name)) {
-//            if (getCurrentJob().getServices().get(i).getName().contains(name)) {
-                getCurrentJob().getServices().remove(i);
+    
+    private void removeService(Job job, String name) {
+        for (int i = 0; i < job.getServices().size(); i++) {
+            if (job.getServices().get(i).getName().equals(name)) {
+                job.getServices().remove(i);
             }
 
         }
+    }
+
+    private void removeService(String name) {
+       removeService(getCurrentJob(), name);
     }
 
     /**
