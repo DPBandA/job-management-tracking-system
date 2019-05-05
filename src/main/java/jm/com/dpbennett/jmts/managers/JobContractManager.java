@@ -50,11 +50,11 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import jm.com.dpbennett.wal.managers.HumanResourceManager;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.ReportUtils;
 
 /**
+ * This class manages the functions and operations pertaining to a job contract.
  *
  * @author Desmond Bennett
  */
@@ -72,15 +72,17 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         init();
     }
 
+    /**
+     * Creates a list of Service objects based on a query string for a
+     * PrimeFaces AutoComplete component.
+     *
+     * @param query
+     * @return
+     */
     public List<Service> completeService(String query) {
 
         try {
 
-//            return Service.findAllActiveByNameAndAccountingCode(
-//                    getEntityManager1(),
-//                    query,
-//                    HumanResourceManager.getDepartmentFullCode(getEntityManager1(),
-//                            getCurrentJob().getDepartmentAssignedToJob()));
             return Service.findAllActiveByName(
                     getEntityManager1(),
                     query);
@@ -92,6 +94,11 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         }
     }
 
+    /**
+     * Gets a JobManager managed session bean.
+     *
+     * @return
+     */
     public JobManager getJobManager() {
         if (jobManager == null) {
             jobManager = BeanUtils.findBean("jobManager");
@@ -408,7 +415,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         }
 
     }
-    
+
     private void removeService(Job job, String name) {
         for (int i = 0; i < job.getServices().size(); i++) {
             if (job.getServices().get(i).getName().equals(name)) {
@@ -418,132 +425,190 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         }
     }
 
+    /**
+     * Removes the specified service from the current job.
+     * @see #removeService(jm.com.dpbennett.business.entity.Job, java.lang.String) 
+     * @param name
+     */
     private void removeService(String name) {
-       removeService(getCurrentJob(), name);
+        removeService(getCurrentJob(), name);
     }
 
     /**
      * Add or remove a service when a service check box is clicked.
-     *
+     * @see #addService(jm.com.dpbennett.business.entity.Job, java.lang.String) 
+     * @see #removeService(jm.com.dpbennett.business.entity.Job, java.lang.String) 
      * @param event
      */
     public void updateServices(AjaxBehaviorEvent event) {
+        Boolean bUpdatedService;
 
         switch (event.getComponent().getId()) {
             case "testingService":
-                if (getCurrentJob().getServiceContract().getServiceRequestedTesting()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedTesting();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedTesting(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Testing");
                 } else {
                     removeService("Testing");
                 }
                 break;
             case "calibrationService":
-                if (getCurrentJob().getServiceContract().getServiceRequestedCalibration()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedCalibration();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedCalibration(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Calibration");
                 } else {
                     removeService("Calibration");
                 }
                 break;
             case "labelEvaluationService":
-                if (getCurrentJob().getServiceContract().getServiceRequestedLabelEvaluation()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedLabelEvaluation();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedLabelEvaluation(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Label Evaluation");
                 } else {
                     removeService("Label Evaluation");
                 }
                 break;
             case "inspectionService":
-                if (getCurrentJob().getServiceContract().getServiceRequestedInspection()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedInspection();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedInspection(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Inspection");
                 } else {
                     removeService("Inspection");
                 }
                 break;
             case "consultancyService":
-                if (getCurrentJob().getServiceContract().getServiceRequestedConsultancy()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedConsultancy();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedConsultancy(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Consultancy");
                 } else {
                     removeService("Consultancy");
                 }
                 break;
             case "trainingService":
-                if (getCurrentJob().getServiceContract().getServiceRequestedTraining()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedTraining();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedTraining(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Training");
                 } else {
                     removeService("Training");
                 }
                 break;
             case "serviceRequestedFoodInspectorate":
-                if (getCurrentJob().getServiceContract().getServiceRequestedFoodInspectorate()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedFoodInspectorate();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedFoodInspectorate(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Food Inspectorate");
                 } else {
                     removeService("Food Inspectorate");
                 }
                 break;
             case "serviceRequestedLegalMetrology":
-                if (getCurrentJob().getServiceContract().getServiceRequestedLegalMetrology()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedLegalMetrology();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedLegalMetrology(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Legal Metrology");
                 } else {
                     removeService("Legal Metrology");
                 }
                 break;
             case "serviceRequestedSaleOfPublication":
-                if (getCurrentJob().getServiceContract().getServiceRequestedSaleOfPublication()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedSaleOfPublication();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedSaleOfPublication(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Sale of Publication");
                 } else {
                     removeService("Sale of Publication");
                 }
                 break;
             case "serviceRequestedStationeryOrPhotocopy":
-                if (getCurrentJob().getServiceContract().getServiceRequestedStationeryOrPhotocopy()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedStationeryOrPhotocopy();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedStationeryOrPhotocopy(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Stationery or Photocopy");
                 } else {
                     removeService("Stationery or Photocopy");
                 }
                 break;
             case "serviceRequestedCertification":
-                if (getCurrentJob().getServiceContract().getServiceRequestedCertification()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedCertification();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedCertification(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Certification");
                 } else {
                     removeService("Certification");
                 }
                 break;
             case "serviceRequestedCertificationStandards":
-                if (getCurrentJob().getServiceContract().getServiceRequestedCertificationStandards()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedCertificationStandards();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedCertificationStandards(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Certification Mark Programme");
                 } else {
                     removeService("Certification Mark Programme");
                 }
                 break;
             case "serviceRequestedDetentionRehabInspection":
-                if (getCurrentJob().getServiceContract().getServiceRequestedDetentionRehabInspection()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedDetentionRehabInspection();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedDetentionRehabInspection(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Detention, Rehabilitation & Inspection");
                 } else {
                     removeService("Detention, Rehabilitation & Inspection");
                 }
                 break;
             case "serviceRequestedFacilitiesManagement":
-                if (getCurrentJob().getServiceContract().getServiceRequestedFacilitiesManagement()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedFacilitiesManagement();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedFacilitiesManagement(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Facilities Management");
                 } else {
                     removeService("Facilities Management");
                 }
                 break;
             case "serviceRequestedCementTesting":
-                if (getCurrentJob().getServiceContract().getServiceRequestedCementTesting()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedCementTesting();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedCementTesting(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Cement Testing");
                 } else {
                     removeService("Cement Testing");
                 }
                 break;
             case "serviceRequestedPetrolSampling":
-                if (getCurrentJob().getServiceContract().getServiceRequestedPetrolSampling()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedPetrolSampling();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedPetrolSampling(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Petrol Sampling");
                 } else {
                     removeService("Petrol Sampling");
                 }
                 break;
             case "otherService":
-                if (getCurrentJob().getServiceContract().getServiceRequestedOther()) {
+                bUpdatedService = getCurrentJob().getServiceContract().getServiceRequestedOther();
+                enableAllServices(false);
+                getCurrentJob().getServiceContract().setServiceRequestedOther(bUpdatedService);
+                if (bUpdatedService) {
                     addService("Other");
                 } else {
                     removeService("Other");
@@ -576,7 +641,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
             addService(job, "Inspection");
         }
 
-        if (getCurrentJob().getServiceContract().getServiceRequestedConsultancy()) {
+        if (job.getServiceContract().getServiceRequestedConsultancy()) {
             addService(job, "Consultancy");
         }
 
@@ -605,7 +670,7 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
         }
 
         if (job.getServiceContract().getServiceRequestedCertificationStandards()) {
-            addService(job,"Certification Mark Programme");
+            addService(job, "Certification Mark Programme");
         }
 
         if (job.getServiceContract().getServiceRequestedDetentionRehabInspection()) {
@@ -626,6 +691,40 @@ public class JobContractManager implements Serializable, BusinessEntityManagemen
 
         if (job.getServiceContract().getServiceRequestedOther()) {
             addService(job, "Other");
+        }
+
+    }
+    
+    public void enableAllServices(Boolean b) {
+        enableAllServices(getCurrentJob(), b);
+    }
+
+    public void enableAllServices(Job job, Boolean b) {
+
+        job.getServiceContract().setServiceRequestedTesting(b);
+        job.getServiceContract().setServiceRequestedCalibration(b);
+        job.getServiceContract().setServiceRequestedLabelEvaluation(b);
+        job.getServiceContract().setServiceRequestedInspection(b);
+        job.getServiceContract().setServiceRequestedConsultancy(b);
+        job.getServiceContract().setServiceRequestedTraining(b);
+        job.getServiceContract().setServiceRequestedFoodInspectorate(b);
+        job.getServiceContract().setServiceRequestedLegalMetrology(b);
+        job.getServiceContract().setServiceRequestedSaleOfPublication(b);
+        job.getServiceContract().setServiceRequestedStationeryOrPhotocopy(b);
+        job.getServiceContract().setServiceRequestedCertification(b);
+        job.getServiceContract().setServiceRequestedCertificationStandards(b);
+        job.getServiceContract().setServiceRequestedDetentionRehabInspection(b);
+        job.getServiceContract().setServiceRequestedFacilitiesManagement(b);
+        job.getServiceContract().setServiceRequestedCementTesting(b);
+        job.getServiceContract().setServiceRequestedPetrolSampling(b);
+        job.getServiceContract().setServiceRequestedOther(b);
+        
+        // Add/remove all services
+        if (b) {
+            addServices(job);
+        }
+        else {
+            job.getServices().clear();
         }
 
     }
