@@ -125,7 +125,7 @@ Email: info@dpbennett.com.jm
 
         <p:column sortBy="#{job.jobCostingAndPayment.costingApproved}" >
             <f:facet name="header">
-                <h:outputText value="App'd?"/>
+                <h:outputText value="Appr'd?"/>
             </f:facet>
             <h:outputText value="#{job.jobCostingAndPayment.costingApproved? 'Yes': 'No'}" 
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.costingApproved? 'green': 'red'}"/>            
