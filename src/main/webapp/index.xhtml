@@ -223,9 +223,11 @@ Email: info@dpbennett.com.jm
                                 <ui:include src="dashboard/jobs/jobsTab.xhtml" />
                             </h:panelGroup>
 
-                            <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
-                                <ui:include src="dashboard/compliance/complianceTab.xhtml" />
-                            </h:panelGroup>
+                            <ui:remove>
+                                <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
+                                    <ui:include src="dashboard/compliance/complianceTab.xhtml" />
+                                </h:panelGroup>
+                            </ui:remove>
 
                             <h:panelGroup rendered="#{t.id == 'Document Management'}">                               
                                 <ui:include src="dashboard/legal/documentsTab.xhtml" />

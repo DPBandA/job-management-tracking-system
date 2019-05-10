@@ -19,6 +19,9 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
+import jm.com.dpbennett.wal.managers.PurchasingManager;
+import jm.com.dpbennett.wal.managers.FinanceManager;
+import jm.com.dpbennett.wal.managers.ClientManager;
 import jm.com.dpbennett.wal.managers.ReportManager;
 import jm.com.dpbennett.wal.managers.HumanResourceManager;
 import java.io.Serializable;

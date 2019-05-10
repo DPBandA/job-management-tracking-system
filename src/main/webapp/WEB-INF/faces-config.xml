@@ -447,12 +447,6 @@
     </managed-bean>
     
     <managed-bean>
-        <managed-bean-name>clientManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.ClientManager</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    
-    <managed-bean>
         <managed-bean-name>humanResourceManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.wal.managers.HumanResourceManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
@@ -467,18 +461,6 @@
     <managed-bean>
         <managed-bean-name>jobFinanceManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.managers.JobFinanceManager</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    
-    <managed-bean>
-        <managed-bean-name>financeManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.FinanceManager</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    
-    <managed-bean>
-        <managed-bean-name>purchasingManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.jmts.managers.PurchasingManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
@@ -509,6 +491,24 @@
     <managed-bean>
         <managed-bean-name>jobContractManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.managers.JobContractManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>clientManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.ClientManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>financeManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.FinanceManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>purchasingManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.PurchasingManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
