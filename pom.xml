@@ -4,7 +4,7 @@
 
     <groupId>jm.com.dpbennett</groupId>
     <artifactId>job-management-tracking-system</artifactId>
-    <version>3.5.4-beta</version>
+    <version>3.6.0-beta</version>
     <packaging>war</packaging>
 
     <name>Job Management &amp; Tracking System</name>
@@ -33,7 +33,25 @@
             <artifactId>system-management</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <type>war</type>
-        </dependency>          
+        </dependency>         
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>client-management</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency> 
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>standards-compliance</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>financial-management</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -68,6 +86,18 @@
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>system-management</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>client-management</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>standards-compliance</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>financial-management</artifactId>
                         </overlay>
                     </overlays> 
                     

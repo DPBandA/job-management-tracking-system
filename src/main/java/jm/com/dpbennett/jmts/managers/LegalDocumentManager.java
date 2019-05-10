@@ -19,7 +19,7 @@ Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.managers;
 
-import jm.com.dpbennett.jmts.managers.ClientManager;
+import jm.com.dpbennett.wal.managers.ClientManager;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
