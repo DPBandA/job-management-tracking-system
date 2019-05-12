@@ -2803,6 +2803,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         updateAllForms();
     }
 
+    /**
+     * Initialize all other managers used by this object.
+     * @deprecated This method will soon no longer be necessary.
+     */
     private void initManagers() {
         systemManager = BeanUtils.findBean("systemManager");
         systemManager.setUser(getUser());
@@ -2825,7 +2829,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         reportManager.setMainTabView(mainTabView);
 
         jobFinanceManager = BeanUtils.findBean("jobFinanceManager");
-        //jobFinanceManager.setUser(getUser());
         jobFinanceManager.setMainTabView(mainTabView);
 
         financeManager = BeanUtils.findBean("financeManager");
