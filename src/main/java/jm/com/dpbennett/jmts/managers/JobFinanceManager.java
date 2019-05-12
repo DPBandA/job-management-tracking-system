@@ -136,7 +136,7 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private Boolean edit;
     private String fileDownloadErrorMessage;
     private MainTabView mainTabView;
-    private JobManagerUser user;
+    //private JobManagerUser user;
 
     /**
      * Creates a new instance of the JobFinanceManager class.
@@ -1373,16 +1373,16 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
      * @return 
      */
     public JobManagerUser getUser() {
-        return user;
+        return getJobManager().getUser();
     }
 
-    /**
-     * Sets the logged on user field.
-     * @param user 
-     */
-    public void setUser(JobManagerUser user) {
-        this.user = user;
-    }
+//    /**
+//     * Sets the logged on user field.
+//     * @param user 
+//     */
+//    public void setUser(JobManagerUser user) {
+//        this.user = user;
+//    }
 
     /**
      * Gets the invalidFormFieldMessage field.
