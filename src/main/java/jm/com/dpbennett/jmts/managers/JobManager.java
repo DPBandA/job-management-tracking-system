@@ -117,7 +117,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean useAccPacCustomerList;
     private Boolean showJobEntry;
     private List<Job> jobSearchResultList;
-    // Managers
     private ClientManager clientManager;
     private ReportManager reportManager;
     private JobFinanceManager jobFinanceManager;
@@ -134,9 +133,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private String dialogActionHandlerId;
     private String jobsTabTitle;
     private Job[] selectedJobs;
-    // Authentication
     private Authentication authentication;
-    //private JobManagerUser user;
     private Boolean westLayoutUnitCollapsed;
     private String invalidFormFieldMessage;
     private String dialogMessage;
@@ -798,14 +795,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return EMF1.createEntityManager();
     }
 
-//    public void setUser(JobManagerUser user) {
-//        this.user = user;
-//    }
     public JobManagerUser getUser() {
-//        if (user == null) {
-//            return new JobManagerUser();
-//        }
-//        return user;
+
         return getAuthentication().getUser();
     }
 
