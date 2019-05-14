@@ -439,13 +439,19 @@
     <lifecycle>
         <phase-listener id="nocache">jm.com.dpbennett.wal.utils.CacheControlPhaseListener</phase-listener>
     </lifecycle>
-     
+    
     <managed-bean>
         <managed-bean-name>authentication</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.wal.Authentication</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
+    <managed-bean>
+        <managed-bean-name>systemManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.wal.managers.SystemManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>  
+       
     <managed-bean>
         <managed-bean-name>humanResourceManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.wal.managers.HumanResourceManager</managed-bean-class>
@@ -479,12 +485,6 @@
     <managed-bean>
         <managed-bean-name>legalDocumentManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.wal.managers.LegalDocumentManager</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-    
-    <managed-bean>
-        <managed-bean-name>systemManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.wal.managers.SystemManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     

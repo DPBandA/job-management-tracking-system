@@ -71,10 +71,7 @@ import jm.com.dpbennett.business.entity.ServiceRequest;
 import jm.com.dpbennett.business.entity.SystemOption;
 import jm.com.dpbennett.business.entity.management.MessageManagement;
 import jm.com.dpbennett.business.entity.utils.BusinessEntityUtils;
-import org.primefaces.event.CloseEvent;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.event.TabChangeEvent;
-import org.primefaces.event.TabCloseEvent;
 import org.primefaces.event.ToggleEvent;
 import org.primefaces.model.StreamedContent;
 import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
@@ -91,7 +88,6 @@ import jm.com.dpbennett.wal.utils.JobDataModel;
 import jm.com.dpbennett.wal.utils.MainTabView;
 import jm.com.dpbennett.wal.utils.PrimeFacesUtils;
 import jm.com.dpbennett.wal.utils.ReportUtils;
-import jm.com.dpbennett.wal.utils.TabPanel;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.UnselectEvent;
@@ -133,7 +129,6 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private String dialogActionHandlerId;
     private String jobsTabTitle;
     private Job[] selectedJobs;
-    private Authentication authentication;
     private Boolean westLayoutUnitCollapsed;
     private String invalidFormFieldMessage;
     private String dialogMessage;
@@ -144,8 +139,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Boolean dialogRenderNoButton;
     private Boolean dialogRenderCancelButton;
     private DialogActionHandler dialogActionHandler;
-    private Dashboard dashboard;
-    private MainTabView mainTabView;
+    //private MainTabView mainTabView;
     private AccPacCustomer accPacCustomer;
 
     /**
@@ -220,22 +214,22 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return sectors;
     }
 
-    public List<String> completePreferenceValue(String query) {
-        EntityManager em;
-
-        try {
-            em = getEntityManager1();
-
-            List<String> preferenceValues = Preference.findAllPreferenceValues(em, query);
-
-            return preferenceValues;
-
-        } catch (Exception e) {
-            System.out.println(e);
-
-            return new ArrayList<>();
-        }
-    }
+//    public List<String> completePreferenceValue(String query) {
+//        EntityManager em;
+//
+//        try {
+//            em = getEntityManager1();
+//
+//            List<String> preferenceValues = Preference.findAllPreferenceValues(em, query);
+//
+//            return preferenceValues;
+//
+//        } catch (Exception e) {
+//            System.out.println(e);
+//
+//            return new ArrayList<>();
+//        }
+//    }
 
     public List<String> getJobTableViews() {
         EntityManager em;
@@ -358,74 +352,78 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         dynamicTabView = true;
         renderSearchComponent = true;
         jobSearchResultList = new ArrayList<>();
-        dashboard = new Dashboard(getUser());
-        mainTabView = new MainTabView(getUser());
+//        dashboard = new Dashboard(getUser());
+//        mainTabView = new MainTabView(getUser());
         searchType = "";
         dateSearchPeriod = new DatePeriod("This month", "month",
                 "dateAndTimeEntered", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
+        //systemManager = BeanUtils.findBean("systemManager");
+        //systemManager.setUser(getUser());
+        //systemManager.setMainTabView(getMainTabView());
+        
     }
 
-    private void initMainTabView() {
+//    private void initMainTabView() {
+//
+////        mainTabView.reset(user);
+//        getSystemManager().getMainTabView().reset(getUser());
+//
+//        if (getUser().getModules().getAdminModule()) {
+//            getSystemManager().getMainTabView().openTab("System Administration");
+//        }
+//        if (getUser().getModules().getFinancialAdminModule()) {
+//            // tk The feature to choose which tab to add will be implemented in the future.
+//            getSystemManager().getMainTabView().openTab("Purchase Requisitions");
+//        }
+//        if (getUser().getModules().getLegalOfficeModule()) {
+//            getSystemManager().getMainTabView().openTab("Document Browser");
+//        }
+//        if (getUser().getModules().getJobManagementAndTrackingModule()) {
+//            getSystemManager().getMainTabView().openTab("Job Browser");
+//        }
+//
+//    }
 
-//        mainTabView.reset(user);
-        mainTabView.reset(getUser());
+//    private void initDashboard() {
+//
+//        dashboard.reset(getUser());
+//
+//        if (getUser().getModules().getJobManagementAndTrackingModule()) {
+//            dashboard.getTabs().add(new TabPanel("Job Management",
+//                    "Job Management"));
+//        }
+//        if (getUser().getModules().getLegalOfficeModule()) {
+//            dashboard.getTabs().add(new TabPanel("Document Management", "Document Management"));
+//        }
+//        if (getUser().getModules().getCrmModule()) {
+//            dashboard.getTabs().add(new TabPanel("Client Management",
+//                    "Client Management"));
+//        }
+//        if (getUser().getModules().getAdminModule()) {
+//
+//            dashboard.getTabs().add(new TabPanel("System Administration", "System Administration"));
+//        }
+//        if (getUser().getModules().getFinancialAdminModule()) {
+//            dashboard.getTabs().add(new TabPanel("Financial Administration", "Financial Administration"));
+//        }
+//
+//        // Set the first tab as the selected tab
+//        dashboard.setSelectedTabId(dashboard.getTabs().get(0).getId());
+//    }
 
-        if (getUser().getModules().getAdminModule()) {
-            mainTabView.openTab("System Administration");
-        }
-        if (getUser().getModules().getFinancialAdminModule()) {
-            // tk The feature to choose which tab to add will be implemented in the future.
-            mainTabView.openTab("Purchase Requisitions");
-        }
-        if (getUser().getModules().getLegalOfficeModule()) {
-            mainTabView.openTab("Document Browser");
-        }
-        if (getUser().getModules().getJobManagementAndTrackingModule()) {
-            mainTabView.openTab("Job Browser");
-        }
-
-    }
-
-    private void initDashboard() {
-
-        dashboard.reset(getUser());
-
-        if (getUser().getModules().getJobManagementAndTrackingModule()) {
-            dashboard.getTabs().add(new TabPanel("Job Management",
-                    "Job Management"));
-        }
-        if (getUser().getModules().getLegalOfficeModule()) {
-            dashboard.getTabs().add(new TabPanel("Document Management", "Document Management"));
-        }
-        if (getUser().getModules().getCrmModule()) {
-            dashboard.getTabs().add(new TabPanel("Client Management",
-                    "Client Management"));
-        }
-        if (getUser().getModules().getAdminModule()) {
-
-            dashboard.getTabs().add(new TabPanel("System Administration", "System Administration"));
-        }
-        if (getUser().getModules().getFinancialAdminModule()) {
-            dashboard.getTabs().add(new TabPanel("Financial Administration", "Financial Administration"));
-        }
-
-        // Set the first tab as the selected tab
-        dashboard.setSelectedTabId(dashboard.getTabs().get(0).getId());
-    }
-
-    /**
-     * Gets the SessionScoped bean that deals with user authentication.
-     *
-     * @return
-     */
-    public Authentication getAuthentication() {
-        if (authentication == null) {
-            authentication = BeanUtils.findBean("authentication");
-        }
-
-        return authentication;
-    }
+//    /**
+//     * Gets the SessionScoped bean that deals with user authentication.
+//     *
+//     * @return
+//     */
+//    public Authentication getAuthentication() {
+//        if (authentication == null) {
+//            authentication = BeanUtils.findBean("authentication");
+//        }
+//
+//        return authentication;
+//    }
 
     /**
      * Get LegalDocumentManager SessionScoped bean.
@@ -652,7 +650,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void reset() {
 
         //user = new JobManagerUser();
-        getAuthentication().reset(this);
+        getSystemManager().getAuthentication().reset(this);
         westLayoutUnitCollapsed = true;
         renderSearchComponent = true;
         jobSearchResultList = new ArrayList<>();
@@ -661,10 +659,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         resetManagers();
 
         // Unrender all tabs
-        dashboard.removeAllTabs();
-        dashboard.setRender(false);
-        mainTabView.removeAllTabs();
-        mainTabView.setRender(false);
+//        dashboard.removeAllTabs();
+//        dashboard.setRender(false);
+//        mainTabView.removeAllTabs();
+//        mainTabView.setRender(false);
 
         updateAllForms();
 
@@ -682,26 +680,29 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public MainTabView getMainTabView() {
-        return mainTabView;
+        return getSystemManager().getMainTabView();
     }
 
-    public void setMainTabView(MainTabView mainTabView) {
-        this.mainTabView = mainTabView;
-    }
+//    public void setMainTabView(MainTabView mainTabView) {
+//        this.mainTabView = mainTabView;
+//    }
 
-    public String getApplicationHeader() {
-        String option = (String) SystemOption.getOptionValueObject(getEntityManager1(),
-                "applicationHeader");
+//    // tk put in sys man
+//    public String getApplicationHeader() {
+//        String option = (String) SystemOption.getOptionValueObject(getEntityManager1(),
+//                "applicationHeader");
+//
+//        return (!"".equals(option) ? option : "Job Management & Tracking System");
+//
+//    }
 
-        return (!"".equals(option) ? option : "Job Management & Tracking System");
-
-    }
-
+    // tk put in sys man
     public Boolean getIsDebugMode() {
         return (Boolean) SystemOption.getOptionValueObject(
                 getEntityManager1(), "debugMode");
     }
 
+    // tk put in sys man
     public String getApplicationSubheader() {
         String subHeader;
 
@@ -723,6 +724,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return subHeader;
     }
 
+    // tk put in sys man
     public Boolean getDialogRenderCancelButton() {
         return dialogRenderCancelButton;
     }
@@ -731,62 +733,77 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.dialogRenderCancelButton = dialogRenderCancelButton;
     }
 
+    // tk put in sys man
     public void setDialogActionHandler(DialogActionHandler dialogActionHandler) {
         this.dialogActionHandler = dialogActionHandler;
     }
 
+    // tk put in sys man
     public Boolean getDialogRenderOkButton() {
         return dialogRenderOkButton;
     }
 
+    // tk put in sys man
     public void setDialogRenderOkButton(Boolean dialogRenderOkButton) {
         this.dialogRenderOkButton = dialogRenderOkButton;
     }
 
+    // tk put in sys man
     public Boolean getDialogRenderYesButton() {
         return dialogRenderYesButton;
     }
 
+    // tk put in sys man
     public void setDialogRenderYesButton(Boolean dialogRenderYesButton) {
         this.dialogRenderYesButton = dialogRenderYesButton;
     }
 
+    // tk put in sys man
     public Boolean getDialogRenderNoButton() {
         return dialogRenderNoButton;
     }
 
+    // tk put in sys man
     public void setDialogRenderNoButton(Boolean dialogRenderNoButton) {
         this.dialogRenderNoButton = dialogRenderNoButton;
     }
 
+    // tk put in sys man
     public String getDialogMessage() {
         return dialogMessage;
     }
 
+    // tk put in sys man
     public void setDialogMessage(String dialogMessage) {
         this.dialogMessage = dialogMessage;
     }
 
+    // tk put in sys man
     public String getDialogMessageHeader() {
         return dialogMessageHeader;
     }
 
+    // tk put in sys man
     public void setDialogMessageHeader(String dialogMessageHeader) {
         this.dialogMessageHeader = dialogMessageHeader;
     }
 
+    // tk put in sys man
     public String getDialogMessageSeverity() {
         return dialogMessageSeverity;
     }
 
+    // tk put in sys man
     public void setDialogMessageSeverity(String dialogMessageSeverity) {
         this.dialogMessageSeverity = dialogMessageSeverity;
     }
 
+    // tk put in sys man
     public Boolean getWestLayoutUnitCollapsed() {
         return westLayoutUnitCollapsed;
     }
 
+    // tk put in sys man
     public void setWestLayoutUnitCollapsed(Boolean westLayoutUnitCollapsed) {
         this.westLayoutUnitCollapsed = westLayoutUnitCollapsed;
     }
@@ -796,8 +813,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     public JobManagerUser getUser() {
-
-        return getAuthentication().getUser();
+        return getSystemManager().getAuthentication().getUser();
     }
 
     /**
@@ -807,45 +823,26 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * @return
      */
     public JobManagerUser getUser(EntityManager em) {
-        return getAuthentication().getUser(em);
-//        if (user == null) {
-//            return new JobManagerUser();
-//        } else {
-//            try {
-//                if (user.getId() != null) {
-//                    JobManagerUser foundUser = em.find(JobManagerUser.class, user.getId());
-//                    if (foundUser != null) {
-//                        em.refresh(foundUser);
-//                        user = foundUser;
-//                    }
-//                }
-//            } catch (Exception e) {
-//                System.out.println(e);
-//                return new JobManagerUser();
-//            }
-//        }
-//
-//        return user;
+        return getSystemManager().getAuthentication().getUser(em);
     }
 
     public Dashboard getDashboard() {
-        return dashboard;
+        return getSystemManager().getDashboard();
     }
 
-    public void setDashboard(Dashboard dashboard) {
-        this.dashboard = dashboard;
-    }
-
+    // tk to be moved to sys man
     private void updateAllForms() {
         PrimeFaces.current().ajax().update("dashboardForm");
         PrimeFaces.current().ajax().update("mainTabViewForm");
         PrimeFaces.current().ajax().update("headerForm");
     }
 
+    // tk put in sys man
     public void logout() {
         getUser().logActivity("Logged out", getEntityManager1());
         reset();
-        getAuthentication().reset(this);
+        getSystemManager().reset();
+        getSystemManager().getAuthentication().reset(this);
     }
 
     public void handleKeepAlive() {
@@ -859,6 +856,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
+    // tk move to sysman
     public void handleLayoutUnitToggle(ToggleEvent event) {
 
         if (event.getComponent().getId().equals("dashboard")) {
@@ -946,22 +944,23 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         PrimeFacesUtils.closeDialog(null);
     }
 
-    public void onMainViewTabClose(TabCloseEvent event) {
-        String tabId = ((TabPanel) event.getData()).getId();
-
-        mainTabView.closeTab(tabId);
-    }
-
-    public void onMainViewTabChange(TabChangeEvent event) {
-    }
-
-    public void onDashboardTabChange(TabChangeEvent event) {
-        getDashboard().setSelectedTabId(((TabPanel) event.getData()).getId());
-    }
-
-    public void updateDashboard(String tabId) {
-        PrimeFaces.current().ajax().update("dashboardForm");
-    }
+//    public void onMainViewTabClose(TabCloseEvent event) {
+//        String tabId = ((TabPanel) event.getData()).getId();
+//
+//        mainTabView.closeTab(tabId);
+//    }
+//
+//    public void onMainViewTabChange(TabChangeEvent event) {
+//    }
+//
+//    
+//    public void onDashboardTabChange(TabChangeEvent event) {
+//        getDashboard().setSelectedTabId(((TabPanel) event.getData()).getId());
+//    }
+//
+//    public void updateDashboard(String tabId) {
+//        PrimeFaces.current().ajax().update("dashboardForm");
+//    }
 
     /**
      * Get selected jobs which are usually displayed in a table.
@@ -988,15 +987,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
             getUser().setJobTableViewPreference("Job Costings");
         }
 
-        mainTabView.openTab("Job Browser");
+        getSystemManager().getMainTabView().openTab("Job Browser");
     }
 
     public void openSystemAdministrationTab() {
-        mainTabView.openTab("System Administration");
+        getSystemManager().getMainTabView().openTab("System Administration");
     }
 
     public void openFinancialAdministrationTab() {
-        mainTabView.openTab("Financial Administration");
+        getSystemManager().getMainTabView().openTab("Financial Administration");
     }
 
     public String getJobsTabTitle() {
@@ -1168,10 +1167,10 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.renderSearchComponent = renderSearchComponent;
     }
 
-    public void updatePreferedJobTableView(SelectEvent event) {
-        //doJobViewUpdate((String) event.getObject());
-        getUser().save(getEntityManager1());
-    }
+//    public void updatePreferedJobTableView(SelectEvent event) {
+//        //doJobViewUpdate((String) event.getObject());
+//        getUser().save(getEntityManager1());
+//    }
 
     public Boolean getCurrentJobIsValid() {
         return getCurrentJob().getId() != null && !getCurrentJob().getIsDirty();
@@ -1344,84 +1343,84 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         setIsDirty(true);
     }
 
-    public void updatePreferences() {
-        getUser().save(getEntityManager1());
-    }
+//    public void updatePreferences() {
+//        getUser().save(getEntityManager1());
+//    }
 
-    public void updateDashboardTabs(AjaxBehaviorEvent event) {
-
-        switch (event.getComponent().getId()) {
-            case "jobManagementAndTrackingUnit":
-                dashboard.addTab(getEntityManager1(), "Job Management",
-                        getUser().getModules().getJobManagementAndTrackingModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "financialAdminUnit":
-                dashboard.addTab(getEntityManager1(), "Financial Administration",
-                        getUser().getModules().getFinancialAdminModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "adminUnit":
-                dashboard.addTab(getEntityManager1(), "System Administration",
-                        getUser().getModules().getAdminModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "complianceUnit":
-                dashboard.addTab(getEntityManager1(), "Standards Compliance",
-                        getUser().getModules().getComplianceModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "foodsUnit":
-                dashboard.addTab(getEntityManager1(), "Foods Inspectorate",
-                        getUser().getModules().getFoodsModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "standardsUnit":
-                dashboard.addTab(getEntityManager1(), "Standards",
-                        getUser().getModules().getStandardsModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "certificationUnit":
-                dashboard.addTab(getEntityManager1(), "Certification",
-                        getUser().getModules().getCertificationModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "serviceRequestUnit":
-                dashboard.addTab(getEntityManager1(), "Service Request",
-                        getUser().getModules().getServiceRequestModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "legalOfficeUnit":
-                dashboard.addTab(getEntityManager1(), "Document Management",
-                        getUser().getModules().getLegalOfficeModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "crmUnit":
-                dashboard.addTab(getEntityManager1(), "Client Management",
-                        getUser().getModules().getCrmModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            case "legalMetrologyUnit":
-                dashboard.addTab(getEntityManager1(), "Legal Metrology",
-                        getUser().getModules().getLegalMetrologyModule());
-                getUser().getModules().setIsDirty(true);
-                getUser().save(getEntityManager1());
-                break;
-            default:
-                break;
-        }
-
-    }
+//    public void updateDashboardTabs(AjaxBehaviorEvent event) {
+//
+//        switch (event.getComponent().getId()) {
+//            case "jobManagementAndTrackingUnit":
+//                dashboard.addTab(getEntityManager1(), "Job Management",
+//                        getUser().getModules().getJobManagementAndTrackingModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "financialAdminUnit":
+//                dashboard.addTab(getEntityManager1(), "Financial Administration",
+//                        getUser().getModules().getFinancialAdminModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "adminUnit":
+//                dashboard.addTab(getEntityManager1(), "System Administration",
+//                        getUser().getModules().getAdminModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "complianceUnit":
+//                dashboard.addTab(getEntityManager1(), "Standards Compliance",
+//                        getUser().getModules().getComplianceModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "foodsUnit":
+//                dashboard.addTab(getEntityManager1(), "Foods Inspectorate",
+//                        getUser().getModules().getFoodsModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "standardsUnit":
+//                dashboard.addTab(getEntityManager1(), "Standards",
+//                        getUser().getModules().getStandardsModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "certificationUnit":
+//                dashboard.addTab(getEntityManager1(), "Certification",
+//                        getUser().getModules().getCertificationModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "serviceRequestUnit":
+//                dashboard.addTab(getEntityManager1(), "Service Request",
+//                        getUser().getModules().getServiceRequestModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "legalOfficeUnit":
+//                dashboard.addTab(getEntityManager1(), "Document Management",
+//                        getUser().getModules().getLegalOfficeModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "crmUnit":
+//                dashboard.addTab(getEntityManager1(), "Client Management",
+//                        getUser().getModules().getCrmModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            case "legalMetrologyUnit":
+//                dashboard.addTab(getEntityManager1(), "Legal Metrology",
+//                        getUser().getModules().getLegalMetrologyModule());
+//                getUser().getModules().setIsDirty(true);
+//                getUser().save(getEntityManager1());
+//                break;
+//            default:
+//                break;
+//        }
+//
+//    }
 
     public void updateDocumentsCollectedBy() {
         setIsDirty(true);
@@ -1703,15 +1702,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         doJobSearch();
     }
 
-    public void closePreferencesDialog2(CloseEvent closeEvent) {
-        closePreferencesDialog1(null);
-    }
-
-    public void closePreferencesDialog1(ActionEvent actionEvent) {
-
-        PrimeFaces.current().ajax().update("headerForm");
-        PrimeFaces.current().executeScript("PF('preferencesDialog').hide();");
-    }
+//    public void closePreferencesDialog2(CloseEvent closeEvent) {
+//        closePreferencesDialog1(null);
+//    }
+//
+//    public void closePreferencesDialog1(ActionEvent actionEvent) {
+//
+//        PrimeFaces.current().ajax().update("headerForm");
+//        PrimeFaces.current().executeScript("PF('preferencesDialog').hide();");
+//    }
 
     public void saveAndCloseCurrentJob() {
         saveCurrentJob();
@@ -2155,8 +2154,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
     public void setupAuthentication() {
 
-        if (!getAuthentication().getUserLoggedIn()) {
-            getAuthentication().reset(this);
+        if (!getSystemManager().getAuthentication().getUserLoggedIn()) {
+            getSystemManager().getAuthentication().reset(this);
         }
     }
 
@@ -2762,7 +2761,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // tk remove this and do as is done for supplier
         getClientManager().setIsClientNameAndIdEditable(getUser().getPrivilege().getCanAddClient());
 
-        mainTabView.openTab("Clients");
+        getSystemManager().getMainTabView().openTab("Clients");
     }
 
     public void openReportsTab() {
@@ -2787,11 +2786,23 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         PrimeFaces.current().executeScript("PrimeFaces.changeTheme('"
                 + getUser().getUserInterfaceThemeName() + "');");
 
-        initDashboard();
-        initMainTabView();
+//        initDashboard();
+//        initMainTabView(); // tk put in sysman
         initManagers();
+        
+        getSystemManager().initUI();
 
-        updateAllForms();
+        updateAllForms(); // tk put in sysman
+    }
+    
+    /**
+     * Gets the SystemManager object as a session bean.
+     * @return 
+     */
+    public SystemManager getSystemManager() {
+         systemManager = BeanUtils.findBean("systemManager");
+         
+         return systemManager;
     }
 
     /**
@@ -2799,9 +2810,11 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * @deprecated This method will soon no longer be necessary.
      */
     private void initManagers() {
-        systemManager = BeanUtils.findBean("systemManager");
-        systemManager.setUser(getUser());
-        systemManager.setMainTabView(getMainTabView());
+//        systemManager = BeanUtils.findBean("systemManager");
+//        systemManager.setUser(getUser());
+        // tk to be removed when then main tab view and dashboard are moved to
+        // SystemManager
+//        systemManager.setMainTabView(getMainTabView()); 
 
         legalDocumentManager = BeanUtils.findBean("legalDocumentManager");
         legalDocumentManager.setUser(getUser());
@@ -2813,22 +2826,22 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         clientManager = BeanUtils.findBean("clientManager");
         clientManager.setUser(getUser());
-        clientManager.setMainTabView(mainTabView);
+        clientManager.setMainTabView(getMainTabView());
 
         reportManager = BeanUtils.findBean("reportManager");
         reportManager.setUser(getUser());
-        reportManager.setMainTabView(mainTabView);
+        reportManager.setMainTabView(getMainTabView());
 
         jobFinanceManager = BeanUtils.findBean("jobFinanceManager");
-        jobFinanceManager.setMainTabView(mainTabView);
+        jobFinanceManager.setMainTabView(getMainTabView());
 
         financeManager = BeanUtils.findBean("financeManager");
         financeManager.setUser(getUser());
-        financeManager.setMainTabView(mainTabView);
+        financeManager.setMainTabView(getMainTabView());
 
         purchasingManager = BeanUtils.findBean("purchasingManager");
         purchasingManager.setUser(getUser());
-        purchasingManager.setMainTabView(mainTabView);
+        purchasingManager.setMainTabView(getMainTabView());
     }
 
 }
