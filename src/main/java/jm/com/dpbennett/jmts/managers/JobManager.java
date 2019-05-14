@@ -129,7 +129,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private String dialogActionHandlerId;
     private String jobsTabTitle;
     private Job[] selectedJobs;
-    private Boolean westLayoutUnitCollapsed;
+//    private Boolean westLayoutUnitCollapsed;
     private String invalidFormFieldMessage;
     private String dialogMessage;
     private String dialogMessageHeader;
@@ -345,7 +345,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      *
      */
     private void init() {
-        westLayoutUnitCollapsed = true;
+//        westLayoutUnitCollapsed = true;
         showJobEntry = false;
         longProcessProgress = 0;
         useAccPacCustomerList = false;
@@ -651,7 +651,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 
         //user = new JobManagerUser();
         getSystemManager().getAuthentication().reset(this);
-        westLayoutUnitCollapsed = true;
+//        westLayoutUnitCollapsed = true;
         renderSearchComponent = true;
         jobSearchResultList = new ArrayList<>();
 
@@ -798,15 +798,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.dialogMessageSeverity = dialogMessageSeverity;
     }
 
-    // tk put in sys man
-    public Boolean getWestLayoutUnitCollapsed() {
-        return westLayoutUnitCollapsed;
-    }
-
-    // tk put in sys man
-    public void setWestLayoutUnitCollapsed(Boolean westLayoutUnitCollapsed) {
-        this.westLayoutUnitCollapsed = westLayoutUnitCollapsed;
-    }
+//    // tk put in sys man
+//    public Boolean getWestLayoutUnitCollapsed() {
+//        return westLayoutUnitCollapsed;
+//    }
+//
+//    // tk put in sys man
+//    public void setWestLayoutUnitCollapsed(Boolean westLayoutUnitCollapsed) {
+//        this.westLayoutUnitCollapsed = westLayoutUnitCollapsed;
+//    }
 
     public EntityManager getEntityManager1() {
         return EMF1.createEntityManager();
@@ -856,13 +856,13 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    // tk move to sysman
-    public void handleLayoutUnitToggle(ToggleEvent event) {
-
-        if (event.getComponent().getId().equals("dashboard")) {
-            westLayoutUnitCollapsed = !event.getVisibility().name().equals("VISIBLE");
-        }
-    }
+//    // tk move to sysman
+//    public void handleLayoutUnitToggle(ToggleEvent event) {
+//
+//        if (event.getComponent().getId().equals("dashboard")) {
+//            westLayoutUnitCollapsed = !event.getVisibility().name().equals("VISIBLE");
+//        }
+//    }
 
     public Boolean renderUserMenu() {
         return getUser().getId() != null;
@@ -2769,15 +2769,15 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     }
 
     @Override
-    public void completeLogin() {
+    public void completeLogin() { // tk may all of this can be done in sysman.
 
         //setUser(getAuthentication().getUser());
         getUser().logActivity("Logged in", getEntityManager1());
 
         getUser().save(getEntityManager1());
 
-        if (westLayoutUnitCollapsed) {
-            westLayoutUnitCollapsed = false;
+        if (getSystemManager().getWestLayoutUnitCollapsed()) {
+            getSystemManager().setWestLayoutUnitCollapsed(false);
             PrimeFaces.current().executeScript("PF('layoutVar').toggle('west');");
         }
 
