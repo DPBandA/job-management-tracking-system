@@ -97,7 +97,7 @@ import org.primefaces.event.UnselectEvent;
  * @author Desmond Bennett
  */
 public class JobManager implements Serializable, BusinessEntityManagement,
-        DialogActionHandler, MessageManagement, Authentication.LoginListener {
+        DialogActionHandler, MessageManagement, Authentication.AuthenticationListener {
 
     private JMTSApplication application;
     @PersistenceUnit(unitName = "JMTSPU")
@@ -107,7 +107,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     private Job currentJob;
     private Job selectedJob;
     private Boolean dynamicTabView;
-    private Boolean renderSearchComponent;
+    //private Boolean renderSearchComponent;
     @ManagedProperty(value = "Jobs")
     private Integer longProcessProgress;
     private Boolean useAccPacCustomerList;
@@ -350,7 +350,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         longProcessProgress = 0;
         useAccPacCustomerList = false;
         dynamicTabView = true;
-        renderSearchComponent = true;
+        //renderSearchComponent = true;
         jobSearchResultList = new ArrayList<>();
 //        dashboard = new Dashboard(getUser());
 //        mainTabView = new MainTabView(getUser());
@@ -504,6 +504,7 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * @return
      */
     public ReportManager getReportManager() {
+        reportManager = BeanUtils.findBean("reportManager");
 
         return reportManager;
     }
@@ -514,6 +515,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
      * @return
      */
     public ClientManager getClientManager() {
+        
+        clientManager = BeanUtils.findBean("clientManager");
 
         return clientManager;
     }
@@ -650,9 +653,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
     public void reset() {
 
         //user = new JobManagerUser();
-        getSystemManager().getAuthentication().reset(this);
+        getSystemManager().getAuthentication().reset();
 //        westLayoutUnitCollapsed = true;
-        renderSearchComponent = true;
+        //renderSearchComponent = true;
         jobSearchResultList = new ArrayList<>();
 
         // Reset managers       
@@ -664,14 +667,14 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 //        mainTabView.removeAllTabs();
 //        mainTabView.setRender(false);
 
-        updateAllForms();
-
-        // Return to default theme
-        PrimeFaces.current().executeScript(
-                "PF('longProcessDialogVar').hide();"
-                + "PrimeFaces.changeTheme('"
-                + getUser().getUserInterfaceThemeName() + "');"
-                + "PF('layoutVar').toggle('west');");
+//        getSystemManager().updateAllForms();
+//
+//        // Return to default theme
+//        PrimeFaces.current().executeScript(
+//                "PF('longProcessDialogVar').hide();"
+//                + "PrimeFaces.changeTheme('"
+//                + getUser().getUserInterfaceThemeName() + "');"
+//                + "PF('layoutVar').toggle('west');");
 
     }
 
@@ -696,33 +699,33 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 //
 //    }
 
-    // tk put in sys man
-    public Boolean getIsDebugMode() {
-        return (Boolean) SystemOption.getOptionValueObject(
-                getEntityManager1(), "debugMode");
-    }
+//    // tk put in sys man
+//    public Boolean getIsDebugMode() {
+//        return (Boolean) SystemOption.getOptionValueObject(
+//                getEntityManager1(), "debugMode");
+//    }
 
-    // tk put in sys man
-    public String getApplicationSubheader() {
-        String subHeader;
-
-        if (getIsDebugMode()) {
-            subHeader = "Testing & Training Version";
-        } else {
-            subHeader = (String) SystemOption.getOptionValueObject(
-                    getEntityManager1(), "applicationSubheader");
-
-            if (subHeader != null) {
-                if (subHeader.trim().equals("None")) {
-                    return getUser().getEmployee().getDepartment().getName();
-                }
-            } else {
-                subHeader = "";
-            }
-        }
-
-        return subHeader;
-    }
+//    // tk put in sys man
+//    public String getApplicationSubheader() {
+//        String subHeader;
+//
+//        if (getIsDebugMode()) {
+//            subHeader = "Testing & Training Version";
+//        } else {
+//            subHeader = (String) SystemOption.getOptionValueObject(
+//                    getEntityManager1(), "applicationSubheader");
+//
+//            if (subHeader != null) {
+//                if (subHeader.trim().equals("None")) {
+//                    return getUser().getEmployee().getDepartment().getName();
+//                }
+//            } else {
+//                subHeader = "";
+//            }
+//        }
+//
+//        return subHeader;
+//    }
 
     // tk put in sys man
     public Boolean getDialogRenderCancelButton() {
@@ -830,31 +833,31 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return getSystemManager().getDashboard();
     }
 
-    // tk to be moved to sys man
-    private void updateAllForms() {
-        PrimeFaces.current().ajax().update("dashboardForm");
-        PrimeFaces.current().ajax().update("mainTabViewForm");
-        PrimeFaces.current().ajax().update("headerForm");
-    }
+//    // tk to be moved to sys man
+//    private void updateAllForms() {
+//        PrimeFaces.current().ajax().update("dashboardForm");
+//        PrimeFaces.current().ajax().update("mainTabViewForm");
+//        PrimeFaces.current().ajax().update("headerForm");
+//    }
 
-    // tk put in sys man
-    public void logout() {
-        getUser().logActivity("Logged out", getEntityManager1());
-        reset();
-        getSystemManager().reset();
-        getSystemManager().getAuthentication().reset(this);
-    }
+//    // tk put in sys man
+//    public void logout() {
+//        getUser().logActivity("Logged out", getEntityManager1());
+//        reset();
+//        getSystemManager().reset();
+//        getSystemManager().getAuthentication().reset(this);
+//    }
 
-    public void handleKeepAlive() {
-        getUser().setPollTime(new Date());
-
-        if ((Boolean) SystemOption.getOptionValueObject(getEntityManager1(), "debugMode")) {
-            System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
-        }
-        if (getUser().getId() != null) {
-            getUser().save(getEntityManager1());
-        }
-    }
+//    public void handleKeepAlive() {
+//        getUser().setPollTime(new Date());
+//
+//        if ((Boolean) SystemOption.getOptionValueObject(getEntityManager1(), "debugMode")) {
+//            System.out.println("Handling keep alive session: doing polling for JMTS..." + getUser().getPollTime());
+//        }
+//        if (getUser().getId() != null) {
+//            getUser().save(getEntityManager1());
+//        }
+//    }
 
 //    // tk move to sysman
 //    public void handleLayoutUnitToggle(ToggleEvent event) {
@@ -864,9 +867,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 //        }
 //    }
 
-    public Boolean renderUserMenu() {
-        return getUser().getId() != null;
-    }
+//    public Boolean renderUserMenu() {
+//        return getUser().getId() != null;
+//    }
 
     @Override
     public String getInvalidFormFieldMessage() {
@@ -978,8 +981,8 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         this.selectedJobs = selectedJobs;
     }
 
-    public void editPreferences() {
-    }
+//    public void editPreferences() {
+//    }
 
     public void openJobBrowser() {
         // Set "Job View" based on search type
@@ -1151,21 +1154,21 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         return serviceContractStreamContent;
     }
 
-    public String getJobSearchResultsPanelVisibility() {
-        if (renderSearchComponent) {
-            return "visible";
-        } else {
-            return "hidden";
-        }
-    }
-
-    public Boolean getRenderSearchComponent() {
-        return renderSearchComponent;
-    }
-
-    public void setRenderSearchComponent(Boolean renderSearchComponent) {
-        this.renderSearchComponent = renderSearchComponent;
-    }
+//    public String getJobSearchResultsPanelVisibility() {
+//        if (renderSearchComponent) {
+//            return "visible";
+//        } else {
+//            return "hidden";
+//        }
+//    }
+//
+//    public Boolean getRenderSearchComponent() {
+//        return renderSearchComponent;
+//    }
+//
+//    public void setRenderSearchComponent(Boolean renderSearchComponent) {
+//        this.renderSearchComponent = renderSearchComponent;
+//    }
 
 //    public void updatePreferedJobTableView(SelectEvent event) {
 //        //doJobViewUpdate((String) event.getObject());
@@ -2152,12 +2155,12 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         }
     }
 
-    public void setupAuthentication() {
-
-        if (!getSystemManager().getAuthentication().getUserLoggedIn()) {
-            getSystemManager().getAuthentication().reset(this);
-        }
-    }
+//    public void setupAuthentication() {
+//
+//        if (!getSystemManager().getAuthentication().getUserLoggedIn()) {
+//            getSystemManager().getAuthentication().reset(this);
+//        }
+//    }
 
     public List<Job> findJobs(Boolean includeSampleSearch) {
         return Job.findJobsByDateSearchField(getEntityManager1(),
@@ -2790,9 +2793,9 @@ public class JobManager implements Serializable, BusinessEntityManagement,
 //        initMainTabView(); // tk put in sysman
         initManagers();
         
+        // tk find way to have this executed by sysman
         getSystemManager().initUI();
-
-        updateAllForms(); // tk put in sysman
+        getSystemManager().updateAllForms(); // tk put in sysman
     }
     
     /**
@@ -2816,32 +2819,37 @@ public class JobManager implements Serializable, BusinessEntityManagement,
         // SystemManager
 //        systemManager.setMainTabView(getMainTabView()); 
 
-        legalDocumentManager = BeanUtils.findBean("legalDocumentManager");
-        legalDocumentManager.setUser(getUser());
-        legalDocumentManager.setMainTabView(getMainTabView());
+//        legalDocumentManager = BeanUtils.findBean("legalDocumentManager");
+//        legalDocumentManager.setUser(getUser());
+//        legalDocumentManager.setMainTabView(getMainTabView());
 
-        humanResourceManager = BeanUtils.findBean("humanResourceManager");
-        humanResourceManager.setUser(getUser());
-        humanResourceManager.setMainTabView(getMainTabView());
+//        humanResourceManager = BeanUtils.findBean("humanResourceManager");
+//        humanResourceManager.setUser(getUser());
+//        humanResourceManager.setMainTabView(getMainTabView());
+//
+//        clientManager = BeanUtils.findBean("clientManager");
+//        clientManager.setUser(getUser());
+//        clientManager.setMainTabView(getMainTabView());
 
-        clientManager = BeanUtils.findBean("clientManager");
-        clientManager.setUser(getUser());
-        clientManager.setMainTabView(getMainTabView());
+//        reportManager = BeanUtils.findBean("reportManager");
+//        reportManager.setUser(getUser());
+//        reportManager.setMainTabView(getMainTabView());
+//
+//        jobFinanceManager = BeanUtils.findBean("jobFinanceManager");
+//        jobFinanceManager.setMainTabView(getMainTabView());
 
-        reportManager = BeanUtils.findBean("reportManager");
-        reportManager.setUser(getUser());
-        reportManager.setMainTabView(getMainTabView());
+//        financeManager = BeanUtils.findBean("financeManager");
+//        financeManager.setUser(getUser());
+//        financeManager.setMainTabView(getMainTabView());
 
-        jobFinanceManager = BeanUtils.findBean("jobFinanceManager");
-        jobFinanceManager.setMainTabView(getMainTabView());
+//        purchasingManager = BeanUtils.findBean("purchasingManager");
+//        purchasingManager.setUser(getUser());
+//        purchasingManager.setMainTabView(getMainTabView());
+    }
 
-        financeManager = BeanUtils.findBean("financeManager");
-        financeManager.setUser(getUser());
-        financeManager.setMainTabView(getMainTabView());
-
-        purchasingManager = BeanUtils.findBean("purchasingManager");
-        purchasingManager.setUser(getUser());
-        purchasingManager.setMainTabView(getMainTabView());
+    @Override
+    public void completeLogout() {
+        reset();
     }
 
 }

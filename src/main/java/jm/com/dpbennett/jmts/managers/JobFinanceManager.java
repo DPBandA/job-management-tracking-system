@@ -135,8 +135,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     private JobContractManager jobContractManager;
     private Boolean edit;
     private String fileDownloadErrorMessage;
-    private MainTabView mainTabView;
-    //private JobManagerUser user;
 
     /**
      * Creates a new instance of the JobFinanceManager class.
@@ -527,17 +525,9 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
      */
     public MainTabView getMainTabView() {
 
-        return mainTabView;
+        return getJobManager().getMainTabView();
     }
-
-    /**
-     * Sets the main view of tabs associated with the web application.
-     *
-     * @param mainTabView
-     */
-    public void setMainTabView(MainTabView mainTabView) {
-        this.mainTabView = mainTabView;
-    }
+   
     
     /**
      * Get all cost components without heading.
@@ -1375,14 +1365,6 @@ public class JobFinanceManager implements Serializable, BusinessEntityManagement
     public JobManagerUser getUser() {
         return getJobManager().getUser();
     }
-
-//    /**
-//     * Sets the logged on user field.
-//     * @param user 
-//     */
-//    public void setUser(JobManagerUser user) {
-//        this.user = user;
-//    }
 
     /**
      * Gets the invalidFormFieldMessage field.

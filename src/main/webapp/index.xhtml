@@ -56,24 +56,24 @@ Email: info@dpbennett.com.jm
                           size="75" >
                 <h:form id="headerForm">   
                     <p:growl id="growl3" life="5000" showDetail="true" />
-                    <h:panelGrid rendered="#{jobManager.renderUserMenu()}" width="100%" 
+                    <h:panelGrid rendered="#{systemManager.renderUserMenu()}" width="100%" 
                                  border="0" columns="3" >
                         <p:graphicImage value="images/BSJ Logo - H41.png"/>
                         <h:panelGrid columns="1">   
 
-                            <h:outputText value="#{jobManager.applicationHeader}"
+                            <h:outputText value="#{systemManager.applicationHeader}"
                                           style="color: darkgrey; font-size: 14pt; font-weight: bold;" />
 
-                            <h:outputText value="#{jobManager.applicationSubheader}"
-                                          styleClass="#{jobManager.isDebugMode eq true ? 'debug-mode' : 'non-debug-mode'}" />  
+                            <h:outputText value="#{systemManager.applicationSubheader}"
+                                          styleClass="#{systemManager.isDebugMode eq true ? 'debug-mode' : 'non-debug-mode'}" />  
 
                         </h:panelGrid>
-                        <p:menuButton value="#{jobManager.user.employee.firstName} #{jobManager.user.employee.lastName}"     
+                        <p:menuButton value="#{systemManager.user.employee.firstName} #{systemManager.user.employee.lastName}"     
                                       iconPos="left"
                                       id="userMenu"
                                       style="float: right;" >
 
-                            <p:menuitem actionListener="#{jobManager.editPreferences}"
+                            <p:menuitem actionListener="#{systemManager.editPreferences}"
                                         onstart="PF('longProcessDialogVar').show();"
                                         update=":preferencesDialogForm"
                                         oncomplete="PF('longProcessDialogVar').hide();PF('preferencesDialog').show();"
@@ -81,7 +81,7 @@ Email: info@dpbennett.com.jm
                                         value="Preferences"
                                         process="@this"/>
                             <p:separator />  
-                            <p:menuitem actionListener="#{jobManager.logout}"
+                            <p:menuitem actionListener="#{systemManager.logout}"
                                         onstart="PF('longProcessDialogVar').show();"                                               
                                         onerror="PF('connectionErrorDialog').show();"                                              
                                         icon="ui-icon-circle-arrow-w"
@@ -98,11 +98,11 @@ Email: info@dpbennett.com.jm
 
 
                     <p:remoteCommand name="auth" autoRun="true" 
-                                     actionListener="#{jobManager.setupAuthentication}" />
+                                     actionListener="#{systemManager.setupAuthentication}" />
 
 
                     <p:remoteCommand name="keepAliveRequest"
-                                     actionListener="#{jobManager.handleKeepAlive}"
+                                     actionListener="#{systemManager.handleKeepAlive}"
                                      onerror="PF('connectionErrorDialog').show();"
                                      update="@this"
                                      process="@this"/>
@@ -116,8 +116,8 @@ Email: info@dpbennett.com.jm
                 <h:form id="mainTabViewForm">   
 
                     <p:tabView id="mainTabView"   
-                               rendered="#{jobManager.mainTabView.render}"
-                               value="#{jobManager.mainTabView.tabs}" 
+                               rendered="#{systemManager.mainTabView.render}"
+                               value="#{systemManager.mainTabView.tabs}" 
                                var="t"         
                                style="border-width: 0px;"
                                onTabShow="PF('longProcessDialogVar').hide();"
@@ -127,12 +127,12 @@ Email: info@dpbennett.com.jm
                                 immediate="true"
                                 process="@this"
                                 update=":headerForm:growl3"
-                                listener="#{jobManager.onMainViewTabClose}" />  
+                                listener="#{systemManager.onMainViewTabClose}" />  
 
                         <p:ajax event="tabChange" 
                                 immediate="true"
                                 process="@this"                                
-                                listener="#{jobManager.onMainViewTabChange}" />  
+                                listener="#{systemManager.onMainViewTabChange}" />  
 
 
                         <p:tab title="#{t.name}" closable="true"  >
@@ -186,7 +186,7 @@ Email: info@dpbennett.com.jm
                 size="375"
                 header="Dashboard"
                 resizable="true"                  
-                collapsed="#{jobManager.westLayoutUnitCollapsed}"
+                collapsed="#{systemManager.westLayoutUnitCollapsed}"
                 collapsible="true">   
                 <h:form id="dashboardForm" > 
 
@@ -206,16 +206,16 @@ Email: info@dpbennett.com.jm
                                       target="doGeneralSearchButton" />
 
                     <p:accordionPanel id="dashboardAccordion" 
-                                      value="#{jobManager.dashboard.tabs}" 
+                                      value="#{systemManager.dashboard.tabs}" 
                                       var="t" 
                                       widgetVar="dashboardAccordionVar"
-                                      rendered="#{jobManager.dashboard.render}"
+                                      rendered="#{systemManager.dashboard.render}"
                                       multiple="false">
 
                         <p:ajax event="tabChange"       
                                 immediate="true"
                                 process="@this"
-                                listener="#{jobManager.onDashboardTabChange}" />
+                                listener="#{systemManager.onDashboardTabChange}" />
 
                         <p:tab title="#{t.name}" > 
 
