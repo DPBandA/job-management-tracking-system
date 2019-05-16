@@ -75,6 +75,7 @@ import jm.com.dpbennett.business.entity.management.BusinessEntityManagement;
 import jm.com.dpbennett.business.entity.utils.ReturnMessage;
 import jm.com.dpbennett.jmts.JMTSApplication;
 import jm.com.dpbennett.wal.managers.SystemManager;
+import jm.com.dpbennett.wal.managers.SystemManager.SystemActionListener;
 import jm.com.dpbennett.wal.utils.BeanUtils;
 import jm.com.dpbennett.wal.utils.Dashboard;
 import jm.com.dpbennett.wal.utils.DateUtils;
@@ -91,7 +92,7 @@ import org.primefaces.event.UnselectEvent;
  *
  * @author Desmond Bennett
  */
-public class JobManager implements Serializable, BusinessEntityManagement {
+public class JobManager implements Serializable, BusinessEntityManagement, SystemActionListener {
 
     private JMTSApplication application;
     @PersistenceUnit(unitName = "JMTSPU")
@@ -314,6 +315,12 @@ public class JobManager implements Serializable, BusinessEntityManagement {
         dateSearchPeriod = new DatePeriod("This month", "month",
                 "dateAndTimeEntered", null, null, null, false, false, false);
         dateSearchPeriod.initDatePeriod();
+        
+        initSystemManager();
+    }
+    
+    private void initSystemManager() {
+        getSystemManager().addSystemActionListener(this);
     }
 
     /**
@@ -1641,6 +1648,7 @@ public class JobManager implements Serializable, BusinessEntityManagement {
                 includeSampleSearch);
     }
 
+    @Override
     public void doDefaultSearch() {
 
         switch (getDashboard().getSelectedTabId()) {
