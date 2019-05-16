@@ -77,7 +77,7 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     
                     <dependentWarExcludes>
-                        WEB-INF/*.xml                       
+                        WEB-INF/web.xml, WEB-INF/glassfish-web.xml                       
                     </dependentWarExcludes>
                     
                     <overlays>
