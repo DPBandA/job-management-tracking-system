@@ -4,10 +4,12 @@
 
     <groupId>jm.com.dpbennett</groupId>
     <artifactId>job-management-tracking-system</artifactId>
-    <version>3.5.4-beta</version>
+    <version>3.6.1-beta</version>
     <packaging>war</packaging>
 
     <name>Job Management &amp; Tracking System</name>
+    
+    <description>The Job Management &amp; Tracking System (JMTS) enterprise software.</description>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -16,24 +18,51 @@
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
-    <dependencies>    
+    <dependencies>  
+        <!-- The web-application-library dependency is not needed since it is already added to 
+          system-management project. It is added to avoid the need to build system-management
+          before building this project -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>web-application-library</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-        </dependency>    
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>web-application-resources</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <type>war</type>
-        </dependency>  
+        </dependency>          
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>system-management</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <type>war</type>
-        </dependency>          
+        </dependency>         
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>client-management</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency> 
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>standards-compliance</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>purchase-management</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>financial-management</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>legal-office</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -57,17 +86,33 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     
                     <dependentWarExcludes>
-                        WEB-INF/*.xml, index.xhtml                        
+                        WEB-INF/web.xml, WEB-INF/glassfish-web.xml                       
                     </dependentWarExcludes>
                     
                     <overlays>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>web-application-resources</artifactId>
+                            <artifactId>system-management</artifactId>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>system-management</artifactId>
+                            <artifactId>client-management</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>standards-compliance</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>financial-management</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>purchase-management</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>legal-office</artifactId>
                         </overlay>
                     </overlays> 
                     
@@ -75,5 +120,4 @@
             </plugin>
         </plugins>
     </build>
-    <description>The Job Management &amp; Tracking System (JMTS) enterprise software.</description>
 </project>
