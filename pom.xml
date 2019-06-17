@@ -20,7 +20,7 @@
 
     <dependencies>  
         <!-- The web-application-library dependency is not needed since it is already added to 
-          system-management project. It is added to avoid the need to build system-management
+          the system-management project. It is added to avoid the need to build system-management
           before building this project -->
         <dependency>
             <groupId>${project.groupId}</groupId>
