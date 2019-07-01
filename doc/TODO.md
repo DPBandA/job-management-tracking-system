@@ -1,4 +1,6 @@
 ### General
+* Check why Finance staff cannot export job costing. This may be applicabl to only
+  subcontracted jobs.
 Fix java.lang.NullPointerException
 	at jm.com.dpbennett.wal.managers.SystemManager.updateDashboardTabs(SystemManager.java:353)
 that is thrown in user menu when a module is selected.
