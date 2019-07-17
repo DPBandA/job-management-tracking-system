@@ -87,35 +87,9 @@ Email: info@dpbennett.com.jm
                                         actionListener="#{systemManager.updateDashboardTabs(event)}"
                                         icon="ui-icon-check"
                                         value="Job Management" /> 
-
-                            <p:menuitem rendered="#{systemManager.user.privilege.canBeJMTSAdministrator}" > 
-                                <p:selectBooleanButton id="adminUnit"                                                        
-                                                       value="#{systemManager.user.modules.adminModule}" 
-                                                       onLabel="System Administration" 
-                                                       offLabel="System Administration" 
-                                                       onIcon="ui-icon-check" 
-                                                       offIcon="ui-icon-close" 
-                                                       style="width: 100%;text-align: left;background: none;border: 0;" >
-                                    <p:ajax listener="#{systemManager.updateDashboardTabs}"
-                                            global="false"
-                                            process="@this"/>
-                                </p:selectBooleanButton>
-                            </p:menuitem>            
                             
-                            <p:menuitem rendered="#{systemManager.user.privilege.canBeFinancialAdministrator}" > 
-                                <p:selectBooleanButton id="financialAdminUnit"                                                        
-                                                       value="#{systemManager.user.modules.financialAdminModule}"
-                                                       onLabel="Financial Administration" 
-                                                       offLabel="Financial Administration" 
-                                                       onIcon="ui-icon-check" 
-                                                       offIcon="ui-icon-close" 
-                                                       style="width: 100%;text-align: left;background: none;border: 0;" >
-                                    <p:ajax listener="#{systemManager.updateDashboardTabs}"
-                                            global="false"
-                                            process="@this"/>
-                                </p:selectBooleanButton>
-                            </p:menuitem>
                             <p:separator />
+                            
                             <p:menuitem actionListener="#{systemManager.logout}"
                                         onstart="PF('longProcessDialogVar').show();"                                               
                                         onerror="PF('connectionErrorDialog').show();"                                              
