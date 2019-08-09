@@ -1,4 +1,7 @@
 ### General
+- Implement PF status monitor for file downloads and remove code the deals with it otherwise.
+- Implement month report feature update in accordance with proforma, report template
+  and GA's email.
 - Put back the PM search and other features after adding the purchase-management-lib dependency.
 - Implement enabling a module for a user from the user menu.
 - Check why Finance staff cannot export job costing. This may be applicable to only
