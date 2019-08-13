@@ -22,3 +22,7 @@ Notes:
 /home/desbenn/gdrive/Projects Backup/GitHub Projects/bsjdb-master/web/cdb/cdbComplianceSurveyDialog.xhtml
 Use to save images to the jmts database such as an organization's logo.
 
+### Database Update
+- The commnent field in Job class is 1024 but it is 255 in the database. 
+Fix this other fields with the same problem.
+
