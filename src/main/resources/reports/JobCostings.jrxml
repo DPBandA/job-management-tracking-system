@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costings with Invoices" pageWidth="2400" pageHeight="595" orientation="Landscape" columnWidth="2360" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costings" pageWidth="2400" pageHeight="595" orientation="Landscape" columnWidth="2360" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="e6066384-c22d-4b38-a75e-1184f2495e13">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="2267"/>
 	<property name="ireport.y" value="0"/>
@@ -17,6 +17,7 @@
 	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.report.description" value="Job costings for earning and non-earning jobs."/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -27,10 +28,10 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="startOfPeriod1" class="java.util.Date" isForPrompting="false">
+	<parameter name="startOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2019-01-10")]]></defaultValueExpression>
 	</parameter>
-	<parameter name="endOfPeriod1" class="java.util.Date" isForPrompting="false">
+	<parameter name="endOfPeriod1" class="java.util.Date">
 		<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2019-01-31")]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -80,7 +81,7 @@ FROM
 WHERE
  jobstatusandtracking.`DATESUBMITTED` >= $P{startOfPeriod1}
  AND jobstatusandtracking.`DATESUBMITTED` <= $P{endOfPeriod1}
- AND (classification.`ISEARNING` = 1)
+/* AND (classification.`ISEARNING` = 1)*/
  AND (jobstatusandtracking.`WORKPROGRESS` NOT LIKE '%Cancelled%')
  AND (jobstatusandtracking.`WORKPROGRESS` NOT LIKE '%Withdrawn by client%') 
 
@@ -197,7 +198,7 @@ ORDER BY
 		<band height="55" splitType="Stretch">
 			<image>
 				<reportElement x="1" y="8" width="170" height="42" uuid="51d1b3d6-34c3-4f8f-a0a3-b8d34a7be147"/>
-				<imageExpression><![CDATA["F:\\jasperreports\\BSJ Logo - H41.png"]]></imageExpression>
+				<imageExpression><![CDATA["C:\\jasperreports\\BSJ Logo - H41.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="176" y="8" width="266" height="42" uuid="e4d5de4a-75f4-476e-a6cc-87671a899f43"/>
@@ -205,7 +206,7 @@ ORDER BY
 				<textElement textAlignment="Left" markup="none">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Job Costings with Invoices]]></text>
+				<text><![CDATA[Job Costings]]></text>
 			</staticText>
 		</band>
 	</title>

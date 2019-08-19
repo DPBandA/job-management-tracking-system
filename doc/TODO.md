@@ -1,4 +1,6 @@
 ### General
+- Do Job Costings report that include jobs without list of costings:
+  * Remember to change the location of the log after deployment.
 - Implement PF status monitor for file downloads and remove code the deals with it otherwise.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email.
