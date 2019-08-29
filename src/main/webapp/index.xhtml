@@ -81,15 +81,15 @@ Email: info@dpbennett.com.jm
                                         onerror="PF('connectionErrorDialog').show();"    
                                         value="Preferences"
                                         process="@this"/>  
-                            
+
                             <p:menuitem rendered="#{systemManager.user.privilege.canAccessJobManagementUnit}"
                                         id="jobManagementAndTrackingUnit"
                                         actionListener="#{systemManager.updateDashboardTabs(event)}"
                                         icon="ui-icon-check"
                                         value="Job Management" /> 
-                            
+
                             <p:separator />
-                            
+
                             <p:menuitem actionListener="#{systemManager.logout}"
                                         onstart="PF('longProcessDialogVar').show();"                                               
                                         onerror="PF('connectionErrorDialog').show();"                                              
@@ -164,9 +164,11 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Clients'}" >
                                 <ui:include src="client/clientsTab.xhtml" />                                                                
                             </h:panelGroup>
-                            <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
-                                <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
-                            </h:panelGroup>
+                            <ui:remove>
+                                <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
+                                    <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
+                                </h:panelGroup>
+                            </ui:remove>
                             <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
                                 <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
                             </h:panelGroup>
@@ -273,10 +275,11 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Financial Administration'}">
                                 <ui:include src="dashboard/finance/financialAdminTab.xhtml" />
                             </h:panelGroup>
-
-                            <h:panelGroup rendered="#{t.id == 'Procurement'}">
-                                <ui:include src="dashboard/finance/purchaseAdminTab.xhtml" />
-                            </h:panelGroup>
+                            <ui:remove>
+                                <h:panelGroup rendered="#{t.id == 'Procurement'}">
+                                    <ui:include src="dashboard/finance/purchaseAdminTab.xhtml" />
+                                </h:panelGroup>
+                            </ui:remove>
 
                         </p:tab>   
 

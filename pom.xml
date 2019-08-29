@@ -45,12 +45,15 @@
             <version>1.0.0</version>
             <type>war</type>
         </dependency>
+        <!--
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>purchase-management</artifactId>
             <version>1.0.0</version>
             <type>war</type>
         </dependency>
+        -->
+        
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>financial-management</artifactId>
@@ -106,10 +109,12 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>financial-management</artifactId>
                         </overlay>
+                        <!--
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>purchase-management</artifactId>
                         </overlay>
+                        -->
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>legal-office</artifactId>
