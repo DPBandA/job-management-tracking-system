@@ -1,4 +1,5 @@
 ### General
+- Edit SM and JMTS faces config files so they don't include the same info.
 - Create job-management-tracking-system-lib and move relevant classes from WAL
   to it.
 - Comment out PM code and access to modules from the user menu.

@@ -89,7 +89,7 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     
                     <dependentWarExcludes>
-                        WEB-INF/faces-config.xml, WEB-INF/web.xml, WEB-INF/glassfish-web.xml, index.xhtml                       
+                        WEB-INF/web.xml, WEB-INF/glassfish-web.xml, index.xhtml                       
                     </dependentWarExcludes>
                     
                     <overlays>
