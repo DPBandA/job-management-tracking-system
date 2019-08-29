@@ -1,6 +1,8 @@
 ### General
-- Do Job Costings report that include jobs without list of costings:
-  * Remember to change the location of the log after deployment.
+- Create job-management-tracking-system-lib and move relevant classes from WAL
+  to it.
+- Comment out PM code and access to modules from the user menu.
+- Move persistence from WAL to JMTS/PM or use existing one.
 - Implement PF status monitor for file downloads and remove code the deals with it otherwise.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email.
