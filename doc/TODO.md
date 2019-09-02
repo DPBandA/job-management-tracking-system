@@ -30,4 +30,23 @@ Use to save images to the jmts database such as an organization's logo.
 ### Database Update
 - The commnent field in Job class is 1024 but it is 255 in the database. 
 Fix this other fields with the same problem.
+- Run new PR(); to create the database tables for the attachment field in the PR class.
+- Add attachment, currency tables by running BEL code.
+- costcomponent table: CURRENCY_ID (BIGINT, index)
+- privilege table: CANACCESSPROCUREMENTUNIT
+- purchaserequisition table: DELIVERYDATEREQUIRED, IMPORTLICENCEDATE, IMPORTLICENCENUM,
+  SHIPPINGINSTRUCTIONS (VARCHAR: 1024), PLEASESUPPLYNOTE (VARCHAR: 1024),
+  CURRENCY_ID (BIGINT, index)
+- modules table: PURCHASEMANAGEMENTMODULE
+- Add currency table by running BEL code.
+- Add "purchReqUploadFolder" system option. Add "/" to purchReqUploadFolder system option.
+- Add new PO fields to ALL databases.
+- Add prPriorityCodes (Regular;Urgent)system option.
+- Add daysAfterPRApprovalForEDOC system option.
+- Add requiredPRApprovals system option.
+- Add maxAmountForPRProcurement system option.
+- Add defaultOrganizationalHeadTitle system option (Executive Director).
+- Add defaultProcurementOfficerTitle system option (Procurement Officer).
+- modules table: HRMMODULE
+- privilege table: CANACCESSHRMUNIT
 
