@@ -18,6 +18,8 @@ that is thrown in user menu when a module is selected.
 done in the preferences dialog. See if there is a checkbox menu item in PF
 - Create a lib project for each web application. Eg system-management-lib, 
 purchase-management-lib etc.
+- Take out the relevant files and put them in their own modules. See the JMTS copy 
+  for the files.
 
 ### UI Design
 - Put "Help" and "About" menu items in the "User" menu.

@@ -6,30 +6,18 @@
               xmlns="http://java.sun.com/xml/ns/javaee" 
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
-    <converter>
-        <converter-id>jobCategoryConverter</converter-id>
-        <converter-class>jm.com.dpbennett.wal.converter.JobCategoryConverter</converter-class>
-    </converter> 
-    <converter>
-        <converter-id>jobSubCategoryConverter</converter-id>
-        <converter-class>jm.com.dpbennett.wal.converter.JobSubCategoryConverter</converter-class>
-    </converter> 
     <validator>
         <validator-id>jobClientValidator</validator-id>
-        <validator-class>jm.com.dpbennett.wal.validator.JobClientValidator</validator-class>
+        <validator-class>jm.com.dpbennett.jmts.validator.JobClientValidator</validator-class>
     </validator>    
     <validator>
         <validator-id>jobNumberValidator</validator-id>
-        <validator-class>jm.com.dpbennett.wal.validator.JobNumberValidator</validator-class>
+        <validator-class>jm.com.dpbennett.jmts.validator.JobNumberValidator</validator-class>
     </validator>    
     <validator>
         <validator-id>subcontractedDepartmentValidator</validator-id>
-        <validator-class>jm.com.dpbennett.wal.validator.SubcontractedDepartmentValidator</validator-class>
-    </validator>    
-    <validator>
-        <validator-id>turnaroundTimeValidator</validator-id>
-        <validator-class>jm.com.dpbennett.wal.validator.TurnaroundTimeValidator</validator-class>
-    </validator>    
+        <validator-class>jm.com.dpbennett.jmts.validator.SubcontractedDepartmentValidator</validator-class>
+    </validator>  
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
@@ -75,19 +63,19 @@
        
     <managed-bean>
         <managed-bean-name>jobManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.wal.managers.jmts.JobManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.jmts.manager.JobManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
     <managed-bean>
         <managed-bean-name>jobSampleManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.wal.managers.jmts.JobSampleManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.jmts.manager.JobSampleManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
        
     <managed-bean>
         <managed-bean-name>jobContractManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.wal.managers.jmts.JobContractManager</managed-bean-class>
+        <managed-bean-class>jm.com.dpbennett.jmts.manager.JobContractManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     

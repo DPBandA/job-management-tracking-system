@@ -38,12 +38,6 @@
         <param-value>true</param-value>
     </context-param>
     
-    <!--
-    <context-param>
-        <param-name>primefaces.THEME</param-name>
-        <param-value>start</param-value>
-    </context-param>
-    -->
     <context-param>
         <param-name>primefaces.SUBMIT</param-name>
         <param-value>partial</param-value>
@@ -57,8 +51,14 @@
     <context-param>
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>
+            /WEB-INF/faces-config-sm.xml,             
+            /WEB-INF/faces-config-hrm.xml,
+            /WEB-INF/faces-config-cm.xml,
+            /WEB-INF/faces-config-fm.xml,
+            /WEB-INF/faces-config-rm.xml,
+            /WEB-INF/faces-config-pm.xml,
+            /WEB-INF/faces-config-lo.xml,
             /WEB-INF/faces-config-jmts.xml
-            /WEB-INF/faces-config-sm.xml
         </param-value>
     </context-param>  
        

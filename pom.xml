@@ -4,7 +4,7 @@
 
     <groupId>jm.com.dpbennett</groupId>
     <artifactId>job-management-tracking-system</artifactId>
-    <version>3.6.1-beta</version>
+    <version>3.8.0-beta</version>
     <packaging>war</packaging>
 
     <name>Job Management &amp; Tracking System</name>
@@ -19,14 +19,11 @@
     </properties>
 
     <dependencies>  
-        <!-- The web-application-library dependency is not needed since it is already added to 
-          the system-management project. It is added to avoid the need to build system-management
-          before building this project -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>web-application-library</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>          
+            <artifactId>job-management-tracking-system-lib</artifactId>
+            <version>1.0.0</version>
+        </dependency> 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>system-management</artifactId>
@@ -38,22 +35,13 @@
             <artifactId>client-management</artifactId>
             <version>1.0.0</version>
             <type>war</type>
-        </dependency> 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>standards-compliance</artifactId>
-            <version>1.0.0</version>
-            <type>war</type>
-        </dependency>
-        <!--
+        </dependency>             
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>purchase-management</artifactId>
             <version>1.0.0</version>
             <type>war</type>
-        </dependency>
-        -->
-        
+        </dependency>  
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>financial-management</artifactId>
@@ -63,6 +51,18 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>legal-office</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>report-management</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>human-resource-management</artifactId>
             <version>1.0.0</version>
             <type>war</type>
         </dependency>
@@ -89,7 +89,9 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     
                     <dependentWarExcludes>
-                        WEB-INF/web.xml, WEB-INF/glassfish-web.xml, index.xhtml                       
+                        WEB-INF/web.xml, 
+                        WEB-INF/glassfish-web.xml, 
+                        index.xhtml                       
                     </dependentWarExcludes>
                     
                     <overlays>
@@ -103,21 +105,23 @@
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>standards-compliance</artifactId>
-                        </overlay>
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
                             <artifactId>financial-management</artifactId>
                         </overlay>
-                        <!--
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>purchase-management</artifactId>
                         </overlay>
-                        -->
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>legal-office</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>report-management</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>human-resource-management</artifactId>
                         </overlay>
                     </overlays> 
                     

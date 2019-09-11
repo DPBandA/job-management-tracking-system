@@ -30,8 +30,8 @@ Email: info@dpbennett.com.jm
                              title="Approve the selected job costing(s)"
                              actionListener="#{jobFinanceManager.approveSelectedJobCostings}"
                              update=":headerForm:growl3,jobCostingsTable"
-                             onstart="PF('longProcessDialogVar2').show();" 
-                             oncomplete="PF('longProcessDialogVar2').hide();">                                                                                    
+                             onstart="PF('longProcessDialogVar').show();" 
+                             oncomplete="PF('longProcessDialogVar').hide();">                                                                                    
             </p:commandButton>
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
             
@@ -43,14 +43,14 @@ Email: info@dpbennett.com.jm
                             title="Generate invoice(s) for the selected job costing(s)"
                             actionListener="#{jobFinanceManager.invoiceSelectedJobCostings}"
                             update=":headerForm:growl3,jobCostingsTable"
-                            onstart="PF('longProcessDialogVar2').show();" 
-                            oncomplete="PF('longProcessDialogVar2').hide();" />
+                            onstart="PF('longProcessDialogVar').show();" 
+                            oncomplete="PF('longProcessDialogVar').hide();" />
                 
                 <p:menuitem value="Export invoice(s)"
                             ajax="false" 
                             update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
                             immediate="false" 
-                            onclick="PF('longProcessDialogVar5').show();" >
+                            onclick="PF('longProcessDialogVar').show();" >
                     
                     <p:fileDownload value="#{jobFinanceManager.invoicesFile}" />
                     
@@ -83,8 +83,8 @@ Email: info@dpbennett.com.jm
                                itemLabel="#{jobView}" 
                                itemValue="#{jobView}"/>
                 <p:ajax listener="#{jobManager.updateJobView}"
-                        onstart="PF('longProcessDialogVar2').show();" 
-                        oncomplete="PF('longProcessDialogVar2').hide();"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update="mainTabViewForm:mainTabView"
                         global="false"
                         process="@this"/>
