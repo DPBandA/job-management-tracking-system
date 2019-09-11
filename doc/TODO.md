@@ -1,10 +1,12 @@
 ### General
+- Call resetManagers() on all managers to init them. 
 - Edit SM and JMTS faces config files so they don't include the same info.
 - Create job-management-tracking-system-lib and move relevant classes from WAL
   to it.
 - Comment out PM code and access to modules from the user menu.
 - Move persistence from WAL to JMTS/PM or use existing one.
 - Implement PF status monitor for file downloads and remove code the deals with it otherwise.
+- Impl default search for all modules.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email.
 - Put back the PM search and other features after adding the purchase-management-lib dependency.
