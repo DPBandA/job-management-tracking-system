@@ -151,6 +151,15 @@ Email: info@dpbennett.com.jm
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
+                        
+                        <p:selectBooleanCheckbox id="reportUnit" 
+                                                 itemLabel="Report"
+                                                 rendered="#{humanResourceManager.user.privilege.canAccessReportUnit}"
+                                                 value="#{humanResourceManager.user.modules.reportModule}" >
+                            <p:ajax listener="#{humanResourceManager.updateDashboardTabs}"
+                                    global="false"
+                                    process="@this"/>
+                        </p:selectBooleanCheckbox>
 
                     </h:panelGrid> 
                 </p:tab>
