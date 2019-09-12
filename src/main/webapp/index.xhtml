@@ -162,6 +162,9 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Reports'}" >
                                 <ui:include src="report/reportsTab.xhtml" />                                                                
                             </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Report templates'}" >
+                                <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
+                            </h:panelGroup>
                         </p:tab>
                     </p:tabView>
 
@@ -243,6 +246,10 @@ Email: info@dpbennett.com.jm
 
                             <h:panelGroup rendered="#{t.id == 'Procurement'}">
                                 <ui:include src="dashboard/finance/purchaseAdminTab.xhtml" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup rendered="#{t.id == 'Report Management'}">
+                                <ui:include src="dashboard/report/reportTab.xhtml" />
                             </h:panelGroup>
 
 
