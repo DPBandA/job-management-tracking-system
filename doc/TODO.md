@@ -37,20 +37,17 @@ Fix this other fields with the same problem.
 - Run new PR(); to create the database tables for the attachment field in the PR class.
 - Add attachment, currency tables by running BEL code.
 - costcomponent table: CURRENCY_ID (BIGINT, index)
-- privilege table: CANACCESSPROCUREMENTUNIT
-- purchaserequisition table: DELIVERYDATEREQUIRED, IMPORTLICENCEDATE, IMPORTLICENCENUM,
-  SHIPPINGINSTRUCTIONS (VARCHAR: 1024), PLEASESUPPLYNOTE (VARCHAR: 1024),
+- privilege table: CANACCESSPROCUREMENTUNIT (BIT), CANACCESSREPORTUNIT (BIT), CANACCESSHRMUNIT (BIT)
+- purchaserequisition table: DELIVERYDATEREQUIRED (DATE), IMPORTLICENCEDATE (DATE), 
+  IMPORTLICENCENUM (VARCHAR: 255), SHIPPINGINSTRUCTIONS (VARCHAR: 1024), PLEASESUPPLYNOTE (VARCHAR: 1024),
   CURRENCY_ID (BIGINT, index)
-- modules table: PURCHASEMANAGEMENTMODULE
+- modules table: PURCHASEMANAGEMENTMODULE (BIT), HRMMODULE (BIT), REPORTMODULE (BIT)
 - Add currency table by running BEL code.
-- Add "purchReqUploadFolder" system option. Add "/" to purchReqUploadFolder system option.
-- Add new PO fields to ALL databases.
-- Add prPriorityCodes (Regular;Urgent)system option.
-- Add daysAfterPRApprovalForEDOC system option.
-- Add requiredPRApprovals system option.
-- Add maxAmountForPRProcurement system option.
-- Add defaultOrganizationalHeadTitle system option (Executive Director).
-- Add defaultProcurementOfficerTitle system option (Procurement Officer).
-- modules table: HRMMODULE
-- privilege table: CANACCESSHRMUNIT
-
+- Do the following after running JMTS with the local Payara server:
+* Add "purchReqUploadFolder" system option. Add "/" to purchReqUploadFolder system option.
+* Add prPriorityCodes (Regular;Urgent)system option.
+* Add daysAfterPRApprovalForEDOC system option.
+* Add requiredPRApprovals system option.
+* Add maxAmountForPRProcurement system option.
+* Add defaultOrganizationalHeadTitle system option (Executive Director).
+* Add defaultProcurementOfficerTitle system option (Procurement Officer).
