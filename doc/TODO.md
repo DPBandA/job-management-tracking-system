@@ -1,4 +1,5 @@
 ### General
+- In HRM put employee positions tab beside employees tab.
 - Call resetManagers() on all managers to init them. 
 - Edit SM and JMTS faces config files so they don't include the same info.
 - Create job-management-tracking-system-lib and move relevant classes from WAL
