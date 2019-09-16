@@ -8,6 +8,10 @@
 - Move persistence from WAL to JMTS/PM or use existing one.
 - Implement PF status monitor for file downloads and remove code the deals with it otherwise.
 - Impl default search for all modules.
+- Job Costing Privilege Feature Update:
+  * Update the job costing privilege feature of the JMTS to prevent unauthorized 
+    change of a job costing after the client has been invoiced.
+  * Deployment and testing.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email.
 - Put back the PM search and other features after adding the purchase-management-lib dependency.
@@ -26,29 +30,3 @@ purchase-management-lib etc.
 
 ### UI Design
 - Put "Help" and "About" menu items in the "User" menu.
-
-Notes:
-* For code to save and load image from database see 
-/home/desbenn/gdrive/Projects Backup/GitHub Projects/bsjdb-master/web/cdb/cdbComplianceSurveyDialog.xhtml
-Use to save images to the jmts database such as an organization's logo.
-
-### Database Update
-- The commnent field in Job class is 1024 but it is 255 in the database. 
-Fix this other fields with the same problem.
-- Run new PR(); to create the database tables for the attachment field in the PR class.
-- Add attachment, currency tables by running BEL code.
-- costcomponent table: CURRENCY_ID (BIGINT, index)
-- privilege table: CANACCESSPROCUREMENTUNIT (BIT), CANACCESSREPORTUNIT (BIT), CANACCESSHRMUNIT (BIT)
-- purchaserequisition table: DELIVERYDATEREQUIRED (DATE), IMPORTLICENCEDATE (DATE), 
-  IMPORTLICENCENUM (VARCHAR: 255), SHIPPINGINSTRUCTIONS (VARCHAR: 1024), PLEASESUPPLYNOTE (VARCHAR: 1024),
-  CURRENCY_ID (BIGINT, index)
-- modules table: PURCHASEMANAGEMENTMODULE (BIT), HRMMODULE (BIT), REPORTMODULE (BIT)
-- Add currency table by running BEL code.
-- Do the following after running JMTS with the local Payara server:
-* Add "purchReqUploadFolder" system option. Add "/" to purchReqUploadFolder system option.
-* Add prPriorityCodes (Regular;Urgent)system option.
-* Add daysAfterPRApprovalForEDOC system option.
-* Add requiredPRApprovals system option.
-* Add maxAmountForPRProcurement system option.
-* Add defaultOrganizationalHeadTitle system option (Executive Director).
-* Add defaultProcurementOfficerTitle system option (Procurement Officer).
