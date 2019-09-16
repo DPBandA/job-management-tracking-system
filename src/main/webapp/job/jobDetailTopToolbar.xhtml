@@ -77,9 +77,8 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Service Contract"
                             ajax="false" 
                             immediate="true"
-                            disabled="#{!jobManager.currentJobIsValid}"                   
-                            update="longProgressDialogForm2"
-                            onclick="PF('longProcessDialogVar').show();" >
+                            disabled="#{!jobManager.currentJobIsValid}"   
+                            onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
                     
                     <p:fileDownload value="#{jobManager.serviceContractFile}" />
                     

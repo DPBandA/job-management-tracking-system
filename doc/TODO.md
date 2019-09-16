@@ -1,5 +1,6 @@
 ### General
-- Implement PF status monitor for file downloads and remove code the deals with it otherwise.
+- Implement PF status monitor for file downloads and remove code the deals with it otherwise:
+  * Use code from PM.
 - Job Costing Privilege Feature Update:
   * Update the job costing privilege feature of the JMTS to prevent unauthorized 
     change of a job costing after the client has been invoiced.
