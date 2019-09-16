@@ -1,13 +1,5 @@
 ### General
-- In HRM put employee positions tab beside employees tab.
-- Call resetManagers() on all managers to init them. 
-- Edit SM and JMTS faces config files so they don't include the same info.
-- Create job-management-tracking-system-lib and move relevant classes from WAL
-  to it.
-- Comment out PM code and access to modules from the user menu.
-- Move persistence from WAL to JMTS/PM or use existing one.
 - Implement PF status monitor for file downloads and remove code the deals with it otherwise.
-- Impl default search for all modules.
 - Job Costing Privilege Feature Update:
   * Update the job costing privilege feature of the JMTS to prevent unauthorized 
     change of a job costing after the client has been invoiced.
