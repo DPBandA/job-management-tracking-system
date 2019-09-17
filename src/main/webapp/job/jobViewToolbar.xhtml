@@ -34,7 +34,7 @@ Email: info@dpbennett.com.jm
                              oncomplete="PF('longProcessDialogVar').hide();">                                                                                    
             </p:commandButton>
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
-            
+
             <p:menuButton value="Invoice"   
                           disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                           rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}">
@@ -45,17 +45,30 @@ Email: info@dpbennett.com.jm
                             update=":headerForm:growl3,jobCostingsTable"
                             onstart="PF('longProcessDialogVar').show();" 
                             oncomplete="PF('longProcessDialogVar').hide();" />
+
                 
                 <p:menuitem value="Export invoice(s)"
                             ajax="false" 
                             update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
                             immediate="false" 
-                            onclick="PF('longProcessDialogVar').show();" >
+                            onclick="PF('longProcessDialogVar5').show();" >
                     
                     <p:fileDownload value="#{jobFinanceManager.invoicesFile}" />
                     
                 </p:menuitem>
+                
+                <ui:remove>
+                <p:menuitem value="Export invoice(s)"
+                            ajax="false" 
+                            update=":headerForm:growl3,jobCostingsTable"
+                            immediate="true" 
+                            onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
 
+                    <p:fileDownload value="#{jobFinanceManager.invoicesFile}" />
+
+                </p:menuitem>   
+                </ui:remove>
+               
             </p:menuButton>
             <p:commandButton
                 rendered="#{!jobManager.user.isJobCostingsPreferredJobTableView}"

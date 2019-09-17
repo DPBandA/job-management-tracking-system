@@ -34,6 +34,7 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="pragma" content="no-cache" />
         <title>#{jobManager.applicationHeader}</title>        
         <script type="text/javascript" src="js/jmtsJavascript.js" />   
+        <script type="text/javascript" src="js/longProcessDialog.js"/>
         <link rel="stylesheet" href="css/main.css" />
     </h:head>
     <h:body onload="checkWhichBrowser();
@@ -45,6 +46,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>    
         <ui:include src="common/generalAlertDialogs.xhtml"/>
         <ui:include src="common/longProcessDialog.xhtml"/>   
+        <ui:include src="common/longProgessDialog.xhtml"/> 
         <ui:include src="hrm/preferencesDialog.xhtml"/>   
 
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
@@ -251,7 +253,6 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Report Management'}">
                                 <ui:include src="dashboard/report/reportTab.xhtml" />
                             </h:panelGroup>
-
 
                         </p:tab>   
 

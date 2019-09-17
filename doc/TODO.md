@@ -1,7 +1,6 @@
 ### General
-- Implement PF status monitor for file downloads and remove code the deals with it otherwise:
-  * Use code from PM.
 - Job Costing Privilege Feature Update:
+  * Disable entry into job costing dialog once job is completed or invoiced.
   * Update the job costing privilege feature of the JMTS to prevent unauthorized 
     change of a job costing after the client has been invoiced.
   * Deployment and testing.
@@ -20,6 +19,7 @@ done in the preferences dialog. See if there is a checkbox menu item in PF
 purchase-management-lib etc.
 - Take out the relevant files and put them in their own modules. See the JMTS copy 
   for the files.
+- Add authenticate to c lewis account after testing.
 
 ### UI Design
 - Put "Help" and "About" menu items in the "User" menu.

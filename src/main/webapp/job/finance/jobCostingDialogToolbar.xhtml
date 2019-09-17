@@ -86,7 +86,7 @@ Email: info@dpbennett.com.jm
                                  immediate="true"
                                  title="Export job costing"                        
                                  ajax="false"
-                                 onclick="longProcessDialogVar.show();">
+                                 onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
                     
                     <p:fileDownload value="#{jobFinanceManager.jobCostingFile}" />
                     
