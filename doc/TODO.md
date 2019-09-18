@@ -1,12 +1,15 @@
 ### General
-- Build all projects with gf3 and deploy to gf3.
 - Job Costing Privilege Feature Update:
+  * Disable editing job costing once job is completed or invoiced.
   * Disable entry into job costing dialog once job is completed or invoiced.
   * Update the job costing privilege feature of the JMTS to prevent unauthorized 
     change of a job costing after the client has been invoiced.
   * Deployment and testing.
 - Implement month report feature update in accordance with proforma, report template
-  and GA's email.
+  and GA's email:
+  * Update Job class to contain the new fields according to the new monthly report format
+  * Update the Job dialog to allow entry into the new fields.
+  * See GA's email and Github issues.
 - Put back the PM search and other features after adding the purchase-management-lib dependency.
 - Implement enabling a module for a user from the user menu.
 - Check why Finance staff cannot export job costing. This may be applicable to only
