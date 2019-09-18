@@ -57,17 +57,7 @@ Email: info@dpbennett.com.jm
                     
                 </p:menuitem>
                 
-                <ui:remove>
-                <p:menuitem value="Export invoice(s)"
-                            ajax="false" 
-                            update=":headerForm:growl3,jobCostingsTable"
-                            immediate="true" 
-                            onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
-
-                    <p:fileDownload value="#{jobFinanceManager.invoicesFile}" />
-
-                </p:menuitem>   
-                </ui:remove>
+               
                
             </p:menuButton>
             <p:commandButton

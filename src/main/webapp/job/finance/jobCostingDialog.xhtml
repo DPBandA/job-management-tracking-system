@@ -124,6 +124,7 @@ Email: info@dpbennett.com.jm
                     <p:spacer height="0" width="10"/>
                     <p:inputTextarea value="#{jobFinanceManager.currentJob.jobDescription}" 
                                      id="jobDescription"
+                                     disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                      rows="2" 
                                      style="width: 300px" >
 
@@ -150,6 +151,7 @@ Email: info@dpbennett.com.jm
                                             value="#{jobFinanceManager.selectedJobCostingTemplate}"
                                             title="Choose an existing costing template name"                                                                                    
                                             scrollHeight="200" 
+                                            disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                             forceSelection="true"
                                             completeMethod="#{jobFinanceManager.completeJobCostingAndPaymentName}">
                                 <p:ajax event="itemSelect"                                    
@@ -166,6 +168,7 @@ Email: info@dpbennett.com.jm
                                            value="Template name: " />
                             <p:inputText id="jobCostingsTemplateName"
                                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.name}"
+                                         disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          style="width: 150px;">
                                 <p:ajax event="change"
                                         global="false"
@@ -183,6 +186,7 @@ Email: info@dpbennett.com.jm
                         <p:commandButton title="Add new cost component"
                                          value="New"
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
+                                         disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          update=":costingComponentDialogForm"
                                          onstart="PF('longProcessDialogVar').show();"
                                          oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
@@ -289,6 +293,7 @@ Email: info@dpbennett.com.jm
                     <p:column style="width:32px" >
                         <p:menuButton id="toolsButton" 
                                       title="Edit or delete cost component"
+                                      disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                       icon="ui-icon-pencil" >
                             <p:menuitem>                       
                                 <p:commandButton   
@@ -330,6 +335,7 @@ Email: info@dpbennett.com.jm
                         <p:commandButton title="Add new cost component"
                                          value="New"
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
+                                         disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          update=":costingComponentDialogForm"
                                          onstart="PF('longProcessDialogVar').show();"
                                          oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"

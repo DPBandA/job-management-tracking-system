@@ -48,8 +48,8 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Prepared" >
                     <p:ajax global="true" 
                             listener="#{jobFinanceManager.prepareJobCosting}"
-                            update="@this,costingDate,costingApprovalDate,costingInvoiceDate,jobCosting_growl,exportJobCostingButton1"
-                            process="@form"/>
+                            update="@this,jobCostingDialogForm,jobCosting_growl,exportJobCostingButton1"
+                            process="@this"/>
                     
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>
@@ -61,7 +61,7 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Approved" >
                     <p:ajax global="false"
                             listener="#{jobFinanceManager.approveJobCosting}"
-                            update="@this,jobCosting_growl,costComponentsPanel,costingDate,costingApprovalDate,costingInvoiceDate,exportJobCostingButton1"
+                            update="@this,jobCosting_growl,jobCostingDialogForm,exportJobCostingButton1"
                             process="@this"/>
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>
@@ -73,7 +73,7 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Invoiced" >
                     <p:ajax global="false"                        
                             listener="#{jobFinanceManager.invoiceJobCosting}"
-                            update="@this,costingDate,costingApprovalDate,costingInvoiceDate,jobCosting_growl"
+                            update="@this,jobCostingDialogForm,jobCosting_growl"
                             process="@this"/>
                 </p:selectBooleanCheckbox>
             </h:panelGroup>   

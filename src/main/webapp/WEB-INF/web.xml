@@ -47,7 +47,7 @@
         <param-name>primefaces.LEGACY_WIDGET_NAMESPACE</param-name>
         <param-value>true</param-value>
     </context-param>
-
+    
     <context-param>
         <param-name>javax.faces.CONFIG_FILES</param-name>
         <param-value>

@@ -1,4 +1,5 @@
 ### General
+- Build all projects with gf3 and deploy to gf3.
 - Job Costing Privilege Feature Update:
   * Disable entry into job costing dialog once job is completed or invoiced.
   * Update the job costing privilege feature of the JMTS to prevent unauthorized 
