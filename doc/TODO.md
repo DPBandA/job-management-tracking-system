@@ -1,10 +1,4 @@
 ### General
-- Job Costing Privilege Feature Update:
-  * Disable editing job costing once job is completed or invoiced.
-  * Disable entry into job costing dialog once job is completed or invoiced.
-  * Update the job costing privilege feature of the JMTS to prevent unauthorized 
-    change of a job costing after the client has been invoiced.
-  * Deployment and testing.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email:
   * Update Job class to contain the new fields according to the new monthly report format
@@ -27,3 +21,4 @@ purchase-management-lib etc.
 
 ### UI Design
 - Put "Help" and "About" menu items in the "User" menu.
+- Some of the module labels have common letters for a word. Fix.
