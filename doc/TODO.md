@@ -1,4 +1,7 @@
 ### General
+- Legal Office:
+  * The text does not show in the delete document dialog for dark hive theme. Use a "p:panel" to wrap
+  the text to see if this solves the problem. Do for sample delete also.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email:
   * Update Job class to contain the new fields according to the new monthly report format
@@ -22,3 +25,8 @@ purchase-management-lib etc.
 ### UI Design
 - Put "Help" and "About" menu items in the "User" menu.
 - Some of the module labels have common letters for a word. Fix.
+
+### Release Notes
+The following are included in this release:
+- Fixed the display of the text in the document delete confirmation dialog box in the Legal Office (LO) module.
+- Fixed the display of the text in the sample delete confirmation dialog box.
