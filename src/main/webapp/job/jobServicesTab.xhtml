@@ -32,7 +32,30 @@ Email: info@dpbennett.com.jm
 
         <p:tab title="General Services">
             <p:panel id="servicesRequested" header="Services Requested" >
-               
+
+                <h:panelGrid columns="2" cellspacing="5" >
+                    <h:outputLabel value="Service location: " 
+                                   style="font-weight: bold;"
+                                   for="serviceLocation"/>
+                    <p:selectOneMenu id="serviceLocation"     
+                                     style="width: 200px;"
+                                     value="#{jobManager.currentJob.serviceLocation}">
+
+                        <f:selectItems  value="#{systemManager.serviceLocationList}"
+                                        var="serviceLocation"                            
+                                        itemValue="#{serviceLocation}"
+                                        itemLabel="#{serviceLocation}"/>
+
+                        <p:ajax listener="#{jobManager.updateJob}"
+                                global="false"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this"/>
+
+                    </p:selectOneMenu> 
+                </h:panelGrid>
+
+                <hr/>
+
                 <h:panelGrid columns="4" cellspacing="5" >
 
                     <p:selectBooleanCheckbox id="testingService" 

@@ -1,10 +1,8 @@
 ### General
-- Legal Office:
-  * The text does not show in the delete document dialog for dark hive theme. Use a "p:panel" to wrap
-  the text to see if this solves the problem. Do for sample delete also.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email:
-  * Update Job class to contain the new fields according to the new monthly report format
+  * Update Job class to contain the new fields according to the new monthly report format:
+    ~ Create new job and test for default value for service location.
   * Update the Job dialog to allow entry into the new fields.
   * See GA's email and Github issues.
 - Put back the PM search and other features after adding the purchase-management-lib dependency.
@@ -25,6 +23,10 @@ purchase-management-lib etc.
 ### UI Design
 - Put "Help" and "About" menu items in the "User" menu.
 - Some of the module labels have common letters for a word. Fix.
+
+### Database Updates and Configurations
+- job table: SERVICELOCATION (VARCHAR(255))
+- System option: serviceLocationList (List<String>) (In-house;On-site;In-house & On-site)
 
 ### Release Notes
 The following are included in this release:
