@@ -1,11 +1,9 @@
 ### General
-- Busy wait does not show when reports are exported. Make use of longProcessProgress
-  as is done in JM.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email:
   * Update Job class to contain the new fields according to the new monthly report format:
-    ~ Create new job and test for default value for service location.
     ~ Add the fields to the Job class for the number of services offered (eg noOfTrainings).
+      Export the first 2 rows of the report template as PDF for reference.
   * Update the Job dialog to allow entry into the new fields.
   * See GA's email and Github issues.
 - Put back the PM search and other features after adding the purchase-management-lib dependency.
