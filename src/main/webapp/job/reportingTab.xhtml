@@ -82,7 +82,7 @@ Email: info@dpbennett.com.jm
     </h:panelGrid>
     <hr/>
     <h:panelGrid columns="6" >
-        <h:outputText value="No. of Tests:" />
+        <h:outputText value="No. of tests:" />
         <p:inputText id="numOfTests"                            
                      maxlength="7"
                      converterMessage="Please enter a valid number of tests."
@@ -112,7 +112,7 @@ Email: info@dpbennett.com.jm
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
 
-        <h:outputText value="No. tests/calibrations:" />
+        <h:outputText value="No. of tests/calibrations:" />
         <p:inputText id="numOfTestsOrCalibrations"
                      converter="javax.faces.Integer"
                      disabled="true"
@@ -125,6 +125,96 @@ Email: info@dpbennett.com.jm
                     global="false"
                     event="change"                            
                     process="@this"/>
+        </p:inputText>
+
+        <h:outputText value="No. of inspections:" />
+        <p:inputText id="noOfInspections"                             
+                     maxlength="7"
+                     converterMessage="Please enter a valid number of inspections."
+                     value="#{jobManager.currentJob.noOfInspections}"
+                     styleClass="number-field"
+                     style="width: 50px;" >
+            <p:ajax listener="#{jobManager.updateJob}"
+                    global="false"
+                    event="keyup"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            <f:convertNumber integerOnly="true"/>
+        </p:inputText>
+
+        <h:outputText value="No. of trainings:" />
+        <p:inputText id="noOfTrainings"                             
+                     maxlength="7"
+                     converterMessage="Please enter a valid number of trainings."
+                     value="#{jobManager.currentJob.noOfTrainings}"
+                     styleClass="number-field"
+                     style="width: 50px;" >
+            <p:ajax listener="#{jobManager.updateJob}"
+                    global="false"
+                    event="keyup"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            <f:convertNumber integerOnly="true"/>
+        </p:inputText>
+        
+        <h:outputText value="No. of label assessments:" />
+        <p:inputText id="noOfLabelAssessments"                             
+                     maxlength="7"
+                     converterMessage="Please enter a valid number of assessments."
+                     value="#{jobManager.currentJob.noOfLabelAssessments}"
+                     styleClass="number-field"
+                     style="width: 50px;" >
+            <p:ajax listener="#{jobManager.updateJob}"
+                    global="false"
+                    event="keyup"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            <f:convertNumber integerOnly="true"/>
+        </p:inputText>
+        
+        <h:outputText value="No. of certifications:" />
+        <p:inputText id="noOfCertifications"                             
+                     maxlength="7"
+                     converterMessage="Please enter a valid number of certifications."
+                     value="#{jobManager.currentJob.noOfCertifications}"
+                     styleClass="number-field"
+                     style="width: 50px;" >
+            <p:ajax listener="#{jobManager.updateJob}"
+                    global="false"
+                    event="keyup"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            <f:convertNumber integerOnly="true"/>
+        </p:inputText>
+        
+        <h:outputText value="No. of consultations" />
+        <p:inputText id="noOfConsultations"                             
+                     maxlength="7"
+                     converterMessage="Please enter a valid number of consultations."
+                     value="#{jobManager.currentJob.noOfConsultations}"
+                     styleClass="number-field"
+                     style="width: 50px;" >
+            <p:ajax listener="#{jobManager.updateJob}"
+                    global="false"
+                    event="keyup"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            <f:convertNumber integerOnly="true"/>
+        </p:inputText>
+        
+        <h:outputText value="No. of other assessments" />
+        <p:inputText id="noOfOtherAssessments"                             
+                     maxlength="7"
+                     converterMessage="Please enter a valid number of other assessments."
+                     value="#{jobManager.currentJob.noOfOtherAssessments}"
+                     styleClass="number-field"
+                     style="width: 50px;" >
+            <p:ajax listener="#{jobManager.updateJob}"
+                    global="false"
+                    event="keyup"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+            <f:convertNumber integerOnly="true"/>
         </p:inputText>
     </h:panelGrid>
     <hr/>
