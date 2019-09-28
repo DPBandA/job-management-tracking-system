@@ -79,6 +79,9 @@ Email: info@dpbennett.com.jm
             <p:tooltip for="reportNumbers" value="Enter the report number(s) for this job" showEffect="fade" hideEffect="fade" />          
         </h:panelGroup>
 
+    </h:panelGrid>
+    <hr/>
+    <h:panelGrid columns="6" >
         <h:outputText value="No. of Tests:" />
         <p:inputText id="numOfTests"                            
                      maxlength="7"
@@ -123,9 +126,8 @@ Email: info@dpbennett.com.jm
                     event="change"                            
                     process="@this"/>
         </p:inputText>
-
     </h:panelGrid>
-
+    <hr/>
     <h:panelGrid columns="1">
         <h:outputText value="Comment: " />
         <p:inputTextarea
