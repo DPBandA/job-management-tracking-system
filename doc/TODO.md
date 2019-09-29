@@ -1,4 +1,5 @@
 ### General
+- Take financial management lib out of jmts lib since it is included in cm lib.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email:
   * Update Job class to contain the new fields according to the new monthly report format:
