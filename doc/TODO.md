@@ -27,7 +27,8 @@ purchase-management-lib etc.
 - Some of the module labels have common letters for a word. Fix.
 
 ### Database Updates and Configurations
-- job table: SERVICELOCATION (VARCHAR(255)), 
+- job table: SERVICELOCATION (VARCHAR(255)), NOOFINSPECTIONS, NOOFTRAININGS,
+  NOOFLABELASSESSMENTS, NOOFCERTIFICATIONS, NOOFCONSULTATIONS, NOOFOTHERASSESSMENTS
 - System option: serviceLocationList (List<String>) (In-house;On-site;In-house & On-site)
 
 ### Release Notes
