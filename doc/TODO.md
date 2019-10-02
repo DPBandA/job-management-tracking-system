@@ -1,4 +1,13 @@
+### JMTS Migration
+- Use the database on 172.16.0.39 from payara 4 on this machine and see if performance improves.
+- Use payara 4 on 172.16.0.39 see if there is improvement in performance.
+
+### JMTS Vision Document
+- Update and send document.
+
 ### General
+- Check out claim that the reports are not responding to parameter changes.
+  Also check why last/this does not give the correct period.
 - Take financial management lib out of jmts lib since it is included in cm lib.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email:
