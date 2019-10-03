@@ -1,4 +1,5 @@
 ### JMTS Migration
+- Request a processor with the best specs for the jmts vm.
 - Use the database on 172.16.0.39 from payara 4 on this machine and see if performance improves.
 - Use payara 4 on 172.16.0.39 see if there is improvement in performance.
 
