@@ -1,7 +1,5 @@
 ### JMTS Migration
-- Request a processor with the best specs for the JMTS vm.
-- Upgrade to Payara 5 on boshrmapp.
-- Try Payara 5 Micro.
+- Stop GF3 service and test Payara 5 Micro.
 
 ### JMTS Vision Document
 - Update and send document.
