@@ -1,10 +1,12 @@
 ### JMTS Migration
-- Stop GF3 service and test Payara 5 Micro.
-
-### JMTS Vision Document
-- Update and send document.
+- Install Payara 5 service with production domain on appsrv.
+- Install NB 11 and switch to using Java EE 8.
+- Update and deploy Legal Office app on appsrv.
+- Update and deploy Purchase Management app on appsrv.
 
 ### General
+- Switch to using NB 11, P5 production domain and Java EE 8.
+- Test use of PF 7. Check if PF is included as depency in other projects apart from SM.
 - Take financial management lib out of jmts lib since it is included in cm lib.
 - Implement month report feature update in accordance with proforma, report template
   and GA's email:
