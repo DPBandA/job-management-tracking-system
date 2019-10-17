@@ -1,8 +1,6 @@
 ### JMTS Migration
-- Install Payara 5 service with production domain on appsrv.
-- Install NB 11 and switch to using Java EE 8.
-- Update and deploy Legal Office app on appsrv.
-- Update and deploy Purchase Management app on appsrv.
+- Setup gf3 service on appsrv and link mysl on boshrmapp. 
+- Remove PM and legal office from jmts and install them as separate apps.
 
 ### General
 - Switch to using NB 11, P5 production domain and Java EE 8.
