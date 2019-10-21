@@ -81,7 +81,7 @@ Email: info@dpbennett.com.jm
                         converter="businessOfficeConverter"
                         validator="businessEntityValidator"
                         forceSelection="true"
-                        completeMethod="#{systemManager.completeBusinessOffice}" >
+                        completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
             
             <p:ajax event="itemSelect"                       
                     update=":jobDialogForm:jobDetailToolbar1"

@@ -1,9 +1,10 @@
 ### JMTS Migration
 - Setup gf3 service on appsrv and link mysl on boshrmapp. 
 - Remove PM and legal office from jmts and install them as separate apps.
+- Check how to increase "PERM Gen" to a suitable value. Set perm gen and max perm gen to same size.
+  and test on local server before production (use 192m).
 
 ### General
-- Switch to using NB 11, P5 production domain and Java EE 8.
 - Test use of PF 7. Check if PF is included as depency in other projects apart from SM.
 - Take financial management lib out of jmts lib since it is included in cm lib.
 - Implement month report feature update in accordance with proforma, report template

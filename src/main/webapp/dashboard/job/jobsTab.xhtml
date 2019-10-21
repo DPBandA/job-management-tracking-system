@@ -93,12 +93,22 @@ Email: info@dpbennett.com.jm
                 </p:menuitem>
                 <p:separator />
                 <p:menuitem>
-                    <p:commandButton value="Clients"
+                    <p:commandButton value="Client management"
                                      style="text-align: left;background: none;border: 0;"
                                      title="Open the Clients tab"
                                      onstart="PF('longProcessDialogVar').show();" 
                                      actionListener="#{jobManager.openClientsTab}" 
                                      oncomplete="longProcessDialogVar.hide();"
+                                     process="@this" />
+                </p:menuitem>
+
+                <p:menuitem>
+                    <p:commandButton actionListener="#{jobFinanceManager.updateAccPacClient}"
+                                     onstart="PF('longProcessDialogVar').show();"                                                    
+                                     value="Client credit status"
+                                     style="text-align: left;background: none;border: 0;"
+                                     update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
+                                     oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
                                      process="@this" />
                 </p:menuitem>
                 <p:separator />
