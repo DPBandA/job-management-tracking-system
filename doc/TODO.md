@@ -1,5 +1,8 @@
 ### JMTS Migration
-- Setup gf3 service on appsrv and link mysl on boshrmapp. 
+- Move the labelprint database to appsrv and direct Yuval to change the system
+  options in the app.
+- Change mysql root password.
+- Change the system options for the database properties used by the reporting module.
 - Remove PM and legal office from jmts and install them as separate apps.
 - Check how to increase "PERM Gen" to a suitable value. Set perm gen and max perm gen to same size.
   and test on local server before production (use 192m).
