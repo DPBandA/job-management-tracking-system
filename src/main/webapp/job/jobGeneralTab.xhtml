@@ -82,12 +82,12 @@ Email: info@dpbennett.com.jm
                         validator="businessEntityValidator"
                         forceSelection="true"
                         completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
-            
+
             <p:ajax event="itemSelect"                       
                     update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
-            
+
         </p:autoComplete>        
 
         <h:outputText value="Classification:" style="font-weight: bold" />
@@ -125,7 +125,9 @@ Email: info@dpbennett.com.jm
                             forceSelection="true"
                             completeMethod="#{clientManager.completeActiveClient}" >
 
-                <p:ajax event="itemSelect"
+                <p:ajax event="itemSelect"                        
+                        onstart="PF('longProcessDialogVar').show();"   
+                        oncomplete="PF('longProcessDialogVar').hide();"
                         update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
@@ -225,7 +227,7 @@ Email: info@dpbennett.com.jm
                     readonlyInput="true"
                     navigator="true" 
                     pattern="MMM dd, yyyy" >
-            
+
             <p:ajax event="dateSelect"
                     update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateDateSubmitted}" />

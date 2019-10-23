@@ -8,6 +8,8 @@
   and test on local server before production (use 192m).
 
 ### General
+- When a job cannot be saved because it was already completed, indicate 
+  the fact in the error message.
 - Test use of PF 7. Check if PF is included as depency in other projects apart from SM.
 - Take financial management lib out of jmts lib since it is included in cm lib.
 - Implement month report feature update in accordance with proforma, report template
