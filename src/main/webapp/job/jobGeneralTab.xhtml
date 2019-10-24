@@ -125,9 +125,7 @@ Email: info@dpbennett.com.jm
                             forceSelection="true"
                             completeMethod="#{clientManager.completeActiveClient}" >
 
-                <p:ajax event="itemSelect"                        
-                        onstart="PF('longProcessDialogVar').show();"   
-                        oncomplete="PF('longProcessDialogVar').hide();"
+                <p:ajax event="itemSelect"      
                         update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
