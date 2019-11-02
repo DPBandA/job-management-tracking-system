@@ -1,13 +1,5 @@
-### JMTS Migration
-- Move the labelprint database to appsrv and direct Yuval to change the system
-  options in the app.
-- Change mysql root password.
-- Change the system options for the database properties used by the reporting module.
-- Remove PM and legal office from jmts and install them as separate apps.
-- Check how to increase "PERM Gen" to a suitable value. Set perm gen and max perm gen to same size.
-  and test on local server before production (use 192m).
-
 ### General
+- Service contract files are being saved in domain1\config. Fix!!
 - When a job cannot be saved because it was already completed, indicate 
   the fact in the error message.
 - Test use of PF 7. Check if PF is included as depency in other projects apart from SM.
