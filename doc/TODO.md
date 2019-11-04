@@ -1,16 +1,5 @@
 ### General
-- Service contract files are being saved in domain1\config. Fix!!
-- When a job cannot be saved because it was already completed, indicate 
-  the fact in the error message.
-- Test use of PF 7. Check if PF is included as depency in other projects apart from SM.
 - Take financial management lib out of jmts lib since it is included in cm lib.
-- Implement month report feature update in accordance with proforma, report template
-  and GA's email:
-  * Update Job class to contain the new fields according to the new monthly report format:
-    ~ Add the fields to the Job class for the number of services offered (eg noOfTrainings).
-      Export the first 2 rows of the report template as PDF for reference.
-  * Update the Job dialog to allow entry into the new fields.
-  * See GA's email and Github issues.
 - Put back the PM search and other features after adding the purchase-management-lib dependency.
 - Implement enabling a module for a user from the user menu.
 - Check why Finance staff cannot export job costing. This may be applicable to only
@@ -29,6 +18,9 @@ purchase-management-lib etc.
 ### UI Design
 - Put "Help" and "About" menu items in the "User" menu.
 - Some of the module labels have common letters for a word. Fix.
+
+### TODO
+- Delete service contract files from domain1\config.
 
 ### Database Updates and Configurations
 - job table: SERVICELOCATION (VARCHAR(255)), NOOFINSPECTIONS, NOOFTRAININGS,
