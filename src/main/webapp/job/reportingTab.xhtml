@@ -51,6 +51,7 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         scrollHeight="200"                         
                         multiple="true"
+                        readonly="true"
                         completeMethod="#{jobContractManager.completeService}" >
 
             <p:ajax event="itemSelect"
@@ -187,7 +188,7 @@ Email: info@dpbennett.com.jm
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
         
-        <h:outputText value="No. of consultations" />
+        <h:outputText value="No. of consultations:" />
         <p:inputText id="noOfConsultations"                             
                      maxlength="7"
                      converterMessage="Please enter a valid number of consultations."
@@ -202,7 +203,7 @@ Email: info@dpbennett.com.jm
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
         
-        <h:outputText value="No. of other assessments" />
+        <h:outputText value="No. of other assessments:" />
         <p:inputText id="noOfOtherAssessments"                             
                      maxlength="7"
                      converterMessage="Please enter a valid number of other assessments."

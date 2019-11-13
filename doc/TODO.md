@@ -1,3 +1,7 @@
+### General
+- See GitHub issues:
+* System Core Updates #56
+
 ### Next Release Notes
 The following are included in this release:
 - Fixed the display of the text in the document delete confirmation dialog box in the Legal Office (LO) module.
