@@ -103,35 +103,35 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>client-management</artifactId>
                             <excludes>
-                                <exclude>admin/businessDialog.xhtml</exclude>
+                                <exclude>hr/*</exclude>
                             </excludes>
                         </overlay>                       
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>purchase-management</artifactId>
                             <excludes>
-                                <exclude>admin/businessDialog.xhtml</exclude>
+                                <exclude>hr/*</exclude>
                             </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>legal-office</artifactId>
                             <excludes>
-                                <exclude>admin/businessDialog.xhtml</exclude>
+                                <exclude>hr/*</exclude>
                             </excludes>
                         </overlay>      
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>report-management</artifactId>
                             <excludes>
-                                <exclude>admin/businessDialog.xhtml</exclude>
+                                <exclude>hr/*</exclude>
                             </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>financial-management</artifactId>
                             <excludes>
-                                <exclude>admin/businessDialog.xhtml</exclude>
+                                <exclude>hr/*</exclude>
                             </excludes>
                         </overlay>
                         <overlay>

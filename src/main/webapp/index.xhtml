@@ -48,7 +48,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="common/longProcessDialog.xhtml"/>   
         <ui:include src="common/longProgessDialog.xhtml"/> 
         <ui:include src="common/longProgessDialogRep.xhtml"/> 
-        <ui:include src="hrm/preferencesDialog.xhtml"/>   
+        <ui:include src="hr/preferencesDialog.xhtml"/>   
 
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
             <p:ajax event="toggle" listener="#{systemManager.handleLayoutUnitToggle}" />
@@ -144,7 +144,7 @@ Email: info@dpbennett.com.jm
                                 <ui:include src="finance/financialAdminTab.xhtml" /> 
                             </h:panelGroup>
                             <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
-                                <ui:include src="hrm/hrmTab.xhtml" /> 
+                                <ui:include src="hr/hrmTab.xhtml" /> 
                             </h:panelGroup>
                             <h:panelGroup rendered="#{t.id == 'System Administration'}" >
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
