@@ -34,22 +34,23 @@ Email: info@dpbennett.com.jm
     <h:body>
         <h:form id="cashPaymentDeleteConfirmDialogForm">           
             <p:growl id="growl" life="5000" showDetail="true" />
-            
-            <h:panelGrid cellpadding="5">
-                <h:panelGroup>
-                    <h:outputText value="Are you sure you wish to delete this payment? The job will be saved after the payment is deleted" />                    
-                </h:panelGroup>
-                <h:panelGroup >                        
-                    <p:commandButton value="Yes"      
-                                     actionListener="#{jobFinanceManager.deleteCashPayment}" 
-                                     icon="ui-icon ui-icon-check"
-                                     process="@this"/>
-                    <p:spacer height="0" width="5"/>
-                    <p:commandButton value="No"
-                                     actionListener="#{jobFinanceManager.closeJCashPaymentDeleteConfirmDialog}" 
-                                     icon="ui-icon-close"/>   
-                </h:panelGroup>
-            </h:panelGrid>
+            <p:panel style="border: 0">
+                <h:panelGrid cellpadding="5">
+                    <h:panelGroup>
+                        <h:outputText value="Are you sure you wish to delete this payment? The job will be saved after the payment is deleted" />                    
+                    </h:panelGroup>
+                    <h:panelGroup >                        
+                        <p:commandButton value="Yes"      
+                                         actionListener="#{jobFinanceManager.deleteCashPayment}" 
+                                         icon="ui-icon ui-icon-check"
+                                         process="@this"/>
+                        <p:spacer height="0" width="5"/>
+                        <p:commandButton value="No"
+                                         actionListener="#{jobFinanceManager.closeJCashPaymentDeleteConfirmDialog}" 
+                                         icon="ui-icon-close"/>   
+                    </h:panelGroup>
+                </h:panelGrid>
+            </p:panel>
         </h:form>
     </h:body>
 </html>
