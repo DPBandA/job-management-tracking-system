@@ -1,9 +1,9 @@
 ---
 layout: post
-category: Metrology
+category: Job
 author: Desmond Bennett
-title: Metrology
-topic: Introduction to Metrology
+title: Job Management & Tracking
+topic: Configuration
 ---
 
 Coming soon...

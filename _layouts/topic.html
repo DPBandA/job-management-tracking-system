@@ -1,0 +1,35 @@
+---
+layout: default
+---
+
+<section class="container-fluid d-flex flex-row-reverse">
+    {% include search-form.html %}
+</section>
+
+<div class="d-flex justify-content-between pt-4">
+    <div class="border-right" style="padding-right: 10px;">
+        <h4>Contents</h4>
+        <ul>
+            {% for post in site.posts %}
+            <li>
+                <h5><a href="{{ post.url }}">{{ post.topic }}</a></h5>
+                <p>{{ post.excerpt }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {{content}}
+    <div class="border-left" style="padding-left: 10px;">
+        <!--
+        <h4>Contents</h4>
+        <ul>
+            {% for post in site.posts %}
+            <li>
+                <h5><a href="{{ post.url }}">{{ post.topic }}</a></h5>
+                <p>{{ post.excerpt }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+        -->
+    </div>
+</div>
