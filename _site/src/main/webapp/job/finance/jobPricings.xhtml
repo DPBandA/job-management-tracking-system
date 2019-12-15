@@ -1,0 +1,339 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <title>Price List</title>
+        <link rel="stylesheet" href="../../css/main.css" />  
+    </h:head>
+    <h:body >       
+        <ui:include src="/common/commonDialogs.xhtml" />
+        <ui:include src="/common/longProcessDialog.xhtml"/> 
+        <h:form id="unitCostForm">
+            <p:dialog width="500"
+                      height="400"
+                      draggable="true"
+                      modal="true"      
+                      closable="false" 
+                      widgetVar="unitCostDialog"
+                      header="Price Detail" >
+                <p:commandButton actionListener="#{jobFinanceManager.saveUnitCost}"                            
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                 value="Save"                                     
+                                 title="Save unit cost"
+                                 icon="ui-icon-disk"
+                                 process="@this"/>
+                <p:spacer height="0" width="10"/>
+                <p:commandButton value="Close"
+                                 actionListener="#{jobFinanceManager.closeUnitCostDialog}"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                 async="true"                                                                
+                                 process="@this"
+                                 icon="ui-icon ui-icon-close" />                   
+                <hr/>
+                <h:panelGrid columns="2" cellspacing="3">  
+                    <h:outputText value="Department:" style="font-weight: bold;"/>
+                    <h:panelGroup>
+                        <p:autoComplete 
+                            id="currentUnitCostDepartment"
+                            var="department"
+                            forceSelection="true" 
+                            size="40"
+                            maxlength="250"
+                            value="#{jobFinanceManager.currentUnitCost.department}"
+                            title="#{jobFinanceManager.currentUnitCost.department}"
+                            itemValue="#{department}"
+                            itemLabel="#{department.name}"
+                            converter="activeDepartmentConverter"
+                            completeMethod="#{humanResourceManager.completeActiveDepartment}" >
+                            <p:ajax event="itemSelect"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartment}"
+                                    global="false"                                    
+                                    process="@this"/>
+                            <p:ajax event="change"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartment}"
+                                    global="false"                                    
+                                    process="@this" />
+                        </p:autoComplete>     
+                        <p:watermark for="currentUnitCostDepartment" value="select department"/>   
+                    </h:panelGroup>   
+
+                    <h:outputText value="Department unit:" />
+                    <h:panelGroup>
+                        <p:autoComplete 
+                            id="currentUnitCostDepartmentUnit"
+                            var="departmentUnit"
+                            forceSelection="true" 
+                            size="40"
+                            maxlength="250"
+                            value="#{jobFinanceManager.currentUnitCost.departmentUnit}"
+                            title="#{jobFinanceManager.currentUnitCost.departmentUnit}"
+                            itemValue="#{departmentUnit}"
+                            itemLabel="#{departmentUnit.name}"
+                            converter="departmentUnitConverter"
+                            completeMethod="#{humanResourceManager.completeDepartmentUnit}" >
+                            <p:ajax event="itemSelect"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartmentUnit}"
+                                    global="false"                                    
+                                    process="@this" />
+                            <p:ajax event="change"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartmentUnit}"
+                                    global="false"                                    
+                                    process="@this" />
+                        </p:autoComplete>     
+                        <p:watermark for="currentUnitCostDepartmentUnit" value="select department unit"/>   
+                    </h:panelGroup>   
+
+                    <h:outputText value="Laboratory:" />
+                    <h:panelGroup>
+                        <p:autoComplete 
+                            id="unitCostDepartmentLaboratory"
+                            var="laboratory"
+                            forceSelection="true" 
+                            size="40"
+                            maxlength="250"
+                            value="#{jobFinanceManager.currentUnitCost.laboratory}"
+                            title="#{jobFinanceManager.currentUnitCost.laboratory}"
+                            itemValue="#{laboratory}"
+                            itemLabel="#{laboratory.name}"
+                            converter="laboratoryConverter"
+                            completeMethod="#{humanResourceManager.completeLaboratory}" >
+                            <p:ajax event="itemSelect"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartmentLab}"
+                                    global="false"                                    
+                                    process="@this" />
+                            <p:ajax event="change"
+                                    listener="#{jobFinanceManager.updateCurrentUnitCostDepartmentLab}"
+                                    global="false"                                    
+                                    process="@this" />
+                        </p:autoComplete>     
+                        <p:watermark for="unitCostDepartmentLaboratory" value="select laboratory"/>   
+                    </h:panelGroup>   
+
+                    <h:outputText value="Service:" style="font-weight: bold;" />
+                    <h:panelGroup >
+                        <p:inputText style="width: 300px"
+                                     value="#{jobFinanceManager.currentUnitCost.service}" >
+                            <p:ajax
+                                global="true"
+                                listener="#{jobFinanceManager.update}"                               
+                                process="@this" />
+                        </p:inputText>                       
+                    </h:panelGroup>  
+
+                    <h:outputText value="Cost:" style="font-weight: bold;" />                    
+                    <p:inputText style="width: 100px"
+                                 value="#{jobFinanceManager.currentUnitCost.cost}" >
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                        <p:ajax
+                            global="true"
+                            listener="#{jobFinanceManager.update}"                               
+                            process="@this" />
+                    </p:inputText>
+
+                    <h:outputText value="Unit:" />
+                    <h:panelGroup >
+                        <p:inputText style="width: 300px"
+                                     value="#{jobFinanceManager.currentUnitCost.unit}" >
+                            <p:ajax
+                                global="true"
+                                listener="#{jobFinanceManager.update}"                               
+                                process="@this" />
+                        </p:inputText>                       
+                    </h:panelGroup>  
+
+                    <h:outputText value="Effective date:" style="font-weight: bold;" />
+                    <p:calendar id="effectiveDate"
+                                value="#{jobFinanceManager.currentUnitCost.effectiveDate}"
+                                navigator="true"
+                                pattern="MMM dd, yyyy" >
+                        <p:ajax event="dateSelect"                                
+                                listener="#{jobFinanceManager.update}" />
+                        <p:ajax event="keyup"                                
+                                listener="#{jobFinanceManager.update}" />
+                    </p:calendar>
+
+                    <h:outputText value="Description: " style="vertical-align: top" />
+                    <p:inputTextarea value="#{jobFinanceManager.currentUnitCost.description}"
+                                     style="width: 300px"
+                                     rows="1"
+                                     maxlength="1000"
+                                     autoResize="false">
+                        <p:ajax event="change"
+                                listener="#{jobFinanceManager.update}"
+                                process="@this"/>
+                    </p:inputTextarea>     
+                </h:panelGrid>
+                <hr/>
+                <p:commandButton actionListener="#{jobFinanceManager.saveUnitCost}"                            
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                 value="Save"                                     
+                                 title="Save unit cost"
+                                 icon="ui-icon-disk"
+                                 process="@this"/>
+                <p:spacer height="0" width="10"/>
+                <p:commandButton value="Close"
+                                 actionListener="#{jobFinanceManager.closeUnitCostDialog}"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                 async="true"                                                                
+                                 process="@this"
+                                 icon="ui-icon ui-icon-close" />                  
+
+            </p:dialog>
+        </h:form>
+        <p:layout fullPage="true" >
+            <p:layoutUnit position="center" >
+                <h:form>
+                    <p:toolbar>
+                        <p:toolbarGroup align="left" >
+                            <h:panelGroup >     
+                                <p:autoComplete id="unitCostDepartment"                                                
+                                                var="department"
+                                                forceSelection="true" 
+                                                dropdown="false"
+                                                size="30"
+                                                maxlength="250"
+                                                value="#{jobFinanceManager.unitCostDepartment}"
+                                                title="#{jobFinanceManager.unitCostDepartment}"
+                                                itemValue="#{department}"
+                                                itemLabel="#{department.name}" 
+                                                converter="activeDepartmentConverter"
+                                                completeMethod="#{humanResourceManager.completeActiveDepartment}" >
+                                    <p:ajax event="itemSelect"
+                                            listener="#{jobFinanceManager.updateUnitCostDepartment}"   
+                                            update=":unitCostsTableForm"
+                                            global="false"                                            
+                                            process="@this" />
+                                    <p:ajax event="change"                                            
+                                            listener="#{jobFinanceManager.updateUnitCostDepartment}"
+                                            update=":unitCostsTableForm"
+                                            global="false"                                           
+                                            process="@this" />
+                                </p:autoComplete>                                
+                                <p:watermark for="unitCostDepartment" value="-- selec a department --"/>   
+                            </h:panelGroup>
+                            <p:spacer height="0" width="25"/>
+                            <h:panelGroup>
+                                <p:inputText id="unitCostSearchText" 
+                                             value="#{jobFinanceManager.accountingCodeSearchText}" />
+                                <p:watermark value="Enter search text" for="unitCostSearchText" />
+                                <p:spacer height="0" width="5"/>
+                                <p:commandButton value="Search"                                                 
+                                                 onstart="PF('longProcessDialogVar').show();"
+                                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                                 onerror="PF('connectionErrorDialog').show();" 
+                                                 actionListener="#{jobFinanceManager.doUnitCostSearch}"
+                                                 icon="ui-icon-search"
+                                                 process="@this,unitCostDepartment,unitCostSearchText"/>
+                            </h:panelGroup>
+                            <p:spacer height="0" width="25"/>
+                            <p:commandButton value="New"                                                 
+                                             onstart="PF('longProcessDialogVar').show();"
+                                             oncomplete="PF('longProcessDialogVar').hide();"
+                                             onerror="PF('connectionErrorDialog').show();" 
+                                             actionListener="#{jobFinanceManager.createNewUnitCost}"
+                                             icon="ui-icon-plus"
+                                             process="@this"/>
+
+                        </p:toolbarGroup>
+
+                    </p:toolbar>
+
+                </h:form>
+                <hr/>
+
+                <h:form id="unitCostsTableForm">
+                    <p:dataTable id="unitCostsTable"
+                                 var="unitCost"
+                                 paginator="true"
+                                 rendered="true"
+                                 rows="15"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                                 value="#{jobFinanceManager.unitCosts}">
+                        <ui:remove>
+                            <f:facet name="header">
+                                <h:outputText value="Price List" />
+                            </f:facet>
+                        </ui:remove>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Department"/>
+                            </f:facet>
+                            <h:outputText value="#{unitCost.department.name}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Lab/Unit"/>
+                            </f:facet>
+                            <h:outputText value="#{unitCost.laboratoryAndDepartmentUnitName}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Service"/>
+                            </f:facet>
+                            <h:outputText value="#{unitCost.service}" />
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Unit Cost"/>
+                            </f:facet>
+                            <h:outputText value="#{unitCost.cost}" />
+                        </p:column>
+
+                        <p:column style="width:32px">
+                            <p:commandButton title="View or edit unit cost"
+                                             onstart="PF('longProcessDialogVar').show();"
+                                             onerror="PF('connectionErrorDialog').show();"
+                                             actionListener="#{jobFinanceManager.editUnitCost}"
+                                             update=":unitCostForm"
+                                             oncomplete="PF('unitCostDialog').show();"
+                                             global="true"
+                                             icon="ui-icon-pencil">
+                                <f:setPropertyActionListener value="#{unitCost}" 
+                                                             target="#{jobFinanceManager.currentUnitCost}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+
+    </h:body>
+</html>
+
