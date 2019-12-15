@@ -29,14 +29,8 @@
             <artifactId>system-management</artifactId>
             <version>1.0.0</version>
             <type>war</type>
-        </dependency>    
-         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>human-resource-management</artifactId>
-            <version>1.0.0</version>
-            <type>war</type>
-        </dependency>    
-         <dependency>
+        </dependency>  
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>report-management</artifactId>
             <version>1.0.0</version>
@@ -48,7 +42,7 @@
             <version>1.0.0</version>
             <type>war</type>
         </dependency>    
-         <dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>financial-management</artifactId>
             <version>1.0.0</version>
@@ -66,6 +60,12 @@
             <version>1.0.0</version>
             <type>war</type>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>human-resource-management</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency> 
     </dependencies>
     <build>
         <plugins>
@@ -102,26 +102,41 @@
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>client-management</artifactId>
-                        </overlay>
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>financial-management</artifactId>
-                        </overlay>
+                            <excludes>
+                                <exclude>hr/*</exclude>
+                            </excludes>
+                        </overlay>                       
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>purchase-management</artifactId>
+                            <excludes>
+                                <exclude>hr/*</exclude>
+                            </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>legal-office</artifactId>
-                        </overlay>                        
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>human-resource-management</artifactId>
-                        </overlay>
+                            <excludes>
+                                <exclude>hr/*</exclude>
+                            </excludes>
+                        </overlay>      
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>report-management</artifactId>
+                            <excludes>
+                                <exclude>hr/*</exclude>
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>financial-management</artifactId>
+                            <excludes>
+                                <exclude>hr/*</exclude>
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>human-resource-management</artifactId>
                         </overlay>
                     </overlays> 
                     
