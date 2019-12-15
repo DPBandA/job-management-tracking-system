@@ -48,7 +48,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="common/longProcessDialog.xhtml"/>   
         <ui:include src="common/longProgessDialog.xhtml"/> 
         <ui:include src="common/longProgessDialogRep.xhtml"/> 
-        <ui:include src="hrm/preferencesDialog.xhtml"/>   
+        <ui:include src="hr/preferencesDialog.xhtml"/>   
 
         <p:layout id="JMTSWeb" fullPage="true" widgetVar="layoutVar" >
             <p:ajax event="toggle" listener="#{systemManager.handleLayoutUnitToggle}" />
@@ -136,11 +136,7 @@ Email: info@dpbennett.com.jm
                                 listener="#{systemManager.onMainViewTabChange}" />  
 
 
-                        <p:tab title="#{t.name}" closable="true"  >
-
-                            <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
-                                <ui:include src="job/jobBrowser.xhtml" />   
-                            </h:panelGroup>                                
+                        <p:tab title="#{t.name}" closable="true"  >                                                           
                             <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
                                 <ui:include src="legal/documentBrowser.xhtml" />   
                             </h:panelGroup> 
@@ -148,7 +144,7 @@ Email: info@dpbennett.com.jm
                                 <ui:include src="finance/financialAdminTab.xhtml" /> 
                             </h:panelGroup>
                             <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
-                                <ui:include src="hrm/hrmTab.xhtml" /> 
+                                <ui:include src="hr/hrmTab.xhtml" /> 
                             </h:panelGroup>
                             <h:panelGroup rendered="#{t.id == 'System Administration'}" >
                                 <ui:include src="admin/generalAdminTab.xhtml" /> 
@@ -168,6 +164,9 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Report Templates'}" >
                                 <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
                             </h:panelGroup>
+                            <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
+                                <ui:include src="job/jobBrowser.xhtml" />   
+                            </h:panelGroup> 
                         </p:tab>
                     </p:tabView>
 
@@ -223,10 +222,6 @@ Email: info@dpbennett.com.jm
 
                         <p:tab title="#{t.name}" > 
 
-                            <h:panelGroup rendered="#{t.id == 'Job Management'}">
-                                <ui:include src="dashboard/job/jobsTab.xhtml" />
-                            </h:panelGroup>
-
                             <h:panelGroup rendered="#{t.id == 'Document Management'}">                               
                                 <ui:include src="dashboard/legal/documentsTab.xhtml" />
                             </h:panelGroup>
@@ -253,6 +248,10 @@ Email: info@dpbennett.com.jm
                             
                             <h:panelGroup rendered="#{t.id == 'Report Management'}">
                                 <ui:include src="dashboard/report/reportTab.xhtml" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup rendered="#{t.id == 'Job Management'}">
+                                <ui:include src="dashboard/job/jobsTab.xhtml" />
                             </h:panelGroup>
 
                         </p:tab>   
