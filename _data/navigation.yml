@@ -1,10 +1,2 @@
-- name: Products
-  link: /products.html
-- name: Services
-  link: /services.html
-- name: About Us
-  link: /about.html
-- name: Contact Us
-  link: /contact.html
-- name: Blog
-  link: /blog.html  
+- name: Job Management & Tracking System
+  link: /

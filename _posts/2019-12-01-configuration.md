@@ -1,9 +1,9 @@
 ---
-layout: post
+layout: topic
 category: Job
 author: Desmond Bennett
 title: Job Management & Tracking
 topic: Configuration
 ---
 
-Coming soon...
+Configuration content coming soon...
