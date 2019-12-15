@@ -1,8 +1,8 @@
 ---
 layout: topic
-category: Job
+category: Job Management
 author: Desmond Bennett
-title: Job Management & Tracking
+title: Configuration
 topic: Configuration
 ---
 
