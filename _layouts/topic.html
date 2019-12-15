@@ -3,7 +3,24 @@ layout: default
 ---
 
 <div class="row">
-    <div class="col-md-2 border-right">
+    <div class="col-md-2 border-right d-block d-sm-none">
+        <div class="dropdown" style="padding-bottom: 20px;padding-top: 10px;">
+            <button class="btn btn-secondary btn-lg dropdown-toggle" 
+                    type="button" id="dropdownMenuButton" 
+                    data-toggle="dropdown" aria-haspopup="true" 
+                    aria-expanded="false">
+                Select a topic
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for post in site.posts %}
+                <h5><a class="dropdown-item" href="{{ post.url }}">
+                        {{ post.topic }}
+                    </a></h5>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 border-right d-none d-sm-block">
         <h4>Contents</h4>
         <ul>
             {% for post in site.posts %}
