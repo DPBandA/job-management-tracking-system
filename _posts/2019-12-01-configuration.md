@@ -2,8 +2,12 @@
 layout: topic
 category: Job Management
 author: Desmond Bennett
-title: Configuration
+title: User Guide
 topic: Configuration
 ---
 
-Configuration content coming soon...
+<h2>Configuration</h2>
+<p>
+    The Job Management and Tracking System (JMTS) configuration details are 
+    coming soon. Watch this space for further details.
+</p>
