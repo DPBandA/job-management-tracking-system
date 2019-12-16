@@ -14,9 +14,9 @@ layout: default
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     {% for post in site.posts %}
-                    <h5><a class="dropdown-item" href="{{ post.url }}">
+                        <h5><a class="dropdown-item" href="{{ post.url }}">
                             {{ post.topic }}
-                        </a></h5>
+                            </a></h5>
                     {% endfor %}
                 </div>
             </div>
