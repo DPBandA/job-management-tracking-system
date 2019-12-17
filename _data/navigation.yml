@@ -1,2 +1,4 @@
-- name: Job Management & Tracking System
-  link: /
+- name: User Guide
+  link: /user-guide
+- name: News
+  link: /blog  

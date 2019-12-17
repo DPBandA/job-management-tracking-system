@@ -1,9 +1,9 @@
 ---
-layout: post
+layout: topic
 category: Job Management
 author: Desmond Bennett
 title: User Guide
-topic: Introduction
+subject: Introduction
 ---
 
 <h2>Introduction</h2>

@@ -1,9 +1,9 @@
 ---
-layout: post
+layout: topic
 category: Job Management
 author: Desmond Bennett
 title: User Guide
-topic: Configuration
+subject: Configuration
 ---
 
 <h2>Configuration</h2>

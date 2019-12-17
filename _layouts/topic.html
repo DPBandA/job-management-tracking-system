@@ -13,10 +13,10 @@ layout: default
                     Select a topic
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    {% for post in site.posts %}
-                        <h5><a class="dropdown-item" href="{{ post.url }}">
-                            {{ post.topic }}
-                            </a></h5>
+                    {% for topic in site.topics %}
+                    <h5><a class="dropdown-item" href="{{ topic.url }}">
+                            {{ topic.subject }}
+                        </a></h5>
                     {% endfor %}
                 </div>
             </div>
@@ -30,17 +30,21 @@ layout: default
     <div class="row">        
         <div class="col-md-12 centre">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-default">Prev</button>              
+                <button type="button" class="btn btn-default">Back</button>              
                 <button type="button" class="btn btn-default">Next</button>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 border-top centre" style="padding-top: 20px;">
-            <h4>Contents</h4>
-            {% for post in site.posts %}
-            <h5><a href="{{ post.url }}">{{post.topic}}</a></h5>
-            {% endfor %}
+        <div class="col-md-12 centre">
+            <ul class="list-group list-group-flush">
+                <a href="/user-guide.html" class="list-group-item-secondary">
+                    <h4>Contents</h4>
+                </a>
+                {% for topic in site.topics %}
+                <a href="{{ topic.url }}" class="list-group-item-secondary">{{topic.subject}}</a>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>

@@ -1,1 +1,7 @@
 title: Job Management & Tracking System
+
+collections:
+  topics:
+    output: true
+  authors:
+    output: true
