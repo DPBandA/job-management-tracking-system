@@ -28,13 +28,13 @@ The database schemas required by the JMTS must be imported or created before the
 
 The Glassfish application server should be installed from a ZIP archive in accordance with the instructions given [here](https://docs.oracle.com/cd/E26576_01/doc.312/e24935/installing.htm#GSING00006). After installation, the administration console can be accessed at http://localhost:4848 as shown in **Figure 1**. The user name admin and no password should be entered by default.
 
-![Glassfish admin login](/doc/image/glassfish%20login.png)
+<img class="mb-2 img-fluid" src="/doc/image/glassfish%20login.png" alt="DPB&A">
 
 **Figure 1 - Glassfish Server Administration Console login**
 
 In order to activate remote and secure access to the administration console, the administrator password must be set as shown in **Figure 2** below:
 
-![Administrator password](https://raw.githubusercontent.com/DPBandA/job-management-tracking-system/master/doc/image/admin%20password.png)
+<img class="mb-2 img-fluid" src="/doc/image/admin%20password.png" alt="Administrator password">
 
 **Figure 2 - Setting the administrator password**
 
@@ -44,7 +44,7 @@ The Java Database Connectivity (JDBC) driver files for the MS SQL and MySQL data
 
 Java Database Connectivity (JDBC) connection pools must be created as shown in **Figure 3** below although the actual names may differ. However, JDBC resources with the JNDI names of 'jdbc/__JMTSPool' and 'jdbc/__ACCPACDBPool' for MySQL server and Microsoft SQL Server respectively must be created. A JMTS database administrator or software developer can assist with this.
 
-![JDBC connection pools and resources](https://raw.githubusercontent.com/DPBandA/job-management-tracking-system/master/doc/image/connection%20resources%20and%20pools.png)
+<img class="mb-2 img-fluid" src="/doc/image/connection%20resources%20and%20pools.png" alt="JDBC connection pools and resources">
 
 **Figure 3 - JDBC connection pools and resources**
 
@@ -52,14 +52,14 @@ Java Database Connectivity (JDBC) connection pools must be created as shown in *
 
 The performance of the Glassfish server can be tuned by following the procedure given [here](https://docs.oracle.com/cd/E18930_01/html/821-2431/index.html). However, basic performance tuning can be initiated by clicking the 'Performance Tuner' link as shown in **Figure 4** below:
 
-![Performance tuning](https://raw.githubusercontent.com/DPBandA/job-management-tracking-system/master/doc/image/performance%20tuner.png)
+<img class="mb-2 img-fluid" src="/doc/image/performance%20tuner.png" alt="Performance tuning">
 
 **Figure 4 - Performance Tuning**
 
 ## JMTS Installation
 Finally, the JMTS can be deployed by uploading the WAR archive using the "Deploy..." button as shown in **Figure 5** below:
 
-![JMTS installation](https://raw.githubusercontent.com/DPBandA/job-management-tracking-system/master/doc/image/jmts%20installation.png)
+<img class="mb-2 img-fluid" src="/doc/image/jmts%20installation.png" alt="JMTS installation">
 
 Detailed instructions on how to deploy a sample application can be found [here](https://docs.oracle.com/cd/E18930_01/html/821-2432/geyvr.html). The JMTS WAR archive should be located where it was downloaded and the configuration settings in the deployment screen changed as necessary.
 

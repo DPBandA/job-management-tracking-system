@@ -2,11 +2,11 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://localhost:4000/authors/dbennett.html</loc>
-<lastmod>2019-12-18T11:23:14-05:00</lastmod>
+<lastmod>2019-12-18T11:57:06-05:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/authors/mbennett.html</loc>
-<lastmod>2019-12-18T11:23:14-05:00</lastmod>
+<lastmod>2019-12-18T11:57:06-05:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/job%20management/2019/12/01/jmts-wiki-launch.html</loc>
@@ -18,19 +18,19 @@
 </url>
 <url>
 <loc>http://localhost:4000/topics/01-introduction.html</loc>
-<lastmod>2019-12-18T11:23:14-05:00</lastmod>
+<lastmod>2019-12-18T11:57:06-05:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/topics/02-configuration.html</loc>
-<lastmod>2019-12-18T11:23:14-05:00</lastmod>
+<lastmod>2019-12-18T11:57:06-05:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/wiki-pages/01-introduction.html</loc>
-<lastmod>2019-12-18T11:23:14-05:00</lastmod>
+<lastmod>2019-12-18T11:57:06-05:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/wiki-pages/02-installation.html</loc>
-<lastmod>2019-12-18T11:23:14-05:00</lastmod>
+<lastmod>2019-12-18T11:57:06-05:00</lastmod>
 </url>
 <url>
 <loc>http://localhost:4000/blog.html</loc>
