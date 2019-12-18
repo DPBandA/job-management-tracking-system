@@ -1,13 +1,14 @@
 ---
 layout: default
 ---
-<p>
-<h2>{{page.topic}}</h2>
-{{page.date | date_to_string }}
-{% assign author = site.authors | where: 'name', page.author | first %}
-{% if author %}
-- <a href="{{ author.url }}">{{ author.name }}</a>
-{% endif %}
-</p>
-
-{{ content }}
+<div class="container">
+    <p>
+    <h2>{{page.topic}}</h2>
+    {{page.date | date_to_string }}
+    {% assign author = site.authors | where: 'name', page.author | first %}
+    {% if author %}
+    - <a href="{{ author.url }}">{{ author.name }}</a>
+    {% endif %}
+    </p>
+    {{ content }}
+</div>

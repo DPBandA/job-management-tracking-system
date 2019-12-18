@@ -1,4 +1,6 @@
 - name: User Guide
-  link: /user-guide
-- name: News
-  link: /news  
+  link: /user-guide.html
+- name: Wiki
+  link: /wiki.html  
+- name: Blog
+  link: /blog.html  

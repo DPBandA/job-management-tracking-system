@@ -1,9 +1,11 @@
 ---
-layout: topic
-title: User Guide
+layout: wiki
+author: Desmond Bennett
+title: Wiki
+subject: Introduction
 ---
 
-<h2>User Guide</h2>
+<h2>Introduction</h2>
 <p>
     The Job Management and Tracking System (JMTS) is a web based application 
     intended to be used as the central system that facilitates the processes 

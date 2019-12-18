@@ -1,0 +1,51 @@
+---
+layout: default
+---
+
+<div class="container">
+    
+    <div class="row">        
+        <div class="col-md-12">
+            <div class="dropdown centre" style="padding-bottom: 20px;padding-top: 10px;">
+                <button class="btn btn-default btn-lg dropdown-toggle" 
+                        type="button" id="dropdownMenuButton2" 
+                        data-toggle="dropdown" aria-haspopup="true" 
+                        aria-expanded="false">
+                    Select a page
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                    {% for wpage in site.wiki-pages %}
+                    <h5><a class="dropdown-item" href="{{ wpage.url }}">
+                            {{ wpage.subject }}
+                        </a></h5>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{content}}
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col-md-12 centre">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-default">Back</button>              
+                <button type="button" class="btn btn-default">Next</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 centre">
+            <ul class="list-group list-group-flush">
+                <a href="/wiki.html" class="list-group-item-secondary">
+                    <h4>Contents</h4>
+                </a>
+                {% for wpage in site.wiki-pages %}
+                <a href="{{ wpage.url }}" class="list-group-item-secondary">{{wpage.subject}}</a>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
