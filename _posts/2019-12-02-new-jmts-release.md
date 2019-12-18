@@ -2,7 +2,7 @@
 layout: post
 category: Job Management
 author: Desmond Bennett
-title: News
+title: Blog
 topic: New JMTS Release!
 ---
 
