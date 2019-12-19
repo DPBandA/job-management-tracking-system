@@ -30,20 +30,55 @@ layout: default
     </div>
     <div class="row">        
         <div class="col-md-12 centre">
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-default">Back</button>              
-                <button type="button" class="btn btn-default">Next</button>
+            <div class="btn-group" role="group" aria-label="Wiki">
+                {% if page.collection %}
+                    {% assign posts = site[page.collection] | where:"layout", "wiki" %}
+
+                    {% if posts.size > 1 %}
+                        {% assign prevurl = posts.last.url %}
+                        {% assign nexturl = posts.first.url %}
+                    {% endif %}
+
+                    {% for links in posts %}
+                        {% if links.title == page.title %}
+                            {% unless forloop.first %}
+                                {% assign prevurl = prev.url %}
+                            {% endunless %}
+                            {% unless forloop.last %}
+                                {% assign next = posts[forloop.index] %}
+                                {% assign nexturl = next.url %}
+                            {% endunless %}
+                        {% endif %}
+                        {% assign prev = links %}
+                    {% endfor %}
+
+                    <p>
+                        {% if posts.size > 1 %}
+                            {% if prevurl %}
+                                <a href="{{prevurl}}" class="btn btn-default" role="button">
+                                   << Back    
+                                </a>
+                            {% endif %}
+                            
+                            {% if nexturl %}
+                                <a href="{{nexturl}}" class="btn btn-default" role="button">
+                                   Next >>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    </p>
+                {% endif %}
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 centre">
             <ul class="list-group list-group-flush">
-                <a href="/wiki.html" class="list-group-item-secondary">
+                <a href="/wiki.html" class="list-group-item">
                     <h4>Contents</h4>
                 </a>
                 {% for wpage in site.wiki-pages %}
-                <a href="{{ wpage.url }}" class="list-group-item-secondary">{{wpage.subject}}</a>
+                <a href="{{ wpage.url }}" class="list-group-item">{{wpage.subject}}</a>
                 {% endfor %}
             </ul>
         </div>
