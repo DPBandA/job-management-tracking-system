@@ -4,6 +4,7 @@ category: Job Management
 author: Desmond Bennett
 title: Blog
 topic: New JMTS Release!
+subject: New JMTS Release!
 ---
 
 <p>

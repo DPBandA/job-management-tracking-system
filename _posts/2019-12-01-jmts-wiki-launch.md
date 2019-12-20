@@ -4,6 +4,7 @@ category: Job Management
 author: Desmond Bennett
 title: Blog
 topic: JMTS Wiki Launch
+subject: JMTS Wiki Launch
 ---
 
 <p>

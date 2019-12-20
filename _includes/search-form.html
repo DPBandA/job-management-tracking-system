@@ -1,8 +1,22 @@
-<form class="form-inline my-2 my-lg-0" action="/search.html" method="get">
-    <input class="form-control mr-sm-2" type="text" id="search-box" name="query" placeholder="Search topics" aria-label="Search">
+    {% if page.title == 'Wiki' %}
+        <form class="form-inline my-2 my-lg-0" action="/search-wiki.html" method="get">
+            <input class="form-control mr-sm-2" type="text" id="search-box"
+                    name="query" placeholder="Search wiki pages" aria-label="Search">
+        </form>
+    {% elsif page.title == 'User Guide' %}    
+        <form class="form-inline my-2 my-lg-0" action="/search-topics.html" method="get">
+            <input class="form-control mr-sm-2" type="text" id="search-box"
+                    name="query" placeholder="Search user guide" aria-label="Search">
+        </form>
+    {% else %} 
+        <form class="form-inline my-2 my-lg-0" action="/search.html" method="get">
+            <input class="form-control mr-sm-2" type="text" id="search-box"
+                   name="query" placeholder="Search blog" aria-label="Search"> 
+        </form>       
+    {% endif %}        
     <!--
     <button class="btn btn-default" type="submit" value="search" style="padding: 0;">
         <img src="/assets/images/search.svg" alt="" width="24" height="24" title="Search">
     </button>
     -->
-</form> 
+        
