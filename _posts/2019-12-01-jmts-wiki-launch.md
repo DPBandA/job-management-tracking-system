@@ -8,5 +8,8 @@ subject: JMTS Wiki Launch
 ---
 
 <p>
-    The JMTS was recently launched...details coming soon.
+    The 
+    <a target="_blank"
+       href="/wiki.html">
+        JMTS wiki</a> was recently launched. Check it out!.
 </p>

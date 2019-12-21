@@ -8,5 +8,7 @@ subject: New JMTS Release!
 ---
 
 <p>
-    There is a new JMTS release on GitHub. Check it out!
+    There is a new <a target="_blank"
+       href="https://github.com/DPBandA/job-management-tracking-system/releases/latest">
+        JMTS release</a> on GitHub. Check it out!
 </p>
