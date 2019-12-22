@@ -12,21 +12,21 @@ This outlines the installation procedure for the Job Management & Tracking Syste
 ## Getting started
 
 The following are required for the installation of the JMTS:
-- The MySQL Community Server v5.5.x that can be obtained [here](https://dev.mysql.com/downloads/mysql/).
-- The Glassfish v3.1.2.2 application server that can be downloaded from [here](https://www.oracle.com/java/technologies/ogs-v3122-downloads.html).
-- The latest release of the JMTS that can be obtained [here](https://github.com/DPBandA/job-management-tracking-system/releases/latest) as a WAR archive file.
+- The MySQL Community Server v5.5.x that can be obtained <a href="https://dev.mysql.com/downloads/mysql/" target="_blank">here</a>.
+- The Glassfish v3.1.2.2 application server that can be downloaded from <a href="https://www.oracle.com/java/technologies/ogs-v3122-downloads.html" target="_blank">here</a>.
+- The latest release of the JMTS that can be obtained <a href="https://github.com/DPBandA/job-management-tracking-system/releases/latest" target="_blank">here</a> as a WAR archive file.
 
 Following are instructions for installing the MySQL Community Server, the Glassfish application server and finally the JMTS.
 
 ## MySQL Community Server Installation
 
-After downloading a suitable installer or ZIP archive, the MySQL server should be installed with the most optimal configuration settings as given [here](https://dev.mysql.com/doc/mysql-installation-excerpt/5.5/en/windows-installation.html). The server should be installed as a Windows service where the default service name will be MySQL55.
+After downloading a suitable installer or ZIP archive, the MySQL server should be installed with the most optimal configuration settings as given <a href="https://dev.mysql.com/doc/mysql-installation-excerpt/5.5/en/windows-installation.html" target="_blank">here</a>. The server should be installed as a Windows service where the default service name will be MySQL55.
 
 The database schemas required by the JMTS must be imported or created before the Glassfish application server can be configured. These database schemas can be provided by a database administrator or a software developer of the JMTS.
 
 ## Glassfish Server Installation
 
-The Glassfish application server should be installed from a ZIP archive in accordance with the instructions given [here](https://docs.oracle.com/cd/E26576_01/doc.312/e24935/installing.htm#GSING00006). After installation, the administration console can be accessed at http://localhost:4848 as shown in **Figure 1**. The user name admin and no password should be entered by default.
+The Glassfish application server should be installed from a ZIP archive in accordance with the instructions given <a href="https://docs.oracle.com/cd/E26576_01/doc.312/e24935/installing.htm#GSING00006" target="_blank">here</a>. After installation, the administration console can be accessed at http://localhost:4848 as shown in **Figure 1**. The user name admin and no password should be entered by default.
 
 <img class="mb-2 img-fluid" src="/doc/image/glassfish%20login.png" alt="DPB&A">
 
@@ -50,7 +50,7 @@ Java Database Connectivity (JDBC) connection pools must be created as shown in *
 
 ### Performance Tuning
 
-The performance of the Glassfish server can be tuned by following the procedure given [here](https://docs.oracle.com/cd/E18930_01/html/821-2431/index.html). However, basic performance tuning can be initiated by clicking the 'Performance Tuner' link as shown in **Figure 4** below:
+The performance of the Glassfish server can be tuned by following the procedure given <a href="https://docs.oracle.com/cd/E18930_01/html/821-2431/index.html" target="_blank">here</a>. However, basic performance tuning can be initiated by clicking the 'Performance Tuner' link as shown in **Figure 4** below:
 
 <img class="mb-2 img-fluid" src="/doc/image/performance%20tuner.png" alt="Performance tuning">
 
@@ -61,7 +61,7 @@ Finally, the JMTS can be deployed by uploading the WAR archive using the "Deploy
 
 <img class="mb-2 img-fluid" src="/doc/image/jmts%20installation.png" alt="JMTS installation">
 
-Detailed instructions on how to deploy a sample application can be found [here](https://docs.oracle.com/cd/E18930_01/html/821-2432/geyvr.html). The JMTS WAR archive should be located where it was downloaded and the configuration settings in the deployment screen changed as necessary.
+Detailed instructions on how to deploy a sample application can be found <a href="https://docs.oracle.com/cd/E18930_01/html/821-2432/geyvr.html" target="_blank">here</a>. The JMTS WAR archive should be located where it was downloaded and the configuration settings in the deployment screen changed as necessary.
 
 ## Conclusion
 
