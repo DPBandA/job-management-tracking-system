@@ -104,6 +104,13 @@
                             <artifactId>client-management</artifactId>
                             <excludes>
                                 <exclude>hr/*</exclude>
+                                <exclude>finance/*</exclude>
+                                <exclude>admin/*</exclude>
+                                <exclude>common/*</exclude>
+                                <exclude>css/*</exclude>
+                                <exclude>images/*</exclude>
+                                <exclude>js/*</exclude>
+                                <exclude>themes/*</exclude>                                
                             </excludes>
                         </overlay>                       
                         <overlay>
@@ -111,13 +118,26 @@
                             <artifactId>purchase-management</artifactId>
                             <excludes>
                                 <exclude>hr/*</exclude>
+                                <exclude>finance/*</exclude>
+                                <exclude>admin/*</exclude>
+                                <exclude>common/*</exclude>
+                                <exclude>css/*</exclude>
+                                <exclude>images/*</exclude>
+                                <exclude>js/*</exclude>
+                                <exclude>themes/*</exclude>  
                             </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>legal-office</artifactId>
                             <excludes>
-                                <exclude>hr/*</exclude>
+                                <exclude>report/*</exclude>
+                                <exclude>admin/*</exclude>
+                                <exclude>common/*</exclude>
+                                <exclude>css/*</exclude>
+                                <exclude>images/*</exclude>
+                                <exclude>js/*</exclude>
+                                <exclude>themes/*</exclude>  
                             </excludes>
                         </overlay>      
                         <overlay>
@@ -125,6 +145,13 @@
                             <artifactId>report-management</artifactId>
                             <excludes>
                                 <exclude>hr/*</exclude>
+                                <exclude>client/*</exclude>
+                                <exclude>admin/*</exclude>
+                                <exclude>common/*</exclude>
+                                <exclude>css/*</exclude>
+                                <exclude>images/*</exclude>
+                                <exclude>js/*</exclude>
+                                <exclude>themes/*</exclude> 
                             </excludes>
                         </overlay>
                         <overlay>
@@ -132,11 +159,25 @@
                             <artifactId>financial-management</artifactId>
                             <excludes>
                                 <exclude>hr/*</exclude>
+                                <exclude>admin/*</exclude>
+                                <exclude>common/*</exclude>
+                                <exclude>css/*</exclude>
+                                <exclude>images/*</exclude>
+                                <exclude>js/*</exclude>
+                                <exclude>themes/*</exclude> 
                             </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>human-resource-management</artifactId>
+                            <excludes>
+                                <exclude>admin/*</exclude>
+                                <exclude>common/*</exclude>
+                                <exclude>css/*</exclude>
+                                <exclude>images/*</exclude>
+                                <exclude>js/*</exclude>
+                                <exclude>themes/*</exclude> 
+                            </excludes>
                         </overlay>
                     </overlays> 
                     
