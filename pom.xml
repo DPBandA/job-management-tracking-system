@@ -145,39 +145,19 @@
                             <artifactId>report-management</artifactId>
                             <excludes>
                                 <exclude>hr/*</exclude>
-                                <exclude>client/*</exclude>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude> 
+                                <exclude>client/*</exclude>                                
                             </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>financial-management</artifactId>
                             <excludes>
-                                <exclude>hr/*</exclude>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude> 
+                                <exclude>hr/*</exclude>                                
                             </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>human-resource-management</artifactId>
-                            <excludes>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude> 
-                            </excludes>
+                            <artifactId>human-resource-management</artifactId>                            
                         </overlay>
                     </overlays> 
                     
