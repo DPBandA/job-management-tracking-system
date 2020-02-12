@@ -92,11 +92,11 @@ Email: info@dpbennett.com.jm
                                 readonlyInput="true"                                
                                 value="#{jobManager.currentJob.jobStatusAndTracking.startDate}" >
                         <p:ajax event="dateSelect"     
-                                update=":jobDialogForm:jobDetailToolbar1"
-                                listener="#{jobManager.updateJob}"/>
+                                update=":jobDialogForm:jobDetailToolbar1,workProgress"
+                                listener="#{jobManager.updateStartDate}"/>
                         <p:ajax event="change"       
-                                update=":jobDialogForm:jobDetailToolbar1"
-                                listener="#{jobManager.updateJob}"/>
+                                update=":jobDialogForm:jobDetailToolbar1,workProgress"
+                                listener="#{jobManager.updateStartDate}"/>
                     </p:calendar>
                 </h:panelGrid>
             </h:panelGroup>
