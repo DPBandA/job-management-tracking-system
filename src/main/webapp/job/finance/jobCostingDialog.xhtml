@@ -37,7 +37,7 @@ Email: info@dpbennett.com.jm
     <h:body> 
         <ui:include src="costingComponentDialog.xhtml"/>       
         <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>   
-        <ui:include src="jobCostingTemplateNameDialog.xhtml"/>        
+        <ui:include src="jobCostingTemplateManagerDialog.xhtml"/>        
         <ui:include src="/common/longProcessDialog.xhtml"/>  
         <h:form id="jobCostingDialogForm" > 
             <p:remoteCommand name="rc" autoRun="true" 
@@ -159,7 +159,15 @@ Email: info@dpbennett.com.jm
                                         listener="#{jobFinanceManager.updateCostingComponents}"
                                         process="@this"/>                      
                             </p:autoComplete>
-                        </h:panelGroup>    
+                        </h:panelGroup> 
+                        <p:spacer width="10" />
+                        <p:commandButton title="Manage costing templates"
+                                         value="Manage..."
+                                         update=":jobCostingTemplateManagerDialogForm"
+                                         onstart="PF('longProcessDialogVar').show();"
+                                         oncomplete="PF('jobCostingTemplateManagerDialog').show();PF('longProcessDialogVar').hide();"
+                                         process="@this">
+                        </p:commandButton>
                     </p:toolbarGroup>
                     <p:toolbarGroup align="right">                        
                         <h:panelGroup>
