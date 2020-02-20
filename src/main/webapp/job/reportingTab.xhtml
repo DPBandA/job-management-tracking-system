@@ -68,7 +68,8 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Report number(s): " />
         <h:panelGroup>
-            <p:inputText id="reportNumbers"                     
+            <p:inputText id="reportNumbers"  
+                         style="width: 400px;"
                          title="#{jobManager.currentJob.reportNumber}"
                          value="#{jobManager.currentJob.reportNumber}">
                 <p:ajax event="change"

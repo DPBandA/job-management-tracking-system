@@ -39,20 +39,27 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                 </p:toolbarGroup>
             </p:toolbar>
-            <p:panel>
-                <ui:remove>
-                    <h:panelGrid columns="2" >
-                        <h:outputLabel value="Template name: " style="font-weight: bold"/>
-                        <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.name}"
-                                     style="width: 200px">
-                            <p:ajax event="change"
-                                    global="false"
-                                    listener="#{jobFinanceManager.updateJobCostingAndPayment}"
-                                    process="@this"/>
-                        </p:inputText>
-                    </h:panelGrid>
-                </ui:remove>
-            </p:panel>
+            <p:dataTable id="jobCostingTemplateTable"                                       
+                         var="costing"                                        
+                         paginator="true"
+                         rows="15"
+                         style="margin-top: 1px;"
+                         widgetVar="jobCostingTemplateTableVar"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         value="#{complianceManager.FoundJobCostingAndPayments}">
+
+                <f:facet name="header">
+                    Costing Templates
+                </f:facet>
+
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Name"/>
+                    </f:facet>
+                    <h:outputText value="#{costing.name}" />
+                </p:column>
+                
+            </p:dataTable>
             <p:toolbar style="margin-top: 5px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"   
