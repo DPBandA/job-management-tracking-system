@@ -24,6 +24,9 @@ After downloading a suitable installer or ZIP archive, the MySQL server should b
 
 The database schemas required by the JMTS must be imported or created before the Glassfish application server can be configured. These database schemas can be provided by a database administrator or a software developer of the JMTS.
 
+To remove ONLY_FULL_GROUP_BY issues configure MySQL in the my.cnf files as follows:
+[mysqld] sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
 ## Glassfish Server Installation
 
 The Glassfish application server should be installed from a ZIP archive in accordance with the instructions given <a href="https://docs.oracle.com/cd/E26576_01/doc.312/e24935/installing.htm#GSING00006" target="_blank">here</a>. After installation, the administration console can be accessed at http://localhost:4848 as shown in **Figure 1**. The user name admin and no password should be entered by default.
@@ -49,6 +52,8 @@ Java Database Connectivity (JDBC) connection pools must be created as shown in *
 <img class="mb-2 img-fluid" src="/doc/image/connection%20resources%20and%20pools.png" alt="JDBC connection pools and resources">
 
 **Figure 3 - JDBC connection pools and resources**
+
+For MS SQL Server connection use: Pool Name: DBPool, Datasource Classname: net.sourceforge.jtds.jdbc.Driver, Resource Type: java.sql.Driver.
 
 ### Performance Tuning
 
