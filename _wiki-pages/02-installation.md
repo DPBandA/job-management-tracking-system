@@ -25,7 +25,8 @@ After downloading a suitable installer or ZIP archive, the MySQL server should b
 The database schemas required by the JMTS must be imported or created before the Glassfish application server can be configured. These database schemas can be provided by a database administrator or a software developer of the JMTS.
 
 To remove ONLY_FULL_GROUP_BY issues configure MySQL in the my.cnf files as follows:
-[mysqld] sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+[mysqld] sql_mode = STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,
+NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
 
 ## Glassfish Server Installation
 
