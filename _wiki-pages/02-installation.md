@@ -38,6 +38,8 @@ In order to activate remote and secure access to the administration console, the
 
 **Figure 2 - Setting the administrator password**
 
+To install the server as a Windows service please see [here](http://www.luv2code.com/2013/11/13/install-glassfish-4-as-a-windows-service/).
+
 ### Database Resources
 
 The Java Database Connectivity (JDBC) driver files for the MS SQL and MySQL database servers are required before database resources can be configured. The MS Server database driver can be downloaded [here](https://github.com/DPBandA/job-management-tracking-system/blob/master/doc/database/jtds-1.2.5.jar?raw=true). The MySQL server database driver file can be downloaded [here](https://github.com/DPBandA/job-management-tracking-system/blob/master/doc/database/mysql-connector-java-5.1.45-bin.jar?raw=true). These files should be copied to "<Glassfish installation folder>\glassfish3\glassfish\lib". The Glassfish server should then be restarted.
