@@ -26,12 +26,16 @@ Email: info@dpbennett.com.jm
 
     <p:dataTable id="jobsDatabaseTable"
                  var="job"
+                 editable="true" 
+                 editMode="cell"
                  paginator="true"
                  rows="15"  
                  resizableColumns="false"
                  rowStyleClass="#{job.rowStyle}"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
+
+        <p:ajax event="cellEdit" listener="#{jobManager.onJobCellEdit}" />
 
         <p:ajax event="page"  
                 onstart="PF('longProcessDialogVar').show();" 
@@ -55,12 +59,33 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.instructions}">
-            <f:facet name="header">
-                <h:outputText value="Instructions"/>
-            </f:facet>
-            <h:outputText value="#{job.instructions}" />               
-        </p:column> 
+        <ui:remove>
+            <p:column sortBy="#{job.instructions}">
+                <f:facet name="header">
+                    <h:outputText value="Instructions"/>
+                </f:facet>
+                <h:outputText value="#{job.instructions}" />               
+            </p:column> 
+        </ui:remove>
+
+        <p:column headerText="Instructions" sortBy="#{job.instructions}">   
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{job.instructions}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputTextarea
+                        value="#{job.instructions}"
+                        rows="2"
+                        autoResize="false"
+                        maxlength="1000" >
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                    </p:inputTextarea> 
+                </f:facet>
+            </p:cellEditor>  
+        </p:column>
 
         <p:column sortBy="#{job.jobStatusAndTracking.dateSubmitted}" style="min-width: 100px">
             <f:facet name="header">
