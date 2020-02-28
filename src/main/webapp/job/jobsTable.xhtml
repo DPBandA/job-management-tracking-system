@@ -59,15 +59,6 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <ui:remove>
-            <p:column sortBy="#{job.instructions}">
-                <f:facet name="header">
-                    <h:outputText value="Instructions"/>
-                </f:facet>
-                <h:outputText value="#{job.instructions}" />               
-            </p:column> 
-        </ui:remove>
-
         <p:column headerText="Instructions" sortBy="#{job.instructions}">   
             <p:cellEditor>
                 <f:facet name="output">
@@ -87,29 +78,71 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <p:column sortBy="#{job.jobStatusAndTracking.dateSubmitted}" style="min-width: 100px">
-            <f:facet name="header">
-                <h:outputText value="Submitted"/>
-            </f:facet>
-            <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
-                <f:convertDateTime pattern="MMM dd, yyyy"/>
-            </h:outputText>
-        </p:column>     
-
-        <p:column sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" style="min-width: 100px" >
-            <f:facet name="header">
-                <h:outputText value="EDOC"/>
-            </f:facet>
-            <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">
-                <f:convertDateTime pattern="MMM dd, yyyy"/>
-            </h:outputText>
+        <p:column headerText="Submitted" sortBy="#{job.jobStatusAndTracking.dateSubmitted}" style="min-width: 100px">   
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
+                        <f:convertDateTime pattern="MMM dd, yyyy"/>
+                    </h:outputText>
+                </f:facet>
+                <f:facet name="input">
+                    <p:calendar value="#{job.jobStatusAndTracking.dateSubmitted}" 
+                                readonlyInput="true"
+                                focusOnSelect="true"
+                                navigator="true"                                 
+                                pattern="MMM dd, yyyy" >
+                    </p:calendar>
+                </f:facet>
+            </p:cellEditor>  
         </p:column>
 
-        <p:column sortBy="#{job.jobStatusAndTracking.workProgress}" style="min-width: 85px" >
-            <f:facet name="header">
-                <h:outputText value="Progress"/>
-            </f:facet>
-            <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />
+        <p:column headerText="EDOC" sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" style="min-width: 100px">   
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">
+                        <f:convertDateTime pattern="MMM dd, yyyy"/>
+                    </h:outputText>
+                </f:facet>
+                <f:facet name="input">
+                    <p:calendar value="#{job.jobStatusAndTracking.expectedDateOfCompletion}" 
+                                readonlyInput="true"
+                                focusOnSelect="true"
+                                navigator="true"                                 
+                                pattern="MMM dd, yyyy" >
+                    </p:calendar>
+                </f:facet>
+            </p:cellEditor>  
+        </p:column>
+
+        <ui:remove>
+            <p:column sortBy="#{job.jobStatusAndTracking.workProgress}" style="min-width: 85px" >
+                <f:facet name="header">
+                    <h:outputText value="Progress"/>
+                </f:facet>
+                <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />
+            </p:column>
+        </ui:remove>
+
+        <p:column headerText="Progress" sortBy="#{job.jobStatusAndTracking.workProgress}">   
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:selectOneMenu value="#{job.jobStatusAndTracking.workProgress}"
+                                     style="width: 100px;">
+
+                        <f:selectItems  value="#{systemManager.workProgressList}"
+                                        var="progress"                            
+                                        itemValue="#{progress}"
+                                        itemLabel="#{progress}"/>
+
+                        <p:ajax update="@this,:headerForm:growl3"
+                                process="@this"/>
+
+                    </p:selectOneMenu>   
+                </f:facet>
+            </p:cellEditor>  
         </p:column>
 
         <p:column style="width:32px" >
