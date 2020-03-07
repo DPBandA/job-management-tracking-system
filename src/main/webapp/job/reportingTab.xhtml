@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
             <p:tooltip for="newClient" value="Check if this is a new client for the department" showEffect="fade" hideEffect="fade" />
         </h:panelGroup>
 
-        <h:outputText value="Service(s) offered:" />       
+        <h:outputText value="Service(s) offered:" rendered="false"/>       
         <p:autoComplete id="services"
                         var="service"   
                         value="#{jobManager.currentJob.services}"
@@ -52,6 +52,7 @@ Email: info@dpbennett.com.jm
                         scrollHeight="200"                         
                         multiple="true"
                         readonly="true"
+                        rendered="false"
                         completeMethod="#{jobContractManager.completeService}" >
 
             <p:ajax event="itemSelect"

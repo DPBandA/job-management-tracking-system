@@ -30,13 +30,31 @@ Email: info@dpbennett.com.jm
                   draggable="true"
                   modal="true"
                   widgetVar="jobCostingTemplateManagerDialog"
-                  header="Costing Template Manager" >       
+                  header="Costing Template Manager" >    
+
             <p:toolbar style="margin-top: 5px;">
-                <p:toolbarGroup>
+                <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"   
                                      oncomplete="PF('jobCostingTemplateManagerDialog').hide();"
                                      icon="ui-icon ui-icon-check"
                                      process="@form"/>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right">
+                    <p:outputLabel for="isActiveJobCostingAndPaymentsOnly" value="Active costing templates only: " />  
+                    <h:panelGroup>
+                        <p:selectBooleanCheckbox style="vertical-align: middle"
+                                                 id="isActiveJobCostingAndPaymentsOnly"
+                                                 value="#{jobFinanceManager.isActiveJobCostingAndPaymentsOnly}" >
+                            <p:ajax  update="jobCostingTemplateTable"
+                                     listener="#{jobFinanceManager.doJobCostingAndPaymentSearch}"
+                                     event="change"                                      
+                                     process="@this"/>
+                        </p:selectBooleanCheckbox>            
+                        <p:tooltip for="isActiveJobCostingAndPaymentsOnly" value="Check to show active costing templates only" 
+                                   showEffect="fade" hideEffect="fade" />
+                        <p:spacer width="15" />                
+                    </h:panelGroup>
                 </p:toolbarGroup>
             </p:toolbar>
             <p:dataTable id="jobCostingTemplateTable"                                       
