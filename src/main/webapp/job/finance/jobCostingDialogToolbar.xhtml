@@ -57,6 +57,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.costingApproved}"  
                                          id="approved"
+                                         disabled="#{!jobFinanceManager.canApproveJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Approved" >
                     <p:ajax global="false"
@@ -69,6 +70,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.invoiced}"
                                          id="invoiced"
+                                         disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Invoiced" >
                     <p:ajax global="false"                        

@@ -102,7 +102,7 @@ Email: info@dpbennett.com.jm
                         <p:ajax event="keyup"                                 
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
                     </p:calendar>
-                    
+
                     <h:outputText value="Invoice date:" />
                     <p:spacer height="0" width="10"/>
                     <p:calendar required="false"   
@@ -145,11 +145,11 @@ Email: info@dpbennett.com.jm
                 <p:toolbar>
                     <p:toolbarGroup align="left">
                         <h:panelGroup>                   
-                            <h:outputLabel value="Select template: "
-                                           title="Select an existing costing template"/>
-                            <p:autoComplete dropdown="true"
+                            <h:outputLabel value="Find template: "
+                                           title="Select an existing costing template"/>                           
+                            <p:autoComplete dropdown="false"
                                             value="#{jobFinanceManager.selectedJobCostingTemplate}"
-                                            title="Choose an existing costing template name"                                                                                    
+                                            placeholder="enter template name"
                                             scrollHeight="200" 
                                             disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                             forceSelection="true"
@@ -184,7 +184,7 @@ Email: info@dpbennett.com.jm
                                         listener="#{jobFinanceManager.updateJobCostingAndPayment}"
                                         process="@this"/>
                             </p:inputText>
-                            <p:watermark value="enter template name" for="jobCostingsTemplateName" />
+                            <p:watermark value="enter new name" for="jobCostingsTemplateName" />
                             <p:tooltip for="jobCostingsTemplateName" value="Enter a name to save the costings as a template" />
                         </h:panelGroup>
                     </p:toolbarGroup>
