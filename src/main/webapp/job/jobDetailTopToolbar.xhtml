@@ -22,7 +22,7 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html" >
-    
+
     <p:toolbar id="jobDetailToolbar1">
         <p:toolbarGroup align="left" >  
             <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
@@ -34,9 +34,9 @@ Email: info@dpbennett.com.jm
                              title="Save current job"
                              icon="ui-icon-disk"
                              process="@form" >
-                
+
                 <p:ajax update=":jobDialogForm" resetValues="true" />
-                
+
             </p:commandButton>
 
             <p:spacer height="0" width="10"/>
@@ -71,20 +71,47 @@ Email: info@dpbennett.com.jm
                 icon="ui-icon-copy"
                 process="@this"/>
 
+            <p:menuButton value="Subcontract" 
+                          title="Subcontract the current job by first creating a copy.">
+
+                <p:menuitem  value="Subcontract..."
+                             actionListener="#{jobManager.subContractJob}"
+                             update=":jobDialogForm,:jobDialogForm:growl2"
+                             rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}"
+                             global="true"               
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             process="@this" >
+                </p:menuitem>
+                
+                <p:menuitem  value="Subcontract with costing..."
+                             actionListener="#{jobManager.subContractJob}"
+                             update=":jobDialogForm,:jobDialogForm:growl2"
+                             rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}"
+                             global="true"               
+                             onstart="PF('longProcessDialogVar').show();"
+                             oncomplete="PF('longProcessDialogVar').hide();"
+                             onerror="PF('connectionErrorDialog').show();"
+                             process="@this" >
+                </p:menuitem>
+
+            </p:menuButton>
+
             <p:spacer width="10" />
 
             <p:menuButton value="Forms" >
-                
+
                 <p:menuitem value="Service Contract"
                             ajax="false" 
                             immediate="true"
                             disabled="#{!jobManager.currentJobIsValid}"   
                             onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
-                    
+
                     <p:fileDownload value="#{jobManager.serviceContractFile}" />
-                    
+
                 </p:menuitem>
-                
+
             </p:menuButton>
         </p:toolbarGroup>
 
