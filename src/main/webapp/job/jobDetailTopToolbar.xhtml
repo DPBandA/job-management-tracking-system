@@ -62,7 +62,8 @@ Email: info@dpbennett.com.jm
                 value="Subcontract..."
                 actionListener="#{jobManager.subContractJob}"
                 update=":jobDialogForm,:jobDialogForm:growl2"
-                rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}"
+                disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
+                rendered="#{!jobFinanceManager.enableSubcontractWithCosting}"
                 global="true"               
                 onstart="PF('longProcessDialogVar').show();"
                 oncomplete="PF('longProcessDialogVar').hide();"
@@ -72,23 +73,25 @@ Email: info@dpbennett.com.jm
                 process="@this"/>
 
             <p:menuButton value="Subcontract" 
+                          disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
+                          rendered="#{jobFinanceManager.enableSubcontractWithCosting}"
                           title="Subcontract the current job by first creating a copy.">
 
                 <p:menuitem  value="Subcontract..."
                              actionListener="#{jobManager.subContractJob}"
                              update=":jobDialogForm,:jobDialogForm:growl2"
-                             rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}"
+                             disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                              global="true"               
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
                              onerror="PF('connectionErrorDialog').show();"
                              process="@this" >
                 </p:menuitem>
-                
+
                 <p:menuitem  value="Subcontract with costing..."
                              actionListener="#{jobManager.subContractJob}"
                              update=":jobDialogForm,:jobDialogForm:growl2"
-                             rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}"
+                             disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                              global="true"               
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
