@@ -83,8 +83,17 @@ Email: info@dpbennett.com.jm
                                         update=":preferencesDialogForm"
                                         oncomplete="PF('longProcessDialogVar').hide();PF('preferencesDialog').show();"
                                         onerror="PF('connectionErrorDialog').show();"    
+                                        icon="ui-icon-gear"
                                         value="Preferences"/>
 
+                            <p:separator rendered="#{systemManager.showSupportURL}" />
+                            
+                            <p:menuitem url="#{systemManager.supportURL}"
+                                        target="_blank"
+                                        icon="ui-icon-help"
+                                        value="Support"
+                                        rendered="#{systemManager.showSupportURL}" />    
+                            
                             <p:separator />
 
                             <p:menuitem actionListener="#{systemManager.logout}"
