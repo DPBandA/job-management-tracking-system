@@ -119,6 +119,7 @@ Email: info@dpbennett.com.jm
                     <p:autoComplete id="completedBy"
                                     disabled="#{!jobManager.completed}"
                                     var="completedBy"
+                                    inputStyle="width: 215px;"
                                     maxlength="250"
                                     readonly="true"
                                     value="#{jobManager.currentJob.jobStatusAndTracking.completedBy}"
@@ -246,7 +247,7 @@ Email: info@dpbennett.com.jm
     <p:panel id="jobStatusNote" header="Status Note" rendered="#{true}" >
         <p:inputTextarea
             value="#{jobManager.currentJob.jobStatusAndTracking.statusNote}"
-            rows="2"
+            rows="3"
             counter="jobStatusNoteCharsRemaining"
             counterTemplate="{0} characters remaining."
             maxlength="1000"
