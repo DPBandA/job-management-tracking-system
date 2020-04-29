@@ -88,7 +88,8 @@ Email: info@dpbennett.com.jm
                             onstart="PF('longProcessDialogVar').show();"  
                             oncomplete="PF('longProcessDialogVar').hide();"                          
                             style="width: 300%;text-align: left;background: none;border: 0;"
-                            actionListener="#{jobSampleManager.copyJobSample}"                            
+                            actionListener="#{jobSampleManager.copyJobSample}"  
+                            disabled="#{jobManager.disableJobDialogField('samples')}"
                             icon="ui-icon-copy"
                             process="@this">
 
@@ -106,6 +107,7 @@ Email: info@dpbennett.com.jm
                         <p:commandButton   
                             value="Delete"
                             actionListener="#{jobSampleManager.openJobSampleDeleteConfirmDialog}"
+                            disabled="#{jobManager.disableJobDialogField('samples')}"
                             style="width: 300%;text-align: left;background: none;border: 0;"
                             onstart="PF('longProcessDialogVar').show();"    
                             oncomplete="PF('longProcessDialogVar').hide();"                           

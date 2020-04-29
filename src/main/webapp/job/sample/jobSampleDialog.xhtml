@@ -66,7 +66,7 @@ Email: info@dpbennett.com.jm
                        activeIndex="#{jobSampleManager.jobSampleDialogTabViewActiveIndex}"
                         style="margin-top: 1px;margin-bottom: 1px;"
                        widgetVar="jobSampleDialogTabViewVar">
-                <p:tab title="General">
+                <p:tab title="General" >
                     <h:panelGrid columns="2" style="width: 100%" >
 
                         <h:outputText value="Reference: " style="width: 50%;font-weight: bold;" />
@@ -128,6 +128,7 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="Sample quantity: " style="width: 50%;font-weight: bold;" />
                         <p:inputText  id="sampleQuantity"
                                       maxlength="3"
+                                      disabled="#{jobManager.disableJobDialogField('samples')}"
                                       converter="javax.faces.Long"
                                       styleClass="number-field"
                                       required="true"
@@ -143,6 +144,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Product common name: " style="font-weight: bold;" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.name}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
                                      id="productCommonName"
                                      required="true"
                                      requiredMessage="Please enter the common name of the product"
@@ -156,7 +158,8 @@ Email: info@dpbennett.com.jm
                         </p:inputText>
 
                         <h:outputText value="Country of Origin: " />
-                        <p:autoComplete value="#{jobSampleManager.selectedJobSample.countryOfOrigin}"     
+                        <p:autoComplete value="#{jobSampleManager.selectedJobSample.countryOfOrigin}"   
+                                        disabled="#{jobManager.disableJobDialogField('samples')}"
                                         id="sampleCountryOfOrigin"
                                         forceSelection="true"  
                                         maxlength="40"
@@ -176,6 +179,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Brand: " style="width: 50%" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productBrand}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
                                      id="productBrand"
                                      readonly="false"
                                      maxlength="40"
@@ -189,6 +193,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Model: " style="width: 50%" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productModel}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
                                      id="productModel"
                                      readonly="false"
                                      maxlength="250"
@@ -202,6 +207,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Serial No.: " style="width: 50%" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productSerialNumber}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
                                      id="productSerialNumber"
                                      readonly="false"
                                      maxlength="250"
@@ -215,6 +221,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Product code: " style="width: 50%" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productCode}"
+                                     disabled="#{jobManager.disableJobDialogField('samples')}"
                                      id="productCode"
                                      readonly="false"
                                      maxlength="250"
@@ -228,6 +235,7 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Additional details: " style="width: 50%" />
                         <p:inputTextarea  value="#{jobSampleManager.selectedJobSample.description}"
+                                          disabled="#{jobManager.disableJobDialogField('samples')}"
                                           id="sampleDescription"
                                           maxlength="1000"
                                           autoResize="false"
@@ -249,6 +257,7 @@ Email: info@dpbennett.com.jm
                                          converterMessage="Please enter a valid product quantity"
                                          requiredMessage="Please enter a valid product quantity"                                         
                                          maxlength="3"
+                                         disabled="#{jobManager.disableJobDialogField('samples')}"
                                          value="#{jobSampleManager.selectedJobSample.quantity}" >
                                 <p:ajax event="change"
                                         global="false"
@@ -259,6 +268,7 @@ Email: info@dpbennett.com.jm
                             </p:inputText>
                             <p:inputText id="productUnitOfMeasure"
                                          value="#{jobSampleManager.selectedJobSample.unitOfMeasure}"
+                                         disabled="#{jobManager.disableJobDialogField('samples')}"
                                          style="width: 75%"
                                          maxlength="40"
                                          title="Product unit of measure">
@@ -272,6 +282,7 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
                         <h:outputText value="Method of disposal: " style="font-weight: bold;" />
                         <p:selectOneMenu value="#{jobSampleManager.selectedJobSample.methodOfDisposal}" 
+                                         disabled="#{jobManager.disableJobDialogField('samples')}"
                                          id="methodOfDisposal">
                             <f:selectItems value="#{jobSampleManager.methodsOfDisposal}" />
                             <p:ajax listener="#{jobSampleManager.updateSample}"
@@ -285,7 +296,7 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="2">    
                         <h:outputText value="Date received by responsible dept.: " />
                         <p:calendar id="dateSampleReceived"
-                                    value="#{jobSampleManager.selectedJobSample.dateReceived}"
+                                    value="#{jobSampleManager.selectedJobSample.dateReceived}"                                    
                                     navigator="true"
                                     pattern="MMM dd, yyyy">
                             <p:ajax event="dateSelect"

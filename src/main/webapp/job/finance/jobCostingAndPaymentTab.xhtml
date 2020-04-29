@@ -35,7 +35,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Purchase order #: "/>
             <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
                          readonly="#{!jobFinanceManager.canEditJobCosting}"
-                         disabled="#{jobFinanceManager.isJobCompleted}" 
+                         disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                          styleClass="#{jobFinanceManager.canEditJobCosting eq true ? '' : 'read-only-text-field'}"
                          maxlength="40" >
                 <p:ajax event="change"
@@ -52,11 +52,11 @@ Email: info@dpbennett.com.jm
                              converterMessage="Please enter a valid cost estimate."
                              styleClass="#{jobFinanceManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
                              readonly="#{!jobFinanceManager.canEditJobCosting}"
-                             disabled="#{jobFinanceManager.isJobCompleted}" 
+                             disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                              maxlength="15" >
-                    
+
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-                    
+
                     <p:ajax event="change"
                             global="false"
                             update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
@@ -71,7 +71,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Minimum deposit required ($): "/>
             <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.minDeposit}"
                          readonly="#{!jobFinanceManager.canEditJobCosting}"
-                         disabled="#{jobFinanceManager.isJobCompleted}" 
+                         disabled="#{jobManager.disableJobDialogField('costingandpayment')}" 
                          styleClass="#{jobFinanceManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
                          maxlength="15">
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
@@ -93,6 +93,7 @@ Email: info@dpbennett.com.jm
                             value="#{jobFinanceManager.tax}"
                             title="#{jobFinanceManager.tax}"
                             styleClass="#{jobFinanceManager.canApplyTax eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
+                            disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                             itemValue="#{tax}"
                             itemLabel="#{tax.name}"
                             converter="taxConverter"
@@ -103,6 +104,32 @@ Email: info@dpbennett.com.jm
                         global="true"
                         update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobFinanceManager.updateAllTaxes}"
+                        process="@this" />
+
+            </p:autoComplete>
+            <h:outputText value="&nbsp;"/>
+
+            <h:outputText value="Discount (%/$):" />
+            <p:autoComplete id="discount"  
+                            var="discount"
+                            forceSelection="true"      
+                            dropdown="true"
+                            scrollHeight="200" 
+                            maxlength="40"
+                            value="#{jobFinanceManager.discount}"
+                            title="#{jobFinanceManager.discount}"
+                            styleClass="#{jobFinanceManager.canApplyDiscount eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
+                            disabled="#{jobManager.disableJobDialogField('discount')}"
+                            itemValue="#{discount}"
+                            itemLabel="#{discount.name}"
+                            converter="discountConverter"
+                            validator="businessEntityValidator"
+                            completeMethod="#{jobFinanceManager.completeDiscount}" >
+
+                <p:ajax event="itemSelect"
+                        global="true"
+                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"
+                        update=":jobDialogForm:jobDetailToolbar1,jobCosting"
                         process="@this" />
 
             </p:autoComplete>
@@ -201,38 +228,7 @@ Email: info@dpbennett.com.jm
 
                 </p:commandButton>
             </p:toolbarGroup>
-        </p:toolbar>
-        <p:panel style="margin-bottom: 1px;margin-top: 1px;">
-            <h:panelGrid columns="2">
-
-                <h:outputText value="Discount (%/$):" />
-                <p:autoComplete id="discount"  
-                                var="discount"
-                                forceSelection="true"      
-                                dropdown="true"
-                                scrollHeight="200" 
-                                maxlength="40"
-                                value="#{jobFinanceManager.discount}"
-                                title="#{jobFinanceManager.discount}"
-                                styleClass="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                                disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                                itemValue="#{discount}"
-                                itemLabel="#{discount.name}"
-                                converter="discountConverter"
-                                validator="businessEntityValidator"
-                                completeMethod="#{jobFinanceManager.completeDiscount}" >
-
-                    <p:ajax event="itemSelect"
-                            global="true"
-                            listener="#{jobFinanceManager.updateJobCostingAndPayment}"
-                            update=":jobDialogForm:jobDetailToolbar1,jobCosting"
-                            process="@this" />
-
-                </p:autoComplete>
-
-
-            </h:panelGrid>
-        </p:panel>        
+        </p:toolbar>               
         <p:dataTable id="cashPaymentTable"
                      style="margin-top: 1px;margin-bottom: 1px;"
                      paginator="true"
