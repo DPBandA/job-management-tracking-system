@@ -33,7 +33,9 @@ Email: info@dpbennett.com.jm
                      rows="15"
                      var="jobSample"
                      style="margin-bottom: 1px;margin-top: 1px;"
+                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                      value="#{jobSampleManager.currentJob.filteredJobSamples}">
+            
             <p:column style="width:100px"  >
                 <f:facet name="header">
                     <h:outputText value="Reference" />
