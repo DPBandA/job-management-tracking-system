@@ -244,12 +244,13 @@ Email: info@dpbennett.com.jm
             </h:panelGroup>
         </h:panelGrid>
     </p:panel>
-    <p:panel id="jobStatusNote" header="Status Note" rendered="#{true}" >
-        <p:toolbar>
+    <p:panel id="jobStatusNote" header="Status Note" >
+        <p:toolbar rendered="#{jobManager.enableMultipleStatusNotes()}">
             <p:toolbarGroup align="left">
                 <p:commandButton value="New"
                                  title="Add new note"
-                                 actionListener="#{jobManager.createNewStatusNote}"   
+                                 actionListener="#{jobManager.createNewStatusNote}"  
+                                 disabled="#{jobManager.isCurrentJobNew()}"
                                  onstart="PF('longProcessDialogVar').show();"
                                  oncomplete="PF('longProcessDialogVar').hide();"
                                  icon="ui-icon-plus"
@@ -287,10 +288,31 @@ Email: info@dpbennett.com.jm
                 <f:facet name="header">
                     <h:outputText value="Date"/>
                 </f:facet>
-                <h:outputText value="#{statusNote.createdBy}"/>               
+                <h:outputText value="#{statusNote.dateCreated}">        
+                    <f:convertDateTime pattern="MMM dd, yyyy"/>
+                </h:outputText>
             </p:column>
 
         </p:dataTable>
+        <p:toolbar rendered="#{jobManager.enableMultipleStatusNotes()}">
+            <p:toolbarGroup align="left">
+                <p:commandButton value="New"
+                                 title="Add new note"
+                                 actionListener="#{jobManager.createNewStatusNote}"   
+                                 disabled="#{jobManager.isCurrentJobNew()}"
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                 icon="ui-icon-plus"
+                                 process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobManager.statusNoteDialogReturn}"                    
+                            update=":jobDialogForm:jobFormTabView:jobStatusNote"
+                            process="@this"/>
+
+                </p:commandButton>                
+            </p:toolbarGroup>
+        </p:toolbar>
 
         <p:inputTextarea
             value="#{jobManager.currentJob.jobStatusAndTracking.statusNote}"
