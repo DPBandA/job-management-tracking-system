@@ -129,12 +129,12 @@ Email: info@dpbennett.com.jm
                                     converter="activeEmployeeConverter"
                                     forceSelection="true"
                                     completeMethod="#{humanResourceManager.completeActiveEmployee}" >
-                        
+
                         <p:ajax event="itemSelect"
                                 listener="#{jobManager.updateJob}" 
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 process="@this"/>
-                        
+
                     </p:autoComplete>
 
                     <h:outputText value="on: "/>
@@ -245,8 +245,56 @@ Email: info@dpbennett.com.jm
         </h:panelGrid>
     </p:panel>
     <p:panel id="jobStatusNote" header="Status Note" rendered="#{true}" >
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:commandButton value="New"
+                                 title="Add new note"
+                                 actionListener="#{jobManager.createNewStatusNote}"   
+                                 onstart="PF('longProcessDialogVar').show();"
+                                 oncomplete="PF('longProcessDialogVar').hide();"
+                                 icon="ui-icon-plus"
+                                 process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobManager.statusNoteDialogReturn}"                    
+                            update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2,:jobDialogForm:jobFormTabView:jobStatusNote"
+                            process="@this"/>
+
+                </p:commandButton>                
+            </p:toolbarGroup>
+        </p:toolbar>
+        <p:dataTable id="jobStatusNoteTable"
+                     rendered="#{jobManager.enableMultipleStatusNotes()}"
+                     paginator="true"
+                     rows="3"
+                     var="statusNote"
+                     style="margin-bottom: 1px;margin-top: 1px;"
+                     value="#{jobManager.statusNotes}">
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Note"/>
+                </f:facet>
+                <h:outputText value="#{statusNote.text}"/>              
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Entered by"/>
+                </f:facet>
+                <h:outputText value="#{statusNote.createdBy}"/>              
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Date"/>
+                </f:facet>
+                <h:outputText value="#{statusNote.createdBy}"/>               
+            </p:column>
+
+        </p:dataTable>
+
         <p:inputTextarea
             value="#{jobManager.currentJob.jobStatusAndTracking.statusNote}"
+            rendered="#{!jobManager.enableMultipleStatusNotes()}"
             rows="3"
             counter="jobStatusNoteCharsRemaining"
             counterTemplate="{0} characters remaining."
@@ -259,7 +307,8 @@ Email: info@dpbennett.com.jm
                     process="@this"/>
         </p:inputTextarea>
         <br/>
-        <h:outputText id="jobStatusNoteCharsRemaining" /> 
+        <h:outputText id="jobStatusNoteCharsRemaining" 
+                      rendered="#{!jobManager.enableMultipleStatusNotes()}" /> 
     </p:panel>
 
 
