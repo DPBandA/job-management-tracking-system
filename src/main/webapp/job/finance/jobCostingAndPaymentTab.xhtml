@@ -93,7 +93,7 @@ Email: info@dpbennett.com.jm
                             value="#{jobFinanceManager.tax}"
                             title="#{jobFinanceManager.tax}"
                             styleClass="#{jobFinanceManager.canApplyTax eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                            disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
+                            disabled="#{jobManager.disableJobDialogField('tax')}"
                             itemValue="#{tax}"
                             itemLabel="#{tax.name}"
                             converter="taxConverter"

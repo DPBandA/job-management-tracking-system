@@ -63,6 +63,9 @@ Email: info@dpbennett.com.jm
             </p:toolbar>  
 
             <p:panel id="jobStatusNote" >
+                <h:outputText value="#{jobManager.selectedStatusNote.header}" 
+                              style="font-weight: bold;"/>
+                <br/>
                 <p:inputTextarea
                     value="#{jobManager.selectedStatusNote.text}"
                     rows="7"
@@ -70,9 +73,14 @@ Email: info@dpbennett.com.jm
                     counterTemplate="{0} characters remaining."
                     maxlength="1000"
                     style="width: 500px;">
+
                     <p:ajax event="change"
                             global="false" 
                             process="@this"/>
+
+
+                    <f:validator validatorId="requiredFieldValidator" />
+
                 </p:inputTextarea>
                 <br/>
                 <h:outputText id="jobStatusNoteCharsRemaining" />
