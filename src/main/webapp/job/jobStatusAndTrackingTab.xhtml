@@ -21,7 +21,8 @@ Email: info@dpbennett.com.jm
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:panel id="jobStatusAndTracking" header="Job Status" > 
         <h:panelGrid columns="1" >
             <h:panelGroup>
@@ -277,17 +278,17 @@ Email: info@dpbennett.com.jm
                 <f:facet name="header">
                     <h:outputText value="Note"/>
                 </f:facet>
-                <h:outputText value="#{statusNote.text}"/>              
+                <h:outputText value="#{statusNote.text}" />            
             </p:column>
-            <p:column>
+            <p:column width="20%">
                 <f:facet name="header">
                     <h:outputText value="Entered by"/>
                 </f:facet>
                 <h:outputText value="#{statusNote.createdBy}"/>              
             </p:column>
-            <p:column>
+            <p:column width="15%">
                 <f:facet name="header">
-                    <h:outputText value="Date"/>
+                    <h:outputText value="Date entered"/>
                 </f:facet>
                 <h:outputText value="#{statusNote.dateCreated}">        
                     <f:convertDateTime pattern="MMM dd, yyyy"/>
