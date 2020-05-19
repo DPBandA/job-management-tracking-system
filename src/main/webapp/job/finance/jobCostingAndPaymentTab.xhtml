@@ -135,11 +135,11 @@ Email: info@dpbennett.com.jm
             </p:autoComplete>
             <h:outputText value="&nbsp;"/>
 
-            <h:outputText id="costEstimateLabel"
-                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.costEstimateWithTaxLabel}"/>
+            <h:outputText id="calculatedCostEstimateLabel"
+                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.calculatedCostEstimateLabel}"/>
             <h:panelGroup>
-                <p:inputText id="estimatedCostIncludingTaxes"
-                             value="#{jobFinanceManager.currentJob.jobCostingAndPayment.estimatedCostIncludingTaxes}"
+                <p:inputText id="calculatedCostEstimate"
+                             value="#{jobFinanceManager.currentJob.jobCostingAndPayment.calculatedCostEstimate}"
                              styleClass="read-only-number-field"
                              readonly="true"
                              maxlength="15">
