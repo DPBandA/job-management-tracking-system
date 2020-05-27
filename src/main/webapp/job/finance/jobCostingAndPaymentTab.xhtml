@@ -68,7 +68,7 @@ Email: info@dpbennett.com.jm
             </h:panelGroup>
             <h:outputText value="&nbsp;"/>            
 
-            <h:outputText value="Minimum deposit required ($): "/>
+            <h:outputText value="Min. deposit req'ed ($): "/>
             <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.minDeposit}"
                          readonly="#{!jobFinanceManager.canEditJobCosting}"
                          disabled="#{jobManager.disableJobDialogField('costingandpayment')}" 
@@ -83,7 +83,7 @@ Email: info@dpbennett.com.jm
             </p:inputText>
             <h:outputText value="&nbsp;"/>      
 
-            <h:outputText value="Tax (%/$):" style="font-weight: bold;" />               
+            <h:outputText value="Tax (%/$):" />               
             <p:autoComplete id="tax"  
                             var="tax"
                             forceSelection="true"      
@@ -152,9 +152,9 @@ Email: info@dpbennett.com.jm
             </h:panelGroup>
             <h:outputText value="&nbsp;"/>     
 
-            <h:outputText id="minDepositLabel"
-                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.minDepositWithTaxLabel}"/>
-            <p:inputText id="minDepositIncludingTaxes"
+            <h:outputText id="calculatedMinDepositLabel"
+                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.calculatedMinDepositLabel}"/>
+            <p:inputText id="calculatedMinDeposit"
                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.minDepositIncludingTaxes}"
                          styleClass="read-only-number-field"
                          readonly="true"
