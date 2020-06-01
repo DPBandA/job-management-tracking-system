@@ -98,7 +98,7 @@ Email: info@dpbennett.com.jm
                                           counterTemplate="{0} characters remaining."
                                           maxlength="250"
                                           autoResize="false"
-                                          style="width: 90%;" >
+                                          style="width: 225px;" >
 
                             <p:ajax event="change"
                                     global="false" 
@@ -121,7 +121,7 @@ Email: info@dpbennett.com.jm
                                  styleClass="number-field"
                                  validator="requiredFieldValidator"
                                  converterMessage="Invalid Component Hours/Quantity"
-                                 style="width: 90%">
+                                 style="width: 100%">
 
                         <f:convertNumber />
 
@@ -145,7 +145,7 @@ Email: info@dpbennett.com.jm
                     <p:inputText rendered="#{!jobFinanceManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
                                  id="costComponentRate"
                                  value="#{jobFinanceManager.selectedCostComponent.rate}"
-                                 style="width: 90%"
+                                 style="width: 100%"
                                  styleClass="number-field" 
                                  validator="requiredFieldValidator"
                                  converterMessage="Invalid Component Rate" >
@@ -167,8 +167,7 @@ Email: info@dpbennett.com.jm
                     <h:outputLabel rendered="#{!jobFinanceManager.selectedCostComponent.isHeading}" 
                                    value="Cost ($):" style="font-weight: bold;" />
                     <p:spacer rendered="#{!jobFinanceManager.selectedCostComponent.isHeading}" height="0" width="10"/>
-                    <p:inputText id="costComponentCost"
-                                 style="width: 90%;"
+                    <p:inputText id="costComponentCost"                                 
                                  rendered="#{!jobFinanceManager.selectedCostComponent.isHeading}"                            
                                  value="#{jobFinanceManager.selectedCostComponent.cost}"
                                  readonly="#{jobFinanceManager.selectedCostComponent.isCostReadOnly}"
