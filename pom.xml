@@ -132,6 +132,7 @@
                             <artifactId>legal-office</artifactId>
                             <excludes>
                                 <exclude>hr/*</exclude>
+                                <exclude>finance/*</exclude>
                                 <exclude>report/*</exclude>
                                 <exclude>admin/*</exclude>
                                 <exclude>common/*</exclude>
@@ -146,6 +147,7 @@
                             <artifactId>report-management</artifactId>
                             <excludes>
                                 <exclude>hr/*</exclude>
+                                <exclude>finance/*</exclude>
                                 <exclude>client/*</exclude>                                
                             </excludes>
                         </overlay>

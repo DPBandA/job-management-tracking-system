@@ -87,13 +87,13 @@ Email: info@dpbennett.com.jm
                                         value="Preferences"/>
 
                             <p:separator rendered="#{systemManager.showSupportURL}" />
-                            
+
                             <p:menuitem url="#{systemManager.supportURL}"
                                         target="_blank"
                                         icon="ui-icon-help"
                                         value="Support"
                                         rendered="#{systemManager.showSupportURL}" />    
-                            
+
                             <p:separator />
 
                             <p:menuitem actionListener="#{systemManager.logout}"
@@ -141,6 +141,8 @@ Email: info@dpbennett.com.jm
                                 listener="#{systemManager.onMainViewTabClose}" />  
 
                         <p:ajax event="tabChange" 
+                                onstart="PF('longProcessDialogVar').show();"  
+                                oncomplete="PF('longProcessDialogVar').hide();"  
                                 immediate="true"
                                 process="@this"                                
                                 listener="#{systemManager.onMainViewTabChange}" />  
@@ -255,11 +257,11 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Procurement'}">
                                 <ui:include src="dashboard/finance/purchaseAdminTab.xhtml" />
                             </h:panelGroup>
-                            
+
                             <h:panelGroup rendered="#{t.id == 'Report Management'}">
                                 <ui:include src="dashboard/report/reportTab.xhtml" />
                             </h:panelGroup>
-                            
+
                             <h:panelGroup rendered="#{t.id == 'Job Management'}">
                                 <ui:include src="dashboard/job/jobsTab.xhtml" />
                             </h:panelGroup>

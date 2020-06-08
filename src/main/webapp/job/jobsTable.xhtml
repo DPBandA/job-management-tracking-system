@@ -35,7 +35,11 @@ Email: info@dpbennett.com.jm
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
 
-        <p:ajax event="cellEdit" listener="#{jobManager.onJobCellEdit}" />
+        <p:ajax event="cellEdit" 
+                update=":headerForm:growl3"
+                onstart="PF('longProcessDialogVar').show();"  
+                oncomplete="PF('longProcessDialogVar').hide();"  
+                listener="#{jobManager.onJobCellEdit}" />
 
         <p:ajax event="page"  
                 onstart="PF('longProcessDialogVar').show();" 
@@ -59,13 +63,15 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column headerText="Instructions" sortBy="#{job.instructions}">   
+        <p:column headerText="Instructions" 
+                  id="job_instructions"
+                  sortBy="#{job.instructions}">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.instructions}" />
                 </f:facet>
-                <f:facet name="input">
-                    <p:inputTextarea
+                <f:facet name="input" >
+                    <p:inputTextarea   
                         value="#{job.instructions}"
                         rows="2"
                         autoResize="false"
@@ -78,7 +84,10 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <p:column headerText="Submitted" sortBy="#{job.jobStatusAndTracking.dateSubmitted}" style="min-width: 100px">   
+        <p:column headerText="Submitted" 
+                  id="job_submitted"
+                  sortBy="#{job.jobStatusAndTracking.dateSubmitted}" 
+                  style="min-width: 100px">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
@@ -96,7 +105,10 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <p:column headerText="EDOC" sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" style="min-width: 100px">   
+        <p:column headerText="EDOC" 
+                  id="job_edoc"
+                  sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" 
+                  style="min-width: 100px">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">
@@ -114,35 +126,11 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <ui:remove>
-            <p:column sortBy="#{job.jobStatusAndTracking.workProgress}" style="min-width: 85px" >
-                <f:facet name="header">
-                    <h:outputText value="Progress"/>
-                </f:facet>
-                <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />
-            </p:column>
-        </ui:remove>
-
-        <p:column headerText="Progress" sortBy="#{job.jobStatusAndTracking.workProgress}">   
-            <p:cellEditor>
-                <f:facet name="output">
-                    <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />
-                </f:facet>
-                <f:facet name="input">
-                    <p:selectOneMenu value="#{job.jobStatusAndTracking.workProgress}"
-                                     style="width: 100px;">
-
-                        <f:selectItems  value="#{systemManager.workProgressList}"
-                                        var="progress"                            
-                                        itemValue="#{progress}"
-                                        itemLabel="#{progress}"/>
-
-                        <p:ajax update="@this,:headerForm:growl3"
-                                process="@this"/>
-
-                    </p:selectOneMenu>   
-                </f:facet>
-            </p:cellEditor>  
+        <p:column headerText="Progress" sortBy="#{job.jobStatusAndTracking.workProgress}">       
+            <f:facet name="header">
+                <h:outputText value="Progress"/>
+            </f:facet>
+            <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />               
         </p:column>
 
         <p:column style="width:32px" >
