@@ -65,7 +65,13 @@
             <artifactId>legal-office</artifactId>
             <version>1.0.0</version>
             <type>war</type>
-        </dependency>        
+        </dependency>  
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>standards-compliance</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>       
     </dependencies>
     <build>
         <plugins>
@@ -99,6 +105,14 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>system-management</artifactId>
                         </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>standards-compliance</artifactId>
+                            <excludes>
+                                <exclude>hr/*</exclude>
+                                <exclude>client/*</exclude>                         
+                            </excludes>
+                        </overlay> 
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>client-management</artifactId>

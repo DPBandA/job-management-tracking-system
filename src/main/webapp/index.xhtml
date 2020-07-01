@@ -148,7 +148,13 @@ Email: info@dpbennett.com.jm
                                 listener="#{systemManager.onMainViewTabChange}" />  
 
 
-                        <p:tab title="#{t.name}" closable="true"  >                                                           
+                        <p:tab title="#{t.name}" closable="true"  >   
+                            <h:panelGroup  rendered="#{t.id == 'Standards Compliance'}">
+                                <ui:include src="compliance/surveyBrowser.xhtml" /> 
+                            </h:panelGroup>                             
+                            <h:panelGroup rendered="#{t.id == 'Standards'}" >
+                                <ui:include src="compliance/standardsTab.xhtml" />                                                                
+                            </h:panelGroup>
                             <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
                                 <ui:include src="legal/documentBrowser.xhtml" />   
                             </h:panelGroup> 
@@ -232,7 +238,10 @@ Email: info@dpbennett.com.jm
                                 process="@this"
                                 listener="#{systemManager.onDashboardTabChange}" />
 
-                        <p:tab title="#{t.name}" > 
+                        <p:tab title="#{t.name}" >
+                            <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
+                                <ui:include src="dashboard/compliance/complianceTab.xhtml" />
+                            </h:panelGroup>
 
                             <h:panelGroup rendered="#{t.id == 'Legal Office'}">                               
                                 <ui:include src="dashboard/legal/documentsTab.xhtml" />
