@@ -151,7 +151,10 @@ Email: info@dpbennett.com.jm
                         <p:tab title="#{t.name}" closable="true"  >   
                             <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
                                 <ui:include src="compliance/surveyBrowser.xhtml" /> 
-                            </h:panelGroup>                             
+                            </h:panelGroup>     
+                            <h:panelGroup  rendered="#{t.id == 'Complaint Browser'}">
+                                <ui:include src="compliance/complaintBrowser.xhtml" /> 
+                            </h:panelGroup>
                             <h:panelGroup rendered="#{t.id == 'Standards'}" >
                                 <ui:include src="compliance/standardsTab.xhtml" />                                                                
                             </h:panelGroup>
