@@ -134,24 +134,54 @@ Email: info@dpbennett.com.jm
         </p:column>
 
         <p:column style="width:32px" >
-            <p:commandButton title="View or edit job" 
-                             actionListener="#{jobManager.editJob}"                             
-                             onstart="PF('longProcessDialogVar').show();"  
-                             oncomplete="PF('longProcessDialogVar').hide();"                           
-                             onerror="PF('connectionErrorDialog').show();"
-                             global="true"
-                             process="@this"
-                             icon="ui-icon ui-icon-pencil">
+            <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit or copy" >
 
-                <f:setPropertyActionListener value="#{job}" 
-                                             id="editJobButtonPropListener"
-                                             target="#{jobManager.editCurrentJob}" />
+                <p:menuitem>                       
+                    <p:commandButton   
+                        value="Edit or view" 
+                        actionListener="#{jobManager.editJob}"                             
+                        onstart="PF('longProcessDialogVar').show();"  
+                        oncomplete="PF('longProcessDialogVar').hide();"                           
+                        onerror="PF('connectionErrorDialog').show();"
+                        global="true"
+                        process="@this"
+                        icon="ui-icon ui-icon-pencil"
+                        style="width: 300%;text-align: left;background: none;border: 0;" >
 
-                <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
-                        listener="#{jobManager.jobDialogReturn}" />
+                        <f:setPropertyActionListener value="#{job}" 
+                                                     id="editJobButtonPropListener"
+                                                     target="#{jobManager.editCurrentJob}" />
 
-            </p:commandButton>           
+                        <p:ajax event="dialogReturn" 
+                                update=":mainTabViewForm:mainTabView"
+                                listener="#{jobManager.jobDialogReturn}" />
+
+
+                    </p:commandButton>                       
+                </p:menuitem>
+
+                <p:menuitem >       
+                    <p:commandButton   
+                        value="Copy"                               
+                        onstart="PF('longProcessDialogVar').show();"  
+                        oncomplete="PF('longProcessDialogVar').hide();"                          
+                        style="width: 300%;text-align: left;background: none;border: 0;"
+                        actionListener="#{jobManager.copyJob}"
+                        update=":headerForm:growl3"
+                        icon="ui-icon-copy"
+                        process="@this">
+
+                        <f:setPropertyActionListener value="#{job}" 
+                                                     target="#{jobManager.editCurrentJobCopy}" />
+
+                        <p:ajax event="dialogReturn" 
+                                update=":mainTabViewForm:mainTabView"
+                                listener="#{jobManager.jobDialogReturn}" />
+                        
+                    </p:commandButton>
+                </p:menuitem>
+            </p:menuButton>
+
         </p:column>
 
     </p:dataTable>
