@@ -166,12 +166,11 @@ Email: info@dpbennett.com.jm
                         onstart="PF('longProcessDialogVar').show();"  
                         oncomplete="PF('longProcessDialogVar').hide();"                          
                         style="width: 300%;text-align: left;background: none;border: 0;"
-                        
                         update=":headerForm:growl3"
                         icon="ui-icon-copy"
                         process="@this">
 
-                        <f:setPropertyActionListener value="#{job}" 
+                        <f:setPropertyActionListener value="#{job}"                                                      
                                                      target="#{jobManager.editCurrentJobCopy}" />
 
                         <p:ajax event="dialogReturn" 

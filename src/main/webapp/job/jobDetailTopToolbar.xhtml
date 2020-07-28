@@ -72,7 +72,7 @@ Email: info@dpbennett.com.jm
                 icon="ui-icon-copy"
                 process="@this"/>
 
-            <p:menuButton value="Subcontract" 
+            <p:menuButton value="Subcontract | Copy" 
                           disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                           rendered="#{jobFinanceManager.enableSubcontractWithCosting}"
                           title="Subcontract the current job by first creating a copy.">
@@ -98,6 +98,8 @@ Email: info@dpbennett.com.jm
                              onerror="PF('connectionErrorDialog').show();"
                              process="@this" >
                 </p:menuitem>
+                
+                <p:separator/>
 
             </p:menuButton>
 
