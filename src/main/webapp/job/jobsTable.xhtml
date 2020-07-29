@@ -134,55 +134,78 @@ Email: info@dpbennett.com.jm
         </p:column>
 
         <p:column style="width:32px" >
-            <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit or copy" >
+            <p:commandButton   
+                title="Edit or view" 
+                actionListener="#{jobManager.editJob}"                             
+                onstart="PF('longProcessDialogVar').show();"  
+                oncomplete="PF('longProcessDialogVar').hide();"                           
+                onerror="PF('connectionErrorDialog').show();"
+                global="true"
+                process="@this"
+                icon="ui-icon ui-icon-pencil" >
 
-                <p:menuitem>                       
-                    <p:commandButton   
-                        value="Edit or view" 
-                        actionListener="#{jobManager.editJob}"                             
-                        onstart="PF('longProcessDialogVar').show();"  
-                        oncomplete="PF('longProcessDialogVar').hide();"                           
-                        onerror="PF('connectionErrorDialog').show();"
-                        global="true"
-                        process="@this"
-                        icon="ui-icon ui-icon-pencil"
-                        style="width: 300%;text-align: left;background: none;border: 0;" >
+                <f:setPropertyActionListener value="#{job}" 
+                                             id="editJobButtonPropListener"
+                                             target="#{jobManager.editCurrentJob}" />
 
-                        <f:setPropertyActionListener value="#{job}" 
-                                                     id="editJobButtonPropListener"
-                                                     target="#{jobManager.editCurrentJob}" />
-
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView"
-                                listener="#{jobManager.jobDialogReturn}" />
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView"
+                        listener="#{jobManager.jobDialogReturn}" />
 
 
-                    </p:commandButton>                       
-                </p:menuitem>
-
-                <p:menuitem >       
-                    <p:commandButton   
-                        value="Copy"                               
-                        onstart="PF('longProcessDialogVar').show();"  
-                        oncomplete="PF('longProcessDialogVar').hide();"                          
-                        style="width: 300%;text-align: left;background: none;border: 0;"
-                        update=":headerForm:growl3"
-                        icon="ui-icon-copy"
-                        process="@this">
-
-                        <f:setPropertyActionListener value="#{job}"                                                      
-                                                     target="#{jobManager.editCurrentJobCopy}" />
-
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView"
-                                listener="#{jobManager.jobDialogReturn}" />
-                        
-                    </p:commandButton>
-                </p:menuitem>
-            </p:menuButton>
-
+            </p:commandButton>
         </p:column>
+        <ui:remove>
+            <p:column style="width:32px" >
+                <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit or copy" >
 
+                    <p:menuitem>                       
+                        <p:commandButton   
+                            value="Edit or view" 
+                            actionListener="#{jobManager.editJob}"                             
+                            onstart="PF('longProcessDialogVar').show();"  
+                            oncomplete="PF('longProcessDialogVar').hide();"                           
+                            onerror="PF('connectionErrorDialog').show();"
+                            global="true"
+                            process="@this"
+                            icon="ui-icon ui-icon-pencil"
+                            style="width: 300%;text-align: left;background: none;border: 0;" >
+
+                            <f:setPropertyActionListener value="#{job}" 
+                                                         id="editJobButtonPropListener"
+                                                         target="#{jobManager.editCurrentJob}" />
+
+                            <p:ajax event="dialogReturn" 
+                                    update=":mainTabViewForm:mainTabView"
+                                    listener="#{jobManager.jobDialogReturn}" />
+
+
+                        </p:commandButton>                       
+                    </p:menuitem>
+
+                    <p:menuitem >       
+                        <p:commandButton   
+                            value="Copy"                               
+                            onstart="PF('longProcessDialogVar').show();"  
+                            oncomplete="PF('longProcessDialogVar').hide();"                          
+                            style="width: 300%;text-align: left;background: none;border: 0;"
+                            update=":headerForm:growl3"
+                            icon="ui-icon-copy"
+                            process="@this">
+
+                            <f:setPropertyActionListener value="#{job}"                                                      
+                                                         target="#{jobManager.editCurrentJobCopy}" />
+
+                            <p:ajax event="dialogReturn" 
+                                    update=":mainTabViewForm:mainTabView"
+                                    listener="#{jobManager.jobDialogReturn}" />
+
+                        </p:commandButton>
+                    </p:menuitem>
+                </p:menuButton>
+
+            </p:column>
+        </ui:remove>
     </p:dataTable>
 
 
