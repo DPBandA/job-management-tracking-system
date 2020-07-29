@@ -84,7 +84,6 @@ Email: info@dpbennett.com.jm
                              global="true"               
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
-                             onerror="PF('connectionErrorDialog').show();"
                              process="@this" >
                 </p:menuitem>
 
@@ -95,11 +94,19 @@ Email: info@dpbennett.com.jm
                              global="true"               
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();"
-                             onerror="PF('connectionErrorDialog').show();"
                              process="@this" >
                 </p:menuitem>
-                
+
                 <p:separator/>
+
+                <p:menuitem  value="Copy..."                               
+                             onstart="PF('longProcessDialogVar').show();"  
+                             actionListener="#{jobManager.copyCurrentJob}"
+                             oncomplete="PF('longProcessDialogVar').hide();"  
+                             update=":jobDialogForm,:jobDialogForm:growl2"
+                             icon="ui-icon-copy"
+                             process="@this" >    
+                </p:menuitem>
 
             </p:menuButton>
 
