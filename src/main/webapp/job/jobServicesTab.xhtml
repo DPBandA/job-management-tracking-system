@@ -37,7 +37,8 @@ Email: info@dpbennett.com.jm
                     <h:outputLabel value="Service location: " 
                                    style="font-weight: bold;"
                                    for="serviceLocation"/>
-                    <p:selectOneMenu id="serviceLocation"     
+                    <p:selectOneMenu id="serviceLocation"   
+                                     disabled="#{jobManager.disableJobDialogField('serviceLocation')}"
                                      style="width: 200px;"
                                      value="#{jobManager.currentJob.serviceLocation}">
 

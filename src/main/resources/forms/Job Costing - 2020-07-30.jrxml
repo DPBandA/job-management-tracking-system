@@ -211,7 +211,7 @@ WHERE
 			<staticText>
 				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="156" y="27" width="241" height="20" uuid="64dd6ea5-7ebc-4df5-ba6e-ab1e4f2cfe58"/>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="12" isBold="true"/>
+					<font fontName="SansSerif" size="12" isBold="true" isUnderline="true"/>
 				</textElement>
 				<text><![CDATA[JOB SCHEDULE COST ANALYSIS]]></text>
 			</staticText>
@@ -1028,7 +1028,7 @@ WHERE
 			</staticText>
 			<staticText>
 				<reportElement x="3" y="141" width="168" height="19" uuid="19f42863-ba68-4c02-b3d7-b8bd053fa5b4"/>
-				<text><![CDATA[Issue Date: July 30, 2020]]></text>
+				<text><![CDATA[Issue Date: May 1, 2012]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="3" y="160" width="168" height="19" uuid="adb7c7d0-677a-4eef-babb-5fc0f0876e32"/>
