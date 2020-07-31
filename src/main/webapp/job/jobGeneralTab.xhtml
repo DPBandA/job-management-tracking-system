@@ -94,7 +94,7 @@ Email: info@dpbennett.com.jm
         <h:outputText value="Classification:" style="font-weight: bold" />
         <p:autoComplete dropdown="true"
                         var="classification"
-                        id="jobClassification"
+                        id="classification"
                         size="35"
                         maxlength="40"
                         value="#{jobManager.currentJob.classification}"
@@ -103,6 +103,7 @@ Email: info@dpbennett.com.jm
                         converter="classificationConverter"
                         validator="businessEntityValidator"
                         forceSelection="true"
+                        disabled="#{jobManager.disableJobDialogField('classification')}"
                         completeMethod="#{jobManager.completeJobClassification}" >
             <p:ajax event="itemSelect"                                                                  
                     listener="#{jobManager.updateJobClassification}"
