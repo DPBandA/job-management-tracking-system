@@ -234,7 +234,7 @@ Email: info@dpbennett.com.jm
                     </p:selectBooleanCheckbox>
 
                     <p:inputText id="otherServiceText"
-                                 disabled="#{jobManager.disableJobDialogField('otherService')}"
+                                 disabled="#{jobManager.disableJobDialogField('otherServiceText')}"
                                  rendered="#{jobContractManager.serviceRequestedOther}"
                                  maxlength="250"
                                  value="#{jobContractManager.currentJob.serviceContract.serviceRequestedOtherText}" >
@@ -248,7 +248,9 @@ Email: info@dpbennett.com.jm
                 </h:panelGrid>
             </p:panel>
 
-            <p:panel header="Intended Market" style="margin-top: 1px;">
+            <p:panel header="Intended Market" 
+                     id="intendedMarket"
+                     style="margin-top: 1px;">
                 <h:panelGrid columns="5" cellspacing="10" >
 
                     <p:selectBooleanCheckbox id="localMarket" 
@@ -302,12 +304,12 @@ Email: info@dpbennett.com.jm
                                              itemLabel="Other: "
                                              value="#{jobContractManager.intendedMarketOther}">
                         <p:ajax listener="#{jobContractManager.updateJob}"
-                                update="otherIntendedMartketText,:jobDialogForm:jobDetailToolbar1"
+                                update="intendedMarket,otherIntendedMartketText,:jobDialogForm:jobDetailToolbar1"
                                 global="false"
                                 process="@this"/>
                     </p:selectBooleanCheckbox>
                     <p:inputText id="otherIntendedMartketText"
-                                 disabled="#{!jobContractManager.intendedMarketOther}"
+                                 rendered="#{jobContractManager.intendedMarketOther}"
                                  maxlength="250"
                                  value="#{jobContractManager.currentJob.serviceContract.intendedMarketOtherText}">
                         <p:ajax listener="#{jobContractManager.updateJob}"
@@ -324,6 +326,7 @@ Email: info@dpbennett.com.jm
                 <p:inputTextarea
                     id="specialInstructions"
                     value="#{jobContractManager.currentJob.serviceContract.specialInstructions}"
+                    disabled="#{jobManager.disableJobDialogField('specialInstructions')}"
                     maxlength="250"
                     counter="specialInstructionsCharsRemaining"
                     counterTemplate="{0} characters remaining."
@@ -341,9 +344,12 @@ Email: info@dpbennett.com.jm
             </p:panel>
         </p:tab>
         <p:tab title="Additional Services">
-            <p:panel header="Additional Services Requested" >
+            <p:panel id="additionalServices" 
+                header="Additional Services Requested" >
+                
                 <h:panelGrid columns="1" cellspacing="10" >
                     <p:selectBooleanCheckbox id="additionalServiceUrgent" 
+                                             disabled="#{jobManager.disableJobDialogField('additionalService')}"
                                              itemLabel="Urgent (Additional charge incurred - call for more information)"
                                              value="#{jobContractManager.currentJob.serviceContract.additionalServiceUrgent}">
                         <p:ajax listener="#{jobContractManager.updateJob}"
@@ -353,6 +359,7 @@ Email: info@dpbennett.com.jm
                     </p:selectBooleanCheckbox>
 
                     <p:selectBooleanCheckbox id="additionalServiceFaxResults" 
+                                             disabled="#{jobManager.disableJobDialogField('additionalService')}"
                                              itemLabel="Fax/Email Results (Subject to approval)"
                                              value="#{jobContractManager.currentJob.serviceContract.additionalServiceFaxResults}">
                         <p:ajax listener="#{jobContractManager.updateJob}"
@@ -362,6 +369,7 @@ Email: info@dpbennett.com.jm
                     </p:selectBooleanCheckbox>
 
                     <p:selectBooleanCheckbox id="additionalServiceTelephonePresumptiveResults" 
+                                             disabled="#{jobManager.disableJobDialogField('additionalService')}"
                                              itemLabel="Telephone presumptive results"
                                              value="#{jobContractManager.currentJob.serviceContract.additionalServiceTelephonePresumptiveResults}">
                         <p:ajax listener="#{jobContractManager.updateJob}"
@@ -371,6 +379,7 @@ Email: info@dpbennett.com.jm
                     </p:selectBooleanCheckbox>
 
                     <p:selectBooleanCheckbox id="additionalServiceSendMoreContractForms" 
+                                             disabled="#{jobManager.disableJobDialogField('additionalService')}"
                                              itemLabel="Send more service contract forms"
                                              value="#{jobContractManager.currentJob.serviceContract.additionalServiceSendMoreContractForms}">
                         <p:ajax listener="#{jobContractManager.updateJob}"
@@ -381,16 +390,18 @@ Email: info@dpbennett.com.jm
                 </h:panelGrid>
                 <h:panelGrid columns="2" cellspacing="10" style="margin-top: -10px;" >
                     <p:selectBooleanCheckbox id="additionalServiceOther" 
+                                             disabled="#{jobManager.disableJobDialogField('additionalService')}"
                                              itemLabel="Other: "
                                              value="#{jobContractManager.currentJob.serviceContract.additionalServiceOther}">
                         <p:ajax listener="#{jobContractManager.updateJob}"
-                                update="additionalServiceOtherText,:jobDialogForm:jobDetailToolbar1"
+                                update="additionalServices,additionalServiceOtherText,:jobDialogForm:jobDetailToolbar1"
                                 global="false"
                                 process="@this"/>
                     </p:selectBooleanCheckbox>
                     <p:inputText id="additionalServiceOtherText"
                                  maxlength="250"
-                                 disabled="#{!jobContractManager.currentJob.serviceContract.additionalServiceOther}"
+                                 disabled="#{jobManager.disableJobDialogField('additionalServiceOtherText')}"
+                                 rendered="#{jobContractManager.currentJob.serviceContract.additionalServiceOther}"
                                  value="#{jobContractManager.currentJob.serviceContract.additionalServiceOtherText}">
                         <p:ajax listener="#{jobContractManager.updateJob}"
                                 update=":jobDialogForm:jobDetailToolbar1"

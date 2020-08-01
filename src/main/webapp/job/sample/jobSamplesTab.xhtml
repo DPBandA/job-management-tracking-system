@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2020  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -61,12 +61,12 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="#{jobSample.sampleBasicDetail}"/>              
             </p:column>
             <p:column style="width:32px" >
-                <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit, copy or delete sample" >
+                <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit, view, copy or delete sample" >
 
                     <p:menuitem>                       
                         <p:commandButton   
                             id="editSampleDetail"
-                            value="Edit"
+                            value="Edit or view"
                             style="width: 300%;text-align: left;background: none;border: 0;"
                             onstart="PF('longProcessDialogVar').show();"    
                             oncomplete="PF('longProcessDialogVar').hide();"                          
