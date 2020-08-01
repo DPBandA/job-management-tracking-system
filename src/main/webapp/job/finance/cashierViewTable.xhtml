@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2020  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -26,12 +26,20 @@ Email: info@dpbennett.com.jm
 
     <p:dataTable id="cashierViewTable"
                  var="job"
+                 editable="true" 
+                 editMode="cell"
                  paginator="true"
                  rows="15" 
                  rowStyleClass="#{job.rowStyle}"
                  resizableColumns="false"                 
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
+
+        <p:ajax event="cellEdit" 
+                update=":headerForm:growl3"
+                onstart="PF('longProcessDialogVar').show();"  
+                oncomplete="PF('longProcessDialogVar').hide();"  
+                listener="#{jobManager.onJobCellEdit}" />
 
         <p:ajax event="page"  
                 onstart="PF('longProcessDialogVar').show();" 
@@ -55,12 +63,29 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.instructions}" >
-            <f:facet name="header">
-                <h:outputText value="Instructions"/>
-            </f:facet>
-            <h:outputText value="#{job.instructions}" />               
-        </p:column> 
+       
+        
+        <p:column headerText="Instructions" 
+                  id="job_instructions"
+                  sortBy="#{job.instructions}">   
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{job.instructions}" />
+                </f:facet>
+                <f:facet name="input" >
+                    <p:inputTextarea   
+                        value="#{job.instructions}"
+                        disabled="#{jobManager.disableJobDialogField(job, 'instructions')}"
+                        rows="2"
+                        autoResize="false"
+                        maxlength="1000" >
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                    </p:inputTextarea> 
+                </f:facet>
+            </p:cellEditor>  
+        </p:column>
 
         <p:column sortBy="#{job.jobCostingAndPayment.estimatedCost}" >
             <f:facet name="header">

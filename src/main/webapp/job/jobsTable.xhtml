@@ -73,6 +73,7 @@ Email: info@dpbennett.com.jm
                 <f:facet name="input" >
                     <p:inputTextarea   
                         value="#{job.instructions}"
+                        disabled="#{jobManager.disableJobDialogField(job, 'instructions')}"
                         rows="2"
                         autoResize="false"
                         maxlength="1000" >
@@ -85,7 +86,7 @@ Email: info@dpbennett.com.jm
         </p:column>
 
         <p:column headerText="Submitted" 
-                  id="job_submitted"
+                  id="dateSubmitted"
                   sortBy="#{job.jobStatusAndTracking.dateSubmitted}" 
                   style="min-width: 100px">   
             <p:cellEditor>
@@ -98,6 +99,7 @@ Email: info@dpbennett.com.jm
                     <p:calendar value="#{job.jobStatusAndTracking.dateSubmitted}" 
                                 readonlyInput="true"
                                 focusOnSelect="true"
+                                disabled="#{jobManager.disableJobDialogField(job, 'dateSubmitted')}"
                                 navigator="true"                                 
                                 pattern="MMM dd, yyyy" >
                     </p:calendar>
