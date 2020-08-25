@@ -110,6 +110,7 @@
                             <artifactId>standards-compliance</artifactId>
                             <excludes>
                                 <exclude>hr/*</exclude>
+                                <exclude>report/*</exclude>
                                 <exclude>client/*</exclude>     
                                 <exclude>admin/*</exclude>
                                 <exclude>common/*</exclude>
