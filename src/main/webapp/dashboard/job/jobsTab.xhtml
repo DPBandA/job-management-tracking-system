@@ -39,34 +39,7 @@ Email: info@dpbennett.com.jm
                             update=":mainTabViewForm:mainTabView"
                             listener="#{jobManager.jobDialogReturn}" />
 
-                </p:menuitem>
-                <ui:remove>
-                    <p:separator/>
-                    <p:menuitem  value="Purchase requisition"
-                                 title="Create new purchase requisition"
-                                 icon="ui-icon-plus"
-                                 onstart="PF('longProcessDialogVar').show();" 
-                                 oncomplete="longProcessDialogVar.hide();"
-                                 actionListener="#{purchasingManager.createNewPurchaseReq}" 
-                                 process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
-
-                    </p:menuitem>
-                    <p:menuitem value="Supplier"
-                                title="Create new supplier"
-                                icon="ui-icon-plus"
-                                onstart="PF('longProcessDialogVar').show();" 
-                                oncomplete="longProcessDialogVar.hide();"
-                                actionListener="#{financeManager.createNewSupplier}" 
-                                process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView:suppliersTable"/>
-
-                    </p:menuitem>
-                </ui:remove>
+                </p:menuitem>               
             </p:menuButton>    
 
         </p:toolbarGroup>
