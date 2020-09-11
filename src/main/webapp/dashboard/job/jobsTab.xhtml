@@ -27,53 +27,44 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left">
 
             <p:menuButton value="New" >  
-                <p:menuitem>                       
-                    <p:commandButton value="Job"
-                                     style="width: 100%;text-align: left;background: none;border: 0;"
-                                     title="Create new job"
-                                     icon="ui-icon-plus"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     actionListener="#{jobManager.createNewJob}"  
-                                     process="@this" >
+                <p:menuitem value="Job"
+                            title="Create new job"
+                            icon="ui-icon-plus"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            oncomplete="longProcessDialogVar.hide();"
+                            actionListener="#{jobManager.createNewJob}"  
+                            process="@this" >
 
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView"
-                                listener="#{jobManager.jobDialogReturn}" />
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
 
-                    </p:commandButton>          
                 </p:menuitem>
                 <ui:remove>
                     <p:separator/>
-                    <p:menuitem >                       
-                        <p:commandButton value="Purchase requisition"
-                                         style="width: 100%;text-align: left;background: none;border: 0;"
-                                         title="Create new purchase requisition"
-                                         icon="ui-icon-plus"
-                                         onstart="PF('longProcessDialogVar').show();" 
-                                         oncomplete="longProcessDialogVar.hide();"
-                                         actionListener="#{purchasingManager.createNewPurchaseReq}" 
-                                         process="@this" >
+                    <p:menuitem  value="Purchase requisition"
+                                 title="Create new purchase requisition"
+                                 icon="ui-icon-plus"
+                                 onstart="PF('longProcessDialogVar').show();" 
+                                 oncomplete="longProcessDialogVar.hide();"
+                                 actionListener="#{purchasingManager.createNewPurchaseReq}" 
+                                 process="@this" >
 
-                            <p:ajax event="dialogReturn" 
-                                    update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
+                        <p:ajax event="dialogReturn" 
+                                update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
-                        </p:commandButton>          
                     </p:menuitem>
-                    <p:menuitem >                       
-                        <p:commandButton value="Supplier"
-                                         style="width: 100%;text-align: left;background: none;border: 0;"
-                                         title="Create new supplier"
-                                         icon="ui-icon-plus"
-                                         onstart="PF('longProcessDialogVar').show();" 
-                                         oncomplete="longProcessDialogVar.hide();"
-                                         actionListener="#{financeManager.createNewSupplier}" 
-                                         process="@this" >
+                    <p:menuitem value="Supplier"
+                                title="Create new supplier"
+                                icon="ui-icon-plus"
+                                onstart="PF('longProcessDialogVar').show();" 
+                                oncomplete="longProcessDialogVar.hide();"
+                                actionListener="#{financeManager.createNewSupplier}" 
+                                process="@this" >
 
-                            <p:ajax event="dialogReturn" 
-                                    update=":mainTabViewForm:mainTabView:suppliersTable"/>
+                        <p:ajax event="dialogReturn" 
+                                update=":mainTabViewForm:mainTabView:suppliersTable"/>
 
-                        </p:commandButton>          
                     </p:menuitem>
                 </ui:remove>
             </p:menuButton>    
@@ -82,67 +73,34 @@ Email: info@dpbennett.com.jm
 
         <p:toolbarGroup align="right">            
             <p:menuButton value="Tools" >  
-                <p:menuitem>
-                    <p:commandButton value="Job Browser"
-                                     style="text-align: left;background: none;border: 0;"
-                                     title="Open the Job Browser tab"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     actionListener="#{jobManager.openJobBrowser}" 
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     process="@this" />
-                </p:menuitem>
+                <p:menuitem value="Job Browser"
+                            title="Open the Job Browser tab"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            actionListener="#{jobManager.openJobBrowser}" 
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this" />              
                 <p:separator />
-                <p:menuitem>
-                    <p:commandButton value="Client management"
-                                     style="text-align: left;background: none;border: 0;"
-                                     title="Open the Clients tab"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     actionListener="#{jobManager.openClientsTab}" 
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     process="@this" />
-                </p:menuitem>
+                <p:menuitem value="Client management"
+                            title="Open the Clients tab"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            actionListener="#{jobManager.openClientsTab}" 
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this" />
 
-                <p:menuitem>
-                    <p:commandButton actionListener="#{jobFinanceManager.updateAccPacClient}"
-                                     onstart="PF('longProcessDialogVar').show();"                                                    
-                                     value="Client credit status"
-                                     style="text-align: left;background: none;border: 0;"
-                                     update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
-                                     oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
-                                     process="@this" />
-                </p:menuitem>
+                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"
+                            onstart="PF('longProcessDialogVar').show();"                                                    
+                            value="Client credit status"
+                            update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
+                            oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
+                            process="@this" />
                 <p:separator />
-                <p:menuitem>
-                    <p:commandButton value="Reports"
-                                     style="text-align: left;background: none;border: 0;"
-                                     title="Open the Reports tab"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     actionListener="#{jobManager.openReportsTab}" 
-                                     oncomplete="longProcessDialogVar.hide();"
-                                     process="@this" />
-                </p:menuitem>
-                <ui:remove>
-                    <p:separator />
-                    <p:menuitem>
-                        <p:commandButton value="Purchase Requisitions"
-                                         style="text-align: left;background: none;border: 0;"
-                                         title="Open Purchase Requisition tab"
-                                         onstart="PF('longProcessDialogVar').show();" 
-                                         actionListener="#{jobManager.doPurchaseReqSearch}" 
-                                         oncomplete="longProcessDialogVar.hide();"
-                                         process="@this" />
-                    </p:menuitem>
-                    <p:menuitem>
-                        <p:commandButton value="Suppliers"
-                                         style="text-align: left;background: none;border: 0;"
-                                         title="Open suppliers tab"
-                                         onstart="PF('longProcessDialogVar').show();" 
-                                         actionListener="#{financeManager.openSuppliersTab}" 
-                                         oncomplete="longProcessDialogVar.hide();"
-                                         process="@this" />
-
-                    </p:menuitem>
-                </ui:remove>
+                <p:menuitem value="Reports"
+                            title="Open the Reports tab"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            actionListener="#{jobManager.openReportsTab}" 
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this" />
+               
             </p:menuButton>         
         </p:toolbarGroup>
     </p:toolbar>

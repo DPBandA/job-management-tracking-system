@@ -161,8 +161,7 @@ Email: info@dpbennett.com.jm
             <p:column style="width:32px" >
                 <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit or copy" >
 
-                    <p:menuitem>                       
-                        <p:commandButton   
+                    <p:menuitem   
                             value="Edit or view" 
                             actionListener="#{jobManager.editJob}"                             
                             onstart="PF('longProcessDialogVar').show();"  
@@ -170,8 +169,7 @@ Email: info@dpbennett.com.jm
                             onerror="PF('connectionErrorDialog').show();"
                             global="true"
                             process="@this"
-                            icon="ui-icon ui-icon-pencil"
-                            style="width: 300%;text-align: left;background: none;border: 0;" >
+                            icon="ui-icon ui-icon-pencil" >
 
                             <f:setPropertyActionListener value="#{job}" 
                                                          id="editJobButtonPropListener"
@@ -180,17 +178,13 @@ Email: info@dpbennett.com.jm
                             <p:ajax event="dialogReturn" 
                                     update=":mainTabViewForm:mainTabView"
                                     listener="#{jobManager.jobDialogReturn}" />
-
-
-                        </p:commandButton>                       
+              
                     </p:menuitem>
 
-                    <p:menuitem >       
-                        <p:commandButton   
+                    <p:menuitem  
                             value="Copy"                               
                             onstart="PF('longProcessDialogVar').show();"  
-                            oncomplete="PF('longProcessDialogVar').hide();"                          
-                            style="width: 300%;text-align: left;background: none;border: 0;"
+                            oncomplete="PF('longProcessDialogVar').hide();"  
                             update=":headerForm:growl3"
                             icon="ui-icon-copy"
                             process="@this">
@@ -202,7 +196,6 @@ Email: info@dpbennett.com.jm
                                     update=":mainTabViewForm:mainTabView"
                                     listener="#{jobManager.jobDialogReturn}" />
 
-                        </p:commandButton>
                     </p:menuitem>
                 </p:menuButton>
 

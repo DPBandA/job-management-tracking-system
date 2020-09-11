@@ -271,42 +271,36 @@ Email: info@dpbennett.com.jm
                 <p:menuButton id="toolsButton" 
                               disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                               icon="ui-icon-pencil" title="Edit or delete payment" >
-                    <p:menuitem>
-                        <p:commandButton value="Edit"
-                                         actionListener="#{jobFinanceManager.editCashPayment}"
-                                         style="width: 300%;text-align: left;background: none;border: 0;"
-                                         onstart="PF('longProcessDialogVar').show();"   
-                                         oncomplete="PF('longProcessDialogVar').hide();" 
-                                         update=":jobDialogForm:growl2"
-                                         icon="ui-icon-pencil"
-                                         process="@this">
+                    <p:menuitem value="Edit"
+                                actionListener="#{jobFinanceManager.editCashPayment}"
+                                onstart="PF('longProcessDialogVar').show();"   
+                                oncomplete="PF('longProcessDialogVar').hide();" 
+                                update=":jobDialogForm:growl2"
+                                icon="ui-icon-pencil"
+                                process="@this">
 
-                            <f:setPropertyActionListener value="#{cashPayment}"
-                                                         target="#{jobFinanceManager.selectedCashPayment}" />
+                        <f:setPropertyActionListener value="#{cashPayment}"
+                                                     target="#{jobFinanceManager.selectedCashPayment}" />
 
-                            <p:ajax event="dialogReturn"
-                                    listener="#{jobFinanceManager.cashPaymentDialogReturn}"                    
-                                    update="jobDialogForm:jobFormTabView:cashPayments,jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:growl2"
-                                    process="@this"/>
+                        <p:ajax event="dialogReturn"
+                                listener="#{jobFinanceManager.cashPaymentDialogReturn}"                    
+                                update="jobDialogForm:jobFormTabView:cashPayments,jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:growl2"
+                                process="@this"/>
 
-                        </p:commandButton>  
                     </p:menuitem>
-                    <p:menuitem>
-                        <p:commandButton value="Delete"
-                                         actionListener="#{jobFinanceManager.openCashPaymentDeleteConfirmDialog}"
-                                         style="width: 300%;text-align: left;background: none;border: 0;"
-                                         icon="ui-icon-trash"
-                                         process="@this">
+                    <p:menuitem value="Delete"
+                                actionListener="#{jobFinanceManager.openCashPaymentDeleteConfirmDialog}"
+                                icon="ui-icon-trash"
+                                process="@this">
 
-                            <f:setPropertyActionListener value="#{cashPayment}"
-                                                         target="#{jobFinanceManager.selectedCashPayment}" />
+                        <f:setPropertyActionListener value="#{cashPayment}"
+                                                     target="#{jobFinanceManager.selectedCashPayment}" />
 
-                            <p:ajax event="dialogReturn" 
-                                    listener="#{jobFinanceManager.cashPaymentDialogReturn}"                    
-                                    update="jobDialogForm:jobFormTabView:cashPayments,jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:growl2"
-                                    process="@this"/>
+                        <p:ajax event="dialogReturn" 
+                                listener="#{jobFinanceManager.cashPaymentDialogReturn}"                    
+                                update="jobDialogForm:jobFormTabView:cashPayments,jobDialogForm:jobFormTabView:jobCosting,:jobDialogForm:growl2"
+                                process="@this"/>
 
-                        </p:commandButton>
                     </p:menuitem>
                 </p:menuButton>          
             </p:column>            

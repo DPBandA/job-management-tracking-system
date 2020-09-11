@@ -139,42 +139,36 @@ Email: info@dpbennett.com.jm
                           icon="ui-icon-pencil" 
                           disabled="#{jobManager.disableJobDialogField('clientActionsMenu')}"
                           title="Add or edit client">
-                <p:menuitem>                       
-                    <p:commandButton value="Edit client"
-                                     id="editClient"
-                                     icon="ui-icon-pencil" 
-                                     disabled="${!jobManager.isClientNameValid}"
-                                     style="width: 300%;text-align: left;background: none;border: 0;"
-                                     onstart="PF('longProcessDialogVar').show();"   
-                                     oncomplete="PF('longProcessDialogVar').hide();"                                  
-                                     actionListener="#{jobManager.editJobClient}"  
-                                     process="@this,client"                             
-                                     title="View or edit this client's detail">  
+                <p:menuitem value="Edit client"
+                            id="editClient"
+                            icon="ui-icon-pencil" 
+                            disabled="${!jobManager.isClientNameValid}"
+                            onstart="PF('longProcessDialogVar').show();"   
+                            oncomplete="PF('longProcessDialogVar').hide();"                                  
+                            actionListener="#{jobManager.editJobClient}"  
+                            process="@this,client"                             
+                            title="View or edit this client's detail">  
 
-                        <p:ajax event="dialogReturn" 
-                                listener="#{jobManager.clientDialogReturn}"
-                                update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
-
-                    </p:commandButton>            
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobManager.clientDialogReturn}"
+                            update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
+           
                 </p:menuitem>
 
-                <p:menuitem >       
-                    <p:commandButton 
-                        value="Add new client"
-                        icon="ui-icon-plus" 
-                        style="width: 300%;text-align: left;background: none;border: 0;"
-                        onstart="PF('longProcessDialogVar').show();"    
-                        oncomplete="PF('longProcessDialogVar').hide();"                    
-                        disabled="#{!jobManager.user.privilege.canAddClient}"
-                        actionListener="#{jobManager.createNewJobClient}"                                            
-                        process="@this"
-                        title="Add a new client to the client database">
+                <p:menuitem 
+                    value="Add new client"
+                    icon="ui-icon-plus" 
+                    onstart="PF('longProcessDialogVar').show();"    
+                    oncomplete="PF('longProcessDialogVar').hide();"                    
+                    disabled="#{!jobManager.user.privilege.canAddClient}"
+                    actionListener="#{jobManager.createNewJobClient}"                                            
+                    process="@this"
+                    title="Add a new client to the client database">
 
-                        <p:ajax event="dialogReturn" 
-                                listener="#{jobManager.clientDialogReturn}"
-                                update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobManager.clientDialogReturn}"
+                            update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
 
-                    </p:commandButton>
                 </p:menuitem>
             </p:menuButton>      
 
