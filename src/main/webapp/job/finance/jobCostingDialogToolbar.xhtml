@@ -71,7 +71,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.invoiced}"
                                          id="invoiced"
-                                         disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                                         disabled="#{jobFinanceManager.disableInvoiceJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Invoiced" >
                     <p:ajax global="false"                        
