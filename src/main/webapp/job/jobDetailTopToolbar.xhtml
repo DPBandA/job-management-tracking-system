@@ -45,7 +45,6 @@ Email: info@dpbennett.com.jm
                              actionListener="#{jobManager.prepareToCloseJobDetail}"
                              onstart="PF('longProcessDialogVar').show();"
                              oncomplete="PF('longProcessDialogVar').hide();" 
-                             onerror="PF('connectionErrorDialog').show();"
                              immediate="true"                             
                              process="@this"
                              icon="ui-icon ui-icon-close" />            
