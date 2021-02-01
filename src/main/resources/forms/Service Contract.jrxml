@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service Contract" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4a52baad-35f7-495a-a8aa-125da4be7058">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="BSJ JMTS MySQL"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQLJMTS.xml"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
 	<subDataset name="Cost Components" uuid="a7e613e8-cf98-4942-94d6-f734eb7f6361">
 		<parameter name="costComponent_jobId" class="java.lang.Long">
@@ -99,8 +99,8 @@ ORDER BY
 			<variableExpression><![CDATA[$F{jobcostingandpayment_costcomponent_costComponents_ID}]]></variableExpression>
 		</variable>
 	</subDataset>
-	<parameter name="jobId" class="java.lang.Long" isForPrompting="false">
-		<defaultValueExpression><![CDATA[1512062L]]></defaultValueExpression>
+	<parameter name="jobId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[342354L]]></defaultValueExpression>
 	</parameter>
 	<parameter name="contactPersonName" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="customerAddress" class="java.lang.String" isForPrompting="false"/>
@@ -205,15 +205,18 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="106" splitType="Stretch">
+		<band height="66" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="7" width="150" height="33" uuid="a2cd8187-bc37-4658-abbc-a362a51dc007"/>
 				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
 			</image>
-			<image scaleImage="FillFrame">
-				<reportElement stretchType="ElementGroupHeight" x="0" y="0" width="750" height="80" uuid="6286c4f3-4f43-468c-a98e-3649a848e80c"/>
-				<imageExpression><![CDATA["C:/jasperreports/Background.png"]]></imageExpression>
-			</image>
+			<staticText>
+				<reportElement x="150" y="5" width="171" height="45" forecolor="#808080" uuid="09327126-1a2e-4dc1-a655-383544e98755"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[RECEIPT & SERVICE AGREEMENT]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -248,7 +251,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="90" height="22" uuid="dd33ffe4-279f-4a34-8ce0-3ea6f3ee59bc"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -280,7 +283,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="222" height="22" uuid="7b1a52ff-bdad-42ff-8d1e-df9fcf58a12a"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -314,7 +317,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="73" height="22" uuid="a5a886ef-b1cd-4c5e-9603-dbf22dceef3c"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -348,7 +351,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="81" height="22" uuid="3cbe7c6c-483f-428a-bdcc-ba8242ecb022"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -382,7 +385,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="103" height="22" uuid="8821b420-88b2-4011-b6ff-818e89f00a2a"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -415,7 +418,7 @@ WHERE
 				<text><![CDATA[JOB NUMBER:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="162" y="17" width="409" height="16" uuid="2e07ef4a-ce17-46d6-9c42-96b885d4076c"/>
+				<reportElement x="162" y="17" width="258" height="16" uuid="2e07ef4a-ce17-46d6-9c42-96b885d4076c"/>
 				<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -429,7 +432,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{job_JOBNUMBER}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="162" y="1" width="409" height="16" uuid="44144543-5f01-4857-9a9b-7f6315046e7b"/>
+				<reportElement x="162" y="1" width="258" height="16" uuid="44144543-5f01-4857-9a9b-7f6315046e7b"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -457,7 +460,7 @@ WHERE
 				<text><![CDATA[DEPARTMENT:]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement x="162" y="33" width="409" height="16" uuid="06a2b81d-97e6-4f0a-9310-df1f44a74052"/>
+				<reportElement x="162" y="33" width="258" height="16" uuid="06a2b81d-97e6-4f0a-9310-df1f44a74052"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -485,7 +488,7 @@ WHERE
 				<text><![CDATA[DATE JOB COMPLETED:]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement x="162" y="49" width="409" height="16" uuid="fd46df55-ed28-46eb-9628-8c1901fac40b"/>
+				<reportElement x="162" y="49" width="258" height="16" uuid="fd46df55-ed28-46eb-9628-8c1901fac40b"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -513,7 +516,7 @@ WHERE
 				<text><![CDATA[CONTACT NAME:]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement x="162" y="65" width="409" height="16" uuid="ceb5acb9-c69e-451a-bdbd-102df41ee2e0"/>
+				<reportElement x="162" y="65" width="258" height="16" uuid="ceb5acb9-c69e-451a-bdbd-102df41ee2e0"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -555,7 +558,7 @@ WHERE
 				<text><![CDATA[CUSTOMER ADDRESS:]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement x="162" y="81" width="409" height="34" uuid="67126f96-a991-4d71-bbaf-71b9327cf49e"/>
+				<reportElement x="162" y="81" width="258" height="34" uuid="67126f96-a991-4d71-bbaf-71b9327cf49e"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -583,7 +586,7 @@ WHERE
 				<text><![CDATA[CONTACT NOs:]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement x="162" y="115" width="409" height="16" uuid="b0604977-68ac-4733-9479-dab325fb3fba"/>
+				<reportElement x="162" y="115" width="258" height="16" uuid="b0604977-68ac-4733-9479-dab325fb3fba"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -611,7 +614,7 @@ WHERE
 				<text><![CDATA[DESCRIPTION OF JOB:]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement x="162" y="131" width="409" height="32" uuid="ecc55d9e-f478-40a1-8446-92459bba24f6"/>
+				<reportElement x="162" y="131" width="258" height="32" uuid="ecc55d9e-f478-40a1-8446-92459bba24f6"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -639,7 +642,7 @@ WHERE
 				<text><![CDATA[PURCHASE ORDER NO:]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement x="162" y="163" width="409" height="16" uuid="77bb75ee-f464-4c94-b0cd-e454359d872f"/>
+				<reportElement x="162" y="163" width="258" height="16" uuid="77bb75ee-f464-4c94-b0cd-e454359d872f"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -667,7 +670,7 @@ WHERE
 				<text><![CDATA[EMPLOYEE(S) ASSIGNED:]]></text>
 			</staticText>
 			<textField pattern="MMM dd, yyyy" isBlankWhenNull="true">
-				<reportElement x="162" y="179" width="409" height="16" uuid="7bd5501f-f24b-4e1a-b0b7-9bd7281c8fcb"/>
+				<reportElement x="162" y="179" width="258" height="16" uuid="7bd5501f-f24b-4e1a-b0b7-9bd7281c8fcb"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -695,7 +698,7 @@ WHERE
 				<text><![CDATA[# OF SAMPLES:]]></text>
 			</staticText>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="162" y="195" width="409" height="16" uuid="c12b2cdd-f6c3-4a2d-bc59-980f9696a8be"/>
+				<reportElement x="162" y="195" width="258" height="16" uuid="c12b2cdd-f6c3-4a2d-bc59-980f9696a8be"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
