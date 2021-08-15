@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service Contract" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4a52baad-35f7-495a-a8aa-125da4be7058">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQLJMTS.xml"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<subDataset name="Cost Components" uuid="a7e613e8-cf98-4942-94d6-f734eb7f6361">
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="201"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="790"/>
+		<property name="com.jaspersoft.studio.data.sql.tables">
+			<![CDATA[am9iICwxNjAsMTA4LGFmY2QyNjM0LWZiYzgtNDI5ZS05NmZiLTZiMjg4NjI0MWQ3Nztqb2JzYW1w
+bGUgLDE2MCwyMyxlZGU0ZjFiNi0yNDhhLTRhYzktYTUyMy0yYzE3MzMwMjc3OTQ7am9iX2pvYnNh
+bXBsZSAsMjMsNTksM2E0MmUxMTAtOTU5My00MGRiLTliNDItYjA0MGJkZDdlMmIwOw==]]>
+		</property>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQLJMTS.xml"/>
+		<parameter name="jobSample_jobId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT job.`ID`,
+	job.`JOBNUMBER`,
+	jobSample.`REFERENCE`,
+	jobSample.`NAME`,
+	jobSample.`PRODUCTBRAND`,
+	jobSample.`PRODUCTMODEL`,
+	jobSample.`PRODUCTSERIALNUMBER`,
+	jobSample.`SAMPLEQUANTITY`
+FROM job_jobsample
+	INNER JOIN jobsample ON 
+	 job_jobsample.`jobSamples_ID` = jobsample.`ID` 
+	INNER JOIN job ON 
+	 job_jobsample.`Job_ID` = job.`ID` 
+WHERE 
+	 job.`ID` = $P{jobSample_jobId}]]>
+		</queryString>
+		<field name="ID" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+		</field>
+		<field name="JOBNUMBER" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="JOBNUMBER"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+		</field>
+		<field name="REFERENCE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="REFERENCE"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="NAME" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="NAME"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODUCTBRAND" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="PRODUCTBRAND"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODUCTMODEL" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="PRODUCTMODEL"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODUCTSERIALNUMBER" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="PRODUCTSERIALNUMBER"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="SAMPLEQUANTITY" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="SAMPLEQUANTITY"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<variable name="itemNum" class="java.lang.Long" calculation="Count">
+			<variableExpression><![CDATA[$F{REFERENCE}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="jobId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[342354L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contactPersonName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="customerAddress" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="totalCost" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="depositReceiptNumbers" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="discount" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountDue" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contactNumbers" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="jobDescription" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="deposit" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalTax" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="grandTotalCost" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="discountType" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Fixed Cost"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalTaxLabel" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["TAX (GCT) ($):"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="grandTotalCostLabel" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["TOTAL COST ($):"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jobEntryAgent" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Entry Agent"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     job.`ID` AS job_ID,
+     job.`JOBNUMBER` AS job_JOBNUMBER,
+     department.`NAME` AS department_NAME,
+     client.`ID` AS client_ID,
+     client.`ACTIVE` AS client_ACTIVE,
+     client.`DATEFIRSTRECEIVED` AS client_DATEFIRSTRECEIVED,
+     client.`DATELASTACCESSED` AS client_DATELASTACCESSED,
+     client.`INTERNAL` AS client_INTERNAL,
+     client.`NAME` AS client_NAME,
+     client.`NOTES` AS client_NOTES,
+     client.`NUMBER` AS client_NUMBER,
+     client.`TAG` AS client_TAG,
+     client.`TAXREGISTRATIONNUMBER` AS client_TAXREGISTRATIONNUMBER,
+     client.`TYPE` AS client_TYPE,
+     client.`INTERNET_ID` AS client_INTERNET_ID,
+     job.`REPORTNUMBER` AS job_REPORTNUMBER,
+     jobstatusandtracking.`ID` AS jobstatusandtracking_ID,
+     jobstatusandtracking.`DATESUBMITTED` AS jobstatusandtracking_DATESUBMITTED,
+     jobstatusandtracking.`DATEOFCOMPLETION` AS jobstatusandtracking_DATEOFCOMPLETION,
+     jobcostingandpayment.`PURCHASEORDERNUMBER` AS jobcostingandpayment_PURCHASEORDERNUMBER,
+     employee.`FIRSTNAME` AS employee_FIRSTNAME,
+     employee.`LASTNAME` AS employee_LASTNAME,
+     job.`NUMBEROFSAMPLES` AS job_NUMBEROFSAMPLES,
+     department_A.`NAME` AS department_A_NAME,
+     jobcostingandpayment.`DISCOUNTTYPE` AS jobcostingandpayment_DISCOUNTTYPE
+FROM
+     `department` department INNER JOIN `job` job ON department.`ID` = job.`SUBCONTRACTEDDEPARTMENT_ID`
+     INNER JOIN `client` client ON job.`CLIENT_ID` = client.`ID`
+     INNER JOIN `jobstatusandtracking` jobstatusandtracking ON job.`JOBSTATUSANDTRACKING_ID` = jobstatusandtracking.`ID`
+     INNER JOIN `jobcostingandpayment` jobcostingandpayment ON job.`JOBCOSTINGANDPAYMENT_ID` = jobcostingandpayment.`ID`
+     INNER JOIN `employee` employee ON job.`ASSIGNEDTO_ID` = employee.`ID`
+     INNER JOIN `department` department_A ON job.`DEPARTMENT_ID` = department_A.`ID`
+WHERE
+     job.`ID` = $P{jobId}]]>
+	</queryString>
+	<field name="job_ID" class="java.lang.Long"/>
+	<field name="job_JOBNUMBER" class="java.lang.String"/>
+	<field name="department_NAME" class="java.lang.String"/>
+	<field name="client_ID" class="java.lang.Long"/>
+	<field name="client_ACTIVE" class="java.lang.Boolean"/>
+	<field name="client_DATEFIRSTRECEIVED" class="java.sql.Date"/>
+	<field name="client_DATELASTACCESSED" class="java.sql.Date"/>
+	<field name="client_INTERNAL" class="java.lang.Boolean"/>
+	<field name="client_NAME" class="java.lang.String"/>
+	<field name="client_NOTES" class="java.lang.String"/>
+	<field name="client_NUMBER" class="java.lang.String"/>
+	<field name="client_TAG" class="java.lang.Boolean"/>
+	<field name="client_TAXREGISTRATIONNUMBER" class="java.lang.String"/>
+	<field name="client_TYPE" class="java.lang.String"/>
+	<field name="client_INTERNET_ID" class="java.lang.Long"/>
+	<field name="job_REPORTNUMBER" class="java.lang.String"/>
+	<field name="jobstatusandtracking_ID" class="java.lang.Long"/>
+	<field name="jobstatusandtracking_DATESUBMITTED" class="java.sql.Date"/>
+	<field name="jobstatusandtracking_DATEOFCOMPLETION" class="java.sql.Date"/>
+	<field name="jobcostingandpayment_PURCHASEORDERNUMBER" class="java.lang.String"/>
+	<field name="employee_FIRSTNAME" class="java.lang.String"/>
+	<field name="employee_LASTNAME" class="java.lang.String"/>
+	<field name="job_NUMBEROFSAMPLES" class="java.lang.Long"/>
+	<field name="department_A_NAME" class="java.lang.String"/>
+	<field name="jobcostingandpayment_DISCOUNTTYPE" class="java.lang.String"/>
+	<variable name="subContractedDepartment" class="java.lang.String">
+		<variableExpression><![CDATA["(" + $F{department_NAME} + ")"]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="67" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image>
+				<reportElement positionType="Float" stretchType="ContainerBottom" isPrintRepeatedValues="false" x="1" y="7" width="749" height="60" uuid="8e9d9573-d222-47b2-abac-5711ee2e92f3">
+					<property name="com.jaspersoft.studio.element.name" value="Bkgrnd"/>
+				</reportElement>
+				<imageExpression><![CDATA["Service Contract Bkgrnd Img.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement positionType="Float" x="0" y="16" width="150" height="33" uuid="a2cd8187-bc37-4658-abbc-a362a51dc007">
+					<property name="com.jaspersoft.studio.element.name" value="Logo"/>
+				</reportElement>
+				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="137" y="22" width="130" height="27" forecolor="#808080" uuid="09327126-1a2e-4dc1-a655-383544e98755"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[RECEIPT & SERVICE AGREEMENT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="466" y="8" width="100" height="14" forecolor="#F0F70C" uuid="8f21f1d8-d629-42b6-9b68-3798b2747c75">
+					<property name="com.jaspersoft.studio.element.name" value="Notice"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[IMPORTANT NOTICE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="19" width="398" height="24" forecolor="#FFFFFF" uuid="8adb1435-3089-4835-b230-ca6017b9c40d"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Signing this agreement  form means you have read and agreed to the current  terms and conditions which are set out  in a separate document called
+        'BSJ's Service Agreement Terms and Conditions'. It also means you are confirming that the information set out herein is true to the best of your   
+            knowledge and belief]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="47" width="366" height="9" forecolor="#FFFFFF" uuid="12b02fe5-8c86-45cd-8558-7882c9cfc9ee"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[If you have not seen the 'BSJ's Service Agreement Terms and Conditions', it is your responsibility to request that it be shown to you.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="264" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" x="0" y="217" width="730" height="47" uuid="eb05ffe1-1f71-42b4-b0a2-701baa825e42"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Cost Components" uuid="4911ef10-987a-4514-947e-e6413053b7b7">
+						<datasetParameter name="jobSample_jobId">
+							<datasetParameterExpression><![CDATA[$P{jobId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="7728d8ae-ef8b-496a-beae-1a8df2702791">
+						<jr:columnHeader height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="50" uuid="d11c073f-fd7d-4023-8e50-385ff274694f"/>
+								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="SansSerif" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[REF ID]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="22" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="222" uuid="b9cce6f6-6ebb-4ed7-92a7-e9daf083b678">
+						<jr:columnHeader height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="222" height="50" uuid="579ab668-483b-4297-b7d4-b5383d35e201"/>
+								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="SansSerif" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PRODUCT COMMON NAME]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="22" rowSpan="1">
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="222" height="22" uuid="7b1a52ff-bdad-42ff-8d1e-df9fcf58a12a"/>
+								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Justified">
+									<font fontName="SansSerif" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="88" uuid="bbeefa23-f63d-4814-914c-77425049a3ad">
+						<jr:columnHeader height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="88" height="50" uuid="a03c8c85-8321-4579-8b68-911cda2639dd"/>
+								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="SansSerif" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[QUANTITY (Hr/Unit)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="22" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="195" uuid="09a89573-5cce-459b-bc2b-35aa73f8d58c">
+						<jr:columnHeader height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="195" height="50" uuid="a18536fa-26a0-4c26-bc02-bfab82990e6e"/>
+								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="SansSerif" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[UNIT COST/RATE ($)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="22" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="135" uuid="a52f4928-c7da-466b-bd00-62e24a4b574a">
+						<jr:columnHeader height="50" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="135" height="50" uuid="03bd75eb-b5ad-4e9e-a293-aa7e2935e80c"/>
+								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center">
+									<font fontName="SansSerif" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FEE ($)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="22" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement mode="Opaque" x="163" y="1" width="118" height="16" forecolor="#D1CBCB" backcolor="#000000" uuid="440c0fbe-8022-4508-b6cb-aef947903560"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(BSJ agent only)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="17" width="162" height="16" backcolor="#DCDCDC" uuid="63107fd8-0820-49b0-a47a-8d83908bab0d"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[JOB NUMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="162" y="17" width="118" height="16" backcolor="#DCDCDC" uuid="46f9cc60-e56b-46da-a0ba-7e875092a137"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[BUSINESS OFFICE]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="33" width="162" height="34" uuid="47dc44a3-f0d7-4c59-bde3-eaf582f1be6c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{job_JOBNUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="1" width="162" height="16" forecolor="#FFFFFF" backcolor="#000000" uuid="8f943dbb-9865-420a-b810-92605326e0f4"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SECTION 1: Primary Information]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="162" y="33" width="118" height="34" uuid="bf81faa4-73d7-4139-88ec-9ae97e8330aa"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{job_JOBNUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="67" width="280" height="16" backcolor="#DCDCDC" uuid="46e980cb-39bb-4225-8006-25d8ba27115b"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[GENERAL JOB INFORMATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="83" width="120" height="14" uuid="b3cfbc74-a545-44c9-88ce-fe9eb01ddb14"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job-entry agent:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="83" width="160" height="14" uuid="af7a6db1-3113-41e3-ac25-3745f848077b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="97" width="120" height="14" uuid="7ce15c54-382c-45ee-8e76-e1bcfd6f915a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Job-entry date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="111" width="120" height="14" uuid="8f53d4e6-a856-4a91-b74c-0d3736422149"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parent department:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="125" width="120" height="14" uuid="8fe918fd-126c-495c-bd49-82460e4c0110"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Est. turnaround time:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="139" width="120" height="14" uuid="e17a19ff-414d-4f5c-9398-11fce19776b8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Est. Sub Total (J$):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="153" width="120" height="14" uuid="a012901e-974b-4eab-9482-339f2767326e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estimated GCT (J$):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="167" width="120" height="14" uuid="d4ef83df-8dfa-4399-b212-dc712e8945eb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Est. Total Cost (J$):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="181" width="120" height="14" uuid="e64cbe3a-a813-45a9-9701-16c4f8726519"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Min. 1st Deposit (J$):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="294" y="50" width="206" height="16" forecolor="#FFFFFF" backcolor="#000000" uuid="51e6c807-9d87-41df-a0f1-980c6f6710c6"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SECTION 3: Special Financial Information]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="500" y="50" width="250" height="16" forecolor="#D1CBCB" backcolor="#000000" uuid="ca31b2f8-b3f5-437a-95e9-a421146b4d7c"/>
+				<box padding="0">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(to be updated by authorized BSJ collection agent/cashier ONLY)]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="97" width="160" height="14" uuid="baced8b7-cd63-408e-9a57-cfaeb11e9320">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="111" width="160" height="14" uuid="f37e8449-dba7-42e0-b1d4-c3dab6cc6660">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="125" width="160" height="14" uuid="b0323882-b486-4b08-9f45-78971c59b18c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="139" width="160" height="14" uuid="33bc55bd-5f25-46f0-8259-0982ff5beea6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="153" width="160" height="14" uuid="3b6577c3-99c0-4f36-ba24-48db8e65bb1b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="167" width="160" height="14" uuid="67900cc4-7725-46f3-a584-03fa45b16a1a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="181" width="160" height="14" uuid="08281d7c-fda3-4455-ad8e-4f8dce98b133">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="120">
+			<staticText>
+				<reportElement x="410" y="80" width="161" height="20" uuid="f8c9e5fd-87b0-4091-b464-26b90eea1e93"/>
+				<textElement>
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<text><![CDATA[DATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="37" width="162" height="20" uuid="e32e4328-7979-4928-8525-6e385ff3ef15"/>
+				<textElement>
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<text><![CDATA[PREPARED BY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="411" y="37" width="161" height="20" uuid="a20655cd-88b9-484e-a6a2-718821b085d3"/>
+				<textElement>
+					<font fontName="SansSerif" size="12"/>
+				</textElement>
+				<text><![CDATA[AUTHORIZED BY]]></text>
+			</staticText>
+			<line>
+				<reportElement x="411" y="36" width="162" height="1" uuid="7dff2258-c915-40d0-902f-34dcc25a4d44"/>
+			</line>
+			<line>
+				<reportElement x="410" y="79" width="162" height="1" uuid="3cce4296-8bca-47e6-9422-520341d17d5b"/>
+			</line>
+			<line>
+				<reportElement x="6" y="36" width="162" height="1" uuid="a30d003a-9fea-456d-b69b-552492ceada0"/>
+			</line>
+			<textField>
+				<reportElement x="211" y="100" width="80" height="20" uuid="5902846f-c00a-49f1-9b42-fc3eb2553206"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="291" y="100" width="40" height="20" uuid="895722e1-ada4-4098-8eb8-aa429f1c7ba8"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
