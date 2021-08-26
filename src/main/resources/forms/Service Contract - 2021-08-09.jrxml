@@ -108,9 +108,20 @@ WHERE
 	<parameter name="grandTotalCostLabel" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["TOTAL COST ($):"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="jobEntryAgent" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["Entry Agent"]]></defaultValueExpression>
-	</parameter>
+	<parameter name="jobEntryAgent" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="jobEntryDate" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="parentDepartment" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="estimatedTAT" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="estimatedSubTotal" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="estimatedGCT" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="estimatedTotalCost" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="minFirstDeposit" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="receiptNumber" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="totalPaid" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="paymentBreakdownGCT" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="paymentBreakdownJob" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="datePaid" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="balance" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
      job.`ID` AS job_ID,
@@ -226,6 +237,26 @@ WHERE
 					<font size="6"/>
 				</textElement>
 				<text><![CDATA[If you have not seen the 'BSJ's Service Agreement Terms and Conditions', it is your responsibility to request that it be shown to you.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="282" y="19" width="11" height="14" forecolor="#F0F70C" uuid="9d4bfaa5-f063-4f8f-8c18-f14427e090ac">
+					<property name="com.jaspersoft.studio.element.name" value="Notice"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[*]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="47" width="11" height="12" forecolor="#F0F70C" uuid="f159912b-39f2-4c2e-a7d8-6e28fbdf5dea">
+					<property name="com.jaspersoft.studio.element.name" value="Notice"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[*]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -434,7 +465,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[Job-entry agent:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="120" y="83" width="160" height="14" uuid="af7a6db1-3113-41e3-ac25-3745f848077b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -513,7 +544,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[(to be updated by authorized BSJ collection agent/cashier ONLY)]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="120" y="97" width="160" height="14" uuid="baced8b7-cd63-408e-9a57-cfaeb11e9320">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -521,9 +552,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{jobEntryDate}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="120" y="111" width="160" height="14" uuid="f37e8449-dba7-42e0-b1d4-c3dab6cc6660">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -531,9 +562,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{parentDepartment}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="120" y="125" width="160" height="14" uuid="b0323882-b486-4b08-9f45-78971c59b18c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -541,9 +572,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{estimatedTAT}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="120" y="139" width="160" height="14" uuid="33bc55bd-5f25-46f0-8259-0982ff5beea6">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -551,9 +582,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{estimatedSubTotal}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="120" y="153" width="160" height="14" uuid="3b6577c3-99c0-4f36-ba24-48db8e65bb1b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -561,9 +592,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{estimatedGCT}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="120" y="167" width="160" height="14" uuid="67900cc4-7725-46f3-a584-03fa45b16a1a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -571,9 +602,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{estimatedTotalCost}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="120" y="181" width="160" height="14" uuid="08281d7c-fda3-4455-ad8e-4f8dce98b133">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -581,7 +612,149 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textFieldExpression><![CDATA[$P{jobEntryAgent}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{minFirstDeposit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="294" y="66" width="76" height="16" backcolor="#DCDCDC" uuid="8c553f52-7197-42a6-a45f-df70ecf04e30"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[RECEIPT #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="66" width="90" height="16" backcolor="#DCDCDC" uuid="04a861bb-7984-4a1a-bb54-6b142a6cd46e"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[TOTAL PAID (J$)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="460" y="66" width="130" height="16" backcolor="#DCDCDC" uuid="42602ee8-3576-4258-8fdf-f9591c67de49"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[PAYMENT BREAKDOWN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="590" y="66" width="90" height="16" backcolor="#DCDCDC" uuid="50092e25-fc1a-47a0-8804-85b2b4684b31"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DATE PAID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="680" y="66" width="70" height="16" backcolor="#DCDCDC" uuid="ee90ce95-9843-4e7b-accf-0a1f0b8c1f95"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[BALANCE]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="294" y="82" width="76" height="28" uuid="1d3e59fd-f95d-492d-9a1e-6c9fa3fd39e7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{receiptNumber}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="370" y="82" width="90" height="28" uuid="80e763f1-ba66-4e4d-bd45-523719ab056e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{totalPaid}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="510" y="82" width="80" height="14" uuid="445c3997-c989-479a-a55f-1e9c8f9b2f90">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paymentBreakdownGCT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="510" y="96" width="80" height="14" uuid="c65131cd-ffb3-4561-b5a4-6c65381f00b5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{paymentBreakdownJob}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="460" y="82" width="50" height="14" uuid="2258c69e-8895-45df-ba27-e82b95709533"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[GCT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="96" width="50" height="14" uuid="8d12d8bd-759e-4409-be23-e13e80447da0"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Job:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="590" y="82" width="90" height="28" uuid="9b2e6479-58c2-4ea8-af59-b1a5f2df13e2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{datePaid}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="680" y="82" width="70" height="28" uuid="ee944440-d06b-4bb4-a1d9-e0306c32eecf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{balance}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
