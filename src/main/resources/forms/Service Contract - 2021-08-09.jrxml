@@ -756,6 +756,16 @@ WHERE
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{balance}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="294" y="110" width="386" height="16" backcolor="#DCDCDC" uuid="9e8a6699-0a6e-4c02-b2b2-47385938d466"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[GENERAL JOB INFORMATION]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>
