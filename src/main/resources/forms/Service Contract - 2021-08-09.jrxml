@@ -272,7 +272,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="455" splitType="Stretch">
+		<band height="424" splitType="Stretch">
 			<staticText>
 				<reportElement mode="Opaque" x="162" y="-18" width="118" height="16" forecolor="#D1CBCB" backcolor="#000000" uuid="440c0fbe-8022-4508-b6cb-aef947903560"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
@@ -926,10 +926,30 @@ WHERE
 				</textElement>
 				<text><![CDATA[ (this input area should be marked as not applicable unless there are critical details that cannot be captured below in section entitled "Description of Submitted Sample(s)")]]></text>
 			</staticText>
-		</band>
-		<band height="182">
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="336" width="748" height="29" uuid="cb6dc521-06ab-422d-8d7c-2eef9a9696bd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{contactPhone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="365" width="748" height="16" backcolor="#DCDCDC" uuid="8a124c46-993a-4a22-be88-75c51fdbee41"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DESCRIPTION OF SUBMITTED SAMPLE(S)]]></text>
+			</staticText>
 			<componentElement>
-				<reportElement key="table" x="1" y="25" width="746" height="43" uuid="eb05ffe1-1f71-42b4-b0a2-701baa825e42"/>
+				<reportElement key="table" x="0" y="381" width="749" height="43" uuid="eb05ffe1-1f71-42b4-b0a2-701baa825e42"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Cost Components" uuid="4911ef10-987a-4514-947e-e6413053b7b7">
 						<datasetParameter name="jobSample_jobId">
@@ -1050,6 +1070,87 @@ WHERE
 				</jr:table>
 			</componentElement>
 		</band>
+		<band height="372">
+			<staticText>
+				<reportElement x="0" y="29" width="748" height="14" uuid="92d8197d-2e75-48ff-b5c4-856cb3a2ca21">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Upon signing the BSJ’s Receipt and Service Agreement, the terms and conditions below apply:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="49" width="748" height="30" uuid="79b53698-562a-487e-b8b6-b94e2f20581a"/>
+				<text><![CDATA[(i)	The Client indemnifies the BSJ from any damage or destruction of the sample occasioned through the use of normal testing methods.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="79" width="708" height="40" uuid="f5258cb1-217f-47e3-adb8-c1aebf2f019c"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[All fees must be paid to the BSJ within thirty (30) calendar days of the invoice date.  Payments outstanding beyond this time will result in the Client’s account being put on hold and action taken to recover the outstanding amounts due.  New jobs will be accepted, however monies paid in on the account will be credited first to clear overdue amounts, and then to the current invoices. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="129" width="706" height="30" uuid="2255766d-180a-47b9-abf6-d29eb7e60fa4"/>
+				<text><![CDATA[Test results, verification and calibration results, certificates, certification or evaluation results will be released upon full payment on invoice.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="159" width="708" height="30" uuid="711ebb60-de7a-4f26-b154-b493e9c4bc1b"/>
+				<text><![CDATA[The BSJ reserves the right to dispose of any samples left uncollected for over thirty (30) days beyond the job completion date unless otherwise agreed in writing by the BSJ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="80" width="28" height="30" uuid="490e4873-4314-4c3b-9865-9167c2d4b077"/>
+				<text><![CDATA[(ii)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="129" width="28" height="30" uuid="7f7614b7-f874-4952-809e-28db49e13136"/>
+				<text><![CDATA[(iii)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="159" width="28" height="30" uuid="d985e898-7613-43ed-ac2a-3f639061de9d"/>
+				<text><![CDATA[(iv)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="195" width="28" height="30" uuid="ad4c6739-9478-4888-a1eb-4cd6d1c47656"/>
+				<text><![CDATA[(v)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="195" width="708" height="30" uuid="fae29ab3-6807-4715-b19b-335fa038084b"/>
+				<text><![CDATA[The BSJ does not guarantee that any sample, device or equipment will meet any particular standard or specification when tested.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="225" width="28" height="30" uuid="c9c33c03-e634-4328-bb30-53542fa00df5"/>
+				<text><![CDATA[(vi)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="225" width="708" height="44" uuid="081eae92-93b5-484f-b6aa-1e0f77cfb45c"/>
+				<text><![CDATA[Estimated turnaround time for results is determined based on historic job performance under normal conditions.  The BSJ will not be liable for any losses incurred resulting from any unusual circumstances beyond its control (including force majeure) which adversely affect its ability to complete the job within the estimated time.  Where there is a decrease in the cost, the difference will be refunded to the Client.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="274" width="28" height="30" uuid="23dd66d1-39df-4ba2-b9ba-e8abbadd6433"/>
+				<text><![CDATA[(vii)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="274" width="708" height="30" uuid="c43ba47b-3bb2-4151-aefe-3f3e516648ce"/>
+				<text><![CDATA[The estimated cost may increase or decrease depending on the requirements of the job.  The BSJ will advise the Client of any increase in job cost and secure the agreement of the Client prior to proceeding with the job.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="311" width="28" height="30" uuid="d581f575-f618-44e3-be27-2db72632e1f0"/>
+				<text><![CDATA[(viii)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="41" y="311" width="708" height="58" uuid="a5aca43c-8a07-4595-ade9-844ee53ce0cb"/>
+				<text><![CDATA[The BSJ acknowledges that all material received for testing, analysis, assessment or calibration may be the subject of trade secret and/or patent protection and agrees to treat such information as confidential.  The BSJ will take all reasonable precautions to protect and safeguard such information, and undertakes not to disclose same in any manner whatsoever, in whole or in part, or to use for any purpose other than that for which it was submitted to the BSJ, except where such disclosure is expressly authorized by the Client or is done in compliance with an Order of the Court.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="16" y="16" width="719" height="1" isPrintWhenDetailOverflows="true" uuid="ef8f4944-f383-4759-81c8-dfc8f8c1dcae">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="3.0"/>
+				</graphicElement>
+			</line>
+		</band>
 	</detail>
 	<columnFooter>
 		<band splitType="Stretch"/>
@@ -1058,12 +1159,12 @@ WHERE
 		<band height="50">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="370" y="20" width="80" height="20" uuid="5902846f-c00a-49f1-9b42-fc3eb2553206"/>
+				<reportElement x="307" y="20" width="80" height="20" uuid="5902846f-c00a-49f1-9b42-fc3eb2553206"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="450" y="20" width="40" height="20" uuid="895722e1-ada4-4098-8eb8-aa429f1c7ba8"/>
+				<reportElement x="387" y="20" width="40" height="20" uuid="895722e1-ada4-4098-8eb8-aa429f1c7ba8"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
