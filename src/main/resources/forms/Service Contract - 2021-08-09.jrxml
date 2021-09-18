@@ -138,6 +138,7 @@ WHERE
 	<parameter name="clientInstructionForJob" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="clientNameAndBillingAddress" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="businessOffice" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="additionalSampleDetails" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
      job.`ID` AS job_ID,
@@ -942,7 +943,7 @@ WHERE
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Top"/>
-				<textFieldExpression><![CDATA[$P{contactPhone}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{additionalSampleDetails}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="365" width="748" height="16" backcolor="#DCDCDC" uuid="8a124c46-993a-4a22-be88-75c51fdbee41"/>

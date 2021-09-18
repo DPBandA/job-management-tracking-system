@@ -5,4 +5,4 @@
 - Human Resource Management
 - Financial Management
 - Job Management
-- Standards Compliance Management
+- Standards Compliance
