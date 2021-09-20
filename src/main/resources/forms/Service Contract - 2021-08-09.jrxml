@@ -117,15 +117,27 @@ WHERE
 	<parameter name="parentDepartment" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="estimatedTAT" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="estimatedSubTotal" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="estimatedGCT" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="estimatedTax" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="estimatedTotalCost" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="minFirstDeposit" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="receiptNumber" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="totalPaid" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="paymentBreakdownGCT" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="paymentBreakdownJob" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="datePaid" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="balance" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="receiptNumber" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["12345678"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalPaid" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["$125,000.00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paymentBreakdownTax" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["$25,000.00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paymentBreakdownJob" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["$100,000.00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datePaid" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Sep 10, 2021"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="balance" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["$95,000.00"]]></defaultValueExpression>
+	</parameter>
 	<parameter name="paymentTerms" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="agentOrCashier" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="emailAddress" class="java.lang.String" isForPrompting="false"/>
@@ -487,7 +499,7 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textFieldExpression><![CDATA[$P{estimatedGCT}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{estimatedTax}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="120" y="148" width="160" height="14" uuid="67900cc4-7725-46f3-a584-03fa45b16a1a">
@@ -568,7 +580,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{receiptNumber}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -580,7 +594,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{totalPaid}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -592,8 +608,10 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{paymentBreakdownGCT}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paymentBreakdownTax}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="505" y="59" width="80" height="14" uuid="c65131cd-ffb3-4561-b5a4-6c65381f00b5">
@@ -604,7 +622,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{paymentBreakdownJob}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -613,7 +633,7 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font isBold="false"/>
+					<font size="9" isBold="false"/>
 				</textElement>
 				<text><![CDATA[GCT:]]></text>
 			</staticText>
@@ -623,7 +643,7 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Right">
-					<font isBold="false"/>
+					<font size="9" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Job:]]></text>
 			</staticText>
@@ -636,7 +656,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{datePaid}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -648,7 +670,9 @@ WHERE
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{balance}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -675,7 +699,7 @@ WHERE
 				<reportElement x="289" y="89" width="356" height="86" uuid="eaf1c551-ecfb-4a35-9ef3-f3446840134c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
@@ -772,7 +796,7 @@ WHERE
 				<reportElement x="219" y="216" width="160" height="14" uuid="07ae0748-68e2-4d02-8b76-a4ca56955288">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
@@ -794,7 +818,7 @@ WHERE
 				<reportElement x="219" y="246" width="160" height="14" uuid="c9151274-672c-40c6-aa7e-d08f9e72c19e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
@@ -816,7 +840,7 @@ WHERE
 				<reportElement x="379" y="216" width="110" height="29" uuid="c7981c2f-4a71-4a85-8bc2-fbd3eee4331c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.5"/>
@@ -828,7 +852,7 @@ WHERE
 				<reportElement x="379" y="246" width="110" height="14" uuid="784e3553-c7e6-4caf-97e6-a31361dd2424">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
@@ -840,7 +864,7 @@ WHERE
 				<reportElement x="489" y="216" width="180" height="44" uuid="2005576e-57ef-468f-9968-4f6b8c45e1f9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.5"/>
@@ -852,7 +876,7 @@ WHERE
 				<reportElement x="669" y="216" width="80" height="29" uuid="3609ce6b-0cdd-47cc-b5b7-55baf1574793">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.5"/>
@@ -864,7 +888,7 @@ WHERE
 				<reportElement x="669" y="245" width="80" height="31" uuid="3310a9b4-fd1e-4464-a2ae-afe455ac59ca">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.5"/>
@@ -876,7 +900,7 @@ WHERE
 				<reportElement x="219" y="276" width="450" height="30" uuid="040fd725-2da6-4ce0-b4ee-a28eb19a03f4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.5"/>
@@ -888,7 +912,7 @@ WHERE
 				<reportElement x="669" y="276" width="80" height="30" uuid="e2d5f80e-bb95-447d-aadb-12b03d564b70">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.5"/>
@@ -900,7 +924,7 @@ WHERE
 				<reportElement x="1" y="216" width="218" height="90" uuid="1ad1e924-004e-476b-8a28-4b7a5191b2f6">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.5"/>
@@ -937,7 +961,7 @@ WHERE
 				<reportElement x="1" y="336" width="748" height="29" uuid="cb6dc521-06ab-422d-8d7c-2eef9a9696bd">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box>
+				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 					<leftPen lineWidth="0.5"/>
 					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.5"/>
