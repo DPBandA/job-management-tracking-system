@@ -1263,7 +1263,7 @@ WHERE
 				</jr:table>
 			</componentElement>
 		</band>
-		<band height="455">
+		<band height="371">
 			<staticText>
 				<reportElement x="0" y="29" width="748" height="14" uuid="92d8197d-2e75-48ff-b5c4-856cb3a2ca21">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
