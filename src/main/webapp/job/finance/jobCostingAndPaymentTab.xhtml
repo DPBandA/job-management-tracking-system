@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2019  D P Bennett & Associates Limited
+Copyright (C) 2021  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -83,32 +83,6 @@ Email: info@dpbennett.com.jm
             </p:inputText>
             <h:outputText value="&nbsp;"/>      
 
-            <h:outputText value="Tax (%/$):" />               
-            <p:autoComplete id="tax"  
-                            var="tax"
-                            forceSelection="true"      
-                            dropdown="true"
-                            scrollHeight="200" 
-                            maxlength="40"
-                            value="#{jobFinanceManager.tax}"
-                            title="#{jobFinanceManager.tax}"
-                            styleClass="#{jobFinanceManager.canApplyTax eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                            disabled="#{jobManager.disableJobDialogField('tax')}"
-                            itemValue="#{tax}"
-                            itemLabel="#{tax.name}"
-                            converter="taxConverter"
-                            validator="businessEntityValidator"
-                            completeMethod="#{jobFinanceManager.completeTax}" >
-
-                <p:ajax event="itemSelect"
-                        global="true"
-                        update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
-                        listener="#{jobFinanceManager.updateAllTaxes}"
-                        process="@this" />
-
-            </p:autoComplete>
-            <h:outputText value="&nbsp;"/>
-
             <h:outputText value="Discount (%/$):" />
             <p:autoComplete id="discount"  
                             var="discount"
@@ -130,6 +104,32 @@ Email: info@dpbennett.com.jm
                         global="true"
                         listener="#{jobFinanceManager.updateJobCostingAndPayment}"
                         update=":jobDialogForm:jobDetailToolbar1,jobCosting"
+                        process="@this" />
+
+            </p:autoComplete>
+            <h:outputText value="&nbsp;"/>
+            
+            <h:outputText value="Tax (%/$):" />               
+            <p:autoComplete id="tax"  
+                            var="tax"
+                            forceSelection="true"      
+                            dropdown="true"
+                            scrollHeight="200" 
+                            maxlength="40"
+                            value="#{jobFinanceManager.tax}"
+                            title="#{jobFinanceManager.tax}"
+                            styleClass="#{jobFinanceManager.canApplyTax eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
+                            disabled="#{jobManager.disableJobDialogField('tax')}"
+                            itemValue="#{tax}"
+                            itemLabel="#{tax.name}"
+                            converter="taxConverter"
+                            validator="businessEntityValidator"
+                            completeMethod="#{jobFinanceManager.completeTax}" >
+
+                <p:ajax event="itemSelect"
+                        global="true"
+                        update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
+                        listener="#{jobFinanceManager.updateAllTaxes}"
                         process="@this" />
 
             </p:autoComplete>
