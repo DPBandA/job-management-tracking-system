@@ -18,6 +18,14 @@
         <validator-id>subcontractedDepartmentValidator</validator-id>
         <validator-class>jm.com.dpbennett.jmts.validator.SubcontractedDepartmentValidator</validator-class>
     </validator>  
+    
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>proformaInvoicesDialog</from-outcome>
+            <to-view-id>/dashboard/job/proformaInvoicesDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>

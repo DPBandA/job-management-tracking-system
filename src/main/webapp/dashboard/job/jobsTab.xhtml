@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2021  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -39,7 +39,39 @@ Email: info@dpbennett.com.jm
                             update=":mainTabViewForm:mainTabView"
                             listener="#{jobManager.jobDialogReturn}" />
 
-                </p:menuitem>               
+                </p:menuitem>    
+                <p:separator />
+                <p:menuitem
+                    actionListener="#{clientManager.createNewClient}"                
+                    disabled="#{!clientManager.user.privilege.canAddClient}"
+                    global="true"                                        
+                    onstart="PF('longProcessDialogVar').show();"                 
+                    oncomplete="PF('longProcessDialogVar').hide();"
+                    onerror="PF('connectionErrorDialog').show();"
+                    value="Client"       
+                    update="headerForm:growl3"
+                    title="Create new client"
+                    icon="ui-icon-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView:clientsTable" />
+
+                </p:menuitem>
+                <p:separator />
+                <p:menuitem value="Proforma Invoice"
+                            title="Create new proforma invoice"
+                            icon="ui-icon-plus"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            oncomplete="longProcessDialogVar.hide();"
+                              
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=""
+                             />
+
+                </p:menuitem>    
             </p:menuButton>    
 
         </p:toolbarGroup>
@@ -53,7 +85,7 @@ Email: info@dpbennett.com.jm
                             oncomplete="longProcessDialogVar.hide();"
                             process="@this" />              
                 <p:separator />
-                <p:menuitem value="Client management"
+                <p:menuitem value="Client Management"
                             title="Open the Clients tab"
                             onstart="PF('longProcessDialogVar').show();" 
                             actionListener="#{jobManager.openClientsTab}" 
@@ -62,9 +94,16 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"
                             onstart="PF('longProcessDialogVar').show();"                                                    
-                            value="Client credit status"
+                            value="Client Credit Status"
                             update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
                             oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
+                            process="@this" />
+                <p:separator />
+                <p:menuitem value="Proforma Invoices"
+                            title="Open the Clients tab"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            actionListener="#{jobManager.openClientsTab}" 
+                            oncomplete="longProcessDialogVar.hide();"
                             process="@this" />
                 <p:separator />
                 <p:menuitem value="Reports"
@@ -73,7 +112,7 @@ Email: info@dpbennett.com.jm
                             actionListener="#{jobManager.openReportsTab}" 
                             oncomplete="longProcessDialogVar.hide();"
                             process="@this" />
-               
+
             </p:menuButton>         
         </p:toolbarGroup>
     </p:toolbar>
