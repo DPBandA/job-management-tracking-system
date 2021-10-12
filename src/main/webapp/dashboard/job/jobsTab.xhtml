@@ -100,9 +100,9 @@ Email: info@dpbennett.com.jm
                             process="@this" />
                 <p:separator />
                 <p:menuitem value="Proforma Invoices"
-                            title="Open the Clients tab"
+                            title="Browse proforma invoices"
                             onstart="PF('longProcessDialogVar').show();" 
-                            actionListener="#{jobManager.openClientsTab}" 
+                            actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
                             oncomplete="longProcessDialogVar.hide();"
                             process="@this" />
                 <p:separator />
