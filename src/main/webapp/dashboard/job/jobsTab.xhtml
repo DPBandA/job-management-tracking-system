@@ -64,7 +64,7 @@ Email: info@dpbennett.com.jm
                             icon="ui-icon-plus"
                             onstart="PF('longProcessDialogVar').show();" 
                             oncomplete="longProcessDialogVar.hide();"
-                              
+                            actionListener="#{jobFinanceManager.openProformaInvoiceDialog}" 
                             process="@this" >
 
                     <p:ajax event="dialogReturn" 
