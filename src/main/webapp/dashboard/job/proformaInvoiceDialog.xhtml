@@ -46,9 +46,11 @@ Email: info@dpbennett.com.jm
             <ui:include src="proformaInvoiceDialogToolbar.xhtml"/> 
 
             <p:panel header="General Information" style="margin-top: 1px;" >
-                <h:panelGrid columns="3">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Proforma #:" style="font-weight: bold;" />
+                    <h:outputText id="proformaNumber" value="#{jobFinanceManager.currentJob.jobNumber}" />
+
                     <h:outputText value="Department: " style="font-weight: bold" />
-                    <p:spacer height="0" width="10"/>
                     <p:autoComplete id="department"  
                                     var="department"
                                     forceSelection="true"      
@@ -69,19 +71,120 @@ Email: info@dpbennett.com.jm
                                 global="false"
                                 update="proformaNumber"
                                 process="@this" />
-                        
+
+                    </p:autoComplete>                    
+
+                    <h:outputText value="Client: " style="font-weight: bold" />
+                    <h:panelGroup>                
+                        <p:autoComplete id="client"
+                                        var="client"
+                                        itemLabel="#{client.truncatedName}"
+                                        itemValue="#{client}"
+                                        size="35" 
+                                        maxlength="40"                             
+                                        dropdown="false"
+                                        scrollHeight="200" 
+                                        value="#{jobManager.currentJob.client}"   
+                                        converter="activeClientConverter"
+                                        validator="jobClientValidator"
+                                        forceSelection="true"
+                                        disabled="#{jobManager.disableJobDialogField('client')}"
+                                        completeMethod="#{clientManager.completeActiveClient}" >
+
+                            <p:ajax event="itemSelect"      
+                                    update=""
+                                    listener="#{jobManager.updateJobEntryTabClient}"
+                                    process="@this"/>
+
+                        </p:autoComplete>     
+
+                        <p:menuButton id="clientActionsMenu" 
+                                      icon="ui-icon-pencil" 
+                                      disabled="#{jobManager.disableJobDialogField('clientActionsMenu')}"
+                                      title="Add or edit client">
+                            <p:menuitem value="Edit client"
+                                        id="editClient"
+                                        icon="ui-icon-pencil" 
+                                        disabled="${!jobManager.isClientNameValid}"
+                                        onstart="PF('longProcessDialogVar').show();"   
+                                        oncomplete="PF('longProcessDialogVar').hide();"                                  
+                                        actionListener="#{jobManager.editJobClient}"  
+                                        process="@this,client"                             
+                                        title="View or edit this client's detail">  
+
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{jobManager.clientDialogReturn}"
+                                        update="client,billingAddress,clientContact,clientActionsMenu" />
+
+                            </p:menuitem>
+
+                            <p:menuitem 
+                                value="Add new client"
+                                icon="ui-icon-plus" 
+                                onstart="PF('longProcessDialogVar').show();"    
+                                oncomplete="PF('longProcessDialogVar').hide();"                    
+                                disabled="#{!jobManager.user.privilege.canAddClient}"
+                                actionListener="#{jobManager.createNewJobClient}"                                            
+                                process="@this"
+                                title="Add a new client to the client database">
+
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{jobManager.clientDialogReturn}"
+                                        update="client,billingAddress,clientContact,clientActionsMenu" />
+
+                            </p:menuitem>
+                        </p:menuButton>      
+
+                    </h:panelGroup>
+
+                    <h:outputText value="Billing address:" style="font-weight: bold" />    
+                    <p:autoComplete id="billingAddress"
+                                    value="#{jobManager.currentJob.billingAddress}"
+                                    disabled="#{jobManager.disableJobDialogField('billingAddress')}"
+                                    dropdown="true"
+                                    forceSelection="true"
+                                    size="35"
+                                    converter="clientAddressConverter" 
+                                    validator="addressValidator"
+                                    var="address"  
+                                    scrollHeight="200"
+                                    itemValue="#{address}"
+                                    itemLabel="#{address.name}" 
+                                    completeMethod="#{jobManager.completeClientAddress}">
+
+                        <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+                        <p:ajax event="itemSelect"
+                                listener="#{jobManager.updateJob}"                                        
+                                update=""
+                                process="@this" />   
+
                     </p:autoComplete>
 
-                    <h:outputText value="Proforma #:" style="font-weight: bold;" />
-                    <p:spacer height="0" width="10"/>
-                    <h:outputText id="proformaNumber" value="#{jobFinanceManager.currentJob.jobNumber}" />
+                    <h:outputText value="Contact:" style="font-weight: bold" />  
+                    <p:autoComplete id="clientContact"
+                                    value="#{jobManager.currentJob.contact}"
+                                    disabled="#{jobManager.disableJobDialogField('billingAddress')}"
+                                    dropdown="true"
+                                    forceSelection="true"
+                                    scrollHeight="200"
+                                    converter="clientContactConverter" 
+                                    validator="contactValidator"
+                                    var="contact"                        
+                                    itemValue="#{contact}"
+                                    itemLabel="#{contact.name}" 
+                                    completeMethod="#{jobManager.completeClientContact}">
 
-                    <h:outputText value="Client" style="font-weight: bold;" />
-                    <p:spacer height="0" width="10"/>
-                    <h:outputText value="#{jobFinanceManager.currentJob.client.name}" />                   
+                        <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+                        <p:ajax event="itemSelect"
+                                listener="#{jobManager.updateJob}"                                        
+                                update=""
+                                process="@this" />   
+
+                    </p:autoComplete>                   
 
                     <h:outputText value="Preparation date &amp; time:" />
-                    <p:spacer height="0" width="10"/>
                     <p:calendar required="false"   
                                 readonly="true"
                                 readonlyInput="true"
@@ -98,7 +201,6 @@ Email: info@dpbennett.com.jm
                     </p:calendar>  
 
                     <h:outputText value="Authorization date:" />
-                    <p:spacer height="0" width="10"/>
                     <p:calendar required="false"   
                                 readonly="true"
                                 readonlyInput="true"
