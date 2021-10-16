@@ -220,54 +220,55 @@ Email: info@dpbennett.com.jm
             </p:panel>
             <!-- Job costings and components -->
             <p:panel id="costComponentsPanel" header="Costings" >
-                <p:toolbar>
-                    <p:toolbarGroup align="left">
-                        <h:panelGroup>                   
-                            <h:outputLabel value="Find template: "
-                                           title="Select an existing costing template"/>                           
-                            <p:autoComplete dropdown="true"
-                                            value="#{jobFinanceManager.selectedJobCostingTemplate}"
-                                            placeholder="enter template name"
-                                            scrollHeight="200" 
-                                            disabled="#{jobFinanceManager.disableJobCostingEdit}"
-                                            forceSelection="true"
-                                            completeMethod="#{jobFinanceManager.completeJobCostingAndPaymentName}">
-                                <p:ajax event="itemSelect"                                    
-                                        update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                        listener="#{jobFinanceManager.updateCostingComponents}"
-                                        process="@this"/>                      
-                            </p:autoComplete>
-                        </h:panelGroup> 
-                        <p:spacer width="10" />
-                        <p:commandButton title="Manage costing templates"
-                                         value="Manage templates"
-                                         actionListener="#{jobFinanceManager.doJobCostingAndPaymentSearch}"
-                                         update=":jobCostingTemplateManagerDialogForm"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         oncomplete="PF('jobCostingTemplateManagerDialog').show();PF('longProcessDialogVar').hide();"
-                                         process="@this">
-                        </p:commandButton>
-                    </p:toolbarGroup>
-                    <p:toolbarGroup align="right">                        
-                        <h:panelGroup>
-                            <h:outputLabel title="Enter a name to save the costings as a template" 
-                                           for="jobCostingsTemplateName" 
-                                           value="Template name: " />
-                            <p:inputText id="jobCostingsTemplateName"
-                                         value="#{jobFinanceManager.currentJob.jobCostingAndPayment.name}"
-                                         disabled="#{jobFinanceManager.disableJobCostingEdit}"
-                                         style="width: 150px;">
-                                <p:ajax event="change"
-                                        global="false"
-                                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"
-                                        process="@this"/>
-                            </p:inputText>
-                            <p:watermark value="enter new name" for="jobCostingsTemplateName" />
-                            <p:tooltip for="jobCostingsTemplateName" value="Enter a name to save the costings as a template" />
-                        </h:panelGroup>
-                    </p:toolbarGroup>
-                </p:toolbar>
-
+                <ui:remove>
+                    <p:toolbar>
+                        <p:toolbarGroup align="left">
+                            <h:panelGroup>                   
+                                <h:outputLabel value="Find template: "
+                                               title="Select an existing costing template"/>                           
+                                <p:autoComplete dropdown="true"
+                                                value="#{jobFinanceManager.selectedJobCostingTemplate}"
+                                                placeholder="enter template name"
+                                                scrollHeight="200" 
+                                                disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                                                forceSelection="true"
+                                                completeMethod="#{jobFinanceManager.completeJobCostingAndPaymentName}">
+                                    <p:ajax event="itemSelect"                                    
+                                            update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
+                                            listener="#{jobFinanceManager.updateCostingComponents}"
+                                            process="@this"/>                      
+                                </p:autoComplete>
+                            </h:panelGroup> 
+                            <p:spacer width="10" />
+                            <p:commandButton title="Manage costing templates"
+                                             value="Manage templates"
+                                             actionListener="#{jobFinanceManager.doJobCostingAndPaymentSearch}"
+                                             update=":jobCostingTemplateManagerDialogForm"
+                                             onstart="PF('longProcessDialogVar').show();"
+                                             oncomplete="PF('jobCostingTemplateManagerDialog').show();PF('longProcessDialogVar').hide();"
+                                             process="@this">
+                            </p:commandButton>
+                        </p:toolbarGroup>
+                        <p:toolbarGroup align="right">                        
+                            <h:panelGroup>
+                                <h:outputLabel title="Enter a name to save the costings as a template" 
+                                               for="jobCostingsTemplateName" 
+                                               value="Template name: " />
+                                <p:inputText id="jobCostingsTemplateName"
+                                             value="#{jobFinanceManager.currentJob.jobCostingAndPayment.name}"
+                                             disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                                             style="width: 150px;">
+                                    <p:ajax event="change"
+                                            global="false"
+                                            listener="#{jobFinanceManager.updateJobCostingAndPayment}"
+                                            process="@this"/>
+                                </p:inputText>
+                                <p:watermark value="enter new name" for="jobCostingsTemplateName" />
+                                <p:tooltip for="jobCostingsTemplateName" value="Enter a name to save the costings as a template" />
+                            </h:panelGroup>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </ui:remove>
                 <p:toolbar style="margin-top: 1px;margin-bottom: 1px;">
                     <p:toolbarGroup>
                         <p:commandButton title="Add new cost component"
