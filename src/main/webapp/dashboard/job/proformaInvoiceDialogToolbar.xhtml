@@ -49,7 +49,7 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Prepared" >
                     <p:ajax global="true" 
                             listener="#{jobFinanceManager.prepareJobCosting}"
-                            update="@this,jobCostingDialogForm,jobCosting_growl,exportJobCostingButton1"
+                            update="@this,approved,jobCosting_growl,exportJobCostingButton1"
                             process="@this"/>
 
                 </p:selectBooleanCheckbox>               
@@ -63,7 +63,7 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Authorized" >
                     <p:ajax global="false"
                             listener="#{jobFinanceManager.approveJobCosting}"
-                            update="@this,jobCosting_growl,jobCostingDialogForm,exportJobCostingButton1"
+                            update="@this,prepared,jobCosting_growl,exportJobCostingButton1"
                             process="@this"/>
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>               
