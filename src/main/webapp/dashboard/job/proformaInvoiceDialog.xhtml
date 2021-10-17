@@ -218,8 +218,30 @@ Email: info@dpbennett.com.jm
                 </h:panelGrid>
             </p:panel>
             <!-- Job costings and components -->
-            <p:panel id="costComponentsPanel" header="Costings" >                
-                <p:toolbar style="margin-top: 1px;margin-bottom: 1px;">
+            <p:panel id="costComponentsPanel" header="Costings" >     
+                <h:outputText value="Tax (%/$):" />               
+                <p:autoComplete id="tax"  
+                                var="tax"
+                                forceSelection="true"      
+                                dropdown="true"
+                                scrollHeight="200" 
+                                maxlength="40"
+                                value="#{jobFinanceManager.tax}"
+                                title="#{jobFinanceManager.tax}"
+                                itemValue="#{tax}"
+                                itemLabel="#{tax.name}"
+                                converter="taxConverter"
+                                validator="businessEntityValidator"
+                                completeMethod="#{jobFinanceManager.completeTax}" >
+
+                    <p:ajax event="itemSelect"
+                            global="true"
+                            update="costingSummaryPanel"
+                            listener="#{jobFinanceManager.updateAllTaxes}"
+                            process="@this" />
+
+                </p:autoComplete>
+                <p:toolbar style="margin-top: 3px;margin-bottom: 1px;">
                     <p:toolbarGroup>
                         <p:commandButton title="Add new cost component"
                                          value="New"
@@ -377,10 +399,10 @@ Email: info@dpbennett.com.jm
                     </p:toolbarGroup>
                 </p:toolbar>                
             </p:panel>
-            <p:panel id="costingSummaryPanel" header="Proforma Invoice Summary">
+            <p:panel id="costingSummaryPanel" header="Summary">
                 <h:panelGrid columns="3">
 
-                    <h:outputText value="Sub-total estimate ($):" />
+                    <h:outputText value="Sub-total cost ($):" />
                     <p:spacer height="0" width="10"/>
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.finalCost}" 
                                  styleClass="read-only-number-field"
@@ -406,17 +428,6 @@ Email: info@dpbennett.com.jm
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
-
-                    <h:outputText value="Total estimate ($):" />
-                    <p:spacer height="0" width="10"/>
-                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.finalCost}" 
-                                 styleClass="read-only-number-field"
-                                 maxlength="15"
-                                 readonly="true">
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
-                    </p:inputText>
-
-
 
                 </h:panelGrid>
             </p:panel>  
