@@ -181,9 +181,32 @@ Email: info@dpbennett.com.jm
                                 update=""
                                 process="@this" />   
 
-                    </p:autoComplete>                   
+                    </p:autoComplete>       
 
-                    <h:outputText value="Preparation date &amp; time:" />
+                    <h:outputText value="Description: " style="font-weight: bold;vertical-align: top;" />       
+                    <p:inputTextarea
+                        id="description"
+                        value="#{jobManager.currentJob.jobDescription}"
+                        rows="3"
+                        counter="descriptionCharsRemaining"
+                        counterTemplate="{0} characters remaining."
+                        autoResize="false"
+                        maxlength="1000" 
+                        styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
+                        style="width: 500px;">
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                        <p:ajax event="change"
+                                update=""
+                                listener="#{jobManager.updateJob}"
+                                process="@this"/>
+
+                    </p:inputTextarea>
+                    <h:outputText value="&nbsp;&nbsp;" />
+                    <h:outputText id="descriptionCharsRemaining" /> 
+
+                    <h:outputText value="Preparation date:" />
                     <p:calendar required="false"   
                                 readonly="true"
                                 readonlyInput="true"
@@ -218,29 +241,44 @@ Email: info@dpbennett.com.jm
                 </h:panelGrid>
             </p:panel>
             <!-- Job costings and components -->
-            <p:panel id="costComponentsPanel" header="Costings" >     
-                <h:outputText value="Tax (%/$):" />               
-                <p:autoComplete id="tax"  
-                                var="tax"
-                                forceSelection="true"      
-                                dropdown="true"
-                                scrollHeight="200" 
-                                maxlength="40"
-                                value="#{jobFinanceManager.tax}"
-                                title="#{jobFinanceManager.tax}"
-                                itemValue="#{tax}"
-                                itemLabel="#{tax.name}"
-                                converter="taxConverter"
-                                validator="businessEntityValidator"
-                                completeMethod="#{jobFinanceManager.completeTax}" >
+            <p:panel id="costComponentsPanel" header="Costings" >  
+                <h:panelGrid columns="4" cellspacing="5" >
+                    <h:outputText value="Tax (%/$):" style="font-weight: bold" />               
+                    <p:autoComplete id="tax"  
+                                    var="tax"
+                                    forceSelection="true"      
+                                    dropdown="true"
+                                    scrollHeight="200" 
+                                    maxlength="40"
+                                    value="#{jobFinanceManager.tax}"
+                                    title="#{jobFinanceManager.tax}"
+                                    itemValue="#{tax}"
+                                    itemLabel="#{tax.name}"
+                                    converter="taxConverter"
+                                    validator="businessEntityValidator"
+                                    completeMethod="#{jobFinanceManager.completeTax}" >
 
-                    <p:ajax event="itemSelect"
-                            global="true"
-                            update="costingSummaryPanel"
-                            listener="#{jobFinanceManager.updateAllTaxes}"
-                            process="@this" />
+                        <p:ajax event="itemSelect"
+                                global="true"
+                                update="costingSummaryPanel"
+                                listener="#{jobFinanceManager.updateAllTaxes}"
+                                process="@this" />
 
-                </p:autoComplete>
+                    </p:autoComplete>
+                    <h:outputText value="Reimbursable ($): "/>
+                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.deposit}"
+                                 converterMessage="Please enter a valid reimbursable amount." >
+
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+
+                        <p:ajax event="change"
+                                global="false"
+                                update="costingSummaryPanel"
+                                listener="#{jobManager.updateJob}"
+                                process="@this"/>
+                    </p:inputText>
+
+                </h:panelGrid>
                 <p:toolbar style="margin-top: 3px;margin-bottom: 1px;">
                     <p:toolbarGroup>
                         <p:commandButton title="Add new cost component"
@@ -411,7 +449,7 @@ Email: info@dpbennett.com.jm
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
 
-                    <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalTaxLabel}"  />
+                    <h:outputText value="Tax ($):" />
                     <p:spacer height="0" width="10"/>
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalTax}" 
                                  maxlength="15"
