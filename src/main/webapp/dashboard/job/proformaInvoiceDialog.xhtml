@@ -252,6 +252,7 @@ Email: info@dpbennett.com.jm
                                     maxlength="40"
                                     value="#{jobFinanceManager.tax}"
                                     title="#{jobFinanceManager.tax}"
+                                    disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                     itemValue="#{tax}"
                                     itemLabel="#{tax.name}"
                                     converter="taxConverter"
@@ -267,6 +268,7 @@ Email: info@dpbennett.com.jm
                     </p:autoComplete>
                     <h:outputText value="Reimbursable ($): "/>
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.deposit}"
+                                 disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                  converterMessage="Please enter a valid reimbursable amount." >
 
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
