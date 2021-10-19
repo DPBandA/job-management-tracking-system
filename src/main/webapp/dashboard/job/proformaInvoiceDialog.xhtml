@@ -91,7 +91,7 @@ Email: info@dpbennett.com.jm
                                         completeMethod="#{clientManager.completeActiveClient}" >
 
                             <p:ajax event="itemSelect"      
-                                    update=""
+                                    update="clientActionsMenu,costComponentsPanel"
                                     listener="#{jobManager.updateJobEntryTabClient}"
                                     process="@this"/>
 
@@ -99,7 +99,6 @@ Email: info@dpbennett.com.jm
 
                         <p:menuButton id="clientActionsMenu" 
                                       icon="ui-icon-pencil" 
-                                      disabled="#{jobManager.disableJobDialogField('clientActionsMenu')}"
                                       title="Add or edit client">
                             <p:menuitem value="Edit client"
                                         id="editClient"
@@ -267,7 +266,7 @@ Email: info@dpbennett.com.jm
 
                     </p:autoComplete>
                     <h:outputText value="Reimbursable ($): "/>
-                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.deposit}"
+                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.reimbursable}"
                                  disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                  converterMessage="Please enter a valid reimbursable amount." >
 
@@ -440,31 +439,32 @@ Email: info@dpbennett.com.jm
                 </p:toolbar>                
             </p:panel>
             <p:panel id="costingSummaryPanel" header="Summary">
-                <h:panelGrid columns="3">
+                <h:panelGrid columns="2">
 
                     <h:outputText value="Sub-total cost ($):" />
-                    <p:spacer height="0" width="10"/>
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.finalCost}" 
                                  styleClass="read-only-number-field"
-                                 maxlength="15"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
 
                     <h:outputText value="Tax ($):" />
-                    <p:spacer height="0" width="10"/>
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalTax}" 
-                                 maxlength="15"
                                  styleClass="read-only-number-field"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
+                    
+                    <h:outputText value="Reimbursable ($): "/>
+                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.reimbursable}"
+                                 styleClass="read-only-number-field"
+                                 readonly="true" >
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    </p:inputText>
 
                     <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}" />
-                    <p:spacer height="0" width="10"/>
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalCost}" 
                                  styleClass="read-only-number-field"
-                                 maxlength="15"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
