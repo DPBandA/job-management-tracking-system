@@ -112,7 +112,7 @@ Email: info@dpbennett.com.jm
                 </p:toolbarGroup>
 
             </p:toolbar>
-            
+
             <p:dataTable id="jobCostingsTable"
                          var="job"
                          paginator="true"
@@ -162,18 +162,17 @@ Email: info@dpbennett.com.jm
                 </p:column>
 
                 <p:column style="width:32px" >
-                    <p:commandButton title="View or edit job costing" 
-                                     actionListener="#{jobFinanceManager.editJobCosting}"
+                    <p:commandButton title="View or edit proforma" 
+                                     actionListener="#{jobFinanceManager.openProformaInvoiceDialog}"
                                      update=""
                                      onstart="PF('longProcessDialogVar').show();"  
                                      oncomplete="PF('longProcessDialogVar').hide();"
-                                     onerror="PF('connectionErrorDialog').show();"
                                      global="true"
                                      process="@this"
                                      icon="ui-icon ui-icon-pencil">
 
                         <p:ajax event="dialogReturn" 
-                                listener="#{jobFinanceManager.jobCostingDialogReturn}"
+                                listener="#{jobFinanceManager.proformaDialogReturn}"
                                 update="jobCostingsTable"/>
 
                         <f:setPropertyActionListener value="#{job}"
