@@ -59,25 +59,25 @@ Email: info@dpbennett.com.jm
 
                 <p:separator />
                 
-                <p:menuitem value="Export costing(s) as Zip"
+                <p:menuitem value="Export costing(s)(Zip)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
                             update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
                             immediate="false" 
                             onclick="PF('longProcessDialogVar5').show();" >
 
-                    <p:fileDownload value="#{jobFinanceManager.costingsFile}" />
+                    <p:fileDownload value="#{jobFinanceManager.costingsFileAsZip}" />
 
                 </p:menuitem>                  
 
-                <p:menuitem value="Export costing(s) as Excel"
+                <p:menuitem value="Export costing(s)(Excel)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
                             update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
                             immediate="false" 
                             onclick="PF('longProcessDialogVar5').show();" >
 
-                    <p:fileDownload value="#{jobFinanceManager.costingsFile}" />
+                    <p:fileDownload value="#{jobFinanceManager.costingsFileAsExcel}" />
 
                 </p:menuitem>   
 
