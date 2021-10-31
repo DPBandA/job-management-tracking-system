@@ -62,7 +62,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Proforma Invoice"
                             title="Create new proforma invoice"
                             icon="ui-icon-plus"
-                            disabled="false"
+                            disabled="true"
                             onstart="PF('longProcessDialogVar').show();" 
                             oncomplete="longProcessDialogVar.hide();"
                             actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
@@ -102,7 +102,7 @@ Email: info@dpbennett.com.jm
                 <p:separator />
                 <p:menuitem value="Proforma Invoices"
                             title="Browse proforma invoices"
-                            disabled="false"
+                            disabled="true"
                             onstart="PF('longProcessDialogVar').show();" 
                             actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
                             oncomplete="longProcessDialogVar.hide();"
