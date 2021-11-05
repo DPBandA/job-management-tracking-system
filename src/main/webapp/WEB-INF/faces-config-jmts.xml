@@ -4,11 +4,7 @@
               xmlns="http://java.sun.com/xml/ns/javaee" 
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
-    <validator>
-        <validator-id>jobNumberValidator</validator-id>
-        <validator-class>jm.com.dpbennett.jmts.validator.JobNumberValidator</validator-class>
-    </validator> 
-    
+      
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
