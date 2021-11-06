@@ -1,0 +1,207 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2017  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <p:dataTable id="jobsDatabaseTable"
+                 var="job"
+                 editable="true" 
+                 editMode="cell"
+                 paginator="true"
+                 rows="15"  
+                 resizableColumns="false"
+                 rowStyleClass="#{job.rowStyle}"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{jobManager.jobsModel}">
+
+        <p:ajax event="cellEdit" 
+                update=":headerForm:growl3"
+                onstart="PF('longProcessDialogVar').show();"  
+                oncomplete="PF('longProcessDialogVar').hide();"  
+                listener="#{jobManager.onJobCellEdit}" />
+
+        <p:ajax event="page"  
+                onstart="PF('longProcessDialogVar').show();" 
+                oncomplete="PF('longProcessDialogVar').hide();" />
+
+        <f:facet name="header">
+            <h:outputText value="#{jobManager.searchResultsTableHeader}" />
+        </f:facet>
+
+        <p:column sortBy="#{job.jobNumber}" >
+            <f:facet name="header">
+                <h:outputText value="Job number"/>
+            </f:facet>
+            <h:outputText value="#{job.jobNumber}" />
+        </p:column>
+
+        <p:column sortBy="#{job.client.name}">
+            <f:facet name="header">
+                <h:outputText value="Client"/>
+            </f:facet>
+            <h:outputText value="#{job.client.name}" />
+        </p:column>    
+
+        <p:column headerText="Instructions" 
+                  id="job_instructions"
+                  sortBy="#{job.instructions}">   
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{job.instructions}" />
+                </f:facet>
+                <f:facet name="input" >
+                    <p:inputTextarea   
+                        value="#{job.instructions}"
+                        disabled="#{jobManager.disableJobDialogField(job, 'instructions')}"
+                        rows="2"
+                        autoResize="false"
+                        maxlength="1000" >
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                    </p:inputTextarea> 
+                </f:facet>
+            </p:cellEditor>  
+        </p:column>
+
+        <p:column headerText="Submitted" 
+                  id="dateSubmitted"
+                  sortBy="#{job.jobStatusAndTracking.dateSubmitted}" 
+                  style="min-width: 100px">   
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
+                        <f:convertDateTime pattern="MMM dd, yyyy"/>
+                    </h:outputText>
+                </f:facet>
+                <f:facet name="input">
+                    <p:calendar value="#{job.jobStatusAndTracking.dateSubmitted}" 
+                                readonlyInput="true"
+                                focusOnSelect="true"
+                                disabled="#{jobManager.disableJobDialogField(job, 'dateSubmitted')}"
+                                navigator="true"                                 
+                                pattern="MMM dd, yyyy" >
+                    </p:calendar>
+                </f:facet>
+            </p:cellEditor>  
+        </p:column>
+
+        <p:column headerText="EDOC" 
+                  id="job_edoc"
+                  sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" 
+                  style="min-width: 100px">   
+            <p:cellEditor>
+                <f:facet name="output">
+                    <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">
+                        <f:convertDateTime pattern="MMM dd, yyyy"/>
+                    </h:outputText>
+                </f:facet>
+                <f:facet name="input">
+                    <p:calendar value="#{job.jobStatusAndTracking.expectedDateOfCompletion}" 
+                                readonlyInput="true"
+                                focusOnSelect="true"
+                                navigator="true"                                 
+                                pattern="MMM dd, yyyy" >
+                    </p:calendar>
+                </f:facet>
+            </p:cellEditor>  
+        </p:column>
+
+        <p:column headerText="Progress" sortBy="#{job.jobStatusAndTracking.workProgress}">       
+            <f:facet name="header">
+                <h:outputText value="Progress"/>
+            </f:facet>
+            <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />               
+        </p:column>
+
+        <p:column style="width:32px" >
+            <p:commandButton   
+                title="Edit or view" 
+                actionListener="#{jobManager.editJob}"                             
+                onstart="PF('longProcessDialogVar').show();"  
+                oncomplete="PF('longProcessDialogVar').hide();"                           
+                onerror="PF('connectionErrorDialog').show();"
+                global="true"
+                process="@this"
+                icon="ui-icon ui-icon-pencil" >
+
+                <f:setPropertyActionListener value="#{job}" 
+                                             id="editJobButtonPropListener"
+                                             target="#{jobManager.editCurrentJob}" />
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView"
+                        listener="#{jobManager.jobDialogReturn}" />
+
+
+            </p:commandButton>
+        </p:column>
+        <ui:remove>
+            <p:column style="width:32px" >
+                <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit or copy" >
+
+                    <p:menuitem   
+                            value="Edit or view" 
+                            actionListener="#{jobManager.editJob}"                             
+                            onstart="PF('longProcessDialogVar').show();"  
+                            oncomplete="PF('longProcessDialogVar').hide();"                           
+                            onerror="PF('connectionErrorDialog').show();"
+                            global="true"
+                            process="@this"
+                            icon="ui-icon ui-icon-pencil" >
+
+                            <f:setPropertyActionListener value="#{job}" 
+                                                         id="editJobButtonPropListener"
+                                                         target="#{jobManager.editCurrentJob}" />
+
+                            <p:ajax event="dialogReturn" 
+                                    update=":mainTabViewForm:mainTabView"
+                                    listener="#{jobManager.jobDialogReturn}" />
+              
+                    </p:menuitem>
+
+                    <p:menuitem  
+                            value="Copy"                               
+                            onstart="PF('longProcessDialogVar').show();"  
+                            oncomplete="PF('longProcessDialogVar').hide();"  
+                            update=":headerForm:growl3"
+                            icon="ui-icon-copy"
+                            process="@this">
+
+                            <f:setPropertyActionListener value="#{job}"                                                      
+                                                         target="#{jobManager.editCurrentJobCopy}" />
+
+                            <p:ajax event="dialogReturn" 
+                                    update=":mainTabViewForm:mainTabView"
+                                    listener="#{jobManager.jobDialogReturn}" />
+
+                    </p:menuitem>
+                </p:menuButton>
+
+            </p:column>
+        </ui:remove>
+    </p:dataTable>
+
+
+</html>

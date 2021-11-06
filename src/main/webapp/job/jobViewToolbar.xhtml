@@ -1,0 +1,151 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2021  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"> 
+
+    <p:toolbar style="margin-bottom: 1px;" >
+        <p:toolbarGroup align="left" >  
+            <p:commandButton value="Approve"  
+                             rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
+                             title="Approve the selected job costing(s)"
+                             actionListener="#{jobFinanceManager.approveSelectedJobCostings}"
+                             update=":headerForm:growl3,jobCostingsTable"
+                             onstart="PF('longProcessDialogVar').show();" 
+                             oncomplete="PF('longProcessDialogVar').hide();">                                                                                    
+            </p:commandButton>
+            <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
+
+            <p:menuButton value="Invoicing | Costing"   
+                          disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                          rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}">
+
+                <p:menuitem value="Create invoice(s)"
+                            title="Generate invoice(s) for the selected job costing(s)"
+                            actionListener="#{jobFinanceManager.invoiceSelectedJobCostings}"
+                            update=":headerForm:growl3,jobCostingsTable"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            oncomplete="PF('longProcessDialogVar').hide();" />
+
+                <p:menuitem value="Export invoice(s)"
+                            title="Export invoice(s) for the selected job costing(s)"
+                            ajax="false" 
+                            update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
+                            immediate="false" 
+                            onclick="PF('longProcessDialogVar5').show();" >
+
+                    <p:fileDownload value="#{jobFinanceManager.invoicesFile}" />
+
+                </p:menuitem>
+
+                <p:separator />
+                
+                <p:menuitem value="Export costing(s)(Zip)"
+                            title="Export the selected job costing(s)"
+                            ajax="false" 
+                            update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
+                            immediate="false" 
+                            onclick="PF('longProcessDialogVar5').show();" >
+
+                    <p:fileDownload value="#{jobFinanceManager.costingsFileAsZip}" />
+
+                </p:menuitem>                  
+
+                <p:menuitem value="Export costing(s)(Excel)"
+                            title="Export the selected job costing(s)"
+                            ajax="false" 
+                            update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
+                            immediate="false" 
+                            onclick="PF('longProcessDialogVar5').show();" >
+
+                    <p:fileDownload value="#{jobFinanceManager.costingsFileAsExcel}" />
+
+                </p:menuitem>   
+
+            </p:menuButton>
+            <p:commandButton
+                rendered="#{!jobManager.user.isJobCostingsPreferredJobTableView}"
+                actionListener="#{jobManager.createNewJob}"
+                global="true"                
+                onstart="PF('longProcessDialogVar').show();"   
+                oncomplete="PF('longProcessDialogVar').hide();"              
+                onerror="PF('connectionErrorDialog').show();"
+                value="New"                                       
+                title="Create new job"
+                icon="ui-icon-plus"
+                process="@this">  
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView"
+                        listener="#{jobManager.jobDialogReturn}" />
+
+            </p:commandButton>       
+            <p:spacer width="20"/>
+
+            <p:selectOneButton 
+                value="#{jobManager.user.jobTableViewPreference}">
+                <f:selectItems value="#{jobManager.jobTableViews}" 
+                               var="jobView" 
+                               itemLabel="#{jobView}" 
+                               itemValue="#{jobView}"/>
+                <p:ajax listener="#{jobManager.updateJobView}"
+                        onstart="PF('longProcessDialogVar').show();" 
+                        oncomplete="PF('longProcessDialogVar').hide();"
+                        update="mainTabViewForm:mainTabView"
+                        global="false"
+                        process="@this"/>
+            </p:selectOneButton>
+
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right" >               
+            <p:menuButton value="Tools">
+
+                <p:menuitem value="Client management"
+                            onstart="PF('longProcessDialogVar').show();"                                                    
+                            actionListener="#{jobManager.openClientsTab}"
+                            oncomplete="PF('longProcessDialogVar').hide();"
+                            process="@this"/>
+
+                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"
+                            onstart="PF('longProcessDialogVar').show();"                                                    
+                            value="Client credit status"
+                            update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
+                            oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
+                            onerror="PF('connectionErrorDialog').show();"
+                            process="@this"/>                
+
+                <p:separator />
+                <p:menuitem value="Reports"
+                            onstart="PF('longProcessDialogVar').show();"                                                    
+                            actionListener="#{jobManager.openReportsTab}"
+                            oncomplete="PF('longProcessDialogVar').hide();"
+                            process="@this"/>
+
+            </p:menuButton>                                    
+
+        </p:toolbarGroup>
+    </p:toolbar>   
+
+</html>
+
+
