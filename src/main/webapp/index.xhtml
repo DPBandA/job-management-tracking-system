@@ -193,6 +193,12 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                 <ui:include src="job/jobBrowser.xhtml" />   
                             </h:panelGroup> 
+                             <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
+                                <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
+                            </h:panelGroup>                            
+                            <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
+                                <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
+                            </h:panelGroup>
                         </p:tab>
                     </p:tabView>
 
@@ -277,6 +283,10 @@ Email: info@dpbennett.com.jm
 
                             <h:panelGroup rendered="#{t.id == 'Job Management'}">
                                 <ui:include src="dashboard/job/jobsTab.xhtml" />
+                            </h:panelGroup>
+                            
+                            <h:panelGroup rendered="#{t.id == 'Procurement'}">
+                                <ui:include src="dashboard/finance/purchaseAdminTab.xhtml" />
                             </h:panelGroup>
 
                         </p:tab>   
