@@ -65,13 +65,7 @@
             <artifactId>client-management</artifactId>
             <version>1.0.0</version>
             <type>war</type>
-        </dependency> 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>client-management</artifactId>
-            <version>1.0.0</version>
-            <type>war</type>
-        </dependency> 
+        </dependency>      
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>purchase-management</artifactId>
@@ -119,7 +113,6 @@
                                 <exclude>report/*</exclude>
                                 <exclude>client/*</exclude>   
                                 <exclude>finance/*</exclude>
-                                <exclude>dashboard/finance/*</exclude>  
                                 <exclude>admin/*</exclude>
                                 <exclude>common/*</exclude>
                                 <exclude>css/*</exclude>
@@ -134,7 +127,6 @@
                             <excludes>
                                 <exclude>hr/*</exclude>
                                 <exclude>finance/*</exclude>
-                                <exclude>dashboard/finance/*</exclude>
                                 <exclude>report/*</exclude>
                                 <exclude>client/*</exclude>
                                 <exclude>admin/*</exclude>
@@ -151,8 +143,7 @@
                             <excludes>
                                 <exclude>hr/*</exclude>                              
                                 <exclude>client/*</exclude>    
-                                <exclude>finance/*</exclude>
-                                <exclude>dashboard/finance/*</exclude>                      
+                                <exclude>finance/*</exclude>                     
                             </excludes>
                         </overlay>                        
                         <overlay>
@@ -163,6 +154,7 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>purchase-management</artifactId>
                             <excludes>
+                                <exclude>finance/*</exclude>
                                 <exclude>hr/*</exclude>                               
                                 <exclude>report/*</exclude>
                                 <exclude>client/*</exclude>
@@ -174,6 +166,35 @@
                                 <exclude>themes/*</exclude>  
                             </excludes>
                         </overlay>  
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>client-management</artifactId>
+                            <excludes>
+                                <exclude>finance/*</exclude>
+                                <exclude>hr/*</exclude>                               
+                                <exclude>report/*</exclude>
+                                <exclude>admin/*</exclude>
+                                <exclude>common/*</exclude>
+                                <exclude>css/*</exclude>
+                                <exclude>images/*</exclude>
+                                <exclude>js/*</exclude>
+                                <exclude>themes/*</exclude>  
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>financial-management</artifactId>
+                            <excludes>
+                                <exclude>hr/*</exclude>                               
+                                <exclude>report/*</exclude>
+                                <exclude>admin/*</exclude>
+                                <exclude>common/*</exclude>
+                                <exclude>css/*</exclude>
+                                <exclude>images/*</exclude>
+                                <exclude>js/*</exclude>
+                                <exclude>themes/*</exclude>  
+                            </excludes>
+                        </overlay>
                     </overlays> 
                     
                 </configuration>
