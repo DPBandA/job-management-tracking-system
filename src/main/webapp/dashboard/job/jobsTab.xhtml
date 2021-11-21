@@ -72,7 +72,21 @@ Email: info@dpbennett.com.jm
                             listener="#{jobFinanceManager.proformaDialogReturn}"
                             update=""/>
 
-                </p:menuitem>    
+                </p:menuitem> 
+                <p:menuitem value="Cost Estimate"
+                            title="Create new cost estimate"
+                            icon="ui-icon-plus"
+                            disabled="false"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            oncomplete="longProcessDialogVar.hide();"
+                            actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.costEstimateDialogReturn}"
+                            update=""/>
+
+                </p:menuitem>
             </p:menuButton>    
 
         </p:toolbarGroup>

@@ -8,6 +8,13 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>jobCostEstimateDialog</from-outcome>
+            <to-view-id>/dashboard/job/jobCostEstimateDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>proformaInvoiceDialog</from-outcome>
             <to-view-id>/dashboard/job/proformaInvoiceDialog.xhtml</to-view-id>
         </navigation-case>
