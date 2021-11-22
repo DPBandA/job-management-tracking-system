@@ -121,6 +121,13 @@ Email: info@dpbennett.com.jm
                             actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
                             oncomplete="longProcessDialogVar.hide();"
                             process="@this" />
+                 <p:menuitem value="Price List"
+                            title="Browse price list"
+                            disabled="false"
+                            onstart="PF('longProcessDialogVar').show();" 
+                            actionListener="#{jobFinanceManager.openPriceListDialog}" 
+                            oncomplete="longProcessDialogVar.hide();"
+                            process="@this" />
                 <p:separator />
                 <p:menuitem value="Reports"
                             title="Open the Reports tab"
