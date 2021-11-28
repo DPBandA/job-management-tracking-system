@@ -148,6 +148,9 @@ ORDER BY
 	<parameter name="departmentCode" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="dateAndTimePrepared" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="reimbursable" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="standardNote" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["The final cost may vary from the estimated total cost. This proforma is valid for 30 days after the date it was authorized. In submitting a job, a copy of the proforma or the proforma’s #, should be presented by the client at the stage of signing the contract. Accepted payment methods are bank deposits, online transfers, cheques, credit/debit cards and cash. FULL PAYMENT is required to start a job. Thus, proof of payment must be available/provided to the BSJ before, or during, the job submission stage."]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      job.`ID` AS job_ID,
@@ -244,7 +247,7 @@ WHERE
 	<detail>
 		<band height="428" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table" x="0" y="141" width="571" height="47" uuid="eb05ffe1-1f71-42b4-b0a2-701baa825e42"/>
+				<reportElement key="table" x="0" y="256" width="571" height="47" uuid="eb05ffe1-1f71-42b4-b0a2-701baa825e42"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Cost Components" uuid="356a6c8b-8f62-4e78-b9a5-a405c997e10a">
 						<datasetParameter name="costComponent_jobId">
@@ -447,7 +450,7 @@ WHERE
 				<text><![CDATA[CLIENT INFORMATION]]></text>
 			</staticText>
 			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="466" y="267" width="103" height="23" uuid="4ae65019-6e5f-459e-93fb-d7092054b4de"/>
+				<reportElement positionType="Float" x="466" y="330" width="103" height="23" uuid="4ae65019-6e5f-459e-93fb-d7092054b4de"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -461,7 +464,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{totalCost}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="211" y="267" width="255" height="23" uuid="f2484806-1bf4-4d00-833d-2174ada2ac7b"/>
+				<reportElement positionType="Float" x="211" y="330" width="255" height="23" uuid="f2484806-1bf4-4d00-833d-2174ada2ac7b"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -475,7 +478,7 @@ WHERE
 				<text><![CDATA[SUB-TOTAL:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="466" y="336" width="103" height="23" uuid="c6d1db2e-c608-420e-a72e-c092ac3c30b5"/>
+				<reportElement positionType="Float" x="466" y="399" width="103" height="23" uuid="c6d1db2e-c608-420e-a72e-c092ac3c30b5"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="0.0"/>
 				</box>
@@ -485,7 +488,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{grandTotalCost}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="211" y="313" width="255" height="23" uuid="34cfe963-bfbd-42ce-83ff-cd3c977a559d"/>
+				<reportElement positionType="Float" x="211" y="376" width="255" height="23" uuid="34cfe963-bfbd-42ce-83ff-cd3c977a559d"/>
 				<box leftPadding="3" rightPadding="3">
 					<pen lineWidth="0.0"/>
 				</box>
@@ -495,7 +498,7 @@ WHERE
 				<text><![CDATA[REIMBURSABLE:]]></text>
 			</staticText>
 			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="466" y="290" width="103" height="23" uuid="aa657965-aede-4783-b860-21bf1553fc41"/>
+				<reportElement positionType="Float" x="466" y="353" width="103" height="23" uuid="aa657965-aede-4783-b860-21bf1553fc41"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="0.0"/>
 				</box>
@@ -505,7 +508,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{totalTax}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="466" y="313" width="103" height="23" uuid="82b942b1-4d0b-4e8a-9123-a33487a57e48"/>
+				<reportElement positionType="Float" x="466" y="376" width="103" height="23" uuid="82b942b1-4d0b-4e8a-9123-a33487a57e48"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="0.0"/>
 				</box>
@@ -515,7 +518,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{reimbursable}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="211" y="290" width="255" height="23" uuid="99b56cdd-ddc5-420b-85aa-764d38cdeb04"/>
+				<reportElement positionType="Float" x="211" y="353" width="255" height="23" uuid="99b56cdd-ddc5-420b-85aa-764d38cdeb04"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="0.0"/>
 				</box>
@@ -525,7 +528,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{totalTaxLabel}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="211" y="336" width="255" height="23" uuid="c209e5f8-19c2-4747-b88b-ba6892bb2ed1"/>
+				<reportElement positionType="Float" x="211" y="399" width="255" height="23" uuid="c209e5f8-19c2-4747-b88b-ba6892bb2ed1"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="0.0"/>
 				</box>
@@ -681,7 +684,7 @@ WHERE
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement>
@@ -892,6 +895,50 @@ WHERE
 				</textElement>
 				<text><![CDATA[(YYYY-MM-DD HH:MM:SS)]]></text>
 			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="168" y="83" width="110" height="17" backcolor="#FAF7F7" uuid="32a38be8-c517-4636-ad83-fe340d0f129e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="9" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{contactNumbers}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="135" width="572" height="16" forecolor="#C00000" backcolor="#C8C8C8" uuid="5cdd9a92-17e9-4085-a80b-29ff43effa2b"/>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[STANDARD NOTE:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="0" y="151" width="572" height="59" backcolor="#FAF7F7" uuid="3a687a1d-81ec-4f2f-a6fa-1e4f1c237343">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="SansSerif" size="8" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{standardNote}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
