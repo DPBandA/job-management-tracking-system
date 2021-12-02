@@ -44,25 +44,11 @@ Email: info@dpbennett.com.jm
             <p:toolbar style="margin-top: 5px;">
                 <p:toolbarGroup align="left">
 
-                    <h:panelGrid columns="4" cellspacing="5" cellpadding="5">
+                    <h:panelGrid columns="2" >
                         <p:commandButton value="Close"   
                                          actionListener="#{jobFinanceManager.closeProformaInvoicesDialog}"  
                                          icon="ui-icon ui-icon-close"
                                          process="@form"/>
-
-                        <p:inputText value="#{jobFinanceManager.searchText}"  
-                                     id="jobSearchText" /> 
-
-                        <p:commandButton value="Search"
-                                         id="doSearch"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         actionListener="#{jobFinanceManager.doSearch}"
-                                         oncomplete="PF('longProcessDialogVar').hide();"
-                                         onerror="PF('connectionErrorDialog').show();"
-                                         update="jobCostingsTable"
-                                         icon="ui-icon-search"
-                                         process="@form"/>
-
                         <h:outputText value="&nbsp;"/>
 
                         <h:outputText value="Date field: " />
@@ -89,6 +75,7 @@ Email: info@dpbennett.com.jm
                             <f:selectItems value="#{systemManager.datePeriods}"/>
 
                         </p:selectOneMenu>
+                        
                         <h:outputText value="Start:" />
                         <p:calendar id="startSearchDate"
                                     value="#{jobFinanceManager.dateSearchPeriod.startDate}"                    
@@ -106,6 +93,18 @@ Email: info@dpbennett.com.jm
                                     validator="requiredFieldValidator"
                                     disabled="#{jobFinanceManager.dateSearchPeriod.endDateDisabled}"
                                     pattern="MMM dd, yyyy" />
+
+                        <p:inputText value="#{jobFinanceManager.searchText}"  
+                                     id="jobSearchText" /> 
+                        <p:commandButton value="Search"
+                                         id="doSearch"
+                                         onstart="PF('longProcessDialogVar').show();"
+                                         actionListener="#{jobFinanceManager.doSearch}"
+                                         oncomplete="PF('longProcessDialogVar').hide();"
+                                         onerror="PF('connectionErrorDialog').show();"
+                                         update="jobCostingsTable"
+                                         icon="ui-icon-search"
+                                         process="@form"/>
 
                     </h:panelGrid>
 
@@ -150,7 +149,7 @@ Email: info@dpbennett.com.jm
                     </f:facet>
                     <h:outputText value="#{job.client.name}" />
                 </p:column> 
-                
+
                 <p:column sortBy="#{job.department.name}" >
                     <f:facet name="header">
                         <h:outputText value="Department"/>
