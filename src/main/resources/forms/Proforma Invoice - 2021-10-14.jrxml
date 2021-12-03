@@ -4,7 +4,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local MySQL"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
 	<subDataset name="Cost Components" uuid="a7e613e8-cf98-4942-94d6-f734eb7f6361">
 		<parameter name="costComponent_jobId" class="java.lang.Long">
@@ -100,13 +100,11 @@ ORDER BY
 		</variable>
 	</subDataset>
 	<parameter name="jobId" class="java.lang.Long">
-		<defaultValueExpression><![CDATA[242313L]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[2000353L]]></defaultValueExpression>
 	</parameter>
 	<parameter name="contactPersonName" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="customerAddress" class="java.lang.String" isForPrompting="false"/>
-	<parameter name="totalCost" class="java.lang.Double" isForPrompting="false">
-		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
-	</parameter>
+	<parameter name="totalCost" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="depositReceiptNumbers" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -121,12 +119,8 @@ ORDER BY
 	<parameter name="deposit" class="java.lang.Double" isForPrompting="false">
 		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
 	</parameter>
-	<parameter name="totalTax" class="java.lang.Double" isForPrompting="false">
-		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
-	</parameter>
-	<parameter name="grandTotalCost" class="java.lang.Double" isForPrompting="false">
-		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
-	</parameter>
+	<parameter name="totalTax" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="grandTotalCost" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="discountType" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Percentage"]]></defaultValueExpression>
 	</parameter>
@@ -157,6 +151,7 @@ ORDER BY
 	<parameter name="additionalNote" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["Enter additional note here"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="responsibleDepartment" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
      job.`ID` AS job_ID,
@@ -243,7 +238,7 @@ WHERE
 			</textField>
 			<image>
 				<reportElement x="5" y="6" width="125" height="40" uuid="2fa55e7c-634c-4aa4-865c-f774b7d73e41"/>
-				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
+				<imageExpression><![CDATA["C:/jasperreports/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
 			</image>
 		</band>
 	</pageHeader>
@@ -253,7 +248,9 @@ WHERE
 	<detail>
 		<band height="428" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table" x="0" y="213" width="571" height="47" uuid="eb05ffe1-1f71-42b4-b0a2-701baa825e42"/>
+				<reportElement key="table" x="0" y="211" width="572" height="47" uuid="eb05ffe1-1f71-42b4-b0a2-701baa825e42">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Cost Components" uuid="356a6c8b-8f62-4e78-b9a5-a405c997e10a">
 						<datasetParameter name="costComponent_jobId">
@@ -395,10 +392,11 @@ WHERE
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="103" uuid="a52f4928-c7da-466b-bd00-62e24a4b574a">
+					<jr:column width="106" uuid="a52f4928-c7da-466b-bd00-62e24a4b574a">
 						<jr:columnHeader height="50" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
 							<staticText>
-								<reportElement x="0" y="0" width="103" height="50" uuid="03bd75eb-b5ad-4e9e-a293-aa7e2935e80c"/>
+								<reportElement x="0" y="0" width="106" height="50" uuid="03bd75eb-b5ad-4e9e-a293-aa7e2935e80c"/>
 								<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
 									<topPen lineWidth="1.0"/>
@@ -414,7 +412,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
 							<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="103" height="22" uuid="8821b420-88b2-4011-b6ff-818e89f00a2a"/>
+								<reportElement x="0" y="0" width="106" height="22" uuid="8821b420-88b2-4011-b6ff-818e89f00a2a"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
 									<topPen lineWidth="1.0"/>
@@ -456,7 +454,7 @@ WHERE
 				<text><![CDATA[CLIENT INFORMATION]]></text>
 			</staticText>
 			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="460" y="260" width="109" height="16" backcolor="#FAF7F7" uuid="4ae65019-6e5f-459e-93fb-d7092054b4de">
+				<reportElement positionType="Float" mode="Opaque" x="460" y="259" width="112" height="16" backcolor="#FAF7F7" uuid="4ae65019-6e5f-459e-93fb-d7092054b4de">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -494,7 +492,7 @@ WHERE
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="9" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TRN (or foreigner's ID):]]></text>
 			</staticText>
@@ -560,7 +558,7 @@ WHERE
 				<textElement>
 					<font fontName="SansSerif" size="9" isUnderline="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{department_NAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{responsibleDepartment}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="49" width="168" height="16" uuid="7d08cc57-9f86-401b-966e-4071ee08d06b"/>
@@ -605,7 +603,7 @@ WHERE
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="9" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Contact Person & No.:]]></text>
 			</staticText>
@@ -875,7 +873,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{standardNote}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="260" width="330" height="16" forecolor="#C00000" backcolor="#C8C8C8" uuid="06e51a36-8c68-4fc9-a16a-1ff8013bbee7"/>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="259" width="330" height="16" forecolor="#C00000" backcolor="#C8C8C8" uuid="06e51a36-8c68-4fc9-a16a-1ff8013bbee7"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineColor="#000000"/>
 				</box>
@@ -885,7 +883,7 @@ WHERE
 				<text><![CDATA[REIMBURSABLE FOR THIS CLIENT:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="276" width="80" height="16" uuid="501d9bfe-aa39-42de-8ddc-7904110581db"/>
+				<reportElement positionType="Float" x="0" y="275" width="80" height="16" uuid="501d9bfe-aa39-42de-8ddc-7904110581db"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -899,7 +897,7 @@ WHERE
 				<text><![CDATA[REASON:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="292" width="80" height="16" uuid="355c123b-7a5d-4ec9-9e2f-a9345af8f27c"/>
+				<reportElement positionType="Float" x="0" y="291" width="80" height="16" uuid="355c123b-7a5d-4ec9-9e2f-a9345af8f27c"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -912,8 +910,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[TOTAL AMT:]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="ContainerHeight" mode="Opaque" x="80" y="277" width="250" height="16" backcolor="#FAF7F7" uuid="c66bddd7-2e5d-4b5d-8b29-4b312f3194ae">
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="80" y="276" width="250" height="16" backcolor="#FAF7F7" uuid="c66bddd7-2e5d-4b5d-8b29-4b312f3194ae">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -930,7 +928,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{reasonForReimbursable}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="80" y="292" width="250" height="16" backcolor="#FAF7F7" uuid="a7ac6959-f1db-4c2b-b00a-ac7086e1dd49">
+				<reportElement positionType="Float" mode="Opaque" x="80" y="291" width="250" height="16" backcolor="#FAF7F7" uuid="a7ac6959-f1db-4c2b-b00a-ac7086e1dd49">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -941,13 +939,13 @@ WHERE
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="9" isUnderline="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{reimbursable}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="330" y="260" width="130" height="16" uuid="c95ff494-0cb6-4f4e-a09a-637bfd476dc1"/>
+				<reportElement positionType="Float" x="330" y="259" width="130" height="16" uuid="c95ff494-0cb6-4f4e-a09a-637bfd476dc1"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -961,7 +959,7 @@ WHERE
 				<text><![CDATA[SUB-TOTAL:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="330" y="276" width="130" height="16" uuid="df80c032-1f39-4d3c-b54b-311fb919886b"/>
+				<reportElement positionType="Float" x="330" y="275" width="130" height="16" uuid="df80c032-1f39-4d3c-b54b-311fb919886b"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -975,7 +973,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{totalTaxLabel}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="460" y="276" width="109" height="16" backcolor="#FAF7F7" uuid="89381f1e-d052-4877-9d98-874d2f27b5e0">
+				<reportElement positionType="Float" mode="Opaque" x="460" y="275" width="112" height="16" backcolor="#FAF7F7" uuid="89381f1e-d052-4877-9d98-874d2f27b5e0">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -992,7 +990,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{totalTax}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="330" y="292" width="130" height="16" uuid="6a8eff9c-b2f1-43a8-8118-5c8287530095"/>
+				<reportElement positionType="Float" x="330" y="291" width="130" height="16" uuid="6a8eff9c-b2f1-43a8-8118-5c8287530095"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -1006,7 +1004,7 @@ WHERE
 				<text><![CDATA[TOTAL ESTIMATE:]]></text>
 			</staticText>
 			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
-				<reportElement positionType="Float" mode="Opaque" x="460" y="292" width="109" height="16" backcolor="#FAF7F7" uuid="cc2fec0a-5c32-41c2-a727-f7eb158119cf">
+				<reportElement positionType="Float" mode="Opaque" x="460" y="291" width="112" height="16" backcolor="#FAF7F7" uuid="cc2fec0a-5c32-41c2-a727-f7eb158119cf">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -1023,7 +1021,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{grandTotalCost}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="311" width="572" height="16" forecolor="#C00000" backcolor="#C8C8C8" uuid="842c2c85-0a0b-4bbf-9a06-86532552a959"/>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="308" width="572" height="16" forecolor="#C00000" backcolor="#C8C8C8" uuid="842c2c85-0a0b-4bbf-9a06-86532552a959"/>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="1.0" lineColor="#000000"/>
 				</box>
@@ -1033,7 +1031,7 @@ WHERE
 				<text><![CDATA[ADDITIONAL NOTE:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement mode="Opaque" x="0" y="328" width="572" height="59" backcolor="#FAF7F7" uuid="46d05cea-ace4-47db-a9ec-77dba378e7c8">
+				<reportElement positionType="Float" mode="Opaque" x="0" y="325" width="572" height="59" backcolor="#FAF7F7" uuid="46d05cea-ace4-47db-a9ec-77dba378e7c8">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
