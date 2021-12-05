@@ -343,13 +343,13 @@ WHERE
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<image>
 				<reportElement x="8" y="1" width="741" height="58" uuid="a3b26064-1868-4913-8446-b92385b909d2"/>
-				<imageExpression><![CDATA["C:/jasperreports/Service Contract Bkgrnd Img.png"]]></imageExpression>
+				<imageExpression><![CDATA["/home/desbenn/jasperreports/Service Contract Bkgrnd Img.png"]]></imageExpression>
 			</image>
 			<image>
 				<reportElement positionType="Float" x="8" y="13" width="150" height="33" uuid="a2cd8187-bc37-4658-abbc-a362a51dc007">
 					<property name="com.jaspersoft.studio.element.name" value="Logo"/>
 				</reportElement>
-				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
+				<imageExpression><![CDATA["/home/desbenn/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="142" y="18" width="130" height="27" forecolor="#808080" uuid="09327126-1a2e-4dc1-a655-383544e98755"/>
