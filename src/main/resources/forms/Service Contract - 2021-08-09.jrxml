@@ -1076,7 +1076,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[ (this input area should be marked as not applicable unless there are critical details that cannot be captured below in section entitled "Description of Submitted Sample(s)")]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 				<reportElement x="1" y="336" width="748" height="29" uuid="cb6dc521-06ab-422d-8d7c-2eef9a9696bd">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
