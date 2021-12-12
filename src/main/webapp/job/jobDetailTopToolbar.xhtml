@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2021  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -113,13 +113,23 @@ Email: info@dpbennett.com.jm
 
             <p:menuButton value="Forms" >
 
-                <p:menuitem value="Service Contract"
+                <p:menuitem value="Service Contract in Excel"
                             ajax="false" 
                             immediate="true"
                             disabled="#{!jobManager.currentJobIsValid}"   
                             onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
 
-                    <p:fileDownload value="#{jobManager.serviceContractFile}" />
+                    <p:fileDownload value="#{jobManager.serviceContractFileInExcel}" />
+
+                </p:menuitem>
+                
+                <p:menuitem value="Service Contract in PDF"
+                            ajax="false" 
+                            immediate="true"
+                            disabled="#{!jobManager.currentJobIsValid}"   
+                            onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
+
+                    <p:fileDownload value="#{jobManager.serviceContractFileInPDF}" />
 
                 </p:menuitem>
 
