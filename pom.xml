@@ -4,7 +4,7 @@
 
     <groupId>jm.com.dpbennett</groupId>
     <artifactId>job-management-tracking-system</artifactId>
-    <version>3.18.3</version>
+    <version>3.18.4</version>
     <packaging>war</packaging>
 
     <name>Job Management &amp; Tracking System</name>
