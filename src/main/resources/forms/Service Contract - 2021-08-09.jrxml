@@ -27,6 +27,7 @@
 	concat(jobsample.`PRODUCTSERIALNUMBER`,', ',jobsample.`PRODUCTCODE`) AS PRODSERIALANDCODE,
 	jobsample.`SAMPLEQUANTITY`,
 	jobsample.`QUANTITY`,
+	concat(jobsample.`QUANTITY`,' (',jobsample.`UNITOFMEASURE`, ')') AS PRODQTYANDMEASURE,
 	CASE jobsample.`METHODOFDISPOSAL`
 	 WHEN 2 THEN 'Yes'
      ELSE 'No'
@@ -92,6 +93,10 @@ WHERE
 			<property name="com.jaspersoft.studio.field.name" value="QUANTITY"/>
 			<property name="com.jaspersoft.studio.field.label" value="QUANTITY"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODQTYANDMEASURE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRODQTYANDMEASURE"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRODQTYANDMEASURE"/>
 		</field>
 		<field name="METHODOFDISPOSAL" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="METHODOFDISPOSAL"/>
@@ -1349,7 +1354,7 @@ WHERE
 								<textElement>
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{QUANTITY}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PRODQTYANDMEASURE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
