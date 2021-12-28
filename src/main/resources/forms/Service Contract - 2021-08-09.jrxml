@@ -10,11 +10,7 @@
 	<subDataset name="Job Samples" uuid="a7e613e8-cf98-4942-94d6-f734eb7f6361">
 		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="201"/>
 		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="790"/>
-		<property name="com.jaspersoft.studio.data.sql.tables">
-			<![CDATA[am9iICwxODEsMzA0LGJjOTA5NGFjLTI3ZWEtNGVkMS05N2FiLWI1ODU4NjliMDA0Zjtqb2JzYW1w
-bGUgLDE4MSwxNSxiZWNlZWY5OC00MTJkLTQyODUtODhjZC05M2U3YjQxMTlhNDk7am9iX2pvYnNh
-bXBsZSAsMTUsMjAxLDVlYTYyMzU4LWQ1YmYtNGMzNi1iMjAyLTFiNmUyODMxMTQyNzs=]]>
-		</property>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local MySQL"/>
 		<parameter name="jobSample_jobId" class="java.lang.Long">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -27,6 +23,8 @@ bXBsZSAsMTUsMjAxLDVlYTYyMzU4LWQ1YmYtNGMzNi1iMjAyLTFiNmUyODMxMTQyNzs=]]>
 	jobsample.`PRODUCTBRAND`,
 	jobsample.`PRODUCTMODEL`,
 	jobsample.`PRODUCTSERIALNUMBER`,
+	jobsample.`PRODUCTCODE`,
+	concat(jobsample.`PRODUCTSERIALNUMBER`,', ',jobsample.`PRODUCTCODE`) AS PRODSERIALANDCODE,
 	jobsample.`SAMPLEQUANTITY`,
 	jobsample.`QUANTITY`,
 	CASE jobsample.`METHODOFDISPOSAL`
@@ -75,6 +73,15 @@ WHERE
 			<property name="com.jaspersoft.studio.field.name" value="PRODUCTSERIALNUMBER"/>
 			<property name="com.jaspersoft.studio.field.label" value="PRODUCTSERIALNUMBER"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODUCTCODE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRODUCTCODE"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRODUCTCODE"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODSERIALANDCODE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRODSERIALANDCODE"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRODSERIALANDCODE"/>
 		</field>
 		<field name="SAMPLEQUANTITY" class="java.lang.Long">
 			<property name="com.jaspersoft.studio.field.name" value="SAMPLEQUANTITY"/>
@@ -1278,7 +1285,7 @@ WHERE
 								<textElement>
 									<font size="8"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{PRODUCTSERIALNUMBER}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{PRODSERIALANDCODE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -1382,7 +1389,7 @@ WHERE
 				</jr:table>
 			</componentElement>
 		</band>
-		<band height="455">
+		<band height="410">
 			<staticText>
 				<reportElement x="0" y="44" width="748" height="14" uuid="92d8197d-2e75-48ff-b5c4-856cb3a2ca21">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
