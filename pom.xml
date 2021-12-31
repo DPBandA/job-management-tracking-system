@@ -9,7 +9,7 @@
 
     <name>JMTS, v4</name>
     
-    <description>The Job Management &amp; Tracking System (JMTS) enterprise software.</description>
+    <description>The Job Management &amp; Tracking System (JMTS) enterprise software...</description>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
