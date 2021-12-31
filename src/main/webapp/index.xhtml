@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2020  D P Bennett & Associates Limited
+Copyright (C) 2021  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -151,27 +151,6 @@ Email: info@dpbennett.com.jm
 
 
                         <p:tab title="#{t.name}" closable="true"  >   
-                            <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
-                                <ui:include src="compliance/surveyBrowser.xhtml" /> 
-                            </h:panelGroup>     
-                            <h:panelGroup  rendered="#{t.id == 'Complaint Browser'}">
-                                <ui:include src="compliance/complaintBrowser.xhtml" /> 
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{t.id == 'Standard Browser'}" >
-                                <ui:include src="compliance/standardBrowser.xhtml" />
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{t.id == 'Market Products'}" >
-                                <ui:include src="compliance/marketProductBrowser.xhtml" />                                                                
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{t.id == 'Manufacturers'}" >
-                                <ui:include src="compliance/manufacturersTab.xhtml"/>  
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
-                                <ui:include src="compliance/factoryInspectionsTab.xhtml" />                                                                
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
-                                <ui:include src="legal/documentBrowser.xhtml" />   
-                            </h:panelGroup> 
                             <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
                                 <ui:include src="finance/financialAdminTab.xhtml" /> 
                             </h:panelGroup>
@@ -193,12 +172,6 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                 <ui:include src="job/jobBrowser.xhtml" />   
                             </h:panelGroup> 
-                             <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
-                                <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
-                            </h:panelGroup>                            
-                            <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
-                                <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
-                            </h:panelGroup>
                         </p:tab>
                     </p:tabView>
 
@@ -253,14 +226,6 @@ Email: info@dpbennett.com.jm
                                 listener="#{systemManager.onDashboardTabChange}" />
 
                         <p:tab title="#{t.name}" >
-                            <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
-                                <ui:include src="dashboard/compliance/complianceTab.xhtml" />
-                            </h:panelGroup>
-
-                            <h:panelGroup rendered="#{t.id == 'Legal Office'}">                               
-                                <ui:include src="dashboard/legal/documentsTab.xhtml" />
-                            </h:panelGroup>
-
                             <h:panelGroup rendered="#{t.id == 'Client Management'}">
                                 <ui:include src="dashboard/client/clientsTab.xhtml" />
                             </h:panelGroup>
@@ -284,15 +249,9 @@ Email: info@dpbennett.com.jm
                             <h:panelGroup rendered="#{t.id == 'Job Management'}">
                                 <ui:include src="dashboard/job/jobsTab.xhtml" />
                             </h:panelGroup>
-                            
-                            <h:panelGroup rendered="#{t.id == 'Procurement'}">
-                                <ui:include src="dashboard/finance/purchaseAdminTab.xhtml" />
-                            </h:panelGroup>
-
                         </p:tab>   
 
-                    </p:accordionPanel>      
-
+                    </p:accordionPanel>   
 
                 </h:form>
             </p:layoutUnit>
