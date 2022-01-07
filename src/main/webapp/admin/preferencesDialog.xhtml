@@ -34,16 +34,13 @@ Email: info@dpbennett.com.jm
                   closable="true"
                   header="Preferences" >
 
-            <p:ajax event="close"    
-                    onstart="PF('longProcessDialogVar').show();"
-                    oncomplete="PF('longProcessDialogVar').hide();"
+            <p:ajax event="close"  
                     listener="#{humanResourceManager.closePreferencesDialog2}"/>
 
             <p:toolbar>
                 <p:toolbarGroup align="left" >
                     <p:commandButton value="Ok" 
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();PF('mainTabViewVar').select(0);"
+                                     oncomplete="PF('mainTabViewVar').select(0);"
                                      actionListener="#{humanResourceManager.closePreferencesDialog1}" />        
                 </p:toolbarGroup>
             </p:toolbar>
@@ -51,17 +48,6 @@ Email: info@dpbennett.com.jm
                        style="margin-top: 1px;margin-bottom: 1px;">
                 <p:tab title="General" id="generalTab">
                     <h:panelGrid columns="2">
-
-                        <h:outputText value="Theme:"/>
-                        <p:themeSwitcher value="#{humanResourceManager.user.userInterfaceThemeName}" 
-                                         style="width:165px" 
-                                         id="defaultSwitcher">  
-                            <f:selectItem itemLabel="Choose Theme" itemValue="" />  
-                            <f:selectItems value="#{SMApp.themes}" />  
-                            <p:ajax listener="#{humanResourceManager.updatePreferences}"
-                                    global="false"
-                                    process="@this"/>
-                        </p:themeSwitcher>  
 
                         <h:outputText value="Job table view:"/>
 
@@ -149,8 +135,7 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left" >
                     <p:commandButton value="Ok" 
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();PF('mainTabViewVar').select(0);"
+                                     oncomplete="PF('mainTabViewVar').select(0);"
                                      actionListener="#{humanResourceManager.closePreferencesDialog1}" />        
                 </p:toolbarGroup>
             </p:toolbar>

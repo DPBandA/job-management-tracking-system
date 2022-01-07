@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2022  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -35,18 +35,15 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{jobFinanceManager.okCostingComponent}"
                                      update=":jobCostingDialogForm:jobCosting_growl,:jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                     onstart="PF('longProcessDialogVar').show();" 
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon ui-icon-check"
+                                     icon="pi pi-check"
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel" 
                                      immediate="true"
                                      actionListener="#{jobFinanceManager.cancelCostComponentEdit}"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                     onstart="PF('longProcessDialogVar').show();"                              
-                                     oncomplete="PF('costingComponentDialog').hide();PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon-close"/>
+                                     oncomplete="PF('costingComponentDialog').hide();"
+                                     icon="pi pi-times"/>
                 </p:toolbarGroup>
             </p:toolbar>            
             <p:panel>
@@ -191,18 +188,15 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{jobFinanceManager.okCostingComponent}"
                                      update=":jobCostingDialogForm:jobCosting_growl,:jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                     onstart="PF('longProcessDialogVar').show();"                              
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon ui-icon-check"
+                                     icon="pi pi-check"
                                      process="@form"/>
                     <p:spacer width="5" />
                     <p:commandButton value="Cancel"       
                                      immediate="true"
                                      actionListener="#{jobFinanceManager.cancelCostComponentEdit}"
                                      update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
-                                     onstart="PF('longProcessDialogVar').show();"                              
-                                     oncomplete="PF('costingComponentDialog').hide();PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon-close"/>
+                                     oncomplete="PF('costingComponentDialog').hide();"
+                                     icon="pi pi-times"/>
                 </p:toolbarGroup>
             </p:toolbar> 
             <p/>

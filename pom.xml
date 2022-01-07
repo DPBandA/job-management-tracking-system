@@ -33,13 +33,13 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>human-resource-management</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
             <type>war</type>
         </dependency> 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>report-management</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
             <type>war</type>
         </dependency>   
         <dependency>
@@ -51,7 +51,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>client-management</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
             <type>war</type>
         </dependency>  
     </dependencies>
