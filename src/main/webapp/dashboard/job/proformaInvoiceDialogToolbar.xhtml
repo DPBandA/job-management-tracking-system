@@ -26,19 +26,15 @@ Email: info@dpbennett.com.jm
     <p:toolbar id="jobCostingAndPaymentToolbar">
         <p:toolbarGroup align="left" >  
             <p:commandButton value="Save"
-                             onstart="PF('longProcessDialogVar').show();"
-                             actionListener="#{jobFinanceManager.saveProformaInvoice}"                         
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             icon="ui-icon-disk"
+                             actionListener="#{jobFinanceManager.saveProformaInvoice}"
+                             icon="pi pi-disk"
                              update="proformaNumber,jobCosting_growl"
                              process="@form"/>
             <p:spacer width="10"/>
             <p:commandButton value="Close"
-                             onstart="PF('longProcessDialogVar').show();"
                              immediate="true"
                              actionListener="#{jobFinanceManager.cancelJobCostingAndPaymentEdit}"                         
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             icon="ui-icon-close"
+                             icon="pi pi-times"
                              process="@this"/>
             <p:spacer width="10"/>                    
             <h:panelGroup>
@@ -76,7 +72,7 @@ Email: info@dpbennett.com.jm
                                  immediate="true"
                                  title="Export job costing"                        
                                  ajax="false"
-                                 onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
+                                 onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                     <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
 

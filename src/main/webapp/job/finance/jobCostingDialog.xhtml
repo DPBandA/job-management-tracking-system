@@ -32,13 +32,13 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="pragma" content="no-cache" />
         <title>Job Costing</title>
         <link rel="stylesheet" href="../../css/main.css" />
-        <script type="text/javascript" src="../../js/longProcessDialog.js"/>
+        <script type="text/javascript" src="../../js/javascripts.js"/>
     </h:head>
     <h:body> 
         <ui:include src="costingComponentDialog.xhtml"/>       
         <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>   
         <ui:include src="jobCostingTemplateManagerDialog.xhtml"/>        
-        <ui:include src="/common/longProcessDialog.xhtml"/>  
+        <ui:include src="/common/commonDialogs.xhtml"/>  
         <h:form id="jobCostingDialogForm" > 
             <p:remoteCommand name="rc" autoRun="true" 
                              actionListener="#{jobFinanceManager.checkForSubcontracts}" />
@@ -165,8 +165,7 @@ Email: info@dpbennett.com.jm
                                          value="Manage templates"
                                          actionListener="#{jobFinanceManager.doJobCostingAndPaymentSearch}"
                                          update=":jobCostingTemplateManagerDialogForm"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         oncomplete="PF('jobCostingTemplateManagerDialog').show();PF('longProcessDialogVar').hide();"
+                                         oncomplete="PF('jobCostingTemplateManagerDialog').show();"
                                          process="@this">
                         </p:commandButton>
                     </p:toolbarGroup>
@@ -197,9 +196,8 @@ Email: info@dpbennett.com.jm
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
                                          disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          update=":costingComponentDialogForm"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
-                                         icon="ui-icon-plus"
+                                         oncomplete="PF('costingComponentDialog').show();"
+                                         icon="pi pi-plus"
                                          process="@this">
                         </p:commandButton>
 
@@ -303,14 +301,14 @@ Email: info@dpbennett.com.jm
                         <p:menuButton id="toolsButton" 
                                       title="Edit or delete cost component"
                                       disabled="#{jobFinanceManager.disableJobCostingEdit}"
-                                      icon="ui-icon-pencil" >
+                                      icon="pi pi-pencil" >
                             <p:menuitem  
                                 value="Edit"
                                 actionListener="#{jobFinanceManager.editCostComponent}"
                                 disabled="#{!costComponent.isEditable}"
                                 update=":costingComponentDialogForm"
                                 oncomplete="PF('costingComponentDialog').show();"
-                                icon="ui-icon ui-icon-pencil"
+                                icon="pi pi-pencil"
                                 process="@this" >
 
                                 <f:setPropertyActionListener value="#{costComponent}"
@@ -321,7 +319,7 @@ Email: info@dpbennett.com.jm
                             <p:menuitem 
                                 value="Delete"
                                 onclick="costComponentDeleteConfirm.show();"
-                                icon="ui-icon-trash"
+                                icon="pi pi-trash"
                                 process="@this">
 
                                 <f:setPropertyActionListener value="#{costComponent}"
@@ -340,9 +338,8 @@ Email: info@dpbennett.com.jm
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
                                          disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          update=":costingComponentDialogForm"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
-                                         icon="ui-icon-plus"
+                                         oncomplete="PF('costingComponentDialog').show();"
+                                         icon="pi pi-plus"
                                          process="@this">
                         </p:commandButton>
                     </p:toolbarGroup>

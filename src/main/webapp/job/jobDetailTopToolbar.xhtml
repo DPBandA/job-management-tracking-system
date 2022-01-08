@@ -25,14 +25,11 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar id="jobDetailToolbar1">
         <p:toolbarGroup align="left" >  
-            <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             onerror="PF('connectionErrorDialog').show();"
+            <p:commandButton actionListener="#{jobManager.saveCurrentJob}" 
                              value="Save"
                              update=":jobDialogForm"
                              title="Save current job"
-                             icon="ui-icon-disk"
+                             icon="pi pi-disk"
                              process="@form" >
 
                 <p:ajax update=":jobDialogForm" resetValues="true" />
@@ -43,11 +40,9 @@ Email: info@dpbennett.com.jm
 
             <p:commandButton value="Close"     
                              actionListener="#{jobManager.prepareToCloseJobDetail}"
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();" 
                              immediate="true"                             
                              process="@this"
-                             icon="ui-icon ui-icon-close" />            
+                             icon="pi pi-times" />            
 
             <p:spacer width="10" />
 
@@ -63,12 +58,9 @@ Email: info@dpbennett.com.jm
                 update=":jobDialogForm,:jobDialogForm:growl2"
                 disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                 rendered="#{!jobFinanceManager.enableSubcontractWithCosting}"
-                global="true"               
-                onstart="PF('longProcessDialogVar').show();"
-                oncomplete="PF('longProcessDialogVar').hide();"
-                onerror="PF('connectionErrorDialog').show();"
+                global="true"  
                 title="Subcontract the current job by first creating a copy."
-                icon="ui-icon-copy"
+                icon="pi pi-copy"
                 process="@this"/>
 
             <p:menuButton value="Subcontract | Copy" 
@@ -80,9 +72,7 @@ Email: info@dpbennett.com.jm
                              actionListener="#{jobManager.subContractJob}"
                              update=":jobDialogForm,:jobDialogForm:growl2"
                              disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
-                             global="true"               
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
+                             global="true" 
                              process="@this" >
                 </p:menuitem>
 
@@ -90,20 +80,16 @@ Email: info@dpbennett.com.jm
                              actionListener="#{jobManager.subContractJobWithCosting}"
                              update=":jobDialogForm,:jobDialogForm:growl2"
                              disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
-                             global="true"               
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
+                             global="true" 
                              process="@this" >
                 </p:menuitem>
 
                 <p:separator/>
 
-                <p:menuitem  value="Copy..."                               
-                             onstart="PF('longProcessDialogVar').show();"  
-                             actionListener="#{jobManager.copyCurrentJob}"
-                             oncomplete="PF('longProcessDialogVar').hide();"  
+                <p:menuitem  value="Copy..." 
+                             actionListener="#{jobManager.copyCurrentJob}"  
                              update=":jobDialogForm,:jobDialogForm:growl2"
-                             icon="ui-icon-copy"
+                             icon="pi pi-copy"
                              process="@this" >    
                 </p:menuitem>
 
@@ -117,7 +103,7 @@ Email: info@dpbennett.com.jm
                             ajax="false" 
                             immediate="true"
                             disabled="#{!jobManager.currentJobIsValid}"   
-                            onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
+                            onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                     <p:fileDownload value="#{jobManager.serviceContractFileInExcel}" />
 
@@ -127,7 +113,7 @@ Email: info@dpbennett.com.jm
                             ajax="false" 
                             immediate="true"
                             disabled="#{!jobManager.currentJobIsValid}"   
-                            onclick="PrimeFaces.monitorDownload(showLongProcessDialog, hideLongProcessDialog)" >
+                            onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                     <p:fileDownload value="#{jobManager.serviceContractFileInPDF}" />
 

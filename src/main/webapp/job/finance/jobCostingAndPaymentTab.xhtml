@@ -176,11 +176,9 @@ Email: info@dpbennett.com.jm
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 
                 </p:inputText>
-                <p:commandButton icon="ui-icon ui-icon-pencil"
+                <p:commandButton icon="pi pi-pencil"
                                  actionListener="#{jobFinanceManager.openJobCostingDialog}"
-                                 update=":jobDialogForm:growl2"
-                                 onstart="PF('longProcessDialogVar').show();" 
-                                 oncomplete="PF('longProcessDialogVar').hide();"                                
+                                 update=":jobDialogForm:growl2"                                
                                  process="@this"
                                  title="View or edit job costing">
 
@@ -215,10 +213,8 @@ Email: info@dpbennett.com.jm
                                  title="Add new payment"
                                  actionListener="#{jobFinanceManager.createNewCashPayment}"
                                  disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                                 onstart="PF('longProcessDialogVar').show();" 
-                                 oncomplete="PF('longProcessDialogVar').hide();"
                                  update=":jobDialogForm:growl2"
-                                 icon="ui-icon-plus"
+                                 icon="pi pi-plus"
                                  process="@this" >
 
                     <p:ajax event="dialogReturn" 
@@ -270,13 +266,12 @@ Email: info@dpbennett.com.jm
             <p:column style="width:32px" >
                 <p:menuButton id="toolsButton" 
                               disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                              icon="ui-icon-pencil" title="Edit or delete payment" >
+                              icon="pi pi-pencil" 
+                              title="Edit or delete payment" >
                     <p:menuitem value="Edit"
                                 actionListener="#{jobFinanceManager.editCashPayment}"
-                                onstart="PF('longProcessDialogVar').show();"   
-                                oncomplete="PF('longProcessDialogVar').hide();" 
                                 update=":jobDialogForm:growl2"
-                                icon="ui-icon-pencil"
+                                icon="pi pi-pencil"
                                 process="@this">
 
                         <f:setPropertyActionListener value="#{cashPayment}"
@@ -290,7 +285,7 @@ Email: info@dpbennett.com.jm
                     </p:menuitem>
                     <p:menuitem value="Delete"
                                 actionListener="#{jobFinanceManager.openCashPaymentDeleteConfirmDialog}"
-                                icon="ui-icon-trash"
+                                icon="pi pi-trash"
                                 process="@this">
 
                         <f:setPropertyActionListener value="#{cashPayment}"
@@ -325,10 +320,8 @@ Email: info@dpbennett.com.jm
                                  title="Add new payment"
                                  actionListener="#{jobFinanceManager.createNewCashPayment}"
                                  disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
-                                 onstart="PF('longProcessDialogVar').show();" 
-                                 oncomplete="PF('longProcessDialogVar').hide();"
                                  update=":jobDialogForm:growl2"
-                                 icon="ui-icon-plus"
+                                 icon="pi pi-plus"
                                  process="@this" >
 
                     <p:ajax event="dialogReturn"

@@ -33,10 +33,12 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="pragma" content="no-cache" />
         <title>Job Sample</title>
         <link rel="stylesheet" href="../../css/main.css" /> 
+        <script type="text/javascript" src="../../js/javascripts.js"/>
     </h:head>
     <h:body>    
-        <ui:include src="../../common/longProcessDialog.xhtml"/>  
+               
         <ui:include src="../../common/commonDialogs.xhtml"/>  
+        
         <h:form id="jobSampleDialogForm" >      
             <p:growl id="job_sample_dialog_growl" 
                      life="5000" 
@@ -46,18 +48,14 @@ Email: info@dpbennett.com.jm
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{jobSampleManager.okJobSample}"
-                                     onstart="PF('longProcessDialogVar').show();"      
-                                     oncomplete="PF('longProcessDialogVar').hide();"
+                                     actionListener="#{jobSampleManager.okJobSample}"                                     
                                      update="job_sample_dialog_growl"                                     
-                                     icon="ui-icon ui-icon-check"
+                                     icon="pi pi-check"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
                                      actionListener="#{jobSampleManager.cancelJobSampleDialogEdits}"                            
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon ui-icon-close"
+                                     icon="pi pi-times"
                                      process="@this"/>
                 </p:toolbarGroup>
             </p:toolbar>            
@@ -317,17 +315,13 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{jobSampleManager.okJobSample}"
-                                     onstart="PF('longProcessDialogVar').show();"      
-                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      update="job_sample_dialog_growl"                                     
-                                     icon="ui-icon ui-icon-check"
+                                     icon="pi pi-check"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
                                      actionListener="#{jobSampleManager.cancelJobSampleDialogEdits}"                            
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon ui-icon-close"
+                                     icon="pi pi-times"
                                      process="@this"/>
                 </p:toolbarGroup>
             </p:toolbar>                      

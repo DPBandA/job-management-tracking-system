@@ -32,9 +32,10 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="pragma" content="no-cache" />
         <title>Payment Detail</title>
         <link rel="stylesheet" href="../../css/main.css" /> 
+        <script type="text/javascript" src="../../js/javascripts.js"/>
     </h:head>
-    <h:body onload="PF('longProcessDialogVar').hide();">        
-        <ui:include src="/common/longProcessDialog.xhtml"/>  
+    <h:body>        
+        <ui:include src="/common/commonDialogs.xhtml"/>  
         <h:form id="cashPaymentDialogForm" >    
             <p:growl id="cash_payment_dialog_growl" 
                      life="5000" 
@@ -45,16 +46,14 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{jobFinanceManager.okCashPayment}"
-                                     icon="ui-icon-check"
+                                     icon="pi pi-check"
                                      update="cash_payment_dialog_growl"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
                                      immediate="true"
                                      actionListener="#{jobFinanceManager.cancelCashPaymentEdit}"
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon ui-icon-close"
+                                     icon="pi pi-times"
                                      process="@this"/>    
                 </p:toolbarGroup>
             </p:toolbar>
@@ -135,16 +134,14 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{jobFinanceManager.okCashPayment}"
-                                     icon="ui-icon-check"
+                                     icon="pi pi-check"
                                      update="cash_payment_dialog_growl"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
                                      immediate="true"
                                      actionListener="#{jobFinanceManager.cancelCashPaymentEdit}"
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon ui-icon-close"
+                                     icon="pi pi-times"
                                      process="@this"/>    
                 </p:toolbarGroup>
             </p:toolbar>

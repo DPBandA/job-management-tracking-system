@@ -136,15 +136,13 @@ Email: info@dpbennett.com.jm
             </p:autoComplete>     
 
             <p:menuButton id="clientActionsMenu" 
-                          icon="ui-icon-pencil" 
+                          icon="pi pi-pencil" 
                           disabled="#{jobManager.disableJobDialogField('clientActionsMenu')}"
                           title="Add or edit client">
                 <p:menuitem value="Edit client"
                             id="editClient"
-                            icon="ui-icon-pencil" 
-                            disabled="${!jobManager.isClientNameValid}"
-                            onstart="PF('longProcessDialogVar').show();"   
-                            oncomplete="PF('longProcessDialogVar').hide();"                                  
+                            icon="pi pi-pencil"
+                            disabled="${!jobManager.isClientNameValid}"                                  
                             actionListener="#{jobManager.editJobClient}"  
                             process="@this,client"                             
                             title="View or edit this client's detail">  
@@ -157,9 +155,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem 
                     value="Add new client"
-                    icon="ui-icon-plus" 
-                    onstart="PF('longProcessDialogVar').show();"    
-                    oncomplete="PF('longProcessDialogVar').hide();"                    
+                    icon="ui-icon-plus"                    
                     disabled="#{!jobManager.user.privilege.canAddClient}"
                     actionListener="#{jobManager.createNewJobClient}"                                            
                     process="@this"

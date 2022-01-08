@@ -93,12 +93,8 @@ Email: info@dpbennett.com.jm
                 <p:spacer width="5" />
                 <p:commandButton value="Search"
                                  id="doSearch"
-                                 onstart="PF('longProcessDialogVar').show();"
                                  actionListener="#{jobManager.doSearch}"
-                                 oncomplete="PF('longProcessDialogVar').hide();"
-                                 onerror="PF('connectionErrorDialog').show();"
-                                 update=":headerForm:growl3"
-                                 icon="ui-icon-search"
+                                 icon="pi pi-search"
                                  process="@form"/>
             </p:toolbarGroup>
         </p:toolbar>

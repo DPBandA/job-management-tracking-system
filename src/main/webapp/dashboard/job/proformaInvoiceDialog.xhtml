@@ -35,6 +35,7 @@ Email: info@dpbennett.com.jm
         <script type="text/javascript" src="../../js/javascripts.js"/>
     </h:head>
     <h:body> 
+        <ui:include src="/common/commonDialogs.xhtml"/>  
         <ui:include src="costingComponentDialog.xhtml"/>       
         <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>
         
@@ -97,14 +98,12 @@ Email: info@dpbennett.com.jm
                         </p:autoComplete>     
 
                         <p:menuButton id="clientActionsMenu" 
-                                      icon="ui-icon-pencil" 
+                                      icon="pi pi-pencil" 
                                       title="Add or edit client">
                             <p:menuitem value="Edit client"
                                         id="editClient"
-                                        icon="ui-icon-pencil" 
-                                        disabled="${!jobManager.isClientNameValid}"
-                                        onstart="PF('longProcessDialogVar').show();"   
-                                        oncomplete="PF('longProcessDialogVar').hide();"                                  
+                                        icon="pi pi-pencil" 
+                                        disabled="${!jobManager.isClientNameValid}"                                 
                                         actionListener="#{jobManager.editJobClient}"  
                                         process="@this,client"                             
                                         title="View or edit this client's detail">  
@@ -117,9 +116,7 @@ Email: info@dpbennett.com.jm
 
                             <p:menuitem 
                                 value="Add new client"
-                                icon="ui-icon-plus" 
-                                onstart="PF('longProcessDialogVar').show();"    
-                                oncomplete="PF('longProcessDialogVar').hide();"                    
+                                icon="pi pi-plus"                     
                                 disabled="#{!jobManager.user.privilege.canAddClient}"
                                 actionListener="#{jobManager.createNewJobClient}"                                            
                                 process="@this"
@@ -332,9 +329,8 @@ Email: info@dpbennett.com.jm
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
                                          disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          update=":costingComponentDialogForm"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
-                                         icon="ui-icon-plus"
+                                         oncomplete="PF('costingComponentDialog').show();"
+                                         icon="pi pi-plus"
                                          process="@this">
                         </p:commandButton>
                        
@@ -435,14 +431,14 @@ Email: info@dpbennett.com.jm
                         <p:menuButton id="toolsButton" 
                                       title="Edit or delete cost component"
                                       disabled="#{jobFinanceManager.disableJobCostingEdit}"
-                                      icon="ui-icon-pencil" >
+                                      icon="pi pi-pencil" >
                             <p:menuitem  
                                 value="Edit"
                                 actionListener="#{jobFinanceManager.editCostComponent}"
                                 disabled="#{!costComponent.isEditable}"
                                 update=":costingComponentDialogForm"
                                 oncomplete="PF('costingComponentDialog').show();"
-                                icon="ui-icon ui-icon-pencil"
+                                icon="pi pi-pencil"
                                 process="@this" >
 
                                 <f:setPropertyActionListener value="#{costComponent}"
@@ -453,7 +449,7 @@ Email: info@dpbennett.com.jm
                             <p:menuitem 
                                 value="Delete"
                                 onclick="costComponentDeleteConfirm.show();"
-                                icon="ui-icon-trash"
+                                icon="pi pi-trash"
                                 process="@this">
 
                                 <f:setPropertyActionListener value="#{costComponent}"
@@ -472,9 +468,8 @@ Email: info@dpbennett.com.jm
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
                                          disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          update=":costingComponentDialogForm"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
-                                         icon="ui-icon-plus"
+                                         oncomplete="PF('costingComponentDialog').show();"
+                                         icon="pi pi-plus"
                                          process="@this">
                         </p:commandButton>
                     </p:toolbarGroup>

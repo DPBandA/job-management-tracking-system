@@ -33,11 +33,11 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="pragma" content="no-cache" />
         <title>Proforma Invoices</title>
         <link rel="stylesheet" href="../../css/main.css" />
-        <script type="text/javascript" src="../../js/longProcessDialog.js"/>
+        <script type="text/javascript" src="../../js/javascripts.js"/>
     </h:head>
 
     <h:body>        
-        <ui:include src="/common/longProcessDialog.xhtml"/> 
+        <ui:include src="/common/commonDialogs.xhtml"/> 
 
         <h:form id="proformaInvoicesDialogForm">       
             <p:watermark value="Enter search text" for="jobSearchText" />
@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="2" >
                         <p:commandButton value="Close"   
                                          actionListener="#{jobFinanceManager.closeProformaInvoicesDialog}"  
-                                         icon="ui-icon ui-icon-close"
+                                         icon="pi pi-times"
                                          process="@form"/>
                         <h:outputText value="&nbsp;"/>
 
@@ -98,12 +98,9 @@ Email: info@dpbennett.com.jm
                                      id="jobSearchText" /> 
                         <p:commandButton value="Search"
                                          id="doSearch"
-                                         onstart="PF('longProcessDialogVar').show();"
                                          actionListener="#{jobFinanceManager.doSearch}"
-                                         oncomplete="PF('longProcessDialogVar').hide();"
-                                         onerror="PF('connectionErrorDialog').show();"
                                          update="jobCostingsTable"
-                                         icon="ui-icon-search"
+                                         icon="pi pi-search"
                                          process="@form"/>
 
                     </h:panelGrid>
@@ -122,9 +119,7 @@ Email: info@dpbennett.com.jm
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          value="#{jobFinanceManager.jobsModel}">
 
-                <p:ajax event="page"  
-                        onstart="PF('longProcessDialogVar').show();" 
-                        oncomplete="PF('longProcessDialogVar').hide();" />
+                <p:ajax event="page" />
 
                 <p:ajax event="rowSelect" listener="#{jobFinanceManager.onJobCostingSelect}" update="" />
                 <p:ajax event="rowUnselect" listener="#{jobFinanceManager.onJobCostingUnSelect}" update="" />
@@ -171,11 +166,9 @@ Email: info@dpbennett.com.jm
                     <p:commandButton title="View or edit proforma" 
                                      actionListener="#{jobFinanceManager.openProformaInvoiceDialog}"
                                      update=""
-                                     onstart="PF('longProcessDialogVar').show();"  
-                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      global="true"
                                      process="@this"
-                                     icon="ui-icon ui-icon-pencil">
+                                     icon="pi pi-pencil">
 
                         <p:ajax event="dialogReturn" 
                                 listener="#{jobFinanceManager.proformaDialogReturn}"

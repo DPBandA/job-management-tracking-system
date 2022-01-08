@@ -23,12 +23,11 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
+    
     <p:tabView id="serviceDialogTabView"                       
                widgetVar="serviceDialogTabViewVar">
 
-        <p:ajax event="tabChange" 
-                onstart="PF('longProcessDialogVar').show();" 
-                oncomplete="PF('longProcessDialogVar').hide();" /> 
+        <p:ajax event="tabChange" /> 
 
         <p:tab title="General Services">
             <p:panel id="servicesRequested" header="Services Requested" >
