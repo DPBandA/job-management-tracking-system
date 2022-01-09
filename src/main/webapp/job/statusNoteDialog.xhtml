@@ -32,11 +32,13 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
         <meta http-equiv="pragma" content="no-cache" />
         <title>Status Note</title>
-        <link rel="stylesheet" href="../css/main.css" />         
+        <link rel="stylesheet" href="../css/main.css" />  
+        <script type="text/javascript" src="../js/javascripts.js"/>
     </h:head>
     <h:body>    
-        <ui:include src="../common/longProcessDialog.xhtml"/>  
+         
         <ui:include src="../common/commonDialogs.xhtml"/>  
+        
         <h:form id="statusNoteDialogForm" >      
             <p:growl id="status_notes_dialog_growl" 
                      life="5000" 
@@ -47,17 +49,13 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{jobManager.okStatusNote}"
-                                     onstart="PF('longProcessDialogVar').show();"      
-                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      update="status_notes_dialog_growl"                                     
-                                     icon="ui-icon ui-icon-check"
+                                     icon="pi pi-check"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
-                                     actionListener="#{jobManager.cancelStatusNote}"                            
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon ui-icon-close"
+                                     actionListener="#{jobManager.cancelStatusNote}"
+                                     icon="pi pi-times"
                                      process="@this"/>
                 </p:toolbarGroup>
             </p:toolbar>  
@@ -90,17 +88,13 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{jobManager.okStatusNote}"
-                                     onstart="PF('longProcessDialogVar').show();"      
-                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      update="status_notes_dialog_growl"                                     
-                                     icon="ui-icon ui-icon-check"
+                                     icon="pi pi-check"
                                      process="@form"/>
                     <p:spacer height="0" width="5"/>
                     <p:commandButton value="Cancel"
-                                     actionListener="#{jobManager.cancelStatusNote}"                            
-                                     onstart="PF('longProcessDialogVar').show();"
-                                     oncomplete="PF('longProcessDialogVar').hide();"
-                                     icon="ui-icon ui-icon-close"
+                                     actionListener="#{jobManager.cancelStatusNote}" 
+                                     icon="pi pi-times"
                                      process="@this"/>
                 </p:toolbarGroup>
             </p:toolbar>

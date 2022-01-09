@@ -244,8 +244,6 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Add report document: " />
             <h:panelGroup>
                 <p:fileUpload listener="#{jobManager.handleReportFileUpload}" 
-                              onstart="PF('longProcessDialogVar').show();"
-                              oncomplete="PF('longProcessDialogVar').hide();"
                               multiple="false"
                               allowTypes="/(\.|\/)(doc|docx|pdf|xls|xlsx|txt)$/" />
             </h:panelGroup>

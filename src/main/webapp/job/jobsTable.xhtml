@@ -36,14 +36,10 @@ Email: info@dpbennett.com.jm
                  value="#{jobManager.jobsModel}">
 
         <p:ajax event="cellEdit" 
-                update=":headerForm:growl3"
-                onstart="PF('longProcessDialogVar').show();"  
-                oncomplete="PF('longProcessDialogVar').hide();"  
+                update=":appForm:growl3"  
                 listener="#{jobManager.onJobCellEdit}" />
 
-        <p:ajax event="page"  
-                onstart="PF('longProcessDialogVar').show();" 
-                oncomplete="PF('longProcessDialogVar').hide();" />
+        <p:ajax event="page" />
 
         <f:facet name="header">
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
@@ -138,20 +134,17 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px" >
             <p:commandButton   
                 title="Edit or view" 
-                actionListener="#{jobManager.editJob}"                             
-                onstart="PF('longProcessDialogVar').show();"  
-                oncomplete="PF('longProcessDialogVar').hide();"                           
-                onerror="PF('connectionErrorDialog').show();"
+                actionListener="#{jobManager.editJob}"
                 global="true"
                 process="@this"
-                icon="ui-icon ui-icon-pencil" >
+                icon="pi pi-pencil" >
 
                 <f:setPropertyActionListener value="#{job}" 
                                              id="editJobButtonPropListener"
                                              target="#{jobManager.editCurrentJob}" />
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
+                        update=":appForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
 
@@ -159,41 +152,38 @@ Email: info@dpbennett.com.jm
         </p:column>
         <ui:remove>
             <p:column style="width:32px" >
-                <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit or copy" >
+                <p:menuButton id="toolsButton" 
+                              icon="pi pi-pencil" 
+                              title="Edit or copy" >
 
                     <p:menuitem   
                             value="Edit or view" 
-                            actionListener="#{jobManager.editJob}"                             
-                            onstart="PF('longProcessDialogVar').show();"  
-                            oncomplete="PF('longProcessDialogVar').hide();"                           
-                            onerror="PF('connectionErrorDialog').show();"
+                            actionListener="#{jobManager.editJob}" 
                             global="true"
                             process="@this"
-                            icon="ui-icon ui-icon-pencil" >
+                            icon="pi pi-pencil" >
 
                             <f:setPropertyActionListener value="#{job}" 
                                                          id="editJobButtonPropListener"
                                                          target="#{jobManager.editCurrentJob}" />
 
                             <p:ajax event="dialogReturn" 
-                                    update=":mainTabViewForm:mainTabView"
+                                    update=":appForm:mainTabView"
                                     listener="#{jobManager.jobDialogReturn}" />
               
                     </p:menuitem>
 
                     <p:menuitem  
-                            value="Copy"                               
-                            onstart="PF('longProcessDialogVar').show();"  
-                            oncomplete="PF('longProcessDialogVar').hide();"  
-                            update=":headerForm:growl3"
-                            icon="ui-icon-copy"
+                            value="Copy"   
+                            update=":appForm:growl3"
+                            icon="pi pi-copy"
                             process="@this">
 
                             <f:setPropertyActionListener value="#{job}"                                                      
                                                          target="#{jobManager.editCurrentJobCopy}" />
 
                             <p:ajax event="dialogReturn" 
-                                    update=":mainTabViewForm:mainTabView"
+                                    update=":appForm:mainTabView"
                                     listener="#{jobManager.jobDialogReturn}" />
 
                     </p:menuitem>

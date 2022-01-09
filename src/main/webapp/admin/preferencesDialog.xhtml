@@ -35,13 +35,13 @@ Email: info@dpbennett.com.jm
                   header="Preferences" >
 
             <p:ajax event="close"  
-                    listener="#{humanResourceManager.closePreferencesDialog2}"/>
+                    listener="#{systemManager.closePreferencesDialog2}"/>
 
             <p:toolbar>
                 <p:toolbarGroup align="left" >
                     <p:commandButton value="Ok" 
                                      oncomplete="PF('mainTabViewVar').select(0);"
-                                     actionListener="#{humanResourceManager.closePreferencesDialog1}" />        
+                                     actionListener="#{systemManager.closePreferencesDialog1}" />        
                 </p:toolbarGroup>
             </p:toolbar>
             <p:tabView id="preferencesTabView" 
@@ -53,10 +53,10 @@ Email: info@dpbennett.com.jm
 
                         <p:autoComplete forceSelection="true"                               
                                         maxlength="250"
-                                        value="#{humanResourceManager.user.jobTableViewPreference}"
-                                        title="#{humanResourceManager.user.jobTableViewPreference}"                                      
+                                        value="#{systemManager.user.jobTableViewPreference}"
+                                        title="#{systemManager.user.jobTableViewPreference}"                                      
                                         dropdown="true"                                       
-                                        completeMethod="#{humanResourceManager.completePreferenceValue}" >
+                                        completeMethod="#{systemManager.completePreferenceValue}" >
 
                             <p:ajax event="itemSelect"
                                     listener="#{humanResourceManager.updatePreferedJobTableView}"
@@ -76,55 +76,55 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="3" id="modulesTabPanelGrid" cellspacing="10">
 
                         <p:selectBooleanCheckbox id="jobManagementAndTrackingUnit" 
-                                                 rendered="#{humanResourceManager.user.privilege.canAccessJobManagementUnit}"
+                                                 rendered="#{systemManager.user.privilege.canAccessJobManagementUnit}"
                                                  itemLabel="Job Management &amp; Tracking"
-                                                 value="#{humanResourceManager.user.modules.jobManagementAndTrackingModule}" >
-                            <p:ajax listener="#{humanResourceManager.updateDashboardTabs}"
+                                                 value="#{systemManager.user.modules.jobManagementAndTrackingModule}" >
+                            <p:ajax listener="#{systemManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>                     
 
                         <p:selectBooleanCheckbox id="adminUnit" 
                                                  itemLabel="System Administration"
-                                                 rendered="#{humanResourceManager.user.privilege.canBeJMTSAdministrator}"
-                                                 value="#{humanResourceManager.user.modules.adminModule}" >
-                            <p:ajax listener="#{humanResourceManager.updateDashboardTabs}"
+                                                 rendered="#{systemManager.user.privilege.canBeJMTSAdministrator}"
+                                                 value="#{systemManager.user.modules.adminModule}" >
+                            <p:ajax listener="#{systemManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
 
                         <p:selectBooleanCheckbox id="financialAdminUnit" 
                                                  itemLabel="Financial Administration"
-                                                 rendered="#{humanResourceManager.user.privilege.canBeFinancialAdministrator}"
-                                                 value="#{humanResourceManager.user.modules.financialAdminModule}" >
-                            <p:ajax listener="#{humanResourceManager.updateDashboardTabs}"
+                                                 rendered="#{systemManager.user.privilege.canBeFinancialAdministrator}"
+                                                 value="#{systemManager.user.modules.financialAdminModule}" >
+                            <p:ajax listener="#{systemManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>    
                                                 
                         <p:selectBooleanCheckbox id="crmUnit" 
                                                  itemLabel="Client Management"
-                                                 rendered="#{humanResourceManager.user.privilege.canAccessCRMUnit}"
-                                                 value="#{humanResourceManager.user.modules.crmModule}" >
-                            <p:ajax listener="#{humanResourceManager.updateDashboardTabs}"
+                                                 rendered="#{systemManager.user.privilege.canAccessCRMUnit}"
+                                                 value="#{systemManager.user.modules.crmModule}" >
+                            <p:ajax listener="#{systemManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
                         
                         <p:selectBooleanCheckbox id="hrmUnit" 
                                                  itemLabel="Human Resource Management"
-                                                 rendered="#{humanResourceManager.user.privilege.canAccessHRMUnit}"
-                                                 value="#{humanResourceManager.user.modules.hrmModule}" >
-                            <p:ajax listener="#{humanResourceManager.updateDashboardTabs}"
+                                                 rendered="#{systemManager.user.privilege.canAccessHRMUnit}"
+                                                 value="#{systemManager.user.modules.hrmModule}" >
+                            <p:ajax listener="#{systemManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
                                               
                         <p:selectBooleanCheckbox id="reportUnit" 
                                                  itemLabel="Report"
-                                                 rendered="#{humanResourceManager.user.privilege.canAccessReportUnit}"
-                                                 value="#{humanResourceManager.user.modules.reportModule}" >
-                            <p:ajax listener="#{humanResourceManager.updateDashboardTabs}"
+                                                 rendered="#{systemManager.user.privilege.canAccessReportUnit}"
+                                                 value="#{systemManager.user.modules.reportModule}" >
+                            <p:ajax listener="#{systemManager.updateDashboardTabs}"
                                     global="false"
                                     process="@this"/>
                         </p:selectBooleanCheckbox>
@@ -136,7 +136,7 @@ Email: info@dpbennett.com.jm
                 <p:toolbarGroup align="left" >
                     <p:commandButton value="Ok" 
                                      oncomplete="PF('mainTabViewVar').select(0);"
-                                     actionListener="#{humanResourceManager.closePreferencesDialog1}" />        
+                                     actionListener="#{systemManager.closePreferencesDialog1}" />        
                 </p:toolbarGroup>
             </p:toolbar>
         </p:dialog>
