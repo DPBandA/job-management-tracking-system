@@ -87,12 +87,11 @@ Email: info@dpbennett.com.jm
         <p:toolbar>
             <p:toolbarGroup align="right" >
                 <p:inputText value="#{jobManager.searchText}"  
-                             style="width: 50%;"
+                             style="width: 75%;"
                              id="jobSearchText" />  
                  
                 <p:spacer width="5" />
-                <p:commandButton value="Search"
-                                 id="doSearch"
+                <p:commandButton id="doSearch"
                                  actionListener="#{jobManager.doSearch}"
                                  icon="pi pi-search"
                                  process="@form"/>

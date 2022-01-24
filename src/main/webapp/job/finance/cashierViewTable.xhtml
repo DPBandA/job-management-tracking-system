@@ -44,14 +44,14 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
-        <p:column sortBy="#{job.jobNumber}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Job number"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column sortBy="#{job.client.name}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
@@ -61,8 +61,7 @@ Email: info@dpbennett.com.jm
        
         
         <p:column headerText="Instructions" 
-                  id="job_instructions"
-                  sortBy="#{job.instructions}">   
+                  id="job_instructions">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.instructions}" />
@@ -82,7 +81,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.estimatedCost}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Est. ($)"/>
             </f:facet>
@@ -92,7 +91,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.minDeposit}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Min. Deposit ($)"/>
             </f:facet>
@@ -102,7 +101,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.amountDue}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Amt Due($)"/>
             </f:facet>
