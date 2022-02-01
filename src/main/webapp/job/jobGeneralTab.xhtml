@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <h:panelGrid id="generalTabPanel" columns="2">
-        <h:outputLabel value="Job number: " style="font-weight: bold;font-size: 14px;" />
+        <h:outputLabel value="Job number" style="font-weight: bold;font-size: 14px;" />
         <h:panelGroup>
             <h:panelGroup id="jobNumberGroup">
 
@@ -45,7 +45,8 @@ Email: info@dpbennett.com.jm
                     <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
                     <f:attribute name="autoGenerateJobNumber" value="#{jobManager.currentJob.autoGenerateJobNumber}" />
 
-                    <p:ajax event="change"                            
+                    <p:ajax event="change"   
+                            global="false"
                             update=":jobDialogForm:jobDetailToolbar1"
                             listener="#{jobManager.updateJob}"
                             process="@this"/>
@@ -68,7 +69,7 @@ Email: info@dpbennett.com.jm
 
         </h:panelGroup>
 
-        <h:outputText value="Business office: " style="font-weight: bold"/>       
+        <h:outputText value="Business office" style="font-weight: bold"/>       
         <p:autoComplete id="businessOffice"
                         size="35"
                         maxlength="40"
@@ -86,12 +87,13 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"                       
                     update=":jobDialogForm:jobDetailToolbar1"
+                    global="false"
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
 
         </p:autoComplete>        
 
-        <h:outputText value="Classification:" style="font-weight: bold" />
+        <h:outputText value="Classification" style="font-weight: bold" />
         <p:autoComplete dropdown="true"
                         var="classification"
                         id="classification"
@@ -105,13 +107,14 @@ Email: info@dpbennett.com.jm
                         forceSelection="true"
                         disabled="#{jobManager.disableJobDialogField('classification')}"
                         completeMethod="#{jobManager.completeJobClassification}" >
-            <p:ajax event="itemSelect"                                                                  
+            <p:ajax event="itemSelect"    
+                    global="false"
                     listener="#{jobManager.updateJobClassification}"
                     update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,:jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
         </p:autoComplete>
 
-        <h:outputText value="Client: " style="font-weight: bold" />
+        <h:outputText value="Client" style="font-weight: bold" />
         <h:panelGroup>                
             <p:autoComplete id="client"
                             var="client"
@@ -128,7 +131,8 @@ Email: info@dpbennett.com.jm
                             disabled="#{jobManager.disableJobDialogField('client')}"
                             completeMethod="#{clientManager.completeActiveClient}" >
 
-                <p:ajax event="itemSelect"      
+                <p:ajax event="itemSelect"
+                        global="false"
                         update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
@@ -170,7 +174,7 @@ Email: info@dpbennett.com.jm
 
         </h:panelGroup>
 
-        <h:outputText value="Billing address:" style="font-weight: bold" />    
+        <h:outputText value="Billing address" style="font-weight: bold" />    
         <p:autoComplete id="billingAddress"
                         value="#{jobManager.currentJob.billingAddress}"
                         disabled="#{jobManager.disableJobDialogField('billingAddress')}"
@@ -188,13 +192,14 @@ Email: info@dpbennett.com.jm
             <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
 
             <p:ajax event="itemSelect"
+                    global="false"
                     listener="#{jobManager.updateJob}"                                        
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this" />   
 
         </p:autoComplete>
 
-        <h:outputText value="Contact:" style="font-weight: bold" />  
+        <h:outputText value="Contact" style="font-weight: bold" />  
         <p:autoComplete id="clientContact"
                         value="#{jobManager.currentJob.contact}"
                         disabled="#{jobManager.disableJobDialogField('billingAddress')}"
@@ -211,13 +216,14 @@ Email: info@dpbennett.com.jm
             <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
 
             <p:ajax event="itemSelect"
+                    global="false"
                     listener="#{jobManager.updateJob}"                                        
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this" />   
 
         </p:autoComplete>        
 
-        <h:outputText value="Date submitted:" style="font-weight: bold" />
+        <h:outputText value="Date submitted" style="font-weight: bold" />
         <p:calendar id="dateSubmitted"
                     value="#{jobManager.jobSubmissionDate}" 
                     disabled="#{jobManager.disableJobDialogField('dateSubmitted')}"
@@ -226,16 +232,18 @@ Email: info@dpbennett.com.jm
                     pattern="MMM dd, yyyy" >
 
             <p:ajax event="dateSelect"
+                    global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateDateSubmitted}" />
 
             <p:ajax event="keyup"
+                    global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateDateSubmitted}" />
 
         </p:calendar>
 
-        <h:outputText value="Department: " style="font-weight: bold" />
+        <h:outputText value="Department" style="font-weight: bold" />
         <p:autoComplete id="department"  
                         disabled="#{jobManager.disableJobDialogField('department')}"
                         var="department"
@@ -261,7 +269,7 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>     
 
-        <h:outputText value="Subcontracted dep't:"                      
+        <h:outputText value="Subcontracted dept."                      
                       rendered="#{jobManager.renderSubContractingDepartment}"
                       style="font-weight: bold" />
         <p:autoComplete id="subContractedDepartment"                        
@@ -288,12 +296,13 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateSubContractedDepartment}"
+                    global="false"
                     update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
                     process="@this" />
 
         </p:autoComplete>
 
-        <h:outputText value="Assignee: " style="font-weight: bold" />       
+        <h:outputText value="Assignee" style="font-weight: bold" />       
         <p:autoComplete id="assignee"
                         var="assignedTo"                            
                         maxlength="40" 
@@ -310,11 +319,12 @@ Email: info@dpbennett.com.jm
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateJob}"
+                    global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
         </p:autoComplete>  
 
-        <h:outputText value="Representative(s): " />       
+        <h:outputText value="Representative(s)" />       
         <p:autoComplete id="representatives"
                         var="representative"   
                         value="#{jobManager.currentJob.representatives}"
@@ -328,18 +338,20 @@ Email: info@dpbennett.com.jm
                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
 
             <p:ajax event="itemSelect"
+                    global="false"
                     listener="#{jobManager.updateJob}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
 
             <p:ajax event="itemUnselect"
                     listener="#{jobManager.updateJob}"
+                    global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
 
         </p:autoComplete>
 
-        <h:outputText value="TAT given to client: "  style="font-weight: bold;" />
+        <h:outputText value="TAT given to client"  style="font-weight: bold;" />
         <h:panelGroup>
             <p:inputText title="Estimated turnaround time (TAT) given to client"   
                          id="estimatedTAT"
@@ -361,7 +373,7 @@ Email: info@dpbennett.com.jm
             </p:inputText>
             <h:outputText value=" (days)" />
             <p:spacer height="0" width="15"/>
-            <p:outputLabel for="tatRequired"  style="font-weight: bold;" value="TAT is required: " />
+            <p:outputLabel for="tatRequired"  style="font-weight: bold;" value="TAT is required" />
             <p:selectBooleanCheckbox id="tatRequired"
                                      style="vertical-align: middle"    
                                      disabled="#{jobManager.disableJobDialogField('tatRequired')}"
@@ -374,7 +386,7 @@ Email: info@dpbennett.com.jm
             <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
         </h:panelGroup>
 
-        <h:outputText value="Instructions: " style="font-weight: bold;vertical-align: top;" />       
+        <h:outputText value="Instructions" style="font-weight: bold;vertical-align: top;" />       
         <p:inputTextarea
             id="instructions"
             value="#{jobManager.currentJob.instructions}"
@@ -390,6 +402,7 @@ Email: info@dpbennett.com.jm
             <f:validator validatorId="requiredFieldValidator" />
 
             <p:ajax event="change"
+                    global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     listener="#{jobManager.updateJob}"
                     process="@this"/>

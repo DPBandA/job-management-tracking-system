@@ -36,9 +36,10 @@ Email: info@dpbennett.com.jm
                  value="#{jobManager.jobsModel}">
 
         <p:ajax event="cellEdit"   
+                global="false"
                 listener="#{jobManager.onJobCellEdit}" />
 
-        <p:ajax event="page" />
+        <p:ajax event="page" global="false" />
 
         <f:facet name="header">
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />

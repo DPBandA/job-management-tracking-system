@@ -26,13 +26,13 @@ Email: info@dpbennett.com.jm
 
     <p:panel id="jobCosting" header="Costing">
         <h:panelGrid columns="3">
-            <h:outputLabel value="Job number: " style="font-weight: bold;font-size: 14px;" />
+            <h:outputLabel value="Job number" style="font-weight: bold;font-size: 14px;" />
             <h:outputText value="#{jobFinanceManager.currentJob.jobNumber}"
                           id="jobNumberForCosting"
                           styleClass="job-number"/>          
             <h:outputText value="&nbsp;"/>
 
-            <h:outputText value="Purchase order #: "/>
+            <h:outputText value="Purchase order #"/>
             <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
                          readonly="#{!jobFinanceManager.canEditJobCosting}"
                          disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
@@ -46,7 +46,7 @@ Email: info@dpbennett.com.jm
             </p:inputText>
             <h:outputText value="&nbsp;"/>
 
-            <h:outputText value="Cost estimate ($): "/>
+            <h:outputText value="Cost estimate ($)"/>
             <h:panelGroup>
                 <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.estimatedCost}"
                              converterMessage="Please enter a valid cost estimate."
@@ -62,13 +62,14 @@ Email: info@dpbennett.com.jm
                             update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                             listener="#{jobFinanceManager.updateJobCostingEstimate}"
                             process="@this"/>
+                    
                 </p:inputText>
                 <h:outputText value="&nbsp;"/>
                 <h:outputText value="&nbsp;"/>
             </h:panelGroup>
             <h:outputText value="&nbsp;"/>            
 
-            <h:outputText value="Min. deposit req'ed ($): "/>
+            <h:outputText value="Min. deposit req'ed ($)"/>
             <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.minDeposit}"
                          readonly="#{!jobFinanceManager.canEditJobCosting}"
                          disabled="#{jobManager.disableJobDialogField('costingandpayment')}" 
@@ -83,7 +84,7 @@ Email: info@dpbennett.com.jm
             </p:inputText>
             <h:outputText value="&nbsp;"/>      
 
-            <h:outputText value="Discount (%/$):" />
+            <h:outputText value="Discount (%/$)" />
             <p:autoComplete id="discount"  
                             var="discount"
                             forceSelection="true"      
@@ -101,7 +102,7 @@ Email: info@dpbennett.com.jm
                             completeMethod="#{jobFinanceManager.completeDiscount}" >
 
                 <p:ajax event="itemSelect"
-                        global="true"
+                        global="false"
                         listener="#{jobFinanceManager.updateJobCostingAndPayment}"
                         update=":jobDialogForm:jobDetailToolbar1,jobCosting"
                         process="@this" />
@@ -109,7 +110,7 @@ Email: info@dpbennett.com.jm
             </p:autoComplete>
             <h:outputText value="&nbsp;"/>
             
-            <h:outputText value="Tax (%/$):" />               
+            <h:outputText value="Tax (%/$)" />               
             <p:autoComplete id="tax"  
                             var="tax"
                             forceSelection="true"      
@@ -127,7 +128,7 @@ Email: info@dpbennett.com.jm
                             completeMethod="#{jobFinanceManager.completeTax}" >
 
                 <p:ajax event="itemSelect"
-                        global="true"
+                        global="false"
                         update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobFinanceManager.updateAllTaxes}"
                         process="@this" />
@@ -191,7 +192,7 @@ Email: info@dpbennett.com.jm
 
             <h:outputText value="&nbsp;"/> 
 
-            <h:outputText value="Amount due ($):" />            
+            <h:outputText value="Amount due ($)" />            
             <p:inputText id="amountDue2"
                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.amountDue}"
                          maxlength="15"
@@ -303,7 +304,7 @@ Email: info@dpbennett.com.jm
                 <p:row>
                     <p:column colspan="2" 
                               style="text-align:right;" 
-                              footerText="Total payments ($): "/>                                        
+                              footerText="Total payments ($)"/>                                        
                     <p:column style="text-align:right;"> 
                         <f:facet name="footer">
                             <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalPayment}" >

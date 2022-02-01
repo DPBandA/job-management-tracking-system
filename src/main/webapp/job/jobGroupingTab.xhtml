@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
 
     <h:panelGrid id="jobGrouping" columns="2">
 
-        <h:outputText value="Sector:" style="font-weight: bold;" />  
+        <h:outputText value="Sector" style="font-weight: bold;" />  
         <p:autoComplete dropdown="true"
                         size="30"
                         var="sector"
@@ -41,13 +41,14 @@ Email: info@dpbennett.com.jm
             
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateSector}"
+                    global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
             
         </p:autoComplete>     
 
 
-        <h:outputText value="Category:" style="font-weight: bold;" />  
+        <h:outputText value="Category" style="font-weight: bold;" />  
         <p:autoComplete dropdown="true"
                         size="30"
                         var="jobCategory"
@@ -62,12 +63,13 @@ Email: info@dpbennett.com.jm
             
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobCategory}"
+                    global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
             
         </p:autoComplete>     
 
-        <h:outputText value="Subcategory:" style="font-weight: bold" />
+        <h:outputText value="Subcategory" style="font-weight: bold" />
         <p:autoComplete dropdown="true"
                         size="30"
                         var="jobSubCategory"
@@ -83,6 +85,7 @@ Email: info@dpbennett.com.jm
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobSubCategory}"
                     update=":jobDialogForm:jobDetailToolbar1"
+                    global="false"
                     process="@this"/>
             
         </p:autoComplete>     

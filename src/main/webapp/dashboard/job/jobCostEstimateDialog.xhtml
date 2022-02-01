@@ -48,7 +48,7 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="2">
 
                     <h:outputLabel for="jobCostingsTemplateName" 
-                                   value="Name: "  style="font-weight: bold" />
+                                   value="Name "  style="font-weight: bold" />
                     <p:inputText id="jobCostingsTemplateName"
                                  value="#{jobManager.currentJob.jobCostingAndPayment.name}"
                                  style="width: 400px;">
@@ -62,7 +62,7 @@ Email: info@dpbennett.com.jm
 
                     </p:inputText>
 
-                    <h:outputText value="Department: " style="font-weight: bold" />
+                    <h:outputText value="Department" style="font-weight: bold" />
                     <p:autoComplete id="department"  
                                     var="department"
                                     forceSelection="true"      
@@ -103,6 +103,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="change"
                                 update=""
+                                global="false"
                                 listener="#{jobManager.updateJob}"
                                 process="@this"/>
 

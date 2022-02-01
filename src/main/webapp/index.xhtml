@@ -39,7 +39,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="accpac/accPacClientInformationDialog.xhtml"/>  
         <ui:include src="common/commonDialogs.xhtml" />
         <ui:include src="admin/loginDialog.xhtml"/>  
-        <ui:include src="admin/preferencesDialog.xhtml"/> 
+        <ui:include src="common/preferencesDialog.xhtml"/> 
 
         <h:form id="appForm">          
             <p:splitter layout="vertical" rendered="#{systemManager.renderUserMenu()}">
@@ -115,6 +115,7 @@ Email: info@dpbennett.com.jm
 
                                     <p:ajax event="tabChange"       
                                             immediate="true"
+                                            global="false"
                                             process="@this"
                                             listener="#{systemManager.onDashboardTabChange}" />
 
@@ -162,12 +163,14 @@ Email: info@dpbennett.com.jm
 
                                 <p:ajax event="tabClose" 
                                         immediate="true"
+                                        global="true"
                                         process="@this"
                                         update=""
                                         listener="#{systemManager.onMainViewTabClose}" />  
 
                                 <p:ajax event="tabChange" 
                                         immediate="true"
+                                        global="true"
                                         process="@this"                                
                                         listener="#{systemManager.onMainViewTabChange}" />  
 

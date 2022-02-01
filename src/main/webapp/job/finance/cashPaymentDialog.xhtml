@@ -59,40 +59,42 @@ Email: info@dpbennett.com.jm
             </p:toolbar>
             <p:panel>
                 <h:panelGrid columns="2" style="width: 85%;">
-                    <h:outputText value="Type:" style="font-weight: bold;" />    
+                    <h:outputText value="Type" style="font-weight: bold;" />    
                     <p:selectOneMenu 
                         id="type"      
                         value="#{jobFinanceManager.selectedCashPayment.type}">
                         <p:ajax
-                            global="true"                        
+                            global="false"                        
                             listener="#{jobFinanceManager.updateCashPayment}"
                             process="@this" />
                         <f:selectItems value="#{jobFinanceManager.paymentTypes}" />
                     </p:selectOneMenu>   
 
-                    <h:outputText value="Purpose of payment:" style="font-weight: bold;" />    
+                    <h:outputText value="Purpose of payment" style="font-weight: bold;" />    
                     <p:selectOneMenu 
                         id="paymentPurpose"      
                         value="#{jobFinanceManager.selectedCashPayment.paymentPurpose}">
                         <p:ajax
-                            global="true"                        
+                            global="false"                        
                             listener="#{jobFinanceManager.updateCashPayment}"
                             process="@this" />
                         <f:selectItems value="#{jobFinanceManager.paymentPurposes}" />
                     </p:selectOneMenu>   
 
-                    <h:outputText value="Payment date:" style="font-weight: bold" />
+                    <h:outputText value="Payment date" style="font-weight: bold" />
                     <p:calendar id="paymentDate"
                                 value="#{jobFinanceManager.selectedCashPayment.dateOfPayment}" 
                                 readonlyInput="true"
                                 navigator="true" 
                                 pattern="MMM dd, yyyy" >
+                        
                         <p:ajax event="dateSelect"
+                                global="false"
                                 listener="#{jobFinanceManager.updateCashPayment}" />
 
                     </p:calendar>
 
-                    <h:outputText value="Receipt #:" />
+                    <h:outputText value="Receipt #" />
                     <p:inputText value="#{jobFinanceManager.selectedCashPayment.receiptNumber}" 
                                  maxlength="40" >
                         <p:ajax listener="#{jobFinanceManager.updateCashPayment}"
@@ -101,7 +103,7 @@ Email: info@dpbennett.com.jm
                                 process="@this"/>
                     </p:inputText>               
 
-                    <h:outputText value="Amount ($):" style="font-weight: bold;" />
+                    <h:outputText value="Amount ($)" style="font-weight: bold;" />
                     <p:inputText value="#{jobFinanceManager.selectedCashPayment.payment}"  
                                  id="paymentAmount"
                                  styleClass="number-field"
@@ -117,7 +119,7 @@ Email: info@dpbennett.com.jm
                                 process="@this"/>
                     </p:inputText> 
 
-                    <h:outputText value="Terms:" />
+                    <h:outputText value="Terms" />
                     <p:inputTextarea
                         value="#{jobFinanceManager.selectedCashPayment.paymentTerms}"
                         style="width: 250px;"

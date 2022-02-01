@@ -27,43 +27,45 @@ Email: info@dpbennett.com.jm
     <p:panel id="jobSearchPanel" header="Search" >
 
         <h:panelGrid columns="2" cellspacing="5">
-            <h:outputText value="Search type: " />
+            <h:outputText value="Search type" />
             <p:selectOneMenu value="#{jobManager.searchType}" 
                              style="width: 90%;">
                 
                 <f:selectItems value="#{jobManager.authorizedSearchTypes}" />
                 
-                <p:ajax update="jobSearchPanel" process="@this" />
+                <p:ajax update="jobSearchPanel" global="false" process="@this" />
 
             </p:selectOneMenu>
 
-            <h:outputText value="Date field: " rendered="#{jobManager.renderDateSearchFields}" />
+            <h:outputText value="Date field" rendered="#{jobManager.renderDateSearchFields}" />
             <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
                              id="jmDateField"
                              rendered="#{jobManager.renderDateSearchFields}"
                              style="width: 90%;" >
                 <p:ajax                        
                     listener="#{jobManager.updateDateSearchField}"
+                    global="false"
                     process="@this" />
 
                 <f:selectItems value="#{jobManager.dateSearchFields}" />
 
             </p:selectOneMenu>
 
-            <h:outputText value="Date period: " rendered="#{jobManager.renderDateSearchFields}" />               
+            <h:outputText value="Date period" rendered="#{jobManager.renderDateSearchFields}" />               
             <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}" 
                              id="jmDatePeriod"
                              rendered="#{jobManager.renderDateSearchFields}"
                              style="width: 90%;" >
 
                 <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
+                        global="false"
                         update="startSearchDate,endSearchDate"
                         process="@this" />
 
                 <f:selectItems value="#{systemManager.datePeriods}"/>
 
             </p:selectOneMenu>
-            <h:outputText value="Start:" rendered="#{jobManager.renderDateSearchFields}" />
+            <h:outputText value="Start" rendered="#{jobManager.renderDateSearchFields}" />
             <p:calendar id="startSearchDate"
                         rendered="#{jobManager.renderDateSearchFields}"
                         value="#{jobManager.dateSearchPeriod.startDate}"                    
@@ -73,7 +75,7 @@ Email: info@dpbennett.com.jm
                         disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
                         pattern="MMM dd, yyyy" />
            
-            <h:outputText value="End:" rendered="#{jobManager.renderDateSearchFields}" />
+            <h:outputText value="End" rendered="#{jobManager.renderDateSearchFields}" />
             <p:calendar id="endSearchDate"
                         rendered="#{jobManager.renderDateSearchFields}"
                         value="#{jobManager.dateSearchPeriod.endDate}"

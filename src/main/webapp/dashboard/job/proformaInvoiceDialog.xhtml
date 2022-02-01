@@ -50,7 +50,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Proforma #:" style="font-weight: bold;" />
                     <h:outputText id="proformaNumber" value="#{jobFinanceManager.currentJob.jobNumber}" />
 
-                    <h:outputText value="Department: " style="font-weight: bold" />
+                    <h:outputText value="Department" style="font-weight: bold" />
                     <p:autoComplete id="department"  
                                     var="department"
                                     forceSelection="true"      
@@ -74,7 +74,7 @@ Email: info@dpbennett.com.jm
 
                     </p:autoComplete>                    
 
-                    <h:outputText value="Client: " style="font-weight: bold" />
+                    <h:outputText value="Client" style="font-weight: bold" />
                     <h:panelGroup>                
                         <p:autoComplete id="client"
                                         var="client"
@@ -90,7 +90,8 @@ Email: info@dpbennett.com.jm
                                         forceSelection="true"
                                         completeMethod="#{clientManager.completeActiveClient}" >
 
-                            <p:ajax event="itemSelect"      
+                            <p:ajax event="itemSelect"    
+                                    global="false"
                                     update="clientActionsMenu,costComponentsPanel,costingSummaryPanel"
                                     listener="#{jobManager.updateJobEntryTabClient}"
                                     process="@this"/>
@@ -154,7 +155,7 @@ Email: info@dpbennett.com.jm
 
                     </p:autoComplete>
 
-                    <h:outputText value="Contact:" style="font-weight: bold" />  
+                    <h:outputText value="Contact" style="font-weight: bold" />  
                     <p:autoComplete id="clientContact"
                                     value="#{jobManager.currentJob.contact}"
                                     dropdown="true"
@@ -170,13 +171,14 @@ Email: info@dpbennett.com.jm
                         <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
 
                         <p:ajax event="itemSelect"
+                                global="false"
                                 listener="#{jobManager.updateJob}"                                        
                                 update=""
                                 process="@this" />   
 
                     </p:autoComplete>       
 
-                    <h:outputText value="Note:" style="font-weight: bold;vertical-align: top;" />       
+                    <h:outputText value="Note" style="font-weight: bold;vertical-align: top;" />       
                     <p:inputTextarea
                         id="description"
                         value="#{jobManager.currentJob.jobCostingAndPayment.description}"
@@ -191,6 +193,7 @@ Email: info@dpbennett.com.jm
                         <f:validator validatorId="requiredFieldValidator" />
 
                         <p:ajax event="change"
+                                global="false"
                                 update=""
                                 listener="#{jobManager.updateJob}"
                                 process="@this"/>
@@ -199,7 +202,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="&nbsp;&nbsp;" />
                     <h:outputText id="descriptionCharsRemaining" /> 
 
-                    <h:outputText value="Preparation date:" />
+                    <h:outputText value="Preparation date" />
                     <p:calendar required="false"   
                                 readonly="true"
                                 readonlyInput="true"
@@ -209,13 +212,15 @@ Email: info@dpbennett.com.jm
                                 styleClass="read-only-inputfield"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
-                        <p:ajax event="dateSelect"                                 
+                        <p:ajax event="dateSelect"  
+                                global="false"
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
-                        <p:ajax event="keyup"                                 
+                        <p:ajax event="keyup"   
+                                global="false"
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
                     </p:calendar>  
 
-                    <h:outputText value="Authorization date:" />
+                    <h:outputText value="Authorization date" />
                     <p:calendar required="false"   
                                 readonly="true"
                                 readonlyInput="true"
@@ -225,9 +230,11 @@ Email: info@dpbennett.com.jm
                                 styleClass="read-only-inputfield"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
-                        <p:ajax event="dateSelect"                                 
+                        <p:ajax event="dateSelect"  
+                                global="false"
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
-                        <p:ajax event="keyup"                                 
+                        <p:ajax event="keyup"  
+                                global="false"
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
                     </p:calendar> 
 
@@ -236,7 +243,7 @@ Email: info@dpbennett.com.jm
             <!-- Job costings and components -->
             <p:panel id="costComponentsPanel" header="Costings" >  
                 <h:panelGrid columns="2" cellspacing="5" >
-                    <h:outputText value="Discount (%/$):" style="font-weight: bold" />
+                    <h:outputText value="Discount (%/$)" style="font-weight: bold" />
                     <p:autoComplete id="discount"  
                                     var="discount"
                                     forceSelection="true"      
@@ -254,13 +261,13 @@ Email: info@dpbennett.com.jm
                                     completeMethod="#{jobFinanceManager.completeDiscount}" >
 
                         <p:ajax event="itemSelect"
-                                global="true"
+                                global="false"
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"
                                 update="costingSummaryPanel"
                                 process="@this" />
 
                     </p:autoComplete>
-                    <h:outputText value="Tax (%/$):" style="font-weight: bold" />               
+                    <h:outputText value="Tax (%/$)" style="font-weight: bold" />               
                     <p:autoComplete id="tax"  
                                     var="tax"
                                     forceSelection="true"      
@@ -278,14 +285,14 @@ Email: info@dpbennett.com.jm
                                     completeMethod="#{jobFinanceManager.completeTax}" >
 
                         <p:ajax event="itemSelect"
-                                global="true"
+                                global="false"
                                 update="costingSummaryPanel"
                                 listener="#{jobFinanceManager.updateAllTaxes}"
                                 process="@this" />
 
                     </p:autoComplete>                    
 
-                    <h:outputText value="Reimbursable ($): "/>
+                    <h:outputText value="Reimbursable ($)"/>
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.reimbursable}"
                                  disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                  styleClass="number-field"
@@ -478,21 +485,21 @@ Email: info@dpbennett.com.jm
             <p:panel id="costingSummaryPanel" header="Summary">
                 <h:panelGrid columns="2">
 
-                    <h:outputText value="Sub-total cost ($):" />
+                    <h:outputText value="Sub-total cost ($)" />
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.finalCost}" 
                                  styleClass="read-only-number-field"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
 
-                    <h:outputText value="Tax ($):" />
+                    <h:outputText value="Tax ($)" />
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalTax}" 
                                  styleClass="read-only-number-field"
                                  readonly="true">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
                     </p:inputText>
 
-                    <h:outputText value="Reimbursable ($): "/>
+                    <h:outputText value="Reimbursable ($)"/>
                     <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.reimbursable}"
                                  styleClass="read-only-number-field"
                                  readonly="true" >

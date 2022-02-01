@@ -43,7 +43,7 @@ Email: info@dpbennett.com.jm
                                          disabled="#{!jobFinanceManager.canPrepareJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Prepared" >
-                    <p:ajax global="true" 
+                    <p:ajax global="false" 
                             listener="#{jobFinanceManager.prepareJobCosting}"
                             update="@this,costingDate,approved,jobCosting_growl,exportJobCostingButton1"
                             process="@this"/>

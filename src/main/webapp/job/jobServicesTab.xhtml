@@ -27,13 +27,13 @@ Email: info@dpbennett.com.jm
     <p:tabView id="serviceDialogTabView"                       
                widgetVar="serviceDialogTabViewVar">
 
-        <p:ajax event="tabChange" /> 
+        <p:ajax event="tabChange" global="false" /> 
 
         <p:tab title="General Services">
             <p:panel id="servicesRequested" header="Services Requested" >
 
                 <h:panelGrid columns="2" cellspacing="5" >
-                    <h:outputLabel value="Service location: " 
+                    <h:outputLabel value="Service location" 
                                    style="font-weight: bold;"
                                    for="serviceLocation"/>
                     <p:selectOneMenu id="serviceLocation"   
@@ -223,7 +223,7 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="2"  cellspacing="5" style="margin-top: -10px;">                        
 
                     <p:selectBooleanCheckbox id="otherService" 
-                                             itemLabel="Other:"
+                                             itemLabel="Other"
                                              disabled="#{jobManager.disableJobDialogField('service')}"
                                              value="#{jobContractManager.serviceRequestedOther}">
                         <p:ajax listener="#{jobContractManager.updateServices}"
@@ -300,7 +300,7 @@ Email: info@dpbennett.com.jm
 
                 <h:panelGrid columns="3" cellspacing="10" style="margin-top: -10px;">
                     <p:selectBooleanCheckbox id="otherIntendedMarket" 
-                                             itemLabel="Other: "
+                                             itemLabel="Other"
                                              value="#{jobContractManager.intendedMarketOther}">
                         <p:ajax listener="#{jobContractManager.updateJob}"
                                 update="intendedMarket,otherIntendedMartketText,:jobDialogForm:jobDetailToolbar1"

@@ -44,6 +44,7 @@ Email: info@dpbennett.com.jm
                                  style="width:150px"
                                  placeholder="Enter search text">
                         <p:ajax event="keyup"
+                                global="false"
                                 update="jobCostingTemplateTable"
                                 listener="#{jobFinanceManager.doJobCostingAndPaymentSearch}"
                                 process="@this"/>
@@ -57,6 +58,7 @@ Email: info@dpbennett.com.jm
                                                  id="isActiveJobCostingAndPaymentsOnly"
                                                  value="#{jobFinanceManager.isActiveJobCostingAndPaymentsOnly}" >
                             <p:ajax  update="jobCostingTemplateTable"
+                                     global="false"
                                      listener="#{jobFinanceManager.doJobCostingAndPaymentSearch}"
                                      event="change"                                      
                                      process="@this"/>
@@ -78,7 +80,7 @@ Email: info@dpbennett.com.jm
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          value="#{jobFinanceManager.foundJobCostingAndPayments}">
 
-                <p:ajax event="cellEdit" listener="#{jobFinanceManager.onJobCostingAndPaymentCellEdit}" />
+                <p:ajax event="cellEdit" global="false" listener="#{jobFinanceManager.onJobCostingAndPaymentCellEdit}" />
 
                 <f:facet name="header">
                     Costing Templates

@@ -37,21 +37,12 @@ Email: info@dpbennett.com.jm
                             completeMethod="#{jobFinanceManager.completeAccPacClient}" >
 
                 <p:ajax event="itemSelect"
+                        global="false"
                         listener="#{jobFinanceManager.updateCreditStatus}"
                         update="creditStatusSummary,invoiceTable" />
 
             </p:autoComplete>
-        </h:panelGroup>
-
-        <p:ajaxStatus>
-            <f:facet name="start">
-                <h:graphicImage value="/images/ajaxloading.gif" width="20" height="20"/>
-            </f:facet>
-            <f:facet name="success">
-                <h:outputText value="&nbsp;" />
-            </f:facet>
-        </p:ajaxStatus>
-
+        </h:panelGroup>      
 
     </h:panelGrid>
     <p:panel id="creditStatusSummary" header="Summary">
@@ -114,7 +105,7 @@ Email: info@dpbennett.com.jm
                                      value="#{jobFinanceManager.showPrepayments}" >
                 <p:ajax listener="#{jobFinanceManager.updateCreditStatus}"
                         update="invoiceTable,creditStatusSummary"
-                        global="true"                       
+                        global="false"                       
                         process="@this"/>
             </p:selectBooleanCheckbox>           
         </h:panelGrid>   

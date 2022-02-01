@@ -44,6 +44,7 @@ Email: info@dpbennett.com.jm
                                  style="width:150px"
                                  placeholder="Enter search text">
                         <p:ajax event="keyup"
+                                global="false"
                                 update="jobCostingTemplateTable"
                                 listener="#{jobFinanceManager.doJobCostingAndPaymentSearch}"
                                 process="@this"/>
@@ -56,10 +57,13 @@ Email: info@dpbennett.com.jm
                         <p:selectBooleanCheckbox style="vertical-align: middle"
                                                  id="isActiveJobCostingAndPaymentsOnly"
                                                  value="#{jobFinanceManager.isActiveJobCostingAndPaymentsOnly}" >
+                            
                             <p:ajax  update="jobCostingTemplateTable"
                                      listener="#{jobFinanceManager.doJobCostingAndPaymentSearch}"
+                                     global="false"
                                      event="change"                                      
                                      process="@this"/>
+                            
                         </p:selectBooleanCheckbox>            
                         <p:tooltip for="isActiveJobCostingAndPaymentsOnly" value="Check to show active costing templates only" 
                                    showEffect="fade" hideEffect="fade" />
@@ -78,7 +82,9 @@ Email: info@dpbennett.com.jm
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          value="#{jobFinanceManager.foundJobCostingAndPayments}">
 
-                <p:ajax event="cellEdit" listener="#{jobFinanceManager.onJobCostingAndPaymentCellEdit}" />
+                <p:ajax event="cellEdit" 
+                        global="false"
+                        listener="#{jobFinanceManager.onJobCostingAndPaymentCellEdit}" />
 
                 <f:facet name="header">
                     Costing Templates
