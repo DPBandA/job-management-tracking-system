@@ -82,54 +82,43 @@
                         index.xhtml                       
                     </dependentWarExcludes>
                     
-                    <overlays>
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>system-management</artifactId>
-                        </overlay>
-                             
+                    <overlays>                                                  
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>report-management</artifactId>
                             <excludes>
-                                <exclude>hr/*</exclude>                              
-                                <exclude>client/*</exclude>    
-                                <exclude>finance/*</exclude>                     
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>            
                             </excludes>
                         </overlay>                        
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>human-resource-management</artifactId>                                                                            
+                            <artifactId>human-resource-management</artifactId>
+                            <excludes>
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>            
+                            </excludes>                                           
                         </overlay>  
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>client-management</artifactId>
                             <excludes>
-                                <exclude>finance/*</exclude>
-                                <exclude>hr/*</exclude>                               
-                                <exclude>report/*</exclude>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude>  
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>            
                             </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>financial-management</artifactId>
+                            <artifactId>financial-management</artifactId> 
                             <excludes>
-                                <exclude>hr/*</exclude>                               
-                                <exclude>report/*</exclude>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude>  
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>            
                             </excludes>
                         </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>system-management</artifactId>
+                        </overlay>  
                     </overlays> 
                     
                 </configuration>
