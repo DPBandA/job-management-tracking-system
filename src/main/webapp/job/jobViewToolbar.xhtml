@@ -53,7 +53,7 @@ Email: info@dpbennett.com.jm
                 </p:menuitem>
 
                 <p:separator />
-                
+
                 <p:menuitem value="Export costing(s)(Zip)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
@@ -108,19 +108,22 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="right" >               
             <p:menuButton value="Tools">
 
-                <p:menuitem value="Client management"                                               
+                <p:menuitem value="Clients"                                               
                             actionListener="#{jobManager.openClientsTab}"
+                            icon="pi pi-users"
                             process="@this"/>
 
                 <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                       
                             value="Client credit status"
+                            icon="pi pi-thumbs-up"
                             update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
                             oncomplete="PF('accPacClientInformationDialog').show();"
                             onerror="PF('connectionErrorDialog').show();"
                             process="@this"/>                
 
                 <p:separator />
-                <p:menuitem value="Reports"                                                  
+                <p:menuitem value="Reports"    
+                            icon="pi pi-file-o"
                             actionListener="#{jobManager.openReportsTab}"
                             process="@this"/>
 

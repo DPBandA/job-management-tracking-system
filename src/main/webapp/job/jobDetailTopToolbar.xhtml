@@ -73,6 +73,7 @@ Email: info@dpbennett.com.jm
                              update=":jobDialogForm,:jobDialogForm:growl2"
                              disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                              global="true" 
+                             icon="pi pi-copy"
                              process="@this" >
                 </p:menuitem>
 
@@ -81,6 +82,7 @@ Email: info@dpbennett.com.jm
                              update=":jobDialogForm,:jobDialogForm:growl2"
                              disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                              global="true" 
+                             icon="pi pi-copy"
                              process="@this" >
                 </p:menuitem>
 
@@ -101,6 +103,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem value="Service Contract in Excel"
                             ajax="false" 
+                            icon="pi pi-file-excel"
                             immediate="true"
                             disabled="#{!jobManager.currentJobIsValid}"   
                             onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
@@ -110,6 +113,7 @@ Email: info@dpbennett.com.jm
                 </p:menuitem>
                 
                 <p:menuitem value="Service Contract in PDF"
+                            icon="pi pi-file-pdf"
                             ajax="false" 
                             immediate="true"
                             disabled="#{!jobManager.currentJobIsValid}"   
