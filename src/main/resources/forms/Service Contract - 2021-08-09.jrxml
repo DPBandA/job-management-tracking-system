@@ -182,6 +182,9 @@ WHERE
 	<parameter name="clientNameAndBillingAddress" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="businessOffice" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="additionalSampleDetails" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="logoURL" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["http://localhost:8080/img/DPB%20PNG%20Logo%20Square.png"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      job.`ID` AS job_ID,
@@ -361,7 +364,7 @@ WHERE
 				<reportElement positionType="Float" x="8" y="13" width="150" height="33" uuid="a2cd8187-bc37-4658-abbc-a362a51dc007">
 					<property name="com.jaspersoft.studio.element.name" value="Logo"/>
 				</reportElement>
-				<imageExpression><![CDATA["/home/desbenn/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{logoURL}]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="142" y="18" width="130" height="27" forecolor="#808080" uuid="09327126-1a2e-4dc1-a655-383544e98755"/>

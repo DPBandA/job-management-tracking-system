@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job Costing" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4a52baad-35f7-495a-a8aa-125da4be7058">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -138,6 +138,9 @@ ORDER BY
 	<parameter name="preparedBy" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="approvedBy" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="approvalDate" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="logoURL" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["http://localhost:8080/img/BSJ%20Logo%20-%20H41.png"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      job.`ID` AS job_ID,
@@ -217,7 +220,7 @@ WHERE
 			</staticText>
 			<image>
 				<reportElement stretchType="ContainerHeight" x="0" y="0" width="100" height="27" uuid="0a63ad48-fbf5-46bf-9894-ab916ed1160e"/>
-				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{logoURL}]]></imageExpression>
 			</image>
 		</band>
 	</pageHeader>
@@ -253,7 +256,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="90" height="22" uuid="dd33ffe4-279f-4a34-8ce0-3ea6f3ee59bc"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -285,7 +288,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="222" height="22" uuid="7b1a52ff-bdad-42ff-8d1e-df9fcf58a12a"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -319,7 +322,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="73" height="22" uuid="a5a886ef-b1cd-4c5e-9603-dbf22dceef3c"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -353,7 +356,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="81" height="22" uuid="3cbe7c6c-483f-428a-bdcc-ba8242ecb022"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -387,7 +390,7 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="22" rowSpan="1">
-							<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+							<textField textAdjust="StretchHeight" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="103" height="22" uuid="8821b420-88b2-4011-b6ff-818e89f00a2a"/>
 								<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="1">
 									<pen lineWidth="1.0"/>
@@ -573,7 +576,7 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$P{customerAddress}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="466" y="267" width="103" height="23" uuid="4ae65019-6e5f-459e-93fb-d7092054b4de"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
@@ -601,7 +604,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[JOB COST($):]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="466" y="336" width="103" height="23" uuid="c6d1db2e-c608-420e-a72e-c092ac3c30b5"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
@@ -629,7 +632,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[DEPOSIT RECEIPT #s:]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="466" y="382" width="103" height="23" uuid="2b9c7883-1ae7-466e-805a-7deaeb847c4e"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
@@ -659,7 +662,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[DISCOUNT($):]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="466" y="405" width="103" height="23" uuid="0ed3751a-12d5-4b46-a640-e08e016c426f"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
@@ -841,7 +844,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[DEPOSIT($):]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="466" y="359" width="103" height="23" uuid="8b428119-fc60-4f92-9c5f-941109ab2530"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
@@ -855,7 +858,7 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$P{deposit}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="466" y="290" width="103" height="23" uuid="aa657965-aede-4783-b860-21bf1553fc41"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
@@ -869,7 +872,7 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalTax}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="466" y="313" width="103" height="23" uuid="82b942b1-4d0b-4e8a-9123-a33487a57e48"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
@@ -899,7 +902,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[DISCOUNT(%):]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="211" y="290" width="255" height="23" uuid="99b56cdd-ddc5-420b-85aa-764d38cdeb04"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
@@ -913,7 +916,7 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalTaxLabel}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="211" y="313" width="255" height="23" uuid="c209e5f8-19c2-4747-b88b-ba6892bb2ed1"/>
 				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
 					<pen lineWidth="1.0"/>
