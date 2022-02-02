@@ -105,13 +105,14 @@ Email: info@dpbennett.com.jm
                             ajax="false" 
                             icon="pi pi-file-excel"
                             immediate="true"
+                            rendered="#{jobContractManager.useServiceContractExcel}"
                             disabled="#{!jobManager.currentJobIsValid}"   
                             onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                     <p:fileDownload value="#{jobManager.serviceContractFileInExcel}" />
 
                 </p:menuitem>
-                
+
                 <p:menuitem value="Service Contract in PDF"
                             icon="pi pi-file-pdf"
                             ajax="false" 
