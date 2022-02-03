@@ -56,18 +56,23 @@ Email: info@dpbennett.com.jm
 
                 <hr/>
 
-                <p:selectOneRadio layout="grid" columns="3" styleClass="grid-radio">
-                    
+                <p:selectOneRadio layout="grid" columns="3"
+                                  converter="serviceConverter"
+                                  value="#{jobContractManager.currentJob.serviceContract.selectedService}" 
+                                  styleClass="grid-radio">
+
                     <f:selectItems value="#{jobContractManager.allActiveServices}" 
-                                   var="service" itemLabel="#{service.name}" itemValue="#{service}"/>
-                    
-                    <p:ajax listener="#{jobContractManager.updateServices}"
-                            update="servicesRequested,:jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
-                            global="false"
-                            process="@this"/>
+                                   var="service"                                    
+                                   itemLabel="#{service.name}" 
+                                   itemValue="#{service}"/>
+
+                    <p:ajax 
+                        listener="#{jobContractManager.updateService}"
+                        update="servicesRequested,:jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services" />
+
 
                 </p:selectOneRadio>
-                
+
             </p:panel>
 
             <p:panel header="Intended Market" 
