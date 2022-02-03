@@ -285,7 +285,9 @@ Email: info@dpbennett.com.jm
                         <p:selectOneMenu value="#{jobSampleManager.selectedJobSample.methodOfDisposal}" 
                                          disabled="#{jobManager.disableJobDialogField('samples')}"
                                          id="methodOfDisposal">
+                            
                             <f:selectItems value="#{jobSampleManager.methodsOfDisposal}" />
+                            
                             <p:ajax listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     global="false"
