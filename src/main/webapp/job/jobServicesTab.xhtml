@@ -56,45 +56,18 @@ Email: info@dpbennett.com.jm
 
                 <hr/>
 
-                <h:panelGrid columns="4" cellspacing="5" >
+                <p:selectOneRadio layout="grid" columns="3" styleClass="grid-radio">
+                    
+                    <f:selectItems value="#{jobContractManager.allActiveServices}" 
+                                   var="service" itemLabel="#{service.name}" itemValue="#{service}"/>
+                    
+                    <p:ajax listener="#{jobContractManager.updateServices}"
+                            update="servicesRequested,:jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
+                            global="false"
+                            process="@this"/>
 
-                    <p:repeat value="#{jobContractManager.allActiveServices}" var="service">
-                        <p:selectBooleanCheckbox itemLabel="#{service.name}"
-                                                 disabled="#{jobManager.disableJobDialogField('service')}"
-                                                 value="#{jobContractManager.currentJob.serviceContract.serviceRequestedTesting}">
-                            <p:ajax listener="#{jobContractManager.updateServices}"
-                                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
-                                    global="false"                                        
-                                    process="@this"/>
-                        </p:selectBooleanCheckbox>
-                    </p:repeat>
-
-                </h:panelGrid>
-                <h:panelGrid columns="2"  cellspacing="5" style="margin-top: -10px;">                        
-
-                    <p:selectBooleanCheckbox id="otherService" 
-                                             itemLabel="Other"
-                                             disabled="#{jobManager.disableJobDialogField('service')}"
-                                             value="#{jobContractManager.serviceRequestedOther}">
-                        <p:ajax listener="#{jobContractManager.updateServices}"
-                                update="servicesRequested,otherServiceText,:jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services"
-                                global="false"
-                                process="@this"/>
-                    </p:selectBooleanCheckbox>
-
-                    <p:inputText id="otherServiceText"
-                                 disabled="#{jobManager.disableJobDialogField('otherServiceText')}"
-                                 rendered="#{jobContractManager.serviceRequestedOther}"
-                                 maxlength="250"
-                                 value="#{jobContractManager.currentJob.serviceContract.serviceRequestedOtherText}" >
-                        <p:ajax listener="#{jobContractManager.updateServices}"
-                                update=":jobDialogForm:jobDetailToolbar1"
-                                event="change"
-                                global="false"
-                                process="@this"/>
-                    </p:inputText>    
-
-                </h:panelGrid>
+                </p:selectOneRadio>
+                
             </p:panel>
 
             <p:panel header="Intended Market" 
