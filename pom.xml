@@ -123,4 +123,5 @@
             </plugin>
         </plugins>
     </build>
+    <name>JMTS, v4</name>
 </project>
