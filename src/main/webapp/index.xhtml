@@ -91,10 +91,10 @@ Email: info@dpbennett.com.jm
                             </h:panelGrid>
                             <h:panelGroup>
                                 <p:menuButton     
-                                              iconPos="left"
-                                              icon="pi pi-user"
-                                              id="userMenu"
-                                              style="float: right;margin-right: 15px;" >
+                                    iconPos="left"
+                                    icon="pi pi-user"
+                                    id="userMenu"
+                                    style="float: right;margin-right: 15px;" >
 
                                     <p:menuitem actionListener="#{systemManager.editPreferences}"                                            
                                                 update=":preferencesDialogForm"
@@ -175,12 +175,12 @@ Email: info@dpbennett.com.jm
 
                                     </p:menuitem>                                    
                                     <p:separator />
-                                    <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
+                                    <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
                                                 value="Credit"
                                                 icon="pi pi-thumbs-up"
                                                 title="Check client's credit status"
                                                 update=""
-                                                oncomplete="PF('accPacClientInformationDialog').show();"
+
                                                 process="@this" />
                                     <p:separator />
                                     <p:menuitem value="Browse"
@@ -265,12 +265,27 @@ Email: info@dpbennett.com.jm
                                                 process="@this" />
                                 </p:submenu>
 
-                                <f:facet name="options">
-                                    <div class="ui-input-icon-left p-mr-2">
-                                        <i class="pi pi-fw pi-search" />
-                                        <p:inputText placeholder="Search"/>
-                                    </div>
-                                </f:facet>
+                                <p:divider layout="vertical"/>
+
+                                <p:submenu label="Administration" icon="pi pi-fw pi-server">                                    
+                                    <p:menuitem 
+                                        actionListener="#{systemManager.selectSystemAdminTab('centerTabVar', 1)}" 
+                                        value="System" 
+                                        icon="pi pi-database" />                                     
+                                    <p:separator />
+                                    <p:menuitem value="Human Resource" icon="pi pi-fw pi-users"/>  
+                                    <p:separator />
+                                    <p:menuitem value="Financial" icon="pi pi-fw pi-dollar"/> 
+                                </p:submenu>
+
+                                <ui:remove>
+                                    <f:facet name="options">
+                                        <div class="ui-input-icon-left p-mr-2">
+                                            <i class="pi pi-fw pi-search" />
+                                            <p:inputText placeholder="Search"/>
+                                        </div>
+                                    </f:facet>
+                                </ui:remove>
                             </p:menubar>                            
 
                             <p:tabView id="mainTabView"   
