@@ -134,82 +134,92 @@ Email: info@dpbennett.com.jm
 
                                 <ui:include src="dashboard/job/search.xhtml"/>
 
-                                <ui:remove>
-                                    <p:accordionPanel id="dashboardAccordion" 
-                                                      value="#{systemManager.dashboard.tabs}" 
-                                                      var="t" 
-                                                      widgetVar="dashboardAccordionVar"
-                                                      rendered="#{systemManager.dashboard.render}"
-                                                      multiple="false">
-
-                                        <p:ajax event="tabChange"       
-                                                immediate="true"
-                                                global="false"
-                                                process="@this"
-                                                listener="#{systemManager.onDashboardTabChange}" />
-
-                                        <p:tab title="#{t.name}" >                                          
-
-                                            <h:panelGroup rendered="#{t.id == 'System Administration'}">
-                                                <ui:include src="dashboard/admin/generalAdminTab.xhtml" />
-                                            </h:panelGroup>
-
-                                            <h:panelGroup rendered="#{t.id == 'Financial Administration'}">
-                                                <ui:include src="dashboard/finance/financialAdminTab.xhtml" />
-                                            </h:panelGroup>
-
-                                            <h:panelGroup rendered="#{t.id == 'Client Management'}">
-                                                <ui:include src="dashboard/client/clientsTab.xhtml" />
-                                            </h:panelGroup>
-
-                                            <h:panelGroup rendered="#{t.id == 'Human Resource'}">
-                                                <ui:include src="dashboard/hrm/hrmTab.xhtml" />
-                                            </h:panelGroup> 
-
-                                            <h:panelGroup rendered="#{t.id == 'Report Management'}">
-                                                <ui:include src="dashboard/report/reportTab.xhtml" />
-                                            </h:panelGroup>
-
-                                            <h:panelGroup rendered="#{t.id == 'Job Management'}">
-                                                <ui:include src="dashboard/job/jobsTab.xhtml" />
-                                            </h:panelGroup>                                          
-
-                                        </p:tab>   
-
-                                    </p:accordionPanel>
-                                </ui:remove>
                             </p:panel>
                         </p:splitterPanel>     
                         <p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center" 
                                          size="70" minSize="65">
 
                             <p:menubar>
-                                <p:submenu label="File" icon="pi pi-fw pi-file">
-                                    <p:submenu label="New" icon="pi pi-fw pi-plus">
-                                        <p:menuitem value="Bookmark" icon="pi pi-fw pi-bookmark"/>
-                                        <p:menuitem value="Video" icon="pi pi-fw pi-video"/>
-                                    </p:submenu>
-                                    <p:menuitem value="Delete" icon="pi pi-fw pi-trash"/>
-                                    <p:divider />
-                                    <p:menuitem value="Export" icon="pi pi-fw pi-external-link"/>
+                                <p:submenu label="Jobs" icon="pi pi-fw pi-briefcase">                                    
+                                    <p:menuitem value="New"
+                                                title="Create new job"
+                                                icon="pi pi-plus"
+                                                actionListener="#{jobManager.createNewJob}"  
+                                                process="@this" >
+
+                                        <p:ajax event="dialogReturn" 
+                                                update=":appForm:mainTabView"
+                                                listener="#{jobManager.jobDialogReturn}" />
+
+                                    </p:menuitem>    
+                                    <p:separator />
+                                    <p:menuitem value="Browse"
+                                                title="Open the Job Browser tab" 
+                                                icon="pi pi-copy"
+                                                actionListener="#{jobManager.openJobBrowser}" 
+                                                process="@this" />   
                                 </p:submenu>
 
-                                <p:submenu label="Edit" icon="pi pi-fw pi-pencil">
-                                    <p:menuitem value="Left" icon="pi pi-fw pi-align-left"/>
-                                    <p:menuitem value="Right" icon="pi pi-fw pi-align-right"/>
-                                    <p:menuitem value="Center" icon="pi pi-fw pi-align-center"/>
-                                    <p:menuitem value="Justify" icon="pi pi-fw pi-align-justify"/>
+                                <p:submenu label="Clients" icon="pi pi-fw pi-users">
+                                    <p:menuitem
+                                        actionListener="#{clientManager.createNewClient}"                
+                                        disabled="#{!clientManager.user.privilege.canAddClient}"
+                                        global="true" 
+                                        value="New"
+                                        title="Create new client"
+                                        icon="pi pi-plus"
+                                        process="@this" >
+
+                                        <p:ajax event="dialogReturn" 
+                                                update=":appForm:mainTabView:clientsTable" />
+
+                                    </p:menuitem>
+                                    <p:separator />
+                                    <p:menuitem value="Browse"
+                                                title="Browse clients"
+                                                icon="pi pi-users"
+                                                actionListener="#{jobManager.openClientsTab}" 
+                                                process="@this" />
                                 </p:submenu>
 
-                                <p:submenu label="Employees" icon="pi pi-fw pi-users">
-                                    <p:menuitem value="New" icon="pi pi-fw pi-user-plus"/>
-                                    <p:menuitem value="Delete" icon="pi pi-fw pi-user-minus"/>
-                                    <p:submenu label="Search" icon="pi pi-fw pi-users">
-                                        <p:submenu label="Filter" icon="pi pi-fw pi-filter">
-                                            <p:menuitem value="Print" icon="pi pi-fw pi-print"/>
-                                        </p:submenu>
-                                        <p:menuitem value="List" icon="pi pi-fw pi-bars"/>
-                                    </p:submenu>
+                                <p:submenu label="Costings" icon="pi pi-fw pi-dollar">
+                                    <p:menuitem value="Quotation"
+                                                title="Create new quotation"
+                                                icon="pi pi-plus"
+                                                disabled="false"
+                                                actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                                                process="@this" >
+
+                                        <p:ajax event="dialogReturn" 
+                                                listener="#{jobFinanceManager.proformaDialogReturn}"
+                                                update=""/>
+
+                                    </p:menuitem> 
+                                    <p:menuitem value="Estimate"
+                                                title="Create new cost estimate"
+                                                icon="pi pi-plus"
+                                                disabled="false"
+                                                actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
+                                                process="@this" >
+
+                                        <p:ajax event="dialogReturn" 
+                                                listener="#{jobFinanceManager.costEstimateDialogReturn}"
+                                                update=""/>
+                                    </p:menuitem>
+                                    <p:separator />
+                                    <p:menuitem value="Quotations"
+                                                title="Browse quotations"
+                                                icon="pi pi-dollar"
+                                                disabled="false" 
+                                                actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
+                                                process="@this" />
+                                    <p:menuitem value="Price list"
+                                                title="Browse price list"
+                                                icon="pi pi-dollar"
+                                                disabled="false"
+                                                actionListener="#{jobFinanceManager.openPriceListDialog}"
+                                                process="@this" />
+
                                 </p:submenu>
 
                                 <p:submenu label="Notifications" icon="pi pi-fw pi-calendar">
