@@ -90,11 +90,11 @@ Email: info@dpbennett.com.jm
 
                             </h:panelGrid>
                             <h:panelGroup>
-                                <p:menuButton value="#{systemManager.user.employee.firstName} #{systemManager.user.employee.lastName}"     
+                                <p:menuButton     
                                               iconPos="left"
                                               icon="pi pi-user"
                                               id="userMenu"
-                                              style="float: right;" >
+                                              style="float: right;margin-right: 15px;" >
 
                                     <p:menuitem actionListener="#{systemManager.editPreferences}"                                            
                                                 update=":preferencesDialogForm"
@@ -173,7 +173,15 @@ Email: info@dpbennett.com.jm
                                         <p:ajax event="dialogReturn" 
                                                 update=":appForm:mainTabView:clientsTable" />
 
-                                    </p:menuitem>
+                                    </p:menuitem>                                    
+                                    <p:separator />
+                                    <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
+                                                value="Credit"
+                                                icon="pi pi-thumbs-up"
+                                                title="Check client's credit status"
+                                                update=""
+                                                oncomplete="PF('accPacClientInformationDialog').show();"
+                                                process="@this" />
                                     <p:separator />
                                     <p:menuitem value="Browse"
                                                 title="Browse clients"
@@ -182,7 +190,7 @@ Email: info@dpbennett.com.jm
                                                 process="@this" />
                                 </p:submenu>
 
-                                <p:submenu label="Costings" icon="pi pi-fw pi-dollar">
+                                <p:submenu label="Finance" icon="pi pi-fw pi-dollar">
                                     <p:menuitem value="Quotation"
                                                 title="Create new quotation"
                                                 icon="pi pi-plus"
@@ -206,6 +214,16 @@ Email: info@dpbennett.com.jm
                                                 listener="#{jobFinanceManager.costEstimateDialogReturn}"
                                                 update=""/>
                                     </p:menuitem>
+                                    <p:menuitem value="Requisition"
+                                                title="Create new purchase requisition"
+                                                icon="pi pi-plus"
+                                                actionListener="#{purchasingManager.createNewPurchaseReq}" 
+                                                process="@this" >
+
+                                        <p:ajax event="dialogReturn" 
+                                                update=":appForm:mainTabView:purchasereqsTable"/>
+
+                                    </p:menuitem>
                                     <p:separator />
                                     <p:menuitem value="Quotations"
                                                 title="Browse quotations"
@@ -219,22 +237,33 @@ Email: info@dpbennett.com.jm
                                                 disabled="false"
                                                 actionListener="#{jobFinanceManager.openPriceListDialog}"
                                                 process="@this" />
-
+                                    <p:menuitem value="Requisitions"
+                                                icon="pi pi-dollar"
+                                                title="Browse requisitions" 
+                                                actionListener="#{purchasingManager.openPurchaseReqsTab}" 
+                                                process="@this" />
                                 </p:submenu>
 
-                                <p:submenu label="Notifications" icon="pi pi-fw pi-calendar">
-                                    <p:submenu label="Edit" icon="pi pi-fw pi-pencil">
-                                        <p:menuitem value="Save" icon="pi pi-fw pi-calendar-plus"/>
-                                        <p:menuitem value="Delete" icon="pi pi-fw pi-calendar-minus"/>
-                                    </p:submenu>
-                                    <p:submenu label="Archieve" icon="pi pi-fw pi-calendar-times">
-                                        <p:menuitem value="Remove" icon="pi pi-fw pi-calendar-minus"/>
-                                    </p:submenu>
+                                <p:submenu label="Reports"  icon="pi pi-chart-bar" >
+                                    <p:menuitem value="Template"
+                                                title="Create new report template"
+                                                icon="pi pi-plus"
+                                                actionListener="#{reportManager.createNewReport}" 
+                                                global="true"
+                                                process="@this" >
+
+                                        <p:ajax event="dialogReturn" 
+                                                listener="#{reportManager.doReportSearch}"
+                                                update=":appForm:mainTabView"/>
+
+                                    </p:menuitem>
+                                    <p:separator />
+                                    <p:menuitem value="Reports"
+                                                title="Browse reports"
+                                                icon="pi pi-chart-bar"
+                                                actionListener="#{reportManager.openReportsTab}" 
+                                                process="@this" />
                                 </p:submenu>
-
-                                <p:divider layout="vertical"/>
-
-                                <p:menuitem value="Quit" icon="pi pi-fw pi-power-off"/>
 
                                 <f:facet name="options">
                                     <div class="ui-input-icon-left p-mr-2">
