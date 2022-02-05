@@ -24,108 +24,110 @@ Email: info@dpbennett.com.jm
 
     <ui:include src="/job/finance/accpac/accPacClientInformationDialog.xhtml"/>
 
-    <p:toolbar style="margin-bottom: 1px;">
+    <ui:remove>
+        <p:toolbar style="margin-bottom: 1px;">
 
-        <p:toolbarGroup align="left">
+            <p:toolbarGroup align="left">
 
-            <p:menuButton value="New" >  
-                <p:menuitem value="Job"
-                            title="Create new job"
-                            icon="pi pi-plus"
-                            actionListener="#{jobManager.createNewJob}"  
-                            process="@this" >
+                <p:menuButton value="New" >  
+                    <p:menuitem value="Job"
+                                title="Create new job"
+                                icon="pi pi-plus"
+                                actionListener="#{jobManager.createNewJob}"  
+                                process="@this" >
 
-                    <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView"
-                            listener="#{jobManager.jobDialogReturn}" />
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView"
+                                listener="#{jobManager.jobDialogReturn}" />
 
-                </p:menuitem>    
-                <p:separator />
-                <p:menuitem
-                    actionListener="#{clientManager.createNewClient}"                
-                    disabled="#{!clientManager.user.privilege.canAddClient}"
-                    global="true" 
-                    value="Client"
-                    title="Create new client"
-                    icon="pi pi-plus"
-                    process="@this" >
+                    </p:menuitem>    
+                    <p:separator />
+                    <p:menuitem
+                        actionListener="#{clientManager.createNewClient}"                
+                        disabled="#{!clientManager.user.privilege.canAddClient}"
+                        global="true" 
+                        value="Client"
+                        title="Create new client"
+                        icon="pi pi-plus"
+                        process="@this" >
 
-                    <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView:clientsTable" />
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView:clientsTable" />
 
-                </p:menuitem>
-                <p:separator />
-                <p:menuitem value="Proforma Invoice"
-                            title="Create new proforma invoice"
-                            icon="pi pi-plus"
-                            disabled="false"
-                            actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
-                            process="@this" >
+                    </p:menuitem>
+                    <p:separator />
+                    <p:menuitem value="Proforma Invoice"
+                                title="Create new proforma invoice"
+                                icon="pi pi-plus"
+                                disabled="false"
+                                actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                                process="@this" >
 
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobFinanceManager.proformaDialogReturn}"
-                            update=""/>
+                        <p:ajax event="dialogReturn" 
+                                listener="#{jobFinanceManager.proformaDialogReturn}"
+                                update=""/>
 
-                </p:menuitem> 
-                <p:menuitem value="Cost Estimate"
-                            title="Create new cost estimate"
-                            icon="pi pi-plus"
-                            disabled="false"
-                            actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
-                            process="@this" >
+                    </p:menuitem> 
+                    <p:menuitem value="Cost Estimate"
+                                title="Create new cost estimate"
+                                icon="pi pi-plus"
+                                disabled="false"
+                                actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
+                                process="@this" >
 
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobFinanceManager.costEstimateDialogReturn}"
-                            update=""/>
+                        <p:ajax event="dialogReturn" 
+                                listener="#{jobFinanceManager.costEstimateDialogReturn}"
+                                update=""/>
 
-                </p:menuitem>
-            </p:menuButton>    
+                    </p:menuitem>
+                </p:menuButton>    
 
-        </p:toolbarGroup>
+            </p:toolbarGroup>
 
-        <p:toolbarGroup align="right">            
-            <p:menuButton value="Tools" >  
-                <p:menuitem value="Jobs"
-                            title="Open the Job Browser tab" 
-                            icon="pi pi-briefcase"
-                            actionListener="#{jobManager.openJobBrowser}" 
-                            process="@this" />              
-                <p:separator />
-                <p:menuitem value="Clients"
-                            title="Open the Clients tab"
-                            icon="pi pi-users"
-                            actionListener="#{jobManager.openClientsTab}" 
-                            process="@this" />
+            <p:toolbarGroup align="right">            
+                <p:menuButton value="Tools" >  
+                    <p:menuitem value="Jobs"
+                                title="Open the Job Browser tab" 
+                                icon="pi pi-briefcase"
+                                actionListener="#{jobManager.openJobBrowser}" 
+                                process="@this" />              
+                    <p:separator />
+                    <p:menuitem value="Clients"
+                                title="Open the Clients tab"
+                                icon="pi pi-users"
+                                actionListener="#{jobManager.openClientsTab}" 
+                                process="@this" />
 
-                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
-                            value="Client Credit Status"
-                            icon="pi pi-thumbs-up"
-                            update=""
-                            oncomplete="PF('accPacClientInformationDialog').show();"
-                            process="@this" />
-                <p:separator />
-                <p:menuitem value="Proforma Invoices"
-                            title="Browse proforma invoices"
-                            icon="pi pi-dollar"
-                            disabled="false" 
-                            actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
-                            process="@this" />
-                <p:menuitem value="Price List"
-                            title="Browse price list"
-                            icon="pi pi-dollar"
-                            disabled="false"
-                            actionListener="#{jobFinanceManager.openPriceListDialog}"
-                            process="@this" />
-                <p:separator />
-                <p:menuitem value="Reports"
-                            title="Open the Reports tab"
-                            icon="pi pi-file-o"
-                            actionListener="#{jobManager.openReportsTab}"
-                            process="@this" />
+                    <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
+                                value="Client Credit Status"
+                                icon="pi pi-thumbs-up"
+                                update=""
+                                oncomplete="PF('accPacClientInformationDialog').show();"
+                                process="@this" />
+                    <p:separator />
+                    <p:menuitem value="Proforma Invoices"
+                                title="Browse proforma invoices"
+                                icon="pi pi-dollar"
+                                disabled="false" 
+                                actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
+                                process="@this" />
+                    <p:menuitem value="Price List"
+                                title="Browse price list"
+                                icon="pi pi-dollar"
+                                disabled="false"
+                                actionListener="#{jobFinanceManager.openPriceListDialog}"
+                                process="@this" />
+                    <p:separator />
+                    <p:menuitem value="Reports"
+                                title="Open the Reports tab"
+                                icon="pi pi-file-o"
+                                actionListener="#{jobManager.openReportsTab}"
+                                process="@this" />
 
-            </p:menuButton>         
-        </p:toolbarGroup>
-    </p:toolbar>
+                </p:menuButton>         
+            </p:toolbarGroup>
+        </p:toolbar>
+    </ui:remove>    
 
 
     <ui:include src="search.xhtml"/>   
