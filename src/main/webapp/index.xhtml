@@ -273,9 +273,17 @@ Email: info@dpbennett.com.jm
                                         value="System" 
                                         icon="pi pi-database" />                                     
                                     <p:separator />
-                                    <p:menuitem value="Human Resource" icon="pi pi-fw pi-users"/>  
+                                    <p:menuitem value="Human Resource"
+                                                title="Browse human resource"
+                                                icon="pi pi-users"
+                                                actionListener="#{humanResourceManager.openHumanResourceBrowser}" 
+                                                process="@this" />  
                                     <p:separator />
-                                    <p:menuitem value="Financial" icon="pi pi-fw pi-dollar"/> 
+                                    <p:menuitem value="Financial"
+                                                icon="pi pi-fw pi-dollar"
+                                                title="Financial administration" 
+                                                actionListener="#{financeManager.openFinancialAdministration}" 
+                                                process="@this" />
                                 </p:submenu>
 
                                 <ui:remove>
