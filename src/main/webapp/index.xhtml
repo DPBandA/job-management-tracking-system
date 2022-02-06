@@ -38,6 +38,10 @@ Email: info@dpbennett.com.jm
         <link rel="shortcut icon" type="image/x-icon" href="#{jobManager.appShortcutIconURL}" />
         <style type="text/css">
 
+            .ui-widget {
+                font-size: 0.975em !important;
+            }
+
             .lightgreybg {
                 background-color:lightgrey !important;
                 background-image: none !important;
@@ -252,7 +256,7 @@ Email: info@dpbennett.com.jm
                                                 actionListener="#{financeManager.openFinancialAdministration}" 
                                                 process="@this" />
                                 </p:submenu>
-                                
+
                                 <p:submenu label="Certification" icon="pi pi-fw pi-check-circle">                                    
                                     <p:menuitem 
                                         actionListener="#{systemManager.selectSystemAdminTab('centerTabVar', 1)}" 
