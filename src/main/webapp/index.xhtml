@@ -76,69 +76,42 @@ Email: info@dpbennett.com.jm
 
                         <p:growl id="growl3" life="5000" showDetail="true" />
 
-                        <h:panelGrid width="100%" 
-                                     border="0" columns="3" >
-                            <p:graphicImage value="images/DPB PNG Logo Square.png"
-                                            height="80" width="80" />
-                            <h:panelGrid columns="1">   
+                        <h:panelGrid columns="1" border="0" width="100%" >
+                            <h:panelGrid width="100%" 
+                                         border="0" columns="3" >
+                                <p:graphicImage value="images/DPB PNG Logo Square.png"
+                                                height="80" width="80" />
+                                <h:panelGrid columns="1">   
 
-                                <h:outputText value="#{jobManager.applicationHeader}"
-                                              style="color: darkgrey; font-size: 14pt; font-weight: bold;" />
+                                    <h:outputText value="#{jobManager.applicationHeader}"
+                                                  style="color: darkgrey; font-size: 14pt; font-weight: bold;" />
 
-                                <h:outputText value="#{systemManager.applicationSubheader}"
-                                              styleClass="#{systemManager.isDebugMode eq true ? 'debug-mode' : 'non-debug-mode'}" />  
+                                    <h:outputText value="#{systemManager.applicationSubheader}"
+                                                  styleClass="#{systemManager.isDebugMode eq true ? 'debug-mode' : 'non-debug-mode'}" />  
 
-                            </h:panelGrid>
-                            <h:panelGroup>
-                                <p:menuButton     
-                                    iconPos="left"
-                                    icon="pi pi-user"
-                                    id="userMenu"
-                                    style="float: right;margin-right: 15px;" >
+                                </h:panelGrid>
+                                <h:panelGroup>
+                                    <p:menuButton     
+                                        iconPos="left"
+                                        icon="pi pi-user"
+                                        id="userMenu"
+                                        style="float: right;margin-right: 15px;" >
 
-                                    <p:menuitem actionListener="#{systemManager.editPreferences}"                                            
-                                                update=":preferencesDialogForm"
-                                                oncomplete="PF('preferencesDialog').show();"
-                                                icon="pi pi-cog"
-                                                value="Preferences"
-                                                process="@this"/>
-                                    <p:separator />  
-                                    <p:menuitem actionListener="#{systemManager.logout}"                                             
-                                                icon="pi pi-sign-out"
-                                                value="Logout"
-                                                process="@this"/>    
+                                        <p:menuitem actionListener="#{systemManager.editPreferences}"                                            
+                                                    update=":preferencesDialogForm"
+                                                    oncomplete="PF('preferencesDialog').show();"
+                                                    icon="pi pi-cog"
+                                                    value="Preferences"
+                                                    process="@this"/>
+                                        <p:separator />  
+                                        <p:menuitem actionListener="#{systemManager.logout}"                                             
+                                                    icon="pi pi-sign-out"
+                                                    value="Logout"
+                                                    process="@this"/>    
 
-                                </p:menuButton>   
-                            </h:panelGroup>
-                        </h:panelGrid> 
-                    </p:splitterPanel>                          
-
-                </p:splitterPanel>
-                <p:splitterPanel>
-                    <p:splitter>
-                        <p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center" 
-                                         size="30" minSize="0">
-                            <p:panel header="Dashboard">
-                                <p:commandButton
-                                    id="doGeneralSearchButton"
-                                    style="visibility: hidden;"
-                                    global="false"                                        
-                                    value=""  
-                                    update=":appForm:growl3"
-                                    title="This is the default button that accepts the enter key press" 
-                                    actionListener="#{systemManager.doDefaultSearch}"
-                                    process="@form"/>                    
-
-                                <p:defaultCommand id="dashboardDefaultCommandButton" 
-                                                  target="doGeneralSearchButton" />
-
-                                <ui:include src="dashboard/job/search.xhtml"/>
-
-                            </p:panel>
-                        </p:splitterPanel>     
-                        <p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center" 
-                                         size="70" minSize="65">
-
+                                    </p:menuButton>   
+                                </h:panelGroup>
+                            </h:panelGrid> 
                             <p:menubar>
                                 <p:submenu label="Jobs" icon="pi pi-fw pi-briefcase">                                    
                                     <p:menuitem value="New"
@@ -244,6 +217,60 @@ Email: info@dpbennett.com.jm
                                                 process="@this" />
                                 </p:submenu>
 
+                                <p:submenu label="Legal" icon="pi pi-fw pi-file">                                    
+                                    <p:menuitem 
+                                        actionListener="#{systemManager.selectSystemAdminTab('centerTabVar', 1)}" 
+                                        value="Documents" />                                     
+                                    <p:separator />
+                                    <p:menuitem value="Document types"
+                                                disabled="true"
+                                                title="Browse human resource"
+                                                actionListener="#{humanResourceManager.openHumanResourceBrowser}" 
+                                                process="@this" />  
+                                    <p:separator />
+                                    <p:menuitem value="Classification"
+                                                disabled="true"
+                                                title="Financial administration" 
+                                                actionListener="#{financeManager.openFinancialAdministration}" 
+                                                process="@this" />
+                                </p:submenu>
+
+                                <p:submenu label="Regulatory" icon="pi pi-fw pi-check-square">                                    
+                                    <p:menuitem 
+                                        actionListener="#{systemManager.selectSystemAdminTab('centerTabVar', 1)}" 
+                                        value="Standards Compliance" />                                     
+                                    <p:separator />
+                                    <p:menuitem value="Foods Inspectorate"
+                                                disabled="true"
+                                                title="Browse human resource"
+                                                actionListener="#{humanResourceManager.openHumanResourceBrowser}" 
+                                                process="@this" />  
+                                    <p:separator />
+                                    <p:menuitem value="Legal Metrology"
+                                                disabled="true"
+                                                title="Financial administration" 
+                                                actionListener="#{financeManager.openFinancialAdministration}" 
+                                                process="@this" />
+                                </p:submenu>
+                                
+                                <p:submenu label="Certification" icon="pi pi-fw pi-check-circle">                                    
+                                    <p:menuitem 
+                                        actionListener="#{systemManager.selectSystemAdminTab('centerTabVar', 1)}" 
+                                        value="Standards Compliance" />                                     
+                                    <p:separator />
+                                    <p:menuitem value="Foods Inspectorate"
+                                                disabled="true"
+                                                title="Browse human resource"
+                                                actionListener="#{humanResourceManager.openHumanResourceBrowser}" 
+                                                process="@this" />  
+                                    <p:separator />
+                                    <p:menuitem value="Legal Metrology"
+                                                disabled="true"
+                                                title="Financial administration" 
+                                                actionListener="#{financeManager.openFinancialAdministration}" 
+                                                process="@this" />
+                                </p:submenu>
+
                                 <p:submenu label="Reports"  icon="pi pi-chart-bar" >
                                     <p:menuitem value="Template"
                                                 title="Create new report template"
@@ -294,7 +321,36 @@ Email: info@dpbennett.com.jm
                                         </div>
                                     </f:facet>
                                 </ui:remove>
-                            </p:menubar>                            
+
+                            </p:menubar>
+                        </h:panelGrid>
+                    </p:splitterPanel>                          
+
+                </p:splitterPanel>
+                <p:splitterPanel>
+                    <p:splitter>
+                        <p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center" 
+                                         size="30" minSize="0">
+                            <p:panel header="Dashboard">
+                                <p:commandButton
+                                    id="doGeneralSearchButton"
+                                    style="visibility: hidden;"
+                                    global="false"                                        
+                                    value=""  
+                                    update=":appForm:growl3"
+                                    title="This is the default button that accepts the enter key press" 
+                                    actionListener="#{systemManager.doDefaultSearch}"
+                                    process="@form"/>                    
+
+                                <p:defaultCommand id="dashboardDefaultCommandButton" 
+                                                  target="doGeneralSearchButton" />
+
+                                <ui:include src="dashboard/job/search.xhtml"/>
+
+                            </p:panel>
+                        </p:splitterPanel>     
+                        <p:splitterPanel styleClass="p-d-flex p-ai-center p-jc-center" 
+                                         size="70" minSize="65">
 
                             <p:tabView id="mainTabView"   
                                        rendered="#{systemManager.mainTabView.render}"
