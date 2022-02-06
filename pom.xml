@@ -86,7 +86,8 @@
                             <artifactId>report-management</artifactId>
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
-                                <exclude>admin/*</exclude>            
+                                <exclude>admin/*</exclude>  
+                                <exclude>common/*</exclude>            
                             </excludes>
                         </overlay>                        
                         <overlay>
@@ -94,7 +95,8 @@
                             <artifactId>human-resource-management</artifactId>
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
-                                <exclude>admin/*</exclude>            
+                                <exclude>admin/*</exclude>    
+                                <exclude>common/*</exclude>          
                             </excludes>                                           
                         </overlay>  
                         <overlay>
@@ -102,7 +104,8 @@
                             <artifactId>client-management</artifactId>
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
-                                <exclude>admin/*</exclude>            
+                                <exclude>admin/*</exclude>    
+                                <exclude>common/*</exclude>          
                             </excludes>
                         </overlay>
                         <overlay>
@@ -110,7 +113,8 @@
                             <artifactId>financial-management</artifactId> 
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
-                                <exclude>admin/*</exclude>            
+                                <exclude>admin/*</exclude>   
+                                <exclude>common/*</exclude>           
                             </excludes>
                         </overlay>
                         <overlay>
