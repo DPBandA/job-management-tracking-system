@@ -82,8 +82,11 @@ Email: info@dpbennett.com.jm
                         <h:panelGrid columns="1" border="0" width="100%" >
                             <h:panelGrid width="100%" 
                                          border="0" columns="3" >
-                                <p:graphicImage value="images/DPB PNG Logo Square.png"
-                                                height="80" width="80" />
+                                
+                                <p:graphicImage value="#{systemManager.logoURL}"
+                                            height="#{systemManager.logoURLImageHeight}" 
+                                            width="#{systemManager.logoURLImageWidth}"/>
+                                
                                 <h:panelGrid columns="1">   
 
                                     <h:outputText value="#{jobManager.applicationHeader}"
