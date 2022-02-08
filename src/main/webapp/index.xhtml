@@ -69,7 +69,7 @@ Email: info@dpbennett.com.jm
 
         <ui:include src="common/commonDialogs.xhtml" />
         <ui:include src="admin/loginDialog.xhtml"/>  
-        <ui:include src="common/preferencesDialog.xhtml"/> 
+        <ui:include src="common/userProfileDialog.xhtml"/>  
         <h:form id="appForm">          
             <p:splitter layout="vertical" rendered="#{systemManager.renderUserMenu()}">
                 <p:splitterPanel size="100" >
@@ -82,11 +82,11 @@ Email: info@dpbennett.com.jm
                         <h:panelGrid columns="1" border="0" width="100%" >
                             <h:panelGrid width="100%" 
                                          border="0" columns="3" >
-                                
+
                                 <p:graphicImage value="#{systemManager.logoURL}"
-                                            height="#{systemManager.logoURLImageHeight}" 
-                                            width="#{systemManager.logoURLImageWidth}"/>
-                                
+                                                height="#{systemManager.logoURLImageHeight}" 
+                                                width="#{systemManager.logoURLImageWidth}"/>
+
                                 <h:panelGrid columns="1">   
 
                                     <h:outputText value="#{jobManager.applicationHeader}"
@@ -103,11 +103,11 @@ Email: info@dpbennett.com.jm
                                         id="userMenu"
                                         style="float: right;margin-right: 15px;" >
 
-                                        <p:menuitem actionListener="#{systemManager.editPreferences}"                                            
-                                                    update=":preferencesDialogForm"
-                                                    oncomplete="PF('preferencesDialog').show();"
+                                        <p:menuitem actionListener="#{systemManager.viewUserProfile}"                                            
+                                                    update=":userProfileDialogForm"
+                                                    oncomplete="PF('userProfileDialog').show();"
                                                     icon="pi pi-cog"
-                                                    value="Preferences"
+                                                    value="Profile"
                                                     process="@this"/>
                                         <p:separator />  
                                         <p:menuitem actionListener="#{systemManager.logout}"                                             
@@ -119,7 +119,9 @@ Email: info@dpbennett.com.jm
                                 </h:panelGroup>
                             </h:panelGrid> 
                             <p:menubar>
-                                <p:submenu label="Jobs" icon="pi pi-fw pi-briefcase">                                    
+                                <p:submenu label="Jobs" 
+                                           rendered="#{systemManager.user.can('AccessJobManagementUnit')}"
+                                           icon="pi pi-fw pi-briefcase">                                    
                                     <p:menuitem value="New"
                                                 title="Create new job"
                                                 icon="pi pi-plus"
