@@ -1,0 +1,247 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2021  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:menubar>
+        <p:submenu label="Jobs" 
+                   rendered="#{systemManager.user.hasModule('JobManagementAndTrackingModule')}"
+                   icon="pi pi-fw pi-briefcase">                                    
+            <p:menuitem value="New"
+                        title="Create new job"
+                        icon="pi pi-plus"
+                        actionListener="#{jobManager.createNewJob}"  
+                        process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":appForm:mainTabView"
+                        listener="#{jobManager.jobDialogReturn}" />
+
+            </p:menuitem>    
+            <p:separator />
+            <p:menuitem value="Browse"
+                        title="Open the Job Browser tab" 
+                        icon="pi pi-copy"
+                        actionListener="#{jobManager.openJobBrowser}" 
+                        process="@this" />   
+        </p:submenu>
+
+        <p:submenu label="Clients" 
+                   rendered="#{systemManager.user.hasModule('CRMModule')}"
+                   icon="pi pi-fw pi-users">
+            <p:menuitem
+                actionListener="#{clientManager.createNewClient}"                
+                disabled="#{!clientManager.user.privilege.canAddClient}"
+                global="true" 
+                value="New"
+                title="Create new client"
+                icon="pi pi-plus"
+                process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":appForm:mainTabView:clientsTable" />
+
+            </p:menuitem>                                    
+            <p:separator />
+            <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
+                        value="Credit"
+                        icon="pi pi-thumbs-up"
+                        title="Check client's credit status"
+                        update=""
+
+                        process="@this" />
+            <p:separator />
+            <p:menuitem value="Browse"
+                        title="Browse clients"
+                        icon="pi pi-users"
+                        actionListener="#{jobManager.openClientsTab}" 
+                        process="@this" />
+        </p:submenu>
+
+        <p:submenu label="Finance" 
+                   rendered="#{systemManager.user.hasModule('FinancialManagementModule')}"
+                   icon="pi pi-fw pi-dollar">
+            <p:menuitem value="Quotation"
+                        title="Create new quotation"
+                        icon="pi pi-plus"
+                        disabled="false"
+                        actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                        process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{jobFinanceManager.proformaDialogReturn}"
+                        update=""/>
+
+            </p:menuitem> 
+            <p:menuitem value="Estimate"
+                        title="Create new cost estimate"
+                        icon="pi pi-plus"
+                        disabled="false"
+                        actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
+                        process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{jobFinanceManager.costEstimateDialogReturn}"
+                        update=""/>
+            </p:menuitem>
+            <p:menuitem value="Requisition"
+                        title="Create new purchase requisition"
+                        icon="pi pi-plus"
+                        actionListener="#{purchasingManager.createNewPurchaseReq}" 
+                        process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":appForm:mainTabView:purchasereqsTable"/>
+
+            </p:menuitem>
+            <p:separator />
+            <p:menuitem value="Quotations"
+                        title="Browse quotations"
+                        icon="pi pi-dollar"
+                        disabled="false" 
+                        actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
+                        process="@this" />
+            <p:menuitem value="Price list"
+                        title="Browse price list"
+                        icon="pi pi-dollar"
+                        disabled="false"
+                        actionListener="#{jobFinanceManager.openPriceListDialog}"
+                        process="@this" />
+            <p:menuitem value="Requisitions"
+                        icon="pi pi-dollar"
+                        title="Browse requisitions" 
+                        actionListener="#{purchasingManager.openPurchaseReqsTab}" 
+                        process="@this" />
+        </p:submenu>
+
+        <p:submenu label="Legal" 
+                   rendered="#{systemManager.user.hasModule('LegalOfficeModule')}"
+                   icon="pi pi-fw pi-file">   
+            
+            <p:menuitem 
+                value="Documents" />    
+            
+            <p:separator />
+            
+            <p:menuitem value="Document types"
+                        disabled="true"
+                        title="Browse human resource"
+                        actionListener="#{humanResourceManager.openHumanResourceBrowser}" 
+                        process="@this" />  
+            <p:separator />
+            <p:menuitem value="Classification"
+                        disabled="true"
+                        title="Financial administration" 
+                        actionListener="#{financeManager.openFinancialAdministration}" 
+                        process="@this" />
+        </p:submenu>
+
+        <p:submenu label="Regulatory"
+                   rendered="#{systemManager.user.hasModule('RegulatoryModule')}"
+                   icon="pi pi-fw pi-check-square">  
+            
+            <p:menuitem 
+                rendered="#{systemManager.user.hasModule('ComplianceModule')}"
+                process="@this"
+                value="Standards Compliance" />      
+            
+            <p:separator />
+            
+            <p:menuitem value="Foods Inspectorate"
+                        rendered="#{systemManager.user.hasModule('FoodsInspectorateModule')}"
+                        process="@this" />  
+            
+            <p:separator />
+            
+            <p:menuitem value="Legal Metrology"
+                        rendered="#{systemManager.user.hasModule('LegalMetrologyModule')}" 
+                        process="@this" />
+            
+        </p:submenu>
+
+        <p:submenu label="Certification" 
+                   rendered="#{systemManager.user.hasModule('CertificationModule')}" 
+                   icon="pi pi-fw pi-check-circle">     
+            
+            <p:menuitem value="Browse clients" /> 
+            
+        </p:submenu>
+
+        <p:submenu label="Reports"  
+                   rendered="#{systemManager.user.hasModule('ReportModule')}"
+                   icon="pi pi-chart-bar" >
+            <p:menuitem value="Template"
+                        title="Create new report template"
+                        icon="pi pi-plus"
+                        actionListener="#{reportManager.createNewReport}" 
+                        global="true"
+                        process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{reportManager.doReportSearch}"
+                        update=":appForm:mainTabView"/>
+
+            </p:menuitem>
+            <p:separator />
+            <p:menuitem value="Reports"
+                        title="Browse reports"
+                        icon="pi pi-chart-bar"
+                        actionListener="#{reportManager.openReportsTab}" 
+                        process="@this" />
+        </p:submenu>
+
+        <p:divider layout="vertical"/>
+
+        <p:submenu label="Administration" 
+                   icon="pi pi-fw pi-server">                                    
+            <p:menuitem 
+                actionListener="#{systemManager.selectSystemAdminTab('centerTabVar', 1)}" 
+                value="System" 
+                icon="pi pi-database" />                                     
+            <p:separator />
+            <p:menuitem value="Human Resource"
+                        title="Browse human resource"
+                        icon="pi pi-users"
+                        actionListener="#{humanResourceManager.openHumanResourceBrowser}" 
+                        process="@this" />  
+            <p:separator />
+            <p:menuitem value="Financial"
+                        icon="pi pi-fw pi-dollar"
+                        title="Financial administration" 
+                        actionListener="#{financeManager.openFinancialAdministration}" 
+                        process="@this" />
+        </p:submenu>
+
+        <ui:remove>
+            <f:facet name="options">
+                <div class="ui-input-icon-left p-mr-2">
+                    <i class="pi pi-fw pi-search" />
+                    <p:inputText placeholder="Search"/>
+                </div>
+            </f:facet>
+        </ui:remove>
+
+    </p:menubar>
+
+</html>
