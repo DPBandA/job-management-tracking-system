@@ -80,9 +80,10 @@ Email: info@dpbennett.com.jm
         </p:submenu>
 
         <p:submenu label="Finance" 
-                   rendered="#{systemManager.user.hasModule('FinancialManagementModule')}"
+                   rendered="true"
                    icon="pi pi-fw pi-dollar">
-            <p:menuitem value="Quotation"
+            
+            <p:menuitem value="Pro forma"
                         title="Create new quotation"
                         icon="pi pi-plus"
                         disabled="false"
@@ -211,24 +212,32 @@ Email: info@dpbennett.com.jm
                         process="@this" />
         </p:submenu>
 
-        <p:divider layout="vertical"/>
+        <p:divider layout="vertical" 
+                   rendered="#{systemManager.user.hasModule('AdminModule')}" />
 
         <p:submenu label="Administration" 
-                   icon="pi pi-fw pi-server">                                    
+                   rendered="#{systemManager.user.hasModule('AdminModule')}"
+                   icon="pi pi-fw pi-server">   
+            
             <p:menuitem 
-                actionListener="#{systemManager.selectSystemAdminTab('centerTabVar', 1)}" 
+                actionListener="#{systemManager.selectSystemAdminTab('centerTabVar', 0)}" 
+                rendered="#{systemManager.user.hasModule('SystemAdministrationModule')}"
                 value="System" 
-                icon="pi pi-database" />                                     
+                icon="pi pi-database" />    
+            
             <p:separator />
+            
             <p:menuitem value="Human Resource"
                         title="Browse human resource"
+                        rendered="#{systemManager.user.hasModule('HRMModule')}"
                         icon="pi pi-users"
                         actionListener="#{humanResourceManager.openHumanResourceBrowser}" 
                         process="@this" />  
-            <p:separator />
+            <p:separator rendered="#{systemManager.user.hasModule('FinancialManagementModule')}" />
             <p:menuitem value="Financial"
                         icon="pi pi-fw pi-dollar"
                         title="Financial administration" 
+                        rendered="#{systemManager.user.hasModule('FinancialManagementModule')}"
                         actionListener="#{financeManager.openFinancialAdministration}" 
                         process="@this" />
         </p:submenu>
