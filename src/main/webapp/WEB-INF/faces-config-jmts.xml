@@ -64,6 +64,13 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>clientCreditStatusDialog</from-outcome>
+            <to-view-id>/job/finance/accpac/clientCreditStatusDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>cashPaymentDialog</from-outcome>
             <to-view-id>/job/finance/cashPaymentDialog.xhtml</to-view-id>
         </navigation-case>
