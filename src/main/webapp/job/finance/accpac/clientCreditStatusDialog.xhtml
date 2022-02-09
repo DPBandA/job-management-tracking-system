@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2022  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -31,8 +31,8 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
         <meta http-equiv="pragma" content="no-cache" />
         <title>Client Credit Status</title>
-        <link rel="stylesheet" href="../../css/main.css" /> 
-        <script type="text/javascript" src="../../js/javascripts.js"/>
+        <link rel="stylesheet" href="/css/main.css" /> 
+        <script type="text/javascript" src="/js/javascripts.js"/>
     </h:head>
     <h:body>        
         <ui:include src="/common/commonDialogs.xhtml"/>  
@@ -48,97 +48,23 @@ Email: info@dpbennett.com.jm
                                      actionListener="#{jobFinanceManager.okClientCreditStatus}"
                                      icon="pi pi-check"
                                      update="client_credit_status_dialog_growl"
-                                     process="@form"/>                   
+                                     process="@this"/>                   
                 </p:toolbarGroup>
             </p:toolbar>
-            <p:panel>
-                <h:panelGrid columns="2" style="width: 85%;">
-                    <h:outputText value="Type" style="font-weight: bold;" />    
-                    <p:selectOneMenu 
-                        id="type"      
-                        value="#{jobFinanceManager.selectedCashPayment.type}">
-                        <p:ajax
-                            global="false"                        
-                            listener="#{jobFinanceManager.updateCashPayment}"
-                            process="@this" />
-                        <f:selectItems value="#{jobFinanceManager.paymentTypes}" />
-                    </p:selectOneMenu>   
-
-                    <h:outputText value="Purpose of payment" style="font-weight: bold;" />    
-                    <p:selectOneMenu 
-                        id="paymentPurpose"      
-                        value="#{jobFinanceManager.selectedCashPayment.paymentPurpose}">
-                        <p:ajax
-                            global="false"                        
-                            listener="#{jobFinanceManager.updateCashPayment}"
-                            process="@this" />
-                        <f:selectItems value="#{jobFinanceManager.paymentPurposes}" />
-                    </p:selectOneMenu>   
-
-                    <h:outputText value="Payment date" style="font-weight: bold" />
-                    <p:calendar id="paymentDate"
-                                value="#{jobFinanceManager.selectedCashPayment.dateOfPayment}" 
-                                readonlyInput="true"
-                                navigator="true" 
-                                pattern="MMM dd, yyyy" >
-                        
-                        <p:ajax event="dateSelect"
-                                global="false"
-                                listener="#{jobFinanceManager.updateCashPayment}" />
-
-                    </p:calendar>
-
-                    <h:outputText value="Receipt #" />
-                    <p:inputText value="#{jobFinanceManager.selectedCashPayment.receiptNumber}" 
-                                 maxlength="40" >
-                        <p:ajax listener="#{jobFinanceManager.updateCashPayment}"
-                                event="change"
-                                global="false"                            
-                                process="@this"/>
-                    </p:inputText>               
-
-                    <h:outputText value="Amount ($)" style="font-weight: bold;" />
-                    <p:inputText value="#{jobFinanceManager.selectedCashPayment.payment}"  
-                                 id="paymentAmount"
-                                 styleClass="number-field"
-                                 validator="requiredFieldValidator"
-                                 converterMessage="Invalid payment amount"
-                                 maxlength="15">
-
-                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
-
-                        <p:ajax event="change"
-                                global="false"                            
-                                listener="#{jobFinanceManager.updateCashPayment}"
-                                process="@this"/>
-                    </p:inputText> 
-
-                    <h:outputText value="Terms" />
-                    <p:inputTextarea
-                        value="#{jobFinanceManager.selectedCashPayment.paymentTerms}"
-                        style="width: 250px;"
-                        maxlength="250"
-                        rows="2">
-                        <p:ajax event="change"
-                                global="false"
-                                listener="#{jobFinanceManager.updateCashPayment}"
-                                process="@this"/>
-                    </p:inputTextarea>                
-                </h:panelGrid>
-            </p:panel>
+            <p:tabView id="accPacClientInformationTabView"
+                       style="margin-top: 1px;margin-bottom: 1px;"
+                       widgetVar="clientTabVar" >
+                <p:tab title="Credit status">                
+                    <ui:include src="/job/finance/accpac/accPacClientCreditStatus.xhtml"/>               
+                </p:tab>
+            </p:tabView>
             <p:toolbar style="margin-top: 1px;">
-                <p:toolbarGroup align="left">
+               <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
-                                     actionListener="#{jobFinanceManager.okCashPayment}"
+                                     actionListener="#{jobFinanceManager.okClientCreditStatus}"
                                      icon="pi pi-check"
-                                     update="cash_payment_dialog_growl"
-                                     process="@form"/>
-                    <p:spacer height="0" width="5"/>
-                    <p:commandButton value="Cancel"
-                                     immediate="true"
-                                     actionListener="#{jobFinanceManager.cancelCashPaymentEdit}"
-                                     icon="pi pi-times"
-                                     process="@this"/>    
+                                     update="client_credit_status_dialog_growl"
+                                     process="@this"/>                   
                 </p:toolbarGroup>
             </p:toolbar>
             <p/>    
