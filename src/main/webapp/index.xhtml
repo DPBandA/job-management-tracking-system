@@ -63,6 +63,16 @@ Email: info@dpbennett.com.jm
                 color: #000000 !important;
             }
 
+            .ui-sticky {
+                top: 0px !important;
+            }
+
+            @media (max-width: 960px) {
+                .ui-sticky {
+                    top: 0px !important;
+                }
+            }
+
         </style>
     </h:head>
     <h:body>
@@ -120,9 +130,13 @@ Email: info@dpbennett.com.jm
                                 </h:panelGroup>
                             </h:panelGrid> 
 
-                            <ui:include src="menubar.xhtml"/>
+                            <ui:include src="menubar.xhtml"/>                           
+                            
 
                         </h:panelGrid>
+                        
+                        <p:sticky target="main_menubar"/>
+                        
                     </p:splitterPanel>                          
 
                 </p:splitterPanel>
@@ -201,6 +215,10 @@ Email: info@dpbennett.com.jm
 
                                     <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                         <ui:include src="job/jobBrowser.xhtml" /> 
+                                    </h:panelGroup>
+                                    
+                                    <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
+                                        <ui:include src="legal/documentBrowser.xhtml" />   
                                     </h:panelGroup>
 
                                     <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >

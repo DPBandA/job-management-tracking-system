@@ -51,6 +51,12 @@
             <artifactId>client-management</artifactId>
             <version>2.0.0</version>
             <type>war</type>
+        </dependency> 
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>legal-office</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
         </dependency>  
     </dependencies>
     <build>
@@ -111,6 +117,15 @@
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>financial-management</artifactId> 
+                            <excludes>
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>   
+                                <exclude>common/*</exclude>           
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>legal-office</artifactId> 
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
                                 <exclude>admin/*</exclude>   
