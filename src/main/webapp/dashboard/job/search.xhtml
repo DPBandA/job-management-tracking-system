@@ -31,7 +31,7 @@ Email: info@dpbennett.com.jm
             <p:selectOneMenu value="#{jobManager.searchType}" 
                              style="width: 90%;">
                 
-                <f:selectItems value="#{jobManager.authorizedSearchTypes}" />
+                <f:selectItems value="#{jobManager.groupedSearchTypes}" />
                 
                 <p:ajax update="jobSearchPanel" global="false" process="@this" />
 
