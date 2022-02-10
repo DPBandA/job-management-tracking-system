@@ -99,17 +99,10 @@
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
                                 <exclude>admin/*</exclude>  
-                                <exclude>common/*</exclude>            
+                                <exclude>common/*</exclude>  
+                                <exclude>dashboard/hrm/*</exclude>
+                                <exclude>hr/*</exclude>   
                             </excludes>
-                        </overlay>                        
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>human-resource-management</artifactId>
-                            <excludes>
-                                <exclude>dashboard/admin/*</exclude>
-                                <exclude>admin/*</exclude>    
-                                <exclude>common/*</exclude>          
-                            </excludes>                                           
                         </overlay>  
                         <overlay>
                             <groupId>${project.groupId}</groupId>
@@ -117,7 +110,9 @@
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
                                 <exclude>admin/*</exclude>    
-                                <exclude>common/*</exclude>          
+                                <exclude>common/*</exclude>      
+                                <exclude>dashboard/hrm/*</exclude>
+                                <exclude>hr/*</exclude>    
                             </excludes>
                         </overlay>
                         <overlay>
@@ -135,7 +130,9 @@
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
                                 <exclude>admin/*</exclude>   
-                                <exclude>common/*</exclude>           
+                                <exclude>common/*</exclude>     
+                                <exclude>dashboard/hrm/*</exclude>
+                                <exclude>hr/*</exclude>      
                             </excludes>
                         </overlay>
                         <overlay>
@@ -144,13 +141,24 @@
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
                                 <exclude>admin/*</exclude>   
-                                <exclude>common/*</exclude>           
+                                <exclude>common/*</exclude>   
+                                <exclude>dashboard/hrm/*</exclude>
+                                <exclude>hr/*</exclude>        
                             </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
+                            <artifactId>human-resource-management</artifactId>
+                            <excludes>
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>    
+                                <exclude>common/*</exclude>          
+                            </excludes>                                           
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
                             <artifactId>system-management</artifactId>
-                        </overlay>  
+                        </overlay>                            
                     </overlays> 
                     
                 </configuration>

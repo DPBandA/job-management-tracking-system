@@ -52,7 +52,7 @@ Email: info@dpbennett.com.jm
                    icon="pi pi-fw pi-users">
             <p:menuitem
                 actionListener="#{clientManager.createNewClient}"                
-                disabled="#{!clientManager.user.privilege.canAddClient}"
+                disabled="#{!clientManager.user.can('AddClient')}"
                 global="true" 
                 value="New"
                 title="Create new client"

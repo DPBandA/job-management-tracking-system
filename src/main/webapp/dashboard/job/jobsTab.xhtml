@@ -44,7 +44,7 @@ Email: info@dpbennett.com.jm
                     <p:separator />
                     <p:menuitem
                         actionListener="#{clientManager.createNewClient}"                
-                        disabled="#{!clientManager.user.privilege.canAddClient}"
+                        disabled="#{!clientManager.user.can('AddClient')}"
                         global="true" 
                         value="Client"
                         title="Create new client"

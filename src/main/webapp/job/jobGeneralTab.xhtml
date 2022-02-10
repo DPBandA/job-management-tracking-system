@@ -57,7 +57,7 @@ Email: info@dpbennett.com.jm
             <p:selectBooleanCheckbox id="autoGenerate" 
                                      itemLabel="auto"
                                      style="vertical-align: middle"
-                                     rendered="#{jobManager.user.privilege.canBeJMTSAdministrator}"
+                                     rendered="#{jobManager.user.can('BeJMTSAdministrator')}"
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
                 <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}" 
                         event="change"
@@ -160,7 +160,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem 
                     value="Add new client"
                     icon="ui-icon-plus"                    
-                    disabled="#{!jobManager.user.privilege.canAddClient}"
+                    disabled="#{!jobManager.user.can('AddClient')}"
                     actionListener="#{jobManager.createNewJobClient}"                                            
                     process="@this"
                     title="Add a new client to the client database">
