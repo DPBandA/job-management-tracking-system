@@ -29,7 +29,7 @@ Email: info@dpbennett.com.jm
         <h:panelGrid columns="2" cellspacing="5">
             <h:outputText value="Search type" />
             <p:selectOneMenu value="#{jobManager.searchType}" 
-                             style="width: 90%;">
+                             style="width: 100%;">
 
                 <f:selectItems value="#{jobManager.groupedSearchTypes}" />
 
@@ -42,7 +42,7 @@ Email: info@dpbennett.com.jm
             <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
                              id="jmDateField"
                              rendered="#{jobManager.renderDateSearchFields}"
-                             style="width: 90%;" >
+                             style="width: 100%;" >
                 <p:ajax                        
                     listener="#{jobManager.updateDateSearchField}"
                     global="false"
@@ -56,7 +56,7 @@ Email: info@dpbennett.com.jm
             <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}" 
                              id="jmDatePeriod"
                              rendered="#{jobManager.renderDateSearchFields}"
-                             style="width: 90%;" >
+                             style="width: 100%;" >
 
                 <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
                         global="false"
