@@ -30,14 +30,15 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Search type" />
             <p:selectOneMenu value="#{jobManager.searchType}" 
                              style="width: 90%;">
-                
+
                 <f:selectItems value="#{jobManager.groupedSearchTypes}" />
-                
+
                 <p:ajax update="jobSearchPanel" global="false" process="@this" />
 
             </p:selectOneMenu>
 
-            <h:outputText value="Date field" rendered="#{jobManager.renderDateSearchFields}" />
+            <h:outputText value="Date field" 
+                          rendered="#{jobManager.renderDateSearchFields}" />
             <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
                              id="jmDateField"
                              rendered="#{jobManager.renderDateSearchFields}"
@@ -74,7 +75,7 @@ Email: info@dpbennett.com.jm
                         validator="requiredFieldValidator"
                         disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
                         pattern="MMM dd, yyyy" />
-           
+
             <h:outputText value="End" rendered="#{jobManager.renderDateSearchFields}" />
             <p:calendar id="endSearchDate"
                         rendered="#{jobManager.renderDateSearchFields}"
@@ -84,17 +85,18 @@ Email: info@dpbennett.com.jm
                         validator="requiredFieldValidator"
                         disabled="#{jobManager.dateSearchPeriod.endDateDisabled}"
                         pattern="MMM dd, yyyy" />
-                 
+
         </h:panelGrid>   
         <p:toolbar>
             <p:toolbarGroup align="left" >
                 <p:inputText value="#{jobManager.searchText}"  
                              style="width: 75%;"
-                             id="jobSearchText" />  
-                 
+                             id="jobSearchText" />                    
+
                 <p:spacer width="5" />
                 <p:commandButton id="doSearch"
                                  actionListener="#{jobManager.doDefaultSearch}"
+                                 update=":appForm:dashboardDefaultCommandButton"
                                  icon="pi pi-search"
                                  process="@form"/>
             </p:toolbarGroup>
