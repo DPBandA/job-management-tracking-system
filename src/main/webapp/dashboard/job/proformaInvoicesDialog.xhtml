@@ -133,28 +133,28 @@ Email: info@dpbennett.com.jm
                 <p:column selectionMode="multiple" 
                           style="width:20px;" />  
 
-                <p:column sortBy="#{job.jobNumber}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Proforma #"/>
                     </f:facet>
                     <h:outputText value="#{job.jobNumber}" />
                 </p:column>
 
-                <p:column sortBy="#{job.client.name}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Client"/>
                     </f:facet>
                     <h:outputText value="#{job.client.name}" />
                 </p:column> 
 
-                <p:column sortBy="#{job.department.name}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Department"/>
                     </f:facet>
                     <h:outputText value="#{job.department.name}" />
                 </p:column> 
 
-                <p:column sortBy="#{job.jobCostingAndPayment.finalCost}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Cost ($)"/>
                     </f:facet>

@@ -48,7 +48,7 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="2">
 
                     <h:outputLabel for="jobCostingsTemplateName" 
-                                   value="Name "  style="font-weight: bold" />
+                                   value="Name"  style="font-weight: bold" />
                     <p:inputText id="jobCostingsTemplateName"
                                  value="#{jobManager.currentJob.jobCostingAndPayment.name}"
                                  style="width: 400px;">
@@ -87,7 +87,7 @@ Email: info@dpbennett.com.jm
                     </p:autoComplete>                   
 
 
-                    <h:outputText value="Description: " style="font-weight: bold;vertical-align: top;" />       
+                    <h:outputText value="Description" style="font-weight: bold;vertical-align: top;" />       
                     <p:inputTextarea
                         id="description"
                         value="#{jobManager.currentJob.jobCostingAndPayment.description}"
@@ -184,7 +184,7 @@ Email: info@dpbennett.com.jm
                             <f:convertNumber />
                         </h:outputText>
                         <f:facet name="footer">
-                            <h:outputText value="Total ($):" 
+                            <h:outputText value="Total ($)" 
                                           styleClass="datatable-number-field" />
                         </f:facet>
                     </p:column>

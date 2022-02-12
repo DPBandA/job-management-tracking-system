@@ -88,7 +88,7 @@ Email: info@dpbennett.com.jm
                             <f:selectItems value="#{systemManager.datePeriods}"/>
 
                         </p:selectOneMenu>
-                        <h:outputText value="Start:" />
+                        <h:outputText value="Start" />
                         <p:calendar id="startSearchDate"
                                     value="#{jobFinanceManager.dateSearchPeriod.startDate}"                    
                                     size="17"
@@ -97,7 +97,7 @@ Email: info@dpbennett.com.jm
                                     disabled="#{jobFinanceManager.dateSearchPeriod.startDateDisabled}"
                                     pattern="MMM dd, yyyy" />
 
-                        <h:outputText value="End:" />
+                        <h:outputText value="End" />
                         <p:calendar id="endSearchDate"
                                     value="#{jobFinanceManager.dateSearchPeriod.endDate}"
                                     size="17"
@@ -134,28 +134,28 @@ Email: info@dpbennett.com.jm
                 <p:column selectionMode="multiple" 
                           style="width:20px;" />  
 
-                <p:column sortBy="#{job.jobCostingAndPayment.name}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Name"/>
                     </f:facet>
                     <h:outputText value="#{job.jobCostingAndPayment.name}" />
                 </p:column>
 
-                <p:column sortBy="#{job.client.name}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Client"/>
                     </f:facet>
                     <h:outputText value="#{job.client.name}" />
                 </p:column> 
                 
-                <p:column sortBy="#{job.department.name}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Department"/>
                     </f:facet>
                     <h:outputText value="#{job.department.name}" />
                 </p:column> 
 
-                <p:column sortBy="#{job.jobCostingAndPayment.finalCost}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Cost ($)"/>
                     </f:facet>

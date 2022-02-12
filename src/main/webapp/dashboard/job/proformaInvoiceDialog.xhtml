@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
 
             <p:panel header="General Information" style="margin-top: 1px;" >
                 <h:panelGrid columns="2">
-                    <h:outputText value="Proforma #:" style="font-weight: bold;" />
+                    <h:outputText value="Proforma #" style="font-weight: bold;" />
                     <h:outputText id="proformaNumber" value="#{jobFinanceManager.currentJob.jobNumber}" />
 
                     <h:outputText value="Department" style="font-weight: bold" />
@@ -132,7 +132,7 @@ Email: info@dpbennett.com.jm
 
                     </h:panelGroup>
 
-                    <h:outputText value="Billing address:" style="font-weight: bold" />    
+                    <h:outputText value="Billing address" style="font-weight: bold" />    
                     <p:autoComplete id="billingAddress"
                                     value="#{jobManager.currentJob.billingAddress}"
                                     dropdown="true"
@@ -307,7 +307,7 @@ Email: info@dpbennett.com.jm
                                 process="@this"/>
                         
                     </p:inputText>
-                    <h:outputText value="Reason for reimbursable: " style="vertical-align: top;" />       
+                    <h:outputText value="Reason for reimbursable" style="vertical-align: top;" />       
                     <p:inputTextarea
                         id="reasonForReimbursable"
                         value="#{jobManager.currentJob.comment}"
@@ -399,7 +399,7 @@ Email: info@dpbennett.com.jm
                             <f:convertNumber />
                         </h:outputText>
                         <f:facet name="footer">
-                            <h:outputText value="Total ($):" 
+                            <h:outputText value="Total ($)" 
                                           styleClass="datatable-number-field" />
                         </f:facet>
                     </p:column>
