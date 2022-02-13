@@ -383,7 +383,7 @@ Email: info@dpbennett.com.jm
                    icon="pi pi-fw pi-server">   
 
             <p:menuitem 
-                actionListener="#{systemManager.selectSystemAdminTab('centerTabVar', 0)}" 
+                actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
                 rendered="#{systemManager.user.hasModule('SystemAdministrationModule')}"
                 value="System" 
                 icon="pi pi-database" />    
