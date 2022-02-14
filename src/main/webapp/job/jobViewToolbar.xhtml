@@ -113,13 +113,12 @@ Email: info@dpbennett.com.jm
                             icon="pi pi-users"
                             process="@this"/>
 
-                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                       
-                            value="Client credit status"
-                            icon="pi pi-thumbs-up"
-                            update=""
-                            oncomplete="PF('accPacClientInformationDialog').show();"
-                            onerror="PF('connectionErrorDialog').show();"
-                            process="@this"/>                
+                <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
+                        value="Client Credit Status"
+                        icon="pi pi-thumbs-up"
+                        title="Check client's credit status"
+                        update=""
+                        process="@this" />                
 
                 <p:separator />
                 <p:menuitem value="Reports"    
