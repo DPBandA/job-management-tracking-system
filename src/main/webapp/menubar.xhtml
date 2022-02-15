@@ -83,7 +83,7 @@ Email: info@dpbennett.com.jm
                    rendered="true"
                    icon="pi pi-fw pi-dollar">
 
-            <p:submenu label="New" icon="pi pi-plus" >
+            <p:submenu label="Costing" icon="pi pi-dollar" >
 
                 <p:menuitem value="Pro forma"
                             title="Create new quotation"
@@ -119,9 +119,7 @@ Email: info@dpbennett.com.jm
 
                 </p:menuitem>
 
-            </p:submenu>
-
-            <p:submenu label="Costing" icon="pi pi-dollar" >
+                <p:separator />
 
                 <p:menuitem value="Quotations"
                             title="Browse quotations"
@@ -139,6 +137,44 @@ Email: info@dpbennett.com.jm
                             icon="pi pi-dollar"
                             title="Browse requisitions" 
                             actionListener="#{purchasingManager.openPurchaseReqsTab}" 
+                            process="@this" />
+
+            </p:submenu>
+
+            <p:submenu label="Procurement" icon="pi pi-shopping-bag" >
+
+                <p:menuitem value="Purchase requisition"
+                            title="Create new purchase requisition"
+                            icon="pi pi-plus"
+                            actionListener="#{purchasingManager.createNewPurchaseReq}" 
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView:purchasereqsTable"/>
+
+                </p:menuitem>
+
+                <p:menuitem value="Supplier"
+                            title="Create new supplier"
+                            icon="pi pi-plus"
+                            actionListener="#{purchasingManager.createNewSupplier}" 
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView:suppliersTable"/>
+
+                </p:menuitem>
+                <p:separator />
+                <p:menuitem value="Purchase Requisitions"
+                            title="Open purchase requisition tab" 
+                            icon="pi pi-copy"
+                            actionListener="#{purchasingManager.openPurchaseReqsTab}" 
+                            process="@this" />
+
+                <p:menuitem value="Suppliers"
+                            icon="pi pi-users"
+                            title="Open suppliers tab"
+                            actionListener="#{purchasingManager.openSuppliersTab}" 
                             process="@this" />
 
             </p:submenu>
@@ -349,7 +385,7 @@ Email: info@dpbennett.com.jm
                    rendered="#{systemManager.user.hasModule('CertificationModule')}" 
                    icon="pi pi-fw pi-check-circle">     
 
-            
+
         </p:submenu>
 
         <p:submenu label="Reports"  

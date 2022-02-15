@@ -33,6 +33,30 @@ Email: info@dpbennett.com.jm
         <title>Client Credit Status</title>
         <link rel="stylesheet" href="/css/main.css" /> 
         <script type="text/javascript" src="/js/javascripts.js"/>
+        <style type="text/css">
+            .hold {
+                color: red !important;
+                font-size: 1.2em !important;
+                background-image: none !important;
+                font-weight: bolder !important;
+            }
+            .active {
+                color: green !important;
+                font-size: 1.2em !important;
+                background-image: none !important;
+                font-weight: bolder !important;
+            }
+            .due {
+                background-color: yellow !important;
+                background-image: none !important;
+                color: #000000 !important;
+            }
+            .overdue {
+                background-color: yellow !important;
+                background-image: none !important;
+                color: #000000 !important;
+            }
+        </style>
     </h:head>
     <h:body>        
         <ui:include src="/common/commonDialogs.xhtml"/>  
@@ -59,7 +83,7 @@ Email: info@dpbennett.com.jm
                 </p:tab>
             </p:tabView>
             <p:toolbar style="margin-top: 1px;">
-               <p:toolbarGroup align="left">
+                <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"
                                      actionListener="#{jobFinanceManager.okClientCreditStatus}"
                                      icon="pi pi-check"
