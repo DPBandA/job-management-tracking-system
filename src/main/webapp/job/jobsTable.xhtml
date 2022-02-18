@@ -36,27 +36,24 @@ Email: info@dpbennett.com.jm
                  value="#{jobManager.jobsModel}">
 
         <p:ajax event="cellEdit" 
-                update=":headerForm:growl3"
-                onstart="PF('longProcessDialogVar').show();"  
-                oncomplete="PF('longProcessDialogVar').hide();"  
+                global="false"
+                update=":appForm:growl3"  
                 listener="#{jobManager.onJobCellEdit}" />
 
-        <p:ajax event="page"  
-                onstart="PF('longProcessDialogVar').show();" 
-                oncomplete="PF('longProcessDialogVar').hide();" />
+        <p:ajax event="page" global="false" />
 
         <f:facet name="header">
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
-        <p:column sortBy="#{job.jobNumber}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Job number"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column sortBy="#{job.client.name}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
@@ -64,8 +61,7 @@ Email: info@dpbennett.com.jm
         </p:column>    
 
         <p:column headerText="Instructions" 
-                  id="job_instructions"
-                  sortBy="#{job.instructions}">   
+                  id="job_instructions" >   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.instructions}" />
@@ -87,7 +83,6 @@ Email: info@dpbennett.com.jm
 
         <p:column headerText="Submitted" 
                   id="dateSubmitted"
-                  sortBy="#{job.jobStatusAndTracking.dateSubmitted}" 
                   style="min-width: 100px">   
             <p:cellEditor>
                 <f:facet name="output">
@@ -108,8 +103,7 @@ Email: info@dpbennett.com.jm
         </p:column>
 
         <p:column headerText="EDOC" 
-                  id="job_edoc"
-                  sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}" 
+                  id="job_edoc" 
                   style="min-width: 100px">   
             <p:cellEditor>
                 <f:facet name="output">
@@ -128,7 +122,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <p:column headerText="Progress" sortBy="#{job.jobStatusAndTracking.workProgress}">       
+        <p:column headerText="Progress">       
             <f:facet name="header">
                 <h:outputText value="Progress"/>
             </f:facet>
@@ -138,20 +132,17 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px" >
             <p:commandButton   
                 title="Edit or view" 
-                actionListener="#{jobManager.editJob}"                             
-                onstart="PF('longProcessDialogVar').show();"  
-                oncomplete="PF('longProcessDialogVar').hide();"                           
-                onerror="PF('connectionErrorDialog').show();"
+                actionListener="#{jobManager.editJob}"
                 global="true"
                 process="@this"
-                icon="ui-icon ui-icon-pencil" >
+                icon="pi pi-pencil" >
 
                 <f:setPropertyActionListener value="#{job}" 
                                              id="editJobButtonPropListener"
                                              target="#{jobManager.editCurrentJob}" />
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
+                        update=":appForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
 
@@ -159,41 +150,38 @@ Email: info@dpbennett.com.jm
         </p:column>
         <ui:remove>
             <p:column style="width:32px" >
-                <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit or copy" >
+                <p:menuButton id="toolsButton" 
+                              icon="pi pi-pencil" 
+                              title="Edit or copy" >
 
                     <p:menuitem   
                             value="Edit or view" 
-                            actionListener="#{jobManager.editJob}"                             
-                            onstart="PF('longProcessDialogVar').show();"  
-                            oncomplete="PF('longProcessDialogVar').hide();"                           
-                            onerror="PF('connectionErrorDialog').show();"
+                            actionListener="#{jobManager.editJob}" 
                             global="true"
                             process="@this"
-                            icon="ui-icon ui-icon-pencil" >
+                            icon="pi pi-pencil" >
 
                             <f:setPropertyActionListener value="#{job}" 
                                                          id="editJobButtonPropListener"
                                                          target="#{jobManager.editCurrentJob}" />
 
                             <p:ajax event="dialogReturn" 
-                                    update=":mainTabViewForm:mainTabView"
+                                    update=":appForm:mainTabView"
                                     listener="#{jobManager.jobDialogReturn}" />
               
                     </p:menuitem>
 
                     <p:menuitem  
-                            value="Copy"                               
-                            onstart="PF('longProcessDialogVar').show();"  
-                            oncomplete="PF('longProcessDialogVar').hide();"  
-                            update=":headerForm:growl3"
-                            icon="ui-icon-copy"
+                            value="Copy"   
+                            update=":appForm:growl3"
+                            icon="pi pi-copy"
                             process="@this">
 
                             <f:setPropertyActionListener value="#{job}"                                                      
                                                          target="#{jobManager.editCurrentJobCopy}" />
 
                             <p:ajax event="dialogReturn" 
-                                    update=":mainTabViewForm:mainTabView"
+                                    update=":appForm:mainTabView"
                                     listener="#{jobManager.jobDialogReturn}" />
 
                     </p:menuitem>

@@ -65,14 +65,14 @@ Email: info@dpbennett.com.jm
             </p:column>
 
             <p:column style="width:32px" >
-                <p:menuButton id="toolsButton" icon="ui-icon-pencil" title="Edit, view, copy or delete sample" >
+                <p:menuButton id="toolsButton" 
+                              icon="pi pi-pencil" 
+                              title="Edit, view, copy or delete sample" >
 
                     <p:menuitem  
                         id="editSampleDetail"
-                        value="Edit or view"
-                        onstart="PF('longProcessDialogVar').show();"    
-                        oncomplete="PF('longProcessDialogVar').hide();"                          
-                        icon="ui-icon-pencil"
+                        value="Edit or view"                         
+                        icon="pi pi-pencil"
                         actionListener="#{jobSampleManager.editJobSample}"                                           
                         process="@this">
 
@@ -86,12 +86,10 @@ Email: info@dpbennett.com.jm
                     </p:menuitem>
 
                     <p:menuitem   
-                        value="Copy"                               
-                        onstart="PF('longProcessDialogVar').show();"  
-                        oncomplete="PF('longProcessDialogVar').hide();"   
+                        value="Copy"   
                         actionListener="#{jobSampleManager.copyJobSample}"  
                         disabled="#{jobManager.disableJobDialogField('samples')}"
-                        icon="ui-icon-copy"
+                        icon="pi pi-copy"
                         process="@this">
 
                         <f:setPropertyActionListener value="#{jobSample}" 
@@ -106,10 +104,8 @@ Email: info@dpbennett.com.jm
                     <p:menuitem 
                         value="Delete"
                         actionListener="#{jobSampleManager.openJobSampleDeleteConfirmDialog}"
-                        disabled="#{jobManager.disableJobDialogField('samples')}"
-                        onstart="PF('longProcessDialogVar').show();"    
-                        oncomplete="PF('longProcessDialogVar').hide();"                           
-                        icon="ui-icon-trash"
+                        disabled="#{jobManager.disableJobDialogField('samples')}"                
+                        icon="pi pi-trash"
                         process="@this">
 
                         <f:setPropertyActionListener value="#{jobSample}"

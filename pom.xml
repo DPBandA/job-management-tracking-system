@@ -4,10 +4,8 @@
 
     <groupId>jm.com.dpbennett</groupId>
     <artifactId>job-management-tracking-system</artifactId>
-    <version>3.18.5</version>
+    <version>4.0.1</version>
     <packaging>war</packaging>
-
-    <name>JMTS, v3</name>
     
     <description>The Job Management &amp; Tracking System (JMTS) enterprise software.</description>
 
@@ -22,38 +20,26 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>job-management-tracking-system-lib</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
         </dependency> 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>system-management</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
             <type>war</type>
         </dependency>  
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>human-resource-management</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
             <type>war</type>
         </dependency> 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>report-management</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
             <type>war</type>
-        </dependency>         
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>legal-office</artifactId>
-            <version>1.0.0</version>
-            <type>war</type>
-        </dependency>  
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>standards-compliance</artifactId>
-            <version>1.0.0</version>
-            <type>war</type>
-        </dependency>  
+        </dependency>   
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>financial-management</artifactId>
@@ -63,15 +49,21 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>client-management</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0</version>
             <type>war</type>
-        </dependency>      
+        </dependency> 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>purchase-management</artifactId>
+            <artifactId>legal-office</artifactId>
             <version>1.0.0</version>
             <type>war</type>
-        </dependency>
+        </dependency>  
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>standards-compliance</artifactId>
+            <version>2.0.0</version>
+            <type>war</type>
+        </dependency> 
     </dependencies>
     <build>
         <plugins>
@@ -100,105 +92,78 @@
                         index.xhtml                       
                     </dependentWarExcludes>
                     
-                    <overlays>
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>system-management</artifactId>
-                        </overlay>
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>standards-compliance</artifactId>
-                            <excludes>
-                                <exclude>hr/*</exclude>
-                                <exclude>report/*</exclude>
-                                <exclude>client/*</exclude>   
-                                <exclude>finance/*</exclude>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude>             
-                            </excludes>
-                        </overlay>                       
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>legal-office</artifactId>
-                            <excludes>
-                                <exclude>hr/*</exclude>
-                                <exclude>finance/*</exclude>
-                                <exclude>report/*</exclude>
-                                <exclude>client/*</exclude>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude>  
-                            </excludes>
-                        </overlay>      
+                    <overlays>                                                  
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>report-management</artifactId>
                             <excludes>
-                                <exclude>hr/*</exclude>                              
-                                <exclude>client/*</exclude>    
-                                <exclude>finance/*</exclude>                     
-                            </excludes>
-                        </overlay>                        
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>human-resource-management</artifactId>                                                                            
-                        </overlay>  
-                        <overlay>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>purchase-management</artifactId>
-                            <excludes>
-                                <exclude>finance/*</exclude>
-                                <exclude>hr/*</exclude>                               
-                                <exclude>report/*</exclude>
-                                <exclude>client/*</exclude>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude>  
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>  
+                                <exclude>common/*</exclude>  
+                                <exclude>dashboard/hrm/*</exclude>
+                                <exclude>hr/*</exclude>   
                             </excludes>
                         </overlay>  
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>client-management</artifactId>
                             <excludes>
-                                <exclude>finance/*</exclude>
-                                <exclude>hr/*</exclude>                               
-                                <exclude>report/*</exclude>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude>  
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>    
+                                <exclude>common/*</exclude>      
+                                <exclude>dashboard/hrm/*</exclude>
+                                <exclude>hr/*</exclude>    
                             </excludes>
                         </overlay>
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>financial-management</artifactId>
+                            <artifactId>financial-management</artifactId> 
                             <excludes>
-                                <exclude>hr/*</exclude>                               
-                                <exclude>report/*</exclude>
-                                <exclude>admin/*</exclude>
-                                <exclude>common/*</exclude>
-                                <exclude>css/*</exclude>
-                                <exclude>images/*</exclude>
-                                <exclude>js/*</exclude>
-                                <exclude>themes/*</exclude>  
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>   
+                                <exclude>common/*</exclude>           
                             </excludes>
                         </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>legal-office</artifactId> 
+                            <excludes>
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>   
+                                <exclude>common/*</exclude>     
+                                <exclude>dashboard/hrm/*</exclude>
+                                <exclude>hr/*</exclude>      
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>standards-compliance</artifactId> 
+                            <excludes>
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>   
+                                <exclude>common/*</exclude>   
+                                <exclude>dashboard/hrm/*</exclude>
+                                <exclude>hr/*</exclude>        
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>human-resource-management</artifactId>
+                            <excludes>
+                                <exclude>dashboard/admin/*</exclude>
+                                <exclude>admin/*</exclude>    
+                                <exclude>common/*</exclude>          
+                            </excludes>                                           
+                        </overlay>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>system-management</artifactId>
+                        </overlay>                            
                     </overlays> 
                     
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <name>JMTS, v4</name>
 </project>

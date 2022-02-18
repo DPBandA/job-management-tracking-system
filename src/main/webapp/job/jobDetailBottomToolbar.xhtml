@@ -23,14 +23,11 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:toolbar id="jobDetailToolbar2">
         <p:toolbarGroup align="left" >  
-            <p:commandButton actionListener="#{jobManager.saveCurrentJob}"                            
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             onerror="PF('connectionErrorDialog').show();"
+            <p:commandButton actionListener="#{jobManager.saveCurrentJob}"
                              value="Save"
                              update=":jobDialogForm"
                              title="Save current job"
-                             icon="ui-icon-disk"
+                             icon="pi pi-save"
                              process="@form" >
                 
                  <p:ajax update=":jobDialogForm" resetValues="true" />
@@ -41,12 +38,9 @@ Email: info@dpbennett.com.jm
             
             <p:commandButton value="Close"     
                              actionListener="#{jobManager.prepareToCloseJobDetail}"
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();" 
-                             onerror="PF('connectionErrorDialog').show();"
                              immediate="true"                             
                              process="@this"
-                             icon="ui-icon ui-icon-close" />            
+                             icon="pi pi-times" />            
         </p:toolbarGroup>
 
     </p:toolbar>

@@ -36,13 +36,11 @@ Email: info@dpbennett.com.jm
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
 
-        <p:ajax event="page"  
-                onstart="PF('longProcessDialogVar').show();" 
-                oncomplete="PF('longProcessDialogVar').hide();" />
+        <p:ajax event="page" global="false" />
 
-        <p:ajax event="cellEdit" listener="#{jobManager.onJobCostingCellEdit}" />
-        <p:ajax event="rowSelect" listener="#{jobManager.onJobCostingSelect}" update="" />
-        <p:ajax event="rowUnselect" listener="#{jobManager.onJobCostingUnSelect}" update="" />
+        <p:ajax event="cellEdit" global="false" listener="#{jobManager.onJobCostingCellEdit}" />
+        <p:ajax event="rowSelect" global="false" listener="#{jobManager.onJobCostingSelect}" update="" />
+        <p:ajax event="rowUnselect" global="false" listener="#{jobManager.onJobCostingUnSelect}" update="" />
 
         <f:facet name="header">
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
@@ -51,22 +49,21 @@ Email: info@dpbennett.com.jm
         <p:column selectionMode="multiple" 
                   style="width:20px;" />  
 
-        <p:column sortBy="#{job.jobNumber}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Job number"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column sortBy="#{job.client.name}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.client.accountingId}" 
-                  rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
+        <p:column rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
             <f:facet name="header">
                 <h:outputText value="Client Id"/>
             </f:facet>
@@ -98,14 +95,14 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobFinanceManager.getAccountingCodes(job)}" />
         </p:column>
 
-        <p:column sortBy="#{job.classification.name}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Class'tion"/>
             </f:facet>
             <h:outputText value="#{job.classification.name}" />
         </p:column>    
 
-        <p:column sortBy="#{job.jobCostingAndPayment.finalCost}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Cost ($)"/>
             </f:facet>
@@ -115,7 +112,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.costingCompleted}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Prep'd?"/>
             </f:facet>
@@ -123,7 +120,7 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.costingCompleted? 'green': 'red'}"/>            
         </p:column>  
 
-        <p:column sortBy="#{job.jobCostingAndPayment.costingApproved}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Appr'd?"/>
             </f:facet>
@@ -131,7 +128,7 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.costingApproved? 'green': 'red'}"/>            
         </p:column>  
 
-        <p:column sortBy="#{job.jobCostingAndPayment.invoiced}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Inv'd?"/>
             </f:facet>
@@ -142,17 +139,13 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px" >
             <p:commandButton title="View or edit job costing" 
                              actionListener="#{jobFinanceManager.editJobCosting}"
-                             update=":headerForm:growl3"
-                             onstart="PF('longProcessDialogVar').show();"  
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
-                             icon="ui-icon ui-icon-pencil">
+                             icon="pi pi-pencil">
 
                 <p:ajax event="dialogReturn" 
                         listener="#{jobFinanceManager.jobCostingDialogReturn}"
-                        update="jobCostingsTable,:headerForm:growl3"/>
+                        update="jobCostingsTable"/>
 
                 <f:setPropertyActionListener value="#{job}"
                                              target="#{jobManager.editJobCosting}" />

@@ -27,9 +27,7 @@ Email: info@dpbennett.com.jm
                              title="Add new sample(s)"
                              actionListener="#{jobSampleManager.createNewJobSample}"     
                              disabled="#{jobManager.disableJobDialogField('samples')}"
-                             onstart="PF('longProcessDialogVar').show();"
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             icon="ui-icon-plus"
+                             icon="pi pi-plus"
                              process="@this" >
 
                 <p:ajax event="dialogReturn" 

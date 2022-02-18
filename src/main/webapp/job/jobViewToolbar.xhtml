@@ -29,9 +29,7 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
                              title="Approve the selected job costing(s)"
                              actionListener="#{jobFinanceManager.approveSelectedJobCostings}"
-                             update=":headerForm:growl3,jobCostingsTable"
-                             onstart="PF('longProcessDialogVar').show();" 
-                             oncomplete="PF('longProcessDialogVar').hide();">                                                                                    
+                             update=":appForm:growl3,jobCostingsTable" >                                                                                    
             </p:commandButton>
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
 
@@ -42,29 +40,25 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Create invoice(s)"
                             title="Generate invoice(s) for the selected job costing(s)"
                             actionListener="#{jobFinanceManager.invoiceSelectedJobCostings}"
-                            update=":headerForm:growl3,jobCostingsTable"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            oncomplete="PF('longProcessDialogVar').hide();" />
+                            update=":appForm:growl3,jobCostingsTable" />
 
                 <p:menuitem value="Export invoice(s)"
                             title="Export invoice(s) for the selected job costing(s)"
                             ajax="false" 
-                            update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
-                            immediate="false" 
-                            onclick="PF('longProcessDialogVar5').show();" >
+                            update=":appForm:growl3,jobCostingsTable"
+                            immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.invoicesFile}" />
 
                 </p:menuitem>
 
                 <p:separator />
-                
+
                 <p:menuitem value="Export costing(s)(Zip)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
-                            update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
-                            immediate="false" 
-                            onclick="PF('longProcessDialogVar5').show();" >
+                            update=":appForm:growl3,jobCostingsTable"
+                            immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.costingsFileAsZip}" />
 
@@ -73,9 +67,8 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Export costing(s)(Excel)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
-                            update="longProgressDialogForm5,:headerForm:growl3,jobCostingsTable"
-                            immediate="false" 
-                            onclick="PF('longProcessDialogVar5').show();" >
+                            update=":appForm:growl3,jobCostingsTable"
+                            immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.costingsFileAsExcel}" />
 
@@ -85,17 +78,14 @@ Email: info@dpbennett.com.jm
             <p:commandButton
                 rendered="#{!jobManager.user.isJobCostingsPreferredJobTableView}"
                 actionListener="#{jobManager.createNewJob}"
-                global="true"                
-                onstart="PF('longProcessDialogVar').show();"   
-                oncomplete="PF('longProcessDialogVar').hide();"              
-                onerror="PF('connectionErrorDialog').show();"
+                global="true" 
                 value="New"                                       
                 title="Create new job"
-                icon="ui-icon-plus"
+                icon="pi pi-plus"
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
+                        update=":appForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>       
@@ -108,10 +98,8 @@ Email: info@dpbennett.com.jm
                                itemLabel="#{jobView}" 
                                itemValue="#{jobView}"/>
                 <p:ajax listener="#{jobManager.updateJobView}"
-                        onstart="PF('longProcessDialogVar').show();" 
-                        oncomplete="PF('longProcessDialogVar').hide();"
-                        update="mainTabViewForm:mainTabView"
-                        global="false"
+                        update="appForm:mainTabView"
+                        global="true"
                         process="@this"/>
             </p:selectOneButton>
 
@@ -120,25 +108,22 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="right" >               
             <p:menuButton value="Tools">
 
-                <p:menuitem value="Client management"
-                            onstart="PF('longProcessDialogVar').show();"                                                    
+                <p:menuitem value="Clients"                                               
                             actionListener="#{jobManager.openClientsTab}"
-                            oncomplete="PF('longProcessDialogVar').hide();"
+                            icon="pi pi-users"
                             process="@this"/>
 
-                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"
-                            onstart="PF('longProcessDialogVar').show();"                                                    
-                            value="Client credit status"
-                            update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
-                            oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
-                            onerror="PF('connectionErrorDialog').show();"
-                            process="@this"/>                
+                <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
+                        value="Client Credit Status"
+                        icon="pi pi-thumbs-up"
+                        title="Check client's credit status"
+                        update=""
+                        process="@this" />                
 
                 <p:separator />
-                <p:menuitem value="Reports"
-                            onstart="PF('longProcessDialogVar').show();"                                                    
+                <p:menuitem value="Reports"    
+                            icon="pi pi-file-o"
                             actionListener="#{jobManager.openReportsTab}"
-                            oncomplete="PF('longProcessDialogVar').hide();"
                             process="@this"/>
 
             </p:menuButton>                                    

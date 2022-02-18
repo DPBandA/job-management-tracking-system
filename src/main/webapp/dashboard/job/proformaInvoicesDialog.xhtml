@@ -33,11 +33,11 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="pragma" content="no-cache" />
         <title>Proforma Invoices</title>
         <link rel="stylesheet" href="../../css/main.css" />
-        <script type="text/javascript" src="../../js/longProcessDialog.js"/>
+        <script type="text/javascript" src="../../js/javascripts.js"/>
     </h:head>
 
     <h:body>        
-        <ui:include src="/common/longProcessDialog.xhtml"/> 
+        <ui:include src="/common/commonDialogs.xhtml"/> 
 
         <h:form id="proformaInvoicesDialogForm">       
             <p:watermark value="Enter search text" for="jobSearchText" />
@@ -47,15 +47,16 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="2" >
                         <p:commandButton value="Close"   
                                          actionListener="#{jobFinanceManager.closeProformaInvoicesDialog}"  
-                                         icon="ui-icon ui-icon-close"
+                                         icon="pi pi-times"
                                          process="@form"/>
                         <h:outputText value="&nbsp;"/>
 
-                        <h:outputText value="Date field: " />
+                        <h:outputText value="Date field" />
                         <p:selectOneMenu value="#{jobFinanceManager.dateSearchPeriod.dateField}" 
                                          id="jmDateField"
                                          style="width: 90%;" >
-                            <p:ajax                        
+                            
+                            <p:ajax global="false"                       
                                 listener="#{jobFinanceManager.updateDateSearchField}"
                                 process="@this" />
 
@@ -63,20 +64,21 @@ Email: info@dpbennett.com.jm
 
                         </p:selectOneMenu>
 
-                        <h:outputText value="Date period: " />               
+                        <h:outputText value="Date period" />               
                         <p:selectOneMenu value= "#{jobFinanceManager.dateSearchPeriod.name}" 
                                          id="jmDatePeriod"
                                          style="width: 90%;" >
 
                             <p:ajax listener="#{jobFinanceManager.dateSearchPeriod.initDatePeriod}"
                                     update="startSearchDate,endSearchDate"
+                                    global="false"
                                     process="@this" />
 
                             <f:selectItems value="#{systemManager.datePeriods}"/>
 
                         </p:selectOneMenu>
                         
-                        <h:outputText value="Start:" />
+                        <h:outputText value="Start" />
                         <p:calendar id="startSearchDate"
                                     value="#{jobFinanceManager.dateSearchPeriod.startDate}"                    
                                     size="17"
@@ -85,7 +87,7 @@ Email: info@dpbennett.com.jm
                                     disabled="#{jobFinanceManager.dateSearchPeriod.startDateDisabled}"
                                     pattern="MMM dd, yyyy" />
 
-                        <h:outputText value="End:" />
+                        <h:outputText value="End" />
                         <p:calendar id="endSearchDate"
                                     value="#{jobFinanceManager.dateSearchPeriod.endDate}"
                                     size="17"
@@ -98,12 +100,9 @@ Email: info@dpbennett.com.jm
                                      id="jobSearchText" /> 
                         <p:commandButton value="Search"
                                          id="doSearch"
-                                         onstart="PF('longProcessDialogVar').show();"
                                          actionListener="#{jobFinanceManager.doSearch}"
-                                         oncomplete="PF('longProcessDialogVar').hide();"
-                                         onerror="PF('connectionErrorDialog').show();"
                                          update="jobCostingsTable"
-                                         icon="ui-icon-search"
+                                         icon="pi pi-search"
                                          process="@form"/>
 
                     </h:panelGrid>
@@ -122,12 +121,10 @@ Email: info@dpbennett.com.jm
                          paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                          value="#{jobFinanceManager.jobsModel}">
 
-                <p:ajax event="page"  
-                        onstart="PF('longProcessDialogVar').show();" 
-                        oncomplete="PF('longProcessDialogVar').hide();" />
+                <p:ajax event="page" global="false" />
 
-                <p:ajax event="rowSelect" listener="#{jobFinanceManager.onJobCostingSelect}" update="" />
-                <p:ajax event="rowUnselect" listener="#{jobFinanceManager.onJobCostingUnSelect}" update="" />
+                <p:ajax event="rowSelect" global="false" listener="#{jobFinanceManager.onJobCostingSelect}" update="" />
+                <p:ajax event="rowUnselect" global="false" listener="#{jobFinanceManager.onJobCostingUnSelect}" update="" />
 
                 <f:facet name="header">
                     <h:outputText value="#{jobFinanceManager.searchResultsTableHeader}" />
@@ -136,28 +133,28 @@ Email: info@dpbennett.com.jm
                 <p:column selectionMode="multiple" 
                           style="width:20px;" />  
 
-                <p:column sortBy="#{job.jobNumber}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Proforma #"/>
                     </f:facet>
                     <h:outputText value="#{job.jobNumber}" />
                 </p:column>
 
-                <p:column sortBy="#{job.client.name}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Client"/>
                     </f:facet>
                     <h:outputText value="#{job.client.name}" />
                 </p:column> 
 
-                <p:column sortBy="#{job.department.name}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Department"/>
                     </f:facet>
                     <h:outputText value="#{job.department.name}" />
                 </p:column> 
 
-                <p:column sortBy="#{job.jobCostingAndPayment.finalCost}" >
+                <p:column>
                     <f:facet name="header">
                         <h:outputText value="Cost ($)"/>
                     </f:facet>
@@ -171,11 +168,9 @@ Email: info@dpbennett.com.jm
                     <p:commandButton title="View or edit proforma" 
                                      actionListener="#{jobFinanceManager.openProformaInvoiceDialog}"
                                      update=""
-                                     onstart="PF('longProcessDialogVar').show();"  
-                                     oncomplete="PF('longProcessDialogVar').hide();"
                                      global="true"
                                      process="@this"
-                                     icon="ui-icon ui-icon-pencil">
+                                     icon="pi pi-pencil">
 
                         <p:ajax event="dialogReturn" 
                                 listener="#{jobFinanceManager.proformaDialogReturn}"

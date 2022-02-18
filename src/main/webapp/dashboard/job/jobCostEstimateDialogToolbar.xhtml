@@ -26,19 +26,15 @@ Email: info@dpbennett.com.jm
     <p:toolbar id="jobCostingAndPaymentToolbar">
         <p:toolbarGroup align="left" >  
             <p:commandButton value="Save"
-                             onstart="PF('longProcessDialogVar').show();"
-                             actionListener="#{jobFinanceManager.saveCostEstimate}"                         
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             icon="ui-icon-disk"
+                             actionListener="#{jobFinanceManager.saveCostEstimate}"
+                             icon="pi pi-save"
                              update="jobCosting_growl"
                              process="@form"/>
             <p:spacer width="10"/>
             <p:commandButton value="Close"
-                             onstart="PF('longProcessDialogVar').show();"
                              immediate="true"
                              actionListener="#{jobFinanceManager.cancelJobCostingAndPaymentEdit}"                         
-                             oncomplete="PF('longProcessDialogVar').hide();"
-                             icon="ui-icon-close"
+                             icon="pi pi-times"
                              process="@this"/>           
 
         </p:toolbarGroup>        

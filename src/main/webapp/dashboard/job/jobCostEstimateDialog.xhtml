@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2021  D P Bennett & Associates Limited
+Copyright (C) 2022  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -32,12 +32,12 @@ Email: info@dpbennett.com.jm
         <meta http-equiv="pragma" content="no-cache" />
         <title>Cost Estimate</title>
         <link rel="stylesheet" href="../../css/main.css" />
-        <script type="text/javascript" src="../../js/longProcessDialog.js"/>
+        <script type="text/javascript" src="../../js/javascripts.js"/>
     </h:head>
     <h:body> 
         <ui:include src="costingComponentDialog.xhtml"/>       
         <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>    
-        <ui:include src="/common/longProcessDialog.xhtml"/>  
+        <ui:include src="/common/commonDialogs.xhtml"/>  
         <h:form id="jobCostingDialogForm" > 
 
             <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
@@ -48,7 +48,7 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="2">
 
                     <h:outputLabel for="jobCostingsTemplateName" 
-                                   value="Name: "  style="font-weight: bold" />
+                                   value="Name"  style="font-weight: bold" />
                     <p:inputText id="jobCostingsTemplateName"
                                  value="#{jobManager.currentJob.jobCostingAndPayment.name}"
                                  style="width: 400px;">
@@ -62,7 +62,7 @@ Email: info@dpbennett.com.jm
 
                     </p:inputText>
 
-                    <h:outputText value="Department: " style="font-weight: bold" />
+                    <h:outputText value="Department" style="font-weight: bold" />
                     <p:autoComplete id="department"  
                                     var="department"
                                     forceSelection="true"      
@@ -87,7 +87,7 @@ Email: info@dpbennett.com.jm
                     </p:autoComplete>                   
 
 
-                    <h:outputText value="Description: " style="font-weight: bold;vertical-align: top;" />       
+                    <h:outputText value="Description" style="font-weight: bold;vertical-align: top;" />       
                     <p:inputTextarea
                         id="description"
                         value="#{jobManager.currentJob.jobCostingAndPayment.description}"
@@ -103,6 +103,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="change"
                                 update=""
+                                global="false"
                                 listener="#{jobManager.updateJob}"
                                 process="@this"/>
 
@@ -121,9 +122,8 @@ Email: info@dpbennett.com.jm
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
                                          disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          update=":costingComponentDialogForm"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
-                                         icon="ui-icon-plus"
+                                         oncomplete="PF('costingComponentDialog').show();"
+                                         icon="pi pi-plus"
                                          process="@this">
                         </p:commandButton>
                     </p:toolbarGroup>                    
@@ -184,7 +184,7 @@ Email: info@dpbennett.com.jm
                             <f:convertNumber />
                         </h:outputText>
                         <f:facet name="footer">
-                            <h:outputText value="Total ($):" 
+                            <h:outputText value="Total ($)" 
                                           styleClass="datatable-number-field" />
                         </f:facet>
                     </p:column>
@@ -223,14 +223,14 @@ Email: info@dpbennett.com.jm
                         <p:menuButton id="toolsButton" 
                                       title="Edit or delete cost component"
                                       disabled="#{jobFinanceManager.disableJobCostingEdit}"
-                                      icon="ui-icon-pencil" >
+                                      icon="pi pi-pencil" >
                             <p:menuitem  
                                 value="Edit"
                                 actionListener="#{jobFinanceManager.editCostComponent}"
                                 disabled="#{!costComponent.isEditable}"
                                 update=":costingComponentDialogForm"
                                 oncomplete="PF('costingComponentDialog').show();"
-                                icon="ui-icon ui-icon-pencil"
+                                icon="pi pi-pencil"
                                 process="@this" >
 
                                 <f:setPropertyActionListener value="#{costComponent}"
@@ -241,7 +241,7 @@ Email: info@dpbennett.com.jm
                             <p:menuitem 
                                 value="Delete"
                                 onclick="costComponentDeleteConfirm.show();"
-                                icon="ui-icon-trash"
+                                icon="pi pi-trash"
                                 process="@this">
 
                                 <f:setPropertyActionListener value="#{costComponent}"
@@ -260,9 +260,8 @@ Email: info@dpbennett.com.jm
                                          actionListener="#{jobFinanceManager.createNewCostComponent}"
                                          disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          update=":costingComponentDialogForm"
-                                         onstart="PF('longProcessDialogVar').show();"
-                                         oncomplete="PF('costingComponentDialog').show();PF('longProcessDialogVar').hide();"
-                                         icon="ui-icon-plus"
+                                         oncomplete="PF('costingComponentDialog').show();"
+                                         icon="pi pi-plus"
                                          process="@this">
                         </p:commandButton>
                     </p:toolbarGroup>

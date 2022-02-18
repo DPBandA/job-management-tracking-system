@@ -35,28 +35,24 @@ Email: info@dpbennett.com.jm
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobManager.jobsModel}">
 
-        <p:ajax event="cellEdit" 
-                update=":headerForm:growl3"
-                onstart="PF('longProcessDialogVar').show();"  
-                oncomplete="PF('longProcessDialogVar').hide();"  
+        <p:ajax event="cellEdit"   
+                global="false"
                 listener="#{jobManager.onJobCellEdit}" />
 
-        <p:ajax event="page"  
-                onstart="PF('longProcessDialogVar').show();" 
-                oncomplete="PF('longProcessDialogVar').hide();" />
+        <p:ajax event="page" global="false" />
 
         <f:facet name="header">
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
-        <p:column sortBy="#{job.jobNumber}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Job number"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column sortBy="#{job.client.name}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
@@ -66,8 +62,7 @@ Email: info@dpbennett.com.jm
        
         
         <p:column headerText="Instructions" 
-                  id="job_instructions"
-                  sortBy="#{job.instructions}">   
+                  id="job_instructions">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.instructions}" />
@@ -87,7 +82,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.estimatedCost}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Est. ($)"/>
             </f:facet>
@@ -97,7 +92,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.minDeposit}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Min. Deposit ($)"/>
             </f:facet>
@@ -107,7 +102,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column sortBy="#{job.jobCostingAndPayment.amountDue}" >
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Amt Due($)"/>
             </f:facet>
@@ -120,18 +115,15 @@ Email: info@dpbennett.com.jm
         <p:column style="width:32px" >
             <p:commandButton title="View or edit job costing and payment" 
                              actionListener="#{jobManager.editJobCostingAndPayment}"                             
-                             onstart="PF('longProcessDialogVar').show();"   
-                             oncomplete="PF('longProcessDialogVar').hide();"                                
-                             onerror="PF('connectionErrorDialog').show();"
                              global="true"
                              process="@this"
-                             icon="ui-icon ui-icon-pencil">
+                             icon="pi pi-pencil">
 
                 <f:setPropertyActionListener value="#{job}"
                                              target="#{jobManager.editJobCostingAndPayment}" />
 
                 <p:ajax event="dialogReturn"                     
-                        update=":mainTabViewForm:mainTabView"
+                        update=":appForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>     

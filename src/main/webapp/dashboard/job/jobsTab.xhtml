@@ -22,123 +22,113 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <p:toolbar style="margin-bottom: 1px;">
+    <ui:include src="/job/finance/accpac/accPacClientInformationDialog.xhtml"/>
 
-        <p:toolbarGroup align="left">
+    <ui:remove>
+        <p:toolbar style="margin-bottom: 1px;">
 
-            <p:menuButton value="New" >  
-                <p:menuitem value="Job"
-                            title="Create new job"
-                            icon="ui-icon-plus"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            oncomplete="longProcessDialogVar.hide();"
-                            actionListener="#{jobManager.createNewJob}"  
-                            process="@this" >
+            <p:toolbarGroup align="left">
 
-                    <p:ajax event="dialogReturn" 
-                            update=":mainTabViewForm:mainTabView"
-                            listener="#{jobManager.jobDialogReturn}" />
+                <p:menuButton value="New" >  
+                    <p:menuitem value="Job"
+                                title="Create new job"
+                                icon="pi pi-plus"
+                                actionListener="#{jobManager.createNewJob}"  
+                                process="@this" >
 
-                </p:menuitem>    
-                <p:separator />
-                <p:menuitem
-                    actionListener="#{clientManager.createNewClient}"                
-                    disabled="#{!clientManager.user.privilege.canAddClient}"
-                    global="true"                                        
-                    onstart="PF('longProcessDialogVar').show();"                 
-                    oncomplete="PF('longProcessDialogVar').hide();"
-                    onerror="PF('connectionErrorDialog').show();"
-                    value="Client"       
-                    update="headerForm:growl3"
-                    title="Create new client"
-                    icon="ui-icon-plus"
-                    process="@this" >
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView"
+                                listener="#{jobManager.jobDialogReturn}" />
 
-                    <p:ajax event="dialogReturn" 
-                            update=":mainTabViewForm:mainTabView:clientsTable" />
+                    </p:menuitem>    
+                    <p:separator />
+                    <p:menuitem
+                        actionListener="#{clientManager.createNewClient}"                
+                        disabled="#{!clientManager.user.can('AddClient')}"
+                        global="true" 
+                        value="Client"
+                        title="Create new client"
+                        icon="pi pi-plus"
+                        process="@this" >
 
-                </p:menuitem>
-                <p:separator />
-                <p:menuitem value="Proforma Invoice"
-                            title="Create new proforma invoice"
-                            icon="ui-icon-plus"
-                            disabled="false"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            oncomplete="longProcessDialogVar.hide();"
-                            actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
-                            process="@this" >
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView:clientsTable" />
 
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobFinanceManager.proformaDialogReturn}"
-                            update=""/>
+                    </p:menuitem>
+                    <p:separator />
+                    <p:menuitem value="Proforma Invoice"
+                                title="Create new proforma invoice"
+                                icon="pi pi-plus"
+                                disabled="false"
+                                actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                                process="@this" >
 
-                </p:menuitem> 
-                <p:menuitem value="Cost Estimate"
-                            title="Create new cost estimate"
-                            icon="ui-icon-plus"
-                            disabled="false"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            oncomplete="longProcessDialogVar.hide();"
-                            actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
-                            process="@this" >
+                        <p:ajax event="dialogReturn" 
+                                listener="#{jobFinanceManager.proformaDialogReturn}"
+                                update=""/>
 
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobFinanceManager.costEstimateDialogReturn}"
-                            update=""/>
+                    </p:menuitem> 
+                    <p:menuitem value="Cost Estimate"
+                                title="Create new cost estimate"
+                                icon="pi pi-plus"
+                                disabled="false"
+                                actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
+                                process="@this" >
 
-                </p:menuitem>
-            </p:menuButton>    
+                        <p:ajax event="dialogReturn" 
+                                listener="#{jobFinanceManager.costEstimateDialogReturn}"
+                                update=""/>
 
-        </p:toolbarGroup>
+                    </p:menuitem>
+                </p:menuButton>    
 
-        <p:toolbarGroup align="right">            
-            <p:menuButton value="Tools" >  
-                <p:menuitem value="Job Browser"
-                            title="Open the Job Browser tab"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            actionListener="#{jobManager.openJobBrowser}" 
-                            oncomplete="longProcessDialogVar.hide();"
-                            process="@this" />              
-                <p:separator />
-                <p:menuitem value="Client Management"
-                            title="Open the Clients tab"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            actionListener="#{jobManager.openClientsTab}" 
-                            oncomplete="longProcessDialogVar.hide();"
-                            process="@this" />
+            </p:toolbarGroup>
 
-                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"
-                            onstart="PF('longProcessDialogVar').show();"                                                    
-                            value="Client Credit Status"
-                            update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
-                            oncomplete="PF('accPacClientInformationDialog').show();PF('longProcessDialogVar').hide();"
-                            process="@this" />
-                <p:separator />
-                <p:menuitem value="Proforma Invoices"
-                            title="Browse proforma invoices"
-                            disabled="false"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
-                            oncomplete="longProcessDialogVar.hide();"
-                            process="@this" />
-                 <p:menuitem value="Price List"
-                            title="Browse price list"
-                            disabled="false"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            actionListener="#{jobFinanceManager.openPriceListDialog}" 
-                            oncomplete="longProcessDialogVar.hide();"
-                            process="@this" />
-                <p:separator />
-                <p:menuitem value="Reports"
-                            title="Open the Reports tab"
-                            onstart="PF('longProcessDialogVar').show();" 
-                            actionListener="#{jobManager.openReportsTab}" 
-                            oncomplete="longProcessDialogVar.hide();"
-                            process="@this" />
+            <p:toolbarGroup align="right">            
+                <p:menuButton value="Tools" >  
+                    <p:menuitem value="Jobs"
+                                title="Open the Job Browser tab" 
+                                icon="pi pi-briefcase"
+                                actionListener="#{jobManager.openJobBrowser}" 
+                                process="@this" />              
+                    <p:separator />
+                    <p:menuitem value="Clients"
+                                title="Open the Clients tab"
+                                icon="pi pi-users"
+                                actionListener="#{jobManager.openClientsTab}" 
+                                process="@this" />
 
-            </p:menuButton>         
-        </p:toolbarGroup>
-    </p:toolbar>
+                    <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
+                                value="Client Credit Status"
+                                icon="pi pi-thumbs-up"
+                                update=""
+                                oncomplete="PF('accPacClientInformationDialog').show();"
+                                process="@this" />
+                    <p:separator />
+                    <p:menuitem value="Proforma Invoices"
+                                title="Browse proforma invoices"
+                                icon="pi pi-dollar"
+                                disabled="false" 
+                                actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
+                                process="@this" />
+                    <p:menuitem value="Price List"
+                                title="Browse price list"
+                                icon="pi pi-dollar"
+                                disabled="false"
+                                actionListener="#{jobFinanceManager.openPriceListDialog}"
+                                process="@this" />
+                    <p:separator />
+                    <p:menuitem value="Reports"
+                                title="Open the Reports tab"
+                                icon="pi pi-file-o"
+                                actionListener="#{jobManager.openReportsTab}"
+                                process="@this" />
+
+                </p:menuButton>         
+            </p:toolbarGroup>
+        </p:toolbar>
+    </ui:remove>    
+
 
     <ui:include src="search.xhtml"/>   
 

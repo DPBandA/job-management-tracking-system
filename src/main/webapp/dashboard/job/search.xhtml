@@ -27,43 +27,46 @@ Email: info@dpbennett.com.jm
     <p:panel id="jobSearchPanel" header="Search" >
 
         <h:panelGrid columns="2" cellspacing="5">
-            <h:outputText value="Search type: " />
+            <h:outputText value="Search type" />
             <p:selectOneMenu value="#{jobManager.searchType}" 
-                             style="width: 90%;">
-                
-                <f:selectItems value="#{jobManager.authorizedSearchTypes}" />
-                
-                <p:ajax update="jobSearchPanel" process="@this" />
+                             style="width: 100%;">
+
+                <f:selectItems value="#{jobManager.groupedSearchTypes}" />
+
+                <p:ajax update="jobSearchPanel" global="false" process="@this" />
 
             </p:selectOneMenu>
 
-            <h:outputText value="Date field: " rendered="#{jobManager.renderDateSearchFields}" />
+            <h:outputText value="Date field" 
+                          rendered="#{jobManager.renderDateSearchFields}" />
             <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
                              id="jmDateField"
                              rendered="#{jobManager.renderDateSearchFields}"
-                             style="width: 90%;" >
+                             style="width: 100%;" >
                 <p:ajax                        
                     listener="#{jobManager.updateDateSearchField}"
+                    global="false"
                     process="@this" />
 
                 <f:selectItems value="#{jobManager.dateSearchFields}" />
 
             </p:selectOneMenu>
 
-            <h:outputText value="Date period: " rendered="#{jobManager.renderDateSearchFields}" />               
+            <h:outputText value="Date period" rendered="#{jobManager.renderDateSearchFields}" />               
             <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}" 
                              id="jmDatePeriod"
                              rendered="#{jobManager.renderDateSearchFields}"
-                             style="width: 90%;" >
+                             style="width: 100%;" >
 
                 <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
+                        global="false"
                         update="startSearchDate,endSearchDate"
                         process="@this" />
 
                 <f:selectItems value="#{systemManager.datePeriods}"/>
 
             </p:selectOneMenu>
-            <h:outputText value="Start:" rendered="#{jobManager.renderDateSearchFields}" />
+            <h:outputText value="Start" rendered="#{jobManager.renderDateSearchFields}" />
             <p:calendar id="startSearchDate"
                         rendered="#{jobManager.renderDateSearchFields}"
                         value="#{jobManager.dateSearchPeriod.startDate}"                    
@@ -72,8 +75,8 @@ Email: info@dpbennett.com.jm
                         validator="requiredFieldValidator"
                         disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
                         pattern="MMM dd, yyyy" />
-           
-            <h:outputText value="End:" rendered="#{jobManager.renderDateSearchFields}" />
+
+            <h:outputText value="End" rendered="#{jobManager.renderDateSearchFields}" />
             <p:calendar id="endSearchDate"
                         rendered="#{jobManager.renderDateSearchFields}"
                         value="#{jobManager.dateSearchPeriod.endDate}"
@@ -82,23 +85,19 @@ Email: info@dpbennett.com.jm
                         validator="requiredFieldValidator"
                         disabled="#{jobManager.dateSearchPeriod.endDateDisabled}"
                         pattern="MMM dd, yyyy" />
-                 
+
         </h:panelGrid>   
         <p:toolbar>
-            <p:toolbarGroup align="right" >
+            <p:toolbarGroup align="left" >
                 <p:inputText value="#{jobManager.searchText}"  
-                             style="width: 50%;"
-                             id="jobSearchText" />  
-                 
+                             style="width: 75%;"
+                             id="jobSearchText" />                    
+
                 <p:spacer width="5" />
-                <p:commandButton value="Search"
-                                 id="doSearch"
-                                 onstart="PF('longProcessDialogVar').show();"
-                                 actionListener="#{jobManager.doSearch}"
-                                 oncomplete="PF('longProcessDialogVar').hide();"
-                                 onerror="PF('connectionErrorDialog').show();"
-                                 update=":headerForm:growl3"
-                                 icon="ui-icon-search"
+                <p:commandButton id="doSearch"
+                                 actionListener="#{jobManager.doDefaultSearch}"
+                                 update=":appForm:dashboardDefaultCommandButton"
+                                 icon="pi pi-search"
                                  process="@form"/>
             </p:toolbarGroup>
         </p:toolbar>
