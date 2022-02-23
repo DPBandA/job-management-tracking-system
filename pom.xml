@@ -121,7 +121,9 @@
                             <excludes>
                                 <exclude>dashboard/admin/*</exclude>
                                 <exclude>admin/*</exclude>   
-                                <exclude>common/*</exclude>           
+                                <exclude>common/*</exclude>   
+                                <exclude>dashboard/hrm/*</exclude>
+                                <exclude>hr/*</exclude>         
                             </excludes>
                         </overlay>
                         <overlay>
