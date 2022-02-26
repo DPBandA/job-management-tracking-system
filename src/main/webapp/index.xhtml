@@ -22,9 +22,7 @@ Email: info@dpbennett.com.jm
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html" 
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-    xmlns:f="http://java.sun.com/jsf/core"> 
+    xmlns:ui="http://java.sun.com/jsf/facelets"> 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
         <meta http-equiv="cache-control" content="max-age=0" />
@@ -274,7 +272,7 @@ Email: info@dpbennett.com.jm
                 </p:splitterPanel>
             </p:splitter>
 
-            <p:poll interval="60" 
+            <p:poll interval="240" 
                     global="false"
                     onerror="PF('connectionErrorDialog').show();"
                     listener="#{systemManager.handleKeepAlive}" />
