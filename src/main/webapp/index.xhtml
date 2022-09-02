@@ -104,13 +104,44 @@ Email: info@dpbennett.com.jm
                                                   styleClass="#{systemManager.isDebugMode eq true ? 'debug-mode' : 'non-debug-mode'}" />  
 
                                 </h:panelGrid>
-                                <h:panelGroup>
+                                <h:panelGroup style="float: right;">
+                                    <p:badge value="#{systemManager.sizeOfActiveNotifications}" 
+                                             id="notificationBadge"
+                                             visible="#{systemManager.hasActiveNotifications}" 
+                                             severity="danger">
+
+                                        <p:commandButton id="notifications" 
+                                                         icon="pi pi-bell" />
+                                        <p:overlayPanel for="notifications"   
+                                                        widgetVar="NotificationPanelVar"
+                                                        style="width:400px;border: 0;">
+                                            <p:orderList value="#{systemManager.notifications}" 
+                                                         var="notification" 
+                                                         itemValue="#{notification}"
+                                                         converter="#{notificationConverter}" 
+                                                         controlsLocation="none" responsive="true" >
+
+                                                <p:ajax event="select" 
+                                                        update=":appForm:notificationBadge"
+                                                        oncomplete="PF('NotificationPanelVar').hide()"
+                                                        listener="#{financeManager.onNotificationSelect}" />
+           
+                                                <p:column>
+                                                    <h:outputText value="#{notification.name}" 
+                                                                  style="#{notification.style}"/>
+                                                </p:column>                                           
+
+                                            </p:orderList>
+                                        </p:overlayPanel>
+
+                                    </p:badge>
+                                    <p:spacer width="30"/>
                                     <p:menuButton     
                                         iconPos="left"
                                         icon="pi pi-user"
                                         title="#{systemManager.user.employee.firstName} #{systemManager.user.employee.lastName} (#{systemManager.user.username})"
                                         id="userMenu"
-                                        style="float: right;margin-right: 15px;" >
+                                        style="margin-right: 15px;" >
 
                                         <p:menuitem actionListener="#{systemManager.viewUserProfile}"                                            
                                                     update=":userProfileDialogForm"
