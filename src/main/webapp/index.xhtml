@@ -22,9 +22,7 @@ Email: info@dpbennett.com.jm
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://xmlns.jcp.org/jsf/html" 
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-    xmlns:f="http://java.sun.com/jsf/core"> 
+    xmlns:ui="http://java.sun.com/jsf/facelets"> 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
         <meta http-equiv="cache-control" content="max-age=0" />
@@ -106,13 +104,44 @@ Email: info@dpbennett.com.jm
                                                   styleClass="#{systemManager.isDebugMode eq true ? 'debug-mode' : 'non-debug-mode'}" />  
 
                                 </h:panelGrid>
-                                <h:panelGroup>
+                                <h:panelGroup style="float: right;">
+                                    <p:badge value="#{systemManager.sizeOfActiveNotifications}" 
+                                             id="notificationBadge"
+                                             visible="#{systemManager.hasActiveNotifications}" 
+                                             severity="danger">
+
+                                        <p:commandButton id="notifications" 
+                                                         icon="pi pi-bell" />
+                                        <p:overlayPanel for="notifications"   
+                                                        widgetVar="NotificationPanelVar"
+                                                        style="width:400px;border: 0;">
+                                            <p:orderList value="#{systemManager.notifications}" 
+                                                         var="notification" 
+                                                         itemValue="#{notification}"
+                                                         converter="#{notificationConverter}" 
+                                                         controlsLocation="none" responsive="true" >
+
+                                                <p:ajax event="select" 
+                                                        update=":appForm:notificationBadge"
+                                                        oncomplete="PF('NotificationPanelVar').hide()"
+                                                        listener="#{financeManager.onNotificationSelect}" />
+           
+                                                <p:column>
+                                                    <h:outputText value="#{notification.name}" 
+                                                                  style="#{notification.style}"/>
+                                                </p:column>                                           
+
+                                            </p:orderList>
+                                        </p:overlayPanel>
+
+                                    </p:badge>
+                                    <p:spacer width="30"/>
                                     <p:menuButton     
                                         iconPos="left"
                                         icon="pi pi-user"
                                         title="#{systemManager.user.employee.firstName} #{systemManager.user.employee.lastName} (#{systemManager.user.username})"
                                         id="userMenu"
-                                        style="float: right;margin-right: 15px;" >
+                                        style="margin-right: 15px;" >
 
                                         <p:menuitem actionListener="#{systemManager.viewUserProfile}"                                            
                                                     update=":userProfileDialogForm"
@@ -124,6 +153,7 @@ Email: info@dpbennett.com.jm
                                         <p:menuitem actionListener="#{systemManager.logout}"                                             
                                                     icon="pi pi-sign-out"
                                                     value="Logout"
+                                                    oncomplete="window.location.reload();"
                                                     process="@this"/>    
 
                                     </p:menuButton>   
@@ -274,8 +304,9 @@ Email: info@dpbennett.com.jm
                 </p:splitterPanel>
             </p:splitter>
 
-            <p:poll interval="60" 
+            <p:poll interval="240" 
                     global="false"
+                    onerror="PF('connectionErrorDialog').show();"
                     listener="#{systemManager.handleKeepAlive}" />
         </h:form>
     </h:body>
