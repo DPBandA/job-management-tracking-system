@@ -257,32 +257,16 @@ Email: info@dpbennett.com.jm
                                         <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
                                     </h:panelGroup>
 
+                                    <h:panelGroup rendered="#{t.id == 'Inventory'}" >
+                                        <ui:include src="finance/ims/inventoryTab.xhtml" />                                                                
+                                    </h:panelGroup>
+
+                                    <h:panelGroup rendered="#{t.id == 'Inventory Requisitions'}" >
+                                        <ui:include src="finance/ims/inventoryRequisitionTab.xhtml" />                                                                
+                                    </h:panelGroup>
+
                                     <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
                                         <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
-                                    </h:panelGroup>
-
-                                    <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
-                                        <ui:include src="compliance/surveyBrowser.xhtml" /> 
-                                    </h:panelGroup> 
-
-                                    <h:panelGroup  rendered="#{t.id == 'Complaint Browser'}">
-                                        <ui:include src="compliance/complaintBrowser.xhtml" /> 
-                                    </h:panelGroup>
-
-                                    <h:panelGroup rendered="#{t.id == 'Standard Browser'}" >
-                                        <ui:include src="compliance/standardBrowser.xhtml" />                                                                
-                                    </h:panelGroup>
-
-                                    <h:panelGroup rendered="#{t.id == 'Market Products'}" >
-                                        <ui:include src="compliance/marketProductBrowser.xhtml" />                                                                
-                                    </h:panelGroup>
-
-                                    <h:panelGroup rendered="#{t.id == 'Manufacturers'}" >
-                                        <ui:include src="compliance/manufacturersTab.xhtml"/>  
-                                    </h:panelGroup>
-
-                                    <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
-                                        <ui:include src="compliance/factoryInspectionsTab.xhtml" />                                                                
                                     </h:panelGroup>
 
                                 </p:tab>
