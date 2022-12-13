@@ -4,7 +4,7 @@
 
     <groupId>jm.com.dpbennett</groupId>
     <artifactId>job-management-tracking-system</artifactId>
-    <version>4.1.0</version>
+    <version>4.2.0</version>
     <packaging>war</packaging>
     
     <description>The Job Management &amp; Tracking System (JMTS) enterprise software.</description>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>job-management-tracking-system-lib</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
         </dependency> 
         <dependency>
             <groupId>${project.groupId}</groupId>
