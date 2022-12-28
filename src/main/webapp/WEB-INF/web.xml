@@ -11,7 +11,6 @@
             /WEB-INF/faces-config-cm.xml,
             /WEB-INF/faces-config-fm.xml,
             /WEB-INF/faces-config-rm.xml,
-            /WEB-INF/faces-config-lo.xml,
             /WEB-INF/faces-config-jmts.xml
         </param-value>
     </context-param>  

@@ -89,6 +89,20 @@
             <to-view-id>/job/jobDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
+     <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>legalDocumentDialog</from-outcome>
+            <to-view-id>/legal/legalDocumentDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>legalDocumentDeleteConfirmDialog</from-outcome>
+            <to-view-id>/legal/legalDocumentDeleteConfirmDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
        
     <managed-bean>
         <managed-bean-name>jobManager</managed-bean-name>
@@ -111,6 +125,12 @@
     <managed-bean>
         <managed-bean-name>jobFinanceManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.manager.JobFinanceManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>legalDocumentManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.manager.LegalDocumentManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
