@@ -1,0 +1,165 @@
+<!--
+Financial Management (FM) 
+Copyright (C) 2023  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <p:toolbar style="margin-bottom: 1px;" rendered="true">
+        <p:toolbarGroup align="left">
+            <p:menuButton value="New" >  
+
+                <p:menuitem value="Configuration"
+                            title="Create new system configuration"
+                            icon="pi pi-plus"
+                            actionListener="#{systemManager.createNewFinancialSystemOption}" 
+                            rendered="#{financeManager.user.hasModule('financeManager')}"
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView:financialAdminTabView:financialSystemOptionsTable"/>
+
+                </p:menuitem>
+
+                <p:separator rendered="#{financeManager.user.hasModule('financeManager')}" />
+
+                <p:menuitem value="Inventory Product"
+                            title="Add new inventory product"
+                            icon="pi pi-plus"
+                            actionListener="#{inventoryManager.createNewInventoryProduct}" 
+                            rendered="#{financeManager.user.hasModule('inventoryManager')}"
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{inventoryManager.inventoryDialogReturn}"
+                            update=":appForm:mainTabView:inventoryProductsTable"/>
+
+                </p:menuitem>
+
+                <p:menuitem value="Inventory Item"
+                            title="Add new inventory item"
+                            icon="pi pi-plus"
+                            actionListener="#{inventoryManager.createNewInventory}" 
+                            rendered="#{financeManager.user.hasModule('inventoryManager')}"
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{inventoryManager.inventoryDialogReturn}"
+                            update=":appForm:mainTabView:inventoryTable"/>
+
+                </p:menuitem>                
+
+                <p:menuitem value="Inventory Requisition"
+                            title="Add new inventory requisition"
+                            icon="pi pi-plus"
+                            actionListener="#{inventoryManager.createNewInventoryRequisition}" 
+                            rendered="#{financeManager.user.hasModule('inventoryManager')}"
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{inventoryManager.inventoryRequisitionDialogReturn}"
+                            update=":appForm:mainTabView:inventoryRequisitionTable"/>
+
+                </p:menuitem>
+
+                <p:separator rendered="#{financeManager.user.hasModule('purchasingManager')}" />
+
+                <p:menuitem value="Purchase requisition"
+                            title="Create new purchase requisition"
+                            icon="pi pi-plus"
+                            actionListener="#{purchasingManager.createNewPurchaseReq}" 
+                            rendered="#{financeManager.user.hasModule('purchasingManager')}"
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView:purchasereqsTable"/>
+
+                </p:menuitem>
+
+                <p:separator />
+
+                <p:menuitem value="Supplier"
+                            title="Create new supplier"
+                            icon="pi pi-plus"
+                            actionListener="#{purchasingManager.createNewSupplier}" 
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView:suppliersTable"/>
+
+                </p:menuitem>
+
+            </p:menuButton>    
+
+        </p:toolbarGroup>
+        <p:toolbarGroup align="right">
+
+            <p:menuButton value="Tools" >  
+
+                <p:menuitem value="Financial Administration"
+                            title="Open Financial Administration tab" 
+                            icon="pi pi-fw pi-dollar"
+                            actionListener="#{financeManager.openFinancialAdministration}" 
+                            rendered="#{financeManager.user.hasModule('financeManager')}"
+                            process="@this" />  
+
+                <p:menuitem value="Purchase Requisitions"
+                            title="Open purchase requisition browswer" 
+                            icon="pi pi-fw pi-dollar"
+                            rendered="#{purchasingManager.user.hasModule('purchasingManager')}"
+                            actionListener="#{purchasingManager.openPurchaseReqsTab}" 
+                            process="@this" />
+
+                <p:menuitem value="Inventory Products"
+                            title="Open Inventory Requisitions browswer" 
+                            icon="pi pi-fw pi-list"
+                            actionListener="#{inventoryManager.openInventoryProductBrowser}" 
+                            rendered="#{inventoryManager.user.hasModule('inventoryManager')}"
+                            process="@this" /> 
+
+                <p:menuitem value="Inventory Items"
+                            title="Open Inventory browswer" 
+                            icon="pi pi-fw pi-list"
+                            actionListener="#{inventoryManager.openInventoryTab}" 
+                            rendered="#{inventoryManager.user.hasModule('inventoryManager')}"
+                            process="@this" /> 
+
+                <p:menuitem value="Inventory Requisitions"
+                            title="Open Inventory Requisitions browswer" 
+                            icon="pi pi-fw pi-list"
+                            actionListener="#{inventoryManager.openInventoryRequisitionTab}" 
+                            rendered="#{inventoryManager.user.hasModule('inventoryManager')}"
+                            process="@this" /> 
+
+                <p:separator />               
+
+                <p:menuitem value="Suppliers"
+                            title="Open suppliers tab"
+                            icon="pi pi-fw pi-id-card"
+                            actionListener="#{purchasingManager.openSuppliersTab}" 
+                            process="@this" />
+
+            </p:menuButton>         
+        </p:toolbarGroup>
+    </p:toolbar>
+
+</html>
+
+

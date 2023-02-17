@@ -17,7 +17,7 @@
     
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>#{systemManager.user.PFThemeName}</param-value>
+        <param-value>#{jobManager.user.PFThemeName}</param-value>
     </context-param>
     
     <filter>
