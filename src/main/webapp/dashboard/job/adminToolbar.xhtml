@@ -1,0 +1,211 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2021  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <ui:include src="/job/finance/accpac/accPacClientInformationDialog.xhtml"/>
+
+
+    <p:toolbar style="margin-bottom: 1px;">
+
+        <p:toolbarGroup align="left">
+
+            <p:menuButton value="New" >  
+
+                <p:menuitem
+                    actionListener="#{legalDocumentManager.createNewLegalDocument}"
+                    rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
+                    value="Document" 
+                    title="Add a new document"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView"
+                            listener="#{legalDocumentManager.documentDialogReturn}" />
+
+                </p:menuitem>
+
+                <p:menuitem  
+                    value="Document type"
+                    icon="pi pi-plus" 
+                    actionListener="#{legalDocumentManager.createNewDocumentType}"     
+                    rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
+                    process="@this"
+                    title="Add a new document type" />
+
+                <p:menuitem 
+                    value="Classification"
+                    icon="pi pi-plus" 
+                    actionListener="#{legalDocumentManager.createNewClassification}"  
+                    rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
+                    process="@this"
+                    title="Add a new classification" />
+
+                <p:separator />
+
+                <p:menuitem value="Job"
+                            title="Create new job"
+                            icon="pi pi-plus"
+                            actionListener="#{jobManager.createNewJob}"  
+                            rendered="#{jobManager.user.hasModule('jobManager')}"
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
+
+                </p:menuitem>    
+
+                <p:separator />
+
+                <p:menuitem
+                    actionListener="#{clientManager.createNewClient}"                
+                    disabled="#{!jobManager.user.can('AddClient')}"
+                    global="true" 
+                    value="Client"
+                    title="Create new client"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView:clientsTable" />
+
+                </p:menuitem>
+
+                <p:separator />
+
+                <p:menuitem value="Proforma Invoice"
+                            title="Create new proforma invoice"
+                            icon="pi pi-plus"
+                            disabled="false"
+                            actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                            rendered="#{jobManager.user.hasModule('jobManager')}"
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.proformaDialogReturn}"
+                            update=""/>
+
+                </p:menuitem> 
+                <p:menuitem value="Cost Estimate"
+                            title="Create new cost estimate"
+                            icon="pi pi-plus"
+                            disabled="false"
+                            actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
+                            rendered="#{jobManager.user.hasModule('jobManager')}"
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.costEstimateDialogReturn}"
+                            update=""/>
+
+                </p:menuitem>
+
+            </p:menuButton>    
+
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right">            
+            <p:menuButton value="Tools" >  
+
+                <p:menuitem 
+                    actionListener="#{jobManager.openSystemBrowser}" 
+                    rendered="#{jobManager.user.hasModule('systemManager')}"
+                    value="System Administration" 
+                    icon="pi pi-server" /> 
+
+                <p:separator />
+
+                <p:menuitem value="Financial Administration"
+                            title="Open Financial Administration tab" 
+                            icon="pi pi-fw pi-dollar"
+                            actionListener="#{jobManager.openFinancialAdministration}" 
+                            rendered="#{jobManager.user.hasModule('financeManager')}"
+                            process="@this" />  
+
+                <p:separator />
+
+                <p:menuitem value="Human Resource Browser"
+                            title="Open Human Resource Browser"
+                            icon="pi pi-users"
+                            actionListener="#{jobManager.openHumanResourceBrowser}" 
+                            rendered="#{jobManager.user.hasModule('humanResourceManager')}"
+                            process="@this" />
+
+                <p:separator />
+
+                <p:menuitem value="Jobs"
+                            title="Open the Job Browser tab" 
+                            icon="pi pi-briefcase"
+                            actionListener="#{jobManager.openJobBrowser}" 
+                            rendered="#{jobManager.user.hasModule('jobManager')}"
+                            process="@this" />  
+
+                <p:separator />
+
+                <p:menuitem value="Clients"
+                            title="Open the Clients tab"
+                            icon="pi pi-users"
+                            actionListener="#{jobManager.openClientsTab}" 
+                            process="@this" />
+
+                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
+                            value="Client Credit Status"
+                            icon="pi pi-thumbs-up"
+                            update=""
+                            oncomplete="PF('accPacClientInformationDialog').show();"
+                            process="@this" />
+
+                <p:separator />
+
+                <p:menuitem value="Proforma Invoices"
+                            title="Browse proforma invoices"
+                            icon="pi pi-dollar"
+                            disabled="false" 
+                            actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
+                            rendered="false"
+                            process="@this" />
+                <p:menuitem value="Price List"
+                            title="Browse price list"
+                            icon="pi pi-dollar"
+                            disabled="false"
+                            actionListener="#{jobFinanceManager.openPriceListDialog}"
+                            rendered="false"
+                            process="@this" />
+                <p:separator />
+                <p:menuitem value="Reports"
+                            title="Open the Reports tab"
+                            icon="pi pi-file-o"
+                            actionListener="#{jobManager.openReportsTab}"
+                            process="@this" />
+
+                <p:separator />
+
+
+            </p:menuButton>         
+        </p:toolbarGroup>
+    </p:toolbar>
+
+</html>
+
+

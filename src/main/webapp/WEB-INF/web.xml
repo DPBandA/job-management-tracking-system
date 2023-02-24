@@ -11,13 +11,14 @@
             /WEB-INF/faces-config-cm.xml,
             /WEB-INF/faces-config-fm.xml,
             /WEB-INF/faces-config-rm.xml,
+            /WEB-INF/faces-config-lo.xml,
             /WEB-INF/faces-config-jmts.xml
         </param-value>
     </context-param>  
     
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>#{systemManager.user.PFThemeName}</param-value>
+        <param-value>#{jobManager.user.PFThemeName}</param-value>
     </context-param>
     
     <filter>
