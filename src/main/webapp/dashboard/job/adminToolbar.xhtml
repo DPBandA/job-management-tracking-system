@@ -30,10 +30,44 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left">
 
             <p:menuButton value="New" >  
+
+                <p:menuitem
+                    actionListener="#{legalDocumentManager.createNewLegalDocument}"
+                    rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
+                    value="Document" 
+                    title="Add a new document"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView"
+                            listener="#{legalDocumentManager.documentDialogReturn}" />
+
+                </p:menuitem>
+
+                <p:menuitem  
+                    value="Document type"
+                    icon="pi pi-plus" 
+                    actionListener="#{legalDocumentManager.createNewDocumentType}"     
+                    rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
+                    process="@this"
+                    title="Add a new document type" />
+
+                <p:menuitem 
+                    value="Classification"
+                    icon="pi pi-plus" 
+                    actionListener="#{legalDocumentManager.createNewClassification}"  
+                    rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
+                    process="@this"
+                    title="Add a new classification" />
+
+                <p:separator />
+
                 <p:menuitem value="Job"
                             title="Create new job"
                             icon="pi pi-plus"
                             actionListener="#{jobManager.createNewJob}"  
+                            rendered="#{jobManager.user.hasModule('jobManager')}"
                             process="@this" >
 
                     <p:ajax event="dialogReturn" 
@@ -41,10 +75,12 @@ Email: info@dpbennett.com.jm
                             listener="#{jobManager.jobDialogReturn}" />
 
                 </p:menuitem>    
+
                 <p:separator />
+
                 <p:menuitem
                     actionListener="#{clientManager.createNewClient}"                
-                    disabled="#{!clientManager.user.can('AddClient')}"
+                    disabled="#{!jobManager.user.can('AddClient')}"
                     global="true" 
                     value="Client"
                     title="Create new client"
@@ -55,12 +91,15 @@ Email: info@dpbennett.com.jm
                             update=":appForm:mainTabView:clientsTable" />
 
                 </p:menuitem>
+
                 <p:separator />
+
                 <p:menuitem value="Proforma Invoice"
                             title="Create new proforma invoice"
                             icon="pi pi-plus"
                             disabled="false"
                             actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                            rendered="#{jobManager.user.hasModule('jobManager')}"
                             process="@this" >
 
                     <p:ajax event="dialogReturn" 
@@ -73,6 +112,7 @@ Email: info@dpbennett.com.jm
                             icon="pi pi-plus"
                             disabled="false"
                             actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
+                            rendered="#{jobManager.user.hasModule('jobManager')}"
                             process="@this" >
 
                     <p:ajax event="dialogReturn" 
@@ -80,18 +120,49 @@ Email: info@dpbennett.com.jm
                             update=""/>
 
                 </p:menuitem>
+
             </p:menuButton>    
 
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right">            
             <p:menuButton value="Tools" >  
+
+                <p:menuitem 
+                    actionListener="#{jobManager.openSystemBrowser}" 
+                    rendered="#{jobManager.user.hasModule('systemManager')}"
+                    value="System Administration" 
+                    icon="pi pi-server" /> 
+
+                <p:separator />
+
+                <p:menuitem value="Financial Administration"
+                            title="Open Financial Administration tab" 
+                            icon="pi pi-fw pi-dollar"
+                            actionListener="#{jobManager.openFinancialAdministration}" 
+                            rendered="#{jobManager.user.hasModule('financeManager')}"
+                            process="@this" />  
+
+                <p:separator />
+
+                <p:menuitem value="Human Resource Browser"
+                            title="Open Human Resource Browser"
+                            icon="pi pi-users"
+                            actionListener="#{jobManager.openHumanResourceBrowser}" 
+                            rendered="#{jobManager.user.hasModule('humanResourceManager')}"
+                            process="@this" />
+
+                <p:separator />
+
                 <p:menuitem value="Jobs"
                             title="Open the Job Browser tab" 
                             icon="pi pi-briefcase"
                             actionListener="#{jobManager.openJobBrowser}" 
-                            process="@this" />              
+                            rendered="#{jobManager.user.hasModule('jobManager')}"
+                            process="@this" />  
+
                 <p:separator />
+
                 <p:menuitem value="Clients"
                             title="Open the Clients tab"
                             icon="pi pi-users"
@@ -104,18 +175,22 @@ Email: info@dpbennett.com.jm
                             update=""
                             oncomplete="PF('accPacClientInformationDialog').show();"
                             process="@this" />
+
                 <p:separator />
+
                 <p:menuitem value="Proforma Invoices"
                             title="Browse proforma invoices"
                             icon="pi pi-dollar"
                             disabled="false" 
                             actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
+                            rendered="false"
                             process="@this" />
                 <p:menuitem value="Price List"
                             title="Browse price list"
                             icon="pi pi-dollar"
                             disabled="false"
                             actionListener="#{jobFinanceManager.openPriceListDialog}"
+                            rendered="false"
                             process="@this" />
                 <p:separator />
                 <p:menuitem value="Reports"
@@ -123,6 +198,9 @@ Email: info@dpbennett.com.jm
                             icon="pi pi-file-o"
                             actionListener="#{jobManager.openReportsTab}"
                             process="@this" />
+
+                <p:separator />
+
 
             </p:menuButton>         
         </p:toolbarGroup>
