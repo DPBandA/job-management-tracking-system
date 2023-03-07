@@ -48,7 +48,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>financial-management</artifactId>
-            <version>1.3.0</version>
+            <version>1.5.0</version>
             <type>war</type>
         </dependency> 
         
@@ -99,47 +99,21 @@
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>report-management</artifactId>
-                            <excludes>
-                                <exclude>dashboard/admin/*</exclude>
-                                <exclude>admin/*</exclude>  
-                                <exclude>common/*</exclude>  
-                                <exclude>dashboard/hrm/*</exclude>
-                                <exclude>hr/*</exclude>   
-                            </excludes>
                         </overlay>  
                         
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>client-management</artifactId>
-                            <excludes>
-                                <exclude>dashboard/admin/*</exclude>
-                                <exclude>admin/*</exclude>    
-                                <exclude>common/*</exclude>      
-                                <exclude>dashboard/hrm/*</exclude>
-                                <exclude>hr/*</exclude>    
-                            </excludes>
                         </overlay>
                         
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>financial-management</artifactId> 
-                            <excludes>
-                                <exclude>dashboard/admin/*</exclude>
-                                <exclude>admin/*</exclude>   
-                                <exclude>common/*</exclude>   
-                                <exclude>dashboard/hrm/*</exclude>
-                                <exclude>hr/*</exclude>         
-                            </excludes>
                         </overlay>
                        
                         <overlay>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>human-resource-management</artifactId>
-                            <excludes>
-                                <exclude>dashboard/admin/*</exclude>
-                                <exclude>admin/*</exclude>    
-                                <exclude>common/*</exclude>          
-                            </excludes>                                           
+                            <artifactId>human-resource-management</artifactId>                    
                         </overlay>
                         
                         <overlay>
