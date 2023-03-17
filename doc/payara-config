@@ -1,0 +1,11 @@
+./asadmin delete-jvm-options '-Xmx512m'
+./asadmin create-jvm-options '-Xmx2048m:-Xms2048m'
+
+./asadmin set configs.config.server-config.admin-service.das-config.dynamic-reload-enabled=false configs.config.server-config.admin-service.das-config.autodeploy-enabled=false
+
+./asadmin set configs.config.server-config.ejb-container.pool-resize-quantity=2 configs.config.server-config.ejb-container.max-pool-size=120 configs.config.server-config.ejb-container.steady-pool-size=10
+
+./asadmin set resources.jdbc-connection-pool.<pool-name>.max-pool-size=64 resources.jdbc-connection-pool.<pool-name>.max-wait-time-in-millis=0 resources.jdbc-connection-pool.<pool-name>.steady-pool-size=10
+
+Set max wait time for all pools to 0
+Set max pool size to 64
