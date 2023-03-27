@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package jm.com.dpbennett.jmts.service.service;
+package jm.com.dpbennett.jmts.service;
 
 import java.util.List;
 import javax.ejb.Stateless;
@@ -25,7 +25,7 @@ import jm.com.dpbennett.business.entity.jmts.Job;
  * @author Desmond Bennett
  */
 @Stateless
-@Path("jm.com.dpbennett.business.entity.jmts.job")
+@Path("jobs")
 public class JobFacadeREST extends AbstractFacade<Job> {
 
     @PersistenceUnit(unitName = "JMTSPU")
@@ -37,34 +37,34 @@ public class JobFacadeREST extends AbstractFacade<Job> {
 
     @POST
     @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
     public void create(Job entity) {
         super.create(entity);
     }
 
-    @PUT
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Long id, Job entity) {
-        super.edit(entity);
-    }
+//    @PUT
+//    @Path("{id}")
+//    @Consumes({MediaType.APPLICATION_JSON})
+//    public void edit(@PathParam("id") Long id, Job entity) {
+//        super.edit(entity);
+//    }
 
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
-    }
+//    @DELETE
+//    @Path("{id}")
+//    public void remove(@PathParam("id") Long id) {
+//        super.remove(super.find(id));
+//    }
 
     @GET
     @Path("{id}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public Job find(@PathParam("id") Long id) {
-        return super.find(id);
+        return Job.findJobById(getEntityManager(), id);//super.find(id);
     }
 
     @GET
     @Override
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     public List<Job> findAll() {
         return super.findAll();
     }

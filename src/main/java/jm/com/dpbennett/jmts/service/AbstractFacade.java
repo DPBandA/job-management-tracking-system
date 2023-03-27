@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package jm.com.dpbennett.jmts.service.service;
+package jm.com.dpbennett.jmts.service;
 
 import java.util.List;
 import javax.persistence.EntityManager;
