@@ -220,6 +220,7 @@ Email: info@dpbennett.com.jm
             </p:panel>
             <p:poll interval="60" 
                     global="false"
+                    onerror="PF('connectionErrorDialog').show();"
                     listener="#{jobManager.handleKeepAlive}" />
 
         </h:form>
