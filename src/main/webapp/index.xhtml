@@ -33,41 +33,7 @@ Email: info@dpbennett.com.jm
         <link rel="shortcut icon" type="image/x-icon" href="#{jobManager.appShortcutIconURL}" />
         <script type="text/javascript" src="js/javascripts.js" /> 
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="css/main.css" />   
-        <style type="text/css">
-
-            .lightgreybg {
-                background-color:lightgrey !important;
-                background-image: none !important;
-                color: #000000 !important;
-            }
-            .lightgreenbg {
-                background-color:lightgreen !important;
-                background-image: none !important;
-                color: #000000 !important;
-            }
-            .orangeredbg {
-                background-color:orangered !important;
-                background-image: none !important;
-                color: #000000 !important;
-            }
-            .yellowbg {
-                background-color:yellow !important;
-                background-image: none !important;
-                color: #000000 !important;
-            }
-
-            .ui-sticky {
-                top: 0px !important;
-            }
-
-            @media (max-width: 960px) {
-                .ui-sticky {
-                    top: 0px !important;
-                }
-            }
-
-        </style>
+        <link rel="stylesheet" type="text/css" href="css/main.css" />           
     </h:head>
     <h:body>
 
@@ -246,7 +212,7 @@ Email: info@dpbennett.com.jm
                     <div class="col-12">
 
                         <p:outputLabel value=" &copy; D P Bennett &amp; Associates"   
-                                       onclick="window.open('https://main.dpbennett.com.jm/');"
+                                       onclick="window.open('https://dpbennett.com.jm/jmts');"
                                        class="header-text" />
 
                     </div>
@@ -254,6 +220,7 @@ Email: info@dpbennett.com.jm
             </p:panel>
             <p:poll interval="60" 
                     global="false"
+                    onerror="PF('connectionErrorDialog').show();"
                     listener="#{jobManager.handleKeepAlive}" />
 
         </h:form>

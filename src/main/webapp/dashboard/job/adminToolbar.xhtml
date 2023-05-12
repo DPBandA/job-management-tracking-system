@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2021  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -125,8 +125,9 @@ Email: info@dpbennett.com.jm
 
         </p:toolbarGroup>
 
-        <p:toolbarGroup align="right">            
-            <p:menuButton value="Tools" >  
+        <p:toolbarGroup align="right">     
+            <p:commandButton id="dynaButton" value="Tools" type="button" icon="pi pi-angle-down"/>
+            <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:200px">  
 
                 <p:menuitem 
                     actionListener="#{jobManager.openSystemBrowser}" 
@@ -151,6 +152,14 @@ Email: info@dpbennett.com.jm
                             actionListener="#{jobManager.openHumanResourceBrowser}" 
                             rendered="#{jobManager.user.hasModule('humanResourceManager')}"
                             process="@this" />
+
+                <p:separator />
+
+                <p:menuitem value="Legal Documents"
+                            icon="pi pi-file-edit"
+                            rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
+                            actionListener="#{legalDocumentManager.openDocumentBrowser}"                            
+                            process="@this"/>  
 
                 <p:separator />
 
@@ -202,7 +211,7 @@ Email: info@dpbennett.com.jm
                 <p:separator />
 
 
-            </p:menuButton>         
+            </p:tieredMenu>         
         </p:toolbarGroup>
     </p:toolbar>
 

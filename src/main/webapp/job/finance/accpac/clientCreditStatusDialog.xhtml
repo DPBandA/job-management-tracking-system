@@ -33,36 +33,12 @@ Email: info@dpbennett.com.jm
         <title>Client Credit Status</title>
         <script type="text/javascript" src="../../../js/javascripts.js" /> 
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="../../../css/main.css" />
-        <style type="text/css">
-            .hold {
-                color: red !important;
-                font-size: 1.2em !important;
-                background-image: none !important;
-                font-weight: bolder !important;
-            }
-            .active {
-                color: green !important;
-                font-size: 1.2em !important;
-                background-image: none !important;
-                font-weight: bolder !important;
-            }
-            .due {
-                background-color: yellow !important;
-                background-image: none !important;
-                color: #000000 !important;
-            }
-            .overdue {
-                background-color: yellow !important;
-                background-image: none !important;
-                color: #000000 !important;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="../../../css/main.css" />        
     </h:head>
     <h:body>        
         <ui:include src="/common/commonDialogs.xhtml"/>  
-        <h:form id="clientCreditStatusDialogForm" >    
-
+        
+        <h:form id="clientCreditStatusDialogForm" >   
             <p:growl id="client_credit_status_dialog_growl" 
                      life="5000" 
                      showSummary="true"
