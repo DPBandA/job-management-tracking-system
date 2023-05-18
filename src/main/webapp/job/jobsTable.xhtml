@@ -92,7 +92,6 @@ Email: info@dpbennett.com.jm
                 </f:facet>
                 <f:facet name="input">
                     <p:calendar value="#{job.jobStatusAndTracking.dateSubmitted}" 
-                                readonlyInput="true"
                                 focusOnSelect="true"
                                 disabled="#{jobManager.disableJobDialogField(job, 'dateSubmitted')}"
                                 navigator="true"                                 
@@ -113,7 +112,6 @@ Email: info@dpbennett.com.jm
                 </f:facet>
                 <f:facet name="input">
                     <p:calendar value="#{job.jobStatusAndTracking.expectedDateOfCompletion}" 
-                                readonlyInput="true"
                                 focusOnSelect="true"
                                 navigator="true"                                 
                                 pattern="MMM dd, yyyy" >

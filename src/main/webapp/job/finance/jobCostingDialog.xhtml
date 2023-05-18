@@ -157,12 +157,15 @@ Email: info@dpbennett.com.jm
                                             scrollHeight="200" 
                                             disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                             forceSelection="true"
+                                            cache="true"
                                             completeMethod="#{jobFinanceManager.completeJobCostingAndPaymentName}">
+                                
                                 <p:ajax event="itemSelect" 
                                         global="false"
                                         update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
                                         listener="#{jobFinanceManager.updateCostingComponents}"
-                                        process="@this"/>                      
+                                        process="@this"/>      
+                                
                             </p:autoComplete>
                         </h:panelGroup> 
                         <p:spacer width="10" />

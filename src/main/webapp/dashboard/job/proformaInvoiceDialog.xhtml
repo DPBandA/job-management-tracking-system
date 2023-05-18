@@ -64,6 +64,7 @@ Email: info@dpbennett.com.jm
                                     itemLabel="#{department.name}"
                                     converter="activeDepartmentConverter"
                                     validator="businessEntityValidator"
+                                    cache="true"
                                     completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
 
                         <p:ajax event="itemSelect"
@@ -88,6 +89,7 @@ Email: info@dpbennett.com.jm
                                         converter="activeClientConverter"
                                         validator="jobClientValidator"
                                         forceSelection="true"
+                                        cache="true"
                                         completeMethod="#{clientManager.completeActiveClient}" >
 
                             <p:ajax event="itemSelect"    
@@ -144,6 +146,7 @@ Email: info@dpbennett.com.jm
                                     scrollHeight="200"
                                     itemValue="#{address}"
                                     itemLabel="#{address.name}" 
+                                    cache="true"
                                     completeMethod="#{jobManager.completeClientAddress}">
 
                         <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
@@ -166,6 +169,7 @@ Email: info@dpbennett.com.jm
                                     var="contact"                        
                                     itemValue="#{contact}"
                                     itemLabel="#{contact.name}" 
+                                    cache="true"
                                     completeMethod="#{jobManager.completeClientContact}">
 
                         <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
@@ -212,9 +216,11 @@ Email: info@dpbennett.com.jm
                                 styleClass="read-only-inputfield"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
+                        
                         <p:ajax event="dateSelect"  
                                 global="false"
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+                        
                         <p:ajax event="keyup"   
                                 global="false"
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
@@ -258,6 +264,7 @@ Email: info@dpbennett.com.jm
                                     itemLabel="#{discount.name}"
                                     converter="discountConverter"
                                     validator="businessEntityValidator"
+                                    cache="true"
                                     completeMethod="#{jobFinanceManager.completeDiscount}" >
 
                         <p:ajax event="itemSelect"
@@ -282,6 +289,7 @@ Email: info@dpbennett.com.jm
                                     itemLabel="#{tax.name}"
                                     converter="taxConverter"
                                     validator="businessEntityValidator"
+                                    cache="true"
                                     completeMethod="#{jobFinanceManager.completeTax}" >
 
                         <p:ajax event="itemSelect"
@@ -347,6 +355,7 @@ Email: info@dpbennett.com.jm
 
                 <p:dataTable  var="costComponent"
                               id="i#{jobCosting.id}"
+                              reflow="true"
                               rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
                               value="#{jobFinanceManager.currentJob.jobCostingAndPayment.allSortedCostComponents}">
                     <p:column>

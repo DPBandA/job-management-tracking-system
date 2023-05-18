@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -73,7 +73,7 @@ Email: info@dpbennett.com.jm
                                      maxlength="40"
                                      required=""
                                      readonly="true"
-                                     style="width: 50%;font-weight: bold;background-color: lightyellow;" >
+                                     styleClass="read-only-text-field" >
                             <p:ajax event="change"
                                     global="false"
                                     listener="#{jobSampleManager.updateSample}"
@@ -92,7 +92,9 @@ Email: info@dpbennett.com.jm
                                         forceSelection="true"
                                         dropdown="true"
                                         scrollHeight="200" 
+                                        cache="true"
                                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+                            
                             <p:ajax event="itemSelect"                                    
                                     listener="#{jobSampleManager.updateSample}"
                                     global="false"
@@ -109,7 +111,6 @@ Email: info@dpbennett.com.jm
                         <p:calendar  id="dateSampled"
                                      value="#{jobSampleManager.selectedJobSample.dateSampled}"
                                      navigator="true"
-                                     readonlyInput="true"
                                      pattern="MMM dd, yyyy"
                                      style="width: 50%" >
                             <p:ajax event="dateSelect"
@@ -164,7 +165,9 @@ Email: info@dpbennett.com.jm
                                         maxlength="40"
                                         dropdown="true"
                                         scrollHeight="200" 
+                                        cache="true"
                                         completeMethod="#{systemManager.completeCountry}" >
+                            
                             <p:ajax event="itemSelect"                              
                                     listener="#{jobSampleManager.updateSample}"
                                     global="false"
@@ -302,16 +305,19 @@ Email: info@dpbennett.com.jm
                                     value="#{jobSampleManager.selectedJobSample.dateReceived}"                                    
                                     navigator="true"
                                     pattern="MMM dd, yyyy">
+                            
                             <p:ajax event="dateSelect"
                                     global="false"                                   
                                     listener="#{jobSampleManager.updateSample}"   
                                     update="sampleReference"
                                     process="@this"/>
+                            
                             <p:ajax event="change"
                                     global="false"                                   
                                     listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
+                            
                         </p:calendar>
                     </h:panelGrid>
                 </p:tab>

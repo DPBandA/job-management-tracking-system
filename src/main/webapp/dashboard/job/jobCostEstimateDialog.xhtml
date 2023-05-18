@@ -76,6 +76,7 @@ Email: info@dpbennett.com.jm
                                     itemLabel="#{department.name}"
                                     converter="activeDepartmentConverter"
                                     validator="businessEntityValidator"
+                                    cache="true"
                                     completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
 
                         <p:ajax event="itemSelect"
@@ -131,6 +132,7 @@ Email: info@dpbennett.com.jm
 
                 <p:dataTable  var="costComponent"
                               id="i#{jobCosting.id}"
+                              reflow="true"
                               rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
                               value="#{jobFinanceManager.currentJob.jobCostingAndPayment.allSortedCostComponents}">
                     
