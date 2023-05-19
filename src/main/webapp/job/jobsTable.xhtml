@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -26,10 +26,11 @@ Email: info@dpbennett.com.jm
 
     <p:dataTable id="jobsDatabaseTable"
                  var="job"
-                 editable="true" 
+                 editable="false" 
                  editMode="cell"
                  paginator="true"
                  rows="15"  
+                 reflow="true"
                  resizableColumns="false"
                  rowStyleClass="#{job.rowStyle}"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -127,7 +128,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{job.jobStatusAndTracking.workProgress}" />               
         </p:column>
 
-        <p:column style="width:32px" >
+        <p:column>
             <p:commandButton   
                 title="Edit or view" 
                 actionListener="#{jobManager.editJob}"
@@ -147,7 +148,7 @@ Email: info@dpbennett.com.jm
             </p:commandButton>
         </p:column>
         <ui:remove>
-            <p:column style="width:32px" >
+            <p:column>
                 <p:menuButton id="toolsButton" 
                               icon="pi pi-pencil" 
                               title="Edit or copy" >

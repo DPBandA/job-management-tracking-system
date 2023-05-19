@@ -237,6 +237,7 @@ Email: info@dpbennett.com.jm
                      style="margin-top: 1px;margin-bottom: 1px;"
                      paginator="true"
                      rows="15"
+                     reflow="true"
                      var="cashPayment"
                      value="#{jobFinanceManager.currentJob.cashPayments}">
 
@@ -271,7 +272,7 @@ Email: info@dpbennett.com.jm
                 </f:facet>
                 <h:outputText value="#{cashPayment.paymentPurpose}"/>              
             </p:column>
-            <p:column style="width:32px" >
+            <p:column>
                 <p:menuButton id="toolsButton" 
                               disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                               icon="pi pi-pencil" 

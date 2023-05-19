@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2020  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -26,10 +26,11 @@ Email: info@dpbennett.com.jm
 
     <p:dataTable id="cashierViewTable"
                  var="job"
-                 editable="true" 
+                 editable="false" 
                  editMode="cell"
                  paginator="true"
                  rows="15" 
+                 reflow="true"
                  rowStyleClass="#{job.rowStyle}"
                  resizableColumns="false"                 
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -112,7 +113,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column style="width:32px" >
+        <p:column>
             <p:commandButton title="View or edit job costing and payment" 
                              actionListener="#{jobManager.editJobCostingAndPayment}"                             
                              global="true"
