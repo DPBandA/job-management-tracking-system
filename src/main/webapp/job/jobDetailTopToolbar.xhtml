@@ -117,6 +117,7 @@ Email: info@dpbennett.com.jm
                             icon="pi pi-file-pdf"
                             ajax="false" 
                             immediate="true"
+                            rendered="#{jobContractManager.useServiceContractPDF}"
                             disabled="#{!jobManager.currentJobIsValid}"   
                             onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
