@@ -22,9 +22,9 @@ Email: info@dpbennett.com.jm
       xmlns:h="http://java.sun.com/jsf/html"    
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">   
-    
-    <p:dialog width="1200"
-              height="700"
+
+    <p:dialog width="900"
+              height="400"
               draggable="true"
               modal="true"
               responsive="true"
@@ -34,7 +34,7 @@ Email: info@dpbennett.com.jm
         <p:toolbar>
             <p:toolbarGroup>
                 <p:commandButton value="Close"
-                                 onclick="accPacClientInformationDialog.hide();"
+                                 onclick="PF('accPacClientInformationDialog').hide();"
                                  type="button"
                                  icon="pi pi-times" />
             </p:toolbarGroup>
@@ -43,13 +43,13 @@ Email: info@dpbennett.com.jm
                    style="margin-top: 1px;margin-bottom: 1px;"
                    widgetVar="clientTabVar" >
             <p:tab title="Credit status">                
-                    <ui:include src="/job/finance/accpac/accPacClientCreditStatus.xhtml"/>               
+                <ui:include src="/job/finance/accpac/accPacClientCreditStatus.xhtml"/>               
             </p:tab>
         </p:tabView>
         <p:toolbar>
             <p:toolbarGroup>
                 <p:commandButton value="Close"
-                                 onclick="accPacClientInformationDialog.hide();"
+                                 onclick="PF('accPacClientInformationDialog').hide();"
                                  type="button"
                                  icon="pi pi-times" />
             </p:toolbarGroup>

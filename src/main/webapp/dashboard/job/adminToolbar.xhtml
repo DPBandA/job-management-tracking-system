@@ -126,44 +126,12 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right">     
-            <p:commandButton id="dynaButton" value="Tools" type="button" icon="pi pi-angle-down"/>
-            <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" at="left bottom" style="width:200px">  
+            <p:commandButton id="dynaButton" value="Tools" type="button" 
+                             icon="pi pi-angle-down"/>
+            <p:tieredMenu overlay="true" trigger="dynaButton" my="left top" 
+                          at="left bottom" style="width:200px">  
 
-                <p:menuitem 
-                    actionListener="#{jobManager.openSystemBrowser}" 
-                    rendered="#{jobManager.user.hasModule('systemManager')}"
-                    value="System Administration" 
-                    icon="pi pi-server" /> 
-
-                <p:separator />
-
-                <p:menuitem value="Financial Administration"
-                            title="Open Financial Administration tab" 
-                            icon="pi pi-fw pi-dollar"
-                            actionListener="#{jobManager.openFinancialAdministration}" 
-                            rendered="#{jobManager.user.hasModule('financeManager')}"
-                            process="@this" />  
-
-                <p:separator />
-
-                <p:menuitem value="Human Resource Browser"
-                            title="Open Human Resource Browser"
-                            icon="pi pi-users"
-                            actionListener="#{jobManager.openHumanResourceBrowser}" 
-                            rendered="#{jobManager.user.hasModule('humanResourceManager')}"
-                            process="@this" />
-
-                <p:separator />
-
-                <p:menuitem value="Legal Documents"
-                            icon="pi pi-file-edit"
-                            rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
-                            actionListener="#{legalDocumentManager.openDocumentBrowser}"                            
-                            process="@this"/>  
-
-                <p:separator />
-
-                <p:menuitem value="Jobs"
+                <p:menuitem value="Job Browser"
                             title="Open the Job Browser tab" 
                             icon="pi pi-briefcase"
                             actionListener="#{jobManager.openJobBrowser}" 
@@ -172,7 +140,7 @@ Email: info@dpbennett.com.jm
 
                 <p:separator />
 
-                <p:menuitem value="Clients"
+                <p:menuitem value="Client Management"
                             title="Open the Clients tab"
                             icon="pi pi-users"
                             actionListener="#{jobManager.openClientsTab}" 
@@ -191,15 +159,13 @@ Email: info@dpbennett.com.jm
                             title="Browse proforma invoices"
                             icon="pi pi-dollar"
                             disabled="false" 
-                            actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
-                            rendered="false"
+                            actionListener="#{jobFinanceManager.openProformaInvoicesDialog}"
                             process="@this" />
                 <p:menuitem value="Price List"
                             title="Browse price list"
                             icon="pi pi-dollar"
                             disabled="false"
                             actionListener="#{jobFinanceManager.openPriceListDialog}"
-                            rendered="false"
                             process="@this" />
                 <p:separator />
                 <p:menuitem value="Reports"

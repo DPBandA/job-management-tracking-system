@@ -28,23 +28,22 @@ Email: info@dpbennett.com.jm
 
         <p:menuitem 
             actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
+            title="System administration" 
             rendered="#{systemManager.user.hasModule('systemManager')}"
             value="System" 
-            icon="pi pi-database" />         
+            icon="pi pi-database" />     
 
-        <p:menuitem value="Human Resource"
-                    title="Browse human resource"
-                    rendered="#{systemManager.user.hasModule('humanResourceManager')}"
-                    icon="pi pi-users"
-                    actionListener="#{humanResourceManager.openHumanResourceBrowser}" 
-                    process="@this" />  
-
-        <p:menuitem value="Financial"
+        <p:menuitem value="Finance"
                     icon="pi pi-fw pi-dollar"
                     title="Financial administration" 
-                    rendered="#{systemManager.user.hasModule('FinancialManagementModule')}"
-                    actionListener="#{financeManager.openFinancialAdministration}" 
-                    process="@this" />
+                    rendered="#{systemManager.user.hasModule('financeManager')}"
+                    actionListener="#{financeManager.openFinancialAdministration}" />
+
+        <p:menuitem value="Human Resource"
+                    title="Human resource management"
+                    rendered="#{systemManager.user.hasModule('humanResourceManager')}"
+                    icon="pi pi-users"
+                    actionListener="#{humanResourceManager.openHumanResourceBrowser}" />  
 
         <ui:remove>
             <f:facet name="options">
