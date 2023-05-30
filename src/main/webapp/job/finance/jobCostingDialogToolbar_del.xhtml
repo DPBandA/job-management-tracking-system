@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2021  D P Bennett & Associates Limited
+Copyright (C) 2017  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -25,44 +25,57 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar id="jobCostingAndPaymentToolbar">
         <p:toolbarGroup align="left" >  
-            <p:commandButton value="Save"
-                             actionListener="#{jobFinanceManager.saveProformaInvoice}"
-                             icon="pi pi-save"
-                             update="proformaNumber,jobCosting_growl"
+            <p:commandButton value="Ok"
+                             actionListener="#{jobManager.saveCurrentJob}" 
+                             icon="pi pi-check"
+                             update="jobCosting_growl"
                              process="@form"/>
             <p:spacer width="10"/>
-            <p:commandButton value="Close"
+            <p:commandButton value="Cancel"
                              immediate="true"
                              actionListener="#{jobFinanceManager.cancelJobCostingAndPaymentEdit}"                         
                              icon="pi pi-times"
                              process="@this"/>
             <p:spacer width="10"/>                    
             <h:panelGroup>
-                <p:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.costingCompleted}" 
+                <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.costingCompleted}" 
                                          id="prepared"                                         
                                          disabled="#{!jobFinanceManager.canPrepareJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Prepared" >
                     <p:ajax global="false" 
                             listener="#{jobFinanceManager.prepareJobCosting}"
-                            update="@this,costingDate,approved,jobCosting_growl,exportJobCostingButton1"
+                            update="@this,jobCostingDialogForm,jobCosting_growl,exportJobCostingButton1"
                             process="@this"/>
 
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>
             <p:spacer width="10"/>
             <h:panelGroup>
-                <p:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.costingApproved}"  
+                <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.costingApproved}"  
                                          id="approved"
                                          disabled="#{!jobFinanceManager.canApproveJobCosting}"
                                          style="vertical-align: bottom;"
-                                         itemLabel="Authorized" >
+                                         itemLabel="Approved" >
                     <p:ajax global="false"
                             listener="#{jobFinanceManager.approveJobCosting}"
-                            update="@this,prepared,costComponentsPanel,costingApprovalDate,jobCosting_growl,exportJobCostingButton1"
+                            update="@this,jobCosting_growl,jobCostingDialogForm,exportJobCostingButton1"
                             process="@this"/>
                 </p:selectBooleanCheckbox>               
-            </h:panelGroup>               
+            </h:panelGroup>
+            <p:spacer width="10"/>
+            <h:panelGroup>
+                <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.invoiced}"
+                                         id="invoiced"
+                                         disabled="#{jobFinanceManager.disableInvoiceJobCosting}"
+                                         style="vertical-align: bottom;"
+                                         itemLabel="Invoiced" >
+                    <p:ajax global="false"                        
+                            listener="#{jobFinanceManager.invoiceJobCosting}"
+                            update="@this,jobCostingDialogForm,jobCosting_growl"
+                            process="@this"/>
+                </p:selectBooleanCheckbox>
+            </h:panelGroup>   
             <p:spacer width="10"/>
             <h:panelGroup>
                 <p:spacer height="0" width="5"/>
@@ -74,7 +87,7 @@ Email: info@dpbennett.com.jm
                                  ajax="false"
                                  onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
-                    <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
+                    <p:fileDownload value="#{jobFinanceManager.jobCostingFile}" />
 
                 </p:commandButton>
             </h:panelGroup>

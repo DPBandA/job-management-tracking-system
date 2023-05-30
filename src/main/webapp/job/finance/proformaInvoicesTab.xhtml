@@ -26,80 +26,32 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar style="margin-top: 5px;">
         <p:toolbarGroup align="left">
+            <p:commandButton value="New"
+                             title="Create new proforma invoice"
+                             icon="pi pi-plus"
+                             disabled="false"
+                             actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                             rendered="#{jobManager.user.hasModule('jobManager')}"
+                             process="@this" >
 
-            <h:panelGrid columns="2" >
-                <p:commandButton value="New"
-                            title="Create new proforma invoice"
-                            icon="pi pi-plus"
-                            disabled="false"
-                            actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
-                            rendered="#{jobManager.user.hasModule('jobManager')}"
-                            process="@this" >
-                    
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobFinanceManager.proformaDialogReturn}"
-                            update=""/>
+                <p:ajax event="dialogReturn" 
+                        listener="#{jobFinanceManager.proformaDialogReturn}"
+                        update=""/>
+
+            </p:commandButton>
+
+            <p:spacer width="20" />    
+            
+            <p:inputText id="proformaInvoiceSearchText" 
+                         value="#{jobFinanceManager.proformaInvoiceSearchText}"
+                         placeholder="Enter search text">
                 
-                </p:commandButton>
-                <h:outputText value="&nbsp;"/>
+                <p:ajax event="keyup"
+                        update=":appForm:mainTabView:proformaInvoicesTable"
+                        listener="#{jobFinanceManager.doSearch}"
+                        process="@this"/>
 
-                <ui:remove>
-                    <h:outputText value="Date field" />
-                    <p:selectOneMenu value="#{jobFinanceManager.dateSearchPeriod.dateField}" 
-                                     id="jmDateField"
-                                     style="width: 90%;" >
-
-                        <p:ajax global="false"                       
-                                listener="#{jobFinanceManager.updateDateSearchField}"
-                                process="@this" />
-
-                        <f:selectItems value="#{jobManager.dateSearchFields}" />
-
-                    </p:selectOneMenu>
-
-                    <h:outputText value="Date period" />               
-                    <p:selectOneMenu value= "#{jobFinanceManager.dateSearchPeriod.name}" 
-                                     id="jmDatePeriod"
-                                     style="width: 90%;" >
-
-                        <p:ajax listener="#{jobFinanceManager.dateSearchPeriod.initDatePeriod}"
-                                update="startSearchDate,endSearchDate"
-                                global="false"
-                                process="@this" />
-
-                        <f:selectItems value="#{systemManager.datePeriods}"/>
-
-                    </p:selectOneMenu>
-
-                    <h:outputText value="Start" />
-                    <p:calendar id="startSearchDate"
-                                value="#{jobFinanceManager.dateSearchPeriod.startDate}"                    
-                                size="17"
-                                navigator="true"
-                                validator="requiredFieldValidator"
-                                disabled="#{jobFinanceManager.dateSearchPeriod.startDateDisabled}"
-                                pattern="MMM dd, yyyy" />
-
-                    <h:outputText value="End" />
-                    <p:calendar id="endSearchDate"
-                                value="#{jobFinanceManager.dateSearchPeriod.endDate}"
-                                size="17"
-                                navigator="true"
-                                validator="requiredFieldValidator"
-                                disabled="#{jobFinanceManager.dateSearchPeriod.endDateDisabled}"
-                                pattern="MMM dd, yyyy" />
-
-                    <p:inputText value="#{jobFinanceManager.searchText}"  
-                                 id="jobSearchText" /> 
-                    <p:commandButton value="Search"
-                                     id="doSearch"
-                                     actionListener="#{jobFinanceManager.doSearch}"
-                                     update="proformaInvoicesTable"
-                                     icon="pi pi-search"
-                                     process="@form"/>
-                </ui:remove>
-
-            </h:panelGrid>
+            </p:inputText>
 
         </p:toolbarGroup>
 
