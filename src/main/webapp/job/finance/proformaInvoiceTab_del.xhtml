@@ -1,0 +1,510 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2023  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">   
+    
+    <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
+
+    <ui:include src="proformaInvoiceTabToolbar.xhtml"/> 
+
+    <p:panel header="General Information" style="margin-top: 1px;" >
+        <h:panelGrid columns="2">
+            <h:outputText value="Proforma #" style="font-weight: bold;" />
+            <h:outputText id="proformaNumber" value="#{jobFinanceManager.currentJob.jobNumber}" />
+
+            <h:outputText value="Department" style="font-weight: bold" />
+            <p:autoComplete id="pfDepartment"  
+                            var="department"
+                            forceSelection="true"      
+                            dropdown="true"
+                            scrollHeight="200" 
+                            size="35"
+                            maxlength="40"
+                            value="#{jobManager.currentJob.department}"
+                            title="#{jobManager.currentJob.department}"
+                            itemValue="#{department}"
+                            itemLabel="#{department.name}"
+                            converter="activeDepartmentConverter"
+                            validator="businessEntityValidator"
+                            cache="true"
+                            completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
+
+                <p:ajax event="itemSelect"
+                        listener="#{jobManager.updateDepartment}"
+                        global="false"
+                        update="proformaNumber,approved"
+                        process="@this" />
+
+            </p:autoComplete>                    
+
+            <h:outputText value="Client" style="font-weight: bold" />
+            <h:panelGroup>                
+                <p:autoComplete id="pfClient"
+                                var="client"
+                                itemLabel="#{client.truncatedName}"
+                                itemValue="#{client}"
+                                size="35" 
+                                maxlength="40"                             
+                                dropdown="false"
+                                scrollHeight="200" 
+                                value="#{jobManager.currentJob.client}"   
+                                converter="activeClientConverter"
+                                validator="jobClientValidator"
+                                forceSelection="true"
+                                cache="true"
+                                completeMethod="#{clientManager.completeActiveClient}" >
+
+                    <p:ajax event="itemSelect"    
+                            global="false"
+                            update="pfClientActionsMenu,pfCostComponentsPanel,pfCostingSummaryPanel"
+                            listener="#{jobManager.updateJobEntryTabClient}"
+                            process="@this"/>
+
+                </p:autoComplete>     
+
+                <p:menuButton id="pfClientActionsMenu" 
+                              icon="pi pi-pencil" 
+                              title="Add or edit client">
+                    <p:menuitem value="Edit client"
+                                id="pfEditClient"
+                                icon="pi pi-pencil" 
+                                disabled="${!jobManager.isClientNameValid}"                                 
+                                actionListener="#{jobManager.editJobClient}"  
+                                process="@this,pfClient"                             
+                                title="View or edit this client's detail">  
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{jobManager.clientDialogReturn}"
+                                update="pfClient,pfBillingAddress,pfClientContact,pfClientActionsMenu" />
+
+                    </p:menuitem>
+
+                    <p:menuitem 
+                        value="Add new client"
+                        icon="pi pi-plus"                     
+                        disabled="#{!jobManager.user.can('AddClient')}"
+                        actionListener="#{jobManager.createNewJobClient}"                                            
+                        process="@this"
+                        title="Add a new client to the client database">
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{jobManager.clientDialogReturn}"
+                                update="pfClient,pfBillingAddress,pfClientContact,pfClientActionsMenu" />
+
+                    </p:menuitem>
+                </p:menuButton>      
+
+            </h:panelGroup>
+
+            <h:outputText value="Billing address" style="font-weight: bold" />    
+            <p:autoComplete id="pfBillingAddress"
+                            value="#{jobManager.currentJob.billingAddress}"
+                            dropdown="true"
+                            forceSelection="true"
+                            size="35"
+                            converter="clientAddressConverter" 
+                            validator="addressValidator"
+                            var="address"  
+                            scrollHeight="200"
+                            itemValue="#{address}"
+                            itemLabel="#{address.name}" 
+                            cache="true"
+                            completeMethod="#{jobManager.completeClientAddress}">
+
+                <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+                <p:ajax event="itemSelect"
+                        listener="#{jobManager.updateJob}"                                        
+                        update=""
+                        process="@this" />   
+
+            </p:autoComplete>
+
+            <h:outputText value="Contact" style="font-weight: bold" />  
+            <p:autoComplete id="pfClientContact"
+                            value="#{jobManager.currentJob.contact}"
+                            dropdown="true"
+                            forceSelection="true"
+                            scrollHeight="200"
+                            converter="clientContactConverter" 
+                            validator="contactValidator"
+                            var="contact"                        
+                            itemValue="#{contact}"
+                            itemLabel="#{contact.name}" 
+                            cache="true"
+                            completeMethod="#{jobManager.completeClientContact}">
+
+                <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+                <p:ajax event="itemSelect"
+                        global="false"
+                        listener="#{jobManager.updateJob}"                                        
+                        update=""
+                        process="@this" />   
+
+            </p:autoComplete>       
+
+            <h:outputText value="Note" style="font-weight: bold;vertical-align: top;" />       
+            <p:inputTextarea
+                id="pfDescription"
+                value="#{jobManager.currentJob.jobCostingAndPayment.description}"
+                rows="3"
+                counter="pfDescriptionCharsRemaining"
+                counterTemplate="{0} characters remaining."
+                autoResize="false"
+                maxlength="1000" 
+                styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
+                style="width: 500px;">
+
+                <f:validator validatorId="requiredFieldValidator" />
+
+                <p:ajax event="change"
+                        global="false"
+                        update=""
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+
+            </p:inputTextarea>
+            <h:outputText value="&nbsp;&nbsp;" />
+            <h:outputText id="pfDescriptionCharsRemaining" /> 
+
+            <h:outputText value="Preparation date" />
+            <p:calendar required="false"   
+                        readonly="true"
+                        readonlyInput="true"
+                        showOn="none"                                                                    
+                        id="pfCostingDate"
+                        value="#{jobFinanceManager.currentJob.jobStatusAndTracking.dateCostingCompleted}"
+                        styleClass="read-only-inputfield"
+                        navigator="true"
+                        pattern="MMM dd, yyyy" >
+
+                <p:ajax event="dateSelect"  
+                        global="false"
+                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+
+                <p:ajax event="keyup"   
+                        global="false"
+                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+            </p:calendar>  
+
+            <h:outputText value="Authorization date" />
+            <p:calendar required="false"   
+                        readonly="true"
+                        readonlyInput="true"
+                        showOn="none"                                                                    
+                        id="pfCostingApprovalDate"
+                        value="#{jobFinanceManager.currentJob.jobStatusAndTracking.dateCostingApproved}"
+                        styleClass="read-only-inputfield"
+                        navigator="true"
+                        pattern="MMM dd, yyyy" >
+                <p:ajax event="dateSelect"  
+                        global="false"
+                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+                <p:ajax event="keyup"  
+                        global="false"
+                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+            </p:calendar> 
+
+        </h:panelGrid>
+    </p:panel>
+    <!-- Job costings and components -->
+    <p:panel id="pfCostComponentsPanel" header="Costings" >  
+        <h:panelGrid columns="2" cellspacing="5" >
+            <h:outputText value="Discount (%/$)" style="font-weight: bold" />
+            <p:autoComplete id="pfDiscount"  
+                            var="discount"
+                            forceSelection="true"      
+                            dropdown="true"
+                            scrollHeight="200" 
+                            maxlength="40"
+                            value="#{jobFinanceManager.discount}"
+                            title="#{jobFinanceManager.discount}"
+                            styleClass="#{jobFinanceManager.canApplyDiscount eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
+                            disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                            itemValue="#{discount}"
+                            itemLabel="#{discount.name}"
+                            converter="discountConverter"
+                            validator="businessEntityValidator"
+                            cache="true"
+                            completeMethod="#{jobFinanceManager.completeDiscount}" >
+
+                <p:ajax event="itemSelect"
+                        global="false"
+                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"
+                        update="pfCostingSummaryPanel"
+                        process="@this" />
+
+            </p:autoComplete>
+            <h:outputText value="Tax (%/$)" style="font-weight: bold" />               
+            <p:autoComplete id="pfTax"  
+                            var="tax"
+                            forceSelection="true"      
+                            dropdown="true"
+                            scrollHeight="200" 
+                            maxlength="40"
+                            value="#{jobFinanceManager.tax}"
+                            title="#{jobFinanceManager.tax}"
+                            styleClass="right-inputfield"
+                            disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                            itemValue="#{tax}"
+                            itemLabel="#{tax.name}"
+                            converter="taxConverter"
+                            validator="businessEntityValidator"
+                            cache="true"
+                            completeMethod="#{jobFinanceManager.completeTax}" >
+
+                <p:ajax event="itemSelect"
+                        global="false"
+                        update="pfCostingSummaryPanel"
+                        listener="#{jobFinanceManager.updateAllTaxes}"
+                        process="@this" />
+
+            </p:autoComplete>                    
+
+            <h:outputText value="Reimbursable ($)"/>
+            <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.reimbursable}"
+                         disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                         styleClass="number-field"
+                         converterMessage="Please enter a valid reimbursable amount." >
+
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+
+                <p:ajax event="change"
+                        global="false"
+                        update="pfCostingSummaryPanel"
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+
+            </p:inputText>
+            <h:outputText value="Reason for reimbursable" style="vertical-align: top;" />       
+            <p:inputTextarea
+                id="reasonForReimbursable"
+                value="#{jobManager.currentJob.comment}"
+                disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                rows="2"
+                counter="reasonForReimbursableCharsRemaining"
+                counterTemplate="{0} characters remaining."
+                autoResize="false"
+                maxlength="150" 
+                style="width: 500px;">
+
+                <p:ajax event="change"
+                        update=""
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+
+            </p:inputTextarea>
+            <h:outputText value="&nbsp;&nbsp;" />
+            <h:outputText id="reasonForReimbursableCharsRemaining" /> 
+
+        </h:panelGrid>
+        <p:toolbar style="margin-top: 3px;margin-bottom: 1px;">
+            <p:toolbarGroup>
+                <p:commandButton title="Add new cost component"
+                                 value="New"
+                                 actionListener="#{jobFinanceManager.createNewCostComponent}"
+                                 disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                                 update=""
+                                 oncomplete="PF('costingComponentDialog').show();"
+                                 icon="pi pi-plus"
+                                 process="@this">
+                </p:commandButton>
+
+
+            </p:toolbarGroup>                    
+        </p:toolbar>
+
+        <p:dataTable  var="costComponent"
+                      reflow="true"
+                      rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
+                      value="#{jobFinanceManager.currentJob.jobCostingAndPayment.allSortedCostComponents}">
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Component" />
+                </f:facet>
+                <h:outputText value="#{costComponent.name}" />                    
+            </p:column>
+
+
+            <p:column rendered="#{!costComponent.isHeading}">
+                <f:facet name="header">
+                    <h:outputText value="Type" />
+                </f:facet>
+                <h:outputText value="#{costComponent.type}" />
+            </p:column>
+
+
+            <p:column rendered="#{costComponent.isHeading}">
+                <f:facet name="header">
+                    <h:outputText value=" " />
+                </f:facet>
+                <h:outputText value=" " />
+            </p:column>
+
+
+            <p:column rendered="#{!costComponent.isHeading}" >
+                <f:facet name="header">
+                    <h:outputText value="Hours/Qty"/>
+                </f:facet>
+                <h:outputText value="#{costComponent.hoursOrQuantity}"
+                              styleClass="datatable-number-field" >
+                    <f:convertNumber />
+                </h:outputText>
+            </p:column>
+
+            <p:column rendered="#{costComponent.isHeading}">
+                <f:facet name="header">
+                    <h:outputText value=" " />
+                </f:facet>
+                <h:outputText value=" " />
+            </p:column>
+
+            <p:column  rendered="#{!costComponent.isHeading}">
+                <f:facet name="header">
+                    <h:outputText value="Rate ($/hr, $/qty)" />
+                </f:facet>
+                <h:outputText value="#{costComponent.rate}" 
+                              styleClass="datatable-number-field" >
+                    <f:convertNumber />
+                </h:outputText>
+                <f:facet name="footer">
+                    <h:outputText value="Total ($)" 
+                                  styleClass="datatable-number-field" />
+                </f:facet>
+            </p:column>
+
+            <p:column rendered="#{costComponent.isHeading}">
+                <f:facet name="header">
+                    <h:outputText value=" " />
+                </f:facet>
+                <h:outputText value=" " />
+            </p:column>
+
+            <p:column rendered="#{!costComponent.isHeading}">
+                <f:facet name="header">
+                    <h:outputText value="Cost ($)" />
+                </f:facet>
+                <h:outputText value="#{costComponent.cost}"
+                              styleClass="datatable-number-field" >
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText>
+                <f:facet name="footer">
+                    <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.finalCost}" 
+                                  styleClass="datatable-number-field" >
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    </h:outputText>
+                </f:facet>
+            </p:column>
+
+            <p:column rendered="#{costComponent.isHeading}">
+                <f:facet name="header">
+                    <h:outputText value=" " />
+                </f:facet>
+                <h:outputText value=" " />
+            </p:column>
+
+            <p:column>
+                <p:menuButton id="toolsButton" 
+                              title="Edit or delete cost component"
+                              disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                              icon="pi pi-pencil" >
+                    <p:menuitem  
+                        value="Edit"
+                        actionListener="#{jobFinanceManager.editCostComponent}"
+                        disabled="#{!costComponent.isEditable}"
+                        update=""
+                        oncomplete="PF('costingComponentDialog').show();"
+                        icon="pi pi-pencil"
+                        process="@this" >
+
+                        <f:setPropertyActionListener value="#{costComponent}"
+                                                     target="#{jobFinanceManager.selectedCostComponent}" />
+
+                    </p:menuitem>
+
+                    <p:menuitem 
+                        value="Delete"
+                        onclick="costComponentDeleteConfirm.show();"
+                        icon="pi pi-trash"
+                        process="@this">
+
+                        <f:setPropertyActionListener value="#{costComponent}"
+                                                     target="#{jobFinanceManager.selectedCostComponent}" />
+
+                    </p:menuitem>                   
+
+                </p:menuButton>                   
+            </p:column>      
+
+        </p:dataTable>
+        <p:toolbar style="margin-top: 1px;">
+            <p:toolbarGroup>
+                <p:commandButton title="Add new cost component"
+                                 value="New"
+                                 actionListener="#{jobFinanceManager.createNewCostComponent}"
+                                 disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                                 update=""
+                                 oncomplete="PF('costingComponentDialog').show();"
+                                 icon="pi pi-plus"
+                                 process="@this">
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>                
+    </p:panel>
+    <p:panel id="pfCostingSummaryPanel" header="Summary">
+        <h:panelGrid columns="2">
+
+            <h:outputText value="Sub-total cost ($)" />
+            <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.finalCost}" 
+                         styleClass="read-only-number-field"
+                         readonly="true">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
+            </p:inputText>
+
+            <h:outputText value="Tax ($)" />
+            <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalTax}" 
+                         styleClass="read-only-number-field"
+                         readonly="true">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
+            </p:inputText>
+
+            <h:outputText value="Reimbursable ($)"/>
+            <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.reimbursable}"
+                         styleClass="read-only-number-field"
+                         readonly="true" >
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+            </p:inputText>
+
+            <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalCostWithTaxLabel}" />
+            <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.proformaTotalCost}" 
+                         styleClass="read-only-number-field"
+                         readonly="true">
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>                       
+            </p:inputText>
+
+        </h:panelGrid>
+    </p:panel>  
+
+</html>

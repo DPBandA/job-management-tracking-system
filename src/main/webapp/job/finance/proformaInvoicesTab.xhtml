@@ -26,45 +26,30 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar style="margin-top: 5px;">
         <p:toolbarGroup align="left">
-            <p:commandButton value="New"
-                             title="Create new proforma invoice"
-                             icon="pi pi-plus"
-                             disabled="false"
-                             actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
-                             rendered="#{jobManager.user.hasModule('jobManager')}"
-                             process="@this" >
 
-                <p:ajax event="dialogReturn" 
-                        listener="#{jobFinanceManager.proformaDialogReturn}"
-                        update=""/>
+            <h:panelGrid columns="2" >
+                <p:commandButton value="Close"   
+                                 actionListener="#{jobFinanceManager.closeProformaInvoicesDialog}"  
+                                 icon="pi pi-times"
+                                 process="@form"/>
+                <h:outputText value="&nbsp;"/>
 
-            </p:commandButton>
-
-            <p:spacer width="20" />    
-            
-            <p:inputText id="proformaInvoiceSearchText" 
-                         value="#{jobFinanceManager.proformaInvoiceSearchText}"
-                         placeholder="Enter search text">
+                <p:inputText value="#{jobFinanceManager.proformaInvoiceSearchText}"  
+                             id="proformaInvoiceSearchText" /> 
                 
-                <p:ajax event="keyup"
-                        update=":appForm:mainTabView:proformaInvoicesTable"
-                        listener="#{jobFinanceManager.doSearch}"
-                        process="@this"/>
-
-            </p:inputText>
+            </h:panelGrid>
 
         </p:toolbarGroup>
 
     </p:toolbar>
 
-    <p:dataTable id="proformaInvoicesTable"
+    <p:dataTable id="proformaCostingsTable"
                  var="job"
                  paginator="true"
                  rows="15" 
                  rowStyleClass="#{job.rowStyle}"
                  selection="#{jobFinanceManager.selectedJobs}" 
-                 resizableColumns="false"     
-                 reflow="true"
+                 resizableColumns="false"                 
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobFinanceManager.jobsModel}">
 
@@ -111,7 +96,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column>
+        <p:column style="width:32px" >
             <p:commandButton title="View or edit proforma" 
                              actionListener="#{jobFinanceManager.openProformaInvoiceDialog}"
                              update=""
@@ -121,7 +106,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="dialogReturn" 
                         listener="#{jobFinanceManager.proformaDialogReturn}"
-                        update="proformaInvoicesTable"/>
+                        update="jobCostingsTable"/>
 
                 <f:setPropertyActionListener value="#{job}"
                                              target="#{jobManager.editJobCosting}" />
@@ -129,6 +114,6 @@ Email: info@dpbennett.com.jm
             </p:commandButton>     
         </p:column>
 
-    </p:dataTable>     
+    </p:dataTable>
 
 </html>
