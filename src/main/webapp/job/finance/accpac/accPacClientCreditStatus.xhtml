@@ -34,7 +34,8 @@ Email: info@dpbennett.com.jm
                             size="40"                            
                             scrollHeight="200" 
                             title="#{jobFinanceManager.accPacCustomer.customerName}"
-                            value="#{jobFinanceManager.accPacCustomer.customerName}"                           
+                            value="#{jobFinanceManager.accPacCustomer.customerName}"   
+                            cache="true"
                             completeMethod="#{jobFinanceManager.completeAccPacClient}" >
 
                 <p:ajax event="itemSelect"
@@ -114,6 +115,7 @@ Email: info@dpbennett.com.jm
                      id="invoiceTable"
                      paginator="true"
                      rows="15"
+                     reflow="true"
                      rowStyleClass="#{invoice.daysOverdue gt 45 ? 'overdue' : null}"
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} page {CurrentPageReport} {NextPageLink} {LastPageLink}"
                      value="#{jobFinanceManager.filteredAccPacCustomerDocuments}">

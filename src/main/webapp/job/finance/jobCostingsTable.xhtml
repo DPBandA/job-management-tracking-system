@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2021  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -28,6 +28,7 @@ Email: info@dpbennett.com.jm
                  var="job"
                  paginator="true"
                  rows="15"  
+                 reflow="true"
                  editable="true" 
                  editMode="cell"
                  rowStyleClass="#{job.rowStyle}"
@@ -82,6 +83,7 @@ Email: info@dpbennett.com.jm
                                     value="#{job.client.financialAccount}"  
                                     itemLabel="#{account.idCust} (#{account.customerName})"
                                     itemValue="#{account}"
+                                    cache="true"
                                     completeMethod="#{clientManager.completeAccPacClient}" />      
 
                 </f:facet>
@@ -136,7 +138,7 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.invoiced? 'green': 'red'}"/>               
         </p:column>      
 
-        <p:column style="width:32px" >
+        <p:column>
             <p:commandButton title="View or edit job costing" 
                              actionListener="#{jobFinanceManager.editJobCosting}"
                              global="true"

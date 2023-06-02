@@ -59,11 +59,13 @@ Email: info@dpbennett.com.jm
                                      style="vertical-align: middle"
                                      rendered="#{jobManager.user.can('BeJMTSAdministrator')}"
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
+                
                 <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}" 
                         event="change"
                         update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
                         global="false"                        
                         process="@this"/>
+                
             </p:selectBooleanCheckbox>            
             <p:tooltip for="autoGenerate" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
 
@@ -83,6 +85,7 @@ Email: info@dpbennett.com.jm
                         converter="businessOfficeConverter"
                         validator="businessEntityValidator"
                         forceSelection="true"
+                        cache="true"
                         completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
 
             <p:ajax event="itemSelect"                       
@@ -106,12 +109,15 @@ Email: info@dpbennett.com.jm
                         validator="businessEntityValidator"
                         forceSelection="true"
                         disabled="#{jobManager.disableJobDialogField('classification')}"
+                        cache="true"
                         completeMethod="#{jobManager.completeJobClassification}" >
+            
             <p:ajax event="itemSelect"    
                     global="false"
                     listener="#{jobManager.updateJobClassification}"
                     update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,:jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
         </p:autoComplete>
 
         <h:outputText value="Client" style="font-weight: bold" />
@@ -144,6 +150,7 @@ Email: info@dpbennett.com.jm
                           icon="pi pi-pencil" 
                           disabled="#{jobManager.disableJobDialogField('clientActionsMenu')}"
                           title="Add or edit client">
+                
                 <p:menuitem value="Edit client"
                             id="editClient"
                             icon="pi pi-pencil"
@@ -188,6 +195,7 @@ Email: info@dpbennett.com.jm
                         scrollHeight="200"
                         itemValue="#{address}"
                         itemLabel="#{address.name}" 
+                        cache="true"
                         completeMethod="#{jobManager.completeClientAddress}">
 
             <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
@@ -212,6 +220,7 @@ Email: info@dpbennett.com.jm
                         var="contact"                        
                         itemValue="#{contact}"
                         itemLabel="#{contact.name}" 
+                        cache="true"
                         completeMethod="#{jobManager.completeClientContact}">
 
             <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
@@ -228,7 +237,6 @@ Email: info@dpbennett.com.jm
         <p:calendar id="dateSubmitted"
                     value="#{jobManager.jobSubmissionDate}" 
                     disabled="#{jobManager.disableJobDialogField('dateSubmitted')}"
-                    readonlyInput="true"
                     navigator="true" 
                     pattern="MMM dd, yyyy" >
 
@@ -259,6 +267,7 @@ Email: info@dpbennett.com.jm
                         itemLabel="#{department.name}"
                         converter="activeDepartmentConverter"
                         validator="businessEntityValidator"
+                        cache="true"
                         completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
 
             <p:ajax event="itemSelect"
@@ -288,6 +297,7 @@ Email: info@dpbennett.com.jm
                         scrollHeight="200"                           
                         value="#{jobManager.currentJob.subContractedDepartment}"
                         title="#{jobManager.currentJob.subContractedDepartment}"
+                        cache="true"
                         completeMethod="#{humanResourceManager.completeActiveDepartment}" >
 
             <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
@@ -316,6 +326,7 @@ Email: info@dpbennett.com.jm
                         forceSelection="true"
                         dropdown="true"
                         scrollHeight="200" 
+                        cache="true"
                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
 
             <p:ajax event="itemSelect"
@@ -336,6 +347,7 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         scrollHeight="200"                         
                         multiple="true"
+                        cache="true"
                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
 
             <p:ajax event="itemSelect"
@@ -375,14 +387,17 @@ Email: info@dpbennett.com.jm
             <h:outputText value=" (days)" />
             <p:spacer height="0" width="15"/>
             <p:outputLabel for="tatRequired"  style="font-weight: bold;" value="TAT is required" />
+            <p:spacer width="5" />
             <p:selectBooleanCheckbox id="tatRequired"
                                      style="vertical-align: middle"    
                                      disabled="#{jobManager.disableJobDialogField('tatRequired')}"
                                      value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" >
+                
                 <p:ajax listener="#{jobManager.updateJob}"
                         global="false"        
                         update=":jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
+                
             </p:selectBooleanCheckbox>            
             <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
         </h:panelGroup>

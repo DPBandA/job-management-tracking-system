@@ -129,6 +129,9 @@ Email: info@dpbennett.com.jm
                                     </div>
                                 </div>
                             </div>
+                            
+                            <ui:include src="menubar.xhtml" />   
+                            
                             <div class="col-12">
                                 <div class="grid">
                                     <div class="col-12 md:col-4">
@@ -161,6 +164,14 @@ Email: info@dpbennett.com.jm
 
                                                 <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                                     <ui:include src="job/jobBrowser.xhtml" /> 
+                                                </h:panelGroup>
+                                                
+                                                <h:panelGroup rendered="#{t.id == 'Proforma Invoices'}">                                
+                                                    <ui:include src="job/finance/proformaInvoicesTab.xhtml" /> 
+                                                </h:panelGroup>
+                                                
+                                                <h:panelGroup rendered="#{t.id == 'Price List'}">                                
+                                                    <ui:include src="job/finance/priceListTab.xhtml" /> 
                                                 </h:panelGroup>
 
                                                 <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                

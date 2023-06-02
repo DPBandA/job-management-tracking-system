@@ -1,0 +1,60 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2023  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html" 
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <p:menubar id="main_menubar" style="width: 100%;">
+
+        <p:menuitem 
+            actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
+            title="System administration" 
+            rendered="#{systemManager.user.hasModule('systemManager')}"
+            value="System" 
+            icon="pi pi-database" />     
+
+        <p:menuitem value="Finance"
+                    icon="pi pi-fw pi-dollar"
+                    title="Financial administration" 
+                    rendered="#{systemManager.user.hasModule('financeManager')}"
+                    actionListener="#{financeManager.openFinancialAdministration}" />
+
+        <p:menuitem value="Human Resource"
+                    title="Human resource management"
+                    rendered="#{systemManager.user.hasModule('humanResourceManager')}"
+                    icon="pi pi-users"
+                    actionListener="#{humanResourceManager.openHumanResourceBrowser}" />  
+
+        <ui:remove>
+            <f:facet name="options">
+                <div class="ui-input-icon-left mr-2">
+                    <i class="pi pi-fw pi-search" />
+                    <p:inputText placeholder="Enter search text"/>
+                </div>
+                <p:button icon="pi pi-fw pi-search" styleClass="ui-button-info"/>
+            </f:facet>
+        </ui:remove>
+
+    </p:menubar>
+
+</html>

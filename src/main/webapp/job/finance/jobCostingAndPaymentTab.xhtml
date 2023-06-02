@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2021  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -38,11 +38,13 @@ Email: info@dpbennett.com.jm
                          disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                          styleClass="#{jobFinanceManager.canEditJobCosting eq true ? '' : 'read-only-text-field'}"
                          maxlength="40" >
+                
                 <p:ajax event="change"
                         global="false"
                         listener="#{jobFinanceManager.updatePurchaseOrderNumber}"
                         update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
+                
             </p:inputText>
             <h:outputText value="&nbsp;"/>
 
@@ -75,12 +77,15 @@ Email: info@dpbennett.com.jm
                          disabled="#{jobManager.disableJobDialogField('costingandpayment')}" 
                          styleClass="#{jobFinanceManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
                          maxlength="15">
+                
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                
                 <p:ajax event="change"
                         global="false"
                         update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobFinanceManager.updateMinimumDepositRequired}"
                         process="@this"/>
+                
             </p:inputText>
             <h:outputText value="&nbsp;"/>      
 
@@ -99,6 +104,7 @@ Email: info@dpbennett.com.jm
                             itemLabel="#{discount.name}"
                             converter="discountConverter"
                             validator="businessEntityValidator"
+                            cache="true"
                             completeMethod="#{jobFinanceManager.completeDiscount}" >
 
                 <p:ajax event="itemSelect"
@@ -125,6 +131,7 @@ Email: info@dpbennett.com.jm
                             itemLabel="#{tax.name}"
                             converter="taxConverter"
                             validator="businessEntityValidator"
+                            cache="true"
                             completeMethod="#{jobFinanceManager.completeTax}" >
 
                 <p:ajax event="itemSelect"
@@ -230,6 +237,7 @@ Email: info@dpbennett.com.jm
                      style="margin-top: 1px;margin-bottom: 1px;"
                      paginator="true"
                      rows="15"
+                     reflow="true"
                      var="cashPayment"
                      value="#{jobFinanceManager.currentJob.cashPayments}">
 
@@ -264,7 +272,7 @@ Email: info@dpbennett.com.jm
                 </f:facet>
                 <h:outputText value="#{cashPayment.paymentPurpose}"/>              
             </p:column>
-            <p:column style="width:32px" >
+            <p:column>
                 <p:menuButton id="toolsButton" 
                               disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
                               icon="pi pi-pencil" 

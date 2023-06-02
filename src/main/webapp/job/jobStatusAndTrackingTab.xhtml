@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -30,45 +30,49 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Entered by"/>
                     <p:inputText readonly="true"
                                  maxlength="250"
-                                 style="background-color: lightgrey"
+                                 styleClass="read-only-text-field"
                                  value="#{jobManager.currentJob.jobStatusAndTracking.enteredBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.enteredBy.lastName}"
                                  title="#{jobManager.currentJob.jobStatusAndTracking.enteredBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.enteredBy.lastName}"/>
 
                     <h:outputText value="Last edited by"/>
                     <p:inputText readonly="true"
                                  maxlength="250"
-                                 style="background-color: lightgrey"
+                                 styleClass="read-only-text-field"
                                  value="#{jobManager.currentJob.jobStatusAndTracking.editedBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.editedBy.lastName}"
                                  title="#{jobManager.currentJob.jobStatusAndTracking.editedBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.editedBy.lastName}"/>
 
                     <h:outputText value="Expected start date"/>
                     <p:calendar pattern="MMM dd, yyyy"
-                                navigator="true"        
-                                readonlyInput="true"
+                                navigator="true"    
                                 value="#{jobManager.currentJob.jobStatusAndTracking.expectedStartDate}" >
+                        
                         <p:ajax event="dateSelect"   
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
+                       
                         <p:ajax event="change"      
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
+                        
                     </p:calendar>
 
                     <h:outputText value="Expected date of completion"/>
                     <p:calendar pattern="MMM dd, yyyy"
-                                navigator="true"          
-                                readonlyInput="true"
+                                navigator="true"   
                                 value="#{jobManager.expectedDateOfCompletion}" >
+                        
                         <p:ajax event="dateSelect"   
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateDateExpectedCompletionDate}"/>
+                        
                         <p:ajax event="change"
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateDateExpectedCompletionDate}"/>
+                        
                     </p:calendar>
 
                     <h:outputLabel value="Work progress" 
@@ -93,17 +97,19 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Start date"/>
                     <p:calendar id="startDate" 
                                 pattern="MMM dd, yyyy"
-                                navigator="true"       
-                                readonlyInput="true"                                
+                                navigator="true"                              
                                 value="#{jobManager.currentJob.jobStatusAndTracking.startDate}" >
+                        
                         <p:ajax event="dateSelect"   
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1,workProgress"
                                 listener="#{jobManager.updateStartDate}"/>
+                        
                         <p:ajax event="change"    
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1,workProgress"
                                 listener="#{jobManager.updateStartDate}"/>
+                        
                     </p:calendar>
                 </h:panelGrid>
             </h:panelGroup>
@@ -135,6 +141,7 @@ Email: info@dpbennett.com.jm
                                     itemValue="#{completedBy}"
                                     converter="activeEmployeeConverter"
                                     forceSelection="true"
+                                    cache="true"
                                     completeMethod="#{humanResourceManager.completeActiveEmployee}" >
 
                         <p:ajax event="itemSelect"
@@ -149,17 +156,19 @@ Email: info@dpbennett.com.jm
                     <p:calendar id="dateJobCompleted"
                                 disabled="#{!jobManager.completed}"
                                 pattern="MMM dd, yyyy"
-                                navigator="true"          
-                                readonlyInput="true"
+                                navigator="true"  
                                 value="#{jobManager.jobCompletionDate}" >
+                        
                         <p:ajax event="dateSelect"  
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateDateJobCompleted}"/>
+                        
                         <p:ajax event="change"
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateDateJobCompleted}"/>
+                        
                     </p:calendar>
 
                     <h:panelGroup>
@@ -168,10 +177,12 @@ Email: info@dpbennett.com.jm
                                                  itemLabel="Sample(s) collected by"
                                                  disabled="#{!jobManager.jobSaved}"
                                                  value="#{jobManager.samplesCollected}">
+                            
                             <p:ajax listener="#{jobManager.updateSamplesCollectedBy}"
                                     update="jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1"
                                     global="false"                                    
                                     process="@this"/>
+                            
                         </p:selectBooleanCheckbox>
                     </h:panelGroup>
                     <p:inputText id="samplesCollectedBy"
@@ -197,16 +208,18 @@ Email: info@dpbennett.com.jm
                                 disabled="#{!jobManager.samplesCollected}"
                                 pattern="MMM dd, yyyy"
                                 navigator="true"
-                                readonlyInput="true"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected}" >
+                        
                         <p:ajax event="dateSelect"  
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
+                        
                         <p:ajax event="change"  
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
+                        
                     </p:calendar>
                     <h:panelGroup>
                         <h:outputText value="&nbsp;&nbsp;"/>
@@ -214,10 +227,12 @@ Email: info@dpbennett.com.jm
                                                  disabled="#{!jobManager.jobSaved}"
                                                  itemLabel="Document(s) collected by"
                                                  value="#{jobManager.documentCollected}">
+                            
                             <p:ajax listener="#{jobManager.updateDocumentsCollectedBy}"
                                     global="false"    
                                     update="jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1"
                                     process="@this"/>
+                            
                         </p:selectBooleanCheckbox>
                     </h:panelGroup>
                     <p:inputText id="docsCollectedBy"
@@ -243,16 +258,18 @@ Email: info@dpbennett.com.jm
                                 disabled="#{!jobManager.documentCollected}"
                                 pattern="MMM dd, yyyy"
                                 navigator="true"
-                                readonlyInput="true"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected}" >
+                        
                         <p:ajax event="dateSelect" 
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
+                        
                         <p:ajax event="change"  
                                 global="false"
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 listener="#{jobManager.updateJob}"/>
+                        
                     </p:calendar>
                 </h:panelGrid>
             </h:panelGroup>
@@ -279,7 +296,8 @@ Email: info@dpbennett.com.jm
         <p:dataTable id="jobStatusNoteTable"
                      rendered="#{jobManager.enableMultipleStatusNotes()}"
                      paginator="true"
-                     rows="3"
+                     rows="15"
+                     reflow="true"
                      var="statusNote"
                      style="margin-bottom: 1px;margin-top: 1px;"
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
@@ -333,11 +351,13 @@ Email: info@dpbennett.com.jm
             counterTemplate="{0} characters remaining."
             maxlength="1000"
             style="width: 500px;">
+            
             <p:ajax event="change"
                     global="false"                    
                     listener="#{jobManager.updateJob}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
         </p:inputTextarea>
         <br/>
         <h:outputText id="jobStatusNoteCharsRemaining" 

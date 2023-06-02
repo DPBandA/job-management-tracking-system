@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -26,14 +26,16 @@ Email: info@dpbennett.com.jm
 
     <h:panelGrid columns="2" >
 
-        <p:outputLabel for="newClient" value="New client for department:" />
+        <p:outputLabel for="newClient" value="New client for department" />
         <h:panelGroup>
             <p:selectBooleanCheckbox id="newClient"
                                      value="#{jobManager.currentJob.newClient}" >
+
                 <p:ajax listener="#{jobManager.updateNewClient}"
                         update=":jobDialogForm:jobDetailToolbar1"
                         global="false"
                         process="@this"/>
+
             </p:selectBooleanCheckbox>
             <p:tooltip for="newClient" value="Check if this is a new client for the department" showEffect="fade" hideEffect="fade" />
         </h:panelGroup>
@@ -53,6 +55,7 @@ Email: info@dpbennett.com.jm
                         multiple="true"
                         readonly="true"
                         rendered="false"
+                        cache="true"
                         completeMethod="#{jobContractManager.completeService}" >
 
             <p:ajax event="itemSelect"
@@ -75,11 +78,13 @@ Email: info@dpbennett.com.jm
                          style="width: 400px;"
                          title="#{jobManager.currentJob.reportNumber}"
                          value="#{jobManager.currentJob.reportNumber}">
+
                 <p:ajax event="change"
                         global="false"                       
                         listener="#{jobManager.updateJobReportNumber}"
                         update=":jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
+
             </p:inputText>
             <p:tooltip for="reportNumbers" value="Enter the report number(s) for this job" showEffect="fade" hideEffect="fade" />          
         </h:panelGroup>
@@ -93,13 +98,16 @@ Email: info@dpbennett.com.jm
                      converterMessage="Please enter a valid number of tests."
                      value="#{jobManager.currentJob.noOfTests}"  
                      styleClass="number-field"
-                     style="width: 50px;" >                             
+                     style="width: 50px;" >    
+
             <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                     global="false"
                     event="keyup"
                     update="numOfTestsOrCalibrations,:jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+
             <f:convertNumber integerOnly="true"/>
+
         </p:inputText>
 
         <h:outputText value="No. of calibrations" />
@@ -109,11 +117,13 @@ Email: info@dpbennett.com.jm
                      value="#{jobManager.currentJob.noOfCalibrations}"
                      styleClass="number-field"
                      style="width: 50px;" >
+
             <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                     global="false"
                     event="keyup"
                     update="numOfTestsOrCalibrations,:jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
 
@@ -125,11 +135,13 @@ Email: info@dpbennett.com.jm
                      value="#{jobManager.currentJob.noOfTestsOrCalibrations}"
                      styleClass="number-field"
                      style="width: 50px;" >
+
             <p:ajax listener="#{jobManager.updateJob}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     global="false"
                     event="change"                            
                     process="@this"/>
+
         </p:inputText>
 
         <h:outputText value="No. of inspections" />
@@ -139,11 +151,13 @@ Email: info@dpbennett.com.jm
                      value="#{jobManager.currentJob.noOfInspections}"
                      styleClass="number-field"
                      style="width: 50px;" >
+
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
                     event="keyup"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
 
@@ -154,14 +168,16 @@ Email: info@dpbennett.com.jm
                      value="#{jobManager.currentJob.noOfTrainings}"
                      styleClass="number-field"
                      style="width: 50px;" >
+
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
                     event="keyup"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
-        
+
         <h:outputText value="No. of label assessments" />
         <p:inputText id="noOfLabelAssessments"                             
                      maxlength="7"
@@ -169,14 +185,16 @@ Email: info@dpbennett.com.jm
                      value="#{jobManager.currentJob.noOfLabelAssessments}"
                      styleClass="number-field"
                      style="width: 50px;" >
+
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
                     event="keyup"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
-        
+
         <h:outputText value="No. of certifications" />
         <p:inputText id="noOfCertifications"                             
                      maxlength="7"
@@ -184,14 +202,16 @@ Email: info@dpbennett.com.jm
                      value="#{jobManager.currentJob.noOfCertifications}"
                      styleClass="number-field"
                      style="width: 50px;" >
+            
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
                     event="keyup"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
-        
+
         <h:outputText value="No. of consultations" />
         <p:inputText id="noOfConsultations"                             
                      maxlength="7"
@@ -199,14 +219,16 @@ Email: info@dpbennett.com.jm
                      value="#{jobManager.currentJob.noOfConsultations}"
                      styleClass="number-field"
                      style="width: 50px;" >
+            
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
                     event="keyup"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
-        
+
         <h:outputText value="No. of other assessments" />
         <p:inputText id="noOfOtherAssessments"                             
                      maxlength="7"
@@ -214,11 +236,13 @@ Email: info@dpbennett.com.jm
                      value="#{jobManager.currentJob.noOfOtherAssessments}"
                      styleClass="number-field"
                      style="width: 50px;" >
+            
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
                     event="keyup"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
             <f:convertNumber integerOnly="true"/>
         </p:inputText>
     </h:panelGrid>
@@ -232,11 +256,13 @@ Email: info@dpbennett.com.jm
             counterTemplate="{0} characters remaining."
             maxlength="1000"
             style="width: 500px;" >
+            
             <p:ajax event="change"
                     global="false"                   
                     listener="#{jobManager.updateJob}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
         </p:inputTextarea>
         <h:outputText id="commentCharsRemaining" /> 
     </h:panelGrid>

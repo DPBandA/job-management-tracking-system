@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Save"
                              actionListener="#{jobFinanceManager.saveProformaInvoice}"
                              icon="pi pi-save"
-                             update="proformaNumber,jobCosting_growl"
+                             update="proformaNumber"
                              process="@form"/>
             <p:spacer width="10"/>
             <p:commandButton value="Close"
@@ -38,28 +38,28 @@ Email: info@dpbennett.com.jm
                              process="@this"/>
             <p:spacer width="10"/>                    
             <h:panelGroup>
-                <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.costingCompleted}" 
+                <p:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.costingCompleted}" 
                                          id="prepared"                                         
                                          disabled="#{!jobFinanceManager.canPrepareJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Prepared" >
                     <p:ajax global="false" 
                             listener="#{jobFinanceManager.prepareJobCosting}"
-                            update="@this,costingDate,approved,jobCosting_growl,exportJobCostingButton1"
+                            update="@this,pfCostingDate,approved,exportJobCostingButton1"
                             process="@this"/>
 
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>
             <p:spacer width="10"/>
             <h:panelGroup>
-                <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.costingApproved}"  
+                <p:selectBooleanCheckbox value="#{jobManager.currentJob.jobCostingAndPayment.costingApproved}"  
                                          id="approved"
                                          disabled="#{!jobFinanceManager.canApproveJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Authorized" >
                     <p:ajax global="false"
                             listener="#{jobFinanceManager.approveJobCosting}"
-                            update="@this,prepared,costComponentsPanel,costingApprovalDate,jobCosting_growl,exportJobCostingButton1"
+                            update="@this,prepared,pfCostComponentsPanel,pfCostingApprovalDate,exportJobCostingButton1"
                             process="@this"/>
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>               
