@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Job</title>
+        <title>#{jobFinanceManager.currentJob.type}</title>
         <script type="text/javascript" src="../js/javascripts.js" /> 
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
         <link rel="stylesheet" type="text/css" href="../css/main.css" />  
@@ -48,11 +48,11 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="tabChange" global="false" /> 
 
-                <p:tab title="General" rendered="#{jobManager.enableJobDialogTab}">
+                <p:tab title="General" rendered="#{jobManager.enableJobDialogTab || jobManager.enableJobDialogCostingTab}">
                     <ui:include src="jobGeneralTab.xhtml"/>
                 </p:tab>     
 
-                <p:tab title="Services" rendered="#{jobManager.enableJobDialogTab}">
+                <p:tab title="Services" rendered="#{jobManager.enableJobDialogTab || jobManager.enableJobDialogCostingTab}" >
                     <ui:include src="jobServicesTab.xhtml"/>
                 </p:tab>
 
@@ -60,7 +60,8 @@ Email: info@dpbennett.com.jm
                     <ui:include src="sample/jobSamplesTab.xhtml"/>
                 </p:tab>
                
-                <p:tab title="Costing &amp; Payment">
+                <p:tab title="Costing &amp; Payment"
+                       rendered="#{jobManager.enableJobDialogTab || jobManager.enableJobDialogCostingTab}" >
                     <ui:include src="finance/jobCostingAndPaymentTab.xhtml"/>
                 </p:tab>    
 

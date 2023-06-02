@@ -71,8 +71,11 @@ Email: info@dpbennett.com.jm
 
         </h:panelGroup>
 
-        <h:outputText value="Business office" style="font-weight: bold"/>       
+        <h:outputText value="Business office"
+                      rendered="#{jobManager.currentJob.type == 'Job'}"
+                      style="font-weight: bold"/>       
         <p:autoComplete id="businessOffice"
+                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         size="35"
                         maxlength="40"
                         dropdown="true" 
@@ -96,7 +99,8 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>        
 
-        <h:outputText value="Classification" style="font-weight: bold" />
+        <h:outputText value="Classification" 
+                      style="font-weight: bold" />
         <p:autoComplete dropdown="true"
                         var="classification"
                         id="classification"
@@ -233,8 +237,11 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>        
 
-        <h:outputText value="Date submitted" style="font-weight: bold" />
+        <h:outputText value="Date submitted" 
+                      rendered="#{jobManager.currentJob.type == 'Job'}"
+                      style="font-weight: bold" />
         <p:calendar id="dateSubmitted"
+                    rendered="#{jobManager.currentJob.type == 'Job'}"
                     value="#{jobManager.jobSubmissionDate}" 
                     disabled="#{jobManager.disableJobDialogField('dateSubmitted')}"
                     navigator="true" 
@@ -313,8 +320,11 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>
 
-        <h:outputText value="Assignee" style="font-weight: bold" />       
+        <h:outputText value="Assignee" 
+                      rendered="#{jobManager.currentJob.type == 'Job'}"
+                      style="font-weight: bold" />       
         <p:autoComplete id="assignee"
+                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="assignedTo"                            
                         maxlength="40" 
                         value="#{jobManager.currentJob.assignedTo}"
@@ -336,8 +346,10 @@ Email: info@dpbennett.com.jm
                     process="@this"/>
         </p:autoComplete>  
 
-        <h:outputText value="Representative(s)" />       
+        <h:outputText value="Representative(s)" 
+                      rendered="#{jobManager.currentJob.type == 'Job'}" />       
         <p:autoComplete id="representatives"
+                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="representative"   
                         value="#{jobManager.currentJob.representatives}"
                         itemLabel="#{representative.name}"
@@ -364,8 +376,10 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>
 
-        <h:outputText value="TAT given to client"  style="font-weight: bold;" />
-        <h:panelGroup>
+        <h:outputText value="TAT given to client"  
+                      rendered="#{jobManager.currentJob.type == 'Job'}"
+                      style="font-weight: bold;" />
+        <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
             <p:inputText title="Estimated turnaround time (TAT) given to client"   
                          id="estimatedTAT"
                          disabled="#{jobManager.disableJobDialogField('estimatedTAT')}"
@@ -402,9 +416,12 @@ Email: info@dpbennett.com.jm
             <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
         </h:panelGroup>
 
-        <h:outputText value="Instructions" style="font-weight: bold;vertical-align: top;" />       
+        <h:outputText value="Instructions" 
+                      rendered="#{jobManager.currentJob.type == 'Job'}"
+                      style="font-weight: bold;vertical-align: top;" />       
         <p:inputTextarea
             id="instructions"
+            rendered="#{jobManager.currentJob.type == 'Job'}"
             value="#{jobManager.currentJob.instructions}"
             disabled="#{jobManager.disableJobDialogField('instructions')}"
             rows="3"

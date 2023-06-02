@@ -79,6 +79,7 @@ Email: info@dpbennett.com.jm
                 </p:panel>
 
                 <p:panel header="Intended Market" 
+                         rendered="#{jobManager.currentJob.type == 'Job'}"
                          id="intendedMarket"
                          style="margin-top: 1px;">
                     <h:panelGrid columns="5" cellspacing="10" >
@@ -166,7 +167,9 @@ Email: info@dpbennett.com.jm
 
                 </p:panel>
 
-                <p:panel header="Special Instructions" style="margin-top: 1px;" >
+                <p:panel header="Special Instructions" 
+                         rendered="#{jobManager.currentJob.type == 'Job'}"
+                         style="margin-top: 1px;" >
                     <p:inputTextarea
                         id="specialInstructions"
                         value="#{jobContractManager.currentJob.serviceContract.specialInstructions}"
@@ -189,7 +192,8 @@ Email: info@dpbennett.com.jm
                     <h:outputText id="specialInstructionsCharsRemaining" /> 
                 </p:panel>
             </p:tab>
-            <p:tab title="Additional Services">
+            <p:tab title="Additional Services"
+                   rendered="#{jobManager.currentJob.type == 'Job'}" >
                 <p:panel id="additionalServices" 
                          header="Additional Services Requested" >
 

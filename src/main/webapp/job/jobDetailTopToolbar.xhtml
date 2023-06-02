@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2021  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -52,20 +52,10 @@ Email: info@dpbennett.com.jm
 
 
         <p:toolbarGroup align="right" >  
-            <p:commandButton
-                value="Subcontract..."
-                actionListener="#{jobManager.subContractJob}"
-                update=":jobDialogForm,:jobDialogForm:growl2"
-                disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
-                rendered="#{!jobFinanceManager.enableSubcontractWithCosting}"
-                global="true"  
-                title="Subcontract the current job by first creating a copy."
-                icon="pi pi-copy"
-                process="@this"/>
 
             <p:menuButton value="Subcontract | Copy" 
                           disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
-                          rendered="#{jobFinanceManager.enableSubcontractWithCosting}"
+                          rendered="#{jobManager.currentJob.type == 'Job'}"
                           title="Subcontract the current job by first creating a copy.">
 
                 <p:menuitem  value="Subcontract..."
@@ -99,7 +89,8 @@ Email: info@dpbennett.com.jm
 
             <p:spacer width="10" />
 
-            <p:menuButton value="Forms" >
+            <p:menuButton value="Forms" 
+                          rendered="#{jobManager.currentJob.type == 'Job'}" >
 
                 <p:menuitem value="Service Contract in Excel"
                             ajax="false" 
@@ -126,6 +117,22 @@ Email: info@dpbennett.com.jm
                 </p:menuitem>
 
             </p:menuButton>
+
+            <h:panelGroup rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}">
+                <p:spacer height="0" width="5"/>
+                <p:commandButton value="Export"  
+                                 id="exportJobCostingButton1"
+                                 disabled="#{jobFinanceManager.canExportJobCosting}"
+                                 immediate="true"
+                                 title="Export job costing"                        
+                                 ajax="false"
+                                 onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
+
+                    <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
+
+                </p:commandButton>
+            </h:panelGroup>
+            
         </p:toolbarGroup>
 
     </p:toolbar>

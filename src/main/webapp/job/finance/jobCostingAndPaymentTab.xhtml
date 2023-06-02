@@ -32,9 +32,11 @@ Email: info@dpbennett.com.jm
                           styleClass="job-number"/>          
             <h:outputText value="&nbsp;"/>
 
-            <h:outputText value="Purchase order #"/>
+            <h:outputText value="Purchase order #"
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />
             <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
                          readonly="#{!jobFinanceManager.canEditJobCosting}"
+                         rendered="#{jobManager.currentJob.type == 'Job'}"
                          disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                          styleClass="#{jobFinanceManager.canEditJobCosting eq true ? '' : 'read-only-text-field'}"
                          maxlength="40" >
@@ -46,10 +48,12 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
                 
             </p:inputText>
-            <h:outputText value="&nbsp;"/>
+            <h:outputText value="&nbsp;"
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />
 
-            <h:outputText value="Cost estimate ($)"/>
-            <h:panelGroup>
+            <h:outputText value="Cost estimate ($)"
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />
+            <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
                 <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.estimatedCost}"
                              converterMessage="Please enter a valid cost estimate."
                              styleClass="#{jobFinanceManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
@@ -69,10 +73,13 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="&nbsp;"/>
                 <h:outputText value="&nbsp;"/>
             </h:panelGroup>
-            <h:outputText value="&nbsp;"/>            
+            <h:outputText value="&nbsp;"
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />            
 
-            <h:outputText value="Min. deposit req'ed ($)"/>
+            <h:outputText value="Min. deposit req'ed ($)"
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />
             <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.minDeposit}"
+                         rendered="#{jobManager.currentJob.type == 'Job'}"
                          readonly="#{!jobFinanceManager.canEditJobCosting}"
                          disabled="#{jobManager.disableJobDialogField('costingandpayment')}" 
                          styleClass="#{jobFinanceManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
@@ -87,7 +94,8 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
                 
             </p:inputText>
-            <h:outputText value="&nbsp;"/>      
+            <h:outputText value="&nbsp;"
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />      
 
             <h:outputText value="Discount (%/$)" />
             <p:autoComplete id="discount"  
@@ -144,8 +152,9 @@ Email: info@dpbennett.com.jm
             <h:outputText value="&nbsp;"/>
 
             <h:outputText id="calculatedCostEstimateLabel"
+                          rendered="#{jobManager.currentJob.type == 'Job'}"
                           value="#{jobFinanceManager.currentJob.jobCostingAndPayment.calculatedCostEstimateLabel}"/>
-            <h:panelGroup>
+            <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
                 <p:inputText id="calculatedCostEstimate"
                              value="#{jobFinanceManager.currentJob.jobCostingAndPayment.calculatedCostEstimate}"
                              styleClass="read-only-number-field"
@@ -158,11 +167,14 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="&nbsp;"/>
                 <h:outputText value="&nbsp;"/>
             </h:panelGroup>
-            <h:outputText value="&nbsp;"/>     
+            <h:outputText value="&nbsp;"
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />     
 
             <h:outputText id="calculatedMinDepositLabel"
+                          rendered="#{jobManager.currentJob.type == 'Job'}"
                           value="#{jobFinanceManager.currentJob.jobCostingAndPayment.calculatedMinDepositLabel}"/>
             <p:inputText id="calculatedMinDeposit"
+                         rendered="#{jobManager.currentJob.type == 'Job'}"
                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.calculatedMinDeposit}"
                          styleClass="read-only-number-field"
                          readonly="true"
@@ -170,7 +182,8 @@ Email: info@dpbennett.com.jm
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 
             </p:inputText>
-            <h:outputText value="&nbsp;"/>   
+            <h:outputText value="&nbsp;"
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />   
 
             <h:outputText 
                 id="totalCostLabel"
@@ -196,11 +209,12 @@ Email: info@dpbennett.com.jm
 
                 </p:commandButton>  
             </h:panelGroup>
-
             <h:outputText value="&nbsp;"/> 
 
-            <h:outputText value="Amount due ($)" />            
+            <h:outputText value="Amount due ($)" 
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />            
             <p:inputText id="amountDue2"
+                         rendered="#{jobManager.currentJob.type == 'Job'}"
                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.amountDue}"
                          maxlength="15"
                          styleClass="read-only-number-field"
@@ -209,12 +223,16 @@ Email: info@dpbennett.com.jm
                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 
             </p:inputText>
-            <h:outputText value="&nbsp;"/>              
+            <h:outputText value="&nbsp;"
+                          rendered="#{jobManager.currentJob.type == 'Job'}" />              
 
         </h:panelGrid>
     </p:panel>
 
-    <p:panel id="cashPayments" header="Payment" >    
+    <p:panel id="cashPayments" 
+             rendered="#{jobManager.currentJob.type == 'Job'}"
+             header="Payment" >   
+        
         <p:toolbar>
             <p:toolbarGroup align="left">
                 <p:commandButton value="New"
