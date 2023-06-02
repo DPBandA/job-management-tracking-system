@@ -25,7 +25,8 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <h:panelGrid id="generalTabPanel" columns="2">
-        <h:outputLabel value="Job number" style="font-weight: bold;font-size: 14px;" />
+        <h:outputLabel value="#{jobManager.currentJob.jobNumberLabel}" 
+                       style="font-weight: bold;font-size: 14px;" />
         <h:panelGroup>
             <h:panelGroup id="jobNumberGroup">
 
@@ -59,13 +60,13 @@ Email: info@dpbennett.com.jm
                                      style="vertical-align: middle"
                                      rendered="#{jobManager.user.can('BeJMTSAdministrator')}"
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
-                
+
                 <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}" 
                         event="change"
                         update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
                         global="false"                        
                         process="@this"/>
-                
+
             </p:selectBooleanCheckbox>            
             <p:tooltip for="autoGenerate" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
 
@@ -115,13 +116,13 @@ Email: info@dpbennett.com.jm
                         disabled="#{jobManager.disableJobDialogField('classification')}"
                         cache="true"
                         completeMethod="#{jobManager.completeJobClassification}" >
-            
+
             <p:ajax event="itemSelect"    
                     global="false"
                     listener="#{jobManager.updateJobClassification}"
                     update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,:jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
-            
+
         </p:autoComplete>
 
         <h:outputText value="Client" style="font-weight: bold" />
@@ -154,7 +155,7 @@ Email: info@dpbennett.com.jm
                           icon="pi pi-pencil" 
                           disabled="#{jobManager.disableJobDialogField('clientActionsMenu')}"
                           title="Add or edit client">
-                
+
                 <p:menuitem value="Edit client"
                             id="editClient"
                             icon="pi pi-pencil"
@@ -406,12 +407,12 @@ Email: info@dpbennett.com.jm
                                      style="vertical-align: middle"    
                                      disabled="#{jobManager.disableJobDialogField('tatRequired')}"
                                      value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" >
-                
+
                 <p:ajax listener="#{jobManager.updateJob}"
                         global="false"        
                         update=":jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
-                
+
             </p:selectBooleanCheckbox>            
             <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
         </h:panelGroup>
@@ -441,8 +442,39 @@ Email: info@dpbennett.com.jm
                     process="@this"/>
 
         </p:inputTextarea> 
-        <h:outputText value="&nbsp;&nbsp;" />
-        <h:outputText id="instructCharsRemaining" /> 
+        <h:outputText value="&nbsp;&nbsp;" 
+                      rendered="#{jobManager.currentJob.type == 'Job'}" />
+        <h:outputText id="instructCharsRemaining" 
+                      rendered="#{jobManager.currentJob.type == 'Job'}" /> 
+
+        <h:outputText value="Note" 
+                      rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                      style="font-weight: bold;vertical-align: top;" />       
+        <p:inputTextarea
+            id="pfDescription"
+            rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+            value="#{jobManager.currentJob.jobCostingAndPayment.description}"
+            rows="3"
+            counter="pfDescriptionCharsRemaining"
+            counterTemplate="{0} characters remaining."
+            autoResize="false"
+            maxlength="1000" 
+            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
+            style="width: 500px;">
+
+            <f:validator validatorId="requiredFieldValidator" />
+
+            <p:ajax event="change"
+                    global="false"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    listener="#{jobManager.updateJob}"
+                    process="@this"/>
+
+        </p:inputTextarea>
+        <h:outputText value="&nbsp;&nbsp;" 
+                      rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
+        <h:outputText id="pfDescriptionCharsRemaining" 
+                      rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
 
     </h:panelGrid>
 

@@ -60,7 +60,7 @@ Email: info@dpbennett.com.jm
                     <ui:include src="sample/jobSamplesTab.xhtml"/>
                 </p:tab>
                
-                <p:tab title="Costing &amp; Payment"
+                <p:tab title="#{jobManager.currentJob.costingAndPaymentTabLabel}"
                        rendered="#{jobManager.enableJobDialogTab || jobManager.enableJobDialogCostingTab}" >
                     <ui:include src="finance/jobCostingAndPaymentTab.xhtml"/>
                 </p:tab>    
