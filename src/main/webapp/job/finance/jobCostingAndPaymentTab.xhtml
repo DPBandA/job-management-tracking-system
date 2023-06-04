@@ -151,26 +151,6 @@ Email: info@dpbennett.com.jm
             </p:autoComplete>
             <h:outputText value="&nbsp;"/>
             
-            <h:outputText value="Reimbursable ($)"
-                          rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
-            <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.reimbursable}"
-                         disabled="#{jobFinanceManager.disableJobCostingEdit}"
-                         styleClass="number-field"
-                         rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
-                         converterMessage="Please enter a valid reimbursable amount." >
-
-                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
-
-                <p:ajax event="change"
-                        global="false"
-                        update=":jobDialogForm:jobDetailToolbar1,jobCosting"
-                        listener="#{jobManager.updateJob}"
-                        process="@this"/>
-
-            </p:inputText>
-            <h:outputText value="&nbsp;"
-                          rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
-
             <h:outputText id="calculatedCostEstimateLabel"
                           rendered="#{jobManager.currentJob.type == 'Job'}"
                           value="#{jobFinanceManager.currentJob.jobCostingAndPayment.calculatedCostEstimateLabel}"/>
@@ -230,6 +210,26 @@ Email: info@dpbennett.com.jm
                 </p:commandButton>  
             </h:panelGroup>
             <h:outputText value="&nbsp;"/> 
+            
+            <h:outputText value="Reimbursable ($)"
+                          rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
+            <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.reimbursable}"
+                         disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                         styleClass="number-field"
+                         rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                         converterMessage="Please enter a valid reimbursable amount." >
+
+                <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+
+                <p:ajax event="change"
+                        global="false"
+                        update=":jobDialogForm:jobDetailToolbar1,jobCosting"
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+
+            </p:inputText>
+            <h:outputText value="&nbsp;"
+                          rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
 
             <h:outputText value="Amount due ($)" 
                           rendered="#{jobManager.currentJob.type == 'Job'}" />            

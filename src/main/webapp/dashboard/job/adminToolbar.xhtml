@@ -107,20 +107,7 @@ Email: info@dpbennett.com.jm
                             update=""/>
 
                 </p:menuitem> 
-                <p:menuitem value="Cost Estimate"
-                            title="Create new cost estimate"
-                            icon="pi pi-plus"
-                            disabled="false"
-                            actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
-                            rendered="#{jobManager.user.hasModule('jobManager')}"
-                            process="@this" >
-
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobFinanceManager.costEstimateDialogReturn}"
-                            update=""/>
-
-                </p:menuitem>
-
+                
             </p:menuButton>    
 
         </p:toolbarGroup>
@@ -161,13 +148,9 @@ Email: info@dpbennett.com.jm
                             disabled="false" 
                             actionListener="#{jobFinanceManager.openProformaInvoicesTab}"
                             process="@this" />
-                <p:menuitem value="Price List"
-                            title="Browse price list"
-                            icon="pi pi-dollar"
-                            disabled="false"
-                            actionListener="#{jobFinanceManager.openPriceListTab}"
-                            process="@this" />
+                
                 <p:separator />
+                
                 <p:menuitem value="Reports"
                             title="Open the Reports tab"
                             icon="pi pi-file-o"
