@@ -108,6 +108,7 @@ Email: info@dpbennett.com.jm
                                      value="#{jobSampleManager.selectedJobSample.dateSampled}"
                                      navigator="true"
                                      pattern="MMM dd, yyyy"
+                                     autocomplete="off"
                                      style="width: 50%" >
                             <p:ajax event="dateSelect"
                                     global="false"                                                                 
@@ -300,6 +301,7 @@ Email: info@dpbennett.com.jm
                         <p:calendar id="dateSampleReceived"
                                     value="#{jobSampleManager.selectedJobSample.dateReceived}"                                    
                                     navigator="true"
+                                    autocomplete="off"
                                     pattern="MMM dd, yyyy">
                             
                             <p:ajax event="dateSelect"

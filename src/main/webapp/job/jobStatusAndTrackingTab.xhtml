@@ -43,7 +43,8 @@ Email: info@dpbennett.com.jm
 
                     <h:outputText value="Expected start date"/>
                     <p:calendar pattern="MMM dd, yyyy"
-                                navigator="true"    
+                                navigator="true"   
+                                autocomplete="off"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.expectedStartDate}" >
                         
                         <p:ajax event="dateSelect"   
@@ -61,6 +62,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Expected date of completion"/>
                     <p:calendar pattern="MMM dd, yyyy"
                                 navigator="true"   
+                                autocomplete="off"
                                 value="#{jobManager.expectedDateOfCompletion}" >
                         
                         <p:ajax event="dateSelect"   
@@ -97,7 +99,8 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="Start date"/>
                     <p:calendar id="startDate" 
                                 pattern="MMM dd, yyyy"
-                                navigator="true"                              
+                                navigator="true"     
+                                autocomplete="off"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.startDate}" >
                         
                         <p:ajax event="dateSelect"   
@@ -157,6 +160,7 @@ Email: info@dpbennett.com.jm
                                 disabled="#{!jobManager.completed}"
                                 pattern="MMM dd, yyyy"
                                 navigator="true"  
+                                autocomplete="off"
                                 value="#{jobManager.jobCompletionDate}" >
                         
                         <p:ajax event="dateSelect"  
@@ -208,6 +212,7 @@ Email: info@dpbennett.com.jm
                                 disabled="#{!jobManager.samplesCollected}"
                                 pattern="MMM dd, yyyy"
                                 navigator="true"
+                                autocomplete="off"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected}" >
                         
                         <p:ajax event="dateSelect"  
@@ -258,6 +263,7 @@ Email: info@dpbennett.com.jm
                                 disabled="#{!jobManager.documentCollected}"
                                 pattern="MMM dd, yyyy"
                                 navigator="true"
+                                autocomplete="off"
                                 value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected}" >
                         
                         <p:ajax event="dateSelect" 

@@ -70,6 +70,7 @@ Email: info@dpbennett.com.jm
                     <p:calendar required="false"   
                                 readonly="true"
                                 readonlyInput="true"
+                                autocomplete="off"                                
                                 showOn="none"                                                                    
                                 id="costingDate"
                                 value="#{jobFinanceManager.currentJob.jobStatusAndTracking.dateCostingCompleted}"
@@ -92,6 +93,7 @@ Email: info@dpbennett.com.jm
                                 value="#{jobFinanceManager.currentJob.jobStatusAndTracking.dateCostingApproved}"
                                 styleClass="read-only-inputfield"
                                 navigator="true"
+                                autocomplete="off"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"    
                                 global="false"
@@ -111,6 +113,7 @@ Email: info@dpbennett.com.jm
                                 value="#{jobFinanceManager.currentJob.jobStatusAndTracking.dateCostingInvoiced}"
                                 styleClass="read-only-inputfield"
                                 navigator="true"
+                                autocomplete="off"
                                 pattern="MMM dd, yyyy" >
                         <p:ajax event="dateSelect"   
                                 global="false"

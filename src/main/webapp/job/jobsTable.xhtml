@@ -95,7 +95,8 @@ Email: info@dpbennett.com.jm
                     <p:calendar value="#{job.jobStatusAndTracking.dateSubmitted}" 
                                 focusOnSelect="true"
                                 disabled="#{jobManager.disableJobDialogField(job, 'dateSubmitted')}"
-                                navigator="true"                                 
+                                navigator="true"  
+                                autocomplete="off"
                                 pattern="MMM dd, yyyy" >
                     </p:calendar>
                 </f:facet>
@@ -114,7 +115,8 @@ Email: info@dpbennett.com.jm
                 <f:facet name="input">
                     <p:calendar value="#{job.jobStatusAndTracking.expectedDateOfCompletion}" 
                                 focusOnSelect="true"
-                                navigator="true"                                 
+                                navigator="true"    
+                                autocomplete="off"
                                 pattern="MMM dd, yyyy" >
                     </p:calendar>
                 </f:facet>
