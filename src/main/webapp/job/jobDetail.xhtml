@@ -28,10 +28,10 @@ Email: info@dpbennett.com.jm
 
     <p:tabView id="jobFormTabView"
                style="margin-top: 1px;margin-bottom: 1px;"    
-               dynamic="false"
+               dynamic="true"
                widgetVar="jobFormTabVar" >
 
-        <p:ajax event="tabChange" global="false" />  
+        <p:ajax event="tabChange" global="true" />  
 
         <p:tab title="General" rendered="#{!jobFinanceManager.enableOnlyPaymentEditing}">
             <ui:include src="jobGeneralTab.xhtml"/>

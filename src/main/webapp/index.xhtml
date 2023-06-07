@@ -146,12 +146,12 @@ Email: info@dpbennett.com.jm
                                                    rendered="#{jobManager.mainTabView.render}"
                                                    value="#{jobManager.mainTabView.tabs}" 
                                                    var="t" 
+                                                   dynamic="true"
                                                    widgetVar="mainTabViewVar">
 
                                             <p:ajax event="tabClose" 
                                                     immediate="true"
                                                     process="@this"
-                                                    update=""
                                                     listener="#{jobManager.onMainViewTabClose}" />  
 
                                             <p:ajax event="tabChange" 

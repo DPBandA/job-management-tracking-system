@@ -32,9 +32,9 @@ Email: info@dpbennett.com.jm
         <script type="text/javascript" src="../../js/javascripts.js"/>
     </h:head>
     <h:body>    
-               
+
         <ui:include src="../../common/commonDialogs.xhtml"/>  
-        
+
         <h:form id="jobSampleDialogForm" >      
             <p:growl id="job_sample_dialog_growl" 
                      life="5000" 
@@ -58,8 +58,10 @@ Email: info@dpbennett.com.jm
 
             <p:tabView id="jobSampleDialogTabView"
                        activeIndex="#{jobSampleManager.jobSampleDialogTabViewActiveIndex}"
-                        style="margin-top: 1px;margin-bottom: 1px;"
+                       style="margin-top: 1px;margin-bottom: 1px;"
+                       dynamic="true"
                        widgetVar="jobSampleDialogTabViewVar">
+
                 <p:tab title="General" >
                     <h:panelGrid columns="2" style="width: 100%" >
 
@@ -90,7 +92,7 @@ Email: info@dpbennett.com.jm
                                         scrollHeight="200" 
                                         cache="true"
                                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
-                            
+
                             <p:ajax event="itemSelect"                                    
                                     listener="#{jobSampleManager.updateSample}"
                                     global="false"
@@ -164,7 +166,7 @@ Email: info@dpbennett.com.jm
                                         scrollHeight="200" 
                                         cache="true"
                                         completeMethod="#{systemManager.completeCountry}" >
-                            
+
                             <p:ajax event="itemSelect"                              
                                     listener="#{jobSampleManager.updateSample}"
                                     global="false"
@@ -285,9 +287,9 @@ Email: info@dpbennett.com.jm
                         <p:selectOneMenu value="#{jobSampleManager.selectedJobSample.methodOfDisposal}" 
                                          disabled="#{jobManager.disableJobDialogField('samples')}"
                                          id="methodOfDisposal">
-                            
+
                             <f:selectItems value="#{jobSampleManager.methodsOfDisposal}" />
-                            
+
                             <p:ajax listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     global="false"
@@ -303,19 +305,19 @@ Email: info@dpbennett.com.jm
                                     navigator="true"
                                     autocomplete="off"
                                     pattern="MMM dd, yyyy">
-                            
+
                             <p:ajax event="dateSelect"
                                     global="false"                                   
                                     listener="#{jobSampleManager.updateSample}"   
                                     update="sampleReference"
                                     process="@this"/>
-                            
+
                             <p:ajax event="change"
                                     global="false"                                   
                                     listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
-                            
+
                         </p:calendar>
                     </h:panelGrid>
                 </p:tab>
