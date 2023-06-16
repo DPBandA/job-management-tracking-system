@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -45,7 +45,7 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Prepared" >
                     <p:ajax global="false" 
                             listener="#{jobFinanceManager.prepareJobCosting}"
-                            update="@this,jobCostingDialogForm,jobCosting_growl,exportJobCostingButton1"
+                            update="@this,jobCostingDialogForm,jobCosting_growl,exportJobCostingButton1,exportJobCostingButton2"
                             process="@this"/>
 
                 </p:selectBooleanCheckbox>               
@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Approved" >
                     <p:ajax global="false"
                             listener="#{jobFinanceManager.approveJobCosting}"
-                            update="@this,jobCosting_growl,jobCostingDialogForm,exportJobCostingButton1"
+                            update="@this,jobCosting_growl,jobCostingDialogForm,exportJobCostingButton1,exportJobCostingButton2"
                             process="@this"/>
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>
@@ -70,10 +70,12 @@ Email: info@dpbennett.com.jm
                                          disabled="#{jobFinanceManager.disableInvoiceJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Invoiced" >
+                    
                     <p:ajax global="false"                        
                             listener="#{jobFinanceManager.invoiceJobCosting}"
                             update="@this,jobCostingDialogForm,jobCosting_growl"
                             process="@this"/>
+                    
                 </p:selectBooleanCheckbox>
             </h:panelGroup>   
             <p:spacer width="10"/>
@@ -82,12 +84,26 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="Export"  
                                  id="exportJobCostingButton1"
                                  disabled="#{jobFinanceManager.canExportJobCosting}"
+                                 rendered="#{!jobFinanceManager.currentJob.jobCostingAndPayment.estimate}"
                                  immediate="true"
                                  title="Export job costing"                        
                                  ajax="false"
                                  onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                     <p:fileDownload value="#{jobFinanceManager.jobCostingFile}" />
+
+                </p:commandButton>
+                <p:spacer height="0" width="5"/>
+                <p:commandButton value="Export"  
+                                 id="exportJobCostingButton2"
+                                 disabled="#{jobFinanceManager.canExportJobCosting}"
+                                 rendered="#{jobFinanceManager.currentJob.jobCostingAndPayment.estimate}"
+                                 immediate="true"
+                                 title="Export proforma invoice"                        
+                                 ajax="false"
+                                 onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
+
+                    <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
 
                 </p:commandButton>
             </h:panelGroup>

@@ -41,7 +41,7 @@ Email: info@dpbennett.com.jm
 
             <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
 
-            <ui:include src="jobCostingDialogToolbar.xhtml"/> 
+            <ui:include src="jobCostingDialogTopToolbar.xhtml"/> 
 
             <p:panel header="General Information" style="margin-top: 1px;" >
                 <h:panelGrid columns="3">
@@ -149,7 +149,8 @@ Email: info@dpbennett.com.jm
                     <p:toolbarGroup align="left">
                         <h:panelGroup>                   
                             <h:outputLabel value="Find template"
-                                           title="Select an existing costing template"/>                           
+                                           title="Select an existing costing template"/>   
+                            <p:spacer width="5"/> 
                             <p:autoComplete dropdown="true"
                                             value="#{jobFinanceManager.selectedJobCostingTemplate}"
                                             placeholder="enter template name"
@@ -181,6 +182,7 @@ Email: info@dpbennett.com.jm
                             <h:outputLabel title="Enter a name to save the costings as a template" 
                                            for="jobCostingsTemplateName" 
                                            value="Template name" />
+                            <p:spacer width="5"/>
                             <p:inputText id="jobCostingsTemplateName"
                                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.name}"
                                          disabled="#{jobFinanceManager.disableJobCostingEdit}"
@@ -194,7 +196,7 @@ Email: info@dpbennett.com.jm
                             <p:tooltip for="jobCostingsTemplateName" value="Enter a name to save the costings as a template" />
                         </h:panelGroup>
                     </p:toolbarGroup>
-                </p:toolbar>
+                </p:toolbar>                
 
                 <p:toolbar style="margin-top: 1px;margin-bottom: 1px;">
                     <p:toolbarGroup>
@@ -209,10 +211,39 @@ Email: info@dpbennett.com.jm
                         </p:commandButton>
 
                         <p:spacer width="10" />
+                        
                         <h:outputText value="#{jobFinanceManager.subcontractsMessage}" 
                                       style="color: gold;font-weight: bold;" />
 
-                    </p:toolbarGroup>                    
+                    </p:toolbarGroup>    
+
+                    <p:toolbarGroup align="right">
+                        <p:outputLabel value="Currency" />      
+                        
+                        <p:spacer width="5" />
+                        
+                        <p:autoComplete id="currency"  
+                                        var="currency"
+                                        forceSelection="true"      
+                                        dropdown="true"
+                                        scrollHeight="200" 
+                                        maxlength="40"
+                                        value="#{jobFinanceManager.currentJob.jobCostingAndPayment.currency}"
+                                        title="#{jobFinanceManager.currentJob.jobCostingAndPayment.currency}"
+                                        itemValue="#{currency}"
+                                        itemLabel="#{currency.name}"
+                                        converter="currencyConverter"
+                                        validator="businessEntityValidator"
+                                        completeMethod="#{jobFinanceManager.completeCurrency}" >
+
+                            <p:ajax event="itemSelect"
+                                    update=":jobCostingDialogForm:jobCosting_growl,:jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
+                                    listener="#{jobFinanceManager.updateJobCostingAndPayment}"
+                                    process="@this" />
+
+                        </p:autoComplete>
+                    </p:toolbarGroup>
+                    
                 </p:toolbar>
 
                 <p:dataTable  var="costComponent"
@@ -426,7 +457,7 @@ Email: info@dpbennett.com.jm
 
                 </h:panelGrid>
             </p:panel>  
-            <br/>           
+            <ui:include src="jobCostingDialogBottomToolbar.xhtml"/>            
         </h:form>   
     </h:body>
 </html>

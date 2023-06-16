@@ -24,23 +24,34 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">    
 
-    <p:toolbar style="margin-top: 5px;">
-        <p:toolbarGroup align="left">
+    <p:toolbar style="margin-bottom: 1px;" >
+        <p:toolbarGroup align="left" > 
+            <p:commandButton title="Create new proforma invoice" 
+                             value="New"                                                     
+                             actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}"
+                             global="true"
+                             process="@this"
+                             icon="pi pi-plus">
 
-            <h:panelGrid columns="2" >
-                <p:commandButton value="Close"   
-                                 actionListener="#{jobFinanceManager.closeProformaInvoicesDialog}"  
-                                 icon="pi pi-times"
-                                 process="@form"/>
-                <h:outputText value="&nbsp;"/>
+                <p:ajax event="dialogReturn" 
+                        listener="#{jobFinanceManager.proformaDialogReturn}"
+                        update=":appForm:mainTabView:proformaCostingsTable"/>
 
-                <p:inputText value="#{jobFinanceManager.proformaInvoiceSearchText}"  
-                             id="proformaInvoiceSearchText" /> 
+            </p:commandButton>
+            <p:spacer width="20" />
+            <p:inputText id="proformaInvoiceSearchText"                          
+                         value="#{jobFinanceManager.proformaInvoiceSearchText}"
+                         placeholder="Enter search text">
                 
-            </h:panelGrid>
-
+                <p:ajax event="keyup"
+                        global="true"
+                        update=":appForm:mainTabView:proformaCostingsTable"
+                        listener="#{jobFinanceManager.doJobSearch}"
+                        process="@this"/>    
+                
+            </p:inputText> 
+           
         </p:toolbarGroup>
-
     </p:toolbar>
 
     <p:dataTable id="proformaCostingsTable"
@@ -96,9 +107,9 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column style="width:32px" >
+        <p:column>
             <p:commandButton title="View or edit proforma" 
-                             actionListener="#{jobFinanceManager.openProformaInvoiceDialog}"
+                             actionListener="#{jobManager.editJob}"
                              update=""
                              global="true"
                              process="@this"
@@ -106,10 +117,10 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="dialogReturn" 
                         listener="#{jobFinanceManager.proformaDialogReturn}"
-                        update="jobCostingsTable"/>
+                        update="proformaCostingsTable"/>
 
                 <f:setPropertyActionListener value="#{job}"
-                                             target="#{jobManager.editJobCosting}" />
+                                             target="#{jobManager.editCurrentJob}" />
 
             </p:commandButton>     
         </p:column>
