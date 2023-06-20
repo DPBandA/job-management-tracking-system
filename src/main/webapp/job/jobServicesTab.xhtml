@@ -24,7 +24,6 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-
     <p:scrollPanel style="height: 400px;">
 
         <p:tabView id="serviceDialogTabView"   
@@ -72,6 +71,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax 
                             listener="#{jobContractManager.updateService}"
+                            global="false"
                             update="servicesRequested,:jobDialogForm:jobDetailToolbar1,:jobDialogForm:jobFormTabView:services" />
 
 
