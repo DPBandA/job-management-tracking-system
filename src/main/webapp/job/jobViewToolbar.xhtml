@@ -93,10 +93,12 @@ Email: info@dpbennett.com.jm
 
             <p:selectOneButton 
                 value="#{jobManager.user.jobTableViewPreference}">
+                
                 <f:selectItems value="#{jobManager.jobTableViews}" 
                                var="jobView" 
                                itemLabel="#{jobView}" 
                                itemValue="#{jobView}"/>
+                
                 <p:ajax listener="#{jobManager.updateJobView}"
                         update="appForm:mainTabView"
                         global="true"

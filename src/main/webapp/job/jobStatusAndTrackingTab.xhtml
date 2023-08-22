@@ -86,8 +86,8 @@ Email: info@dpbennett.com.jm
 
                         <f:selectItems  value="#{systemManager.workProgressList}"
                                         var="progress"                            
-                                        itemValue="#{progress}"
-                                        itemLabel="#{progress}"/>
+                                        itemValue="#{progress.value}"
+                                        itemLabel="#{progress.label}"/>
 
                         <p:ajax listener="#{jobManager.updateWorkProgress}"
                                 global="false"

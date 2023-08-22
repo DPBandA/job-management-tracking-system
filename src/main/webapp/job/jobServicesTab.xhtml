@@ -46,8 +46,8 @@ Email: info@dpbennett.com.jm
 
                             <f:selectItems  value="#{systemManager.serviceLocationList}"
                                             var="serviceLocation"                            
-                                            itemValue="#{serviceLocation}"
-                                            itemLabel="#{serviceLocation}"/>
+                                            itemValue="#{serviceLocation.value}"
+                                            itemLabel="#{serviceLocation.label}"/>
 
                             <p:ajax listener="#{jobManager.updateJob}"
                                     global="false"

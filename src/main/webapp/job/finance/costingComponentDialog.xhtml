@@ -79,8 +79,8 @@ Email: info@dpbennett.com.jm
 
                         <f:selectItems  value="#{jobFinanceManager.costTypeList}"
                                         var="type"                            
-                                        itemValue="#{type}"
-                                        itemLabel="#{type}"/>
+                                        itemValue="#{type.value}"
+                                        itemLabel="#{type.label}"/>
 
                         <p:ajax listener="#{jobFinanceManager.updateCostComponent}"
                                 update="costingComponentPanelGrid"
