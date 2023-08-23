@@ -50,21 +50,23 @@ Email: info@dpbennett.com.jm
         <p:column selectionMode="multiple" 
                   style="width:20px;" />  
 
-        <p:column>
+        <p:column sortBy="#{job.jobNumber}">
             <f:facet name="header">
                 <h:outputText value="Job number"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column>
+        <p:column sortBy="#{job.client.name}">
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
             <h:outputText value="#{job.client.name}" />
         </p:column>    
 
-        <p:column rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
+        <p:column 
+            sortBy="#{job.client.accountingId}"
+            rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
             <f:facet name="header">
                 <h:outputText value="Client Id"/>
             </f:facet>
@@ -97,14 +99,14 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobFinanceManager.getAccountingCodes(job)}" />
         </p:column>
 
-        <p:column>
+        <p:column sortBy="#{job.classification.name}">
             <f:facet name="header">
                 <h:outputText value="Class'tion"/>
             </f:facet>
             <h:outputText value="#{job.classification.name}" />
         </p:column>    
 
-        <p:column>
+        <p:column sortBy="#{job.jobCostingAndPayment.finalCost}">
             <f:facet name="header">
                 <h:outputText value="Cost ($)"/>
             </f:facet>
@@ -114,7 +116,7 @@ Email: info@dpbennett.com.jm
             </h:outputText>
         </p:column>
 
-        <p:column>
+        <p:column sortBy="#{job.jobCostingAndPayment.costingCompleted? 'Yes': 'No'}">
             <f:facet name="header">
                 <h:outputText value="Prep'd?"/>
             </f:facet>
@@ -122,7 +124,7 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.costingCompleted? 'green': 'red'}"/>            
         </p:column>  
 
-        <p:column>
+        <p:column sortBy="#{job.jobCostingAndPayment.costingApproved? 'Yes': 'No'}">
             <f:facet name="header">
                 <h:outputText value="Appr'd?"/>
             </f:facet>
@@ -130,7 +132,7 @@ Email: info@dpbennett.com.jm
                           style="font-weight: bold;color: #{job.jobCostingAndPayment.costingApproved? 'green': 'red'}"/>            
         </p:column>  
 
-        <p:column>
+        <p:column sortBy="#{job.jobCostingAndPayment.invoiced? 'Yes': 'No'}">
             <f:facet name="header">
                 <h:outputText value="Inv'd?"/>
             </f:facet>

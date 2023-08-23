@@ -48,11 +48,11 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="tabChange" global="false" /> 
 
-                <p:tab title="General" rendered="#{jobManager.enableJobDialogTab || jobManager.enableJobDialogCostingTab}">
+                <p:tab title="General" rendered="#{jobManager.enableJobDialogTab}">
                     <ui:include src="jobGeneralTab.xhtml"/>
                 </p:tab>     
 
-                <p:tab title="Services" rendered="#{jobManager.enableJobDialogTab || jobManager.enableJobDialogCostingTab}" >
+                <p:tab title="Services" rendered="#{jobManager.enableJobDialogTab}" >
                     <ui:include src="jobServicesTab.xhtml"/>
                 </p:tab>
 

@@ -214,9 +214,20 @@ Email: info@dpbennett.com.jm
                     </div>
                     <div class="col-12">
 
-                        <p:outputLabel value=" &copy; D P Bennett &amp; Associates"   
-                                       onclick="window.open('https://dpbennett.com.jm/jmts');"
-                                       class="header-text" />
+                       <p:toolbar id="topToolbar">
+                            <p:toolbarGroup align="left">
+
+                                <p:outputLabel value=" &copy; D P Bennett &amp; Associates Ltd."   
+                                               onclick="window.open('https://dpbennett.com.jm');"
+                                               class="header-text" />
+
+                            </p:toolbarGroup>
+
+                            <p:toolbarGroup align="right">
+                                <p:outputLabel value="#{jobManager.applicationFooter}" 
+                                               class="header-text" />
+                            </p:toolbarGroup>
+                        </p:toolbar>
 
                     </div>
                 </div>
