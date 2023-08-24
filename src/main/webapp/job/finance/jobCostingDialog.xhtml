@@ -211,19 +211,20 @@ Email: info@dpbennett.com.jm
                         </p:commandButton>
 
                         <p:spacer width="10" />
-                        
+
                         <h:outputText value="#{jobFinanceManager.subcontractsMessage}" 
                                       style="color: gold;font-weight: bold;" />
 
                     </p:toolbarGroup>    
 
                     <p:toolbarGroup align="right">
-                        <p:outputLabel value="Currency" />      
-                        
-                        <p:spacer width="5" />
-                        
+                        <p:outputLabel value="Currency"                                        
+                                       rendered="#{jobFinanceManager.useMulticurrency}"/> 
+                        <p:spacer width="5" rendered="#{jobFinanceManager.useMulticurrency}"/>
                         <p:autoComplete id="currency"  
                                         var="currency"
+                                        disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                                        rendered="#{jobFinanceManager.useMulticurrency}"
                                         forceSelection="true"      
                                         dropdown="true"
                                         scrollHeight="200" 
@@ -243,7 +244,7 @@ Email: info@dpbennett.com.jm
 
                         </p:autoComplete>
                     </p:toolbarGroup>
-                    
+
                 </p:toolbar>
 
                 <p:dataTable  var="costComponent"
