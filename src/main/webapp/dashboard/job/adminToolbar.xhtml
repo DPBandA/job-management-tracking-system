@@ -156,6 +156,13 @@ Email: info@dpbennett.com.jm
                             icon="pi pi-file-o"
                             actionListener="#{jobManager.openReportsTab}"
                             process="@this" />
+                
+                <p:menuitem value="Report Templates"
+                            title="Open the Report Templates tab"
+                            icon="pi pi-book"
+                            rendered="#{jobManager.user.hasModule('reportManager')}"
+                            actionListener="#{reportManager.openReportTemplatesTab}" 
+                            process="@this" />
 
                 <p:separator />
 
