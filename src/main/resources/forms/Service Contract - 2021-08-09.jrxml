@@ -183,7 +183,7 @@ WHERE
 	<parameter name="businessOffice" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="additionalSampleDetails" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="logoURL" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["http://localhost:8080/img/DPB%20PNG%20Logo%20Square.png"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["http://localhost/jmts/images/DPBALogo.png"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
