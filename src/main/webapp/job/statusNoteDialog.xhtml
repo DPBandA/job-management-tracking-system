@@ -32,9 +32,9 @@ Email: info@dpbennett.com.jm
         <link rel="stylesheet" type="text/css" href="../css/main.css" /> 
     </h:head>
     <h:body>    
-         
+
         <ui:include src="../common/commonDialogs.xhtml"/>  
-        
+
         <h:form id="statusNoteDialogForm" >      
             <p:growl id="status_notes_dialog_growl" 
                      life="5000" 
@@ -57,16 +57,20 @@ Email: info@dpbennett.com.jm
             </p:toolbar>  
 
             <p:panel id="jobStatusNote" >
-                <h:outputText value="#{jobManager.selectedStatusNote.header}" 
-                              style="font-weight: bold;"/>
+                <p:outputLabel value="#{jobManager.selectedStatusNote.header}" 
+                               for="statusNote"
+                               style="font-weight: bold;"/>
                 <br/>
                 <p:inputTextarea
+                    id="statusNote"
                     value="#{jobManager.selectedStatusNote.text}"
                     rows="7"                    
                     counter="jobStatusNoteCharsRemaining"
                     counterTemplate="{0} characters remaining."
                     maxlength="1000"
-                    style="width: 500px;">
+                    required="true"
+                    requiredMessage="Note Required"
+                    style="width: 100%;">
 
                     <p:ajax event="change"
                             global="false" 
