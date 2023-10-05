@@ -75,7 +75,6 @@ Email: info@dpbennett.com.jm
         <h:outputText value="Report number(s)" />
         <h:panelGroup>
             <p:inputText id="reportNumbers"  
-                         style="width: 400px;"
                          title="#{jobManager.currentJob.reportNumber}"
                          value="#{jobManager.currentJob.reportNumber}">
 
@@ -91,7 +90,7 @@ Email: info@dpbennett.com.jm
 
     </h:panelGrid>
     <hr/>
-    <h:panelGrid columns="6" >
+    <h:panelGrid columns="4" >
         <h:outputText value="No. of tests" />
         <p:inputText id="numOfTests"                            
                      maxlength="7"
@@ -255,7 +254,7 @@ Email: info@dpbennett.com.jm
             counter="commentCharsRemaining"
             counterTemplate="{0} characters remaining."
             maxlength="1000"
-            style="width: 500px;" >
+            style="width: 200%;" >
             
             <p:ajax event="change"
                     global="false"                   
