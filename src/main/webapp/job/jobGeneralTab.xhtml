@@ -37,8 +37,6 @@ Email: info@dpbennett.com.jm
 
                 <p:inputText id="jobNumberEdit"
                              rendered="#{!jobManager.currentJob.autoGenerateJobNumber}"
-                             size="35"
-                             maxlength="40" 
                              validator="jobNumberValidator"                                                                     
                              title="#{jobManager.currentJob.jobNumber}"
                              value="#{jobManager.currentJob.jobNumber}">
@@ -77,8 +75,6 @@ Email: info@dpbennett.com.jm
                       style="font-weight: bold"/>       
         <p:autoComplete id="businessOffice"
                         rendered="#{jobManager.currentJob.type == 'Job'}"
-                        size="35"
-                        maxlength="40"
                         dropdown="true" 
                         readonly="false"
                         disabled="#{jobManager.disableJobDialogField('businessOffice')}"
@@ -105,8 +101,6 @@ Email: info@dpbennett.com.jm
         <p:autoComplete dropdown="true"
                         var="classification"
                         id="classification"
-                        size="35"
-                        maxlength="40"
                         value="#{jobManager.currentJob.classification}"
                         itemLabel="#{classification.name}"                        
                         itemValue="#{classification}"                        
@@ -130,9 +124,7 @@ Email: info@dpbennett.com.jm
             <p:autoComplete id="client"
                             var="client"
                             itemLabel="#{client.truncatedName}"
-                            itemValue="#{client}"
-                            size="35" 
-                            maxlength="40"                             
+                            itemValue="#{client}"                    
                             dropdown="false"
                             scrollHeight="200" 
                             value="#{jobManager.currentJob.client}"   
@@ -193,7 +185,6 @@ Email: info@dpbennett.com.jm
                         disabled="#{jobManager.disableJobDialogField('billingAddress')}"
                         dropdown="true"
                         forceSelection="true"
-                        size="35"
                         converter="clientAddressConverter" 
                         validator="addressValidator"
                         var="address"  
@@ -268,8 +259,6 @@ Email: info@dpbennett.com.jm
                         forceSelection="true"      
                         dropdown="true"
                         scrollHeight="200" 
-                        size="35"
-                        maxlength="40"
                         value="#{jobManager.currentJob.department}"
                         title="#{jobManager.currentJob.department}"
                         itemValue="#{department}"
@@ -296,8 +285,6 @@ Email: info@dpbennett.com.jm
                         disabled="#{jobManager.disableJobDialogField('subContractedDepartment')}"
                         forceSelection="true"
                         var="department"
-                        size="35"  
-                        maxlength="40"
                         itemValue="#{department}"
                         itemLabel="#{department.name}"
                         converter="activeDepartmentConverter"
@@ -327,8 +314,7 @@ Email: info@dpbennett.com.jm
                       style="font-weight: bold" />       
         <p:autoComplete id="assignee"
                         rendered="#{jobManager.currentJob.type == 'Job'}"
-                        var="assignedTo"                            
-                        maxlength="40" 
+                        var="assignedTo"   
                         value="#{jobManager.currentJob.assignedTo}"
                         title="#{jobManager.currentJob.assignedTo}"
                         itemLabel="#{assignedTo.name}"
@@ -432,7 +418,7 @@ Email: info@dpbennett.com.jm
             autoResize="true"
             maxlength="1000" 
             styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-            style="width: 500px;">
+            style="width: 90%;">
 
             <f:validator validatorId="requiredFieldValidator" />
 
@@ -461,7 +447,7 @@ Email: info@dpbennett.com.jm
             autoResize="false"
             maxlength="1000" 
             styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-            style="width: 500px;">
+            style="width: 90%;">
 
             <f:validator validatorId="requiredFieldValidator" />
 
