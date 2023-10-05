@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <h:panelGrid id="generalTabPanel" columns="2">
-        <h:outputLabel value="#{jobManager.currentJob.jobNumberLabel}" 
+        <p:outputLabel value="#{jobManager.currentJob.jobNumberLabel}" 
                        style="font-weight: bold;font-size: 14px;" />
         <h:panelGroup>
             <h:panelGroup id="jobNumberGroup">
@@ -387,7 +387,11 @@ Email: info@dpbennett.com.jm
                 <f:convertNumber integerOnly="true"/>
             </p:inputText>
             <h:outputText value=" (days)" />
-            <p:spacer height="0" width="15"/>
+            <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
+        </h:panelGroup>
+
+        <p:outputLabel value="" />
+        <h:panelGroup>
             <p:outputLabel for="tatRequired"  style="font-weight: bold;" value="TAT is required" />
             <p:spacer width="5" />
             <p:selectBooleanCheckbox id="tatRequired"
@@ -400,8 +404,7 @@ Email: info@dpbennett.com.jm
                         update=":jobDialogForm:jobDetailToolbar1"
                         process="@this"/>
 
-            </p:selectBooleanCheckbox>            
-            <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
+            </p:selectBooleanCheckbox>
         </h:panelGroup>
 
         <h:outputText value="Instructions" 

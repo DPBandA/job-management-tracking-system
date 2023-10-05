@@ -24,8 +24,6 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    
-
         <p:tabView id="serviceDialogTabView"   
                    dynamic="true"
                    widgetVar="serviceDialogTabViewVar">
@@ -83,7 +81,8 @@ Email: info@dpbennett.com.jm
                          rendered="#{jobManager.currentJob.type == 'Job'}"
                          id="intendedMarket"
                          style="margin-top: 1px;">
-                    <h:panelGrid columns="5" cellspacing="10" >
+                    
+                    <h:panelGrid columns="3" cellspacing="10" >
 
                         <p:selectBooleanCheckbox id="localMarket" 
                                                  itemLabel="Local"

@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:h="http://java.sun.com/jsf/html" >
 
     <p:toolbar id="jobDetailToolbar1">
-        <p:toolbarGroup align="left" >  
+        <p:toolbarGroup align="left" style="margin-top: 5px;">  
             <p:commandButton actionListener="#{jobManager.saveCurrentJob}" 
                              value="Save"
                              update=":jobDialogForm"
@@ -50,7 +50,7 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
 
 
-        <p:toolbarGroup align="right" >  
+        <p:toolbarGroup align="right" style="margin-top: 5px;">  
 
             <p:menuButton value="Subcontract | Copy" 
                           disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
