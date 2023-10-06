@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2021  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -30,8 +30,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Find client" style="font-weight: bold" />
             <p:spacer height="0px" width="5px"/>
             <p:autoComplete forceSelection="true"
-                            id="accPacClientName"
-                            size="40"                            
+                            id="accPacClientName"            
                             scrollHeight="200" 
                             title="#{jobFinanceManager.accPacCustomer.customerName}"
                             value="#{jobFinanceManager.accPacCustomer.customerName}"   
@@ -101,7 +100,8 @@ Email: info@dpbennett.com.jm
     </p:panel>
     <p:panel header="Invoices and Prepayments">
         <h:panelGrid columns="2">
-            <h:outputLabel for="showPrepayments"  style="font-weight: bold;" value="Show prepayments" />
+            <h:outputLabel for="showPrepayments"  style="font-weight: bold;" 
+                           value="Show prepayments" />
             <p:selectBooleanCheckbox id="showPrepayments"
                                      style="vertical-align: middle"                                     
                                      value="#{jobFinanceManager.showPrepayments}" >
