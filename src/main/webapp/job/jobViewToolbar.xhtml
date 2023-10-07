@@ -93,12 +93,12 @@ Email: info@dpbennett.com.jm
 
             <p:selectOneButton 
                 value="#{jobManager.user.jobTableViewPreference}">
-                
+
                 <f:selectItems value="#{jobManager.jobTableViews}" 
                                var="jobView" 
                                itemLabel="#{jobView}" 
                                itemValue="#{jobView}"/>
-                
+
                 <p:ajax listener="#{jobManager.updateJobView}"
                         update="appForm:mainTabView"
                         global="true"
@@ -116,11 +116,20 @@ Email: info@dpbennett.com.jm
                             process="@this"/>
 
                 <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
-                        value="Client Credit Status"
-                        icon="pi pi-thumbs-up"
-                        title="Check client's credit status"
-                        update=""
-                        process="@this" />                
+                            value="Client Credit Status"
+                            icon="pi pi-thumbs-up"
+                            title="Check client's credit status"
+                            update=""
+                            process="@this" /> 
+
+                <ui:remove> 
+                    <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
+                                value="Client Credit Status"
+                                icon="pi pi-thumbs-up"
+                                update=""
+                                oncomplete="PF('accPacClientInformationDialog').show();"
+                                process="@this" />
+                </ui:remove>
 
                 <p:separator />
                 <p:menuitem value="Reports"    

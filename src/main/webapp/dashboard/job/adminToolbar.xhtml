@@ -107,7 +107,7 @@ Email: info@dpbennett.com.jm
                             update=""/>
 
                 </p:menuitem> 
-                
+
             </p:menuButton>    
 
         </p:toolbarGroup>
@@ -133,12 +133,21 @@ Email: info@dpbennett.com.jm
                             actionListener="#{jobManager.openClientsTab}" 
                             process="@this" />
 
-                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
+                <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
                             value="Client Credit Status"
                             icon="pi pi-thumbs-up"
+                            title="Check client's credit status"
                             update=""
-                            oncomplete="PF('accPacClientInformationDialog').show();"
-                            process="@this" />
+                            process="@this" /> 
+
+                <ui:remove>
+                    <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
+                                value="Client Credit Status"
+                                icon="pi pi-thumbs-up"
+                                update=""
+                                oncomplete="PF('accPacClientInformationDialog').show();"
+                                process="@this" />
+                </ui:remove>
 
                 <p:separator />
 
@@ -148,15 +157,15 @@ Email: info@dpbennett.com.jm
                             disabled="false" 
                             actionListener="#{jobFinanceManager.openProformaInvoicesTab}"
                             process="@this" />
-                
+
                 <p:separator />
-                
+
                 <p:menuitem value="Reports"
                             title="Open the Reports tab"
                             icon="pi pi-file-o"
                             actionListener="#{jobManager.openReportsTab}"
                             process="@this" />
-                
+
                 <p:menuitem value="Report Templates"
                             title="Open the Report Templates tab"
                             icon="pi pi-book"
