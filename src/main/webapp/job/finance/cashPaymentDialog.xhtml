@@ -35,7 +35,6 @@ Email: info@dpbennett.com.jm
         <h:form id="cashPaymentDialogForm" >    
             <p:growl id="cash_payment_dialog_growl" 
                      life="5000" 
-                     showSummary="true"
                      showDetail="false"/>
 
             <p:toolbar style="margin-bottom: 1px;">
@@ -52,21 +51,27 @@ Email: info@dpbennett.com.jm
                                      icon="pi pi-times"
                                      process="@this"/>    
                 </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
             </p:toolbar>
             <p:panel>
                 <h:panelGrid columns="2" style="width: 85%;">
-                    <h:outputText value="Type" style="font-weight: bold;" />    
+                    <p:outputLabel value="Type *" style="font-weight: bold;" />    
                     <p:selectOneMenu 
-                        id="type"      
+                        id="type"                          
                         value="#{jobFinanceManager.selectedCashPayment.type}">
+
                         <p:ajax
                             global="false"                        
                             listener="#{jobFinanceManager.updateCashPayment}"
                             process="@this" />
                         <f:selectItems value="#{jobFinanceManager.paymentTypes}" />
+
                     </p:selectOneMenu>   
 
-                    <h:outputText value="Purpose of payment" style="font-weight: bold;" />    
+                    <p:outputLabel value="Purpose of payment *" style="font-weight: bold;" />    
                     <p:selectOneMenu 
                         id="paymentPurpose"      
                         value="#{jobFinanceManager.selectedCashPayment.paymentPurpose}">
@@ -77,20 +82,22 @@ Email: info@dpbennett.com.jm
                         <f:selectItems value="#{jobFinanceManager.paymentPurposes}" />
                     </p:selectOneMenu>   
 
-                    <h:outputText value="Payment date" style="font-weight: bold" />
+                    <p:outputLabel value="Payment date *" style="font-weight: bold" />
                     <p:calendar id="paymentDate"
                                 value="#{jobFinanceManager.selectedCashPayment.dateOfPayment}" 
                                 navigator="true" 
                                 autocomplete="off"
+                                required="true"
+                                requiredMessage="Payment Date Required"
                                 pattern="MMM dd, yyyy" >
-                        
+
                         <p:ajax event="dateSelect"
                                 global="false"
                                 listener="#{jobFinanceManager.updateCashPayment}" />
 
                     </p:calendar>
 
-                    <h:outputText value="Receipt #" />
+                    <p:outputLabel value="Receipt #" />
                     <p:inputText value="#{jobFinanceManager.selectedCashPayment.receiptNumber}" 
                                  maxlength="40" >
                         <p:ajax listener="#{jobFinanceManager.updateCashPayment}"
@@ -99,10 +106,12 @@ Email: info@dpbennett.com.jm
                                 process="@this"/>
                     </p:inputText>               
 
-                    <h:outputText value="Amount ($)" style="font-weight: bold;" />
+                    <p:outputLabel value="Amount ($) *" style="font-weight: bold;" />
                     <p:inputText value="#{jobFinanceManager.selectedCashPayment.payment}"  
                                  id="paymentAmount"
                                  styleClass="number-field"
+                                 required="true"
+                                 requiredMessage="Amount Required"
                                  validator="requiredFieldValidator"
                                  converterMessage="Invalid payment amount"
                                  maxlength="15">
@@ -115,10 +124,10 @@ Email: info@dpbennett.com.jm
                                 process="@this"/>
                     </p:inputText> 
 
-                    <h:outputText value="Terms" />
+                    <p:outputLabel value="Terms" />
                     <p:inputTextarea
                         value="#{jobFinanceManager.selectedCashPayment.paymentTerms}"
-                        style="width: 250px;"
+                        style="width: 100%;"
                         maxlength="250"
                         rows="2">
                         <p:ajax event="change"
@@ -142,8 +151,12 @@ Email: info@dpbennett.com.jm
                                      icon="pi pi-times"
                                      process="@this"/>    
                 </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
             </p:toolbar>
-            <p/>    
+
         </h:form>      
     </h:body>
 </html>

@@ -36,7 +36,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="/common/commonDialogs.xhtml"/>  
         <h:form id="jobCostingDialogForm"> 
 
-            <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
+            <p:growl id="jobCosting_growl" life="5000" showDetail="false"/>
 
             <ui:include src="jobCostEstimateDialogToolbar.xhtml"/> 
 
@@ -44,10 +44,12 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="2">
 
                     <h:outputLabel for="jobCostingsTemplateName" 
-                                   value="Name"  style="font-weight: bold" />
+                                   value="Name"  
+                                   style="font-weight: bold" />
                     <p:inputText id="jobCostingsTemplateName"
-                                 value="#{jobManager.currentJob.jobCostingAndPayment.name}"
-                                 style="width: 400px;">
+                                 required="true"
+                                 requiredMessage="Name Required"
+                                 value="#{jobManager.currentJob.jobCostingAndPayment.name}" >
 
                         <f:validator validatorId="requiredFieldValidator" />
 
@@ -58,7 +60,7 @@ Email: info@dpbennett.com.jm
 
                     </p:inputText>
 
-                    <h:outputText value="Department" style="font-weight: bold" />
+                    <h:outputLabel value="Department *" style="font-weight: bold" />
                     <p:autoComplete id="department"  
                                     var="department"
                                     forceSelection="true"      
@@ -71,6 +73,8 @@ Email: info@dpbennett.com.jm
                                     itemValue="#{department}"
                                     itemLabel="#{department.name}"
                                     converter="activeDepartmentConverter"
+                                    required="true"
+                                    requiredMessage="Department Required"
                                     validator="businessEntityValidator"
                                     cache="true"
                                     completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
@@ -84,7 +88,8 @@ Email: info@dpbennett.com.jm
                     </p:autoComplete>                   
 
 
-                    <h:outputText value="Description" style="font-weight: bold;vertical-align: top;" />       
+                    <h:outputText value="Description" 
+                                  style="font-weight: bold;vertical-align: top;" />       
                     <p:inputTextarea
                         id="description"
                         value="#{jobManager.currentJob.jobCostingAndPayment.description}"
@@ -131,7 +136,7 @@ Email: info@dpbennett.com.jm
                               reflow="true"
                               rowStyleClass="#{costComponent.isHeading ? 'header' : null}"
                               value="#{jobFinanceManager.currentJob.jobCostingAndPayment.allSortedCostComponents}">
-                    
+
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="Component" />
@@ -262,6 +267,10 @@ Email: info@dpbennett.com.jm
                                          icon="pi pi-plus"
                                          process="@this">
                         </p:commandButton>
+                    </p:toolbarGroup>
+
+                    <p:toolbarGroup align="right" >  
+                        <h:outputText value="Field required." style="font-weight: bold;" />            
                     </p:toolbarGroup>
                 </p:toolbar>                
             </p:panel>

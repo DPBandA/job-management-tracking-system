@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
 
     <p:confirmDialog widgetVar="deleteNotificationDialog" 
                      showEffect="fade" 
-                     width="300"
+                     width="auto"
                      message="Delete the notification?" 
                      responsive="true"
                      header="Confirm" 
@@ -52,7 +52,7 @@ Email: info@dpbennett.com.jm
                      header="Incompatible Browser"
                      widgetVar="incompatibleBrowserDialog"
                      responsive="true"
-                     width="420">
+                     width="auto">
         <h:form>
             <p:commandButton value="Ok"
                              onclick="incompatibleBrowserDialog.hide();"
@@ -72,7 +72,7 @@ Email: info@dpbennett.com.jm
                      header="Failed Login Attempts"
                      widgetVar="loginAttemptsDialog"
                      responsive="true"
-                     width="500">
+                     width="auto">
         <h:form>
             <p:commandButton value="Ok"
                              onclick="loginAttemptsDialog.hide();"
@@ -88,7 +88,7 @@ Email: info@dpbennett.com.jm
                          header="Network Connection Error"
                          widgetVar="connectionErrorDialog"
                          responsive="true"
-                         width="400">
+                         width="auto">
 
             <p:commandButton value="Ok"
                              onclick="window.location.reload();"
@@ -102,7 +102,7 @@ Email: info@dpbennett.com.jm
                      header="Server Connection Error"
                      widgetVar="connectionErrorAlertDialog"
                      responsive="true"
-                     width="400">
+                     width="auto">
         <h:form>
             <p:commandButton value="Ok"
                              onclick="reloadCurrentPage();"

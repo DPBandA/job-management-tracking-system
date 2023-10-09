@@ -70,12 +70,12 @@ Email: info@dpbennett.com.jm
                                          disabled="#{jobFinanceManager.disableInvoiceJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Invoiced" >
-                    
+
                     <p:ajax global="false"                        
                             listener="#{jobFinanceManager.invoiceJobCosting}"
                             update="@this,jobCostingDialogForm,jobCosting_growl"
                             process="@this"/>
-                    
+
                 </p:selectBooleanCheckbox>
             </h:panelGroup>   
             <p:spacer width="10"/>
@@ -108,7 +108,11 @@ Email: info@dpbennett.com.jm
                 </p:commandButton>
             </h:panelGroup>
 
-        </p:toolbarGroup>        
+        </p:toolbarGroup>    
+
+        <p:toolbarGroup align="right" >  
+            <h:outputText value="* Field required." style="font-weight: bold;" />            
+        </p:toolbarGroup>
     </p:toolbar>            
 
 </html>

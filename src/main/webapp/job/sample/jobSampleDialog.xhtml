@@ -29,6 +29,7 @@ Email: info@dpbennett.com.jm
         <title>Job Sample</title>
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" /> 
         <link rel="stylesheet" href="../../css/main.css" /> 
+        <link rel="stylesheet" href="../../css/jmts.css" />
         <script type="text/javascript" src="../../js/javascripts.js"/>
     </h:head>
     <h:body>    
@@ -38,7 +39,6 @@ Email: info@dpbennett.com.jm
         <h:form id="jobSampleDialogForm" >      
             <p:growl id="job_sample_dialog_growl" 
                      life="5000" 
-                     showSummary="true"
                      showDetail="false"/>
 
             <p:toolbar>
@@ -54,6 +54,10 @@ Email: info@dpbennett.com.jm
                                      icon="pi pi-times"
                                      process="@this"/>
                 </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
             </p:toolbar>            
 
             <p:tabView id="jobSampleDialogTabView"
@@ -65,10 +69,10 @@ Email: info@dpbennett.com.jm
                 <p:tab title="General" >
                     <h:panelGrid columns="2" style="width: 100%" >
 
-                        <h:outputText value="Reference" style="width: 50%;font-weight: bold;" />
+                        <p:outputLabel value="Reference *" style="font-weight: bold;" />
                         <p:inputText id="sampleReference"
                                      value="#{jobSampleManager.selectedJobSample.reference}"
-                                     maxlength="40"
+                                     maxlength="250"
                                      required=""
                                      readonly="true"
                                      styleClass="read-only-text-field" >
@@ -78,10 +82,9 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText value="Sampled by" />
+                        <p:outputLabel value="Sampled by" />
                         <p:autoComplete id="sampledBy"
                                         var="sampledBy"
-                                        maxlength="40"
                                         value="#{jobSampleManager.selectedJobSample.sampledBy}"
                                         title="#{jobSampleManager.selectedJobSample.sampledBy}"
                                         itemLabel="#{sampledBy.name}"
@@ -105,13 +108,14 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:autoComplete>
 
-                        <h:outputText value="Date sampled" style="width: 50%;font-weight: bold;" />
+                        <p:outputLabel value="Date sampled *" style="font-weight: bold;" />
                         <p:calendar  id="dateSampled"
                                      value="#{jobSampleManager.selectedJobSample.dateSampled}"
                                      navigator="true"
                                      pattern="MMM dd, yyyy"
-                                     autocomplete="off"
-                                     style="width: 50%" >
+                                     required="true"
+                                     requiredMessage="Date Sampled Required"
+                                     autocomplete="off" >
                             <p:ajax event="dateSelect"
                                     global="false"                                                                 
                                     listener="#{jobSampleManager.updateSample}"
@@ -124,31 +128,32 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:calendar>
 
-                        <h:outputText value="Sample quantity" style="width: 50%;font-weight: bold;" />
-                        <p:inputText  id="sampleQuantity"
-                                      maxlength="3"
-                                      disabled="#{jobManager.disableJobDialogField('samples')}"
-                                      converter="javax.faces.Long"
-                                      styleClass="number-field"
-                                      required="true"
-                                      converterMessage="Please enter a valid sample quantity that is greater than 0 and less than 1,000"
-                                      requiredMessage="Please enter a valid sample quantity that is greater than 0 and less than 1,000"
-                                      value="#{jobSampleManager.selectedJobSample.sampleQuantity}" >
+                        <p:outputLabel value="Sample quantity *" style="font-weight: bold;" />
+                        <p:inputNumber  id="sampleQuantity"
+                                        disabled="#{jobManager.disableJobDialogField('samples')}"
+                                        minValue="1" 
+                                        maxValue="1000"
+                                        decimalPlaces="0"
+                                        inputStyle="text-align: right;"
+                                        required="true"
+                                        requiredMessage="Please enter a valid sample quantity that is greater than 0 and less than 1,000"
+                                        value="#{jobSampleManager.selectedJobSample.sampleQuantity}" >
+
                             <p:ajax event="change"
                                     global="false"
                                     update="sampleReference"
                                     listener="#{jobSampleManager.updateSampleQuantity}"
                                     process="@this"/>
-                        </p:inputText>
 
-                        <h:outputText value="Product common name" style="font-weight: bold;" />
+                        </p:inputNumber>
+
+                        <p:outputLabel value="Product common name *" style="font-weight: bold;" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.name}"
                                      disabled="#{jobManager.disableJobDialogField('samples')}"
                                      id="productCommonName"
                                      required="true"
                                      requiredMessage="Please enter the common name of the product"
-                                     maxlength="40"
-                                     style="width: 50%;" >
+                                    maxlength="250" >
                             <p:ajax event="change"
                                     global="false"
                                     listener="#{jobSampleManager.updateSample}"
@@ -156,12 +161,11 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText value="Country of Origin" />
+                        <p:outputLabel value="Country of Origin" />
                         <p:autoComplete value="#{jobSampleManager.selectedJobSample.countryOfOrigin}"   
                                         disabled="#{jobManager.disableJobDialogField('samples')}"
                                         id="sampleCountryOfOrigin"
                                         forceSelection="true"  
-                                        maxlength="40"
                                         dropdown="true"
                                         scrollHeight="200" 
                                         cache="true"
@@ -180,13 +184,11 @@ Email: info@dpbennett.com.jm
                                     process="@this" />                               
                         </p:autoComplete>
 
-                        <h:outputText value="Brand" style="width: 50%" />
+                        <p:outputLabel value="Brand" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productBrand}"
                                      disabled="#{jobManager.disableJobDialogField('samples')}"
-                                     id="productBrand"
-                                     readonly="false"
-                                     maxlength="40"
-                                     style="width: 50%;" >
+                                     maxlength="250"
+                                     id="productBrand" >
                             <p:ajax event="change"
                                     global="false"
                                     listener="#{jobSampleManager.updateSample}"
@@ -194,13 +196,11 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText value="Model" style="width: 50%" />
+                        <p:outputLabel value="Model" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productModel}"
                                      disabled="#{jobManager.disableJobDialogField('samples')}"
-                                     id="productModel"
-                                     readonly="false"
                                      maxlength="250"
-                                     style="width: 50%;" >
+                                     id="productModel" >
                             <p:ajax event="change"
                                     global="false"                                    
                                     listener="#{jobSampleManager.updateSample}"
@@ -208,13 +208,11 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText value="Serial No." style="width: 50%" />
+                        <p:outputLabel value="Serial No." />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productSerialNumber}"
                                      disabled="#{jobManager.disableJobDialogField('samples')}"
                                      id="productSerialNumber"
-                                     readonly="false"
-                                     maxlength="250"
-                                     style="width: 50%;" >
+                                     maxlength="250" >
                             <p:ajax event="change"
                                     global="false"                                   
                                     listener="#{jobSampleManager.updateSample}"
@@ -222,13 +220,11 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText value="Product code" style="width: 50%" />
+                        <p:outputLabel value="Product code" />
                         <p:inputText value="#{jobSampleManager.selectedJobSample.productCode}"
                                      disabled="#{jobManager.disableJobDialogField('samples')}"
                                      id="productCode"
-                                     readonly="false"
-                                     maxlength="250"
-                                     style="width: 50%;" >
+                                     maxlength="250" >
                             <p:ajax event="change"
                                     global="false"                                   
                                     listener="#{jobSampleManager.updateSample}"
@@ -236,14 +232,14 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputText>
 
-                        <h:outputText value="Additional details" style="width: 50%" />
+                        <p:outputLabel value="Additional details" />
                         <p:inputTextarea  value="#{jobSampleManager.selectedJobSample.description}"
                                           disabled="#{jobManager.disableJobDialogField('samples')}"
                                           id="sampleDescription"
                                           maxlength="1000"
+                                          style="width: 100%;"
                                           autoResize="false"
-                                          rows="2"
-                                          style="width: 100%" >
+                                          rows="2" >
                             <p:ajax event="change"
                                     update="sampleReference"
                                     global="false"                                    
@@ -251,29 +247,32 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:inputTextarea>
 
-                        <h:outputText value="Product quantity" style="font-weight: bold;" />
+                        <p:outputLabel value="Product quantity" 
+                                       for="productQuantity"
+                                       style="font-weight: bold;" />
                         <h:panelGroup >
-                            <p:inputText id="productQuantity"
-                                         style="width: 15%"
-                                         styleClass="number-field"
-                                         required="true"
-                                         converterMessage="Please enter a valid product quantity"
-                                         requiredMessage="Please enter a valid product quantity"                                         
-                                         maxlength="3"
-                                         disabled="#{jobManager.disableJobDialogField('samples')}"
-                                         value="#{jobSampleManager.selectedJobSample.quantity}" >
+                            <p:inputNumber id="productQuantity"
+                                           minValue="1" 
+                                           decimalPlaces="0"
+                                           inputStyle="text-align: right;"
+                                           required="true"
+                                           converterMessage="Please enter a valid product quantity"
+                                           requiredMessage="Please enter a valid product quantity"                                         
+                                           disabled="#{jobManager.disableJobDialogField('samples')}"
+                                           value="#{jobSampleManager.selectedJobSample.quantity}" >
+
                                 <p:ajax event="change"
                                         global="false"
                                         listener="#{jobSampleManager.updateSample}"   
                                         update="sampleReference"
                                         process="@this"/>
-                                <f:convertNumber />
-                            </p:inputText>
+
+                            </p:inputNumber>
+                            <p:spacer height="0" width="5"/>
                             <p:inputText id="productUnitOfMeasure"
                                          value="#{jobSampleManager.selectedJobSample.unitOfMeasure}"
                                          disabled="#{jobManager.disableJobDialogField('samples')}"
-                                         style="width: 75%"
-                                         maxlength="40"
+                                         maxlength="250"
                                          title="Product unit of measure">
                                 <p:ajax event="change"
                                         global="false"
@@ -283,7 +282,7 @@ Email: info@dpbennett.com.jm
                             </p:inputText>
                             <p:watermark value="enter product unit" for="productUnitOfMeasure"/>
                         </h:panelGroup>
-                        <h:outputText value="Method of disposal" style="font-weight: bold;" />
+                        <p:outputLabel value="Method of disposal *" style="font-weight: bold;" />
                         <p:selectOneMenu value="#{jobSampleManager.selectedJobSample.methodOfDisposal}" 
                                          disabled="#{jobManager.disableJobDialogField('samples')}"
                                          id="methodOfDisposal">
@@ -299,7 +298,7 @@ Email: info@dpbennett.com.jm
                 </p:tab>
                 <p:tab title="Tracking">
                     <h:panelGrid columns="2">    
-                        <h:outputText value="Date received by responsible dept." />
+                        <p:outputLabel value="Date received by responsible dept." />
                         <p:calendar id="dateSampleReceived"
                                     value="#{jobSampleManager.selectedJobSample.dateReceived}"                                    
                                     navigator="true"
@@ -334,6 +333,10 @@ Email: info@dpbennett.com.jm
                                      actionListener="#{jobSampleManager.cancelJobSampleDialogEdits}"                            
                                      icon="pi pi-times"
                                      process="@this"/>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
                 </p:toolbarGroup>
             </p:toolbar>                      
         </h:form>

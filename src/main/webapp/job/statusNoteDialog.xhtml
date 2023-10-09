@@ -54,6 +54,10 @@ Email: info@dpbennett.com.jm
                                      icon="pi pi-times"
                                      process="@this"/>
                 </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
             </p:toolbar>  
 
             <p:panel id="jobStatusNote" >
@@ -96,6 +100,10 @@ Email: info@dpbennett.com.jm
                                      actionListener="#{jobManager.cancelStatusNote}" 
                                      icon="pi pi-times"
                                      process="@this"/>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
                 </p:toolbarGroup>
             </p:toolbar>
 

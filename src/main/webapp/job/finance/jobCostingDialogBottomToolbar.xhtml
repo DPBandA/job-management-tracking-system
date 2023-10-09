@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar>
         <p:toolbarGroup align="left" >  
-            
+
             <p:commandButton value="Ok"
                              actionListener="#{jobFinanceManager.okJobCosting}" 
                              icon="pi pi-check"
@@ -37,8 +37,12 @@ Email: info@dpbennett.com.jm
                              actionListener="#{jobFinanceManager.cancelJobCostingAndPaymentEdit}"                         
                              icon="pi pi-times"
                              process="@this"/>
-               
-        </p:toolbarGroup>        
+
+        </p:toolbarGroup>    
+
+        <p:toolbarGroup align="right" >  
+            <h:outputText value="* Field required." style="font-weight: bold;" />            
+        </p:toolbarGroup>
     </p:toolbar>            
 
 </html>

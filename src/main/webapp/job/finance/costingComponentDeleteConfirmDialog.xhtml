@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
                          message="Are you sure you wish to delete this cost component?"
                          header="Delete Cost Component"
                          widgetVar="costComponentDeleteConfirm"
-                         width="400">
+                         width="auto">
             <p:commandButton value="Yes"      
                              actionListener="#{jobFinanceManager.deleteCostComponent}"
                              update=":jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"
