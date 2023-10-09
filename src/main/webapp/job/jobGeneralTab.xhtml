@@ -66,16 +66,15 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
 
             </p:selectBooleanCheckbox>            
-            <p:tooltip for="autoGenerate" value="Check to auto-generate job number" showEffect="fade" hideEffect="fade" />
+            <p:tooltip for="autoGenerate" value="Check to auto-generate job number" 
+                       showEffect="fade" hideEffect="fade" />
 
         </h:panelGroup>
 
         <p:outputLabel value="Business office"
-                       rendered="#{jobManager.currentJob.type == 'Job'}"
                        for="businessOffice"
                        style="font-weight: bold"/>       
         <p:autoComplete id="businessOffice"
-                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         dropdown="true" 
                         readonly="false"
                         disabled="#{jobManager.disableJobDialogField('businessOffice')}"
@@ -100,8 +99,8 @@ Email: info@dpbennett.com.jm
         </p:autoComplete>        
 
         <p:outputLabel value="Classification" 
-                      for="classification"
-                      style="font-weight: bold" />
+                       for="classification"
+                       style="font-weight: bold" />
         <p:autoComplete dropdown="true"
                         var="classification"
                         id="classification"
@@ -125,7 +124,7 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>
 
-        <p:outputLabel value="Client" style="font-weight: bold" />
+        <p:outputLabel value="Client *" style="font-weight: bold" />
         <h:panelGroup>                
             <p:autoComplete id="client"
                             var="client"
@@ -135,6 +134,8 @@ Email: info@dpbennett.com.jm
                             scrollHeight="200" 
                             value="#{jobManager.currentJob.client}"   
                             converter="activeClientConverter"
+                            required="true"
+                            requiredMessage="Client Required"
                             validator="jobClientValidator"
                             forceSelection="true"
                             cache="true"
@@ -185,13 +186,15 @@ Email: info@dpbennett.com.jm
 
         </h:panelGroup>
 
-        <p:outputLabel value="Billing address" style="font-weight: bold" />    
+        <p:outputLabel value="Billing address *" style="font-weight: bold" />    
         <p:autoComplete id="billingAddress"
                         value="#{jobManager.currentJob.billingAddress}"
                         disabled="#{jobManager.disableJobDialogField('billingAddress')}"
                         dropdown="true"
                         forceSelection="true"
                         converter="clientAddressConverter" 
+                        required="true"
+                        requiredMessage="Billing Address Required"
                         validator="addressValidator"
                         var="address"  
                         scrollHeight="200"
@@ -210,7 +213,7 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>
 
-        <p:outputLabel value="Contact" style="font-weight: bold" />  
+        <p:outputLabel value="Contact *" style="font-weight: bold" />  
         <p:autoComplete id="clientContact"
                         value="#{jobManager.currentJob.contact}"
                         disabled="#{jobManager.disableJobDialogField('billingAddress')}"
@@ -218,6 +221,8 @@ Email: info@dpbennett.com.jm
                         forceSelection="true"
                         scrollHeight="200"
                         converter="clientContactConverter" 
+                        required="true"
+                        requiredMessage="Contact Required"
                         validator="contactValidator"
                         var="contact"                        
                         itemValue="#{contact}"
@@ -235,15 +240,15 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>        
 
-        <p:outputLabel value="Date submitted" 
-                      rendered="#{jobManager.currentJob.type == 'Job'}"
-                      style="font-weight: bold" />
+        <p:outputLabel value="Date submitted *" 
+                       style="font-weight: bold" />
         <p:calendar id="dateSubmitted"
-                    rendered="#{jobManager.currentJob.type == 'Job'}"
                     value="#{jobManager.jobSubmissionDate}" 
                     disabled="#{jobManager.disableJobDialogField('dateSubmitted')}"
                     navigator="true" 
                     autocomplete="off"
+                    required="true"
+                    requiredMessage="Date Submitted Required"
                     pattern="MMM dd, yyyy" >
 
             <p:ajax event="dateSelect"
@@ -258,7 +263,7 @@ Email: info@dpbennett.com.jm
 
         </p:calendar>
 
-        <p:outputLabel value="Department" style="font-weight: bold" />
+        <p:outputLabel value="Department *" style="font-weight: bold" />
         <p:autoComplete id="department"  
                         disabled="#{jobManager.disableJobDialogField('department')}"
                         var="department"
@@ -270,6 +275,8 @@ Email: info@dpbennett.com.jm
                         itemValue="#{department}"
                         itemLabel="#{department.name}"
                         converter="activeDepartmentConverter"
+                        required="true"
+                        requiredMessage="Department Required"
                         validator="businessEntityValidator"
                         cache="true"
                         completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
@@ -283,9 +290,9 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>     
 
-        <p:outputLabel value="Subcontracted dept."                      
-                      rendered="#{jobManager.renderSubContractingDepartment}"
-                      style="font-weight: bold" />
+        <p:outputLabel value="Subcontracted dept. *"                      
+                       rendered="#{jobManager.renderSubContractingDepartment}"
+                       style="font-weight: bold" />
         <p:autoComplete id="subContractedDepartment"                        
                         rendered="#{jobManager.renderSubContractingDepartment}"
                         disabled="#{jobManager.disableJobDialogField('subContractedDepartment')}"
@@ -294,6 +301,8 @@ Email: info@dpbennett.com.jm
                         itemValue="#{department}"
                         itemLabel="#{department.name}"
                         converter="activeDepartmentConverter"
+                        required="true"
+                        requiredMessage="Subcontracted Department Required"
                         validator="subcontractedDepartmentValidator"
                         dropdown="true"
                         scrollHeight="200"                           
@@ -315,17 +324,17 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>
 
-        <p:outputLabel value="Assignee" 
-                      rendered="#{jobManager.currentJob.type == 'Job'}"
-                      style="font-weight: bold" />       
+        <p:outputLabel value="Assignee *" 
+                       style="font-weight: bold" />       
         <p:autoComplete id="assignee"
-                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="assignedTo"   
                         value="#{jobManager.currentJob.assignedTo}"
                         title="#{jobManager.currentJob.assignedTo}"
                         itemLabel="#{assignedTo.name}"
                         itemValue="#{assignedTo}"
                         converter="activeEmployeeConverter"
+                        required="true"
+                        requiredMessage="Assignee Required"
                         validator="businessEntityValidator"
                         forceSelection="true"
                         dropdown="true"
@@ -340,10 +349,8 @@ Email: info@dpbennett.com.jm
                     process="@this"/>
         </p:autoComplete>  
 
-        <p:outputLabel value="Representative(s)" 
-                      rendered="#{jobManager.currentJob.type == 'Job'}" />       
+        <p:outputLabel value="Representative(s)"  />       
         <p:autoComplete id="representatives"
-                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="representative"   
                         value="#{jobManager.currentJob.representatives}"
                         itemLabel="#{representative.name}"
@@ -370,16 +377,17 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>
 
-        <p:outputLabel value="TAT given to client"  
-                      rendered="#{jobManager.currentJob.type == 'Job'}"
-                      style="font-weight: bold;" />
-        <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
+        <p:outputLabel value="TAT given to client *"  
+                       style="font-weight: bold;" />
+        <h:panelGroup>
             <p:inputText title="Estimated turnaround time (TAT) given to client"   
                          id="estimatedTAT"
                          disabled="#{jobManager.disableJobDialogField('estimatedTAT')}"
                          maxlength="4"
                          styleClass="#{not component.valid ? 'invalid-number-field' : 'number-field'}" 
                          converterMessage="Invalid Turnaround Time (TAT)" 
+                         required="true"
+                         requiredMessage="TAT Given To Client Required"
                          validator="turnaroundTimeValidator"
                          value="#{jobManager.currentJob.estimatedTurnAroundTimeInDays}">
 
@@ -398,9 +406,11 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel value="" />
         <h:panelGroup>
-            <p:outputLabel for="tatRequired"  style="font-weight: bold;" value="TAT is required" />
+            <p:outputLabel for="tatRequired"  style="font-weight: normal;" 
+                           value="TAT is required" />
             <p:spacer width="5" />
             <p:selectBooleanCheckbox id="tatRequired"
+                                     required="false"
                                      style="vertical-align: middle"    
                                      disabled="#{jobManager.disableJobDialogField('tatRequired')}"
                                      value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" >
@@ -413,12 +423,10 @@ Email: info@dpbennett.com.jm
             </p:selectBooleanCheckbox>
         </h:panelGroup>
 
-        <p:outputLabel value="Instructions" 
-                      rendered="#{jobManager.currentJob.type == 'Job'}"
-                      style="font-weight: bold;vertical-align: top;" />       
+        <p:outputLabel value="Instructions *" 
+                       style="font-weight: bold;vertical-align: top;" />       
         <p:inputTextarea
             id="instructions"
-            rendered="#{jobManager.currentJob.type == 'Job'}"
             value="#{jobManager.currentJob.instructions}"
             disabled="#{jobManager.disableJobDialogField('instructions')}"
             rows="3"
@@ -426,6 +434,8 @@ Email: info@dpbennett.com.jm
             counterTemplate="{0} characters remaining."
             autoResize="true"
             maxlength="1000" 
+            required="true"
+            requiredMessage="Instructions Required"
             styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
             style="width: 55%;">
 
@@ -438,14 +448,12 @@ Email: info@dpbennett.com.jm
                     process="@this"/>
 
         </p:inputTextarea> 
-        <p:outputLabel value="&nbsp;&nbsp;" 
-                      rendered="#{jobManager.currentJob.type == 'Job'}" />
-        <p:outputLabel id="instructCharsRemaining" 
-                      rendered="#{jobManager.currentJob.type == 'Job'}" /> 
+        <p:outputLabel value="&nbsp;&nbsp;" />
+        <p:outputLabel id="instructCharsRemaining" /> 
 
-        <p:outputLabel value="Note" 
-                      rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
-                      style="font-weight: bold;vertical-align: top;" />       
+        <p:outputLabel value="Note *" 
+                       rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                       style="font-weight: bold;vertical-align: top;" />       
         <p:inputTextarea
             id="pfDescription"
             rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
@@ -455,6 +463,8 @@ Email: info@dpbennett.com.jm
             counterTemplate="{0} characters remaining."
             autoResize="true"
             maxlength="1000" 
+            required="true"
+            requiredMessage="Note Required"
             styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
             style="width: 55%;">
 
@@ -468,9 +478,9 @@ Email: info@dpbennett.com.jm
 
         </p:inputTextarea>
         <p:outputLabel value="&nbsp;&nbsp;" 
-                      rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
+                       rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
         <p:outputLabel id="pfDescriptionCharsRemaining" 
-                      rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
+                       rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
 
     </h:panelGrid>
 
