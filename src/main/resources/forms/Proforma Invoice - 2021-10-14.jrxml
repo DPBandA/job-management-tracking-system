@@ -238,7 +238,7 @@ WHERE
 			</textField>
 			<image>
 				<reportElement x="5" y="6" width="125" height="40" uuid="2fa55e7c-634c-4aa4-865c-f774b7d73e41"/>
-				<imageExpression><![CDATA["C:/jasperreports/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
+				<imageExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></imageExpression>
 			</image>
 		</band>
 	</pageHeader>

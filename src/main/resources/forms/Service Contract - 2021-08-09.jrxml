@@ -183,7 +183,7 @@ WHERE
 	<parameter name="businessOffice" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="additionalSampleDetails" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="logoURL" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["http://localhost/jmts/images/DPBALogo.png"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
