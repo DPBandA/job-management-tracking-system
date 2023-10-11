@@ -73,8 +73,10 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel value="Business office"
                        for="businessOffice"
+                       rendered="#{jobManager.currentJob.type == 'Job'}"
                        style="font-weight: bold"/>       
         <p:autoComplete id="businessOffice"
+                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         dropdown="true" 
                         readonly="false"
                         disabled="#{jobManager.disableJobDialogField('businessOffice')}"
