@@ -100,8 +100,10 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel value="Classification" 
                        for="classification"
+                       rendered="#{jobManager.currentJob.type == 'Job'}"
                        style="font-weight: bold" />
         <p:autoComplete dropdown="true"
+                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="classification"
                         id="classification"
                         value="#{jobManager.currentJob.classification}"
@@ -325,8 +327,10 @@ Email: info@dpbennett.com.jm
         </p:autoComplete>
 
         <p:outputLabel value="Assignee *" 
+                       rendered="#{jobManager.currentJob.type == 'Job'}"
                        style="font-weight: bold" />       
         <p:autoComplete id="assignee"
+                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="assignedTo"   
                         value="#{jobManager.currentJob.assignedTo}"
                         title="#{jobManager.currentJob.assignedTo}"
@@ -349,8 +353,10 @@ Email: info@dpbennett.com.jm
                     process="@this"/>
         </p:autoComplete>  
 
-        <p:outputLabel value="Representative(s)"  />       
+        <p:outputLabel value="Representative(s)"  
+                       rendered="#{jobManager.currentJob.type == 'Job'}" />       
         <p:autoComplete id="representatives"
+                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="representative"   
                         value="#{jobManager.currentJob.representatives}"
                         itemLabel="#{representative.name}"
@@ -378,8 +384,9 @@ Email: info@dpbennett.com.jm
         </p:autoComplete>
 
         <p:outputLabel value="TAT given to client *"  
+                       rendered="#{jobManager.currentJob.type == 'Job'}"
                        style="font-weight: bold;" />
-        <h:panelGroup>
+        <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
             <p:inputText title="Estimated turnaround time (TAT) given to client"   
                          id="estimatedTAT"
                          disabled="#{jobManager.disableJobDialogField('estimatedTAT')}"
@@ -404,8 +411,8 @@ Email: info@dpbennett.com.jm
             <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
         </h:panelGroup>
 
-        <p:outputLabel value="" />
-        <h:panelGroup>
+        <p:outputLabel value="" rendered="#{jobManager.currentJob.type == 'Job'}" />
+        <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
             <p:outputLabel for="tatRequired"  style="font-weight: normal;" 
                            value="TAT is required" />
             <p:spacer width="5" />
@@ -437,7 +444,7 @@ Email: info@dpbennett.com.jm
             required="true"
             requiredMessage="Instructions Required"
             styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-            style="width: 55%;">
+            style="width: 100%;">
 
             <f:validator validatorId="requiredFieldValidator" />
 
@@ -466,7 +473,7 @@ Email: info@dpbennett.com.jm
             required="true"
             requiredMessage="Note Required"
             styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-            style="width: 55%;">
+            style="width: 100%;">
 
             <f:validator validatorId="requiredFieldValidator" />
 
