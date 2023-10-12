@@ -129,9 +129,9 @@ Email: info@dpbennett.com.jm
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <ui:include src="menubar.xhtml" />   
-                            
+
                             <div class="col-12">
                                 <div class="grid">
                                     <div class="col-12 md:col-4">
@@ -165,7 +165,7 @@ Email: info@dpbennett.com.jm
                                                 <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                                     <ui:include src="job/jobBrowser.xhtml" /> 
                                                 </h:panelGroup>
-                                                
+
                                                 <h:panelGroup rendered="#{t.id == 'Proforma Invoices'}">                                
                                                     <ui:include src="job/finance/proformaInvoicesTab.xhtml" /> 
                                                 </h:panelGroup>
@@ -177,6 +177,30 @@ Email: info@dpbennett.com.jm
                                                 <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
                                                     <ui:include src="finance/financialAdminTab.xhtml" /> 
                                                 </h:panelGroup> 
+                                                
+                                                <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
+                                                    <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Inventory'}" >
+                                                    <ui:include src="finance/ims/inventoryTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Inventory Requisitions'}" >
+                                                    <ui:include src="finance/ims/inventoryRequisitionTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
+                                                    <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Inventory Products'}" >
+                                                    <ui:include src="finance/ims/inventoryProductBrowser.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Market Products'}" >
+                                                    <ui:include src="finance/marketProductBrowser.xhtml" />                                                                
+                                                </h:panelGroup>
 
                                                 <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
                                                     <ui:include src="hr/hrmTab.xhtml" /> 
@@ -192,16 +216,8 @@ Email: info@dpbennett.com.jm
 
                                                 <h:panelGroup rendered="#{t.id == 'Report Templates'}" >
                                                     <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
-                                                </h:panelGroup>                                            
-
-                                                <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
-                                                    <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
-                                                    <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
-                                                </h:panelGroup>
-
+                                                </h:panelGroup>   
+                                            
                                             </p:tab>
 
                                         </p:tabView> 
@@ -214,7 +230,7 @@ Email: info@dpbennett.com.jm
                     </div>
                     <div class="col-12">
 
-                       <p:toolbar id="topToolbar">
+                        <p:toolbar id="topToolbar">
                             <p:toolbarGroup align="left">
 
                                 <p:outputLabel value=" &copy; D P Bennett &amp; Associates Ltd."   
