@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
     <h:panelGrid id="generalTabPanel" columns="2">
-        <p:outputLabel value="#{jobManager.currentJob.jobNumberLabel} *" 
+        <h:outputLabel value="#{jobManager.currentJob.jobNumberLabel} *" 
                        style="font-weight: bold;font-size: 14px;" />
         <h:panelGroup>
             <h:panelGroup id="jobNumberGroup">
@@ -73,10 +73,8 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel value="Business office"
                        for="businessOffice"
-                       rendered="#{jobManager.currentJob.type == 'Job'}"
                        style="font-weight: bold"/>       
         <p:autoComplete id="businessOffice"
-                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         dropdown="true" 
                         readonly="false"
                         disabled="#{jobManager.disableJobDialogField('businessOffice')}"
@@ -102,10 +100,8 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel value="Classification" 
                        for="classification"
-                       rendered="#{jobManager.currentJob.type == 'Job'}"
                        style="font-weight: bold" />
         <p:autoComplete dropdown="true"
-                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="classification"
                         id="classification"
                         value="#{jobManager.currentJob.classification}"
@@ -329,10 +325,8 @@ Email: info@dpbennett.com.jm
         </p:autoComplete>
 
         <p:outputLabel value="Assignee *" 
-                       rendered="#{jobManager.currentJob.type == 'Job'}"
                        style="font-weight: bold" />       
         <p:autoComplete id="assignee"
-                        rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="assignedTo"   
                         value="#{jobManager.currentJob.assignedTo}"
                         title="#{jobManager.currentJob.assignedTo}"
@@ -460,7 +454,7 @@ Email: info@dpbennett.com.jm
         <p:outputLabel value="&nbsp;&nbsp;" />
         <p:outputLabel id="instructCharsRemaining" /> 
 
-        <p:outputLabel value="Note *" 
+        <p:outputLabel value="Description *" 
                        rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
                        style="font-weight: bold;vertical-align: top;" />       
         <p:inputTextarea
@@ -473,7 +467,7 @@ Email: info@dpbennett.com.jm
             autoResize="true"
             maxlength="1000" 
             required="true"
-            requiredMessage="Note Required"
+            requiredMessage="Description Required"
             styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
             style="width: 100%;">
 
