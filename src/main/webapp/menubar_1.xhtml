@@ -26,37 +26,24 @@ Email: info@dpbennett.com.jm
 
     <p:menubar id="main_menubar" style="width: 100%;">
 
-        <p:submenu label="System" 
-                   rendered="#{systemManager.user.hasModule('systemManager')}"
-                   icon="pi pi-server">
-
-            <p:menuitem 
-                actionListener="#{systemManager.selectTab(9)}" 
-                title="System settings" 
-                value="Settings" 
-                icon="pi pi-cog" />  
-            
-            <p:separator />
-
-            <p:menuitem 
-                actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
-                title="System administration" 
-                value="Administration" 
-                icon="pi pi-briefcase" />    
-
-        </p:submenu>
-        
-        <p:menuitem value="Human Resource"
-                    title="Human resource management"
-                    rendered="#{systemManager.user.hasModule('humanResourceManager')}"
-                    icon="pi pi-users"
-                    actionListener="#{humanResourceManager.openHumanResourceBrowser}" /> 
+        <p:menuitem 
+            actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
+            title="System administration" 
+            rendered="#{systemManager.user.hasModule('systemManager')}"
+            value="System" 
+            icon="pi pi-database" />    
 
         <p:menuitem value="Finance"
                     icon="pi pi-fw pi-dollar"
                     title="Financial administration" 
                     rendered="#{systemManager.user.hasModule('financeManager')}"
                     actionListener="#{financeManager.openFinancialAdministration}" />
+
+        <p:menuitem value="Human Resource"
+                    title="Human resource management"
+                    rendered="#{systemManager.user.hasModule('humanResourceManager')}"
+                    icon="pi pi-users"
+                    actionListener="#{humanResourceManager.openHumanResourceBrowser}" />  
 
         <ui:remove>
             <f:facet name="options">
