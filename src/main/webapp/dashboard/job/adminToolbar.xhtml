@@ -31,82 +31,85 @@ Email: info@dpbennett.com.jm
 
             <p:menuButton value="New" >  
 
-                <p:menuitem
-                    actionListener="#{legalDocumentManager.createNewLegalDocument}"
-                    rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
-                    value="Document" 
-                    title="Add a new document"
-                    icon="pi pi-plus"
-                    process="@this" >
+                <p:submenu label="Job"                            
+                           rendered="#{jobManager.user.hasModule('jobManager')}"
+                           icon="pi pi-wrench" >
 
-                    <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView"
-                            listener="#{legalDocumentManager.documentDialogReturn}" />
+                    <p:menuitem value="Job"
+                                title="Create new job"
+                                icon="pi pi-wrench"
+                                actionListener="#{jobManager.createNewJob}"  
+                                process="@this" >
 
-                </p:menuitem>
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView"
+                                listener="#{jobManager.jobDialogReturn}" />
 
-                <p:menuitem  
-                    value="Document type"
-                    icon="pi pi-plus" 
-                    actionListener="#{legalDocumentManager.createNewDocumentType}"     
-                    rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
-                    process="@this"
-                    title="Add a new document type" />
+                    </p:menuitem>    
 
-                <p:menuitem 
-                    value="Classification"
-                    icon="pi pi-plus" 
-                    actionListener="#{legalDocumentManager.createNewClassification}"  
-                    rendered="#{jobManager.user.hasModule('legalDocumentManager')}"
-                    process="@this"
-                    title="Add a new classification" />
+                    <p:menuitem
+                        actionListener="#{clientManager.createNewClient}"                
+                        disabled="#{!jobManager.user.can('AddClient')}"
+                        global="true" 
+                        value="Client"
+                        title="Create new client"
+                        icon="pi pi-user-plus"
+                        process="@this" >
 
-                <p:separator />
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView:clientsTable" />
 
-                <p:menuitem value="Job"
-                            title="Create new job"
-                            icon="pi pi-plus"
-                            actionListener="#{jobManager.createNewJob}"  
-                            rendered="#{jobManager.user.hasModule('jobManager')}"
-                            process="@this" >
+                    </p:menuitem>
 
-                    <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView"
-                            listener="#{jobManager.jobDialogReturn}" />
+                    <p:menuitem value="Proforma Invoice"
+                                title="Create new proforma invoice"
+                                icon="pi pi-dollar"
+                                actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                                process="@this" >
 
-                </p:menuitem>    
+                        <p:ajax event="dialogReturn" 
+                                listener="#{jobFinanceManager.proformaDialogReturn}"
+                                update=""/>
 
-                <p:separator />
+                    </p:menuitem> 
 
-                <p:menuitem
-                    actionListener="#{clientManager.createNewClient}"                
-                    disabled="#{!jobManager.user.can('AddClient')}"
-                    global="true" 
-                    value="Client"
-                    title="Create new client"
-                    icon="pi pi-plus"
-                    process="@this" >
+                </p:submenu>
 
-                    <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView:clientsTable" />
+                <p:separator rendered="#{systemManager.user.hasModule('jobManager')}" />
 
-                </p:menuitem>
+                <p:submenu label="Legal" 
+                           rendered="#{systemManager.user.hasModule('legalDocumentManager')}"
+                           icon="pi pi-book" >
 
-                <p:separator />
+                    <p:menuitem
+                        actionListener="#{legalDocumentManager.createNewLegalDocument}"
+                        value="Document" 
+                        title="Add a new document"
+                        icon="pi pi-file"
+                        process="@this" >
 
-                <p:menuitem value="Proforma Invoice"
-                            title="Create new proforma invoice"
-                            icon="pi pi-plus"
-                            disabled="false"
-                            actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
-                            rendered="#{jobManager.user.hasModule('jobManager')}"
-                            process="@this" >
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView"
+                                listener="#{legalDocumentManager.documentDialogReturn}" />
 
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobFinanceManager.proformaDialogReturn}"
-                            update=""/>
+                    </p:menuitem>
 
-                </p:menuitem> 
+                    <p:menuitem  
+                        value="Document type"
+                        icon="pi pi-file-excel" 
+                        actionListener="#{legalDocumentManager.createNewDocumentType}" 
+                        process="@this"
+                        title="Add a new document type" />
+
+                    <p:menuitem 
+                        value="Classification"
+                        icon="pi pi-folder" 
+                        actionListener="#{legalDocumentManager.createNewClassification}" 
+                        process="@this"
+                        title="Add a new classification" />
+
+                </p:submenu>
+                
 
             </p:menuButton>    
 
