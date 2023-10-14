@@ -89,6 +89,13 @@
             <to-view-id>/job/jobDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>labelDialog</from-outcome>
+            <to-view-id>/label/labelDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>   
          
     <managed-bean>
         <managed-bean-name>jobManager</managed-bean-name>
@@ -111,6 +118,12 @@
     <managed-bean>
         <managed-bean-name>jobFinanceManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.manager.JobFinanceManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>energyLabelManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.mt.manager.EnergyLabelManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
           

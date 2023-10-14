@@ -1,0 +1,132 @@
+<!--
+LabelPrint (LP) 
+Copyright (C) 2023  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:toolbar>
+        <p:toolbarGroup align="left" >   
+            <p:commandButton title="Add new setting"                                  
+                             value="New"
+                             actionListener="#{systemManager.createNewSystemOption('Compliance')}"   
+                             disabled="#{!systemManager.user.can('BeSuperUser')}"
+                             global="true"
+                             process="@this"
+                             icon="pi pi-plus" >
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{systemManager.doSystemOptionSearch('Compliance')}"
+                        update=":appForm:mainTabView:complianceOptionsTable"/>
+
+            </p:commandButton>
+            <p:spacer width="20" />
+            <p:inputText value="#{systemManager.systemOptionSearchText}"                                             
+                         style="width:300px" placeholder="Enter any part of setting description">
+
+                <p:ajax event="keyup"
+                        global="false"
+                        update=":appForm:mainTabView:complianceOptionsTable"
+                        listener="#{systemManager.doSystemOptionSearch('Compliance')}"
+                        process="@this"/>
+
+            </p:inputText>
+        </p:toolbarGroup>
+    </p:toolbar>    
+    <p:dataTable id="complianceOptionsTable"                                       
+                 var="systemOption"     
+                 editable="false" 
+                 editMode="cell"
+                 paginator="true"
+                 rows="15"
+                 widgetVar="systemOptionsTableVar"
+                 style="margin-top: 1px;"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 value="#{systemManager.foundSystemOptionsByCategory}">
+
+        <f:facet name="header">
+            Compliance Settings
+        </f:facet>
+
+        <p:column>
+            <f:facet name="header">
+                <p:outputLabel value="Description"/>
+            </f:facet>
+            <p:cellEditor>
+                <f:facet name="output"> 
+                    <p:outputLabel value="#{systemOption.comments}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{systemOption.comments}" style="width:96%"/>
+                </f:facet>
+            </p:cellEditor>                                           
+        </p:column>   
+
+        <p:column rendered="#{systemManager.user.can('BeSuperUser')}">
+            <f:facet name="header" >
+                <p:outputLabel value="Name"/>
+            </f:facet>
+            <p:cellEditor>
+                <f:facet name="output"> 
+                    <p:outputLabel value="#{systemOption.name}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{systemOption.name}" style="width:96%"/>
+                </f:facet>
+            </p:cellEditor>                                         
+        </p:column>   
+
+        <p:column>
+            <f:facet name="header">
+                <p:outputLabel value="Value"/>
+            </f:facet>
+            <p:cellEditor>
+                <f:facet name="output"> 
+                    <p:outputLabel value="#{systemOption.optionValueDisplay}" />
+                </f:facet>
+                <f:facet name="input">
+                    <p:inputText value="#{systemOption.optionValue}" style="width:96%"/>
+                </f:facet>
+            </p:cellEditor>                                         
+        </p:column>  
+
+        <p:column>
+            <p:commandButton title="View or edit setting"   
+                             actionListener="#{systemManager.editSystemOption}"
+                             global="true"
+                             process="@this"
+                             icon="pi pi-pencil">
+
+                <f:setPropertyActionListener value="#{systemOption}"                                                                    
+                                             target="#{systemManager.selectedSystemOption}" />
+
+                <p:ajax event="dialogReturn"
+                        listener="#{systemManager.doSystemOptionSearch('Compliance')}"
+                        update=":appForm:mainTabView:complianceOptionsTable"/>
+
+            </p:commandButton>           
+        </p:column>
+    </p:dataTable> 
+
+</html>
+

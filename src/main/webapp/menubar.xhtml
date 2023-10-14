@@ -37,6 +37,32 @@ Email: info@dpbennett.com.jm
                 icon="pi pi-cog" />  
 
             <p:separator />
+            
+            <p:submenu label="LabelPrint Settings" 
+                       rendered="#{systemManager.user.hasModule('energyLabelManager')}"
+                       icon="pi pi-cog" >
+                <p:menuitem 
+                    actionListener="#{energyLabelManager.openComplianceSettingsTab}" 
+                    title="Show compliance settings" 
+                    rendered="#{energyLabelManager.user.can('AccessComplianceOptions')}"
+                    value="Compliance" 
+                    icon="pi pi-check-square" />
+                <p:menuitem 
+                    actionListener="#{energyLabelManager.openEnergyEfficiencySettingsTab}" 
+                    title="Show energy efficiency settings" 
+                    rendered="#{energyLabelManager.user.can('AccessEnergyEfficiencyOptions')}"
+                    value="Energy Efficiency" 
+                    icon="pi pi-sun" />
+                <p:menuitem 
+                    actionListener="#{energyLabelManager.openLabelPrintSettingsTab}" 
+                    title="Show LabelPrint settings" 
+                    rendered="#{energyLabelManager.user.can('AccessLabelPrintOptions')}"
+                    value="LabelPrint" 
+                    icon="pi pi-file" />
+              
+            </p:submenu>
+            
+            <p:separator rendered="#{systemManager.user.hasModule('energyLabelManager')}" />
 
             <p:menuitem 
                 actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
@@ -72,16 +98,7 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>
 
-        <ui:remove>
-            <f:facet name="options">
-                <div class="ui-input-icon-left mr-2">
-                    <i class="pi pi-fw pi-search" />
-                    <p:inputText placeholder="Enter search text"/>
-                </div>
-                <p:button icon="pi pi-fw pi-search" styleClass="ui-button-info"/>
-            </f:facet>
-        </ui:remove>
-
+     
     </p:menubar>
 
 </html>
