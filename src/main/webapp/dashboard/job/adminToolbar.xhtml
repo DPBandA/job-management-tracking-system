@@ -75,8 +75,6 @@ Email: info@dpbennett.com.jm
 
                 </p:submenu>
 
-                <p:separator rendered="#{systemManager.user.hasModule('jobManager')}" />
-
                 <p:submenu label="Legal" 
                            rendered="#{systemManager.user.hasModule('legalDocumentManager')}"
                            icon="pi pi-book" >
@@ -108,8 +106,7 @@ Email: info@dpbennett.com.jm
                         process="@this"
                         title="Add a new classification" />
 
-                </p:submenu>
-                
+                </p:submenu>                
 
             </p:menuButton>    
 

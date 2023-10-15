@@ -36,8 +36,6 @@ Email: info@dpbennett.com.jm
                 value="Settings" 
                 icon="pi pi-cog" />  
 
-            <p:separator />
-            
             <p:submenu label="LabelPrint Settings" 
                        rendered="#{systemManager.user.hasModule('energyLabelManager')}"
                        icon="pi pi-cog" >
@@ -59,10 +57,8 @@ Email: info@dpbennett.com.jm
                     rendered="#{energyLabelManager.user.can('AccessLabelPrintOptions')}"
                     value="LabelPrint" 
                     icon="pi pi-file" />
-              
+
             </p:submenu>
-            
-            <p:separator rendered="#{systemManager.user.hasModule('energyLabelManager')}" />
 
             <p:menuitem 
                 actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
@@ -88,8 +84,6 @@ Email: info@dpbennett.com.jm
                 value="Settings" 
                 icon="pi pi-cog" />  
 
-            <p:separator />
-
             <p:menuitem value="Administration"
                         icon="pi pi-fw pi-briefcase"
                         title="Financial administration" 
@@ -98,7 +92,7 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>
 
-     
+
     </p:menubar>
 
 </html>
