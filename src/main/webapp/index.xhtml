@@ -234,6 +234,10 @@ Email: info@dpbennett.com.jm
                                                     <ui:include src="label/labelPrintOptionsTab.xhtml" /> 
                                                 </h:panelGroup>
 
+                                                <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
+                                                    <ui:include src="legal/documentBrowser.xhtml" />   
+                                                </h:panelGroup> 
+
                                             </p:tab>
 
                                         </p:tabView> 

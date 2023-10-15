@@ -228,6 +228,13 @@ Email: info@dpbennett.com.jm
                                 process="@this" /> 
 
                 </p:submenu>
+                
+                <p:menuitem value="Label Browser"
+                            title="Open the Energy Label Browser" 
+                            icon="pi pi-images"
+                            rendered="#{systemManager.user.hasModule('energyLabelManager')}"
+                            actionListener="#{energyLabelManager.openEnergyLabelBrowser}" 
+                            process="@this" />
 
             </p:tieredMenu>         
         </p:toolbarGroup>
