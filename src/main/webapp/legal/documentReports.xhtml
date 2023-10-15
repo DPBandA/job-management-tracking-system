@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!--
 Legal Office (LO) 
-Copyright (C) 2022  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -45,18 +44,18 @@ Email: info@dpbennett.com.jm
     <ui:include src="documentReportsToolbar.xhtml" />
 
     <p:dataTable id="documentReportTable"
-                 style="min-width: 850px;margin-bottom: 1px;margin-top: 1px;"
+                 style="margin-bottom: 1px;margin-top: 1px;"
                  var="document"
                  paginator="true"
                  rows="15"
+                 reflow="true"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{legalDocumentManager.documentSearchResultList}">
 
         <f:facet name="header">
             <h:outputText value="#{legalDocumentManager.documentReport.name}"/>
         </f:facet>
-        <p:column style="width:16px" 
-                  exportable="false"
+        <p:column exportable="false"
                   rendered="#{legalDocumentManager.documentReport.showNumberOfDocuments}">
             <f:facet name="header">
                 <h:outputText value="Detail"/>
@@ -68,19 +67,19 @@ Email: info@dpbennett.com.jm
                 <f:setPropertyActionListener value="#{document}" target="#{legalDocumentManager.selectedDocument}" />
             </p:commandButton>
         </p:column>
-        <p:column style="width:150px" rendered="#{legalDocumentManager.documentReport.showType}">
+        <p:column rendered="#{legalDocumentManager.documentReport.showType}">
             <f:facet name="header">
                 <h:outputText value="Document type"/>
             </f:facet>
-            <h:outputText value="#{document.type.name}" />
+            <h:outputText value="#{document.documentType.name}" />
         </p:column>
-        <p:column style="width:150px" rendered="#{legalDocumentManager.documentReport.showNumberOfDocuments}">
+        <p:column rendered="#{legalDocumentManager.documentReport.showNumberOfDocuments}">
             <f:facet name="header">
                 <h:outputText value="# of Documents"/>
             </f:facet>
             <h:outputText value="#{document.numberOfDocuments}" />
         </p:column>
-        <p:column style="width:150px" rendered="#{legalDocumentManager.documentReport.showNumber}">
+        <p:column rendered="#{legalDocumentManager.documentReport.showNumber}">
             <f:facet name="header">
                 <h:outputText value="Document #"/>
             </f:facet>
@@ -106,7 +105,7 @@ Email: info@dpbennett.com.jm
                 <f:convertDateTime pattern="MMM dd, yyyy"/>
             </h:outputText>
         </p:column>
-        <p:column rendered="#{legalDocumentManager.documentReport.showDateReceived}" style="min-width: 85px">
+        <p:column rendered="#{legalDocumentManager.documentReport.showDateReceived}" >
             <f:facet name="header">
                 <h:outputText value="Received"/>
             </f:facet>
@@ -114,7 +113,7 @@ Email: info@dpbennett.com.jm
                 <f:convertDateTime pattern="MMM dd, yyyy"/>
             </h:outputText>
         </p:column>
-        <p:column rendered="#{legalDocumentManager.documentReport.showDateOfCompletion}" style="min-width: 85px">
+        <p:column rendered="#{legalDocumentManager.documentReport.showDateOfCompletion}" >
             <f:facet name="header">
                 <h:outputText value="Delivery"/>
             </f:facet>

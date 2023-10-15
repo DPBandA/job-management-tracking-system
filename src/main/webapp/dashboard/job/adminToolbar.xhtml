@@ -228,13 +228,21 @@ Email: info@dpbennett.com.jm
                                 process="@this" /> 
 
                 </p:submenu>
-                
+
+                <p:menuitem value="Legal Documents Browser"
+                            title="Open the Legal Document Browser" 
+                            icon="pi pi-copy"
+                            rendered="#{systemManager.user.hasModule('legalDocumentManager')}"
+                            actionListener="#{legalDocumentManager.openDocumentBrowser}"                            
+                            process="@this"/> 
+
                 <p:menuitem value="Label Browser"
                             title="Open the Energy Label Browser" 
                             icon="pi pi-images"
                             rendered="#{systemManager.user.hasModule('energyLabelManager')}"
                             actionListener="#{energyLabelManager.openEnergyLabelBrowser}" 
-                            process="@this" />
+                            process="@this" />               
+
 
             </p:tieredMenu>         
         </p:toolbarGroup>

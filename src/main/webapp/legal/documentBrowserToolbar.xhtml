@@ -1,6 +1,6 @@
 <!--
 Legal Office (LO) 
-Copyright (C) 2022  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -25,18 +25,7 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar>
         <p:toolbarGroup align="left">
-            <ui:remove>
-                <p:commandButton value="New"
-                                 actionListener="#{legalDocumentManager.createNewLegalDocument}"
-                                 title="Add a new document"
-                                 icon="pi pi-plus"
-                                 process="@this" >
-
-                    <p:ajax event="dialogReturn" 
-                            listener="#{legalDocumentManager.documentDialogReturn}" />
-
-                </p:commandButton>
-            </ui:remove>
+           
             <p:menuButton value="New">   
                 <p:menuitem
                     actionListener="#{legalDocumentManager.createNewLegalDocument}"
