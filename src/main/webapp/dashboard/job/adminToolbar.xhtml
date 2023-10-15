@@ -52,7 +52,7 @@ Email: info@dpbennett.com.jm
 
                     <p:menuitem
                         actionListener="#{clientManager.createNewClient}"                
-                        disabled="#{!jobManager.user.can('AddClient')}"
+                        rendered="#{jobManager.user.can('AddClient')}"
                         global="true" 
                         value="Client"
                         title="Create new client"
