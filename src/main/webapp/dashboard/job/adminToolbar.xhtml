@@ -78,6 +78,89 @@ Email: info@dpbennett.com.jm
 
                 </p:submenu>
 
+                <p:submenu label="Compliance"                            
+                           rendered="#{jobManager.user.hasModule('jobManager')}"
+                           icon="pi pi-wrench" >
+
+                    <p:menuitem
+                        actionListener="#{complianceManager.createNewComplianceSurvey}"
+                        value="Survey"       
+                        update=":appForm:growl3"
+                        title="Add a new survey"
+                        icon="pi pi-plus"
+                        process="@this" >
+
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView,:appForm:growl3" />
+
+                    </p:menuitem>
+
+                    <p:menuitem
+                        actionListener="#{complianceManager.createNewDocumentStandard}"
+                        value="Standard"       
+                        update="appForm:growl3"
+                        title="Add a new standard"
+                        icon="pi pi-plus"
+                        process="@this" >
+
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView,:appForm:growl3" />
+
+                    </p:menuitem>
+
+                    <p:menuitem
+                        actionListener="#{complianceManager.createNewComplaint}"
+                        value="Complaint"       
+                        update="appForm:growl3"
+                        title="Add a new complaint"
+                        icon="pi pi-plus"
+                        process="@this" >
+
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView,:appForm:growl3" />
+
+                    </p:menuitem>
+
+                    <p:menuitem
+                        actionListener="#{complianceManager.createNewMarketProduct}"
+                        value="Market Product"       
+                        update="appForm:growl3"
+                        title="Add a new market product"
+                        icon="pi pi-plus"
+                        process="@this" >
+
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView,:appForm:growl3" />
+
+                    </p:menuitem>
+
+                    <p:menuitem
+                        actionListener="#{humanResourceManager.createNewManufacturer}"
+                        value="Manufacturer"       
+                        update="appForm:growl3"
+                        title="Add a new manufacturer"
+                        icon="pi pi-plus"
+                        process="@this" >
+
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView,:appForm:growl3" />
+
+                    </p:menuitem>
+
+                    <p:menuitem
+                        actionListener="#{complianceManager.createNewFactoryInspection}"
+                        value="Factory Inspection"       
+                        update="appForm:growl3"
+                        title="Add a new factory inspection"
+                        icon="pi pi-plus"
+                        process="@this" >
+
+                        <p:ajax event="dialogReturn" 
+                                update=":appForm:mainTabView,:appForm:growl3" />
+
+                    </p:menuitem>
+                </p:submenu>
+
                 <p:submenu label="Legal" 
                            rendered="#{systemManager.user.hasModule('legalDocumentManager')}"
                            icon="pi pi-book" >
