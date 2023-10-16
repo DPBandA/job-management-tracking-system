@@ -266,11 +266,11 @@ Email: info@dpbennett.com.jm
                     </div>
                     <div class="col-12">
 
-                        <p:toolbar id="topToolbar">
+                        <p:toolbar>
                             <p:toolbarGroup align="left">
 
-                                <p:outputLabel value=" &copy; D P Bennett &amp; Associates Ltd."   
-                                               onclick="window.open('https://dpbennett.com.jm');"
+                                <p:outputLabel value=" &copy; #{jobManager.copyrightOrganization}"   
+                                               onclick="window.open('#{jobManager.organizationWebsite}');"
                                                class="header-text" />
 
                             </p:toolbarGroup>
