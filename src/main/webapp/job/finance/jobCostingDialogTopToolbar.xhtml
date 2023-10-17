@@ -63,8 +63,8 @@ Email: info@dpbennett.com.jm
                             process="@this"/>
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>
-            <p:spacer width="10"/>
-            <h:panelGroup>
+            <p:spacer width="10" rendered="#{jobManager.currentJob.type == 'Job'}" />
+            <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}" >
                 <p:selectBooleanCheckbox value="#{jobFinanceManager.currentJob.jobCostingAndPayment.invoiced}"
                                          id="invoiced"
                                          disabled="#{jobFinanceManager.disableInvoiceJobCosting}"

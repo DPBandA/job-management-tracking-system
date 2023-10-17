@@ -114,6 +114,19 @@ Email: info@dpbennett.com.jm
                 </p:menuitem>
 
             </p:menuButton>
+            <p:spacer height="0" width="5"/>
+            <p:commandButton value="Export Proforma Invoice"  
+                             id="exportJobCostingButton2"
+                             disabled="#{jobFinanceManager.canExportJobCosting}"
+                             rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                             immediate="true"
+                             title="Export proforma invoice"                        
+                             ajax="false"
+                             onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
+
+                <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
+
+            </p:commandButton>
 
         </p:toolbarGroup>
 
