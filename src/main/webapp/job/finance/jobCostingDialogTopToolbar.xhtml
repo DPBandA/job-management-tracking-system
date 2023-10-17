@@ -84,7 +84,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="Export"  
                                  id="exportJobCostingButton1"
                                  disabled="#{jobFinanceManager.canExportJobCosting}"
-                                 rendered="#{!jobFinanceManager.currentJob.jobCostingAndPayment.estimate}"
+                                 rendered="#{jobManager.currentJob.type == 'Job'}"
                                  immediate="true"
                                  title="Export job costing"                        
                                  ajax="false"
@@ -93,11 +93,11 @@ Email: info@dpbennett.com.jm
                     <p:fileDownload value="#{jobFinanceManager.jobCostingFile}" />
 
                 </p:commandButton>
-                <p:spacer height="0" width="5"/>
+                
                 <p:commandButton value="Export"  
                                  id="exportJobCostingButton2"
                                  disabled="#{jobFinanceManager.canExportJobCosting}"
-                                 rendered="#{jobFinanceManager.currentJob.jobCostingAndPayment.estimate}"
+                                 rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
                                  immediate="true"
                                  title="Export proforma invoice"                        
                                  ajax="false"

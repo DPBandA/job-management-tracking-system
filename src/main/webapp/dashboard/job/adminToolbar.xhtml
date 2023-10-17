@@ -80,7 +80,7 @@ Email: info@dpbennett.com.jm
 
                 <p:submenu label="Compliance"                            
                            rendered="#{jobManager.user.hasModule('jobManager')}"
-                           icon="pi pi-wrench" >
+                           icon="pi pi-check-square" >
 
                     <p:menuitem
                         actionListener="#{complianceManager.createNewComplianceSurvey}"
@@ -247,6 +247,36 @@ Email: info@dpbennett.com.jm
                                 disabled="false" 
                                 actionListener="#{jobFinanceManager.openProformaInvoicesTab}"
                                 process="@this" />
+
+                </p:submenu>
+
+                <p:submenu label="Compliance"                            
+                           rendered="#{jobManager.user.hasModule('complianceManager')}"
+                           icon="pi pi-check-square" >
+
+                    <p:menuitem value="Surveys"
+                                actionListener="#{complianceManager.openSurveysBrowser}"   
+                                process="@this"/>                   
+                   
+                    <p:menuitem value="Standards" 
+                                actionListener="#{complianceManager.openStandardsBrowser}"
+                                process="@this"/>
+                   
+                    <p:menuitem value="Complaints"  
+                                actionListener="#{complianceManager.openComplaintsBrowser}"
+                                process="@this"/>
+                    
+                    <p:menuitem value="Market Products"  
+                                actionListener="#{complianceManager.openMarketProductBrowser}"
+                                process="@this"/>
+                    
+                    <p:menuitem value="Manufacturers"  
+                                actionListener="#{complianceManager.openManufacturerBrowser}"
+                                process="@this"/>
+                    
+                    <p:menuitem value="Factory Inspections"  
+                                actionListener="#{complianceManager.openFactoryInspectionBrowser}"
+                                process="@this"/>
 
                 </p:submenu>
 
