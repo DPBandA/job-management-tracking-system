@@ -44,7 +44,7 @@ Email: info@dpbennett.com.jm
         </ui:insert>
         <h:form id="factoryInspectionDialogForm">   
 
-            <p:growl id="factory_inspection_survey_growl" life="5000" showDetail="true"/>
+            <p:growl id="factory_inspection_survey_growl" life="5000" showDetail="false"/>
 
             <p:toolbar id="topToolbar" style="margin-bottom: 1px;">
                 <p:toolbarGroup align="left">
@@ -73,7 +73,7 @@ Email: info@dpbennett.com.jm
                 <p:tab title="General" >
                     <h:panelGrid id="generalPanelGrid" columns="2" cellspacing="3">
 
-                        <h:outputText value="Job number:" style="font-weight: bold" />     
+                        <h:outputText value="Job number" style="font-weight: bold" />     
                         <h:panelGroup>
                             <p:autoComplete value="#{complianceManager.currentFactoryInspection.jobNumber}" 
                                             id="jobNumber"
@@ -126,10 +126,8 @@ Email: info@dpbennett.com.jm
                             </p:menuButton>
                         </h:panelGroup>
 
-                        <h:outputText value="Business office: " style="font-weight: bold"/>       
+                        <h:outputText value="Business office" style="font-weight: bold"/>       
                         <p:autoComplete id="businessOffice"
-                                        size="35"
-                                        maxlength="40"
                                         dropdown="true" 
                                         readonly="false"
                                         var="businessOffice"
@@ -148,14 +146,12 @@ Email: info@dpbennett.com.jm
 
                         </p:autoComplete>
 
-                        <h:outputText value="Manufacturer:"  style="font-weight: bold" />
+                        <h:outputText value="Manufacturer"  style="font-weight: bold" />
                         <h:panelGroup>
                             <p:autoComplete id="manufacturer"      
                                             var="manufacturer"
                                             itemLabel="#{manufacturer.truncatedName}"
-                                            itemValue="#{manufacturer}"
-                                            size="35" 
-                                            maxlength="40"                             
+                                            itemValue="#{manufacturer}"           
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentFactoryInspection.manufacturer}"    
@@ -206,7 +202,7 @@ Email: info@dpbennett.com.jm
 
                         </h:panelGroup>
 
-                        <h:outputText value="Address:" style="font-weight: bold" />    
+                        <h:outputText value="Address" style="font-weight: bold" />    
                         <p:autoComplete id="address"
                                         value="#{complianceManager.currentFactoryInspection.address}"
                                         dropdown="true"
@@ -229,7 +225,7 @@ Email: info@dpbennett.com.jm
 
                         </p:autoComplete>
 
-                        <h:outputText value="Representative:" style="font-weight: bold" />  
+                        <h:outputText value="Representative" style="font-weight: bold" />  
                         <p:autoComplete id="representative"
                                         value="#{complianceManager.currentFactoryInspection.factoryRepresentative}"
                                         dropdown="true"
@@ -251,10 +247,9 @@ Email: info@dpbennett.com.jm
 
                         </p:autoComplete>   
 
-                        <h:outputText value="Inspector:" style="font-weight: bold" />       
+                        <h:outputText value="Inspector" style="font-weight: bold" />       
                         <p:autoComplete id="assignedInspector"
-                                        var="assignedInspector"                            
-                                        maxlength="40" 
+                                        var="assignedInspector"
                                         value="#{complianceManager.currentFactoryInspection.assignedInspector}"
                                         title="#{complianceManager.currentFactoryInspection.assignedInspector}"
                                         itemLabel="#{assignedInspector.name}"
@@ -272,7 +267,7 @@ Email: info@dpbennett.com.jm
                                     process="@this"/>
                         </p:autoComplete>  
 
-                        <h:outputText value="Date of inspection:" style="font-weight: bold" />
+                        <h:outputText value="Date of inspection" style="font-weight: bold" />
                         <p:calendar id="inspectionDate"
                                     readonlyInput="true"
                                     navigator="true" 
@@ -286,7 +281,7 @@ Email: info@dpbennett.com.jm
                                     listener="#{complianceManager.updateFactoryInspection}" />
                         </p:calendar>
 
-                        <h:outputText value="Start time:" />
+                        <h:outputText value="Start time" />
                         <p:calendar id="timeIn"
                                     pattern="hh:mm a" 
                                     timeOnly="true"
@@ -299,7 +294,7 @@ Email: info@dpbennett.com.jm
                                     listener="#{complianceManager.updateFactoryInspection}" />
                         </p:calendar>
 
-                        <h:outputText value="End time:" />
+                        <h:outputText value="End time" />
                         <p:calendar id="timeOut"
                                     pattern="hh:mm a" 
                                     timeOnly="true"
@@ -312,17 +307,16 @@ Email: info@dpbennett.com.jm
                                     listener="#{complianceManager.updateFactoryInspection}" />
                         </p:calendar>
 
-                        <h:outputText value="Comments:" />                        
+                        <h:outputText value="Comments" />                        
                         <p:inputTextarea
                             id="comments"
                             value="#{complianceManager.currentFactoryInspection.generalComments}"
                             rows="3"
                             counter="commentsCharsRemaining"
                             counterTemplate="{0} characters remaining."
-                            autoResize="false"
+                            autoResize="true"
                             maxlength="1000" 
-                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                            style="width: 500px;">
+                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
                             <p:ajax event="change"
                                     update=":factoryInspectionDialogForm:topToolbar"
@@ -341,7 +335,7 @@ Email: info@dpbennett.com.jm
                         <p:toolbar>
                             <p:toolbarGroup align="left">
                                 <h:panelGroup>                   
-                                    <h:outputLabel value="Find template: "
+                                    <h:outputLabel value="Find template"
                                                    title="Select an existing inspection template"/>      
 
                                     <p:autoComplete dropdown="false"
@@ -363,10 +357,9 @@ Email: info@dpbennett.com.jm
                                 <h:panelGroup>
                                     <h:outputLabel title="Enter a name to save the inspections as a template" 
                                                    for="templateName" 
-                                                   value="Template name: " />
+                                                   value="Template name" />
                                     <p:inputText id="templateName"
-                                                 value="#{complianceManager.currentFactoryInspection.name}"
-                                                 style="width: 150px;">
+                                                 value="#{complianceManager.currentFactoryInspection.name}" >
 
                                         <p:ajax event="change"
                                                 global="false"
@@ -399,6 +392,7 @@ Email: info@dpbennett.com.jm
                         <p:dataTable  var="factoryInspectionComponent"
                                       editable="true" 
                                       editMode="cell"
+                                      reflow="true"
                                       rowStyleClass="#{factoryInspectionComponent.isHeading ? 'header' : null}"
                                       value="#{complianceManager.currentFactoryInspection.allSortedFactoryInspectionComponents}">
 
@@ -409,7 +403,7 @@ Email: info@dpbennett.com.jm
                             <p:column headerText="Item" rendered="#{!factoryInspectionComponent.isHeading}">
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{factoryInspectionComponent.item}" /></f:facet>   
-                                    <f:facet name="input"><p:inputText value="#{factoryInspectionComponent.item}" style="width:96%"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{factoryInspectionComponent.item}" /></f:facet>
                                 </p:cellEditor>
                             </p:column>                            
                             <p:column rendered="#{factoryInspectionComponent.isHeading}">
@@ -426,8 +420,7 @@ Email: info@dpbennett.com.jm
                                         <p:inputTextarea  value="#{factoryInspectionComponent.name}"
                                                           rows="2"
                                                           maxlength="250"
-                                                          autoResize="false"
-                                                          style="width: 95%;" />
+                                                          autoResize="false" />
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -442,7 +435,7 @@ Email: info@dpbennett.com.jm
                                 <p:cellEditor>
                                     <f:facet name="output"><h:outputText value="#{factoryInspectionComponent.isSatisfactory}" /></f:facet>
                                     <f:facet name="input">
-                                        <p:selectOneMenu value="#{factoryInspectionComponent.isSatisfactory}" style="width:85%">
+                                        <p:selectOneMenu value="#{factoryInspectionComponent.isSatisfactory}" >
                                             <f:selectItem itemLabel="Yes" itemValue="Yes"/>
                                             <f:selectItem itemLabel="No" itemValue="No"/>
                                         </p:selectOneMenu>
@@ -463,8 +456,7 @@ Email: info@dpbennett.com.jm
                                         <p:inputTextarea  value="#{factoryInspectionComponent.comments}"
                                                           rows="2"
                                                           maxlength="250"
-                                                          autoResize="false"
-                                                          style="width: 95%;" />
+                                                          autoResize="false" />
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
@@ -475,7 +467,7 @@ Email: info@dpbennett.com.jm
                                 <h:outputText value=" " />                                
                             </p:column>
 
-                            <p:column style="width:32px" >
+                            <p:column>
                                 <p:menuButton id="toolsButton" 
                                               title="Edit or delete inspection component"
                                               icon="pi pi-pencil" >
@@ -558,7 +550,7 @@ Email: info@dpbennett.com.jm
                             </f:facet>
                             <h:outputText value="#{product.model}" />
                         </p:column>                        
-                        <p:column style="width:32px">
+                        <p:column>
                             <p:menuButton icon="pi pi-pencil" 
                                           title="Edit or delete product">
 
@@ -603,17 +595,16 @@ Email: info@dpbennett.com.jm
                 </p:tab>
                 <p:tab title="Status &amp; Tracking" >
                     <h:panelGrid columns="2" cellspacing="3">
-                        <h:outputLabel value="Work progress:" 
+                        <h:outputLabel value="Work progress" 
                                        style="font-weight: bold;"
                                        for="workProgress"/>
-                        <p:selectOneMenu id="workProgress"     
-                                         style="width: 200px;"
+                        <p:selectOneMenu id="workProgress"
                                          value="#{complianceManager.currentFactoryInspection.workProgress}">
 
                             <f:selectItems  value="#{systemManager.workProgressList}"
                                             var="progress"                            
-                                            itemValue="#{progress}"
-                                            itemLabel="#{progress}"/>
+                                            itemValue="#{progress.value}"
+                                            itemLabel="#{progress.label}"/>
 
                             <p:ajax listener="#{complianceManager.updateFactoryInspection}"
                                     global="false"

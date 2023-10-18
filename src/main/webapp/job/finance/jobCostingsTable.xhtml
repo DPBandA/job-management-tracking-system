@@ -47,8 +47,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
-        <p:column selectionMode="multiple" 
-                  style="width:20px;" />  
+        <p:column selectionMode="multiple" />  
 
         <p:column sortBy="#{job.jobNumber}">
             <f:facet name="header">
@@ -80,7 +79,6 @@ Email: info@dpbennett.com.jm
                                     id="account"
                                     var="account"                                
                                     scrollHeight="200" 
-                                    size="10"
                                     converter="accPacCustomerConverter"
                                     value="#{job.client.financialAccount}"  
                                     itemLabel="#{account.idCust} (#{account.customerName})"

@@ -57,10 +57,12 @@ Email: info@dpbennett.com.jm
                                          disabled="#{!jobFinanceManager.canApproveJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Approved" >
+                    
                     <p:ajax global="false"
                             listener="#{jobFinanceManager.approveJobCosting}"
                             update="@this,jobCosting_growl,jobCostingDialogForm,exportJobCostingButton1,exportJobCostingButton2"
                             process="@this"/>
+                    
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>
             <p:spacer width="10" rendered="#{jobManager.currentJob.type == 'Job'}" />

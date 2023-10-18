@@ -39,8 +39,6 @@ Email: info@dpbennett.com.jm
                             forceSelection="true"      
                             dropdown="true"
                             scrollHeight="200" 
-                            size="35"
-                            maxlength="40"
                             value="#{jobManager.currentJob.department}"
                             title="#{jobManager.currentJob.department}"
                             itemValue="#{department}"
@@ -63,9 +61,7 @@ Email: info@dpbennett.com.jm
                 <p:autoComplete id="pfClient"
                                 var="client"
                                 itemLabel="#{client.truncatedName}"
-                                itemValue="#{client}"
-                                size="35" 
-                                maxlength="40"                             
+                                itemValue="#{client}"                     
                                 dropdown="false"
                                 scrollHeight="200" 
                                 value="#{jobManager.currentJob.client}"   
@@ -122,7 +118,6 @@ Email: info@dpbennett.com.jm
                             value="#{jobManager.currentJob.billingAddress}"
                             dropdown="true"
                             forceSelection="true"
-                            size="35"
                             converter="clientAddressConverter" 
                             validator="addressValidator"
                             var="address"  
@@ -174,8 +169,7 @@ Email: info@dpbennett.com.jm
                 counterTemplate="{0} characters remaining."
                 autoResize="false"
                 maxlength="1000" 
-                styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                style="width: 500px;">
+                styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
                 <f:validator validatorId="requiredFieldValidator" />
 
@@ -238,7 +232,6 @@ Email: info@dpbennett.com.jm
                             forceSelection="true"      
                             dropdown="true"
                             scrollHeight="200" 
-                            maxlength="40"
                             value="#{jobFinanceManager.discount}"
                             title="#{jobFinanceManager.discount}"
                             styleClass="#{jobFinanceManager.canApplyDiscount eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
@@ -263,7 +256,6 @@ Email: info@dpbennett.com.jm
                             forceSelection="true"      
                             dropdown="true"
                             scrollHeight="200" 
-                            maxlength="40"
                             value="#{jobFinanceManager.tax}"
                             title="#{jobFinanceManager.tax}"
                             styleClass="right-inputfield"
@@ -307,8 +299,7 @@ Email: info@dpbennett.com.jm
                 counter="reasonForReimbursableCharsRemaining"
                 counterTemplate="{0} characters remaining."
                 autoResize="false"
-                maxlength="150" 
-                style="width: 500px;">
+                maxlength="150">
 
                 <p:ajax event="change"
                         update=""

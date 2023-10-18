@@ -66,8 +66,6 @@ Email: info@dpbennett.com.jm
                                     forceSelection="true"      
                                     dropdown="true"
                                     scrollHeight="200" 
-                                    size="35"
-                                    maxlength="40"
                                     value="#{jobManager.currentJob.department}"
                                     title="#{jobManager.currentJob.department}"
                                     itemValue="#{department}"
@@ -98,8 +96,7 @@ Email: info@dpbennett.com.jm
                         counterTemplate="{0} characters remaining."
                         autoResize="false"
                         maxlength="1000" 
-                        styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                        style="width: 500px;">
+                        styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}">
 
                         <f:validator validatorId="requiredFieldValidator" />
 

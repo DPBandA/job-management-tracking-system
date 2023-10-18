@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
     <h:panelGrid id="generalDetailsPanelGrid" columns="3" cellspacing="5" >
 
-        <p:outputLabel for="documentStandardActive" value="Active: " style="font-weight: bold;" />  
+        <p:outputLabel for="documentStandardActive" value="Active" style="font-weight: bold;" />  
         <h:panelGroup>
             <p:selectBooleanCheckbox style="vertical-align: middle"
                                      id="documentStandardActive"
@@ -42,7 +42,7 @@ Email: info@dpbennett.com.jm
         </h:panelGroup>
         <h:outputText value="" />
 
-        <h:outputText value="Code/Number:" style="font-weight: bold;" />       
+        <h:outputText value="Code/Number" style="font-weight: bold;" />       
         <p:inputText value="#{complianceManager.currentDocumentStandard.number}"                     
                      id="documentStandardNumber"
                      validator="documentStandardValidator">
@@ -56,9 +56,8 @@ Email: info@dpbennett.com.jm
         </p:inputText>     
         <h:outputText value="" />
 
-        <h:outputText value="Name:" style="font-weight: bold;" />       
+        <h:outputText value="Name" style="font-weight: bold;" />       
         <p:inputText value="#{complianceManager.currentDocumentStandard.name}"
-                     style="width: 500px;"
                      id="documentStandardName"
                      validator="documentStandardValidator">
 
@@ -71,7 +70,7 @@ Email: info@dpbennett.com.jm
         </p:inputText>     
         <h:outputText value="" />
 
-        <h:outputText value="Synopsis:" />                        
+        <h:outputText value="Synopsis" />                        
         <p:inputTextarea
             id="synopsis"
             value="#{complianceManager.currentDocumentStandard.synopsis}"
@@ -80,16 +79,15 @@ Email: info@dpbennett.com.jm
             counterTemplate="{0} characters remaining."
             autoResize="false"
             maxlength="1000" 
-            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-            style="width: 500px;">
+            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
             <p:ajax event="change"
                     listener="#{complianceManager.updateDocumentStandard}"
                     process="@this"/>
-            
+
         </p:inputTextarea> 
         <h:outputText value="" />
-        
+
         <h:outputText value="" />
         <h:outputText id="synopsisCharsRemaining" />
 

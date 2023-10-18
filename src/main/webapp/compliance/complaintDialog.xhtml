@@ -1,6 +1,6 @@
 <!--
 Standards Compliance (SC) 
-Copyright (C) 2020  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -42,7 +42,7 @@ Email: info@dpbennett.com.jm
         </ui:insert>
         <h:form id="complaintDialogForm">   
 
-            <p:growl id="complaint_growl" life="5000" showDetail="true"/>
+            <p:growl id="complaint_growl" life="5000" showDetail="false"/>
 
             <p:toolbar id="topToolbar" style="margin-bottom: 1px;">
                 <p:toolbarGroup align="left">
@@ -158,15 +158,13 @@ Email: info@dpbennett.com.jm
 
                         </p:autoComplete>
 
-                        <h:outputText value="Complainant:"
+                        <h:outputText value="Complainant"
                                       style="font-weight: bold" />
                         <h:panelGroup>
                             <p:autoComplete id="complainant"      
                                             var="complainant"
                                             itemLabel="#{complainant.truncatedName}"
-                                            itemValue="#{complainant}"
-                                            size="35" 
-                                            maxlength="40"                             
+                                            itemValue="#{complainant}"               
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentComplaint.complainant}"    
@@ -216,7 +214,7 @@ Email: info@dpbennett.com.jm
                             </p:menuButton>
                         </h:panelGroup> 
 
-                        <h:outputText value="Received by:" style="font-weight: bold" />       
+                        <h:outputText value="Received by" style="font-weight: bold" />       
                         <p:autoComplete id="receivedBy"
                                         var="receivedBy"                            
                                         maxlength="40" 
@@ -238,15 +236,13 @@ Email: info@dpbennett.com.jm
 
                         </p:autoComplete>  
 
-                        <h:outputText value="Received via:"
+                        <h:outputText value="Received via"
                                       style="font-weight: bold" />
                         <h:panelGroup>
                             <p:autoComplete id="receivedVia"      
                                             var="receivedVia"
                                             itemLabel="#{receivedVia.truncatedName}"
-                                            itemValue="#{receivedVia}"
-                                            size="35" 
-                                            maxlength="40"                             
+                                            itemValue="#{receivedVia}"             
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentComplaint.receivedVia}"    
@@ -296,7 +292,7 @@ Email: info@dpbennett.com.jm
                             </p:menuButton>                                
                         </h:panelGroup>
 
-                        <h:outputText value="Date received:" style="font-weight: bold" />
+                        <h:outputText value="Date received" style="font-weight: bold" />
                         <p:calendar id="dateReceived"
                                     readonlyInput="true"
                                     navigator="true" 
@@ -310,7 +306,7 @@ Email: info@dpbennett.com.jm
                                     listener="#{complianceManager.updateComplaint}" />
                         </p:calendar>
 
-                        <h:outputText value="Date of correspondence:" />
+                        <h:outputText value="Date of correspondence" />
                         <p:calendar id="dateOfCorrespondence"
                                     readonlyInput="true"
                                     navigator="true" 
@@ -324,7 +320,7 @@ Email: info@dpbennett.com.jm
                                     listener="#{complianceManager.updateComplaint}" />
                         </p:calendar>
 
-                        <h:outputText value="Complaint officer:"/>
+                        <h:outputText value="Complaint officer"/>
                         <p:inputText maxlength="250"
                                      value="#{complianceManager.currentComplaint.complaintOfficer}" >
 
@@ -334,7 +330,7 @@ Email: info@dpbennett.com.jm
 
                         </p:inputText>
 
-                        <h:outputText value="Nature of complaint:" />                        
+                        <h:outputText value="Nature of complaint" />                        
                         <p:inputTextarea
                             id="complaint"
                             value="#{complianceManager.currentComplaint.complaint}"
@@ -343,8 +339,7 @@ Email: info@dpbennett.com.jm
                             counterTemplate="{0} characters remaining."
                             autoResize="false"
                             maxlength="1000" 
-                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                            style="width: 500px;">
+                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
                             <p:ajax listener="#{complianceManager.updateComplaint}"
                                     update=":complaintDialogForm:topToolbar"
@@ -354,7 +349,7 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="&nbsp;&nbsp;" />
                         <h:outputText id="complaintCharsRemaining" /> 
 
-                        <h:outputText value="Comments:" />                        
+                        <h:outputText value="Comments" />                        
                         <p:inputTextarea
                             id="comments"
                             value="#{complianceManager.currentComplaint.comments}"
@@ -363,8 +358,7 @@ Email: info@dpbennett.com.jm
                             counterTemplate="{0} characters remaining."
                             autoResize="false"
                             maxlength="1000" 
-                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                            style="width: 500px;">
+                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
                             <p:ajax listener="#{complianceManager.updateComplaint}"
                                     update=":complaintDialogForm:topToolbar"
@@ -390,6 +384,7 @@ Email: info@dpbennett.com.jm
 
                     </p:commandButton>
                     <p:dataTable id="marketProductsTable"
+                                 reflow="true"
                                  var="productInspection"
                                  value="#{complianceManager.currentComplaint.productInspections}">                   
                         <p:column>
@@ -404,7 +399,7 @@ Email: info@dpbennett.com.jm
                             </f:facet>
                             <h:outputText value="#{productInspection.brand}"/>
                         </p:column>  
-                        <p:column style="width:32px">
+                        <p:column>
                             <p:menuButton icon="pi pi-pencil" 
                                           title="Edit or delete product" >  
 
@@ -453,24 +448,23 @@ Email: info@dpbennett.com.jm
                 <p:tab title="Status &amp; Tracking" >
                     <h:panelGrid id="statusAndTrackingPanelGrid" columns="2" cellspacing="3">
 
-                        <h:outputText value="Entered by: "/>
+                        <h:outputText value="Entered by"/>
                         <p:inputText readonly="true"
                                      maxlength="250"
                                      style="background-color: lightgrey"
                                      value="#{complianceManager.currentComplaint.enteredBy.firstName} #{complianceManager.currentComplaint.enteredBy.lastName}"
                                      title="#{complianceManager.currentComplaint.enteredBy.firstName} #{complianceManager.currentComplaint.enteredBy.lastName}"/>
 
-                        <h:outputLabel value="Work progress: " 
+                        <h:outputLabel value="Work progress" 
                                        style="font-weight: bold;"
                                        for="workProgress"/>
-                        <p:selectOneMenu id="workProgress"     
-                                         style="width: 200px;"
+                        <p:selectOneMenu id="workProgress" 
                                          value="#{complianceManager.currentComplaint.workProgress}">
 
                             <f:selectItems  value="#{systemManager.workProgressList}"
                                             var="progress"                            
-                                            itemValue="#{progress}"
-                                            itemLabel="#{progress}"/>
+                                            itemValue="#{progress.value}"
+                                            itemLabel="#{progress.label}"/>
 
                             <p:ajax listener="#{complianceManager.updateComplaint}"
                                     update=":complaintDialogForm:topToolbar"
@@ -479,7 +473,7 @@ Email: info@dpbennett.com.jm
 
                         </p:selectOneMenu>   
 
-                        <h:outputText value="Date resolved:" />
+                        <h:outputText value="Date resolved" />
                         <p:calendar id="dateResolved"
                                     readonlyInput="true"
                                     navigator="true" 
@@ -493,7 +487,7 @@ Email: info@dpbennett.com.jm
                                     listener="#{complianceManager.updateComplaint}" />
                         </p:calendar>
 
-                        <h:outputText value="Action taken:" />                        
+                        <h:outputText value="Action taken" />                        
                         <p:inputTextarea
                             id="actions"
                             value="#{complianceManager.currentComplaint.actions}"
@@ -502,8 +496,7 @@ Email: info@dpbennett.com.jm
                             counterTemplate="{0} characters remaining."
                             autoResize="false"
                             maxlength="1000" 
-                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                            style="width: 500px;">
+                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
                             <p:ajax listener="#{complianceManager.updateComplaint}"
                                     update=":complaintDialogForm:topToolbar"
@@ -513,7 +506,7 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="&nbsp;&nbsp;" />
                         <h:outputText id="actionTakenCharsRemaining" />
 
-                        <h:outputText value="Action results:" />                        
+                        <h:outputText value="Action results" />                        
                         <p:inputTextarea
                             id="actionsResults"
                             value="#{complianceManager.currentComplaint.actionsResults}"
@@ -522,8 +515,7 @@ Email: info@dpbennett.com.jm
                             counterTemplate="{0} characters remaining."
                             autoResize="false"
                             maxlength="1000" 
-                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                            style="width: 500px;">
+                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
                             <p:ajax listener="#{complianceManager.updateComplaint}"
                                     update=":complaintDialogForm:topToolbar"
@@ -533,7 +525,7 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="&nbsp;&nbsp;" />
                         <h:outputText id="actionsResultsCharsRemaining" />
 
-                        <h:outputText value="Referred to department(s):" />       
+                        <h:outputText value="Referred to department(s)" />       
                         <p:autoComplete id="referredToDepartment"
                                         var="referredToDepartment"   
                                         value="#{complianceManager.currentComplaint.referredToDepartment}"
@@ -558,7 +550,7 @@ Email: info@dpbennett.com.jm
 
                         </p:autoComplete>
 
-                        <h:outputText value="Referred to employee(s):" />       
+                        <h:outputText value="Referred to employee(s)" />       
                         <p:autoComplete id="referredTo"
                                         var="referredTo"   
                                         value="#{complianceManager.currentComplaint.referredTo}"

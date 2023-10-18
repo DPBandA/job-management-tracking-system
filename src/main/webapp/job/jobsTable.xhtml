@@ -85,8 +85,7 @@ Email: info@dpbennett.com.jm
 
         <p:column headerText="Submitted" 
                   id="dateSubmitted"
-                  sortBy="#{job.jobStatusAndTracking.dateSubmitted}"
-                  style="min-width: 100px">   
+                  sortBy="#{job.jobStatusAndTracking.dateSubmitted}">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
@@ -107,8 +106,7 @@ Email: info@dpbennett.com.jm
 
         <p:column headerText="EDOC" 
                   id="job_edoc" 
-                  sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}"
-                  style="min-width: 100px">   
+                  sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">

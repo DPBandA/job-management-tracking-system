@@ -40,7 +40,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="../common/commonDialogs.xhtml"/>
 
         <h:form id="productDialogForm">   
-            <p:growl id="product_inspection_growl" life="5000" showDetail="true"/>
+            <p:growl id="product_inspection_growl" life="5000" showDetail="false"/>
 
             <p:toolbar style="margin-bottom: 1px;">
                 <p:toolbarGroup align="left">
@@ -66,7 +66,7 @@ Email: info@dpbennett.com.jm
                     <p:tab title="Product detail">
                         <h:panelGrid columns="2" cellpadding="3" >
 
-                            <h:outputText value="Entry Document Number:" />
+                            <h:outputText value="Entry Document Number" />
                             <p:inputText value="#{complianceManager.currentProductInspection.entryDocumentNumber}"     
                                          id="entryDocumentNumber"                                            
                                          size="20" >
@@ -76,7 +76,7 @@ Email: info@dpbennett.com.jm
 
                             </p:inputText>
 
-                            <h:outputText value="Product name, brand, model:" 
+                            <h:outputText value="Product name, brand, model" 
                                           style="font-weight: bold;" /> 
                             <h:panelGroup>
                                 <p:autoComplete id="marketProduct"
@@ -90,7 +90,7 @@ Email: info@dpbennett.com.jm
                                                 forceSelection="true"
                                                 dropdown="true"
                                                 scrollHeight="200"     
-                                                completeMethod="#{humanResourceManager.completeActiveMarketProduct}" >
+                                                completeMethod="#{financeManager.completeActiveMarketProduct}" >
 
                                     <p:ajax event="itemSelect"    
                                             update=":productDialogForm"
@@ -130,7 +130,7 @@ Email: info@dpbennett.com.jm
                                 </p:menuButton>
                             </h:panelGroup>
 
-                            <h:outputText value="Product Category:" 
+                            <h:outputText value="Product Category" 
                                           style="font-weight: bold;" />
                             <h:panelGroup>
                                 <p:autoComplete id="productCategory"
@@ -184,14 +184,12 @@ Email: info@dpbennett.com.jm
                                 </p:menuButton>
                             </h:panelGroup>
 
-                            <h:outputText value="Manufacturer:" />
+                            <h:outputText value="Manufacturer" />
                             <h:panelGroup>
                                 <p:autoComplete id="manufacturer"      
                                                 var="manufacturer"
                                                 itemLabel="#{manufacturer.truncatedName}"
-                                                itemValue="#{manufacturer}"
-                                                size="35" 
-                                                maxlength="40"                             
+                                                itemValue="#{manufacturer}"                   
                                                 dropdown="false"
                                                 scrollHeight="200" 
                                                 value="#{complianceManager.currentProductInspection.manufacturer}"    
@@ -240,7 +238,7 @@ Email: info@dpbennett.com.jm
 
                             </h:panelGroup>
 
-                            <h:outputText value="Brand:" />
+                            <h:outputText value="Brand" />
                             <p:inputText value="#{complianceManager.currentProductInspection.brand}" 
                                          id="marketProductBrand" >
                                 <p:ajax global="false"
@@ -248,7 +246,7 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             </p:inputText>        
 
-                            <h:outputText value="Model:" />
+                            <h:outputText value="Model" />
                             <p:inputText value="#{complianceManager.currentProductInspection.model}" 
                                          id="marketProductModel">
                                 <p:ajax global="false"
@@ -256,14 +254,14 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             </p:inputText>    
 
-                            <h:outputText value="Serial No.:" />
+                            <h:outputText value="Serial No." />
                             <p:inputText value="#{complianceManager.currentProductInspection.serialNumber}" >
                                 <p:ajax global="false"
                                         listener="#{complianceManager.updateProductInspection}"
                                         process="@this"/>
                             </p:inputText> 
 
-                            <h:outputText value="Coil No.:" 
+                            <h:outputText value="Coil No." 
                                           rendered="#{complianceManager.renderCoilNumber}" /> 
                             <p:inputText value="#{complianceManager.currentProductInspection.coilNumber}" 
                                          rendered="#{complianceManager.renderCoilNumber}"
@@ -273,7 +271,7 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             </p:inputText>
 
-                            <h:outputText value="Heat No.:" 
+                            <h:outputText value="Heat No." 
                                           rendered="#{complianceManager.renderHeatNumber}" />
                             <p:inputText value="#{complianceManager.currentProductInspection.heatNumber}" 
                                          rendered="#{complianceManager.renderHeatNumber}"
@@ -283,14 +281,14 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             </p:inputText>
 
-                            <h:outputText value="Commodity Code:" />
+                            <h:outputText value="Commodity Code" />
                             <p:inputText value="#{complianceManager.currentProductInspection.tariffCode}" >
                                 <p:ajax  global="false"
                                          listener="#{complianceManager.updateProductInspection}"
                                          process="@this"/>
                             </p:inputText>  
 
-                            <h:outputText value="Shipping Container #(s):" />
+                            <h:outputText value="Shipping Container #(s)" />
                             <p:inputText value="#{complianceManager.currentProductInspection.containerNumber}"     
                                          id="productShippingContainerNumber"                                            
                                          size="35" >
@@ -298,7 +296,7 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             </p:inputText>    
 
-                            <h:outputText value="Product Group Package Type:" />
+                            <h:outputText value="Product Group Package Type" />
                             <p:inputText value="#{complianceManager.currentProductInspection.productGroupPackageType}"
                                          title="Enter the package group type. E.g. case, palette"
                                          placeholder="case, palette, etc." >
@@ -309,7 +307,7 @@ Email: info@dpbennett.com.jm
 
                             </p:inputText>     
 
-                            <h:outputText value=" Product Package Type:" />
+                            <h:outputText value=" Product Package Type" />
                             <p:inputText value="#{complianceManager.currentProductInspection.productPackageType}"
                                          placeholder="bottle, box, etc." >
                                 <p:ajax global="false"
@@ -317,7 +315,7 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             </p:inputText>
 
-                            <h:outputText value="No. of Products per Group Package:" />                       
+                            <h:outputText value="No. of Products per Group Package" />                       
                             <p:inputText  value="#{complianceManager.currentProductInspection.numProductsPerGroupPackage}"
                                           converterMessage="Please enter a valid quantity"
                                           styleClass="number-field" >
@@ -329,7 +327,7 @@ Email: info@dpbennett.com.jm
 
                             </p:inputText>  
 
-                            <h:outputText value="Product Quantity:"  style="font-weight: bold;" /> 
+                            <h:outputText value="Product Quantity"  style="font-weight: bold;" /> 
                             <p:inputText  value="#{complianceManager.currentProductInspection.quantity}" 
                                           converterMessage="Please enter a valid product quantity"
                                           styleClass="number-field"
@@ -342,7 +340,7 @@ Email: info@dpbennett.com.jm
 
                             </p:inputText>  
 
-                            <h:outputText value="Sample Quantity:"  style="font-weight: bold;" />                       
+                            <h:outputText value="Sample Quantity"  style="font-weight: bold;" />                       
                             <p:inputText  value="#{complianceManager.currentProductInspection.numProductsSampled}"
                                           converterMessage="Please enter a valid sample quantity"
                                           styleClass="number-field"
@@ -355,9 +353,9 @@ Email: info@dpbennett.com.jm
 
                             </p:inputText>  
 
-                            <h:outputText value="Sampled for:" />
+                            <h:outputText value="Sampled for" />
                             <h:panelGrid columns="2">
-                                <p:outputLabel value="Label Assessment:" 
+                                <p:outputLabel value="Label Assessment" 
                                                for="sampledForLabelAssessment"/>                                
                                 <p:selectBooleanCheckbox 
                                     id="sampledForLabelAssessment"
@@ -367,7 +365,7 @@ Email: info@dpbennett.com.jm
 
                                 </p:selectBooleanCheckbox>
 
-                                <p:outputLabel value="Testing:" 
+                                <p:outputLabel value="Testing" 
                                                for="sampledForTesting" />                            
                                 <p:selectBooleanCheckbox 
                                     id="sampledForTesting"
@@ -377,7 +375,7 @@ Email: info@dpbennett.com.jm
 
                                 </p:selectBooleanCheckbox>
 
-                                <p:outputLabel value="Investigation:" 
+                                <p:outputLabel value="Investigation" 
                                                for="sampledForInvestigation"/>
                                 <p:selectBooleanCheckbox 
                                     id="sampledForInvestigation"
@@ -392,7 +390,7 @@ Email: info@dpbennett.com.jm
 
                     <p:tab title="Checklist">
                         <h:panelGrid columns="3" cellpadding="5">
-                            <h:outputText value="Country of Origin:" />
+                            <h:outputText value="Country of Origin" />
                             <p:selectBooleanCheckbox value="#{complianceManager.currentProductInspection.hasCountryOfOrigin}">
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"/>
                             </p:selectBooleanCheckbox>
@@ -410,7 +408,7 @@ Email: info@dpbennett.com.jm
 
                             </p:autoComplete>
 
-                            <h:outputText value="Distributor:" />
+                            <h:outputText value="Distributor" />
                             <p:selectBooleanCheckbox value="#{complianceManager.currentProductInspection.hasBusinessSource}">
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"/>
                             </p:selectBooleanCheckbox>   
@@ -418,9 +416,7 @@ Email: info@dpbennett.com.jm
                                 <p:autoComplete id="distributor"      
                                                 var="distributor"
                                                 itemLabel="#{distributor.truncatedName}"
-                                                itemValue="#{distributor}"
-                                                size="35" 
-                                                maxlength="40"                             
+                                                itemValue="#{distributor}"                
                                                 dropdown="false"
                                                 scrollHeight="200" 
                                                 value="#{complianceManager.currentProductInspection.distributor}"    
@@ -466,23 +462,22 @@ Email: info@dpbennett.com.jm
                                 </p:menuButton>                                
                             </h:panelGroup> 
 
-                            <h:outputText value="Net Quantity Declaration in Metric:" />
+                            <h:outputText value="Net Quantity Declaration in Metric" />
                             <p:selectBooleanCheckbox value="#{complianceManager.currentProductInspection.hasQuantityDescription}">
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"/>
                             </p:selectBooleanCheckbox>
                             <p:inputText value="#{complianceManager.currentProductInspection.quantityDescription}"
-                                         style="font-weight: bold;width: 300px" >
+                                         style="font-weight: bold;" >
                                 <p:ajax global="false"
                                         listener="#{complianceManager.updateProductInspection}"
                                         process="@this"/>
                             </p:inputText>
 
-                            <h:outputText value="Ingredient Listing:" />
+                            <h:outputText value="Ingredient Listing" />
                             <p:selectBooleanCheckbox value="#{complianceManager.currentProductInspection.hasIngredients}">
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"/>
                             </p:selectBooleanCheckbox>
                             <p:inputText value="#{complianceManager.currentProductInspection.ingredients}"
-                                         style="width: 300px"                                        
                                          maxlength="1000">
 
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"
@@ -490,12 +485,11 @@ Email: info@dpbennett.com.jm
 
                             </p:inputText>
 
-                            <h:outputText value="Instructions:" />
+                            <h:outputText value="Instructions" />
                             <p:selectBooleanCheckbox value="#{complianceManager.currentProductInspection.hasInstructions}">
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"/>
                             </p:selectBooleanCheckbox>
                             <p:inputText value="#{complianceManager.currentProductInspection.instructions}"
-                                         style="width: 300px"
                                          maxlength="1000">
 
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"
@@ -503,7 +497,7 @@ Email: info@dpbennett.com.jm
 
                             </p:inputText>
 
-                            <h:outputText value="Pictorial Representation:" />
+                            <h:outputText value="Pictorial Representation" />
                             <p:selectBooleanCheckbox value="#{complianceManager.currentProductInspection.hasPictorialRepresentation}">
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"/>
                             </p:selectBooleanCheckbox>                            
@@ -511,7 +505,7 @@ Email: info@dpbennett.com.jm
                         </h:panelGrid>
 
                         <h:panelGrid columns="2" cellspacing="5">
-                            <h:outputText value="Batch code:" />
+                            <h:outputText value="Batch code" />
                             <p:inputText value="#{complianceManager.currentProductInspection.batchCode}"
                                          style="font-weight: bold;" >
 
@@ -521,7 +515,7 @@ Email: info@dpbennett.com.jm
 
                             </p:inputText>
 
-                            <h:outputText value="Date mark:" />
+                            <h:outputText value="Date mark" />
                             <p:inputText value="#{complianceManager.currentProductInspection.dateMark}"
                                          style="font-weight: bold;" >
 
@@ -531,7 +525,7 @@ Email: info@dpbennett.com.jm
 
                             </p:inputText>
 
-                            <h:outputText value="Precaution statement:"  />
+                            <h:outputText value="Precaution statement"  />
                             <p:inputTextarea
                                 id="precautionStatement"
                                 value="#{complianceManager.currentProductInspection.precautionStatement}"
@@ -540,8 +534,7 @@ Email: info@dpbennett.com.jm
                                 counterTemplate="{0} characters remaining."
                                 autoResize="false"
                                 maxlength="1000" 
-                                styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                                style="width: 500px;">
+                                styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}">
 
                                 <p:ajax event="change"
                                         listener="#{complianceManager.updateProductInspection}"
@@ -551,7 +544,7 @@ Email: info@dpbennett.com.jm
                             <h:outputText value="&nbsp;&nbsp;" />
                             <h:outputText id="precautionStatementCharsRemaining" /> 
 
-                            <h:outputText value="Status:" />
+                            <h:outputText value="Status" />
                             <p:selectOneMenu value="#{complianceManager.currentProductInspection.status}" >
                                 <p:ajax
                                     global="true"
@@ -560,7 +553,7 @@ Email: info@dpbennett.com.jm
                                 <f:selectItems value="#{complianceManager.productStatus}" />
                             </p:selectOneMenu>
 
-                            <h:outputText value="Enforcement action:" />
+                            <h:outputText value="Enforcement action" />
                             <p:selectOneMenu value="#{complianceManager.currentProductInspection.enforcementAction}" >
                                 <p:ajax
                                     global="true"
@@ -569,7 +562,7 @@ Email: info@dpbennett.com.jm
                                 <f:selectItems value="#{complianceManager.enforcementActions}" />
                             </p:selectOneMenu>
 
-                            <h:outputText value="Comment:" />   
+                            <h:outputText value="Comment" />   
                             <p:inputTextarea
                                 id="comments"
                                 value="#{complianceManager.currentProductInspection.comments}"
@@ -578,8 +571,7 @@ Email: info@dpbennett.com.jm
                                 counterTemplate="{0} characters remaining."
                                 autoResize="false"
                                 maxlength="1000" 
-                                styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                                style="width: 500px;">
+                                styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}">
 
                                 <p:ajax event="change"
                                         listener="#{complianceManager.updateProductInspection}"
@@ -594,13 +586,13 @@ Email: info@dpbennett.com.jm
                         <ui:remove>
                             <hr/>
                             <h:panelGrid columns="2">
-                                <h:outputText value="Product image:" />
+                                <h:outputText value="Product image" />
                                 <h:panelGroup>
                                     <h:panelGrid columns="2">
                                         <p:inputText value="#{complianceManager.currentProductInspection.imageURL}"
                                                      id="imageURL"
                                                      readonly="true"
-                                                     style="font-weight: bold;width: 300px" >
+                                                     style="font-weight: bold;" >
 
                                             <p:ajax global="false"
                                                     listener="#{complianceManager.updateProductInspection}"

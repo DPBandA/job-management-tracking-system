@@ -39,7 +39,6 @@ Email: info@dpbennett.com.jm
                                        for="serviceLocation"/>
                         <p:selectOneMenu id="serviceLocation"   
                                          disabled="#{jobManager.disableJobDialogField('serviceLocation')}"
-                                         style="width: 200px;"
                                          value="#{jobManager.currentJob.serviceLocation}">
 
                             <f:selectItems  value="#{systemManager.serviceLocationList}"
@@ -248,7 +247,7 @@ Email: info@dpbennett.com.jm
                     <h:panelGrid columns="2" cellspacing="10" style="margin-top: -10px;" >
                         <p:selectBooleanCheckbox id="additionalServiceOther" 
                                                  disabled="#{jobManager.disableJobDialogField('additionalService')}"
-                                                 itemLabel="Other: "
+                                                 itemLabel="Other"
                                                  value="#{jobContractManager.currentJob.serviceContract.additionalServiceOther}">
 
                             <p:ajax listener="#{jobContractManager.updateJob}"

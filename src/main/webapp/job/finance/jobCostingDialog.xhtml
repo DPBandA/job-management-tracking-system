@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="3">
                     <h:outputText value="Department" />
                     <p:spacer height="0" width="10"/>
-                    <h:outputText value="#{jobFinanceManager.currentJob.departmentAssignedToJob.name}" style="width: 60%" />
+                    <h:outputText value="#{jobFinanceManager.currentJob.departmentAssignedToJob.name}"/>
 
                     <h:outputText value="Job number" />
                     <p:spacer height="0" width="10"/>
@@ -130,8 +130,7 @@ Email: info@dpbennett.com.jm
                                      required="true"
                                      requiredMessage="Job Description Required"
                                      disabled="#{jobFinanceManager.disableJobCostingEdit}"
-                                     rows="2" 
-                                     style="width: 300px" >
+                                     rows="2" >
 
                         <p:ajax event="change"  
                                 global="false"
@@ -187,8 +186,7 @@ Email: info@dpbennett.com.jm
                             <p:spacer width="5"/>
                             <p:inputText id="jobCostingsTemplateName"
                                          value="#{jobFinanceManager.currentJob.jobCostingAndPayment.name}"
-                                         disabled="#{jobFinanceManager.disableJobCostingEdit}"
-                                         style="width: 150px;">
+                                         disabled="#{jobFinanceManager.disableJobCostingEdit}">
                                 <p:ajax event="change"
                                         global="false"
                                         listener="#{jobFinanceManager.updateJobCostingAndPayment}"
@@ -229,7 +227,6 @@ Email: info@dpbennett.com.jm
                                         forceSelection="true"      
                                         dropdown="true"
                                         scrollHeight="200" 
-                                        maxlength="40"
                                         value="#{jobFinanceManager.currentJob.jobCostingAndPayment.currency}"
                                         title="#{jobFinanceManager.currentJob.jobCostingAndPayment.currency}"
                                         itemValue="#{currency}"
@@ -303,7 +300,7 @@ Email: info@dpbennett.com.jm
                             <f:convertNumber />
                         </h:outputText>
                         <f:facet name="footer">
-                            <h:outputText value="Total ($):" 
+                            <h:outputText value="Total ($)" 
                                           styleClass="datatable-number-field" />
                         </f:facet>
                     </p:column>

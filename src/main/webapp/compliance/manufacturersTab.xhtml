@@ -42,7 +42,6 @@ Email: info@dpbennett.com.jm
             <p:spacer width="20" />
             <p:inputText id="manufacturerSearchText" 
                          placeholder="Enter search text"
-                         style="width:200px" 
                          value="#{humanResourceManager.manufacturerSearchText}" >
 
                 <p:ajax event="keyup"                            
@@ -55,7 +54,7 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right" >
-            <h:outputText value="Active manufacturers only: " />  
+            <h:outputText value="Active manufacturers only" />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
                                          id="activeManufacturersOnly"
@@ -79,6 +78,7 @@ Email: info@dpbennett.com.jm
                  editMode="cell"
                  paginator="true"                                 
                  rows="15"
+                 reflow="true"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{humanResourceManager.foundManufacturers}">                        
 
@@ -124,7 +124,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="#{manufacturer.isActive}" />
                 </f:facet>
                 <f:facet name="input">
-                    <p:selectOneMenu value="#{manufacturer.isActive}" style="width:90%">
+                    <p:selectOneMenu value="#{manufacturer.isActive}">
                         <f:selectItem itemLabel="Yes" itemValue="Yes"/>
                         <f:selectItem itemLabel="No" itemValue="No"/>
                     </p:selectOneMenu>
@@ -132,7 +132,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>         
         </p:column>
 
-        <p:column style="width:32px">
+        <p:column>
             <p:commandButton icon="pi pi-pencil"
                              actionListener="#{humanResourceManager.editSelectedManufacturer}"
                              process="@this"

@@ -96,8 +96,7 @@ Email: info@dpbennett.com.jm
                      maxlength="7"
                      converterMessage="Please enter a valid number of tests."
                      value="#{jobManager.currentJob.noOfTests}"  
-                     styleClass="number-field"
-                     style="width: 50px;" >    
+                     styleClass="number-field">    
 
             <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                     global="false"
@@ -114,8 +113,7 @@ Email: info@dpbennett.com.jm
                      maxlength="7"
                      converterMessage="Please enter a valid number of calibrations."
                      value="#{jobManager.currentJob.noOfCalibrations}"
-                     styleClass="number-field"
-                     style="width: 50px;" >
+                     styleClass="number-field" >
 
             <p:ajax listener="#{jobManager.updateTestsAndCalibration}"
                     global="false"
@@ -132,8 +130,7 @@ Email: info@dpbennett.com.jm
                      disabled="true"
                      maxlength="7"
                      value="#{jobManager.currentJob.noOfTestsOrCalibrations}"
-                     styleClass="number-field"
-                     style="width: 50px;" >
+                     styleClass="number-field">
 
             <p:ajax listener="#{jobManager.updateJob}"
                     update=":jobDialogForm:jobDetailToolbar1"
@@ -148,8 +145,7 @@ Email: info@dpbennett.com.jm
                      maxlength="7"
                      converterMessage="Please enter a valid number of inspections."
                      value="#{jobManager.currentJob.noOfInspections}"
-                     styleClass="number-field"
-                     style="width: 50px;" >
+                     styleClass="number-field" >
 
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
@@ -165,8 +161,7 @@ Email: info@dpbennett.com.jm
                      maxlength="7"
                      converterMessage="Please enter a valid number of trainings."
                      value="#{jobManager.currentJob.noOfTrainings}"
-                     styleClass="number-field"
-                     style="width: 50px;" >
+                     styleClass="number-field" >
 
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
@@ -182,8 +177,7 @@ Email: info@dpbennett.com.jm
                      maxlength="7"
                      converterMessage="Please enter a valid number of assessments."
                      value="#{jobManager.currentJob.noOfLabelAssessments}"
-                     styleClass="number-field"
-                     style="width: 50px;" >
+                     styleClass="number-field">
 
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
@@ -199,8 +193,7 @@ Email: info@dpbennett.com.jm
                      maxlength="7"
                      converterMessage="Please enter a valid number of certifications."
                      value="#{jobManager.currentJob.noOfCertifications}"
-                     styleClass="number-field"
-                     style="width: 50px;" >
+                     styleClass="number-field">
             
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
@@ -216,8 +209,7 @@ Email: info@dpbennett.com.jm
                      maxlength="7"
                      converterMessage="Please enter a valid number of consultations."
                      value="#{jobManager.currentJob.noOfConsultations}"
-                     styleClass="number-field"
-                     style="width: 50px;" >
+                     styleClass="number-field">
             
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
@@ -233,8 +225,7 @@ Email: info@dpbennett.com.jm
                      maxlength="7"
                      converterMessage="Please enter a valid number of other assessments."
                      value="#{jobManager.currentJob.noOfOtherAssessments}"
-                     styleClass="number-field"
-                     style="width: 50px;" >
+                     styleClass="number-field" >
             
             <p:ajax listener="#{jobManager.updateJob}"
                     global="false"
@@ -253,8 +244,7 @@ Email: info@dpbennett.com.jm
             rows="4"
             counter="commentCharsRemaining"
             counterTemplate="{0} characters remaining."
-            maxlength="1000"
-            style="width: 200%;" >
+            maxlength="1000">
             
             <p:ajax event="change"
                     global="false"                   

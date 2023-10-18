@@ -48,16 +48,16 @@ Email: info@dpbennett.com.jm
     </h:panelGrid>
     <p:panel id="creditStatusSummary" header="Summary">
         <h:panelGrid columns="2">            
-            <h:outputText value="ID:" style="font-weight: bold" />
+            <h:outputText value="ID" style="font-weight: bold" />
             <h:outputText value="#{jobFinanceManager.accPacCustomerID}" style="font-weight: bold" />
 
-            <h:outputText value="Name:" style="font-weight: bold" />
+            <h:outputText value="Name" style="font-weight: bold" />
             <h:outputText value="#{jobFinanceManager.accPacCustomerName}" style="font-weight: bold" />
 
-            <h:outputText value="Credit type:" style="font-weight: bold" />
+            <h:outputText value="Credit type" style="font-weight: bold" />
             <h:outputText value="#{jobFinanceManager.customerType}" style="font-weight: bold" />
 
-            <h:outputText value="Credit limit ($):" style="font-weight: bold" />
+            <h:outputText value="Credit limit ($)" style="font-weight: bold" />
             <h:outputText value="#{jobFinanceManager.accPacCustomer.creditLimit}" 
                           style="font-weight: bold" >
 
@@ -65,7 +65,7 @@ Email: info@dpbennett.com.jm
 
             </h:outputText>
 
-            <h:outputText value="Account status:" 
+            <h:outputText value="Account status" 
                           title="Account may be on hold if there are outstanding invoices that are #{jobFinanceManager.maxDaysPassInvoiceDate} or more days pass their due date."
                           rendered="#{jobFinanceManager.filteredDocumentAvailable}"
                           styleClass="#{jobFinanceManager.accountStatus}" />
@@ -74,24 +74,24 @@ Email: info@dpbennett.com.jm
                           rendered="#{jobFinanceManager.filteredDocumentAvailable}"
                           styleClass="#{jobFinanceManager.accountStatus}" />
 
-            <h:outputText value="Amount over #{jobFinanceManager.maxDaysPassInvoiceDate} days due:"
+            <h:outputText value="Amount over #{jobFinanceManager.maxDaysPassInvoiceDate} days due"
                           styleClass="#{jobFinanceManager.totalInvoicesAmountOverMaxInvDays gt 0 ? 'hold' : 'active'}" />
             <h:outputText value="#{jobFinanceManager.totalInvoicesAmountOverMaxInvDays}"
                           styleClass="#{jobFinanceManager.totalInvoicesAmountOverMaxInvDays gt 0 ? 'hold' : 'active'}">
                 <f:convertNumber type="currency"/>
             </h:outputText>
 
-            <h:outputText value="Amount outstanding:" styleClass="#{jobFinanceManager.totalInvoicesAmount gt 0 ? 'hold' : 'active'}" />
+            <h:outputText value="Amount outstanding" styleClass="#{jobFinanceManager.totalInvoicesAmount gt 0 ? 'hold' : 'active'}" />
             <h:outputText value="#{jobFinanceManager.totalInvoicesAmount}" styleClass="#{jobFinanceManager.totalInvoicesAmount gt 0 ? 'hold' : 'active'}" >
                 <f:convertNumber type="currency"/>
             </h:outputText>
 
             <ui:remove>
-                <h:outputText value="Credit limit:" style="font-weight: bold" />
+                <h:outputText value="Credit limit" style="font-weight: bold" />
                 <p:inputText value="#{jobFinanceManager.accPacCustomer.creditLimit}" readonly="true">
                     <f:convertNumber type="currency"/>
                 </p:inputText>
-                <h:outputText value="Credit limit exceeded by:" style="font-weight: bold" />
+                <h:outputText value="Credit limit exceeded by" style="font-weight: bold" />
                 <p:inputText value="#{jobFinanceManager.accPacCustomer.balanceDueCreditLimitDifference}" readonly="true">
                     <f:convertNumber type="currency"/>
                 </p:inputText>

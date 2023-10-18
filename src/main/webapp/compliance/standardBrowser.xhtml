@@ -43,7 +43,6 @@ Email: info@dpbennett.com.jm
             <p:spacer width="20" />
             <p:inputText id="standardSearchText" 
                          placeholder="Enter search text"
-                         style="width:200px" 
                          value="#{complianceManager.standardSearchText}" >
 
                 <p:ajax event="keyup"                            
@@ -56,7 +55,7 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right" >
-            <h:outputText value="Active standards only: " />  
+            <h:outputText value="Active standards only" />  
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
                                          id="isActiveDocumentStandardsOnly"
@@ -79,6 +78,7 @@ Email: info@dpbennett.com.jm
                  editMode="cell"
                  paginator="true"                                 
                  rows="15"
+                 reflow="true"
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{complianceManager.documentStandards}">                        
 
@@ -108,7 +108,7 @@ Email: info@dpbennett.com.jm
                     <h:outputText value="#{standard.isActive}" />
                 </f:facet>
                 <f:facet name="input">
-                    <p:selectOneMenu value="#{standard.isActive}" style="width:90%">
+                    <p:selectOneMenu value="#{standard.isActive}">
                         <f:selectItem itemLabel="Yes" itemValue="Yes"/>
                         <f:selectItem itemLabel="No" itemValue="No"/>
                     </p:selectOneMenu>
@@ -116,7 +116,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>         
         </p:column>
 
-        <p:column style="width:32px">
+        <p:column>
             <p:commandButton icon="pi pi-pencil"
                              actionListener="#{complianceManager.editCurrentDocumentStandard}"
                              process="@this"

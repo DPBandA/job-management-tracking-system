@@ -42,7 +42,7 @@ Email: info@dpbennett.com.jm
             </p:commandButton>
             <p:spacer width="20" />
             <p:inputText value="#{systemManager.systemOptionSearchText}"                                             
-                         style="width:300px" placeholder="Enter any part of setting description">
+                         placeholder="Enter search text">
 
                 <p:ajax event="keyup"
                         global="false"
@@ -77,7 +77,7 @@ Email: info@dpbennett.com.jm
                     <p:outputLabel value="#{systemOption.comments}" />
                 </f:facet>
                 <f:facet name="input">
-                    <p:inputText value="#{systemOption.comments}" style="width:96%"/>
+                    <p:inputText value="#{systemOption.comments}" />
                 </f:facet>
             </p:cellEditor>                                           
         </p:column>   
@@ -91,7 +91,7 @@ Email: info@dpbennett.com.jm
                     <p:outputLabel value="#{systemOption.name}" />
                 </f:facet>
                 <f:facet name="input">
-                    <p:inputText value="#{systemOption.name}" style="width:96%"/>
+                    <p:inputText value="#{systemOption.name}"/>
                 </f:facet>
             </p:cellEditor>                                         
         </p:column>   
@@ -105,7 +105,7 @@ Email: info@dpbennett.com.jm
                     <p:outputLabel value="#{systemOption.optionValueDisplay}" />
                 </f:facet>
                 <f:facet name="input">
-                    <p:inputText value="#{systemOption.optionValue}" style="width:96%"/>
+                    <p:inputText value="#{systemOption.optionValue}"/>
                 </f:facet>
             </p:cellEditor>                                         
         </p:column>  
