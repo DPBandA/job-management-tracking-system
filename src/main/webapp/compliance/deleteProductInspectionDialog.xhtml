@@ -1,6 +1,6 @@
 <!--
 Standards Compliance (SC) 
-Copyright (C) 2020  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -29,8 +29,10 @@ Email: info@dpbennett.com.jm
                          closable="false"
                          message="Are you sure you wish to delete this product?"
                          header="Delete Product?"
+                         responsive="true"
                          widgetVar="deleteProductDialog"
-                         width="400">
+                         width="auto">
+            
             <p:commandButton value="Yes"
                              actionListener="#{complianceManager.removeProductInspection}"
                              update=":ComplianceSurveyDialogForm:topToolbar,:ComplianceSurveyDialogForm:complianceSurveyTabView:marketProductsTable"
