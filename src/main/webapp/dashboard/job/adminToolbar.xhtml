@@ -79,7 +79,7 @@ Email: info@dpbennett.com.jm
                 </p:submenu>
 
                 <p:submenu label="Compliance"                            
-                           rendered="#{jobManager.user.hasModule('jobManager')}"
+                           rendered="#{jobManager.user.hasModule('complianceManager')}"
                            icon="pi pi-check-square" >
 
                     <p:menuitem
@@ -91,6 +91,7 @@ Email: info@dpbennett.com.jm
                         process="@this" >
 
                         <p:ajax event="dialogReturn" 
+                                listener="#{complianceManager.surveyDialogReturn}"
                                 update=":appForm:mainTabView,:appForm:growl3" />
 
                     </p:menuitem>
@@ -117,6 +118,7 @@ Email: info@dpbennett.com.jm
                         process="@this" >
 
                         <p:ajax event="dialogReturn" 
+                                listener="#{complianceManager.complaintDialogReturn}"
                                 update=":appForm:mainTabView,:appForm:growl3" />
 
                     </p:menuitem>
