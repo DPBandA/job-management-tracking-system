@@ -1,6 +1,6 @@
 <!--
 Standards Compliance (SC) 
-Copyright (C) 2020  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -55,7 +55,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer height="0" width="4"/>
                     <p:commandButton value="Close"  
-                                     actionListener="#{complianceManager.closeFactoryInspectionDialog}"
+                                     actionListener="#{complianceManager.closeDialog}"
                                      icon="pi pi-times"
                                      process="@this"/>
 
@@ -623,7 +623,7 @@ Email: info@dpbennett.com.jm
                                      process="@form"/>
                     <p:spacer height="0" width="4"/>
                     <p:commandButton value="Close" 
-                                     actionListener="#{complianceManager.closeFactoryInspectionDialog}"
+                                     actionListener="#{complianceManager.closeDialog}"
                                      icon="pi pi-times"
                                      process="@this"/>
                 </p:toolbarGroup>
