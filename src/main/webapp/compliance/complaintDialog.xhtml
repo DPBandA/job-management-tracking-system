@@ -83,12 +83,17 @@ Email: info@dpbennett.com.jm
 
                         </p:selectBooleanCheckbox>
 
-                        <h:outputText value="Job number" style="font-weight: bold" />                   
+                        <p:outputLabel value="Job number" 
+                                       for="jobNumber"
+                                       style="font-weight: bold" />                   
                         <h:panelGroup>
                             <p:autoComplete value="#{complianceManager.currentComplaint.jobNumber}" 
                                             id="jobNumber"
-                                            maxResults="12"
+                                            maxResults="20"
+                                            scrollHeight="200"
                                             forceSelection="false"
+                                            required="true"
+                                            requiredMessage="Job Number Required"
                                             validator="requiredFieldValidator"
                                             completeMethod="#{complianceManager.completeJobNumber}">
 
