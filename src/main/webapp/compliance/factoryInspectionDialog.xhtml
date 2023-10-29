@@ -106,12 +106,13 @@ Email: info@dpbennett.com.jm
                                             icon="pi pi-pencil" 
                                             disabled="${!complianceManager.currentFactoryInspection.isJobNumberValid}"                                  
                                             actionListener="#{complianceManager.editJob('FactoryInspection')}"  
-                                            process="@this,jobNumber"                             
+                                            process="@this,jobNumber"    
+                                            update=":factoryInspectionDialogForm:factory_inspection_survey_growl"
                                             title="View or edit this job's detail">  
 
                                     <p:ajax event="dialogReturn" 
                                             listener="#{complianceManager.jobDialogReturn('FactoryInspection')}"
-                                            update="jobNumber,jobActionsMenu,:factoryInspectionDialogForm:topToolbar" />
+                                            update=":factoryInspectionDialogForm:factory_inspection_survey_growl,jobNumber,jobActionsMenu,:factoryInspectionDialogForm:topToolbar" />
 
                                 </p:menuitem>
 
@@ -125,7 +126,7 @@ Email: info@dpbennett.com.jm
 
                                     <p:ajax event="dialogReturn" 
                                             listener="#{complianceManager.jobDialogReturn('FactoryInspection')}"
-                                            update="jobNumber,jobActionsMenu,:factoryInspectionDialogForm:topToolbar" />
+                                            update=":factoryInspectionDialogForm:factory_inspection_survey_growl,jobNumber,jobActionsMenu,:factoryInspectionDialogForm:topToolbar" />
 
                                 </p:menuitem>
                             </p:menuButton>

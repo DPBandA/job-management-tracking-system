@@ -167,6 +167,7 @@ Email: info@dpbennett.com.jm
                                             icon="pi pi-pencil" 
                                             disabled="${!complianceManager.currentComplianceSurvey.isJobNumberValid}"                              
                                             actionListener="#{complianceManager.editJob('Survey')}"  
+                                            update=":ComplianceSurveyDialogForm:compliance_survey_growl"
                                             process="@this,jobNumber"                             
                                             title="View or edit this job's detail">  
 
@@ -186,7 +187,7 @@ Email: info@dpbennett.com.jm
 
                                     <p:ajax event="dialogReturn" 
                                             listener="#{complianceManager.jobDialogReturn('Survey')}"
-                                            update="jobNumber,jobActionsMenu,:ComplianceSurveyDialogForm:topToolbar" />
+                                            update=":ComplianceSurveyDialogForm:compliance_survey_growl,jobNumber,jobActionsMenu,:ComplianceSurveyDialogForm:topToolbar" />
 
                                 </p:menuitem>
                             </p:menuButton>
