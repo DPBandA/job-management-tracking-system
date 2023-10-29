@@ -166,13 +166,13 @@ Email: info@dpbennett.com.jm
                                             id="editSurveyJob"
                                             icon="pi pi-pencil" 
                                             disabled="${!complianceManager.currentComplianceSurvey.isJobNumberValid}"                              
-                                            actionListener="#{complianceManager.editJob}"  
+                                            actionListener="#{complianceManager.editJob('Survey')}"  
                                             process="@this,jobNumber"                             
                                             title="View or edit this job's detail">  
 
                                     <p:ajax event="dialogReturn" 
-                                            listener="#{complianceManager.surveyJobDialogReturn}"
-                                            update="jobNumber,jobActionsMenu,:ComplianceSurveyDialogForm:topToolbar" />
+                                            listener="#{complianceManager.jobDialogReturn('Survey')}"
+                                            update=":ComplianceSurveyDialogForm:compliance_survey_growl,jobNumber,jobActionsMenu,:ComplianceSurveyDialogForm:topToolbar" />
 
                                 </p:menuitem>
 
@@ -185,7 +185,7 @@ Email: info@dpbennett.com.jm
                                     title="Add a new job">
 
                                     <p:ajax event="dialogReturn" 
-                                            listener="#{complianceManager.surveyJobDialogReturn}"
+                                            listener="#{complianceManager.jobDialogReturn('Survey')}"
                                             update="jobNumber,jobActionsMenu,:ComplianceSurveyDialogForm:topToolbar" />
 
                                 </p:menuitem>

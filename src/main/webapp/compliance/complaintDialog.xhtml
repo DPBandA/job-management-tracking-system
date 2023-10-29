@@ -115,13 +115,13 @@ Email: info@dpbennett.com.jm
                                             id="editComplaintJob"
                                             icon="pi pi-pencil" 
                                             disabled="${!complianceManager.currentComplaint.isJobNumberValid}"
-                                            actionListener="#{complianceManager.editJob}"  
-                                            process="@this,jobNumber"                             
+                                            actionListener="#{complianceManager.editJob('Complaint')}"  
+                                            process="@this,jobNumber"  
                                             title="View or edit this job's detail">  
 
                                     <p:ajax event="dialogReturn" 
-                                            listener="#{complianceManager.complaintJobDialogReturn}"
-                                            update="jobNumber,jobActionsMenu,:complaintDialogForm:topToolbar" />
+                                            listener="#{complianceManager.jobDialogReturn('Complaint')}"
+                                            update=":complaintDialogForm:complaint_growl,jobNumber,jobActionsMenu,:complaintDialogForm:topToolbar" />
 
                                 </p:menuitem>
 
@@ -134,7 +134,7 @@ Email: info@dpbennett.com.jm
                                     title="Add a new job">
 
                                     <p:ajax event="dialogReturn" 
-                                            listener="#{complianceManager.complaintJobDialogReturn}"
+                                            listener="#{complianceManager.jobDialogReturn('Complaint')}"
                                             update="jobNumber,jobActionsMenu,:complaintDialogForm:topToolbar" />
 
                                 </p:menuitem>
