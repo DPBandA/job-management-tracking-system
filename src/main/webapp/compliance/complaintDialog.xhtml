@@ -68,7 +68,7 @@ Email: info@dpbennett.com.jm
                 <p:tab title="General" >
                     <h:panelGrid id="generalPanelGrid" columns="2" cellspacing="3">
 
-                        <p:outputLabel for="internal" value="Internal"
+                        <p:outputLabel for="internal" value="Internal *"
                                        style="font-weight: bold;" />               
                         <p:selectBooleanCheckbox id="internal"
                                                  style="vertical-align: middle"
@@ -455,11 +455,10 @@ Email: info@dpbennett.com.jm
                 </p:tab>   
 
                 <p:tab title="Status &amp; Tracking" >
-                    <h:panelGrid id="statusAndTrackingPanelGrid" columns="2" cellspacing="3">
+                    <h:panelGrid id="statusAndTrackingPanelGrid" columns="2" cellspacing="5">
 
                         <h:outputText value="Entered by"/>
                         <p:inputText readonly="true"
-                                     maxlength="250"
                                      style="background-color: lightgrey"
                                      value="#{complianceManager.currentComplaint.enteredBy.firstName} #{complianceManager.currentComplaint.enteredBy.lastName}"
                                      title="#{complianceManager.currentComplaint.enteredBy.firstName} #{complianceManager.currentComplaint.enteredBy.lastName}"/>

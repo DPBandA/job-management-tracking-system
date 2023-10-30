@@ -60,9 +60,9 @@ Email: info@dpbennett.com.jm
                     <p:ajax event="tabChange" />
 
                     <p:tab title="Product detail">
-                        <h:panelGrid columns="2" cellpadding="3" >
+                        <h:panelGrid columns="2" cellpadding="5" >
 
-                            <h:outputText value="Product name, brand, model" 
+                            <h:outputText value="Product name *" 
                                           style="font-weight: bold;" />
                             <h:panelGroup>
                                 <p:autoComplete id="marketProduct"
@@ -71,7 +71,9 @@ Email: info@dpbennett.com.jm
                                                 title="#{complianceManager.currentProductInspection.marketProduct}"
                                                 itemLabel="#{marketProduct.name}"
                                                 itemValue="#{marketProduct}"
-                                                converter="activeMarketProductConverter"                                            
+                                                converter="activeMarketProductConverter"  
+                                                required="true"
+                                                requiredMessage="Product Name Required"
                                                 validator="businessEntityValidator"
                                                 forceSelection="true"
                                                 dropdown="true"
@@ -118,7 +120,7 @@ Email: info@dpbennett.com.jm
                                 </p:menuButton>
                             </h:panelGroup>
 
-                            <h:outputText value="Product Category" 
+                            <h:outputText value="Product category *" 
                                           style="font-weight: bold;" />
                             <h:panelGroup>
                                 <p:autoComplete id="productCategory"
@@ -127,6 +129,8 @@ Email: info@dpbennett.com.jm
                                                 itemLabel="#{category.name}"
                                                 itemValue="#{category}"
                                                 converter="activeCategoryConverter"
+                                                 required="true"
+                                                requiredMessage="Product Category Required"
                                                 validator="businessEntityValidator"
                                                 forceSelection="true"
                                                 dropdown="true"
@@ -278,7 +282,6 @@ Email: info@dpbennett.com.jm
 
                             <p:autoComplete value="#{complianceManager.currentProductInspection.countryOfOrigin}" 
                                             forceSelection="true"  
-                                            maxlength="40"
                                             dropdown="true"
                                             scrollHeight="200" 
                                             completeMethod="#{systemManager.completeCountry}" >       
@@ -383,16 +386,14 @@ Email: info@dpbennett.com.jm
 
                         <h:panelGrid columns="2" cellspacing="5">
                             <h:outputText value="Batch code" />
-                            <p:inputText value="#{complianceManager.currentProductInspection.batchCode}"
-                                         style="font-weight: bold;" >
+                            <p:inputText value="#{complianceManager.currentProductInspection.batchCode}" >
                                 <p:ajax global="false"
                                         listener="#{complianceManager.updateProductInspection}"
                                         process="@this"/>
                             </p:inputText>
 
                             <h:outputText value="Date mark" />
-                            <p:inputText value="#{complianceManager.currentProductInspection.dateMark}"
-                                         style="font-weight: bold;" >
+                            <p:inputText value="#{complianceManager.currentProductInspection.dateMark}" >
                                 <p:ajax global="false"
                                         listener="#{complianceManager.updateProductInspection}"
                                         process="@this"/>
@@ -407,6 +408,7 @@ Email: info@dpbennett.com.jm
                                 counterTemplate="{0} characters remaining."
                                 autoResize="false"
                                 maxlength="1000" 
+                                style="width: 125%;"
                                 styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"
@@ -443,6 +445,7 @@ Email: info@dpbennett.com.jm
                                 counterTemplate="{0} characters remaining."
                                 autoResize="false"
                                 maxlength="1000" 
+                                style="width: 125%;"
                                 styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"
