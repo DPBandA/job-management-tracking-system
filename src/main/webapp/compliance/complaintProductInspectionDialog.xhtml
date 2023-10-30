@@ -96,7 +96,8 @@ Email: info@dpbennett.com.jm
                                                 process="@this"                             
                                                 title="View or edit this product's detail">  
 
-                                        <p:ajax event="dialogReturn"                                                 
+                                        <p:ajax event="dialogReturn"     
+                                                listener="#{complianceManager.marketProductDialogReturn}"
                                                 update="marketProduct,complaintMarketProductMenuButton" />
 
                                     </p:menuitem>
