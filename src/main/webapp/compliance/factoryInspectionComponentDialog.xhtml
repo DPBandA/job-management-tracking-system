@@ -1,6 +1,6 @@
 <!--
 Standards Compliance (SC) 
-Copyright (C) 2020  D P Bennett & Associates Limited
+Copyright (C) 2023  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -24,12 +24,13 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:form id="factoryInspectionComponentDialogForm">
-        <p:dialog width="450"
-                  height="auto"
+        <p:dialog width="375"
                   draggable="true"
+                  responsive="true"
                   modal="true"
                   widgetVar="factoryInspectionComponentDialog"
                   header="Factory Inspection Component" >   
+            
             <p:toolbar style="margin-bottom: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
@@ -45,7 +46,8 @@ Email: info@dpbennett.com.jm
                                      oncomplete="PF('factoryInspectionComponentDialog').hide();"
                                      icon="pi pi-times"/>
                 </p:toolbarGroup>
-            </p:toolbar>            
+            </p:toolbar>  
+            
             <p:panel>
                 <h:panelGrid id="factoryInspectionPanelGrid" columns="2">
                     <p:outputLabel value="Heading" for="heading" />               

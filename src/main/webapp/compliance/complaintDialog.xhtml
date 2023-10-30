@@ -463,7 +463,7 @@ Email: info@dpbennett.com.jm
                                      value="#{complianceManager.currentComplaint.enteredBy.firstName} #{complianceManager.currentComplaint.enteredBy.lastName}"
                                      title="#{complianceManager.currentComplaint.enteredBy.firstName} #{complianceManager.currentComplaint.enteredBy.lastName}"/>
 
-                        <h:outputLabel value="Work progress" 
+                        <h:outputLabel value="Work progress *" 
                                        style="font-weight: bold;"
                                        for="workProgress"/>
                         <p:selectOneMenu id="workProgress" 
@@ -503,7 +503,7 @@ Email: info@dpbennett.com.jm
                             counter="actionTakenCharsRemaining"
                             counterTemplate="{0} characters remaining."
                             autoResize="false"
-                            maxlength="1000" 
+                            maxlength="1000"
                             styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
 
                             <p:ajax listener="#{complianceManager.updateComplaint}"
