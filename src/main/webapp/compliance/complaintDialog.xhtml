@@ -57,7 +57,11 @@ Email: info@dpbennett.com.jm
                     <p:spacer width="10" />
 
                     <h:outputText value="#{complianceManager.currentComplaint.editStatus}" />
-                </p:toolbarGroup>                
+                </p:toolbarGroup>   
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
             </p:toolbar>
             <p:tabView id="complaintTabView" 
                        widgetVar="complaintTabViewVar"                        
@@ -600,6 +604,10 @@ Email: info@dpbennett.com.jm
                                      update="complaint_growl,complaintDialogForm" 
                                      icon="pi pi-times"
                                      process="@this"/>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
                 </p:toolbarGroup>
             </p:toolbar>
 

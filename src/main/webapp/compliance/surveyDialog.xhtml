@@ -707,7 +707,7 @@ Email: info@dpbennett.com.jm
 
                     <h:panelGrid id="entryDocumentInspectionPanelGrid" columns="2" cellspacing="3"> 
 
-                        <p:outputLabel value="Entry no." />
+                        <p:outputLabel value="Entry #" />
                         <p:inputText value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.entryDocumentNumber}" 
                                      id="entryDocumentNumber">
 
@@ -720,7 +720,7 @@ Email: info@dpbennett.com.jm
                         </p:inputText>
 
                         <ui:remove>
-                            <p:outputLabel value="Internal no." />
+                            <p:outputLabel value="Internal #" />
                             <p:inputText value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.internalNumber}" 
                                          id="internalNumber">
                                 <p:ajax
@@ -748,7 +748,7 @@ Email: info@dpbennett.com.jm
 
                         </p:calendar>   
 
-                        <p:outputLabel value="Invoice no." />
+                        <p:outputLabel value="Invoice #" />
                         <h:panelGroup>
                             <p:inputText value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.invoiceNumber}" 
                                          id="invoiceNumber" >
@@ -779,7 +779,7 @@ Email: info@dpbennett.com.jm
 
                         </p:calendar>     
 
-                        <p:outputLabel value="Container no.(s)" />
+                        <p:outputLabel value="Container #(s)" />
                         <p:inputText id="containerNumbers"
                                      value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.containerNumbers}" >
 

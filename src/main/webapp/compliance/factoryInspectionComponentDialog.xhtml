@@ -30,13 +30,12 @@ Email: info@dpbennett.com.jm
                   modal="true"
                   widgetVar="factoryInspectionComponentDialog"
                   header="Factory Inspection Component" >   
-            
+
             <p:toolbar style="margin-bottom: 1px;">
                 <p:toolbarGroup>
                     <p:commandButton value="Ok"
                                      actionListener="#{complianceManager.okFactoryInspectionComponent}"
                                      update=":factoryInspectionDialogForm:topToolbar,:factoryInspectionDialogForm:factory_inspection_survey_growl,:factoryInspectionDialogForm:factoryInspectionTabView:inspectionComponentsPanel"
-                                     oncomplete="PF('factoryInspectionComponentDialog').hide();"
                                      icon="pi pi-check"
                                      process="@form"/>
                     <p:spacer width="5" />
@@ -46,11 +45,17 @@ Email: info@dpbennett.com.jm
                                      oncomplete="PF('factoryInspectionComponentDialog').hide();"
                                      icon="pi pi-times"/>
                 </p:toolbarGroup>
+                
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
             </p:toolbar>  
-            
+
             <p:panel>
                 <h:panelGrid id="factoryInspectionPanelGrid" columns="2">
-                    <p:outputLabel value="Heading" for="heading" />               
+                    <p:outputLabel value="Heading *" 
+                                   style="font-weight: bold;"
+                                   for="heading" />               
                     <p:selectBooleanCheckbox id="heading"
                                              value="#{complianceManager.currentFactoryInspectionComponent.isHeading}" >
 
@@ -59,9 +64,11 @@ Email: info@dpbennett.com.jm
                                 process="@this"/>
 
                     </p:selectBooleanCheckbox>
-                    
-                    <h:outputText value="Item No."/>
+
+                    <h:outputText value="Item # *" style="font-weight: bold;" />
                     <p:inputText maxlength="250"
+                                 required="true"
+                                 requiredMessage="Item # Required"
                                  value="#{complianceManager.currentFactoryInspectionComponent.item}" >
 
                         <p:ajax event="change"
@@ -109,7 +116,7 @@ Email: info@dpbennett.com.jm
                             <h:outputText id="charsRemaining" />
                         </h:panelGrid>
                     </h:panelGroup>
-                    
+
                 </h:panelGrid>
             </p:panel>            
             <p:toolbar style="margin-top: 1px;">
@@ -117,7 +124,6 @@ Email: info@dpbennett.com.jm
                     <p:commandButton value="Ok"
                                      actionListener="#{complianceManager.okFactoryInspectionComponent}"
                                      update=":factoryInspectionDialogForm:topToolbar,:factoryInspectionDialogForm:factory_inspection_survey_growl,:factoryInspectionDialogForm:factoryInspectionTabView:inspectionComponentsPanel"
-                                     oncomplete="PF('factoryInspectionComponentDialog').hide();"
                                      icon="pi pi-check"
                                      process="@form"/>
                     <p:spacer width="5" />
@@ -126,6 +132,10 @@ Email: info@dpbennett.com.jm
                                      actionListener="#{complianceManager.cancelFactoryInspectionComponentEdit}"
                                      oncomplete="PF('factoryInspectionComponentDialog').hide();"
                                      icon="pi pi-times"/>
+                </p:toolbarGroup>
+                
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
                 </p:toolbarGroup>
             </p:toolbar> 
             <p/>

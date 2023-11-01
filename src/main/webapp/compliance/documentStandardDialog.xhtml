@@ -31,9 +31,9 @@ Email: info@dpbennett.com.jm
         <link rel="stylesheet" type="text/css" href="../css/main.css" />
     </h:head>
     <h:body>  
-        
+
         <ui:include src="../common/commonDialogs.xhtml"/>  
-        
+
         <h:form id="documentStandardForm" >
             <p:growl id="document_standard_growl" life="5000" showDetail="false"/>
 
@@ -49,8 +49,12 @@ Email: info@dpbennett.com.jm
                                      actionListener="#{complianceManager.cancelDocumentStandardEdit}"
                                      icon="pi pi-times" />
                 </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
             </p:toolbar>
-            
+
             <p:tabView id="documentStandardFormTabView"
                        dynamic="true"
                        style="margin-top: 1px;margin-bottom: 1px;"
@@ -58,7 +62,7 @@ Email: info@dpbennett.com.jm
                 <p:tab id="documentStandardDetailsTab" title="General">
                     <ui:include src="documentStandardDetailsTab.xhtml"/>
                 </p:tab>
-                
+
             </p:tabView>
             <p:toolbar>
                 <p:toolbarGroup>
@@ -71,6 +75,10 @@ Email: info@dpbennett.com.jm
                                      immediate="true" 
                                      actionListener="#{complianceManager.cancelDocumentStandardEdit}"
                                      icon="pi pi-times" />
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
                 </p:toolbarGroup>
             </p:toolbar>
         </h:form>     

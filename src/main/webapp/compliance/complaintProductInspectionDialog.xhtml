@@ -243,14 +243,14 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             </p:inputText>    
 
-                            <h:outputText value="Serial No." />
+                            <h:outputText value="Serial #" />
                             <p:inputText value="#{complianceManager.currentProductInspection.serialNumber}" >
                                 <p:ajax global="false"
                                         listener="#{complianceManager.updateProductInspection}"
                                         process="@this"/>
                             </p:inputText>   
 
-                            <h:outputText value="Coil No." 
+                            <h:outputText value="Coil #" 
                                           rendered="#{complianceManager.renderCoilNumber}" /> 
                             <p:inputText value="#{complianceManager.currentProductInspection.coilNumber}" 
                                          rendered="#{complianceManager.renderCoilNumber}"
@@ -260,7 +260,7 @@ Email: info@dpbennett.com.jm
                                         process="@this"/>
                             </p:inputText>
 
-                            <h:outputText value="Heat No." 
+                            <h:outputText value="Heat #" 
                                           rendered="#{complianceManager.renderHeatNumber}" />
                             <p:inputText value="#{complianceManager.currentProductInspection.heatNumber}" 
                                          rendered="#{complianceManager.renderHeatNumber}"

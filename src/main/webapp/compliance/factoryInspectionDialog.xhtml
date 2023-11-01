@@ -59,6 +59,10 @@ Email: info@dpbennett.com.jm
 
                     <h:outputText value="#{complianceManager.currentFactoryInspection.editStatus}" />
                 </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
+                </p:toolbarGroup>
             </p:toolbar>
             <p:tabView id="factoryInspectionTabView" 
                        widgetVar="factoryInspectionTabVar"                        
@@ -346,13 +350,13 @@ Email: info@dpbennett.com.jm
 
                 <p:tab title="Inspection">
                     <p:panel id="inspectionComponentsPanel" header="Checklist" >
-                        <p:toolbar>
+                        <p:toolbar rendered="false">
                             <p:toolbarGroup align="left">
                                 <h:panelGroup>                   
                                     <h:outputLabel value="Find template"
                                                    title="Select an existing inspection template"/>      
-
-                                    <p:autoComplete dropdown="false"
+                                    <p:spacer height="0px" width="5px"/>
+                                    <p:autoComplete dropdown="true"
                                                     value="#{complianceManager.selectedFactoryInspectionTemplate}"
                                                     placeholder="enter template name"
                                                     scrollHeight="200" 
@@ -372,6 +376,7 @@ Email: info@dpbennett.com.jm
                                     <h:outputLabel title="Enter a name to save the inspections as a template" 
                                                    for="templateName" 
                                                    value="Template name" />
+                                    <p:spacer height="0px" width="5px"/>
                                     <p:inputText id="templateName"
                                                  value="#{complianceManager.currentFactoryInspection.name}" >
 
@@ -545,7 +550,9 @@ Email: info@dpbennett.com.jm
 
                     <p:dataTable id="factoryProductsTable"
                                  var="product"
+                                 reflow="true"
                                  value="#{complianceManager.currentFactoryInspection.productInspections}">                   
+                        
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Name"/>
@@ -640,6 +647,10 @@ Email: info@dpbennett.com.jm
                                      actionListener="#{complianceManager.closeDialog}"
                                      icon="pi pi-times"
                                      process="@this"/>
+                </p:toolbarGroup>
+
+                <p:toolbarGroup align="right" >  
+                    <h:outputText value="* Field required." style="font-weight: bold;" />            
                 </p:toolbarGroup>
             </p:toolbar>
 
