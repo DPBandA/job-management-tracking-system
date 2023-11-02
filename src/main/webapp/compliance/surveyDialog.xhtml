@@ -240,8 +240,8 @@ Email: info@dpbennett.com.jm
                         </p:selectOneMenu>     
 
                         <p:outputLabel value="Type of Establishment" 
-                                      style="font-weight: bold"
-                                      rendered="#{!complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
+                                       style="font-weight: bold"
+                                       rendered="#{!complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
 
                         <p:selectOneMenu id="typeOfEstablishment"
                                          editable="true"
@@ -261,8 +261,8 @@ Email: info@dpbennett.com.jm
                         </p:selectOneMenu>     
 
                         <p:outputLabel value="Type of Port"
-                                      style="font-weight: bold"
-                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
+                                       style="font-weight: bold"
+                                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
                         <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.typeOfPortOfEntry}" 
                                          rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
                             <p:ajax
@@ -276,8 +276,8 @@ Email: info@dpbennett.com.jm
                         </p:selectOneMenu>      
 
                         <p:outputLabel value="Port of Entry"
-                                      style="font-weight: bold"
-                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
+                                       style="font-weight: bold"
+                                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
 
                         <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.portOfEntry}" 
                                          editable="false"
@@ -294,8 +294,8 @@ Email: info@dpbennett.com.jm
                         </p:selectOneMenu>                      
 
                         <p:outputLabel value="Inspection Location/Point"  
-                                      style="font-weight: bold"
-                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
+                                       style="font-weight: bold"
+                                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
 
                         <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.inspectionPoint}" 
                                          editable="true"
@@ -312,7 +312,7 @@ Email: info@dpbennett.com.jm
                         </p:selectOneMenu>                     
 
                         <p:outputLabel value="Air waybill" 
-                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyTypeOfPortOfEntryIsAirport}" />
+                                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyTypeOfPortOfEntryIsAirport}" />
                         <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyTypeOfPortOfEntryIsAirport}">
                             <p:inputText   id="waybill"  
                                            value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.waybill}"
@@ -327,8 +327,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>                    
 
                         <p:outputLabel value="Consignee"
-                                      style="font-weight: bold"
-                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}" />
+                                       style="font-weight: bold"
+                                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}" />
                         <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
                             <p:autoComplete id="consignee"      
                                             var="consignee"
@@ -408,8 +408,8 @@ Email: info@dpbennett.com.jm
                         </p:autoComplete>   
 
                         <p:outputLabel value="Broker" 
-                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
-                                      style="font-weight: bold" />
+                                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                                       style="font-weight: bold" />
                         <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
                             <p:autoComplete id="broker"      
                                             var="broker"
@@ -487,8 +487,8 @@ Email: info@dpbennett.com.jm
                         </p:autoComplete> 
 
                         <p:outputLabel value="Broker address" 
-                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
-                                      style="font-weight: bold" /> 
+                                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                                       style="font-weight: bold" /> 
                         <p:autoComplete id="brokerAddress"
                                         rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
                                         value="#{complianceManager.currentComplianceSurvey.brokerAddress}"
@@ -569,8 +569,8 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup> 
 
                         <p:outputLabel value="Retail outlet representative" 
-                                      style="font-weight: bold"
-                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}" />   
+                                       style="font-weight: bold"
+                                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}" />   
                         <p:autoComplete id="retailRepresentative"
                                         rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"
                                         value="#{complianceManager.currentComplianceSurvey.retailRepresentative}"
@@ -637,36 +637,32 @@ Email: info@dpbennett.com.jm
                         </p:calendar>
 
                         <p:outputLabel value="Time in" />
-                        <p:calendar id="timeIn"
-                                    pattern="hh:mm a" 
-                                    timeOnly="true"
-                                    value="#{complianceManager.currentComplianceSurvey.surveyStartTime}" >
+                        <p:datePicker id="timeIn" 
+                                      autocomplete="off"
+                                      pattern="H:mm"
+                                      hourFormat="12"
+                                      timeOnly="true"
+                                      value="#{complianceManager.currentComplianceSurvey.surveyStartTime}" >
 
                             <p:ajax event="dateSelect"
                                     update=":ComplianceSurveyDialogForm:topToolbar"
                                     listener="#{complianceManager.updateSurvey}" />
 
-                            <p:ajax event="keyup"
-                                    update=":ComplianceSurveyDialogForm:topToolbar"
-                                    listener="#{complianceManager.updateSurvey}" />
-
-                        </p:calendar>
+                        </p:datePicker>
 
                         <p:outputLabel value="Time out" />
-                        <p:calendar id="timeOut"
-                                    pattern="hh:mm a" 
-                                    timeOnly="true"
-                                    value="#{complianceManager.currentComplianceSurvey.surveyEndTime}" >
+                        <p:datePicker id="timeOut" 
+                                      autocomplete="off"
+                                      pattern="H:mm"
+                                      hourFormat="12"
+                                      timeOnly="true"
+                                      value="#{complianceManager.currentComplianceSurvey.surveyEndTime}" >
 
                             <p:ajax event="dateSelect"
                                     update=":ComplianceSurveyDialogForm:topToolbar"
                                     listener="#{complianceManager.updateSurvey}" />
 
-                            <p:ajax event="keyup"
-                                    update=":ComplianceSurveyDialogForm:topToolbar"
-                                    listener="#{complianceManager.updateSurvey}" />
-
-                        </p:calendar>
+                        </p:datePicker>
 
                         <ui:remove>
                             <p:outputLabel value="Compliant?" for="compliant" style="font-weight: bold" />
@@ -689,6 +685,7 @@ Email: info@dpbennett.com.jm
                             counterTemplate="{0} characters remaining."
                             autoResize="false"
                             maxlength="1000" 
+                            style="width: 70%;"
                             styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}">
 
                             <p:ajax listener="#{complianceManager.updateSurvey}"
@@ -1026,7 +1023,7 @@ Email: info@dpbennett.com.jm
                         </p:calendar>
 
                         <p:outputLabel style="vertical-align: top;"
-                                      value="Standards breached" />
+                                       value="Standards breached" />
                         <h:panelGrid columns="2">
                             <p:autoComplete id="standards"
                                             var="standard"   
@@ -1242,7 +1239,7 @@ Email: info@dpbennett.com.jm
                                             width="192" cache="false"
                                             value="#{complianceManager.preparedBySigForReleaseRequestPOE}" />  
                             <p:outputLabel  id="PreparedBySigDateForReleaseRequestPOE"
-                                           value="  #{complianceManager.currentComplianceSurvey.preparedBySigDateForReleaseRequestPOE}" />
+                                            value="  #{complianceManager.currentComplianceSurvey.preparedBySigDateForReleaseRequestPOE}" />
                         </h:panelGroup>
 
                         <p:commandButton value="Sign Approved By"

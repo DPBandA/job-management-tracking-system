@@ -299,31 +299,33 @@ Email: info@dpbennett.com.jm
                         </p:calendar>
 
                         <h:outputText value="Start time" />
-                        <p:calendar id="timeIn"
-                                    pattern="hh:mm a" 
-                                    timeOnly="true"
-                                    value="#{complianceManager.currentFactoryInspection.inspectionStartTime}" >
+                        <p:datePicker id="timeIn" 
+                                      autocomplete="off"
+                                      pattern="H:mm"
+                                      hourFormat="12"
+                                      timeOnly="true"
+                                      value="#{complianceManager.currentFactoryInspection.inspectionStartTime}" >
+
                             <p:ajax event="dateSelect"
                                     update=":factoryInspectionDialogForm:topToolbar"
                                     listener="#{complianceManager.updateFactoryInspection}" />
-                            <p:ajax event="keyup"
-                                    update=":factoryInspectionDialogForm:topToolbar"
-                                    listener="#{complianceManager.updateFactoryInspection}" />
-                        </p:calendar>
+
+                        </p:datePicker>
 
                         <h:outputText value="End time" />
-                        <p:calendar id="timeOut"
-                                    pattern="hh:mm a" 
-                                    timeOnly="true"
-                                    value="#{complianceManager.currentFactoryInspection.inspectionEndTime}" >
+                        <p:datePicker id="timeOut" 
+                                      autocomplete="off"
+                                      pattern="H:mm"
+                                      hourFormat="12"
+                                      timeOnly="true"
+                                      value="#{complianceManager.currentFactoryInspection.inspectionEndTime}" >
+
                             <p:ajax event="dateSelect"
                                     update=":factoryInspectionDialogForm:topToolbar"
                                     listener="#{complianceManager.updateFactoryInspection}" />
-                            <p:ajax event="keyup"
-                                    update=":factoryInspectionDialogForm:topToolbar"
-                                    listener="#{complianceManager.updateFactoryInspection}" />
-                        </p:calendar>
 
+                        </p:datePicker>
+                        
                         <h:outputText value="Comments" />                        
                         <p:inputTextarea
                             id="comments"
@@ -552,7 +554,7 @@ Email: info@dpbennett.com.jm
                                  var="product"
                                  reflow="true"
                                  value="#{complianceManager.currentFactoryInspection.productInspections}">                   
-                        
+
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Name"/>
