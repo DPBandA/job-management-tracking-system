@@ -44,7 +44,7 @@ Email: info@dpbennett.com.jm
                          value="#{complianceManager.surveySearchText}" >
 
                 <p:ajax event="keyup"                            
-                        global="false"
+                        global="true"
                         update=":appForm:mainTabView:complianceSurveysTable"
                         listener="#{complianceManager.doDefaultSurveySearch}"
                         process="@this"/>

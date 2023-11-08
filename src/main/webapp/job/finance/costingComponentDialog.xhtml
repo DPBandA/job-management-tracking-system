@@ -23,8 +23,9 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
+    
     <h:form id="costingComponentDialogForm">
-        <p:dialog width="auto"
+        <p:dialog width="375"
                   height="auto"
                   draggable="true"
                   modal="true"
@@ -51,7 +52,7 @@ Email: info@dpbennett.com.jm
                 </p:toolbarGroup>
             </p:toolbar>            
             <p:panel>
-                <h:panelGrid id="costingComponentPanelGrid" columns="3" style="width: 100%">
+                <h:panelGrid id="costingComponentPanelGrid" columns="3">
                     <p:outputLabel value="Currency" 
                                    rendered="#{jobFinanceManager.useMulticurrency}"
                                    style="font-weight: bold;" />    
@@ -132,7 +133,7 @@ Email: info@dpbennett.com.jm
                                               counterTemplate="{0} characters remaining."
                                               maxlength="250"
                                               autoResize="false"
-                                              style="width: 100%;" >
+                                              style="width: 125%;" >
 
                                 <p:ajax event="change"
                                         global="false" 

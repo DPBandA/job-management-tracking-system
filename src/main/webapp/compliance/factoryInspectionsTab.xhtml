@@ -45,7 +45,7 @@ Email: info@dpbennett.com.jm
                          value="#{complianceManager.factoryInspectionSearchText}" >
 
                 <p:ajax event="keyup"                            
-                        global="false"
+                        global="true"
                         update=":appForm:mainTabView:factoryInspectionsTable"
                         listener="#{complianceManager.doFactoryInspectionSearch}"
                         process="@this"/>

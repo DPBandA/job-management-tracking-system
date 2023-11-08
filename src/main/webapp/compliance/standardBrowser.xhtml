@@ -46,7 +46,7 @@ Email: info@dpbennett.com.jm
                          value="#{complianceManager.standardSearchText}" >
 
                 <p:ajax event="keyup"                            
-                        global="false"
+                        global="true"
                         update=":appForm:mainTabView:standardsTable"
                         listener="#{complianceManager.doDocumentStandardSearch}"
                         process="@this"/>
@@ -55,7 +55,8 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right" >
-            <h:outputText value="Active standards only" />  
+            <h:outputText value="Active standards only" />
+            <p:spacer height="0px" width="5px"/>
             <h:panelGroup>
                 <p:selectBooleanCheckbox style="vertical-align: middle"
                                          id="isActiveDocumentStandardsOnly"

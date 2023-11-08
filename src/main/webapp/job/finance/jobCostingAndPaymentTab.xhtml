@@ -298,6 +298,14 @@ Email: info@dpbennett.com.jm
                 </f:facet>
                 <h:outputText value="#{cashPayment.receiptNumber}" />
             </p:column>
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="Date" />
+                </f:facet>
+                <h:outputText value="#{cashPayment.dateOfPayment}" >
+                    <f:convertDateTime pattern="MMM dd, yyyy"/>
+                </h:outputText>
+            </p:column>
             <p:column>
                 <f:facet name="header">
                     <h:outputText value="Payment type"/>
