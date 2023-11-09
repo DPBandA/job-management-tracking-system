@@ -38,8 +38,9 @@ Email: info@dpbennett.com.jm
                         update=":appForm:mainTabView:proformaCostingsTable"/>
 
             </p:commandButton>
-            <p:spacer width="20" />
-            <p:inputText id="proformaInvoiceSearchText"                          
+            <p:spacer width="20" rendered="false"/>
+            <p:inputText id="proformaInvoiceSearchText"    
+                         rendered="false"
                          value="#{jobFinanceManager.proformaInvoiceSearchText}"
                          placeholder="Enter search text">
                 
