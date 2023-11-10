@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"> 
 
-    <ui:include src="surveyToolbar.xhtml"/>
+    <ui:include src="surveyTabToolbar.xhtml"/>
 
     <p:dataTable id="complianceSurveysTable"
                  var="complianceSurvey"
@@ -101,7 +101,7 @@ Email: info@dpbennett.com.jm
                                              target="#{complianceManager.currentComplianceSurvey}" />
 
                 <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
+                        update=":appForm:growl3"
                         listener="#{complianceManager.surveyDialogReturn}" />
                 
 

@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"> 
 
-    <ui:include src="complaintToolbar.xhtml"/>
+    <ui:include src="complaintTabToolbar.xhtml"/>
 
     <p:dataTable id="complaintsTable"
                  var="complaint"
@@ -94,7 +94,7 @@ Email: info@dpbennett.com.jm
                                              target="#{complianceManager.currentComplaint}" />
 
                 <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
+                        update=":appForm:growl3"
                         listener="#{complianceManager.complaintDialogReturn}" />
 
             </p:commandButton>

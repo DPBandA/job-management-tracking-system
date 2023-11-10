@@ -18,8 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Email: info@dpbennett.com.jm
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" 
-      xmlns:h="http://java.sun.com/jsf/html"      
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"> 
@@ -28,34 +27,31 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left" >   
 
             <p:commandButton
-                actionListener="#{complianceManager.createNewComplaint}"
+                actionListener="#{complianceManager.createNewComplianceSurvey}"
                 global="true"  
                 value="New"                                       
-                title="Create new complaint"
+                title="Create new survey"
                 icon="pi pi-plus"
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
-                        listener="#{complianceManager.complaintDialogReturn}" />
+                        update=":appForm:growl3"
+                        listener="#{complianceManager.surveyDialogReturn}" />
 
             </p:commandButton>   
             <p:spacer width="20" />
-            <p:inputText id="complaintSearchText" 
-                         placeholder="Enter search text"
-                         value="#{complianceManager.complaintSearchText}" >
+            <p:inputText placeholder="Enter search text"
+                         value="#{complianceManager.surveySearchText}" >
 
-                <p:ajax global="true"
-                        event="keyup"
-                        update=":appForm:mainTabView:complaintsTable"
-                        listener="#{complianceManager.doComplaintSearch}"
+                <p:ajax event="keyup"                            
+                        global="true"
+                        update=":appForm:mainTabView:complianceSurveysTable"
+                        listener="#{complianceManager.doDefaultSurveySearch}"
                         process="@this"/>
 
             </p:inputText>
 
         </p:toolbarGroup>
-
-
 
     </p:toolbar>   
 
