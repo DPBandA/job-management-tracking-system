@@ -15,11 +15,11 @@
             <p:commandButton value="Yes"
                              actionListener="#{complianceManager.saveAndCloseFactoryInspection}"
                              update=":factoryInspectionDialogForm:topToolbar"
-                             oncomplete="saveFactoryInspectionConfirmationDialog.hide();"
+                             oncomplete="PF('saveFactoryInspectionConfirmationDialog').hide();"
                              icon="pi pi-check"/>
             <p:commandButton value="No"
                              actionListener="#{complianceManager.closeDialog}"
-                             oncomplete="saveFactoryInspectionConfirmationDialog.hide();"
+                             oncomplete="PF('saveFactoryInspectionConfirmationDialog').hide();"
                              icon="pi pi-times"/>
         </p:confirmDialog>
     </h:form>

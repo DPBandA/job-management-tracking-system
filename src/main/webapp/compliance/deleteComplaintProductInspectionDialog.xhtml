@@ -35,10 +35,10 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Yes"
                              actionListener="#{complianceManager.removeComplaintProductInspection}"
                              update=":complaintDialogForm:topToolbar,:complaintDialogForm:complaintTabView:marketProductsTable"
-                             oncomplete="deleteProductDialog.hide();"
+                             oncomplete="PF('deleteProductDialog').hide();"
                              icon="pi pi-check"/>
             <p:commandButton value="No"
-                             oncomplete="deleteProductDialog.hide();"
+                             oncomplete="PF('deleteProductDialog').hide();"
                              icon="pi pi-times"/>
         </p:confirmDialog>
     </h:form>

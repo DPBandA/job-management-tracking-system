@@ -34,11 +34,11 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Yes"
                              update=":mainTabViewForm:mainTabView:documentTable"
                              action="#{legalDocumentManager.deleteDocument}"
-                             onclick="documentDeleteConfirm.hide()"
+                             onclick="PF('documentDeleteConfirm').hide()"
                              icon="pi pi-check"
                              process="@this"/>
             <p:commandButton value="No"
-                             onclick="documentDeleteConfirm.hide()"
+                             onclick="PF('documentDeleteConfirm').hide()"
                              icon="pi pi-times"/>
         </h:form>
     </p:confirmDialog>

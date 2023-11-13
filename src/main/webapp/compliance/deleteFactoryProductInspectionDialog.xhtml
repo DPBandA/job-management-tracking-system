@@ -35,10 +35,10 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Yes"
                              actionListener="#{complianceManager.removeFactoryProductInspection}"
                              update=":factoryInspectionDialogForm:topToolbar,:factoryInspectionDialogForm:factoryInspectionTabView:factoryProductsTable"
-                             oncomplete="deleteProductDialog.hide();"
+                             oncomplete="PF('deleteProductDialog').hide();"
                              icon="pi pi-check"/>
             <p:commandButton value="No"
-                             oncomplete="deleteProductDialog.hide();"
+                             oncomplete="PF('deleteProductDialog').hide();"
                              icon="pi pi-times"/>
         </p:confirmDialog>
     </h:form>

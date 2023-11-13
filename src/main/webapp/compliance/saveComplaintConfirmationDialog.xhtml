@@ -34,11 +34,11 @@ Email: info@dpbennett.com.jm
             <p:commandButton value="Yes"
                              actionListener="#{complianceManager.saveAndCloseComplaint}"
                              update=":complaintDialogForm:topToolbar"
-                             oncomplete="saveComplaintConfirmationDialog.hide();"
+                             oncomplete="PF('saveComplaintConfirmationDialog').hide();"
                              icon="pi pi-check"/>
             <p:commandButton value="No"
                              actionListener="#{complianceManager.closeDialog}"
-                             oncomplete="saveComplaintConfirmationDialog.hide();"
+                             oncomplete="PF('saveComplaintConfirmationDialog').hide();"
                              icon="pi pi-times"/>
         </p:confirmDialog>
     </h:form>

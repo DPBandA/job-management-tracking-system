@@ -61,7 +61,7 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Detail"/>
             </f:facet>
             <p:commandButton update=":typeGroupDialogForm:documentSubReportTable"
-                             oncomplete="typeGroupDialog.show();"
+                             oncomplete="PF('typeGroupDialog').show();"
                              icon="pi pi-search"
                              title="View table of documents">
                 <f:setPropertyActionListener value="#{document}" target="#{legalDocumentManager.selectedDocument}" />
