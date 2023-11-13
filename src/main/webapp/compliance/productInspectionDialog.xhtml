@@ -81,7 +81,9 @@ Email: info@dpbennett.com.jm
                                                 title="#{complianceManager.currentProductInspection.marketProduct}"
                                                 itemLabel="#{marketProduct.name}"
                                                 itemValue="#{marketProduct}"
-                                                converter="activeMarketProductConverter"                                            
+                                                converter="activeMarketProductConverter"    
+                                                required="true"
+                                                requiredMessage="Product Required"
                                                 validator="businessEntityValidator"
                                                 forceSelection="true"
                                                 dropdown="true"
@@ -135,6 +137,8 @@ Email: info@dpbennett.com.jm
                                                 itemLabel="#{category.name}"
                                                 itemValue="#{category}"
                                                 converter="activeCategoryConverter"
+                                                required="true"
+                                                requiredMessage="Product Category Required"
                                                 validator="businessEntityValidator"
                                                 forceSelection="true"
                                                 dropdown="true"
@@ -327,6 +331,8 @@ Email: info@dpbennett.com.jm
                             <p:inputText  value="#{complianceManager.currentProductInspection.quantity}" 
                                           converterMessage="Please enter a valid product quantity"
                                           styleClass="number-field"
+                                          required="true"
+                                          requiredMessage="Product Quantity Required"
                                           validator="requiredFieldValidator">
 
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"
@@ -340,6 +346,8 @@ Email: info@dpbennett.com.jm
                             <p:inputText  value="#{complianceManager.currentProductInspection.numProductsSampled}"
                                           converterMessage="Please enter a valid sample quantity"
                                           styleClass="number-field"
+                                          required="true"
+                                          requiredMessage="Sample Quantity Required"
                                           validator="requiredFieldValidator" >
 
                                 <p:ajax listener="#{complianceManager.updateProductInspection}"
