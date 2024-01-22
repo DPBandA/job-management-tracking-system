@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -39,7 +39,7 @@ Email: info@dpbennett.com.jm
         <h:form id="jobSampleDialogForm" >      
             <p:growl id="job_sample_dialog_growl" 
                      life="5000" 
-                     showDetail="false"/>
+                     showDetail="true"/>
 
             <p:toolbar>
                 <p:toolbarGroup align="left">
@@ -153,12 +153,15 @@ Email: info@dpbennett.com.jm
                                      id="productCommonName"
                                      required="true"
                                      requiredMessage="Please enter the common name of the product"
-                                    maxlength="250" >
+                                     validator="identifierValidator"
+                                     maxlength="250" >
+                            
                             <p:ajax event="change"
                                     global="false"
                                     listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
+                            
                         </p:inputText>
 
                         <p:outputLabel value="Country of Origin" />
