@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -27,14 +27,10 @@ Email: info@dpbennett.com.jm
     xmlns:f="http://java.sun.com/jsf/core"> 
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>#{jobManager.applicationHeader}</title>     
-        <link rel="shortcut icon" type="image/x-icon" href="#{jobManager.appShortcutIconURL}" />
-        <script type="text/javascript" src="js/javascripts.js" /> 
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="css/main.css" />           
+        <title>#{jobManager.applicationHeader}</title> 
+        <ui:include src="head.xhtml" />  
     </h:head>
+
     <h:body>
 
         <ui:include src="common/commonDialogs.xhtml" />          
@@ -237,7 +233,7 @@ Email: info@dpbennett.com.jm
                                                 <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
                                                     <ui:include src="legal/documentBrowser.xhtml" />   
                                                 </h:panelGroup>
-                                                
+
                                                 <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
                                                     <ui:include src="compliance/surveyBrowser.xhtml" /> 
                                                 </h:panelGroup> 
@@ -249,11 +245,11 @@ Email: info@dpbennett.com.jm
                                                 <h:panelGroup rendered="#{t.id == 'Standard Browser'}" >
                                                     <ui:include src="compliance/standardBrowser.xhtml" />                                                                
                                                 </h:panelGroup>
-                                                
+
                                                 <h:panelGroup rendered="#{t.id == 'Manufacturers'}" >
                                                     <ui:include src="compliance/manufacturersTab.xhtml"/>  
                                                 </h:panelGroup>
-                                                
+
                                                 <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
                                                     <ui:include src="compliance/factoryInspectionsTab.xhtml" />                                                                
                                                 </h:panelGroup>
