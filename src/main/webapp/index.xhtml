@@ -26,9 +26,13 @@ Email: info@dpbennett.com.jm
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:f="http://java.sun.com/jsf/core"> 
 
-    <h:head>
+    <h:head>        
+        <ui:include src="head.xhtml" />
         <title>#{jobManager.applicationHeader}</title> 
-        <ui:include src="head.xhtml" />  
+        <link rel="shortcut icon" type="image/x-icon" href="#{jobManager.appShortcutIconURL}" />
+        <script type="text/javascript" src="js/javascripts.js" /> 
+        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
+        <link rel="stylesheet" type="text/css" href="css/main.css" />   
     </h:head>
 
     <h:body>
@@ -40,250 +44,241 @@ Email: info@dpbennett.com.jm
         <h:form id="appForm" rendered="#{jobManager.userLoggedIn}">   
 
             <p:growl id="growl3" life="5000" showDetail="true" />
-            <p:panel>
-                <div class="grid">
 
-                    <div class="col-12 md:col-12 col-nogutter">
-                        <div class="grid">
-                            <div class="col-12 col-nogutter">
-                                <div class="grid">
-                                    <div class="col-12 md:col-3">
-                                        <h:panelGroup style="float: left;margin-right: 10px;" >
-                                            <p:graphicImage value="#{jobManager.logoURL}"
-                                                            class="logo"
-                                                            height="#{jobManager.logoURLImageHeight}" 
-                                                            width="#{jobManager.logoURLImageWidth}"/>
-                                        </h:panelGroup>
-                                        <h:panelGrid columns="1" cellspacing="0" >   
+            <div class="grid">
 
-                                            <p:outputLabel value="#{jobManager.applicationHeader}"
-                                                           class="header-text" />
+                <div class="col-12 col-nogutter">
+                    <div class="grid">
+                        <div class="col-12 md:col-3">
+                            <h:panelGroup style="float: left;margin-right: 10px;" >
+                                <p:graphicImage value="#{jobManager.logoURL}"
+                                                class="logo"
+                                                height="#{jobManager.logoURLImageHeight}" 
+                                                width="#{jobManager.logoURLImageWidth}"/>
+                            </h:panelGroup>
+                            <h:panelGrid columns="1" cellspacing="0" >   
 
-                                            <p:outputLabel value="#{jobManager.applicationSubheader}"
-                                                           class="subheader-text" />  
+                                <p:outputLabel value="#{jobManager.applicationHeader}"
+                                               class="header-text" />
 
-                                        </h:panelGrid>
-                                    </div>    
-                                    <div class="col-12 md:col-6">
+                                <p:outputLabel value="#{jobManager.applicationSubheader}"
+                                               class="subheader-text" />  
 
-                                    </div>  
-                                    <div class="col-12 md:col-3">
-                                        <h:panelGroup style="float: right;" >
+                            </h:panelGrid>
+                        </div>    
+                        <div class="col-12 md:col-6">
 
-                                            <p:badge value="#{systemManager.sizeOfActiveNotifications}" 
-                                                     id="notificationBadge"
-                                                     visible="#{systemManager.hasActiveNotifications}" 
-                                                     severity="danger">
+                        </div>  
+                        <div class="col-12 md:col-3">
+                            <h:panelGroup style="float: right;" >
 
-                                                <p:commandButton id="notifications" 
-                                                                 class="notification-button"
-                                                                 icon="pi pi-bell" />
-                                                <p:overlayPanel for="notifications"   
-                                                                widgetVar="NotificationPanelVar"
-                                                                style="width:400px;border: 0;">
-                                                    <p:orderList value="#{systemManager.notifications}" 
-                                                                 var="notification" 
-                                                                 itemValue="#{notification}"
-                                                                 converter="#{notificationConverter}" 
-                                                                 controlsLocation="none" responsive="true" >
+                                <p:badge value="#{systemManager.sizeOfActiveNotifications}" 
+                                         id="notificationBadge"
+                                         visible="#{systemManager.hasActiveNotifications}" 
+                                         severity="danger">
 
-                                                        <p:ajax event="select" 
-                                                                update=":appForm:notificationBadge"
-                                                                oncomplete="PF('NotificationPanelVar').hide()"
-                                                                listener="#{jobManager.onNotificationSelect}" />
+                                    <p:commandButton id="notifications" 
+                                                     class="notification-button"
+                                                     icon="pi pi-bell" />
+                                    <p:overlayPanel for="notifications"   
+                                                    widgetVar="NotificationPanelVar"
+                                                    style="width:400px;border: 0;">
+                                        <p:orderList value="#{systemManager.notifications}" 
+                                                     var="notification" 
+                                                     itemValue="#{notification}"
+                                                     converter="#{notificationConverter}" 
+                                                     controlsLocation="none" responsive="true" >
 
-                                                        <p:column>
-                                                            <p:outputLabel value="#{notification.name}" 
-                                                                           style="#{notification.style}"/>
-                                                        </p:column>                                           
+                                            <p:ajax event="select" 
+                                                    update=":appForm:notificationBadge"
+                                                    oncomplete="PF('NotificationPanelVar').hide()"
+                                                    listener="#{jobManager.onNotificationSelect}" />
 
-                                                    </p:orderList>
-                                                </p:overlayPanel>
+                                            <p:column>
+                                                <p:outputLabel value="#{notification.name}" 
+                                                               style="#{notification.style}"/>
+                                            </p:column>                                           
 
-                                            </p:badge>
-                                            <p:spacer width="30"/>
-                                            <p:menuButton iconPos="left"
-                                                          icon="pi pi-user"
-                                                          title="#{jobManager.user.employee.firstName} #{jobManager.user.employee.lastName} (#{jobManager.user.username})"
-                                                          id="userMenu"
-                                                          class="usermenu-button" >
+                                        </p:orderList>
+                                    </p:overlayPanel>
 
-                                                <p:menuitem actionListener="#{systemManager.viewUserProfile}"                                            
-                                                            update=":userProfileDialogForm"
-                                                            oncomplete="PF('userProfileDialog').show();"
-                                                            icon="pi pi-cog"
-                                                            value="Profile"
-                                                            process="@this"/>  
-                                                <p:menuitem actionListener="#{jobManager.logout}"                                             
-                                                            icon="pi pi-sign-out"
-                                                            value="Logout"
-                                                            oncomplete="location.reload();"
-                                                            process="@this"/>    
+                                </p:badge>
+                                <p:spacer width="30"/>
+                                <p:menuButton iconPos="left"
+                                              icon="pi pi-user"
+                                              title="#{jobManager.user.employee.firstName} #{jobManager.user.employee.lastName} (#{jobManager.user.username})"
+                                              id="userMenu"
+                                              class="usermenu-button" >
 
-                                            </p:menuButton>   
-                                        </h:panelGroup>
-                                    </div>
-                                </div>
-                            </div>
+                                    <p:menuitem actionListener="#{systemManager.viewUserProfile}"                                            
+                                                update=":userProfileDialogForm"
+                                                oncomplete="PF('userProfileDialog').show();"
+                                                icon="pi pi-cog"
+                                                value="Profile"
+                                                process="@this"/>  
+                                    <p:menuitem actionListener="#{jobManager.logout}"                                             
+                                                icon="pi pi-sign-out"
+                                                value="Logout"
+                                                oncomplete="location.reload();"
+                                                process="@this"/>    
 
-                            <ui:include src="menubar.xhtml" />   
-
-                            <div class="col-12">
-                                <div class="grid">
-                                    <div class="col-12 md:col-4">
-
-                                        <p:defaultCommand target="defaultCommand" />
-
-                                        <ui:include src="dashboard/job/adminTab.xhtml" />
-
-                                    </div>    
-                                    <div class="col-12 md:col-8">
-                                        <p:tabView id="mainTabView"  
-                                                   rendered="#{jobManager.mainTabView.render}"
-                                                   value="#{jobManager.mainTabView.tabs}" 
-                                                   var="t" 
-                                                   dynamic="false"
-                                                   widgetVar="mainTabViewVar">
-
-                                            <p:ajax event="tabClose" 
-                                                    immediate="true"
-                                                    process="@this"
-                                                    listener="#{jobManager.onMainViewTabClose}" />  
-
-                                            <p:ajax event="tabChange" 
-                                                    immediate="true"
-                                                    process="@this"                                
-                                                    listener="#{jobManager.onMainViewTabChange}" />  
-
-
-                                            <p:tab title="#{t.name}" closable="true"  >
-
-                                                <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
-                                                    <ui:include src="job/jobBrowser.xhtml" /> 
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Proforma Invoices'}">                                
-                                                    <ui:include src="job/finance/proformaInvoicesTab.xhtml" /> 
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'System Administration'}" >
-                                                    <ui:include src="admin/generalAdminTab.xhtml" /> 
-                                                </h:panelGroup>  
-
-                                                <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
-                                                    <ui:include src="finance/financialAdminTab.xhtml" /> 
-                                                </h:panelGroup> 
-
-                                                <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
-                                                    <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Inventory'}" >
-                                                    <ui:include src="finance/ims/inventoryTab.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Inventory Requisitions'}" >
-                                                    <ui:include src="finance/ims/inventoryRequisitionTab.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
-                                                    <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Inventory Products'}" >
-                                                    <ui:include src="finance/ims/inventoryProductBrowser.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Market Products'}" >
-                                                    <ui:include src="finance/marketProductBrowser.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
-                                                    <ui:include src="hr/hrmTab.xhtml" /> 
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Clients'}" >
-                                                    <ui:include src="client/clientsTab.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Reports'}" >
-                                                    <ui:include src="report/reportsTab.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Report Templates'}" >
-                                                    <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
-                                                </h:panelGroup>   
-
-                                                <h:panelGroup rendered="#{t.id == 'Label Browser'}" >
-                                                    <ui:include src="label/labelsTab.xhtml" /> 
-                                                </h:panelGroup> 
-
-                                                <h:panelGroup rendered="#{t.id == 'Compliance'}" >
-                                                    <ui:include src="label/complianceOptionsTab.xhtml" /> 
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Energy Efficiency'}" >
-                                                    <ui:include src="label/energyEfficiencyOptionsTab.xhtml" /> 
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'LabelPrint'}" >
-                                                    <ui:include src="label/labelPrintOptionsTab.xhtml" /> 
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
-                                                    <ui:include src="legal/documentBrowser.xhtml" />   
-                                                </h:panelGroup>
-
-                                                <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
-                                                    <ui:include src="compliance/surveyBrowser.xhtml" /> 
-                                                </h:panelGroup> 
-
-                                                <h:panelGroup  rendered="#{t.id == 'Complaint Browser'}">
-                                                    <ui:include src="compliance/complaintBrowser.xhtml" /> 
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Standard Browser'}" >
-                                                    <ui:include src="compliance/standardBrowser.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Manufacturers'}" >
-                                                    <ui:include src="compliance/manufacturersTab.xhtml"/>  
-                                                </h:panelGroup>
-
-                                                <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
-                                                    <ui:include src="compliance/factoryInspectionsTab.xhtml" />                                                                
-                                                </h:panelGroup>
-
-                                            </p:tab>
-
-                                        </p:tabView> 
-
-
-                                    </div>                              
-                                </div>
-                            </div>
+                                </p:menuButton>   
+                            </h:panelGroup>
                         </div>
                     </div>
+                </div>         
+
+                <div class="grid">
                     <div class="col-12">
 
-                        <p:toolbar>
-                            <p:toolbarGroup align="left">
+                        <ui:include src="menubar.xhtml" />   
 
-                                <p:outputLabel value=" &copy; #{jobManager.copyrightOrganization}"   
-                                               onclick="window.open('#{jobManager.organizationWebsite}');"
-                                               class="header-text" />
+                        <p:tabView id="mainTabView"  
+                                   rendered="#{jobManager.mainTabView.render}"
+                                   value="#{jobManager.mainTabView.tabs}" 
+                                   var="t" 
+                                   dynamic="false"
+                                   widgetVar="mainTabViewVar">
 
-                            </p:toolbarGroup>
+                            <p:ajax event="tabClose" 
+                                    immediate="true"
+                                    process="@this"
+                                    listener="#{jobManager.onMainViewTabClose}" />  
 
-                            <p:toolbarGroup align="right">
-                                <p:outputLabel value="#{jobManager.applicationFooter}" 
-                                               class="header-text" />
-                            </p:toolbarGroup>
-                        </p:toolbar>
+                            <p:ajax event="tabChange" 
+                                    immediate="true"
+                                    process="@this"                                
+                                    listener="#{jobManager.onMainViewTabChange}" />  
 
-                    </div>
+
+                            <p:tab title="#{t.name}" closable="true"  >
+
+                                <p:defaultCommand id="defaultCmd"
+                                                  target=":appForm:mainTabView:jobSearchButton" />
+
+                                <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
+                                    <ui:include src="job/jobBrowser.xhtml" /> 
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Proforma Invoices'}">                                
+                                    <ui:include src="job/finance/proformaInvoicesTab.xhtml" /> 
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'System Administration'}" >
+                                    <ui:include src="admin/generalAdminTab.xhtml" /> 
+                                </h:panelGroup>  
+
+                                <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
+                                    <ui:include src="finance/financialAdminTab.xhtml" /> 
+                                </h:panelGroup> 
+
+                                <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
+                                    <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Inventory'}" >
+                                    <ui:include src="finance/ims/inventoryTab.xhtml" />                                                                
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Inventory Requisitions'}" >
+                                    <ui:include src="finance/ims/inventoryRequisitionTab.xhtml" />                                                                
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
+                                    <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Inventory Products'}" >
+                                    <ui:include src="finance/ims/inventoryProductBrowser.xhtml" />                                                                
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Market Products'}" >
+                                    <ui:include src="finance/marketProductBrowser.xhtml" />                                                                
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
+                                    <ui:include src="hr/hrmTab.xhtml" /> 
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Clients'}" >
+                                    <ui:include src="client/clientsTab.xhtml" />                                                                
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Reports'}" >
+                                    <ui:include src="report/reportsTab.xhtml" />                                                                
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Report Templates'}" >
+                                    <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
+                                </h:panelGroup>   
+
+                                <h:panelGroup rendered="#{t.id == 'Label Browser'}" >
+                                    <ui:include src="label/labelsTab.xhtml" /> 
+                                </h:panelGroup> 
+
+                                <h:panelGroup rendered="#{t.id == 'Compliance'}" >
+                                    <ui:include src="label/complianceOptionsTab.xhtml" /> 
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Energy Efficiency'}" >
+                                    <ui:include src="label/energyEfficiencyOptionsTab.xhtml" /> 
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'LabelPrint'}" >
+                                    <ui:include src="label/labelPrintOptionsTab.xhtml" /> 
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
+                                    <ui:include src="legal/documentBrowser.xhtml" />   
+                                </h:panelGroup>
+
+                                <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
+                                    <ui:include src="compliance/surveyBrowser.xhtml" /> 
+                                </h:panelGroup> 
+
+                                <h:panelGroup  rendered="#{t.id == 'Complaint Browser'}">
+                                    <ui:include src="compliance/complaintBrowser.xhtml" /> 
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Standard Browser'}" >
+                                    <ui:include src="compliance/standardBrowser.xhtml" />                                                                
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Manufacturers'}" >
+                                    <ui:include src="compliance/manufacturersTab.xhtml"/>  
+                                </h:panelGroup>
+
+                                <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
+                                    <ui:include src="compliance/factoryInspectionsTab.xhtml" />                                                                
+                                </h:panelGroup>
+
+                            </p:tab>
+
+                        </p:tabView> 
+                    </div>                              
+                </div>            
+            </div>
+
+            <div class="grid">
+                <div class="col-12">
+                    <p:toolbar>
+                        <p:toolbarGroup align="left">
+
+                            <p:outputLabel value=" &copy; #{jobManager.copyrightOrganization}"   
+                                           onclick="window.open('#{jobManager.organizationWebsite}');"
+                                           class="header-text" />
+
+                        </p:toolbarGroup>
+
+                        <p:toolbarGroup align="right">
+                            <p:outputLabel value="#{jobManager.applicationFooter}" 
+                                           class="header-text" />
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
                 </div>
-            </p:panel>
+            </div>
+
             <p:poll interval="60" 
                     global="false"
                     onerror="PF('connectionErrorDialog').show();"

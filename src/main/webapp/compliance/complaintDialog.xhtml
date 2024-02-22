@@ -1,6 +1,6 @@
 <!--
 Standards Compliance (SC) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -23,13 +23,15 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
+    
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+        <ui:include src="/head.xhtml" />     
         <title>Complaint</title>
         <script type="text/javascript" src="../js/javascripts.js" /> 
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
         <link rel="stylesheet" type="text/css" href="../css/main.css" />
     </h:head>
+    
     <h:body >  
         <ui:insert >   
             <ui:include src="../common/commonDialogs.xhtml"/>
@@ -38,7 +40,7 @@ Email: info@dpbennett.com.jm
         </ui:insert>
         <h:form id="complaintDialogForm">   
 
-            <p:growl id="complaint_growl" life="5000" showDetail="false"/>
+            <p:growl id="complaint_growl" life="5000" showDetail="true"/>
 
             <p:toolbar id="topToolbar" style="margin-bottom: 1px;">
                 <p:toolbarGroup align="left">

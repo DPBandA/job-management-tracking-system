@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -25,6 +25,20 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar style="margin-bottom: 1px;" >
         <p:toolbarGroup align="left" >  
+            <p:commandButton
+                actionListener="#{jobManager.createNewJob}"
+                global="true" 
+                value="New"                                       
+                title="Create new job"
+                icon="pi pi-plus"
+                process="@this">  
+
+                <p:ajax event="dialogReturn" 
+                        update=":appForm:mainTabView"
+                        listener="#{jobManager.jobDialogReturn}" />
+
+            </p:commandButton>
+            <p:spacer height="0" width="10"/>
             <p:commandButton value="Approve"  
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
                              title="Approve the selected job costing(s)"
@@ -75,22 +89,7 @@ Email: info@dpbennett.com.jm
                 </p:menuitem>   
 
             </p:menuButton>
-            <p:commandButton
-                rendered="#{!jobManager.user.isJobCostingsPreferredJobTableView}"
-                actionListener="#{jobManager.createNewJob}"
-                global="true" 
-                value="New"                                       
-                title="Create new job"
-                icon="pi pi-plus"
-                process="@this">  
-
-                <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
-                        listener="#{jobManager.jobDialogReturn}" />
-
-            </p:commandButton>       
-            <p:spacer width="20"/>
-
+           
             <p:selectOneButton 
                 value="#{jobManager.user.jobTableViewPreference}">
 
@@ -106,40 +105,7 @@ Email: info@dpbennett.com.jm
             </p:selectOneButton>
 
         </p:toolbarGroup>
-
-        <p:toolbarGroup align="right" >               
-            <p:menuButton value="Tools">
-
-                <p:menuitem value="Clients"                                               
-                            actionListener="#{jobManager.openClientsTab}"
-                            icon="pi pi-users"
-                            process="@this"/>
-
-                <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
-                            value="Client Credit Status"
-                            icon="pi pi-thumbs-up"
-                            title="Check client's credit status"
-                            update=""
-                            process="@this" /> 
-
-                <ui:remove> 
-                    <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                                
-                                value="Client Credit Status"
-                                icon="pi pi-thumbs-up"
-                                update=""
-                                oncomplete="PF('accPacClientInformationDialog').show();"
-                                process="@this" />
-                </ui:remove>
-
-                <p:separator />
-                <p:menuitem value="Reports"    
-                            icon="pi pi-chart-line"
-                            actionListener="#{jobManager.openReportsTab}"
-                            process="@this"/>
-
-            </p:menuButton>                                    
-
-        </p:toolbarGroup>
+        
     </p:toolbar>   
 
 </html>
