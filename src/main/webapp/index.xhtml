@@ -142,18 +142,18 @@ Email: info@dpbennett.com.jm
                             <p:ajax event="tabClose" 
                                     immediate="true"
                                     process="@this"
-                                    listener="#{jobManager.onMainViewTabClose}" />  
+                                    listener="#{systemManager.onMainViewTabClose}" />  
 
                             <p:ajax event="tabChange" 
-                                    immediate="true"
-                                    process="@this"                                
-                                    listener="#{jobManager.onMainViewTabChange}" />  
+                                    process="@form"      
+                                    update=":appForm"
+                                    listener="#{systemManager.onMainViewTabChange}" />  
 
 
                             <p:tab title="#{t.name}" closable="true"  >
 
                                 <p:defaultCommand id="defaultCmd"
-                                                  target=":appForm:mainTabView:jobSearchButton" />
+                                                  target="#{systemManager.defaultCommandTarget}" />
 
                                 <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                     <ui:include src="job/jobBrowser.xhtml" /> 
@@ -201,10 +201,6 @@ Email: info@dpbennett.com.jm
 
                                 <h:panelGroup rendered="#{t.id == 'Clients'}" >
                                     <ui:include src="client/clientsTab.xhtml" />                                                                
-                                </h:panelGroup>
-
-                                <h:panelGroup rendered="#{t.id == 'Reports'}" >
-                                    <ui:include src="report/reportsTab.xhtml" />                                                                
                                 </h:panelGroup>
 
                                 <h:panelGroup rendered="#{t.id == 'Report Templates'}" >

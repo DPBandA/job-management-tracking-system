@@ -31,21 +31,13 @@ Email: info@dpbennett.com.jm
                 <h:panelGroup>
                     <p:inputText value="#{jobManager.searchText}"  
                                  placeholder="Enter job search text"
-                                 id="jobSearchText" >
-
-                        <p:ajax event="keyup"
-                                global="false"
-                                listener="#{jobManager.updateSearch}"
-                                process="@this"/>
-
-                    </p:inputText> 
-
+                                 id="jobSearchText" />
                     <p:commandButton id="jobSearchButton"
                                      class="search-button"   
                                      actionListener="#{jobManager.doDefaultSearch}"
                                      update=":appForm:mainTabView"
                                      icon="pi pi-search"
-                                     process="@this" />
+                                     process="@form" />
                 </h:panelGroup>
 
                 <p:selectOneMenu value="#{jobManager.searchType}"
