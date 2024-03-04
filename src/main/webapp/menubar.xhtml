@@ -106,6 +106,83 @@ Email: info@dpbennett.com.jm
 
                 </p:menuitem> 
 
+                <p:submenu label="Procurement" 
+                           rendered="#{systemManager.user.hasModule('purchasingManager')}"
+                           icon="pi pi-plus" >
+
+                    <p:menuitem 
+                        value="Purchase Requisition"
+                        icon="pi pi-plus"
+                        actionListener="#{purchasingManager.createNewPurchaseReq}"                                            
+                        process="@this"
+                        title="Add a new purchase requisition" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{purchasingManager.purchaseReqDialogReturn}"
+                                update=":appForm:mainTabView:purchasereqsTable"/>
+
+                    </p:menuitem>
+
+                    <p:menuitem 
+                        value="Supplier"
+                        icon="pi pi-plus" 
+                        actionListener="#{purchasingManager.addNewSupplier}"                                            
+                        process="@this"
+                        title="Add a new supplier" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{purchasingManager.doSupplierSearch}"
+                                update=":appForm:mainTabView:suppliersTable"/>
+
+                    </p:menuitem>
+
+                </p:submenu>
+
+                <p:submenu label="Inventory" 
+                           rendered="#{systemManager.user.hasModule('inventoryManager')}"
+                           icon="pi pi-plus" >
+
+                    <p:menuitem 
+                        value="Inventory Product"
+                        icon="pi pi-plus" 
+                        actionListener="#{inventoryManager.createNewInventoryProduct}"                                            
+                        process="@this"
+                        title="Add a new product" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{inventoryManager.doInventoryProductSearch}"
+                                update=":appForm:mainTabView:inventoryProductsTable"/>
+
+                    </p:menuitem>
+
+                    <p:menuitem 
+                        value="Inventory Item"
+                        icon="pi pi-plus"
+                        actionListener="#{inventoryManager.createNewInventory}"                                            
+                        process="@this"
+                        title="Add a new inventory" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{inventoryManager.inventoryDialogReturn}"
+                                update=":appForm:mainTabView:inventoryTable"/>
+
+                    </p:menuitem>
+
+                    <p:menuitem 
+                        value="Inventory Requisition"
+                        icon="pi pi-plus"
+                        actionListener="#{inventoryManager.createNewInventoryRequisition}"                                            
+                        process="@this"
+                        title="Add a new inventory requisition" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{inventoryManager.inventoryRequisitionDialogReturn}"
+                                update=":appForm:mainTabView:inventoryRequisitionTable"/>
+
+                    </p:menuitem>
+
+                </p:submenu>
+
             </p:submenu>
 
             <p:divider />
@@ -120,7 +197,7 @@ Email: info@dpbennett.com.jm
             <p:divider />
 
             <p:submenu label="Procurement" 
-                       rendered="#{purchasingManager.user.hasModule('purchasingManager')}"
+                       rendered="#{systemManager.user.hasModule('purchasingManager')}"
                        icon="pi pi-dollar" >
 
                 <p:menuitem value="Purchase Requisitions"
@@ -140,7 +217,7 @@ Email: info@dpbennett.com.jm
             <p:divider />
 
             <p:submenu label="Inventory" 
-                       rendered="#{inventoryManager.user.hasModule('inventoryManager')}"
+                       rendered="#{systemManager.user.hasModule('inventoryManager')}"
                        icon="pi pi-list" >
 
                 <p:menuitem value="Inventory Products"
@@ -163,12 +240,12 @@ Email: info@dpbennett.com.jm
 
             </p:submenu>
 
-            <p:divider />
+            <p:divider rendered="#{systemManager.user.can('BeFinancialAdministrator')}"/>
 
             <p:menuitem value="Administration"
                         icon="pi pi-fw pi-briefcase"
                         title="Financial administration" 
-                        rendered="#{jobManager.user.can('BeFinancialAdministrator')}"
+                        rendered="#{systemManager.user.can('BeFinancialAdministrator')}"
                         actionListener="#{financeManager.openFinancialAdministration}" />
 
         </p:submenu>
