@@ -1,6 +1,6 @@
 <!--
 Standards Compliance (SC) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -21,6 +21,7 @@ Email: info@dpbennett.com.jm
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"> 
 
     <p:toolbar>
@@ -40,16 +41,16 @@ Email: info@dpbennett.com.jm
 
             </p:commandButton>   
             <p:spacer width="20" />
-            <p:inputText placeholder="Enter search text"
-                         value="#{complianceManager.surveySearchText}" >
-
-                <p:ajax event="keyup"                            
-                        global="true"
-                        update=":appForm:mainTabView:complianceSurveysTable"
-                        listener="#{complianceManager.doDefaultSurveySearch}"
-                        process="@this"/>
-
-            </p:inputText>
+            <h:panelGroup>
+                <p:inputText placeholder="Enter search text"
+                             value="#{complianceManager.surveySearchText}" />
+                <p:commandButton id="surveySearchButton"
+                                 class="search-button"   
+                                 actionListener="#{complianceManager.doDefaultSurveySearch}"
+                                 update=":appForm:mainTabView:complianceSurveysTable"
+                                 icon="pi pi-search"
+                                 process="@form" />
+            </h:panelGroup>
 
         </p:toolbarGroup>
 

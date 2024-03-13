@@ -1,6 +1,6 @@
 <!--
 Standards Compliance
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar>
         <p:toolbarGroup align="left" >  
-           
+
             <p:commandButton 
                 value="New"
                 icon="pi pi-plus" 
@@ -41,17 +41,17 @@ Email: info@dpbennett.com.jm
 
             </p:commandButton>
             <p:spacer width="20" />
-            <p:inputText id="standardSearchText" 
-                         placeholder="Enter search text"
-                         value="#{complianceManager.standardSearchText}" >
-
-                <p:ajax event="keyup"                            
-                        global="true"
-                        update=":appForm:mainTabView:standardsTable"
-                        listener="#{complianceManager.doDocumentStandardSearch}"
-                        process="@this"/>
-
-            </p:inputText>
+            <h:panelGroup>
+                <p:inputText id="standardSearchText" 
+                             placeholder="Enter search text"
+                             value="#{complianceManager.standardSearchText}" />
+                <p:commandButton id="standardSearchButton"
+                                 class="search-button"   
+                                 actionListener="#{complianceManager.doDocumentStandardSearch}"
+                                 update=":appForm:mainTabView:standardsTable"
+                                 icon="pi pi-search"
+                                 process="@form" />
+            </h:panelGroup>
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right" >
@@ -88,7 +88,7 @@ Email: info@dpbennett.com.jm
         <f:facet name="header">
             <h:outputText value="Search Results (found: #{complianceManager.numDocumentStandards})" />
         </f:facet>
-        
+
         <p:column sortBy="#{standard.number}">
             <f:facet name="header">
                 <h:outputText value="Code/Number"/>
@@ -135,7 +135,7 @@ Email: info@dpbennett.com.jm
     </p:dataTable>
     <p:toolbar>
         <p:toolbarGroup align="left" >  
-           
+
             <p:commandButton 
                 value="New"
                 icon="pi pi-plus" 

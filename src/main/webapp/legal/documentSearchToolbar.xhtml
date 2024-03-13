@@ -1,5 +1,5 @@
 <!--
-Job Management & Tracking System (JMTS) 
+Legal Office (LO) 
 Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
@@ -27,63 +27,64 @@ Email: info@dpbennett.com.jm
     <p:toolbar style="margin-bottom: 1px;" >
         <p:toolbarGroup align="left" >             
 
-            <p:panelGrid columns="3"  layout="flex" style="width: 60%;" >
+            <p:panelGrid columns="3" layout="flex" style="width: 60%;">
                 <h:panelGroup>
-                    <p:inputText value="#{jobManager.searchText}"  
-                                 placeholder="Enter job search text"
-                                 id="jobSearchText" />
-                    <p:commandButton id="jobSearchButton"
+                    <p:inputText value="#{legalDocumentManager.searchText}"  
+                                 placeholder="Enter search text"
+                                 id="legalDocumentSearchText" />
+                    <p:commandButton id="legalDocumentSearchButton"
                                      class="search-button"   
-                                     actionListener="#{jobManager.doDefaultSearch}"
+                                     actionListener="#{legalDocumentManager.doLegalDocumentSearch}"
                                      update=":appForm:mainTabView"
                                      icon="pi pi-search"
                                      process="@form" />
                 </h:panelGroup>
 
-                <p:selectOneMenu value="#{jobManager.searchType}"
+                <p:selectOneMenu value="#{legalDocumentManager.searchType}"
                                  title="Select the search type">
 
-                    <f:selectItems value="#{jobManager.groupedSearchTypes}" />
+                    <f:selectItems value="#{legalDocumentManager.searchTypes}" />
 
                 </p:selectOneMenu>
 
-                <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
-                                 id="jobDateField"
+                <p:selectOneMenu value="#{legalDocumentManager.dateSearchPeriod.dateField}" 
+                                 id="legalDocumentDateField"
                                  title="Select the date field on which to search" >
-                   <f:selectItems value="#{jobManager.dateSearchFields}" />
+                    
+                   <f:selectItems value="#{legalDocumentManager.dateSearchFields}" />
 
                 </p:selectOneMenu>
 
-                <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}"
-                                  id="jobDatePeriod"
+                <p:selectOneMenu value= "#{legalDocumentManager.dateSearchPeriod.name}"
+                                  id="legalDocumentDatePeriod"
                                  title="Select the date period">
 
-                    <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
+                    <p:ajax listener="#{legalDocumentManager.dateSearchPeriod.initDatePeriod}"
                             global="false"
-                            update="jobStartSearchDate,jobEndSearchDate"
+                            update="legalDocumentStartSearchDate,legalDocumentEndSearchDate"
                             process="@this" />
 
-                    <f:selectItems value="#{jobManager.datePeriods}"/>
+                    <f:selectItems value="#{legalDocumentManager.datePeriods}"/>
 
                 </p:selectOneMenu>
 
-                <p:calendar value="#{jobManager.dateSearchPeriod.startDate}"  
-                            id="jobStartSearchDate"
+                <p:calendar value="#{legalDocumentManager.dateSearchPeriod.startDate}"  
+                            id="legalDocumentStartSearchDate"
                             title="Select or enter the start of the date period"
                             size="17"
                             navigator="true"
                             autocomplete="off"
                             validator="requiredFieldValidator"
-                            disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
+                            disabled="#{legalDocumentManager.dateSearchPeriod.startDateDisabled}"
                             pattern="MMM dd, yyyy" />
 
-                <p:calendar value="#{jobManager.dateSearchPeriod.endDate}"
-                            id="jobEndSearchDate"
+                <p:calendar value="#{legalDocumentManager.dateSearchPeriod.endDate}"
+                            id="legalDocumentEndSearchDate"
                             title="Select or enter the end of the date period"
                             size="17"
                             navigator="true"
                             validator="requiredFieldValidator"
-                            disabled="#{jobManager.dateSearchPeriod.endDateDisabled}"
+                            disabled="#{legalDocumentManager.dateSearchPeriod.endDateDisabled}"
                             pattern="MMM dd, yyyy" />
 
 
