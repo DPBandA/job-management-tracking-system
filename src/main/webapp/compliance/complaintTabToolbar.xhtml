@@ -1,6 +1,6 @@
 <!--
 Standards Compliance (SC) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -41,17 +41,17 @@ Email: info@dpbennett.com.jm
 
             </p:commandButton>   
             <p:spacer width="20" />
-            <p:inputText id="complaintSearchText" 
-                         placeholder="Enter search text"
-                         value="#{complianceManager.complaintSearchText}" >
-
-                <p:ajax global="true"
-                        event="keyup"
-                        update=":appForm:mainTabView:complaintsTable"
-                        listener="#{complianceManager.doComplaintSearch}"
-                        process="@this"/>
-
-            </p:inputText>
+            <h:panelGroup>
+                <p:inputText id="complaintSearchText" 
+                             placeholder="Enter search text"
+                             value="#{complianceManager.complaintSearchText}" />
+                <p:commandButton id="complaintSearchButton"
+                                 class="search-button"   
+                                 actionListener="#{complianceManager.doComplaintSearch}"
+                                 update=":appForm:mainTabView:complaintsTable"
+                                 icon="pi pi-search"
+                                 process="@form" />
+            </h:panelGroup>
 
         </p:toolbarGroup>
 

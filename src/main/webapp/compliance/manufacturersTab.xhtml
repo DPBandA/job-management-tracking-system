@@ -1,6 +1,6 @@
 <!--
 Human Resource Management (HRM) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -40,17 +40,17 @@ Email: info@dpbennett.com.jm
 
             </p:commandButton>
             <p:spacer width="20" />
-            <p:inputText id="manufacturerSearchText" 
-                         placeholder="Enter search text"
-                         value="#{humanResourceManager.manufacturerSearchText}" >
-
-                <p:ajax event="keyup"                            
-                        global="true"
-                        update=":appForm:mainTabView:manufacturersTable"
-                        listener="#{humanResourceManager.doManufacturerSearch}"
-                        process="@this"/>
-
-            </p:inputText>
+            <h:panelGroup>
+                <p:inputText id="manufacturerSearchText" 
+                             placeholder="Enter search text"
+                             value="#{humanResourceManager.manufacturerSearchText}" />
+                <p:commandButton id="manufacturerSearchButton"
+                                 class="search-button"   
+                                 actionListener="#{humanResourceManager.doManufacturerSearch}"
+                                 update=":appForm:mainTabView:manufacturersTable"
+                                 icon="pi pi-search"
+                                 process="@form" />
+            </h:panelGroup>
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right" >

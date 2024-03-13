@@ -1,6 +1,6 @@
 <!--
 LabelPrint (LP)
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -41,17 +41,17 @@ Email: info@dpbennett.com.jm
 
             </p:commandButton>
             <p:spacer width="20" />
-            <p:inputText id="energyLabelSearchText" 
-                         placeholder="Enter search text"
-                         value="#{energyLabelManager.energyLabelSearchText}" >
-
-                <p:ajax event="keyup"                            
-                        global="false"
-                        update=":appForm:mainTabView:energyLabelsTable"
-                        listener="#{energyLabelManager.doEnergyLabelSearch}"
-                        process="@this"/>
-
-            </p:inputText>
+            <h:panelGroup>
+                <p:inputText id="energyLabelSearchText" 
+                             placeholder="Enter search text"
+                             value="#{energyLabelManager.energyLabelSearchText}" />
+                <p:commandButton id="energyLabelSearchButton"
+                                 class="search-button"   
+                                 actionListener="#{energyLabelManager.doEnergyLabelSearch}"
+                                 update=":appForm:mainTabView:energyLabelsTable"
+                                 icon="pi pi-search"
+                                 process="@form" />
+            </h:panelGroup>
         </p:toolbarGroup>        
     </p:toolbar>
 
