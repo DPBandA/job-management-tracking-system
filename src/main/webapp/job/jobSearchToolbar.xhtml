@@ -50,12 +50,12 @@ Email: info@dpbennett.com.jm
                 <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
                                  id="jobDateField"
                                  title="Select the date field on which to search" >
-                   <f:selectItems value="#{jobManager.dateSearchFields}" />
+                    <f:selectItems value="#{jobManager.dateSearchFields}" />
 
                 </p:selectOneMenu>
 
                 <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}"
-                                  id="jobDatePeriod"
+                                 id="jobDatePeriod"
                                  title="Select the date period">
 
                     <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
