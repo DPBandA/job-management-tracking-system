@@ -26,6 +26,11 @@ Email: info@dpbennett.com.jm
 
     <p:menubar id="main_menubar" style="width: 100%;" autoDisplay="false">
 
+        <p:menuitem 
+            actionListener="#{systemManager.mainTabView.openTab('Dashboard')}" 
+            value="Dashboard" 
+            icon="pi pi-sliders-h" />  
+
         <p:submenu label="Jobs"                            
                    rendered="#{jobManager.user.hasModule('jobManager')}"
                    icon="pi pi-wrench" >

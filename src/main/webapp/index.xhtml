@@ -155,6 +155,10 @@ Email: info@dpbennett.com.jm
                                     <p:defaultCommand id="defaultCmd"
                                                       target="#{systemManager.defaultCommandTarget}" />
 
+                                    <h:panelGroup  rendered="#{t.id == 'Dashboard'}">
+                                        <ui:include src="finance/dashboardTab.xhtml" /> 
+                                    </h:panelGroup>
+
                                     <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                         <ui:include src="job/jobBrowser.xhtml" /> 
                                     </h:panelGroup>
