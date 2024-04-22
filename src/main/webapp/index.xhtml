@@ -73,6 +73,7 @@ Email: info@dpbennett.com.jm
 
                                     <p:badge value="#{systemManager.sizeOfActiveNotifications}" 
                                              id="notificationBadge"
+                                             rendered="#{systemManager.user.hasModule('systemManager')}"
                                              visible="#{systemManager.hasActiveNotifications}" 
                                              severity="danger">
 
