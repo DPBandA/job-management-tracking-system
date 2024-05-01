@@ -279,7 +279,7 @@ Email: info@dpbennett.com.jm
                         requiredMessage="Department Required"
                         validator="businessEntityValidator"
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
+                        completeMethod="#{jobManager.completeActiveDepartment}" >            
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
@@ -309,7 +309,7 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.currentJob.subContractedDepartment}"
                         title="#{jobManager.currentJob.subContractedDepartment}"
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >
+                        completeMethod="#{jobManager.completeActiveDepartment}" >
 
             <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
             <f:attribute name="isSubContract" value="#{jobManager.currentJob.isSubContract}" />
@@ -363,7 +363,7 @@ Email: info@dpbennett.com.jm
                         scrollHeight="200"                         
                         multiple="true"
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+                        completeMethod="#{jobManager.completeActiveEmployee}" >
 
             <p:ajax event="itemSelect"
                     global="false"
