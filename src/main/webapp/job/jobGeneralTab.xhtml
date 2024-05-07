@@ -279,7 +279,7 @@ Email: info@dpbennett.com.jm
                         requiredMessage="Department Required"
                         validator="businessEntityValidator"
                         cache="true"
-                        completeMethod="#{jobManager.completeActiveDepartment}" >            
+                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
