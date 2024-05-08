@@ -309,7 +309,7 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.currentJob.subContractedDepartment}"
                         title="#{jobManager.currentJob.subContractedDepartment}"
                         cache="true"
-                        completeMethod="#{jobManager.completeActiveDepartment}" >
+                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >
 
             <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
             <f:attribute name="isSubContract" value="#{jobManager.currentJob.isSubContract}" />
