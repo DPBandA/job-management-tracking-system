@@ -31,7 +31,7 @@ Email: info@dpbennett.com.jm
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
         <link rel="stylesheet" type="text/css" href="../css/main.css" />  
     </h:head>
-    
+
     <h:body> 
 
         <ui:include src="../common/commonDialogs.xhtml"/>  
@@ -42,46 +42,462 @@ Email: info@dpbennett.com.jm
 
             <ui:include src="jobDetailTopToolbar.xhtml"/>
 
-            <p:tabView id="jobFormTabView"
-                       style="margin-top: 1px;margin-bottom: 1px;"    
-                       dynamic="false"
-                       widgetVar="jobFormTabVar" >
+            <p:panel header="General">
+                <h:panelGrid id="generalTabPanel" columns="2">
+                    <h:outputLabel value="#{jobManager.currentJob.jobNumberLabel} *" 
+                                   style="font-weight: bold;font-size: 14px;" />
+                    <h:panelGroup>
+                        <h:panelGroup id="jobNumberGroup">
 
-                <p:ajax event="tabChange" global="false" /> 
+                            <h:outputText id="jobNumber" 
+                                          rendered="#{jobManager.currentJob.autoGenerateJobNumber}"
+                                          value="#{jobManager.currentJob.jobNumber}" 
+                                          styleClass="job-number"/>
 
-                <p:tab title="General" rendered="#{jobManager.enableJobDialogTab('General')}">
-                    <ui:include src="jobGeneralTab.xhtml"/>
-                </p:tab>     
+                            <p:inputText id="jobNumberEdit"
+                                         rendered="#{!jobManager.currentJob.autoGenerateJobNumber}"
+                                         validator="jobNumberValidator"                                                                     
+                                         title="#{jobManager.currentJob.jobNumber}"
+                                         value="#{jobManager.currentJob.jobNumber}">
 
-                <p:tab title="Services" rendered="#{jobManager.enableJobDialogTab('Services')}" >
-                    <ui:include src="jobServicesTab.xhtml"/>
-                </p:tab>
+                                <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
+                                <f:attribute name="autoGenerateJobNumber" value="#{jobManager.currentJob.autoGenerateJobNumber}" />
 
-                <p:tab title="Samples" rendered="#{jobManager.enableJobDialogTab('Samples')}">
-                    <ui:include src="sample/jobSamplesTab.xhtml"/>
-                </p:tab>
-               
-                <p:tab title="#{jobManager.currentJob.costingAndPaymentTabLabel}"
-                       rendered="#{jobManager.enableJobDialogTab('CostingAndPayment')}" >
-                    <ui:include src="finance/jobCostingAndPaymentTab.xhtml"/>
-                </p:tab>    
+                                <p:ajax event="change"   
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateJob}"
+                                        process="@this"/>
 
-                <p:tab title="Grouping" 
-                       rendered="#{jobManager.enableJobDialogTab('Grouping')}">
-                    <ui:include src="jobGroupingTab.xhtml" />
-                </p:tab>
+                            </p:inputText>
+                        </h:panelGroup>
+                        <p:spacer height="0" width="5"/>
+                        <p:selectBooleanCheckbox id="autoGenerate" 
+                                                 itemLabel="auto"
+                                                 style="vertical-align: middle"
+                                                 rendered="#{jobManager.user.can('BeJMTSAdministrator')}"
+                                                 value="#{jobManager.currentJob.autoGenerateJobNumber}" >
 
-                <p:tab title="Status &amp; Tracking"  
-                       rendered="#{jobManager.enableJobDialogTab('StatusAndTracking')}">
-                    <ui:include src="jobStatusAndTrackingTab.xhtml" />
-                </p:tab>               
+                            <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}" 
+                                    event="change"
+                                    update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
+                                    global="false"                        
+                                    process="@this"/>
 
-                <p:tab title="Reporting" 
-                       rendered="#{jobManager.enableJobDialogTab('Reporting')}">
-                    <ui:include src="reportingTab.xhtml"/>
-                </p:tab>
+                        </p:selectBooleanCheckbox>            
+                        <p:tooltip for="autoGenerate" value="Check to auto-generate job number" 
+                                   showEffect="fade" hideEffect="fade" />
 
-            </p:tabView>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Business office"
+                                   for="businessOffice"
+                                   style="font-weight: bold"/>       
+                    <p:autoComplete id="businessOffice"
+                                    dropdown="true" 
+                                    readonly="false"
+                                    disabled="#{jobManager.disableJobDialogField('businessOffice')}"
+                                    var="businessOffice"
+                                    value="#{jobManager.currentJob.businessOffice}"
+                                    itemLabel="#{businessOffice.name}"
+                                    itemValue="#{businessOffice}"
+                                    converter="businessOfficeConverter"
+                                    required="true"
+                                    requiredMessage="Business Office Required"
+                                    validator="businessEntityValidator"
+                                    forceSelection="true"
+                                    cache="true"
+                                    completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
+
+                        <p:ajax event="itemSelect"                       
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                global="false"                    
+                                listener="#{jobManager.updateJob}"
+                                process="@this"/>
+
+                    </p:autoComplete>      
+
+                    <p:outputLabel value="Classification" 
+                                   for="classification"
+                                   style="font-weight: bold" />
+                    <p:autoComplete dropdown="true"
+                                    var="classification"
+                                    id="classification"
+                                    value="#{jobManager.currentJob.classification}"
+                                    itemLabel="#{classification.name}"                        
+                                    itemValue="#{classification}"                        
+                                    converter="classificationConverter"
+                                    required="true"
+                                    requiredMessage="Classification Required"
+                                    validator="businessEntityValidator"
+                                    forceSelection="true"
+                                    disabled="#{jobManager.disableJobDialogField('classification')}"
+                                    cache="true"
+                                    completeMethod="#{jobManager.completeJobClassification}" >
+
+                        <p:ajax event="itemSelect"    
+                                global="false"
+                                listener="#{jobManager.updateJobClassification}"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this"/>
+
+                    </p:autoComplete>
+
+                    <p:outputLabel value="Client *" style="font-weight: bold" />
+                    <h:panelGroup>          
+
+                        <p:autoComplete id="client"
+                                        var="client"
+                                        itemLabel="#{client.truncatedName}"
+                                        itemValue="#{client}"                    
+                                        dropdown="false"
+                                        scrollHeight="200" 
+                                        value="#{jobManager.currentJob.client}"   
+                                        converter="activeClientConverter"
+                                        required="true"
+                                        requiredMessage="Client Required"
+                                        validator="jobClientValidator"
+                                        forceSelection="true"
+                                        cache="true"
+                                        disabled="#{jobManager.disableJobDialogField('client')}"
+                                        completeMethod="#{clientManager.completeActiveClient}" >
+
+                            <p:ajax event="itemSelect"
+                                    global="false"
+                                    update="billingAddress,clientContact,:jobDialogForm:jobDetailToolbar1"
+                                    listener="#{jobManager.updateJobEntryTabClient}"
+                                    process="@this"/>
+
+                        </p:autoComplete>     
+
+                        <p:menuButton id="clientActionsMenu" 
+                                      icon="pi pi-pencil" 
+                                      disabled="#{jobManager.disableJobDialogField('clientActionsMenu')}"
+                                      title="Add or edit client">
+
+                            <p:menuitem value="Edit client"
+                                        id="editClient"
+                                        icon="pi pi-pencil"
+                                        disabled="${!jobManager.isClientNameValid}"                                  
+                                        actionListener="#{jobManager.editJobClient}"  
+                                        process="@this,client"                             
+                                        title="View or edit this client's detail">  
+
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{jobManager.clientDialogReturn}"
+                                        update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
+
+                            </p:menuitem>
+
+                            <p:menuitem 
+                                value="Add new client"
+                                icon="pi pi-plus"                    
+                                disabled="#{!jobManager.user.can('AddClient')}"
+                                actionListener="#{jobManager.createNewJobClient}"                                            
+                                process="@this"
+                                title="Add a new client to the client database">
+
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{jobManager.clientDialogReturn}"
+                                        update="client,billingAddress,clientContact,clientActionsMenu,:jobDialogForm:jobDetailToolbar1" />
+
+                            </p:menuitem>
+                        </p:menuButton>      
+
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Billing address *" style="font-weight: bold" />    
+                    <p:autoComplete id="billingAddress"
+                                    value="#{jobManager.currentJob.billingAddress}"
+                                    disabled="#{jobManager.disableJobDialogField('billingAddress')}"
+                                    dropdown="true"
+                                    forceSelection="true"
+                                    converter="clientAddressConverter" 
+                                    required="true"
+                                    requiredMessage="Billing Address Required"
+                                    validator="addressValidator"
+                                    var="address"  
+                                    scrollHeight="200"
+                                    itemValue="#{address}"
+                                    itemLabel="#{address.name}" 
+                                    cache="true"
+                                    completeMethod="#{jobManager.completeClientAddress}">
+
+                        <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+                        <p:ajax event="itemSelect"
+                                global="false"
+                                listener="#{jobManager.updateJob}"                                        
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this" />   
+
+                    </p:autoComplete>
+
+                    <p:outputLabel value="Contact *" style="font-weight: bold" />  
+                    <p:autoComplete id="clientContact"
+                                    value="#{jobManager.currentJob.contact}"
+                                    disabled="#{jobManager.disableJobDialogField('billingAddress')}"
+                                    dropdown="true"
+                                    forceSelection="true"
+                                    scrollHeight="200"
+                                    converter="clientContactConverter" 
+                                    required="true"
+                                    requiredMessage="Contact Required"
+                                    validator="contactValidator"
+                                    var="contact"                        
+                                    itemValue="#{contact}"
+                                    itemLabel="#{contact.name}" 
+                                    cache="true"
+                                    completeMethod="#{jobManager.completeClientContact}">
+
+                        <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+                        <p:ajax event="itemSelect"
+                                global="false"
+                                listener="#{jobManager.updateJob}"                                        
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this" />   
+
+                    </p:autoComplete>   
+
+                    <p:outputLabel value="Date submitted *" 
+                                   style="font-weight: bold" />
+                    <p:calendar id="dateSubmitted"
+                                value="#{jobManager.jobSubmissionDate}" 
+                                disabled="#{jobManager.disableJobDialogField('dateSubmitted')}"
+                                navigator="true" 
+                                autocomplete="off"
+                                required="true"
+                                requiredMessage="Date Submitted Required"
+                                pattern="MMM dd, yyyy" >
+
+                        <p:ajax event="dateSelect"
+                                global="false"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateDateSubmitted}" />
+
+                        <p:ajax event="keyup"
+                                global="false"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateDateSubmitted}" />
+
+                    </p:calendar>
+
+                    <p:outputLabel value="Department *" style="font-weight: bold" />
+                    <p:autoComplete id="department"  
+                                    disabled="#{jobManager.disableJobDialogField('department')}"
+                                    var="department"
+                                    forceSelection="true"      
+                                    dropdown="true"
+                                    scrollHeight="200" 
+                                    value="#{jobManager.currentJob.department}"
+                                    title="#{jobManager.currentJob.department}"
+                                    itemValue="#{department}"
+                                    itemLabel="#{department.name}"
+                                    converter="activeDepartmentConverter"
+                                    required="true"
+                                    requiredMessage="Department Required"
+                                    validator="businessEntityValidator"
+                                    cache="true"
+                                    completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
+
+                        <p:ajax event="itemSelect"
+                                listener="#{jobManager.updateDepartment}"
+                                global="false"
+                                update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
+                                process="@this" />
+
+                    </p:autoComplete>    
+
+                    <p:outputLabel value="Subcontracted dept. *"                      
+                                   rendered="#{jobManager.renderSubContractingDepartment}"
+                                   style="font-weight: bold" />
+                    <p:inputText value="#{jobManager.currentJob.subContractedDepartment}" 
+                                 disabled="true"
+                                 rendered="#{jobManager.renderSubContractingDepartment}"
+                                 />
+
+
+                    <p:outputLabel value="Assignee *" 
+                                   style="font-weight: bold" />       
+                    <p:autoComplete id="assignee"
+                                    var="assignedTo"   
+                                    value="#{jobManager.currentJob.assignedTo}"
+                                    title="#{jobManager.currentJob.assignedTo}"
+                                    itemLabel="#{assignedTo.name}"
+                                    itemValue="#{assignedTo}"
+                                    converter="activeEmployeeConverter"
+                                    required="true"
+                                    requiredMessage="Assignee Required"
+                                    validator="businessEntityValidator"
+                                    forceSelection="true"
+                                    dropdown="true"
+                                    scrollHeight="200" 
+                                    cache="true"
+                                    completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+                        <p:ajax event="itemSelect"
+                                listener="#{jobManager.updateJob}"
+                                global="false"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this"/>
+                    </p:autoComplete>  
+
+                    <p:outputLabel value="TAT given to client *"  
+                                   rendered="#{jobManager.currentJob.type == 'Job'}"
+                                   style="font-weight: bold;" />
+                    <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
+                        <p:inputText title="Estimated turnaround time (TAT) given to client"   
+                                     id="estimatedTAT"
+                                     disabled="#{jobManager.disableJobDialogField('estimatedTAT')}"
+                                     maxlength="4"
+                                     styleClass="#{not component.valid ? 'invalid-number-field' : 'number-field'}" 
+                                     converterMessage="Invalid Turnaround Time (TAT)" 
+                                     required="true"
+                                     requiredMessage="TAT Given To Client Required"
+                                     validator="turnaroundTimeValidator"
+                                     value="#{jobManager.currentJob.estimatedTurnAroundTimeInDays}">
+
+                            <f:attribute name="tatRequired" value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" />
+
+                            <p:ajax listener="#{jobManager.updateJob}"
+                                    global="false"
+                                    update=":jobDialogForm:jobDetailToolbar1"
+                                    event="change"   
+                                    process="@this" />
+                            <f:convertNumber integerOnly="true"/>
+                        </p:inputText>
+                        <h:outputText value=" (days)" />
+                        <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
+                    </h:panelGroup>
+
+                    <p:outputLabel value="" rendered="#{jobManager.currentJob.type == 'Job'}" />
+                    <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
+                        <p:outputLabel for="tatRequired"  style="font-weight: normal;" 
+                                       value="TAT is required" />
+                        <p:spacer width="5" />
+                        <p:selectBooleanCheckbox id="tatRequired"
+                                                 required="false"
+                                                 style="vertical-align: middle"    
+                                                 disabled="#{jobManager.disableJobDialogField('tatRequired')}"
+                                                 value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" >
+
+                            <p:ajax listener="#{jobManager.updateJob}"
+                                    global="false"        
+                                    update=":jobDialogForm:jobDetailToolbar1"
+                                    process="@this"/>
+
+                        </p:selectBooleanCheckbox>
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Instructions *" 
+                                   style="font-weight: bold;vertical-align: top;" />       
+                    <p:inputTextarea
+                        id="instructions"
+                        value="#{jobManager.currentJob.instructions}"
+                        disabled="#{jobManager.disableJobDialogField('instructions')}"
+                        rows="3"
+                        counter="instructCharsRemaining"
+                        counterTemplate="{0} characters remaining."
+                        autoResize="true"
+                        maxlength="1000" 
+                        required="true"
+                        requiredMessage="Instructions Required"
+                        styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
+                        style="width: 90%;">
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                        <p:ajax event="change"
+                                global="false"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"
+                                process="@this"/>
+
+                    </p:inputTextarea> 
+                    <p:outputLabel value="&nbsp;&nbsp;" />
+                    <p:outputLabel id="instructCharsRemaining" /> 
+
+                    <p:outputLabel value="Description *" 
+                                   rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                                   style="font-weight: bold;vertical-align: top;" />       
+                    <p:inputTextarea
+                        id="pfDescription"
+                        rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                        value="#{jobManager.currentJob.jobCostingAndPayment.description}"
+                        rows="3"
+                        counter="pfDescriptionCharsRemaining"
+                        counterTemplate="{0} characters remaining."
+                        autoResize="true"
+                        maxlength="1000" 
+                        required="true"
+                        requiredMessage="Description Required"
+                        styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
+                        style="width: 90%;">
+
+                        <f:validator validatorId="requiredFieldValidator" />
+
+                        <p:ajax event="change"
+                                global="false"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                listener="#{jobManager.updateJob}"
+                                process="@this"/>
+
+                    </p:inputTextarea>
+                    <p:outputLabel value="&nbsp;&nbsp;" 
+                                   rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
+                    <p:outputLabel id="pfDescriptionCharsRemaining" 
+                                   rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
+
+
+                </h:panelGrid>
+
+            </p:panel>
+
+            <p:panel id="servicesRequested" header="Services Requested" >
+
+                <h:panelGrid columns="2" cellspacing="5" >
+                    <h:outputLabel value="Service location" 
+                                   style="font-weight: bold;"
+                                   for="serviceLocation"/>
+                    <p:selectOneMenu id="serviceLocation"   
+                                     disabled="#{jobManager.disableJobDialogField('serviceLocation')}"
+                                     value="#{jobManager.currentJob.serviceLocation}">
+
+                        <f:selectItems  value="#{systemManager.serviceLocationList}"
+                                        var="serviceLocation"                            
+                                        itemValue="#{serviceLocation.value}"
+                                        itemLabel="#{serviceLocation.label}"/>
+
+                        <p:ajax listener="#{jobManager.updateJob}"
+                                global="false"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this"/>
+
+                    </p:selectOneMenu> 
+                </h:panelGrid>
+
+                <hr/>
+
+                <p:selectOneRadio layout="grid" columns="3"
+                                  converter="serviceConverter"
+                                  value="#{jobContractManager.currentJob.serviceContract.selectedService}" 
+                                  styleClass="grid-radio">
+
+                    <f:selectItems value="#{jobContractManager.allActiveServices}" 
+                                   var="service"                                    
+                                   itemLabel="#{service.name}" 
+                                   itemValue="#{service}"/>
+
+                    <p:ajax 
+                        listener="#{jobContractManager.updateService}"
+                        global="false"
+                        update="servicesRequested,:jobDialogForm:jobDetailToolbar1" />
+
+
+                </p:selectOneRadio>
+
+            </p:panel>
 
             <ui:include src="jobDetailBottomToolbar.xhtml"/>
 
