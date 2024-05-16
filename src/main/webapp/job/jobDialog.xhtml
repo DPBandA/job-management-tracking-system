@@ -41,6 +41,8 @@ Email: info@dpbennett.com.jm
             <p:growl id="growl2" life="5000" showDetail="true" />  
 
             <ui:include src="jobDetailTopToolbar.xhtml"/>
+            
+            <ui:include src="menubar.xhtml" />  
 
             <p:panel header="General">
                 <h:panelGrid id="generalTabPanel" columns="2">
@@ -164,7 +166,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="itemSelect"
                                     global="false"
-                                    update="billingAddress,clientContact,:jobDialogForm:jobDetailToolbar1"
+                                    update=":jobDialogForm:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
                                     listener="#{jobManager.updateJobEntryTabClient}"
                                     process="@this"/>
 
@@ -343,6 +345,32 @@ Email: info@dpbennett.com.jm
                                 process="@this"/>
                     </p:autoComplete>  
 
+                    <p:outputLabel value="Service requested *" 
+                                   style="font-weight: bold" />       
+                    <p:autoComplete id="serviceRequested"
+                                    var="service"   
+                                    value="#{jobContractManager.currentJob.serviceContract.selectedService}"
+                                    title="#{jobContractManager.currentJob.serviceContract.selectedService}"
+                                    itemLabel="#{service.name}"
+                                    itemValue="#{service}"
+                                    converter="serviceConverter"
+                                    required="true"
+                                    requiredMessage="Service required"
+                                    validator="businessEntityValidator"
+                                    forceSelection="true"
+                                    dropdown="true"
+                                    scrollHeight="200" 
+                                    cache="true"
+                                    completeMethod="#{jobContractManager.completeService}" >
+
+                        <p:ajax event="itemSelect"
+                                listener="#{jobContractManager.updateService}"
+                                global="false"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                process="@this"/>
+
+                    </p:autoComplete>
+
                     <p:outputLabel value="TAT given to client *"  
                                    rendered="#{jobManager.currentJob.type == 'Job'}"
                                    style="font-weight: bold;" />
@@ -454,48 +482,251 @@ Email: info@dpbennett.com.jm
 
             </p:panel>
 
-            <p:panel id="servicesRequested" header="Services Requested" >
+            <p:panel id="jobStatusAndTracking" header="Status &amp; Tracking">
 
-                <h:panelGrid columns="2" cellspacing="5" >
-                    <h:outputLabel value="Service location" 
-                                   style="font-weight: bold;"
-                                   for="serviceLocation"/>
-                    <p:selectOneMenu id="serviceLocation"   
-                                     disabled="#{jobManager.disableJobDialogField('serviceLocation')}"
-                                     value="#{jobManager.currentJob.serviceLocation}">
+                <h:panelGrid columns="1" >
+                    <h:panelGroup>
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Entered by"/>
+                            <p:inputText readonly="true"
+                                         maxlength="250"
+                                         styleClass="read-only-text-field"
+                                         value="#{jobManager.currentJob.jobStatusAndTracking.enteredBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.enteredBy.lastName}"
+                                         title="#{jobManager.currentJob.jobStatusAndTracking.enteredBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.enteredBy.lastName}"/>
 
-                        <f:selectItems  value="#{systemManager.serviceLocationList}"
-                                        var="serviceLocation"                            
-                                        itemValue="#{serviceLocation.value}"
-                                        itemLabel="#{serviceLocation.label}"/>
+                            <h:outputText value="Last edited by"/>
+                            <p:inputText readonly="true"
+                                         maxlength="250"
+                                         styleClass="read-only-text-field"
+                                         value="#{jobManager.currentJob.jobStatusAndTracking.editedBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.editedBy.lastName}"
+                                         title="#{jobManager.currentJob.jobStatusAndTracking.editedBy.firstName} #{jobManager.currentJob.jobStatusAndTracking.editedBy.lastName}"/>
 
-                        <p:ajax listener="#{jobManager.updateJob}"
-                                global="false"
-                                update=":jobDialogForm:jobDetailToolbar1"
-                                process="@this"/>
+                            <h:outputText value="Expected start date"/>
+                            <p:calendar pattern="MMM dd, yyyy"
+                                        navigator="true"   
+                                        autocomplete="off"
+                                        value="#{jobManager.currentJob.jobStatusAndTracking.expectedStartDate}" >
 
-                    </p:selectOneMenu> 
+                                <p:ajax event="dateSelect"   
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateJob}"/>
+
+                                <p:ajax event="change"      
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateJob}"/>
+
+                            </p:calendar>
+
+                            <h:outputText value="Expected date of completion"/>
+                            <p:calendar pattern="MMM dd, yyyy"
+                                        navigator="true"   
+                                        autocomplete="off"
+                                        value="#{jobManager.expectedDateOfCompletion}" >
+
+                                <p:ajax event="dateSelect"   
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateDateExpectedCompletionDate}"/>
+
+                                <p:ajax event="change"
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateDateExpectedCompletionDate}"/>
+
+                            </p:calendar>
+
+                            <h:outputLabel value="Work progress *" 
+                                           style="font-weight: bold;"
+                                           for="workProgress"/>
+                            <p:selectOneMenu id="workProgress" 
+                                             value="#{jobManager.currentJob.jobStatusAndTracking.workProgress}">
+
+                                <f:selectItems  value="#{systemManager.workProgressList}"
+                                                var="progress"                            
+                                                itemValue="#{progress.value}"
+                                                itemLabel="#{progress.label}"/>
+
+                                <p:ajax listener="#{jobManager.updateWorkProgress}"
+                                        global="false"
+                                        update="personnelTaskTracking,:jobDialogForm:growl2,startDate,:jobDialogForm:jobDetailToolbar1,@this"
+                                        process="@this"/>
+
+                            </p:selectOneMenu>     
+
+                            <h:outputText value="Start date"/>
+                            <p:calendar id="startDate" 
+                                        pattern="MMM dd, yyyy"
+                                        navigator="true"     
+                                        autocomplete="off"
+                                        value="#{jobManager.currentJob.jobStatusAndTracking.startDate}" >
+
+                                <p:ajax event="dateSelect"   
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1,workProgress"
+                                        listener="#{jobManager.updateStartDate}"/>
+
+                                <p:ajax event="change"    
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1,workProgress"
+                                        listener="#{jobManager.updateStartDate}"/>
+
+                            </p:calendar>
+                        </h:panelGrid>
+                    </h:panelGroup>
+                    <hr/>
+                    <h:panelGroup id="personnelTaskTracking">
+                        <h:panelGrid columns="2">
+                            <p:selectBooleanCheckbox id="jobCompleted"
+                                                     disabled="true"
+                                                     itemLabel="Job completed by"
+                                                     value="#{jobManager.completed}" >
+                                <p:ajax listener="#{jobManager.updateJobCompleted}"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        global="false"                                    
+                                        process="@this" />
+                            </p:selectBooleanCheckbox>
+                            <p:autoComplete id="completedBy"
+                                            disabled="#{!jobManager.completed}"
+                                            var="completedBy"
+                                            maxlength="250"
+                                            readonly="true"
+                                            value="#{jobManager.currentJob.jobStatusAndTracking.completedBy}"
+                                            title="#{jobManager.currentJob.jobStatusAndTracking.completedBy}"
+                                            itemLabel="#{completedBy.name}"
+                                            itemValue="#{completedBy}"
+                                            converter="activeEmployeeConverter"
+                                            forceSelection="true"
+                                            cache="true"
+                                            completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+                                <p:ajax event="itemSelect"
+                                        listener="#{jobManager.updateJob}" 
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        global="false"
+                                        process="@this"/>
+
+                            </p:autoComplete>
+
+                            <h:outputText value="Date job completed" />
+                            <p:calendar id="dateJobCompleted"
+                                        disabled="#{!jobManager.completed}"
+                                        pattern="MMM dd, yyyy"
+                                        navigator="true"  
+                                        autocomplete="off"
+                                        value="#{jobManager.jobCompletionDate}" >
+
+                                <p:ajax event="dateSelect"  
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateDateJobCompleted}"/>
+
+                                <p:ajax event="change"
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateDateJobCompleted}"/>
+
+                            </p:calendar>
+
+                            <p:selectBooleanCheckbox id="samplesCollected"
+                                                     itemLabel="Sample(s) collected by"
+                                                     disabled="#{!jobManager.jobSaved}"
+                                                     value="#{jobManager.samplesCollected}">
+
+                                <p:ajax listener="#{jobManager.updateSamplesCollectedBy}"
+                                        update="jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1"
+                                        global="false"                                    
+                                        process="@this"/>
+
+                            </p:selectBooleanCheckbox>
+                            <p:inputText id="samplesCollectedBy"
+                                         disabled="#{!jobManager.samplesCollected}"
+                                         value="#{jobManager.currentJob.jobStatusAndTracking.samplesCollectedBy}">
+
+                                <p:ajax event="change"
+                                        global="false"                                
+                                        listener="#{jobManager.updateJob}"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        process="@this"/>
+
+                                <f:validator validatorId="requiredFieldValidator" />
+
+                                <f:attribute name="fieldRequired" 
+                                             value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected != null}" />
+
+                            </p:inputText>
+
+                            <h:outputText value="Date sample(s) collected"/>
+                            <p:calendar id="dateSamplesCollected"
+                                        disabled="#{!jobManager.samplesCollected}"
+                                        pattern="MMM dd, yyyy"
+                                        navigator="true"
+                                        autocomplete="off"
+                                        value="#{jobManager.currentJob.jobStatusAndTracking.dateSamplesCollected}" >
+
+                                <p:ajax event="dateSelect"  
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateJob}"/>
+
+                                <p:ajax event="change"  
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateJob}"/>
+
+                            </p:calendar>
+
+                            <p:selectBooleanCheckbox id="docsCollected"
+                                                     disabled="#{!jobManager.jobSaved}"
+                                                     itemLabel="Document(s) collected by"
+                                                     value="#{jobManager.documentCollected}">
+
+                                <p:ajax listener="#{jobManager.updateDocumentsCollectedBy}"
+                                        global="false"    
+                                        update="jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1"
+                                        process="@this"/>
+
+                            </p:selectBooleanCheckbox>                    
+                            <p:inputText id="docsCollectedBy"
+                                         disabled="#{!jobManager.documentCollected}"
+                                         maxlength="250"
+                                         value="#{jobManager.currentJob.jobStatusAndTracking.documentCollectedBy}" >
+
+                                <p:ajax listener="#{jobManager.updateJob}"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        global="false"
+                                        event="change"                               
+                                        process="@this"/>
+
+                                <f:validator validatorId="requiredFieldValidator" />
+
+                                <f:attribute name="fieldRequired" 
+                                             value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected != null}" />
+
+                            </p:inputText>
+                            <h:outputText value="Date document(s) collected"/>
+                            <p:calendar id="dateDocsCollected"
+                                        disabled="#{!jobManager.documentCollected}"
+                                        pattern="MMM dd, yyyy"
+                                        navigator="true"
+                                        autocomplete="off"
+                                        value="#{jobManager.currentJob.jobStatusAndTracking.dateDocumentCollected}" >
+
+                                <p:ajax event="dateSelect" 
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateJob}"/>
+
+                                <p:ajax event="change"  
+                                        global="false"
+                                        update=":jobDialogForm:jobDetailToolbar1"
+                                        listener="#{jobManager.updateJob}"/>
+
+                            </p:calendar>
+                        </h:panelGrid>
+                    </h:panelGroup>
                 </h:panelGrid>
-
-                <hr/>
-
-                <p:selectOneRadio layout="grid" columns="3"
-                                  converter="serviceConverter"
-                                  value="#{jobContractManager.currentJob.serviceContract.selectedService}" 
-                                  styleClass="grid-radio">
-
-                    <f:selectItems value="#{jobContractManager.allActiveServices}" 
-                                   var="service"                                    
-                                   itemLabel="#{service.name}" 
-                                   itemValue="#{service}"/>
-
-                    <p:ajax 
-                        listener="#{jobContractManager.updateService}"
-                        global="false"
-                        update="servicesRequested,:jobDialogForm:jobDetailToolbar1" />
-
-
-                </p:selectOneRadio>
 
             </p:panel>
 
