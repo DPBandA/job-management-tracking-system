@@ -41,8 +41,10 @@ Email: info@dpbennett.com.jm
             <p:growl id="growl2" life="5000" showDetail="true" />  
 
             <ui:include src="jobDetailTopToolbar.xhtml"/>
-            
-            <ui:include src="menubar.xhtml" />  
+
+            <ui:remove>
+                <ui:include src="menubar.xhtml" /> 
+            </ui:remove>
 
             <p:panel header="General">
                 <h:panelGrid id="generalTabPanel" columns="2">
@@ -314,11 +316,36 @@ Email: info@dpbennett.com.jm
                     <p:outputLabel value="Subcontracted dept. *"                      
                                    rendered="#{jobManager.renderSubContractingDepartment}"
                                    style="font-weight: bold" />
-                    <p:inputText value="#{jobManager.currentJob.subContractedDepartment}" 
-                                 disabled="true"
-                                 rendered="#{jobManager.renderSubContractingDepartment}"
-                                 />
+                    <p:autoComplete id="subContractedDepartment"                        
+                                    rendered="#{jobManager.renderSubContractingDepartment}"
+                                    disabled="#{jobManager.disableJobDialogField('subContractedDepartment')}"
+                                    forceSelection="true"
+                                    var="department"
+                                    itemValue="#{department}"
+                                    itemLabel="#{department.name}"
+                                    converter="activeDepartmentConverter"
+                                    required="true"
+                                    requiredMessage="Subcontracted Department Required"
+                                    validator="subcontractedDepartmentValidator"
+                                    dropdown="true"
+                                    scrollHeight="200"                           
+                                    value="#{jobManager.currentJob.subContractedDepartment}"
+                                    title="#{jobManager.currentJob.subContractedDepartment}"
+                                    cache="true"
+                                    completeMethod="#{humanResourceManager.completeActiveDepartment}" >
 
+                        <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
+                        <f:attribute name="isSubContract" value="#{jobManager.currentJob.isSubContract}" />
+                        <f:attribute name="isToBeSubcontracted" value="#{jobManager.currentJob.isToBeSubcontracted}" />
+                        <f:attribute name="departmentName" value="#{jobManager.currentJob.department.name}" />
+
+                        <p:ajax event="itemSelect"
+                                listener="#{jobManager.updateSubContractedDepartment}"
+                                global="false"
+                                update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
+                                process="@this" />
+
+                    </p:autoComplete>
 
                     <p:outputLabel value="Assignee *" 
                                    style="font-weight: bold" />       
@@ -432,7 +459,7 @@ Email: info@dpbennett.com.jm
                         required="true"
                         requiredMessage="Instructions Required"
                         styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                        style="width: 90%;">
+                        style="width: 120%;">
 
                         <f:validator validatorId="requiredFieldValidator" />
 
@@ -461,7 +488,7 @@ Email: info@dpbennett.com.jm
                         required="true"
                         requiredMessage="Description Required"
                         styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
-                        style="width: 90%;">
+                        style="width: 120%;">
 
                         <f:validator validatorId="requiredFieldValidator" />
 
@@ -728,6 +755,94 @@ Email: info@dpbennett.com.jm
                     </h:panelGroup>
                 </h:panelGrid>
 
+            </p:panel>
+
+            <p:panel id="jobStatusNote" header="Status Note" >
+                <p:toolbar rendered="#{jobManager.enableMultipleStatusNotes()}">
+                    <p:toolbarGroup align="left">
+                        <p:commandButton value="New"
+                                         title="Add new note"
+                                         actionListener="#{jobManager.createNewStatusNote}"  
+                                         disabled="#{jobManager.isCurrentJobNew()}"
+                                         icon="pi pi-plus"
+                                         process="@this" >
+
+                            <p:ajax event="dialogReturn" 
+                                    listener="#{jobManager.statusNoteDialogReturn}"                    
+                                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2,jobStatusNote"
+                                    process="@this"/>
+
+                        </p:commandButton>                
+                    </p:toolbarGroup>
+                </p:toolbar>
+                <p:dataTable id="jobStatusNoteTable"
+                             rendered="#{jobManager.enableMultipleStatusNotes()}"
+                             paginator="true"
+                             rows="15"
+                             reflow="true"
+                             var="statusNote"
+                             style="margin-bottom: 1px;margin-top: 1px;"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                             value="#{jobManager.statusNotes}">
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Note"/>
+                        </f:facet>
+                        <h:outputText value="#{statusNote.text}" />            
+                    </p:column>
+                    <p:column width="20%">
+                        <f:facet name="header">
+                            <h:outputText value="Entered by"/>
+                        </f:facet>
+                        <h:outputText value="#{statusNote.createdBy}"/>              
+                    </p:column>
+                    <p:column width="15%">
+                        <f:facet name="header">
+                            <h:outputText value="Date entered"/>
+                        </f:facet>
+                        <h:outputText value="#{statusNote.dateCreated}">        
+                            <f:convertDateTime pattern="MMM dd, yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                </p:dataTable>
+                <p:toolbar rendered="#{jobManager.enableMultipleStatusNotes()}">
+                    <p:toolbarGroup align="left">
+                        <p:commandButton value="New"
+                                         title="Add new note"
+                                         actionListener="#{jobManager.createNewStatusNote}"   
+                                         disabled="#{jobManager.isCurrentJobNew()}"
+                                         icon="pi pi-plus"
+                                         process="@this" >
+
+                            <p:ajax event="dialogReturn" 
+                                    listener="#{jobManager.statusNoteDialogReturn}"                    
+                                    update="jobStatusNote"
+                                    process="@this"/>
+
+                        </p:commandButton>                
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:inputTextarea
+                    value="#{jobManager.currentJob.jobStatusAndTracking.statusNote}"
+                    rendered="#{!jobManager.enableMultipleStatusNotes()}"
+                    rows="3"
+                    counter="jobStatusNoteCharsRemaining"
+                    counterTemplate="{0} characters remaining."
+                    maxlength="1000">
+
+                    <p:ajax event="change"
+                            global="false"                    
+                            listener="#{jobManager.updateJob}"
+                            update=":jobDialogForm:jobDetailToolbar1"
+                            process="@this"/>
+
+                </p:inputTextarea>
+                <br/>
+                <h:outputText id="jobStatusNoteCharsRemaining" 
+                              rendered="#{!jobManager.enableMultipleStatusNotes()}" /> 
             </p:panel>
 
             <ui:include src="jobDetailBottomToolbar.xhtml"/>
