@@ -119,18 +119,18 @@ Email: info@dpbennett.com.jm
             <p:ajax event="itemSelect"    
                     global="false"
                     listener="#{jobManager.updateJobClassification}"
-                    update=":jobDialogForm:jobDetailToolbar1"
+                    update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,:jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
 
         </p:autoComplete>
 
         <p:outputLabel value="Client *" style="font-weight: bold" />
-        <h:panelGroup> 
+        <h:panelGroup>                
             <p:autoComplete id="client"
                             var="client"
                             itemLabel="#{client.truncatedName}"
                             itemValue="#{client}"                    
-                            dropdown="true"
+                            dropdown="false"
                             scrollHeight="200" 
                             value="#{jobManager.currentJob.client}"   
                             converter="activeClientConverter"
@@ -138,47 +138,18 @@ Email: info@dpbennett.com.jm
                             requiredMessage="Client Required"
                             validator="jobClientValidator"
                             forceSelection="true"
-                            lazyModel="#{clientManager.lazyClientDataModel}" 
-                            lazyField="name"
-                            maxResults="10"
                             cache="true"
                             minQueryLength="2"
-                            disabled="#{jobManager.disableJobDialogField('client')}" >
+                            disabled="#{jobManager.disableJobDialogField('client')}"
+                            completeMethod="#{clientManager.completeActiveClient}" >
 
                 <p:ajax event="itemSelect"
                         global="false"
-                        update="jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
+                        update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
-            </p:autoComplete>  
-            <ui:remove>
-                <p:autoComplete id="client"
-                                var="client"
-                                itemLabel="#{client.truncatedName}"
-                                itemValue="#{client}"                    
-                                dropdown="false"
-                                scrollHeight="200" 
-                                value="#{jobManager.currentJob.client}"   
-                                converter="activeClientConverter"
-                                required="true"
-                                requiredMessage="Client Required"
-                                validator="jobClientValidator"
-                                forceSelection="true"
-                                cache="true"
-                                minQueryLength="2"
-                                maxResults="10"
-                                disabled="#{jobManager.disableJobDialogField('client')}"
-                                completeMethod="#{clientManager.completeActiveClient}" >
-
-                    <p:ajax event="itemSelect"
-                            global="false"
-                            update="jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
-                            listener="#{jobManager.updateJobEntryTabClient}"
-                            process="@this"/>
-
-                </p:autoComplete>   
-            </ui:remove>
+            </p:autoComplete>     
 
             <p:menuButton id="clientActionsMenu" 
                           icon="pi pi-pencil" 
