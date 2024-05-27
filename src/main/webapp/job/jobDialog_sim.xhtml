@@ -42,10 +42,8 @@ Email: info@dpbennett.com.jm
 
             <ui:include src="jobDetailTopToolbar.xhtml"/>
 
-            <ui:remove>
-                <ui:include src="menubar.xhtml" /> 
-            </ui:remove>
-
+            <ui:include src="menubar.xhtml" /> 
+            
             <p:panel header="General">
                 <h:panelGrid id="generalTabPanel" columns="2">
                     <h:outputLabel value="#{jobManager.currentJob.jobNumberLabel} *" 
@@ -568,6 +566,7 @@ Email: info@dpbennett.com.jm
                                            style="font-weight: bold;"
                                            for="workProgress"/>
                             <p:selectOneMenu id="workProgress" 
+                                             dynamic="true"
                                              value="#{jobManager.currentJob.jobStatusAndTracking.workProgress}">
 
                                 <f:selectItems  value="#{systemManager.workProgressList}"
