@@ -24,7 +24,7 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"> 
 
-    <h:panelGrid columns="2" id="generalTabPanel" >
+    <h:panelGrid id="generalTabPanel" columns="2">
         <h:outputLabel value="#{jobManager.currentJob.jobNumberLabel} *" 
                        style="font-weight: bold;font-size: 14px;" />
         <h:panelGroup>
@@ -134,27 +134,25 @@ Email: info@dpbennett.com.jm
                             itemLabel="#{client.truncatedName}"
                             itemValue="#{client}"                    
                             dropdown="false"
-                            scrollHeight="200" 
                             value="#{jobManager.currentJob.client}"   
                             converter="activeClientConverter"
                             required="true"
                             requiredMessage="Client Required"
                             validator="jobClientValidator"
                             forceSelection="true"
-                            cache="true"
+                            lazyModel="#{clientManager.lazyClientDataModel}" 
+                            lazyField="name"
                             maxResults="10"
                             minQueryLength="3"
-                            disabled="#{jobManager.disableJobDialogField('client')}"
-                            lazyModel="#{clientManager.lazyClientDataModel}" 
-                            lazyField="name" >
+                            disabled="#{jobManager.disableJobDialogField('client')}" >
 
                 <p:ajax event="itemSelect"
                         global="false"
-                        update=":jobDialogForm:jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
+                        update="jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
-            </p:autoComplete>    
+            </p:autoComplete>     
 
             <p:menuButton id="clientActionsMenu" 
                           icon="pi pi-pencil" 
@@ -249,6 +247,33 @@ Email: info@dpbennett.com.jm
             </p:column>
 
         </p:selectOneMenu>
+        <ui:remove>
+            <p:autoComplete id="clientContact"
+                            value="#{jobManager.currentJob.contact}"
+                            disabled="#{jobManager.disableJobDialogField('billingAddress')}"
+                            dropdown="true"
+                            forceSelection="true"
+                            scrollHeight="200"
+                            converter="clientContactConverter" 
+                            required="true"
+                            requiredMessage="Contact Required"
+                            validator="contactValidator"
+                            var="contact"                        
+                            itemValue="#{contact}"
+                            itemLabel="#{contact.name}" 
+                            cache="true"
+                            completeMethod="#{jobManager.completeClientContact}">
+
+                <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+                <p:ajax event="itemSelect"
+                        global="false"
+                        listener="#{jobManager.updateJob}"                                        
+                        update=":jobDialogForm:jobDetailToolbar1"
+                        process="@this" />   
+
+            </p:autoComplete>     
+        </ui:remove>
 
         <p:outputLabel value="Date submitted *" 
                        style="font-weight: bold" />
@@ -274,56 +299,22 @@ Email: info@dpbennett.com.jm
         </p:calendar>
 
         <p:outputLabel value="Department *" style="font-weight: bold" />
-        <p:selectOneMenu id="department"
-                         disabled="#{jobManager.disableJobDialogField('department')}"
-                         value="#{jobManager.currentJob.department}"
-                         title="#{jobManager.currentJob.department}"
-                         converter="activeDepartmentConverter"     
-                         panelStyle="width:180px"
-                         filter="true" 
-                         filterMatchMode="contains" 
-                         filterNormalize="true">
-
-            <f:selectItems value="#{jobManager.allActiveDepartments}" 
-                           var="department"
-                           itemLabel="#{department.name}" 
-                           itemValue="#{department}"/>
-
-            <p:ajax event="itemSelect"
-                    listener="#{jobManager.updateSubContractedDepartment}"
-                    global="false"
-                    update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
-                    process="@this" />
-
-            <p:column>               
-                <h:outputText value="#{department.name}"/>
-            </p:column>
-
-        </p:selectOneMenu>
-
-        <p:outputLabel value="Subcontracted dept. *"                      
-                       rendered="#{jobManager.renderSubContractingDepartment}"
-                       style="font-weight: bold" />
-        <p:selectOneMenu id="subContractedDepartment"
-                         rendered="#{jobManager.renderSubContractingDepartment}"
-                         disabled="#{jobManager.disableJobDialogField('subContractedDepartment')}"
-                         value="#{jobManager.currentJob.subContractedDepartment}"
-                         title="#{jobManager.currentJob.subContractedDepartment}"
-                         converter="activeDepartmentConverter"     
-                         panelStyle="width:180px"
-                         filter="true" 
-                         filterMatchMode="contains" 
-                         filterNormalize="true">
-
-            <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
-            <f:attribute name="isSubContract" value="#{jobManager.currentJob.isSubContract}" />
-            <f:attribute name="isToBeSubcontracted" value="#{jobManager.currentJob.isToBeSubcontracted}" />
-            <f:attribute name="departmentName" value="#{jobManager.currentJob.department.name}" />
-
-            <f:selectItems value="#{jobManager.allActiveDepartments}" 
-                           var="department"
-                           itemLabel="#{department.name}" 
-                           itemValue="#{department}"/>
+        <p:autoComplete id="department"  
+                        disabled="#{jobManager.disableJobDialogField('department')}"
+                        var="department"
+                        forceSelection="true"      
+                        dropdown="true"
+                        scrollHeight="200" 
+                        value="#{jobManager.currentJob.department}"
+                        title="#{jobManager.currentJob.department}"
+                        itemValue="#{department}"
+                        itemLabel="#{department.name}"
+                        converter="activeDepartmentConverter"
+                        required="true"
+                        requiredMessage="Department Required"
+                        validator="businessEntityValidator"
+                        cache="true"
+                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
 
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
@@ -331,12 +322,203 @@ Email: info@dpbennett.com.jm
                     update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
                     process="@this" />
 
-            <p:column>               
-                <h:outputText value="#{department.name}"/>
-            </p:column>
 
-        </p:selectOneMenu>
+        </p:autoComplete>     
 
+        <p:outputLabel value="Subcontracted dept. *"                      
+                       rendered="#{jobManager.renderSubContractingDepartment}"
+                       style="font-weight: bold" />
+        <p:autoComplete id="subContractedDepartment"                        
+                        rendered="#{jobManager.renderSubContractingDepartment}"
+                        disabled="#{jobManager.disableJobDialogField('subContractedDepartment')}"
+                        forceSelection="true"
+                        var="department"
+                        itemValue="#{department}"
+                        itemLabel="#{department.name}"
+                        converter="activeDepartmentConverter"
+                        required="true"
+                        requiredMessage="Subcontracted Department Required"
+                        validator="subcontractedDepartmentValidator"
+                        dropdown="true"
+                        scrollHeight="200"                           
+                        value="#{jobManager.currentJob.subContractedDepartment}"
+                        title="#{jobManager.currentJob.subContractedDepartment}"
+                        cache="true"
+                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >
+
+            <f:attribute name="currentJobId" value="#{jobManager.currentJob.id}" />
+            <f:attribute name="isSubContract" value="#{jobManager.currentJob.isSubContract}" />
+            <f:attribute name="isToBeSubcontracted" value="#{jobManager.currentJob.isToBeSubcontracted}" />
+            <f:attribute name="departmentName" value="#{jobManager.currentJob.department.name}" />
+
+            <p:ajax event="itemSelect"
+                    listener="#{jobManager.updateSubContractedDepartment}"
+                    global="false"
+                    update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
+                    process="@this" />
+
+        </p:autoComplete>
+
+        <p:outputLabel value="Assignee *" 
+                       style="font-weight: bold" />       
+        <p:autoComplete id="assignee"
+                        var="assignedTo"   
+                        value="#{jobManager.currentJob.assignedTo}"
+                        title="#{jobManager.currentJob.assignedTo}"
+                        itemLabel="#{assignedTo.name}"
+                        itemValue="#{assignedTo}"
+                        converter="activeEmployeeConverter"
+                        required="true"
+                        requiredMessage="Assignee Required"
+                        validator="businessEntityValidator"
+                        forceSelection="true"
+                        dropdown="true"
+                        scrollHeight="200" 
+                        cache="true"
+                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+            <p:ajax event="itemSelect"
+                    listener="#{jobManager.updateJob}"
+                    global="false"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+        </p:autoComplete>  
+
+        <p:outputLabel value="Representative(s)"  
+                       rendered="#{jobManager.currentJob.type == 'Job'}" />       
+        <p:autoComplete id="representatives"
+                        rendered="#{jobManager.currentJob.type == 'Job'}"
+                        var="representative"   
+                        value="#{jobManager.currentJob.representatives}"
+                        itemLabel="#{representative.name}"
+                        itemValue="#{representative}"
+                        converter="activeEmployeeConverter"
+                        forceSelection="true"
+                        dropdown="true"
+                        scrollHeight="200"                         
+                        multiple="true"
+                        cache="true"
+                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+            <p:ajax event="itemSelect"
+                    global="false"
+                    listener="#{jobManager.updateJob}"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+
+            <p:ajax event="itemUnselect"
+                    listener="#{jobManager.updateJob}"
+                    global="false"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    process="@this"/>
+
+        </p:autoComplete>
+
+        <p:outputLabel value="TAT given to client *"  
+                       rendered="#{jobManager.currentJob.type == 'Job'}"
+                       style="font-weight: bold;" />
+        <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
+            <p:inputText title="Estimated turnaround time (TAT) given to client"   
+                         id="estimatedTAT"
+                         disabled="#{jobManager.disableJobDialogField('estimatedTAT')}"
+                         maxlength="4"
+                         styleClass="#{not component.valid ? 'invalid-number-field' : 'number-field'}" 
+                         converterMessage="Invalid Turnaround Time (TAT)" 
+                         required="true"
+                         requiredMessage="TAT Given To Client Required"
+                         validator="turnaroundTimeValidator"
+                         value="#{jobManager.currentJob.estimatedTurnAroundTimeInDays}">
+
+                <f:attribute name="tatRequired" value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" />
+
+                <p:ajax listener="#{jobManager.updateJob}"
+                        global="false"
+                        update=":jobDialogForm:jobDetailToolbar1"
+                        event="change"   
+                        process="@this" />
+                <f:convertNumber integerOnly="true"/>
+            </p:inputText>
+            <h:outputText value=" (days)" />
+            <p:tooltip for="tatRequired" value="Check if TAT is required" showEffect="fade" hideEffect="fade" />            
+        </h:panelGroup>
+
+        <p:outputLabel value="" rendered="#{jobManager.currentJob.type == 'Job'}" />
+        <h:panelGroup rendered="#{jobManager.currentJob.type == 'Job'}">
+            <p:outputLabel for="tatRequired"  style="font-weight: normal;" 
+                           value="TAT is required" />
+            <p:spacer width="5" />
+            <p:selectBooleanCheckbox id="tatRequired"
+                                     required="false"
+                                     style="vertical-align: middle"    
+                                     disabled="#{jobManager.disableJobDialogField('tatRequired')}"
+                                     value="#{jobManager.currentJob.estimatedTurnAroundTimeRequired}" >
+
+                <p:ajax listener="#{jobManager.updateJob}"
+                        global="false"        
+                        update=":jobDialogForm:jobDetailToolbar1"
+                        process="@this"/>
+
+            </p:selectBooleanCheckbox>
+        </h:panelGroup>
+
+        <p:outputLabel value="Instructions *" 
+                       style="font-weight: bold;vertical-align: top;" />       
+        <p:inputTextarea
+            id="instructions"
+            value="#{jobManager.currentJob.instructions}"
+            disabled="#{jobManager.disableJobDialogField('instructions')}"
+            rows="3"
+            counter="instructCharsRemaining"
+            counterTemplate="{0} characters remaining."
+            autoResize="true"
+            maxlength="1000" 
+            required="true"
+            requiredMessage="Instructions Required"
+            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
+            style="width: 90%;">
+
+            <f:validator validatorId="requiredFieldValidator" />
+
+            <p:ajax event="change"
+                    global="false"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    listener="#{jobManager.updateJob}"
+                    process="@this"/>
+
+        </p:inputTextarea> 
+        <p:outputLabel value="&nbsp;&nbsp;" />
+        <p:outputLabel id="instructCharsRemaining" /> 
+
+        <p:outputLabel value="Description *" 
+                       rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                       style="font-weight: bold;vertical-align: top;" />       
+        <p:inputTextarea
+            id="pfDescription"
+            rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+            value="#{jobManager.currentJob.jobCostingAndPayment.description}"
+            rows="3"
+            counter="pfDescriptionCharsRemaining"
+            counterTemplate="{0} characters remaining."
+            autoResize="true"
+            maxlength="1000" 
+            required="true"
+            requiredMessage="Description Required"
+            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" 
+            style="width: 90%;">
+
+            <f:validator validatorId="requiredFieldValidator" />
+
+            <p:ajax event="change"
+                    global="false"
+                    update=":jobDialogForm:jobDetailToolbar1"
+                    listener="#{jobManager.updateJob}"
+                    process="@this"/>
+
+        </p:inputTextarea>
+        <p:outputLabel value="&nbsp;&nbsp;" 
+                       rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
+        <p:outputLabel id="pfDescriptionCharsRemaining" 
+                       rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
 
     </h:panelGrid>
 

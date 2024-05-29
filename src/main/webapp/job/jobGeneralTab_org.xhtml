@@ -74,18 +74,21 @@ Email: info@dpbennett.com.jm
         <p:outputLabel value="Business office"
                        for="businessOffice"
                        style="font-weight: bold"/>       
-        <p:selectOneMenu id="businessOffice" 
-                         value="#{jobManager.currentJob.businessOffice}"
-                         converter="businessOfficeConverter"     
-                         panelStyle="width:180px"
-                         filter="true" 
-                         filterMatchMode="contains" 
-                         filterNormalize="true">
-
-            <f:selectItems value="#{jobManager.allActiveBusinessOffices}" 
-                           var="office"
-                           itemLabel="#{office.name}" 
-                           itemValue="#{office}"/>
+        <p:autoComplete id="businessOffice"
+                        dropdown="true" 
+                        readonly="false"
+                        disabled="#{jobManager.disableJobDialogField('businessOffice')}"
+                        var="businessOffice"
+                        value="#{jobManager.currentJob.businessOffice}"
+                        itemLabel="#{businessOffice.name}"
+                        itemValue="#{businessOffice}"
+                        converter="businessOfficeConverter"
+                        required="true"
+                        requiredMessage="Business Office Required"
+                        validator="businessEntityValidator"
+                        forceSelection="true"
+                        cache="true"
+                        completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
 
             <p:ajax event="itemSelect"                       
                     update=":jobDialogForm:jobDetailToolbar1"
@@ -93,27 +96,25 @@ Email: info@dpbennett.com.jm
                     listener="#{jobManager.updateJob}"
                     process="@this"/>
 
-            <p:column>               
-                <h:outputText value="#{businessOffice.name}"/>
-            </p:column>
-
-        </p:selectOneMenu>
+        </p:autoComplete>        
 
         <p:outputLabel value="Classification" 
                        for="classification"
                        style="font-weight: bold" />
-        <p:selectOneMenu id="classification" 
-                         value="#{jobManager.currentJob.classification}"
-                         converter="classificationConverter"
-                         panelStyle="width:180px"
-                         filter="true" 
-                         filterMatchMode="contains" 
-                         filterNormalize="true">
-
-            <f:selectItems value="#{jobManager.allActiveJobClassifications}" 
-                           var="classification"
-                           itemLabel="#{classification.name}" 
-                           itemValue="#{classification}"/>
+        <p:autoComplete dropdown="true"
+                        var="classification"
+                        id="classification"
+                        value="#{jobManager.currentJob.classification}"
+                        itemLabel="#{classification.name}"                        
+                        itemValue="#{classification}"                        
+                        converter="classificationConverter"
+                        required="true"
+                        requiredMessage="Classification Required"
+                        validator="businessEntityValidator"
+                        forceSelection="true"
+                        disabled="#{jobManager.disableJobDialogField('classification')}"
+                        cache="true"
+                        completeMethod="#{jobManager.completeJobClassification}" >
 
             <p:ajax event="itemSelect"    
                     global="false"
@@ -121,19 +122,16 @@ Email: info@dpbennett.com.jm
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
 
-            <p:column>               
-                <h:outputText value="#{classification.name}"/>
-            </p:column>
-
-        </p:selectOneMenu>
+        </p:autoComplete>
 
         <p:outputLabel value="Client *" style="font-weight: bold" />
-        <h:panelGroup>    
+        <h:panelGroup> 
             <p:autoComplete id="client"
                             var="client"
                             itemLabel="#{client.truncatedName}"
                             itemValue="#{client}"                    
                             dropdown="false"
+                            scrollHeight="200" 
                             value="#{jobManager.currentJob.client}"   
                             converter="activeClientConverter"
                             required="true"
@@ -143,16 +141,44 @@ Email: info@dpbennett.com.jm
                             lazyModel="#{clientManager.lazyClientDataModel}" 
                             lazyField="name"
                             maxResults="10"
-                            minQueryLength="3"
+                            cache="true"
+                            minQueryLength="2"
                             disabled="#{jobManager.disableJobDialogField('client')}" >
 
                 <p:ajax event="itemSelect"
                         global="false"
-                        update="jobFormTabView:jobCosting,jobFormTabView:cashPayments,jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
+                        update="jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobManager.updateJobEntryTabClient}"
                         process="@this"/>
 
-            </p:autoComplete>     
+            </p:autoComplete>  
+            <ui:remove>
+                <p:autoComplete id="client"
+                                var="client"
+                                itemLabel="#{client.truncatedName}"
+                                itemValue="#{client}"                    
+                                dropdown="false"
+                                scrollHeight="200" 
+                                value="#{jobManager.currentJob.client}"   
+                                converter="activeClientConverter"
+                                required="true"
+                                requiredMessage="Client Required"
+                                validator="jobClientValidator"
+                                forceSelection="true"
+                                cache="true"
+                                minQueryLength="2"
+                                maxResults="10"
+                                disabled="#{jobManager.disableJobDialogField('client')}"
+                                completeMethod="#{clientManager.completeActiveClient}" >
+
+                    <p:ajax event="itemSelect"
+                            global="false"
+                            update="jobFormTabView:generalTabPanel,:jobDialogForm:jobDetailToolbar1"
+                            listener="#{jobManager.updateJobEntryTabClient}"
+                            process="@this"/>
+
+                </p:autoComplete>   
+            </ui:remove>
 
             <p:menuButton id="clientActionsMenu" 
                           icon="pi pi-pencil" 
@@ -190,20 +216,22 @@ Email: info@dpbennett.com.jm
 
         </h:panelGroup>
 
-        <p:outputLabel value="Billing address *" style="font-weight: bold" />   
-        <p:selectOneMenu id="billingAddress" 
-                         value="#{jobManager.currentJob.billingAddress}"
-                         disabled="#{jobManager.disableJobDialogField('billingAddress')}"
-                         converter="clientAddressConverter"
-                         panelStyle="width:180px"
-                         filter="true" 
-                         filterMatchMode="contains" 
-                         filterNormalize="true">
-
-            <f:selectItems value="#{jobManager.currentJobClientAddresses}" 
-                           var="address"
-                           itemLabel="#{address.name}" 
-                           itemValue="#{address}"/>
+        <p:outputLabel value="Billing address *" style="font-weight: bold" />    
+        <p:autoComplete id="billingAddress"
+                        value="#{jobManager.currentJob.billingAddress}"
+                        disabled="#{jobManager.disableJobDialogField('billingAddress')}"
+                        dropdown="true"
+                        forceSelection="true"
+                        converter="clientAddressConverter" 
+                        required="true"
+                        requiredMessage="Billing Address Required"
+                        validator="addressValidator"
+                        var="address"  
+                        scrollHeight="200"
+                        itemValue="#{address}"
+                        itemLabel="#{address.name}" 
+                        cache="true"
+                        completeMethod="#{jobManager.completeClientAddress}">
 
             <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
 
@@ -211,28 +239,26 @@ Email: info@dpbennett.com.jm
                     global="false"
                     listener="#{jobManager.updateJob}"                                        
                     update=":jobDialogForm:jobDetailToolbar1"
-                    process="@this" />
+                    process="@this" />   
 
-            <p:column>               
-                <h:outputText value="#{address.name}"/>
-            </p:column>
-
-        </p:selectOneMenu>
+        </p:autoComplete>
 
         <p:outputLabel value="Contact *" style="font-weight: bold" />  
-        <p:selectOneMenu id="clientContact" 
-                         value="#{jobManager.currentJob.contact}"
-                         disabled="#{jobManager.disableJobDialogField('clientContact')}"
-                         converter="clientContactConverter"
-                         panelStyle="width:180px"
-                         filter="true" 
-                         filterMatchMode="contains" 
-                         filterNormalize="true">
-
-            <f:selectItems value="#{jobManager.currentJobClientContacts}" 
-                           var="contact"
-                           itemLabel="#{contact.name}" 
-                           itemValue="#{contact}"/>
+        <p:autoComplete id="clientContact"
+                        value="#{jobManager.currentJob.contact}"
+                        disabled="#{jobManager.disableJobDialogField('billingAddress')}"
+                        dropdown="true"
+                        forceSelection="true"
+                        scrollHeight="200"
+                        converter="clientContactConverter" 
+                        required="true"
+                        requiredMessage="Contact Required"
+                        validator="contactValidator"
+                        var="contact"                        
+                        itemValue="#{contact}"
+                        itemLabel="#{contact.name}" 
+                        cache="true"
+                        completeMethod="#{jobManager.completeClientContact}">
 
             <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
 
@@ -240,40 +266,9 @@ Email: info@dpbennett.com.jm
                     global="false"
                     listener="#{jobManager.updateJob}"                                        
                     update=":jobDialogForm:jobDetailToolbar1"
-                    process="@this" />
+                    process="@this" />   
 
-            <p:column>               
-                <h:outputText value="#{contact.name}"/>
-            </p:column>
-
-        </p:selectOneMenu>
-        <ui:remove>
-            <p:autoComplete id="clientContact"
-                            value="#{jobManager.currentJob.contact}"
-                            disabled="#{jobManager.disableJobDialogField('billingAddress')}"
-                            dropdown="true"
-                            forceSelection="true"
-                            scrollHeight="200"
-                            converter="clientContactConverter" 
-                            required="true"
-                            requiredMessage="Contact Required"
-                            validator="contactValidator"
-                            var="contact"                        
-                            itemValue="#{contact}"
-                            itemLabel="#{contact.name}" 
-                            cache="true"
-                            completeMethod="#{jobManager.completeClientContact}">
-
-                <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
-
-                <p:ajax event="itemSelect"
-                        global="false"
-                        listener="#{jobManager.updateJob}"                                        
-                        update=":jobDialogForm:jobDetailToolbar1"
-                        process="@this" />   
-
-            </p:autoComplete>     
-        </ui:remove>
+        </p:autoComplete>        
 
         <p:outputLabel value="Date submitted *" 
                        style="font-weight: bold" />

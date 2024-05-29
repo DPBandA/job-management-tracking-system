@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -54,7 +54,6 @@ Email: info@dpbennett.com.jm
 
             <p:menuButton value="Subcontract | Copy" 
                           disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
-                          rendered="#{jobManager.currentJob.type == 'Job'}"
                           title="Subcontract the current job by first creating a copy.">
 
                 <p:menuitem  value="Subcontract..."
@@ -86,8 +85,7 @@ Email: info@dpbennett.com.jm
 
             <p:spacer width="10" />
 
-            <p:menuButton value="Forms" 
-                          rendered="#{jobManager.currentJob.type == 'Job'}" >
+            <p:menuButton value="Forms" >
 
                 <p:menuitem value="Service Contract in Excel"
                             ajax="false" 
@@ -114,20 +112,7 @@ Email: info@dpbennett.com.jm
                 </p:menuitem>
 
             </p:menuButton>
-            <p:spacer height="0" width="5"/>
-            <p:commandButton value="Export Proforma Invoice"  
-                             id="exportJobCostingButton2"
-                             disabled="#{jobFinanceManager.canExportJobCosting}"
-                             rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
-                             immediate="true"
-                             title="Export proforma invoice"                        
-                             ajax="false"
-                             onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
-
-                <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
-
-            </p:commandButton>
-
+           
         </p:toolbarGroup>
 
     </p:toolbar>
