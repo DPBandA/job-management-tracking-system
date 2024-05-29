@@ -26,11 +26,9 @@ Email: info@dpbennett.com.jm
     <h:head>
         <ui:include src="../../head.xhtml" /> 
         <title>Job Costing</title>
-        <script type="text/javascript" src="../../js/javascripts.js"/>
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />
-        <link rel="stylesheet" href="../../css/main.css" /> 
+        <ui:include src="header.xhtml" /> 
     </h:head>
-    
+
     <h:body> 
         <ui:include src="costingComponentDialog.xhtml"/>       
         <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>   
@@ -45,29 +43,143 @@ Email: info@dpbennett.com.jm
             <ui:include src="jobCostingDialogTopToolbar.xhtml"/> 
 
             <p:panel header="General Information" style="margin-top: 1px;" >
-                <h:panelGrid columns="3">
+                <h:panelGrid columns="2">
                     <h:outputText value="Department" />
-                    <p:spacer height="0" width="10"/>
                     <h:outputText value="#{jobFinanceManager.currentJob.departmentAssignedToJob.name}"/>
 
                     <h:outputText value="Job number" />
-                    <p:spacer height="0" width="10"/>
                     <h:outputText value="#{jobFinanceManager.currentJob.jobNumber}" />
 
-                    <h:outputText value="Client" />
-                    <p:spacer height="0" width="10"/>
-                    <h:outputText value="#{jobFinanceManager.currentJob.client.name}" />
+                    <p:outputLabel value="Client *" style="font-weight: bold" />
+                    <h:panelGroup>    
+                        <p:autoComplete id="client"
+                                        var="client"
+                                        itemLabel="#{client.truncatedName}"
+                                        itemValue="#{client}"                    
+                                        dropdown="false"
+                                        scrollHeight="200" 
+                                        value="#{jobManager.currentJob.client}"   
+                                        converter="activeClientConverter"
+                                        required="true"
+                                        requiredMessage="Client Required"
+                                        validator="jobClientValidator"
+                                        forceSelection="true"
+                                        cache="true"
+                                        minQueryLength="3"
+                                        disabled="#{jobManager.disableJobDialogField('client')}"
+                                        completeMethod="#{clientManager.completeActiveClient}" >
+
+                            <p:ajax event="itemSelect"
+                                    global="false"
+                                    update="billingAddress,clientContact"
+                                    listener="#{jobFinanceManager.updateJobCostingAndPayment}"
+                                    process="@this"/>
+
+                        </p:autoComplete>    
+
+                        <p:menuButton id="clientActionsMenu" 
+                                      icon="pi pi-pencil" 
+                                      disabled="#{jobManager.disableJobDialogField('clientActionsMenu')}"
+                                      title="Add or edit client">
+
+                            <p:menuitem value="Edit client"
+                                        id="editClient"
+                                        icon="pi pi-pencil"
+                                        disabled="${!jobManager.isClientNameValid}"                                  
+                                        actionListener="#{jobManager.editJobClient}"  
+                                        process="@this,client"                             
+                                        title="View or edit this client's detail">  
+
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"
+                                        update="client,billingAddress,clientContact" />
+
+                            </p:menuitem>
+
+                            <p:menuitem 
+                                value="Add new client"
+                                icon="pi pi-plus"                    
+                                disabled="#{!jobManager.user.can('AddClient')}"
+                                actionListener="#{jobManager.createNewJobClient}"                                            
+                                process="@this"
+                                title="Add a new client to the client database">
+
+                                <p:ajax event="dialogReturn" 
+                                        listener="#{jobFinanceManager.updateJobCostingAndPayment}"
+                                        update="client,billingAddress,clientContact" />
+
+                            </p:menuitem>
+                        </p:menuButton>      
+
+                    </h:panelGroup>
+
+                    <p:outputLabel value="Billing address *" 
+                                   style="font-weight: bold" />                       
+                    <p:selectOneMenu id="billingAddress" 
+                                     rendered="true"
+                                     value="#{jobManager.currentJob.billingAddress}"
+                                     disabled="#{jobManager.disableJobDialogField('billingAddress')}"
+                                     converter="clientAddressConverter"
+                                     panelStyle="width:180px"
+                                     filter="true" 
+                                     filterMatchMode="contains" 
+                                     filterNormalize="true">
+
+                        <f:selectItems value="#{jobManager.currentJobClientAddresses}" 
+                                       var="address"
+                                       itemLabel="#{address.name}" 
+                                       itemValue="#{address}"/>
+
+                        <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+                        <p:ajax event="itemSelect"
+                                global="false"
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"  
+                                process="@this" />
+
+                        <p:column>               
+                            <h:outputText value="#{address.name}"/>
+                        </p:column>
+
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Contact *" 
+                                   style="font-weight: bold" />                      
+                    <p:selectOneMenu id="clientContact" 
+                                     rendered="true"
+                                     value="#{jobManager.currentJob.contact}"
+                                     disabled="#{jobManager.disableJobDialogField('clientContact')}"
+                                     converter="clientContactConverter"
+                                     panelStyle="width:180px"
+                                     filter="true" 
+                                     filterMatchMode="contains" 
+                                     filterNormalize="true">
+
+                        <f:selectItems value="#{jobManager.currentJobClientContacts}" 
+                                       var="contact"
+                                       itemLabel="#{contact.name}" 
+                                       itemValue="#{contact}"/>
+
+                        <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+                        <p:ajax event="itemSelect"
+                                global="false"
+                                listener="#{jobFinanceManager.updateJobCostingAndPayment}"   
+                                process="@this" />
+
+                        <p:column>               
+                            <h:outputText value="#{contact.name}"/>
+                        </p:column>
+
+                    </p:selectOneMenu>
 
                     <h:outputText value="Purchase order #" />
-                    <p:spacer height="0" width="10"/>
                     <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}" />
 
                     <h:outputText value="Report number(s)" />
-                    <p:spacer height="0" width="10"/>
                     <h:outputText value="#{jobFinanceManager.currentJob.reportNumber}" />                   
 
                     <h:outputText value="Costing date" />
-                    <p:spacer height="0" width="10"/>
                     <p:calendar required="false"   
                                 readonly="true"
                                 readonlyInput="true"
@@ -78,14 +190,15 @@ Email: info@dpbennett.com.jm
                                 styleClass="read-only-inputfield"
                                 navigator="true"
                                 pattern="MMM dd, yyyy" >
+
                         <p:ajax event="dateSelect"                                 
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
                         <p:ajax event="keyup"                                 
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+
                     </p:calendar>  
 
                     <h:outputText value="Approval date" />
-                    <p:spacer height="0" width="10"/>
                     <p:calendar required="false"   
                                 readonly="true"
                                 readonlyInput="true"
@@ -105,7 +218,6 @@ Email: info@dpbennett.com.jm
                     </p:calendar>
 
                     <h:outputText value="Invoice date" />
-                    <p:spacer height="0" width="10"/>
                     <p:calendar required="false"   
                                 readonly="true"
                                 readonlyInput="true"
@@ -116,16 +228,17 @@ Email: info@dpbennett.com.jm
                                 navigator="true"
                                 autocomplete="off"
                                 pattern="MMM dd, yyyy" >
+
                         <p:ajax event="dateSelect"   
                                 global="false"
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
                         <p:ajax event="keyup" 
                                 global="false"
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
+
                     </p:calendar>
 
                     <p:outputLabel value="Job description *"  style="font-weight: bold" />
-                    <p:spacer height="0" width="10"/>
                     <p:inputTextarea value="#{jobFinanceManager.currentJob.jobDescription}" 
                                      id="jobDescription"
                                      required="true"
