@@ -174,10 +174,35 @@ Email: info@dpbennett.com.jm
                     </p:selectOneMenu>
 
                     <h:outputText value="Purchase order #" />
-                    <h:outputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}" />
+                    <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.purchaseOrderNumber}"
+                                 readonly="#{!jobFinanceManager.canEditJobCosting}"                        
+                                 disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
+                                 styleClass="#{jobFinanceManager.canEditJobCosting eq true ? '' : 'read-only-text-field'}"
+                                 maxlength="40" >
+
+                        <p:ajax event="change"
+                                global="false"
+                                listener="#{jobFinanceManager.updatePurchaseOrderNumber}"
+                                process="@this"/>
+
+                    </p:inputText>
 
                     <h:outputText value="Report number(s)" />
-                    <h:outputText value="#{jobFinanceManager.currentJob.reportNumber}" />                   
+                    <h:panelGroup>
+                        <p:inputText id="reportNumbers" 
+                                     value="#{jobFinanceManager.currentJob.reportNumber}">
+
+                            <p:ajax event="change"
+                                    global="false"                       
+                                    listener="#{jobFinanceManager.updateJobCostingAndPayment}"
+                                    process="@this"/>
+
+                        </p:inputText>
+                        <p:tooltip for="reportNumbers" 
+                                   value="Enter the report number(s) for this job" 
+                                   showEffect="fade" 
+                                   hideEffect="fade" />          
+                    </h:panelGroup>                 
 
                     <h:outputText value="Costing date" />
                     <p:calendar required="false"   

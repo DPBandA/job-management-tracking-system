@@ -43,6 +43,13 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>jobCostingAndPaymentDialog</from-outcome>
+            <to-view-id>/job/finance/jobCostingAndPaymentDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>statusNoteDialog</from-outcome>
             <to-view-id>/job/statusNoteDialog.xhtml</to-view-id>
         </navigation-case>

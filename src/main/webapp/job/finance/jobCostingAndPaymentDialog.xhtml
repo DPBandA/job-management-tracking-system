@@ -25,35 +25,33 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:head>
-        <ui:include src="../head.xhtml" /> 
-        <title>Job</title>
+        <ui:include src="../../head.xhtml" /> 
+        <title>Job Costing &amp; Payment</title>
         <ui:include src="header.xhtml" /> 
     </h:head>
 
     <h:body> 
 
-        <ui:include src="../common/commonDialogs.xhtml"/>  
+        <ui:include src="../../common/commonDialogs.xhtml"/>  
 
         <h:form id="jobDialogForm" >   
 
             <p:growl id="growl2" life="5000" showDetail="true" />  
 
-            <ui:include src="jobDetailTopToolbar.xhtml"/>
-            
-            <ui:include src="menubar.xhtml" /> 
+            <ui:include src="jobCostingAndPaymentTopToolbar.xhtml"/>
 
             <p:tabView id="jobFormTabView"
                        style="margin-top: 1px;margin-bottom: 1px;"    
                        dynamic="false"
                        widgetVar="jobFormTabVar" >
 
-                <p:tab title="General">
-                    <ui:include src="jobGeneralTab.xhtml"/>
-                </p:tab>   
+                <p:tab title="General" >
+                    <ui:include src="jobCostingAndPaymentTab.xhtml"/>
+                </p:tab>    
 
             </p:tabView>
 
-            <ui:include src="jobDetailBottomToolbar.xhtml"/>
+            <ui:include src="jobCostingAndPaymentBottomToolbar.xhtml"/>
 
         </h:form>
     </h:body>
