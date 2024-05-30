@@ -25,25 +25,35 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <p:menubar style="width: 100%;" autoDisplay="false">
-        
-        <p:menuitem value="Service Contract" />
-        
+
+        <p:menuitem value="Service Contract" 
+                    title="Edit/view service contract"
+                    actionListener="#{jobContractManager.openJobServiceContractDialog}"  
+                    process="@this" >
+
+            <p:ajax event="dialogReturn" 
+                    resetValues="true"
+                    listener="#{jobContractManager.jobServiceContractDialogReturn}"
+                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"/>
+
+        </p:menuitem>
+
         <p:divider layout="vertical"/>
-        
+
         <p:menuitem value="Samples" />
-        
+
         <p:divider layout="vertical"/>
 
         <p:menuitem value="Costing &amp; Payment" />
-        
+
         <p:divider layout="vertical"/>
 
         <p:menuitem value="Grouping" />
-        
+
         <p:divider layout="vertical"/>
 
         <p:menuitem value="Status &amp; Tracking" />
-        
+
         <p:divider layout="vertical"/>
 
         <p:menuitem value="Reporting" />

@@ -217,6 +217,66 @@ Email: info@dpbennett.com.jm
 
         </h:panelGroup>
 
+        <p:outputLabel value="Billing address *" 
+                       style="font-weight: bold" />                       
+        <p:selectOneMenu id="billingAddress" 
+                         rendered="true"
+                         value="#{jobManager.currentJob.billingAddress}"
+                         disabled="#{jobManager.disableJobDialogField('billingAddress')}"
+                         converter="clientAddressConverter"
+                         panelStyle="width:180px"
+                         filter="true" 
+                         filterMatchMode="contains" 
+                         filterNormalize="true">
+
+            <f:selectItems value="#{jobManager.currentJobClientAddresses}" 
+                           var="address"
+                           itemLabel="#{address.name}" 
+                           itemValue="#{address}"/>
+
+            <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+            <p:ajax event="itemSelect"
+                    global="false"
+                    listener="#{jobFinanceManager.updateJobCostingAndPayment}"  
+                    process="@this" />
+
+            <p:column>               
+                <h:outputText value="#{address.name}"/>
+            </p:column>
+
+        </p:selectOneMenu>
+
+        <p:outputLabel value="Contact *" 
+                       style="font-weight: bold" />                      
+        <p:selectOneMenu id="clientContact" 
+                         rendered="true"
+                         value="#{jobManager.currentJob.contact}"
+                         disabled="#{jobManager.disableJobDialogField('clientContact')}"
+                         converter="clientContactConverter"
+                         panelStyle="width:180px"
+                         filter="true" 
+                         filterMatchMode="contains" 
+                         filterNormalize="true">
+
+            <f:selectItems value="#{jobManager.currentJobClientContacts}" 
+                           var="contact"
+                           itemLabel="#{contact.name}" 
+                           itemValue="#{contact}"/>
+
+            <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
+
+            <p:ajax event="itemSelect"
+                    global="false"
+                    listener="#{jobFinanceManager.updateJobCostingAndPayment}"   
+                    process="@this" />
+
+            <p:column>               
+                <h:outputText value="#{contact.name}"/>
+            </p:column>
+
+        </p:selectOneMenu>
+
         <p:outputLabel value="Date submitted *" 
                        style="font-weight: bold" />
         <p:calendar id="dateSubmitted"
@@ -328,7 +388,7 @@ Email: info@dpbennett.com.jm
             </p:column>
 
         </p:selectOneMenu>
-        
+
         <p:outputLabel value="Representative" /> 
         <p:selectOneMenu id="representative" 
                          value="#{jobManager.currentJob.representative}"
