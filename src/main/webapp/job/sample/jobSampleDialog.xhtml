@@ -27,12 +27,9 @@ Email: info@dpbennett.com.jm
     <h:head>
         <ui:include src="../../head.xhtml" /> 
         <title>Job Sample</title>
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" /> 
-        <link rel="stylesheet" href="../../css/main.css" /> 
-        <link rel="stylesheet" href="../../css/jmts.css" />
-        <script type="text/javascript" src="../../js/javascripts.js"/>
+        <ui:include src="header.xhtml" /> 
     </h:head>
-    
+
     <h:body>    
 
         <ui:include src="../../common/commonDialogs.xhtml"/>  
@@ -156,13 +153,13 @@ Email: info@dpbennett.com.jm
                                      requiredMessage="Please enter the common name of the product"
                                      validator="requiredFieldValidator"
                                      maxlength="250" >
-                            
+
                             <p:ajax event="change"
                                     global="false"
                                     listener="#{jobSampleManager.updateSample}"
                                     update="sampleReference"
                                     process="@this"/>
-                            
+
                         </p:inputText>
 
                         <p:outputLabel value="Country of Origin" />

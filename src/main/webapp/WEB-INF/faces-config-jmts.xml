@@ -57,6 +57,13 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>jobSamplesDialog</from-outcome>
+            <to-view-id>/job/sample/jobSamplesDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>statusNoteDialog</from-outcome>
             <to-view-id>/job/statusNoteDialog.xhtml</to-view-id>
         </navigation-case>

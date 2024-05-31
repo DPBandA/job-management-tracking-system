@@ -50,7 +50,7 @@ Email: info@dpbennett.com.jm
                     <p:inputText id="jobCostingsTemplateName"
                                  required="true"
                                  requiredMessage="Name Required"
-                                 value="#{jobManager.currentJob.jobCostingAndPayment.name}" >
+                                 value="#{jobFinanceManager.currentJob.jobCostingAndPayment.name}" >
 
                         <f:validator validatorId="requiredFieldValidator" />
 
@@ -67,8 +67,8 @@ Email: info@dpbennett.com.jm
                                     forceSelection="true"      
                                     dropdown="true"
                                     scrollHeight="200" 
-                                    value="#{jobManager.currentJob.department}"
-                                    title="#{jobManager.currentJob.department}"
+                                    value="#{jobFinanceManager.currentJob.department}"
+                                    title="#{jobFinanceManager.currentJob.department}"
                                     itemValue="#{department}"
                                     itemLabel="#{department.name}"
                                     converter="activeDepartmentConverter"
@@ -91,7 +91,7 @@ Email: info@dpbennett.com.jm
                                   style="font-weight: bold;vertical-align: top;" />       
                     <p:inputTextarea
                         id="description"
-                        value="#{jobManager.currentJob.jobCostingAndPayment.description}"
+                        value="#{jobFinanceManager.currentJob.jobCostingAndPayment.description}"
                         rows="3"
                         counter="descriptionCharsRemaining"
                         counterTemplate="{0} characters remaining."

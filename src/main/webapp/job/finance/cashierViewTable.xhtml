@@ -114,13 +114,13 @@ Email: info@dpbennett.com.jm
 
         <p:column>
             <p:commandButton title="View or edit job costing and payment" 
-                             actionListener="#{jobManager.editJobCostingAndPayment}"                             
+                             actionListener="#{jobFinanceManager.editJobCostingAndPayment}"                             
                              global="true"
                              process="@this"
                              icon="pi pi-pencil">
 
                 <f:setPropertyActionListener value="#{job}"
-                                             target="#{jobManager.editJobCostingAndPayment}" />
+                                             target="#{jobFinanceManager.editJobCostingAndPayment}" />
 
                 <p:ajax event="dialogReturn"                     
                         update=":appForm:mainTabView"

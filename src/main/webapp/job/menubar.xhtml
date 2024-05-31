@@ -29,6 +29,7 @@ Email: info@dpbennett.com.jm
         <p:menuitem value="Service Contract" 
                     title="Edit/view service contract"
                     actionListener="#{jobContractManager.openJobServiceContractDialog}"  
+                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
                     process="@this" >
 
             <p:ajax event="dialogReturn" 
@@ -40,11 +41,33 @@ Email: info@dpbennett.com.jm
 
         <p:divider layout="vertical"/>
 
-        <p:menuitem value="Samples" />
+        <p:menuitem value="Samples" 
+                    title="Edit/view job samples"
+                    actionListener="#{jobSampleManager.openJobSamplesDialog}"  
+                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
+                    process="@this" >
+
+            <p:ajax event="dialogReturn" 
+                    resetValues="true"
+                    listener="#{jobSampleManager.jobSamplesDialogReturn}"
+                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"/>
+
+        </p:menuitem>
 
         <p:divider layout="vertical"/>
 
-        <p:menuitem value="Costing &amp; Payment" />
+        <p:menuitem value="Costing &amp; Payment" 
+                    title="Edit/view costing and payment"
+                    actionListener="#{jobFinanceManager.editJobCostingAndPayment}"  
+                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
+                    process="@this" >
+
+            <p:ajax event="dialogReturn" 
+                    resetValues="true"
+                    listener="#{jobFinanceManager.jobCostingAndPaymentDialogReturn}"
+                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"/>
+
+        </p:menuitem>
 
         <p:divider layout="vertical"/>
 
