@@ -23,24 +23,30 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <p:toolbar id="jobDetailToolbar2">
-        <p:toolbarGroup align="left" >  
-            <p:commandButton actionListener="#{jobManager.saveCurrentJob}"
-                             value="Save"
+        
+          <p:toolbarGroup align="left" style="margin-top: 5px;">  
+            <p:commandButton actionListener="#{jobFinanceManager.okJobCostingAndPayment}" 
+                             value="Ok"
                              update=":jobDialogForm"
-                             icon="pi pi-save"
+                             icon="pi pi-check"
                              process="@form" >
-                
-                 <p:ajax update=":jobDialogForm" resetValues="true" />
-                 
+
+                <p:ajax update=":jobDialogForm" resetValues="true" />
+
             </p:commandButton>
 
             <p:spacer height="0" width="10"/>
-            
+
             <p:commandButton value="Close"     
                              actionListener="#{jobManager.prepareToCloseJobDetail}"
                              immediate="true"                             
                              process="@this"
                              icon="pi pi-times" />            
+
+            <p:spacer width="10" />
+
+            <h:outputText value="#{jobManager.currentJob.jobStatusAndTracking.editStatus}" />
+
         </p:toolbarGroup>
         
         <p:toolbarGroup align="right" >  

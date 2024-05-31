@@ -25,10 +25,10 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar id="jobDetailToolbar1">
         <p:toolbarGroup align="left" style="margin-top: 5px;">  
-            <p:commandButton actionListener="#{jobManager.saveCurrentJob}" 
-                             value="Save"
+            <p:commandButton actionListener="#{jobFinanceManager.okJobCostingAndPayment}" 
+                             value="Ok"
                              update=":jobDialogForm"
-                             icon="pi pi-save"
+                             icon="pi pi-check"
                              process="@form" >
 
                 <p:ajax update=":jobDialogForm" resetValues="true" />
@@ -47,6 +47,10 @@ Email: info@dpbennett.com.jm
 
             <h:outputText value="#{jobManager.currentJob.jobStatusAndTracking.editStatus}" />
 
+        </p:toolbarGroup>
+
+        <p:toolbarGroup align="right" >  
+            <h:outputText value="* Field required." style="font-weight: bold;" />            
         </p:toolbarGroup>
 
     </p:toolbar>
