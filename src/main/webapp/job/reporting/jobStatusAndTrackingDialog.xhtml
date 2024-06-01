@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
 
     <h:head>
         <ui:include src="../../head.xhtml" /> 
-        <title>Grouping</title>
+        <title>Status and Tracking</title>
         <ui:include src="header.xhtml" /> 
     </h:head>
 
@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
 
             <p:growl id="growl2" life="5000" showDetail="true" />  
 
-            <ui:include src="jobGroupingTopToolbar.xhtml"/>
+            <ui:include src="jobStatusAndTrackingTopToolbar.xhtml"/>
 
             <p:tabView id="jobFormTabView"
                        style="margin-top: 1px;margin-bottom: 1px;"    
@@ -46,12 +46,12 @@ Email: info@dpbennett.com.jm
                        widgetVar="jobFormTabVar" >
 
                 <p:tab title="General" >
-                    <ui:include src="jobGroupingTab.xhtml"/>
+                    <ui:include src="jobStatusAndTrackingTab.xhtml"/>
                 </p:tab>    
 
             </p:tabView>
 
-            <ui:include src="jobGroupingBottomToolbar.xhtml"/>
+            <ui:include src="jobStatusAndTrackingBottomToolbar.xhtml"/>
 
         </h:form>
     </h:body>

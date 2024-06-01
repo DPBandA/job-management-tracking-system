@@ -27,13 +27,11 @@ Email: info@dpbennett.com.jm
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
         <title>Status Note</title>
-        <script type="text/javascript" src="../js/javascripts.js" /> 
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="../css/main.css" /> 
+        <ui:include src="header.xhtml" /> 
     </h:head>
     <h:body>    
 
-        <ui:include src="../common/commonDialogs.xhtml"/>  
+        <ui:include src="../../common/commonDialogs.xhtml"/>  
 
         <h:form id="statusNoteDialogForm" >      
             <p:growl id="status_notes_dialog_growl" 

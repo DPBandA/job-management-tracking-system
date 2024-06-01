@@ -86,7 +86,18 @@ Email: info@dpbennett.com.jm
 
         <p:divider layout="vertical"/>
 
-        <p:menuitem value="Status &amp; Tracking" />
+        <p:menuitem value="Status &amp; Tracking" 
+                    title="Edit/view job status and tracking"
+                    actionListener="#{jobManager.openJobStatusAndTrackingDialog}"  
+                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
+                    process="@this" >
+
+            <p:ajax event="dialogReturn" 
+                    resetValues="true"
+                    listener="#{jobManager.jobStatusAndTrackingDialogReturn}"
+                    update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"/>
+
+        </p:menuitem>
 
         <p:divider layout="vertical"/>
 

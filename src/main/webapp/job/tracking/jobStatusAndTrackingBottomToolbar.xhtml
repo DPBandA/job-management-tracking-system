@@ -21,26 +21,25 @@ Email: info@dpbennett.com.jm
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <p:toolbar id="jobDetailToolbar2">
+      xmlns:h="http://java.sun.com/jsf/html" >
+
+    <p:toolbar>
         
-          <p:toolbarGroup align="left" style="margin-top: 5px;">  
-            <p:commandButton actionListener="#{jobFinanceManager.okJobCostingAndPayment}" 
+        <p:toolbarGroup align="left" style="margin-top: 5px;">  
+
+            <p:commandButton actionListener="#{jobManager.okJobStatusAndTracking}" 
                              value="Ok"
                              update=":jobDialogForm"
                              icon="pi pi-check"
-                             process="@form" >
-
-                <p:ajax update=":jobDialogForm" resetValues="true" />
-
-            </p:commandButton>
+                             process="@form" />
 
             <p:spacer height="0" width="10"/>
 
             <p:commandButton value="Cancel"     
-                             actionListener="#{jobManager.prepareToCloseJobDetail}"
+                             actionListener="#{jobManager.cancelJobStatusAndTrackingEdit}"
                              immediate="true"                             
                              process="@this"
+                             update=":jobDialogForm"
                              icon="pi pi-times" />            
 
             <p:spacer width="10" />
@@ -48,7 +47,7 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobManager.currentJob.jobStatusAndTracking.editStatus}" />
 
         </p:toolbarGroup>
-        
+
         <p:toolbarGroup align="right" >  
             <h:outputText value="* Field required." style="font-weight: bold;" />            
         </p:toolbarGroup>

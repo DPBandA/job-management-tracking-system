@@ -22,6 +22,20 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>jobStatusAndTrackingDialog</from-outcome>
+            <to-view-id>/job/tracking/jobStatusAndTracking.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>jobReportingDialog</from-outcome>
+            <to-view-id>/job/reporting/jobReportingDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>priceListDialog</from-outcome>
             <to-view-id>/job/finance/priceListDialog.xhtml</to-view-id>
         </navigation-case>
@@ -72,7 +86,7 @@
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>statusNoteDialog</from-outcome>
-            <to-view-id>/job/statusNoteDialog.xhtml</to-view-id>
+            <to-view-id>/job/tracking/statusNoteDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>    
     <navigation-rule>
