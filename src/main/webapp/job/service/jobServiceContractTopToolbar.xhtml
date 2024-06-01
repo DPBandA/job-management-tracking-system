@@ -26,7 +26,7 @@ Email: info@dpbennett.com.jm
     <p:toolbar id="jobDetailToolbar1" >
         
         <p:toolbarGroup align="left" style="margin-top: 5px;">  
-            <p:commandButton actionListener="#{jobSampleManager.okJobSamples}" 
+            <p:commandButton actionListener="#{jobContractManager.okJobServiceContract}" 
                              value="Ok"
                              update=":jobDialogForm"
                              icon="pi pi-check"
@@ -35,7 +35,7 @@ Email: info@dpbennett.com.jm
             <p:spacer height="0" width="10"/>
 
             <p:commandButton value="Cancel"     
-                             actionListener="#{jobSampleManager.cancelJobSamplesEdit}"
+                             actionListener="#{jobContractManager.cancelJobServiceContractEdit}"
                              immediate="true"                             
                              process="@this"
                              update=":jobDialogForm"

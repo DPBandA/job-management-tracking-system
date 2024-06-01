@@ -15,6 +15,13 @@
     <navigation-rule>
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
+            <from-outcome>jobGroupingDialog</from-outcome>
+            <to-view-id>/job/grouping/jobGroupingDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
             <from-outcome>priceListDialog</from-outcome>
             <to-view-id>/job/finance/priceListDialog.xhtml</to-view-id>
         </navigation-case>
@@ -51,7 +58,7 @@
         <from-view-id>/index.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>jobServiceContractDialog</from-outcome>
-            <to-view-id>/job/jobServiceContractDialog.xhtml</to-view-id>
+            <to-view-id>/job/service/jobServiceContractDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
     <navigation-rule>
