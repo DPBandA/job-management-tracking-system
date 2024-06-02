@@ -1,0 +1,297 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2024  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <h:panelGrid columns="2">
+        <p:outputLabel value="Notice of detention issued" for="noticeOfDetentionIssued" />
+        <p:selectBooleanCheckbox 
+            id="noticeOfDetentionIssued"
+            value="#{complianceManager.currentComplianceSurvey.noticeOfDetentionIssuedForDomesticMarket}">
+
+            <p:ajax listener="#{complianceManager.updateDMDetention}" 
+                    update=":ComplianceSurveyDialogForm:topToolbar,dateOfNoticeOfDetention,domesticMarketDetentionNumber,:ComplianceSurveyDialogForm:formsMenu" />
+
+        </p:selectBooleanCheckbox>                        
+
+        <p:outputLabel value="Notice of release from detention issued" for="releaseFromDetentionIssued" />
+        <p:selectBooleanCheckbox 
+            id="releaseFromDetentionIssued"
+            value="#{complianceManager.currentComplianceSurvey.noticeOfReleaseFromDetentionIssuedForDomesticMarket}">
+
+            <p:ajax listener="#{complianceManager.updateSurvey}" 
+                    update=":ComplianceSurveyDialogForm:topToolbar,:ComplianceSurveyDialogForm:formsMenu" />
+
+        </p:selectBooleanCheckbox>
+
+        <p:outputLabel value="Authorize application to rehabilitate goods" for="applicationForRehabilitation" />
+        <p:selectBooleanCheckbox 
+            id="applicationForRehabilitation"
+            value="#{complianceManager.currentComplianceSurvey.applicationForRehabilitation}">
+
+            <p:ajax listener="#{complianceManager.updateSurvey}" 
+                    update=":ComplianceSurveyDialogForm:topToolbar,:ComplianceSurveyDialogForm:formsMenu" />
+
+        </p:selectBooleanCheckbox>
+
+        <p:outputLabel value="Detention number"  />
+        <p:inputText id="domesticMarketDetentionNumber"
+                     readonly="true"
+                     style="background-color: lightyellow;"
+                     value="#{complianceManager.currentComplianceSurvey.domesticMarketDetentionNumber}" > 
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />  
+
+        </p:inputText>
+
+        <p:outputLabel value="Notice of detention issue date"  />
+        <p:calendar  readonlyInput="true"
+                     id="dateOfNoticeOfDetention"
+                     navigator="true" 
+                     pattern="MMM dd, yyyy"                                     
+                     value="#{complianceManager.currentComplianceSurvey.dateOfNoticeOfDetention}" >
+
+            <p:ajax event="dateSelect"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+            <p:ajax event="keyup"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+        </p:calendar>
+
+        <p:outputLabel value="Release date"  />
+        <p:calendar  readonlyInput="true"
+                     navigator="true" 
+                     pattern="MMM dd, yyyy"                                     
+                     value="#{complianceManager.currentComplianceSurvey.releaseDateDomesticMarket}" >
+
+            <p:ajax event="dateSelect"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+            <p:ajax event="keyup"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+        </p:calendar>
+
+        <p:outputLabel value="Full release" for="fullRelease"/>
+        <p:selectBooleanCheckbox 
+            id="fullRelease"
+            value="#{complianceManager.currentComplianceSurvey.fullRelease}">
+
+            <p:ajax listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar" />
+
+        </p:selectBooleanCheckbox>
+
+        <p:outputLabel value="Release location" style="font-style: italic"/>
+        <p:outputLabel value=""/>
+
+        <p:outputLabel value="Address line 1" />
+        <p:inputText value="#{complianceManager.currentComplianceSurvey.specifiedReleaseLocationDomesticMarket.addressLine1}" >
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>
+
+        <p:outputLabel value="Address line 2" />
+        <p:inputText value="#{complianceManager.currentComplianceSurvey.specifiedReleaseLocationDomesticMarket.addressLine2}" >
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+        </p:inputText>
+
+        <p:outputLabel value="Nearest City/Town" />
+        <p:inputText value="#{complianceManager.currentComplianceSurvey.specifiedReleaseLocationDomesticMarket.city}" >
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>
+
+        <p:outputLabel value="Parish/State/Province" />
+        <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.specifiedReleaseLocationDomesticMarket.stateOrProvince}"   
+                         maxlength="50"
+                         editable="true">
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+            <f:selectItems value="#{systemManager.jamaicaParishes}" />
+
+        </p:selectOneMenu>
+
+        <p:outputLabel value="Location of detained product(s)"  style="font-style: italic"/>
+        <p:outputLabel value=""/>
+
+        <p:outputLabel value="Address line 1" />
+        <p:inputText value="#{complianceManager.currentComplianceSurvey.locationOfDetainedProductDomesticMarket.addressLine1}" >
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>
+
+        <p:outputLabel value="Address line 2" />
+        <p:inputText value="#{complianceManager.currentComplianceSurvey.locationOfDetainedProductDomesticMarket.addressLine2}" >
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>
+
+        <p:outputLabel value="Nearest City/Town" />                        
+        <p:inputText value="#{complianceManager.currentComplianceSurvey.locationOfDetainedProductDomesticMarket.city}" >
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>
+
+        <p:outputLabel value="Parish/State/Province" />
+        <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.locationOfDetainedProductDomesticMarket.stateOrProvince}"   
+                         maxlength="50"
+                         editable="true">
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+            <f:selectItems value="#{systemManager.jamaicaParishes}" />
+
+        </p:selectOneMenu>
+
+        <p:outputLabel value="Type of business"  style="font-style: italic"/>
+        <p:outputLabel value=""/>
+
+        <p:outputLabel value="Retailer" for="retailerBusiness"/>
+        <p:selectBooleanCheckbox 
+            id="retailerBusiness"
+            value="#{complianceManager.currentComplianceSurvey.retailer}">
+
+            <p:ajax listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar" />
+
+        </p:selectBooleanCheckbox>
+
+        <p:outputLabel value="Distributor" for="distributorBusiness"/>
+        <p:selectBooleanCheckbox 
+            id="distributorBusiness"
+            value="#{complianceManager.currentComplianceSurvey.distributor}">
+
+            <p:ajax listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar" />
+
+        </p:selectBooleanCheckbox>
+
+        <p:outputLabel value="Other" for="otherBusiness"/>
+        <h:panelGroup>
+            <p:selectBooleanCheckbox 
+                id="otherBusiness"
+                value="#{complianceManager.currentComplianceSurvey.otherCompanyTypes}">
+
+                <p:ajax listener="#{complianceManager.updateCompanyTypes}"
+                        update=":ComplianceSurveyDialogForm:topToolbar,companyTypes"/>
+
+            </p:selectBooleanCheckbox>
+            <p:spacer height="0" width="4"/>
+            <p:inputText id="companyTypes"
+                         disabled="#{!complianceManager.currentComplianceSurvey.otherCompanyTypes}"
+                         value="#{complianceManager.currentComplianceSurvey.companyTypes}" >
+
+                <p:ajax
+                    global="true"
+                    listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this" />
+
+            </p:inputText>
+        </h:panelGroup>
+
+        <p:outputLabel value="Shipping"  style="font-style: italic"/>
+        <p:outputLabel value=""/>
+
+        <p:outputLabel value="Vessel" for="shippingVessel" />
+        <p:inputText 
+            id="shippingVessel"
+            value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.vessel}" >
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>    
+
+    </h:panelGrid>
+    <hr/>
+    <h:panelGrid columns="2" cellpadding="3">
+        <p:commandButton value="Authorize Detention Notice"
+                         title="Authorize notice of detention"
+                         actionListener="#{complianceManager.updateAuthSigForNoticeOfDentionDM}"
+                         update=":ComplianceSurveyDialogForm:topToolbar,AuthSigForNoticeOfDentionDM,AuthSigDateForNoticeOfDentionDM"
+                         icon="pi pi-key"
+                         process="@this" />
+
+        <h:panelGroup>
+            <p:graphicImage id="AuthSigForNoticeOfDentionDM" 
+                            height="24"
+                            width="192"
+                            value="#{complianceManager.authSigForNoticeOfDentionDM}" />  
+            <h:outputText  id="AuthSigDateForNoticeOfDentionDM"
+                           value="  #{complianceManager.currentComplianceSurvey.authSigDateForNoticeOfDentionDM}" />
+        </h:panelGroup>
+    </h:panelGrid>
+
+</html>
+
+

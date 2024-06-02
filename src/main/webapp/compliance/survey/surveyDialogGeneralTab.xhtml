@@ -1,0 +1,595 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2024  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <h:panelGrid id="generalPanelGrid" columns="2" cellspacing="3">
+        <p:outputLabel value="Job number" 
+                       for="jobNumber"
+                       style="font-weight: bold" />   
+        <h:panelGroup>
+            <p:autoComplete value="#{complianceManager.currentComplianceSurvey.jobNumber}" 
+                            id="jobNumber"
+                            maxResults="10"
+                            minQueryLength="2"
+                            scrollHeight="200"
+                            forceSelection="false"
+                            required="true"
+                            requiredMessage="Job Number Required"
+                            validator="requiredFieldValidator"
+                            completeMethod="#{complianceManager.completeJobNumber}">
+
+                <p:ajax event="itemSelect"
+                        update="jobActionsMenu,:ComplianceSurveyDialogForm:topToolbar"
+                        listener="#{complianceManager.updateSurvey}"
+                        process="@this"/>
+
+                <p:ajax event="keyup"
+                        update="jobActionsMenu,:ComplianceSurveyDialogForm:topToolbar"
+                        listener="#{complianceManager.updateSurvey}"
+                        process="@this"/>
+
+            </p:autoComplete>
+            <p:menuButton id="jobActionsMenu" 
+                          icon="pi pi-pencil" 
+                          title="Add or edit job">
+                <p:menuitem value="Edit job"
+                            id="editSurveyJob"
+                            icon="pi pi-pencil" 
+                            disabled="${!complianceManager.currentComplianceSurvey.isJobNumberValid}"                              
+                            actionListener="#{complianceManager.editJob('Survey')}"  
+                            update=":ComplianceSurveyDialogForm:compliance_survey_growl"
+                            process="@this,jobNumber"                             
+                            title="View or edit this job's detail">  
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{complianceManager.jobDialogReturn('Survey')}"
+                            update=":ComplianceSurveyDialogForm:compliance_survey_growl,jobNumber,jobActionsMenu,:ComplianceSurveyDialogForm:topToolbar" />
+
+                </p:menuitem>
+
+                <p:menuitem 
+                    value="Add new job"
+                    id="createNewSurveyJob"
+                    icon="pi pi-plus" 
+                    actionListener="#{complianceManager.createNewJob}"                                            
+                    process="@this"
+                    title="Add a new job">
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{complianceManager.jobDialogReturn('Survey')}"
+                            update=":ComplianceSurveyDialogForm:compliance_survey_growl,jobNumber,jobActionsMenu,:ComplianceSurveyDialogForm:topToolbar" />
+
+                </p:menuitem>
+            </p:menuButton>
+        </h:panelGroup>
+
+        <p:outputLabel value="Business office" style="font-weight: bold"/>       
+        <p:autoComplete id="businessOffice"
+                        dropdown="true" 
+                        readonly="false"
+                        var="businessOffice"
+                        value="#{complianceManager.currentComplianceSurvey.businessOffice}"
+                        itemLabel="#{businessOffice.name}"
+                        itemValue="#{businessOffice}"
+                        converter="businessOfficeConverter"
+                        validator="businessEntityValidator"
+                        forceSelection="true"
+                        completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
+
+            <p:ajax event="itemSelect"                       
+                    update=":ComplianceSurveyDialogForm:topToolbar,generalPanelGrid,complianceSurveyTabView"
+                    listener="#{complianceManager.updateSurvey}"
+                    process="@this"/>
+
+        </p:autoComplete>
+
+        <p:outputLabel value="Survey type" style="font-weight: bold"/>
+        <p:selectOneMenu id="surveyType"
+                         value="#{complianceManager.currentComplianceSurvey.surveyType}" >
+            <p:ajax
+                global="true"
+                update=":ComplianceSurveyDialogForm:topToolbar,generalPanelGrid,complianceSurveyTabView"
+                listener="#{complianceManager.updateSurvey}"  
+                process="@this" />
+
+            <f:selectItems value="#{complianceManager.surveyTypes}" />
+
+        </p:selectOneMenu>
+
+        <p:outputLabel value="Survey location type" style="font-weight: bold"/>
+        <p:selectOneMenu id="surveyLocation"
+                         value="#{complianceManager.currentComplianceSurvey.surveyLocationType}" >
+            <p:ajax
+                global="true"
+                update=":ComplianceSurveyDialogForm:topToolbar,generalPanelGrid,complianceSurveyTabView"
+                listener="#{complianceManager.updateSurvey}"  
+                process="@this" />
+
+            <f:selectItems value="#{complianceManager.surveyLocationTypes}" />
+
+        </p:selectOneMenu>     
+
+        <p:outputLabel value="Type of Establishment" 
+                       style="font-weight: bold"
+                       rendered="#{!complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
+
+        <p:selectOneMenu id="typeOfEstablishment"
+                         editable="true"
+                         value="#{complianceManager.currentComplianceSurvey.typeOfEstablishment}" 
+                         rendered="#{!complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
+
+            <f:validator validatorId="requiredFieldValidator" />
+
+            <p:ajax
+                global="true"
+                update=":ComplianceSurveyDialogForm:topToolbar,generalPanelGrid"
+                listener="#{complianceManager.updateSurvey}"  
+                process="@this" />
+
+            <f:selectItems value="#{complianceManager.typesOfEstablishment}" />
+
+        </p:selectOneMenu>     
+
+        <p:outputLabel value="Type of Port"
+                       style="font-weight: bold"
+                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
+        <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.typeOfPortOfEntry}" 
+                         rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
+            <p:ajax
+                global="true"
+                update=":ComplianceSurveyDialogForm:topToolbar,generalPanelGrid"
+                listener="#{complianceManager.updateSurvey}"
+                process="@this" />
+
+            <f:selectItems value="#{complianceManager.typesOfPortOfEntry}" />
+
+        </p:selectOneMenu>      
+
+        <p:outputLabel value="Port of Entry"
+                       style="font-weight: bold"
+                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
+
+        <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.portOfEntry}" 
+                         editable="false"
+                         rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
+
+            <p:ajax
+                global="true"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                listener="#{complianceManager.updateSurvey}"
+                process="@this" />
+
+            <f:selectItems value="#{complianceManager.portsOfEntry}" />
+
+        </p:selectOneMenu>                      
+
+        <p:outputLabel value="Inspection Location/Point"  
+                       style="font-weight: bold"
+                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
+
+        <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.inspectionPoint}" 
+                         editable="true"
+                         validator="requiredFieldValidator"
+                         rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
+            <p:ajax 
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+            <f:selectItems value="#{complianceManager.inspectionPoints}" />
+
+        </p:selectOneMenu>                     
+
+        <p:outputLabel value="Air waybill" 
+                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyTypeOfPortOfEntryIsAirport}" />
+        <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyTypeOfPortOfEntryIsAirport}">
+            <p:inputText   id="waybill"  
+                           value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.waybill}"
+                           rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyTypeOfPortOfEntryIsAirport}"
+                           maxlength="254">
+
+                <p:ajax listener="#{complianceManager.updateSurvey}"
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        process="@this"/>
+
+            </p:inputText>                           
+        </h:panelGroup>                    
+        <ui:remove>
+            <p:outputLabel value="Consignee"
+                           style="font-weight: bold"
+                           rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}" />
+            <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
+                <p:autoComplete id="consignee"      
+                                var="consignee"
+                                itemLabel="#{consignee.truncatedName}"
+                                itemValue="#{consignee}"                 
+                                dropdown="false"
+                                scrollHeight="200" 
+                                value="#{complianceManager.currentComplianceSurvey.consignee}"    
+                                converter="activeClientConverter"
+                                validator="jobClientValidator"
+                                forceSelection="true"
+                                completeMethod="#{clientManager.completeActiveClient}" >
+
+                    <p:ajax event="itemSelect"
+                            update=":ComplianceSurveyDialogForm:topToolbar,actionsMenuButton,consigneeRepresentative"
+                            listener="#{complianceManager.updateConsignee}"
+                            process="@this"/>
+
+                </p:autoComplete>  
+                <p:menuButton id="actionsMenuButton" 
+                              icon="pi pi-pencil" 
+                              title="Add or edit consignee">
+
+                    <p:menuitem value="Edit consignee"
+                                id="editConsignee"
+                                icon="pi pi-pencil" 
+                                disabled="${!complianceManager.isConsigneeNameValid}"                            
+                                actionListener="#{complianceManager.editConsignee}"  
+                                process="@this,consignee"                             
+                                title="View or edit this consignee's detail">    
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{complianceManager.consigneeDialogReturn}"
+                                update="consignee,consigneeRepresentative" />
+
+                    </p:menuitem>
+
+                    <p:menuitem
+                        value="Add consignee"
+                        icon="pi pi-plus"                    
+                        disabled="#{!complianceManager.user.can('AddClient')}"
+                        actionListener="#{complianceManager.createNewConsignee}"                                            
+                        process="@this"
+                        title="Add a new consignee">
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{complianceManager.consigneeDialogReturn}"
+                                update="consignee,consigneeRepresentative" />
+
+                    </p:menuitem>
+                </p:menuButton>     
+
+            </h:panelGroup> 
+
+            <h:outputText value="Consignee representative" style="font-weight: bold" 
+                          rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}" />  
+            <p:autoComplete id="consigneeRepresentative"
+                            rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                            value="#{complianceManager.currentComplianceSurvey.consigneeRepresentative}"
+                            dropdown="true"
+                            forceSelection="true"
+                            scrollHeight="200"
+                            converter="clientContactConverter" 
+                            validator="contactValidator"
+                            var="representative"                        
+                            itemValue="#{representative}"
+                            itemLabel="#{representative.name}" 
+                            completeMethod="#{complianceManager.completeConsigneeRepresentative}">
+
+                <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.consignee}" />
+
+                <p:ajax event="itemSelect"
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        listener="#{complianceManager.updateSurvey}"  
+                        process="@this" />   
+
+            </p:autoComplete>   
+
+            <p:outputLabel value="Broker" 
+                           rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                           style="font-weight: bold" />
+            <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
+                <p:autoComplete id="broker"      
+                                var="broker"
+                                itemLabel="#{broker.truncatedName}"
+                                itemValue="#{broker}"                     
+                                dropdown="false"
+                                scrollHeight="200" 
+                                value="#{complianceManager.currentComplianceSurvey.broker}"    
+                                converter="activeClientConverter"
+                                validator="jobClientValidator"
+                                forceSelection="true"
+                                completeMethod="#{clientManager.completeActiveClient}" >
+
+                    <p:ajax event="itemSelect"
+                            update=":ComplianceSurveyDialogForm:topToolbar,brokerActionsMenu,brokerRepresentative,brokerAddress"
+                            listener="#{complianceManager.updateBroker}"
+                            process="@this"/>
+
+                </p:autoComplete>  
+                <p:menuButton id="brokerActionsMenu" 
+                              icon="pi pi-pencil" 
+                              title="Add or edit broker">
+                    <p:menuitem value="Edit broker"
+                                id="editBroker"
+                                icon="pi pi-pencil" 
+                                disabled="${!complianceManager.isBrokerNameValid}"                               
+                                actionListener="#{complianceManager.editBroker}"  
+                                process="@this,broker"                             
+                                title="View or edit this broker's detail">  
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{complianceManager.brokerDialogReturn}"
+                                update="broker,brokerRepresentative,brokerAddress" />
+
+                    </p:menuitem>
+
+                    <p:menuitem  
+                        value="Add broker"
+                        icon="pi pi-plus"  
+                        actionListener="#{complianceManager.createNewBroker}"                                            
+                        process="@this"
+                        title="Add a new broker">
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{complianceManager.brokerDialogReturn}"
+                                update="broker,brokerRepresentative,brokerAddress" />
+
+                    </p:menuitem>
+                </p:menuButton>                                
+            </h:panelGroup>
+
+            <h:outputText value="Broker representative" 
+                          rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                          style="font-weight: bold" />  
+            <p:autoComplete id="brokerRepresentative"
+                            rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                            value="#{complianceManager.currentComplianceSurvey.brokerRepresentative}"
+                            dropdown="true"
+                            forceSelection="true"
+                            scrollHeight="200"
+                            converter="clientContactConverter" 
+                            validator="contactValidator"
+                            var="representative"                        
+                            itemValue="#{representative}"
+                            itemLabel="#{representative.name}" 
+                            completeMethod="#{complianceManager.completeBrokerRepresentative}">
+
+                <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.broker}" />
+
+                <p:ajax event="itemSelect"
+                        listener="#{complianceManager.updateSurvey}"  
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        process="@this" />   
+
+            </p:autoComplete> 
+
+            <p:outputLabel value="Broker address" 
+                           rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                           style="font-weight: bold" /> 
+            <p:autoComplete id="brokerAddress"
+                            rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                            value="#{complianceManager.currentComplianceSurvey.brokerAddress}"
+                            dropdown="true"
+                            forceSelection="true"
+                            converter="clientAddressConverter" 
+                            validator="addressValidator"
+                            var="address"  
+                            scrollHeight="200"
+                            itemValue="#{address}"
+                            itemLabel="#{address.name}" 
+                            completeMethod="#{complianceManager.completeBrokerAddress}">
+
+                <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.broker}" />
+
+                <p:ajax event="itemSelect"
+                        listener="#{complianceManager.updateSurvey}" 
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        process="@this" />   
+
+            </p:autoComplete>
+
+            <h:outputText value="Retail Outlet" 
+                          style="font-weight: bold"
+                          rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"/>
+            <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}">
+                <p:autoComplete id="retailOutlet"      
+                                var="retailOutlet"
+                                itemLabel="#{retailOutlet.truncatedName}"
+                                itemValue="#{retailOutlet}"                             
+                                dropdown="false"
+                                scrollHeight="200" 
+                                value="#{complianceManager.currentComplianceSurvey.retailOutlet}"    
+                                converter="activeClientConverter"
+                                validator="jobClientValidator"
+                                forceSelection="true"
+                                completeMethod="#{clientManager.completeActiveClient}" >
+
+                    <p:ajax event="itemSelect"
+                            update=":ComplianceSurveyDialogForm:topToolbar,retailOutletActionsMenu,retailRepresentative"
+                            listener="#{complianceManager.updateRetailOutlet}"
+                            process="@this"/>
+
+                </p:autoComplete>  
+                <p:menuButton id="retailOutletActionsMenu" 
+                              icon="pi pi-pencil" 
+                              title="Add or edit retail outlet">
+
+                    <p:menuitem value="Edit retail outlet"
+                                id="editRetailOutlet"
+                                icon="pi pi-pencil" 
+                                disabled="#{!complianceManager.isRetailOutletNameValid}"                               
+                                actionListener="#{complianceManager.editRetailOutlet}"  
+                                process="@this,retailOutlet"                             
+                                title="View or edit this retail outlet's detail">  
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{complianceManager.retailOutletDialogReturn}"
+                                update="retailOutlet,retailRepresentative" />
+
+                    </p:menuitem>
+
+                    <p:menuitem 
+                        value="Add retail outlet"
+                        icon="pi pi-plus"                     
+                        disabled="#{!complianceManager.user.can('AddClient')}"
+                        actionListener="#{complianceManager.createNewRetailOutlet}"                                            
+                        process="@this"
+                        title="Add a new retail outlet">
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{complianceManager.retailOutletDialogReturn}"
+                                update="retailOutlet,retailRepresentative" />
+
+                    </p:menuitem>
+
+                </p:menuButton>                                
+            </h:panelGroup> 
+
+            <p:outputLabel value="Retail outlet representative" 
+                           style="font-weight: bold"
+                           rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}" />   
+            <p:autoComplete id="retailRepresentative"
+                            rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"
+                            value="#{complianceManager.currentComplianceSurvey.retailRepresentative}"
+                            dropdown="true"
+                            forceSelection="true"
+                            scrollHeight="200"
+                            converter="clientContactConverter" 
+                            validator="contactValidator"
+                            var="representative"                        
+                            itemValue="#{representative}"
+                            itemLabel="#{representative.name}" 
+                            completeMethod="#{complianceManager.completeRetailRepresentative}" >
+
+                <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.retailOutlet}" />
+
+                <p:ajax event="itemSelect"
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        listener="#{complianceManager.updateSurvey}"  
+                        process="@this" />   
+
+            </p:autoComplete>  
+        </ui:remove>
+        <p:outputLabel value="Inspector(s)" style="font-weight: bold" />       
+        <p:autoComplete id="inspectors"
+                        var="inspector"   
+                        value="#{complianceManager.currentComplianceSurvey.inspectors}"
+                        itemLabel="#{inspector.name}"
+                        itemValue="#{inspector}"
+                        converter="activeEmployeeConverter"
+                        validator="businessEntityListValidator"
+                        forceSelection="true"
+                        dropdown="true"
+                        scrollHeight="200"                         
+                        multiple="true"
+                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+            <p:ajax event="itemSelect"
+                    listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this"/>
+
+            <p:ajax event="itemUnselect"
+                    listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this"/>
+
+        </p:autoComplete>
+
+        <p:outputLabel value="Date of survey" style="font-weight: bold" />
+        <p:calendar id="dateOfSurvey"
+                    readonlyInput="true"
+                    navigator="true" 
+                    pattern="MMM dd, yyyy" 
+                    value="#{complianceManager.currentComplianceSurvey.dateOfSurvey}" >
+
+            <p:ajax event="dateSelect"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+            <p:ajax event="keyup"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+        </p:calendar>
+
+        <p:outputLabel value="Time in" />
+        <p:datePicker id="timeIn" 
+                      autocomplete="off"
+                      pattern="H:mm"
+                      hourFormat="12"
+                      timeOnly="true"
+                      value="#{complianceManager.currentComplianceSurvey.surveyStartTime}" >
+
+            <p:ajax event="dateSelect"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+        </p:datePicker>
+
+        <p:outputLabel value="Time out" />
+        <p:datePicker id="timeOut" 
+                      autocomplete="off"
+                      pattern="H:mm"
+                      hourFormat="12"
+                      timeOnly="true"
+                      value="#{complianceManager.currentComplianceSurvey.surveyEndTime}" >
+
+            <p:ajax event="dateSelect"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+        </p:datePicker>
+
+        <ui:remove>
+            <p:outputLabel value="Compliant?" for="compliant" style="font-weight: bold" />
+            <p:selectBooleanCheckbox 
+                id="compliant"
+                value="#{complianceManager.currentComplianceSurvey.compliant}">
+
+                <p:ajax listener="#{complianceManager.updateSurvey}" 
+                        update=":ComplianceSurveyDialogForm:topToolbar,:ComplianceSurveyDialogForm:formsMenu" />
+
+            </p:selectBooleanCheckbox>
+        </ui:remove>
+
+        <p:outputLabel value="Comments" />                        
+        <p:inputTextarea
+            id="comments"
+            value="#{complianceManager.currentComplianceSurvey.comments}"
+            rows="3"
+            counter="commentsCharsRemaining"
+            counterTemplate="{0} characters remaining."
+            autoResize="false"
+            maxlength="1000" 
+            style="width: 70%;"
+            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}">
+
+            <p:ajax listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this"/>
+
+        </p:inputTextarea> 
+        <p:outputLabel value="&nbsp;&nbsp;" />
+        <p:outputLabel id="commentsCharsRemaining" /> 
+
+    </h:panelGrid>
+
+</html>
+
+

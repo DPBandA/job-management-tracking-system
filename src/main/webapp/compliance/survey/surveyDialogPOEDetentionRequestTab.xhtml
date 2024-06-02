@@ -1,0 +1,149 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2024  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <h:panelGrid columns="2" cellpadding="3" >
+
+        <p:outputLabel value="Detention request issued"
+                       for="detentionRequestIssued" />
+        <p:selectBooleanCheckbox value="#{complianceManager.currentComplianceSurvey.requestForDetentionIssuedForPortOfEntry}"
+                                 id="detentionRequestIssued" >
+
+            <p:ajax listener="#{complianceManager.updatePOEDetention}" 
+                    update=":ComplianceSurveyDialogForm:topToolbar,portOfEntryDetentionNumber,dateOfDetention,:ComplianceSurveyDialogForm:formsMenu"/>
+
+        </p:selectBooleanCheckbox>
+
+        <p:outputLabel value="Detention number" />
+        <p:inputText value="#{complianceManager.currentComplianceSurvey.portOfEntryDetentionNumber}" 
+                     id="portOfEntryDetentionNumber"
+                     readonly="true"
+                     style="background-color: lightyellow;">
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>                       
+
+        <p:outputLabel value="Date of detention" />
+        <p:calendar id="dateOfDetention"
+                    readonlyInput="true"
+                    navigator="true" 
+                    pattern="MMM dd, yyyy" 
+                    value="#{complianceManager.currentComplianceSurvey.dateOfDetention}" >
+
+            <p:ajax event="dateSelect"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+            <p:ajax event="keyup"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+        </p:calendar>
+
+        <p:outputLabel style="vertical-align: top;"
+                       value="Standards breached" />
+        <h:panelGrid columns="2">
+            <p:autoComplete id="standards"
+                            var="standard"   
+                            value="#{complianceManager.currentComplianceSurvey.standardsBreached}"
+                            itemLabel="#{standard.number} - #{standard.name}"
+                            itemValue="#{standard}"
+                            converter="activeDocumentStandardConverter"
+                            forceSelection="true"
+                            dropdown="true"
+                            scrollHeight="200"                         
+                            multiple="true"
+                            completeMethod="#{complianceManager.completeActiveDocumentStandard}" >
+
+                <p:ajax event="itemSelect"
+                        listener="#{complianceManager.updateSurvey}"
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        process="@this"/>
+
+                <p:ajax event="itemUnselect"
+                        listener="#{complianceManager.updateSurvey}"
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        process="@this"/>
+
+            </p:autoComplete>
+            <p:commandButton 
+                icon="pi pi-plus"
+                actionListener="#{complianceManager.createNewDocumentStandardInDialog}"                                            
+                process="@this"
+                title="Add a new standard to the standard database" >
+
+                <p:ajax event="dialogReturn" 
+                        update="standards"/>
+
+            </p:commandButton>
+
+        </h:panelGrid>
+
+        <p:outputLabel value="Reason for Detention" style="vertical-align: top" />
+        <p:inputTextarea
+            id="reasonForDetention"
+            value="#{complianceManager.currentComplianceSurvey.reasonForDetention}"
+            rows="3"
+            counter="reasonForDetentionCharsRemaining"
+            counterTemplate="{0} characters remaining."
+            autoResize="false"
+            maxlength="1000" 
+            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
+
+            <p:ajax listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this"/>
+
+        </p:inputTextarea> 
+        <p:outputLabel value="" />
+        <p:outputLabel id="reasonForDetentionCharsRemaining" />
+    </h:panelGrid>
+    <hr/>  
+    <h:panelGrid columns="2" cellpadding="3" >
+        <p:commandButton value="Authorize"
+                         title="Authorize form"
+                         actionListener="#{complianceManager.updateAuthDetentionRequestPOE}"
+                         update=":ComplianceSurveyDialogForm:topToolbar,AuthSigForDetentionRequestPOEPanelGroup"
+                         icon="pi pi-key"
+                         process="@this" />
+
+        <h:panelGroup id="AuthSigForDetentionRequestPOEPanelGroup">
+            <p:graphicImage id="AuthSigForDetentionRequestPOE" 
+                            height="24"
+                            width="192" cache="false"
+                            value="#{complianceManager.authSigForDetentionRequestPOE}" />  
+            <h:outputText  id="AuthSigDateForDetentionRequestPOE"
+                           value="  #{complianceManager.currentComplianceSurvey.authSigDateForDetentionRequestPOE}" />
+        </h:panelGroup>
+    </h:panelGrid>
+
+</html>
+
+

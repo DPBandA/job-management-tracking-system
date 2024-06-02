@@ -1,0 +1,223 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2024  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+
+    <h:panelGrid id="entryDocumentInspectionPanelGrid" columns="2" cellspacing="3"> 
+
+        <p:outputLabel value="Entry #" />
+        <p:inputText value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.entryDocumentNumber}" 
+                     id="entryDocumentNumber">
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>
+
+        <ui:remove>
+            <p:outputLabel value="Internal #" />
+            <p:inputText value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.internalNumber}" 
+                         id="internalNumber">
+                <p:ajax
+                    global="true"
+                    listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this" />
+
+            </p:inputText>
+        </ui:remove>
+
+        <p:outputLabel value="Report date"  />
+        <p:calendar readonlyInput="true"
+                    navigator="true" 
+                    pattern="MMM dd, yyyy" 
+                    value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.entryDocumentReportDate}" >
+
+            <p:ajax event="dateSelect"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+            <p:ajax event="keyup"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+        </p:calendar>   
+
+        <p:outputLabel value="Invoice #" />
+        <h:panelGroup>
+            <p:inputText value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.invoiceNumber}" 
+                         id="invoiceNumber" >
+
+                <p:ajax
+                    global="true"
+                    listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this" />
+
+            </p:inputText>
+            <p:watermark value="" for="invoiceNumber"/>
+        </h:panelGroup>
+
+        <p:outputLabel value="Invoice date"  />
+        <p:calendar readonlyInput="true"
+                    navigator="true" 
+                    pattern="MMM dd, yyyy" 
+                    value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.invoiceDate}" >
+
+            <p:ajax event="dateSelect"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+            <p:ajax event="keyup"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    listener="#{complianceManager.updateSurvey}" />
+
+        </p:calendar>     
+
+        <p:outputLabel value="Container #(s)" />
+        <p:inputText id="containerNumbers"
+                     value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.containerNumbers}" >
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>    
+
+        <p:outputLabel value="Country of consignment"/>
+        <p:autoComplete value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.countryOfConsignment}" 
+                        forceSelection="true"  
+                        maxlength="40"
+                        dropdown="true"
+                        scrollHeight="200"
+                        completeMethod="#{systemManager.completeCountry}" >
+
+            <p:ajax event="itemSelect"                              
+                    listener="#{complianceManager.updateEntryDocumentInspection}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this" />      
+
+            <p:ajax event="change"                              
+                    listener="#{complianceManager.updateEntryDocumentInspection}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this" />                               
+        </p:autoComplete>   
+
+        <p:outputLabel value="Cost, Insurance &amp; Freight (CIF)" />
+        <p:inputText id="cif"                                     
+                     converterMessage="Please enter a valid CIF"
+                     value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.CIF}" >
+
+            <f:convertNumber                                 
+                minFractionDigits="2" 
+                maxFractionDigits="2"/>
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateCIF}"  
+                update="SCFAmountCalculated,:ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>        
+
+        <p:outputLabel value="SCF payable" />
+        <p:inputText id="scf"
+                     converterMessage="Please enter a valid SCF"
+                     value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.SCF}" >
+
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}" 
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>     
+
+        <p:outputLabel value="SCF amount calculated" />
+        <p:inputText id="SCFAmountCalculated"
+                     converterMessage="Please enter a valid SCF"
+                     value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.SCFAmountCalculated}" >
+
+            <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}" 
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>      
+
+        <ui:remove>
+            <p:outputLabel value="SCF free code" />
+            <p:inputText value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.SCFFreeCode}" 
+                         id="SCFFreeCode">
+
+                <p:ajax
+                    global="true"
+                    listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this" />
+
+            </p:inputText>    
+        </ui:remove>
+
+        <p:outputLabel value="Document stamped"/>
+        <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.documentStamped}">
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+            <f:selectItems value="#{complianceManager.documentStamps}" />
+
+        </p:selectOneMenu>   
+
+        <p:outputLabel value="Profile flag"/>
+        <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.profileFlagged}">
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+            <f:selectItems value="#{complianceManager.profileFlags}" />
+
+        </p:selectOneMenu>
+
+    </h:panelGrid>
+
+</html>
+
+
