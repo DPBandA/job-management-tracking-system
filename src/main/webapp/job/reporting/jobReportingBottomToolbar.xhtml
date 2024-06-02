@@ -27,7 +27,7 @@ Email: info@dpbennett.com.jm
         
         <p:toolbarGroup align="left" style="margin-top: 5px;">  
 
-            <p:commandButton actionListener="#{jobManager.okJobStatusAndTracking}" 
+            <p:commandButton actionListener="#{jobManager.okJobReporting}" 
                              value="Ok"
                              update=":jobDialogForm"
                              icon="pi pi-check"
@@ -36,7 +36,7 @@ Email: info@dpbennett.com.jm
             <p:spacer height="0" width="10"/>
 
             <p:commandButton value="Cancel"     
-                             actionListener="#{jobManager.cancelJobStatusAndTrackingEdit}"
+                             actionListener="#{jobManager.cancelJobReportingEdit}"
                              immediate="true"                             
                              process="@this"
                              update=":jobDialogForm"
