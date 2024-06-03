@@ -131,27 +131,62 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>    
 
-        <p:outputLabel value="Establishments *" 
+        <p:outputLabel value="Establishment(s) *" 
                        style="font-weight: bold" />
         <h:panelGroup>
             <h:panelGrid columns="2">
                 <h:panelGrid id="establishmentsPanelGrid"
                              style="border: 1px solid lightgray;">
                     <p:inputText  id="consignee"  
+                                  rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
                                   placeholder="(no consignee)"
                                   value="#{complianceManager.currentComplianceSurvey.consignee}"
+                                  style="background-color: lightyellow;"
+                                  required="true"
+                                  requiredMessage="Consignee required"
                                   readonly="true" />
                     <p:inputText  id="broker"  
+                                  rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
                                   placeholder="(no broker)"
                                   value="#{complianceManager.currentComplianceSurvey.broker}"
+                                  style="background-color: lightyellow;"
+                                  required="true"
+                                  requiredMessage="Broker required"
                                   readonly="true" />
-                    <p:inputText  id="retailOutlet"  
-                                  placeholder="(no retail outlet)"
-                                  value="#{complianceManager.currentComplianceSurvey.retailOutlet}"
-                                  readonly="true" />
+                    <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}">
+                        <p:autoComplete id="retailOutlet"      
+                                        var="retailOutlet"
+                                        itemLabel="#{retailOutlet.truncatedName}"
+                                        itemValue="#{retailOutlet}"                             
+                                        dropdown="false"
+                                        scrollHeight="200" 
+                                        value="#{complianceManager.currentComplianceSurvey.retailOutlet}"    
+                                        converter="activeClientConverter"
+                                        validator="jobClientValidator"
+                                        forceSelection="true"
+                                        completeMethod="#{clientManager.completeActiveClient}" >
+
+                            <p:ajax event="itemSelect"
+                                    update=":ComplianceSurveyDialogForm:topToolbar"
+                                    listener="#{complianceManager.updateRetailOutlet}"
+                                    process="@this"/>
+
+                        </p:autoComplete>                                                      
+                    </h:panelGroup> 
+                    <ui:remove>
+                        <p:inputText  id="retailOutlet"  
+                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"
+                                      placeholder="(no retail outlet)"
+                                      value="#{complianceManager.currentComplianceSurvey.retailOutlet}"
+                                      style="background-color: lightyellow;"
+                                      required="true"
+                                      requiredMessage="Retail outlet required"
+                                      disabled="true" />
+                    </ui:remove>
                 </h:panelGrid>
                 <p:commandButton icon="pi pi-pencil"
                                  process="@this"
+                                 rendered="true"
                                  actionListener="#{complianceManager.openSurveyEstablishmentsDialog}"
                                  title="Edit/view establishments">
 
