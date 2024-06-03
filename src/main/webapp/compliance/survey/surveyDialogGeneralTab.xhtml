@@ -138,25 +138,26 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid id="establishmentsPanelGrid"
                              style="border: 1px solid lightgray;">
                     <p:inputText  id="consignee"  
-                                  placeholder="(consignee)"
+                                  placeholder="(no consignee)"
                                   value="#{complianceManager.currentComplianceSurvey.consignee}"
                                   readonly="true" />
                     <p:inputText  id="broker"  
-                                  placeholder="(broker)"
-                                  value="#{broker.truncatedName}"
+                                  placeholder="(no broker)"
+                                  value="#{complianceManager.currentComplianceSurvey.broker}"
                                   readonly="true" />
                     <p:inputText  id="retailOutlet"  
-                                  placeholder="(retail outlet)"
-                                  value="#{retailOutlet.truncatedName}"
+                                  placeholder="(no retail outlet)"
+                                  value="#{complianceManager.currentComplianceSurvey.retailOutlet}"
                                   readonly="true" />
                 </h:panelGrid>
                 <p:commandButton icon="pi pi-pencil"
+                                 process="@this"
                                  actionListener="#{complianceManager.openSurveyEstablishmentsDialog}"
                                  title="Edit/view establishments">
 
                     <p:ajax event="dialogReturn" 
                             listener="#{complianceManager.surveyEstablishmentsDialogReturn}"
-                            update="establishmentsPanelGrid" />
+                            update="establishmentsPanelGrid,:ComplianceSurveyDialogForm:topToolbar" />
 
                 </p:commandButton>
             </h:panelGrid>
