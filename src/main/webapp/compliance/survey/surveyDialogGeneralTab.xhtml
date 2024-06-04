@@ -131,8 +131,17 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>    
 
-        <p:outputLabel value="Establishment(s) *" 
-                       style="font-weight: bold" />
+        <h:panelGrid>            
+            <p:outputLabel value="Consignee"
+                           style="font-weight: bold"
+                           rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}" />
+            <p:outputLabel value="Broker" 
+                           rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                           style="font-weight: bold" />
+            <h:outputText value="Retail Outlet" 
+                          style="font-weight: bold"
+                          rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"/>
+        </h:panelGrid>
         <h:panelGroup>
             <h:panelGrid columns="2">
                 <h:panelGrid id="establishmentsPanelGrid"
@@ -153,26 +162,27 @@ Email: info@dpbennett.com.jm
                                   required="true"
                                   requiredMessage="Broker required"
                                   readonly="true" />
-                    <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}">
-                        <p:autoComplete id="retailOutlet"      
-                                        var="retailOutlet"
-                                        itemLabel="#{retailOutlet.truncatedName}"
-                                        itemValue="#{retailOutlet}"                             
-                                        dropdown="false"
-                                        scrollHeight="200" 
-                                        value="#{complianceManager.currentComplianceSurvey.retailOutlet}"    
-                                        converter="activeClientConverter"
-                                        validator="jobClientValidator"
-                                        forceSelection="true"
-                                        completeMethod="#{clientManager.completeActiveClient}" >
 
-                            <p:ajax event="itemSelect"
-                                    update=":ComplianceSurveyDialogForm:topToolbar"
-                                    listener="#{complianceManager.updateRetailOutlet}"
-                                    process="@this"/>
+                    <p:autoComplete id="retailOutlet"  
+                                    rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"
+                                    var="retailOutlet"
+                                    itemLabel="#{retailOutlet.truncatedName}"
+                                    itemValue="#{retailOutlet}"                             
+                                    dropdown="false"
+                                    scrollHeight="200" 
+                                    value="#{complianceManager.currentComplianceSurvey.retailOutlet}"    
+                                    converter="activeClientConverter"
+                                    validator="jobClientValidator"
+                                    forceSelection="true"
+                                    completeMethod="#{clientManager.completeActiveClient}" >
 
-                        </p:autoComplete>                                                      
-                    </h:panelGroup> 
+                        <p:ajax event="itemSelect"
+                                update=":ComplianceSurveyDialogForm:topToolbar"
+                                listener="#{complianceManager.updateRetailOutlet}"
+                                process="@this"/>
+
+                    </p:autoComplete>                                                      
+
                     <ui:remove>
                         <p:inputText  id="retailOutlet"  
                                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"
