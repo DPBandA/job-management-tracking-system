@@ -33,7 +33,6 @@ Email: info@dpbennett.com.jm
                             id="jobNumber"
                             maxResults="10"
                             minQueryLength="2"
-                            scrollHeight="200"
                             forceSelection="false"
                             required="true"
                             requiredMessage="Job Number Required"
@@ -131,82 +130,115 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>    
 
-        <h:panelGrid>            
-            <p:outputLabel value="Consignee"
-                           style="font-weight: bold"
-                           rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}" />
-            <p:outputLabel value="Broker" 
-                           rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
-                           style="font-weight: bold" />
-            <h:outputText value="Retail Outlet" 
-                          style="font-weight: bold"
-                          rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"/>
-        </h:panelGrid>
-        <h:panelGroup>
-            <h:panelGrid columns="2">
-                <h:panelGrid id="establishmentsPanelGrid"
-                             style="border: 1px solid lightgray;">
-                    <p:inputText  id="consignee"  
-                                  rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
-                                  placeholder="(no consignee)"
-                                  value="#{complianceManager.currentComplianceSurvey.consignee}"
-                                  style="background-color: lightyellow;"
-                                  required="true"
-                                  requiredMessage="Consignee required"
-                                  readonly="true" />
-                    <p:inputText  id="broker"  
-                                  rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
-                                  placeholder="(no broker)"
-                                  value="#{complianceManager.currentComplianceSurvey.broker}"
-                                  style="background-color: lightyellow;"
-                                  required="true"
-                                  requiredMessage="Broker required"
-                                  readonly="true" />
+        <p:outputLabel value="Consignee"
+                       style="font-weight: bold"
+                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}" />
+        <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
+            <p:autoComplete id="consignee"      
+                            var="consignee"
+                            itemLabel="#{consignee.truncatedName}"
+                            itemValue="#{consignee}"                 
+                            dropdown="false"
+                            value="#{complianceManager.currentComplianceSurvey.consignee}"    
+                            converter="activeClientConverter"
+                            validator="jobClientValidator"
+                            forceSelection="true"
+                            cache="true"
+                            maxResults="10"
+                            minQueryLength="2"
+                            completeMethod="#{clientManager.completeActiveClient}" >
 
-                    <p:autoComplete id="retailOutlet"  
-                                    rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"
-                                    var="retailOutlet"
-                                    itemLabel="#{retailOutlet.truncatedName}"
-                                    itemValue="#{retailOutlet}"                             
-                                    dropdown="false"
-                                    scrollHeight="200" 
-                                    value="#{complianceManager.currentComplianceSurvey.retailOutlet}"    
-                                    converter="activeClientConverter"
-                                    validator="jobClientValidator"
-                                    forceSelection="true"
-                                    completeMethod="#{clientManager.completeActiveClient}" >
+                <p:ajax event="itemSelect"
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        listener="#{complianceManager.updateConsignee}"
+                        process="@this"/>
 
-                        <p:ajax event="itemSelect"
-                                update=":ComplianceSurveyDialogForm:topToolbar"
-                                listener="#{complianceManager.updateRetailOutlet}"
-                                process="@this"/>
+            </p:autoComplete>                           
+            <p:commandButton icon="pi pi-pencil"
+                             process="@this"
+                             rendered="true"
+                             actionListener="#{complianceManager.openSurveyEstablishmentsDialog('Consignee')}"
+                             title="Edit/view consignee">
 
-                    </p:autoComplete>                                                      
+                <p:ajax event="dialogReturn" 
+                        listener="#{complianceManager.surveyEstablishmentsDialogReturn}"
+                        update="consignee,:ComplianceSurveyDialogForm:topToolbar" />
 
-                    <ui:remove>
-                        <p:inputText  id="retailOutlet"  
-                                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"
-                                      placeholder="(no retail outlet)"
-                                      value="#{complianceManager.currentComplianceSurvey.retailOutlet}"
-                                      style="background-color: lightyellow;"
-                                      required="true"
-                                      requiredMessage="Retail outlet required"
-                                      disabled="true" />
-                    </ui:remove>
-                </h:panelGrid>
-                <p:commandButton icon="pi pi-pencil"
-                                 process="@this"
-                                 rendered="true"
-                                 actionListener="#{complianceManager.openSurveyEstablishmentsDialog}"
-                                 title="Edit/view establishments">
+            </p:commandButton>
+        </h:panelGroup>
 
-                    <p:ajax event="dialogReturn" 
-                            listener="#{complianceManager.surveyEstablishmentsDialogReturn}"
-                            update="establishmentsPanelGrid,:ComplianceSurveyDialogForm:topToolbar" />
+        <p:outputLabel value="Broker" 
+                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                       style="font-weight: bold" />                   
+        <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
+            <p:autoComplete id="broker"      
+                            var="broker"
+                            itemLabel="#{broker.truncatedName}"
+                            itemValue="#{broker}"                     
+                            dropdown="false"
+                            value="#{complianceManager.currentComplianceSurvey.broker}"    
+                            converter="activeClientConverter"
+                            validator="jobClientValidator"
+                            forceSelection="true"
+                            cache="true"
+                            maxResults="10"
+                            minQueryLength="2"
+                            completeMethod="#{clientManager.completeActiveClient}" >
 
-                </p:commandButton>
-            </h:panelGrid>
+                <p:ajax event="itemSelect"
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        listener="#{complianceManager.updateBroker}"
+                        process="@this"/>
 
+            </p:autoComplete>  
+            <p:commandButton icon="pi pi-pencil"
+                             process="@this"
+                             rendered="true"
+                             actionListener="#{complianceManager.openSurveyEstablishmentsDialog('Broker')}"
+                             title="Edit/view broker">
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{complianceManager.surveyEstablishmentsDialogReturn}"
+                        update="broker,:ComplianceSurveyDialogForm:topToolbar" />
+
+            </p:commandButton>
+        </h:panelGroup>
+
+        <h:outputText value="Retail Outlet" 
+                      style="font-weight: bold"
+                      rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"/>
+        <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}">
+            <p:autoComplete id="retailOutlet"  
+                            var="retailOutlet"
+                            itemLabel="#{retailOutlet.truncatedName}"
+                            itemValue="#{retailOutlet}"                             
+                            dropdown="false"
+                            value="#{complianceManager.currentComplianceSurvey.retailOutlet}"    
+                            converter="activeClientConverter"
+                            validator="jobClientValidator"
+                            forceSelection="true"
+                            cache="true"
+                            maxResults="10"
+                            minQueryLength="2"
+                            completeMethod="#{clientManager.completeActiveClient}" >
+
+                <p:ajax event="itemSelect"
+                        update=":ComplianceSurveyDialogForm:topToolbar"
+                        listener="#{complianceManager.updateRetailOutlet}"
+                        process="@this"/>
+
+            </p:autoComplete>      
+            <p:commandButton icon="pi pi-pencil"
+                             process="@this"
+                             rendered="true"
+                             actionListener="#{complianceManager.openSurveyEstablishmentsDialog('Retail outlet')}"
+                             title="Edit/view retail outlet">
+
+                <p:ajax event="dialogReturn" 
+                        listener="#{complianceManager.surveyEstablishmentsDialogReturn}"
+                        update="retailOutlet,:ComplianceSurveyDialogForm:topToolbar" />
+
+            </p:commandButton>
         </h:panelGroup>
 
         <p:outputLabel value="Type of Establishment" 
