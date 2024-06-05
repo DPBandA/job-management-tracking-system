@@ -25,7 +25,7 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <ui:include src="/head.xhtml" />       
-        <title>Consignee</title>
+        <title>Retail Outlet</title>
         <ui:include src="header.xhtml" />  
     </h:head>
 
@@ -39,74 +39,74 @@ Email: info@dpbennett.com.jm
 
             <ui:include src="surveyDialogEstablishmentsTopToolbar.xhtml"/>
 
-            <h:panelGrid id="generalPanelGrid" 
-                         columns="2" 
-                         cellspacing="3">
+            <h:panelGrid id="generalPanelGrid" columns="2" cellspacing="3">
 
-                <p:outputLabel value="Consignee *"
-                               style="font-weight: bold" />
+                <h:outputText value="Retail Outlet *" 
+                              style="font-weight: bold"/>
                 <h:panelGroup>
-                    <p:autoComplete id="consignee"      
-                                    var="consignee"
-                                    itemLabel="#{consignee.truncatedName}"
-                                    itemValue="#{consignee}"                 
+                    <p:autoComplete id="retailOutlet"      
+                                    var="retailOutlet"
+                                    itemLabel="#{retailOutlet.truncatedName}"
+                                    itemValue="#{retailOutlet}"                             
                                     dropdown="false"
                                     scrollHeight="200" 
-                                    value="#{complianceManager.currentComplianceSurvey.consignee}"    
+                                    value="#{complianceManager.currentComplianceSurvey.retailOutlet}"    
                                     converter="activeClientConverter"
                                     validator="jobClientValidator"
                                     forceSelection="true"
                                     required="true"
-                                    requiredMessage="Consignee required"
+                                    requiredMessage="Retail outlet required"
                                     maxResults="3"
                                     minQueryLength="2"
                                     completeMethod="#{clientManager.completeActiveClient}" >
 
                         <p:ajax event="itemSelect"
-                                update=":SurveyDialogEstablishmentsForm:topToolbar,actionsMenuButton,consigneeRepresentative,consigneeAddress"
-                                listener="#{complianceManager.updateConsignee}"
+                                update=":SurveyDialogEstablishmentsForm:topToolbar,retailOutletActionsMenu,retailRepresentative,retailOutletAddress"
+                                listener="#{complianceManager.updateRetailOutlet}"
                                 process="@this"/>
 
                     </p:autoComplete>  
-                    <p:menuButton id="actionsMenuButton" 
+                    <p:menuButton id="retailOutletActionsMenu" 
                                   icon="pi pi-pencil" 
-                                  title="Add or edit consignee">
+                                  title="Add or edit retail outlet">
 
-                        <p:menuitem value="Edit consignee"
-                                    id="editConsignee"
+                        <p:menuitem value="Edit retail outlet"
+                                    id="editRetailOutlet"
                                     icon="pi pi-pencil" 
-                                    disabled="${!complianceManager.isConsigneeNameValid}"                            
-                                    actionListener="#{complianceManager.editConsignee}"  
-                                    process="@this,consignee"                             
-                                    title="View or edit this consignee's detail">    
+                                    disabled="#{!complianceManager.isRetailOutletNameValid}"                               
+                                    actionListener="#{complianceManager.editRetailOutlet}"  
+                                    process="@this,retailOutlet"                             
+                                    title="View or edit this retail outlet's detail">  
 
                             <p:ajax event="dialogReturn" 
-                                    listener="#{complianceManager.consigneeDialogReturn}"
-                                    update="consignee,consigneeRepresentative,consigneeAddress" />
+                                    listener="#{complianceManager.retailOutletDialogReturn}"
+                                    update="retailOutlet,retailRepresentative,retailOutletAddress" />
 
                         </p:menuitem>
 
-                        <p:menuitem
-                            value="Add consignee"
-                            icon="pi pi-plus"                    
+                        <p:menuitem 
+                            value="Add retail outlet"
+                            icon="pi pi-plus"                     
                             disabled="#{!complianceManager.user.can('AddClient')}"
-                            actionListener="#{complianceManager.createNewConsignee}"                                            
+                            actionListener="#{complianceManager.createNewRetailOutlet}"                                            
                             process="@this"
-                            title="Add a new consignee">
+                            title="Add a new retail outlet">
 
                             <p:ajax event="dialogReturn" 
-                                    listener="#{complianceManager.consigneeDialogReturn}"
-                                    update="consignee,consigneeRepresentative,consigneeAddress" />
+                                    listener="#{complianceManager.retailOutletDialogReturn}"
+                                    update="retailOutlet,retailRepresentative,retailOutletAddress" />
 
                         </p:menuitem>
-                    </p:menuButton>     
 
+                    </p:menuButton>                                
                 </h:panelGroup> 
 
-                <h:outputText value="Consignee representative *" 
-                              style="font-weight: bold" />  
-                <p:autoComplete id="consigneeRepresentative"
-                                value="#{complianceManager.currentComplianceSurvey.consigneeRepresentative}"
+                <p:outputLabel value="Retail outlet representative *" 
+                               style="font-weight: bold"
+                               rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}" />   
+                <p:autoComplete id="retailRepresentative"
+                                rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"
+                                value="#{complianceManager.currentComplianceSurvey.retailRepresentative}"
                                 dropdown="true"
                                 forceSelection="true"
                                 scrollHeight="200"
@@ -116,22 +116,22 @@ Email: info@dpbennett.com.jm
                                 itemValue="#{representative}"
                                 itemLabel="#{representative.name}" 
                                 required="true"
-                                requiredMessage="Consignee representative required"
-                                completeMethod="#{complianceManager.completeConsigneeRepresentative}">
+                                requiredMessage="Retail outlet representative"
+                                completeMethod="#{complianceManager.completeRetailRepresentative}" >
 
-                    <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.consignee}" />
+                    <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.retailOutlet}" />
 
                     <p:ajax event="itemSelect"
                             update=":SurveyDialogEstablishmentsForm:topToolbar"
                             listener="#{complianceManager.updateSurvey}"  
                             process="@this" />   
 
-                </p:autoComplete>   
-
-                <p:outputLabel value="Consignee address *" 
+                </p:autoComplete>  
+                
+                <p:outputLabel value="Retail outlet address *" 
                                style="font-weight: bold" /> 
-                <p:autoComplete id="consigneeAddress"
-                                value="#{complianceManager.currentComplianceSurvey.consigneeAddress}"
+                <p:autoComplete id="retailOutletAddress"
+                                value="#{complianceManager.currentComplianceSurvey.retailOutletAddress}"
                                 dropdown="true"
                                 forceSelection="true"
                                 converter="clientAddressConverter" 
@@ -141,10 +141,10 @@ Email: info@dpbennett.com.jm
                                 itemValue="#{address}"
                                 itemLabel="#{address.name}" 
                                 required="true"
-                                requiredMessage="Consignee address required"
-                                completeMethod="#{complianceManager.completeConsigneeAddress}">
+                                requiredMessage="Retail outlet address required"
+                                completeMethod="#{complianceManager.completeRetailAddress}">
 
-                    <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.consignee}" />
+                    <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.retailOutlet}" />
 
                     <p:ajax event="itemSelect"
                             listener="#{complianceManager.updateSurvey}" 

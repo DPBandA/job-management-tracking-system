@@ -85,25 +85,30 @@ Email: info@dpbennett.com.jm
             </p:menuButton>
         </h:panelGroup>
 
-        <p:outputLabel value="Business office" style="font-weight: bold"/>       
-        <p:autoComplete id="businessOffice"
-                        dropdown="true" 
-                        readonly="false"
-                        var="businessOffice"
-                        value="#{complianceManager.currentComplianceSurvey.businessOffice}"
-                        itemLabel="#{businessOffice.name}"
-                        itemValue="#{businessOffice}"
-                        converter="businessOfficeConverter"
-                        validator="businessEntityValidator"
-                        forceSelection="true"
-                        completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
+        <p:outputLabel value="Business office" style="font-weight: bold"/>   
+        <p:selectOneMenu id="businessOffice" 
+                         value="#{complianceManager.currentComplianceSurvey.businessOffice}"
+                         converter="businessOfficeConverter"     
+                         panelStyle="width:180px"
+                         filter="true" 
+                         filterMatchMode="contains" 
+                         filterNormalize="true">
+
+            <f:selectItems value="#{jobManager.allActiveBusinessOffices}" 
+                           var="office"
+                           itemLabel="#{office.name}" 
+                           itemValue="#{office}"/>
 
             <p:ajax event="itemSelect"                       
                     update=":ComplianceSurveyDialogForm:topToolbar,generalPanelGrid,complianceSurveyTabView"
                     listener="#{complianceManager.updateSurvey}"
                     process="@this"/>
 
-        </p:autoComplete>
+            <p:column>               
+                <h:outputText value="#{businessOffice.name}"/>
+            </p:column>
+
+        </p:selectOneMenu>
 
         <p:outputLabel value="Survey type" style="font-weight: bold"/>
         <p:selectOneMenu id="surveyType"
@@ -232,7 +237,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton icon="pi pi-pencil"
                              process="@this"
                              rendered="true"
-                             actionListener="#{complianceManager.openSurveyEstablishmentsDialog('Retail outlet')}"
+                             actionListener="#{complianceManager.openSurveyRetailOutletDialog}"
                              title="Edit/view retail outlet">
 
                 <p:ajax event="dialogReturn" 
