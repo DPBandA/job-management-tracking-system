@@ -60,7 +60,7 @@ Email: info@dpbennett.com.jm
                                     completeMethod="#{clientManager.completeActiveClient}" >
 
                         <p:ajax event="itemSelect"
-                                update=":SurveyDialogEstablishmentsForm:topToolbar,actionsMenuButton,consigneeRepresentative"
+                                update=":SurveyDialogEstablishmentsForm:topToolbar,actionsMenuButton,consigneeRepresentative,consigneeAddress"
                                 listener="#{complianceManager.updateConsignee}"
                                 process="@this"/>
 
@@ -79,7 +79,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="dialogReturn" 
                                     listener="#{complianceManager.consigneeDialogReturn}"
-                                    update="consignee,consigneeRepresentative" />
+                                    update="consignee,consigneeRepresentative,consigneeAddress" />
 
                         </p:menuitem>
 
@@ -93,7 +93,7 @@ Email: info@dpbennett.com.jm
 
                             <p:ajax event="dialogReturn" 
                                     listener="#{complianceManager.consigneeDialogReturn}"
-                                    update="consignee,consigneeRepresentative" />
+                                    update="consignee,consigneeRepresentative,consigneeAddress" />
 
                         </p:menuitem>
                     </p:menuButton>     
@@ -126,6 +126,33 @@ Email: info@dpbennett.com.jm
 
                 </p:autoComplete>   
 
+                <p:outputLabel value="Consignee address *" 
+                               rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                               style="font-weight: bold" /> 
+                <p:autoComplete id="consigneeAddress"
+                                rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
+                                value="#{complianceManager.currentComplianceSurvey.consigneeAddress}"
+                                dropdown="true"
+                                forceSelection="true"
+                                converter="clientAddressConverter" 
+                                validator="addressValidator"
+                                var="address"  
+                                scrollHeight="200"
+                                itemValue="#{address}"
+                                itemLabel="#{address.name}" 
+                                required="true"
+                                requiredMessage="Consignee address required"
+                                completeMethod="#{complianceManager.completeConsigneeAddress}">
+
+                    <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.broker}" />
+
+                    <p:ajax event="itemSelect"
+                            listener="#{complianceManager.updateSurvey}" 
+                            update=":SurveyDialogEstablishmentsForm:topToolbar"
+                            process="@this" />   
+
+                </p:autoComplete>
+
                 <p:outputLabel value="Broker *" 
                                rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
                                style="font-weight: bold" />
@@ -140,6 +167,8 @@ Email: info@dpbennett.com.jm
                                     converter="activeClientConverter"
                                     validator="jobClientValidator"
                                     forceSelection="true"
+                                    required="true"
+                                    requiredMessage="Broker required"
                                     completeMethod="#{clientManager.completeActiveClient}" >
 
                         <p:ajax event="itemSelect"
@@ -194,6 +223,8 @@ Email: info@dpbennett.com.jm
                                 var="representative"                        
                                 itemValue="#{representative}"
                                 itemLabel="#{representative.name}" 
+                                required="true"
+                                requiredMessage="Broker representative required"
                                 completeMethod="#{complianceManager.completeBrokerRepresentative}">
 
                     <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.broker}" />
@@ -219,6 +250,8 @@ Email: info@dpbennett.com.jm
                                 scrollHeight="200"
                                 itemValue="#{address}"
                                 itemLabel="#{address.name}" 
+                                required="true"
+                                requiredMessage="Broker address required"
                                 completeMethod="#{complianceManager.completeBrokerAddress}">
 
                     <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.broker}" />
@@ -244,6 +277,8 @@ Email: info@dpbennett.com.jm
                                     converter="activeClientConverter"
                                     validator="jobClientValidator"
                                     forceSelection="true"
+                                    required="true"
+                                    requiredMessage="Retail outlet required"
                                     completeMethod="#{clientManager.completeActiveClient}" >
 
                         <p:ajax event="itemSelect"
@@ -301,6 +336,8 @@ Email: info@dpbennett.com.jm
                                 var="representative"                        
                                 itemValue="#{representative}"
                                 itemLabel="#{representative.name}" 
+                                required="true"
+                                requiredMessage="Retail outlet representative"
                                 completeMethod="#{complianceManager.completeRetailRepresentative}" >
 
                     <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.retailOutlet}" />

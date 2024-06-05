@@ -31,9 +31,10 @@ Email: info@dpbennett.com.jm
         <h:panelGroup>
             <p:autoComplete value="#{complianceManager.currentComplianceSurvey.jobNumber}" 
                             id="jobNumber"
-                            maxResults="10"
+                            maxResults="3"
                             minQueryLength="2"
                             forceSelection="false"
+                            cache="true"
                             required="true"
                             requiredMessage="Job Number Required"
                             validator="requiredFieldValidator"
@@ -144,7 +145,7 @@ Email: info@dpbennett.com.jm
                             validator="jobClientValidator"
                             forceSelection="true"
                             cache="true"
-                            maxResults="10"
+                            maxResults="3"
                             minQueryLength="2"
                             completeMethod="#{clientManager.completeActiveClient}" >
 
@@ -157,7 +158,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton icon="pi pi-pencil"
                              process="@this"
                              rendered="true"
-                             actionListener="#{complianceManager.openSurveyEstablishmentsDialog('Consignee')}"
+                             actionListener="#{complianceManager.openSurveyConsigneeDialog}"
                              title="Edit/view consignee">
 
                 <p:ajax event="dialogReturn" 
@@ -181,7 +182,7 @@ Email: info@dpbennett.com.jm
                             validator="jobClientValidator"
                             forceSelection="true"
                             cache="true"
-                            maxResults="10"
+                            maxResults="3"
                             minQueryLength="2"
                             completeMethod="#{clientManager.completeActiveClient}" >
 
@@ -194,7 +195,7 @@ Email: info@dpbennett.com.jm
             <p:commandButton icon="pi pi-pencil"
                              process="@this"
                              rendered="true"
-                             actionListener="#{complianceManager.openSurveyEstablishmentsDialog('Broker')}"
+                             actionListener="#{complianceManager.openSurveyBrokerDialog}"
                              title="Edit/view broker">
 
                 <p:ajax event="dialogReturn" 
@@ -218,7 +219,7 @@ Email: info@dpbennett.com.jm
                             validator="jobClientValidator"
                             forceSelection="true"
                             cache="true"
-                            maxResults="10"
+                            maxResults="3"
                             minQueryLength="2"
                             completeMethod="#{clientManager.completeActiveClient}" >
 
