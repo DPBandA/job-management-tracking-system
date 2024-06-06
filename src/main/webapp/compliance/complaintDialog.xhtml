@@ -23,15 +23,13 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+
     <h:head>
         <ui:include src="/head.xhtml" />     
         <title>Complaint</title>
-        <script type="text/javascript" src="../js/javascripts.js" /> 
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="../css/main.css" />
+        <ui:include src="header.xhtml" /> 
     </h:head>
-    
+
     <h:body >  
         <ui:insert >   
             <ui:include src="../common/commonDialogs.xhtml"/>
@@ -89,12 +87,14 @@ Email: info@dpbennett.com.jm
                         <h:panelGroup>
                             <p:autoComplete value="#{complianceManager.currentComplaint.jobNumber}" 
                                             id="jobNumber"
-                                            maxResults="20"
                                             scrollHeight="200"
                                             forceSelection="false"
                                             required="true"
                                             requiredMessage="Job Number Required"
                                             validator="requiredFieldValidator"
+                                            cache="true"
+                                            maxResults="3"
+                                            minQueryLength="2"
                                             completeMethod="#{complianceManager.completeJobNumber}">
 
                                 <p:ajax event="itemSelect"
@@ -143,27 +143,29 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
 
                         <h:outputText value="Business office *" style="font-weight: bold"/>       
-                        <p:autoComplete id="businessOffice"
-                                        dropdown="true" 
-                                        readonly="false"
-                                        scrollHeight="200"
-                                        var="businessOffice"
-                                        value="#{complianceManager.currentComplaint.businessOffice}"
-                                        itemLabel="#{businessOffice.name}"
-                                        itemValue="#{businessOffice}"
-                                        converter="businessOfficeConverter"
-                                        required="true"
-                                        requiredMessage="Business Office Required"
-                                        validator="businessEntityValidator"
-                                        forceSelection="true"
-                                        completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
+                        <p:selectOneMenu id="businessOffice" 
+                                         value="#{complianceManager.currentComplaint.businessOffice}"
+                                         converter="businessOfficeConverter"     
+                                         panelStyle="width:180px"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         filterNormalize="true">
+
+                            <f:selectItems value="#{jobManager.allActiveBusinessOffices}" 
+                                           var="office"
+                                           itemLabel="#{office.name}" 
+                                           itemValue="#{office}"/>
 
                             <p:ajax event="itemSelect"
                                     update=":complaintDialogForm:topToolbar"
                                     listener="#{complianceManager.updateComplainant}"
                                     process="@this"/>
 
-                        </p:autoComplete>
+                            <p:column>               
+                                <h:outputText value="#{businessOffice.name}"/>
+                            </p:column>
+
+                        </p:selectOneMenu>
 
                         <h:outputText value="Complainant *"
                                       style="font-weight: bold" />
@@ -180,6 +182,9 @@ Email: info@dpbennett.com.jm
                                             requiredMessage="Complainant Required"
                                             validator="jobClientValidator"
                                             forceSelection="true"
+                                            cache="true"
+                                            maxResults="3"
+                                            minQueryLength="2"
                                             completeMethod="#{clientManager.completeActiveClient}" >
 
                                 <p:ajax event="itemSelect"
@@ -261,6 +266,9 @@ Email: info@dpbennett.com.jm
                                             requiredMessage="Received Via Required"
                                             validator="jobClientValidator"
                                             forceSelection="true"
+                                            cache="true"
+                                            maxResults="3"
+                                            minQueryLength="2"
                                             completeMethod="#{clientManager.completeActiveClient}" >
 
                                 <p:ajax event="itemSelect"

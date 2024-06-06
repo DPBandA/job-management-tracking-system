@@ -30,11 +30,11 @@ Email: info@dpbennett.com.jm
                        style="font-weight: bold" />   
         <h:panelGroup>
             <p:autoComplete value="#{complianceManager.currentComplianceSurvey.jobNumber}" 
-                            id="jobNumber"
-                            maxResults="3"
-                            minQueryLength="2"
+                            id="jobNumber"                            
                             forceSelection="false"
                             cache="true"
+                            maxResults="3"
+                            minQueryLength="2"
                             required="true"
                             requiredMessage="Job Number Required"
                             validator="requiredFieldValidator"
@@ -85,7 +85,7 @@ Email: info@dpbennett.com.jm
             </p:menuButton>
         </h:panelGroup>
 
-        <p:outputLabel value="Business office" style="font-weight: bold"/>   
+        <p:outputLabel value="Business office *" style="font-weight: bold"/>   
         <p:selectOneMenu id="businessOffice" 
                          value="#{complianceManager.currentComplianceSurvey.businessOffice}"
                          converter="businessOfficeConverter"     
@@ -110,7 +110,7 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>
 
-        <p:outputLabel value="Survey type" style="font-weight: bold"/>
+        <p:outputLabel value="Survey type *" style="font-weight: bold"/>
         <p:selectOneMenu id="surveyType"
                          value="#{complianceManager.currentComplianceSurvey.surveyType}" >
             <p:ajax
@@ -123,7 +123,7 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>
 
-        <p:outputLabel value="Survey location type" style="font-weight: bold"/>
+        <p:outputLabel value="Survey location type *" style="font-weight: bold"/>
         <p:selectOneMenu id="surveyLocation"
                          value="#{complianceManager.currentComplianceSurvey.surveyLocationType}" >
             <p:ajax
@@ -136,7 +136,7 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>    
 
-        <p:outputLabel value="Consignee"
+        <p:outputLabel value="Consignee *"
                        style="font-weight: bold"
                        rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}" />
         <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
@@ -173,7 +173,7 @@ Email: info@dpbennett.com.jm
             </p:commandButton>
         </h:panelGroup>
 
-        <p:outputLabel value="Broker" 
+        <p:outputLabel value="Broker *" 
                        rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
                        style="font-weight: bold" />                   
         <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}">
@@ -210,7 +210,7 @@ Email: info@dpbennett.com.jm
             </p:commandButton>
         </h:panelGroup>
 
-        <h:outputText value="Retail Outlet" 
+        <h:outputText value="Retail Outlet *" 
                       style="font-weight: bold"
                       rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}"/>
         <h:panelGroup rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsCommercialMarketplace}">
@@ -247,7 +247,7 @@ Email: info@dpbennett.com.jm
             </p:commandButton>
         </h:panelGroup>
 
-        <p:outputLabel value="Type of Establishment" 
+        <p:outputLabel value="Type of Establishment *" 
                        style="font-weight: bold"
                        rendered="#{!complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
 
@@ -268,7 +268,7 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>     
 
-        <p:outputLabel value="Type of Port"
+        <p:outputLabel value="Type of Port *"
                        style="font-weight: bold"
                        rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
         <p:selectOneMenu value="#{complianceManager.currentComplianceSurvey.typeOfPortOfEntry}" 
@@ -283,7 +283,7 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>      
 
-        <p:outputLabel value="Port of Entry"
+        <p:outputLabel value="Port of Entry *"
                        style="font-weight: bold"
                        rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
 
@@ -301,7 +301,7 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>                      
 
-        <p:outputLabel value="Inspection Location/Point"  
+        <p:outputLabel value="Inspection Location/Point *"  
                        style="font-weight: bold"
                        rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"/>
 
@@ -334,7 +334,7 @@ Email: info@dpbennett.com.jm
             </p:inputText>                           
         </h:panelGroup>                    
 
-        <p:outputLabel value="Inspector(s)" style="font-weight: bold" />       
+        <p:outputLabel value="Inspector(s) *" style="font-weight: bold" />       
         <p:autoComplete id="inspectors"
                         var="inspector"   
                         value="#{complianceManager.currentComplianceSurvey.inspectors}"
@@ -360,7 +360,7 @@ Email: info@dpbennett.com.jm
 
         </p:autoComplete>
 
-        <p:outputLabel value="Date of survey" style="font-weight: bold" />
+        <p:outputLabel value="Date of survey *" style="font-weight: bold" />
         <p:calendar id="dateOfSurvey"
                     readonlyInput="true"
                     navigator="true" 
