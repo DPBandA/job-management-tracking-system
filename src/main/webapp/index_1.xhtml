@@ -244,9 +244,9 @@ Email: info@dpbennett.com.jm
                                         <ui:include src="compliance/standardBrowser.xhtml" />                                                                
                                     </h:panelGroup>
 
-                                    <p:tab id="manufacturersTab" title="Manufacturers">
-                                        <ui:include src="hr/manufacturer/manufacturersTab.xhtml"/>  
-                                    </p:tab> 
+                                    <h:panelGroup rendered="#{t.id == 'Manufacturers'}" >
+                                        <ui:include src="compliance/manufacturersTab.xhtml"/>  
+                                    </h:panelGroup>
 
                                     <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
                                         <ui:include src="compliance/factoryInspectionsTab.xhtml" />                                                                
