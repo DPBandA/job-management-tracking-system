@@ -27,14 +27,12 @@ Email: info@dpbennett.com.jm
     <h:head>
         <ui:include src="/head.xhtml" />    
         <title>Product</title>
-        <script type="text/javascript" src="../js/javascripts.js" /> 
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="../css/main.css" />
+        <ui:include src="header.xhtml" />
     </h:head>
 
     <h:body >  
         <ui:insert >   
-            <ui:include src="../common/commonDialogs.xhtml"/>
+            <ui:include src="../../common/commonDialogs.xhtml"/>
         </ui:insert>
         <h:form id="productDialogForm">   
             <p:growl id="product_inspection_growl" life="5000" showDetail="false"/>

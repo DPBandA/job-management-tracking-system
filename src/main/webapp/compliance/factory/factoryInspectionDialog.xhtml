@@ -26,9 +26,7 @@ Email: info@dpbennett.com.jm
     <h:head>
         <ui:include src="/head.xhtml" />
         <title>Factory Inspection</title>
-        <script type="text/javascript" src="../js/javascripts.js" /> 
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="../css/main.css" />
+        <ui:include src="header.xhtml" />
     </h:head>
     
     <h:body >  
@@ -37,7 +35,7 @@ Email: info@dpbennett.com.jm
             <ui:include src="factoryInspectionComponentDeleteConfirmDialog.xhtml"/>   
             <ui:include src="deleteFactoryProductInspectionDialog.xhtml"/>  
             <ui:include src="saveFactoryInspectionConfirmationDialog.xhtml"/>  
-            <ui:include src="../common/commonDialogs.xhtml"/>
+            <ui:include src="../../common/commonDialogs.xhtml"/>
         </ui:insert>
         <h:form id="factoryInspectionDialogForm">   
 
