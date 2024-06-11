@@ -126,22 +126,35 @@ Email: info@dpbennett.com.jm
         <p:outputLabel id="reasonForDetentionCharsRemaining" />
     </h:panelGrid>
     <hr/>  
-    <h:panelGrid columns="2" cellpadding="3" >
+    <h:panelGrid columns="3" 
+                 id="AuthSigForDetentionRequestPOEPanelGrid"
+                 cellpadding="5" >
+
         <p:commandButton value="Authorize"
+                         disabled="#{!complianceManager.user.can('AuthDetentionRequest')}"
                          title="Authorize form"
                          actionListener="#{complianceManager.updateAuthDetentionRequestPOE}"
-                         update=":ComplianceSurveyDialogForm:topToolbar,AuthSigForDetentionRequestPOEPanelGroup"
+                         update=":ComplianceSurveyDialogForm:topToolbar,AuthSigForDetentionRequestPOEPanelGrid"
                          icon="pi pi-key"
                          process="@this" />
 
         <h:panelGroup id="AuthSigForDetentionRequestPOEPanelGroup">
-            <p:graphicImage id="AuthSigForDetentionRequestPOE" 
-                            height="24"
-                            width="192" cache="false"
-                            value="#{complianceManager.authSigForDetentionRequestPOE}" />  
-            <h:outputText  id="AuthSigDateForDetentionRequestPOE"
-                           value="  #{complianceManager.currentComplianceSurvey.authSigDateForDetentionRequestPOE}" />
+            <ui:remove>
+                <p:graphicImage id="AuthSigForDetentionRequestPOE" 
+                                height="24"
+                                width="192" cache="false"
+                                value="#{complianceManager.authSigForDetentionRequestPOE}" />  
+            </ui:remove>
+            <h:outputText  id="AuthEmployeeForDetentionRequestPOE"
+                           value="#{complianceManager.currentComplianceSurvey.authEmployeeForDetentionRequestPOE.firstName} #{complianceManager.currentComplianceSurvey.authEmployeeForDetentionRequestPOE.lastName}" />
         </h:panelGroup>
+        <h:outputText  id="AuthSigDateForDetentionRequestPOE"
+                       value="#{complianceManager.currentComplianceSurvey.authSigDateForDetentionRequestPOE}" >
+        
+            <f:convertDateTime pattern="MMM dd, yyyy, h:mm a" timeZone="America/Jamaica"/>
+        
+        </h:outputText>
+
     </h:panelGrid>
 
 </html>

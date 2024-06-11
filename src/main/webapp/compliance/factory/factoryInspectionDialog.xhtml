@@ -28,7 +28,7 @@ Email: info@dpbennett.com.jm
         <title>Factory Inspection</title>
         <ui:include src="header.xhtml" />
     </h:head>
-    
+
     <h:body >  
         <ui:insert >   
             <ui:include src="factoryInspectionComponentDialog.xhtml"/>       
@@ -129,27 +129,30 @@ Email: info@dpbennett.com.jm
                             </p:menuButton>
                         </h:panelGroup>
 
-                        <h:outputText value="Business office *" style="font-weight: bold"/>       
-                        <p:autoComplete id="businessOffice"
-                                        dropdown="true" 
-                                        readonly="false"
-                                        var="businessOffice"
-                                        value="#{complianceManager.currentFactoryInspection.businessOffice}"
-                                        itemLabel="#{businessOffice.name}"
-                                        itemValue="#{businessOffice}"
-                                        converter="businessOfficeConverter"
-                                        required="true"
-                                        requiredMessage="Business Office Required"
-                                        validator="businessEntityValidator"
-                                        forceSelection="true"
-                                        completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
+                        <h:outputText value="Business office *" style="font-weight: bold"/> 
+                        <p:selectOneMenu id="businessOffice" 
+                                         value="#{complianceManager.currentFactoryInspection.businessOffice}"
+                                         converter="businessOfficeConverter"     
+                                         panelStyle="width:180px"
+                                         filter="true" 
+                                         filterMatchMode="contains" 
+                                         filterNormalize="true">
+
+                            <f:selectItems value="#{jobManager.allActiveBusinessOffices}" 
+                                           var="office"
+                                           itemLabel="#{office.name}" 
+                                           itemValue="#{office}"/>
 
                             <p:ajax event="itemSelect"
                                     listener="#{complianceManager.updateFactoryInspection}" 
                                     update=":factoryInspectionDialogForm:topToolbar"
                                     process="@this" />   
 
-                        </p:autoComplete>
+                            <p:column>               
+                                <h:outputText value="#{businessOffice.name}"/>
+                            </p:column>
+
+                        </p:selectOneMenu>
 
                         <h:outputText value="Manufacturer *"  style="font-weight: bold" />
                         <h:panelGroup>
@@ -322,7 +325,7 @@ Email: info@dpbennett.com.jm
                                     listener="#{complianceManager.updateFactoryInspection}" />
 
                         </p:datePicker>
-                        
+
                         <h:outputText value="Comments" />                        
                         <p:inputTextarea
                             id="comments"

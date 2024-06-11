@@ -88,10 +88,8 @@ Email: info@dpbennett.com.jm
                                             forceSelection="true"
                                             dropdown="true"
                                             scrollHeight="200"     
-                                            completeMethod="#{complianceManager.completeActiveMarketProduct}" >
+                                            completeMethod="#{financeManager.completeActiveMarketProduct}" >
 
-                                <f:attribute name="em" value="#{complianceManager.entityManager1}" />
-                                
                                 <p:ajax event="itemSelect"    
                                         update=":productDialogForm"
                                         listener="#{complianceManager.updateMarketProductForProductInspection}"
