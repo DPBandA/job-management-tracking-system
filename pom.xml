@@ -84,6 +84,7 @@
                     <dependentWarExcludes>
                         WEB-INF/web.xml, 
                         WEB-INF/glassfish-web.xml, 
+                        loginDialog.xhtml,
                         index.xhtml                       
                     </dependentWarExcludes>
                     
