@@ -88,8 +88,10 @@ Email: info@dpbennett.com.jm
                                             forceSelection="true"
                                             dropdown="true"
                                             scrollHeight="200"     
-                                            completeMethod="#{financeManager.completeActiveMarketProduct}" >
+                                            completeMethod="#{complianceManager.completeActiveMarketProduct}" >
 
+                                <f:attribute name="em" value="#{complianceManager.entityManager1}" />
+                                
                                 <p:ajax event="itemSelect"    
                                         update=":productDialogForm"
                                         listener="#{complianceManager.updateMarketProductForProductInspection}"
@@ -143,7 +145,7 @@ Email: info@dpbennett.com.jm
                                             forceSelection="true"
                                             dropdown="true"
                                             scrollHeight="200"   
-                                            completeMethod="#{complianceManager.completeActiveCategory}" >
+                                            completeMethod="#{financeManager.completeActiveCategory}" >
 
                                 <p:ajax event="itemSelect"
                                         listener="#{complianceManager.updateProductInspection}"  
