@@ -57,22 +57,24 @@ Email: info@dpbennett.com.jm
 
     </h:panelGrid>
     <hr/>
-    <h:panelGrid columns="2" cellpadding="3">
+    <h:panelGrid columns="3" 
+                 id="SampleRequestPOEPanelGrid"
+                 cellpadding="5">
+        
         <p:commandButton value="Sign"
                          title="Sign form"
                          actionListener="#{complianceManager.updateInspectorSigForSampleRequestPOE}"
-                         update=":ComplianceSurveyDialogForm:topToolbar,InspectorSigForSampleRequestPOE,InspectorSigDateForSampleRequestPOE"
+                         update=":ComplianceSurveyDialogForm:topToolbar,SampleRequestPOEPanelGrid"
                          icon="pi pi-key"
                          process="@this" />
-
-        <h:panelGroup>
-            <p:graphicImage id="InspectorSigForSampleRequestPOE" 
-                            height="24"
-                            width="192" 
-                            value="#{complianceManager.inspectorSigForSampleRequestPOE}" />  
-            <h:outputText  id="InspectorSigDateForSampleRequestPOE"
-                           value="  #{complianceManager.currentComplianceSurvey.inspectorSigDateForSampleRequestPOE}" />
-        </h:panelGroup>
+        
+        <h:outputText  value="#{complianceManager.currentComplianceSurvey.inspectorForSampleRequestPOE.firstName} #{complianceManager.currentComplianceSurvey.inspectorForSampleRequestPOE.lastName}" />
+        
+        <h:outputText  value="#{complianceManager.currentComplianceSurvey.inspectorSigDateForSampleRequestPOE}" >
+            
+            <f:convertDateTime pattern="MMM dd, yyyy" />
+            
+        </h:outputText>
 
     </h:panelGrid>
 

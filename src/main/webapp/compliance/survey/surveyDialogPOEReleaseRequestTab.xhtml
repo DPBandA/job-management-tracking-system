@@ -92,38 +92,40 @@ Email: info@dpbennett.com.jm
         </p:selectOneMenu>
     </h:panelGrid>     
     <hr/>
-    <h:panelGrid columns="2" cellpadding="3">
+    <h:panelGrid columns="3" 
+                 id="ReleaseRequestPOEPanelGrid"
+                 cellpadding="5">
+
         <p:commandButton value="Sign Prepared By"
                          title="Sign form prepared by"
                          actionListener="#{complianceManager.updatePreparedBySigForReleaseRequestPOE}"
-                         update=":ComplianceSurveyDialogForm:topToolbar,PreparedBySigForReleaseRequestPOE,PreparedBySigDateForReleaseRequestPOE"
+                         update=":ComplianceSurveyDialogForm:topToolbar,ReleaseRequestPOEPanelGrid"
                          icon="pi pi-key"
                          process="@this" />
 
-        <h:panelGroup>
-            <p:graphicImage id="PreparedBySigForReleaseRequestPOE" 
-                            height="24"
-                            width="192" cache="false"
-                            value="#{complianceManager.preparedBySigForReleaseRequestPOE}" />  
-            <p:outputLabel  id="PreparedBySigDateForReleaseRequestPOE"
-                            value="  #{complianceManager.currentComplianceSurvey.preparedBySigDateForReleaseRequestPOE}" />
-        </h:panelGroup>
+        <p:outputLabel value="#{complianceManager.currentComplianceSurvey.preparedByEmployeeForReleaseRequestPOE.firstName} #{complianceManager.currentComplianceSurvey.preparedByEmployeeForReleaseRequestPOE.lastName}" />
+
+        <p:outputLabel value="#{complianceManager.currentComplianceSurvey.preparedBySigDateForReleaseRequestPOE}" >
+
+            <f:convertDateTime pattern="MMM dd, yyyy" />
+
+        </p:outputLabel>
 
         <p:commandButton value="Sign Approved By"
                          title="Sign form approved by"
                          actionListener="#{complianceManager.updateApprovedBySigForReleaseRequestPOE}"
-                         update=":ComplianceSurveyDialogForm:topToolbar,ApprovedBySigForReleaseRequestPOE,ApprovedBySigDateForReleaseRequestPOE"
+                         update=":ComplianceSurveyDialogForm:topToolbar,ReleaseRequestPOEPanelGrid"
                          icon="pi pi-key"
                          process="@this" />
 
-        <h:panelGroup>
-            <p:graphicImage id="ApprovedBySigForReleaseRequestPOE" 
-                            height="24"
-                            width="192"
-                            value="#{complianceManager.approvedBySigForReleaseRequestPOE}" />  
-            <h:outputText  id="ApprovedBySigDateForReleaseRequestPOE"
-                           value="  #{complianceManager.currentComplianceSurvey.approvedBySigDateForReleaseRequestPOE}" />
-        </h:panelGroup>
+        <h:outputText value="#{complianceManager.currentComplianceSurvey.approvedByEmployeeForReleaseRequestPOE.firstName} #{complianceManager.currentComplianceSurvey.approvedByEmployeeForReleaseRequestPOE.lastName}" />
+
+        <h:outputText value="#{complianceManager.currentComplianceSurvey.approvedBySigDateForReleaseRequestPOE}" >
+
+            <f:convertDateTime pattern="MMM dd, yyyy" />
+
+        </h:outputText>
+
     </h:panelGrid>
 
 </html>
