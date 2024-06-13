@@ -274,22 +274,26 @@ Email: info@dpbennett.com.jm
 
     </h:panelGrid>
     <hr/>
-    <h:panelGrid columns="2" cellpadding="3">
+    <h:panelGrid columns="3"
+                 id="AuthForNoticeOfDentionDMPanelGrid"
+                 cellpadding="5">
+
         <p:commandButton value="Authorize Detention Notice"
+                         disabled="#{!complianceManager.user.can('AuthDetentionNotice')}"
                          title="Authorize notice of detention"
                          actionListener="#{complianceManager.updateAuthSigForNoticeOfDentionDM}"
-                         update=":ComplianceSurveyDialogForm:topToolbar,AuthSigForNoticeOfDentionDM,AuthSigDateForNoticeOfDentionDM"
+                         update=":ComplianceSurveyDialogForm:topToolbar,AuthForNoticeOfDentionDMPanelGrid"
                          icon="pi pi-key"
                          process="@this" />
 
-        <h:panelGroup>
-            <p:graphicImage id="AuthSigForNoticeOfDentionDM" 
-                            height="24"
-                            width="192"
-                            value="#{complianceManager.authSigForNoticeOfDentionDM}" />  
-            <h:outputText  id="AuthSigDateForNoticeOfDentionDM"
-                           value="  #{complianceManager.currentComplianceSurvey.authSigDateForNoticeOfDentionDM}" />
-        </h:panelGroup>
+        <h:outputText value="#{complianceManager.currentComplianceSurvey.authEmployeeForNoticeOfDentionDM.firstName} #{complianceManager.currentComplianceSurvey.authEmployeeForNoticeOfDentionDM.lastName}" />
+
+        <h:outputText value="#{complianceManager.currentComplianceSurvey.authSigDateForNoticeOfDentionDM}" >
+
+            <f:convertDateTime pattern="MMM dd, yyyy" />
+
+        </h:outputText>
+
     </h:panelGrid>
 
 </html>

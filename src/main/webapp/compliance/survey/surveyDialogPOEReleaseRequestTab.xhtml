@@ -97,6 +97,7 @@ Email: info@dpbennett.com.jm
                  cellpadding="5">
 
         <p:commandButton value="Sign Prepared By"
+                         disabled="#{!complianceManager.user.can('SignPreparedByReleaseRequest')}"
                          title="Sign form prepared by"
                          actionListener="#{complianceManager.updatePreparedBySigForReleaseRequestPOE}"
                          update=":ComplianceSurveyDialogForm:topToolbar,ReleaseRequestPOEPanelGrid"
@@ -112,6 +113,7 @@ Email: info@dpbennett.com.jm
         </p:outputLabel>
 
         <p:commandButton value="Sign Approved By"
+                         disabled="#{!complianceManager.user.can('SignApprovedByReleaseRequest')}"
                          title="Sign form approved by"
                          actionListener="#{complianceManager.updateApprovedBySigForReleaseRequestPOE}"
                          update=":ComplianceSurveyDialogForm:topToolbar,ReleaseRequestPOEPanelGrid"

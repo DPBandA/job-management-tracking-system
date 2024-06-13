@@ -95,7 +95,7 @@ Email: info@dpbennett.com.jm
                 actionListener="#{systemManager.mainTabView.openTab('Dashboard')}" 
                 value="Dashboard" 
                 icon="pi pi-sliders-h" />  
-            
+
             <p:divider />
 
             <p:submenu label="New" 
@@ -462,12 +462,36 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>
 
-        <p:menuitem 
-            actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
-            title="System administration" 
-            rendered="#{systemManager.user.hasModule('systemManager')}"
-            value="System Administration" 
-            icon="pi pi-server" />    
+        <p:submenu rendered="#{systemManager.user.hasModule('systemManager')}"
+                   label="System Administration" 
+                   icon="pi pi-server" >
+            
+            <p:submenu label="Entity Managers" 
+                       icon="pi pi-database" >
+
+                <p:menuitem value="System Manager"
+                            title="Edit entity manager"
+                            icon="pi pi-cog"
+                            actionListener="#{systemManager.editSMEM}" 
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=""/>
+
+                </p:menuitem>
+                
+            </p:submenu>
+            
+            <p:divider />
+
+            <p:menuitem 
+                actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
+                title="System administration" 
+                rendered="#{systemManager.user.hasModule('systemManager')}"
+                value="System Administration" 
+                icon="pi pi-server" />   
+
+        </p:submenu>
 
     </p:menubar>
 
