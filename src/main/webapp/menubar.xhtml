@@ -469,8 +469,8 @@ Email: info@dpbennett.com.jm
             <p:submenu label="Entity Managers" 
                        icon="pi pi-database" >
 
-                <p:menuitem value="System Manager"
-                            title="Edit entity manager"
+                <p:menuitem value="System Management (SM)"
+                            title="Edit SM entity manager"
                             icon="pi pi-cog"
                             actionListener="#{systemManager.editSMEM}" 
                             process="@this" >
@@ -480,6 +480,28 @@ Email: info@dpbennett.com.jm
 
                 </p:menuitem>
                 
+                <p:menuitem value="Financial Management (FM)"
+                            title="Edit FM entity manager"
+                            icon="pi pi-cog"
+                            actionListener="#{systemManager.editFMEM}" 
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=""/>
+
+                </p:menuitem>
+                
+                <p:menuitem value="Job Management &amp; Tracking System (JMTS)"
+                            title="Edit JMTS entity manager"
+                            icon="pi pi-cog"
+                            actionListener="#{systemManager.editJMTSEM}" 
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=""/>
+
+                </p:menuitem>               
+                              
             </p:submenu>
             
             <p:divider />
