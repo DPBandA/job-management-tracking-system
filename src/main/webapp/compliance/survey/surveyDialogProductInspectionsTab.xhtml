@@ -39,6 +39,9 @@ Email: info@dpbennett.com.jm
     <p:dataTable id="marketProductsTable"
                  var="productInspection"
                  reflow="true"
+                 paginator="true"
+                 rows="15"
+                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{complianceManager.currentComplianceSurvey.productInspections}">                   
         <p:column>
             <f:facet name="header">

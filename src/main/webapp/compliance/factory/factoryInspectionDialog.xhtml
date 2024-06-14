@@ -134,6 +134,8 @@ Email: info@dpbennett.com.jm
                                          value="#{complianceManager.currentFactoryInspection.businessOffice}"
                                          converter="businessOfficeConverter"     
                                          panelStyle="width:180px"
+                                         required="true"
+                                         requiredMessage="Business office required"
                                          filter="true" 
                                          filterMatchMode="contains" 
                                          filterNormalize="true">
@@ -553,6 +555,9 @@ Email: info@dpbennett.com.jm
                     <p:dataTable id="factoryProductsTable"
                                  var="product"
                                  reflow="true"
+                                 paginator="true"
+                                 rows="15"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  value="#{complianceManager.currentFactoryInspection.productInspections}">                   
 
                         <p:column>

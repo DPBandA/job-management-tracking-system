@@ -147,6 +147,8 @@ Email: info@dpbennett.com.jm
                                          value="#{complianceManager.currentComplaint.businessOffice}"
                                          converter="businessOfficeConverter"     
                                          panelStyle="width:180px"
+                                         required="true"
+                                         requiredMessage="Business office required"
                                          filter="true" 
                                          filterMatchMode="contains" 
                                          filterNormalize="true">
@@ -406,6 +408,9 @@ Email: info@dpbennett.com.jm
                     </p:commandButton>
                     <p:dataTable id="marketProductsTable"
                                  reflow="true"
+                                 paginator="true"
+                                 rows="15"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                                  var="productInspection"
                                  value="#{complianceManager.currentComplaint.productInspections}">                   
                         <p:column>
