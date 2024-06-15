@@ -27,54 +27,47 @@ Email: info@dpbennett.com.jm
     <h:panelGrid id="jobGrouping" columns="2">
 
         <h:outputText value="Sector" style="font-weight: bold;" />  
-        <p:selectOneMenu value="#{jobManager.currentJob.sector}" 
-                         converter="sectorConverter"     
-                         panelStyle="width:180px"
-                         filter="true" 
-                         filterMatchMode="contains" 
-                         filterNormalize="true">
-
-            <f:selectItems value="#{jobManager.allActiveSectors}" 
-                           var="sector"
-                           itemLabel="#{sector.name}" 
-                           itemValue="#{sector}"/>
-
+        <p:autoComplete dropdown="true"
+                        var="sector"
+                        value="#{jobManager.currentJob.sector}" 
+                        itemLabel="#{sector.name}"
+                        itemValue="#{sector}"
+                        converter="sectorConverter"     
+                        validator="requiredFieldValidator"
+                        forceSelection="true"
+                        scrollHeight="100"
+                        cache="true"
+                        completeMethod="#{jobManager.completeActiveSectors}" >
+            
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateSector}"
                     global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
+            
+        </p:autoComplete>     
 
-            <p:column>               
-                <h:outputText value="#{sector.name}"/>
-            </p:column>
-
-        </p:selectOneMenu>
 
         <h:outputText value="Category" style="font-weight: bold;" />  
-        <p:selectOneMenu  value="#{jobManager.currentJob.jobCategory}"  
-                          converter="jobCategoryConverter"     
-                          panelStyle="width:180px"
-                          filter="true" 
-                          filterMatchMode="contains" 
-                          filterNormalize="true">
-
-            <f:selectItems value="#{jobManager.allActiveJobCategories}" 
-                           var="jobCategory"
-                           itemLabel="#{jobCategory.name}" 
-                           itemValue="#{jobCategory}"/>
-
+        <p:autoComplete dropdown="true"
+                        var="jobCategory"
+                        value="#{jobManager.currentJob.jobCategory}" 
+                        itemLabel="#{jobCategory.name}"
+                        itemValue="#{jobCategory}"
+                        converter="jobCategoryConverter"  
+                        validator="requiredFieldValidator"
+                        forceSelection="true"
+                        scrollHeight="100"
+                        cache="true"
+                        completeMethod="#{jobManager.completeActiveJobCategories}" >
+            
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobCategory}"
                     global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
-
-            <p:column>               
-                <h:outputText value="#{jobCategory.name}"/>
-            </p:column>
-
-        </p:selectOneMenu>
+            
+        </p:autoComplete>     
 
         <h:outputText value="Subcategory" style="font-weight: bold" />
         <p:autoComplete dropdown="true"
@@ -88,16 +81,16 @@ Email: info@dpbennett.com.jm
                         scrollHeight="100"
                         cache="true"
                         completeMethod="#{jobManager.completeActiveJobSubCategories}" >
-
+            
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobSubCategory}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     global="false"
                     process="@this"/>
-
+            
         </p:autoComplete>     
 
     </h:panelGrid>     
-
-
+    
+    
 </html>

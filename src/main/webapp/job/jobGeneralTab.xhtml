@@ -127,33 +127,6 @@ Email: info@dpbennett.com.jm
 
         </p:selectOneMenu>
 
-        <p:outputLabel value="Service requested *" 
-                       style="font-weight: bold" />   
-        <p:selectOneMenu id="service" 
-                         value="#{jobContractManager.currentJob.serviceContract.selectedService}"
-                         converter="serviceConverter"
-                         panelStyle="width:180px"
-                         filter="true" 
-                         filterMatchMode="contains" 
-                         filterNormalize="true">
-
-            <f:selectItems value="#{jobManager.allActiveServices}" 
-                           var="service"
-                           itemLabel="#{service.name}" 
-                           itemValue="#{service}"/>
-
-            <p:ajax event="itemSelect"
-                    listener="#{jobContractManager.updateService}"
-                    global="false"
-                    update=":jobDialogForm:jobDetailToolbar1"
-                    process="@this"/>
-
-            <p:column>               
-                <h:outputText value="#{service.name}"/>
-            </p:column>
-
-        </p:selectOneMenu>
-
         <p:outputLabel value="Client *" style="font-weight: bold" />
         <h:panelGroup>    
             <p:autoComplete id="client"
