@@ -39,6 +39,8 @@ Email: info@dpbennett.com.jm
             <p:growl id="growl2" life="5000" showDetail="true" />  
 
             <ui:include src="jobDetailTopToolbar.xhtml"/>
+            
+            <ui:include src="menubar.xhtml" /> 
 
             <p:tabView id="jobFormTabView"
                        style="margin-top: 1px;margin-bottom: 1px;"    
@@ -47,31 +49,7 @@ Email: info@dpbennett.com.jm
 
                 <p:tab title="General">
                     <ui:include src="jobGeneralTab.xhtml"/>
-                </p:tab>
-
-                <p:tab title="Services">
-                    <ui:include src="/job/service/servicesTab.xhtml"/>
-                </p:tab>
-
-                <p:tab title="Samples">
-                    <ui:include src="/job/sample/jobSamplesTab.xhtml"/>
-                </p:tab>
-
-                <p:tab title="Costing &amp; Payment">
-                    <ui:include src="/job/finance/jobCostingAndPaymentTab.xhtml"/>
-                </p:tab>
-
-                <p:tab title="Grouping">
-                    <ui:include src="/job/grouping/jobGroupingTab.xhtml"/>
-                </p:tab>
-
-                <p:tab title="Status &amp; Tracking">
-
-                </p:tab>
-
-                <p:tab title="Reporting">
-
-                </p:tab>
+                </p:tab>   
 
             </p:tabView>
 

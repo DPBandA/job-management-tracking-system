@@ -77,17 +77,17 @@ Email: info@dpbennett.com.jm
         </p:selectOneMenu>
 
         <h:outputText value="Subcategory" style="font-weight: bold" />
-        <p:autoComplete dropdown="true"
-                        var="jobSubCategory"
-                        value="#{jobManager.currentJob.jobSubCategory}" 
-                        itemLabel="#{jobSubCategory.name}"
-                        itemValue="#{jobSubCategory}"
-                        converter="jobSubCategoryConverter"     
-                        validator="requiredFieldValidator"
-                        forceSelection="true"
-                        scrollHeight="100"
-                        cache="true"
-                        completeMethod="#{jobManager.completeActiveJobSubCategories}" >
+        <p:selectOneMenu  value="#{jobManager.currentJob.jobSubCategory}"  
+                          converter="jobSubCategoryConverter"     
+                          panelStyle="width:180px"
+                          filter="true" 
+                          filterMatchMode="contains" 
+                          filterNormalize="true">
+
+            <f:selectItems value="#{jobManager.allActiveJobSubCategories}" 
+                           var="jobSubCategory"
+                           itemLabel="#{jobSubCategory.name}" 
+                           itemValue="#{jobSubCategory}"/>
 
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobSubCategory}"
@@ -95,7 +95,11 @@ Email: info@dpbennett.com.jm
                     global="false"
                     process="@this"/>
 
-        </p:autoComplete>     
+            <p:column>               
+                <h:outputText value="#{jobSubCategory.name}"/>
+            </p:column>
+
+        </p:selectOneMenu>
 
     </h:panelGrid>     
 
