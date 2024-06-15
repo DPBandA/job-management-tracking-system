@@ -196,14 +196,14 @@ Email: info@dpbennett.com.jm
                 </p:inputText>
                 <p:commandButton icon="pi pi-pencil"
                                  actionListener="#{jobFinanceManager.openJobCostingDialog}"
-                                 update=":jobDialogForm"                                
+                                 update=":jobDialogForm:jobDetailToolbar1"                                
                                  process="@this"
                                  title="View or edit job costing">
 
                     <p:ajax event="dialogReturn" 
                             resetValues="true"
                             listener="#{jobFinanceManager.jobCostingDialogReturn}"
-                            update=":jobDialogForm"/>
+                            update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"/>
 
                 </p:commandButton> 
                 <ui:remove>

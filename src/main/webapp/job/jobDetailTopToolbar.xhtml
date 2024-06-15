@@ -27,11 +27,11 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left" style="margin-top: 5px;">  
             <p:commandButton actionListener="#{jobManager.saveCurrentJob}" 
                              value="Save"
-                             update=":jobDialogForm"
+                             update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
                              icon="pi pi-save"
                              process="@form" >
 
-                <p:ajax update=":jobDialogForm" resetValues="true" />
+                <p:ajax update=":jobDialogForm:jobDetailToolbar1" resetValues="true" />
 
             </p:commandButton>
 
