@@ -136,11 +136,14 @@ Email: info@dpbennett.com.jm
                                     title="#{jobManager.currentJob.jobStatusAndTracking.completedBy}"
                                     itemLabel="#{completedBy.name}"
                                     itemValue="#{completedBy}"
-                                    converter="activeEmployeeConverter"
                                     forceSelection="true"
                                     cache="true"
                                     completeMethod="#{humanResourceManager.completeActiveEmployee}" >
 
+                        <f:converter converterId="activeEmployeeConverter"/>
+
+                        <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+                        
                         <p:ajax event="itemSelect"
                                 listener="#{jobManager.updateJob}" 
                                 update=":jobDialogForm:jobDetailToolbar1"

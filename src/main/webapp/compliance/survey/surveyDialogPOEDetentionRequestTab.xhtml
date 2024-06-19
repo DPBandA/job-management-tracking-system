@@ -75,12 +75,15 @@ Email: info@dpbennett.com.jm
                             value="#{complianceManager.currentComplianceSurvey.standardsBreached}"
                             itemLabel="#{standard.number} - #{standard.name}"
                             itemValue="#{standard}"
-                            converter="activeDocumentStandardConverter"
                             forceSelection="true"
                             dropdown="true"
                             scrollHeight="200"                         
                             multiple="true"
                             completeMethod="#{complianceManager.completeActiveDocumentStandard}" >
+
+                <f:converter converterId="activeDocumentStandardConverter"/>
+
+                <f:attribute name="em" value="#{complianceManager.entityManager1}"/>
 
                 <p:ajax event="itemSelect"
                         listener="#{complianceManager.updateSurvey}"
@@ -150,9 +153,9 @@ Email: info@dpbennett.com.jm
         </h:panelGroup>
         <h:outputText  id="AuthSigDateForDetentionRequestPOE"
                        value="#{complianceManager.currentComplianceSurvey.authSigDateForDetentionRequestPOE}" >
-        
+
             <f:convertDateTime pattern="MMM dd, yyyy" />
-        
+
         </h:outputText>
 
     </h:panelGrid>

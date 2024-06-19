@@ -71,8 +71,7 @@ Email: info@dpbennett.com.jm
                                             value="#{complianceManager.currentProductInspection.marketProduct}"
                                             title="#{complianceManager.currentProductInspection.marketProduct}"
                                             itemLabel="#{marketProduct.name}"
-                                            itemValue="#{marketProduct}"
-                                            converter="activeMarketProductConverter"   
+                                            itemValue="#{marketProduct}"  
                                             required="true"
                                             requiredMessage="Product Name Required"
                                             validator="businessEntityValidator"
@@ -80,6 +79,10 @@ Email: info@dpbennett.com.jm
                                             dropdown="true"
                                             scrollHeight="200"     
                                             completeMethod="#{financeManager.completeActiveMarketProduct}" >
+
+                                <f:converter converterId="activeMarketProductConverter"/>
+
+                                <f:attribute name="em" value="#{financeManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"    
                                         update=":productDialogForm"
@@ -127,14 +130,17 @@ Email: info@dpbennett.com.jm
                                             value="#{complianceManager.currentProductInspection.productCategory}"
                                             itemLabel="#{category.name}"
                                             itemValue="#{category}"
-                                            converter="activeCategoryConverter"
                                             required="true"
                                             requiredMessage="Product Category Required"
                                             validator="businessEntityValidator"
                                             forceSelection="true"
                                             dropdown="true"
                                             scrollHeight="200"   
-                                            completeMethod="#{complianceManager.completeActiveCategory}" >
+                                            completeMethod="#{systemManager.completeActiveCategory}" >
+
+                                <f:converter converterId="activeCategoryConverter"/>
+
+                                <f:attribute name="em" value="#{systemManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"
                                         listener="#{complianceManager.updateProductInspection}"  
@@ -384,9 +390,12 @@ Email: info@dpbennett.com.jm
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentProductInspection.distributor}"    
-                                            converter="activeClientConverter"
                                             forceSelection="true"
                                             completeMethod="#{clientManager.completeActiveClient}" >
+
+                                <f:converter converterId="activeClientConverter"/>
+
+                                <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"
                                         update="distributorActionsMenu"

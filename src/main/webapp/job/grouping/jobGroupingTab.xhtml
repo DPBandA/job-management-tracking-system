@@ -28,13 +28,16 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Sector" style="font-weight: bold;" />  
         <p:selectOneMenu value="#{jobManager.currentJob.sector}" 
-                         converter="sectorConverter"     
                          panelStyle="width:180px"
                          filter="true" 
                          filterMatchMode="contains" 
                          filterNormalize="true">
 
-            <f:selectItems value="#{jobManager.allActiveSectors}" 
+            <f:converter converterId="sectorConverter"/>
+
+            <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+
+            <f:selectItems value="#{financeManager.allActiveSectors}" 
                            var="sector"
                            itemLabel="#{sector.name}" 
                            itemValue="#{sector}"/>
@@ -53,13 +56,16 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Category" style="font-weight: bold;" />  
         <p:selectOneMenu  value="#{jobManager.currentJob.jobCategory}"  
-                          converter="jobCategoryConverter"     
                           panelStyle="width:180px"
                           filter="true" 
                           filterMatchMode="contains" 
                           filterNormalize="true">
+            
+            <f:converter converterId="jobCategoryConverter"/>
 
-            <f:selectItems value="#{jobManager.allActiveJobCategories}" 
+            <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+
+            <f:selectItems value="#{financeManager.allActiveJobCategories}" 
                            var="jobCategory"
                            itemLabel="#{jobCategory.name}" 
                            itemValue="#{jobCategory}"/>
@@ -78,13 +84,16 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Subcategory" style="font-weight: bold" />
         <p:selectOneMenu  value="#{jobManager.currentJob.jobSubCategory}"  
-                          converter="jobSubCategoryConverter"     
                           panelStyle="width:180px"
                           filter="true" 
                           filterMatchMode="contains" 
                           filterNormalize="true">
+            
+            <f:converter converterId="jobSubCategoryConverter"/>
 
-            <f:selectItems value="#{jobManager.allActiveJobSubCategories}" 
+            <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+
+            <f:selectItems value="#{financeManager.allActiveJobSubCategories}" 
                            var="jobSubCategory"
                            itemLabel="#{jobSubCategory.name}" 
                            itemValue="#{jobSubCategory}"/>

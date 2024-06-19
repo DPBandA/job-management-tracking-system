@@ -71,13 +71,16 @@ Email: info@dpbennett.com.jm
                                     title="#{jobFinanceManager.currentJob.department}"
                                     itemValue="#{department}"
                                     itemLabel="#{department.name}"
-                                    converter="activeDepartmentConverter"
                                     required="true"
                                     requiredMessage="Department Required"
                                     validator="businessEntityValidator"
                                     cache="true"
                                     completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
 
+                        <f:converter converterId="activeDepartmentConverter"/>
+
+                        <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+                        
                         <p:ajax event="itemSelect"
                                 listener="#{jobManager.updateDepartment}"
                                 global="false"

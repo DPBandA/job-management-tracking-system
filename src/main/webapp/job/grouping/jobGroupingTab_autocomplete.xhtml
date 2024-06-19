@@ -31,13 +31,16 @@ Email: info@dpbennett.com.jm
                         var="sector"
                         value="#{jobManager.currentJob.sector}" 
                         itemLabel="#{sector.name}"
-                        itemValue="#{sector}"
-                        converter="sectorConverter"     
+                        itemValue="#{sector}" 
                         validator="requiredFieldValidator"
                         forceSelection="true"
                         scrollHeight="100"
                         cache="true"
-                        completeMethod="#{jobManager.completeActiveSectors}" >
+                        completeMethod="#{financeManager.completeActiveSectors}" >
+            
+            <f:converter converterId="sectorConverter"/>
+
+            <f:attribute name="em" value="#{financeManager.entityManager1}"/>
             
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateSector}"
@@ -53,13 +56,16 @@ Email: info@dpbennett.com.jm
                         var="jobCategory"
                         value="#{jobManager.currentJob.jobCategory}" 
                         itemLabel="#{jobCategory.name}"
-                        itemValue="#{jobCategory}"
-                        converter="jobCategoryConverter"  
+                        itemValue="#{jobCategory}"  
                         validator="requiredFieldValidator"
                         forceSelection="true"
                         scrollHeight="100"
                         cache="true"
-                        completeMethod="#{jobManager.completeActiveJobCategories}" >
+                        completeMethod="#{financeManager.completeActiveJobCategories}" >
+            
+            <f:converter converterId="jobCategoryConverter"/>
+
+            <f:attribute name="em" value="#{financeManager.entityManager1}"/>
             
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobCategory}"
@@ -74,13 +80,16 @@ Email: info@dpbennett.com.jm
                         var="jobSubCategory"
                         value="#{jobManager.currentJob.jobSubCategory}" 
                         itemLabel="#{jobSubCategory.name}"
-                        itemValue="#{jobSubCategory}"
-                        converter="jobSubCategoryConverter"     
+                        itemValue="#{jobSubCategory}"    
                         validator="requiredFieldValidator"
                         forceSelection="true"
                         scrollHeight="100"
                         cache="true"
-                        completeMethod="#{jobManager.completeActiveJobSubCategories}" >
+                        completeMethod="#{financeManager.completeActiveJobSubCategories}" >
+            
+            <f:converter converterId="jobSubCategoryConverter"/>
+
+            <f:attribute name="em" value="#{financeManager.entityManager1}"/>
             
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobSubCategory}"

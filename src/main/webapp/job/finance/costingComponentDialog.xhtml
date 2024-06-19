@@ -23,7 +23,7 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+
     <h:form id="costingComponentDialogForm">
         <p:dialog width="375"
                   height="auto"
@@ -66,12 +66,15 @@ Email: info@dpbennett.com.jm
                                     title="#{jobFinanceManager.selectedCostComponent.currency}"
                                     itemValue="#{currency}"
                                     itemLabel="#{currency.name}"
-                                    converter="currencyConverter"
                                     required="true"
                                     requiredMessage="Currency Required"
                                     validator="businessEntityValidator"
                                     rendered="#{jobFinanceManager.useMulticurrency}"
-                                    completeMethod="#{jobFinanceManager.completeCurrency}" >
+                                    completeMethod="#{financeManager.completeCurrency}" >
+
+                        <f:converter converterId="currencyConverter"/>
+
+                        <f:attribute name="em" value="#{financeManager.entityManager1}"/>
 
                         <p:ajax event="itemSelect"
                                 update="costingComponentPanelGrid"

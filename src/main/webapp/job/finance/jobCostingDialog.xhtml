@@ -58,8 +58,7 @@ Email: info@dpbennett.com.jm
                                         itemValue="#{client}"                    
                                         dropdown="false"
                                         scrollHeight="200" 
-                                        value="#{jobManager.currentJob.client}"   
-                                        converter="activeClientConverter"
+                                        value="#{jobManager.currentJob.client}" 
                                         required="true"
                                         requiredMessage="Client Required"
                                         validator="jobClientValidator"
@@ -68,6 +67,10 @@ Email: info@dpbennett.com.jm
                                         minQueryLength="3"
                                         disabled="#{jobManager.disableJobDialogField('client')}"
                                         completeMethod="#{clientManager.completeActiveClient}" >
+
+                            <f:converter converterId="activeClientConverter"/>
+
+                            <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                             <p:ajax event="itemSelect"
                                     global="false"
@@ -119,11 +122,14 @@ Email: info@dpbennett.com.jm
                                      rendered="true"
                                      value="#{jobManager.currentJob.billingAddress}"
                                      disabled="#{jobManager.disableJobDialogField('billingAddress')}"
-                                     converter="clientAddressConverter"
                                      panelStyle="width:180px"
                                      filter="true" 
                                      filterMatchMode="contains" 
                                      filterNormalize="true">
+
+                        <f:converter converterId="clientAddressConverter"/>
+
+                        <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                         <f:selectItems value="#{jobManager.currentJobClientAddresses}" 
                                        var="address"
@@ -149,11 +155,14 @@ Email: info@dpbennett.com.jm
                                      rendered="true"
                                      value="#{jobManager.currentJob.contact}"
                                      disabled="#{jobManager.disableJobDialogField('clientContact')}"
-                                     converter="clientContactConverter"
                                      panelStyle="width:180px"
                                      filter="true" 
                                      filterMatchMode="contains" 
                                      filterNormalize="true">
+
+                        <f:converter converterId="clientContactConverter"/>
+
+                        <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                         <f:selectItems value="#{jobManager.currentJobClientContacts}" 
                                        var="contact"
@@ -371,9 +380,12 @@ Email: info@dpbennett.com.jm
                                         title="#{jobFinanceManager.currentJob.jobCostingAndPayment.currency}"
                                         itemValue="#{currency}"
                                         itemLabel="#{currency.name}"
-                                        converter="currencyConverter"
                                         validator="businessEntityValidator"
-                                        completeMethod="#{jobFinanceManager.completeCurrency}" >
+                                        completeMethod="#{financeManager.completeCurrency}" >
+
+                            <f:converter converterId="currencyConverter"/>
+
+                            <f:attribute name="em" value="#{financeManager.entityManager1}"/>
 
                             <p:ajax event="itemSelect"
                                     update=":jobCostingDialogForm:jobCosting_growl,:jobCostingDialogForm:costComponentsPanel,:jobCostingDialogForm:costingSummaryPanel"

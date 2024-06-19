@@ -40,38 +40,6 @@ Email: info@dpbennett.com.jm
             <p:tooltip for="newClient" value="Check if this is a new client for the department" showEffect="fade" hideEffect="fade" />
         </h:panelGroup>
 
-        <h:outputText value="Service(s) offered" rendered="false"/>       
-        <p:autoComplete id="services"
-                        var="service"   
-                        value="#{jobManager.currentJob.services}"
-                        itemLabel="#{service.name}"
-                        itemValue="#{service}"
-                        converter="serviceConverter"
-                        forceSelection="true"
-                        required="false"
-                        requiredMessage="Please select or enter a service"                        
-                        dropdown="true"
-                        scrollHeight="200"                         
-                        multiple="true"
-                        readonly="true"
-                        rendered="false"
-                        cache="true"
-                        completeMethod="#{jobContractManager.completeService}" >
-
-            <p:ajax event="itemSelect"
-                    listener="#{jobManager.updateJob}"
-                    global="false"
-                    update=":jobDialogForm:jobDetailToolbar1"
-                    process="@this"/>
-
-            <p:ajax event="itemUnselect"
-                    listener="#{jobManager.updateJob}"
-                    global="false"
-                    update=":jobDialogForm:jobDetailToolbar1"
-                    process="@this"/>
-
-        </p:autoComplete>        
-
         <h:outputText value="Report number(s)" />
         <h:panelGroup>
             <p:inputText id="reportNumbers"  

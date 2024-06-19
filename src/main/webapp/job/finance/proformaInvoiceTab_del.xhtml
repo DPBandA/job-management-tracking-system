@@ -23,7 +23,7 @@ Email: info@dpbennett.com.jm
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">   
-    
+
     <p:growl id="jobCosting_growl" life="5000" showDetail="true"/>
 
     <ui:include src="proformaInvoiceTabToolbar.xhtml"/> 
@@ -43,10 +43,13 @@ Email: info@dpbennett.com.jm
                             title="#{jobManager.currentJob.department}"
                             itemValue="#{department}"
                             itemLabel="#{department.name}"
-                            converter="activeDepartmentConverter"
                             validator="businessEntityValidator"
                             cache="true"
                             completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
+
+                <f:converter converterId="activeDepartmentConverter"/>
+
+                <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                 <p:ajax event="itemSelect"
                         listener="#{jobManager.updateDepartment}"
@@ -64,12 +67,15 @@ Email: info@dpbennett.com.jm
                                 itemValue="#{client}"                     
                                 dropdown="false"
                                 scrollHeight="200" 
-                                value="#{jobManager.currentJob.client}"   
-                                converter="activeClientConverter"
+                                value="#{jobManager.currentJob.client}"  
                                 validator="jobClientValidator"
                                 forceSelection="true"
                                 cache="true"
                                 completeMethod="#{clientManager.completeActiveClient}" >
+
+                    <f:converter converterId="activeClientConverter"/>
+
+                    <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                     <p:ajax event="itemSelect"    
                             global="false"
@@ -118,7 +124,6 @@ Email: info@dpbennett.com.jm
                             value="#{jobManager.currentJob.billingAddress}"
                             dropdown="true"
                             forceSelection="true"
-                            converter="clientAddressConverter" 
                             validator="addressValidator"
                             var="address"  
                             scrollHeight="200"
@@ -126,6 +131,10 @@ Email: info@dpbennett.com.jm
                             itemLabel="#{address.name}" 
                             cache="true"
                             completeMethod="#{jobManager.completeClientAddress}">
+
+                <f:converter converterId="clientAddressConverter"/>
+
+                <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                 <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
 
@@ -142,13 +151,16 @@ Email: info@dpbennett.com.jm
                             dropdown="true"
                             forceSelection="true"
                             scrollHeight="200"
-                            converter="clientContactConverter" 
                             validator="contactValidator"
                             var="contact"                        
                             itemValue="#{contact}"
                             itemLabel="#{contact.name}" 
                             cache="true"
                             completeMethod="#{jobManager.completeClientContact}">
+
+                <f:converter converterId="clientContactConverter"/>
+
+                <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                 <f:attribute name="currentClient" value="#{jobManager.currentJob.client}" />
 
@@ -238,10 +250,13 @@ Email: info@dpbennett.com.jm
                             disabled="#{jobFinanceManager.disableJobCostingEdit}"
                             itemValue="#{discount}"
                             itemLabel="#{discount.name}"
-                            converter="discountConverter"
                             validator="businessEntityValidator"
                             cache="true"
-                            completeMethod="#{jobFinanceManager.completeDiscount}" >
+                            completeMethod="#{financeManager.completeDiscount}" >
+
+                <f:converter converterId="discountConverter"/>
+
+                <f:attribute name="em" value="#{financeManager.entityManager1}"/>
 
                 <p:ajax event="itemSelect"
                         global="false"
@@ -262,11 +277,14 @@ Email: info@dpbennett.com.jm
                             disabled="#{jobFinanceManager.disableJobCostingEdit}"
                             itemValue="#{tax}"
                             itemLabel="#{tax.name}"
-                            converter="taxConverter"
                             validator="businessEntityValidator"
                             cache="true"
-                            completeMethod="#{jobFinanceManager.completeTax}" >
+                            completeMethod="#{financeManager.completeTax}" >
 
+                <f:converter converterId="taxConverter"/>
+
+                <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+                
                 <p:ajax event="itemSelect"
                         global="false"
                         update="pfCostingSummaryPanel"

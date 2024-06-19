@@ -30,7 +30,7 @@ Email: info@dpbennett.com.jm
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
         <link rel="stylesheet" type="text/css" href="../../css/main.css" />
     </h:head>
-    
+
     <h:body >  
         <ui:include src="../../common/commonDialogs.xhtml"/>
         <ui:include src="deleteProductInspectionDialog.xhtml"/>   
@@ -200,10 +200,13 @@ Email: info@dpbennett.com.jm
                                         value="#{complianceManager.currentComplianceSurvey.businessOffice}"
                                         itemLabel="#{businessOffice.name}"
                                         itemValue="#{businessOffice}"
-                                        converter="businessOfficeConverter"
                                         validator="businessEntityValidator"
                                         forceSelection="true"
                                         completeMethod="#{humanResourceManager.completeActiveBusinessOffice}" >
+
+                            <f:converter converterId="businessOfficeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                             <p:ajax event="itemSelect"                       
                                     update=":ComplianceSurveyDialogForm:topToolbar,generalPanelGrid,complianceSurveyTabView"
@@ -336,10 +339,13 @@ Email: info@dpbennett.com.jm
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentComplianceSurvey.consignee}"    
-                                            converter="activeClientConverter"
                                             validator="jobClientValidator"
                                             forceSelection="true"
                                             completeMethod="#{clientManager.completeActiveClient}" >
+
+                                <f:converter converterId="activeClientConverter"/>
+
+                                <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"
                                         update=":ComplianceSurveyDialogForm:topToolbar,actionsMenuButton,consigneeRepresentative"
@@ -390,12 +396,15 @@ Email: info@dpbennett.com.jm
                                         dropdown="true"
                                         forceSelection="true"
                                         scrollHeight="200"
-                                        converter="clientContactConverter" 
                                         validator="contactValidator"
                                         var="representative"                        
                                         itemValue="#{representative}"
                                         itemLabel="#{representative.name}" 
                                         completeMethod="#{complianceManager.completeConsigneeRepresentative}">
+
+                            <f:converter converterId="clientContactConverter"/>
+
+                            <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                             <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.consignee}" />
 
@@ -417,10 +426,13 @@ Email: info@dpbennett.com.jm
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentComplianceSurvey.broker}"    
-                                            converter="activeClientConverter"
                                             validator="jobClientValidator"
                                             forceSelection="true"
                                             completeMethod="#{clientManager.completeActiveClient}" >
+
+                                <f:converter converterId="activeClientConverter"/>
+
+                                <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"
                                         update=":ComplianceSurveyDialogForm:topToolbar,brokerActionsMenu,brokerRepresentative,brokerAddress"
@@ -469,12 +481,15 @@ Email: info@dpbennett.com.jm
                                         dropdown="true"
                                         forceSelection="true"
                                         scrollHeight="200"
-                                        converter="clientContactConverter" 
                                         validator="contactValidator"
                                         var="representative"                        
                                         itemValue="#{representative}"
                                         itemLabel="#{representative.name}" 
                                         completeMethod="#{complianceManager.completeBrokerRepresentative}">
+
+                            <f:converter converterId="clientContactConverter"/>
+
+                            <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                             <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.broker}" />
 
@@ -492,14 +507,17 @@ Email: info@dpbennett.com.jm
                                         rendered="#{complianceManager.currentComplianceSurvey.complianceSurveyLocationTypeIsPortOfEntryOrSite}"
                                         value="#{complianceManager.currentComplianceSurvey.brokerAddress}"
                                         dropdown="true"
-                                        forceSelection="true"
-                                        converter="clientAddressConverter" 
+                                        forceSelection="true" 
                                         validator="addressValidator"
                                         var="address"  
                                         scrollHeight="200"
                                         itemValue="#{address}"
                                         itemLabel="#{address.name}" 
                                         completeMethod="#{complianceManager.completeBrokerAddress}">
+
+                            <f:converter converterId="clientAddressConverter"/>
+
+                            <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                             <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.broker}" />
 
@@ -521,10 +539,13 @@ Email: info@dpbennett.com.jm
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentComplianceSurvey.retailOutlet}"    
-                                            converter="activeClientConverter"
                                             validator="jobClientValidator"
                                             forceSelection="true"
                                             completeMethod="#{clientManager.completeActiveClient}" >
+
+                                <f:converter converterId="activeClientConverter"/>
+
+                                <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"
                                         update=":ComplianceSurveyDialogForm:topToolbar,retailOutletActionsMenu,retailRepresentative"
@@ -576,12 +597,15 @@ Email: info@dpbennett.com.jm
                                         dropdown="true"
                                         forceSelection="true"
                                         scrollHeight="200"
-                                        converter="clientContactConverter" 
                                         validator="contactValidator"
                                         var="representative"                        
                                         itemValue="#{representative}"
                                         itemLabel="#{representative.name}" 
                                         completeMethod="#{complianceManager.completeRetailRepresentative}" >
+
+                            <f:converter converterId="clientContactConverter"/>
+
+                            <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                             <f:attribute name="currentClient" value="#{complianceManager.currentComplianceSurvey.retailOutlet}" />
 
@@ -598,13 +622,16 @@ Email: info@dpbennett.com.jm
                                         value="#{complianceManager.currentComplianceSurvey.inspectors}"
                                         itemLabel="#{inspector.name}"
                                         itemValue="#{inspector}"
-                                        converter="activeEmployeeConverter"
                                         validator="businessEntityListValidator"
                                         forceSelection="true"
                                         dropdown="true"
                                         scrollHeight="200"                         
                                         multiple="true"
                                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+                            <f:converter converterId="activeEmployeeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                             <p:ajax event="itemSelect"
                                     listener="#{complianceManager.updateSurvey}"
@@ -1029,12 +1056,15 @@ Email: info@dpbennett.com.jm
                                             value="#{complianceManager.currentComplianceSurvey.standardsBreached}"
                                             itemLabel="#{standard.number} - #{standard.name}"
                                             itemValue="#{standard}"
-                                            converter="activeDocumentStandardConverter"
                                             forceSelection="true"
                                             dropdown="true"
                                             scrollHeight="200"                         
                                             multiple="true"
                                             completeMethod="#{complianceManager.completeActiveDocumentStandard}" >
+
+                                <f:converter converterId="activeDocumentStandardConverter"/>
+
+                                <f:attribute name="em" value="#{complianceManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"
                                         listener="#{complianceManager.updateSurvey}"
@@ -1530,7 +1560,7 @@ Email: info@dpbennett.com.jm
                         </h:panelGroup>
                     </h:panelGrid>
                 </p:tab>
-                
+
                 <p:tab title="Status &amp; Tracking" >
                     <h:panelGrid columns="2" cellspacing="3">
                         <h:outputLabel value="Work progress" 

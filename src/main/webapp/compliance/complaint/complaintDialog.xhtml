@@ -145,7 +145,6 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="Business office *" style="font-weight: bold"/>       
                         <p:selectOneMenu id="businessOffice" 
                                          value="#{complianceManager.currentComplaint.businessOffice}"
-                                         converter="businessOfficeConverter"     
                                          panelStyle="width:180px"
                                          required="true"
                                          requiredMessage="Business office required"
@@ -153,7 +152,11 @@ Email: info@dpbennett.com.jm
                                          filterMatchMode="contains" 
                                          filterNormalize="true">
 
-                            <f:selectItems value="#{jobManager.allActiveBusinessOffices}" 
+                            <f:converter converterId="businessOfficeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+
+                            <f:selectItems value="#{humanResourceManager.allActiveBusinessOffices}" 
                                            var="office"
                                            itemLabel="#{office.name}" 
                                            itemValue="#{office}"/>
@@ -179,7 +182,6 @@ Email: info@dpbennett.com.jm
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentComplaint.complainant}"    
-                                            converter="activeClientConverter"
                                             required="true"
                                             requiredMessage="Complainant Required"
                                             validator="jobClientValidator"
@@ -188,6 +190,10 @@ Email: info@dpbennett.com.jm
                                             maxResults="3"
                                             minQueryLength="2"
                                             completeMethod="#{clientManager.completeActiveClient}" >
+
+                                <f:converter converterId="activeClientConverter"/>
+
+                                <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"
                                         update="actionsMenuButton,:complaintDialogForm:topToolbar"
@@ -237,7 +243,6 @@ Email: info@dpbennett.com.jm
                                         title="#{complianceManager.currentComplaint.receivedBy}"
                                         itemLabel="#{receivedBy.name}"
                                         itemValue="#{receivedBy}"
-                                        converter="activeEmployeeConverter"
                                         required="true"
                                         requiredMessage="Received By Required"
                                         validator="businessEntityValidator"
@@ -245,6 +250,10 @@ Email: info@dpbennett.com.jm
                                         dropdown="true"
                                         scrollHeight="200" 
                                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+                            <f:converter converterId="activeEmployeeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                             <p:ajax event="itemSelect"
                                     listener="#{complianceManager.updateComplaint}"
@@ -263,7 +272,6 @@ Email: info@dpbennett.com.jm
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentComplaint.receivedVia}"    
-                                            converter="activeClientConverter"
                                             required="true"
                                             requiredMessage="Received Via Required"
                                             validator="jobClientValidator"
@@ -272,6 +280,10 @@ Email: info@dpbennett.com.jm
                                             maxResults="3"
                                             minQueryLength="2"
                                             completeMethod="#{clientManager.completeActiveClient}" >
+
+                                <f:converter converterId="activeClientConverter"/>
+
+                                <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"
                                         update="receivedViaActionsMenu,:complaintDialogForm:topToolbar"
@@ -556,12 +568,15 @@ Email: info@dpbennett.com.jm
                                         value="#{complianceManager.currentComplaint.referredToDepartment}"
                                         itemLabel="#{referredToDepartment.name}"
                                         itemValue="#{referredToDepartment}"
-                                        converter="activeDepartmentConverter"
                                         forceSelection="true"
                                         dropdown="true"
                                         scrollHeight="200"                         
                                         multiple="true"
                                         completeMethod="#{humanResourceManager.completeActiveDepartment}" >
+
+                            <f:converter converterId="activeDepartmentConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                             <p:ajax event="itemSelect"
                                     update=":complaintDialogForm:topToolbar"
@@ -581,12 +596,15 @@ Email: info@dpbennett.com.jm
                                         value="#{complianceManager.currentComplaint.referredTo}"
                                         itemLabel="#{referredTo.name}"
                                         itemValue="#{referredTo}"
-                                        converter="activeEmployeeConverter"
                                         forceSelection="true"
                                         dropdown="true"
                                         scrollHeight="200"                         
                                         multiple="true"
                                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+                            <f:converter converterId="activeEmployeeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                             <p:ajax event="itemSelect"
                                     update=":complaintDialogForm:topToolbar"

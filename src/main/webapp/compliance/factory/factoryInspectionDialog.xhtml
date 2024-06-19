@@ -132,7 +132,6 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="Business office *" style="font-weight: bold"/> 
                         <p:selectOneMenu id="businessOffice" 
                                          value="#{complianceManager.currentFactoryInspection.businessOffice}"
-                                         converter="businessOfficeConverter"     
                                          panelStyle="width:180px"
                                          required="true"
                                          requiredMessage="Business office required"
@@ -140,7 +139,11 @@ Email: info@dpbennett.com.jm
                                          filterMatchMode="contains" 
                                          filterNormalize="true">
 
-                            <f:selectItems value="#{jobManager.allActiveBusinessOffices}" 
+                            <f:converter converterId="businessOfficeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+
+                            <f:selectItems value="#{humanResourceManager.allActiveBusinessOffices}" 
                                            var="office"
                                            itemLabel="#{office.name}" 
                                            itemValue="#{office}"/>
@@ -165,12 +168,15 @@ Email: info@dpbennett.com.jm
                                             dropdown="false"
                                             scrollHeight="200" 
                                             value="#{complianceManager.currentFactoryInspection.manufacturer}"    
-                                            converter="activeManufacturerConverter"
                                             required="true"
                                             requiredMessage="Manufacturer Required"
                                             validator="manufacturerValidator"
                                             forceSelection="true"
                                             completeMethod="#{humanResourceManager.completeActiveManufacturer}" >
+
+                                <f:converter converterId="activeManufacturerConverter"/>
+
+                                <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"
                                         update=":factoryInspectionDialogForm:topToolbar,address,representative,actionsMenuButton"
@@ -219,7 +225,6 @@ Email: info@dpbennett.com.jm
                                         value="#{complianceManager.currentFactoryInspection.address}"
                                         dropdown="true"
                                         forceSelection="true"
-                                        converter="manufacturerAddressConverter" 
                                         required="true"
                                         requiredMessage="Address Required"
                                         validator="addressValidator"
@@ -227,7 +232,11 @@ Email: info@dpbennett.com.jm
                                         scrollHeight="200"
                                         itemValue="#{address}"
                                         itemLabel="#{address.name}" 
-                                        completeMethod="#{complianceManager.completeManufacturerAddress}">
+                                        completeMethod="#{humanResourceManager.completeManufacturerAddress}">
+
+                            <f:converter converterId="manufacturerAddressConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                             <f:attribute name="currentManufacturer" value="#{complianceManager.currentFactoryInspection.manufacturer}" />
 
@@ -244,7 +253,6 @@ Email: info@dpbennett.com.jm
                                         dropdown="true"
                                         forceSelection="true"
                                         scrollHeight="200"
-                                        converter="manufacturerContactConverter" 
                                         required="true"
                                         requiredMessage="Representative Required"
                                         validator="contactValidator"
@@ -252,6 +260,10 @@ Email: info@dpbennett.com.jm
                                         itemValue="#{representative}"
                                         itemLabel="#{representative.name}" 
                                         completeMethod="#{complianceManager.completeFactoryRepresentative}">
+
+                            <f:converter converterId="manufacturerContactConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                             <f:attribute name="currentManufacturer" value="#{complianceManager.currentFactoryInspection.manufacturer}" />
 
@@ -269,7 +281,6 @@ Email: info@dpbennett.com.jm
                                         title="#{complianceManager.currentFactoryInspection.assignedInspector}"
                                         itemLabel="#{assignedInspector.name}"
                                         itemValue="#{assignedInspector}"
-                                        converter="activeEmployeeConverter"
                                         required="true"
                                         requiredMessage="Inspector Required"
                                         validator="businessEntityValidator"
@@ -278,10 +289,15 @@ Email: info@dpbennett.com.jm
                                         scrollHeight="200" 
                                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
 
+                            <f:converter converterId="activeEmployeeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+
                             <p:ajax event="itemSelect"
                                     listener="#{complianceManager.updateFactoryInspection}"
                                     update=":factoryInspectionDialogForm:topToolbar"
                                     process="@this"/>
+
                         </p:autoComplete>  
 
                         <h:outputText value="Date of inspection *" style="font-weight: bold" />

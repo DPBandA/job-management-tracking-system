@@ -97,13 +97,16 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Discount (%/$)" />              
             <p:selectOneMenu id="discount" 
                              value="#{jobFinanceManager.discount}"
-                             converter="discountConverter"     
                              panelStyle="width:180px"
                              filter="true" 
                              filterMatchMode="contains" 
                              filterNormalize="true">
 
-                <f:selectItems value="#{jobFinanceManager.allActiveDiscounts}" 
+                <f:converter converterId="discountConverter"/>
+
+                <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+
+                <f:selectItems value="#{financeManager.allActiveDiscounts}" 
                                var="discount"
                                itemLabel="#{discount.name}" 
                                itemValue="#{discount}"/>
@@ -124,18 +127,21 @@ Email: info@dpbennett.com.jm
             <h:outputText value="Tax (%/$)" />   
             <p:selectOneMenu id="tax" 
                              value="#{jobFinanceManager.tax}"
-                             converter="taxConverter"     
                              panelStyle="width:180px"
                              filter="true" 
                              filterMatchMode="contains" 
                              filterNormalize="true">
+                
+                <f:converter converterId="taxConverter"/>
 
-                <f:selectItems value="#{jobFinanceManager.allActiveTaxes}" 
+                <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+
+                <f:selectItems value="#{financeManager.allActiveTaxes}" 
                                var="tax"
                                itemLabel="#{tax.name}" 
                                itemValue="#{tax}"/>
 
-                 <p:ajax event="itemSelect"
+                <p:ajax event="itemSelect"
                         global="false"
                         update="jobCosting,cashPayments,:jobDialogForm:growl2,:jobDialogForm:jobDetailToolbar1"
                         listener="#{jobFinanceManager.updateAllTaxes}"

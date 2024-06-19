@@ -79,12 +79,17 @@ Email: info@dpbennett.com.jm
                                     id="account"
                                     var="account"                                
                                     scrollHeight="200" 
-                                    converter="accPacCustomerConverter"
                                     value="#{job.client.financialAccount}"  
                                     itemLabel="#{account.idCust} (#{account.customerName})"
                                     itemValue="#{account}"
                                     cache="true"
-                                    completeMethod="#{clientManager.completeAccPacClient}" />      
+                                    completeMethod="#{clientManager.completeAccPacClient}" >
+
+                        <f:converter converterId="accPacCustomerConverter"/>
+
+                        <f:attribute name="em" value="#{clientManager.entityManager1}"/>
+
+                    </p:autoComplete>
 
                 </f:facet>
             </p:cellEditor>

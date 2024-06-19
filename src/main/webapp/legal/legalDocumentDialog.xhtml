@@ -90,9 +90,12 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.requestingDepartment}"
                                         itemValue="#{department}"
                                         itemLabel="#{department.name}"
-                                        converter="activeDepartmentConverter"
                                         validator="businessEntityValidator"
                                         completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
+
+                            <f:converter converterId="activeDepartmentConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     event="itemSelect"
@@ -111,8 +114,11 @@ Email: info@dpbennett.com.jm
                                             itemValue="#{client}"
                                             title="#{client.name}"
                                             forceSelection="true"
-                                            converter="activeClientConverter"
                                             completeMethod="#{clientManager.completeActiveClient}" >
+
+                                <f:converter converterId="activeClientConverter"/>
+
+                                <f:attribute name="em" value="#{clientManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"   
                                         update="clientActionsMenu"
@@ -158,14 +164,19 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.submittedBy}"
                                         itemLabel="#{submittedBy.name}"
                                         itemValue="#{submittedBy}"
-                                        converter="activeEmployeeConverter"
                                         validator="businessEntityValidator"
                                         forceSelection="true"         
                                         dropdown="true"
                                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+                            <f:converter converterId="activeEmployeeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+
                             <p:ajax event="itemSelect"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
+
                         </p:autoComplete>
 
 
@@ -179,9 +190,12 @@ Email: info@dpbennett.com.jm
                                             value="#{legalDocumentManager.currentDocument.documentType}"
                                             itemValue="#{documentType}"
                                             itemLabel="#{documentType.name}"
-                                            converter="documentTypeConverter"
                                             validator="businessEntityValidator"
-                                            completeMethod="#{legalDocumentManager.completeLegalDocumentType}" >            
+                                            completeMethod="#{systemManager.completeDocumentType}" >            
+
+                                <f:converter converterId="documentTypeConverter"/>
+
+                                <f:attribute name="em" value="#{systemManager.entityManager1}"/>
 
                                 <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                         event="itemSelect"
@@ -228,11 +242,14 @@ Email: info@dpbennett.com.jm
                                             styleClass="#{not component.valid ? 'ui-invalid-inputfield' : ''}" 
                                             value="#{legalDocumentManager.currentDocument.classification}"
                                             itemLabel="#{classification.name}"                        
-                                            itemValue="#{classification}"                        
-                                            converter="classificationConverter"
+                                            itemValue="#{classification}"  
                                             validator="businessEntityValidator"
                                             forceSelection="true"
-                                            completeMethod="#{legalDocumentManager.completeClassification}" >
+                                            completeMethod="#{financeManager.completeClassification}" >
+
+                                <f:converter converterId="classificationConverter"/>
+
+                                <f:attribute name="em" value="#{financeManager.entityManager1}"/>
 
                                 <p:ajax event="itemSelect"                                                                  
                                         listener="#{legalDocumentManager.updateDocument}"
@@ -350,9 +367,12 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.responsibleDepartment}"
                                         itemValue="#{department}"
                                         itemLabel="#{department.name}"
-                                        converter="activeDepartmentConverter"
                                         validator="businessEntityValidator"
                                         completeMethod="#{humanResourceManager.completeActiveDepartment}" >            
+
+                            <f:converter converterId="activeDepartmentConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
                             <p:ajax listener="#{legalDocumentManager.updateDocument}"
                                     event="itemSelect"
@@ -368,11 +388,14 @@ Email: info@dpbennett.com.jm
                                         value="#{legalDocumentManager.currentDocument.responsibleOfficer}"
                                         itemLabel="#{officerResponsible.name}"
                                         itemValue="#{officerResponsible}"
-                                        converter="activeEmployeeConverter"
                                         validator="businessEntityValidator"
                                         forceSelection="true"
                                         completeMethod="#{humanResourceManager.completeActiveEmployee}" >
 
+                            <f:converter converterId="activeEmployeeConverter"/>
+
+                            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+                            
                             <p:ajax event="itemSelect"
                                     listener="#{legalDocumentManager.updateDocument}"
                                     process="@this"/>
