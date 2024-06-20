@@ -94,25 +94,22 @@ Email: info@dpbennett.com.jm
             <h:outputText value="&nbsp;"
                           rendered="#{jobManager.currentJob.type == 'Job'}" />      
 
-            <h:outputText value="Discount (%/$)" />
-            <p:autoComplete id="discount"  
-                            var="discount"
-                            forceSelection="true"      
-                            dropdown="true"
-                            scrollHeight="200" 
-                            value="#{jobFinanceManager.discount}"
-                            title="#{jobFinanceManager.discount}"
-                            styleClass="#{jobFinanceManager.canApplyDiscount eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                            disabled="#{jobManager.disableJobDialogField('discount')}"
-                            itemValue="#{discount}"
-                            itemLabel="#{discount.name}"
-                            validator="businessEntityValidator"
-                            cache="true"
-                            completeMethod="#{financeManager.completeDiscount}" >
+            <h:outputText value="Discount (%/$)" />              
+            <p:selectOneMenu id="discount" 
+                             value="#{jobFinanceManager.discount}"
+                             panelStyle="width:180px"
+                             filter="true" 
+                             filterMatchMode="contains" 
+                             filterNormalize="true">
 
                 <f:converter converterId="discountConverter"/>
 
                 <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+
+                <f:selectItems value="#{financeManager.allActiveDiscounts}" 
+                               var="discount"
+                               itemLabel="#{discount.name}" 
+                               itemValue="#{discount}"/>
 
                 <p:ajax event="itemSelect"
                         global="false"
@@ -120,28 +117,29 @@ Email: info@dpbennett.com.jm
                         update=":jobDialogForm:jobDetailToolbar1,jobCosting"
                         process="@this" />
 
-            </p:autoComplete>
+                <p:column>               
+                    <h:outputText value="#{discount.name}"/>
+                </p:column>
+
+            </p:selectOneMenu>          
             <h:outputText value="&nbsp;"/>
 
-            <h:outputText value="Tax (%/$)" />               
-            <p:autoComplete id="tax"  
-                            var="tax"
-                            forceSelection="true"      
-                            dropdown="true"
-                            scrollHeight="200" 
-                            value="#{jobFinanceManager.tax}"
-                            title="#{jobFinanceManager.tax}"
-                            styleClass="#{jobFinanceManager.canApplyTax eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                            disabled="#{jobManager.disableJobDialogField('tax')}"
-                            itemValue="#{tax}"
-                            itemLabel="#{tax.name}"
-                            validator="businessEntityValidator"
-                            cache="true"
-                            completeMethod="#{financeManager.completeTax}" >
-
+            <h:outputText value="Tax (%/$)" />   
+            <p:selectOneMenu id="tax" 
+                             value="#{jobFinanceManager.tax}"
+                             panelStyle="width:180px"
+                             filter="true" 
+                             filterMatchMode="contains" 
+                             filterNormalize="true">
+                
                 <f:converter converterId="taxConverter"/>
 
                 <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+
+                <f:selectItems value="#{financeManager.allActiveTaxes}" 
+                               var="tax"
+                               itemLabel="#{tax.name}" 
+                               itemValue="#{tax}"/>
 
                 <p:ajax event="itemSelect"
                         global="false"
@@ -149,7 +147,11 @@ Email: info@dpbennett.com.jm
                         listener="#{jobFinanceManager.updateAllTaxes}"
                         process="@this" />
 
-            </p:autoComplete>
+                <p:column>               
+                    <h:outputText value="#{tax.name}"/>
+                </p:column>
+
+            </p:selectOneMenu>
             <h:outputText value="&nbsp;"/>
 
             <h:outputText id="calculatedCostEstimateLabel"
@@ -200,14 +202,14 @@ Email: info@dpbennett.com.jm
                 </p:inputText>
                 <p:commandButton icon="pi pi-pencil"
                                  actionListener="#{jobFinanceManager.openJobCostingDialog}"
+                                 update=":jobDialogForm:jobDetailToolbar1"                                
                                  process="@this"
-                                 update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
                                  title="View or edit job costing">
 
                     <p:ajax event="dialogReturn" 
                             resetValues="true"
                             listener="#{jobFinanceManager.jobCostingDialogReturn}"
-                            update=":jobDialogForm:jobDetailToolbar1,jobCosting,cashPayments,:jobDialogForm:growl2"/>
+                            update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"/>
 
                 </p:commandButton> 
                 <ui:remove>

@@ -27,79 +27,90 @@ Email: info@dpbennett.com.jm
     <h:panelGrid id="jobGrouping" columns="2">
 
         <h:outputText value="Sector" style="font-weight: bold;" />  
-        <p:autoComplete dropdown="true"
-                        var="sector"
-                        value="#{jobManager.currentJob.sector}" 
-                        itemLabel="#{sector.name}"
-                        itemValue="#{sector}" 
-                        validator="requiredFieldValidator"
-                        forceSelection="true"
-                        scrollHeight="100"
-                        cache="true"
-                        completeMethod="#{financeManager.completeActiveSectors}" >
-            
+        <p:selectOneMenu value="#{jobManager.currentJob.sector}" 
+                         panelStyle="width:180px"
+                         filter="true" 
+                         filterMatchMode="contains" 
+                         filterNormalize="true">
+
             <f:converter converterId="sectorConverter"/>
 
             <f:attribute name="em" value="#{financeManager.entityManager1}"/>
-            
+
+            <f:selectItems value="#{financeManager.allActiveSectors}" 
+                           var="sector"
+                           itemLabel="#{sector.name}" 
+                           itemValue="#{sector}"/>
+
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateSector}"
                     global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
-            
-        </p:autoComplete>     
 
+            <p:column>               
+                <h:outputText value="#{sector.name}"/>
+            </p:column>
+
+        </p:selectOneMenu>
 
         <h:outputText value="Category" style="font-weight: bold;" />  
-        <p:autoComplete dropdown="true"
-                        var="jobCategory"
-                        value="#{jobManager.currentJob.jobCategory}" 
-                        itemLabel="#{jobCategory.name}"
-                        itemValue="#{jobCategory}"  
-                        validator="requiredFieldValidator"
-                        forceSelection="true"
-                        scrollHeight="100"
-                        cache="true"
-                        completeMethod="#{financeManager.completeActiveJobCategories}" >
+        <p:selectOneMenu  value="#{jobManager.currentJob.jobCategory}"  
+                          panelStyle="width:180px"
+                          filter="true" 
+                          filterMatchMode="contains" 
+                          filterNormalize="true">
             
             <f:converter converterId="jobCategoryConverter"/>
 
             <f:attribute name="em" value="#{financeManager.entityManager1}"/>
-            
+
+            <f:selectItems value="#{financeManager.allActiveJobCategories}" 
+                           var="jobCategory"
+                           itemLabel="#{jobCategory.name}" 
+                           itemValue="#{jobCategory}"/>
+
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobCategory}"
                     global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
-            
-        </p:autoComplete>     
+
+            <p:column>               
+                <h:outputText value="#{jobCategory.name}"/>
+            </p:column>
+
+        </p:selectOneMenu>
 
         <h:outputText value="Subcategory" style="font-weight: bold" />
-        <p:autoComplete dropdown="true"
-                        var="jobSubCategory"
-                        value="#{jobManager.currentJob.jobSubCategory}" 
-                        itemLabel="#{jobSubCategory.name}"
-                        itemValue="#{jobSubCategory}"    
-                        validator="requiredFieldValidator"
-                        forceSelection="true"
-                        scrollHeight="100"
-                        cache="true"
-                        completeMethod="#{financeManager.completeActiveJobSubCategories}" >
+        <p:selectOneMenu  value="#{jobManager.currentJob.jobSubCategory}"  
+                          panelStyle="width:180px"
+                          filter="true" 
+                          filterMatchMode="contains" 
+                          filterNormalize="true">
             
             <f:converter converterId="jobSubCategoryConverter"/>
 
             <f:attribute name="em" value="#{financeManager.entityManager1}"/>
-            
+
+            <f:selectItems value="#{financeManager.allActiveJobSubCategories}" 
+                           var="jobSubCategory"
+                           itemLabel="#{jobSubCategory.name}" 
+                           itemValue="#{jobSubCategory}"/>
+
             <p:ajax event="itemSelect" 
                     listener="#{jobManager.updateJobSubCategory}"
                     update=":jobDialogForm:jobDetailToolbar1"
                     global="false"
                     process="@this"/>
-            
-        </p:autoComplete>     
+
+            <p:column>               
+                <h:outputText value="#{jobSubCategory.name}"/>
+            </p:column>
+
+        </p:selectOneMenu>
 
     </h:panelGrid>     
-    
-    
+
+
 </html>

@@ -34,24 +34,21 @@ Email: info@dpbennett.com.jm
                 <h:panelGrid columns="2" cellspacing="5" >
                     <p:outputLabel value="Service requested *" 
                                    style="font-weight: bold" />   
-                    <p:autoComplete id="service"
-                                    dropdown="true" 
-                                    readonly="false"
-                                    var="service"
-                                    value="#{jobContractManager.currentJob.serviceContract.selectedService}"
-                                    itemLabel="#{service.name}"
-                                    itemValue="#{service}"
-                                    required="true"
-                                    requiredMessage="Service Required"
-                                    validator="businessEntityValidator"
-                                    forceSelection="true"
-                                    cache="true"
-                                    maxResults="10"
-                                    completeMethod="#{financeManager.completeService}" >
+                    <p:selectOneMenu id="service" 
+                                     value="#{jobContractManager.currentJob.serviceContract.selectedService}"
+                                     panelStyle="width:180px"
+                                     filter="true" 
+                                     filterMatchMode="contains" 
+                                     filterNormalize="true">
 
                         <f:converter converterId="serviceConverter"/>
 
                         <f:attribute name="em" value="#{financeManager.entityManager1}"/>
+
+                        <f:selectItems value="#{financeManager.allActiveServices}" 
+                                       var="service"
+                                       itemLabel="#{service.name}" 
+                                       itemValue="#{service}"/>
 
                         <p:ajax event="itemSelect"
                                 listener="#{jobContractManager.updateService}"
@@ -59,9 +56,13 @@ Email: info@dpbennett.com.jm
                                 update=":jobDialogForm:jobDetailToolbar1"
                                 process="@this"/>
 
-                    </p:autoComplete>    
+                        <p:column>               
+                            <h:outputText value="#{service.name}"/>
+                        </p:column>
 
-                    <h:outputLabel value="Service location *" 
+                    </p:selectOneMenu>                    
+
+                    <h:outputLabel value="Service location" 
                                    style="font-weight: bold;"
                                    for="serviceLocation"/>
                     <p:selectOneMenu id="serviceLocation"   

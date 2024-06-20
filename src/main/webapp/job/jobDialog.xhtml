@@ -39,17 +39,43 @@ Email: info@dpbennett.com.jm
             <p:growl id="growl2" life="5000" showDetail="true" />  
 
             <ui:include src="jobDetailTopToolbar.xhtml"/>
-            
-            <ui:include src="menubar.xhtml" /> 
 
             <p:tabView id="jobFormTabView"
                        style="margin-top: 1px;margin-bottom: 1px;"    
                        dynamic="false"
                        widgetVar="jobFormTabVar" >
 
-                <p:tab title="General">
+                <p:tab title="General" rendered="#{jobManager.enableJobDialogTab('General')}">
                     <ui:include src="jobGeneralTab.xhtml"/>
-                </p:tab>   
+                </p:tab>     
+
+                <p:tab title="Services" rendered="#{jobManager.enableJobDialogTab('Services')}" >
+                    <ui:include src="service/jobServicesTab.xhtml"/>
+                </p:tab>
+
+                <p:tab title="Samples" rendered="#{jobManager.enableJobDialogTab('Samples')}">
+                    <ui:include src="sample/jobSamplesTab.xhtml"/>
+                </p:tab>
+
+                <p:tab title="#{jobManager.currentJob.costingAndPaymentTabLabel}"
+                       rendered="#{jobManager.enableJobDialogTab('CostingAndPayment')}" >
+                    <ui:include src="finance/jobCostingAndPaymentTab.xhtml"/>
+                </p:tab>    
+
+                <p:tab title="Grouping" 
+                       rendered="#{jobManager.enableJobDialogTab('Grouping')}">
+                    <ui:include src="grouping/jobGroupingTab.xhtml" />
+                </p:tab>
+
+                <p:tab title="Status &amp; Tracking"  
+                       rendered="#{jobManager.enableJobDialogTab('StatusAndTracking')}">
+                    <ui:include src="tracking/jobStatusAndTrackingTab.xhtml" />
+                </p:tab>               
+
+                <p:tab title="Reporting" 
+                       rendered="#{jobManager.enableJobDialogTab('Reporting')}">
+                    <ui:include src="reporting/jobReportingTab.xhtml"/>
+                </p:tab>
 
             </p:tabView>
 
