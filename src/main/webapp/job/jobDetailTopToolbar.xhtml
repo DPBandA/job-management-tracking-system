@@ -49,10 +49,11 @@ Email: info@dpbennett.com.jm
 
         </p:toolbarGroup>
 
+        <p:toolbarGroup align="right" 
+                        rendered="#{jobManager.currentJob.type == 'Job'}"
+                        style="margin-top: 5px;">  
 
-        <p:toolbarGroup align="right" style="margin-top: 5px;">  
-
-            <p:menuButton value="Subcontract | Copy" 
+            <p:menuButton value="Subcontract | Copy"                           
                           disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                           title="Subcontract the current job by first creating a copy.">
 

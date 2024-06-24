@@ -273,7 +273,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="New"
                                  title="Add new payment"
                                  actionListener="#{jobFinanceManager.createNewCashPayment}"
-                                 disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                                 disabled="#{!jobFinanceManager.user.can('EditInvoicingAndPayment')}"
                                  update=":jobDialogForm:growl2"
                                  icon="pi pi-plus"
                                  process="@this" >
@@ -335,7 +335,7 @@ Email: info@dpbennett.com.jm
             </p:column>
             <p:column>
                 <p:menuButton id="toolsButton" 
-                              disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                              disabled="#{!jobFinanceManager.user.can('EditInvoicingAndPayment')}"
                               icon="pi pi-pencil" 
                               title="Edit or delete payment" >
                     <p:menuitem value="Edit"
@@ -389,7 +389,7 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="New"
                                  title="Add new payment"
                                  actionListener="#{jobFinanceManager.createNewCashPayment}"
-                                 disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                                 disabled="#{!jobFinanceManager.user.can('EditInvoicingAndPayment')}"
                                  update=":jobDialogForm:growl2"
                                  icon="pi pi-plus"
                                  process="@this" >

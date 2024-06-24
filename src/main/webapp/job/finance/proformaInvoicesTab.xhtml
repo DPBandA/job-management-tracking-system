@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -24,6 +24,8 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">    
 
+    <ui:include src="proformaSearchToolbar.xhtml"/>
+
     <p:toolbar style="margin-bottom: 1px;" >
         <p:toolbarGroup align="left" > 
             <p:commandButton title="Create new proforma invoice" 
@@ -38,20 +40,19 @@ Email: info@dpbennett.com.jm
                         update=":appForm:mainTabView:proformaCostingsTable"/>
 
             </p:commandButton>
-            <p:spacer width="20" rendered="false"/>
-            <p:inputText id="proformaInvoiceSearchText"    
-                         rendered="false"
+            <p:spacer width="20" />
+            <p:inputText id="proformaInvoiceSearchText"   
                          value="#{jobFinanceManager.proformaInvoiceSearchText}"
                          placeholder="Enter search text">
-                
+
                 <p:ajax event="keyup"
                         global="true"
                         update=":appForm:mainTabView:proformaCostingsTable"
                         listener="#{jobFinanceManager.doJobSearch}"
                         process="@this"/>    
-                
+
             </p:inputText> 
-           
+
         </p:toolbarGroup>
     </p:toolbar>
 

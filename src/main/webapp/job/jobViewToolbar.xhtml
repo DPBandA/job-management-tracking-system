@@ -48,7 +48,7 @@ Email: info@dpbennett.com.jm
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
 
             <p:menuButton value="Invoicing | Costing"   
-                          disabled="#{!jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}"
+                          disabled="#{!jobFinanceManager.user.can('EditInvoicingAndPayment')}"
                           rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}">
 
                 <p:menuitem value="Create invoice(s)"

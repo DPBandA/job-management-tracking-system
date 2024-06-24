@@ -65,7 +65,7 @@ Email: info@dpbennett.com.jm
 
         <p:column 
             sortBy="#{job.client.accountingId}"
-            rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}">
+            rendered="#{jobFinanceManager.user.can('EditInvoicingAndPayment')}">
             <f:facet name="header">
                 <h:outputText value="Client Id"/>
             </f:facet>
@@ -95,7 +95,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>
         </p:column>
 
-        <p:column rendered="#{jobFinanceManager.user.employee.department.privilege.canEditInvoicingAndPayment}" >
+        <p:column rendered="#{jobFinanceManager.user.can('EditInvoicingAndPayment')}" >
             <f:facet name="header">
                 <h:outputText value="Acc. Codes"/>
             </f:facet>
