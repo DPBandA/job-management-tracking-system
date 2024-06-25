@@ -69,7 +69,7 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel style="vertical-align: top;"
                        value="Standards breached" />
-        <h:panelGrid columns="2">
+        <h:panelGroup>
             <p:autoComplete id="standards"
                             var="standard"   
                             value="#{complianceManager.currentComplianceSurvey.standardsBreached}"
@@ -96,6 +96,7 @@ Email: info@dpbennett.com.jm
                         process="@this"/>
 
             </p:autoComplete>
+            <p:spacer width="5"/>
             <p:commandButton 
                 icon="pi pi-plus"
                 actionListener="#{complianceManager.createNewDocumentStandardInDialog}"                                            
@@ -107,7 +108,7 @@ Email: info@dpbennett.com.jm
 
             </p:commandButton>
 
-        </h:panelGrid>
+        </h:panelGroup>
 
         <p:outputLabel value="Reason for Detention" style="vertical-align: top" />
         <p:inputTextarea

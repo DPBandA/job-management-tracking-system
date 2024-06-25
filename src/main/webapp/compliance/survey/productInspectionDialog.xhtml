@@ -435,7 +435,7 @@ Email: info@dpbennett.com.jm
                                             value="#{complianceManager.currentProductInspection.distributor}"    
                                             forceSelection="true"
                                             completeMethod="#{clientManager.completeActiveClient}" >
-                                
+
                                 <f:converter converterId="activeClientConverter"/>
 
                                 <f:attribute name="em" value="#{clientManager.entityManager1}"/>
@@ -556,6 +556,56 @@ Email: info@dpbennett.com.jm
                         </p:inputTextarea> 
                         <h:outputText value="&nbsp;&nbsp;" />
                         <h:outputText id="precautionStatementCharsRemaining" /> 
+
+                        <p:outputLabel style="vertical-align: top;"
+                                       value="Standards breached" />
+                        <h:panelGroup>
+                            <p:autoComplete id="standards"
+                                            var="standard"   
+                                            value="#{complianceManager.currentProductInspection.documentStandards}"
+                                            itemLabel="#{standard.number} - #{standard.name}"
+                                            itemValue="#{standard}"
+                                            forceSelection="true"
+                                            dropdown="true"
+                                            scrollHeight="200"                         
+                                            multiple="true"
+                                            completeMethod="#{complianceManager.completeActiveDocumentStandard}" >
+
+                                <f:converter converterId="activeDocumentStandardConverter"/>
+
+                                <f:attribute name="em" value="#{complianceManager.entityManager1}"/>
+
+                                <p:ajax event="itemSelect"
+                                        listener="#{complianceManager.updateProductInspectionStandardsBreached}"
+                                        process="@this"/>
+
+                                <p:ajax event="itemUnselect"
+                                        listener="#{complianceManager.updateProductInspectionStandardsBreached}"
+                                        process="@this"/>
+
+                            </p:autoComplete>
+                            <p:spacer width="5"/>
+                            <p:commandButton 
+                                icon="pi pi-plus"
+                                actionListener="#{complianceManager.createNewDocumentStandardInDialog}"                                            
+                                process="@this"
+                                title="Add a new standard to the standard database" >
+
+                                <p:ajax event="dialogReturn" 
+                                        update="standards"/>
+
+                            </p:commandButton>
+
+                        </h:panelGroup>
+                        
+                        <h:outputText value="Standards breached" 
+                                      rendered="true" />
+                        <p:inputTextarea
+                            rendered="true"
+                            value="#{complianceManager.currentProductInspection.standardsBreached}"
+                            rows="4"
+                            autoResize="true"
+                            maxlength="1000" />                       
 
                         <h:outputText value="Status" />
                         <p:selectOneMenu value="#{complianceManager.currentProductInspection.status}" >

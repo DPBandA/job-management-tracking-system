@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Detention Request - Port of Entry" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" uuid="7be5e4ea-68fa-43f9-a68a-5d0b82dabf99">
 	<property name="ireport.zoom" value="1.1"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="163"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local MySQL"/>
 	<parameter name="formId" class="java.lang.Long">
-		<defaultValueExpression><![CDATA[2300682L]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[208587L]]></defaultValueExpression>
 	</parameter>
 	<parameter name="brokerDetail" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -218,49 +216,49 @@ WHERE
 	<title>
 		<band height="220" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Transparent" x="150" y="0" width="279" height="26" forecolor="#6C1B78" uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72"/>
+				<reportElement uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72" mode="Transparent" x="150" y="0" width="279" height="26" forecolor="#6C1B78"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="18" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[BUREAU OF STANDARDS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="150" y="26" width="279" height="26" forecolor="#6C1B78" uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72"/>
+				<reportElement uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72" mode="Transparent" x="150" y="26" width="279" height="26" forecolor="#6C1B78"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="16" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[REGULATORY DIVISION]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="98" y="52" width="384" height="26" forecolor="#6C1B78" uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72"/>
+				<reportElement uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72" mode="Transparent" x="98" y="52" width="384" height="26" forecolor="#6C1B78"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="16" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[STANDARDS COMPLIANCE PROGRAMME]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="148" y="78" width="279" height="26" forecolor="#6C1B78" uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72"/>
+				<reportElement uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72" mode="Transparent" x="148" y="78" width="279" height="26" forecolor="#6C1B78"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="18" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[DETENTION REQUEST]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="148" y="104" width="279" height="26" forecolor="#6C1B78" uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72"/>
+				<reportElement uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72" mode="Transparent" x="148" y="104" width="279" height="26" forecolor="#6C1B78"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="12" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[PORTS OF ENTRY]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Transparent" x="2" y="129" width="290" height="22" forecolor="#000000" uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72"/>
+				<reportElement uuid="4813cf56-368d-45e7-b1d7-f623ea1b6e72" mode="Transparent" x="2" y="129" width="290" height="22" forecolor="#000000"/>
 				<textElement textAlignment="Left">
 					<font fontName="Arial" size="14" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[TO: CUSTOMS DEPARTMENT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2" y="151" width="570" height="47" uuid="955dcfca-b617-400a-978b-371951a3ad81"/>
+				<reportElement uuid="955dcfca-b617-400a-978b-371951a3ad81" x="2" y="151" width="570" height="47"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
@@ -271,7 +269,7 @@ WHERE
 	<detail>
 		<band height="430" splitType="Stretch">
 			<staticText>
-				<reportElement x="2" y="-21" width="204" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="2" y="-21" width="204" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -283,8 +281,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Entry Document No:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="2" y="-1" width="204" height="53" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="2" y="-1" width="204" height="53"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -296,8 +294,8 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{entrydocumentinspection_ENTRYDOCUMENTNUMBER}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="206" y="-1" width="204" height="53" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="206" y="-1" width="204" height="53"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -310,7 +308,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{entrydocumentinspection_CONTAINERNUMBERS}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="206" y="-21" width="204" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="206" y="-21" width="204" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -322,8 +320,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Container Number(s):]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement x="410" y="-1" width="162" height="53" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="410" y="-1" width="162" height="53"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -336,7 +334,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{entrydocumentinspection_COUNTRYOFCONSIGNMENT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="410" y="-21" width="162" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="410" y="-21" width="162" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -348,8 +346,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Country of Consignment:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd" isBlankWhenNull="true">
-				<reportElement x="2" y="72" width="204" height="53" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="2" y="72" width="204" height="53"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -362,7 +360,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{entrydocumentinspection_ENTRYDOCUMENTREPORTDATE}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="52" width="204" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="2" y="52" width="204" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -375,7 +373,7 @@ WHERE
 				<text><![CDATA[Report date:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="206" y="52" width="139" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="206" y="52" width="139" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -387,8 +385,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Inspection Point:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
-				<reportElement x="206" y="72" width="139" height="53" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="206" y="72" width="139" height="53"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -401,7 +399,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{compliancesurvey_INSPECTIONPOINT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="345" y="52" width="227" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="345" y="52" width="227" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -413,8 +411,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Broker's Name & Address/Tel./Fax #:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
-				<reportElement x="345" y="71" width="227" height="163" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="345" y="71" width="227" height="163"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -428,7 +426,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{brokerDetail}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="125" width="343" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="2" y="125" width="343" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -440,8 +438,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Name & Address of Consignee, Tel/Fax #:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" pattern="YYYY-MM-DD" isBlankWhenNull="true">
-				<reportElement x="2" y="144" width="343" height="90" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" pattern="YYYY-MM-DD" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="2" y="144" width="343" height="90"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -453,8 +451,86 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$P{consigneeDetail}]]></textFieldExpression>
 			</textField>
+			<textField isStretchWithOverflow="true" pattern="YYYY-MM-DD" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="2" y="254" width="408" height="69"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{products}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="130" y="323" width="158" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="2" y="234" width="408" height="20"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Product(s):]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="410" y="254" width="162" height="69"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{quantity}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="410" y="234" width="162" height="20"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Quantity:]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="2" y="343" width="128" height="29"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numberOfSamplesTaken}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="2" y="323" width="128" height="20"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[No. of samples taken:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="130" y="323" width="158" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -466,8 +542,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Inspector:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
-				<reportElement x="130" y="343" width="158" height="29" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="130" y="343" width="158" height="29"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -480,7 +556,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{employee_NAME}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="288" y="323" width="122" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="288" y="323" width="122" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -492,8 +568,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Date Inspected:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd" isBlankWhenNull="true">
-				<reportElement x="288" y="343" width="122" height="29" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" pattern="yyyy-MM-dd" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="288" y="343" width="122" height="29"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -506,7 +582,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{compliancesurvey_DATEOFSURVEY}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="410" y="323" width="162" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="410" y="323" width="162" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -518,8 +594,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Ref. #:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
-				<reportElement x="410" y="343" width="162" height="29" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="410" y="343" width="162" height="29"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -532,7 +608,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{compliancesurvey_PORTOFENTRYDETENTIONNUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="372" width="570" height="20" uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620"/>
+				<reportElement uuid="5ed0ada2-62b6-4fe2-b031-c84b51eb7620" x="2" y="372" width="570" height="20"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -544,8 +620,8 @@ WHERE
 				</textElement>
 				<text><![CDATA[Reason for Detention:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" pattern="YYYY-MM-DD" isBlankWhenNull="true">
-				<reportElement x="2" y="392" width="570" height="30" uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b"/>
+			<textField isStretchWithOverflow="true" pattern="YYYY-MM-DD" isBlankWhenNull="true">
+				<reportElement uuid="9e6fd957-8894-4fc7-ad06-74fc9f38d94b" x="2" y="392" width="570" height="30"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -562,40 +638,40 @@ WHERE
 	<pageFooter>
 		<band height="75" splitType="Stretch">
 			<line>
-				<reportElement x="13" y="23" width="200" height="1" uuid="466d5e3e-127c-434a-b165-14709c418916"/>
+				<reportElement uuid="466d5e3e-127c-434a-b165-14709c418916" x="13" y="23" width="200" height="1"/>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="345" y="24" width="200" height="1" uuid="4e1a7728-c1b1-4dda-99ff-ccfc53ab5342"/>
+				<reportElement uuid="4e1a7728-c1b1-4dda-99ff-ccfc53ab5342" x="345" y="24" width="200" height="1"/>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="14" y="24" width="192" height="20" uuid="d465c5ae-71de-44a3-87b8-7d43e6af7aaa"/>
+				<reportElement uuid="d465c5ae-71de-44a3-87b8-7d43e6af7aaa" x="14" y="24" width="192" height="20"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Athorized Signature]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="345" y="25" width="192" height="20" uuid="0be1921c-bea0-471d-b563-e488062f337d"/>
+				<reportElement uuid="0be1921c-bea0-471d-b563-e488062f337d" x="345" y="25" width="192" height="20"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="14" y="55" width="558" height="20" uuid="e462a42b-a4e1-4c66-8274-ab392f01dc53"/>
+				<reportElement uuid="e462a42b-a4e1-4c66-8274-ab392f01dc53" x="14" y="55" width="558" height="20"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
 				<text><![CDATA[Form No: REG42_F_01/00             Issue Date: 2011  July 25                           Revision Date: 2011 June 25                                 Page 1 of 1]]></text>
 			</staticText>
 			<image vAlign="Bottom">
-				<reportElement positionType="Float" x="14" y="-1" width="192" height="24" uuid="4ab13643-11c8-416c-a819-61a156f996ba"/>
+				<reportElement uuid="4ab13643-11c8-416c-a819-61a156f996ba" positionType="Float" x="14" y="-1" width="192" height="24"/>
 				<imageExpression><![CDATA[$F{signature_SIGNATUREIMAGE}]]></imageExpression>
 			</image>
 			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="345" y="3" width="200" height="20" uuid="20cc46be-d1ee-4c22-8bdc-8cae9a68396f"/>
+				<reportElement uuid="20cc46be-d1ee-4c22-8bdc-8cae9a68396f" positionType="Float" x="345" y="3" width="200" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$F{compliancesurvey_AUTHSIGDATEFORDETENTIONREQUESTPOE}]]></textFieldExpression>
 			</textField>
