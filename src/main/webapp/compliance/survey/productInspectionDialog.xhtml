@@ -597,7 +597,27 @@ Email: info@dpbennett.com.jm
                             </p:commandButton>
 
                         </h:panelGroup>
-                        
+
+                        <p:outputLabel value="Reason for Detention" style="vertical-align: top" />
+                        <p:inputTextarea
+                            id="reasonForDetention"
+                            value="#{complianceManager.currentProductInspection.reasonForDetention}"
+                            rows="3"
+                            counter="reasonForDetentionCharsRemaining"
+                            counterTemplate="{0} characters remaining."
+                            autoResize="false"
+                            maxlength="1000" 
+                            styleClass="#{not component.valid ? 'invalid-inputtextarea-field' : ''}" >
+
+                            <p:ajax
+                                global="true"
+                                listener="#{complianceManager.updateProductInspection}"
+                                process="@this" />
+
+                        </p:inputTextarea> 
+                        <p:outputLabel value="" />
+                        <p:outputLabel id="reasonForDetentionCharsRemaining" />
+
                         <h:outputText value="Standards breached" 
                                       rendered="true" />
                         <p:inputTextarea
@@ -609,11 +629,14 @@ Email: info@dpbennett.com.jm
 
                         <h:outputText value="Status" />
                         <p:selectOneMenu value="#{complianceManager.currentProductInspection.status}" >
+
                             <p:ajax
                                 global="true"
                                 listener="#{complianceManager.updateProductInspection}"
                                 process="@this" />
+
                             <f:selectItems value="#{complianceManager.productStatus}" />
+
                         </p:selectOneMenu>
 
                         <h:outputText value="Enforcement action" />
