@@ -172,6 +172,7 @@ WHERE
 	<queryString>
 		<![CDATA[SELECT compliancesurvey.`ID` AS compliancesurvey_ID,
 	compliancesurvey.`COMMENTS` AS compliancesurvey_COMMENTS,
+	compliancesurvey.`JOBNUMBER` AS JOBNUMBER,
 	compliancesurvey.`DATEAUTHORIZED` AS compliancesurvey_DATEAUTHORIZED,
 	compliancesurvey.`DATEOFSURVEY` AS compliancesurvey_DATEOFSURVEY,
 	compliancesurvey.`DATESIGNED` AS compliancesurvey_DATESIGNED,
@@ -217,6 +218,7 @@ WHERE
 	compliancesurvey.`AUTHSIGDATEFORDETENTIONREQUESTPOE` AS compliancesurvey_AUTHSIGDATEFORDETENTIONREQUESTPOE,
 	entrydocumentinspection.`ID` AS entrydocumentinspection_ID,
 	entrydocumentinspection.`CONTAINERNUMBERS` AS CONTAINERNUMBERS,
+	entrydocumentinspection.`CONTAINERSIZES` AS CONTAINERSIZES,
 	entrydocumentinspection.`COUNTRYOFCONSIGNMENT` AS COUNTRYOFCONSIGNMENT,
 	entrydocumentinspection.`ENTRYDOCUMENTNUMBER` AS ENTRYDOCUMENTNUMBER,
 	entrydocumentinspection.`ENTRYDOCUMENTREPORTDATE` AS entrydocumentinspection_ENTRYDOCUMENTREPORTDATE,
@@ -244,6 +246,11 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="compliancesurvey_COMMENTS"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="compliancesurvey"/>
 	</field>
+	<field name="JOBNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="JOBNUMBER"/>
+		<property name="com.jaspersoft.studio.field.label" value="JOBNUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="compliancesurvey"/>
+	</field>
 	<field name="compliancesurvey_DATEAUTHORIZED" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.name" value="DATEAUTHORIZED"/>
 		<property name="com.jaspersoft.studio.field.label" value="compliancesurvey_DATEAUTHORIZED"/>
@@ -259,9 +266,9 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="compliancesurvey_DATESIGNED"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="compliancesurvey"/>
 	</field>
-	<field name="compliancesurvey_INSPECTIONPOINT" class="java.lang.String">
+	<field name="INSPECTIONPOINT" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="INSPECTIONPOINT"/>
-		<property name="com.jaspersoft.studio.field.label" value="compliancesurvey_INSPECTIONPOINT"/>
+		<property name="com.jaspersoft.studio.field.label" value="INSPECTIONPOINT"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="compliancesurvey"/>
 	</field>
 	<field name="compliancesurvey_NAME" class="java.lang.String">
@@ -464,19 +471,19 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="entrydocumentinspection_ID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="entrydocumentinspection"/>
 	</field>
-	<field name="entrydocumentinspection_CONTAINERNUMBERS" class="java.lang.String">
+	<field name="CONTAINERNUMBERS" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="CONTAINERNUMBERS"/>
-		<property name="com.jaspersoft.studio.field.label" value="entrydocumentinspection_CONTAINERNUMBERS"/>
+		<property name="com.jaspersoft.studio.field.label" value="CONTAINERNUMBERS"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="entrydocumentinspection"/>
 	</field>
-	<field name="entrydocumentinspection_COUNTRYOFCONSIGNMENT" class="java.lang.String">
+	<field name="CONTAINERSIZES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CONTAINERSIZES"/>
+		<property name="com.jaspersoft.studio.field.label" value="CONTAINERSIZES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="entrydocumentinspection"/>
+	</field>
+	<field name="COUNTRYOFCONSIGNMENT" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="COUNTRYOFCONSIGNMENT"/>
-		<property name="com.jaspersoft.studio.field.label" value="entrydocumentinspection_COUNTRYOFCONSIGNMENT"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="entrydocumentinspection"/>
-	</field>
-	<field name="entrydocumentinspection_DOCUMENTSTAMPED" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="DOCUMENTSTAMPED"/>
-		<property name="com.jaspersoft.studio.field.label" value="entrydocumentinspection_DOCUMENTSTAMPED"/>
+		<property name="com.jaspersoft.studio.field.label" value="COUNTRYOFCONSIGNMENT"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="entrydocumentinspection"/>
 	</field>
 	<field name="ENTRYDOCUMENTNUMBER" class="java.lang.String">
@@ -519,12 +526,12 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="ID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="compliancesurvey"/>
 	</field>
-	<field name="COLUMN_58" class="java.lang.Long">
+	<field name="COLUMN_59" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="ID"/>
 		<property name="com.jaspersoft.studio.field.label" value="ID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="entrydocumentinspection"/>
 	</field>
-	<field name="COLUMN_59" class="java.lang.String">
+	<field name="COLUMN_60" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="ENTRYDOCUMENTNUMBER"/>
 		<property name="com.jaspersoft.studio.field.label" value="ENTRYDOCUMENTNUMBER"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="entrydocumentinspection"/>
@@ -590,22 +597,23 @@ WHERE
 					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Job Number]]></text>
+				<text><![CDATA[Job Number:]]></text>
 			</staticText>
 			<textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
-				<reportElement x="427" y="33" width="139" height="26" uuid="6d1fe40d-50d9-401f-a8d8-13bc5d3ab623"/>
+				<reportElement x="427" y="47" width="139" height="26" uuid="6d1fe40d-50d9-401f-a8d8-13bc5d3ab623"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="12"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$F{JOBNUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="196" width="210" height="22" forecolor="#000000" uuid="675a7693-06b7-49b6-af98-3e4e09be375e"/>
@@ -619,7 +627,23 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<text><![CDATA[The BUREAU OF STANDARDS hereby requests the CUSTOMS   DEPARTMENT to detain the under mentioned shipment for breaches under the Standards Act and the Customs (Prohibition of Entry of Goods) Order, 1991.]]></text>
+				<text><![CDATA[The BUREAU OF STANDARDS hereby requests the CUSTOMS DEPARTMENT to detain the under mentioned shipment for breaches under the Standards Act and the Customs (Prohibition of Entry of Goods) Order, 1991.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="427" y="33" width="139" height="14" uuid="1607091e-42e6-425a-9c49-e4d33db603fc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[(For internal use only)]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -892,7 +916,7 @@ WHERE
 				<text><![CDATA[Container Number(s):]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="410" y="10" width="162" height="20" uuid="05863005-f111-43d8-a6a4-c5e1b332458c"/>
+				<reportElement positionType="Float" x="409" y="10" width="162" height="20" uuid="05863005-f111-43d8-a6a4-c5e1b332458c"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -904,11 +928,11 @@ WHERE
 				</textElement>
 				<text><![CDATA[Country of Consignment:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="409" y="30" width="162" height="30" uuid="0653dccb-de93-452d-968a-ccc89968d50a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box padding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -917,12 +941,13 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$F{COUNTRYOFCONSIGNMENT}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="205" y="30" width="204" height="30" uuid="3f32fea5-d8d5-4c68-be22-76d8b0bd6a2c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box padding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -931,12 +956,13 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$F{CONTAINERNUMBERS}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="1" y="30" width="204" height="30" uuid="99e8bdc4-4533-450f-9431-969a3fcea87e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box padding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -962,11 +988,11 @@ WHERE
 				</textElement>
 				<text><![CDATA[Inspection Point:]]></text>
 			</staticText>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="1" y="80" width="204" height="30" uuid="ad9d467e-3ff8-4b47-a1a6-79cbf1580d3a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+				<box padding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -975,9 +1001,10 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
+				<textFieldExpression><![CDATA[$F{INSPECTIONPOINT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="205" y="60" width="124" height="20" uuid="3833de4a-1658-4378-a959-c778e773fcf0"/>
+				<reportElement positionType="Float" x="205" y="60" width="114" height="20" uuid="3833de4a-1658-4378-a959-c778e773fcf0"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -989,6 +1016,49 @@ WHERE
 				</textElement>
 				<text><![CDATA[Size of Container:]]></text>
 			</staticText>
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="205" y="80" width="114" height="30" uuid="2781d9d7-d958-45e5-8790-1403cc6504f3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CONTAINERSIZES}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="319" y="60" width="252" height="20" uuid="9459e9d0-996e-45b4-bf3d-4164b29ab716"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<pen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Broker’s Name & Address, Tel/Fax #:]]></text>
+			</staticText>
+			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="319" y="80" width="252" height="30" uuid="b9c1f3d2-2d5f-46cf-9750-c6f4cd54e3dd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box padding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{brokerDetail}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>

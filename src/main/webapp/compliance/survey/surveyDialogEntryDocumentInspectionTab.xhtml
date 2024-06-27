@@ -108,7 +108,19 @@ Email: info@dpbennett.com.jm
                 update=":ComplianceSurveyDialogForm:topToolbar"
                 process="@this" />
 
-        </p:inputText>    
+        </p:inputText>
+        
+        <p:outputLabel value="Container size(s)" />
+        <p:inputText id="containerSizes"
+                     value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.containerSizes}" >
+
+            <p:ajax
+                global="true"
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>
 
         <p:outputLabel value="Country of consignment"/>
         <p:autoComplete value="#{complianceManager.currentComplianceSurvey.entryDocumentInspection.countryOfConsignment}" 
