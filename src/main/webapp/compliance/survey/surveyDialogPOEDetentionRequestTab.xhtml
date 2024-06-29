@@ -66,6 +66,45 @@ Email: info@dpbennett.com.jm
                     listener="#{complianceManager.updateSurvey}" />
 
         </p:calendar>
+        
+        <p:outputLabel value="Consignment size detained" />
+        <p:inputText value="#{complianceManager.currentComplianceSurvey.consignmentSizeDetained}" 
+                     id="consignmentSizeDetained">
+
+            <p:ajax
+                listener="#{complianceManager.updateSurvey}"
+                update=":ComplianceSurveyDialogForm:topToolbar"
+                process="@this" />
+
+        </p:inputText>
+        
+        <p:outputLabel value="Inspector" style="font-weight: bold" />       
+        <p:autoComplete id="inspector"
+                        var="inspector"   
+                        value="#{complianceManager.currentComplianceSurvey.inspector}"
+                        itemLabel="#{inspector.name}"
+                        itemValue="#{inspector}"
+                        validator="businessEntityValidator"
+                        forceSelection="true"
+                        dropdown="true"
+                        scrollHeight="200"   
+                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+
+            <f:converter converterId="activeEmployeeConverter"/>
+
+            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+
+            <p:ajax event="itemSelect"
+                    listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this"/>
+
+            <p:ajax event="itemUnselect"
+                    listener="#{complianceManager.updateSurvey}"
+                    update=":ComplianceSurveyDialogForm:topToolbar"
+                    process="@this"/>
+
+        </p:autoComplete>
 
         <p:outputLabel style="vertical-align: top;"
                        value="Standards breached" />

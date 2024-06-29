@@ -6,11 +6,10 @@
 	<property name="ireport.y" value="163"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local MySQL"/>
 	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[Y29tcGxpYW5jZXN1cnZleSAsNTM2LDE1LDE3NTAxYjMwLTg5M2YtNGY1OS05MmFmLTY0MjYwNjI4
-ZjMzNDtlbXBsb3llZSBBUyAsMjcwLDExNjgsODQzODY4NjctYzU4Ny00Y2Q1LTg3YjctYjQyYmYy
-YzExODM0O2VudHJ5ZG9jdW1lbnRpbnNwZWN0aW9uICw5NjYsMjI4OCw5MjFhYmY0ZS04Nzc1LTQ2
-ZDItYjQwZS1lNzJkZjJkOWY5NDc7ZW1wbG95ZWUgQVMgLDE1LDI0MzIsM2JiYzQ1YmMtNDU5Mi00
-ZjQzLWE3YmUtYjA0MTY5ZTNjNjE1Ow==]]>
+		<![CDATA[ZW50cnlkb2N1bWVudGluc3BlY3Rpb24gLDEwNTQsOTQ5LGIxMmQ5Nzg0LWMxMDUtNDEzNC1iNTNh
+LTliZGZhZGJkOWU1YTtqbXRzLmVtcGxveWVlIEFTICw3NDEsODgxLDQ0Y2VlODQ2LTU4ZWEtNDA1
+ZC1hYzNkLTk1NzdiYjg4MjMyNDtjb21wbGlhbmNlc3VydmV5ICwxNSwxNSxkOWM5MjZkMC03Yzgw
+LTRhYWMtYWQ5Ny0yYzE1OWMzNDI3Mjg7]]>
 	</property>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="267"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="733"/>
@@ -42,7 +41,14 @@ ZjQzLWE3YmUtYjA0MTY5ZTNjNjE1Ow==]]>
 		</box>
 	</style>
 	<subDataset name="Product Inspection" uuid="770025f9-9658-43b5-8f82-12b9acb7b70e">
-		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.sql.tables">
+			<![CDATA[Y29tcGxpYW5jZXN1cnZleSAsNzIzLDE1LDliNmI4NDkxLTE5YTMtNGE3OC1iMDU4LTk5YmQ2MDAy
+MmM2Mjtjb21wbGlhbmNlc3VydmV5X3Byb2R1Y3RpbnNwZWN0aW9uICwxNSwxNSxlMWY4MTcxZi1i
+OGEwLTRhY2QtOTVkNi1kYmJjNWE4MTUwYWM7cHJvZHVjdGluc3BlY3Rpb24gLDM5NCwxMDYsODdm
+NTA3YmUtYjlhNS00ZWY0LTgwNDEtMTFiOWZkOTgxNjg1O2VudHJ5ZG9jdW1lbnRpbnNwZWN0aW9u
+ICwzOTQsNTk0LDViY2MyMGZmLTMxYWQtNGIxNS04OGJmLTZjZGNiOTkzODRmOTttYXJrZXRwcm9k
+dWN0ICwxNSwyNTAsM2Q2MDg3MjYtNzY5Mi00M2U4LWJhMzQtNThiYTJjYzU2ODAyOw==]]>
+		</property>
 		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="240"/>
 		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="753"/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local MySQL"/>
@@ -63,7 +69,7 @@ ZjQzLWE3YmUtYjA0MTY5ZTNjNjE1Ow==]]>
 	productinspection.`MARKETPRODUCT_ID`,
 	marketproduct.`ID`,
 	marketproduct.`NAME` AS PRODUCT_NAME,
-	productinspection.`BRAND`
+	marketproduct.`BRAND`
 FROM compliancesurvey_productinspection
 	INNER JOIN compliancesurvey ON 
 	 compliancesurvey_productinspection.`ComplianceSurvey_ID` = compliancesurvey.`ID` 
@@ -154,7 +160,7 @@ WHERE
 		<field name="BRAND" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.name" value="BRAND"/>
 			<property name="com.jaspersoft.studio.field.label" value="BRAND"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="productinspection"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="marketproduct"/>
 		</field>
 	</subDataset>
 	<parameter name="formId" class="java.lang.Long">
@@ -217,7 +223,6 @@ WHERE
 	compliancesurvey.`DOMESTICMARKETDETENTIONNUMBER` AS compliancesurvey_DOMESTICMARKETDETENTIONNUMBER,
 	compliancesurvey.`AUTHSIGFORDETENTIONREQUESTPOE_ID` AS compliancesurvey_AUTHSIGFORDETENTIONREQUESTPOE_ID,
 	compliancesurvey.`AUTHSIGDATEFORDETENTIONREQUESTPOE` AS compliancesurvey_AUTHSIGDATEFORDETENTIONREQUESTPOE,
-	compliancesurvey.`AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID` AS compliancesurvey_AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID,
 	entrydocumentinspection.`ID` AS entrydocumentinspection_ID,
 	entrydocumentinspection.`CONTAINERNUMBERS` AS CONTAINERNUMBERS,
 	entrydocumentinspection.`CONTAINERSIZES` AS CONTAINERSIZES,
@@ -233,16 +238,12 @@ WHERE
 	entrydocumentinspection.`ID`,
 	entrydocumentinspection.`ENTRYDOCUMENTNUMBER`,
 	employee.`LASTNAME` AS POEDETENTION_INSPECTOR_LASTNAME,
-	employee.`FIRSTNAME` AS POEDETENTION_INSPECTOR_FIRSTNAME,
-	employee2.`LASTNAME` AS POEDETENTION_AUTHORIZER_LASTNAME,
-	employee2.`FIRSTNAME` AS POEDETENTION_AUTHORIZER_FIRSTNAME
+	employee.`FIRSTNAME` AS POEDETENTION_INSPECTOR_FIRSTNAME
 FROM entrydocumentinspection entrydocumentinspection
 	INNER JOIN compliancesurvey ON 
 	 compliancesurvey.`ENTRYDOCUMENTINSPECTION_ID` = entrydocumentinspection.`ID` 
-	INNER JOIN employee AS employee ON 
+	INNER JOIN employee ON 
 	 employee.`ID` = compliancesurvey.`INSPECTOR_ID` 
-	INNER JOIN employee AS employee2 ON 
-	 employee2.`ID` = compliancesurvey.`AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID` 
 WHERE 
 	 compliancesurvey.`ID` = $P{formId}]]>
 	</queryString>
@@ -481,11 +482,6 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="compliancesurvey_AUTHSIGDATEFORDETENTIONREQUESTPOE"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="compliancesurvey"/>
 	</field>
-	<field name="compliancesurvey_AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID"/>
-		<property name="com.jaspersoft.studio.field.label" value="compliancesurvey_AUTHEMPLOYEEFORDETENTIONREQUESTPOE_ID"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="compliancesurvey"/>
-	</field>
 	<field name="entrydocumentinspection_ID" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="ID"/>
 		<property name="com.jaspersoft.studio.field.label" value="entrydocumentinspection_ID"/>
@@ -546,12 +542,12 @@ WHERE
 		<property name="com.jaspersoft.studio.field.label" value="ID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="compliancesurvey"/>
 	</field>
-	<field name="COLUMN_61" class="java.lang.Long">
+	<field name="COLUMN_60" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="ID"/>
 		<property name="com.jaspersoft.studio.field.label" value="ID"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="entrydocumentinspection"/>
 	</field>
-	<field name="COLUMN_62" class="java.lang.String">
+	<field name="COLUMN_61" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="ENTRYDOCUMENTNUMBER"/>
 		<property name="com.jaspersoft.studio.field.label" value="ENTRYDOCUMENTNUMBER"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="entrydocumentinspection"/>
@@ -564,16 +560,6 @@ WHERE
 	<field name="POEDETENTION_INSPECTOR_FIRSTNAME" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="FIRSTNAME"/>
 		<property name="com.jaspersoft.studio.field.label" value="POEDETENTION_INSPECTOR_FIRSTNAME"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
-	</field>
-	<field name="POEDETENTION_AUTHORIZER_LASTNAME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="LASTNAME"/>
-		<property name="com.jaspersoft.studio.field.label" value="POEDETENTION_AUTHORIZER_LASTNAME"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
-	</field>
-	<field name="POEDETENTION_AUTHORIZER_FIRSTNAME" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="FIRSTNAME"/>
-		<property name="com.jaspersoft.studio.field.label" value="POEDETENTION_AUTHORIZER_FIRSTNAME"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
 	</field>
 	<background>
@@ -687,7 +673,7 @@ WHERE
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="294" splitType="Stretch">
+		<band height="289" splitType="Stretch">
 			<componentElement>
 				<reportElement positionType="Float" x="1" y="160" width="570" height="80" uuid="f82f196d-8343-4d9d-8e1d-8175f8f2593a">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
@@ -708,26 +694,14 @@ WHERE
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="100" height="30" uuid="ff3a133a-fe38-47df-957b-83d720265f87"/>
-								<box>
-									<pen lineWidth="1.0"/>
-									<topPen lineWidth="1.0"/>
-									<leftPen lineWidth="1.0"/>
-									<bottomPen lineWidth="1.0"/>
-									<rightPen lineWidth="1.0"/>
-								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Product]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+							<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="100" height="30" uuid="8d9bea51-007e-43e1-9c2b-846f18deb9aa"/>
-								<box padding="3">
-									<topPen lineWidth="0.0"/>
-									<leftPen lineWidth="0.0"/>
-									<bottomPen lineWidth="0.0"/>
-									<rightPen lineWidth="0.0"/>
-								</box>
+								<box leftPadding="3"/>
 								<textFieldExpression><![CDATA[$F{PRODUCT_NAME}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -737,22 +711,14 @@ WHERE
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="70" height="30" uuid="9f0ac37a-9e6c-48d7-aa11-a5c771722683"/>
-								<box>
-									<pen lineWidth="1.0"/>
-								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Commodity Code]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-								<reportElement mode="Transparent" x="0" y="0" width="70" height="30" uuid="146d8b03-33bd-439c-985b-7febd28840ce"/>
-								<box padding="3">
-									<topPen lineWidth="0.0"/>
-									<leftPen lineWidth="0.0"/>
-									<bottomPen lineWidth="0.0"/>
-									<rightPen lineWidth="0.0"/>
-								</box>
+							<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="70" height="30" uuid="146d8b03-33bd-439c-985b-7febd28840ce"/>
+								<box leftPadding="3"/>
 								<textFieldExpression><![CDATA[$F{COMMODITYCODE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -762,23 +728,14 @@ WHERE
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="52" height="30" uuid="6093f41f-1c48-4fd1-873f-1bf8c144b109"/>
-								<box>
-									<pen lineWidth="1.0"/>
-								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Brand]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+							<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="52" height="30" uuid="d26c70a3-d574-4c42-8f2c-821083053ea7"/>
-								<box padding="3">
-									<pen lineWidth="0.0"/>
-									<topPen lineWidth="0.0"/>
-									<leftPen lineWidth="0.0"/>
-									<bottomPen lineWidth="0.0"/>
-									<rightPen lineWidth="0.0"/>
-								</box>
+								<box leftPadding="3"/>
 								<textFieldExpression><![CDATA[$F{BRAND}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -788,22 +745,14 @@ WHERE
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="94" height="30" uuid="26ab7a3c-8fc8-40b2-9436-88645e207558"/>
-								<box>
-									<pen lineWidth="1.0"/>
-								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Country of Origin]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+							<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="94" height="30" uuid="2be26d29-637b-40d1-9256-eff4503d3733"/>
-								<box padding="3">
-									<topPen lineWidth="0.0"/>
-									<leftPen lineWidth="0.0"/>
-									<bottomPen lineWidth="0.0"/>
-									<rightPen lineWidth="0.0"/>
-								</box>
+								<box leftPadding="3"/>
 								<textFieldExpression><![CDATA[$F{COUNTRYOFORIGIN}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -813,22 +762,14 @@ WHERE
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="66" height="30" uuid="e7b70c42-aca4-40ed-9c16-cf37daa368c1"/>
-								<box>
-									<pen lineWidth="1.0"/>
-								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Size]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+							<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="66" height="30" uuid="4ada09df-e113-47b6-b92f-2ce5f81c2bb1"/>
-								<box padding="3">
-									<topPen lineWidth="0.0"/>
-									<leftPen lineWidth="0.0"/>
-									<bottomPen lineWidth="0.0"/>
-									<rightPen lineWidth="0.0"/>
-								</box>
+								<box leftPadding="3"/>
 								<textFieldExpression><![CDATA[$F{SAMPLESIZE}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -838,34 +779,23 @@ WHERE
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
 								<reportElement mode="Opaque" x="0" y="0" width="70" height="30" uuid="dd9c1c63-586b-4840-8b05-0b150ad4ba8b"/>
-								<box>
-									<pen lineWidth="1.0"/>
-								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Quantity]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+							<textField textAdjust="ScaleFont" isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="70" height="30" uuid="94a8b7fb-1343-486c-809c-b003a81b3ea8"/>
-								<box padding="3">
-									<topPen lineWidth="0.0"/>
-									<leftPen lineWidth="0.0"/>
-									<bottomPen lineWidth="0.0"/>
-									<rightPen lineWidth="0.0"/>
-								</box>
+								<box leftPadding="3"/>
 								<textFieldExpression><![CDATA[$F{QUANTITY}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="118" uuid="ac3ba18b-01d4-484e-abef-96b11dc0cb73">
+					<jr:column width="117" uuid="ac3ba18b-01d4-484e-abef-96b11dc0cb73">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						<jr:columnHeader style="Table_CH" height="30">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="118" height="30" uuid="48d7b089-4139-411e-a9b0-b97d76aa9139"/>
-								<box>
-									<pen lineWidth="1.0"/>
-								</box>
+								<reportElement mode="Opaque" x="0" y="0" width="117" height="30" uuid="48d7b089-4139-411e-a9b0-b97d76aa9139"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -873,14 +803,9 @@ WHERE
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-								<reportElement x="0" y="0" width="118" height="30" uuid="3820801e-fbdc-4ec0-ae19-07042958aaf0"/>
-								<box padding="3">
-									<topPen lineWidth="0.0"/>
-									<leftPen lineWidth="0.0"/>
-									<bottomPen lineWidth="0.0"/>
-									<rightPen lineWidth="0.0"/>
-								</box>
+							<textField textAdjust="ScaleFont" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="117" height="30" uuid="3820801e-fbdc-4ec0-ae19-07042958aaf0"/>
+								<box leftPadding="3"/>
 								<textFieldExpression><![CDATA[$F{STANDARDSBREACHED}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
@@ -1002,9 +927,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{INSPECTIONPOINT}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="205" y="60" width="112" height="20" uuid="3833de4a-1658-4378-a959-c778e773fcf0">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement positionType="Float" x="205" y="60" width="114" height="20" uuid="3833de4a-1658-4378-a959-c778e773fcf0"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -1017,7 +940,7 @@ WHERE
 				<text><![CDATA[Size of Container:]]></text>
 			</staticText>
 			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="205" y="80" width="112" height="30" uuid="2781d9d7-d958-45e5-8790-1403cc6504f3">
+				<reportElement positionType="Float" x="205" y="80" width="114" height="30" uuid="2781d9d7-d958-45e5-8790-1403cc6504f3">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1032,9 +955,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{CONTAINERSIZES}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="317" y="60" width="254" height="20" uuid="9459e9d0-996e-45b4-bf3d-4164b29ab716">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement positionType="Float" x="319" y="60" width="252" height="20" uuid="9459e9d0-996e-45b4-bf3d-4164b29ab716"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -1047,7 +968,7 @@ WHERE
 				<text><![CDATA[Broker’s Name & Address, Tel/Fax #:]]></text>
 			</staticText>
 			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="317" y="80" width="254" height="30" uuid="b9c1f3d2-2d5f-46cf-9750-c6f4cd54e3dd">
+				<reportElement positionType="Float" x="319" y="80" width="252" height="30" uuid="b9c1f3d2-2d5f-46cf-9750-c6f4cd54e3dd">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1062,9 +983,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{brokerDetail}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="1" y="110" width="316" height="20" uuid="be9716bf-4f4b-4af0-8ab0-1f24fd2fe578">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement positionType="Float" x="1" y="110" width="318" height="20" uuid="be9716bf-4f4b-4af0-8ab0-1f24fd2fe578"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -1077,7 +996,7 @@ WHERE
 				<text><![CDATA[Name & Address of Consignee, Tel/Fax #:]]></text>
 			</staticText>
 			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="1" y="130" width="316" height="30" uuid="bc416888-79c1-4b9a-9b85-54b0374b5d56">
+				<reportElement positionType="Float" x="1" y="130" width="318" height="30" uuid="bc416888-79c1-4b9a-9b85-54b0374b5d56">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1092,9 +1011,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{consigneeDetail}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="Float" x="317" y="110" width="254" height="20" uuid="ae10fe78-c9b3-447e-a7f1-f9e5a43e0311">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement positionType="Float" x="319" y="110" width="252" height="20" uuid="ae10fe78-c9b3-447e-a7f1-f9e5a43e0311"/>
 				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -1107,7 +1024,7 @@ WHERE
 				<text><![CDATA[Consignee Tax Registration Number:]]></text>
 			</staticText>
 			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="317" y="130" width="254" height="30" uuid="17cb1f7a-fc68-411e-87e5-7c76d46fd538">
+				<reportElement positionType="Float" x="319" y="130" width="252" height="30" uuid="17cb1f7a-fc68-411e-87e5-7c76d46fd538">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1122,9 +1039,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{consigneeTRN}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="1" y="240" width="170" height="20" uuid="ba223f40-650a-45ba-8e7c-f873268a29c6">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement positionType="FixRelativeToBottom" x="1" y="240" width="178" height="20" uuid="ba223f40-650a-45ba-8e7c-f873268a29c6"/>
 				<box padding="3">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -1137,9 +1052,7 @@ WHERE
 				<text><![CDATA[Size of Consignment Detained]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="171" y="240" width="145" height="20" uuid="eb9c7757-9615-49ac-89d5-8784161e5368">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement positionType="FixRelativeToBottom" x="179" y="240" width="140" height="20" uuid="eb9c7757-9615-49ac-89d5-8784161e5368"/>
 				<box padding="3">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -1152,9 +1065,7 @@ WHERE
 				<text><![CDATA[Inspector]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="316" y="240" width="136" height="20" uuid="62072ab4-9ce5-4547-9b19-934c69e4fa67">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement positionType="FixRelativeToBottom" x="319" y="240" width="120" height="20" uuid="62072ab4-9ce5-4547-9b19-934c69e4fa67"/>
 				<box padding="3">
 					<pen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -1164,12 +1075,10 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<text><![CDATA[Date of Detention]]></text>
+				<text><![CDATA[Ref. #:]]></text>
 			</staticText>
-			<textField textAdjust="ScaleFont" pattern="MMM d, yyyy" isBlankWhenNull="true">
-				<reportElement positionType="FixRelativeToBottom" x="316" y="260" width="136" height="29" uuid="cb9eccb8-d57b-4491-aa5b-27b588375730">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+			<textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="319" y="260" width="120" height="29" uuid="cb9eccb8-d57b-4491-aa5b-27b588375730"/>
 				<box padding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
@@ -1179,10 +1088,10 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{compliancesurvey_DATEOFDETENTION}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{compliancesurvey_PORTOFENTRYDETENTIONNUMBER}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
-				<reportElement positionType="FixRelativeToBottom" x="171" y="260" width="145" height="29" uuid="4b53630a-8704-496f-9fc9-8c60862240d3">
+			<textField textAdjust="StretchHeight" pattern="yyyy-MM-dd" isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="179" y="260" width="140" height="29" uuid="4b53630a-8704-496f-9fc9-8c60862240d3">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1196,8 +1105,8 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{POEDETENTION_INSPECTOR_FIRSTNAME} + " " + $F{POEDETENTION_INSPECTOR_LASTNAME}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="ScaleFont" pattern="" isBlankWhenNull="true">
-				<reportElement positionType="FixRelativeToBottom" x="1" y="260" width="170" height="29" uuid="979f0498-940b-4139-b60b-08eb33fe10f2">
+			<textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="FixRelativeToBottom" x="1" y="260" width="178" height="29" uuid="979f0498-940b-4139-b60b-08eb33fe10f2">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1211,38 +1120,10 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{CONSIGNMENTSIZEDETAINED}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="453" y="240" width="118" height="20" uuid="2b7b4edd-bd2b-4152-bc3c-8df1a04656ff">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box padding="3">
-					<pen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement>
-					<font fontName="Arial" size="12"/>
-				</textElement>
-				<text><![CDATA[Detention Number]]></text>
-			</staticText>
-			<textField textAdjust="ScaleFont" pattern="" isBlankWhenNull="true">
-				<reportElement positionType="FixRelativeToBottom" x="453" y="260" width="118" height="29" uuid="c0449206-df6b-41c0-ade5-51f70d833065"/>
-				<box padding="3">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement>
-					<font fontName="Arial" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{compliancesurvey_PORTOFENTRYDETENTIONNUMBER}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="116">
+		<band height="78">
 			<line>
 				<reportElement x="11" y="26" width="200" height="1" uuid="7fab28a5-67d0-49a1-8c35-a6b0aae336bd"/>
 				<graphicElement>
@@ -1266,37 +1147,16 @@ WHERE
 				<text><![CDATA[Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="95" width="378" height="20" uuid="6aeb12c9-90a3-45bd-8a6a-9c13d9348930"/>
+				<reportElement x="12" y="58" width="558" height="20" uuid="6aeb12c9-90a3-45bd-8a6a-9c13d9348930"/>
 				<textElement verticalAlignment="Bottom">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Form No: NCRA42_F_01/00           Issue Date: 2015 July 25          Revision Date: 2022 March 14]]></text>
+				<text><![CDATA[Form No: REG42_F_01/00             Issue Date: 2011  July 25                           Revision Date: 2011 June 25                                 Page 1 of 1]]></text>
 			</staticText>
 			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
 				<reportElement positionType="Float" x="343" y="7" width="200" height="20" uuid="fd445a14-1e6d-42bb-84be-0c934b50011a"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$F{compliancesurvey_AUTHSIGDATEFORDETENTIONREQUESTPOE}]]></textFieldExpression>
-			</textField>
-			<textField pattern="yyyy-MM-dd" isBlankWhenNull="true">
-				<reportElement positionType="Float" x="10" y="6" width="200" height="20" uuid="01b66fd7-a2ab-4dd2-856a-4ab572325d9b"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
-				<textFieldExpression><![CDATA[$F{POEDETENTION_AUTHORIZER_FIRSTNAME} + " " + $F{POEDETENTION_AUTHORIZER_LASTNAME}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="1" y="55" width="570" height="40" uuid="ebe83e4e-99ab-4543-9d10-70ba982b1e80"/>
-				<textElement verticalAlignment="Top">
-					<font size="10" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Note that non-conforming specifications may not be limited to that stated since label assessment and product testing may reveal additional non-conforming specifications.]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="389" y="95" width="100" height="20" uuid="cee1938f-0f65-4e86-a11e-3b287a71ad0d">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Bottom">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " of " + $V{PAGE_COUNT}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
