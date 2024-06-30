@@ -176,6 +176,8 @@ WHERE
 	<parameter name="referenceNumber" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="consigneeTRN" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="specifiedReleaseLocation" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="preparedBy" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="approvedBy" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT compliancesurvey.`ID` AS compliancesurvey_ID,
 	compliancesurvey.`COMMENTS` AS compliancesurvey_COMMENTS,
@@ -587,7 +589,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="285">
+		<band height="260">
 			<staticText>
 				<reportElement mode="Transparent" x="1" y="209" width="210" height="22" forecolor="#000000" uuid="bea7a525-35c8-44de-99d5-e178eff0d00c"/>
 				<textElement textAlignment="Left">
@@ -596,7 +598,7 @@ WHERE
 				<text><![CDATA[TO: CUSTOMS DEPARTMENT]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="231" width="570" height="47" uuid="13681935-a9c1-437d-b2f4-0631edb43e67"/>
+				<reportElement x="1" y="231" width="570" height="29" uuid="13681935-a9c1-437d-b2f4-0631edb43e67"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
@@ -1099,7 +1101,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{specifiedReleaseLocation}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="1" y="240" width="170" height="20" uuid="ba223f40-650a-45ba-8e7c-f873268a29c6">
+				<reportElement positionType="Float" x="1" y="249" width="254" height="20" uuid="ba223f40-650a-45ba-8e7c-f873268a29c6">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1111,10 +1113,10 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<text><![CDATA[Size of Consignment Detained]]></text>
+				<text><![CDATA[Prepared by:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="171" y="240" width="145" height="20" uuid="eb9c7757-9615-49ac-89d5-8784161e5368">
+				<reportElement positionType="Float" x="317" y="249" width="254" height="20" uuid="eb9c7757-9615-49ac-89d5-8784161e5368">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1126,10 +1128,10 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<text><![CDATA[Inspector]]></text>
+				<text><![CDATA[Approved by:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="316" y="240" width="136" height="20" uuid="62072ab4-9ce5-4547-9b19-934c69e4fa67">
+				<reportElement positionType="Float" x="317" y="110" width="136" height="20" uuid="62072ab4-9ce5-4547-9b19-934c69e4fa67">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1144,8 +1146,9 @@ WHERE
 				<text><![CDATA[Report Date]]></text>
 			</staticText>
 			<textField textAdjust="ScaleFont" pattern="MMM d, yyyy" isBlankWhenNull="true">
-				<reportElement positionType="FixRelativeToBottom" x="316" y="260" width="136" height="29" uuid="cb9eccb8-d57b-4491-aa5b-27b588375730">
+				<reportElement positionType="Float" x="317" y="130" width="136" height="30" uuid="cb9eccb8-d57b-4491-aa5b-27b588375730">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box padding="3">
 					<pen lineWidth="1.0"/>
@@ -1159,7 +1162,7 @@ WHERE
 				<textFieldExpression><![CDATA[$F{entrydocumentinspection_ENTRYDOCUMENTREPORTDATE}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont" isBlankWhenNull="true">
-				<reportElement positionType="FixRelativeToBottom" x="171" y="260" width="145" height="29" uuid="4b53630a-8704-496f-9fc9-8c60862240d3">
+				<reportElement positionType="Float" x="317" y="269" width="254" height="29" uuid="4b53630a-8704-496f-9fc9-8c60862240d3">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1171,10 +1174,10 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{POEDETENTION_INSPECTOR_FIRSTNAME} + " " + $F{POEDETENTION_INSPECTOR_LASTNAME}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{approvedBy}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont" pattern="" isBlankWhenNull="true">
-				<reportElement positionType="FixRelativeToBottom" x="1" y="260" width="170" height="29" uuid="979f0498-940b-4139-b60b-08eb33fe10f2">
+				<reportElement positionType="Float" x="1" y="269" width="254" height="29" uuid="979f0498-940b-4139-b60b-08eb33fe10f2">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1186,10 +1189,10 @@ WHERE
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{CONSIGNMENTSIZEDETAINED}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{preparedBy}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="453" y="240" width="118" height="20" uuid="2b7b4edd-bd2b-4152-bc3c-8df1a04656ff">
+				<reportElement positionType="Float" x="453" y="110" width="118" height="20" uuid="2b7b4edd-bd2b-4152-bc3c-8df1a04656ff">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box padding="3">
@@ -1204,7 +1207,9 @@ WHERE
 				<text><![CDATA[Reference Number]]></text>
 			</staticText>
 			<textField textAdjust="ScaleFont" pattern="" isBlankWhenNull="true">
-				<reportElement positionType="FixRelativeToBottom" x="453" y="260" width="118" height="29" uuid="c0449206-df6b-41c0-ade5-51f70d833065"/>
+				<reportElement positionType="Float" x="453" y="130" width="118" height="30" uuid="c0449206-df6b-41c0-ade5-51f70d833065">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<box padding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0"/>
