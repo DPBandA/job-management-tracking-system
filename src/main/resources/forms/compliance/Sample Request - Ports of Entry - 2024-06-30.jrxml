@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Sample Request - Port of Entry" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7be5e4ea-68fa-43f9-a68a-5d0b82dabf99">
 	<property name="ireport.zoom" value="1.2100000000000002"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="237"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQLJMTS.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local MySQL"/>
 	<subDataset name="Product Samples" uuid="0ec3944e-7631-4aa8-9f90-887e22bd4451">
 		<parameter name="productSample_formId" class="java.lang.Long">
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -197,7 +197,7 @@ WHERE
 		<field name="entrydocumentinspection_SCF" class="java.lang.Double"/>
 	</subDataset>
 	<parameter name="formId" class="java.lang.Long">
-		<defaultValueExpression><![CDATA[208587L]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[2300682L]]></defaultValueExpression>
 	</parameter>
 	<parameter name="brokerDetail" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="consigneeDetail" class="java.lang.String" isForPrompting="false"/>
@@ -210,7 +210,9 @@ WHERE
 	<parameter name="samplesToBeDisposed" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["\u2713"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="samplesToBeCollected" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="samplesToBeCollected" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["\u2713"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      client.`ID` AS client_ID,
@@ -513,7 +515,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{consigneeDetail}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="0" y="0" width="572" height="54" uuid="168d5ac1-438c-40e2-a3d0-8b4a32ac78fa"/>
+				<reportElement mode="Transparent" x="0" y="0" width="572" height="54" uuid="168d5ac1-438c-40e2-a3d0-8b4a32ac78fa"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Product Samples" uuid="ee783c36-e4f9-4bf1-8f7e-96b2f93727e3">
 						<datasetParameter name="productSample_formId">
