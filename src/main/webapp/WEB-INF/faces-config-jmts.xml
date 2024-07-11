@@ -188,11 +188,5 @@
         <managed-bean-class>jm.com.dpbennett.lo.manager.LegalDocumentManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
-    
-    <managed-bean>
-        <managed-bean-name>complianceManager</managed-bean-name>
-        <managed-bean-class>jm.com.dpbennett.sc.manager.ComplianceManager</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-          
+  
 </faces-config>
