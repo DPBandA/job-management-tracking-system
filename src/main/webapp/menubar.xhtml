@@ -257,49 +257,7 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>
 
-        <p:submenu label="Legal" 
-                   rendered="#{legalDocumentManager.user.hasModule('legalDocumentManager')}"
-                   icon="pi pi-file" >
-
-            <p:menuitem
-                actionListener="#{legalDocumentManager.createNewLegalDocument}"
-                value="Document" 
-                title="Add a new document"
-                icon="pi pi-plus"
-                process="@this" >
-
-                <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
-                        listener="#{legalDocumentManager.documentDialogReturn}" />
-
-            </p:menuitem>
-
-            <p:menuitem  
-                value="Document type"
-                icon="pi pi-plus" 
-                actionListener="#{legalDocumentManager.createNewDocumentType}" 
-                process="@this"
-                title="Add a new document type" />
-
-            <p:menuitem 
-                value="Classification"
-                icon="pi pi-plus" 
-                actionListener="#{legalDocumentManager.createNewClassification}" 
-                process="@this"
-                title="Add a new classification" />
-
-            <p:divider />
-
-            <p:menuitem value="Document Browser"
-                        title="Open the Legal Document Browser" 
-                        icon="pi pi-copy"
-                        rendered="#{systemManager.user.hasModule('legalDocumentManager')}"
-                        actionListener="#{legalDocumentManager.openDocumentBrowser}"                            
-                        process="@this"/> 
-
-        </p:submenu>
-
-        <p:submenu label="Compliance"                            
+         <p:submenu label="Compliance"                            
                    rendered="#{jobManager.user.hasModule('complianceManager')}"
                    icon="pi pi-check-square" >
 
@@ -418,32 +376,6 @@ Email: info@dpbennett.com.jm
                     icon="pi pi-users"
                     actionListener="#{humanResourceManager.openHumanResourceBrowser}" /> 
 
-        <p:submenu label="LabelPrint"                            
-                   rendered="#{systemManager.user.hasModule('energyLabelManager')}"
-                   icon="pi pi-images" >
-
-            <p:menuitem value="Label"
-                        title="Create new label"
-                        icon="pi pi-plus"
-                        actionListener="#{energyLabelManager.createNewEnergyLabel}" 
-                        rendered="#{energyLabelManager.user.can('CreateEnergyLabel')}"
-                        process="@this" >
-
-                <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
-                        listener="#{energyLabelManager.energyLabelDialogReturn}" />
-
-            </p:menuitem>  
-
-            <p:divider />
-
-            <p:menuitem value="Label Browser"
-                        title="Open the Energy Label Browser" 
-                        icon="pi pi-images"
-                        actionListener="#{energyLabelManager.openEnergyLabelBrowser}" 
-                        process="@this" />   
-        </p:submenu>
-
         <p:submenu label="Reports" 
                    icon="pi pi-chart-bar" >  
 
@@ -463,7 +395,7 @@ Email: info@dpbennett.com.jm
         </p:submenu>
 
         <p:submenu rendered="#{systemManager.user.hasModule('systemManager')}"
-                   label="System Administration" 
+                   label="System" 
                    icon="pi pi-server" >
             
             <p:submenu label="Entity Managers" 
