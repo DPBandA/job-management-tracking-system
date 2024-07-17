@@ -29,61 +29,61 @@ Email: info@dpbennett.com.jm
 
             <p:panelGrid columns="3"  layout="flex" style="width: 60%;" >
                 <h:panelGroup>
-                    <p:inputText value="#{jobManager.searchText}"  
+                    <p:inputText value="#{jobFinanceManager.searchText}"  
                                  placeholder="Enter job search text"
                                  id="proformaSearchText" />
                     <p:commandButton id="proformaSearchButton"
                                      class="search-button"   
-                                     actionListener="#{jobManager.doDefaultSearch}"
+                                     actionListener="#{jobFinanceManager.doProformaSearch}"
                                      update=":appForm:mainTabView"
                                      icon="pi pi-search"
                                      process="@form" />
                 </h:panelGroup>
 
-                <p:selectOneMenu value="#{jobManager.searchType}"
+                <p:selectOneMenu value="#{jobFinanceManager.searchType}"
                                  title="Select the search type">
 
-                    <f:selectItems value="#{jobManager.groupedSearchTypes}" />
+                    <f:selectItems value="#{jobFinanceManager.groupedSearchTypes}" />
 
                 </p:selectOneMenu>
 
-                <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
+                <p:selectOneMenu value="#{jobFinanceManager.dateSearchPeriod.dateField}" 
                                  id="proformaDateField"
                                  title="Select the date field on which to search" >
-                    <f:selectItems value="#{jobManager.dateSearchFields}" />
+                    <f:selectItems value="#{jobFinanceManager.dateSearchFields}" />
 
                 </p:selectOneMenu>
 
-                <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}"
+                <p:selectOneMenu value= "#{jobFinanceManager.dateSearchPeriod.name}"
                                  id="proformaDatePeriod"
                                  title="Select the date period">
 
-                    <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
+                    <p:ajax listener="#{jobFinanceManager.dateSearchPeriod.initDatePeriod}"
                             global="false"
                             update="proformaStartSearchDate,proformaEndSearchDate"
                             process="@this" />
 
-                    <f:selectItems value="#{jobManager.datePeriods}"/>
+                    <f:selectItems value="#{jobFinanceManager.datePeriods}"/>
 
                 </p:selectOneMenu>
 
-                <p:calendar value="#{jobManager.dateSearchPeriod.startDate}"  
+                <p:calendar value="#{jobFinanceManager.dateSearchPeriod.startDate}"  
                             id="proformaStartSearchDate"
                             title="Select or enter the start of the date period"
                             size="17"
                             navigator="true"
                             autocomplete="off"
                             validator="requiredFieldValidator"
-                            disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
+                            disabled="#{jobFinanceManager.dateSearchPeriod.startDateDisabled}"
                             pattern="MMM dd, yyyy" />
 
-                <p:calendar value="#{jobManager.dateSearchPeriod.endDate}"
+                <p:calendar value="#{jobFinanceManager.dateSearchPeriod.endDate}"
                             id="proformaEndSearchDate"
                             title="Select or enter the end of the date period"
                             size="17"
                             navigator="true"
                             validator="requiredFieldValidator"
-                            disabled="#{jobManager.dateSearchPeriod.endDateDisabled}"
+                            disabled="#{jobFinanceManager.dateSearchPeriod.endDateDisabled}"
                             pattern="MMM dd, yyyy" />
 
 

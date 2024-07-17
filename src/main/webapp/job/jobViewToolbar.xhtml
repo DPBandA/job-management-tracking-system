@@ -89,7 +89,7 @@ Email: info@dpbennett.com.jm
                 </p:menuitem>   
 
             </p:menuButton>
-           
+
             <p:selectOneButton 
                 value="#{jobManager.user.jobTableViewPreference}">
 
@@ -105,7 +105,34 @@ Email: info@dpbennett.com.jm
             </p:selectOneButton>
 
         </p:toolbarGroup>
-        
+
+        <p:toolbarGroup align="right" > 
+            <p:menuButton value="Tools" >
+
+                <p:menuitem value="Client Management"
+                            title="Open the Clients tab"
+                            icon="pi pi-users"
+                            actionListener="#{jobManager.openClientsTab}" 
+                            process="@this" />
+
+                <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
+                            value="Client Credit Status"
+                            icon="pi pi-thumbs-up"
+                            title="Check client's credit status"
+                            update=""
+                            process="@this" />
+
+                <p:divider />
+
+                <p:menuitem value="Reports"
+                            title="Open the Reports tab"
+                            icon="pi pi-chart-bar"
+                            actionListener="#{reportManager.openReportDialog}" 
+                            process="@this" />
+
+            </p:menuButton>
+        </p:toolbarGroup>
+
     </p:toolbar>   
 
 </html>
