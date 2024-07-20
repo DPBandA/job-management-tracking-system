@@ -26,10 +26,11 @@ Email: info@dpbennett.com.jm
     <p:toolbar style="margin-bottom: 1px;" >
         <p:toolbarGroup align="left" >  
             <p:commandButton
+                rendered="#{!jobManager.user.can('CreateDirectSubcontract')}"
                 actionListener="#{jobManager.createNewJob}"
                 global="true" 
                 value="New"                                       
-                title="Create new job"
+                title="Create job"
                 icon="pi pi-plus"
                 process="@this">  
 
@@ -38,6 +39,39 @@ Email: info@dpbennett.com.jm
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>
+            <p:menuButton 
+                rendered="#{jobManager.user.can('CreateDirectSubcontract')}"
+                value="New" >
+
+                <p:menuitem
+                    actionListener="#{jobManager.createNewJob}"
+                    global="true" 
+                    value="Job"                                       
+                    title="Create job"
+                    icon="pi pi-plus"
+                    process="@this">  
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{jobManager.createNewSubcontract}"
+                    global="true" 
+                    value="Subcontract"                                       
+                    title="Create direct subcontract"
+                    icon="pi pi-plus"
+                    process="@this">  
+
+                    <p:ajax event="dialogReturn" 
+                            update=":appForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
+
+                </p:menuitem>
+
+            </p:menuButton>
             <p:spacer height="0" width="10"/>
             <p:commandButton value="Approve"  
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             

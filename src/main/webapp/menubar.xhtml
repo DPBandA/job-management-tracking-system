@@ -43,6 +43,21 @@ Email: info@dpbennett.com.jm
 
             </p:menuitem>    
 
+            <p:menuitem
+                actionListener="#{jobManager.createNewSubcontract}"
+                rendered="#{jobManager.user.can('CreateDirectSubcontract')}"
+                global="true" 
+                value="Subcontract"                                       
+                title="Create direct subcontract"
+                icon="pi pi-plus"
+                process="@this">  
+
+                <p:ajax event="dialogReturn" 
+                        update=":appForm:mainTabView"
+                        listener="#{jobManager.jobDialogReturn}" />
+
+            </p:menuitem>
+
             <p:divider />
 
             <p:menuitem value="Job Browser"
@@ -257,7 +272,7 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>
 
-         <p:submenu label="Compliance"                            
+        <p:submenu label="Compliance"                            
                    rendered="#{jobManager.user.hasModule('complianceManager')}"
                    icon="pi pi-check-square" >
 
@@ -397,7 +412,7 @@ Email: info@dpbennett.com.jm
         <p:submenu rendered="#{systemManager.user.hasModule('systemManager')}"
                    label="System" 
                    icon="pi pi-server" >
-            
+
             <p:submenu label="Entity Managers" 
                        icon="pi pi-database" >
 
@@ -411,7 +426,7 @@ Email: info@dpbennett.com.jm
                             update=""/>
 
                 </p:menuitem>
-                
+
                 <p:menuitem value="Financial Management (FM)"
                             title="Edit FM entity manager"
                             icon="pi pi-cog"
@@ -422,7 +437,7 @@ Email: info@dpbennett.com.jm
                             update=""/>
 
                 </p:menuitem>
-                
+
                 <p:menuitem value="Job Management &amp; Tracking System (JMTS)"
                             title="Edit JMTS entity manager"
                             icon="pi pi-cog"
@@ -433,9 +448,9 @@ Email: info@dpbennett.com.jm
                             update=""/>
 
                 </p:menuitem>               
-                              
+
             </p:submenu>
-            
+
             <p:divider />
 
             <p:menuitem 
