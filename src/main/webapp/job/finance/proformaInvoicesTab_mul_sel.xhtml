@@ -62,13 +62,21 @@ Email: info@dpbennett.com.jm
                  rows="15" 
                  reflow="true"
                  rowStyleClass="#{job.rowStyle}"
+                 selection="#{jobFinanceManager.selectedJobs}" 
                  resizableColumns="false"                 
                  paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                  value="#{jobFinanceManager.jobsModel}">
 
+        <p:ajax event="page" global="false" />
+
+        <p:ajax event="rowSelect" global="false" listener="#{jobFinanceManager.onJobCostingSelect}" update="" />
+        <p:ajax event="rowUnselect" global="false" listener="#{jobFinanceManager.onJobCostingUnSelect}" update="" />
+
         <f:facet name="header">
             <h:outputText value="#{jobFinanceManager.searchResultsTableHeader}" />
         </f:facet>
+
+        <p:column selectionMode="multiple" style="text-align:center" />  
 
         <p:column>
             <f:facet name="header">
