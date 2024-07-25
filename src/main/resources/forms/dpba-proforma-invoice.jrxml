@@ -107,7 +107,9 @@ ORDER BY
 	<parameter name="customerAddress" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["6 Winchester Road, Kingston 10."]]></defaultValueExpression>
 	</parameter>
-	<parameter name="totalCost" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="totalCost" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["0.00"]]></defaultValueExpression>
+	</parameter>
 	<parameter name="depositReceiptNumbers" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -162,6 +164,12 @@ ORDER BY
 	</parameter>
 	<parameter name="organizationName" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["D P Bennett & Associates Ltd."]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalHours" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["0.0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="issueDate" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["July 10, 2024"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -341,7 +349,7 @@ WHERE
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="441" splitType="Stretch">
+		<band height="551" splitType="Stretch">
 			<componentElement>
 				<reportElement key="table" positionType="Float" x="0" y="191" width="572" height="47" uuid="eb05ffe1-1f71-42b4-b0a2-701baa825e42">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -446,7 +454,7 @@ WHERE
 									<bottomPen lineWidth="1.0"/>
 									<rightPen lineWidth="1.0"/>
 								</box>
-								<textElement textAlignment="Right">
+								<textElement textAlignment="Center">
 									<paragraph rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{costcomponent_HOURSORQUANTITY}]]></textFieldExpression>
@@ -480,7 +488,7 @@ WHERE
 									<bottomPen lineWidth="1.0"/>
 									<rightPen lineWidth="1.0"/>
 								</box>
-								<textElement textAlignment="Right">
+								<textElement textAlignment="Center">
 									<paragraph rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{costcomponent_RATE}]]></textFieldExpression>
@@ -515,7 +523,7 @@ WHERE
 									<bottomPen lineWidth="1.0"/>
 									<rightPen lineWidth="1.0"/>
 								</box>
-								<textElement textAlignment="Right">
+								<textElement textAlignment="Center">
 									<paragraph rightIndent="2"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{costcomponent_COST}]]></textFieldExpression>
@@ -529,14 +537,14 @@ WHERE
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<box topPadding="1" leftPadding="3" bottomPadding="1" rightPadding="3">
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{totalCost}]]></textFieldExpression>
@@ -545,12 +553,12 @@ WHERE
 				<reportElement positionType="Float" x="0" y="238" width="312" height="16" uuid="c95ff494-0cb6-4f4e-a09a-637bfd476dc1">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<box topPadding="0" leftPadding="3" bottomPadding="0" rightPadding="0">
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="10" isBold="true"/>
@@ -568,7 +576,7 @@ WHERE
 				</reportElement>
 			</rectangle>
 			<staticText>
-				<reportElement x="10" y="30" width="260" height="19" forecolor="#FFFFFF" uuid="2ef0ee73-6cf4-47a1-b761-80e65b345228">
+				<reportElement positionType="Float" x="10" y="30" width="260" height="19" forecolor="#FFFFFF" uuid="2ef0ee73-6cf4-47a1-b761-80e65b345228">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement>
@@ -577,14 +585,14 @@ WHERE
 				<text><![CDATA[PROFORMA INVOICE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="70" width="260" height="19" forecolor="#FFFFFF" uuid="15ddf04f-8f29-4c86-8677-1fa5f5b90a34"/>
+				<reportElement positionType="Float" x="10" y="70" width="260" height="19" forecolor="#FFFFFF" uuid="15ddf04f-8f29-4c86-8677-1fa5f5b90a34"/>
 				<textElement>
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[TRN: 001-784-544]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="100" width="51" height="19" forecolor="#FFFFFF" uuid="fca476e0-a9be-4bc7-aaa8-381621a68b1f">
+				<reportElement positionType="Float" x="10" y="100" width="110" height="19" forecolor="#FFFFFF" uuid="fca476e0-a9be-4bc7-aaa8-381621a68b1f">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement>
@@ -593,17 +601,17 @@ WHERE
 				<text><![CDATA[Issue date:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="61" y="100" width="209" height="19" forecolor="#FFFFFF" uuid="ab35662a-baf8-470b-84a3-a876ed4444ab">
+				<reportElement positionType="Float" x="70" y="100" width="143" height="19" forecolor="#FFFFFF" uuid="ab35662a-baf8-470b-84a3-a876ed4444ab">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box leftPadding="3"/>
 				<textElement>
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{dateAndTimePrepared}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{issueDate}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="300" y="30" width="32" height="20" forecolor="#FFFFFF" uuid="4e618559-c661-4ad8-a323-0472cecb9ec6">
+				<reportElement positionType="Float" x="300" y="30" width="32" height="20" forecolor="#FFFFFF" uuid="4e618559-c661-4ad8-a323-0472cecb9ec6">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -614,7 +622,7 @@ WHERE
 				<text><![CDATA[From: D P Bennett & Associates Limited]]></text>
 			</staticText>
 			<textField textAdjust="ScaleFont">
-				<reportElement x="300" y="50" width="260" height="30" forecolor="#FFFFFF" uuid="f63833de-b1c3-4a39-8f1b-fb85476b71ec">
+				<reportElement positionType="Float" x="300" y="50" width="260" height="30" forecolor="#FFFFFF" uuid="f63833de-b1c3-4a39-8f1b-fb85476b71ec">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -624,7 +632,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{organizationAddress}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="300" y="85" width="20" height="20" forecolor="#FFFFFF" uuid="da1b080d-1a30-4dea-9d9a-a837d1baeeea">
+				<reportElement positionType="Float" x="300" y="85" width="20" height="20" forecolor="#FFFFFF" uuid="da1b080d-1a30-4dea-9d9a-a837d1baeeea">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -634,7 +642,7 @@ WHERE
 				<text><![CDATA[To: Bureau of Standards Jamaica]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="300" y="105" width="260" height="30" forecolor="#FFFFFF" uuid="3fef5e24-4138-44b0-a182-3f41ba5f2b13">
+				<reportElement positionType="Float" x="300" y="105" width="260" height="30" forecolor="#FFFFFF" uuid="3fef5e24-4138-44b0-a182-3f41ba5f2b13">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -644,7 +652,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{customerAddress}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont">
-				<reportElement x="332" y="30" width="228" height="20" forecolor="#FFFFFF" uuid="f3849ef7-66f8-4f2f-85bf-5a580b240aed">
+				<reportElement positionType="Float" x="332" y="30" width="228" height="20" forecolor="#FFFFFF" uuid="f3849ef7-66f8-4f2f-85bf-5a580b240aed">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -655,7 +663,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{organizationName}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="ScaleFont">
-				<reportElement x="320" y="85" width="240" height="20" forecolor="#FFFFFF" uuid="4eb903e8-bb59-45b7-ae5d-0ddd46baf70e">
+				<reportElement positionType="Float" x="320" y="85" width="240" height="20" forecolor="#FFFFFF" uuid="4eb903e8-bb59-45b7-ae5d-0ddd46baf70e">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -665,80 +673,133 @@ WHERE
 				<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement x="0" y="160" width="572" height="20" uuid="dc2527d6-8d12-48ac-893b-f34c120f1cd4"/>
+				<reportElement positionType="Float" x="0" y="160" width="572" height="20" uuid="dc2527d6-8d12-48ac-893b-f34c120f1cd4"/>
 				<textElement markup="html">
 					<font fontName="Times New Roman" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{job_DESCRIPTION}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="385" y="238" width="81" height="16" backcolor="#FFFFFF" uuid="6129247a-b234-4a80-9100-582da3c75c24">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[--]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+				<reportElement positionType="Float" mode="Opaque" x="312" y="238" width="73" height="16" backcolor="#FFFFFF" uuid="c29f4f55-6161-4ac8-b383-92a450e075df">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalHours}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="270" width="572" height="40" uuid="9ac8a094-0511-4ea4-8636-5bc6733056bc"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[This proforma invoice is valid for thirty (30) days from the date issued. The balance of the Total Cost becomes due upon completion of the service provided and the service provider’s report and/or final invoice.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="332" width="572" height="18" uuid="dfb59f2c-586e-4439-8c89-f3eb17bebf47"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[If you have any questions concerning this proforma invoice, please call (876) 289-1644 or send an email to info@dpbennett.com.jm.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="375" width="572" height="20" uuid="d1c7daae-7fdf-4085-a4b9-241130656f3b"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[THANK YOU FOR YOUR BUSINESS!]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="407" width="99" height="18" uuid="e5142b2e-8e57-4a42-bbe1-8eb7b77e07ed"/>
+				<textElement markup="styled">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Desmond P. Bennett]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="442" width="99" height="18" uuid="512df81d-61c6-4ffc-a40c-a6ec71c18e86"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-------------------------]]></text>
+			</staticText>
+			<image>
+				<reportElement positionType="Float" x="1" y="433" width="109" height="20" uuid="961fb681-b674-4101-b6be-b9f6c917a447"/>
+				<imageExpression><![CDATA["http://localhost:8080/img/Signature.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement positionType="Float" x="1" y="461" width="99" height="18" uuid="15c93c23-3c4f-476e-83e7-2e1a661105f1"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Managing Director]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="241">
-			<staticText>
-				<reportElement x="68" y="163" width="89" height="20" uuid="a20655cd-88b9-484e-a6a2-718821b085d3"/>
-				<textElement>
-					<font fontName="SansSerif" size="12"/>
-				</textElement>
-				<text><![CDATA[Authorized by:]]></text>
-			</staticText>
+		<band height="52">
 			<textField>
-				<reportElement x="211" y="221" width="80" height="20" uuid="5902846f-c00a-49f1-9b42-fc3eb2553206"/>
+				<reportElement x="0" y="32" width="80" height="20" uuid="5902846f-c00a-49f1-9b42-fc3eb2553206"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="291" y="221" width="40" height="20" uuid="895722e1-ada4-4098-8eb8-aa429f1c7ba8"/>
+				<reportElement x="80" y="32" width="40" height="20" uuid="895722e1-ada4-4098-8eb8-aa429f1c7ba8"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="157" y="163" width="190" height="20" uuid="0ea1c970-d94f-451b-8efe-3a56707cfa3e">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement>
-					<font fontName="SansSerif" size="12" isUnderline="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{approvedBy}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="347" y="163" width="138" height="20" uuid="6418aee9-bb81-4336-964c-335678e47066">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
-				</box>
-				<textElement>
-					<font fontName="SansSerif" size="12" isUnderline="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{approvalDate}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="157" y="185" width="190" height="16" uuid="e083fe83-f57e-48b6-9609-fa7c432730dd">
+			<rectangle>
+				<reportElement positionType="Float" x="289" y="2" width="280" height="50" backcolor="#666699" uuid="d92d4c30-9c11-4d2f-8fd8-f075ffafbd55">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[Name/Signature]]></text>
+			</rectangle>
+			<staticText>
+				<reportElement positionType="Float" x="297" y="13" width="260" height="15" forecolor="#FFFFFF" uuid="5b43b735-88d2-48ed-a5d3-aa381e2ec4c2">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Addr: 35 Dorado Drive, Kingston 17, Jamaica.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="347" y="184" width="138" height="16" uuid="b84ec65a-2e7f-442b-8ddc-56ec279c1457">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<reportElement positionType="Float" x="297" y="29" width="260" height="12" forecolor="#FFFFFF" uuid="5d9fabe6-92ce-4781-a3c0-86f8a83d2e6a">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[Date]]></text>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Tel: (876) 289-1644, E-mail: info@dpbennett.com.jm]]></text>
 			</staticText>
 		</band>
 	</pageFooter>
