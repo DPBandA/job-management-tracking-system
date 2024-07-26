@@ -532,7 +532,7 @@ WHERE
 					</jr:column>
 				</jr:table>
 			</componentElement>
-			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+			<textField textAdjust="ScaleFont" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Opaque" x="466" y="238" width="106" height="16" backcolor="#FFFFFF" uuid="4ae65019-6e5f-459e-93fb-d7092054b4de">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -696,7 +696,7 @@ WHERE
 				</textElement>
 				<text><![CDATA[--]]></text>
 			</staticText>
-			<textField pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
+			<textField textAdjust="ScaleFont" pattern="#,##0.00;(-#,##0.00)" isBlankWhenNull="true">
 				<reportElement positionType="Float" mode="Opaque" x="312" y="238" width="73" height="16" backcolor="#FFFFFF" uuid="c29f4f55-6161-4ac8-b383-92a450e075df">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -735,7 +735,7 @@ WHERE
 				<text><![CDATA[THANK YOU FOR YOUR BUSINESS!]]></text>
 			</staticText>
 			<staticText>
-				<reportElement positionType="Float" x="0" y="407" width="99" height="18" uuid="e5142b2e-8e57-4a42-bbe1-8eb7b77e07ed"/>
+				<reportElement positionType="Float" x="0" y="407" width="130" height="18" uuid="e5142b2e-8e57-4a42-bbe1-8eb7b77e07ed"/>
 				<textElement markup="styled">
 					<font fontName="Times New Roman" size="12" isBold="false"/>
 				</textElement>
