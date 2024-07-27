@@ -455,9 +455,11 @@ Email: info@dpbennett.com.jm
         </h:panelGroup>
 
         <p:outputLabel value="Instructions *" 
+                       rendered="#{jobManager.currentJob.type == 'Job'}"
                        style="font-weight: bold;vertical-align: top;" />       
         <p:inputTextarea
             id="instructions"
+            rendered="#{jobManager.currentJob.type == 'Job'}"
             value="#{jobManager.currentJob.instructions}"
             disabled="#{jobManager.disableJobDialogField('instructions')}"
             rows="3"
@@ -479,8 +481,10 @@ Email: info@dpbennett.com.jm
                     process="@this"/>
 
         </p:inputTextarea> 
-        <p:outputLabel value="&nbsp;&nbsp;" />
-        <p:outputLabel id="instructCharsRemaining" /> 
+        <p:outputLabel value="&nbsp;&nbsp;" 
+                       rendered="#{jobManager.currentJob.type == 'Job'}" />
+        <p:outputLabel id="instructCharsRemaining" 
+                       rendered="#{jobManager.currentJob.type == 'Job'}" /> 
 
         <p:outputLabel value="Description *" 
                        rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
