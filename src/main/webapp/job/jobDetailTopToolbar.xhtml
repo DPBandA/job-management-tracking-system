@@ -49,11 +49,11 @@ Email: info@dpbennett.com.jm
 
         </p:toolbarGroup>
 
-        <p:toolbarGroup align="right" 
-                        rendered="#{jobManager.currentJob.type == 'Job'}"
+        <p:toolbarGroup align="right"                         
                         style="margin-top: 5px;">  
 
-            <p:menuButton value="Subcontract | Copy"                           
+            <p:menuButton value="Subcontract | Copy"  
+                          rendered="#{jobManager.currentJob.type == 'Job'}"
                           disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                           title="Subcontract the current job by first creating a copy.">
 
@@ -84,9 +84,11 @@ Email: info@dpbennett.com.jm
 
             </p:menuButton>
 
-            <p:spacer width="10" />
+            <p:spacer width="10" 
+                      rendered="#{jobManager.currentJob.type == 'Job'}" />
 
-            <p:menuButton value="Forms" >
+            <p:menuButton value="Forms" 
+                          rendered="#{jobManager.currentJob.type == 'Job'}" >
 
                 <p:menuitem value="Service Contract in Excel"
                             ajax="false" 
@@ -113,7 +115,20 @@ Email: info@dpbennett.com.jm
                 </p:menuitem>
 
             </p:menuButton>
-           
+
+            <p:commandButton value="Export"  
+                             id="exportJobCostingButton2"
+                             disabled="#{jobFinanceManager.canExportJobCosting}"
+                             rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                             immediate="true"
+                             title="Export proforma invoice"                        
+                             ajax="false"
+                             onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
+
+                <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
+
+            </p:commandButton>
+
         </p:toolbarGroup>
 
     </p:toolbar>
