@@ -394,7 +394,7 @@ WHERE
 									<bottomPen lineWidth="0.0"/>
 									<rightPen lineWidth="1.0"/>
 								</box>
-								<textElement textAlignment="Left"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[$V{itemNum}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
