@@ -676,13 +676,6 @@ WHERE
 				</textElement>
 				<textFieldExpression><![CDATA[$F{client_NAME}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight">
-				<reportElement positionType="Float" x="0" y="160" width="572" height="20" uuid="dc2527d6-8d12-48ac-893b-f34c120f1cd4"/>
-				<textElement markup="rtf">
-					<font fontName="SansSerif" size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{job_DESCRIPTION}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement positionType="Float" mode="Opaque" x="385" y="238" width="81" height="16" backcolor="#FFFFFF" uuid="6129247a-b234-4a80-9100-582da3c75c24">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -757,7 +750,7 @@ WHERE
 				<imageExpression><![CDATA[$P{signatureURL}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement positionType="Float" x="1" y="489" width="99" height="18" uuid="15c93c23-3c4f-476e-83e7-2e1a661105f1"/>
+				<reportElement positionType="Float" x="1" y="489" width="129" height="18" uuid="15c93c23-3c4f-476e-83e7-2e1a661105f1"/>
 				<textElement markup="html">
 					<font size="12" isBold="false"/>
 				</textElement>
@@ -769,6 +762,13 @@ WHERE
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{comment}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="150" width="572" height="30" uuid="e2522fc1-046d-4810-b3c5-ea0c476611f6"/>
+				<textElement markup="none">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{job_DESCRIPTION}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

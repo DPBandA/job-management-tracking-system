@@ -156,7 +156,7 @@ Email: info@dpbennett.com.jm
                     <p:inputText rendered="#{!jobFinanceManager.selectedCostComponent.renderFixedCostingComponentFormFields}" 
                                  id="costComponentHoursOrQuantity"
                                  value="#{jobFinanceManager.selectedCostComponent.hoursOrQuantity}"
-                                 styleClass="rightJustify"
+                                 styleClass="number-field"
                                  required="true"
                                  requiredMessage="Hours/Qty Required"
                                  validator="requiredFieldValidator"
@@ -217,7 +217,7 @@ Email: info@dpbennett.com.jm
                                  requiredMessage="Cost Required"
                                  validator="requiredFieldValidator"
                                  converterMessage="Invalid Component Cost"
-                                 styleClass="#{jobFinanceManager.selectedCostComponent.isCostReadOnly ? 'read-only-number-field' : null}">
+                                 styleClass="#{jobFinanceManager.selectedCostComponent.isCostReadOnly ? 'read-only-number-field' : 'number-field'}">
 
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 

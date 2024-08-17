@@ -25,6 +25,33 @@ Email: info@dpbennett.com.jm
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <p:panel id="jobCosting" header="Costing">
+        <p:toolbar>
+            <p:toolbarGroup align="left" style="margin-top: 5px;">  
+
+                <p:commandButton icon="pi pi-dollar"
+                                 value="Job Costing"
+                                 actionListener="#{jobFinanceManager.openJobCostingDialog}"
+                                 process="@this"
+                                 update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
+                                 title="View or edit job costing">
+
+                    <p:ajax event="dialogReturn" 
+                            resetValues="true"
+                            listener="#{jobFinanceManager.jobCostingDialogReturn}"
+                            update=":jobDialogForm:jobDetailToolbar1,jobCosting,cashPayments,:jobDialogForm:growl2"/>
+
+                </p:commandButton> 
+
+            </p:toolbarGroup>
+
+            <p:toolbarGroup align="right"                         
+                            style="margin-top: 5px;">  
+
+
+
+            </p:toolbarGroup>
+
+        </p:toolbar>
         <h:panelGrid columns="3">
             <h:outputLabel value="#{jobManager.currentJob.jobNumberLabel} *"                            
                            style="font-weight: bold;font-size: 14px;" />
@@ -58,7 +85,7 @@ Email: info@dpbennett.com.jm
                              disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                              maxlength="15" >
 
-                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" />
+                    <f:convertNumber  minFractionDigits="2" maxFractionDigits="2" />
 
                     <p:ajax event="change"
                             global="false"
@@ -78,6 +105,7 @@ Email: info@dpbennett.com.jm
             <p:inputText value="#{jobFinanceManager.currentJob.jobCostingAndPayment.minDeposit}"
                          rendered="#{jobManager.currentJob.type == 'Job'}"
                          readonly="#{!jobFinanceManager.canEditJobCosting}"
+                         converterMessage="Please enter a valid minimum deposit."
                          disabled="#{jobManager.disableJobDialogField('costingandpayment')}" 
                          styleClass="#{jobFinanceManager.canEditJobCosting eq true ? 'number-field' : 'read-only-number-field'}"
                          maxlength="15">

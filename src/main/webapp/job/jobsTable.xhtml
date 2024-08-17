@@ -59,7 +59,14 @@ Email: info@dpbennett.com.jm
                 <h:outputText value="Client"/>
             </f:facet>
             <h:outputText value="#{job.client.name}" />
-        </p:column>    
+        </p:column>  
+        
+        <p:column sortBy="#{job.client.name}">
+            <f:facet name="header">
+                <h:outputText value="Assignee"/>
+            </f:facet>
+            <h:outputText value="#{job.assignedTo}" />
+        </p:column>  
 
         <p:column headerText="Instructions" 
                   sortBy="#{job.instructions}"
