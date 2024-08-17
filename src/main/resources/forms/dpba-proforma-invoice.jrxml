@@ -174,9 +174,7 @@ ORDER BY
 	<parameter name="comment" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[" A 30% deposit is required before the commencement of work."]]></defaultValueExpression>
 	</parameter>
-	<parameter name="signatureURL" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["http://localhost:8080/img/Signature.png"]]></defaultValueExpression>
-	</parameter>
+	<parameter name="signatureURL" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
      job.`ID` AS job_ID,

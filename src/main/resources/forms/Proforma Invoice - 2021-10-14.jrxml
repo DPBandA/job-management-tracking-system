@@ -152,6 +152,7 @@ ORDER BY
 		<defaultValueExpression><![CDATA["Enter additional note here"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="responsibleDepartment" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="signatureURL" class="java.lang.String" isForPrompting="false"/>
 	<queryString>
 		<![CDATA[SELECT
      job.`ID` AS job_ID,
