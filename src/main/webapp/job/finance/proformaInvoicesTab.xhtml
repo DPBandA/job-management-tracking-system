@@ -90,6 +90,15 @@ Email: info@dpbennett.com.jm
             </f:facet>
             <h:outputText value="#{job.department.name}" />
         </p:column> 
+        
+        <p:column>
+            <f:facet name="header">
+                <h:outputText value="Issue date"/>
+            </f:facet>
+            <h:outputText value="#{job.jobStatusAndTracking.dateCostingApproved}" >
+                <f:convertDateTime pattern="MMM dd, yyyy"/>
+            </h:outputText>
+        </p:column>
 
         <p:column>
             <f:facet name="header">
