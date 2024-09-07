@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Service Contract" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4a52baad-35f7-495a-a8aa-125da4be7058">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local MySQL"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="Job Samples" uuid="a7e613e8-cf98-4942-94d6-f734eb7f6361">
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="201"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="790"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Local MySQL"/>
+		<parameter name="jobSample_jobId" class="java.lang.Long">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT job.`ID`,
+	job.`JOBNUMBER`,
+	jobsample.`REFERENCE`,
+	jobsample.`NAME`,
+	jobsample.`PRODUCTBRAND`,
+	jobsample.`PRODUCTMODEL`,
+	jobsample.`PRODUCTSERIALNUMBER`,
+	jobsample.`PRODUCTCODE`,
+	concat(jobsample.`PRODUCTSERIALNUMBER`,', ',jobsample.`PRODUCTCODE`) AS PRODSERIALANDCODE,
+	jobsample.`SAMPLEQUANTITY`,
+	jobsample.`QUANTITY`,
+	concat(jobsample.`QUANTITY`,' (',jobsample.`UNITOFMEASURE`, ')') AS PRODQTYANDMEASURE,
+	CASE jobsample.`METHODOFDISPOSAL`
+	 WHEN 2 THEN 'Yes'
+     ELSE 'No'
+   END AS METHODOFDISPOSAL
+FROM job_jobsample
+	INNER JOIN jobsample ON 
+	 job_jobsample.`jobSamples_ID` = jobsample.`ID` 
+	INNER JOIN job ON 
+	 job_jobsample.`Job_ID` = job.`ID` 
+WHERE 
+	 job.`ID` = $P{jobSample_jobId}]]>
+		</queryString>
+		<field name="ID" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="ID"/>
+			<property name="com.jaspersoft.studio.field.label" value="ID"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+		</field>
+		<field name="JOBNUMBER" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="JOBNUMBER"/>
+			<property name="com.jaspersoft.studio.field.label" value="JOBNUMBER"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+		</field>
+		<field name="REFERENCE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="REFERENCE"/>
+			<property name="com.jaspersoft.studio.field.label" value="REFERENCE"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="NAME" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="NAME"/>
+			<property name="com.jaspersoft.studio.field.label" value="NAME"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODUCTBRAND" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRODUCTBRAND"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRODUCTBRAND"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODUCTMODEL" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRODUCTMODEL"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRODUCTMODEL"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODUCTSERIALNUMBER" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRODUCTSERIALNUMBER"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRODUCTSERIALNUMBER"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODUCTCODE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRODUCTCODE"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRODUCTCODE"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODSERIALANDCODE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRODSERIALANDCODE"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRODSERIALANDCODE"/>
+		</field>
+		<field name="SAMPLEQUANTITY" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="SAMPLEQUANTITY"/>
+			<property name="com.jaspersoft.studio.field.label" value="SAMPLEQUANTITY"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="QUANTITY" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.name" value="QUANTITY"/>
+			<property name="com.jaspersoft.studio.field.label" value="QUANTITY"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<field name="PRODQTYANDMEASURE" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="PRODQTYANDMEASURE"/>
+			<property name="com.jaspersoft.studio.field.label" value="PRODQTYANDMEASURE"/>
+		</field>
+		<field name="METHODOFDISPOSAL" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="METHODOFDISPOSAL"/>
+			<property name="com.jaspersoft.studio.field.label" value="METHODOFDISPOSAL"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jobsample"/>
+		</field>
+		<variable name="itemNum" class="java.lang.Long" calculation="Count">
+			<variableExpression><![CDATA[$F{REFERENCE}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="jobId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2001052L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contactPersonName" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="customerAddress" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="totalCost" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="depositReceiptNumbers" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="discount" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="amountDue" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jobDescription" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="deposit" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalTax" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="grandTotalCost" class="java.lang.Double" isForPrompting="false">
+		<defaultValueExpression><![CDATA[0.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="discountType" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Fixed Cost"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalTaxLabel" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["TAX (GCT) ($):"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="grandTotalCostLabel" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["TOTAL COST ($):"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="jobEntryAgent" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="jobEntryDate" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="parentDepartment" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="estimatedTAT" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="estimatedSubTotal" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="estimatedTax" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="estimatedTotalCost" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="minFirstDeposit" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="receiptNumber" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["12345678"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="totalPaid" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["$125,000.00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paymentBreakdownTax" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["$25,000.00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paymentBreakdownJob" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["$100,000.00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="datePaid" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Sep 10, 2021"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="balance" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["$95,000.00"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="paymentTerms" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="agentOrCashier" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="emailAddress" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="contactPhone" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="contactFax" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="typeOfServicesNeeded" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="emailReport" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="expediteJob" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="purchaseOrder" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="clientInstructionForJob" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="clientNameAndBillingAddress" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="businessOffice" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="additionalSampleDetails" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="logoURL" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:/jasperreports/BSJ Logo - H41.png"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     job.`ID` AS job_ID,
+     job.`JOBNUMBER` AS job_JOBNUMBER,
+     department.`NAME` AS department_NAME,
+     client.`ID` AS client_ID,
+     client.`ACTIVE` AS client_ACTIVE,
+     client.`DATEFIRSTRECEIVED` AS client_DATEFIRSTRECEIVED,
+     client.`DATELASTACCESSED` AS client_DATELASTACCESSED,
+     client.`INTERNAL` AS client_INTERNAL,
+     client.`NAME` AS client_NAME,
+     client.`NOTES` AS client_NOTES,
+     client.`NUMBER` AS client_NUMBER,
+     client.`TAG` AS client_TAG,
+     client.`TAXREGISTRATIONNUMBER` AS client_TAXREGISTRATIONNUMBER,
+     client.`TYPE` AS client_TYPE,
+     client.`INTERNET_ID` AS client_INTERNET_ID,
+     job.`REPORTNUMBER` AS job_REPORTNUMBER,
+     jobstatusandtracking.`ID` AS jobstatusandtracking_ID,
+     jobstatusandtracking.`DATESUBMITTED` AS jobstatusandtracking_DATESUBMITTED,
+     jobstatusandtracking.`DATEOFCOMPLETION` AS jobstatusandtracking_DATEOFCOMPLETION,
+     jobcostingandpayment.`PURCHASEORDERNUMBER` AS jobcostingandpayment_PURCHASEORDERNUMBER,
+     employee.`FIRSTNAME` AS employee_FIRSTNAME,
+     employee.`LASTNAME` AS employee_LASTNAME,
+     job.`NUMBEROFSAMPLES` AS job_NUMBEROFSAMPLES,
+     department_A.`NAME` AS department_A_NAME,
+     jobcostingandpayment.`DISCOUNTTYPE` AS jobcostingandpayment_DISCOUNTTYPE
+FROM
+     `department` department INNER JOIN `job` job ON department.`ID` = job.`SUBCONTRACTEDDEPARTMENT_ID`
+     INNER JOIN `client` client ON job.`CLIENT_ID` = client.`ID`
+     INNER JOIN `jobstatusandtracking` jobstatusandtracking ON job.`JOBSTATUSANDTRACKING_ID` = jobstatusandtracking.`ID`
+     INNER JOIN `jobcostingandpayment` jobcostingandpayment ON job.`JOBCOSTINGANDPAYMENT_ID` = jobcostingandpayment.`ID`
+     INNER JOIN `employee` employee ON job.`ASSIGNEDTO_ID` = employee.`ID`
+     INNER JOIN `department` department_A ON job.`DEPARTMENT_ID` = department_A.`ID`
+WHERE
+     job.`ID` = $P{jobId}]]>
+	</queryString>
+	<field name="job_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="ID"/>
+		<property name="com.jaspersoft.studio.field.label" value="job_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="job_JOBNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="JOBNUMBER"/>
+		<property name="com.jaspersoft.studio.field.label" value="job_JOBNUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="department_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="department"/>
+	</field>
+	<field name="client_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="ID"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_ACTIVE" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="ACTIVE"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_ACTIVE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_DATEFIRSTRECEIVED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="DATEFIRSTRECEIVED"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_DATEFIRSTRECEIVED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_DATELASTACCESSED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="DATELASTACCESSED"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_DATELASTACCESSED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_INTERNAL" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="INTERNAL"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_INTERNAL"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_NOTES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOTES"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_NOTES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_NUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NUMBER"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_NUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_TAG" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="TAG"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_TAG"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_TAXREGISTRATIONNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TAXREGISTRATIONNUMBER"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_TAXREGISTRATIONNUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_TYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TYPE"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_TYPE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="client_INTERNET_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="INTERNET_ID"/>
+		<property name="com.jaspersoft.studio.field.label" value="client_INTERNET_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="client"/>
+	</field>
+	<field name="job_REPORTNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="REPORTNUMBER"/>
+		<property name="com.jaspersoft.studio.field.label" value="job_REPORTNUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="jobstatusandtracking_ID" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="ID"/>
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_ID"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATESUBMITTED" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="DATESUBMITTED"/>
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATESUBMITTED"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobstatusandtracking_DATEOFCOMPLETION" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="DATEOFCOMPLETION"/>
+		<property name="com.jaspersoft.studio.field.label" value="jobstatusandtracking_DATEOFCOMPLETION"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobstatusandtracking"/>
+	</field>
+	<field name="jobcostingandpayment_PURCHASEORDERNUMBER" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="PURCHASEORDERNUMBER"/>
+		<property name="com.jaspersoft.studio.field.label" value="jobcostingandpayment_PURCHASEORDERNUMBER"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobcostingandpayment"/>
+	</field>
+	<field name="employee_FIRSTNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FIRSTNAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="employee_FIRSTNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="employee_LASTNAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="LASTNAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="employee_LASTNAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
+	<field name="job_NUMBEROFSAMPLES" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="NUMBEROFSAMPLES"/>
+		<property name="com.jaspersoft.studio.field.label" value="job_NUMBEROFSAMPLES"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="job"/>
+	</field>
+	<field name="department_A_NAME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NAME"/>
+		<property name="com.jaspersoft.studio.field.label" value="department_A_NAME"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="department"/>
+	</field>
+	<field name="jobcostingandpayment_DISCOUNTTYPE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DISCOUNTTYPE"/>
+		<property name="com.jaspersoft.studio.field.label" value="jobcostingandpayment_DISCOUNTTYPE"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jobcostingandpayment"/>
+	</field>
+	<variable name="subContractedDepartment" class="java.lang.String">
+		<variableExpression><![CDATA["(" + $F{department_NAME} + ")"]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="112" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement mode="Transparent" x="26" y="10" width="699" height="86" forecolor="#E83E38" uuid="cea17821-5c8b-4af6-8dac-ec2f2d16d2f8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[THIS SERVICE CONTRACT WAS DECOMMISSIONED. USE THE EXCEL VERSION INSTEAD.]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>
