@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2024  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -34,6 +34,9 @@ Email: info@dpbennett.com.jm
         <ui:include src="../../common/commonDialogs.xhtml"/>  
 
         <h:form id="statusNoteDialogForm" >      
+            
+            <p:focus context="jobStatusNote"/>
+            
             <p:growl id="status_notes_dialog_growl" 
                      life="5000" 
                      showSummary="true"
