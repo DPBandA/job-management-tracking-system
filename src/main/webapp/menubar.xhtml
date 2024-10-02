@@ -234,6 +234,15 @@ Email: info@dpbennett.com.jm
                             actionListener="#{purchasingManager.openSuppliersTab}" 
                             process="@this" />
 
+                <p:divider rendered="#{systemManager.user.can('BeFinancialAdministrator')}" />
+
+                <p:menuitem value="Sequence numbers"
+                            rendered="#{systemManager.user.can('BeFinancialAdministrator')}"
+                            title="Edit sequence numbers"
+                            icon="pi pi-id-card"
+                            actionListener="#{purchasingManager.editSequenceNumbers}" 
+                            process="@this" />
+
             </p:submenu>
 
             <p:divider />
