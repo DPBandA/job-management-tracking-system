@@ -40,7 +40,7 @@ Email: info@dpbennett.com.jm
                     <p:ajax event="dialogReturn" 
                             resetValues="true"
                             listener="#{jobFinanceManager.jobCostingDialogReturn}"
-                            update=":jobDialogForm:jobDetailToolbar1,jobCosting,cashPayments,:jobDialogForm:growl2"/>
+                            update=":jobDialogForm:jobFormTabView:jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1,jobCosting,cashPayments,:jobDialogForm:growl2"/>
 
                 </p:commandButton> 
 
@@ -230,22 +230,9 @@ Email: info@dpbennett.com.jm
                     <p:ajax event="dialogReturn" 
                             resetValues="true"
                             listener="#{jobFinanceManager.jobCostingDialogReturn}"
-                            update=":jobDialogForm:jobDetailToolbar1,jobCosting,cashPayments,:jobDialogForm:growl2"/>
+                            update=":jobDialogForm:jobFormTabView:jobStatusAndTracking,:jobDialogForm:jobDetailToolbar1,jobCosting,cashPayments,:jobDialogForm:growl2"/>
 
-                </p:commandButton> 
-                <ui:remove>
-                    <p:commandButton icon="pi pi-pencil"
-                                     actionListener="#{jobFinanceManager.openJobCostingDialog}"
-                                     update=":jobDialogForm:growl2"                                
-                                     process="@this"
-                                     title="View or edit job costing">
-
-                        <p:ajax event="dialogReturn" 
-                                listener="#{jobFinanceManager.jobCostingDialogReturn}"
-                                update=":jobDialogForm:jobDetailToolbar1,jobCosting,cashPayments,:jobDialogForm:growl2"/>
-
-                    </p:commandButton>  
-                </ui:remove>
+                </p:commandButton>             
             </h:panelGroup>
             <h:outputText value="&nbsp;"/> 
 
