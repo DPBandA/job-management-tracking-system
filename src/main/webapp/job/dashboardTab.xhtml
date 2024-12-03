@@ -1,0 +1,193 @@
+<!--
+Financial Management(FM) 
+Copyright (C) 2024  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+    <p:dashboard model="#{financeManager.dashboardModel}" 
+                 responsive="true">
+
+        <p:panel id="procurementTasks" 
+                 header="Procurement" 
+                 closable="false" >
+            <p:panelGrid columns="2" layout="grid">
+
+                <p:commandButton 
+                    value="New purchase requisition"
+                    actionListener="#{purchasingManager.createNewPurchaseReq}"                                            
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{purchasingManager.purchaseReqDialogReturn}"
+                            update=":appForm:mainTabView:procurementTasksTable"/>
+
+                </p:commandButton>
+
+                <p:commandButton 
+                    value="New goods/services supplier" 
+                    actionListener="#{purchasingManager.addNewSupplier}"                                            
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{purchasingManager.doSupplierSearch}"
+                            update=":appForm:mainTabView:suppliersTable"/>
+
+                </p:commandButton>
+
+                <p:commandButton value="Browse purchase requisitions"
+                                 actionListener="#{purchasingManager.openPurchaseReqsTab}"
+                                 process="@this" />                                
+
+                <p:commandButton value="Browse goods/services suppliers"
+                                 actionListener="#{purchasingManager.openSuppliersTab}"
+                                 process="@this" />
+
+            </p:panelGrid>
+
+            <p:dataTable id="procurementTasksTable"
+                         var="procurementTask"  
+                         widgetVar="procurementTasksTableVar"
+                         emptyMessage="No active purchase requisitions found"
+                         paginator="true"
+                         rows="15"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         value="#{purchasingManager.procurementTasks}">
+
+                <f:facet name="header">
+                    <h:outputText value="Active Purchase Requisitions"/> 
+                </f:facet>
+
+                <p:column>
+                    <p:commandLink actionListener="#{purchasingManager.editSelectedPurchaseReq}"
+                                   global="true"
+                                   value="#{procurementTask.number} - #{procurementTask.description}"
+                                   title="Click to view or edit"
+                                   process="@this">
+
+                        <f:setPropertyActionListener value="#{procurementTask}"                                                                    
+                                                     target="#{purchasingManager.selectedPurchaseRequisition}" />
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{purchasingManager.purchaseReqDialogReturn}"
+                                update=":appForm:mainTabView:procurementTasksTable"/>
+
+                    </p:commandLink>           
+                </p:column>
+            </p:dataTable> 
+
+        </p:panel>
+
+        <p:panel id="inventoryTasks" 
+                 header="Inventory" 
+                 closable="false"  >                
+
+            <p:panelGrid columns="3" layout="grid">
+
+                <p:commandButton 
+                    value="New inventory product"
+                    actionListener="#{inventoryManager.createNewInventoryProduct}"                                            
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{inventoryManager.doInventoryProductSearch}"
+                            update=":appForm:mainTabView:inventoryProductsTable"/>
+
+                </p:commandButton>
+
+                <p:commandButton 
+                    value="New inventory item"
+                    actionListener="#{inventoryManager.createNewInventory}"                                            
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{inventoryManager.inventoryDialogReturn}"
+                            update=":appForm:mainTabView:inventoryTable"/>
+
+                </p:commandButton>  
+
+                <p:commandButton 
+                    value="New inventory requisition"
+                    actionListener="#{inventoryManager.createNewInventoryRequisition}"                                            
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{inventoryManager.inventoryRequisitionDialogReturn}"
+                            update=":appForm:mainTabView:inventoryRequisitionTable"/>
+
+                </p:commandButton> 
+
+                <p:commandButton value="Browse inventory products"
+                                 actionListener="#{inventoryManager.openInventoryProductBrowser}"
+                                 process="@this" />                                  
+
+                <p:commandButton value="Browse inventory items"
+                                 actionListener="#{inventoryManager.openInventoryTab}"
+                                 process="@this" />
+
+                <p:commandButton value="Browse inventory requisitions"
+                                 actionListener="#{inventoryManager.openInventoryRequisitionTab}"
+                                 process="@this" />
+
+            </p:panelGrid>
+
+            <p:dataTable id="inventoryTasksTable"
+                         var="inventoryTask"  
+                         widgetVar="inventoryTasksTableVar"
+                         emptyMessage="No active inventory requisitions found"
+                         paginator="true"
+                         rows="15"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                         value="#{inventoryManager.inventoryTasks}">
+
+                <f:facet name="header">
+                    <h:outputText value="Active Inventory Requisitions"/> 
+                </f:facet>
+
+                <p:column>
+                    <p:commandLink actionListener="#{inventoryManager.editSelectedInventoryRequisition}"
+                                   global="true"
+                                   value="#{inventoryTask.code} - #{inventoryTask.department.name}, #{inventoryTask.contactPerson.name}"
+                                   title="Click to view or edit"
+                                   process="@this">
+
+                        <f:setPropertyActionListener value="#{inventoryTask}"                                                                    
+                                                     target="#{inventoryManager.selectedInventoryRequisition}" />
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{inventoryManager.inventoryRequisitionDialogReturn}"
+                                update=":appForm:mainTabView:inventoryTasksTable"/>
+
+                    </p:commandLink>           
+                </p:column>
+
+            </p:dataTable> 
+
+        </p:panel>
+
+    </p:dashboard>
+
+
+</html>
+
