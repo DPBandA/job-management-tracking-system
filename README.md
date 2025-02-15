@@ -35,5 +35,9 @@ The **Job Management & Tracking System (JMTS)** is a Java EE web application des
    cd job-management-tracking-system
 2. Build the project
    `mvn clean install`
+3. Deploy the WAR file to your application server.
 
-
+## Usage
+1. Open the application in a web browser: http://localhost:8080/jmts
+2. Login using provided credentials.
+3. Manage jobs, track progress, and generate reports.
