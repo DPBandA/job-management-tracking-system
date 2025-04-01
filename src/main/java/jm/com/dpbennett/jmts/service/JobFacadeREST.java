@@ -28,6 +28,7 @@ import jm.com.dpbennett.business.entity.jmts.Job;
 @Path("jobs")
 public class JobFacadeREST extends AbstractFacade<Job> {
 
+    // tk get EM from SM module.
     @PersistenceUnit(unitName = "JMTSPU")
     private EntityManagerFactory EMF;
 
