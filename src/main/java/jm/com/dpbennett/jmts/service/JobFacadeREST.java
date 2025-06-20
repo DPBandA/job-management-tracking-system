@@ -81,7 +81,9 @@ public class JobFacadeREST extends AbstractFacade<Job> {
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
     public String countREST() {
+       
         return String.valueOf(super.count());
+        
     }
 
     @Override
