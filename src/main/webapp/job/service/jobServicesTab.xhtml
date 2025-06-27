@@ -116,7 +116,7 @@ Email: info@dpbennett.com.jm
                     <p:ajax listener="#{jobContractManager.updateServices}" 
                             update="serviceRequested,:jobDialogForm:jobDetailToolbar1" />
 
-                    <f:selectItems value="#{financeManager.services}" 
+                    <f:selectItems value="#{jobContractManager.services}" 
                                    var="service" itemLabel="#{service.name}" 
                                    itemValue="#{service}"/>
 
