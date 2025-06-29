@@ -43,3 +43,28 @@ and monitor job progress while integrating with various business modules.
 1. Open the application in a web browser (e.g. http://localhost:8080/jmts)
 2. Login using provided credentials.
 3. Manage jobs, track progress, and generate reports.
+
+Here’s a clean, effective **Sponsors section** you can add to the bottom of the `README.md` file in the JMTS repository to promote GitHub Sponsors and other funding sources:
+
+## 💖 Support JMTS
+
+JMTS (Job Management & Tracking System) is free and open-source software dedicated to helping teams manage and track jobs efficiently.
+
+If you find JMTS useful, please consider [sponsoring us on GitHub](https://github.com/sponsors/DPBandA) or supporting us via [Open Collective](https://opencollective.com/jmts) or [Liberapay](https://liberapay.com/jmts). Your contributions help us:
+
+* Improve features and usability
+* Provide documentation and support
+* Maintain security and performance
+* Sustain long-term development
+
+### 🙏 Become a Sponsor
+
+| 💚 Supporter | 💙 Contributor | 💜 Team Sponsor | 🟠 Business Sponsor | 🔷 Enterprise Sponsor |
+| ------------ | -------------- | --------------- | ------------------- | --------------------- |
+| \$5/month    | \$15/month     | \$50/month      | \$150/month         | \$500/month           |
+
+➡️ [**Sponsor via GitHub**](https://github.com/sponsors/DPBandA)
+➡️ [**Support via Open Collective**](https://opencollective.com/jmts)
+➡️ [**Donate on Liberapay**](https://liberapay.com/jmts)
+
+Every bit of support helps keep JMTS thriving. Thank you! 💫
