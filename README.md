@@ -50,7 +50,7 @@ Here’s a clean, effective **Sponsors section** you can add to the bottom of th
 
 JMTS (Job Management & Tracking System) is free and open-source software dedicated to helping teams manage and track jobs efficiently.
 
-If you find JMTS useful, please consider [sponsoring us on GitHub](https://github.com/sponsors/DPBandA) or supporting us via [Open Collective](https://opencollective.com/jmts) or [Liberapay](https://liberapay.com/jmts). Your contributions help us:
+If you find JMTS useful, please consider sponsoring us on [GitHub](https://github.com/sponsors/DPBandA) or supporting us via [Open Collective](https://opencollective.com/jmts) or [Liberapay](https://liberapay.com/jmts). Your contributions help us:
 
 * Improve features and usability
 * Provide documentation and support
