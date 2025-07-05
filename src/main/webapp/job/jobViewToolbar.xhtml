@@ -35,7 +35,7 @@ Email: info@dpbennett.com.jm
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
+                        update=":mainTabViewForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>
@@ -52,7 +52,7 @@ Email: info@dpbennett.com.jm
                     process="@this">  
 
                     <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView"
+                            update=":mainTabViewForm:mainTabView"
                             listener="#{jobManager.jobDialogReturn}" />
 
                 </p:menuitem>
@@ -66,7 +66,7 @@ Email: info@dpbennett.com.jm
                     process="@this">  
 
                     <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView"
+                            update=":mainTabViewForm:mainTabView"
                             listener="#{jobManager.jobDialogReturn}" />
 
                 </p:menuitem>
@@ -77,7 +77,7 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
                              title="Approve the selected job costing(s)"
                              actionListener="#{jobFinanceManager.approveSelectedJobCostings}"
-                             update=":appForm:growl3,jobCostingsTable" >                                                                                    
+                             update=":headerForm:growl3,jobCostingsTable" >                                                                                    
             </p:commandButton>
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
 
@@ -88,12 +88,12 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Create invoice(s)"
                             title="Generate invoice(s) for the selected job costing(s)"
                             actionListener="#{jobFinanceManager.invoiceSelectedJobCostings}"
-                            update=":appForm:growl3,jobCostingsTable" />
+                            update=":headerForm:growl3,jobCostingsTable" />
 
                 <p:menuitem value="Export invoice(s)"
                             title="Export invoice(s) for the selected job costing(s)"
                             ajax="false" 
-                            update=":appForm:growl3,jobCostingsTable"
+                            update=":headerForm:growl3,jobCostingsTable"
                             immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.invoicesFile}" />
@@ -105,7 +105,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Export costing(s)(Zip)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
-                            update=":appForm:growl3,jobCostingsTable"
+                            update=":headerForm:growl3,jobCostingsTable"
                             immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.costingsFileAsZip}" />
@@ -115,7 +115,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Export costing(s)(Excel)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
-                            update=":appForm:growl3,jobCostingsTable"
+                            update=":headerForm:growl3,jobCostingsTable"
                             immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.costingsFileAsExcel}" />
@@ -133,7 +133,7 @@ Email: info@dpbennett.com.jm
                                itemValue="#{jobView}"/>
 
                 <p:ajax listener="#{jobManager.updateJobView}"
-                        update="appForm:mainTabView"
+                        update=":mainTabViewForm:mainTabView"
                         global="true"
                         process="@this"/>
             </p:selectOneButton>

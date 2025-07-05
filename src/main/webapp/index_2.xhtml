@@ -1,0 +1,65 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2024  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core" >
+    
+    <h:head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PrimeFlex 2-Column Layout</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@3.3.1/primeflex.css" />
+        <link rel="stylesheet" href="https://unpkg.com/primeicons/primeicons.css" />
+        
+    </h:head>
+    
+    <body class="flex flex-column min-h-screen">
+
+        <!-- Menubar/Header -->
+        <header class="header">
+            <h1>My PrimeFlex App</h1>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex flex-column md:flex-row flex-auto">
+            <!-- Left Sidebar (30%) -->
+            <aside class="sidebar w-full md:w-3 flex-shrink-0">
+                <h2>Sidebar</h2>
+                <p>Navigation or filters go here.</p>
+            </aside>
+
+            <!-- Right Main Area (70%) -->
+            <section class="main w-full md:w-9">
+                <h2>Main Content</h2>
+                <p>This is the main content area.</p>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>2025 My Company. All rights reserved.</p>
+        </footer>
+
+    </body>
+</html>

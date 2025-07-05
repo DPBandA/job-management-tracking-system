@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
                         process="@this" >
 
                 <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
+                        update=":mainTabViewForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:menuitem>    
@@ -53,7 +53,7 @@ Email: info@dpbennett.com.jm
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
+                        update=":mainTabViewForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:menuitem>
@@ -81,7 +81,7 @@ Email: info@dpbennett.com.jm
                 process="@this" >
 
                 <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView:clientsTable" />
+                        update=":mainTabViewForm:mainTabView:clientsTable" />
 
             </p:menuitem>
 
@@ -141,7 +141,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="dialogReturn" 
                                 listener="#{purchasingManager.purchaseReqDialogReturn}"
-                                update=":appForm:mainTabView:purchasereqsTable"/>
+                                update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
 
                     </p:menuitem>
 
@@ -154,7 +154,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="dialogReturn" 
                                 listener="#{purchasingManager.doSupplierSearch}"
-                                update=":appForm:mainTabView:suppliersTable"/>
+                                update=":mainTabViewForm:mainTabView:suppliersTable"/>
 
                     </p:menuitem>
 
@@ -173,7 +173,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="dialogReturn" 
                                 listener="#{inventoryManager.doInventoryProductSearch}"
-                                update=":appForm:mainTabView:inventoryProductsTable"/>
+                                update=":mainTabViewForm:mainTabView:inventoryProductsTable"/>
 
                     </p:menuitem>
 
@@ -186,7 +186,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="dialogReturn" 
                                 listener="#{inventoryManager.inventoryDialogReturn}"
-                                update=":appForm:mainTabView:inventoryTable"/>
+                                update=":mainTabViewForm:mainTabView:inventoryTable"/>
 
                     </p:menuitem>
 
@@ -199,7 +199,7 @@ Email: info@dpbennett.com.jm
 
                         <p:ajax event="dialogReturn" 
                                 listener="#{inventoryManager.inventoryRequisitionDialogReturn}"
-                                update=":appForm:mainTabView:inventoryRequisitionTable"/>
+                                update=":mainTabViewForm:mainTabView:inventoryRequisitionTable"/>
 
                     </p:menuitem>
 
@@ -291,81 +291,81 @@ Email: info@dpbennett.com.jm
                 <p:menuitem
                     actionListener="#{complianceManager.createNewComplianceSurvey}"
                     value="Survey"       
-                    update=":appForm:growl3"
+                    update=":headerForm:growl3"
                     title="Add a new survey"
                     icon="pi pi-plus"
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
                             listener="#{complianceManager.surveyDialogReturn}"
-                            update=":appForm:mainTabView,:appForm:growl3" />
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
 
                 </p:menuitem>
 
                 <p:menuitem
                     actionListener="#{complianceManager.createNewDocumentStandard}"
                     value="Standard"       
-                    update="appForm:growl3"
+                    update="headerForm:growl3"
                     title="Add a new standard"
                     icon="pi pi-plus"
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView,:appForm:growl3" />
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
 
                 </p:menuitem>
 
                 <p:menuitem
                     actionListener="#{complianceManager.createNewComplaint}"
                     value="Complaint"       
-                    update="appForm:growl3"
+                    update="headerForm:growl3"
                     title="Add a new complaint"
                     icon="pi pi-plus"
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
                             listener="#{complianceManager.complaintDialogReturn}"
-                            update=":appForm:mainTabView,:appForm:growl3" />
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
 
                 </p:menuitem>
 
                 <p:menuitem
                     actionListener="#{complianceManager.createNewMarketProduct}"
                     value="Market Product"       
-                    update="appForm:growl3"
+                    update="headerForm:growl3"
                     title="Add a new market product"
                     icon="pi pi-plus"
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView,:appForm:growl3" />
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
 
                 </p:menuitem>
 
                 <p:menuitem
                     actionListener="#{humanResourceManager.createNewManufacturer}"
                     value="Manufacturer"       
-                    update="appForm:growl3"
+                    update="headerForm:growl3"
                     title="Add a new manufacturer"
                     icon="pi pi-plus"
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
-                            update=":appForm:mainTabView,:appForm:growl3" />
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
 
                 </p:menuitem>
 
                 <p:menuitem
                     actionListener="#{complianceManager.createNewFactoryInspection}"
                     value="Factory Inspection"       
-                    update="appForm:growl3"
+                    update="headerForm:growl3"
                     title="Add a new factory inspection"
                     icon="pi pi-plus"
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
                             listener="#{complianceManager.factoryInspectionDialogReturn}"
-                            update=":appForm:mainTabView,:appForm:growl3" />
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
 
                 </p:menuitem>
             </p:submenu>

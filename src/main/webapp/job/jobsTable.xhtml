@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
 
         <p:ajax event="cellEdit" 
                 global="false"
-                update=":appForm:growl3"  
+                update=":headerForm:growl3"  
                 listener="#{jobManager.onJobCellEdit}" />
 
         <p:ajax event="page" global="false" />
@@ -151,7 +151,7 @@ Email: info@dpbennett.com.jm
                                              target="#{jobManager.editCurrentJob}" />
 
                 <p:ajax event="dialogReturn" 
-                        update=":appForm:mainTabView"
+                        update=":mainTabViewForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
 
@@ -175,14 +175,14 @@ Email: info@dpbennett.com.jm
                                                          target="#{jobManager.editCurrentJob}" />
 
                             <p:ajax event="dialogReturn" 
-                                    update=":appForm:mainTabView"
+                                    update=":mainTabViewForm:mainTabView"
                                     listener="#{jobManager.jobDialogReturn}" />
               
                     </p:menuitem>
 
                     <p:menuitem  
                             value="Copy"   
-                            update=":appForm:growl3"
+                            update=":headerForm:growl3"
                             icon="pi pi-copy"
                             process="@this">
 
@@ -190,7 +190,7 @@ Email: info@dpbennett.com.jm
                                                          target="#{jobManager.editCurrentJob}" />
 
                             <p:ajax event="dialogReturn" 
-                                    update=":appForm:mainTabView"
+                                    update=":mainTabViewForm:mainTabView"
                                     listener="#{jobManager.jobDialogReturn}" />
 
                     </p:menuitem>
