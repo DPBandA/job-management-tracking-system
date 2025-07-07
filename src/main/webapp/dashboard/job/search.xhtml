@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2017  D P Bennett & Associates Limited
+Copyright (C) 2025  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -27,7 +27,7 @@ Email: info@dpbennett.com.jm
     <p:panel id="jobSearchPanel" header="Search" >
 
         <div class="field">
-            <h:outputText value="Search type" style="margin-right: 5px;" />
+            <h:outputText value="Search type" style="margin-right: 5px;font-weight: bold;" />
             <p:selectOneMenu value="#{jobManager.searchType}" >
 
                 <f:selectItems value="#{jobManager.groupedSearchTypes}" />
@@ -36,7 +36,7 @@ Email: info@dpbennett.com.jm
         </div>
 
         <div class="field">
-            <h:outputText value="Date field" style="margin-right: 5px;" />
+            <h:outputText value="Date field" style="margin-right: 5px;font-weight: bold;" />
             <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
                              id="jobDateField"
                              title="Select the date field on which to search" >
@@ -46,7 +46,7 @@ Email: info@dpbennett.com.jm
         </div>
 
         <div class="field">
-            <h:outputText value="Date period" style="margin-right: 5px;"/>               
+            <h:outputText value="Date period" style="margin-right: 5px;font-weight: bold;"/>               
             <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}"
                              id="jobDatePeriod"
                              title="Select the date period">
@@ -62,7 +62,7 @@ Email: info@dpbennett.com.jm
         </div>
 
         <div class="field">
-            <h:outputText value="Start" style="margin-right: 5px;" />
+            <h:outputText value="Start" style="margin-right: 5px;font-weight: bold;" />
             <p:calendar value="#{jobManager.dateSearchPeriod.startDate}"  
                         id="jobStartSearchDate"
                         title="Select or enter the start of the date period"
@@ -75,7 +75,7 @@ Email: info@dpbennett.com.jm
         </div>
 
         <div class="field">
-            <h:outputText value="End" style="margin-right: 5px;" />
+            <h:outputText value="End" style="margin-right: 5px;font-weight: bold;" />
             <p:calendar value="#{jobManager.dateSearchPeriod.endDate}"
                         id="jobEndSearchDate"
                         title="Select or enter the end of the date period"

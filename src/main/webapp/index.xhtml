@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2024  D P Bennett & Associates Limited
+Copyright (C) 2025  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -30,7 +30,7 @@ Email: info@dpbennett.com.jm
         <title>#{jobManager.applicationHeader}</title>         
         <script type="text/javascript" src="js/javascripts.js" /> 
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="css/main.css" /> 
+        <link rel="stylesheet" type="text/css" href="css/main.css" />      
     </h:head>
 
     <h:body id="appBody" style="margin: 0;" class="flex flex-column min-h-screen">
@@ -40,14 +40,13 @@ Email: info@dpbennett.com.jm
         <ui:include src="common/userProfileDialog.xhtml"/> 
 
         <p:panel rendered="#{jobManager.userLoggedIn}">
-            
+
             <h:form id="headerForm" rendered="#{jobManager.userLoggedIn}">
 
                 <p:growl id="growl3" life="5000" showDetail="true" />
 
-                <!-- Menubar/Header -->
+                <!-- Header -->
                 <header>
-
                     <div class="col-12 col-nogutter">
                         <div class="grid">
                             <div class="col-12 md:col-3">
@@ -129,20 +128,17 @@ Email: info@dpbennett.com.jm
                     </div>     
 
                 </header>
-
+                
             </h:form>
 
             <!-- Main Content Area -->
             <main class="flex flex-column md:flex-row flex-auto">                  
                 <!-- Left Sidebar (30%) -->
-                <aside class="w-full md:w-4 flex-shrink-0">
+                <aside class="w-full md:w-3 flex-shrink-0">
 
                     <h:form id="dashboardForm" rendered="#{jobManager.userLoggedIn}" > 
-                        
-                        <p:panel header="Dashboard">
 
-                            <p:defaultCommand id="defaultCmd"
-                                              target="#{systemManager.defaultCommandTarget}" />
+                        <p:panel header="Dashboard">
 
                             <p:accordionPanel id="dashboardAccordion" 
                                               value="#{systemManager.dashboard.tabs}" 
@@ -159,9 +155,15 @@ Email: info@dpbennett.com.jm
 
                                 <p:tab title="#{t.name}" >
 
+                                    <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
+
                                     <h:panelGroup rendered="#{t.id == 'Job Management'}">
                                         <ui:include src="dashboard/job/jobsTab.xhtml" />
                                     </h:panelGroup>
+
+                                    <h:panelGroup rendered="#{t.id == 'System Administration'}" >
+                                        <ui:include src="dashboard/admin/generalAdminTab.xhtml" /> 
+                                    </h:panelGroup>  
 
                                 </p:tab>   
 
@@ -174,17 +176,16 @@ Email: info@dpbennett.com.jm
                 </aside>
 
                 <!-- Right Main Area (70%) -->
-                <section class="w-full md:w-8">
-                    
-                    <h:form id="mainTabViewForm" rendered="#{jobManager.userLoggedIn}">  
-                        
+                <section class="w-full md:w-9">
+
+                    <h:form id="mainTabViewForm" rendered="#{jobManager.userLoggedIn}"> 
+
                         <p:panel>
+
                             <div class="grid">
                                 <div class="col-12">
 
-                                    <ui:remove>
-                                        <ui:include src="menubar.xhtml" /> 
-                                    </ui:remove>
+                                    <ui:include src="menubar.xhtml" /> 
 
                                     <p:tabView id="mainTabView"  
                                                rendered="#{jobManager.mainTabView.render}"
@@ -206,21 +207,91 @@ Email: info@dpbennett.com.jm
 
                                         <p:tab title="#{t.name}" closable="true"  >
 
+                                            <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
+
                                             <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
                                                 <ui:include src="job/jobBrowser.xhtml" /> 
                                             </h:panelGroup>
+
+                                            <h:panelGroup rendered="#{t.id == 'System Administration'}" >
+                                                <ui:include src="admin/generalAdminTab.xhtml" /> 
+                                            </h:panelGroup>  
+
+                                            <ui:remove>
+
+                                                <h:panelGroup rendered="#{t.id == 'Proforma Invoices'}">                                
+                                                    <ui:include src="job/finance/proformaInvoicesTab.xhtml" /> 
+                                                </h:panelGroup>
+
+                                                <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
+                                                    <ui:include src="finance/financialAdminTab.xhtml" /> 
+                                                </h:panelGroup> 
+
+                                                <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
+                                                    <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Inventory'}" >
+                                                    <ui:include src="finance/ims/inventoryTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Inventory Requisitions'}" >
+                                                    <ui:include src="finance/ims/inventoryRequisitionTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
+                                                    <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Inventory Products'}" >
+                                                    <ui:include src="finance/ims/inventoryProductBrowser.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Market Products'}" >
+                                                    <ui:include src="finance/marketProductBrowser.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
+                                                    <ui:include src="hr/hrmTab.xhtml" /> 
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Clients'}" >
+                                                    <ui:include src="client/clientsTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Report Templates'}" >
+                                                    <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
+                                                </h:panelGroup>   
+
+                                                <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
+                                                    <ui:include src="compliance/survey/surveyBrowser.xhtml" /> 
+                                                </h:panelGroup> 
+
+                                                <h:panelGroup  rendered="#{t.id == 'Complaint Browser'}">
+                                                    <ui:include src="compliance/complaint/complaintBrowser.xhtml" /> 
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Standard Browser'}" >
+                                                    <ui:include src="compliance/standard/standardBrowser.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
+                                                    <ui:include src="compliance/factory/factoryInspectionsTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                            </ui:remove>
 
                                         </p:tab>
 
                                     </p:tabView> 
 
                                 </div> 
-                                
+
                             </div>            
                         </p:panel>
-                        
+
                     </h:form>
-                    
+
                 </section>
             </main>
 
