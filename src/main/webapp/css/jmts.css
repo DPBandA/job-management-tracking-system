@@ -1,0 +1,33 @@
+
+.ui-toolbar, .ui-panel-titlebar, .ui-menubar, .ui-panel, .ui-scrollpanel, 
+.ui-accordion-content, .ui-accordion-header,
+.ui-panel-content, .ui-overlaypanel {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.ui-sticky {
+    top: 0px !important;
+}
+
+@media (max-width: 960px) {
+    .ui-sticky {
+        top: 0px !important;
+    }
+}
+
+.custom-scrolltop.ui-scrolltop {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 4px;
+    outline: 0 none;
+    background-color: var(--primary-color);
+}
+.custom-scrolltop.ui-scrolltop:hover {
+    background-color: var(--primary-color);
+}
+
+.custom-scrolltop.ui-scrolltop .ui-scrolltop-icon {
+    font-size: 1rem;
+    color: var(--primary-color-text);
+}

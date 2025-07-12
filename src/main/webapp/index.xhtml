@@ -30,35 +30,8 @@ Email: info@dpbennett.com.jm
         <title>#{jobManager.applicationHeader}</title>         
         <script type="text/javascript" src="js/javascripts.js" /> 
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="css/main.css" />   
-        <style>
-
-            .ui-sticky {
-                top: 0px !important;
-            }
-            @media (max-width: 960px) {
-                .ui-sticky {
-                    top: 0px !important;
-                }
-            }
-
-            .custom-scrolltop.ui-scrolltop {
-                width: 2rem;
-                height: 2rem;
-                border-radius: 4px;
-                outline: 0 none;
-                background-color: var(--primary-color);
-            }
-            .custom-scrolltop.ui-scrolltop:hover {
-                background-color: var(--primary-color);
-            }
-
-            .custom-scrolltop.ui-scrolltop .ui-scrolltop-icon {
-                font-size: 1rem;
-                color: var(--primary-color-text);
-            }
-
-        </style>
+        <link rel="stylesheet" type="text/css" href="css/main.css" /> 
+        <link rel="stylesheet" type="text/css" href="css/jmts.css" /> 
     </h:head>
 
     <h:body id="appBody" style="margin: 0;" class="flex flex-column min-h-screen">
@@ -97,7 +70,12 @@ Email: info@dpbennett.com.jm
 
                                 </h:panelGrid>
                             </div>    
-                            <div class="col-12 md:col-6"></div>  
+                            <div class="col-12 md:col-6">
+                                <p:outputPanel>
+                                    <h:outputText value="#{jobManager.lastSystemNotificationContent}" 
+                                                  escape="false" />
+                                </p:outputPanel>                          
+                            </div>  
                             <div class="col-12 md:col-3">
                                 <h:panelGroup style="float: right;" >
 
@@ -112,7 +90,7 @@ Email: info@dpbennett.com.jm
                                                          icon="pi pi-bell" />
                                         <p:overlayPanel for="notifications"   
                                                         widgetVar="NotificationPanelVar"
-                                                        style="width:400px;border: 0;">
+                                                        style="width:400px;">
                                             <p:orderList value="#{jobManager.notifications}" 
                                                          var="notification" 
                                                          itemValue="#{notification}"
@@ -158,7 +136,9 @@ Email: info@dpbennett.com.jm
                     </div>     
                 </p:panel>
 
-            </h:form>        
+            </h:form>     
+
+            <p:divider/>
 
             <!-- Main Content Area -->
             <p:scrollPanel mode="native">
@@ -170,6 +150,8 @@ Email: info@dpbennett.com.jm
                         <h:form id="dashboardForm" rendered="#{jobManager.userLoggedIn}" > 
 
                             <p:panel header="Dashboard">
+
+                                <p:divider style="margin-top: 0;"/>
 
                                 <p:accordionPanel id="dashboardAccordion" 
                                                   value="#{jobManager.dashboard.tabs}" 
@@ -190,6 +172,10 @@ Email: info@dpbennett.com.jm
 
                                         <h:panelGroup rendered="#{t.id == 'Job Management'}">
                                             <ui:include src="dashboard/job/jobsTab.xhtml" />
+                                        </h:panelGroup>
+
+                                        <h:panelGroup rendered="#{t.id == 'Human Resource'}">
+                                            <ui:include src="dashboard/hr/hrmTab.xhtml" />
                                         </h:panelGroup>
 
                                         <h:panelGroup rendered="#{t.id == 'System Administration'}" >
@@ -244,6 +230,10 @@ Email: info@dpbennett.com.jm
                                                     <ui:include src="job/jobBrowser.xhtml" /> 
                                                 </h:panelGroup>
 
+                                                <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
+                                                    <ui:include src="hr/hrmTab.xhtml" /> 
+                                                </h:panelGroup>
+
                                                 <h:panelGroup rendered="#{t.id == 'System Administration'}" >
                                                     <ui:include src="admin/generalAdminTab.xhtml" /> 
                                                 </h:panelGroup>  
@@ -280,10 +270,6 @@ Email: info@dpbennett.com.jm
 
                                                     <h:panelGroup rendered="#{t.id == 'Market Products'}" >
                                                         <ui:include src="finance/marketProductBrowser.xhtml" />                                                                
-                                                    </h:panelGroup>
-
-                                                    <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
-                                                        <ui:include src="hr/hrmTab.xhtml" /> 
                                                     </h:panelGroup>
 
                                                     <h:panelGroup rendered="#{t.id == 'Clients'}" >
@@ -333,6 +319,8 @@ Email: info@dpbennett.com.jm
 
             </p:scrollPanel>
 
+            <p:divider/>
+
             <!-- Footer -->
             <h:form rendered="#{jobManager.userLoggedIn}" >
                 <footer class="footer">
@@ -361,7 +349,7 @@ Email: info@dpbennett.com.jm
                         global="false"
                         onerror="PF('connectionErrorDialog').show();"
                         listener="#{jobManager.handleKeepAlive}" />
-                
+
             </h:form>
 
         </p:panel>

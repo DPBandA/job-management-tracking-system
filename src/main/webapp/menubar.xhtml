@@ -68,6 +68,12 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>
 
+        <p:menuitem value="Human Resource"
+                    title="Human resource management"
+                    rendered="#{systemManager.user.hasModule('humanResourceManager')}"
+                    icon="pi pi-users"
+                    actionListener="#{humanResourceManager.openHumanResourceBrowser}" /> 
+
         <p:divider layout="vertical"/>
 
         <p:menuitem 
@@ -403,13 +409,7 @@ Email: info@dpbennett.com.jm
                             icon="pi pi-copy"
                             process="@this"/>
 
-            </p:submenu>
-
-            <p:menuitem value="Human Resource"
-                        title="Human resource management"
-                        rendered="#{systemManager.user.hasModule('humanResourceManager')}"
-                        icon="pi pi-users"
-                        actionListener="#{humanResourceManager.openHumanResourceBrowser}" /> 
+            </p:submenu>          
 
             <p:submenu label="Reports" 
                        icon="pi pi-chart-bar" >  

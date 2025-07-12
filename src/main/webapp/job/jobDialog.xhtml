@@ -53,7 +53,9 @@ Email: info@dpbennett.com.jm
                     <ui:include src="service/jobServicesTab.xhtml"/>
                 </p:tab>
 
-                <p:tab title="Samples" rendered="#{jobManager.enableJobDialogTab('Samples')}">
+                <p:tab title="Samples" 
+                       disabled="false"
+                       rendered="#{jobManager.enableJobDialogTab('Samples')}">
                     <ui:include src="sample/jobSamplesTab.xhtml"/>
                 </p:tab>
 
