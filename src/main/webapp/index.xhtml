@@ -71,8 +71,9 @@ Email: info@dpbennett.com.jm
                                 </h:panelGrid>
                             </div>    
                             <div class="col-12 md:col-6">
-                                <p:outputPanel>
-                                    <h:outputText value="#{jobManager.lastSystemNotificationContent}" 
+                                <p:outputPanel style="text-align: center;">
+                                    <h:outputText value="#{jobManager.lastSystemNotificationContent}"                                                   
+                                                  style="font-size: 1em;"
                                                   escape="false" />
                                 </p:outputPanel>                          
                             </div>  
@@ -329,16 +330,20 @@ Email: info@dpbennett.com.jm
                             <p:toolbar>
                                 <p:toolbarGroup align="left">
 
-                                    <p:outputLabel value=" &copy; #{jobManager.copyrightOrganization}"   
-                                                   onclick="window.open('#{jobManager.organizationWebsite}');"
-                                                   class="header-text" />
+                                   <p:link href="#{jobManager.organizationWebsite}"
+                                            value="&copy; #{jobManager.copyrightOrganization}">
+                                    </p:link>
 
                                 </p:toolbarGroup>
 
                                 <p:toolbarGroup align="right">
-                                    <p:outputLabel value="#{jobManager.applicationFooter}" 
-                                                   class="header-text" />
+                                                                        
+                                    <p:link href="#{jobManager.supportURL}"
+                                            value="#{jobManager.applicationFooter}">
+                                    </p:link>
+                                    
                                 </p:toolbarGroup>
+                                
                             </p:toolbar>
 
                         </div>
