@@ -175,6 +175,10 @@ Email: info@dpbennett.com.jm
                                             <ui:include src="dashboard/job/jobsTab.xhtml" />
                                         </h:panelGroup>
 
+                                        <h:panelGroup rendered="#{t.id == 'Clients'}">
+                                            <ui:include src="dashboard/cm/cmTab.xhtml" />
+                                        </h:panelGroup>
+
                                         <h:panelGroup rendered="#{t.id == 'Human Resource'}">
                                             <ui:include src="dashboard/hr/hrmTab.xhtml" />
                                         </h:panelGroup>
@@ -235,6 +239,10 @@ Email: info@dpbennett.com.jm
                                                     <ui:include src="job/jobBrowser.xhtml" /> 
                                                 </h:panelGroup>
 
+                                                <h:panelGroup rendered="#{t.id == 'Clients'}" >
+                                                    <ui:include src="client/clientsTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
                                                 <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
                                                     <ui:include src="hr/hrmTab.xhtml" /> 
                                                 </h:panelGroup>
@@ -276,10 +284,6 @@ Email: info@dpbennett.com.jm
                                                 </h:panelGroup>
 
                                                 <ui:remove>
-
-                                                    <h:panelGroup rendered="#{t.id == 'Clients'}" >
-                                                        <ui:include src="client/clientsTab.xhtml" />                                                                
-                                                    </h:panelGroup>
 
                                                     <h:panelGroup rendered="#{t.id == 'Report Templates'}" >
                                                         <ui:include src="report/reportTemplatesTab.xhtml" />                                                               

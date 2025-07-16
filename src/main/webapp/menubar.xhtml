@@ -68,6 +68,41 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>
 
+        <p:submenu label="Clients" 
+                   icon="pi pi-users" >
+
+            <p:menuitem
+                actionListener="#{clientManager.createNewClient}"                
+                rendered="#{jobManager.user.can('AddClient')}"
+                global="true" 
+                value="Client"
+                title="Create new client"
+                icon="pi pi-plus"
+                process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:clientsTable" />
+
+            </p:menuitem>
+
+            <p:divider />
+
+            <p:menuitem value="Client Management"
+                        title="Open the Clients tab"
+                        icon="pi pi-users"
+                        actionListener="#{jobManager.openClientsTab}" 
+                        process="@this" />
+
+            <p:divider />
+
+            <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
+                        value="Client Credit Status"
+                        icon="pi pi-thumbs-up"
+                        title="Check client's credit status"
+                        update=""
+                        process="@this" /> 
+        </p:submenu>     
+
         <p:submenu label="Finance" 
                    icon="pi pi-fw pi-dollar" >
 
@@ -255,41 +290,6 @@ Email: info@dpbennett.com.jm
             icon="pi pi-server" />   
 
         <ui:remove>
-
-            <p:submenu label="Clients" 
-                       icon="pi pi-users" >
-
-                <p:menuitem
-                    actionListener="#{clientManager.createNewClient}"                
-                    rendered="#{jobManager.user.can('AddClient')}"
-                    global="true" 
-                    value="Client"
-                    title="Create new client"
-                    icon="pi pi-plus"
-                    process="@this" >
-
-                    <p:ajax event="dialogReturn" 
-                            update=":mainTabViewForm:mainTabView:clientsTable" />
-
-                </p:menuitem>
-
-                <p:divider />
-
-                <p:menuitem value="Client Management"
-                            title="Open the Clients tab"
-                            icon="pi pi-users"
-                            actionListener="#{jobManager.openClientsTab}" 
-                            process="@this" />
-
-                <p:divider />
-
-                <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
-                            value="Client Credit Status"
-                            icon="pi pi-thumbs-up"
-                            title="Check client's credit status"
-                            update=""
-                            process="@this" /> 
-            </p:submenu>            
 
             <p:submenu label="Compliance"                            
                        rendered="#{jobManager.user.hasModule('complianceManager')}"
