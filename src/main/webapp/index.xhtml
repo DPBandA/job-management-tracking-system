@@ -46,6 +46,45 @@ Email: info@dpbennett.com.jm
 
             <h:form id="headerForm" rendered="#{jobManager.userLoggedIn}">
 
+                <p:sidebar widgetVar="sidebar1" style="z-index: 1000">
+
+                    <p:panel >
+
+                        <f:facet name="header">
+                            <h:panelGroup layout="block" style="display: flex; align-items: center;">
+
+                                <p:graphicImage value="#{jobManager.logoURL}"
+                                                width="30" height="30" 
+                                                style="margin-right: 0.5em;"/>
+
+                            </h:panelGroup>
+                        </f:facet>
+
+                        <p:menu style="border: 0;">
+
+                            <p:menuitem value="Website"
+                                        url="https://dpbennett.com.jm/jmts/"
+                                        icon="pi pi-globe"/>
+                            <p:menuitem value="User Guide" 
+                                        url="https://dpbennett.com.jm/jmts-doc"
+                                        icon="pi pi-file"/>
+                            <p:menuitem value="Ticket" 
+                                        disabled="true"
+                                        icon="pi pi-ticket"/>
+
+                            <p:divider />
+
+                            <p:menuitem value="Logout" 
+                                        actionListener="#{jobManager.logout}"
+                                        oncomplete="location.reload();"
+                                        icon="pi pi-sign-out"/>
+
+                        </p:menu>
+
+                    </p:panel>
+
+                </p:sidebar>
+
                 <p:growl id="growl3" life="5000" showDetail="true" />
 
                 <!-- Header -->
@@ -53,7 +92,13 @@ Email: info@dpbennett.com.jm
 
                     <div class="col-12 col-nogutter">
                         <div class="grid">
-                            <div class="col-12 md:col-3">
+                            <div class="col-12 md:col-4">
+                                <h:panelGroup style="float: left;margin-right: 10px;" >
+                                    <p:commandButton styleClass="ui-button-outlined"
+                                                     rendered="true"
+                                                     onclick="PF('sidebar1').show()"
+                                                     icon="pi pi-bars" />
+                                </h:panelGroup>
                                 <h:panelGroup style="float: left;margin-right: 10px;" >
                                     <p:graphicImage value="#{jobManager.logoURL}"
                                                     class="logo"
@@ -70,14 +115,14 @@ Email: info@dpbennett.com.jm
 
                                 </h:panelGrid>
                             </div>    
-                            <div class="col-12 md:col-6">
+                            <div class="col-12 md:col-4">
                                 <p:outputPanel style="text-align: center;">
                                     <h:outputText value="#{jobManager.lastSystemNotificationContent}"                                                   
                                                   style="font-size: 1em;"
                                                   escape="false" />
                                 </p:outputPanel>                          
                             </div>  
-                            <div class="col-12 md:col-3">
+                            <div class="col-12 md:col-4">
                                 <h:panelGroup style="float: right;" >
 
                                     <p:badge value="#{jobManager.sizeOfActiveNotifications}" 
@@ -137,6 +182,8 @@ Email: info@dpbennett.com.jm
                     </div>     
                 </p:panel>
 
+                <p:sticky target="header"/>
+
             </h:form>     
 
             <p:divider/>
@@ -173,6 +220,10 @@ Email: info@dpbennett.com.jm
 
                                         <h:panelGroup rendered="#{t.id == 'Job Management'}">
                                             <ui:include src="dashboard/job/jobsTab.xhtml" />
+                                        </h:panelGroup>
+
+                                        <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
+                                            <ui:include src="dashboard/sc/scTab.xhtml" />
                                         </h:panelGroup>
 
                                         <h:panelGroup rendered="#{t.id == 'Client Management'}">
@@ -283,29 +334,25 @@ Email: info@dpbennett.com.jm
                                                     <ui:include src="finance/marketProductBrowser.xhtml" />                                                                
                                                 </h:panelGroup>
 
-                                                <ui:remove>
+                                                <h:panelGroup rendered="#{t.id == 'Report Templates'}" >
+                                                    <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
+                                                </h:panelGroup>   
 
-                                                    <h:panelGroup rendered="#{t.id == 'Report Templates'}" >
-                                                        <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
-                                                    </h:panelGroup>   
+                                                <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
+                                                    <ui:include src="compliance/survey/surveyBrowser.xhtml" /> 
+                                                </h:panelGroup> 
 
-                                                    <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
-                                                        <ui:include src="compliance/survey/surveyBrowser.xhtml" /> 
-                                                    </h:panelGroup> 
+                                                <h:panelGroup  rendered="#{t.id == 'Complaint Browser'}">
+                                                    <ui:include src="compliance/complaint/complaintBrowser.xhtml" /> 
+                                                </h:panelGroup>
 
-                                                    <h:panelGroup  rendered="#{t.id == 'Complaint Browser'}">
-                                                        <ui:include src="compliance/complaint/complaintBrowser.xhtml" /> 
-                                                    </h:panelGroup>
+                                                <h:panelGroup rendered="#{t.id == 'Standard Browser'}" >
+                                                    <ui:include src="compliance/standard/standardBrowser.xhtml" />                                                                
+                                                </h:panelGroup>
 
-                                                    <h:panelGroup rendered="#{t.id == 'Standard Browser'}" >
-                                                        <ui:include src="compliance/standard/standardBrowser.xhtml" />                                                                
-                                                    </h:panelGroup>
-
-                                                    <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
-                                                        <ui:include src="compliance/factory/factoryInspectionsTab.xhtml" />                                                                
-                                                    </h:panelGroup>
-
-                                                </ui:remove>
+                                                <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
+                                                    <ui:include src="compliance/factory/factoryInspectionsTab.xhtml" />                                                                
+                                                </h:panelGroup>
 
                                             </p:tab>
 

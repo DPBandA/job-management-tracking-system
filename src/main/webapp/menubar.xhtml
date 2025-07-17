@@ -68,6 +68,119 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>
 
+        <p:submenu label="Compliance"                            
+                   rendered="#{jobManager.user.hasModule('complianceManager')}"
+                   icon="pi pi-check-square" >
+
+            <p:submenu label="New"  
+                       icon="pi pi-plus" >
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewComplianceSurvey}"
+                    value="Survey"       
+                    update=":headerForm:growl3"
+                    title="Add a new survey"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{complianceManager.surveyDialogReturn}"
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewDocumentStandard}"
+                    value="Standard"       
+                    update="headerForm:growl3"
+                    title="Add a new standard"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewComplaint}"
+                    value="Complaint"       
+                    update="headerForm:growl3"
+                    title="Add a new complaint"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{complianceManager.complaintDialogReturn}"
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewMarketProduct}"
+                    value="Market Product"       
+                    update="headerForm:growl3"
+                    title="Add a new market product"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{humanResourceManager.createNewManufacturer}"
+                    value="Manufacturer"       
+                    update="headerForm:growl3"
+                    title="Add a new manufacturer"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewFactoryInspection}"
+                    value="Factory Inspection"       
+                    update="headerForm:growl3"
+                    title="Add a new factory inspection"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{complianceManager.factoryInspectionDialogReturn}"
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+            </p:submenu>
+
+            <p:divider />
+
+            <p:menuitem value="Surveys"
+                        actionListener="#{complianceManager.openSurveysBrowser}"   
+                        icon="pi pi-copy"
+                        process="@this"/>                   
+
+            <p:menuitem value="Standards" 
+                        actionListener="#{complianceManager.openStandardsBrowser}"
+                        icon="pi pi-copy"
+                        process="@this"/>
+
+            <p:menuitem value="Complaints"  
+                        actionListener="#{complianceManager.openComplaintsBrowser}"
+                        icon="pi pi-copy"
+                        process="@this"/>
+
+            <p:menuitem value="Factory Inspections"  
+                        actionListener="#{complianceManager.openFactoryInspectionBrowser}"
+                        icon="pi pi-copy"
+                        process="@this"/>
+
+        </p:submenu>     
+
         <p:submenu label="Clients" 
                    icon="pi pi-users" >
 
@@ -280,6 +393,24 @@ Email: info@dpbennett.com.jm
                     icon="pi pi-users"
                     actionListener="#{humanResourceManager.openHumanResourceBrowser}" /> 
 
+        <p:submenu label="Reports" 
+                   icon="pi pi-chart-bar" >  
+
+            <p:menuitem value="Reports"
+                        title="Open the Reports tab"
+                        icon="pi pi-chart-bar"
+                        actionListener="#{reportManager.openReportDialog}" 
+                        process="@this" />
+
+            <p:menuitem value="Report Templates"
+                        title="Open the Report Templates tab"
+                        icon="pi pi-book"
+                        rendered="#{systemManager.user.hasModule('reportManager')}"
+                        actionListener="#{reportManager.openReportTemplatesTab}" 
+                        process="@this" />
+
+        </p:submenu>
+
         <p:divider layout="vertical"/>
 
         <p:menuitem 
@@ -288,185 +419,6 @@ Email: info@dpbennett.com.jm
             rendered="#{systemManager.user.hasModule('systemManager')}"
             value="System Administration" 
             icon="pi pi-server" />   
-
-        <ui:remove>
-
-            <p:submenu label="Compliance"                            
-                       rendered="#{jobManager.user.hasModule('complianceManager')}"
-                       icon="pi pi-check-square" >
-
-                <p:submenu label="New"  
-                           icon="pi pi-plus" >
-
-                    <p:menuitem
-                        actionListener="#{complianceManager.createNewComplianceSurvey}"
-                        value="Survey"       
-                        update=":headerForm:growl3"
-                        title="Add a new survey"
-                        icon="pi pi-plus"
-                        process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                listener="#{complianceManager.surveyDialogReturn}"
-                                update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
-
-                    </p:menuitem>
-
-                    <p:menuitem
-                        actionListener="#{complianceManager.createNewDocumentStandard}"
-                        value="Standard"       
-                        update="headerForm:growl3"
-                        title="Add a new standard"
-                        icon="pi pi-plus"
-                        process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
-
-                    </p:menuitem>
-
-                    <p:menuitem
-                        actionListener="#{complianceManager.createNewComplaint}"
-                        value="Complaint"       
-                        update="headerForm:growl3"
-                        title="Add a new complaint"
-                        icon="pi pi-plus"
-                        process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                listener="#{complianceManager.complaintDialogReturn}"
-                                update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
-
-                    </p:menuitem>
-
-                    <p:menuitem
-                        actionListener="#{complianceManager.createNewMarketProduct}"
-                        value="Market Product"       
-                        update="headerForm:growl3"
-                        title="Add a new market product"
-                        icon="pi pi-plus"
-                        process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
-
-                    </p:menuitem>
-
-                    <p:menuitem
-                        actionListener="#{humanResourceManager.createNewManufacturer}"
-                        value="Manufacturer"       
-                        update="headerForm:growl3"
-                        title="Add a new manufacturer"
-                        icon="pi pi-plus"
-                        process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
-
-                    </p:menuitem>
-
-                    <p:menuitem
-                        actionListener="#{complianceManager.createNewFactoryInspection}"
-                        value="Factory Inspection"       
-                        update="headerForm:growl3"
-                        title="Add a new factory inspection"
-                        icon="pi pi-plus"
-                        process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                listener="#{complianceManager.factoryInspectionDialogReturn}"
-                                update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
-
-                    </p:menuitem>
-                </p:submenu>
-
-                <p:divider />
-
-                <p:menuitem value="Surveys"
-                            actionListener="#{complianceManager.openSurveysBrowser}"   
-                            icon="pi pi-copy"
-                            process="@this"/>                   
-
-                <p:menuitem value="Standards" 
-                            actionListener="#{complianceManager.openStandardsBrowser}"
-                            icon="pi pi-copy"
-                            process="@this"/>
-
-                <p:menuitem value="Complaints"  
-                            actionListener="#{complianceManager.openComplaintsBrowser}"
-                            icon="pi pi-copy"
-                            process="@this"/>
-
-                <p:menuitem value="Factory Inspections"  
-                            actionListener="#{complianceManager.openFactoryInspectionBrowser}"
-                            icon="pi pi-copy"
-                            process="@this"/>
-
-            </p:submenu>          
-
-            <p:submenu label="Reports" 
-                       icon="pi pi-chart-bar" >  
-
-                <p:menuitem value="Reports"
-                            title="Open the Reports tab"
-                            icon="pi pi-chart-bar"
-                            actionListener="#{reportManager.openReportDialog}" 
-                            process="@this" />
-
-                <p:menuitem value="Report Templates"
-                            title="Open the Report Templates tab"
-                            icon="pi pi-book"
-                            rendered="#{systemManager.user.hasModule('reportManager')}"
-                            actionListener="#{reportManager.openReportTemplatesTab}" 
-                            process="@this" />
-
-            </p:submenu>
-
-            <p:submenu rendered="#{systemManager.user.hasModule('systemManager')}"
-                       label="System" 
-                       icon="pi pi-server" >
-
-                <p:submenu label="Entity Managers" 
-                           icon="pi pi-database" >
-
-                    <p:menuitem value="System Management (SM)"
-                                title="Edit SM entity manager"
-                                icon="pi pi-cog"
-                                actionListener="#{systemManager.editSMEM}" 
-                                process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                update=""/>
-
-                    </p:menuitem>
-
-                    <p:menuitem value="Financial Management (FM)"
-                                title="Edit FM entity manager"
-                                icon="pi pi-cog"
-                                actionListener="#{systemManager.editFMEM}" 
-                                process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                update=""/>
-
-                    </p:menuitem>
-
-                    <p:menuitem value="Job Management &amp; Tracking System (JMTS)"
-                                title="Edit JMTS entity manager"
-                                icon="pi pi-cog"
-                                actionListener="#{systemManager.editJMTSEM}" 
-                                process="@this" >
-
-                        <p:ajax event="dialogReturn" 
-                                update=""/>
-
-                    </p:menuitem>               
-
-                </p:submenu>               
-
-            </p:submenu>
-
-        </ui:remove>
 
     </p:menubar>
 
