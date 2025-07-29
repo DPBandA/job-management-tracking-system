@@ -1,5 +1,5 @@
 
-.ui-toolbar, .ui-panel-titlebar, .ui-menubar, .ui-panel, .ui-scrollpanel, 
+.ui-toolbar, .ui-panel-titlebar, .ui-menubar, .ui-panel, .ui-scrollpanel,
 .ui-accordion-content, .ui-accordion-header,
 .ui-panel-content, .ui-overlaypanel {
     border: none !important;
@@ -30,4 +30,11 @@
 .custom-scrolltop.ui-scrolltop .ui-scrolltop-icon {
     font-size: 1rem;
     color: var(--primary-color-text);
+}
+
+.hamburger .ui-button {
+}
+
+.hamburger-icon .ui-icon, .hamburger-icon .ui-button-icon {
+    font-size: 1.6em;
 }

@@ -182,6 +182,7 @@ Email: info@dpbennett.com.jm
         </p:submenu>     
 
         <p:submenu label="Clients" 
+                   rendered="#{jobManager.user.hasModule('clientManager')}"
                    icon="pi pi-users" >
 
             <p:menuitem
@@ -217,6 +218,7 @@ Email: info@dpbennett.com.jm
         </p:submenu>     
 
         <p:submenu label="Finance" 
+                   rendered="#{jobManager.user.hasModule('financeManager')}"
                    icon="pi pi-fw pi-dollar" >
 
             <p:submenu label="New" 
