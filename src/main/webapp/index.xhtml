@@ -28,7 +28,8 @@ Email: info@dpbennett.com.jm
     <h:head>
         <ui:include src="head.xhtml" />
         <title>#{jobManager.applicationHeader}</title>         
-        <script type="text/javascript" src="js/javascripts.js" /> 
+        <script type="text/javascript" src="js/javascripts.js" />
+        <script type="text/javascript" src="js/app.js" />
         <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
         <link rel="stylesheet" type="text/css" href="css/main.css" /> 
         <link rel="stylesheet" type="text/css" href="css/jmts.css" />   
@@ -180,6 +181,9 @@ Email: info@dpbennett.com.jm
                             </div>
                         </div>
                     </div>     
+                    <div class="col-12 col-nogutter">
+                        <ui:include src="menubar.xhtml" />
+                    </div>
                 </p:panel>
 
                 <p:sticky target=""/>
@@ -262,7 +266,9 @@ Email: info@dpbennett.com.jm
                                 <div class="grid">
                                     <div class="col-12">
 
-                                        <ui:include src="menubar.xhtml" /> 
+                                        <ui:remove>
+                                            <ui:include src="menubar.xhtml" />
+                                        </ui:remove>
 
                                         <p:tabView id="mainTabView"  
                                                    rendered="#{jobManager.mainTabView.render}"
@@ -413,7 +419,7 @@ Email: info@dpbennett.com.jm
             </h:form>
 
         </p:panel>
-
+      
     </h:body>
 
 </html>
