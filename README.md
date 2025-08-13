@@ -5,7 +5,7 @@
 [![Wiki](https://img.shields.io/badge/documentation-wiki-green.svg)](https://github.com/DPBandA/job-management-tracking-system/wiki)
 
 ## Overview
-The **Job Management & Tracking System (JMTS)** is a Java EE web application designed 
+The **Job Management & Tracking System (JMTS)** is a Jakarta EE web application designed 
 to manage and track job activities efficiently. It allows users to create, update, 
 and monitor job progress while integrating with various business modules.
 
