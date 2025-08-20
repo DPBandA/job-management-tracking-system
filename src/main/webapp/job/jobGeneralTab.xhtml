@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2024  D P Bennett & Associates Limited
+Copyright (C) 2025  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -70,6 +70,36 @@ Email: info@dpbennett.com.jm
                        showEffect="fade" hideEffect="fade" />
 
         </h:panelGroup>
+        
+        <p:outputLabel value="Organization"
+                       for="organization"
+                       style="font-weight: bold"/>       
+        <p:autoComplete id="organization"
+                        dropdown="true" 
+                        readonly="false"
+                        disabled="#{jobManager.disableJobDialogField('organization')}"
+                        var="organization"
+                        value="#{jobManager.currentJob.business}"
+                        itemLabel="#{organization.name}"
+                        itemValue="#{organization}"
+                        required="true"
+                        requiredMessage="Organization Required"
+                        validator="businessEntityValidator"
+                        forceSelection="true"
+                        cache="true"
+                        completeMethod="#{jobManager.completeActiveBusiness}" >
+
+            <f:converter converterId="businessConverter"/>
+
+            <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
+
+            <p:ajax event="itemSelect"                       
+                    update=":jobDialogForm:jobDetailToolbar1,department,subContractedDepartment"
+                    global="false"                    
+                    listener="#{jobManager.updateJob}"
+                    process="@this"/>
+
+        </p:autoComplete>
 
         <p:outputLabel value="Business office"
                        for="businessOffice"
@@ -293,7 +323,7 @@ Email: info@dpbennett.com.jm
                         requiredMessage="Department Required"
                         validator="businessEntityValidator"
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >  
+                        completeMethod="#{jobManager.completeActiveDepartmentByBusiness}" >  
 
             <f:converter converterId="activeDepartmentConverter"/>
 
@@ -302,7 +332,7 @@ Email: info@dpbennett.com.jm
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateDepartment}"
                     global="false"
-                    update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
+                    update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1,organization,assignee,representatives"
                     process="@this" />
 
 
@@ -326,7 +356,7 @@ Email: info@dpbennett.com.jm
                         value="#{jobManager.currentJob.subContractedDepartment}"
                         title="#{jobManager.currentJob.subContractedDepartment}"
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveDepartment}" >
+                        completeMethod="#{jobManager.completeActiveDepartmentByBusiness}" >
 
             <f:converter converterId="activeDepartmentConverter"/>
 
@@ -340,7 +370,7 @@ Email: info@dpbennett.com.jm
             <p:ajax event="itemSelect"
                     listener="#{jobManager.updateSubContractedDepartment}"
                     global="false"
-                    update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1"
+                    update="jobNumberGroup,:jobDialogForm:jobDetailToolbar1,organization,assignee,representatives"
                     process="@this" />
 
         </p:autoComplete>
@@ -360,7 +390,7 @@ Email: info@dpbennett.com.jm
                         dropdown="true"
                         scrollHeight="200" 
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+                        completeMethod="#{jobManager.completeActiveEmployee}" >
 
             <f:converter converterId="activeEmployeeConverter"/>
 
@@ -387,7 +417,7 @@ Email: info@dpbennett.com.jm
                         scrollHeight="200"                         
                         multiple="true"
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveEmployee}" >
+                        completeMethod="#{jobManager.completeActiveEmployee}" >
 
             <f:converter converterId="activeEmployeeConverter"/>
 

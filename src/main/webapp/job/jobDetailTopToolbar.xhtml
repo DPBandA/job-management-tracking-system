@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2024  D P Bennett & Associates Limited
+Copyright (C) 2025  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem  value="Subcontract..."
                              actionListener="#{jobManager.subContractJob}"
-                             update=":jobDialogForm,:jobDialogForm:growl2"
+                             update=":jobDialogForm,:jobDialogForm:growl2,:jobDialogForm:jobFormTabView:organization"
                              disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                              icon="pi pi-copy"
                              process="@this" >
@@ -67,7 +67,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem  value="Subcontract with costing..."
                              actionListener="#{jobManager.subContractJobWithCosting}"
-                             update=":jobDialogForm,:jobDialogForm:growl2"
+                             update=":jobDialogForm,:jobDialogForm:growl2,:jobDialogForm:jobFormTabView:organization"
                              disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                              icon="pi pi-copy"
                              process="@this" >
@@ -77,7 +77,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem  value="Copy..." 
                              actionListener="#{jobManager.copyCurrentJob}"  
-                             update=":jobDialogForm,:jobDialogForm:growl2"
+                             update=":jobDialogForm,:jobDialogForm:growl2,:jobDialogForm:jobFormTabView:organization"
                              icon="pi pi-copy"
                              process="@this" >    
                 </p:menuitem>
