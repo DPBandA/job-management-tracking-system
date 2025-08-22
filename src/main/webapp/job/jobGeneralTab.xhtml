@@ -94,9 +94,9 @@ Email: info@dpbennett.com.jm
             <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
             <p:ajax event="itemSelect"                       
-                    update=":jobDialogForm:jobDetailToolbar1,department,subContractedDepartment"
+                    update=":jobDialogForm:jobDetailToolbar1,department,subContractedDepartment,assignee"
                     global="false"                    
-                    listener="#{jobManager.updateJob}"
+                    listener="#{jobManager.updateOrganization}"
                     process="@this"/>
 
         </p:autoComplete>
