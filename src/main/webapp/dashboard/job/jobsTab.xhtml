@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Proforma Invoice"
                             title="Create new proforma invoice"
                             icon="pi pi-plus"
-                            disabled="false"
+                            disabled="true"
                             actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
                             process="@this" >
 
@@ -71,7 +71,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Cost Estimate"
                             title="Create new cost estimate"
                             icon="pi pi-plus"
-                            disabled="false"
+                            disabled="true"
                             actionListener="#{jobFinanceManager.openNewCostEstimateDialog}" 
                             process="@this" >
 
@@ -90,32 +90,27 @@ Email: info@dpbennett.com.jm
                             title="Open the Job Browser tab"
                             actionListener="#{jobManager.openJobBrowser}" 
                             process="@this" />              
-                <p:separator />
+                <p:separator rendered="#{jobManager.user.hasModule('clientManager')}"/>
                 <p:menuitem value="Client Management"
                             title="Open the Clients tab"
+                            rendered="#{jobManager.user.hasModule('clientManager')}"
                             actionListener="#{jobManager.openClientsTab}" 
                             process="@this" />
-
-                <p:menuitem actionListener="#{jobFinanceManager.updateAccPacClient}"                                       
-                            value="Client Credit Status"
-                            rendered="false"
-                            update=":accPacClientInformationTabView:accPacClientCreditStatusForm"
-                            process="@this" />
-
                 <p:separator />
                 <p:menuitem value="Proforma Invoices"
                             title="Browse proforma invoices"
-                            disabled="false"
+                            disabled="true"
                             actionListener="#{jobFinanceManager.openProformaInvoicesDialog}" 
                             process="@this" />
                 <p:menuitem value="Price List"
                             title="Browse price list"
-                            disabled="false"
+                            disabled="true"
                             actionListener="#{jobFinanceManager.openPriceListDialog}" 
                             process="@this" />
-                <p:separator />
+                <p:separator rendered="#{jobManager.user.hasModule('reportManager')}" />
                 <p:menuitem value="Reports"
                             title="Open the Reports tab"
+                            rendered="#{jobManager.user.hasModule('reportManager')}"
                             actionListener="#{jobManager.openReportsTab}" 
                             process="@this" />
 

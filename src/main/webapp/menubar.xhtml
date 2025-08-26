@@ -396,6 +396,7 @@ Email: info@dpbennett.com.jm
                     actionListener="#{humanResourceManager.openHumanResourceBrowser}" /> 
 
         <p:submenu label="Reports" 
+                   rendered="#{jobManager.user.hasModule('reportManager')}"
                    icon="pi pi-chart-bar" >  
 
             <p:menuitem value="Reports"
@@ -407,7 +408,7 @@ Email: info@dpbennett.com.jm
             <p:menuitem value="Report Templates"
                         title="Open the Report Templates tab"
                         icon="pi pi-book"
-                        rendered="#{systemManager.user.hasModule('reportManager')}"
+                        rendered="#{systemManager.user.hasModule('systemManager')}"
                         actionListener="#{reportManager.openReportTemplatesTab}" 
                         process="@this" />
 
@@ -415,12 +416,25 @@ Email: info@dpbennett.com.jm
 
         <p:divider layout="vertical"/>
 
-        <p:menuitem 
-            actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
-            title="System administration" 
-            rendered="#{systemManager.user.hasModule('systemManager')}"
-            value="System Administration" 
-            icon="pi pi-server" />   
+        <p:submenu rendered="#{systemManager.user.hasModule('systemManager')}"
+                   label="System" 
+                   icon="pi pi-server" >
+
+            <p:menuitem 
+                actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
+                title="System administration" 
+                value="System Administration" 
+                icon="pi pi-server" />   
+
+            <p:divider />
+
+            <p:menuitem 
+                onclick="PF('systemInfoDialog').show()"
+                title="System Information"                 
+                value="System Information" 
+                icon="pi pi-info-circle" />
+
+        </p:submenu>
 
     </p:menubar>
 
