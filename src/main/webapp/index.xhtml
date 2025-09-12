@@ -352,6 +352,22 @@ Email: info@dpbennett.com.jm
                                                     <ui:include src="compliance/factory/factoryInspectionsTab.xhtml" />                                                                
                                                 </h:panelGroup>
 
+                                                <h:panelGroup rendered="#{t.id == 'Label Browser'}" >
+                                                    <ui:include src="label/labelsTab.xhtml" /> 
+                                                </h:panelGroup> 
+
+                                                <h:panelGroup rendered="#{t.id == 'Compliance'}" >
+                                                    <ui:include src="label/complianceOptionsTab.xhtml" /> 
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Energy Efficiency'}" >
+                                                    <ui:include src="label/energyEfficiencyOptionsTab.xhtml" /> 
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'LabelPrint'}" >
+                                                    <ui:include src="label/labelPrintOptionsTab.xhtml" /> 
+                                                </h:panelGroup>
+
                                             </p:tab>
 
                                         </p:tabView> 
@@ -411,7 +427,7 @@ Email: info@dpbennett.com.jm
             </h:form>
 
         </p:panel>
-      
+
     </h:body>
 
 </html>

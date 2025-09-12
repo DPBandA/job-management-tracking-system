@@ -181,6 +181,55 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>     
 
+        <p:submenu label="LabelPrint"                            
+                   rendered="#{systemManager.user.hasModule('energyLabelManager')}"
+                   icon="pi pi-images" >
+
+            <p:menuitem value="New Label"
+                        title="Create new label"
+                        icon="pi pi-plus"
+                        actionListener="#{energyLabelManager.createNewEnergyLabel}" 
+                        rendered="#{energyLabelManager.user.can('CreateEnergyLabel')}"
+                        process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView"
+                        listener="#{energyLabelManager.energyLabelDialogReturn}" />
+
+            </p:menuitem>  
+
+            <p:menuitem value="Label Browser"
+                        title="Open the Energy Label Browser" 
+                        icon="pi pi-images"
+                        actionListener="#{energyLabelManager.openEnergyLabelBrowser}" 
+                        process="@this" />   
+
+            <p:submenu label="Settings"                            
+                       icon="pi pi-cog" >
+
+                <p:menuitem 
+                    actionListener="#{energyLabelManager.openComplianceSettingsTab}" 
+                    title="Show compliance settings" 
+                    rendered="#{energyLabelManager.user.can('AccessComplianceOptions')}"
+                    value="Compliance" 
+                    icon="pi pi-check-square" />
+                <p:menuitem 
+                    actionListener="#{energyLabelManager.openEnergyEfficiencySettingsTab}" 
+                    title="Show energy efficiency settings" 
+                    rendered="#{energyLabelManager.user.can('AccessEnergyEfficiencyOptions')}"
+                    value="Energy Efficiency" 
+                    icon="pi pi-sun" />
+                <p:menuitem 
+                    actionListener="#{energyLabelManager.openLabelPrintSettingsTab}" 
+                    title="Show LabelPrint settings" 
+                    rendered="#{energyLabelManager.user.can('AccessLabelPrintOptions')}"
+                    value="LabelPrint" 
+                    icon="pi pi-file" />
+
+            </p:submenu>
+
+        </p:submenu>
+
         <p:submenu label="Clients" 
                    rendered="#{jobManager.user.hasModule('clientManager')}"
                    icon="pi pi-users" >

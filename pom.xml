@@ -65,6 +65,13 @@
             <version>2.0.0</version>
             <type>war</type>
         </dependency> 
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>labelprint</artifactId>
+            <version>4.1.0</version>
+            <type>war</type>
+        </dependency>
              
     </dependencies>
     <build>
@@ -125,7 +132,12 @@
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>standards-compliance</artifactId>
-                        </overlay>     
+                        </overlay> 
+                        
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>labelprint</artifactId>
+                        </overlay>         
                                                
                     </overlays>                     
                 </configuration>
