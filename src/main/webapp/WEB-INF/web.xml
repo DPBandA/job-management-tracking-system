@@ -13,6 +13,7 @@
             /WEB-INF/faces-config-rm.xml,
             /WEB-INF/faces-config-sc.xml,
             /WEB-INF/faces-config-lp.xml,
+            /WEB-INF/faces-config-lo.xml,
             /WEB-INF/faces-config-jmts.xml
         </param-value>
     </context-param>  

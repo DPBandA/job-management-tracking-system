@@ -72,6 +72,13 @@
             <version>4.1.0</version>
             <type>war</type>
         </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>legal-office</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
              
     </dependencies>
     <build>
@@ -137,7 +144,12 @@
                         <overlay>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>labelprint</artifactId>
-                        </overlay>         
+                        </overlay>  
+                        
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>legal-office</artifactId>
+                        </overlay>                
                                                
                     </overlays>                     
                 </configuration>

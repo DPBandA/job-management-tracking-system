@@ -230,6 +230,48 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>
 
+        <p:submenu label="Legal" 
+                   rendered="#{legalDocumentManager.user.hasModule('legalDocumentManager')}"
+                   icon="pi pi-file" >
+
+            <p:menuitem
+                actionListener="#{legalDocumentManager.createNewLegalDocument}"
+                value="Document" 
+                title="Add a new document"
+                icon="pi pi-plus"
+                process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView"
+                        listener="#{legalDocumentManager.documentDialogReturn}" />
+
+            </p:menuitem>
+
+            <p:menuitem  
+                value="Document type"
+                icon="pi pi-plus" 
+                actionListener="#{legalDocumentManager.createNewDocumentType}" 
+                process="@this"
+                title="Add a new document type" />
+
+            <p:menuitem 
+                value="Classification"
+                icon="pi pi-plus" 
+                actionListener="#{legalDocumentManager.createNewClassification}" 
+                process="@this"
+                title="Add a new classification" />
+
+            <p:divider />
+
+            <p:menuitem value="Document Browser"
+                        title="Open the Legal Document Browser" 
+                        icon="pi pi-copy"
+                        rendered="#{systemManager.user.hasModule('legalDocumentManager')}"
+                        actionListener="#{legalDocumentManager.openDocumentBrowser}"                            
+                        process="@this"/> 
+
+        </p:submenu>
+
         <p:submenu label="Clients" 
                    rendered="#{jobManager.user.hasModule('clientManager')}"
                    icon="pi pi-users" >

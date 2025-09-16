@@ -37,7 +37,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="dialogReturn" 
                         listener="#{jobFinanceManager.proformaDialogReturn}"
-                        update=":appForm:mainTabView:proformaCostingsTable"/>
+                        update=":mainTabViewForm:mainTabView:proformaCostingsTable"/>
 
             </p:commandButton>
             <p:spacer width="20" />
@@ -47,7 +47,7 @@ Email: info@dpbennett.com.jm
 
                 <p:ajax event="keyup"
                         global="true"
-                        update=":appForm:mainTabView:proformaCostingsTable"
+                        update=":mainTabViewForm:mainTabView:proformaCostingsTable"
                         listener="#{jobFinanceManager.doJobSearch}"
                         process="@this"/>    
 
