@@ -209,6 +209,7 @@ Email: info@dpbennett.com.jm
                                                   value="#{jobManager.dashboard.tabs}" 
                                                   var="t"   
                                                   widgetVar="dashboardAccordionVar"
+                                                  activeIndex="#{jobManager.dashboard.tabIndex}"
                                                   rendered="true"
                                                   multiple="false">
 
@@ -271,6 +272,7 @@ Email: info@dpbennett.com.jm
                                                    value="#{jobManager.mainTabView.tabs}" 
                                                    var="t" 
                                                    dynamic="false"
+                                                   activeIndex="#{jobManager.mainTabView.tabIndex}"
                                                    widgetVar="mainTabViewVar">
 
                                             <p:ajax event="tabClose" 
