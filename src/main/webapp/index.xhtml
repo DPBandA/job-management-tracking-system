@@ -290,7 +290,7 @@ Email: info@dpbennett.com.jm
 
                                                 <p:defaultCommand target="#{jobManager.defaultCommandTarget}" />
 
-                                                <h:panelGroup rendered="#{t.id == 'Job Browser'}">                                
+                                                <h:panelGroup rendered="#{t.id == 'Jobs'}">                                
                                                     <ui:include src="job/jobBrowser.xhtml" /> 
                                                 </h:panelGroup>
 
@@ -342,16 +342,16 @@ Email: info@dpbennett.com.jm
                                                     <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
                                                 </h:panelGroup>   
 
-                                                <h:panelGroup  rendered="#{t.id == 'Survey Browser'}">
-                                                    <ui:include src="compliance/survey/surveyBrowser.xhtml" /> 
+                                                <h:panelGroup  rendered="#{t.id == 'Surveys'}">
+                                                    <ui:include src="compliance/survey/surveysTab.xhtml" /> 
                                                 </h:panelGroup> 
 
-                                                <h:panelGroup  rendered="#{t.id == 'Complaint Browser'}">
-                                                    <ui:include src="compliance/complaint/complaintBrowser.xhtml" /> 
+                                                <h:panelGroup  rendered="#{t.id == 'Complaints'}">
+                                                    <ui:include src="compliance/complaint/complaintsTab.xhtml" /> 
                                                 </h:panelGroup>
 
-                                                <h:panelGroup rendered="#{t.id == 'Standard Browser'}" >
-                                                    <ui:include src="compliance/standard/standardBrowser.xhtml" />                                                                
+                                                <h:panelGroup rendered="#{t.id == 'Standards'}" >
+                                                    <ui:include src="compliance/standard/standardsTab.xhtml" />                                                                
                                                 </h:panelGroup>
 
                                                 <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
@@ -374,7 +374,7 @@ Email: info@dpbennett.com.jm
                                                     <ui:include src="label/labelPrintOptionsTab.xhtml" /> 
                                                 </h:panelGroup>
 
-                                                <h:panelGroup rendered="#{t.id == 'Document Browser'}">                                
+                                                <h:panelGroup rendered="#{t.id == 'Legal Documents'}">                                
                                                     <ui:include src="legal/documentBrowser.xhtml" />   
                                                 </h:panelGroup> 
 
