@@ -161,7 +161,7 @@ Email: info@dpbennett.com.jm
                                     <p:spacer width="30"/>                                   
 
 
-                                    <p:commandButton actionListener="#{systemManager.viewUserProfile}"                                            
+                                    <p:commandButton actionListener="#{jobManager.viewUserProfile}"                                            
                                                      update=":userProfileDialogForm"
                                                      oncomplete="PF('userProfileDialog').show();"
                                                      icon="pi pi-user"
@@ -206,10 +206,10 @@ Email: info@dpbennett.com.jm
                                 <p:divider style="margin-top: 0;"/>
 
                                 <p:accordionPanel id="dashboardAccordion" 
-                                                  value="#{jobManager.dashboard.tabs}" 
+                                                  value="#{systemManager.dashboard.tabs}" 
+                                                  activeIndex="#{systemManager.dashboard.tabIndex}"
                                                   var="t"   
-                                                  widgetVar="dashboardAccordionVar"
-                                                  activeIndex="#{jobManager.dashboard.tabIndex}"
+                                                  widgetVar="dashboardAccordionVar"                                                 
                                                   rendered="true"
                                                   multiple="false">
 
@@ -217,11 +217,11 @@ Email: info@dpbennett.com.jm
                                             immediate="true"
                                             process="@this"
                                             update=":mainTabViewForm"
-                                            listener="#{jobManager.onDashboardTabChange}" />
+                                            listener="#{systemManager.onDashboardTabChange}" />
 
                                     <p:tab title="#{t.name}" >
 
-                                        <p:defaultCommand target="#{jobManager.defaultCommandTarget}" />
+                                        <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
 
                                         <h:panelGroup rendered="#{t.id == 'Legal Office'}">
                                             <ui:include src="dashboard/legal/legalDocumentTab.xhtml" />
@@ -268,27 +268,27 @@ Email: info@dpbennett.com.jm
                                         </ui:remove>
 
                                         <p:tabView id="mainTabView"  
-                                                   rendered="#{jobManager.mainTabView.render}"
-                                                   value="#{jobManager.mainTabView.tabs}" 
+                                                   rendered="#{systemManager.mainTabView.render}"
+                                                   value="#{systemManager.mainTabView.tabs}" 
+                                                   activeIndex="#{systemManager.mainTabView.tabIndex}"
                                                    var="t" 
-                                                   dynamic="false"
-                                                   activeIndex="#{jobManager.mainTabView.tabIndex}"
+                                                   dynamic="false"                                                   
                                                    widgetVar="mainTabViewVar">
 
                                             <p:ajax event="tabClose" 
                                                     immediate="true"
                                                     process="@this"
-                                                    listener="#{jobManager.onMainViewTabClose}" />  
+                                                    listener="#{systemManager.onMainViewTabClose}" />  
 
                                             <p:ajax event="tabChange" 
                                                     process="@form"      
                                                     update=":mainTabViewForm"
-                                                    listener="#{jobManager.onMainViewTabChange}" />  
+                                                    listener="#{systemManager.onMainViewTabChange}" />  
 
 
                                             <p:tab title="#{t.name}" closable="true"  >
 
-                                                <p:defaultCommand target="#{jobManager.defaultCommandTarget}" />
+                                                <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
 
                                                 <h:panelGroup rendered="#{t.id == 'Jobs'}">                                
                                                     <ui:include src="job/jobBrowser.xhtml" /> 
