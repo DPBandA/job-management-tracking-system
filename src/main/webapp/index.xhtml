@@ -216,7 +216,7 @@ Email: info@dpbennett.com.jm
                                     <p:ajax event="tabChange"       
                                             immediate="true"
                                             process="@this"
-                                            update=":mainTabViewForm"
+                                            update=":dashboardForm,:mainTabViewForm"
                                             listener="#{systemManager.onDashboardTabChange}" />
 
                                     <p:tab title="#{t.name}" >
@@ -282,7 +282,7 @@ Email: info@dpbennett.com.jm
 
                                             <p:ajax event="tabChange" 
                                                     process="@form"      
-                                                    update=":mainTabViewForm"
+                                                    update=":dashboardForm,:mainTabViewForm"
                                                     listener="#{systemManager.onMainViewTabChange}" />  
 
 

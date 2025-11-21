@@ -70,12 +70,14 @@ Email: info@dpbennett.com.jm
                        showEffect="fade" hideEffect="fade" />
 
         </h:panelGroup>
-
+        
         <p:outputLabel value="Organization"
                        for="organization"
                        style="font-weight: bold"/>       
         <p:autoComplete id="organization"
                         dropdown="true" 
+                        readonly="false"
+                        disabled="#{jobManager.disableJobDialogField('organization')}"
                         var="organization"
                         value="#{jobManager.currentJob.business}"
                         itemLabel="#{organization.name}"
@@ -85,7 +87,7 @@ Email: info@dpbennett.com.jm
                         validator="businessEntityValidator"
                         forceSelection="true"
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveBusiness}" >
+                        completeMethod="#{jobManager.completeActiveBusiness}" >
 
             <f:converter converterId="businessConverter"/>
 
@@ -399,7 +401,7 @@ Email: info@dpbennett.com.jm
                     global="false"
                     update=":jobDialogForm:jobDetailToolbar1"
                     process="@this"/>
-
+            
         </p:autoComplete>  
 
         <p:outputLabel value="Representative(s)"  
