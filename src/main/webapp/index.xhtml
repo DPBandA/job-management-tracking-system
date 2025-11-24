@@ -235,8 +235,24 @@ Email: info@dpbennett.com.jm
                                             <ui:include src="dashboard/sc/scTab.xhtml" />
                                         </h:panelGroup>
 
+                                        <h:panelGroup rendered="#{t.id == 'Food Factory'}">
+                                            <ui:include src="dashboard/fs/fsTab.xhtml" />
+                                        </h:panelGroup>
+
+                                        <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
+                                            <ui:include src="dashboard/lm/lmTab.xhtml" />
+                                        </h:panelGroup>   
+
                                         <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
                                             <ui:include src="dashboard/fm/fmTab.xhtml" /> 
+                                        </h:panelGroup>
+
+                                        <h:panelGroup rendered="#{t.id == 'Human Resource'}">
+                                            <ui:include src="dashboard/hr/hrmTab.xhtml" />
+                                        </h:panelGroup>                                        
+
+                                        <h:panelGroup rendered="#{t.id == 'Report Management'}" >
+                                            <ui:include src="dashboard/rm/rmTab.xhtml" />                                                                
                                         </h:panelGroup>
 
                                         <h:panelGroup rendered="#{t.id == 'System Administration'}" >
@@ -356,6 +372,22 @@ Email: info@dpbennett.com.jm
 
                                                 <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
                                                     <ui:include src="compliance/factory/factoryInspectionsTab.xhtml" />                                                                
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Manufacturers/Factories'}" >
+                                                    <ui:include src="compliance/factory/manufacturersTab.xhtml"/>  
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Factories'}" >
+                                                    <ui:include src="foodsafety/foodFactoriesTab.xhtml"/>  
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Petrol Stations'}" >
+                                                    <ui:include src="legalmet/petrolStationsTab.xhtml"/>  
+                                                </h:panelGroup>
+
+                                                <h:panelGroup rendered="#{t.id == 'Scales'}" >
+                                                    <ui:include src="legalmet/scalesTab.xhtml"/>  
                                                 </h:panelGroup>
 
                                                 <h:panelGroup rendered="#{t.id == 'Label Browser'}" >
