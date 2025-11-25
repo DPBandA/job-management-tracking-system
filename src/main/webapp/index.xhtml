@@ -242,6 +242,14 @@ Email: info@dpbennett.com.jm
                                         <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
                                             <ui:include src="dashboard/lm/lmTab.xhtml" />
                                         </h:panelGroup>   
+                                        
+                                        <h:panelGroup rendered="#{t.id == 'LabelPrint'}" >
+                                            <ui:include src="dashboard/lp/lpTab.xhtml" /> 
+                                        </h:panelGroup> 
+
+                                        <h:panelGroup rendered="#{t.id == 'Client Management'}" >
+                                            <ui:include src="dashboard/cm/cmTab.xhtml" />                                                                
+                                        </h:panelGroup>
 
                                         <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
                                             <ui:include src="dashboard/fm/fmTab.xhtml" /> 
