@@ -407,6 +407,7 @@ Email: info@dpbennett.com.jm
         <p:autoComplete id="representatives"
                         rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="representative"   
+                        unique="true"
                         value="#{jobManager.currentJob.representatives}"
                         itemLabel="#{representative.name}"
                         itemValue="#{representative}"
