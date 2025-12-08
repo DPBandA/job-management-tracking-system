@@ -78,6 +78,7 @@ Email: info@dpbennett.com.jm
                         dropdown="true" 
                         var="organization"
                         value="#{jobManager.currentJob.business}"
+                        disabled="#{jobManager.disableJobDialogField('organization')}"
                         itemLabel="#{organization.name}"
                         itemValue="#{organization}"
                         required="true"
@@ -85,7 +86,7 @@ Email: info@dpbennett.com.jm
                         validator="businessEntityValidator"
                         forceSelection="true"
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveBusiness}" >
+                        completeMethod="#{jobManager.completeActiveBusiness}" >
 
             <f:converter converterId="businessConverter"/>
 

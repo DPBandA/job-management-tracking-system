@@ -171,6 +171,7 @@ Email: info@dpbennett.com.jm
                         <p:spacer width="10" />
                         <p:commandButton title="Manage costing templates"
                                          value="Manage templates"
+                                         disabled="#{jobFinanceManager.disableJobCostingEdit}"
                                          actionListener="#{jobFinanceManager.doJobCostingAndPaymentSearch}"
                                          update=":jobCostingTemplateManagerDialogForm"
                                          oncomplete="PF('jobCostingTemplateManagerDialog').show();"
