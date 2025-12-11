@@ -75,9 +75,11 @@ Email: info@dpbennett.com.jm
                        for="organization"
                        style="font-weight: bold"/>       
         <p:autoComplete id="organization"
+                        escape="false"
                         dropdown="true" 
                         var="organization"
                         value="#{jobManager.currentJob.business}"
+                        disabled="#{jobManager.disableJobDialogField('organization')}"
                         itemLabel="#{organization.name}"
                         itemValue="#{organization}"
                         required="true"
@@ -85,7 +87,7 @@ Email: info@dpbennett.com.jm
                         validator="businessEntityValidator"
                         forceSelection="true"
                         cache="true"
-                        completeMethod="#{humanResourceManager.completeActiveBusiness}" >
+                        completeMethod="#{jobManager.completeActiveBusiness}" >
 
             <f:converter converterId="businessConverter"/>
 
@@ -103,6 +105,7 @@ Email: info@dpbennett.com.jm
                        for="businessOffice"
                        style="font-weight: bold"/>       
         <p:autoComplete id="businessOffice"
+                        escape="false"
                         dropdown="true" 
                         readonly="false"
                         disabled="#{jobManager.disableJobDialogField('businessOffice')}"
@@ -133,6 +136,7 @@ Email: info@dpbennett.com.jm
                        for="classification"
                        style="font-weight: bold" />
         <p:autoComplete dropdown="true"
+                        escape="false"
                         var="classification"
                         id="classification"
                         value="#{jobManager.currentJob.classification}"
@@ -161,6 +165,7 @@ Email: info@dpbennett.com.jm
         <p:outputLabel value="Client *" style="font-weight: bold" />
         <h:panelGroup>                
             <p:autoComplete id="client"
+                            escape="false"
                             var="client"
                             itemLabel="#{client.truncatedName}"
                             itemValue="#{client}"                    
@@ -225,6 +230,7 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel value="Billing address *" style="font-weight: bold" />    
         <p:autoComplete id="billingAddress"
+                        escape="false"
                         value="#{jobManager.currentJob.billingAddress}"
                         disabled="#{jobManager.disableJobDialogField('billingAddress')}"
                         dropdown="true"
@@ -255,6 +261,7 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel value="Contact *" style="font-weight: bold" />  
         <p:autoComplete id="clientContact"
+                        escape="false"
                         value="#{jobManager.currentJob.contact}"
                         disabled="#{jobManager.disableJobDialogField('billingAddress')}"
                         dropdown="true"
@@ -308,6 +315,7 @@ Email: info@dpbennett.com.jm
 
         <p:outputLabel value="Department *" style="font-weight: bold" />
         <p:autoComplete id="department"  
+                        escape="false"
                         disabled="#{jobManager.disableJobDialogField('department')}"
                         var="department"
                         forceSelection="true"      
@@ -323,7 +331,7 @@ Email: info@dpbennett.com.jm
                         cache="true"
                         completeMethod="#{jobManager.completeActiveDepartmentByBusiness}" >  
 
-            <f:converter converterId="activeDepartmentConverter"/>
+            <f:converter converterId="departmentConverter"/>
 
             <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
@@ -339,7 +347,8 @@ Email: info@dpbennett.com.jm
         <p:outputLabel value="Subcontracted dept. *"                      
                        rendered="#{jobManager.renderSubContractingDepartment}"
                        style="font-weight: bold" />
-        <p:autoComplete id="subContractedDepartment"                        
+        <p:autoComplete id="subContractedDepartment" 
+                        escape="false"
                         rendered="#{jobManager.renderSubContractingDepartment}"
                         disabled="#{jobManager.disableJobDialogField('subContractedDepartment')}"
                         forceSelection="true"
@@ -356,7 +365,7 @@ Email: info@dpbennett.com.jm
                         cache="true"
                         completeMethod="#{jobManager.completeActiveDepartmentByBusiness}" >
 
-            <f:converter converterId="activeDepartmentConverter"/>
+            <f:converter converterId="departmentConverter"/>
 
             <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
 
@@ -376,6 +385,7 @@ Email: info@dpbennett.com.jm
         <p:outputLabel value="Assignee *" 
                        style="font-weight: bold" />       
         <p:autoComplete id="assignee"
+                        escape="false"
                         var="assignedTo"   
                         value="#{jobManager.currentJob.assignedTo}"
                         title="#{jobManager.currentJob.assignedTo}"
@@ -405,6 +415,7 @@ Email: info@dpbennett.com.jm
         <p:outputLabel value="Representative(s)"  
                        rendered="#{jobManager.currentJob.type == 'Job'}" />       
         <p:autoComplete id="representatives"
+                        escape="false"
                         rendered="#{jobManager.currentJob.type == 'Job'}"
                         var="representative"   
                         unique="true"

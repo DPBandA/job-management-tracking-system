@@ -59,6 +59,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem  value="Subcontract..."
                              actionListener="#{jobManager.subContractJob}"
+                             rendered="#{jobManager.user.can('EnterSubcontract')}"
                              update=":jobDialogForm,:jobDialogForm:growl2,:jobDialogForm:jobFormTabView:organization"
                              disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                              icon="pi pi-copy"
@@ -67,6 +68,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem  value="Subcontract with costing..."
                              actionListener="#{jobManager.subContractJobWithCosting}"
+                             rendered="#{jobManager.user.can('EnterSubcontract')}"
                              update=":jobDialogForm,:jobDialogForm:growl2,:jobDialogForm:jobFormTabView:organization"
                              disabled="#{jobFinanceManager.enableOnlyPaymentEditing}"
                              icon="pi pi-copy"
