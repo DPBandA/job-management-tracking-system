@@ -28,6 +28,7 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Sector" style="font-weight: bold;" />  
         <p:autoComplete dropdown="true"
+                        escape="false"
                         var="sector"
                         value="#{jobManager.currentJob.sector}" 
                         itemLabel="#{sector.name}"
@@ -54,6 +55,7 @@ Email: info@dpbennett.com.jm
         <h:outputText value="Category" style="font-weight: bold;" />  
         <p:autoComplete dropdown="true"
                         var="jobCategory"
+                        escape="false"
                         value="#{jobManager.currentJob.jobCategory}" 
                         itemLabel="#{jobCategory.name}"
                         itemValue="#{jobCategory}"  
@@ -77,6 +79,7 @@ Email: info@dpbennett.com.jm
 
         <h:outputText value="Subcategory" style="font-weight: bold" />
         <p:autoComplete dropdown="true"
+                        escape="false"
                         var="jobSubCategory"
                         value="#{jobManager.currentJob.jobSubCategory}" 
                         itemLabel="#{jobSubCategory.name}"

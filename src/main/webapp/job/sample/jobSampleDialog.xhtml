@@ -83,6 +83,7 @@ Email: info@dpbennett.com.jm
 
                         <p:outputLabel value="Sampled by" />
                         <p:autoComplete id="sampledBy"
+                                        escape="false"
                                         var="sampledBy"
                                         value="#{jobSampleManager.selectedJobSample.sampledBy}"
                                         title="#{jobSampleManager.selectedJobSample.sampledBy}"
@@ -170,6 +171,7 @@ Email: info@dpbennett.com.jm
                         <p:autoComplete value="#{jobSampleManager.selectedJobSample.countryOfOrigin}"   
                                         disabled="#{jobManager.disableJobDialogField('samples')}"
                                         id="sampleCountryOfOrigin"
+                                        escape="false"
                                         forceSelection="true"  
                                         dropdown="true"
                                         scrollHeight="200" 
