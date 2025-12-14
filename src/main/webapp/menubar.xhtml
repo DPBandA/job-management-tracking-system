@@ -31,32 +31,37 @@ Email: info@dpbennett.com.jm
                    icon="pi pi-wrench" >
 
 
-            <p:menuitem value="Job"
-                        title="Create new job"
-                        icon="pi pi-plus"
-                        actionListener="#{jobManager.createNewJob}"  
-                        process="@this" >
+            <p:submenu label="New" 
+                       icon="pi pi-plus" >
 
-                <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
-                        listener="#{jobManager.jobDialogReturn}" />
+                <p:menuitem value="Job"
+                            title="Create new job"
+                            icon="pi pi-plus"
+                            actionListener="#{jobManager.createNewJob}"  
+                            process="@this" >
 
-            </p:menuitem>    
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
 
-            <p:menuitem
-                actionListener="#{jobManager.createNewSubcontract}"
-                rendered="#{jobManager.user.can('CreateDirectSubcontract')}"
-                global="true" 
-                value="Subcontract"                                       
-                title="Create direct subcontract"
-                icon="pi pi-plus"
-                process="@this">  
+                </p:menuitem>    
 
-                <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
-                        listener="#{jobManager.jobDialogReturn}" />
+                <p:menuitem
+                    actionListener="#{jobManager.createNewSubcontract}"
+                    rendered="#{jobManager.user.can('CreateDirectSubcontract')}"
+                    global="true" 
+                    value="Subcontract"                                       
+                    title="Create direct subcontract"
+                    icon="pi pi-plus"
+                    process="@this">  
 
-            </p:menuitem>
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
+
+                </p:menuitem>               
+
+            </p:submenu>
 
             <p:divider />
 
@@ -308,8 +313,7 @@ Email: info@dpbennett.com.jm
                         process="@this" /> 
         </p:submenu>     
 
-        <p:submenu label="Finance" 
-                   rendered="#{jobManager.user.hasModule('financeManager')}"
+        <p:submenu label="Finance"                    
                    icon="pi pi-fw pi-dollar" >
 
             <p:submenu label="New" 
@@ -318,7 +322,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Proforma Invoice"
                             title="Create new proforma invoice"
                             icon="pi pi-plus"
-                            actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                            actionListener="#{jobFinanceManager.createNewProformaInvoice}" 
                             process="@this" >
 
                     <p:ajax event="dialogReturn" 

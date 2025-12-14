@@ -146,24 +146,21 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Client Management"
                             title="Open the Clients tab"
                             icon="pi pi-users"
-                            rendered="#{jobManager.user.hasModule('clientManager')}"
                             actionListener="#{jobManager.openClientsTab}" 
                             process="@this" />
 
                 <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
                             value="Client Credit Status"                            
                             icon="pi pi-thumbs-up"
-                            rendered="#{jobManager.user.hasModule('clientManager')}"
                             title="Check client's credit status"
                             update=""
                             process="@this" />
 
-                <p:divider rendered="#{jobManager.user.hasModule('reportManager')}" />
+                <p:divider />
 
                 <p:menuitem value="Reports"
                             title="Open the Reports tab"
                             icon="pi pi-chart-bar"
-                            rendered="#{jobManager.user.hasModule('reportManager')}"
                             actionListener="#{reportManager.openReportDialog}" 
                             process="@this" />
 
