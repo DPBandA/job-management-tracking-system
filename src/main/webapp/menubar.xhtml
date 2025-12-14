@@ -59,21 +59,7 @@ Email: info@dpbennett.com.jm
                             update=":mainTabViewForm:mainTabView"
                             listener="#{jobManager.jobDialogReturn}" />
 
-                </p:menuitem>
-
-                <p:divider />
-
-                <p:menuitem value="Proforma Invoice"
-                            title="Create new proforma invoice"
-                            icon="pi pi-plus"
-                            actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
-                            process="@this" >
-
-                    <p:ajax event="dialogReturn" 
-                            listener="#{jobFinanceManager.proformaDialogReturn}"
-                            update=""/>
-
-                </p:menuitem> 
+                </p:menuitem>               
 
             </p:submenu>
 
@@ -327,8 +313,7 @@ Email: info@dpbennett.com.jm
                         process="@this" /> 
         </p:submenu>     
 
-        <p:submenu label="Finance" 
-                   rendered="#{jobManager.user.hasModule('financeManager')}"
+        <p:submenu label="Finance"                    
                    icon="pi pi-fw pi-dollar" >
 
             <p:submenu label="New" 
@@ -337,7 +322,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Proforma Invoice"
                             title="Create new proforma invoice"
                             icon="pi pi-plus"
-                            actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}" 
+                            actionListener="#{jobFinanceManager.createNewProformaInvoice}" 
                             process="@this" >
 
                     <p:ajax event="dialogReturn" 
