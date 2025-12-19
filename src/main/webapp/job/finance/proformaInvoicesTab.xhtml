@@ -24,13 +24,11 @@ Email: info@dpbennett.com.jm
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">    
 
-    <ui:include src="proformaSearchToolbar.xhtml"/>
-
     <p:toolbar style="margin-bottom: 1px;" >
         <p:toolbarGroup align="left" > 
             <p:commandButton title="Create new proforma invoice" 
                              value="New"                                                     
-                             actionListener="#{jobFinanceManager.openNewProformaInvoiceDialog}"
+                             actionListener="#{jobFinanceManager.createNewProformaInvoice}"
                              global="true"
                              process="@this"
                              icon="pi pi-plus">
@@ -40,8 +38,9 @@ Email: info@dpbennett.com.jm
                         update=":mainTabViewForm:mainTabView:proformaCostingsTable"/>
 
             </p:commandButton>
-            <p:spacer width="20" />
-            <p:inputText id="proformaInvoiceSearchText"   
+            <p:spacer width="20" rendered="false" />
+            <p:inputText id="proformaInvoiceSearchText"  
+                         rendered="false"
                          value="#{jobFinanceManager.proformaInvoiceSearchText}"
                          placeholder="Enter search text">
 

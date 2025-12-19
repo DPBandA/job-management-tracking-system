@@ -1,0 +1,104 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2025  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core" >
+
+    <h:form id="dashboardForm" rendered="#{jobManager.userLoggedIn}" > 
+
+        <p:panel header="Dashboard">
+
+            <p:divider style="margin-top: 0;"/>
+
+            <p:accordionPanel id="dashboardAccordion" 
+                              value="#{systemManager.dashboard.tabs}" 
+                              activeIndex="#{systemManager.dashboard.tabIndex}"
+                              var="t"   
+                              widgetVar="dashboardAccordionVar"                                                 
+                              rendered="true"
+                              multiple="false">
+
+                <p:ajax event="tabChange"       
+                        immediate="true"
+                        process="@this"
+                        update=":dashboardForm,:mainTabViewForm"
+                        listener="#{jobManager.onDashboardTabChange}" />
+
+                <p:tab title="#{t.name}" >
+
+                    <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
+
+                    <h:panelGroup rendered="#{t.id == 'Legal Office'}">
+                        <ui:include src="dashboard/legal/legalDocumentTab.xhtml" />
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{t.id == 'Job Management'}">
+                        <ui:include src="dashboard/job/jobsTab.xhtml" />
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
+                        <ui:include src="dashboard/sc/scTab.xhtml" />
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{t.id == 'Food Factory'}">
+                        <ui:include src="dashboard/fs/fsTab.xhtml" />
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
+                        <ui:include src="dashboard/lm/lmTab.xhtml" />
+                    </h:panelGroup>   
+
+                    <h:panelGroup rendered="#{t.id == 'LabelPrint'}" >
+                        <ui:include src="dashboard/lp/lpTab.xhtml" /> 
+                    </h:panelGroup> 
+
+                    <h:panelGroup rendered="#{t.id == 'Client Management'}" >
+                        <ui:include src="dashboard/cm/cmTab.xhtml" />                                                                
+                    </h:panelGroup>
+
+                    <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
+                        <ui:include src="dashboard/fm/fmTab.xhtml" /> 
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{t.id == 'Human Resource'}">
+                        <ui:include src="dashboard/hr/hrmTab.xhtml" />
+                    </h:panelGroup>                                        
+
+                    <h:panelGroup rendered="#{t.id == 'Report Management'}" >
+                        <ui:include src="dashboard/rm/rmTab.xhtml" />                                                                
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{t.id == 'System Administration'}" >
+                        <ui:include src="dashboard/admin/generalAdminTab.xhtml" /> 
+                    </h:panelGroup>  
+
+                </p:tab>   
+
+            </p:accordionPanel>   
+
+        </p:panel>
+
+    </h:form>
+
+</html>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2025  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core" >
+
+    <h:form id="mainTabViewForm" rendered="#{jobManager.userLoggedIn}"> 
+
+        <p:panel>
+
+            <div class="grid">
+                <div class="col-12">
+
+                    <ui:remove>
+                        <ui:include src="menubar.xhtml" />
+                    </ui:remove>
+
+                    <p:tabView id="mainTabView"  
+                               rendered="#{systemManager.mainTabView.render}"
+                               value="#{systemManager.mainTabView.tabs}" 
+                               activeIndex="#{systemManager.mainTabView.tabIndex}"
+                               var="t" 
+                               dynamic="false"                                                   
+                               widgetVar="mainTabViewVar">
+
+                        <p:ajax event="tabClose" 
+                                immediate="true"
+                                process="@this"
+                                listener="#{systemManager.onMainViewTabClose}" />  
+
+                        <p:ajax event="tabChange" 
+                                process="@form"      
+                                update=":dashboardForm,:mainTabViewForm"
+                                listener="#{jobManager.onMainViewTabChange}" />  
+
+
+                        <p:tab title="#{t.name}" closable="true"  >
+
+                            <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
+
+                            <h:panelGroup rendered="#{t.id == 'Jobs'}">                                
+                                <ui:include src="job/jobBrowser.xhtml" /> 
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Clients'}" >
+                                <ui:include src="client/clientsTab.xhtml" />                                                                
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Human Resource'}" >
+                                <ui:include src="hr/hrmTab.xhtml" /> 
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'System Administration'}" >
+                                <ui:include src="admin/generalAdminTab.xhtml" /> 
+                            </h:panelGroup>                                               
+
+                            <h:panelGroup rendered="#{t.id == 'Proforma Invoices'}">                                
+                                <ui:include src="job/finance/proformaInvoicesTab.xhtml" /> 
+                            </h:panelGroup>
+
+                            <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
+                                <ui:include src="finance/financialAdminTab.xhtml" /> 
+                            </h:panelGroup> 
+
+                            <h:panelGroup rendered="#{t.id == 'Purchase Requisitions'}" >
+                                <ui:include src="finance/purch/purchreqsTab.xhtml" />                                                                
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Inventory'}" >
+                                <ui:include src="finance/ims/inventoryTab.xhtml" />                                                                
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Inventory Requisitions'}" >
+                                <ui:include src="finance/ims/inventoryRequisitionTab.xhtml" />                                                                
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Suppliers'}" >
+                                <ui:include src="finance/purch/suppliersTab.xhtml" />                                                                
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Inventory Products'}" >
+                                <ui:include src="finance/ims/inventoryProductBrowser.xhtml" />                                                                
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Market Products'}" >
+                                <ui:include src="finance/marketProductBrowser.xhtml" />                                                                
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Report Templates'}" >
+                                <ui:include src="report/reportTemplatesTab.xhtml" />                                                               
+                            </h:panelGroup>   
+
+                            <h:panelGroup  rendered="#{t.id == 'Surveys'}">
+                                <ui:include src="compliance/survey/surveysTab.xhtml" /> 
+                            </h:panelGroup> 
+
+                            <h:panelGroup  rendered="#{t.id == 'Complaints'}">
+                                <ui:include src="compliance/complaint/complaintsTab.xhtml" /> 
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Standards'}" >
+                                <ui:include src="compliance/standard/standardsTab.xhtml" />                                                                
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Factory Inspections'}" >
+                                <ui:include src="compliance/factory/factoryInspectionsTab.xhtml" />                                                                
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Manufacturers/Factories'}" >
+                                <ui:include src="compliance/factory/manufacturersTab.xhtml"/>  
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Factories'}" >
+                                <ui:include src="foodsafety/foodFactoriesTab.xhtml"/>  
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Petrol Stations'}" >
+                                <ui:include src="legalmet/petrolStationsTab.xhtml"/>  
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Scales'}" >
+                                <ui:include src="legalmet/scalesTab.xhtml"/>  
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Label Browser'}" >
+                                <ui:include src="label/labelsTab.xhtml" /> 
+                            </h:panelGroup> 
+
+                            <h:panelGroup rendered="#{t.id == 'Compliance'}" >
+                                <ui:include src="label/complianceOptionsTab.xhtml" /> 
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Energy Efficiency'}" >
+                                <ui:include src="label/energyEfficiencyOptionsTab.xhtml" /> 
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'LabelPrint'}" >
+                                <ui:include src="label/labelPrintOptionsTab.xhtml" /> 
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{t.id == 'Legal Documents'}">                                
+                                <ui:include src="legal/documentBrowser.xhtml" />   
+                            </h:panelGroup> 
+
+                        </p:tab>
+
+                    </p:tabView> 
+
+                </div> 
+
+            </div>            
+        </p:panel>
+
+    </h:form>
+
+</html>
