@@ -1,0 +1,48 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:form id="headerForm" rendered="#{jobManager.userLoggedIn}">
+
+        <p:sidebar widgetVar="sidebar1" style="z-index:1000">
+
+            <p:panel>
+                <f:facet name="header">
+                    <h:panelGroup style="display:flex;align-items:center;">
+                        <p:graphicImage value="#{jobManager.logoURL}"
+                                        width="30" height="30"
+                                        style="margin-right:0.5em;"/>
+                    </h:panelGroup>
+                </f:facet>
+
+                <p:menu style="border:0;">
+                    <p:menuitem value="Website"
+                                url="https://dpbennett.com.jm/jmts/"
+                                icon="pi pi-globe"/>
+                    <p:menuitem value="User Guide"
+                                url="https://dpbennett.com.jm/jmts-doc"
+                                icon="pi pi-file"/>
+                    <p:divider/>
+                    <p:menuitem value="Logout"
+                                actionListener="#{jobManager.logout}"
+                                oncomplete="location.reload();"
+                                icon="pi pi-sign-out"/>
+                </p:menu>
+            </p:panel>
+
+        </p:sidebar>
+
+        <p:growl id="growl3" life="5000" showDetail="true"/>
+
+        <p:panel id="header">
+
+            <ui:include src="header-grid.xhtml"/>
+
+        </p:panel>
+
+    </h:form>
+
+</ui:composition>

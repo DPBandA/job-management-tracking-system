@@ -1,0 +1,123 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2025  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core" >
+
+    <div class="col-12 col-nogutter">
+        <div class="grid">
+            <div class="col-12 md:col-4">
+                <h:panelGroup style="float: left;margin-right: 10px;" >
+                    <p:commandButton styleClass="ui-button-flat hamburger hamburger-icon"
+                                     rendered="true"
+                                     onclick="PF('sidebar1').show()"
+                                     icon="pi pi-bars" />
+                </h:panelGroup>
+                <h:panelGroup style="float: left;margin-right: 10px;" >
+                    <p:graphicImage value="#{jobManager.logoURL}"
+                                    class="logo"
+                                    height="#{jobManager.logoURLImageHeight}" 
+                                    width="#{jobManager.logoURLImageWidth}"/>
+                </h:panelGroup>
+                <h:panelGrid columns="1" cellspacing="0" >   
+
+                    <p:outputLabel value="#{jobManager.applicationHeader}"
+                                   class="header-text" />
+
+                    <p:outputLabel value="#{jobManager.applicationSubheader}"
+                                   class="subheader-text" />  
+
+                </h:panelGrid>
+            </div>    
+            <div class="col-12 md:col-4">
+                <p:outputPanel style="text-align: center;">
+                    <h:outputText value="#{jobManager.lastSystemNotificationContent}"                                                   
+                                  style="font-size: 1em;"
+                                  escape="false" />
+                </p:outputPanel>                          
+            </div>  
+            <div class="col-12 md:col-4">
+                <h:panelGroup style="float: right;" >
+
+                    <p:badge value="#{jobManager.sizeOfActiveNotifications}" 
+                             id="notificationBadge"
+                             rendered="false"
+                             visible="#{jobManager.hasActiveNotifications}" 
+                             severity="danger">
+
+                        <p:commandButton id="notifications" 
+                                         class="notification-button"
+                                         icon="pi pi-bell" />
+                        <p:overlayPanel for="notifications"   
+                                        widgetVar="NotificationPanelVar"
+                                        style="width:400px;">
+                            <p:orderList value="#{jobManager.notifications}" 
+                                         var="notification" 
+                                         itemValue="#{notification}"
+                                         converter="#{notificationConverter}" 
+                                         controlsLocation="none" responsive="true" >
+
+                                <p:ajax event="select" 
+                                        update=":headerForm:notificationBadge"
+                                        oncomplete="PF('NotificationPanelVar').hide()"
+                                        listener="#{jobManager.onNotificationSelect}" />
+
+                                <p:column>
+                                    <p:outputLabel value="#{notification.name}" 
+                                                   style="#{notification.style}"/>
+                                </p:column>                                           
+
+                            </p:orderList>
+                        </p:overlayPanel>
+
+                    </p:badge>
+                    <p:spacer width="30"/>                                   
+
+
+                    <p:commandButton actionListener="#{jobManager.viewUserProfile}"                                            
+                                     update=":userProfileDialogForm"
+                                     oncomplete="PF('userProfileDialog').show();"
+                                     icon="pi pi-user"
+                                     title="Profile"
+                                     style="margin-right: 10px;"
+                                     styleClass="rounded-button"
+                                     process="@this"/>  
+                    <p:commandButton actionListener="#{jobManager.logout}"                                             
+                                     icon="pi pi-sign-out"
+                                     styleClass="rounded-button"
+                                     title="Logout"
+                                     oncomplete="location.reload();"
+                                     process="@this"/>    
+
+
+                </h:panelGroup>
+            </div>
+        </div>
+    </div>     
+    <div class="col-12 col-nogutter">
+        <ui:include src="menubar.xhtml" />
+    </div>
+
+
+</html>

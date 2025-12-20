@@ -26,41 +26,38 @@ Email: info@dpbennett.com.jm
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
     xmlns:f="http://java.sun.com/jsf/core">
 
-    <ui:define name="head">        
+    <!-- ===== HEAD ===== -->
+    <ui:define name="head">
+        <ui:include src="head.xhtml"/>
         <title>#{jobManager.applicationHeader}</title>
 
         <script type="text/javascript" src="js/javascripts.js"/>
         <script type="text/javascript" src="js/app.js"/>
 
-        <link rel="shortcut icon" type="image/x-icon" href="#{jobManager.appShortcutIconURL}" />
         <link rel="stylesheet" href="css/main.css"/>
         <link rel="stylesheet" href="css/sm.css"/>
     </ui:define>
 
+    <!-- ===== DIALOGS ===== -->
     <ui:define name="dialogs">
         <ui:include src="common/commonDialogs.xhtml"/>
         <ui:include src="loginDialog.xhtml"/>
         <ui:include src="common/userProfileDialog.xhtml"/>
     </ui:define>
 
-    <ui:define name="header">
-        <ui:include src="header.xhtml"/>
-    </ui:define>
-
-    <ui:define name="upper-divider">
-        <p:divider rendered="#{jobManager.userLoggedIn}" />
-    </ui:define>
-
-    <ui:define name="main-content">
+    <!-- ===== MAIN CONTENT ===== -->
+    <ui:define name="content">
 
         <p:scrollPanel mode="native">
 
             <main class="flex flex-column md:flex-row flex-auto">
 
+                <!-- LEFT DASHBOARD -->
                 <aside class="w-full md:w-3 flex-shrink-0">
                     <ui:include src="dashboard.xhtml"/>
                 </aside>
 
+                <!-- RIGHT MAIN -->
                 <section class="w-full md:w-9">
                     <ui:include src="mainTabView.xhtml"/>
                 </section>
@@ -74,14 +71,6 @@ Email: info@dpbennett.com.jm
 
         </p:scrollPanel>
 
-    </ui:define>
-
-    <ui:define name="lower-divider">
-        <p:divider rendered="#{jobManager.userLoggedIn}" />
-    </ui:define>
-
-    <ui:define name="footer">
-        <ui:include src="footer.xhtml"/>
     </ui:define>
 
 </ui:composition>

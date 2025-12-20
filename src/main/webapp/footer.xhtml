@@ -1,0 +1,34 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:form rendered="#{jobManager.userLoggedIn}">
+
+        <footer class="footer">
+            <div class="grid">
+                <div class="col-12">
+                    <p:toolbar>
+                        <p:toolbarGroup align="left">
+                            <p:link href="#{jobManager.organizationWebsite}"
+                                    value="© #{jobManager.copyrightOrganization}"/>
+                        </p:toolbarGroup>
+
+                        <p:toolbarGroup align="right">
+                            <p:link href="#{jobManager.supportURL}"
+                                    value="#{jobManager.applicationFooter}"/>
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </div>
+            </div>
+        </footer>
+
+        <p:poll interval="60"
+                global="false"
+                onerror="PF('connectionErrorDialog').show();"
+                listener="#{jobManager.handleKeepAlive}"/>
+
+    </h:form>
+
+</ui:composition>
