@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2024  D P Bennett & Associates Limited
+Copyright (C) 2025  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -17,24 +17,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">   
-    <h:head>
-        <ui:include src="../../head.xhtml" />        
+<ui:composition template="/jmts-ui/templates/jmts-dialog.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="head">
         <title>Cost Estimate</title>
-        <script type="text/javascript" src="../../js/javascripts.js"/>
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />
-        <link rel="stylesheet" href="../../css/main.css" />  
-    </h:head>
-    
-    <h:body> 
+    </ui:define>
+
+    <ui:define name="content">
+
         <ui:include src="costingComponentDialog.xhtml"/>       
         <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>    
-        <ui:include src="/common/commonDialogs.xhtml"/>  
+         
         <h:form id="jobCostingDialogForm"> 
 
             <p:growl id="jobCosting_growl" life="5000" showDetail="false"/>
@@ -81,7 +79,7 @@ Email: info@dpbennett.com.jm
                         <f:converter converterId="departmentConverter"/>
 
                         <f:attribute name="em" value="#{humanResourceManager.entityManager1}"/>
-                        
+
                         <p:ajax event="itemSelect"
                                 listener="#{jobManager.updateDepartment}"
                                 global="false"
@@ -291,5 +289,6 @@ Email: info@dpbennett.com.jm
             </p:panel>  
             <br/>           
         </h:form>   
-    </h:body>
-</html>
+
+    </ui:define>
+</ui:composition>

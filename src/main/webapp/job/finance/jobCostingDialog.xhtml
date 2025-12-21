@@ -17,23 +17,23 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">   
-    <h:head>
-        <ui:include src="../../head.xhtml" /> 
-        <title>Job Costing</title>
-        <ui:include src="header.xhtml" /> 
-    </h:head>
+<ui:composition template="/jmts-ui/templates/jmts-dialog.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <h:body> 
+    <ui:define name="head">
+        <title>Job Costing</title>
+    </ui:define>
+
+    <ui:define name="content">
+
         <ui:include src="costingComponentDialog.xhtml"/>       
         <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>   
         <ui:include src="jobCostingTemplateManagerDialog.xhtml"/>        
-        <ui:include src="/common/commonDialogs.xhtml"/>  
+        
         <h:form id="jobCostingDialogForm" > 
             <p:remoteCommand name="rc" autoRun="true" 
                              actionListener="#{jobFinanceManager.checkForSubcontracts}" />
@@ -297,7 +297,7 @@ Email: info@dpbennett.com.jm
                             <h:outputText value="--" styleClass="datatable-number-field"/>
                         </f:facet>
                     </p:column>
- 
+
                     <p:column rendered="#{costComponent.isHeading}">
                         <f:facet name="header">
                             <h:outputText value=" " />
@@ -474,5 +474,6 @@ Email: info@dpbennett.com.jm
             </p:panel>  
             <ui:include src="jobCostingDialogBottomToolbar.xhtml"/>            
         </h:form>   
-    </h:body>
-</html>
+
+    </ui:define>
+</ui:composition>

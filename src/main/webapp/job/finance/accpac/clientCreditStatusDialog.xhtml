@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2023  D P Bennett & Associates Limited
+Copyright (C) 2025  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -17,22 +17,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 Email: info@dpbennett.com.jm
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets" >
-    <h:head>
-        <ui:include src="../../../head.xhtml" />        
+<ui:composition template="/jmts-ui/templates/jmts-dialog.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="head">
         <title>Client Credit Status</title>
-        <script type="text/javascript" src="../../../js/javascripts.js" /> 
-        <h:outputStylesheet library="webjars" name="primeflex/3.2.1/primeflex.min.css" />       
-        <link rel="stylesheet" type="text/css" href="../../../css/main.css" />        
-    </h:head>
-    <h:body>        
-        <ui:include src="/common/commonDialogs.xhtml"/>  
-        
+    </ui:define>
+
+    <ui:define name="content">
+
         <h:form id="clientCreditStatusDialogForm" >   
             <p:growl id="client_credit_status_dialog_growl" 
                      life="5000" 
@@ -53,11 +50,11 @@ Email: info@dpbennett.com.jm
                        style="margin-top: 1px;margin-bottom: 1px;"
                        dynamic="false"
                        widgetVar="clientTabVar" >
-                
+
                 <p:tab title="Credit status">                
                     <ui:include src="accPacClientCreditStatus.xhtml"/>               
                 </p:tab>
-                
+
             </p:tabView>
 
             <p:toolbar style="margin-top: 1px;">
@@ -71,5 +68,6 @@ Email: info@dpbennett.com.jm
             </p:toolbar>
 
         </h:form>      
-    </h:body>
-</html>
+
+    </ui:define>
+</ui:composition>
