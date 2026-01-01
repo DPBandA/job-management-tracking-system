@@ -139,6 +139,12 @@
     </managed-bean>
     
     <managed-bean>
+        <managed-bean-name>mobileManager</managed-bean-name>
+        <managed-bean-class>jm.com.dpbennett.jmts.manager.MobileManager</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
         <managed-bean-name>jobSampleManager</managed-bean-name>
         <managed-bean-class>jm.com.dpbennett.jmts.manager.JobSampleManager</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>

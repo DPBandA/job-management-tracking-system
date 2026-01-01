@@ -57,13 +57,17 @@ Email: info@dpbennett.com.jm
 
             <main class="flex flex-column md:flex-row flex-auto">
 
-                <aside class="w-full md:w-3 flex-shrink-0">
-                    <ui:include src="dashboard.xhtml"/>
-                </aside>
+                <p:outputPanel styleClass="w-full md:w-3 flex-shrink-0" 
+                               rendered="#{!systemManager.booleanOption('RenderMobileUI')}">                    
+                    <ui:include src="dashboard.xhtml"/>                    
+                </p:outputPanel>
 
-                <section class="w-full md:w-9">
+                <p:outputPanel
+                    styleClass="w-full #{systemManager.booleanOption('RenderMobileUI') ? 'md:w-12' : 'md:w-9'}">
+
                     <ui:include src="mainTabView.xhtml"/>
-                </section>
+
+                </p:outputPanel>
 
             </main>
 

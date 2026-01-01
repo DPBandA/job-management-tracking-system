@@ -115,9 +115,9 @@ Email: info@dpbennett.com.jm
             </div>
         </div>
     </div>     
-    <div class="col-12 col-nogutter">
+    <p:outputPanel styleClass="col-12 col-nogutter" 
+                   rendered="#{!systemManager.booleanOption('RenderMobileUI')}">
         <ui:include src="menubar.xhtml" />
-    </div>
-
-
+    </p:outputPanel>
+    
 </html>
