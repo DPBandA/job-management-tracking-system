@@ -116,7 +116,7 @@ Email: info@dpbennett.com.jm
         </div>
     </div>     
     <p:outputPanel styleClass="col-12 col-nogutter" 
-                   rendered="#{!systemManager.booleanOption('RenderMobileUI')}">
+                   rendered="#{!jobManager.user.renderMobileUI}">
         <ui:include src="menubar.xhtml" />
     </p:outputPanel>
     

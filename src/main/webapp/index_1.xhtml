@@ -58,12 +58,12 @@ Email: info@dpbennett.com.jm
             <main class="flex flex-column md:flex-row flex-auto">
 
                 <p:outputPanel styleClass="w-full md:w-3 flex-shrink-0" 
-                               rendered="#{!jobManager.user.renderMobileUI}">                    
+                               rendered="#{!systemManager.booleanOption('RenderMobileUI')}">                    
                     <ui:include src="dashboard.xhtml"/>                    
                 </p:outputPanel>
 
                 <p:outputPanel
-                    styleClass="w-full #{jobManager.getUser().isRenderMobileUI() ? 'md:w-12' : 'md:w-9'}">
+                    styleClass="w-full #{systemManager.booleanOption('RenderMobileUI') ? 'md:w-12' : 'md:w-9'}">
 
                     <ui:include src="mainTabView.xhtml"/>
 
