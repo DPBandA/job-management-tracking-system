@@ -1,0 +1,216 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>jm.com.dpbennett</groupId>
+    <artifactId>job-management-tracking-system</artifactId>
+    <version>5.8.0</version>
+    <packaging>war</packaging>
+
+    <name>k.JMTS</name>
+    <description>The Job Management &amp; Tracking System (JMTS) enterprise software.</description>
+
+    <!-- ===================================================== -->
+    <!-- Properties -->
+    <!-- ===================================================== -->
+    <properties>
+        <java.version>1.8</java.version>
+
+        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+    </properties>
+
+    <!-- ===================================================== -->
+    <!-- Dependencies (UNCHANGED) -->
+    <!-- ===================================================== -->
+    <dependencies>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>system-management-lib</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>system-management</artifactId>
+            <version>2.2.2</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>human-resource-management</artifactId>
+            <version>2.0.0</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>report-management</artifactId>
+            <version>2.0.0</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>financial-management</artifactId>
+            <version>2.0.0</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>client-management</artifactId>
+            <version>3.0.0</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>standards-compliance</artifactId>
+            <version>2.0.0</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>labelprint</artifactId>
+            <version>4.1.0</version>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>legal-office</artifactId>
+            <version>1.0.0</version>
+            <type>war</type>
+        </dependency>
+
+    </dependencies>
+
+    <!-- ===================================================== -->
+    <!-- Build -->
+    <!-- ===================================================== -->
+    <build>
+        <plugins>
+
+            <!-- Compiler -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <parameters>true</parameters>
+                    <compilerArgs>
+                        <arg>-endorseddirs</arg>
+                        <arg>${endorsed.dir}</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!-- WAR + Overlays -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+
+                    <dependentWarExcludes>
+                        WEB-INF/web.xml,
+                        WEB-INF/glassfish-web.xml,
+                        loginDialog.xhtml,
+                        index.xhtml
+                    </dependentWarExcludes>
+
+                    <overlays>
+
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>report-management</artifactId>
+                        </overlay>
+
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>client-management</artifactId>
+                        </overlay>
+
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>financial-management</artifactId>
+                        </overlay>
+
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>human-resource-management</artifactId>
+                        </overlay>
+
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>system-management</artifactId>
+                        </overlay>
+
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>standards-compliance</artifactId>
+                        </overlay>
+
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>labelprint</artifactId>
+                        </overlay>
+
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>legal-office</artifactId>
+                        </overlay>
+
+                    </overlays>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <!-- ===================================================== -->
+    <!-- Profiles -->
+    <!-- ===================================================== -->
+    <profiles>
+
+        <!-- Explicit clean build (opt-in only) -->
+        <profile>
+            <id>clean-build</id>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>3.4.0</version>
+                        <executions>
+                            <execution>
+                                <id>force-clean</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>clean</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+    </profiles>
+
+</project>
