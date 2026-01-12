@@ -1,0 +1,119 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2026  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:dialog header="Job Search"
+              responsive="true"
+              position="center"
+              modal="true"         
+              widgetVar="jobSearchDialog"
+              width="300px"
+              closable="true"
+              resizable="true">
+
+        <h:form id="jobSearchDialogForm">
+
+            <div class="field">
+                <h:outputText value="Type" style="margin-right: 5px;font-weight: bold;" />
+                <p:selectOneMenu value="#{jobManager.searchType}" >
+
+                    <f:selectItems value="#{jobManager.groupedSearchTypes}" />
+
+                </p:selectOneMenu>
+            </div>
+
+            <div class="field">
+                <h:outputText value="Date" style="margin-right: 5px;font-weight: bold;" />
+                <p:selectOneMenu value="#{jobManager.dateSearchPeriod.dateField}" 
+                                 id="jobDateField"
+                                 title="Select the date field on which to search" >
+                    <f:selectItems value="#{jobManager.dateSearchFields}" />
+
+                </p:selectOneMenu>
+            </div>
+
+            <div class="field">
+                <h:outputText value="Period" style="margin-right: 5px;font-weight: bold;"/>               
+                <p:selectOneMenu value= "#{jobManager.dateSearchPeriod.name}"
+                                 id="jobDatePeriod"
+                                 title="Select the date period">
+
+                    <p:ajax listener="#{jobManager.dateSearchPeriod.initDatePeriod}"
+                            global="false"
+                            update="jobStartSearchDate,jobEndSearchDate"
+                            process="@this" />
+
+                    <f:selectItems value="#{jobManager.datePeriods}"/>
+
+                </p:selectOneMenu>
+            </div>
+
+            <div class="field">
+                <h:outputText value="Start" style="margin-right: 5px;font-weight: bold;" />
+                <p:calendar value="#{jobManager.dateSearchPeriod.startDate}"  
+                            id="jobStartSearchDate"
+                            title="Select or enter the start of the date period"
+                            size="17"
+                            navigator="true"
+                            autocomplete="off"
+                            validator="requiredFieldValidator"
+                            disabled="#{jobManager.dateSearchPeriod.startDateDisabled}"
+                            pattern="MMM dd, yyyy" />
+            </div>
+
+            <div class="field">
+                <h:outputText value="End" style="margin-right: 5px;font-weight: bold;" />
+                <p:calendar value="#{jobManager.dateSearchPeriod.endDate}"
+                            id="jobEndSearchDate"
+                            title="Select or enter the end of the date period"
+                            size="17"
+                            navigator="true"
+                            validator="requiredFieldValidator"
+                            disabled="#{jobManager.dateSearchPeriod.endDateDisabled}"
+                            pattern="MMM dd, yyyy" />
+            </div>
+
+            <div class="field">
+                <p:inputText value="#{jobManager.searchText}"  
+                             style="margin-right: 5px;"
+                             placeholder="Enter search text"
+                             id="jobSearchText" />  
+                <p:commandButton id="jobSearchButton"   
+                                 class="search-button"   
+                                 global="true"
+                                 actionListener="#{jobManager.doDefaultSearch}"
+                                 oncomplete="PF('jobSearchDialog').hide();window.location.reload();"
+                                 icon="pi pi-search"
+                                 process="@form" />
+            </div>
+
+        </h:form>
+
+    </p:dialog>
+
+</html>
