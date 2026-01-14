@@ -97,14 +97,17 @@ Email: info@dpbennett.com.jm
                     <p:spacer width="30"/>                                   
 
 
-                    <p:commandButton actionListener="#{jobManager.viewUserProfile}"                                            
-                                     update=":userProfileDialogForm"
-                                     oncomplete="PF('userProfileDialog').show();"
+                    <p:commandButton actionListener="#{systemManager.editUserProfile}"   
+                                     title="View or edit user profile" 
                                      icon="pi pi-user"
-                                     title="Profile"
                                      style="margin-right: 10px;"
                                      styleClass="rounded-button"
-                                     process="@this"/>  
+                                     process="@this">
+
+                        <p:ajax event="dialogReturn" 
+                                oncomplete="window.location.reload();"/>
+
+                    </p:commandButton> 
                     <p:commandButton actionListener="#{jobManager.logout}"                                             
                                      icon="pi pi-sign-out"
                                      styleClass="rounded-button"
@@ -121,5 +124,5 @@ Email: info@dpbennett.com.jm
                    rendered="#{!jobManager.user.renderMobileUI}">
         <ui:include src="menubar.xhtml" />
     </p:outputPanel>
-    
+
 </html>

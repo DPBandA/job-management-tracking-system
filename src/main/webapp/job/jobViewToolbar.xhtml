@@ -59,11 +59,15 @@ Email: info@dpbennett.com.jm
             <p:spacer height="0" width="5"/>
             <p:commandButton
                 rendered="#{jobManager.user.renderMobileUI}"
-                oncomplete="PF('jobSearchDialog').show();"
+                actionListener="#{jobManager.viewJobSearchDialog}"
                 global="true"                                  
                 title="Search for jobs"
                 icon="pi pi-search"
                 process="@this">  
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView" />
+
             </p:commandButton>
             <p:spacer height="0" width="30"/>
             <p:commandButton value="Approve"  

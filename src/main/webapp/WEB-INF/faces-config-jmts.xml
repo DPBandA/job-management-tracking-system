@@ -131,6 +131,13 @@
             <to-view-id>/job/jobDialog.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule> 
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>jobSearchDialog</from-outcome>
+            <to-view-id>/job/jobSearchDialog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule> 
              
     <managed-bean>
         <managed-bean-name>jobManager</managed-bean-name>
