@@ -142,8 +142,9 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem value="Client Management"
                             title="Open the Clients tab"
+                            rendered="#{jobManager.user.hasModule('clientManager')}"
                             icon="pi pi-users"
-                            actionListener="#{jobManager.openClientsTab}" 
+                            actionListener="#{clientManager.openClientsTab}" 
                             process="@this" />
 
                 <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
