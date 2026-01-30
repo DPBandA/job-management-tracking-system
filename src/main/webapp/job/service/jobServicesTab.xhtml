@@ -60,10 +60,30 @@ Email: info@dpbennett.com.jm
                         <p:ajax event="itemSelect"
                                 listener="#{jobContractManager.updateService}"
                                 global="false"
-                                update=":jobDialogForm:jobDetailToolbar1"
+                                update=":jobDialogForm:jobDetailToolbar1,servicesRequested,serviceContract"
                                 process="@this"/>
 
-                    </p:autoComplete>    
+                    </p:autoComplete>  
+                    <p:outputLabel value="Other service requested" 
+                                   id="otherServiceTextLabel"
+                                   for="otherServiceText"
+                                   rendered="#{jobContractManager.currentJob.serviceContract.selectedService.name == 'Other'}"
+                                   style="font-weight: bold" />  
+                    <p:inputText id="otherServiceText"
+                                 rendered="#{jobContractManager.currentJob.serviceContract.selectedService.name == 'Other'}"
+                                 maxlength="250"
+                                 placeholder="Other service"
+                                 requiredMessage="Other Service Name Required"
+                                 required="true"
+                                 value="#{jobContractManager.currentJob.serviceContract.serviceRequestedOtherText}">
+
+                        <p:ajax listener="#{jobContractManager.updateJob}"
+                                update=":jobDialogForm:jobDetailToolbar1"
+                                global="false"
+                                event="change"                                        
+                                process="@this"/>
+
+                    </p:inputText>
 
                     <h:outputLabel value="Service location *" 
                                    style="font-weight: bold;"
@@ -118,13 +138,28 @@ Email: info@dpbennett.com.jm
                                       columns="3">
 
                     <p:ajax listener="#{jobContractManager.updateServices}" 
-                            update="serviceRequested,:jobDialogForm:jobDetailToolbar1" />
+                            update="serviceRequested,:jobDialogForm:jobDetailToolbar1,serviceContract" />
 
                     <f:selectItems value="#{jobContractManager.services}" 
-                                   var="service" itemLabel="#{service.name}" 
+                                   var="service" 
+                                   itemLabel="#{service.name}" 
                                    itemValue="#{service}"/>
 
                 </p:selectManyCheckbox>
+
+                <p:inputText id="otherServiceText2"
+                             rendered="#{jobContractManager.serviceRequestedOther}"
+                             placeholder="[Enter other service]"
+                             maxlength="250"
+                             value="#{jobContractManager.currentJob.serviceContract.serviceRequestedOtherText}" >
+                  
+                    <p:ajax listener="#{jobContractManager.updateServices}"
+                            update=":jobDialogForm:jobDetailToolbar1"
+                            event="change"
+                            global="false"
+                            process="@this"/>
+                    
+                </p:inputText>  
 
             </p:panel>
 
