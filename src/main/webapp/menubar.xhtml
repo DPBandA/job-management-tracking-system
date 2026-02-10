@@ -298,7 +298,7 @@ Email: info@dpbennett.com.jm
 
             </p:menuitem>
 
-            <p:divider />
+            <p:divider rendered="#{jobManager.user.can('AddClient')}" />
 
             <p:menuitem value="Client Management"
                         title="Open the Clients tab"
@@ -306,7 +306,7 @@ Email: info@dpbennett.com.jm
                         actionListener="#{clientManager.openClientsTab}" 
                         process="@this" />
 
-            <p:divider />
+            <p:divider rendered="#{jobManager.user.hasModule('clientManager')}" />
 
             <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
                         value="Client Credit Status"
