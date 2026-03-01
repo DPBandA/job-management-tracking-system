@@ -304,11 +304,14 @@ Email: info@dpbennett.com.jm
                      paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
                      value="#{jobManager.statusNotes}">
 
-            <p:column>
+            <p:column width="65%">
                 <f:facet name="header">
                     <h:outputText value="Note"/>
                 </f:facet>
-                <h:outputText value="#{statusNote.text}" />            
+                <p:inputTextarea
+                    style="width: 100%; border: 0;"
+                    readonly="true"
+                    value="#{statusNote.text}" />           
             </p:column>
             <p:column width="20%">
                 <f:facet name="header">

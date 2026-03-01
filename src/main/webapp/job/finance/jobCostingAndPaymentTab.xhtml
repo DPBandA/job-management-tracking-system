@@ -29,13 +29,14 @@ Email: info@dpbennett.com.jm
 
     <p:panel id="jobCosting" header="Costing">
         <p:toolbar>
-          
+
             <p:toolbarGroup align="left"                         
                             style="margin-top: 5px;">  
 
                 <p:commandButton icon="pi pi-dollar"
                                  value="Costing"
                                  actionListener="#{jobFinanceManager.openJobCostingDialog}"
+                                 disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                                  process="@this"
                                  update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
                                  title="View or edit job costing">
@@ -130,7 +131,7 @@ Email: info@dpbennett.com.jm
                             value="#{jobFinanceManager.discount}"
                             title="#{jobFinanceManager.discount}"
                             styleClass="#{jobFinanceManager.canApplyDiscount eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                            disabled="#{jobManager.disableJobDialogField('discount')}"
+                            disabled="#{jobManager.disableJobDialogField('discount') || jobManager.disableJobDialogField('costingandpayment')}"
                             itemValue="#{discount}"
                             itemLabel="#{discount.name}"
                             validator="businessEntityValidator"
@@ -160,7 +161,7 @@ Email: info@dpbennett.com.jm
                             value="#{jobFinanceManager.tax}"
                             title="#{jobFinanceManager.tax}"
                             styleClass="#{jobFinanceManager.canApplyTax eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                            disabled="#{jobManager.disableJobDialogField('tax')}"
+                            disabled="#{jobManager.disableJobDialogField('tax') || jobManager.disableJobDialogField('costingandpayment')}"
                             itemValue="#{tax}"
                             itemLabel="#{tax.name}"
                             validator="businessEntityValidator"
@@ -220,6 +221,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:inputText id="totalCost"
                              maxlength="15"
+                             disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                              value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalCost}"                                 
                              styleClass="read-only-number-field"
                              readonly="true">
@@ -228,6 +230,7 @@ Email: info@dpbennett.com.jm
                 </p:inputText>
                 <p:commandButton icon="pi pi-pencil"
                                  actionListener="#{jobFinanceManager.openJobCostingDialog}"
+                                 disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                                  process="@this"
                                  update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
                                  title="View or edit job costing">
@@ -260,6 +263,30 @@ Email: info@dpbennett.com.jm
             </p:inputText>
             <h:outputText value="&nbsp;"
                           rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
+            
+            <h:outputText value="Reason for reimbursable" 
+                          rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />       
+            <p:inputTextarea
+                id="reasonForReimbursable"
+                value="#{jobManager.currentJob.comment}"
+                disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                rows="2"
+                counter="reasonForReimbursableCharsRemaining"
+                counterTemplate="{0} characters remaining."
+                autoResize="false"
+                maxlength="150" 
+                style="width: 100%;">
+
+                <p:ajax event="change"
+                        update=""
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+
+            </p:inputTextarea>
+            <h:outputText value="&nbsp;&nbsp;" />
+            <h:outputText value="&nbsp;&nbsp;" />
+            <h:outputText id="reasonForReimbursableCharsRemaining" />
 
             <h:outputText value="Amount due ($)" 
                           rendered="#{jobManager.currentJob.type == 'Job'}" />            
