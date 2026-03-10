@@ -317,7 +317,7 @@ Email: info@dpbennett.com.jm
         </p:submenu>     
 
         <p:submenu label="Finance"    
-                   rendered="#{jobManager.user.hasModule('financeManager')}"
+                   rendered="#{jobManager.user.hasModule('financeManager') || jobManager.user.can('AddProformaInvoice')}"
                    icon="pi pi-fw pi-dollar" >
 
             <p:submenu label="New" 
