@@ -101,7 +101,7 @@ Email: info@dpbennett.com.jm
                             icon="pi pi-file-excel"
                             immediate="true"
                             rendered="#{jobContractManager.useServiceContractExcel}"
-                            disabled="#{!jobManager.currentJobIsValid}"   
+                            disabled="#{!jobManager.currentJobIsValid}" 
                             onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                     <p:fileDownload value="#{jobManager.serviceContractFileInExcel}" />
@@ -113,7 +113,7 @@ Email: info@dpbennett.com.jm
                             ajax="false" 
                             immediate="true"
                             rendered="#{jobContractManager.useServiceContractPDF}"
-                            disabled="#{!jobManager.currentJobIsValid}"   
+                            disabled="#{!jobManager.currentJobIsValid}" 
                             onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                     <p:fileDownload value="#{jobManager.serviceContractFileInPDF}" />
@@ -128,7 +128,7 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
                              immediate="true"
                              title="Export proforma invoice"                        
-                             ajax="false"
+                             ajax="false" 
                              onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                 <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />

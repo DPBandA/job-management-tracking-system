@@ -93,7 +93,7 @@ Email: info@dpbennett.com.jm
                                  rendered="#{jobManager.currentJob.type == 'Job'}"
                                  immediate="true"
                                  title="Export job costing"                        
-                                 ajax="false"
+                                 ajax="false" 
                                  onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                     <p:fileDownload value="#{jobFinanceManager.jobCostingFile}" />
@@ -106,7 +106,7 @@ Email: info@dpbennett.com.jm
                                  rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
                                  immediate="true"
                                  title="Export proforma invoice"                        
-                                 ajax="false"
+                                 ajax="false" 
                                  onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
 
                     <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
