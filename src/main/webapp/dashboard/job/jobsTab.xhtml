@@ -60,10 +60,13 @@ Email: info@dpbennett.com.jm
                             update=":mainTabViewForm:mainTabView:clientsTable" />
 
                 </p:menuitem>
-                <p:separator />
+                
+                <p:separator rendered="#{jobManager.user.can('AddProformaInvoice')}"/>
+                
                 <p:menuitem value="Proforma Invoice"
                             title="Create new proforma invoice"
                             icon="pi pi-plus"
+                            rendered="#{jobManager.user.can('AddProformaInvoice')}"
                             actionListener="#{jobFinanceManager.createNewProformaInvoice}" 
                             process="@this" >
 
@@ -99,7 +102,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem value="Proforma Invoices"
                             title="Browse proforma invoices"
-                            rendered="true"
+                            rendered="#{jobManager.user.can('AddProformaInvoice')}"
                             actionListener="#{jobFinanceManager.openProformaInvoicesTab}" 
                             process="@this" />
 
