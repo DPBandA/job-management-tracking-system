@@ -263,7 +263,7 @@ Email: info@dpbennett.com.jm
             </p:inputText>
             <h:outputText value="&nbsp;"
                           rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
-            
+
             <h:outputText value="Reason for reimbursable" 
                           rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />       
             <p:inputTextarea
@@ -306,9 +306,109 @@ Email: info@dpbennett.com.jm
         </h:panelGrid>
     </p:panel>
 
+    <p:panel id="invoices" 
+             rendered="#{jobManager.booleanSetting('AccessInvoicing')}"
+             header="Invoices" >   
+
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:commandButton value="New"
+                                 title="Add new invoice"
+                                 actionListener="#{jobFinanceManager.createNewInvoice}"
+                                 update=":jobDialogForm:growl2"
+                                 icon="pi pi-plus"
+                                 process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.invoiceDialogReturn}"                    
+                            update="invoices,:jobDialogForm:growl2"
+                            process="@this"/>
+
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>  
+
+        <p:dataTable id="invoiceTable"
+                     style="margin-top: 1px;margin-bottom: 1px;"
+                     paginator="true"
+                     rows="15"
+                     reflow="true"
+                     var="invoice"
+                     value="#{jobFinanceManager.currentJob.invoices}">
+
+            <f:facet name="header">
+                <h:outputText value="Invoices" />
+            </f:facet>
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="Invoice #" />
+                </f:facet>
+                <h:outputText value="#{invoice.jobNumber}" />
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Issue date"/>
+                </f:facet>
+                <h:outputText value="#{invoice.jobStatusAndTracking.dateCostingApproved}" >
+                    <f:convertDateTime pattern="MMM dd, yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Cost ($)"/>
+                </f:facet>
+                <h:outputText value="#{invoice.jobCostingAndPayment.finalCost}"  
+                              styleClass="datatable-number-field" >
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <p:commandButton title="View or edit invoice" 
+                                 actionListener="#{jobManager.editJob}"
+                                 update=""
+                                 global="true"
+                                 process="@this"
+                                 icon="pi pi-pencil">
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.invoiceDialogReturn}"
+                            update="invoiceTable"/>
+
+                    <f:setPropertyActionListener value="#{invoice}"
+                                                 target="#{jobManager.editCurrentJob}" />
+
+                </p:commandButton>     
+            </p:column>            
+
+        </p:dataTable>
+
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:commandButton value="New"
+                                 title="Add new invoice"
+                                 actionListener="#{jobFinanceManager.createNewInvoice}"
+                                 update=":jobDialogForm:growl2"
+                                 icon="pi pi-plus"
+                                 process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.invoiceDialogReturn}"                    
+                            update="invoices,:jobDialogForm:growl2"
+                            process="@this"/>
+
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>  
+
+    </p:panel>
+
     <p:panel id="cashPayments" 
              rendered="#{jobManager.currentJob.type == 'Job'}"
-             header="Payment" >   
+             header="Payments" >   
 
         <p:toolbar>
             <p:toolbarGroup align="left">
