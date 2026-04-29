@@ -59,7 +59,7 @@ Email: info@dpbennett.com.jm
             <p:selectBooleanCheckbox id="autoGenerate" 
                                      itemLabel="auto"
                                      style="vertical-align: middle"
-                                     rendered="#{jobManager.user.can('BeJMTSAdministrator')}"
+                                     rendered="#{jobManager.user.can('BeFinancialAdministrator')}"
                                      value="#{jobManager.currentJob.autoGenerateJobNumber}" >
 
                 <p:ajax listener="#{jobManager.updateAutoGenerateJobNumber}" 

@@ -315,13 +315,13 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="New"
                                  title="Add new invoice"
                                  actionListener="#{jobFinanceManager.createNewInvoice}"
-                                 update=":jobDialogForm:growl2"
+                                 update=":jobDialogForm"
                                  icon="pi pi-plus"
                                  process="@this" >
 
                     <p:ajax event="dialogReturn" 
                             listener="#{jobFinanceManager.invoiceDialogReturn}"                    
-                            update="invoices,:jobDialogForm:growl2"
+                            update=""
                             process="@this"/>
 
                 </p:commandButton>
@@ -334,7 +334,7 @@ Email: info@dpbennett.com.jm
                      rows="15"
                      reflow="true"
                      var="invoice"
-                     value="#{jobFinanceManager.currentJob.invoices}">
+                     value="#{jobFinanceManager.currentJobInvoices}">
 
             <f:facet name="header">
                 <h:outputText value="Invoices" />
@@ -368,15 +368,15 @@ Email: info@dpbennett.com.jm
 
             <p:column>
                 <p:commandButton title="View or edit invoice" 
-                                 actionListener="#{jobManager.editJob}"
-                                 update=""
+                                 actionListener="#{jobManager.editInvoice}"
+                                 update=":jobDialogForm"
                                  global="true"
                                  process="@this"
                                  icon="pi pi-pencil">
 
                     <p:ajax event="dialogReturn" 
                             listener="#{jobFinanceManager.invoiceDialogReturn}"
-                            update="invoiceTable"/>
+                            update=""/>
 
                     <f:setPropertyActionListener value="#{invoice}"
                                                  target="#{jobManager.editCurrentJob}" />
@@ -391,13 +391,13 @@ Email: info@dpbennett.com.jm
                 <p:commandButton value="New"
                                  title="Add new invoice"
                                  actionListener="#{jobFinanceManager.createNewInvoice}"
-                                 update=":jobDialogForm:growl2"
+                                 update=":jobDialogForm"
                                  icon="pi pi-plus"
                                  process="@this" >
 
                     <p:ajax event="dialogReturn" 
                             listener="#{jobFinanceManager.invoiceDialogReturn}"                    
-                            update="invoices,:jobDialogForm:growl2"
+                            update=""
                             process="@this"/>
 
                 </p:commandButton>
