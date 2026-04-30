@@ -49,7 +49,7 @@ Email: info@dpbennett.com.jm
                                          itemLabel="Prepared" >
                     <p:ajax global="false" 
                             listener="#{jobFinanceManager.prepareJobCosting}"
-                            update="@this,jobCostingDialogForm,jobCosting_growl,exportJobCostingButton1,exportJobCostingButton2"
+                            update="@this,jobCostingDialogForm,jobCosting_growl,exportJobCostingButton1,exportJobCostingButton2,exportJobCostingButton3"
                             process="@this"/>
 
                 </p:selectBooleanCheckbox>               
@@ -61,12 +61,12 @@ Email: info@dpbennett.com.jm
                                          disabled="#{!jobFinanceManager.canApproveJobCosting}"
                                          style="vertical-align: bottom;"
                                          itemLabel="Approved" >
-                    
+
                     <p:ajax global="false"
                             listener="#{jobFinanceManager.approveJobCosting}"
-                            update="@this,jobCosting_growl,jobCostingDialogForm,exportJobCostingButton1,exportJobCostingButton2"
+                            update="@this,jobCosting_growl,jobCostingDialogForm,exportJobCostingButton1,exportJobCostingButton2,exportJobCostingButton3"
                             process="@this"/>
-                    
+
                 </p:selectBooleanCheckbox>               
             </h:panelGroup>
             <p:spacer width="10" rendered="#{jobManager.currentJob.type == 'Job'}" />
@@ -79,7 +79,7 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax global="false"                        
                             listener="#{jobFinanceManager.invoiceJobCosting}"
-                            update="@this,jobCostingDialogForm,jobCosting_growl"
+                            update="@this,jobCostingDialogForm,jobCosting_growl,exportJobCostingButton1,exportJobCostingButton2,exportJobCostingButton3"
                             process="@this"/>
 
                 </p:selectBooleanCheckbox>
@@ -87,9 +87,9 @@ Email: info@dpbennett.com.jm
             <p:spacer width="10"/>
             <h:panelGroup>
                 <p:spacer height="0" width="5"/>
-                <p:commandButton value="Export"  
+                <p:commandButton value="Export Costing"  
                                  id="exportJobCostingButton1"
-                                 disabled="#{jobFinanceManager.canExportJobCosting}"
+                                 disabled="#{!jobFinanceManager.canExportJobCosting}"
                                  rendered="#{jobManager.currentJob.type == 'Job'}"
                                  immediate="true"
                                  title="Export job costing"                        
@@ -99,10 +99,10 @@ Email: info@dpbennett.com.jm
                     <p:fileDownload value="#{jobFinanceManager.jobCostingFile}" />
 
                 </p:commandButton>
-                
-                <p:commandButton value="Export"  
+
+                <p:commandButton value="Export Proforma"  
                                  id="exportJobCostingButton2"
-                                 disabled="#{jobFinanceManager.canExportJobCosting}"
+                                 disabled="#{!jobFinanceManager.canExportJobCosting}"
                                  rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
                                  immediate="true"
                                  title="Export proforma invoice"                        
@@ -112,13 +112,25 @@ Email: info@dpbennett.com.jm
                     <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
 
                 </p:commandButton>
+                
+                <p:spacer height="0" width="10"/>
+
+                <p:commandButton value="Export Invoice"  
+                                 id="exportJobCostingButton3"
+                                 disabled="#{!jobFinanceManager.canExportInvoice}"
+                                 rendered="#{jobManager.currentJob.type == 'Job'}"
+                                 immediate="true"
+                                 title="Export invoice"                        
+                                 ajax="false" 
+                                 onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
+
+                    <p:fileDownload value="#{jobFinanceManager.invoiceFile}" />
+
+                </p:commandButton>
             </h:panelGroup>
 
         </p:toolbarGroup>    
 
-        <p:toolbarGroup align="right" >  
-            <h:outputText value="* Field required." style="font-weight: bold;" />            
-        </p:toolbarGroup>
     </p:toolbar>            
 
 </html>
