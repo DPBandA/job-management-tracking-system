@@ -112,13 +112,14 @@ Email: info@dpbennett.com.jm
                     <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
 
                 </p:commandButton>
-                
-                <p:spacer height="0" width="10"/>
+
+                <p:spacer height="0" width="10" 
+                          rendered="#{jobFinanceManager.user.can('AccessInvoicing')}" />
 
                 <p:commandButton value="Export Invoice"  
                                  id="exportJobCostingButton3"
                                  disabled="#{!jobFinanceManager.canExportInvoice}"
-                                 rendered="#{jobManager.currentJob.type == 'Job'}"
+                                 rendered="#{jobFinanceManager.user.can('AccessInvoicing')}"
                                  immediate="true"
                                  title="Export invoice"                        
                                  ajax="false" 
