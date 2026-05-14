@@ -60,7 +60,7 @@ Email: info@dpbennett.com.jm
                              columns="2">     
 
                     <p:outputLabel value="Currency" 
-                                   rendered="#{jobFinanceManager.useMulticurrency}"
+                                   rendered="#{jobFinanceManager.renderCurrency}"
                                    style="font-weight: bold;" />    
                     <p:autoComplete id="currency"  
                                     escape="false"
@@ -75,7 +75,7 @@ Email: info@dpbennett.com.jm
                                     required="true"
                                     requiredMessage="Currency Required"
                                     validator="businessEntityValidator"
-                                    rendered="#{jobFinanceManager.useMulticurrency}"
+                                    rendered="#{jobFinanceManager.renderCurrency}"
                                     completeMethod="#{financeManager.completeCurrency}" >
 
                         <f:converter converterId="currencyConverter"/>
@@ -89,8 +89,28 @@ Email: info@dpbennett.com.jm
                                 process="@this" />
 
                     </p:autoComplete>
+                    
+                    <p:outputLabel value="Category" for="category" 
+                                   rendered="#{!jobFinanceManager.selectedCostComponent.isHeading}"
+                                   style="font-weight: bold;" />
+                    <p:selectOneMenu id="category" 
+                                     rendered="#{!jobFinanceManager.selectedCostComponent.isHeading}"
+                                     required="true"
+                                     value="#{jobFinanceManager.selectedCostComponent.category}">
 
-                    <p:outputLabel value="Cost type" for="costComponentType" style="font-weight: bold;" />
+                        <f:selectItems  value="#{jobFinanceManager.costCategoryList}"
+                                        var="category"                            
+                                        itemValue="#{category.value}"
+                                        itemLabel="#{category.label}"/>
+
+                        <p:ajax listener="#{jobFinanceManager.updateCostComponent}"
+                                update="costingComponentPanelGrid"
+                                global="false"
+                                process="@this"/>
+
+                    </p:selectOneMenu> 
+
+                    <p:outputLabel value="Type" for="costComponentType" style="font-weight: bold;" />
                     <p:selectOneMenu id="costComponentType" 
                                      required="true"
                                      value="#{jobFinanceManager.selectedCostComponent.type}">
@@ -107,8 +127,11 @@ Email: info@dpbennett.com.jm
 
                     </p:selectOneMenu>    
                     
-                    <p:outputLabel value="Date *" style="font-weight: bold" />
+                    <p:outputLabel value="Date *" 
+                                   rendered="#{!jobFinanceManager.selectedCostComponent.isHeading}"
+                                   style="font-weight: bold" />
                     <p:calendar id="costDate"
+                                rendered="#{!jobFinanceManager.selectedCostComponent.isHeading}"
                                 value="#{jobFinanceManager.selectedCostComponent.costDate}" 
                                 navigator="true" 
                                 autocomplete="off"

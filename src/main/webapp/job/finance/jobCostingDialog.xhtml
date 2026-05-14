@@ -37,7 +37,7 @@ Email: info@dpbennett.com.jm
         <ui:include src="costingComponentDeleteConfirmDialog.xhtml"/>   
         <ui:include src="jobCostingTemplateManagerDialog.xhtml"/>      
         <ui:include src="/common/commonDialogs.xhtml"/>
-        
+
         <h:form id="jobCostingDialogForm" > 
             <p:remoteCommand name="rc" autoRun="true" 
                              actionListener="#{jobFinanceManager.checkForSubcontracts}" />
@@ -269,6 +269,12 @@ Email: info@dpbennett.com.jm
                         <h:outputText value="#{costComponent.name}" />                    
                     </p:column>
 
+                    <p:column rendered="#{!costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value="Category" />
+                        </f:facet>
+                        <h:outputText value="#{costComponent.category}" />                        
+                    </p:column>
 
                     <p:column rendered="#{!costComponent.isHeading}">
                         <f:facet name="header">
@@ -280,7 +286,6 @@ Email: info@dpbennett.com.jm
                                           styleClass="datatable-number-field" />
                         </f:facet>
                     </p:column>
-
 
                     <p:column rendered="#{costComponent.isHeading}">
                         <f:facet name="header">
@@ -346,6 +351,13 @@ Email: info@dpbennett.com.jm
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                             </h:outputText>
                         </f:facet>
+                    </p:column>
+
+                    <p:column rendered="#{costComponent.isHeading}">
+                        <f:facet name="header">
+                            <h:outputText value=" " />
+                        </f:facet>
+                        <h:outputText value=" " />
                     </p:column>
 
                     <p:column rendered="#{costComponent.isHeading}">
