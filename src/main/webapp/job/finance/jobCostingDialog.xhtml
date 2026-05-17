@@ -104,8 +104,10 @@ Email: info@dpbennett.com.jm
                                 listener="#{jobFinanceManager.updateJobCostingAndPayment}"/>
                     </p:calendar>
 
-                    <h:outputText value="Invoice date" />
+                    <h:outputText value="Invoice date" 
+                                  rendered="#{jobManager.currentJob.type == 'Job'}" />
                     <p:calendar required="false"   
+                                rendered="#{jobManager.currentJob.type == 'Job'}"
                                 readonly="true"
                                 readonlyInput="true"
                                 showOn="none"                                                                    
