@@ -79,6 +79,14 @@ Email: info@dpbennett.com.jm
                         <ui:include src="dashboard/fm/fmTab.xhtml" /> 
                     </h:panelGroup>
 
+                    <h:panelGroup  rendered="#{t.id == 'Purchasing'}">
+                        <ui:include src="dashboard/pm/pmTab.xhtml" /> 
+                    </h:panelGroup>
+
+                    <h:panelGroup  rendered="#{t.id == 'Inventory'}">
+                        <ui:include src="dashboard/im/imTab.xhtml" /> 
+                    </h:panelGroup>
+
                     <h:panelGroup rendered="#{t.id == 'Human Resource'}">
                         <ui:include src="dashboard/hr/hrmTab.xhtml" />
                     </h:panelGroup>                                        

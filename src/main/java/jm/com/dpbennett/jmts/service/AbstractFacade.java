@@ -1,25 +1,53 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2026  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
  */
 package jm.com.dpbennett.jmts.service;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 
 /**
  *
  * @author Desmond Bennett
+ * @param <T>
  */
 public abstract class AbstractFacade<T> {
 
-    private Class<T> entityClass;
+    private final Class<T> entityClass;
+    @PersistenceUnit(unitName = "JMTSPU")
+    private EntityManagerFactory JMTSPU;
+
+    public EntityManagerFactory getJMTSPU() {
+
+        return JMTSPU;
+    }
+
+    public EntityManager getEntityManager() {
+
+        return getJMTSPU().createEntityManager();
+    }
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
-
-    protected abstract EntityManager getEntityManager();
 
     public void create(T entity) {
         getEntityManager().persist(entity);
@@ -59,5 +87,5 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
 }
