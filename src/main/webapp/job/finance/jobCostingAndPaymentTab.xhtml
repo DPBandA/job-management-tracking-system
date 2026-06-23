@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2025  D P Bennett & Associates Limited
+Copyright (C) 2026  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -18,21 +18,25 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Email: info@dpbennett.com.jm
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <p:panel id="jobCosting" header="Costing">
         <p:toolbar>
-          
+
             <p:toolbarGroup align="left"                         
                             style="margin-top: 5px;">  
 
                 <p:commandButton icon="pi pi-dollar"
                                  value="Costing"
                                  actionListener="#{jobFinanceManager.openJobCostingDialog}"
+                                 disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                                  process="@this"
                                  update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
                                  title="View or edit job costing">
@@ -49,7 +53,7 @@ Email: info@dpbennett.com.jm
         </p:toolbar>
         <h:panelGrid columns="3">
             <h:outputLabel value="#{jobManager.currentJob.jobNumberLabel} *"                            
-                           style="font-weight: bold;font-size: 14px;" />
+                           style="font-weight: bold;" />
             <h:outputText value="#{jobFinanceManager.currentJob.jobNumber}"
                           styleClass="job-number"/>          
             <h:outputText value="&nbsp;"/>
@@ -127,7 +131,7 @@ Email: info@dpbennett.com.jm
                             value="#{jobFinanceManager.discount}"
                             title="#{jobFinanceManager.discount}"
                             styleClass="#{jobFinanceManager.canApplyDiscount eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                            disabled="#{jobManager.disableJobDialogField('discount')}"
+                            disabled="#{jobManager.disableJobDialogField('discount') || jobManager.disableJobDialogField('costingandpayment')}"
                             itemValue="#{discount}"
                             itemLabel="#{discount.name}"
                             validator="businessEntityValidator"
@@ -157,7 +161,7 @@ Email: info@dpbennett.com.jm
                             value="#{jobFinanceManager.tax}"
                             title="#{jobFinanceManager.tax}"
                             styleClass="#{jobFinanceManager.canApplyTax eq true ? 'right-inputfield' : 'read-only-right-inputfield'}" 
-                            disabled="#{jobManager.disableJobDialogField('tax')}"
+                            disabled="#{jobManager.disableJobDialogField('tax') || jobManager.disableJobDialogField('costingandpayment')}"
                             itemValue="#{tax}"
                             itemLabel="#{tax.name}"
                             validator="businessEntityValidator"
@@ -217,6 +221,7 @@ Email: info@dpbennett.com.jm
             <h:panelGroup>
                 <p:inputText id="totalCost"
                              maxlength="15"
+                             disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                              value="#{jobFinanceManager.currentJob.jobCostingAndPayment.totalCost}"                                 
                              styleClass="read-only-number-field"
                              readonly="true">
@@ -225,6 +230,7 @@ Email: info@dpbennett.com.jm
                 </p:inputText>
                 <p:commandButton icon="pi pi-pencil"
                                  actionListener="#{jobFinanceManager.openJobCostingDialog}"
+                                 disabled="#{jobManager.disableJobDialogField('costingandpayment')}"
                                  process="@this"
                                  update=":jobDialogForm:jobDetailToolbar1,:jobDialogForm:growl2"
                                  title="View or edit job costing">
@@ -258,6 +264,30 @@ Email: info@dpbennett.com.jm
             <h:outputText value="&nbsp;"
                           rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />
 
+            <h:outputText value="Reason for reimbursable" 
+                          rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}" />       
+            <p:inputTextarea
+                id="reasonForReimbursable"
+                value="#{jobManager.currentJob.comment}"
+                disabled="#{jobFinanceManager.disableJobCostingEdit}"
+                rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                rows="2"
+                counter="reasonForReimbursableCharsRemaining"
+                counterTemplate="{0} characters remaining."
+                autoResize="false"
+                maxlength="150" 
+                style="width: 100%;">
+
+                <p:ajax event="change"
+                        update=""
+                        listener="#{jobManager.updateJob}"
+                        process="@this"/>
+
+            </p:inputTextarea>
+            <h:outputText value="&nbsp;&nbsp;" />
+            <h:outputText value="&nbsp;&nbsp;" />
+            <h:outputText id="reasonForReimbursableCharsRemaining" />
+
             <h:outputText value="Amount due ($)" 
                           rendered="#{jobManager.currentJob.type == 'Job'}" />            
             <p:inputText id="amountDue2"
@@ -276,9 +306,108 @@ Email: info@dpbennett.com.jm
         </h:panelGrid>
     </p:panel>
 
+    <p:panel id="invoices" 
+             rendered="#{jobFinanceManager.renderInvoicesPanel}"
+             header="Invoices" >   
+
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:commandButton value="New"
+                                 title="Add new invoice"
+                                 actionListener="#{jobFinanceManager.createNewInvoice}"
+                                 update=":jobDialogForm"
+                                 icon="pi pi-plus"
+                                 process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.invoiceDialogReturn}"                    
+                            update=""
+                            process="@this"/>
+
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>  
+
+        <p:dataTable id="invoiceTable"
+                     style="margin-top: 1px;margin-bottom: 1px;"
+                     paginator="true"
+                     rows="15"
+                     reflow="true"
+                     var="invoice"
+                     value="#{jobFinanceManager.currentJobInvoices}">
+
+            <f:facet name="header">
+                <h:outputText value="Invoices" />
+            </f:facet>
+
+            <p:column >
+                <f:facet name="header">
+                    <h:outputText value="Invoice #" />
+                </f:facet>
+                <h:outputText value="#{invoice.jobNumber}" />
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Issue date"/>
+                </f:facet>
+                <h:outputText value="#{invoice.jobStatusAndTracking.dateCostingApproved}" >
+                    <f:convertDateTime pattern="MMM dd, yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Cost ($)"/>
+                </f:facet>
+                <h:outputText value="#{invoice.jobCostingAndPayment.finalCost}"  
+                              styleClass="datatable-number-field" >
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column>
+                <p:commandButton title="View or edit invoice" 
+                                 actionListener="#{jobManager.editInvoice}"
+                                 update=":jobDialogForm"
+                                 global="true"
+                                 process="@this"
+                                 icon="pi pi-pencil">
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.invoiceDialogReturn}"
+                            update=""/>
+
+                    <f:setPropertyActionListener value="#{invoice}"
+                                                 target="#{jobManager.editCurrentJob}" />
+
+                </p:commandButton>     
+            </p:column>            
+
+        </p:dataTable>
+
+        <p:toolbar>
+            <p:toolbarGroup align="left">
+                <p:commandButton value="New"
+                                 title="Add new invoice"
+                                 actionListener="#{jobFinanceManager.createNewInvoice}"
+                                 update=":jobDialogForm"
+                                 icon="pi pi-plus"
+                                 process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.invoiceDialogReturn}"                    
+                            update=""
+                            process="@this"/>
+
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>  
+
+    </p:panel>
+
     <p:panel id="cashPayments" 
-             rendered="#{jobManager.currentJob.type == 'Job'}"
-             header="Payment" >   
+             header="Payments" >   
 
         <p:toolbar>
             <p:toolbarGroup align="left">

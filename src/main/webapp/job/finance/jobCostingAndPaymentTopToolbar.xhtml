@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2024  D P Bennett & Associates Limited
+Copyright (C) 2026  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -18,10 +18,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Email: info@dpbennett.com.jm
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html" >
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <p:toolbar id="jobDetailToolbar1">
         <p:toolbarGroup align="left" style="margin-top: 5px;">  
@@ -50,7 +54,47 @@ Email: info@dpbennett.com.jm
         </p:toolbarGroup>
 
         <p:toolbarGroup align="right" >  
-            <h:outputText value="* Field required." style="font-weight: bold;" />            
+            <p:menuButton value="Forms" 
+                          rendered="#{jobManager.currentJob.type == 'Job'}" >
+
+                <p:menuitem value="Service Contract in Excel"
+                            ajax="false" 
+                            icon="pi pi-file-excel"
+                            immediate="true"
+                            rendered="#{jobContractManager.useServiceContractExcel}"
+                            disabled="#{!jobManager.currentJobIsValid}" 
+                            onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
+
+                    <p:fileDownload value="#{jobManager.serviceContractFileInExcel}" />
+
+                </p:menuitem>
+
+                <p:menuitem value="Service Contract in PDF"
+                            icon="pi pi-file-pdf"
+                            ajax="false" 
+                            immediate="true"
+                            rendered="#{jobContractManager.useServiceContractPDF}"
+                            disabled="#{!jobManager.currentJobIsValid}" 
+                            onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
+
+                    <p:fileDownload value="#{jobManager.serviceContractFileInPDF}" />
+
+                </p:menuitem>
+
+            </p:menuButton>
+
+            <p:commandButton value="Export"  
+                             id="exportJobCostingButton2"
+                             disabled="#{jobFinanceManager.canExportJobCosting}"
+                             rendered="#{jobManager.currentJob.type == 'Proforma Invoice'}"
+                             immediate="true"
+                             title="Export proforma invoice"                        
+                             ajax="false" 
+                             onclick="PrimeFaces.monitorDownload(showStatusDialog, hideStatusDialog)" >
+
+                <p:fileDownload value="#{jobFinanceManager.proformaInvoiceFile}" />
+
+            </p:commandButton>        
         </p:toolbarGroup>
 
     </p:toolbar>

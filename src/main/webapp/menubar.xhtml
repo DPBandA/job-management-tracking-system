@@ -1,6 +1,6 @@
 <!--
 Job Management & Tracking System (JMTS) 
-Copyright (C) 2025  D P Bennett & Associates Limited
+Copyright (C) 2026  D P Bennett & Associates Limited
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -18,11 +18,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 Email: info@dpbennett.com.jm
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html" 
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <p:menubar id="main_menubar" style="width: 100%;" autoDisplay="false">
 
@@ -186,55 +189,6 @@ Email: info@dpbennett.com.jm
 
         </p:submenu>     
 
-        <p:submenu label="LabelPrint"                            
-                   rendered="#{systemManager.user.hasModule('energyLabelManager')}"
-                   icon="pi pi-images" >
-
-            <p:menuitem value="New Label"
-                        title="Create new label"
-                        icon="pi pi-plus"
-                        actionListener="#{energyLabelManager.createNewEnergyLabel}" 
-                        rendered="#{energyLabelManager.user.can('CreateEnergyLabel')}"
-                        process="@this" >
-
-                <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
-                        listener="#{energyLabelManager.energyLabelDialogReturn}" />
-
-            </p:menuitem>  
-
-            <p:menuitem value="Label Browser"
-                        title="Open the Energy Label Browser" 
-                        icon="pi pi-images"
-                        actionListener="#{energyLabelManager.openEnergyLabelBrowser}" 
-                        process="@this" />   
-
-            <p:submenu label="Settings"                            
-                       icon="pi pi-cog" >
-
-                <p:menuitem 
-                    actionListener="#{energyLabelManager.openComplianceSettingsTab}" 
-                    title="Show compliance settings" 
-                    rendered="#{energyLabelManager.user.can('AccessComplianceOptions')}"
-                    value="Compliance" 
-                    icon="pi pi-check-square" />
-                <p:menuitem 
-                    actionListener="#{energyLabelManager.openEnergyEfficiencySettingsTab}" 
-                    title="Show energy efficiency settings" 
-                    rendered="#{energyLabelManager.user.can('AccessEnergyEfficiencyOptions')}"
-                    value="Energy Efficiency" 
-                    icon="pi pi-sun" />
-                <p:menuitem 
-                    actionListener="#{energyLabelManager.openLabelPrintSettingsTab}" 
-                    title="Show LabelPrint settings" 
-                    rendered="#{energyLabelManager.user.can('AccessLabelPrintOptions')}"
-                    value="LabelPrint" 
-                    icon="pi pi-file" />
-
-            </p:submenu>
-
-        </p:submenu>
-
         <p:submenu label="Legal" 
                    rendered="#{legalDocumentManager.user.hasModule('legalDocumentManager')}"
                    icon="pi pi-file" >
@@ -295,15 +249,15 @@ Email: info@dpbennett.com.jm
 
             </p:menuitem>
 
-            <p:divider />
+            <p:divider rendered="#{jobManager.user.can('AddClient')}" />
 
             <p:menuitem value="Client Management"
                         title="Open the Clients tab"
                         icon="pi pi-users"
-                        actionListener="#{jobManager.openClientsTab}" 
+                        actionListener="#{clientManager.openClientsTab}" 
                         process="@this" />
 
-            <p:divider />
+            <p:divider rendered="#{jobManager.user.hasModule('clientManager')}" />
 
             <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
                         value="Client Credit Status"
@@ -313,7 +267,8 @@ Email: info@dpbennett.com.jm
                         process="@this" /> 
         </p:submenu>     
 
-        <p:submenu label="Finance"                    
+        <p:submenu label="Finance"    
+                   rendered="#{jobManager.user.hasModule('financeManager') || jobManager.user.can('AddProformaInvoice')}"
                    icon="pi pi-fw pi-dollar" >
 
             <p:submenu label="New" 
@@ -321,6 +276,7 @@ Email: info@dpbennett.com.jm
 
                 <p:menuitem value="Proforma Invoice"
                             title="Create new proforma invoice"
+                            rendered="#{jobManager.user.can('AddProformaInvoice')}"
                             icon="pi pi-plus"
                             actionListener="#{jobFinanceManager.createNewProformaInvoice}" 
                             process="@this" >
@@ -410,16 +366,17 @@ Email: info@dpbennett.com.jm
 
             </p:submenu>
 
-            <p:divider />
+            <p:divider rendered="#{systemManager.user.can('AddProformaInvoice')}" />
 
             <p:menuitem value="Proforma Invoices"
                         title="Browse proforma invoices"
+                        rendered="#{systemManager.user.can('AddProformaInvoice')}"
                         icon="pi pi-dollar"
                         disabled="false" 
                         actionListener="#{jobFinanceManager.openProformaInvoicesTab}"
                         process="@this" />
 
-            <p:divider />
+            <p:divider rendered="#{systemManager.user.hasModule('purchasingManager')}" />
 
             <p:submenu label="Procurement" 
                        rendered="#{systemManager.user.hasModule('purchasingManager')}"
