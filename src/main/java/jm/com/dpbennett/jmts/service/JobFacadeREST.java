@@ -92,6 +92,7 @@ public class JobFacadeREST extends AbstractFacade<Job> {
     @Produces(MediaType.TEXT_PLAIN)
     public String countREST() {
        
+        // e.g. http://localhost:8080/jmts/services/jobs/count
         return String.valueOf(super.count());
         
     }
