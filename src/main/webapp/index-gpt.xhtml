@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </f:facet>
+
+    <title><ui:insert name="title">Dashboard</ui:insert></title>
+
+    <!-- PrimeFaces theme, PrimeIcons and PrimeFlex should already be on the classpath. -->
+    <h:outputStylesheet name="prime-dashboard.css" library="css" />
+
+    <ui:insert name="head" />
+</h:head>
+
+<h:body styleClass="jmts-dashboard-body">
+    <h:form id="layoutForm">
+
+        <!-- Top bar -->
+        <header class="jmts-topbar flex align-items-center shadow-2">
+            <div class="jmts-brand flex align-items-center px-3">
+                <span class="font-semibold text-white">Company name</span>
+            </div>
+
+            <p:commandButton type="button"
+                             icon="pi pi-search"
+                             styleClass="p-button-text p-button-sm text-white md:hidden ml-auto"
+                             onclick="document.body.classList.toggle('jmts-search-open'); return false;"
+                             ariaLabel="Toggle search" />
+
+            <p:commandButton type="button"
+                             icon="pi pi-bars"
+                             styleClass="p-button-text p-button-sm text-white md:hidden"
+                             onclick="PF('mobileNav').show(); return false;"
+                             ariaLabel="Toggle navigation" />
+
+            <span class="p-input-icon-left jmts-search flex-1">
+                <i class="pi pi-search"></i>
+                <p:inputText id="globalSearch"
+                             placeholder="Search"
+                             styleClass="w-full border-noround border-none" />
+            </span>
+        </header>
+
+        <!-- Mobile sidebar. Same nav content as desktop, no SVG. -->
+        <p:sidebar widgetVar="mobileNav"
+                   position="right"
+                   modal="true"
+                   baseZIndex="10000"
+                   styleClass="jmts-mobile-sidebar">
+            <div class="font-semibold text-xl mb-4">Company name</div>
+            <ui:include src="dashboard-nav.xhtml" />
+        </p:sidebar>
+
+        <div class="grid m-0 jmts-shell">
+            <!-- Desktop sidebar -->
+            <aside class="hidden md:block md:col-3 lg:col-2 p-0 jmts-sidebar surface-100 border-right-1 surface-border">
+                <div class="jmts-sidebar-inner p-0 pt-3 overflow-y-auto">
+                    <ui:include src="dashboard-nav.xhtml" />
+                </div>
+            </aside>
+
+            <!-- Main content -->
+            <main class="col-12 md:col-9 lg:col-10 px-3 md:px-4 jmts-content">
+                <div class="flex justify-content-between flex-wrap align-items-center pt-3 pb-2 mb-3 border-bottom-1 surface-border">
+                    <h1 class="m-0 text-2xl font-semibold">
+                        <ui:insert name="pageTitle">Dashboard</ui:insert>
+                    </h1>
+
+                    <div class="flex gap-2 mt-2 md:mt-0">
+                        <p:commandButton value="Share" icon="pi pi-share-alt" styleClass="p-button-outlined p-button-sm" />
+                        <p:commandButton value="Export" icon="pi pi-download" styleClass="p-button-outlined p-button-sm" />
+                        <p:commandButton value="This week" icon="pi pi-calendar" styleClass="p-button-outlined p-button-sm" />
+                    </div>
+                </div>
+
+                <ui:insert name="content">
+                    <p:panel header="Dashboard content">
+                        Replace this section from your page with:
+                        <code>&lt;ui:define name="content"&gt;...&lt;/ui:define&gt;</code>
+                    </p:panel>
+                </ui:insert>
+            </main>
+        </div>
+    </h:form>
+</h:body>
+</html>
