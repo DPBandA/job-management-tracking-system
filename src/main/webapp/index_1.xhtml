@@ -11,17 +11,10 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="" />
-        <meta
-            name="author"
-            content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
-            />
+        <meta name="description" content="" />     
         <meta name="generator" content="Astro v5.13.2" />
-        <title>Dashboard Template · Bootstrap v5.3</title>
-        <link
-            rel="canonical"
-            href="https://getbootstrap.com/docs/5.3/examples/dashboard/"
-            />
+        <title>#{jobManager.applicationHeader}</title>
+        <link rel="shortcut icon" type="image/x-icon" href="#{jobManager.appShortcutIconURL}" />
         <script src="js/color-modes.js"></script>
         <link href="dist/css/bootstrap.min.css" rel="stylesheet" />
         <meta name="theme-color" content="#712cf9" />
@@ -287,15 +280,19 @@
                     ></path>
             </symbol>
         </svg>
-        <header
-            class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow"
-            data-bs-theme="dark"
-            >
-            <a
-                class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
-                href="#"
-                >Company name</a
-            >
+        <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow"
+                data-bs-theme="dark" >
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
+               href="#">                
+                <h:graphicImage
+                    library="images"
+                    value="#{jobManager.logoURL}"
+                    width="40"
+                    height="32"
+                    styleClass="me-2" />
+                <span class="fs-6">Simple header</span>          
+            </a>
+
             <ul class="navbar-nav flex-row d-md-none">
                 <li class="nav-item text-nowrap">
                     <button
@@ -350,7 +347,13 @@
                         >
                         <div class="offcanvas-header">
                             <h5 class="offcanvas-title" id="sidebarMenuLabel">
-                                Company name
+                                <h:graphicImage
+                                    library="images"
+                                    value="#{jobManager.logoURL}"
+                                    width="40"
+                                    height="32"
+                                    styleClass="me-2" />
+                                <span class="fs-4">Simple header</span>        
                             </h5>
                             <button
                                 type="button"
@@ -493,9 +496,23 @@
                         >
                         <h1 class="h2">Dashboard</h1>
                         <div class="btn-toolbar mb-2 mb-md-0">
-                            <p:commandButton value="Share" icon="pi pi-share-alt" styleClass="p-button-outlined p-button-sm" />
-                            <p:commandButton value="Export" icon="pi pi-download" styleClass="p-button-outlined p-button-sm" />
-                            <p:commandButton value="This week" icon="pi pi-calendar" styleClass="p-button-outlined p-button-sm" />
+                            <div class="btn-group me-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    Share
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">
+                                    Export
+                                </button>
+                            </div>
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1"
+                                >
+                                <svg class="bi" aria-hidden="true">
+                                    <use href="#calendar3"></use>
+                                </svg>
+                                This week
+                            </button>
                         </div>
                     </div>
                     <canvas

@@ -1,0 +1,46 @@
+body {
+    background: var(--surface-ground);
+    color: var(--text-color);
+}
+
+.bg-body-tertiary,
+.sidebar {
+    background: var(--surface-card) !important;
+    color: var(--text-color);
+}
+
+.navbar {
+    background: var(--primary-color) !important;
+    color: var(--primary-color-text) !important;
+}
+
+.navbar a,
+.navbar .nav-link {
+    color: var(--primary-color-text) !important;
+}
+
+.nav-link {
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+}
+
+.nav-link:hover {
+    background: var(--surface-hover);
+    color: var(--primary-color);
+}
+
+.nav-link.active {
+    background: var(--primary-color);
+    color: var(--primary-color-text) !important;
+}
+
+.form-control {
+    background: var(--surface-card);
+    color: var(--text-color);
+    border-color: var(--surface-border);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--primary-color), transparent 75%);
+}
