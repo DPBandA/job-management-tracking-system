@@ -28,11 +28,6 @@ Email: info@dpbennett.com.jm
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
-        <symbol id="check2" viewBox="0 0 16 16">
-            <path
-                d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"
-                ></path>
-        </symbol>
         <symbol id="circle-half" viewBox="0 0 16 16">
             <path
                 d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"
@@ -149,10 +144,9 @@ Email: info@dpbennett.com.jm
                 value="#{jobManager.logoURL}"
                 width="40"
                 height="32"
-                styleClass="me-2" />          
-            <span class="fs-6">Dashboard</span> 
+                styleClass="me-2" />  
         </a>
-         
+
         <ul class="navbar-nav flex-row d-md-none">           
             <li class="nav-item text-nowrap">
                 <button
@@ -201,8 +195,7 @@ Email: info@dpbennett.com.jm
                     class="offcanvas-md offcanvas-end bg-body-tertiary"
                     tabindex="-1"
                     id="sidebarMenu"
-                    aria-labelledby="sidebarMenuLabel"
-                    >
+                    aria-labelledby="sidebarMenuLabel" >
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="sidebarMenuLabel">
                             <h:graphicImage
@@ -210,31 +203,33 @@ Email: info@dpbennett.com.jm
                                 value="#{jobManager.logoURL}"
                                 width="40"
                                 height="32"
-                                styleClass="me-2" />
-                            <span class="fs-6">Dashboard</span>          
+                                styleClass="me-2" />         
                         </h5>
                         <button
                             type="button"
                             class="btn-close"
                             data-bs-dismiss="offcanvas"
                             data-bs-target="#sidebarMenu"
-                            aria-label="Close"
-                            ></button>
+                            aria-label="Close">
+                        </button>
                     </div>
                     <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto" >
-                        <p:outputPanel>                    
                             <h:form id="dashboardForm" rendered="#{jobManager.userLoggedIn}" > 
-                                <p:panel>
-                                    <h:panelGrid>
-                                        <p:commandButton value="Share" icon="pi pi-share-alt" styleClass="p-button-outlined p-button-sm" />
-                                        <p:commandButton value="Export" icon="pi pi-download" styleClass="p-button-outlined p-button-sm" />
-                                        <p:commandButton value="This week" icon="pi pi-calendar" styleClass="p-button-outlined p-button-sm" />
-                                    </h:panelGrid>
-                                </p:panel>
-
+                                <p:menu style="border:none; box-shadow:none;">
+                                    <p:submenu label="Options">
+                                        <p:menuitem value="Save" action="#{menuView.save}" update="" ajax="false"
+                                                    icon="pi pi-save"/>
+                                        <p:menuitem value="Update" action="#{menuView.update}" update="" icon="pi pi-refresh"/>
+                                        <p:menuitem value="Delete" action="#{menuView.delete}" update="" icon="pi pi-times"/>
+                                    </p:submenu>
+                                    <p:submenu label="Navigations">
+                                        <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
+                                        <p:menuitem value="Internal" outcome="" icon="pi pi-upload"/>
+                                        <p:menuitem value="Logout" icon="pi pi-power-off" />
+                                    </p:submenu>
+                                </p:menu>
                             </h:form>
 
-                        </p:outputPanel>
                     </div>
                 </div>
             </div>
