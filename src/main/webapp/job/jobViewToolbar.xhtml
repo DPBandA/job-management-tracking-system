@@ -29,22 +29,8 @@ Email: info@dpbennett.com.jm
 
     <p:toolbar style="margin-bottom: 1px;border: 0px;" >
         <p:toolbarGroup align="left" >  
+         
             <p:commandButton
-                rendered="#{!jobManager.user.renderMobileUI}"
-                actionListener="#{jobManager.createNewJob}"
-                global="true" 
-                value="New"                                       
-                title="Create job"
-                icon="pi pi-plus"
-                process="@this">  
-
-                <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
-                        listener="#{jobManager.jobDialogReturn}" />
-
-            </p:commandButton>    
-            <p:commandButton
-                rendered="#{jobManager.user.renderMobileUI}"
                 actionListener="#{jobManager.createNewJob}"
                 global="true"                                  
                 title="Create job"
@@ -58,7 +44,6 @@ Email: info@dpbennett.com.jm
             </p:commandButton>    
             <p:spacer height="0" width="5"/>
             <p:commandButton
-                rendered="#{jobManager.user.renderMobileUI}"
                 actionListener="#{jobManager.viewJobSearchDialog}"
                 global="true"                                  
                 title="Search for jobs"
@@ -74,7 +59,7 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
                              title="Approve the selected job costing(s)"
                              actionListener="#{jobFinanceManager.approveSelectedJobCostings}"
-                             update=":headerForm:growl3,jobCostingsTable" >                                                                                    
+                             update="jobCostingsTable" >                                                                                    
             </p:commandButton>
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
 
@@ -85,12 +70,12 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Create invoice(s)"
                             title="Generate invoice(s) for the selected job costing(s)"
                             actionListener="#{jobFinanceManager.invoiceSelectedJobCostings}"
-                            update=":headerForm:growl3,jobCostingsTable" />
+                            update="jobCostingsTable" />
 
                 <p:menuitem value="Export invoice(s)"
                             title="Export invoice(s) for the selected job costing(s)"
                             ajax="false" 
-                            update=":headerForm:growl3,jobCostingsTable"
+                            update="jobCostingsTable"
                             immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.invoicesFile}" />
@@ -102,7 +87,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Export costing(s)(Zip)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
-                            update=":headerForm:growl3,jobCostingsTable"
+                            update="jobCostingsTable"
                             immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.costingsFileAsZip}" />
@@ -112,7 +97,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Export costing(s)(Excel)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
-                            update=":headerForm:growl3,jobCostingsTable"
+                            update="jobCostingsTable"
                             immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.costingsFileAsExcel}" />
@@ -136,35 +121,7 @@ Email: info@dpbennett.com.jm
             </p:selectOneButton>
 
         </p:toolbarGroup>
-
-        <p:toolbarGroup align="right" > 
-            <p:menuButton value="Tools" >
-
-                <p:menuitem value="Client Management"
-                            title="Open the Clients tab"
-                            rendered="#{jobManager.user.hasModule('clientManager')}"
-                            icon="pi pi-users"
-                            actionListener="#{clientManager.openClientsTab}" 
-                            process="@this" />
-
-                <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
-                            value="Client Credit Status"                            
-                            icon="pi pi-thumbs-up"
-                            title="Check client's credit status"
-                            update=""
-                            process="@this" />
-
-                <p:divider />
-
-                <p:menuitem value="Reports"
-                            title="Open the Reports tab"
-                            icon="pi pi-chart-bar"
-                            actionListener="#{reportManager.openReportDialog}" 
-                            process="@this" />
-
-            </p:menuButton>
-        </p:toolbarGroup>
-
+        
     </p:toolbar>   
 
 </html>

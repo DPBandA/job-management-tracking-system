@@ -136,57 +136,39 @@ Email: info@dpbennett.com.jm
                 ></path>
         </symbol>
     </svg>
-    <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" >
-        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
-           href="#">                
-            <h:graphicImage
-                library="images"
-                value="#{jobManager.logoURL}"
-                width="40"
-                height="32"
-                styleClass="me-2" />  
-        </a>
+    <h:form id="headerForm" 
+            rendered="#{jobManager.userLoggedIn}"> 
 
-        <ul class="navbar-nav flex-row d-md-none">           
-            <li class="nav-item text-nowrap">
-                <button
-                    class="nav-link px-3 text-white"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarSearch"
-                    aria-controls="navbarSearch"
-                    aria-expanded="false"
-                    aria-label="Toggle search" >
-                    <svg class="bi" aria-hidden="true">
-                        <use href="#search"></use>
-                    </svg>
-                </button>
-            </li>
-            <li class="nav-item text-nowrap">
-                <button
-                    class="nav-link px-3 text-white"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#sidebarMenu"
-                    aria-controls="sidebarMenu"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                    >
-                    <svg class="bi" aria-hidden="true">
-                        <use href="#list"></use>
-                    </svg>
-                </button>
-            </li>
-        </ul>
-        <div id="navbarSearch" class="navbar-search w-100 collapse">
-            <input
-                class="form-control w-100 rounded-0 border-0"
-                type="text"
-                placeholder="Search"
-                aria-label="Search"
-                />
-        </div>
-    </header>
+        <header class="navbar2 sticky-top flex-md-nowrap p-0 shadow" >
+            <p:panel>
+                <a href="#">                
+                    <h:graphicImage
+                        library="images"
+                        value="#{jobManager.logoURL}"
+                        width="40"
+                        height="32"
+                        styleClass="me-2" />  
+                </a>
+            </p:panel>
+
+            <ul class="navbar-nav flex-row d-md-none">   
+                <li class="nav-item text-nowrap">
+                    <button
+                        class="nav-link px-3 text-white"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#sidebarMenu"
+                        aria-controls="sidebarMenu"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation" >
+                        <svg class="bi" aria-hidden="true">
+                            <use href="#list"></use>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+        </header>
+    </h:form>
     <div class="container-fluid">
         <div class="row">
             <div
@@ -214,33 +196,40 @@ Email: info@dpbennett.com.jm
                         </button>
                     </div>
                     <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto" >
-                            <h:form id="dashboardForm" rendered="#{jobManager.userLoggedIn}" > 
-                                <p:menu style="border:none; box-shadow:none;">
-                                    <p:submenu label="Options">
-                                        <p:menuitem value="Save" action="#{menuView.save}" update="" ajax="false"
-                                                    icon="pi pi-save"/>
-                                        <p:menuitem value="Update" action="#{menuView.update}" update="" icon="pi pi-refresh"/>
-                                        <p:menuitem value="Delete" action="#{menuView.delete}" update="" icon="pi pi-times"/>
-                                    </p:submenu>
-                                    <p:submenu label="Navigations">
-                                        <p:menuitem value="Website" url="http://www.primefaces.org" icon="pi pi-external-link"/>
-                                        <p:menuitem value="Internal" outcome="" icon="pi pi-upload"/>
-                                        <p:menuitem value="Logout" icon="pi pi-power-off" />
-                                    </p:submenu>
-                                </p:menu>
-                            </h:form>
+                        <h:form id="dashboardForm" 
+                                styleClass="mb-3"
+                                rendered="#{jobManager.userLoggedIn}" > 
+                            <p:menu style="border:0;width: 100%;">
+                                <p:menuitem value="Website"
+                                            url="https://dpbennett.com.jm/jmts/"
+                                            icon="pi pi-globe"/>
+                                <p:menuitem value="User Guide"
+                                            url="https://dpbennett.com.jm/jmts-user-guide"
+                                            icon="pi pi-file"/>                                
+                                <p:menuitem value="Logout"
+                                            actionListener="#{jobManager.logout}"
+                                            oncomplete="location.reload();"
+                                            icon="pi pi-sign-out"/>
+                            </p:menu>
+                            <p:divider/>
+                            <p:commandLink actionListener="#{systemManager.editUserProfile}"
+                                            styleClass="ml-3" >
+
+                                <i class="pi pi-user"></i>
+                                <span style="margin-left: 5px;">Profile</span>
+
+                                <p:ajax event="dialogReturn"
+                                        oncomplete="window.location.reload();" />
+
+                            </p:commandLink> 
+                            
+                        </h:form>
 
                     </div>
                 </div>
             </div>
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <p:panel header="Main View">
-                    <h:panelGrid>
-                        <p:commandButton value="Share" icon="pi pi-share-alt" styleClass="p-button-outlined p-button-sm" />
-                        <p:commandButton value="Export" icon="pi pi-download" styleClass="p-button-outlined p-button-sm" />
-                        <p:commandButton value="This week" icon="pi pi-calendar" styleClass="p-button-outlined p-button-sm" />
-                    </h:panelGrid>
-                </p:panel>
+                <ui:include src="mainTabView.xhtml"/>
             </main>
         </div>
     </div>

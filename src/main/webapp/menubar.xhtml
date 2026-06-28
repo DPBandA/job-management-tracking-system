@@ -86,14 +86,14 @@ Email: info@dpbennett.com.jm
                 <p:menuitem
                     actionListener="#{complianceManager.createNewComplianceSurvey}"
                     value="Survey"       
-                    update=":headerForm:growl3"
+                    update=""
                     title="Add a new survey"
                     icon="pi pi-plus"
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
                             listener="#{complianceManager.surveyDialogReturn}"
-                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+                            update=":mainTabViewForm:mainTabView" />
 
                 </p:menuitem>
 
@@ -106,7 +106,7 @@ Email: info@dpbennett.com.jm
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
-                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+                            update=":mainTabViewForm:mainTabView" />
 
                 </p:menuitem>
 
@@ -120,7 +120,7 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax event="dialogReturn" 
                             listener="#{complianceManager.complaintDialogReturn}"
-                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+                            update=":mainTabViewForm:mainTabView" />
 
                 </p:menuitem>
 
@@ -133,7 +133,7 @@ Email: info@dpbennett.com.jm
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
-                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+                            update=":mainTabViewForm:mainTabView" />
 
                 </p:menuitem>
 
@@ -146,7 +146,7 @@ Email: info@dpbennett.com.jm
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
-                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+                            update=":mainTabViewForm:mainTabView" />
 
                 </p:menuitem>
 
@@ -160,7 +160,7 @@ Email: info@dpbennett.com.jm
 
                     <p:ajax event="dialogReturn" 
                             listener="#{complianceManager.factoryInspectionDialogReturn}"
-                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+                            update=":mainTabViewForm:mainTabView" />
 
                 </p:menuitem>
             </p:submenu>
