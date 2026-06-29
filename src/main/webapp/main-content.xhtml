@@ -139,6 +139,9 @@ Email: info@dpbennett.com.jm
     <h:form id="headerForm" 
             rendered="#{jobManager.userLoggedIn}"> 
 
+        <p:growl id="growl3" life="5000" showDetail="true"/>
+        <p:growl id="notificationBadge" life="5000" showDetail="true"/>
+
         <header class="navbar2 sticky-top flex-md-nowrap p-0 shadow" >
             <p:panel>
                 <a href="#">                
@@ -208,12 +211,13 @@ Email: info@dpbennett.com.jm
                                             icon="pi pi-file"/>                                
                                 <p:menuitem value="Logout"
                                             actionListener="#{jobManager.logout}"
-                                            oncomplete="location.reload();"
+                                            oncomplete="location.reload();return false;"
                                             icon="pi pi-sign-out"/>
                             </p:menu>
                             <p:divider/>
                             <p:commandLink actionListener="#{systemManager.editUserProfile}"
-                                            styleClass="ml-3" >
+                                           oncomplete="toggleSidebar(); return false;"
+                                           styleClass="ml-3" >
 
                                 <i class="pi pi-user"></i>
                                 <span style="margin-left: 5px;">Profile</span>
@@ -222,7 +226,7 @@ Email: info@dpbennett.com.jm
                                         oncomplete="window.location.reload();" />
 
                             </p:commandLink> 
-                            
+
                         </h:form>
 
                     </div>
