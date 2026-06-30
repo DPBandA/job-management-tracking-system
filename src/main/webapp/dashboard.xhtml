@@ -44,60 +44,14 @@ Email: info@dpbennett.com.jm
                 <p:ajax event="tabChange"       
                         immediate="true"
                         process="@this"
-                        update=":dashboardForm,:mainTabViewForm"
+                        update=":dashboardForm"
                         listener="#{jobManager.onDashboardTabChange}" />
 
                 <p:tab title="#{t.name}" >
 
-                    <p:defaultCommand target="#{systemManager.defaultCommandTarget}" />
-
-                    <h:panelGroup rendered="#{t.id == 'Legal Office'}">
-                        <ui:include src="dashboard/legal/legalDocumentTab.xhtml" />
-                    </h:panelGroup>
-
                     <h:panelGroup rendered="#{t.id == 'Job Management'}">
                         <ui:include src="dashboard/job/jobsTab.xhtml" />
                     </h:panelGroup>
-
-                    <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
-                        <ui:include src="dashboard/sc/scTab.xhtml" />
-                    </h:panelGroup>
-
-                    <h:panelGroup rendered="#{t.id == 'Food Factory'}">
-                        <ui:include src="dashboard/fs/fsTab.xhtml" />
-                    </h:panelGroup>
-
-                    <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
-                        <ui:include src="dashboard/lm/lmTab.xhtml" />
-                    </h:panelGroup>   
-
-                    <h:panelGroup rendered="#{t.id == 'Client Management'}" >
-                        <ui:include src="dashboard/cm/cmTab.xhtml" />                                                                
-                    </h:panelGroup>
-
-                    <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
-                        <ui:include src="dashboard/fm/fmTab.xhtml" /> 
-                    </h:panelGroup>
-
-                    <h:panelGroup  rendered="#{t.id == 'Purchasing'}">
-                        <ui:include src="dashboard/pm/pmTab.xhtml" /> 
-                    </h:panelGroup>
-
-                    <h:panelGroup  rendered="#{t.id == 'Inventory'}">
-                        <ui:include src="dashboard/im/imTab.xhtml" /> 
-                    </h:panelGroup>
-
-                    <h:panelGroup rendered="#{t.id == 'Human Resource'}">
-                        <ui:include src="dashboard/hr/hrmTab.xhtml" />
-                    </h:panelGroup>                                        
-
-                    <h:panelGroup rendered="#{t.id == 'Report Management'}" >
-                        <ui:include src="dashboard/rm/rmTab.xhtml" />                                                                
-                    </h:panelGroup>
-
-                    <h:panelGroup rendered="#{t.id == 'System Administration'}" >
-                        <ui:include src="dashboard/admin/generalAdminTab.xhtml" /> 
-                    </h:panelGroup>  
 
                 </p:tab>   
 

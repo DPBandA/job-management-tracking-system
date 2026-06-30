@@ -35,11 +35,11 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Job"
                             title="Create new job"
                             icon="pi pi-plus"
-                            actionListener="#{jobManager.createNewJob}"  
+                            actionListener="#{jobManager.addNewJob}"
                             process="@this" >
 
                     <p:ajax event="dialogReturn" 
-                            update=":mainTabViewForm:mainTabView"
+                            update=""
                             listener="#{jobManager.jobDialogReturn}" />
 
                 </p:menuitem>    
@@ -57,7 +57,7 @@ Email: info@dpbennett.com.jm
                     process="@this" >
 
                     <p:ajax event="dialogReturn" 
-                            update=":mainTabViewForm:mainTabView:clientsTable" />
+                            update="" />
 
                 </p:menuitem>
                 
@@ -123,9 +123,6 @@ Email: info@dpbennett.com.jm
             </p:menuButton>         
         </p:toolbarGroup>
     </p:toolbar>
-
-    <ui:include src="search.xhtml"/>   
-
 
 </html>
 
