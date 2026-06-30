@@ -36,7 +36,7 @@ Email: info@dpbennett.com.jm
                  reflow="true"
                  resizableColumns="false"
                  rowStyleClass="#{job.rowStyle}"
-                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
+                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
                  value="#{jobManager.jobsModel}">
 
         <p:ajax event="cellEdit" 
@@ -50,21 +50,21 @@ Email: info@dpbennett.com.jm
             <h:outputText value="#{jobManager.searchResultsTableHeader}" />
         </f:facet>
 
-        <p:column sortBy="#{job.jobNumber}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Job number"/>
             </f:facet>
             <h:outputText value="#{job.jobNumber}" />
         </p:column>
 
-        <p:column sortBy="#{job.client.name}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Client"/>
             </f:facet>
             <h:outputText value="#{job.client.name}" />
         </p:column>  
         
-        <p:column sortBy="#{job.client.name}">
+        <p:column>
             <f:facet name="header">
                 <h:outputText value="Assignee"/>
             </f:facet>
@@ -72,7 +72,6 @@ Email: info@dpbennett.com.jm
         </p:column>  
 
         <p:column headerText="Instructions" 
-                  sortBy="#{job.instructions}"
                   id="job_instructions" >   
             <p:cellEditor>
                 <f:facet name="output">
@@ -94,8 +93,7 @@ Email: info@dpbennett.com.jm
         </p:column>
 
         <p:column headerText="Submitted" 
-                  id="dateSubmitted"
-                  sortBy="#{job.jobStatusAndTracking.dateSubmitted}">   
+                  id="dateSubmitted">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.jobStatusAndTracking.dateSubmitted}">
@@ -115,8 +113,7 @@ Email: info@dpbennett.com.jm
         </p:column>
 
         <p:column headerText="EDOC" 
-                  id="job_edoc" 
-                  sortBy="#{job.jobStatusAndTracking.expectedDateOfCompletion}">   
+                  id="job_edoc">   
             <p:cellEditor>
                 <f:facet name="output">
                     <h:outputText value="#{job.jobStatusAndTracking.expectedDateOfCompletion}">
@@ -134,7 +131,7 @@ Email: info@dpbennett.com.jm
             </p:cellEditor>  
         </p:column>
 
-        <p:column headerText="Progress" sortBy="#{job.jobStatusAndTracking.workProgress}" >       
+        <p:column headerText="Progress">       
             <f:facet name="header">
                 <h:outputText value="Progress"/>
             </f:facet>
@@ -154,7 +151,7 @@ Email: info@dpbennett.com.jm
                                              target="#{jobManager.editCurrentJob}" />
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
+                        update=":dashboardForm:dashboardAccordion"
                         listener="#{jobManager.jobDialogReturn}" />
 
 
@@ -178,7 +175,7 @@ Email: info@dpbennett.com.jm
                                                          target="#{jobManager.editCurrentJob}" />
 
                             <p:ajax event="dialogReturn" 
-                                    update=":mainTabViewForm:mainTabView"
+                                    update=":dashboardForm:dashboardAccordion"
                                     listener="#{jobManager.jobDialogReturn}" />
               
                     </p:menuitem>
@@ -193,7 +190,7 @@ Email: info@dpbennett.com.jm
                                                          target="#{jobManager.editCurrentJob}" />
 
                             <p:ajax event="dialogReturn" 
-                                    update=":mainTabViewForm:mainTabView"
+                                    update=":dashboardForm:dashboardAccordion"
                                     listener="#{jobManager.jobDialogReturn}" />
 
                     </p:menuitem>

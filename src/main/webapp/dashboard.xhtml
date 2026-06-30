@@ -29,35 +29,31 @@ Email: info@dpbennett.com.jm
 
     <h:form id="dashboardForm" rendered="#{jobManager.userLoggedIn}" > 
 
-        <p:panel header="Dashboard">
+        <p:divider style="margin-top: 0;"/>
 
-            <p:divider style="margin-top: 0;"/>
+        <p:accordionPanel id="dashboardAccordion" 
+                          value="#{systemManager.dashboard.tabs}" 
+                          activeIndex="#{systemManager.dashboard.tabIndex}"
+                          var="t"   
+                          widgetVar="dashboardAccordionVar"                                                 
+                          rendered="true"
+                          multiple="false">
 
-            <p:accordionPanel id="dashboardAccordion" 
-                              value="#{systemManager.dashboard.tabs}" 
-                              activeIndex="#{systemManager.dashboard.tabIndex}"
-                              var="t"   
-                              widgetVar="dashboardAccordionVar"                                                 
-                              rendered="true"
-                              multiple="false">
+            <p:ajax event="tabChange"       
+                    immediate="true"
+                    process="@this"
+                    update=":dashboardForm"
+                    listener="#{jobManager.onDashboardTabChange}" />
 
-                <p:ajax event="tabChange"       
-                        immediate="true"
-                        process="@this"
-                        update=":dashboardForm"
-                        listener="#{jobManager.onDashboardTabChange}" />
+            <p:tab title="#{t.name}" >
 
-                <p:tab title="#{t.name}" >
+                <h:panelGroup rendered="#{t.id == 'Job Management'}">
+                    <ui:include src="dashboard/job/jobBrowser.xhtml" />
+                </h:panelGroup>
 
-                    <h:panelGroup rendered="#{t.id == 'Job Management'}">
-                        <ui:include src="dashboard/job/jobsTab.xhtml" />
-                    </h:panelGroup>
+            </p:tab>   
 
-                </p:tab>   
-
-            </p:accordionPanel>   
-
-        </p:panel>
+        </p:accordionPanel>       
 
     </h:form>
 

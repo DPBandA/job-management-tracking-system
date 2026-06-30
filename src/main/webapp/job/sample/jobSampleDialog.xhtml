@@ -32,7 +32,7 @@ Email: info@dpbennett.com.jm
     </ui:define>
 
     <ui:define name="content">
-        
+
         <ui:include src="/common/commonDialogs.xhtml"/>
 
         <h:form id="jobSampleDialogForm" >      
@@ -60,11 +60,11 @@ Email: info@dpbennett.com.jm
 
             </p:toolbar>            
 
-            <p:tabView id="jobSampleDialogTabView"
-                       activeIndex="#{jobSampleManager.jobSampleDialogTabViewActiveIndex}"
-                       style="margin-top: 1px;margin-bottom: 1px;"
-                       dynamic="false"
-                       widgetVar="jobSampleDialogTabViewVar">
+            <p:accordionPanel id="jobSampleDialogTabView"
+                              activeIndex="#{jobSampleManager.jobSampleDialogTabViewActiveIndex}"
+                              style="margin-top: 1px;margin-bottom: 1px;"
+                              dynamic="false"
+                              widgetVar="jobSampleDialogTabViewVar">
 
                 <p:tab title="General" >
                     <h:panelGrid columns="2" style="width: 100%" >
@@ -328,7 +328,8 @@ Email: info@dpbennett.com.jm
                         </p:calendar>
                     </h:panelGrid>
                 </p:tab>
-            </p:tabView>
+            </p:accordionPanel>
+            
             <p:toolbar>
                 <p:toolbarGroup align="left">
                     <p:commandButton value="Ok"

@@ -38,7 +38,7 @@ Email: info@dpbennett.com.jm
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
+                        update=":dashboardForm:dashboardAccordion"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>    
@@ -51,7 +51,7 @@ Email: info@dpbennett.com.jm
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView" />
+                        update=":dashboardForm:dashboardAccordion" />
 
             </p:commandButton>
             <p:spacer height="0" width="30"/>
@@ -107,6 +107,7 @@ Email: info@dpbennett.com.jm
             </p:menuButton>
 
             <p:selectOneButton 
+                style="margin-top: 10px;"
                 value="#{jobManager.user.jobTableViewPreference}">
 
                 <f:selectItems value="#{jobManager.jobTableViews}" 
@@ -115,9 +116,10 @@ Email: info@dpbennett.com.jm
                                itemValue="#{jobView}"/>
 
                 <p:ajax listener="#{jobManager.updateJobView}"
-                        update=":mainTabViewForm:mainTabView"
+                        update=":dashboardForm:dashboardAccordion"
                         global="true"
                         process="@this"/>
+                
             </p:selectOneButton>
 
         </p:toolbarGroup>
