@@ -1,0 +1,493 @@
+<!--
+Job Management & Tracking System (JMTS) 
+Copyright (C) 2026  D P Bennett & Associates Limited
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+Email: info@dpbennett.com.jm
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"   
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <p:menubar id="main_menubar" style="width: 100%;" autoDisplay="false">
+
+        <p:submenu label="Jobs"                            
+                   rendered="#{jobManager.user.hasModule('jobManager')}"
+                   icon="pi pi-wrench" >
+
+
+            <p:submenu label="New" 
+                       icon="pi pi-plus" >
+
+                <p:menuitem value="Job"
+                            title="Create new job"
+                            icon="pi pi-plus"
+                            actionListener="#{jobManager.createNewJob}"  
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
+
+                </p:menuitem>    
+
+                <p:menuitem
+                    actionListener="#{jobManager.createNewSubcontract}"
+                    rendered="#{jobManager.user.can('CreateDirectSubcontract')}"
+                    global="true" 
+                    value="Subcontract"                                       
+                    title="Create direct subcontract"
+                    icon="pi pi-plus"
+                    process="@this">  
+
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView"
+                            listener="#{jobManager.jobDialogReturn}" />
+
+                </p:menuitem>               
+
+            </p:submenu>
+
+            <p:divider />
+
+            <p:menuitem value="Job Browser"
+                        title="Open the Job Browser tab" 
+                        icon="pi pi-briefcase"
+                        actionListener="#{jobManager.openJobBrowser}" 
+                        process="@this" />           
+
+        </p:submenu>
+
+        <p:submenu label="Compliance"                            
+                   rendered="#{jobManager.user.hasModule('complianceManager')}"
+                   icon="pi pi-check-square" >
+
+            <p:submenu label="New"  
+                       icon="pi pi-plus" >
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewComplianceSurvey}"
+                    value="Survey"       
+                    update=":headerForm:growl3"
+                    title="Add a new survey"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{complianceManager.surveyDialogReturn}"
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewDocumentStandard}"
+                    value="Standard"       
+                    update="headerForm:growl3"
+                    title="Add a new standard"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewComplaint}"
+                    value="Complaint"       
+                    update="headerForm:growl3"
+                    title="Add a new complaint"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{complianceManager.complaintDialogReturn}"
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewMarketProduct}"
+                    value="Market Product"       
+                    update="headerForm:growl3"
+                    title="Add a new market product"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{humanResourceManager.createNewManufacturer}"
+                    value="Manufacturer"       
+                    update="headerForm:growl3"
+                    title="Add a new manufacturer"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+
+                <p:menuitem
+                    actionListener="#{complianceManager.createNewFactoryInspection}"
+                    value="Factory Inspection"       
+                    update="headerForm:growl3"
+                    title="Add a new factory inspection"
+                    icon="pi pi-plus"
+                    process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{complianceManager.factoryInspectionDialogReturn}"
+                            update=":mainTabViewForm:mainTabView,:headerForm:growl3" />
+
+                </p:menuitem>
+            </p:submenu>
+
+            <p:divider />
+
+            <p:menuitem value="Surveys"
+                        actionListener="#{complianceManager.openSurveysBrowser}"   
+                        icon="pi pi-copy"
+                        process="@this"/>                   
+
+            <p:menuitem value="Standards" 
+                        actionListener="#{complianceManager.openStandardsBrowser}"
+                        icon="pi pi-copy"
+                        process="@this"/>
+
+            <p:menuitem value="Complaints"  
+                        actionListener="#{complianceManager.openComplaintsBrowser}"
+                        icon="pi pi-copy"
+                        process="@this"/>
+
+            <p:menuitem value="Factory Inspections"  
+                        actionListener="#{complianceManager.openFactoryInspectionBrowser}"
+                        icon="pi pi-copy"
+                        process="@this"/>
+
+        </p:submenu>     
+
+        <p:submenu label="Legal" 
+                   rendered="#{legalDocumentManager.user.hasModule('legalDocumentManager')}"
+                   icon="pi pi-file" >
+
+            <p:menuitem
+                actionListener="#{legalDocumentManager.createNewLegalDocument}"
+                value="Document" 
+                title="Add a new document"
+                icon="pi pi-plus"
+                process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView"
+                        listener="#{legalDocumentManager.documentDialogReturn}" />
+
+            </p:menuitem>
+
+            <p:menuitem  
+                value="Document type"
+                icon="pi pi-plus" 
+                actionListener="#{legalDocumentManager.createNewDocumentType}" 
+                process="@this"
+                title="Add a new document type" />
+
+            <p:menuitem 
+                value="Classification"
+                icon="pi pi-plus" 
+                actionListener="#{legalDocumentManager.createNewClassification}" 
+                process="@this"
+                title="Add a new classification" />
+
+            <p:divider />
+
+            <p:menuitem value="Document Browser"
+                        title="Open the Legal Document Browser" 
+                        icon="pi pi-copy"
+                        rendered="#{systemManager.user.hasModule('legalDocumentManager')}"
+                        actionListener="#{legalDocumentManager.openDocumentBrowser}"                            
+                        process="@this"/> 
+
+        </p:submenu>
+
+        <p:submenu label="Clients" 
+                   rendered="#{jobManager.user.hasModule('clientManager')}"
+                   icon="pi pi-users" >
+
+            <p:menuitem
+                actionListener="#{clientManager.createNewClient}"                
+                rendered="#{jobManager.user.can('AddClient')}"
+                global="true" 
+                value="Client"
+                title="Create new client"
+                icon="pi pi-plus"
+                process="@this" >
+
+                <p:ajax event="dialogReturn" 
+                        update=":mainTabViewForm:mainTabView:clientsTable" />
+
+            </p:menuitem>
+
+            <p:divider rendered="#{jobManager.user.can('AddClient')}" />
+
+            <p:menuitem value="Client Management"
+                        title="Open the Clients tab"
+                        icon="pi pi-users"
+                        actionListener="#{clientManager.openClientsTab}" 
+                        process="@this" />
+
+            <p:divider rendered="#{jobManager.user.hasModule('clientManager')}" />
+
+            <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
+                        value="Client Credit Status"
+                        icon="pi pi-thumbs-up"
+                        title="Check client's credit status"
+                        update=""
+                        process="@this" /> 
+        </p:submenu>     
+
+        <p:submenu label="Finance"    
+                   rendered="#{jobManager.user.hasModule('financeManager') || jobManager.user.can('AddProformaInvoice')}"
+                   icon="pi pi-fw pi-dollar" >
+
+            <p:submenu label="New" 
+                       icon="pi pi-plus" >
+
+                <p:menuitem value="Proforma Invoice"
+                            title="Create new proforma invoice"
+                            rendered="#{jobManager.user.can('AddProformaInvoice')}"
+                            icon="pi pi-plus"
+                            actionListener="#{jobFinanceManager.createNewProformaInvoice}" 
+                            process="@this" >
+
+                    <p:ajax event="dialogReturn" 
+                            listener="#{jobFinanceManager.proformaDialogReturn}"
+                            update=""/>
+
+                </p:menuitem> 
+
+                <p:submenu label="Procurement" 
+                           rendered="#{systemManager.user.hasModule('purchasingManager')}"
+                           icon="pi pi-plus" >
+
+                    <p:menuitem 
+                        value="Purchase Requisition"
+                        icon="pi pi-plus"
+                        actionListener="#{purchasingManager.createNewPurchaseReq}"                                            
+                        process="@this"
+                        title="Add a new purchase requisition" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{purchasingManager.purchaseReqDialogReturn}"
+                                update=":mainTabViewForm:mainTabView:purchasereqsTable"/>
+
+                    </p:menuitem>
+
+                    <p:menuitem 
+                        value="Supplier"
+                        icon="pi pi-plus" 
+                        actionListener="#{purchasingManager.addNewSupplier}"                                            
+                        process="@this"
+                        title="Add a new supplier" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{purchasingManager.doSupplierSearch}"
+                                update=":mainTabViewForm:mainTabView:suppliersTable"/>
+
+                    </p:menuitem>
+
+                </p:submenu>
+
+                <p:submenu label="Inventory" 
+                           rendered="#{systemManager.user.hasModule('inventoryManager')}"
+                           icon="pi pi-plus" >
+
+                    <p:menuitem 
+                        value="Inventory Product"
+                        icon="pi pi-plus" 
+                        actionListener="#{inventoryManager.createNewInventoryProduct}"                                            
+                        process="@this"
+                        title="Add a new product" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{inventoryManager.doInventoryProductSearch}"
+                                update=":mainTabViewForm:mainTabView:inventoryProductsTable"/>
+
+                    </p:menuitem>
+
+                    <p:menuitem 
+                        value="Inventory Item"
+                        icon="pi pi-plus"
+                        actionListener="#{inventoryManager.createNewInventory}"                                            
+                        process="@this"
+                        title="Add a new inventory" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{inventoryManager.inventoryDialogReturn}"
+                                update=":mainTabViewForm:mainTabView:inventoryTable"/>
+
+                    </p:menuitem>
+
+                    <p:menuitem 
+                        value="Inventory Requisition"
+                        icon="pi pi-plus"
+                        actionListener="#{inventoryManager.createNewInventoryRequisition}"                                            
+                        process="@this"
+                        title="Add a new inventory requisition" >
+
+                        <p:ajax event="dialogReturn" 
+                                listener="#{inventoryManager.inventoryRequisitionDialogReturn}"
+                                update=":mainTabViewForm:mainTabView:inventoryRequisitionTable"/>
+
+                    </p:menuitem>
+
+                </p:submenu>
+
+            </p:submenu>
+
+            <p:divider rendered="#{systemManager.user.can('AddProformaInvoice')}" />
+
+            <p:menuitem value="Proforma Invoices"
+                        title="Browse proforma invoices"
+                        rendered="#{systemManager.user.can('AddProformaInvoice')}"
+                        icon="pi pi-dollar"
+                        disabled="false" 
+                        actionListener="#{jobFinanceManager.openProformaInvoicesTab}"
+                        process="@this" />
+
+            <p:divider rendered="#{systemManager.user.hasModule('purchasingManager')}" />
+
+            <p:submenu label="Procurement" 
+                       rendered="#{systemManager.user.hasModule('purchasingManager')}"
+                       icon="pi pi-dollar" >
+
+                <p:menuitem value="Purchase Requisitions"
+                            title="Open purchase requisition browswer" 
+                            icon="pi pi-dollar"                                
+                            actionListener="#{purchasingManager.openPurchaseReqsTab}" 
+                            process="@this" />
+
+                <p:menuitem value="Suppliers"
+                            title="Open suppliers tab"
+                            icon="pi pi-id-card"
+                            actionListener="#{purchasingManager.openSuppliersTab}" 
+                            process="@this" />
+
+                <p:divider rendered="#{systemManager.user.can('BeFinancialAdministrator')}" />
+
+                <p:menuitem value="Sequence numbers"
+                            rendered="#{systemManager.user.can('BeFinancialAdministrator')}"
+                            title="Edit sequence numbers"
+                            icon="pi pi-id-card"
+                            actionListener="#{purchasingManager.editSequenceNumbers}" 
+                            process="@this" />
+
+            </p:submenu>
+
+            <p:divider />
+
+            <p:submenu label="Inventory" 
+                       rendered="#{systemManager.user.hasModule('inventoryManager')}"
+                       icon="pi pi-list" >
+
+                <p:menuitem value="Inventory Products"
+                            title="Open Inventory Requisitions browswer" 
+                            icon="pi pi-list"
+                            actionListener="#{inventoryManager.openInventoryProductBrowser}" 
+                            process="@this" /> 
+
+                <p:menuitem value="Inventory Items"
+                            title="Open Inventory browswer" 
+                            icon="pi pi-fw pi-list"
+                            actionListener="#{inventoryManager.openInventoryTab}" 
+                            process="@this" /> 
+
+                <p:menuitem value="Inventory Requisitions"
+                            title="Open Inventory Requisitions browswer" 
+                            icon="pi pi-fw pi-list"
+                            actionListener="#{inventoryManager.openInventoryRequisitionTab}" 
+                            process="@this" /> 
+
+            </p:submenu>
+
+            <p:divider rendered="#{systemManager.user.can('BeFinancialAdministrator')}"/>
+
+            <p:menuitem value="Administration"
+                        icon="pi pi-fw pi-briefcase"
+                        title="Financial administration" 
+                        rendered="#{systemManager.user.can('BeFinancialAdministrator')}"
+                        actionListener="#{financeManager.openFinancialAdministration}" />
+
+        </p:submenu>
+
+        <p:menuitem value="Human Resource"
+                    title="Human resource management"
+                    rendered="#{systemManager.user.hasModule('humanResourceManager')}"
+                    icon="pi pi-users"
+                    actionListener="#{humanResourceManager.openHumanResourceBrowser}" /> 
+
+        <p:submenu label="Reports" 
+                   rendered="#{jobManager.user.hasModule('reportManager')}"
+                   icon="pi pi-chart-bar" >  
+
+            <p:menuitem value="Reports"
+                        title="Open the Reports tab"
+                        icon="pi pi-chart-bar"
+                        actionListener="#{reportManager.openReportDialog}" 
+                        process="@this" />
+
+            <p:menuitem value="Report Templates"
+                        title="Open the Report Templates tab"
+                        icon="pi pi-book"
+                        rendered="#{systemManager.user.hasModule('systemManager')}"
+                        actionListener="#{reportManager.openReportTemplatesTab}" 
+                        process="@this" />
+
+        </p:submenu>
+
+        <p:divider layout="vertical"/>
+
+        <p:submenu rendered="#{systemManager.user.hasModule('systemManager')}"
+                   label="System" 
+                   icon="pi pi-server" >
+
+            <p:menuitem 
+                actionListener="#{systemManager.mainTabView.openTab('System Administration')}" 
+                title="System administration" 
+                value="System Administration" 
+                icon="pi pi-server" />   
+
+            <p:divider />
+
+            <p:menuitem 
+                onclick="PF('systemInfoDialog').show()"
+                title="System Information"                 
+                value="System Information" 
+                icon="pi pi-info-circle" />
+
+        </p:submenu>
+
+    </p:menubar>
+
+</html>
