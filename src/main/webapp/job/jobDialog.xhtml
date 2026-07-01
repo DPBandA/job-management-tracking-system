@@ -32,7 +32,7 @@ Email: info@dpbennett.com.jm
     </ui:define>
 
     <ui:define name="content">
-        
+
         <ui:include src="../common/commonDialogs.xhtml"/>
 
         <h:form id="jobDialogForm" styleClass="jmts-dialog">
@@ -41,10 +41,10 @@ Email: info@dpbennett.com.jm
 
             <ui:include src="jobDetailTopToolbar.xhtml"/>
 
-            <p:tabView id="jobFormTabView"
-                       style="margin-top: 1px;margin-bottom: 1px;"    
-                       dynamic="false"
-                       widgetVar="jobFormTabVar" >
+            <p:accordionPanel id="jobFormTabView"
+                              style="margin-top: 1px;margin-bottom: 1px;"    
+                              dynamic="false"
+                              widgetVar="jobFormTabVar" >
 
                 <p:tab title="General" rendered="#{jobManager.enableJobDialogTab('General')}">
                     <ui:include src="jobGeneralTab.xhtml"/>
@@ -80,7 +80,7 @@ Email: info@dpbennett.com.jm
                     <ui:include src="reporting/jobReportingTab.xhtml"/>
                 </p:tab>
 
-            </p:tabView>
+            </p:accordionPanel>
 
             <ui:include src="jobDetailBottomToolbar.xhtml"/>
 

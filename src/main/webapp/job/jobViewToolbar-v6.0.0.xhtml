@@ -28,29 +28,32 @@ Email: info@dpbennett.com.jm
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
 
     <p:toolbar style="margin-bottom: 1px;border: 0px;" >
-        <p:toolbarGroup align="left" >            
+        <p:toolbarGroup align="left" >  
+
             <p:commandButton
-                actionListener="#{jobManager.createNewJob}"
+                actionListener="#{jobManager.addNewJob}"
+                style="margin-bottom: 10px;"
                 global="true"                                  
                 title="Create job"
                 icon="pi pi-plus"
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
+                        update=":dashboardForm:dashboardAccordion"
                         listener="#{jobManager.jobDialogReturn}" />
 
             </p:commandButton>    
             <p:spacer height="0" width="5"/>
             <p:commandButton
                 actionListener="#{jobManager.viewJobSearchDialog}"
+                style="margin-bottom: 10px;"
                 global="true"                                  
                 title="Search for jobs"
                 icon="pi pi-search"
                 process="@this">  
 
                 <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView" />
+                        update=":dashboardForm:dashboardAccordion" />
 
             </p:commandButton>
             <p:spacer height="0" width="30"/>
@@ -58,7 +61,7 @@ Email: info@dpbennett.com.jm
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
                              title="Approve the selected job costing(s)"
                              actionListener="#{jobFinanceManager.approveSelectedJobCostings}"
-                             update=":headerForm:growl3,jobCostingsTable" >                                                                                    
+                             update="jobCostingsTable" >                                                                                    
             </p:commandButton>
             <p:spacer  rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}" height="0" width="10"/>
 
@@ -69,12 +72,12 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Create invoice(s)"
                             title="Generate invoice(s) for the selected job costing(s)"
                             actionListener="#{jobFinanceManager.invoiceSelectedJobCostings}"
-                            update=":headerForm:growl3,jobCostingsTable" />
+                            update="jobCostingsTable" />
 
                 <p:menuitem value="Export invoice(s)"
                             title="Export invoice(s) for the selected job costing(s)"
                             ajax="false" 
-                            update=":headerForm:growl3,jobCostingsTable"
+                            update="jobCostingsTable"
                             immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.invoicesFile}" />
@@ -86,7 +89,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Export costing(s)(Zip)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
-                            update=":headerForm:growl3,jobCostingsTable"
+                            update="jobCostingsTable"
                             immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.costingsFileAsZip}" />
@@ -96,7 +99,7 @@ Email: info@dpbennett.com.jm
                 <p:menuitem value="Export costing(s)(Excel)"
                             title="Export the selected job costing(s)"
                             ajax="false" 
-                            update=":headerForm:growl3,jobCostingsTable"
+                            update="jobCostingsTable"
                             immediate="false" >
 
                     <p:fileDownload value="#{jobFinanceManager.costingsFileAsExcel}" />
@@ -105,7 +108,7 @@ Email: info@dpbennett.com.jm
 
             </p:menuButton>
 
-            <p:selectOneButton 
+            <p:selectOneButton   
                 value="#{jobManager.user.jobTableViewPreference}">
 
                 <f:selectItems value="#{jobManager.jobTableViews}" 
@@ -114,39 +117,12 @@ Email: info@dpbennett.com.jm
                                itemValue="#{jobView}"/>
 
                 <p:ajax listener="#{jobManager.updateJobView}"
-                        update=":mainTabViewForm:mainTabView"
+                        update=":dashboardForm:dashboardAccordion"
                         global="true"
                         process="@this"/>
+
             </p:selectOneButton>
 
-        </p:toolbarGroup>
-
-        <p:toolbarGroup align="right" > 
-            <p:menuButton value="Tools" >
-
-                <p:menuitem value="Client Management"
-                            title="Open the Clients tab"
-                            rendered="#{jobManager.user.hasModule('clientManager')}"
-                            icon="pi pi-users"
-                            actionListener="#{clientManager.openClientsTab}" 
-                            process="@this" />
-
-                <p:menuitem actionListener="#{jobFinanceManager.openClientCreditStatusDialog}"                                                
-                            value="Client Credit Status"                            
-                            icon="pi pi-thumbs-up"
-                            title="Check client's credit status"
-                            update=""
-                            process="@this" />
-
-                <p:divider />
-
-                <p:menuitem value="Reports"
-                            title="Open the Reports tab"
-                            icon="pi pi-chart-bar"
-                            actionListener="#{reportManager.openReportDialog}" 
-                            process="@this" />
-
-            </p:menuButton>
         </p:toolbarGroup>
 
     </p:toolbar>   
