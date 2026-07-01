@@ -223,8 +223,30 @@ Email: info@dpbennett.com.jm
                         <h:form id="sidebarForm" 
                                 styleClass="mb-3"
                                 rendered="#{jobManager.userLoggedIn}" > 
+                            <p:menu style="border:0;width: 100%;">
+                                <p:menuitem value="Website"
+                                            url="https://dpbennett.com.jm/jmts/"
+                                            icon="pi pi-globe"/>
+                                <p:menuitem value="User Guide"
+                                            url="https://dpbennett.com.jm/jmts-user-guide"
+                                            icon="pi pi-file"/>                                
+                                <p:menuitem value="Logout"
+                                            actionListener="#{jobManager.logout}"
+                                            oncomplete="location.reload();return false;"
+                                            icon="pi pi-sign-out"/>
+                            </p:menu>
+                            <p:divider/>
+                            <p:commandLink actionListener="#{systemManager.editUserProfile}"
+                                           oncomplete="toggleSidebar(); return false;"
+                                           styleClass="ml-3" >
 
-                            <ui:include src="dashboard.xhtml"/>
+                                <i class="pi pi-user"></i>
+                                <span style="margin-left: 5px;">Profile</span>
+
+                                <p:ajax event="dialogReturn"
+                                        oncomplete="window.location.reload();" />
+
+                            </p:commandLink> 
 
                         </h:form>
 

@@ -27,7 +27,7 @@ Email: info@dpbennett.com.jm
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <h:form id="dashboardForm" rendered="#{jobManager.userLoggedIn}" > 
+    <p:panel>
 
         <p:divider style="margin-top: 0;"/>
 
@@ -42,19 +42,65 @@ Email: info@dpbennett.com.jm
             <p:ajax event="tabChange"       
                     immediate="true"
                     process="@this"
-                    update=":dashboardForm"
+                    update=""
                     listener="#{jobManager.onDashboardTabChange}" />
 
             <p:tab title="#{t.name}" >
 
-                <h:panelGroup rendered="#{t.id == 'Job Management'}">
-                    <ui:include src="dashboard/job/jobBrowser.xhtml" />
+                <p:defaultCommand target="@this" />
+
+                <h:panelGroup rendered="#{t.id == 'Legal Office'}">
+                   
                 </h:panelGroup>
+
+                <h:panelGroup rendered="#{t.id == 'Job Management'}">
+                    kjkjk
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{t.id == 'Standards Compliance'}">
+                    
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{t.id == 'Food Factory'}">
+                    
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{t.id == 'Legal Metrology'}">
+                    
+                </h:panelGroup>   
+
+                <h:panelGroup rendered="#{t.id == 'Client Management'}" >
+                                                                              
+                </h:panelGroup>
+
+                <h:panelGroup  rendered="#{t.id == 'Financial Administration'}">
+                    
+                </h:panelGroup>
+
+                <h:panelGroup  rendered="#{t.id == 'Purchasing'}">
+                   
+                </h:panelGroup>
+
+                <h:panelGroup  rendered="#{t.id == 'Inventory'}">
+                   
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{t.id == 'Human Resource'}">
+                    
+                </h:panelGroup>                                        
+
+                <h:panelGroup rendered="#{t.id == 'Report Management'}" >
+                                                                              
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{t.id == 'System Administration'}" >
+                    
+                </h:panelGroup>  
 
             </p:tab>   
 
-        </p:accordionPanel>       
+        </p:accordionPanel>   
 
-    </h:form>
+    </p:panel>
 
 </html>
