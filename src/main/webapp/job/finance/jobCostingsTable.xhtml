@@ -29,15 +29,12 @@ Email: info@dpbennett.com.jm
 
     <p:dataTable id="jobCostingsTable"
                  var="job"
-                 paginator="true"
-                 rows="15"  
                  reflow="true"
                  editable="true" 
                  editMode="cell"
                  rowStyleClass="#{job.rowStyle}"
                  selection="#{jobManager.selectedJobs}" 
-                 resizableColumns="false"                 
-                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+                 resizableColumns="false" 
                  value="#{jobManager.jobsModel}">
 
         <p:ajax event="page" global="false" />

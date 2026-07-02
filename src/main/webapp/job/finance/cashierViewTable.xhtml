@@ -31,12 +31,9 @@ Email: info@dpbennett.com.jm
                  var="job"
                  editable="false" 
                  editMode="cell"
-                 paginator="true"
-                 rows="15" 
                  reflow="true"
                  rowStyleClass="#{job.rowStyle}"
-                 resizableColumns="false"                 
-                 paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"
+                 resizableColumns="false"  
                  value="#{jobManager.jobsModel}">
 
         <p:ajax event="cellEdit"   

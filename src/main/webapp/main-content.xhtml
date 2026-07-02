@@ -152,9 +152,9 @@ Email: info@dpbennett.com.jm
                     height="32"
                     styleClass="me-2" />  
 
-                <span class="d-none d-md-inline">
-                    <p:outputLabel value="#{jobManager.applicationHeader}"/>
-                </span>
+                <p:outputLabel 
+                    styleClass="text-xl font-semibold" 
+                    value="#{jobManager.applicationHeader}"/>
 
             </p:panel>
 
@@ -180,22 +180,6 @@ Email: info@dpbennett.com.jm
 
             </h:panelGroup>
 
-            <ul class="navbar-nav flex-row d-md-none">   
-                <li class="nav-item text-nowrap">
-                    <button
-                        class="nav-link px-3 text-white"
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#sidebarMenu"
-                        aria-controls="sidebarMenu"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation" >
-                        <svg class="bi" aria-hidden="true">
-                            <use href="#list"></use>
-                        </svg>
-                    </button>
-                </li>
-            </ul>
         </header>
     </h:form>
     <div class="container-fluid">
