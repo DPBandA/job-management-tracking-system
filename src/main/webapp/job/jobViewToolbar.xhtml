@@ -31,7 +31,8 @@ Email: info@dpbennett.com.jm
         <p:toolbarGroup align="left" >            
             <p:commandButton
                 actionListener="#{jobManager.createNewJob}"
-                global="true"                                  
+                global="true"      
+                value="New"
                 title="Create job"
                 icon="pi pi-plus"
                 process="@this">  
@@ -40,19 +41,7 @@ Email: info@dpbennett.com.jm
                         update=":mainTabViewForm:mainTabView"
                         listener="#{jobManager.jobDialogReturn}" />
 
-            </p:commandButton>    
-            <p:spacer height="0" width="5"/>
-            <p:commandButton
-                actionListener="#{jobManager.viewJobSearchDialog}"
-                global="true"                                  
-                title="Search for jobs"
-                icon="pi pi-search"
-                process="@this">  
-
-                <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView" />
-
-            </p:commandButton>
+            </p:commandButton>  
             <p:spacer height="0" width="30"/>
             <p:commandButton value="Approve"  
                              rendered="#{jobManager.user.isJobCostingsPreferredJobTableView}"                             
