@@ -28,23 +28,8 @@ Email: info@dpbennett.com.jm
     xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"> 
 
     <p:toolbar style="margin-bottom: 1px;border: 0px;" >
-        <p:toolbarGroup align="left" >  
+        <p:toolbarGroup align="left" >            
             <p:commandButton
-                rendered="#{!jobManager.user.renderMobileUI}"
-                actionListener="#{jobManager.createNewJob}"
-                global="true" 
-                value="New"                                       
-                title="Create job"
-                icon="pi pi-plus"
-                process="@this">  
-
-                <p:ajax event="dialogReturn" 
-                        update=":mainTabViewForm:mainTabView"
-                        listener="#{jobManager.jobDialogReturn}" />
-
-            </p:commandButton>    
-            <p:commandButton
-                rendered="#{jobManager.user.renderMobileUI}"
                 actionListener="#{jobManager.createNewJob}"
                 global="true"                                  
                 title="Create job"
@@ -58,7 +43,6 @@ Email: info@dpbennett.com.jm
             </p:commandButton>    
             <p:spacer height="0" width="5"/>
             <p:commandButton
-                rendered="#{jobManager.user.renderMobileUI}"
                 actionListener="#{jobManager.viewJobSearchDialog}"
                 global="true"                                  
                 title="Search for jobs"

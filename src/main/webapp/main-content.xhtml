@@ -144,15 +144,20 @@ Email: info@dpbennett.com.jm
 
         <header class="navbar2 flex-md-nowrap p-0 shadow" >
             <p:panel>
-                <a href="#">                
-                    <h:graphicImage
-                        library="images"
-                        value="#{jobManager.logoURL}"
-                        width="40"
-                        height="32"
-                        styleClass="me-2" />  
-                </a>
+
+                <h:graphicImage
+                    library="images"
+                    value="#{jobManager.logoURL}"
+                    width="40"
+                    height="32"
+                    styleClass="me-2" />  
+
+                <span class="d-none d-md-inline">
+                    <p:outputLabel value="#{jobManager.applicationHeader}"/>
+                </span>
+
             </p:panel>
+
 
             <h:panelGroup style="float: right;" >
                 <p:commandButton actionListener="#{systemManager.editUserProfile}"                                            
@@ -196,7 +201,7 @@ Email: info@dpbennett.com.jm
     <div class="container-fluid">
         <div class="row">
             <div
-                class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary" >
+                class="sidebar border border-right col-md-4 col-lg-3 p-0 bg-body-tertiary" >
                 <div
                     class="offcanvas-md offcanvas-end bg-body-tertiary"
                     tabindex="-1"
@@ -220,18 +225,11 @@ Email: info@dpbennett.com.jm
                         </button>
                     </div>
                     <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto" >
-                        <h:form id="sidebarForm" 
-                                styleClass="mb-3"
-                                rendered="#{jobManager.userLoggedIn}" > 
-
-                            <ui:include src="dashboard.xhtml"/>
-
-                        </h:form>
-
+                        <ui:include src="dashboard.xhtml"/>
                     </div>
                 </div>
             </div>
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <main class="col-md-8 ms-sm-auto col-lg-9 px-md-4">
                 <ui:include src="mainTabView.xhtml"/>
             </main>
         </div>
